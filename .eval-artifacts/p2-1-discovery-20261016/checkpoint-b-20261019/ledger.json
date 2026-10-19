@@ -1,0 +1,161 @@
+{
+  "models": 17,
+  "google": 6,
+  "preflightGoogle": 3,
+  "preflightFailures": 2,
+  "completed": [
+    0,
+    1,
+    2
+  ],
+  "attempts": [
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "4975f9f26120b01996e9e5157022ef95a5fd2c70",
+      "startedAt": "2026-10-19T10:12:49.712244+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-1",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-1/probe-summary.json",
+      "summarySha256": "89a92223397291f0ee613c1014dc1140f60489215f386936447eb7f2d29dd455",
+      "models": 4,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "witnessInFirstBatch": true,
+      "inRadiusParsed": 42,
+      "finishedAt": "2026-10-19T10:14:46.948430+00:00"
+    },
+    {
+      "index": 1,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 2,
+      "head": "4975f9f26120b01996e9e5157022ef95a5fd2c70",
+      "startedAt": "2026-10-19T10:15:03.316953+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-2",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-2/probe-summary.json",
+      "summarySha256": "959f44a6bc15b37a7e9d5b5934f5a63dca7bf6388c7c209380d1a9c3f1c968d0",
+      "models": 4,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "witnessInFirstBatch": false,
+      "inRadiusParsed": 39,
+      "finishedAt": "2026-10-19T10:16:31.720511+00:00"
+    },
+    {
+      "index": 2,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 1,
+      "head": "4975f9f26120b01996e9e5157022ef95a5fd2c70",
+      "startedAt": "2026-10-19T10:16:57.196432+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+      "summarySha256": "0a79b784ae6aaf96025e78207cfa1134847e4c4d2a39b45e5b88972ab71f3efa",
+      "models": 9,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": false,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "witnessInFirstBatch": false,
+      "inRadiusParsed": 45,
+      "finishedAt": "2026-10-19T10:19:00.496744+00:00"
+    },
+    {
+      "index": 3,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 2,
+      "head": "4975f9f26120b01996e9e5157022ef95a5fd2c70",
+      "startedAt": "2026-10-19T10:19:10.869068+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/2026-10-19T10-19-11-240Z-98618a1b-1054-47fb-bda2-36a5b7f34b63.result.json",
+      "networkPreflightResultSha256": "e93b675fdd4ad69e7843de692d6eb41d5d19f99fb8f4e5c7c075aece8c87c7ea",
+      "finishedAt": "2026-10-19T10:19:15.918975+00:00"
+    },
+    {
+      "index": 3,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 2,
+      "head": "4975f9f26120b01996e9e5157022ef95a5fd2c70",
+      "startedAt": "2026-10-19T10:21:45.348906+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2-preflight-2",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2-preflight-2/2026-10-19T10-21-45-722Z-312816f5-ef85-42b9-bc19-264dbdee85d3.result.json",
+      "networkPreflightResultSha256": "677fbf9bc7e835028c0cf3c8004bc403225b92bd01d7f596cf5b32363cf0dcbf",
+      "finishedAt": "2026-10-19T10:21:50.358599+00:00"
+    }
+  ],
+  "stop": {
+    "code": "PREFLIGHT_FAILURE_LIMIT",
+    "index": 3,
+    "totalPreflightFailures": 3,
+    "sourceIds": []
+  },
+  "formalLiveRuns": 0,
+  "compressedBytesEstimate": 44425780,
+  "stopHistory": [
+    {
+      "stop": {
+        "code": "ENV_PREFLIGHT_RETRYABLE",
+        "index": 3,
+        "totalPreflightFailures": 2,
+        "sourceIds": []
+      },
+      "resolution": "APPROVED_PREFLIGHT_ONLY_RETRY",
+      "at": "2026-10-19T10:21:45.348767+00:00"
+    }
+  ]
+}

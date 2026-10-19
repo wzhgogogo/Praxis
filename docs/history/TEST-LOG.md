@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.173
+- Document revision: 4.174
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4551,3 +4551,8 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 ## TEST-2026-10-19-P21B-FREEZE
 
 生产冻结4975f9f，HARD修正884c56b，对照A为ba20b8a；新干净宿主机树p21-checkpoint-b。B外层复用批准的503分类/每项一次预检恢复，退役一次性A恢复入口；13/13离线对照、六个输入plan-only均0模型/网络。315文件SHA与A输入逐字节一致；新reviewed-reads SHA86c2203c…，outer SHAf833a007…，见证最早10/20 03:12:46UTC到期，仍有效故不额外认证。预算起点261/450模型、41/52探测、108Google；已计预检失败1沿用，超过2停止。运行前冻结配置，禁止中途变更。复用本次P2-1b五门禁948/119，冻结项只做离线配置矩阵。仅十次发现，不查位、不交付、不启动完整Live；完成后推送待复核。
+
+
+## TEST-2026-10-19-P21B-PARTIAL-STOP
+
+生产4975f9f/外层冻结c20001a不变。B完成3/10发现（h001×2、神乐坂#1），17条决策=17模型，3/3独立网络审计ABSENT；h001首批见证1/2，对照A2/2，不宣称提升。神乐坂#1仍READ_BUDGET_EXCEEDED。神乐坂#2两次网络预检均TableCheck首页HTTP503/NO_RESPONSE，0模型/0正式探测；本批2次+沿用A1次=3，触发PREFLIGHT_FAILURE_LIMIT，余7项未启动，H002/Nakameguro对照NOT_REACHED。新增17模型/3探测/9Google，累计278/450、44/52、117Google，完整Live新增0。见证未过期，0额外认证；315冻结/2660历史SHA、干净树核验通过。产物/逐例A-B/停止证据见 `.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/report.md`。代码五门禁948/119复用，收尾仅按纯文档/报告矩阵检查。按授权提交并推送后停止待独立复核，不修网络、不追加请求或重跑。

@@ -195,3 +195,12 @@ Current exposed-development discovery baseline: [network-restored-20261019/repor
 Google-only nearby correction was implemented separately after A, with no additional real calls: [evidence and final gates](checkpoint-a-corrected-20261019/nearby/report.md).
 
 Final local source commit: `ea7113ada8ea26ccbbd40537fcd4b36e946c7a0e`; [commit roster / handoff](checkpoint-a-corrected-20261019/handoff.json).
+
+
+## 2026-10-19 HARD 检索修正与 P2-1b / 检查点 B（停批）
+
+用户批准38b058e复核建议及探测52上限（模型450不变）。HARD修正884c56b、P2-1b生产4975f9f、B配置冻结c20001a分别提交。两项先红后绿；最终五门禁 typecheck/arch/build PASS、948/948默认测试、119/119真实本地Chromium；资格不变。检索Prompt@4/Schema@1；新公开GET参数、Recorder、独立审计同步。来源专用生产代码净增54行，未认证阶段通用性退出条件。
+
+B仅完成3/10发现探测：h001两次和神乐坂第1次；3条原始网络审计均ABSENT，17条决策=17模型。神乐坂第2次的首页预检与唯一预检重试均为TableCheck HTTP503、0模型/未正式启动；沿用A的1次预检失败后累计3次，触发冻结PREFLIGHT_FAILURE_LIMIT，剩余7次未跑。H002只获离线组合验证，B未到达；不能声明B10或完整交付通过。
+
+新增17模型、3正式发现、6正式Google+3预检Google；累计278/450模型、44/52探测、117Google。0完整Live，见证仍有效未额外认证；无运行中修复，旧输入/见证/录制不改。[完整报告与逐例路径](checkpoint-b-20261019/report.md)、[原始审计](checkpoint-b-20261019/audit.json)、[冻结](checkpoint-b-20261019/freeze.json)。按用户授权推送后停下待独立复核。
