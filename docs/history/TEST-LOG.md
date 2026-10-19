@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.175
+- Document revision: 4.176
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4561,3 +4561,8 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 ## TEST-2026-10-19-P21-B-CORRECTIONS-SOURCE
 
 current executable。按4592a1e复核及用户批准，仅修同地区首页筛选、稀疏有类别时禁止KEEP，以及TableCheck搜索筛选限制。Schema restaurant_discovery_retrieval@2、Prompt restaurant-discovery-retrieval-prompt@5；Pack显式SKIPPED/FILTER_TRANSPORT_NOT_REVIEWED，删除停用的构造／选中值路径，不扩网络权限或资格。三个旧筛选快照实际为Search is unavailable，含open_from/open_until的OPTIONS被既有Guard拒绝，不是正常0结果；诊断0网络/模型。旧B三次标为B第一版并排除比较；原报告h001 #2跳过原因更正为QUERY_NOT_REPRESENTABLE（原始文件不改）。有效红灯fixes/red.log、tablecheck-red.log，最终五门禁typecheck/arch/test951/951/build/browser119/119全绿，原厂factory/Guard Chromium 302首页组合通过。证明范围L0/L1＋已有录制离线诊断；新B与完整Live未启动，模型仍278/450、探测44/55。报告及日志：.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md；fixes/verification.json。
+
+
+## TEST-2026-10-19-P21-B-CORRECTED-FREEZE
+
+current executable。生产a37e152b4283d8f407c9650d19200708314e3362，干净宿主机p21-checkpoint-b-corrected工作树；复用已验证生产五门禁951/119。仅按批准更新外层：预检失败归零按本检查点计、TableCheck503至少600秒后一次重试、最多1800秒恢复，持续503停止。17离线对照、六个原冻结输入plan-only通过，均0模型/网络；见证仍有效至2026-10-20T03:12:46.141Z，复用不新增认证请求。SHA清单322项；execute.py SHA-256 c4e0b8fbe51496888bb6f87776919dac586f1c90da864f9e5130ef5e1098dd40。模型起点278/450、探测44/55、Google117，最多新十次×15模型≤428/450及54/55；不跑完整Live。旧B第一版3次/17模型保留且计预算、排除比较。冻结路径.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/freeze.json；计划plan.json；外层offline-controls.json。源码门禁未变不重复，编排按纯外层离线矩阵核验。
