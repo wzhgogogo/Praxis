@@ -142,3 +142,9 @@ HARD 资格、来源身份、精确坐标半径、新鲜度、权威日期人数
 筛选和必要的回退各消耗一个实际列表文档；提前保留回退额度，沿用 Tabelog 七页、TableCheck 三页及来源九十秒上限，检索改写仍至多两次。额度不够则跳过筛选，不提高限额。若整页仍变化，仅按 C3b 对绑定结果作一次相隔至少五百毫秒的复核，不为筛选调用模型。
 
 网络规则只新增已列的四个文档参数：Tabelog `vac_net/svd/svt/svps`，TableCheck `date/time/num_people/availability_mode`。两种请求出现这些字段时，必须匹配完整已审核语法，不能由 ADR-0036 通用公开 GET 绕过对额外字段的拒绝。来源规则通过 `strictQueryKeys` 声明，Guard 核心没有站点分支；新的独立 `reviewed-reads.json` 同样核对，旧冻结文件不改。Recorder 补充 `vac_net`，其他字段已有安全记录支持。卡片时段不生成 Offer 或 AVAILABILITY 证据，所有交付资格与逐店日历读取不变。
+
+## 2026-10-19 P2-2 首次查位入口分配（用户批准，追加）
+
+用户按c816e74复核批准：当前合法首次查位池中若有至少三家未查过、由圆心半径观察确认在范围内且有DIRECT_SOURCE_PAGE的候选，只把这些候选按原顺序提供为checkableCandidateIds，并由本地Validator核对；不足三家时保留既有池，允许名称解析候选补入。事实调查列表、身份/HARD/库存资格和预算不变；具体选店仍由Agent决定，代码不按距离或店名排序。显式用户刷新属于既有定向重查合同，保持原目标权限，不用首次读取分配阻断用户指定刷新。
+
+Prompt@27再次明确无关字段必须为空；CHECK_AVAILABILITY不接受retrievalHint等其他动作字段，不删除冲突字段放行。已暴露开发回放按独立revision2原门槛，五颗各一次，后续结果不论通过与否继续已批准离线工作，不追加重采样或Live。

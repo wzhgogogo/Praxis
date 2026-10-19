@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.274
+- Document revision: 4.275
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-2首次查位结构约束离线通过：Context@14/Prompt@27与Validator同一scope，>=3未查且半径内直达时暂不提供名称解析候选；事实/显式刷新/资格不变。有效旧scope红灯、默认953/953及Chromium119/119全绿，0真实调用；本轮五种子回放留第3段。** [后续报告](../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。
 
 - **2026-10-19 P2-2 独立分支：代码与诊断完成，选店验收未过。** Context@13/Prompt@26 暴露来源推导的 availabilityPath，候选顺序/资格/预算不改；52份旧产物离线计时（50有时间、2中断未评），30份地区轨迹只诊断。用户批准复核标注revision2后，五颗种子各一次DeepSeek，5/30调用、0网站/Google/动作执行；0133通过，神乐坂失败，涩谷1/3，整体门槛FAIL，0134因非法retrievalHint零执行，旧严格规则同输出对照保留。五门禁952/952与Chromium119/119通过；不把门禁绿替代模型验收，不进入Live/检查点C。见[报告](../.eval-artifacts/p2-2-selection-20261019/report.md)。
 

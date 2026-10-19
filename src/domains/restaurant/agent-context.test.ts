@@ -3,7 +3,8 @@ import { test } from "node:test";
 
 import { fixtureCandidates, fixtureIntent, fixtureOffers } from "../../harness/restaurant-fixtures.js";
 import type { RestaurantTaskState } from "./contracts.js";
-import { observedCandidateAvailabilityPath, projectRestaurantAgentContext } from "./agent-context.js";
+import { observedCandidateAvailabilityPath } from "./candidate-read-observations.js";
+import { projectRestaurantAgentContext } from "./agent-context.js";
 
 test("Restaurant Agent context retains bounded observations and action scope while excluding execution authority and raw provider artifacts", () => {
   const state: RestaurantTaskState = {
@@ -66,7 +67,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
   const context = projectRestaurantAgentContext(state);
 
   assert.deepEqual(context.missingBlockingFields, []);
-  assert.equal(context.schemaVersion, "13");
+  assert.equal(context.schemaVersion, "14");
   assert.deepEqual(context.searchAvailability, { available: true });
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
   assert.deepEqual(context.availabilityChecks, {

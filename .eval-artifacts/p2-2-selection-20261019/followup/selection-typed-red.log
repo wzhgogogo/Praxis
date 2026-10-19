@@ -1,0 +1,36 @@
+✖ availability selection keeps three unchecked in-radius direct entrances and preserves fact/refresh scope (3.831916ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 147.868291
+
+✖ failing tests:
+
+test at src/domains/restaurant/action-validator.test.ts:1:2304
+✖ availability selection keeps three unchecked in-radius direct entrances and preserves fact/refresh scope (3.831916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'name-near',
+      'direct-c',
+  +   'outside',
+      'direct-a',
+      'direct-b'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-2-selection-20261019/src/domains/restaurant/action-validator.test.ts:57:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'name-near', 'direct-c', 'outside', 'direct-a', 'direct-b' ],
+    expected: [ 'direct-c', 'direct-a', 'direct-b' ],
+    operator: 'deepStrictEqual'
+  }

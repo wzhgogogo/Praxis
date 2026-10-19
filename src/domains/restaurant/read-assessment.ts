@@ -1,3 +1,4 @@
+import { availabilityCheckSelectionScope, observedCandidateAvailabilityPath, observedCandidateDistance } from "./candidate-read-observations.js";
 import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import { isDisplayFresh } from "./availability-freshness.js";
@@ -265,10 +266,16 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
       || Boolean(candidate?.restaurant.sourceIds.discoveryDetailUri);
   }).map((item) => item.candidateId);
   const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
-  const checkableCandidateIds = completeBookingIntent ? presentation.filter((item) =>
+  const eligibleCheckableIds = completeBookingIntent ? presentation.filter((item) =>
     !excludedFromPendingBatch.has(item.candidateId) && !hardConflictedCandidates.has(item.candidateId)
       && (state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined),
   ).map((item) => item.candidateId) : [];
+  const checkableCandidateIds = state.refreshRequestedCandidateIds?.length ? eligibleCheckableIds : availabilityCheckSelectionScope(eligibleCheckableIds,
+    state.candidates.map(candidate => ({ id: candidate.restaurant.id,
+      availabilityPath: observedCandidateAvailabilityPath(state.readEvidence, candidate.restaurant.id, now),
+      inRadius: observedCandidateDistance(state.readEvidence, candidate.restaurant.id, now).distanceObservation !== undefined,
+      alreadyChecked: state.availabilityChecks[candidate.restaurant.id] !== undefined,
+    })));
   const investigationRecorded = state.searchRevision > 0 || Object.keys(state.factChecks ?? {}).length > 0 || Object.keys(state.availabilityChecks).length > 0;
   const relevantPresentation = presentation.filter((item) => !excludedFromPendingBatch.has(item.candidateId));
   const unresolvedCandidateIds = relevantPresentation.filter((item) => !item.eligible).map((item) => item.candidateId);
