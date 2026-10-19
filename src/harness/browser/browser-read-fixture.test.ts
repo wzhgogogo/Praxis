@@ -606,7 +606,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
     assert.equal(state.phase, "NO_VERIFIED_RESULT", JSON.stringify(state));
     assert.equal(state.presentedResults, undefined);
     assert.equal(Object.values(state.availability).flat().length, 0);
-    assert.equal(tableCheckSearches.length, 3, "Tabelog UNAVAILABLE causes one second-source query, its filter read and single fallback");
+    assert.equal(tableCheckSearches.length, 1, "Tabelog UNAVAILABLE causes one ordinary second-source query; unsupported TableCheck filters are skipped");
     assert.equal(new URL(tableCheckSearches[0]!).pathname, "/en/japan/search");
     assert.equal(state.searchContinuation?.exhausted, true);
     assert.match(state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded discovery plan/);
@@ -2395,19 +2395,24 @@ test('P21b production discovery checks search filters, falls back once, and reco
  const {GooglePlacesClient}=await import('../../integrations/google/google-places-client.js');
  const {tabelogDiscoveryPack,tableCheckDiscoveryPack}=await import('../../integrations/restaurant-search/source-packs.js');
  const {restaurantSearchIntentFingerprint}=await import('../../domains/restaurant/contracts.js');
- for(const pack of [tabelogDiscoveryPack,tableCheckDiscoveryPack])for(const mode of ['applied','mismatch','empty','recommendation','wide','missing'] as const){
+ for(const pack of [tabelogDiscoveryPack,tableCheckDiscoveryPack])for(const mode of ['applied','mismatch','empty','recommendation','wide','missing','homepage'] as const){
+  if(mode==='homepage'&&!pack.browser!.directory)continue;
   const directory=await mkdtemp(join(tmpdir(),'p21b-search-'));const harPath=join(directory,'search.har');
   const isDirectory=!!pack.browser!.directory;
   const root=isDirectory?'https://tabelog.com/en/tokyo/rstLst/':pack.buildQuery({category:'restaurant',positiveCriteria:[],location:{latitude:35,longitude:139,radiusMeters:1000,label:'Fixture District',areaMatchBasis:'NAMED_PLACE_RADIUS'}}).url;
-  const base=isDirectory?'https://tabelog.com/en/tokyo/A1000/A100001/rstLst/':root;
-  const filtered=new URL(base);
+  const observed='https://tabelog.com/en/tokyo/A1000/A100001/rstLst/';
+  const base=isDirectory?(mode==='homepage'?'https://tabelog.com/en/tokyo/A1000/A100001/':observed):root;
+  const applied=isDirectory&&(mode==='applied'||mode==='homepage');
+  const filtered=new URL(mode==='homepage'?observed:base);
   for(const [k,v] of Object.entries(isDirectory?{vac_net:'1',svd:'20261027',svt:'1900',svps:'2'}:{date:'2026-10-27',time:'19:00',num_people:'2',availability_mode:'same_meal_time'}))filtered.searchParams.set(k,v);
   const outlet=(n:number)=>isDirectory?`https://tabelog.com/tokyo/A1000/A100001/${12345600+n}/`:`https://www.tablecheck.com/en/fixture-venue-${n}`;
   const cards=(start:number)=>Array.from({length:5},(_,i)=>`<article><a ${isDirectory?'class="list-rst__rst-name-target"':''} href="${outlet(start+i)}">Fixture venue ${start+i}</a><span>19:00</span></article>`).join('');
   const selected=isDirectory?`<div><span class="js-list-sidebar-cal-date calendar__day is-current" data-date="20261027">27</span><select name="svps" aria-label="Guests"><option value="${mode==='mismatch'?3:2}" selected>Guests</option></select><select name="svt" aria-label="Time"><option value="1900" selected>19:00</option></select></div>`:`<button data-testid="Date Field">Date Oct 27, 2026 7:00 PM</button><button data-testid="Guests Field">Guests ${mode==='mismatch'?3:2} guests</button>`;
-  const pages:Record<string,string>={[root]:isDirectory?`<title>Regions</title><a href="${base}">Fixture District</a>`:'<title>Unfiltered</title>'+cards(1),[base]:'<title>Unfiltered</title>'+cards(1),[filtered.toString()]:'<title>Filtered</title>'+selected+(mode==='empty'?'No restaurants found':cards(6))};
+  const pages:Record<string,string>={[root]:isDirectory?`<title>Regions</title><a href="${observed}">Fixture District</a>`:'<title>Unfiltered</title>'+cards(1),[base]:'<title>Unfiltered</title>'+cards(1),[filtered.toString()]:'<title>Filtered</title>'+selected+(mode==='empty'?'No restaurants found':cards(6))};
   for(let n=1;n<=10;n++)pages[outlet(n)]=`<title>Fixture venue ${n}</title><h1>Fixture venue ${n}</h1><p class="${isDirectory?'rstinfo-table__address':'address'}">Fixture District, Tokyo</p><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:`Fixture venue ${n}`,address:'Fixture District, Tokyo',geo:{latitude:35,longitude:139}})}</script>`;
-  await writeFile(harPath,replayHarPages(pages));const navigations:string[]=[];const snapshots:import('../../infrastructure/browser/browser-runtime.js').BrowserSnapshot[]=[];const raw=new LocalPlaywrightChromium();
+  const har=JSON.parse(replayHarPages(pages));
+  if(mode==='homepage')har.log.entries.push({startedDateTime:'2026-10-07T00:00:00Z',request:{method:'GET',url:observed,httpVersion:'HTTP/1.1',headers:[],queryString:[],cookies:[],headersSize:-1,bodySize:-1},response:{status:302,statusText:'Found',httpVersion:'HTTP/1.1',headers:[{name:'location',value:base}],cookies:[],content:{size:0,mimeType:'text/html',text:''},redirectURL:base,headersSize:-1,bodySize:-1},cache:{},timings:{send:0,wait:0,receive:0}});
+  await writeFile(harPath,JSON.stringify(har));const navigations:string[]=[];const snapshots:import('../../infrastructure/browser/browser-runtime.js').BrowserSnapshot[]=[];const raw=new LocalPlaywrightChromium();
   const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async input=>{const session=await raw.openSession({...input,replayHarPath:harPath});return new Proxy(session,{get(target,key){if(key==='navigate')return async(...args:Parameters<typeof session.navigate>)=>{navigations.push(args[0]);return target.navigate(...args);};if(key==='snapshot')return async()=>{const snapshot=await target.snapshot();snapshots.push(snapshot);return snapshot;};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});}};
   const model:import('../../core/model/contracts.js').ModelGateway={complete:async request=>{assert.equal(request.purpose,'browser_read_decide','no keyword planner without positive HARD');const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);const ref=body.observation.targets.find((t:{label:string})=>t.label==='Fixture District')?.ref;assert.ok(ref,'only region selection is scripted');return {invocationId:'region',provider:'FIXTURE',model:'script',outputText:JSON.stringify({action:'OPEN_LINK',targetRef:ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Observed region'}),finishReason:'TOOL_CALLS',latencyMs:0};}};
   const intent:import('../../domains/restaurant/contracts.js').RestaurantSearchIntent={timezone:'Asia/Tokyo',area:{query:'Fixture District'},target:{goal:mode==='recommendation'?'RECOMMENDATION':'AVAILABILITY',query:'dinner'},date:'2026-10-27',partySize:2,timeWindow:{earliest:'19:00',latest:mode==='wide'?'21:00':'19:00'},criteria:[]};
@@ -2419,19 +2424,20 @@ test('P21b production discovery checks search filters, falls back once, and reco
    if(mode==='missing')delete intent.partySize;
    const before=structuredClone(intent);
    const read=await assembly.search.search({intent,readRunId:'search-hints',continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:35,longitude:139,radiusMeters:1000,label:'Fixture District',areaMatchBasis:'NAMED_PLACE_RADIUS'}}},AbortSignal.timeout(30000));
-   assert.equal(navigations.includes(filtered.toString()),!['recommendation','wide','missing'].includes(mode),JSON.stringify({mode,pack:pack.meta.id,navigations,metadata:read.metadata}));
+   assert.equal(navigations.includes(filtered.toString()),isDirectory&&!['recommendation','wide','missing'].includes(mode),JSON.stringify({mode,pack:pack.meta.id,navigations,metadata:read.metadata}));
    const selectedIds=read.candidates.map(c=>c.restaurant.sourceIds[isDirectory?'tabelog':'tablecheck']);
-   assert.equal(read.metadata.nativeDiscoveryFunnel?.searchAvailabilityHint?.status,mode==='applied'?'APPLIED':['mismatch','empty'].includes(mode)?'FALLBACK':'SKIPPED');
+   assert.equal(read.metadata.nativeDiscoveryFunnel?.searchAvailabilityHint?.status,!isDirectory?'SKIPPED':applied?'APPLIED':['mismatch','empty'].includes(mode)?'FALLBACK':'SKIPPED');
+   if(!isDirectory)assert.equal(read.metadata.nativeDiscoveryFunnel?.searchAvailabilityHint?.reason,mode==='recommendation'?'NOT_AVAILABILITY':'FILTER_TRANSPORT_NOT_REVIEWED');
    assert.ok((read.metadata.nativeDiscoveryFunnel?.pagesRead??0)<=(isDirectory?7:3));
-   assert.equal(selectedIds.length,5);assert.deepEqual(selectedIds,Array.from({length:5},(_,i)=>isDirectory?'tokyo/A1000/A100001/'+(12345600+(mode==='applied'?6:1)+i):'fixture-venue-'+((mode==='applied'?6:1)+i)));
-   if(mode==='applied')assert.ok(!navigations.includes(outlet(1)),'unfiltered cards are not mixed into a verified filtered batch');
-   if(mode==='empty'||mode==='mismatch')assert.ok(navigations.lastIndexOf(base)>navigations.indexOf(filtered.toString()),'one unfiltered fallback follows rejected hint');
+   assert.equal(selectedIds.length,5);assert.deepEqual(selectedIds,Array.from({length:5},(_,i)=>isDirectory?'tokyo/A1000/A100001/'+(12345600+(applied?6:1)+i):'fixture-venue-'+((applied?6:1)+i)));
+   if(applied)assert.ok(!navigations.includes(outlet(1)),'unfiltered cards are not mixed into a verified filtered batch');
+   if(isDirectory&&(mode==='empty'||mode==='mismatch'))assert.ok(navigations.lastIndexOf(base)>navigations.indexOf(filtered.toString()),'one unfiltered fallback follows rejected hint');
    assert.ok(!navigations.some(value=>/\/reserve|\/booking|\/confirm|\/payment/.test(value)));assert.deepEqual(intent,before);
    assert.ok(!read.evidence.some(e=>e.kind==='AVAILABILITY'),'card times never create availability evidence');
    const recording=new BrowserReadRecording({directory,runId:'hint-recorder',reviewedReads:pack.reviewedReads});
    for(const snapshot of snapshots)recording.recordSnapshot(snapshot);
    const manifest=await recording.finish();
-   if(!['recommendation','wide','missing'].includes(mode))assert.ok((await readFile(join(manifest.path,'recording.json'),'utf8')).includes(isDirectory?'vac_net=1':'availability_mode=same_meal_time'),'recorder retains reviewed filter parameters');
+   if(isDirectory&&!['recommendation','wide','missing'].includes(mode))assert.ok((await readFile(join(manifest.path,'recording.json'),'utf8')).includes(isDirectory?'vac_net=1':'availability_mode=same_meal_time'),'recorder retains reviewed filter parameters');
   }finally{await rm(directory,{recursive:true,force:true});}
  }
 });

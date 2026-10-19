@@ -1,0 +1,50 @@
+✖ sparse retrieval removes KEEP from schema and rejects it until rewrites are exhausted (1.807125ms)
+✖ search filters restore only the already observed same-region listing root from a homepage (1.51675ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 503.433708
+
+✖ failing tests:
+
+test at src/integrations/restaurant-search/discovery-retrieval-planner.test.ts:1:3096
+✖ sparse retrieval removes KEEP from schema and rejects it until rewrites are exhausted (1.807125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'SPARSE_LIST_KEEP_NOT_ALLOWED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/discovery-retrieval-planner.test.ts:33:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'SPARSE_LIST_KEEP_NOT_ALLOWED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-search/source-packs.test.ts:1:7861
+✖ search filters restore only the already observed same-region listing root from a homepage (1.51675ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase&vac_net=1&svd=20261027&svt=1900&svps=2'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/integrations/restaurant-search/source-packs.test.ts:109:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase&vac_net=1&svd=20261027&svt=1900&svps=2',
+    operator: 'strictEqual'
+  }

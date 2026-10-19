@@ -1,4 +1,5 @@
 import type {DiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
+import {discoveryRetrievalKeepAllowed} from "../../domains/restaurant/discovery-retrieval.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { DEFAULT_NEARBY_RADIUS_METERS } from "../../core/location/nearby.js";
@@ -367,7 +368,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       pagesRead: listingPagesRead, batchLimitReached, sourceExhausted, batchEnded: true, sourceEnded,
       progressionReason: failed ? "SOURCE_FAILURE" as const : source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" as const : "FIRST_SOURCE_BATCH_ENDED" as const,
       listingObservations, retrieval, ...(queryAdjustment ? { queryAdjustment } : {}), ...(searchAvailabilityHint ? {searchAvailabilityHint} : {}) });
-    const applyAvailabilityHint = async (initial: BrowserSnapshot, outlets: ReturnType<DiscoverySourcePack['parseListing']>['outlets']) => {
+    const applyAvailabilityHint = async (initial: BrowserSnapshot, outlets: ReturnType<DiscoverySourcePack['parseListing']>['outlets'], observedListingUrl?: string) => {
       const capability=pack.browser!.searchAvailability;
       if(!capability)return {page:initial,outlets};
       const intent=request.intent, unfilteredUrl=initial.url;
@@ -376,10 +377,11 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         return {page:initial,outlets};
       };
       if(intent.target?.goal!=='AVAILABILITY')return skipped('NOT_AVAILABILITY');
+      if('disabledReason' in capability)return skipped(capability.disabledReason);
       if(!intent.date||!intent.partySize||!intent.timeWindow)return skipped('MISSING_AUTHORITATIVE_QUERY');
       if(intent.timeWindow.earliest!==intent.timeWindow.latest)return skipped('WINDOW_NOT_REPRESENTABLE');
       const binding={date:intent.date,partySize:intent.partySize,time:intent.timeWindow.earliest};
-      const url=capability.withRequest(unfilteredUrl,binding);
+      const url=capability.withRequest(unfilteredUrl,binding,observedListingUrl);
       if(!url)return skipped('QUERY_NOT_REPRESENTABLE');
       // Reserve the unfiltered fallback before issuing a filter read. Both
       // documents consume this source's existing cumulative page/time limits.
@@ -441,17 +443,23 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         (selection.keyword ?? '').normalize('NFKC').toLowerCase().replace(/\s+/gu, ' ').trim(),
         selection.categoryUrl ? directory?.withoutRetrievalExpression(selection.categoryUrl) ?? selection.categoryUrl : '',
       ]);
-      const decide = async () => this.retrievalPlanner.decide({
+      const decide = async () => {
+        const observedCategories=categories();
+        const parsedCount=pack.parseListing(page).outlets.length;
+        const selected=await this.retrievalPlanner.decide({
         taskId: request.readRunId ?? 'discovery', intent: request.intent, locationName: location.label,
         timeoutMs: NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedMs(),
         observation: {
           url: page.url, title: page.title, text: page.text,
-          parsedCount: pack.parseListing(page).outlets.length,
-          explicitEmpty: pack.browser!.isExplicitEmptyListing(page), categories: await categories(),
+          parsedCount,
+          explicitEmpty: pack.browser!.isExplicitEmptyListing(page), categories: observedCategories,
         },
         ...(retrieval.selection ? {current: retrieval.selection} : {}),
         attemptedRetrievals: attemptedRetrievals(), rewrites: retrieval.rewrites,
-      });
+        });
+        return selected.keep && !discoveryRetrievalKeepAllowed(parsedCount,observedCategories.length,retrieval.rewrites)
+          ? {accepted:false,reason:'Use the general list after a rejected KEEP proposal.',rejectionReason:'SPARSE_LIST_KEEP_NOT_ALLOWED'} : selected;
+      };
       const apply = async (selection: import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection) => {
         const oldUrl = page.url;
         let url: string;
@@ -749,7 +757,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           observedOutlets = pack.parseListing(page).outlets;
         }
         const planned=await planListing(page,directory.listingRoot(page.url)??directory.listingRoot(currentAreaListingUrl));
-        const hinted=await applyAvailabilityHint(planned.page,planned.outlets);
+        const hinted=await applyAvailabilityHint(planned.page,planned.outlets,currentAreaListingUrl);
         page=hinted.page;observedOutlets=hinted.outlets;recordListing(page);
 
         }

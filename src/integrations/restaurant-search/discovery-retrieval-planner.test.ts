@@ -8,7 +8,7 @@ test('retrieval model uses a versioned strict proposal and shared budget includi
  const planner=new ModelDiscoveryRetrievalPlanner({complete:async r=>{requests.push(r);throw Object.assign(Error('provider rejected'),{code:'PROVIDER_REJECTED'});}},budget);
  await assert.rejects(planner.decide(input),{code:'PROVIDER_REJECTED'});assert.equal(budget.totalModelCalls,1);
  await assert.rejects(planner.decide(input),{code:'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED'});assert.equal(requests.length,1);
- assert.equal(requests[0]!.promptVersion,DISCOVERY_RETRIEVAL_PROMPT_VERSION);assert.equal(requests[0]!.outputSchema.version,'1');assert.equal(requests[0]!.timeoutMs,1234);
+ assert.equal(requests[0]!.promptVersion,DISCOVERY_RETRIEVAL_PROMPT_VERSION);assert.equal(requests[0]!.outputSchema.version,'2');assert.equal(requests[0]!.timeoutMs,1234);
  await assert.rejects(planner.decide({...input,timeoutMs:0}),{code:'BROWSER_TIMEOUT'});
 });
 test('an invalid model keyword falls back to general retrieval; no synthetic synonym repair',async()=>{
@@ -23,4 +23,17 @@ test('no positive HARD skips shared text planning but keeps observed category se
  assert.equal((await planner.decide(request)).keyword,undefined);assert.equal(calls,0);assert.equal(budget.totalModelCalls,0);
  assert.equal((await planner.decide({...request,observation:{url:'https://directory.test/region/',title:'List',text:'Category',parsedCount:0,explicitEmpty:true,categories:[{url:categoryUrl,label:'Observed category'}]}})).categoryUrl,categoryUrl);
  assert.equal(calls,1);assert.equal(budget.totalModelCalls,1);
+});
+
+test('sparse retrieval removes KEEP from schema and rejects it until rewrites are exhausted',async()=>{
+ const requests:ModelRequest[]=[];
+ const planner=new ModelDiscoveryRetrievalPlanner({complete:async request=>{requests.push(request);return {invocationId:'keep',provider:'FIXTURE',model:'script',outputText:JSON.stringify({choice:'KEEP',keyword:'',categoryUrl:'',criterionRef:'',reason:'Retain list'}),finishReason:'STOP',latencyMs:0};}});
+ const observation={url:'https://directory.test/region/',title:'List',text:'Three results',parsedCount:3,explicitEmpty:false,categories:[{url:'https://directory.test/region/category/',label:'Observed category'}]};
+ const result=await planner.decide({...input,observation});
+ assert.equal(result.rejectionReason,'SPARSE_LIST_KEEP_NOT_ALLOWED');
+ assert.equal(JSON.stringify(requests[0]!.outputSchema.jsonSchema).includes('"KEEP"'),false);
+ for(const patch of [{rewrites:2},{observation:{...observation,categories:[]}},{observation:{...observation,parsedCount:5}}]){
+  assert.equal((await planner.decide({...input,observation,...patch})).keep,true);
+  assert.equal(JSON.stringify(requests.at(-1)!.outputSchema.jsonSchema).includes('"KEEP"'),true);
+ }
 });

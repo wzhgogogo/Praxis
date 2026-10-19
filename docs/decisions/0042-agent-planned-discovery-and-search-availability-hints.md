@@ -142,3 +142,14 @@ HARD 资格、来源身份、精确坐标半径、新鲜度、权威日期人数
 筛选和必要的回退各消耗一个实际列表文档；提前保留回退额度，沿用 Tabelog 七页、TableCheck 三页及来源九十秒上限，检索改写仍至多两次。额度不够则跳过筛选，不提高限额。若整页仍变化，仅按 C3b 对绑定结果作一次相隔至少五百毫秒的复核，不为筛选调用模型。
 
 网络规则只新增已列的四个文档参数：Tabelog `vac_net/svd/svt/svps`，TableCheck `date/time/num_people/availability_mode`。两种请求出现这些字段时，必须匹配完整已审核语法，不能由 ADR-0036 通用公开 GET 绕过对额外字段的拒绝。来源规则通过 `strictQueryKeys` 声明，Guard 核心没有站点分支；新的独立 `reviewed-reads.json` 同样核对，旧冻结文件不改。Recorder 补充 `vac_net`，其他字段已有安全记录支持。卡片时段不生成 Offer 或 AVAILABILITY 证据，所有交付资格与逐店日历读取不变。
+
+
+## 2026-10-19 检查点 B 修正（用户批准，追加）
+
+地区首页已由 Pack 核实属于当前选定地区时，搜索筛选可以回到该地区此前观察到的 `rstLst/` 根；不从其他地区借根，不在缺少观察时猜根。来源 Pack 保留 `sw`，权威日期、时刻、人数照旧覆盖 URL 值，页面选中值和结果稳定核对、一次回退及原预算不变。
+
+当当前解析少于五家、提供了同地区类别且仍有改写额度时，KEEP 从输出 Schema 中移除，并由 Domain 校验及执行器再次拒绝。无类别或两次改写已用完时仍允许 KEEP；具体类别或新检索表达式由 Agent 提议。Schema 升为 `restaurant_discovery_retrieval@2`，Prompt 升为 `restaurant-discovery-retrieval-prompt@5`。HARD 检索词、候选保留和资格规则不变；非法 KEEP 沿用现有提议拒绝后通用列表，不加模型重试。
+
+TableCheck 三次原始筛选快照均是 “Search is unavailable right now. Please try again.”，不是正常零结果；触发的搜索 OPTIONS 包含未审核的 `open_from/open_until`，因此被 Guard 拒绝。日期标签省略年份是另一核对缺口，补年份不能修复错误页。当前不扩展网络权限，停用该 Pack 的搜索空位筛选，记录 `SKIPPED / FILTER_TRANSPORT_NOT_REVIEWED`，继续未筛选发现。移除停用的 URL 构造和选中值解析路径。原网络规则和独立评价不放宽，不据此宣称没有空位；以后支持新传输需单独审核。
+
+旧三次 B 标为“B 第一版 / superseded retrospective”，保留全部原始字节但排除新比较。用户批准探测上限 55，模型上限仍 450；新 B 从头十次，仅发现。预检失败按检查点计数，TableCheck 503 后等待至少十分钟再用一次预检重试；仍是 503 时结束，不增加第二次重试，恢复最多三十分钟。检查点 A 的 H002 变化单列为 HARD 修正，其余变化列为本次 P2-1b 组合（含上述检索约束），不声称单变量因果证明。证据见[修正检查点 B](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。

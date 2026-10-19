@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.168
+- Document revision: 4.169
 - Last updated: 2026-10-19
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3850,3 +3850,8 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 ## DEV-2026-10-19-P21B-PARTIAL-STOP
 
 生产4975f9f/外层冻结c20001a不变。B完成3/10发现（h001×2、神乐坂#1），17条决策=17模型，3/3独立网络审计ABSENT；h001首批见证1/2，对照A2/2，不宣称提升。神乐坂#1仍READ_BUDGET_EXCEEDED。神乐坂#2两次网络预检均TableCheck首页HTTP503/NO_RESPONSE，0模型/0正式探测；本批2次+沿用A1次=3，触发PREFLIGHT_FAILURE_LIMIT，余7项未启动，H002/Nakameguro对照NOT_REACHED。新增17模型/3探测/9Google，累计278/450、44/52、117Google，完整Live新增0。见证未过期，0额外认证；315冻结/2660历史SHA、干净树核验通过。产物/逐例A-B/停止证据见 `.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/report.md`。代码五门禁948/119复用，收尾仅按纯文档/报告矩阵检查。按授权提交并推送后停止待独立复核，不修网络、不追加请求或重跑。
+
+
+## DEV-2026-10-19-P21-B-CORRECTIONS-SOURCE
+
+current executable。按4592a1e复核及用户批准，仅修同地区首页筛选、稀疏有类别时禁止KEEP，以及TableCheck搜索筛选限制。Schema restaurant_discovery_retrieval@2、Prompt restaurant-discovery-retrieval-prompt@5；Pack显式SKIPPED/FILTER_TRANSPORT_NOT_REVIEWED，删除停用的构造／选中值路径，不扩网络权限或资格。三个旧筛选快照实际为Search is unavailable，含open_from/open_until的OPTIONS被既有Guard拒绝，不是正常0结果；诊断0网络/模型。旧B三次标为B第一版并排除比较；原报告h001 #2跳过原因更正为QUERY_NOT_REPRESENTABLE（原始文件不改）。有效红灯fixes/red.log、tablecheck-red.log，最终五门禁typecheck/arch/test951/951/build/browser119/119全绿，原厂factory/Guard Chromium 302首页组合通过。证明范围L0/L1＋已有录制离线诊断；新B与完整Live未启动，模型仍278/450、探测44/55。报告及日志：.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md；fixes/verification.json。

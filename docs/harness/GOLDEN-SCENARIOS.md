@@ -1,7 +1,7 @@
 # Golden Scenarios
 
 - Status: Accepted
-- Document revision: 0.17
+- Document revision: 0.18
 - Last updated: 2026-10-19
 - Source of truth for: 首批Harness场景目录和核心断言
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
@@ -127,3 +127,6 @@ Google-only nearby反例从生产createLiveReadAssembly入口驱动，旧版地�
 
 
 2026-10-19 P2-1b：复用生产 factory/Guard 的真实本地 Chromium/HAR，双来源各覆盖应用、人数不符、筛选为空、推荐、宽窗、缺人数；核对过滤列表独立、一次回退及原列表/时间预算、无 AVAILABILITY 证据/预约路径、Recorder 参数忠实。另有生产 generic-read 下额外参数拒绝红绿，独立网络审核正反例与权威值覆盖源链接旧值的合同测试。既有 H001 当前批与保留队列测试按新增筛选/回退更新精确导航数，交付和资格断言保留。H002 真实条件的离线生产组合证明不调用共享规划且 Google Nearby；HARD 关键词与页面类别仍有正向对照。全部为 L0/L1，非真实模型回放或外站验收。
+
+
+2026-10-19 检查点 B 修正（离线）：Tabelog 已确认同地区首页可用此前观察到的列表根应用权威筛选，缺观察／跨地区仍拒绝；真实本地 Chromium 的 302 首页落点验证实际生产 factory、Guard、筛选与详情链。稀疏且有类别且改写未耗尽时，Schema@2、Domain 和执行器拒绝 KEEP；Prompt@5 配套，无类别／额度耗尽仍允许。原三次 TableCheck 录制实际显示搜索错误，筛选预检含未审核 open_from/open_until；停用该筛选并记 SKIPPED/FILTER_TRANSPORT_NOT_REVIEWED，使用普通列表，不扩大网络权限或生成空位证据。旧双来源筛选 Fixture 中 TableCheck 的应用／回退覆盖已退役为明确跳过；既有交付、半径和 HARD 断言保留，精确导航次数移回普通搜索。离线诊断与新十次仅发现探测分列于[修正报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。不证明查位或完整 Live。

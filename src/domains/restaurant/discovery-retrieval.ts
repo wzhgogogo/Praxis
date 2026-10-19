@@ -20,11 +20,16 @@ export function positiveDiscoveryCriteria(intent: RestaurantSearchIntent): Posit
     ? [{ criterionRef: `criterion:${index}`, text: criterion.text, strength: criterion.strength }] : []);
 }
 
+export function discoveryRetrievalKeepAllowed(parsedCount: number | undefined, categoryCount: number, rewrites: number): boolean {
+  return parsedCount === undefined || parsedCount >= 5 || categoryCount === 0 || rewrites >= 2;
+}
+
 export function validateDiscoveryRetrieval(
   value: unknown,
   intent: RestaurantSearchIntent,
   locationName: string,
   observedCategoryUrls: readonly string[],
+  observation?: {parsedCount: number; rewrites: number},
 ): DiscoveryRetrievalSelection {
   const rejected = (rejectionReason: string): DiscoveryRetrievalSelection => ({
     accepted: false, reason: 'Use a general list after rejected retrieval proposal.', rejectionReason,
@@ -37,6 +42,9 @@ export function validateDiscoveryRetrieval(
     return rejected('INVALID_PROPOSAL');
   }
   const keyword = String(proposal.keyword).trim();
+  if (proposal.choice === 'KEEP' && !discoveryRetrievalKeepAllowed(observation?.parsedCount, observedCategoryUrls.length, observation?.rewrites ?? 0)) {
+    return rejected('SPARSE_LIST_KEEP_NOT_ALLOWED');
+  }
   const categoryUrl = String(proposal.categoryUrl);
   const criterionRef = String(proposal.criterionRef);
   const withKeyword = proposal.choice === 'KEYWORD' || proposal.choice === 'COMBINED';

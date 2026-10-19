@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.62
+- Document revision: 1.63
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -291,3 +291,6 @@ The final Chromium Fetch boundary checks browser-reserved preflight headers, not
 
 
 2026-10-19 P2-1b（本地契约）：生产发现组合在详情前用 Pack 公开 GET 参数提供搜索空位线索；只对可完整表达的 AVAILABILITY 日期/人数/时刻应用。页面选中值必须核对，未确认/冲突/空结果一次回退，实际页数与时间不重置；推荐和宽窗口跳过。Tabelog 四字段与 TableCheck 四字段采用严格查询语法，独立审核规则和 Recorder 同步。真实本地 Chromium 组合覆盖筛选、回退、不可改权威值、记录和未审核参数拒绝；不把卡片时间当库存。当前外站兼容性、见证命中及模型表现等待检查点 B，不由 Fixture 推断。证据：`.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/search-hints/`。
+
+
+2026-10-19 检查点 B 修正（离线）：Tabelog 已确认同地区首页可用此前观察到的列表根应用权威筛选，缺观察／跨地区仍拒绝；真实本地 Chromium 的 302 首页落点验证实际生产 factory、Guard、筛选与详情链。稀疏且有类别且改写未耗尽时，Schema@2、Domain 和执行器拒绝 KEEP；Prompt@5 配套，无类别／额度耗尽仍允许。原三次 TableCheck 录制实际显示搜索错误，筛选预检含未审核 open_from/open_until；停用该筛选并记 SKIPPED/FILTER_TRANSPORT_NOT_REVIEWED，使用普通列表，不扩大网络权限或生成空位证据。旧双来源筛选 Fixture 中 TableCheck 的应用／回退覆盖已退役为明确跳过；既有交付、半径和 HARD 断言保留，精确导航次数移回普通搜索。离线诊断与新十次仅发现探测分列于[修正报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。不证明查位或完整 Live。

@@ -503,7 +503,7 @@ test("H001 two bounded empty source batches cannot claim inventory or results", 
   assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.match(result.state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded discovery plan/);
   assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4);
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 3);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
 });
 
@@ -513,7 +513,7 @@ test("H001 both source lists reject page-owned coordinates outside the existing 
   assert.equal(result.state.presentedResults, undefined);
   assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4);
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 3);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
   const funnels = result.trajectories.flatMap((step) => step.executionMetadata?.nativeDiscoveryFunnel ? [step.executionMetadata.nativeDiscoveryFunnel] : []);
   assert.deepEqual(funnels.map((item) => ({ source: item.source, parsed: item.parsedOutlets, accepted: item.accepted,
     reasons: item.rejected.map((rejection) => rejection.reasonCode) })), [
@@ -540,7 +540,7 @@ test("H001 one Tabelog detail failure retains earlier candidates and continues t
 test("H001 rejects an early END_READ after an empty Tabelog batch and continues to TableCheck", async () => {
   const result = await runScenario("EARLY_END_ATTEMPT");
   assert.equal(result.trajectories.some((step) => step.agentAction?.type === "END_READ" && step.actionValidation?.status === "REJECTED"), true);
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 3);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
   assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.equal(result.state.phase, "NO_VERIFIED_RESULT");
 });
@@ -563,7 +563,7 @@ test("H001 native TableCheck batch continues after one nonqualifying outlet and 
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-2"]);
   assert.equal(result.state.availabilityChecks["tablecheck:native-omakase-1"]?.status, "UNAVAILABLE");
   assert.equal(result.state.availabilityChecks["tablecheck:native-omakase-2"]?.status, "AVAILABLE");
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 3);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
@@ -704,7 +704,7 @@ test("H001 presents one investigated TableCheck current-batch result without rea
     candidateIds: ["tablecheck:native-omakase-1", "tablecheck:native-omakase-2", "tablecheck:native-omakase-3", "tablecheck:native-omakase-4", "tablecheck:native-omakase-5"],
   });
   assert.deepEqual(result.state.searchContinuation?.sourceProgress?.pendingSourceIds, ["native-omakase-6"]);
-  assert.equal(result.navigations.filter((url) => url.includes("/en/japan/search")).length, 3);
+  assert.equal(result.navigations.filter((url) => url.includes("/en/japan/search")).length, 1);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 

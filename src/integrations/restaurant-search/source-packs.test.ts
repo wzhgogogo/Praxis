@@ -89,15 +89,29 @@ test("Tabelog region selection requires an exact source-owned region label and r
 
 test('search availability URL values overwrite source links with the authoritative request, without creating stock',()=>{
  const binding={date:'2026-10-27',time:'19:00',partySize:2};
- for(const [pack,url] of [[tabelogDiscoveryPack,'https://tabelog.com/en/tokyo/A1303/rstLst/?svd=19990101&svps=99&svt=1000'],[tableCheckDiscoveryPack,'https://www.tablecheck.com/en/japan/search?date=1999-01-01&time=10:00&num_people=99']] as const){
-  const capability=pack.browser!.searchAvailability!;const filtered=new URL(capability.withRequest(url,binding)!);
-  const directory=pack.meta.id==='tabelog';
-  assert.equal(filtered.searchParams.get(directory?'svd':'date'),directory?'20261027':binding.date);
-  assert.equal(filtered.searchParams.get(directory?'svt':'time'),directory?'1900':binding.time);
-  assert.equal(filtered.searchParams.get(directory?'svps':'num_people'),'2');
-  assert.deepEqual(capability.observe({url:filtered.toString(),title:'Unbound result',text:'2026-10-27 19:00 2 guests',html:'<p>2026-10-27 19:00 2 guests</p>'},[]),{},'URL/prose co-occurrence cannot confirm selected query');
- }
- assert.equal(tabelogDiscoveryPack.browser!.searchAvailability!.withRequest('https://tabelog.com/en/tokyo/A1303/rstLst/',{...binding,time:'19:15'}),undefined);
+ const capability=tabelogDiscoveryPack.browser!.searchAvailability!;assert.ok('withRequest' in capability);
+ const filtered=new URL(capability.withRequest('https://tabelog.com/en/tokyo/A1303/rstLst/?svd=19990101&svps=99&svt=1000',binding)!);
+ assert.equal(filtered.searchParams.get('svd'),'20261027');assert.equal(filtered.searchParams.get('svt'),'1900');assert.equal(filtered.searchParams.get('svps'),'2');
+ assert.deepEqual(capability.observe({url:filtered.toString(),title:'Unbound result',text:'2026-10-27 19:00 2 guests',html:'<p>2026-10-27 19:00 2 guests</p>'},[]),{},'URL/prose co-occurrence cannot confirm selected query');
+ assert.equal(capability.withRequest('https://tabelog.com/en/tokyo/A1303/rstLst/',{...binding,time:'19:15'}),undefined);
+});
+
+test('search filters restore only the already observed same-region listing root from a homepage',()=>{
+ const capability=tabelogDiscoveryPack.browser!.searchAvailability!;assert.ok('withRequest' in capability);
+ const binding={date:'2026-10-27',time:'19:00',partySize:2};
+ const homepage='https://tabelog.com/en/tokyo/A1303/?sw=omakase';
+ const observed='https://tabelog.com/en/tokyo/A1303/rstLst/';
+ const filtered=capability.withRequest(homepage,binding,observed);
+ assert.equal(filtered,'https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase&vac_net=1&svd=20261027&svt=1900&svps=2');
+ assert.equal(capability.withRequest(homepage,binding),undefined,'a guessed root is not an observation');
+ assert.equal(capability.withRequest(homepage,binding,'https://tabelog.com/en/tokyo/A1301/rstLst/'),undefined,'a different region cannot supply the root');
+});
+
+test('unsupported TableCheck search filters are explicitly disabled without broadening transport reads',()=>{
+ assert.deepEqual(tableCheckDiscoveryPack.browser!.searchAvailability,{disabledReason:'FILTER_TRANSPORT_NOT_REVIEWED'});
+ const search=tableCheckDiscoveryPack.reviewedReads.find(rule=>rule.pathname==='/search/');
+ assert.equal(search?.queryKeyRules?.allowed?.includes('open_from'),false);
+ assert.equal(search?.queryKeyRules?.allowed?.includes('open_until'),false);
 });
 
 test("C8 list categories stay source-attributed to one outlet, without borrowing neighbouring or hidden text", () => {

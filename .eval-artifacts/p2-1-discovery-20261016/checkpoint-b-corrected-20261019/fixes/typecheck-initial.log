@@ -1,0 +1,16 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/integrations/restaurant-search/source-packs.test.ts(93,88): error TS2339: Property 'withRequest' does not exist on type '{ disabledReason: string; } | { withRequest(url: string, request: { date: string; time: string; partySize: number; }, observedListingUrl?: string | undefined): string | undefined; observe(snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]): { ...; }; }'.
+  Property 'withRequest' does not exist on type '{ disabledReason: string; }'.
+src/integrations/restaurant-search/source-packs.test.ts(98,31): error TS2339: Property 'observe' does not exist on type '{ disabledReason: string; } | { withRequest(url: string, request: { date: string; time: string; partySize: number; }, observedListingUrl?: string | undefined): string | undefined; observe(snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]): { ...; }; }'.
+  Property 'observe' does not exist on type '{ disabledReason: string; }'.
+src/integrations/restaurant-search/source-packs.test.ts(100,65): error TS2339: Property 'withRequest' does not exist on type '{ disabledReason: string; } | { withRequest(url: string, request: { date: string; time: string; partySize: number; }, observedListingUrl?: string | undefined): string | undefined; observe(snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]): { ...; }; }'.
+  Property 'withRequest' does not exist on type '{ disabledReason: string; }'.
+src/integrations/restaurant-search/source-packs.test.ts(108,28): error TS2339: Property 'withRequest' does not exist on type '{ disabledReason: string; } | { withRequest(url: string, request: { date: string; time: string; partySize: number; }, observedListingUrl?: string | undefined): string | undefined; observe(snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]): { ...; }; }'.
+  Property 'withRequest' does not exist on type '{ disabledReason: string; }'.
+src/integrations/restaurant-search/source-packs.test.ts(110,26): error TS2339: Property 'withRequest' does not exist on type '{ disabledReason: string; } | { withRequest(url: string, request: { date: string; time: string; partySize: number; }, observedListingUrl?: string | undefined): string | undefined; observe(snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]): { ...; }; }'.
+  Property 'withRequest' does not exist on type '{ disabledReason: string; }'.
+src/integrations/restaurant-search/source-packs.test.ts(111,26): error TS2339: Property 'withRequest' does not exist on type '{ disabledReason: string; } | { withRequest(url: string, request: { date: string; time: string; partySize: number; }, observedListingUrl?: string | undefined): string | undefined; observe(snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]): { ...; }; }'.
+  Property 'withRequest' does not exist on type '{ disabledReason: string; }'.
