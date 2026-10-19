@@ -3733,3 +3733,10 @@ CORS共同修复a60d27b和新认证准备先于基线/P2-1a，P2-1a变基为39fc
 A冻结39fc15e、外层先提交e7e6913；输入/见证/规则SHA与干净工作树核验通过，用户草稿未动。复用五门禁940/940、Chromium116/116和typecheck/arch/build；1份A summary/trace/录制、4行capture SHA及两次预检原始文件保存。录制NOT_REPLAYABLE，不作Replay或完整业务验收。对照及全部未运行项见checkpoint-a-20261019/report.md、comparison.json与audit.json。
 
 单个A的Tabelog见证true来自东京/涩谷通用导航列表；最终omakase3家、KEEP和首批详情与基线相同，不能把该命中解释为改写有效。3次规划5940ms/0超时，Tabelog3652ms=90秒预算4.058%，共享文本2288ms只计一次。网络形状S0_BOUNDARY为ABSENT，声明/其他严重度和9次未运行仍NE；环境根因未归因。只推送部分证据后停止，Google-only nearby修复因A未完成且命中停批规则而未开始，P2-1b不动。
+
+
+## DEV-2026-10-19-P21-preflight-diagnosis
+
+用户要求查清TableCheck预检原因；新增3次0模型公开只读页面诊断，带回调/去回调/实际生产预检均HTTP200、122条document hits，真实预检5308ms，未复现历史失败或403。确认程序缺陷：source preflight只设page.goto30秒，未prepareNavigation，Guard仍默认5秒；本地真实Chromium6.5秒响应在默认路径READ_TIMEOUT、显式10秒预算则200。确认无响应与明确空结果都归EMPTY_RESULT且不存HTTP/Guard详情。历史两次根因因缺证仍未确认，不把5秒机制或VPN追认成事实。
+
+证据preflight-diagnosis-20261019/report.md/findings.json与三模式响应、本地timeout-fixture.json/log。首轮本地fixture缺根document审核配置导致启动失败，非目标红灯，已保留并只修fixture；真实超时对照两GET接收均验证通过。脚本语法/诊断断言通过，生产无改动，复用940/940、Chromium116/116及typecheck/arch/build，不新称完整门禁或产品修复通过。0新增模型/Google/正式探测，累计145/450、50Google、21/40，A停批账本不动；nearby/P2-1b未开始。诊断仅本地提交，不据查因请求推断新推送授权。

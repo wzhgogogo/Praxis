@@ -1,0 +1,32 @@
+{
+  "status": "INVESTIGATED_WITH_HISTORICAL_CAUSE_UNCONFIRMED",
+  "realPageNavigations": 3,
+  "newModelCalls": 0,
+  "newGoogleCalls": 0,
+  "formalProbes": 0,
+  "checkpointAResumed": false,
+  "productionChanged": false,
+  "currentSearchHttp": 200,
+  "currentSearchDocumentHits": 122,
+  "responseHookFixedFailureReproduced": false,
+  "oldNetworkProxyMode": "DISABLED_BY_CLI",
+  "currentProxyComparison": "same no explicit Chromium proxy / fresh headless isolated context",
+  "confirmedMechanism": "Source preflight only calls navigate(timeout30s); Guard remains default5s. A6.5s admitted local response times out; setting Guard navigation budget10s captures200 at6610ms.20s outer polling cannot recover the aborted request.",
+  "confirmedObservabilityGap": "No eligible response and explicit empty results both become EMPTY_RESULT, without saving status/Guard diagnostics.",
+  "historicalCause": "NOT_CONFIRMED_NO_REQUEST_LEVEL_EVIDENCE",
+  "otherObservedBlocks": "analytics/Sentry and resourceType mismatches on geolocation/maps assets; search GET itself admitted and200, not established as cause",
+  "callsBudgetUnchanged": {
+    "models": 145,
+    "google": 50,
+    "formalProbes": 21
+  },
+  "evidence": [
+    "exact.json",
+    "without-hook.json",
+    "production/diagnosis.json",
+    "production/source-data-preflight.json",
+    "timeout-fixture.json",
+    "timeout-fixture.log"
+  ],
+  "fixtureSetupFailure": "fixture-setup-failure.json; initial fixture lacked reviewed root document, corrected fixture only, not target-counterexample evidence"
+}

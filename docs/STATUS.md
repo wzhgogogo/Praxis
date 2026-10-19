@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.257
+- Document revision: 4.258
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-1 预检查因／机制已复现、历史根因未定：** 用户要求查清TableCheck预检原因；新增3次0模型公开只读页面诊断，带回调/去回调/实际生产预检均HTTP200、122条document hits，真实预检5308ms，未复现历史失败或403。确认程序缺陷：source preflight只设page.goto30秒，未prepareNavigation，Guard仍默认5秒；本地真实Chromium6.5秒响应在默认路径READ_TIMEOUT、显式10秒预算则200。确认无响应与明确空结果都归EMPTY_RESULT且不存HTTP/Guard详情。历史两次根因因缺证仍未确认，不把5秒机制或VPN追认成事实。 [诊断报告](../.eval-artifacts/p2-1-discovery-20261016/preflight-diagnosis-20261019/report.md)。生产未修复，0新增模型/Google/正式探测，A仍停批，累计145/450模型、50Google、21/40探测；不自动恢复A或开始nearby/P2-1b。
 
 - **2026-10-19 P2-1 检查点A停批／1 of10完成：** 检查点A按用户停止规则停批：仅H001第1轮正式完成，H001第2轮两次TableCheck非空预检EMPTY_RESULT，均0模型/未正式启动；连同恢复基线1次累计3＞2，剩余9次A不再启动。A新增4模型/4决策（全成功）、2正式＋3预检Google=5；累计21/40探测、145/450模型、50Google，0完整Live。 [部分对照报告](../.eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/report.md)逐例保留NE和预检产物。单个A的原生见证命中来自通用导航列表，最终关键词/详情未变，整体效果与CONTROL未评。冻结39fc15e/外层e7e6913，五门禁940/940、Chromium116/116已通过且源码未变；0新增产品改动。按停止条件，after-A Google-only nearby修复未开始，P2-1b/完整Live不启动；推送后等待环境恢复及独立复核。
 

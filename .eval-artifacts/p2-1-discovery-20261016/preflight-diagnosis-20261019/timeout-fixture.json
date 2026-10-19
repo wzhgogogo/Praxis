@@ -1,0 +1,83 @@
+{
+  "status": "PASS",
+  "mode": "LOCAL_CHROMIUM_FIXTURE_ONLY",
+  "delayedResponseMs": 6500,
+  "receiverRequests": 2,
+  "results": [
+    {
+      "mode": "preflight-default",
+      "captured": [],
+      "networkDiagnostics": [
+        {
+          "code": "READ_TIMEOUT",
+          "origin": "http://127.0.0.1:52542",
+          "pathname": "/data",
+          "method": "GET",
+          "resourceType": "fetch",
+          "queryKeys": []
+        }
+      ],
+      "networkRequests": [
+        {
+          "outcome": "ADMITTED",
+          "origin": "http://127.0.0.1:52542",
+          "pathname": "/",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "http://127.0.0.1:52542",
+          "pathname": "/data",
+          "method": "GET",
+          "resourceType": "fetch",
+          "queryKeys": []
+        },
+        {
+          "outcome": "TIMED_OUT",
+          "origin": "http://127.0.0.1:52542",
+          "pathname": "/data",
+          "method": "GET",
+          "resourceType": "fetch",
+          "queryKeys": []
+        }
+      ],
+      "elapsedMs": 7353
+    },
+    {
+      "mode": "explicit-navigation-budget",
+      "captured": [
+        {
+          "status": 200,
+          "atMs": 6610,
+          "bytes": 30
+        }
+      ],
+      "networkDiagnostics": [],
+      "networkRequests": [
+        {
+          "outcome": "ADMITTED",
+          "origin": "http://127.0.0.1:52542",
+          "pathname": "/",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "http://127.0.0.1:52542",
+          "pathname": "/data",
+          "method": "GET",
+          "resourceType": "fetch",
+          "queryKeys": []
+        }
+      ],
+      "elapsedMs": 7337
+    }
+  ],
+  "realWebsiteRequests": 0,
+  "models": 0,
+  "google": 0,
+  "scope": "Proves a5s Guard can discard a6.5s response despite20s caller polling; does not establish cause of unrecorded historical failures."
+}
