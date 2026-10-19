@@ -7,8 +7,8 @@ const text=html=>html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace
 const norm=s=>s.normalize('NFKD').replace(/\p{M}/gu,'').toLowerCase().replace(/[^\p{L}\p{N}]/gu,'');
 function businessData(html){const records=[];for(const m of html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)){try{const q=[JSON.parse(m[1])];while(q.length){const obj=q.shift();if(Array.isArray(obj)){q.push(...obj);continue}if(!obj||typeof obj!=='object')continue;if(obj['@graph'])q.push(obj['@graph']);if([obj['@type']].flat().some(t=>/Restaurant|FoodEstablishment/.test(t)))records.push({name:obj.name,url:obj.url,geo:obj.geo,address:obj.address,servesCuisine:obj.servesCuisine});}}catch{}}return records;}
 function distance(a,b){const r=Math.PI/180,p=a.latitude*r,q=Number(b.latitude)*r,h=Math.sin((q-p)/2)**2+Math.cos(p)*Math.cos(q)*Math.sin((Number(b.longitude)-a.longitude)*r/2)**2;return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));}
-const output=resolve(base,'network-restored-20261019');
-const dir=resolve(output,'witness-certification');await mkdir(dir,{recursive:false});
+const outputDirectory=resolve(base,'network-restored-20261019');
+const dir=resolve(outputDirectory,'witness-certification');await mkdir(dir,{recursive:false});
 const startedAt=new Date().toISOString(),variants=[];let gets=0;
 await writeFile(resolve(dir,'started.json'),JSON.stringify({startedAt,mode:'READ_ONLY_WITNESS_CERTIFICATION',planSha256:sha(await readFile(resolve(base,'witness-certification-plan.json'))),models:0,redirects:'error',retries:0},null,2),{flag:'wx'});
 for(const variant of plan.variants){
@@ -44,4 +44,4 @@ for(const variant of plan.variants){
  await writeFile(resolve(dir,'progress.json'),JSON.stringify({startedAt,variants,gets,models:0},null,2));
 }
 const output={status:variants.every(v=>v.witnesses.length)?'ALL_CASES_HAVE_CERTIFIED_WITNESSES':'BLOCKED_MISSING_CERTIFIED_WITNESS',startedAt,finishedAt:new Date().toISOString(),variants,gets,models:0,google:0,formalLiveRuns:0,method:'Pre-registered identity/HARD semantics, current public business data + exact registered quotes + independently parsed coordinates/radius + four-parameter current inventory GET. No full HTML or user profiles retained. NOT_CERTIFIED is missing or contrary evidence, not a claim of no seats.'};
-await writeFile(resolve(output,'witnesses.certified.json'),JSON.stringify(output,null,2)+'\n',{flag:'wx'});console.log(output.status);
+await writeFile(resolve(outputDirectory,'witnesses.certified.json'),JSON.stringify(output,null,2)+'\n',{flag:'wx'});console.log(output.status);

@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "unguardedParsed": 20,
+  "guardedParsed": 20,
+  "guardedSearchGet200": 4,
+  "guardedBrowserPreflights": 4,
+  "reviewedReadsSha256": "a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+  "boundary": {
+    "status": "ABSENT",
+    "reasons": [
+      "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+    ],
+    "evidenceRefs": [
+      "outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+      "docs/decisions/0036-generic-public-read-network-policy.md",
+      "docs/decisions/0035-browser-read-network-boundary.md"
+    ],
+    "gaps": []
+  },
+  "models": 0,
+  "clicks": 0,
+  "sourceSha256": {
+    "unguarded": "2afb15ebca6ee085aefedba584fe64b93c6d783f4b673c93d994f995448adefe",
+    "guarded": "3f70de2178bc3e04718f7254199f94ffaeefc123866e5248082ffc2cb95d457d"
+  }
+}

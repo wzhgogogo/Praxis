@@ -1,0 +1,481 @@
+{
+  "startedAt": "2026-10-19T02:56:24.613Z",
+  "finishedAt": "2026-10-19T02:56:30.762Z",
+  "mode": "unguarded-cors-approved",
+  "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+  "goto": {
+    "completed": true,
+    "elapsedMs": 2997
+  },
+  "responses": [
+    {
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 1277,
+      "bodySha256": "e1339646994f16d811aa8d77f664e018ac61e868c1cdfefc1b032997fc913b67",
+      "documentHits": null,
+      "jsonTopKeys": [
+        "aerodrome",
+        "animal",
+        "beach",
+        "bench",
+        "bus_stop",
+        "drinking_water",
+        "ferry_terminal",
+        "forest",
+        "garden",
+        "library",
+        "marina",
+        "park",
+        "peak",
+        "school",
+        "stadium",
+        "toilets",
+        "townspot",
+        "train_station",
+        "university",
+        "zoo"
+      ],
+      "arrays": []
+    },
+    {
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 10663,
+      "bodySha256": "576ff79725ce7a5005e6e2f0c9dcb9ea3627820cfecdaed6055a2713f5868c2d",
+      "documentHits": null,
+      "jsonObserved": false
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/catalog.json",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 63741,
+      "bodySha256": "f21850d3c964ca0923fb45699ad8bbbf08abfc04dc6b5356a73d9b0f595078f4",
+      "documentHits": null,
+      "jsonTopKeys": [
+        "locales",
+        "facets",
+        "values",
+        "price_bands",
+        "kinds",
+        "subkinds"
+      ],
+      "arrays": [
+        {
+          "path": "$.locales",
+          "length": 5,
+          "firstKeys": []
+        },
+        {
+          "path": "$.price_bands.JPY",
+          "length": 6,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.SGD",
+          "length": 6,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.KRW",
+          "length": 6,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.VND",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.IDR",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.THB",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.TWD",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.HKD",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.MYR",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.AUD",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.USD",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.EUR",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.PHP",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        }
+      ]
+    },
+    {
+      "origin": "https://production.tablecheck.com",
+      "pathname": "/v2/geolocation",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 55,
+      "bodySha256": "a4f196e3d45469b9667b1a0d120e062ec0cc95d65e3be47b0662114a69fcc126",
+      "documentHits": null,
+      "jsonTopKeys": [
+        "latitude",
+        "longitude",
+        "country"
+      ],
+      "arrays": []
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ],
+      "status": 200,
+      "bytes": 888660,
+      "bodySha256": "72733395b01ee47f78a03b17ab002a5ece10f8c6d4bf959063884fc7787f5e70",
+      "documentHits": 61,
+      "jsonTopKeys": [
+        "root"
+      ],
+      "arrays": [
+        {
+          "path": "$.root.children",
+          "length": 21,
+          "firstKeys": [
+            "id",
+            "relevance",
+            "continuation",
+            "children"
+          ]
+        }
+      ]
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ],
+      "status": 200,
+      "bytes": 171904,
+      "bodySha256": "840ca9306eca6766cb8fecf873da927df764c692d5a182f59705f9dc7eb27a10",
+      "documentHits": 298,
+      "jsonTopKeys": [
+        "root"
+      ],
+      "arrays": [
+        {
+          "path": "$.root.children",
+          "length": 289,
+          "firstKeys": [
+            "id",
+            "relevance",
+            "source",
+            "fields"
+          ]
+        }
+      ]
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "status": 200,
+      "bytes": 1138488,
+      "bodySha256": "7a6885e0082afdf315a85c07e88477682d442de6fd5fe370edf0208c64539746",
+      "documentHits": 37,
+      "jsonTopKeys": [
+        "root"
+      ],
+      "arrays": [
+        {
+          "path": "$.root.children",
+          "length": 18,
+          "firstKeys": [
+            "id",
+            "relevance",
+            "source",
+            "fields"
+          ]
+        }
+      ]
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ],
+      "status": 200,
+      "bytes": 20533,
+      "bodySha256": "c5ceeaecadd93b78b4e3ca96bf9f9b711361cbed7b23c9f18da20d98a6c2009b",
+      "documentHits": 14,
+      "jsonTopKeys": [
+        "root"
+      ],
+      "arrays": [
+        {
+          "path": "$.root.children",
+          "length": 14,
+          "firstKeys": [
+            "id",
+            "relevance",
+            "source",
+            "fields"
+          ]
+        }
+      ]
+    },
+    {
+      "origin": "https://maps.ingress.production.tablecheck.com",
+      "pathname": "/tiles/20241111.json",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 9920,
+      "bodySha256": "115b18a63b98891f696b8ae8fc2ecce57f206040735109bc157792bab0762d84",
+      "documentHits": null,
+      "jsonTopKeys": [
+        "attribution",
+        "bounds",
+        "center",
+        "description",
+        "maxzoom",
+        "minzoom",
+        "name",
+        "scheme",
+        "tilejson",
+        "tiles",
+        "vector_layers",
+        "version"
+      ],
+      "arrays": [
+        {
+          "path": "$.bounds",
+          "length": 4,
+          "firstKeys": []
+        },
+        {
+          "path": "$.center",
+          "length": 3,
+          "firstKeys": []
+        },
+        {
+          "path": "$.tiles",
+          "length": 1,
+          "firstKeys": []
+        },
+        {
+          "path": "$.vector_layers",
+          "length": 9,
+          "firstKeys": [
+            "fields",
+            "id",
+            "maxzoom",
+            "minzoom"
+          ]
+        }
+      ]
+    },
+    {
+      "origin": "https://maps.ingress.production.tablecheck.com",
+      "pathname": "/tiles/20241111/15/29103/12905.mvt",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 239148,
+      "bodySha256": "23b4fd9e28d3af2a226273f83d4893cc86da306b6999ac85d159d64d2281f54a",
+      "documentHits": null,
+      "jsonObserved": false
+    },
+    {
+      "origin": "https://maps.ingress.production.tablecheck.com",
+      "pathname": "/tiles/20241111/15/29104/12905.mvt",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 302464,
+      "bodySha256": "07b6b0c9d4da1307182178d48bfa8d8c65fd9ea751285a94d768d8076416f4ff",
+      "documentHits": null,
+      "jsonObserved": false
+    },
+    {
+      "origin": "https://maps.ingress.production.tablecheck.com",
+      "pathname": "/tiles/20241111/15/29103/12906.mvt",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 249404,
+      "bodySha256": "b1a147a7cf5480488d91ace18bf9592570609612e879b227bd4613a529c51b12",
+      "documentHits": null,
+      "jsonObserved": false
+    },
+    {
+      "origin": "https://maps.ingress.production.tablecheck.com",
+      "pathname": "/tiles/20241111/15/29104/12906.mvt",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 257433,
+      "bodySha256": "6f76b479b9445a6002a03de0dac0d7875a6d521256761af67b936333f8082667",
+      "documentHits": null,
+      "jsonObserved": false
+    }
+  ],
+  "failed": [],
+  "corsPreflights": [],
+  "page": {
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+    "title": "Map Search - Japan",
+    "parsedOutlets": 20,
+    "resultBusy": false,
+    "visibleTextExcerpt": "For restaurateurs\nHelp\nDestination\nArea, station, line or restaurant\nCuisine\nAny cuisine\nDate\nAny date\nGuests\n2 guests\nJapan\nLogin\nArea\nShibuya\n195\nJingumae\n45\nDōgenzaka\n43\nUdagawachō\n28\nSakuragaokacho\n27\nMinami-Aoyama\n26\nShow More\nCuisine\nJapanese\n140\nIzakaya (Japanese Tavern)\n47\nSushi\n31\nYakitori & Kushiyaki (Skewers)\n16\nSoba & Udon\n12\nRamen\n5\nShow More\nAverage dinner price\n\n¥1,000+\n\nUnder ¥3,000\n18\n¥3,000 – ¥6,000\n72\n¥6,000 – ¥10,000\n87\n¥10,000 – ¥20,000\n64\n¥20,000 – ¥30,000\n17\n¥30,000+\n7\nAverage lunch price\n\n¥1,000+\n\nUnder ¥3,000\n80\n¥3,000 – ¥6,000\n61\n¥6,000 – ¥10,000\n27\n¥10,000 – ¥20,000\n11\n¥20,000 – ¥30,000\n6\n¥30,000+\n2\nSeating\nTerrace\n16\nPrivate room\n70\nCounter\n20\nSemi-private room\n20\nTatami\n1\nAll you can eat / drink\nAll You Can Drink\n32\nAll You Can Eat\n6\nFeatures\nQuiet\n123\nFriends & Groups\n113\nKid Friendly\n70\nBirthdays & Parties\n59\nBusiness Meetings\n59\nFun Dates\n58\nShow More\nSmoking\nSmoking Seat\n7\nSmoke-Free Venue\n74\nNon-Smoking Seat\n7\nService\nLunch\n187\nBooking options\nUse TC Points\n96\nTC Pay\n27\nEarn TC Points\n9\nRestaurants in this area\nParty of 2\nRefine\nLunch\nQuiet\nFriends & Groups\nUse TC Points\nSmoke-Free Venue\nPrivate room\nKid Friendly\nBirthdays & Parties\nRecommended\nNea",
+    "networkDiagnostics": [],
+    "networkRequests": []
+  },
+  "models": 0,
+  "clicks": 0
+}

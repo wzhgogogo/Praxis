@@ -67,3 +67,5 @@ Final admission uses the actual Chromium Fetch-paused request's browser-reserved
 Previous statements that the first XHR-label correction completed the map handshake are superseded by this section. The initial20-outlet list result remains true; final source/verification rows will follow below.
 
 Final reserved-header implementation: all five gates PASS in gates/protocol-final/; full npm test936/936 and full real local Chromium115/115 (222.056s). Missing-marker real Chromium red/green and all forbidden modes passed. No production or test bypass.
+
+Actual final source comparison PASS: unguarded20 outlets/goto2997ms, guarded20 outlets/goto3782ms; guarded four search GET200 and four browser-generated GET-bound preflights admitted, including the XHR form. Independent frozen S0 boundary audit ABSENT; source bodies/metadata hashes in diagnostic/network-verification.json. This is zero-model connectivity evidence only, not witness qualification or a formal discovery probe.
