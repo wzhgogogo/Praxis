@@ -9,11 +9,13 @@ import { assessSelectionReplay } from '../../src/eval/restaurant/agent-loop/sele
 
 const base = '.eval-artifacts/p2-2-selection-20261019';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-const planPath = `${base}/model-run-plan.json`, plan = JSON.parse(await fs.readFile(planPath));
-const freeze = JSON.parse(await fs.readFile(`${base}/model-run-freeze.json`));
+const planPath = process.argv.find(arg => arg.startsWith('--plan='))?.slice('--plan='.length) ?? `${base}/model-run-plan.json`;
+const plan = JSON.parse(await fs.readFile(planPath));
+const freezePath = plan.freezePath ?? `${base}/model-run-freeze.json`;
+const freeze = JSON.parse(await fs.readFile(freezePath));
 const verify = async () => { for (const [path, hash] of Object.entries(freeze.files)) if (sha(await fs.readFile(path)) !== hash) throw Error(`FROZEN_INPUT_CHANGED:${path}`); };
 await verify();
-execFileSync('git',['diff','--exit-code','HEAD','--','src',planPath,`${base}/run-annotated-selection.mjs`,`${base}/model-run-freeze.json`],{stdio:'pipe'});
+execFileSync('git',['diff','--exit-code','HEAD','--','src',planPath,`${base}/run-annotated-selection.mjs`,freezePath],{stdio:'pipe'});
 const commit = execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 const annotations = JSON.parse(await fs.readFile(`${base}/seed-annotations.reviewer.json`));
 const contracts = JSON.parse(await fs.readFile(`${base}/selection-contracts.json`));
@@ -52,10 +54,14 @@ if (process.argv.includes('--dry-run')) {
   console.log(JSON.stringify({status:'INPUTS_VERIFIED_NO_MODEL',commit,inputs:prepared.map(item => ({seedId:item.id,requestSha256:item.requestSha256,candidates:item.context.candidates.length,before:item.before,timeoutMs:item.request.timeoutMs})),models:0},null,2));
   process.exit(0);
 }
+const priorResults = await Promise.all((plan.priorResults ?? []).map(path => fs.readFile(path,'utf8').then(JSON.parse)));
+if (priorResults.some(result => plan.selectedSeedIds.includes(result.seedId))) throw Error('NO_REPLAY_OF_COMPLETED_SEED');
 await fs.mkdir(plan.outputDirectory); // no overwrite/retry
 const ledgerPath = `${base}/model-ledger.json`;
 let ledger;
 try { ledger = JSON.parse(await fs.readFile(ledgerPath)); } catch(error) { if(error.code!=='ENOENT')throw error; ledger={schema:'p22-model-ledger@1',maxCalls:30,calls:[]}; }
+if (prepared.some(item => ledger.calls.some(call => call.seedId === item.id))) throw Error('NO_REPEAT_SEED_CALL');
+if (ledger.calls.length !== (plan.expectedPriorCalls ?? 0)) throw Error('UNEXPECTED_PRIOR_CALL_COUNT');
 if (ledger.calls.length + prepared.length > plan.maxCallsTotal) throw Error('P22_MODEL_BUDGET_EXHAUSTED');
 const originalFetch = globalThis.fetch;
 globalThis.fetch = (url,init) => {
@@ -63,7 +69,7 @@ globalThis.fetch = (url,init) => {
   if (target.protocol !== 'https:' || target.hostname !== 'api.deepseek.com' || init?.method !== 'POST') throw Error('REPLAY_ONLY_DEEPSEEK_GENERATION_ALLOWED');
   return originalFetch(url,init);
 };
-const gateway = DeepSeekModelGateway.fromEnvironment(process.env), results=[];
+const gateway = DeepSeekModelGateway.fromEnvironment(process.env), results=[...priorResults];
 for (const item of prepared) {
   await fs.writeFile(`${plan.outputDirectory}/${item.id}.request.json`,JSON.stringify(item.request,null,2),{flag:'wx'});
   const call={call:ledger.calls.length+1,seedId:item.id,startedAt:new Date().toISOString(),codeCommit:commit,requestSha256:item.requestSha256,status:'STARTED'};
@@ -75,11 +81,12 @@ for (const item of prepared) {
     call.latencyMs=response.latencyMs;call.usage=response.usage;call.model=response.model;
     if(response.finishReason!=='TOOL_CALLS')throw Object.assign(Error('Invalid finish reason'),{code:'MODEL_OUTPUT_REJECTED'});
     const decoded=normalizeRestaurantAgentActionStrictWire(JSON.parse(response.outputText));
-    if(!decoded.valid)throw Object.assign(Error('Invalid model wire'),{code:'MODEL_OUTPUT_REJECTED'});
+    if(!decoded.valid)throw Object.assign(Error('Invalid model wire'),{code:'MODEL_OUTPUT_REJECTED',validationErrors:decoded.errors});
     afterAction=decoded.value;
     call.status='SUCCEEDED';
   } catch(error) {
     errorCode=typeof error?.code==='string'?error.code:'MODEL_REPLAY_FAILED';call.status='FAILED';
+    if (Array.isArray(error.validationErrors)) call.validationErrors=error.validationErrors;
   }
   call.finishedAt=new Date().toISOString();call.errorCode=errorCode;
   const before=item.before;
@@ -106,7 +113,7 @@ for (const item of prepared) {
     scope:'One captured Agent decision only; no action executed, no restaurant requests or inventory acceptance.'};
   await fs.writeFile(`${plan.outputDirectory}/${item.id}.result.json`,JSON.stringify(result,null,2),{flag:'wx'});
   await fs.writeFile(ledgerPath,JSON.stringify(ledger,null,2));results.push(result);
-  if (errorCode) break; // no blind retries or extra calls
+  if (errorCode && errorCode !== 'MODEL_OUTPUT_REJECTED') break; // transport failure stops; a rejected action counts once and is never executed or retried
 }
 await verify();
 const accepted = id => results.find(row=>row.seedId===id)?.after.verdict === 'ACCEPTABLE';
@@ -116,7 +123,7 @@ const gate = {
   shibuya:{required:2,passed:shibuyaIds.filter(accepted).length,total:3,independence:'Near-duplicates of one scenario, not three independent scenarios.'},
   control:{required:1,passed:Number(accepted('p1-seed-0133'))},
 };
-gate.verdict=results.length!==prepared.length?'INCOMPLETE':gate.kagurazaka.passed===1&&gate.shibuya.passed>=2&&gate.control.passed===1?'PASS':'FAIL';
+gate.verdict=results.length!==(prepared.length+priorResults.length)?'INCOMPLETE':gate.kagurazaka.passed===1&&gate.shibuya.passed>=2&&gate.control.passed===1?'PASS':'FAIL';
 const summary={codeCommit:commit,modelCalls:ledger.calls.length,budgetMax:plan.maxCallsTotal,annotationRevision:2,websites:0,google:0,live:0,
   results:results.map(row=>({seedId:row.seedId,scenario:row.scenario,before:row.before,after:row.after,oldStrictComparison:row.oldStrictComparison,witnessSelection:row.witnessSelection,errorCode:row.errorCode})),gate,
   scope:'Captured single Agent decisions only. This selection gate does not prove current website access, inventory, full delivery or checkpoint C.'};

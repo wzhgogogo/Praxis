@@ -1,0 +1,73 @@
+{
+  "seedId": "p1-seed-0134",
+  "codeCommit": "290658fd61d4f5d1c4a990808eeba6176a4a9555",
+  "inputSha256": "750a2d0d959319f9550ea5079b2a33f6295fd1a1235d08660dc6236c6f2b3c72",
+  "annotationRevision": 2,
+  "scenario": "SHIBUYA_OMAKASE",
+  "oldStrictComparison": {
+    "status": "EVALUATED_ON_SAME_OUTPUT_NO_ADDITIONAL_CALL",
+    "annotationRevision": 1,
+    "before": {
+      "verdict": "NOT_ACCEPTABLE",
+      "reasons": [
+        "Every selected candidate must be DIRECT when the annotated direct alternatives are available."
+      ],
+      "metrics": {
+        "selected": 3,
+        "directSelected": 1,
+        "directInRadiusCheckable": 8,
+        "directSelectionRatio": 0.3333333333333333
+      }
+    },
+    "after": {
+      "verdict": "NO_ACTION",
+      "reasons": [
+        "MODEL_OUTPUT_REJECTED"
+      ]
+    }
+  },
+  "beforeAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:6343d9d19c9b69881948e082",
+      "praxis:restaurant:690eacddc99105af5a3a0f53",
+      "praxis:restaurant:d7560a4b60970a42216f0c2a"
+    ],
+    "decisionSummary": "AVAILABILITY goal with no eligible candidates yet; no fact-investigable path is needed since availability reads also return source facts. Checking the three nearest sushi candidates (189m, 209m, 197m) for a 2026-10-16 19:00 slot for 2."
+  },
+  "before": {
+    "verdict": "NOT_ACCEPTABLE",
+    "reasons": [
+      "The approved revision2 requires at least two DIRECT selections when three are checkable."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 1,
+      "directInRadiusCheckable": 8,
+      "directSelectionRatio": 0.3333333333333333
+    }
+  },
+  "afterAction": null,
+  "after": {
+    "verdict": "NO_ACTION",
+    "reasons": [
+      "MODEL_OUTPUT_REJECTED"
+    ]
+  },
+  "finishReason": "TOOL_CALLS",
+  "wireText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"Check 2026-10-16 19:00 for 2 at nearest omakase-capable sushi candidates with direct source pages\", \"candidateIds\": [\"praxis:restaurant:6343d9d19c9b69881948e082\", \"praxis:restaurant:6976327a098e08ddf19a3ed1\", \"praxis:restaurant:c510b28f298c4785d5fff548\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Availability goal with 3-result batch target; no eligible candidates yet. Check nearest sushi candidates with direct source pages for the exact 19:00 slot for 2.\"}",
+  "errorCode": "MODEL_OUTPUT_REJECTED",
+  "witnessSelection": {
+    "before": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical witness selection only, not current inventory or delivery."
+    },
+    "after": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical witness selection only, not current inventory or delivery."
+    }
+  },
+  "scope": "One captured Agent decision only; no action executed, no restaurant requests or inventory acceptance."
+}
