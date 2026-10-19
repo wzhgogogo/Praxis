@@ -1,0 +1,49 @@
+{
+  "schema": "p22-annotated-selection-replay-plan@1",
+  "status": "AUTHORIZED_ONE_PASS_NO_RETRY",
+  "selectedSeedIds": [
+    "p1-seed-0133",
+    "p1-seed-0134",
+    "p22-selection-001",
+    "p22-selection-002",
+    "p22-selection-003"
+  ],
+  "outputDirectory": ".eval-artifacts/p2-2-selection-20261019/annotated-replay",
+  "maxCallsTotal": 30,
+  "plannedCalls": 5,
+  "websiteRequests": 0,
+  "googleRequests": 0,
+  "fullLiveRuns": 0,
+  "witnessSourceUrls": {
+    "p1-seed-0133": [
+      "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+    ],
+    "p1-seed-0134": [
+      "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+    ],
+    "p22-selection-001": [
+      "https://tabelog.com/en/tokyo/A1309/A130905/13218101/",
+      "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+      "https://tabelog.com/en/tokyo/A1309/A130905/13011403/"
+    ],
+    "p22-selection-002": [
+      "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+    ],
+    "p22-selection-003": [
+      "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+    ]
+  },
+  "witnessInput": ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json",
+  "note": "User approved independent reviewer revision2 before any model replay. One call per seed. Old strict rule on same outputs; pending/unannotated further seeds excluded.",
+  "annotationRevision": 2,
+  "strictComparison": "Score0133/0134 with frozen revision1 on identical model outputs; new seeds have no revision1 label.",
+  "witnessInputs": [
+    ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json",
+    ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/witnesses.certified.json"
+  ],
+  "witnessScope": "Historical independent witness URL membership only. No validity renewal or current-date/request slot claim; never injected into model request."
+}

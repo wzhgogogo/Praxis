@@ -1,7 +1,7 @@
 {
-  "schema": "compiled-selection-conditions@1",
-  "status": "IMPLEMENTER_TRANSLATION_OF_INDEPENDENT_LABELS_NOT_NEW_GOLD",
-  "annotationCommit": "92f72d3",
+  "schema": "compiled-selection-conditions@2",
+  "status": "USER_APPROVED_REVIEWER_REVISION2_TRANSLATION_NOT_NEW_GOLD",
+  "annotationCommit": "e96a493",
   "radiusMeters": 1000,
   "rules": [
     {
@@ -31,19 +31,76 @@
     {
       "seedId": "p1-seed-0134",
       "type": "CHECK_AVAILABILITY",
-      "when": "At least 3 in-radius DIRECT_SOURCE_PAGE candidates are checkable in this context (there are 8: Sumi Sushi Shibuya, Sushi Tatsu Shibuya, Shibuya Sushi Jinnan, Sushi kazumasa, Sushi Matsumoto Shibuya, Sushi Inase, Sushi Rizaki, Naminoue shibuya), so every selected candidate must be in-radius and DIRECT_SOURCE_PAGE. Selecting a NAME_RESOLUTION candidate is acceptable only when fewer than 3 in-radius DIRECT candidates are checkable.",
+      "when": "SELECTION_RULE. This context has 8 checkable in-radius DIRECT candidates (Sumi Sushi Shibuya, Sushi Tatsu Shibuya, Shibuya Sushi Jinnan, Sushi kazumasa, Sushi Matsumoto Shibuya, Sushi Inase, Sushi Rizaki, Naminoue shibuya).",
       "requireInRadius": true,
-      "path": "DIRECT_WHEN_THREE",
+      "path": "REVIEWED_SELECTION",
       "requireMissingHard": false
     },
     {
       "seedId": "p1-seed-0134",
       "type": "INVESTIGATE_CANDIDATE_FACTS",
-      "when": "Targets in-radius DIRECT_SOURCE_PAGE candidates whose HARD fact (omakase) is not yet verified.",
+      "when": "Targets at least 2 in-radius DIRECT_SOURCE_PAGE candidates whose HARD fact (omakase) is not yet verified.",
       "requireInRadius": true,
-      "path": "DIRECT",
-      "requireMissingHard": true
+      "path": "SUPPORTED",
+      "requireMissingHard": false,
+      "minimumDirect": 2,
+      "minimumMissingHardDirect": 2
+    },
+    {
+      "seedId": "p22-selection-001",
+      "type": "CHECK_AVAILABILITY",
+      "when": "SELECTION_RULE. This context has exactly 3 checkable in-radius DIRECT candidates: Kagurazaka Jin 81 m (Google website = TableCheck shop), Sugata 107 m (Google website = Tabelog 13053749), \u65e5\u672c\u6599\u7406 \u307b\u305d\u5ddd \u795e\u697d\u5742 95 m (Google website = Tabelog 13222581). All are Google japanese_restaurant; none has verified kaiseki yet.",
+      "requireInRadius": true,
+      "path": "REVIEWED_SELECTION",
+      "requireMissingHard": false
+    },
+    {
+      "seedId": "p22-selection-001",
+      "type": "INVESTIGATE_CANDIDATE_FACTS",
+      "when": "Targets at least 2 of those DIRECT candidates to verify the kaiseki HARD criterion.",
+      "requireInRadius": true,
+      "path": "SUPPORTED",
+      "requireMissingHard": false,
+      "minimumDirect": 2,
+      "minimumMissingHardDirect": 2
+    },
+    {
+      "seedId": "p22-selection-002",
+      "type": "CHECK_AVAILABILITY",
+      "when": "SELECTION_RULE (9 checkable in-radius DIRECT candidates).",
+      "requireInRadius": true,
+      "path": "REVIEWED_SELECTION",
+      "requireMissingHard": false
+    },
+    {
+      "seedId": "p22-selection-002",
+      "type": "INVESTIGATE_CANDIDATE_FACTS",
+      "when": "Targets at least 2 in-radius DIRECT candidates whose omakase fact is unverified.",
+      "requireInRadius": true,
+      "path": "SUPPORTED",
+      "requireMissingHard": false,
+      "minimumDirect": 2,
+      "minimumMissingHardDirect": 2
+    },
+    {
+      "seedId": "p22-selection-003",
+      "type": "CHECK_AVAILABILITY",
+      "when": "SELECTION_RULE (9 checkable in-radius DIRECT candidates).",
+      "requireInRadius": true,
+      "path": "REVIEWED_SELECTION",
+      "requireMissingHard": false
+    },
+    {
+      "seedId": "p22-selection-003",
+      "type": "INVESTIGATE_CANDIDATE_FACTS",
+      "when": "Targets at least 2 in-radius DIRECT candidates whose omakase fact is unverified.",
+      "requireInRadius": true,
+      "path": "SUPPORTED",
+      "requireMissingHard": false,
+      "minimumDirect": 2,
+      "minimumMissingHardDirect": 2
     }
   ],
-  "manualConditionPolicy": "Uncompiled or semantic-search conditions remain NOT_EVALUATED, never action-type-only PASS."
+  "manualConditionPolicy": "An uncompiled complete when condition is NOT_EVALUATED. Materially different search semantics remain manual.",
+  "approvedGate": "After the availabilityPath change, with each seed replayed once on the real model: (1) p22-selection-001 (Kagurazaka) must be ACCEPTABLE; (2) at least 2 of the 3 SHIBUYA_OMAKASE seeds (p1-seed-0134, p22-selection-002, p22-selection-003) must be ACCEPTABLE; (3) the control p1-seed-0133 must remain ACCEPTABLE. The three Shibuya seeds are near-duplicates of one scenario, so they are not counted as independent evidence."
 }

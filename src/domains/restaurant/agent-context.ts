@@ -106,9 +106,9 @@ export interface CandidateDistanceObservation {
 
 /** Only source-derived advisory claims; absence grants no supported path. */
 export function observedCandidateAvailabilityPath(evidence: readonly RestaurantReadEvidence[], candidateId: string, now: string): "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE" {
-  const paths = evidence.filter(item => item.kind === "DISCOVERY" && item.candidateId === candidateId && Date.parse(item.observedAt) <= Date.parse(now))
-    .map(item => item.claims.availabilityPath);
-  return paths.includes("DIRECT_SOURCE_PAGE") ? "DIRECT_SOURCE_PAGE" : paths.includes("NAME_RESOLUTION") ? "NAME_RESOLUTION" : "NONE";
+  const latest = evidence.filter(item => item.kind === "DISCOVERY" && item.candidateId === candidateId && Date.parse(item.observedAt) <= Date.parse(now))
+    .sort((a,b) => Date.parse(b.observedAt)-Date.parse(a.observedAt))[0]?.claims.availabilityPath;
+  return latest === "DIRECT_SOURCE_PAGE" || latest === "NAME_RESOLUTION" ? latest : "NONE";
 }
 
 /** Already grounded circle evidence only; advisory projection never changes qualification. */
