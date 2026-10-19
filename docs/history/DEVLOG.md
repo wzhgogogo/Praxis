@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.180
+- Document revision: 4.181
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3933,3 +3933,8 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## DEV-2026-10-20-P22-TIMING-PLAN
 
 - 沿用52份旧产物（50可计时/2未评），汇总前三段为VENUE_SEARCH详情、Browser模型、查位解析；保留校准与仅发现分组，给出三个未实测节省区间/风险及同来源最小请求间隔方案。只写方案，0外站/模型、未实施、不变预算或门槛。报告：.eval-artifacts/p2-2-selection-20261019/followup/performance-proposals.md；纯文档核对原始汇总/算术/链接，复用第4段门禁。
+
+<a id="dev-2026-10-20-p22-website-measurement"></a>
+## DEV-2026-10-20-P22-WEBSITE-MEASUREMENT
+
+- 脚本冻结cf11c54后仅读取52份旧产物及30份trace并核SHA；32份有Google候选，20份无观察不计成功空结果。每run首见去重共1191次候选出现：158直达、927网站字段待查（77.8%）、106无网站；跨run253个ID中198待查（78.3%）。不等于已证实官网或预约出链率，检查点C未评。字面计数/去重/冲突/脏URL/SHA控制通过；0外站/模型，不接线抓取器，复用第4段生产门禁。
