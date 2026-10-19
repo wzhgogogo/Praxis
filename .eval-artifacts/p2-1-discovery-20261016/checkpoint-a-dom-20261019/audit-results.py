@@ -9,6 +9,8 @@ sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 load=lambda p:json.loads(p.read_text())
 ledger=load(wt/batch/'ledger.json');plan=load(out/'plan.json');freeze=load(out/'freeze.json')
 assert all(sha(Path(p))==s for p,s in freeze['files'].items())
+recovery=load(out/'recovery/freeze.json')
+assert all(sha(Path(p))==s for p,s in recovery['files'].items())
 assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=wt).decode().strip()==plan['productionHead']
 assert not subprocess.check_output(['git','status','--porcelain'],cwd=wt).strip()
 for path,expected in load(out/'historical-sha-before.json').items():assert sha(main/path)==expected,path
@@ -63,5 +65,12 @@ for pair in pairs:
 comparison={'status':'COMPLETE' if len(actual)==10 and not ledger['stop'] else 'PARTIAL','comparablePairs':len(actual),'baselineHead':plan['commonBaseline'],'checkpointAHead':plan['productionHead'],'rawListingCounts':'Includes broad region navigation observations; not final keyword/category hits alone.','radiusScope':'Parsed coordinates, including Google candidates; not verified/deduplicated restaurants.','sharedPlanningRule':'SHARED_TEXT_RETRIEVAL is counted once, never twice for TableCheck/Google.','pairs':pairs}
 (out/'comparison.json').write_text(json.dumps(comparison,ensure_ascii=False,indent=2)+'\n')
 audit={'status':comparison['status'],'modelCalls':ledger['models'],'googleFormal':ledger['google'],'googlePreflight':ledger['preflightGoogle'],'formalProbes':len(actual),'effectiveCountedPreflightFailures':ledger['preflightFailures'],'stop':ledger['stop'],'cumulativeModels':212+ledger['models'],'cumulativeGoogle':79+ledger['google']+ledger['preflightGoogle'],'cumulativeProbes':31+len(actual),'probeCap':42,'modelCap':450,'fullLive':0,'decisionOutcomes':dict(outcomes),'frozenChecks':'PASS','worktreeClean':'PASS','historicalImmutableFilesChecked':len(load(out/'historical-sha-before.json')),'newFilesCopied':copied,'rows':list(actual.values())}
+audit['recovery']={'freezeCommit':'b0d15d3','freezeSha256':sha(out/'recovery/freeze.json'),
+ 'outerSha256':recovery['newOuterSha256'],'frozenFilesChecked':len(recovery['files']),
+ 'firstFiveFilesUnchanged':len(load(out/'recovery/completed-five-before.json')['files']),
+ 'reclassifications':ledger.get('reclassifications',[]),
+ 'completedRemainingIndices':[i for i in actual if i>=5],
+ 'newModelsAfterApproval':ledger['models']-29,
+ 'newGoogleAfterApproval':ledger['google']+ledger['preflightGoogle']-15}
 (out/'audit.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2)+'\n')
 print(json.dumps({k:v for k,v in audit.items() if k!='rows'},ensure_ascii=False))

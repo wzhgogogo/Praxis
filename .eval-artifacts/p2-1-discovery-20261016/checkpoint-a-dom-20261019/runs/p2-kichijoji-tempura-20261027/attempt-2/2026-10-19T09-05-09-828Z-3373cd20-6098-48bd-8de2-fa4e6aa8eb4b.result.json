@@ -1,0 +1,88 @@
+{
+  "mode": "LIVE_NETWORK_PREFLIGHT",
+  "preflightVersion": "live-network-preflight@1",
+  "runner": "SOURCE_STAGE_PROBE",
+  "plannedTargets": [
+    "DEEPSEEK",
+    "GOOGLE",
+    "TABELOG",
+    "TABLECHECK"
+  ],
+  "timeoutMs": 10000,
+  "generationModelCalls": 0,
+  "restaurantDiscoveryRequests": 0,
+  "evaluator": {
+    "applicability": "NOT_APPLICABLE",
+    "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+  },
+  "network": {
+    "proxyMode": "DISABLED_BY_CLI"
+  },
+  "status": "SUCCEEDED",
+  "stage": "NETWORK_READINESS",
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/p21-checkpoint-a-dom/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/2026-10-19T09-05-09-828Z-3373cd20-6098-48bd-8de2-fa4e6aa8eb4b.result.json",
+  "attempts": [
+    {
+      "target": "DEEPSEEK",
+      "request": {
+        "method": "GET",
+        "url": "https://api.deepseek.com/models",
+        "range": "NONE",
+        "authorization": "PRESENT"
+      },
+      "elapsedMs": 1733,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "GOOGLE",
+      "request": {
+        "method": "GET",
+        "url": "https://places.googleapis.com/",
+        "range": "NONE",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 1530,
+      "outcome": "REACHABLE",
+      "status": 404,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "TABELOG",
+      "request": {
+        "method": "GET",
+        "url": "https://tabelog.com/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 1122,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "TABLECHECK",
+      "request": {
+        "method": "GET",
+        "url": "https://www.tablecheck.com/en/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 871,
+      "outcome": "REACHABLE",
+      "status": 206,
+      "tls": "ESTABLISHED"
+    }
+  ],
+  "elapsedMs": 5260,
+  "configuration": {
+    "proxyMode": "DISABLED_BY_CLI",
+    "googleProxyConfigured": false,
+    "browserProxyConfigured": false
+  },
+  "schemaVersion": "1",
+  "runId": "3373cd20-6098-48bd-8de2-fa4e6aa8eb4b",
+  "startedAt": "2026-10-19T09:05:09.828Z",
+  "finishedAt": "2026-10-19T09:05:15.088Z"
+}

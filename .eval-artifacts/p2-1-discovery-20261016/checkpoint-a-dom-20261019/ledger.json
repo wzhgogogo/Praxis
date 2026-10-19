@@ -1,14 +1,19 @@
 {
-  "models": 29,
-  "google": 10,
-  "preflightGoogle": 5,
-  "preflightFailures": 0,
+  "models": 49,
+  "google": 19,
+  "preflightGoogle": 10,
+  "preflightFailures": 1,
   "completed": [
     0,
     1,
     2,
     3,
-    4
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
   ],
   "attempts": [
     {
@@ -147,14 +152,162 @@
       "preflightEvidence": [],
       "countsTowardStop": false,
       "finishedAt": "2026-10-19T08:25:02.270909+00:00"
+    },
+    {
+      "index": 5,
+      "caseId": "p2-kf-h005-20261029",
+      "repeat": 2,
+      "head": "ba20b8a7e0ae5d00d93838f7f19b0ae01364e2be",
+      "startedAt": "2026-10-19T09:00:25.219079+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2/probe-summary.json",
+      "summarySha256": "9f0295e6c7d995c4a14b9ee7cd3e9d7518c61c04d6ca03a4fd7acb77ca2670db",
+      "models": 3,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "witnessInFirstBatch": false,
+      "inRadiusParsed": 49,
+      "finishedAt": "2026-10-19T09:02:12.897314+00:00"
+    },
+    {
+      "index": 6,
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "repeat": 1,
+      "head": "ba20b8a7e0ae5d00d93838f7f19b0ae01364e2be",
+      "startedAt": "2026-10-19T09:02:51.908809+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/probe-summary.json",
+      "summarySha256": "397eb595d092990be82fabde1c708c387486c910acd3019fd86a188d1be29816",
+      "models": 3,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "witnessInFirstBatch": true,
+      "inRadiusParsed": 50,
+      "finishedAt": "2026-10-19T09:04:54.253072+00:00"
+    },
+    {
+      "index": 7,
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "repeat": 2,
+      "head": "ba20b8a7e0ae5d00d93838f7f19b0ae01364e2be",
+      "startedAt": "2026-10-19T09:05:09.453877+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/probe-summary.json",
+      "summarySha256": "a51c1f138978594d2e6ef5171505a5b68deaee86445888a5e8842ac99945e459",
+      "models": 3,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "witnessInFirstBatch": true,
+      "inRadiusParsed": 50,
+      "finishedAt": "2026-10-19T09:06:53.572627+00:00"
+    },
+    {
+      "index": 8,
+      "caseId": "p2-kf-h002-20261031",
+      "repeat": 1,
+      "head": "ba20b8a7e0ae5d00d93838f7f19b0ae01364e2be",
+      "startedAt": "2026-10-19T09:07:21.982816+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1/probe-summary.json",
+      "summarySha256": "e01b797e59c811ee159ec8165dae734336959b66f4d9c87395cc87bfc675c7ec",
+      "models": 7,
+      "formalProbeStarted": true,
+      "google": 1,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "witnessInFirstBatch": false,
+      "inRadiusParsed": 10,
+      "finishedAt": "2026-10-19T09:09:22.194450+00:00"
+    },
+    {
+      "index": 9,
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "repeat": 1,
+      "head": "ba20b8a7e0ae5d00d93838f7f19b0ae01364e2be",
+      "startedAt": "2026-10-19T09:09:53.116284+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/probe-summary.json",
+      "summarySha256": "997bf3a8d1e061188b55c3ef8e3f93760d66534168c9b635b556204071c40423",
+      "models": 4,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "witnessInFirstBatch": true,
+      "inRadiusParsed": 43,
+      "finishedAt": "2026-10-19T09:11:35.457461+00:00"
     }
   ],
-  "stop": {
-    "code": "PREFLIGHT_EVIDENCE_GAP",
-    "index": 5,
-    "totalPreflightFailures": 0,
-    "sourceIds": []
-  },
+  "stop": null,
   "formalLiveRuns": 0,
-  "compressedBytesEstimate": 36076622
+  "compressedBytesEstimate": 41016922,
+  "reclassifications": [
+    {
+      "code": {
+        "code": "PREFLIGHT_EVIDENCE_GAP",
+        "index": 5,
+        "totalPreflightFailures": 0,
+        "sourceIds": []
+      },
+      "originalLedgerSha256": "2accfdb17fbfb8b28940601f71f8e206c46d248574b7fb5a0a22229ff60dc6cf",
+      "rawResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2/2026-10-19T08-24-57-474Z-7b30000b-a9dc-48e5-ae51-b07189c3a2ce.result.json",
+      "rawResultSha256": "c1efb579abd2d18015a2038dcec68a7b76df8bace4d70f8313dcd23231351b4f",
+      "classification": {
+        "reason": "NO_RESPONSE",
+        "responseStatus": 503,
+        "sourceId": "tablecheck",
+        "outcome": "FAILED",
+        "countsTowardStop": true,
+        "phase": "NETWORK_READINESS"
+      },
+      "at": "2026-10-19T09:00:25.218935+00:00"
+    }
+  ],
+  "stopHistory": [
+    {
+      "stop": {
+        "code": "ENV_PREFLIGHT_RETRYABLE",
+        "index": 5,
+        "totalPreflightFailures": 1
+      },
+      "resolution": "APPROVED_PREFLIGHT_ONLY_RETRY",
+      "at": "2026-10-19T09:00:25.219045+00:00"
+    }
+  ]
 }

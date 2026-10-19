@@ -1,6 +1,6 @@
 # P2-1a DOM categories and bounded retrieval correction
 
-Status: development evidence; implementation gates passed, model replay not yet started. This is not a clean holdout, delivery acceptance, or P2-1b.
+Status: development evidence; implementation gates passed, 14 single-decision model replays complete, new A10 COMPLETE. This is not a clean holdout, delivery acceptance, or P2-1b.
 
 The user instruction after review ee7978c authorizes same-region Pack-valid DOM categories without a CSS-visibility gate, duplicate-expression rejection, 14 offline model decisions, and a conditional new A10. Starting totals: 198/450 model calls, 31/42 discovery probes, 79 Google requests, 0 full Live in P2-1. Historical inputs, recordings, witnesses and seeds remain unchanged.
 
@@ -52,3 +52,13 @@ Raw outputs and usage: replay/summary.json and replay/<run>-<sequence>.json. Run
 New A production ba20b8a, external freeze0195189.5/10 formal discovery probes completed,29 models; all29 captures succeeded, and source counters match.14 replay calls plus29 discovery calls give cumulative241/450 models,36/42 probes,94 Google. No full Live or P2-1b. The two h001 runs selected Sushi and the witness entered the native first batch; both Kagurazaka runs retained READ_BUDGET_EXCEEDED; KF-H005 first run selected observed Washoku on the actual homepage (57 categories), with no witness in first batch. These facts do not establish full-batch improvement.
 
 Item6 stopped before generation/formal discovery: TableCheck homepage GET HTTP503. The outer incorrectly looks only for the later source preflight and halts as PREFLIGHT_EVIDENCE_GAP. Original earlier readiness result contains the503. Minimal recovery is proposed only, requires user-approved re-freeze, and has not been run. See [new A partial paired report](../checkpoint-a-dom-20261019/report.md), its raw paths/SHA, and recovery patch/tests. Existing completed probes will not be rerun.
+
+## Approved continuation completed
+
+Recovery freeze commit `b0d15d3` was committed before the retry. The original early TableCheck503 now counts as exactly1 NO_RESPONSE; the existing one preflight-only retry passed. Remaining indices5-9 each ran formally once; original indices0-4 were not rerun. Full A10 is COMPLETE, with stop=null.13 offline controls passed and595 frozen files, including262 original first-five files, remain byte-identical.
+
+Continuation resource use:20 models,14 Google,5 discovery probes. Full new A:49 successful captured decisions/models,19 formal+10 source-preflight Google; cumulative261/450 models,41/42 probes,108 Google,0 full Live. Production remains ba20b8a, inputs/witnesses unchanged; no recertification requests.
+
+Compared with previous A: Tabelog listing8->8 and native first batch3->5; TableCheck0->0; Google exact website-ID matches3->5. Model calls53->49; formal elapsed1062253->942173ms (baseline788353ms).22 planning calls/56097ms,0 planning timeouts. KF-H005 native first batch remains0; both Kagurazaka runs retain READ_BUDGET_EXCEEDED; H002 in-radius parsed candidates fall from baseline30 to10. These are development observations, not a causal or qualification verdict.
+
+The full [paired report](../checkpoint-a-dom-20261019/report.md), comparison.json, audit.json and recovery/execution-bindings.json retain every summary/decisions/trace/recording path and SHA. Stop here for independent review; P2-1b and full Live not started.

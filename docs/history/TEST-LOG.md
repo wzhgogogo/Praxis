@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.169
+- Document revision: 4.170
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4525,3 +4525,14 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 新外层SHA256为60546a05fbba4d5c4434f129730a5011666025e64cbbd8acb6158ef68b11775c，新recovery/freeze.json SHA256为5444b8d68333bbf41e252aad81ae2ea08ac0e6221140882f20e0ed6657c4b933，冻结595个文件，含已完成5例262份原始文件。生产ba20b8a、干净p21-checkpoint-a-dom、计划/6份输入/见证/预算/只读网络规则不变；见证仍有效至最早10/20东京12:12，无需再次认证。只有index5首条恢复带--recover-network-preflight和--resume-preflight-only，后续6–9正常执行；原已完成0–4禁止重跑。
 
 源码无改动，复用五门禁943/943、真实Chromium117/117，并复核原318SHA、空闲进程、budget和工作树clean；外层单独13离线对照/AST检查。累计仍241/450模型、36/42探测、94Google，恢复首条会追加计数/审批/原始SHA记录，不覆盖旧失败。先本地提交本冻结再续跑剩余KF-H005#2、吉祥寺×2、H002、中目黑。S0、来源预检及每例补试/全批>2停止边界不变；完成后按授权推送并停止，不开始P2-1b。
+
+
+## TEST-2026-10-19-P21A-DOM-A-COMPLETE
+
+按用户最新批准，b0d15d3先提交外层恢复及595份SHA，再续跑唯一剩余KF-H005#2、吉祥寺×2、H002、中目黑，均正式完成且各只跑1次。批准前已完成0–4五例262份原始文件逐字不变；原失败及6条旧attempt记录完整保留，原503只追加为1次NO_RESPONSE并使用原1次预检补试。13/13离线对照通过，实际恢复链通过且无新增预检失败/正式重跑，stop=null。
+
+恢复新增20模型/14Google/5发现探测；整轮新A共49模型/49成功捕获、19正式+10来源预检Google、10发现探测。累计261/450模型、41/42探测、108Google、0完整Live。每例15模型/180秒边界不变，生产ba20b8a、原6份输入/见证/模型配置/Guard及停止条件均未改；见证未过期，0新认证请求。完整summary/decisions/trace/recording路径和SHA、外层逐attempt绑定、分类证据见checkpoint-a-dom-20261019/report.md、audit.json、comparison.json、recovery/execution-bindings.json。
+
+事实比较Baseline→上一轮A→本轮A：Tabelog列表见证1→8→8/10、首批0→3→5/10；TableCheck列表/首批均0；Google精确官网ID5→3→5。模型55→53→49，正式耗时788353→1062253→942173ms（不含预检与等待批准）；本轮22规划调用/56097ms/0规划超时。KF-H005首批仍0、神乐坂两次仍READ_BUDGET_EXCEEDED，H002半径内解析家数30→10；不足和CONTROL下降不隐去。类别机制在本轮实际页面生效，但不把开发发现计数当资格/交付或因果结论。
+
+原318/恢复595冻结SHA、干净冻结工作树、1400历史文件、首五例262文件、49捕获计数、JSON/链接/diff/预算均核验通过。十份正式trace按独立冻结规则均S0_BOUNDARY ABSENT，仅限已记录规则证据，不证明任意GET副作用；端到端交付及S0声明未评价。源码未变，复用五门禁943/943、真实Chromium117/117；本轮只新增外层13对照与真实发现恢复证据。已按授权准备推送，Git回执为准，推送后停止待独立复核；P2-1b及完整Live未开始。
