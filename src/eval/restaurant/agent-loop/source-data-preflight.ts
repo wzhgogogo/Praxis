@@ -1,3 +1,4 @@
+import { observeTableCheckSearchCount } from '../../../integrations/tablecheck/tablecheck-public-query.js';
 import { writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { browserRuntimeFromEnvironment } from '../../../infrastructure/browser/browser-runtime-factory.js';
@@ -21,10 +22,17 @@ export function preflightSourceIds(goal: string | undefined): string[] {
 async function readKnownRegion(check: Check, signal: AbortSignal, environment: NodeJS.ProcessEnv): Promise<number> {
   if ('textQuery' in check) return (await GooglePlacesClient.fromEnvironment(environment).textSearch({textQuery:check.textQuery,pageSize:1},signal)).length;
   const pack=restaurantDiscoveryPacks.find(p=>p.meta.id===check.sourceId)!;
-  const session=await browserRuntimeFromEnvironment(environment).openSession({signal,networkPolicy:{genericPublicRead:true,documentOrigins:pack.documentOrigins,staticResources:pack.staticResources,dynamicReads:pack.reviewedReads}});
+  let searchCount:number|undefined;
+  const session=await browserRuntimeFromEnvironment(environment).openSession({signal,...(check.sourceId==='tablecheck'?{recordResponse:(response:Parameters<typeof observeTableCheckSearchCount>[0])=>{const count=observeTableCheckSearchCount(response);if(count!==undefined)searchCount=Math.max(searchCount??0,count);}}:{}),networkPolicy:{genericPublicRead:true,documentOrigins:pack.documentOrigins,staticResources:pack.staticResources,dynamicReads:pack.reviewedReads}});
   try {
     if(session.metadata.readNetworkBoundary!=='INSTALLED') throw Error('READ_BOUNDARY_REQUIRED');
     await session.navigate(check.url,{waitUntil:'domcontentloaded',timeoutMs:30_000});
+    if(check.sourceId==='tablecheck'){
+      const deadline=Date.now()+20_000;
+      while(!signal.aborted&&Date.now()<deadline&&!(searchCount!==undefined&&searchCount>0))await new Promise(resolve=>setTimeout(resolve,100));
+      if(signal.aborted)throw Error('TIMEOUT');
+      return searchCount??0;
+    }
     const before=await session.snapshot();
     await session.waitForSettled?.(before,1500);
     const page=await session.snapshot();

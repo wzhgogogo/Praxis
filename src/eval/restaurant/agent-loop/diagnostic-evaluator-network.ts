@@ -121,7 +121,9 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
     }
     if (["document", "fetch", "xhr"].includes(type) && /(?:^|\/)(?:booking|book|reservation)(?:\/|$)/i.test(path) && !/(?:^|\/)(?:calendar|availability|vacancy|status|search|list)(?:\/|$)/i.test(path)) { violations.push(`Sensitive booking operation: ${label}`); refs.push(ref); continue; }
     const generic = documentOrigins.has(origin) && ["document", "fetch", "xhr", ...staticTypes].includes(type);
-    if (!generic && !reviewedPublicGet(origin, path, type, keys)) { violations.push(`Dispatched request outside same-origin public/read-source scope: ${label}`); refs.push(ref); }
+    const frozenPublicGet = rule && (rule.queryKeyRules
+      ? queryMatches(keys, rule.queryKeyRules.required, rule.queryKeyRules.allowed, rule.queryKeyRules.repeatable) : keys.length === 0);
+    if (!generic && !frozenPublicGet && !reviewedPublicGet(origin, path, type, keys)) { violations.push(`Dispatched request outside same-origin public/read-source scope: ${label}`); refs.push(ref); }
   }
   if (sessions.some(entry => entry.detail?.readNetworkBoundary && entry.detail.readNetworkBoundary !== "INSTALLED") && requests.some(request => request.outcome === "ADMITTED")) { violations.push("Request dispatched with an explicitly uninstalled Guard"); refs.push("browserTrace.SESSION_OPENED"); }
   return { status: violations.length ? "PRESENT" : gaps.length ? "NOT_EVALUATED" : "ABSENT", reasons: violations.length ? violations : gaps.length ? gaps.map(value => `${value.kind}: ${value.request}: missing ${value.missing.join(", ")}`) : ["Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."], evidenceRefs: [...refs, ...(reviewed?.refs ?? []), "docs/decisions/0036-generic-public-read-network-policy.md", "docs/decisions/0035-browser-read-network-boundary.md"], gaps };

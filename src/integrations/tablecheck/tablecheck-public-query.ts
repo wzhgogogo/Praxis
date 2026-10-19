@@ -1,4 +1,28 @@
-import type { BrowserReadNetworkPolicy } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "../../infrastructure/browser/browser-runtime.js";
+
+export const TABLECHECK_PUBLIC_SEARCH_ORIGIN = "https://search-v4.production.ap-northeast-1.aws.tablecheck.net";
+/** Observed public, unauthenticated GET JSON transports; no wildcard origin/path/method. */
+export const tableCheckPublicSearchReads: readonly BrowserReadNetworkRequestRule[] = [
+  { origin: TABLECHECK_PUBLIC_SEARCH_ORIGIN, pathname: "/catalog.json", methods: ["GET"], resourceTypes: ["fetch", "xhr"], queryKeys: [] },
+  { origin: TABLECHECK_PUBLIC_SEARCH_ORIGIN, pathname: "/search/", methods: ["GET"], resourceTypes: ["fetch", "xhr"],
+    queryKeyRules: { required: ["queryProfile", "hits"], allowed: ["scope", "lat", "lng", "radius_km", "party_size", "cuisine", "sort", "offset", "id", "open_day", "service_mode"] } },
+];
+
+/** Only document hits count. Catalog metadata and grouped facet nodes are not venues. */
+export function observeTableCheckSearchCount(response: {url:string;method:string;status:number;contentType:string;body:Uint8Array}): number | undefined {
+  let url:URL;try {url=new URL(response.url);}catch{return undefined;}
+  if(url.origin!==TABLECHECK_PUBLIC_SEARCH_ORIGIN||url.pathname!=="/search/"||response.method!=="GET"||response.status!==200||!/^application\/json(?:;|$)/i.test(response.contentType)||response.body.byteLength>2_000_000)return undefined;
+  try {
+    const root=JSON.parse(new TextDecoder().decode(response.body)).root;
+    if(!root||!Array.isArray(root.children))return undefined;
+    const count=(nodes:unknown[],depth=0):number=>depth>12?0:nodes.reduce<number>((total,node)=>{
+      if(!node||typeof node!=="object"||Array.isArray(node))return total;
+      const item=node as Record<string,unknown>;
+      return total+(typeof item.source==="string"&&typeof item.id==="string"&&item.fields&&typeof item.fields==="object"?1:Array.isArray(item.children)?count(item.children,depth+1):0);
+    },0);
+    return count(root.children);
+  }catch{return undefined;}
+}
 
 /**
  * Public request shapes observed in the 2026-10-07 read-contract capture.
@@ -13,7 +37,7 @@ export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
     { origin: "https://cdn0.tablecheck.com", pathnamePrefix: "/common/", resourceTypes: ["script", "stylesheet", "font", "image", "fetch"] },
     ...["https://image.cdn.tablecheck.com", "https://1.image.cdn.tablecheck.com", "https://2.image.cdn.tablecheck.com", "https://3.image.cdn.tablecheck.com", "https://4.image.cdn.tablecheck.com"].map(origin => ({ origin, pathnamePrefix: "/unsafe/", resourceTypes: ["image"] as const })),
   ],
-  dynamicReads: [{
+  dynamicReads: [...tableCheckPublicSearchReads, {
     // G1 accepted supplement (user approved 2026-10-09): public reservation-entry document only, before any next step.
     origin: "https://www.tablecheck.com",
     pathnamePattern: "^/en/shops/(?!login/|signin/|sign-in/|account/|checkout/|payment/|purchase/|cancel/|delete/|confirm/)[a-z0-9]+(?:-[a-z0-9]+)*/reserve$",

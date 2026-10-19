@@ -1,0 +1,31 @@
+✖ frozen public GET review is checked independently including its query grammar (4.704666ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 197.215875
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:145432
+✖ frozen public GET review is checked independently including its query grammar (4.704666ms)
+  AssertionError [ERR_ASSERTION]: explicit frozen public GET declaration must be honored
+  + actual - expected
+  
+  + 'PRESENT'
+  - 'ABSENT'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/p21-tablecheck-baseline/Praxis-Zhixing/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:2006:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'PRESENT',
+    expected: 'ABSENT',
+    operator: 'strictEqual'
+  }

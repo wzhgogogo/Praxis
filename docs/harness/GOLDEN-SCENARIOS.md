@@ -1,8 +1,8 @@
 # Golden Scenarios
 
 - Status: Accepted
-- Document revision: 0.10
-- Last updated: 2026-10-16
+- Document revision: 0.11
+- Last updated: 2026-10-19
 - Source of truth for: 首批Harness场景目录和核心断言
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [Harness Design](HARNESS-DESIGN.md), [MVP PRD](../product/MVP-PRD.md)
@@ -104,3 +104,7 @@ Stage 2B的`W01–W05`已作为Local HTTP/SSE + PGlite集成场景实现并通�
 `src/eval/restaurant/agent-loop/runners/run-discovery-probe.ts` 使用生产 `createLiveReadAssembly`，每来源只读首批列表和详情身份，不查位、不交付。`discovery-probe.test.ts` 与既有 `native-discovery-composition.test.ts` 覆盖冻结输入、共享15调用/180秒上限、失败调用计数、未到达来源、eval见证隔离及source-funnel绑定指标；预检接线另有离线传输反例。真实 Chromium 门禁单列，不将受控来源组合称为外站验证。
 
 真实公开来源的逐次基线与限制见 [P2-1第一段报告](../../.eval-artifacts/p2-1-discovery-20261016/report.md)。这是已暴露开发诊断，不代表Golden目录中的预约或交付场景通过；[ADR-0042](../decisions/0042-agent-planned-discovery-and-search-availability-hints.md) 为 Proposed，检索改写和搜索级筛选尚未实施。
+
+## TableCheck public JSON transport controls (2026-10-19)
+
+The real local Chromium receiver in read-network-redirect.test.ts proves exact reviewed catalog/search GETs reach the receiver and POST/HEAD, unknown query fields and other paths do not. Recorder retains safe fixture JSON via the same frozen review grammar. Source preflight tests reject metadata/facets as venue hits; external audit independently checks the frozen GET grammar. These controls do not prove the real search path restored: its CORS OPTIONS handshake is still blocked pending clarification.

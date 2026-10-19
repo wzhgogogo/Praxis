@@ -21,3 +21,12 @@ test('source data preflight: nonempty controls pass once; empty and timeout prev
  }
  assert.equal(preflightSourceIds('RECOMMENDATION').includes('tablecheck'),false);
 });
+
+test('TableCheck readiness counts result documents, never catalog metadata or grouped facets', async()=>{
+ const {observeTableCheckSearchCount,TABLECHECK_PUBLIC_SEARCH_ORIGIN}=await import('../../../integrations/tablecheck/tablecheck-public-query.js');
+ const response={url:TABLECHECK_PUBLIC_SEARCH_ORIGIN+'/search/?queryProfile=public&hits=5',method:'GET',status:200,contentType:'application/json; charset=utf-8',body:Buffer.from(JSON.stringify({root:{children:[{id:'group',children:[{id:'venue-one',source:'public-shop',fields:{id:'venue-one'}}]},{id:'venue-two',source:'public-shop',fields:{id:'venue-two'}}]}}))};
+ assert.equal(observeTableCheckSearchCount(response),2);
+ assert.equal(observeTableCheckSearchCount({...response,body:Buffer.from('{"root":{"children":[]}}')}),0);
+ assert.equal(observeTableCheckSearchCount({...response,body:Buffer.from('{"root":{"children":[{"id":"facet","children":[]}]}}')}),0);
+ for(const patch of [{url:TABLECHECK_PUBLIC_SEARCH_ORIGIN+'/catalog.json'},{url:'https://foreign.example/search/'},{method:'POST'},{status:503},{contentType:'text/html'},{body:Buffer.from('not JSON')}])assert.equal(observeTableCheckSearchCount({...response,...patch}),undefined);
+});

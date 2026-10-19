@@ -89,3 +89,7 @@ an action behind GET does not supply Policy or Authorization.
 本补充不改上述准入策略或来源放行集合。Playwright普通route只处理重定向首跳，maxRedirects:0再fulfill3xx不能保证后续跳再次进入handler。现在于首个网络请求之前安装Chromium CDP Fetch拦截，Location和后续请求均在派发前按原文档／静态资源／动态读取的origin、方法、资源类型及query/body规则核对；超出10跳或时限有界拒绝。原生合法跳转保留最终URL、相对资源与Cookie语义，每跳进入网络记录及响应录制回调。
 
 新窗口尚无Frame时只用无外网的空引导页完成保护安装，随后才按原策略请求目标；引导不是来源证据。iframe目标在恢复前安装保护；dedicated worker请求使用owner-frame拦截并由真实Chromium验证。静态资源规则不使其CDN成为通用文档来源。HAR没有本地履行的原生跳转仍拒绝，禁止Live回退。Local与CloudflareSession采用同一安装入口；未支持该CDP边界的引擎关闭失败，不因兼容性跳过检查。真实本地Chromium及门禁证据见P2-0报告；这不宣称任意网站GET无副作用或远程引擎已实测。
+
+## 2026-10-19 public search GET review (append-only implementation evidence)
+
+The user authorized a narrow public TableCheck JSON GET review. A zero-model comparison observed https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json with no query (metadata) and /search/ with an explicit public query-key grammar (results). Source rules, frozen outer review and Recorder inputs share those exact endpoint shapes; no wildcard origin/path/method is added. Result JSON is only a connectivity control, never identity, HARD support or availability. Browser CORS preflight requests OPTIONS with requested method GET and header name x-api-key; no header values are retained. This additional method has not been admitted under the current GET-only instruction. The transport fix is partial and no new baseline is claimed.

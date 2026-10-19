@@ -1,0 +1,195 @@
+{
+  "startedAt": "2026-10-19T02:17:05.014Z",
+  "finishedAt": "2026-10-19T02:17:09.818Z",
+  "mode": "unguarded",
+  "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+  "goto": {
+    "completed": true,
+    "elapsedMs": 2923
+  },
+  "responses": [
+    {
+      "origin": "https://production.tablecheck.com",
+      "pathname": "/v2/geolocation",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 55,
+      "bodySha256": "a4f196e3d45469b9667b1a0d120e062ec0cc95d65e3be47b0662114a69fcc126",
+      "jsonTopKeys": [
+        "latitude",
+        "longitude",
+        "country"
+      ],
+      "arrays": []
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/catalog.json",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "status": 200,
+      "bytes": 63741,
+      "bodySha256": "f21850d3c964ca0923fb45699ad8bbbf08abfc04dc6b5356a73d9b0f595078f4",
+      "jsonTopKeys": [
+        "locales",
+        "facets",
+        "values",
+        "price_bands",
+        "kinds",
+        "subkinds"
+      ],
+      "arrays": [
+        {
+          "path": "$.locales",
+          "length": 5,
+          "firstKeys": []
+        },
+        {
+          "path": "$.price_bands.JPY",
+          "length": 6,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.SGD",
+          "length": 6,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.KRW",
+          "length": 6,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.VND",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.IDR",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.THB",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.TWD",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.HKD",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.MYR",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.AUD",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.USD",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.EUR",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        },
+        {
+          "path": "$.price_bands.PHP",
+          "length": 5,
+          "firstKeys": [
+            "value",
+            "min",
+            "max",
+            "label"
+          ]
+        }
+      ]
+    }
+  ],
+  "failed": [],
+  "page": {
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+    "title": "Map Search - Japan",
+    "parsedOutlets": 0,
+    "resultBusy": false,
+    "visibleTextExcerpt": "For restaurateurs\nHelp\nDestination\nArea, station, line or restaurant\nCuisine\nAny cuisine\nDate\nAny date\nGuests\n2 guests\nJapan\nLogin",
+    "networkDiagnostics": [],
+    "networkRequests": []
+  },
+  "models": 0,
+  "clicks": 0
+}

@@ -257,3 +257,38 @@ for (const mode of ["origin", "method", "resource-type"] as const) test(`T1 CDP 
   assert.equal(forbidden.length, 0, `CDP must reject the unrecognized ${mode} request before receiver arrival`);
   assert.ok(guard.snapshotRequests().some(row => row.outcome === "BLOCKED"));
 }, mode === "resource-type"));
+
+test('TableCheck public search JSON reaches an independent receiver while writes, other paths and fields stay blocked', async () => {
+  const {tableCheckPublicReadNetworkPolicy}=await import('../../integrations/tablecheck/tablecheck-public-query.js');
+  const {BrowserReadRecording}=await import('../../eval/restaurant/agent-loop/runners/browser-read-recording.js');
+  const {mkdtemp,readFile,rm}=await import('node:fs/promises');
+  const {tmpdir}=await import('node:os');const {join}=await import('node:path');
+  const source='https://search-v4.production.ap-northeast-1.aws.tablecheck.net';
+  const arrivals:string[]=[];
+  const api=createServer((request,response)=>{arrivals.push(`${request.method} ${request.url}`);response.setHeader('access-control-allow-origin','*');response.setHeader('content-type','application/json');response.end(JSON.stringify(request.url==='/catalog.json'?{locales:['en'],kinds:{restaurant:'Restaurant'}}:{root:{children:[{id:'fixture-one',source:'public-shop',fields:{id:'fixture-one'}}]}}));});
+  const site=createServer((_request,response)=>{response.setHeader('content-type','text/html');response.end('<h1>Public search fixture</h1>');});
+  for(const server of [api,site])await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
+  const apiAddress=api.address(),siteAddress=site.address();assert.ok(apiAddress&&typeof apiAddress!=='string'&&siteAddress&&typeof siteAddress!=='string');
+  const apiOrigin=`http://127.0.0.1:${apiAddress.port}`,origin=`http://127.0.0.1:${siteAddress.port}`;
+  const reads=tableCheckPublicReadNetworkPolicy.dynamicReads.filter(rule=>rule.origin===source).map(rule=>({...rule,origin:apiOrigin}));
+  const directory=await mkdtemp(join(tmpdir(),'tc-public-json-'));
+  const recorder=new BrowserReadRecording({directory,runId:'fixture',reviewedReads:reads});
+  let browser:import('playwright-core').Browser|undefined;
+  try{
+    browser=await chromium.launch({headless:true});const context=await browser.newContext({serviceWorkers:'block'});
+    await context.grantPermissions(['local-network-access'],{origin});
+    const guard=new PlaywrightReadNetworkGuard({documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:reads},5000,response=>recorder.recordResponse(response));
+    await guard.install(context);const page=await context.newPage();await guard.preparePage(context,page);guard.prepareNavigation(origin+'/');await page.goto(origin+'/');
+    const get=async(path:string,method='GET')=>page.evaluate(async({url,method})=>{try{const response=await fetch(url,{method});return response.ok;}catch{return false;}},{url:apiOrigin+path,method});
+    assert.equal(await get('/catalog.json'),true,'observed exact public catalog GET must arrive');
+    assert.equal(await get('/search/?queryProfile=public&hits=5'),true,'observed exact public search GET must arrive');
+    for(const [path,method] of [['/catalog.json','POST'],['/catalog.json','HEAD'],['/catalog.json?token=never-send','GET'],['/search/?queryProfile=public&hits=5&email=never-send','GET'],['/search/?queryProfile=public&hits=5','POST'],['/other.json','GET']])assert.equal(await get(path!,method!),false);
+    assert.deepEqual(arrivals,['GET /catalog.json','GET /search/?queryProfile=public&hits=5']);
+    assert.equal(reads.every(rule=>rule.methods?.length===1&&rule.methods[0]==='GET'),true);
+    recorder.recordSnapshot({url:page.url(),title:'Search',html:await page.content(),text:'Public search fixture',networkRequests:guard.snapshotRequests()});
+    const recording=await recorder.finish();assert.equal(recording.replay.status,'REPLAYABLE');
+    const har=JSON.parse(await readFile(join(recording.path,'replay.har'),'utf8'));
+    const captured=har.log.entries.filter((entry:any)=>entry.request.url.startsWith(apiOrigin));
+    assert.equal(captured.length,2);assert.ok(captured.some((entry:any)=>entry.request.url.endsWith('/search/?queryProfile=public&hits=5')));
+  }finally{await browser?.close();for(const server of [api,site])await new Promise<void>(resolve=>{server.close(()=>resolve());server.closeAllConnections();});await rm(directory,{recursive:true,force:true});}
+});

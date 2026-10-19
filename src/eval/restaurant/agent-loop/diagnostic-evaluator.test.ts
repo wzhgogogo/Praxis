@@ -1996,3 +1996,13 @@ for (const mode of ["system-cause", "forged-provider-cause", "different-observat
   if(mode==="invented-investigation")a.finalSnapshot.domainState.noVerifiedResult.investigatedCandidateIds=["invented"];
   assert.equal(finding(evaluateRestaurantHybridLiveArtifact(a,source),"COMPLETION_OUTCOME").status,"NOT_SATISFIED");
 });
+
+test('frozen public GET review is checked independently including its query grammar',()=>{
+ const origin='https://public-search.example';
+ const rule={origin,pathname:'/search/',methods:['GET'],resourceTypes:['fetch'],queryKeyRules:{required:['queryProfile','hits'],allowed:['scope']}};
+ const reviewed=parseReviewedReads(Buffer.from(JSON.stringify([rule])),'TEST_ONLY/reviewed-reads.json');
+ const request={outcome:'ADMITTED',origin,pathname:'/search/',method:'GET',resourceType:'fetch',queryKeys:['queryProfile','hits']};
+ const audit=(patch:Record<string,unknown>={})=>auditReadOnlyTrace([{kind:'SESSION_OPENED',detail:{readNetworkBoundary:'INSTALLED'}},{kind:'NETWORK',networkRequests:[{...request,...patch}]}] as any,[],false,reviewed);
+ assert.equal(audit().status,'ABSENT','explicit frozen public GET declaration must be honored');
+ for(const patch of [{queryKeys:['queryProfile','hits','unknown']},{queryKeys:['queryProfile']},{method:'POST'},{origin:'https://other.example'},{pathname:'/other/'},{resourceType:'document'}])assert.equal(audit(patch).status,'PRESENT',JSON.stringify(patch));
+});

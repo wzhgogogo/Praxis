@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.249
-- Last updated: 2026-10-17
+- Document revision: 4.250
+- Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-1 tablecheck-get-draft：** Authorized commits35c5dc2/4315ab8/3094193 pushed. Zero-model real TableCheck comparison proves catalog metadata GET and actual search GET at the new tablecheck.net origin; current Guard blocks catalog. Narrow GET declarations, API-document readiness count and frozen external GET audit added with effective red/green evidence. Actual search still requires browser CORS OPTIONS (requested GET, header name x-api-key); GET-only constraint preserved while clarification is pending. This is a partial transport fix, not a completed baseline. No witness recertification/probe/checkpoint/Live started; model budget remains86/450. Isolated fix worktree only; do not replace baseline point until transport is complete.
 
 - **2026-10-17 P2-1 baseline-stop：** Corrected the eval-only baseline stop predicate to use native source witness metrics; already-known exact Google website matches no longer trigger a false changed-bottleneck stop. Effective offline predicate red/green saved in followup/03b/baseline-stop-*.log. No production changes in this commit; 0 model, website, probe or Live calls. Prior readiness gates retained; current typecheck/arch/test/build also pass.
 
