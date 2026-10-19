@@ -88,7 +88,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     googleRequestUsage:google.googleRequestUsage.bind(google),
     async search(request:RestaurantSearchRequest,signal:AbortSignal){
       const locationName=request.intent.area.query.trim().toLowerCase()==='nearby'?'':request.intent.area.query;
-      const selection=request.continuation?.structuredRetrieval??(positiveDiscoveryCriteria(request.intent).length?await retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName,rewrites:0,timeoutMs:config.maxStructuredReadMs}):{accepted:true,reason:'General retrieval: no positive criteria.'});
+      const selection=request.continuation?.structuredRetrieval??(positiveDiscoveryCriteria(request.intent).length?await retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName,attemptedRetrievals:[],rewrites:0,timeoutMs:config.maxStructuredReadMs}):{accepted:true,reason:'General retrieval: no positive criteria.'});
       const read=await google.search({...request,discoveryRetrieval:selection},signal);
       return {...read,...(read.continuation?{continuation:{...read.continuation,structuredRetrieval:selection}}:{})};
     },

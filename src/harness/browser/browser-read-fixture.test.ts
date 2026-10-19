@@ -2333,7 +2333,7 @@ test('model full-page OPEN_LINK allows slow DOMContentLoaded and times out only 
  }
 });
 
-test('P21 production discovery refines a dynamic explicit empty list before details and rejects foreign or hidden categories',async()=>{
+test('P21 discovery uses DOM category links despite CSS and rejects foreign regions',async()=>{
  const {createLiveReadAssembly}=await import('../../integrations/restaurant-search/live-read-assembly.js');
  const {LIVE_READ_DEBUG_INVESTIGATION_BUDGET}=await import('../../application/live-read-investigation-budget.js');
  const {GooglePlacesClient}=await import('../../integrations/google/google-places-client.js');
@@ -2348,7 +2348,7 @@ test('P21 production discovery refines a dynamic explicit empty list before deta
  const root='https://tabelog.com/en/tokyo/rstLst/';const keyword=region+'?sw=kaiseki';
  const outlet=(n:number)=>`https://tabelog.com/tokyo/A1000/A100001/${12345600+n}/`;
  const links=(count:number)=>Array.from({length:count},(_,i)=>`<article><a class="list-rst__rst-name-target" href="${outlet(i+1)}">Fixture venue ${i+1}</a></article>`).join('');
- const categories=(mode==='homepage'?homepageFragment:`<a href="${category}">Observed cuisine</a>`)+`<a href="${foreign}">Foreign category</a><a style="display:none" href="${region}hidden/">Hidden category</a>`;
+ const categories='<div style="display:none">'+(mode==='homepage'?homepageFragment:`<a href="${category}">Observed cuisine</a>`)+`</div><a href="${foreign}">Foreign category</a><a style="display:none" href="${mode==='homepage'?region+'rstLst/':region}hidden/">Hidden category</a>`;
   const directory=await mkdtemp(join(tmpdir(),'p21-retrieval-'));const harPath=join(directory,'discovery.har');const navigations:string[]=[];const requests:Array<{purpose:string;body:any}>=[];
   const dynamic=(html:string)=>'<title>Fixture results</title><div class="skeleton" aria-busy="true">Loading results</div><script>setTimeout(()=>{document.body.innerHTML='+JSON.stringify(html)+'},120)</script>';
   const pages:Record<string,string>={[root]:`<title>Directory</title><a href="${region}">Fixture District</a>`,[region]:'<title>Region</title>'+links(1)+categories,[keyword]:dynamic(empty+categories),[category]:dynamic(links(5)+categories)};
@@ -2362,7 +2362,8 @@ test('P21 production discovery refines a dynamic explicit empty list before deta
   const model:import('../../core/model/contracts.js').ModelGateway={complete:async request=>{
     const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);requests.push({purpose:request.purpose,body});let result:unknown;
     if(request.purpose==='restaurant_discovery_retrieval'){
-      assert.ok(body.observation.categories.every((c:{url:string})=>c.url!==foreign&&!c.url.endsWith('/hidden/')),'only visible same-region categories reach the model');
+      assert.ok(body.observation.categories.every((c:{url:string})=>c.url!==foreign),'foreign-region categories never reach the planner');
+      assert.ok(body.observation.categories.some((c:{url:string})=>c.url===observedCategory),'CSS-hidden observed category remains a planning option');
       if(mode==='homepage')assert.ok(body.observation.categories.length>0,'observed region homepage categories reach the planner');
       result=mode==='reject'?{choice:body.current?'KEEP':'CATEGORY',keyword:'',criterionRef:'',categoryUrl:body.current?'':foreign,reason:'Challenge source scope'}
         :body.current?{choice:'CATEGORY',keyword:'',criterionRef:'',categoryUrl:observedCategory,reason:'Explicit empty, use observed category'}:{choice:'KEYWORD',keyword:'kaiseki',criterionRef:'criterion:0',categoryUrl:'',reason:'Short positive retrieval'};

@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.60
+- Document revision: 1.61
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -285,3 +285,6 @@ The final Chromium Fetch boundary checks browser-reserved preflight headers, not
 2026-10-19 P2-1a修正（离线）：Pack已识别的同地区首页也提供实际可见类别；共享执行器仍以Pack地区绑定和当前可见控件核对，隐藏、异地区和全国入口不接纳。A1真实类别锚点片段从0变为7；片段无CSS，可见性由真实本地Chromium对照单独验证。Planner Prompt@2明确改写保留候选、稀疏优先相关类别，Schema@1不变。外站效果待新A10，旧A1缺陷版本不参与比较。
 
 2026-10-19 A后独立修正（离线）：Google-only组合不把nearby当作地点名传入规划，也不把它拼进已规划的Text Search；命名地点文字、权威坐标、半径和HARD原样保留。生产组装＋脚本模型＋受控Google传输的nearby／命名地点对照先红后绿，未新增真实探测或改变已完成A的冻结树。
+
+
+2026-10-19 P2-1a DOM category correction (offline): same-region Pack-valid category links in the current DOM are supplied even when CSS hides them; foreign-region links remain rejected. The local Chromium fixture now includes CSS-hidden links. Retrieval Prompt@3 supplies actual attempted expressions and requests GENERAL or a materially different word after an explicit empty result without categories. The executor records REPEATED_RETRIEVAL_EXPRESSION within the existing rewrite budget. The three-source assembly regression verifies the actual Google text-search request; saved A10 trace already contains the shared keyword, so the proposed Google regression was not reproduced. Five gates pass (943 unit tests, 117 local Chromium tests). Raw DOM counts, original-input counterfactual provenance and later model/website results are reported separately in [the batch report](../../.eval-artifacts/p2-1-discovery-20261016/p21a-dom-replay-20261019/report.md). No qualification, network permission, or P2-1b change. This supersedes the earlier CSS-visibility claim for retrieval categories only.

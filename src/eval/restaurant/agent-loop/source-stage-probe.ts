@@ -535,7 +535,7 @@ export async function runSourceStagePackDiscoveryProbe(input: {
   const entry = plan.entries[0];
   if (!entry) throw Object.assign(new Error("Source Pack is not eligible for frozen discovery intent"), { code: "SOURCE_STAGE_PACK_UNSUPPORTED" });
   if(entry.query.positiveCriteria.length){
-    const selection=await input.retrievalPlanner.decide({taskId:input.readRunId,intent:input.intent,locationName:input.location.label,rewrites:0,timeoutMs:input.timeoutMs});
+    const selection=await input.retrievalPlanner.decide({taskId:input.readRunId,intent:input.intent,locationName:input.location.label,attemptedRetrievals:[],rewrites:0,timeoutMs:input.timeoutMs});
     if(selection.keyword)entry.query.keyword=selection.keyword;
   }
   try {

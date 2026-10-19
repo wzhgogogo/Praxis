@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {ModelDiscoveryRetrievalPlanner,DISCOVERY_RETRIEVAL_PROMPT_VERSION} from './discovery-retrieval-planner.js';
 import type {ModelRequest} from '../../core/model/contracts.js';
-const input={taskId:'fixture',intent:{timezone:'Asia/Tokyo' as const,area:{query:'Fixture District'},criteria:[{text:'local food',polarity:'POSITIVE' as const,strength:'HARD' as const}]},locationName:'Fixture District',rewrites:0,timeoutMs:1234};
+const input={taskId:'fixture',intent:{timezone:'Asia/Tokyo' as const,area:{query:'Fixture District'},criteria:[{text:'local food',polarity:'POSITIVE' as const,strength:'HARD' as const}]},locationName:'Fixture District',attemptedRetrievals:[],rewrites:0,timeoutMs:1234};
 test('retrieval model uses a versioned strict proposal and shared budget including failures',async()=>{
  const requests:ModelRequest[]=[];const budget={totalModelCalls:0,maxModelCalls:1};
  const planner=new ModelDiscoveryRetrievalPlanner({complete:async r=>{requests.push(r);throw Object.assign(Error('provider rejected'),{code:'PROVIDER_REJECTED'});}},budget);

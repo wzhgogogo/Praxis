@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.263
+- Document revision: 4.264
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-1a DOM类别与重复表达式修正：** P2-1a取消检索类别的CSS门槛并拒绝重复表达式，Prompt@3/Schema@1；五门禁943/943、Chromium117/117通过。DOM实际计数5/9/9/0与复核数字差异明示；原A10 Google trace已有关键词，未伪造旧版缺陷。当前0新增真实调用，累计198/450模型、31/42探测、79Google；先冻结14条单步反事实回放，达到两个指定用例相关类别门槛才跑A10。
 
 - **2026-10-19 P2-1 A后Google-only nearby修正：** A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点规划输入不把nearby当成地点名，已规划Google Text Search复用现有去除nearby的area值。命名地点、权威坐标／半径、HARD和交付规则均不变；未修改P2-1a冻结工作树、Prompt、Schema或Gold。 生产createLiveReadAssembly入口＋脚本模型＋受控Google传输先红后绿：带来源／观察时间的有效坐标Fixture中，旧版location=nearby／local food nearby，新版空地点／local food；命名地点对照和坐标约束、intent不变通过，意外浏览器访问被测试拒绝。最终有效红灯nearby/red-typed-fixture.log，绿灯green-typed-fixture.log。原始缺失类型标注及两个依赖nearby字面量的旧组合失败日志保留；仅将h003/h005 SYNTHETIC_CONTROL检索匹配元数据改为通用restaurant，不改任何来源事实或Gold，既有五案组合恢复通过。 最终五门禁typecheck/arch/build通过、默认943/943、真实Chromium117/117，日志nearby/gates/。本项0真实模型／Google／来源／探测／整单Live；总量保持198/450模型、31/42探测、79Google。证明仅L0/L1受控组合，真实A仍用209ac42，效果和限制见A报告；不开始P2-1b或完整Live。按用户授权推送后停止待独立复核，推送以Git回执为准。
 

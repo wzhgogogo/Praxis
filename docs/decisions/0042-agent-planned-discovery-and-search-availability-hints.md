@@ -120,3 +120,9 @@ HARD 资格、来源身份、精确坐标半径、新鲜度、权威日期人数
 检索规划部分已接入生产组合及实际 eval 调用方；新增独立 `restaurant_discovery_retrieval@1` / `restaurant-discovery-retrieval-prompt@1`，持久 State 升为 `restaurant-state@16`，旧首批后类别扩展退役。来源顺序、语义与浏览器动作 Prompt/Schema、资格及网络放行保持原合同。这里的 Accepted 状态和已实现仅指本次职责接线，不宣称当前外站或真实模型质量通过。
 
 本轮按最新用户指令只做离线验证，未执行原 Decision 6 的检查点 A 顺序。网络修复后，基线在记录的实现前 SHA 的干净 worktree 上重跑，检查点 A 在本次 P2-1a 提交上执行；共同使用已修正预检与指标。当前提交点、红绿和五门禁见[离线报告](../../.eval-artifacts/p2-1-discovery-20261016/followup/report.md)。P2-1b 未实施。
+
+## 2026-10-19 P2-1a 类别观察口径（用户批准，追加）
+
+用户按 ee7978c 复核明确修订 Decision 2 的类别可见性要求：当前快照 DOM 中、与已选地区属于同一列表根、符合来源 Pack 既有类别语法的公开链接，全部提供给检索规划，不以 CSS 可见或可见控件枚举为前提。其余地区核对、Pack URL 语法、Guard 与资格规则不变。这里是规划对公开链接的观察，不改变普通浏览器动作对控件可见性的要求。
+
+空结果且没有类别时，规划应选通用列表或实质不同的词；已试过的检索表达式由执行器拒绝，仍共用原两次改写预算，不新增模型重试。Prompt 升为 restaurant-discovery-retrieval-prompt@3，输出 Schema@1 不变。当前 DOM 计数及缺失快照、真实状态下的模型选择和网站效果分开报告，不能由本地 Chromium 或单步回放推出端到端交付能力。P2-1b 不在本轮范围。

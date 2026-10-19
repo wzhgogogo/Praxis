@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.165
+- Document revision: 4.166
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4491,3 +4491,12 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 生产createLiveReadAssembly入口＋脚本模型＋受控Google传输先红后绿：带来源／观察时间的有效坐标Fixture中，旧版location=nearby／local food nearby，新版空地点／local food；命名地点对照和坐标约束、intent不变通过，意外浏览器访问被测试拒绝。最终有效红灯nearby/red-typed-fixture.log，绿灯green-typed-fixture.log。原始缺失类型标注及两个依赖nearby字面量的旧组合失败日志保留；仅将h003/h005 SYNTHETIC_CONTROL检索匹配元数据改为通用restaurant，不改任何来源事实或Gold，既有五案组合恢复通过。
 
 最终五门禁typecheck/arch/build通过、默认943/943、真实Chromium117/117，日志nearby/gates/。本项0真实模型／Google／来源／探测／整单Live；总量保持198/450模型、31/42探测、79Google。证明仅L0/L1受控组合，真实A仍用209ac42，效果和限制见A报告；不开始P2-1b或完整Live。按用户授权推送后停止待独立复核，推送以Git回执为准。
+
+
+## TEST-2026-10-19-P21A-DOM-CORRECTION
+
+切片：当前DOM中的同地区Pack合法类别进入检索规划，取消CSS门槛；地区与语法不变。Prompt@3传递实际已试表达式，明确空且无类别时选择GENERAL或实质不同词；执行器记录REPEATED_RETRIEVAL_EXPRESSION并在原改写额度内转通用列表或结束，不加模型重试。所有调用方同步，Schema@1、资格、网络规则及P2-1b不变。Accepted ADR-0042仅追加用户口径修订。
+
+有效红灯：categories/red-css.log（真实本地Chromium的CSS隐藏类别）；retrieval/red.log（重复已用表达式）。绿灯：categories/green-css.log、retrieval/green-final.log。Google三来源实际请求回归当前源码本就通过；受控移除既有关键词接线的google/controlled-disconnection-red.log只证明测试检错，不能称旧版红灯。旧A10原始trace均为GOOGLE_TEXT_SEARCH且含共享词，review的nearby回归假设未复现。
+
+五门禁全绿，typecheck/arch/build通过、默认943/943、Chromium117/117；冻结源码SHA与日志见p21a-dom-replay-20261019/gates/。旧A10离线DOM按现有语法实为5/9/9/0，多出的数字类别合法且逐条保留，与复核预期5/7/5/0差异明示。原14条页面规划categories均0；录制只有6条对应DOM，另7条可使用后续同地区DOM作反事实，1条无同地区DOM，不冒称原样浏览器Replay。本提交0真实模型/Google/网站/探测/完整Live，累计198/450模型、31/42探测、79Google。证明范围L0/L1，后续14条单步L3真实模型回放门槛至少两个指定用例选择相关类别，通过后才允许新A10。详见[批次报告](../../.eval-artifacts/p2-1-discovery-20261016/p21a-dom-replay-20261019/report.md)。

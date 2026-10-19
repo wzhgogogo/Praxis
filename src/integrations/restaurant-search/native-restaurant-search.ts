@@ -94,6 +94,19 @@ export function sourceListingCompletion(pack: DiscoverySourcePack, current: Brow
     resultKey: JSON.stringify([current.url, listing.outlets.map(outlet => outlet.sourceUrl).sort(), empty]) };
 }
 
+/** Source-generated category GETs are observations, not clickable-control authority. */
+export function observedDirectoryCategories(
+  pack: DiscoverySourcePack, page: BrowserSnapshot, observedRegionUrl: string,
+  listingRoot = pack.browser?.directory?.listingRoot(observedRegionUrl),
+): Array<{url: string; label: string}> {
+  const directory = pack.browser?.directory;
+  if (!directory) return [];
+  const links = directory.links(page).filter(link => link.category && (listingRoot
+    ? directory.listingRoot(link.url) === listingRoot
+    : directory.isSameObservedRegionHomepage?.(link.url, observedRegionUrl) === true));
+  return [...new Map(links.map(({url, label}) => [url, {url, label}])).values()];
+}
+
 function pendingEntry(
   sourceEntityId: string,
   sourceUrl: string,
@@ -367,66 +380,129 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           : initialHomepage && !!directory.listingRoot(url)
             && directory.isSameObservedRegionHomepage?.(url, initial.url) === true
       );
-      const categories = async () => {
-        if (!directory) return [];
-        const controls = await session!.observeControls?.() ?? [];
-        return directory.links(page)
-          .filter(link => link.category && sameRegionListing(link.url)
-            && controls.some(control => control.visible && control.kind === 'LINK' && control.href === link.url))
-          .map(({url, label}) => ({url, label}));
-      };
+      const categories = () => directory && (directoryRoot || initialHomepage)
+        ? observedDirectoryCategories(pack, page, initial.url, directoryRoot) : [];
       const scope = (current: BrowserSnapshot) => !directory || sameRegionListing(current.url)
         || directory.isSameObservedRegionHomepage?.(initial.url, current.url) === true
           && (initialHomepage || directory.isObservedRegionHomepageListing?.(current, initial.url) === true);
-      const apply=async(selection: import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection)=>{
-        const oldUrl=page.url;
-        let url:string;
-        if(directory){
-          const base=selection.categoryUrl??page.url;
-          url=selection.keyword?directory.withRetrievalExpression(base,selection.keyword):directory.withoutRetrievalExpression(base);
-        }else url=pack.buildQuery((({keyword:_old,...rest})=>({...rest,...(selection.keyword?{keyword:selection.keyword}:{})}))(query)).url;
-        if(url!==oldUrl){
-          if(retrieval.retrievalPages>=3||sourcePagesBefore+listingPagesRead>=NATIVE_LISTING_PAGE_CAP[source])throw Object.assign(Error('Retrieval page ceiling reached'),{code:'READ_BUDGET_EXCEEDED'});
-          retrieval.retrievalPages++;await navigate(url,25_000);page=await snapshot();listingPagesRead++;recordListing(page);
-        }else if(retrieval.retrievalPages===0)retrieval.retrievalPages=1;
-        if(!scope(page))throw Object.assign(Error('Retrieval left the observed region'),{code:'DISCOVERY_SOURCE_LOCATION_UNGROUNDED'});
-        const expression=selection.keyword??'';
-        const complete=(current:BrowserSnapshot,controls:readonly BrowserPageControl[]=[])=>scope(current)&&(pack.browser!.retrievalExpression(current.url)??'')===expression&&!discoveryQueryNeedsCurrentQuery(current,expression,controls,pack.browser!.resultBusy(current))&&(pack.parseListing(current).outlets.length>0||pack.browser!.isExplicitEmptyListing(current));
-        if(!complete(page,await session!.observeControls?.()??[])){
-          let lastUrl=page.url;
-          retrievalNavigationActive=true;
-          try{
-          const result=await executor.runSkill({taskId:`browser-read:native-discovery:${source}`,source,...(sourceSkillPath?{sourceSkillPath}:{}),stage:'DISCOVERY',session:session!,signal,allowedOrigins,
-            goal:{location:discoveryGoalLocation,outlet:{name:expression,address:request.intent.area.query},retrievalExpression:expression,hardCriteria:request.intent.criteria.filter(c=>c.polarity==='POSITIVE'&&c.strength==='HARD').map(c=>c.text)},objective:'Apply the validated public retrieval and observe current results or a source-explicit empty state; do not change area or open details.',
-            completion:(current,controls)=>{
-              if(current.url!==lastUrl){if(!retrievalNavigationPending){retrieval.retrievalPages++;listingPagesRead++;}retrievalNavigationPending=false;lastUrl=current.url;recordListing(current);}
-              if(retrieval.retrievalPages>3||sourcePagesBefore+listingPagesRead>NATIVE_LISTING_PAGE_CAP[source])throw Object.assign(Error('Retrieval page ceiling reached'),{code:'READ_BUDGET_EXCEEDED'});
-              return {complete:complete(current,controls),resultBusy:pack.browser!.resultBusy(current),reason:'Observe the validated retrieval result.',resultKey:JSON.stringify([current.url,pack.parseListing(current).outlets.map(o=>o.sourceUrl),pack.browser!.isExplicitEmptyListing(current)])};
-            }});
-          page=result.snapshot;if(result.status!=='COMPLETED'||!complete(page,result.controls))throw Object.assign(Error('Retrieval results remain unknown'),{code:'DISCOVERY_SOURCE_INCOMPLETE'});
-          }finally{retrievalNavigationActive=false;retrievalNavigationPending=false;}
+      const attemptedRetrievals = () => retrieval.history
+        .filter(item => !item.selection.keep)
+        .map(({selection}) => ({
+          keyword: selection.keyword ?? '', categoryUrl: selection.categoryUrl ?? '',
+        }));
+      const expressionKey = (selection: Pick<import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection, 'keyword' | 'categoryUrl'>) => JSON.stringify([
+        (selection.keyword ?? '').normalize('NFKC').toLowerCase().replace(/\s+/gu, ' ').trim(),
+        selection.categoryUrl ? directory?.withoutRetrievalExpression(selection.categoryUrl) ?? selection.categoryUrl : '',
+      ]);
+      const decide = async () => this.retrievalPlanner.decide({
+        taskId: request.readRunId ?? 'discovery', intent: request.intent, locationName: location.label,
+        timeoutMs: NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedMs(),
+        observation: {
+          url: page.url, title: page.title, text: page.text,
+          parsedCount: pack.parseListing(page).outlets.length,
+          explicitEmpty: pack.browser!.isExplicitEmptyListing(page), categories: await categories(),
+        },
+        ...(retrieval.selection ? {current: retrieval.selection} : {}),
+        attemptedRetrievals: attemptedRetrievals(), rewrites: retrieval.rewrites,
+      });
+      const apply = async (selection: import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection) => {
+        const oldUrl = page.url;
+        let url: string;
+        if (directory) {
+          const base = selection.categoryUrl ?? page.url;
+          url = selection.keyword ? directory.withRetrievalExpression(base, selection.keyword) : directory.withoutRetrievalExpression(base);
+        } else {
+          const {keyword: _old, ...rest} = query;
+          url = pack.buildQuery({...rest, ...(selection.keyword ? {keyword: selection.keyword} : {})}).url;
         }
-        if(selection.keyword)query.keyword=selection.keyword;else delete query.keyword;
-        retrieval.selection=selection;
+        if (url !== oldUrl) {
+          if (retrieval.retrievalPages >= 3 || sourcePagesBefore + listingPagesRead >= NATIVE_LISTING_PAGE_CAP[source]) {
+            throw Object.assign(Error('Retrieval page ceiling reached'), {code: 'READ_BUDGET_EXCEEDED'});
+          }
+          retrieval.retrievalPages++;
+          await navigate(url, 25_000);
+          page = await snapshot();
+          listingPagesRead++;
+          recordListing(page);
+        } else if (retrieval.retrievalPages === 0) retrieval.retrievalPages = 1;
+        if (!scope(page)) throw Object.assign(Error('Retrieval left the observed region'), {code: 'DISCOVERY_SOURCE_LOCATION_UNGROUNDED'});
+        const expression = selection.keyword ?? '';
+        const complete = (current: BrowserSnapshot, controls: readonly BrowserPageControl[] = []) => scope(current)
+          && (pack.browser!.retrievalExpression(current.url) ?? '') === expression
+          && !discoveryQueryNeedsCurrentQuery(current, expression, controls, pack.browser!.resultBusy(current))
+          && (pack.parseListing(current).outlets.length > 0 || pack.browser!.isExplicitEmptyListing(current));
+        if (!complete(page, await session!.observeControls?.() ?? [])) {
+          let lastUrl = page.url;
+          retrievalNavigationActive = true;
+          try {
+            const result = await executor.runSkill({
+              taskId: `browser-read:native-discovery:${source}`, source,
+              ...(sourceSkillPath ? {sourceSkillPath} : {}), stage: 'DISCOVERY', session: session!, signal, allowedOrigins,
+              goal: {
+                location: discoveryGoalLocation, outlet: {name: expression, address: request.intent.area.query},
+                retrievalExpression: expression,
+                hardCriteria: request.intent.criteria.filter(c => c.polarity === 'POSITIVE' && c.strength === 'HARD').map(c => c.text),
+              },
+              objective: 'Apply the validated public retrieval and observe current results or a source-explicit empty state; do not change area or open details.',
+              completion: (current, controls) => {
+                if (current.url !== lastUrl) {
+                  if (!retrievalNavigationPending) { retrieval.retrievalPages++; listingPagesRead++; }
+                  retrievalNavigationPending = false;
+                  lastUrl = current.url;
+                  recordListing(current);
+                }
+                if (retrieval.retrievalPages > 3 || sourcePagesBefore + listingPagesRead > NATIVE_LISTING_PAGE_CAP[source]) {
+                  throw Object.assign(Error('Retrieval page ceiling reached'), {code: 'READ_BUDGET_EXCEEDED'});
+                }
+                return {
+                  complete: complete(current, controls), resultBusy: pack.browser!.resultBusy(current),
+                  reason: 'Observe the validated retrieval result.',
+                  resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(o => o.sourceUrl), pack.browser!.isExplicitEmptyListing(current)]),
+                };
+              },
+            });
+            page = result.snapshot;
+            if (result.status !== 'COMPLETED' || !complete(page, result.controls)) {
+              throw Object.assign(Error('Retrieval results remain unknown'), {code: 'DISCOVERY_SOURCE_INCOMPLETE'});
+            }
+          } finally { retrievalNavigationActive = false; retrievalNavigationPending = false; }
+        }
+        if (selection.keyword) query.keyword = selection.keyword;
+        else delete query.keyword;
+        retrieval.selection = selection;
       };
-      if(!retrieval.selection){
-        const selected=eligible?await this.retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName:location.label,timeoutMs:NATIVE_SOURCE_ELAPSED_CAP_MS-sourceElapsedMs(),observation:{url:page.url,title:page.title,text:page.text,parsedCount:pack.parseListing(page).outlets.length,explicitEmpty:pack.browser!.isExplicitEmptyListing(page),categories:await categories()},rewrites:0}):{accepted:true,reason:'General listing: no positive retrieval input.'};
-        const selection=selected.keep?{accepted:true,reason:selected.reason}:selected;
-        await apply(selection);retrieval.history.push({selection,elapsedMs:sourceElapsedMs(),parsedCount:pack.parseListing(page).outlets.length});
-      }else if(replaceRegion){const {categoryUrl:_old,...selection}=retrieval.selection;await apply(selection);}
-      else if(retrieval.retrievalPages===0)retrieval.retrievalPages=1;
-      if(!retrieval.history.length&&retrieval.selection)retrieval.history.push({selection:retrieval.selection,elapsedMs:sourceElapsedMs(),parsedCount:pack.parseListing(page).outlets.length});
-      const observed=new Map(pack.parseListing(page).outlets.map(o=>[o.sourceEntityId,o]));
-      while(eligible&&pack.parseListing(page).outlets.length<5&&!pack.browser!.resultBusy(page)&&(pack.parseListing(page).outlets.length>0||pack.browser!.isExplicitEmptyListing(page))&&retrieval.rewrites<2&&retrieval.retrievalPages<3){
-        const selection=await this.retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName:location.label,timeoutMs:NATIVE_SOURCE_ELAPSED_CAP_MS-sourceElapsedMs(),observation:{url:page.url,title:page.title,text:page.text,parsedCount:pack.parseListing(page).outlets.length,explicitEmpty:pack.browser!.isExplicitEmptyListing(page),categories:await categories()},...(retrieval.selection?{current:retrieval.selection}:{}),rewrites:retrieval.rewrites});
-        retrieval.history.push({selection,elapsedMs:sourceElapsedMs(),parsedCount:pack.parseListing(page).outlets.length});
-        if(selection.keep)break;
-        const previous=page.url;retrieval.rewrites++;await apply(selection);
-        for(const outlet of pack.parseListing(page).outlets)if(!observed.has(outlet.sourceEntityId))observed.set(outlet.sourceEntityId,outlet);
-        if(previous===page.url)break;
+      if (!retrieval.selection) {
+        const selected = eligible ? await decide() : {accepted: true, reason: 'General listing: no positive retrieval input.'};
+        const selection = selected.keep ? {accepted: true, reason: selected.reason} : selected;
+        await apply(selection);
+        retrieval.history.push({selection, elapsedMs: sourceElapsedMs(), parsedCount: pack.parseListing(page).outlets.length});
+      } else if (replaceRegion) {
+        const {categoryUrl: _old, ...selection} = retrieval.selection;
+        await apply(selection);
+      } else if (retrieval.retrievalPages === 0) retrieval.retrievalPages = 1;
+      if (!retrieval.history.length && retrieval.selection) {
+        retrieval.history.push({selection: retrieval.selection, elapsedMs: sourceElapsedMs(), parsedCount: pack.parseListing(page).outlets.length});
       }
-      queryAdjustment=retrieval.rewrites?'PRE_DETAIL_RETRIEVAL_REWRITE':retrieval.selection?.rejectionReason;
-      return {page,outlets:[...observed.values()]};
+      const observed = new Map(pack.parseListing(page).outlets.map(outlet => [outlet.sourceEntityId, outlet]));
+      while (eligible && pack.parseListing(page).outlets.length < 5 && !pack.browser!.resultBusy(page)
+        && (pack.parseListing(page).outlets.length > 0 || pack.browser!.isExplicitEmptyListing(page))
+        && retrieval.rewrites < 2 && retrieval.retrievalPages < 3) {
+        let selection = await decide();
+        const attempted = new Set(attemptedRetrievals().map(expressionKey));
+        if (!selection.keep && attempted.has(expressionKey(selection))) {
+          selection = {accepted: false, rejectionReason: 'REPEATED_RETRIEVAL_EXPRESSION', reason: 'Use the general list after a repeated retrieval expression.'};
+        }
+        retrieval.history.push({selection, elapsedMs: sourceElapsedMs(), parsedCount: pack.parseListing(page).outlets.length});
+        if (selection.keep) break;
+        retrieval.rewrites++;
+        if (selection.rejectionReason === 'REPEATED_RETRIEVAL_EXPRESSION' && attempted.has(expressionKey(selection))) break;
+        const previous = page.url;
+        await apply(selection);
+        for (const outlet of pack.parseListing(page).outlets) if (!observed.has(outlet.sourceEntityId)) observed.set(outlet.sourceEntityId, outlet);
+        if (previous === page.url) break;
+      }
+      queryAdjustment = retrieval.rewrites ? 'PRE_DETAIL_RETRIEVAL_REWRITE' : retrieval.selection?.rejectionReason;
+      return {page, outlets: [...observed.values()]};
     };
     try {
       if (sourceTimeLimitReached) {
@@ -903,7 +979,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     let planningElapsedMs=0;
     if(source!=='DIRECTORY' && !discoveryPlan.textRetrieval){
       const planningStarted=Date.now();
-      discoveryPlan.textRetrieval=entry.query.positiveCriteria.length?await this.retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName:location.label,rewrites:0,timeoutMs:NATIVE_SOURCE_ELAPSED_CAP_MS}):{accepted:true,reason:'General retrieval: no positive criteria.'};
+      discoveryPlan.textRetrieval=entry.query.positiveCriteria.length?await this.retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName:location.label,attemptedRetrievals:[],rewrites:0,timeoutMs:NATIVE_SOURCE_ELAPSED_CAP_MS}):{accepted:true,reason:'General retrieval: no positive criteria.'};
       const selection=discoveryPlan.textRetrieval;
       if(selection.keyword)for(const planned of discoveryPlan.entries.filter(e=>this.packs.find(p=>p.meta.id===e.sourceId)?.browser?.flow!=='DIRECTORY'))planned.query.keyword=selection.keyword;
       planningElapsedMs=Date.now()-planningStarted;

@@ -1,0 +1,27 @@
+✖ P21 discovery uses DOM category links despite CSS and rejects foreign regions (2204.079541ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2569.891208
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:167:16531
+✖ P21 discovery uses DOM category links despite CSS and rejects foreign regions (2204.079541ms)
+  AssertionError [ERR_ASSERTION]: {"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":2142,"nativeDiscoveryFunnel":{"directoryRegion":{"first":{"url":"https://tabelog.com/en/tokyo/A1000/A100001/rstLst/","observedOn":"https://tabelog.com/en/tokyo/rstLst/","targetRef":"observation:1:target:1","label":"Fixture District"},"firstFive":[]},"source":"TABELOG","rawSourceLinks":1,"parsedOutlets":0,"inspectedOutlets":0,"batchCap":5,"sourceDetailCap":10,"sourceDetailAttempts":0,"deferredByBatchCap":[],"rejected":[],"accepted":0,"sourcePageCap":7,"sourceElapsedCapMs":90000,"sourceElapsedMs":2123,"sourceTimeLimitReached":false,"pagesRead":2,"batchLimitReached":false,"sourceExhausted":"UNKNOWN","batchEnded":true,"sourceEnded":true,"progressionReason":"SOURCE_FAILURE","listingObservations":[{"sourceUrl":"https://tabelog.com/en/tokyo/rstLst/","parsedOutlets":0},{"sourceUrl":"https://tabelog.com/en/tokyo/A1000/A100001/rstLst/","parsedOutlets":1},{"sourceUrl":"https://tabelog.com/en/tokyo/A1000/A100001/rstLst/","parsedOutlets":1}],"retrieval":{"rewrites":0,"regionPages":2,"retrievalPages":0,"history":[]}},"failureCode":"AGENT_EXECUTION_FAILED","googleRequests":{"limit":100,"total":0,"namedPlaceResolution":0,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},"navigations":["https://tabelog.com/en/tokyo/rstLst/"]}
+  
+  0 !== 5
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/harness/browser/browser-read-fixture.test.ts:2380:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 5,
+    operator: 'strictEqual'
+  }

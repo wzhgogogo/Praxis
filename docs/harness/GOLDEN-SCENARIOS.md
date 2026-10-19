@@ -1,7 +1,7 @@
 # Golden Scenarios
 
 - Status: Accepted
-- Document revision: 0.15
+- Document revision: 0.16
 - Last updated: 2026-10-19
 - Source of truth for: 首批Harness场景目录和核心断言
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
@@ -121,3 +121,6 @@ read-network-redirect.test.ts additionally covers genuine browser GET preflight 
 2026-10-19补齐同地区首页：复用P21动态改写Chromium组合，加入A1原样类别锚点（无CSS）＋可控列表／加载过程；旧版类别0导致组合失败，新版能先改写再读5家详情。隐藏、跨地区类别与原拒绝路径仍验证。Pack单测另核对真实片段及全国入口反例；不是原网站静态Replay，外站效果另由新检查点A报告。
 
 Google-only nearby反例从生产createLiveReadAssembly入口驱动，旧版地点nearby／检索local food nearby，新版地点空值／检索local food；命名地区对照保留，实际传输仍有坐标约束，intent及HARD不变，禁止意外浏览器访问。Fixture使用带来源和观察时间的权威坐标；真实模型／API用量为0。
+
+
+2026-10-19 P2-1a DOM category correction (offline): same-region Pack-valid category links in the current DOM are supplied even when CSS hides them; foreign-region links remain rejected. The local Chromium fixture now includes CSS-hidden links. Retrieval Prompt@3 supplies actual attempted expressions and requests GENERAL or a materially different word after an explicit empty result without categories. The executor records REPEATED_RETRIEVAL_EXPRESSION within the existing rewrite budget. The three-source assembly regression verifies the actual Google text-search request; saved A10 trace already contains the shared keyword, so the proposed Google regression was not reproduced. Five gates pass (943 unit tests, 117 local Chromium tests). Raw DOM counts, original-input counterfactual provenance and later model/website results are reported separately in [the batch report](../../.eval-artifacts/p2-1-discovery-20261016/p21a-dom-replay-20261019/report.md). No qualification, network permission, or P2-1b change. This supersedes the earlier CSS-visibility claim for retrieval categories only.

@@ -975,24 +975,41 @@ test("P21 failed model calls count toward the shared probe ceiling; later source
  assert.equal(result.witnessInListing,false);
 });
 
-test('P21 two pre-detail rewrites exhaust only retrieval allowance, not the source or inventory',async()=>{
+test('P21 pre-detail rewrites stay bounded and reject an already attempted expression',async()=>{
+ for(const mode of ['different','repeat','repeat-general'] as const){
  const base=new H001NativeModel('BOTH_BOUNDED_EMPTY');let proposals=0;const navigations:string[]=[],networkRequests:BrowserReadNetworkObservation[]=[];
  const model:ModelGateway={complete:async request=>{
   if(request.purpose!=='restaurant_discovery_retrieval')return base.complete(request);
-  proposals++;return reply(JSON.stringify({choice:proposals===3?'GENERAL':'KEYWORD',keyword:proposals===3?'':proposals===1?'omakase':'sushi',criterionRef:proposals===3?'':'criterion:0',categoryUrl:'',reason:'Bounded empty retrieval challenge'}),request.purpose);
+  proposals++;
+  if(mode==='repeat'&&proposals===3){
+   const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);
+   assert.deepEqual(body.attemptedRetrievals.map((r:{keyword:string})=>r.keyword),['omakase','sushi']);
+  }
+  const general=mode==='repeat-general'||mode==='different'&&proposals===3;
+  return reply(JSON.stringify({choice:general?'GENERAL':'KEYWORD',keyword:general?'':proposals===2?'sushi':'omakase',criterionRef:general?'':'criterion:0',categoryUrl:'',reason:'Bounded empty retrieval challenge'}),request.purpose);
  }};
  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {model,browser:sourcePages('BOTH_BOUNDED_EMPTY',navigations,[],[],[],{guardedReadBoundary:true,networkRequests}),google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async()=>{throw Error('No external API');}}),clock:{now:()=>reference}});
  const intent={timezone:'Asia/Tokyo' as const,area:{query:'Shibuya'},criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]};
  const read=await assembly.search.search({intent,readRunId:'rewrite-cap',continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...center,label:'Shibuya',radiusMeters:1000,areaMatchBasis:'NAMED_PLACE_RADIUS'}}},new AbortController().signal);
- assert.equal(proposals,3,'one initial choice and exactly two rewrites');assert.equal(read.candidates.length,0);
- assert.equal(read.metadata.nativeDiscoveryFunnel?.retrieval?.rewrites,2);assert.equal(read.metadata.nativeDiscoveryFunnel?.retrieval?.retrievalPages,3);
+ assert.equal(proposals,mode==='repeat-general'?2:3,'no extra model retry for a repeated expression');assert.equal(read.candidates.length,0);
+ assert.equal(read.metadata.nativeDiscoveryFunnel?.retrieval?.rewrites,mode==='repeat-general'?1:2);
+ assert.equal(read.metadata.nativeDiscoveryFunnel?.retrieval?.retrievalPages,mode==='repeat-general'?1:3);
+ if(mode!=='different'){
+  assert.equal(read.metadata.nativeDiscoveryFunnel?.retrieval?.history.at(-1)?.selection.rejectionReason,'REPEATED_RETRIEVAL_EXPRESSION');
+  assert.ok(navigations.filter(url=>new URL(url).searchParams.get('sw')==='omakase').length<=1,'the repeated query is never issued again');
+ }
  assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceExhausted,'UNKNOWN');assert.ok(read.metadata.nativeDiscoveryFunnel?.sourceEnded);
  assert.ok(networkRequests.some(r=>r.outcome==='ADMITTED'));assert.ok(!base.purposes.includes('restaurant_fact_judgment'));
+ }
 });
 
 test('P21 native venue and Google entries reuse one initial text retrieval proposal in a probe request',async()=>{
  const model=new H001NativeModel('BOTH_BOUNDED_EMPTY');
- const result=await runDiscoveryProbe({caseId:'text-plan-once',role:'TARGET',referenceTime:reference.toISOString(),intent:{timezone:'Asia/Tokyo',area:{query:'Shibuya'},criteria:[{text:'omakase',polarity:'POSITIVE',strength:'HARD'}]},locationContext:{...center,label:'Shibuya',radiusMeters:1000,areaMatchBasis:'NAMED_PLACE_RADIUS'}},[],{...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxModelCalls:15,maxAutomaticBrowserMs:180000},{model,browser:sourcePages('BOTH_BOUNDED_EMPTY',[],[],[],[],{guardedReadBoundary:true}),google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async()=>new Response(JSON.stringify({places:[]}),{status:200})}),clock:{now:()=>reference}});
+ const googleRequests:Array<{url:string;body:{textQuery?:string}}> = [];
+ const result=await runDiscoveryProbe({caseId:'text-plan-once',role:'TARGET',referenceTime:reference.toISOString(),intent:{timezone:'Asia/Tokyo',area:{query:'Shibuya'},criteria:[{text:'omakase',polarity:'POSITIVE',strength:'HARD'}]},locationContext:{...center,label:'Shibuya',radiusMeters:1000,areaMatchBasis:'NAMED_PLACE_RADIUS'}},[],{...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxModelCalls:15,maxAutomaticBrowserMs:180000},{model,browser:sourcePages('BOTH_BOUNDED_EMPTY',[],[],[],[],{guardedReadBoundary:true}),google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async(url,init)=>{googleRequests.push({url:String(url),body:JSON.parse(String(init?.body))});return new Response(JSON.stringify({places:[]}),{status:200});}}),clock:{now:()=>reference}});
+ assert.equal(googleRequests.length,1);
+ assert.ok(googleRequests[0]!.url.endsWith('/places:searchText'),'shared keyword must select the text transport');
+ assert.equal(googleRequests[0]!.body.textQuery,'omakase Shibuya');
  assert.deepEqual(result.attemptedSourceIds,['tabelog','tablecheck','google-places']);
  const initialTextPlans=model.requests.filter(r=>r.purpose==='restaurant_discovery_retrieval'&&JSON.parse(r.messages.find(m=>m.role==='user')!.content).observation===null);
  assert.equal(initialTextPlans.length,1);assert.ok(result.resources.modelCalls<=15);
