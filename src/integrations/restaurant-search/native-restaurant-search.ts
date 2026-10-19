@@ -12,7 +12,7 @@ import { googleDiscoveryGeoDiagnostics } from "../../domains/restaurant/read-gro
 import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
-import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
+import { BrowserReadDecisionError, type BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant-search.js";
 import { restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
 
@@ -278,17 +278,48 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const replaceRegion = directoryEntryReplacementAllowed(directoryRegion);
     let selectedRegion: DirectoryRegion["first"] | undefined;
     let selectingRegion = false;
-    let filledRegion: { observedOn: string; targetRef: string } | undefined;
+    let filledRegion: { observedOn: string; targetRef: string; resultKey: string } | undefined;
+    let regionResultKey = "";
+    const visitedRegionPages: string[] = [];
+    const sameRegion = (a: string, b: string) => new URL(a).pathname === new URL(b).pathname
+      || pack.browser?.directory?.isSameObservedRegionHomepage?.(a, b) === true
+      || pack.browser?.directory?.isSameObservedRegionHomepage?.(b, a) === true;
     const regionDecision: BrowserReadActionDecisionPort | undefined = this.discoveryDecision ? {
       decide: async input => {
-        const action = await this.discoveryDecision!.decide(input);
+        // Region menus often expose the same parent as a homepage and a
+        // listing with different query strings. Neither is a new region.
+        const blockedRefs = new Set<string>();
+        if (selectingRegion) {
+          if (!visitedRegionPages.some(url => sameRegion(url, input.observation.url))) visitedRegionPages.push(input.observation.url);
+          for (const target of input.observation.targets) {
+            if (target.href && target.availableActions?.includes("OPEN_LINK")
+              && pack.browser?.directory?.isRegionEntrance(target.href)
+              && !sameRegion(input.observation.url, target.href)
+              && visitedRegionPages.some(url => sameRegion(url, target.href!))) blockedRefs.add(target.ref);
+          }
+        }
+        const action = await this.discoveryDecision!.decide(blockedRefs.size ? {
+          ...input,
+          observation: { ...input.observation, targets: input.observation.targets.map(target => blockedRefs.has(target.ref)
+            ? { ...target, availableActions: target.availableActions?.filter(action => action !== "OPEN_LINK") ?? [], rejectionReason: "REGION_ALREADY_VISITED" } : target) },
+        } : input);
+        if (action.type === "OPEN_LINK" && blockedRefs.has(action.targetRef)) {
+          throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "REGION_ALREADY_VISITED: choose an unvisited observed region or the authoritative public location search");
+        }
         if (selectingRegion && action.type === "OPEN_LINK") {
           const target = input.observation.targets.find(target => target.ref === action.targetRef);
           if (target?.href && target.availableActions?.includes("OPEN_LINK") && pack.browser?.directory?.isRegionEntrance(target.href)) {
             selectedRegion = { url: target.href, observedOn: input.observation.url, targetRef: target.ref, label: target.label };
+            filledRegion = undefined;
           }
         }
-        if (selectingRegion && action.type === "FILL_AUTHORITATIVE" && action.field === "LOCATION" && input.goal.location?.name && input.observation.targets.some(t=>t.ref===action.targetRef && t.availableActions?.includes("FILL_AUTHORITATIVE:LOCATION"))) filledRegion = {observedOn:input.observation.url,targetRef:action.targetRef};
+        if (selectingRegion && action.type === "FILL_AUTHORITATIVE" && action.field === "LOCATION" && input.goal.location?.name
+          && input.observation.targets.some(t => t.ref === action.targetRef && t.availableActions?.includes("FILL_AUTHORITATIVE:LOCATION"))) {
+          // Filling a new authoritative location invalidates the previous
+          // link selection; a changed result must confirm the new binding.
+          selectedRegion = undefined;
+          filledRegion = { observedOn: input.observation.url, targetRef: action.targetRef, resultKey: regionResultKey };
+        }
         return action;
       },
       takeLastWireRecord: () => this.discoveryDecision!.takeLastWireRecord?.(),
@@ -680,7 +711,13 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               goal: { outlet: { name: keyword, address: request.intent.area.query }, location: discoveryGoalLocation, hardCriteria: request.intent.criteria.filter(item => item.polarity === "POSITIVE" && item.strength === "HARD").map(item => item.text) },
               objective: replaceRegion ? "The first five inspected outlets proved at least four outside the unchanged radius. Choose a different observed region/station entrance once. Do not reset budgets or change the location." : "Select the most specific observed public region/station entrance for the authoritative location. Follow observed links through region menus as needed, or fill the observed public location search using LOCATION. Reveal its public restaurant list; do not open restaurant details yet.",
               completion: (current, controls) => {
-                if (!selectedRegion && filledRegion && directory.isRegionEntrance(current.url) && controls.some(control=>control.visible && control.kind === "INPUT" && control.value === discoveryGoalLocation.name)) selectedRegion = {url:current.url,...filledRegion};
+                const resultKey = JSON.stringify(pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort());
+                if (!selectedRegion && filledRegion && directory.isRegionEntrance(current.url)
+                  && (current.url !== filledRegion.observedOn || resultKey !== filledRegion.resultKey)
+                  && controls.some(control => control.visible && control.kind === "INPUT" && control.value === discoveryGoalLocation.name)) {
+                  selectedRegion = { url: current.url, observedOn: filledRegion.observedOn, targetRef: filledRegion.targetRef };
+                }
+                regionResultKey = resultKey;
                 if (current.url !== regionPageUrl) { regionPageUrl = current.url; if(!regionNavigationPending){listingPagesRead += 1;retrieval.regionPages++;}regionNavigationPending=false;recordListing(current); }
                 if(retrieval.regionPages>4)throw Object.assign(Error("Region page ceiling reached"),{code:"READ_BUDGET_EXCEEDED"});
                 if (sourcePagesBefore + listingPagesRead > NATIVE_LISTING_PAGE_CAP.DIRECTORY) throw Object.assign(new Error("Native listing page ceiling reached"), { code: "READ_BUDGET_EXCEEDED" });

@@ -1,8 +1,8 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.65
-- Last updated: 2026-10-19
+- Document revision: 1.66
+- Last updated: 2026-10-20
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -306,3 +306,6 @@ Harness mapping: source-packs.test.ts outlet/list/booking-host controls, agent-c
 The availability Pack identifies its fixed Japanese access-congestion title/body separately from CAPTCHA. Its Adapter waits1000ms and retries the same public page at most once per candidate/source read, within the existing Executor operation and wall-time limits. Continued congestion becomes UNKNOWN/SOURCE_BUSY (ENVIRONMENT) before identity matching; it grants no identity, HARD or inventory evidence. Google-listed Tabelog detail links are normalized by the Pack to the same numeric outlet and region path under /en/, excluding query/hash/subpages; native identity rules are unchanged.
 
 Harness: three prior h001 recordings retain six identical raw HTML snapshots (one markup shape), Adapter/Pack recovery and conflict/deadline controls, and a real local Chromium busy-to-qualified-slot control with0 model calls. Current external-site behavior, limiting cause and speed benefit remain unverified. No new source/network permissions; pacing is a later proposal only. Evidence: [P2-2 followup](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md).
+
+
+2026-10-20 P2-2地区离线修复：共享DIRECTORY在Agent观察入口中屏蔽已访问其他地区的首页/列表别名，执行返回同样拒绝绕过；当前地区首页恢复列表保持。LOCATION必须观察权威输入与实际结果更新，并替换旧链接绑定。真实神乐坂菜单链接片段只证明重复入口阻止；合成公开LOCATION查询在原预算产出有坐标候选。既有坐标/身份/4/5规则不变，ADR-0040不改；本轮未访问网站，真实正确神乐坂路径未覆盖。Harness：directory-region-selection.test.ts、native-discovery-composition.test.ts和本地Chromium原门禁；[报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md#4-地区选择主线集成与离线机制修复)。

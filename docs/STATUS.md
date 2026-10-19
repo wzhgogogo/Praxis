@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.282
-- Last updated: 2026-10-19
+- Document revision: 4.283
+- Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-20 P2-2地区修复离线验证：** 独立分支已变基主线8b70084（含a37e152）且保留发布历史；阻止已访问父入口别名循环，权威LOCATION结果更新后替换旧入口绑定。真实片段负例与合成可行恢复通过；不改ADR-0040/Gold/预算，不访问网站，不增加模型。五种子回放PASS仍为独立历史证据，真实神乐坂正确路线NOT_COVERED。
 
 - **2026-10-19 用户批准再试一次，TableCheck503仍阻断B：** 按用户再试一次的授权执行，22:54 TableCheck再503，0模型；未达到来源非空检查，B0/10仍被阻断。历史失败累计4保留，本次结束后不自动重试。
 

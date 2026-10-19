@@ -1,0 +1,12 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/integrations/restaurant-search/native-restaurant-search.ts(300,61): error TS2345: Argument of type '{ history: BrowserReadHistoryStep[]; taskId: string; source: string; stage: "DISCOVERY" | "IDENTITY" | "AVAILABILITY" | "FACTS"; goal: BrowserReadGoal; objective: string; progress: string; skills: { generic: string; source: string; }; observation: { ...; }; }' is not assignable to parameter of type 'BrowserReadDecisionInput'.
+  The types of 'observation.targets' are incompatible between these types.
+    Type '(BrowserReadActionTarget | { ref: string; kind: "BUTTON" | "CHECKBOX" | "INPUT" | "LINK" | "OPTION" | "RADIO" | "RANGE" | "REGION" | "SELECT"; role: string; ... 19 more ...; rejectionReason: string; })[]' is not assignable to type 'BrowserReadActionTarget[]'.
+      Type 'BrowserReadActionTarget | { ref: string; kind: "BUTTON" | "CHECKBOX" | "INPUT" | "LINK" | "OPTION" | "RADIO" | "RANGE" | "REGION" | "SELECT"; role: string; ... 19 more ...; rejectionReason: string; }' is not assignable to type 'BrowserReadActionTarget' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+        Type '{ ref: string; kind: "LINK" | "BUTTON" | "INPUT" | "SELECT" | "OPTION" | "CHECKBOX" | "RADIO" | "RANGE" | "REGION"; role: string; label: string; value?: string; href?: string; formMethod?: string; ... 15 more ...; rejectionReason: string; }' is not assignable to type 'BrowserReadActionTarget' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+          Types of property 'availableActions' are incompatible.
+            Type 'string[] | undefined' is not assignable to type 'string[]'.
+              Type 'undefined' is not assignable to type 'string[]'.
