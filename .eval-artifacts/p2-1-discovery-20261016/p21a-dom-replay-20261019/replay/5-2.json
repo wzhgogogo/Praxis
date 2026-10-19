@@ -1,0 +1,45 @@
+{
+  "id": "5-2",
+  "index": 5,
+  "caseId": "p2-kf-h005-20261029",
+  "sequence": 2,
+  "originalProposal": {
+    "choice": "KEYWORD",
+    "keyword": "local food",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Retrieve restaurants matching the hard criterion \"local food\" in the Ginza/Shimbashi/Yurakucho area."
+  },
+  "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+  "realModelCalls": 1,
+  "status": "SUCCEEDED",
+  "response": {
+    "invocationId": "28c71a82-5e4f-450d-839e-bf17dd910381",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"local cuisine\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Search for restaurants emphasizing local food/cuisine near Ginza.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1588,
+    "providerRequestId": "a038d4a1-218c-4f22-9338-c155b7dfac20",
+    "usage": {
+      "inputTokens": 1996,
+      "outputTokens": 119,
+      "totalTokens": 2115
+    }
+  },
+  "proposal": {
+    "choice": "KEYWORD",
+    "keyword": "local cuisine",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Search for restaurants emphasizing local food/cuisine near Ginza."
+  },
+  "selection": {
+    "accepted": true,
+    "reason": "Search for restaurants emphasizing local food/cuisine near Ginza.",
+    "keyword": "local cuisine",
+    "criterionRef": "criterion:0"
+  },
+  "relevantCategorySelected": false,
+  "elapsedMs": 1588
+}

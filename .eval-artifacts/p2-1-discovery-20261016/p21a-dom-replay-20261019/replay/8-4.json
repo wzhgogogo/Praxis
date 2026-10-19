@@ -1,0 +1,45 @@
+{
+  "id": "8-4",
+  "index": 8,
+  "caseId": "p2-kf-h002-20261031",
+  "sequence": 4,
+  "originalProposal": {
+    "choice": "KEYWORD",
+    "keyword": "date",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Search for restaurants suited to a first date near Higashi-ginza."
+  },
+  "provenance": "EVIDENCE_GAP_NO_SAME_REGION_DOM",
+  "realModelCalls": 1,
+  "status": "SUCCEEDED",
+  "response": {
+    "invocationId": "aee3a57d-6abf-477a-8e49-af0b7a027f46",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"date night\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Retrieve restaurants suited to a first date near Higashi-ginza; current list is generic and lacks date-oriented framing.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1883,
+    "providerRequestId": "3db43d9d-5c63-44ed-8004-18ebbd524c1f",
+    "usage": {
+      "inputTokens": 2040,
+      "outputTokens": 131,
+      "totalTokens": 2171
+    }
+  },
+  "proposal": {
+    "choice": "KEYWORD",
+    "keyword": "date night",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Retrieve restaurants suited to a first date near Higashi-ginza; current list is generic and lacks date-oriented framing."
+  },
+  "selection": {
+    "accepted": true,
+    "reason": "Retrieve restaurants suited to a first date near Higashi-ginza; current list is generic and lacks date-oriented framing.",
+    "keyword": "date night",
+    "criterionRef": "criterion:0"
+  },
+  "relevantCategorySelected": false,
+  "elapsedMs": 1883
+}

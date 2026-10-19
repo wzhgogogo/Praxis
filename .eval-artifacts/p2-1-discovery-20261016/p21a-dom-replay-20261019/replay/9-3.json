@@ -1,0 +1,44 @@
+{
+  "id": "9-3",
+  "index": 9,
+  "caseId": "p2-nakameguro-yakiniku-20261030",
+  "sequence": 3,
+  "originalProposal": {
+    "choice": "KEYWORD",
+    "keyword": "yakiniku",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Search the Nakameguro area listing for yakiniku restaurants matching the hard criterion."
+  },
+  "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+  "realModelCalls": 1,
+  "status": "SUCCEEDED",
+  "response": {
+    "invocationId": "c55142ef-e586-4c92-8735-ce1c6a39cd54",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"choice\": \"CATEGORY\", \"keyword\": \"\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/?sw=yakiniku\", \"reason\": \"Use the supplied Yakiniku (Japanese BBQ) category to retrieve restaurants matching the hard yakiniku criterion in Nakameguro.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1766,
+    "providerRequestId": "2068734c-e306-40a2-91fa-502de93adf0f",
+    "usage": {
+      "inputTokens": 2402,
+      "outputTokens": 160,
+      "totalTokens": 2562
+    }
+  },
+  "proposal": {
+    "choice": "CATEGORY",
+    "keyword": "",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/?sw=yakiniku",
+    "reason": "Use the supplied Yakiniku (Japanese BBQ) category to retrieve restaurants matching the hard yakiniku criterion in Nakameguro."
+  },
+  "selection": {
+    "accepted": true,
+    "reason": "Use the supplied Yakiniku (Japanese BBQ) category to retrieve restaurants matching the hard yakiniku criterion in Nakameguro.",
+    "categoryUrl": "https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/?sw=yakiniku"
+  },
+  "relevantCategorySelected": true,
+  "elapsedMs": 1766
+}

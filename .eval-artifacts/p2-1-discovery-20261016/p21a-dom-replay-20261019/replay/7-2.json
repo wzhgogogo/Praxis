@@ -1,0 +1,44 @@
+{
+  "id": "7-2",
+  "index": 7,
+  "caseId": "p2-kichijoji-tempura-20261027",
+  "sequence": 2,
+  "originalProposal": {
+    "choice": "KEYWORD",
+    "keyword": "tempura",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Search for tempura restaurants in Kichijoji to satisfy the hard criterion."
+  },
+  "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+  "realModelCalls": 1,
+  "status": "SUCCEEDED",
+  "response": {
+    "invocationId": "09eb3f8b-b68e-4b94-9a1f-705ccec2971b",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"choice\": \"CATEGORY\", \"keyword\": \"\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura\", \"reason\": \"Use the supplied Tempura category to retrieve tempura restaurants in the Kichijoji area.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1960,
+    "providerRequestId": "bf5c3845-4f0a-4297-a975-b3d5e48e2ce3",
+    "usage": {
+      "inputTokens": 2279,
+      "outputTokens": 149,
+      "totalTokens": 2428
+    }
+  },
+  "proposal": {
+    "choice": "CATEGORY",
+    "keyword": "",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura",
+    "reason": "Use the supplied Tempura category to retrieve tempura restaurants in the Kichijoji area."
+  },
+  "selection": {
+    "accepted": true,
+    "reason": "Use the supplied Tempura category to retrieve tempura restaurants in the Kichijoji area.",
+    "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura"
+  },
+  "relevantCategorySelected": true,
+  "elapsedMs": 1961
+}

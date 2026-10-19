@@ -1,0 +1,45 @@
+{
+  "id": "4-2",
+  "index": 4,
+  "caseId": "p2-kf-h005-20261029",
+  "sequence": 2,
+  "originalProposal": {
+    "choice": "KEYWORD",
+    "keyword": "local food",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Retrieve restaurants matching the hard criterion \"local food\" in the Ginza & Shimbashi & Yurakucho area."
+  },
+  "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+  "realModelCalls": 1,
+  "status": "SUCCEEDED",
+  "response": {
+    "invocationId": "f99422bc-f4d2-45cc-97be-fcf94bfa5aef",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"local cuisine\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Search for restaurants emphasizing local food, the hard positive criterion.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1435,
+    "providerRequestId": "2f005c7c-b119-4321-9962-f478e6c2d774",
+    "usage": {
+      "inputTokens": 1996,
+      "outputTokens": 118,
+      "totalTokens": 2114
+    }
+  },
+  "proposal": {
+    "choice": "KEYWORD",
+    "keyword": "local cuisine",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Search for restaurants emphasizing local food, the hard positive criterion."
+  },
+  "selection": {
+    "accepted": true,
+    "reason": "Search for restaurants emphasizing local food, the hard positive criterion.",
+    "keyword": "local cuisine",
+    "criterionRef": "criterion:0"
+  },
+  "relevantCategorySelected": false,
+  "elapsedMs": 1439
+}

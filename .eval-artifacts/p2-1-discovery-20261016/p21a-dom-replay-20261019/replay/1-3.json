@@ -1,0 +1,44 @@
+{
+  "id": "1-3",
+  "index": 1,
+  "caseId": "p2-kf-h001-20261027",
+  "sequence": 3,
+  "originalProposal": {
+    "choice": "KEEP",
+    "keyword": "",
+    "criterionRef": "",
+    "categoryUrl": "",
+    "reason": "Current Shibuya omakase search returned 3 relevant listings; no supplied categories to expand into, so retain retrieval."
+  },
+  "provenance": "EXACT_RECORDED_PLANNING_DOM",
+  "realModelCalls": 1,
+  "status": "SUCCEEDED",
+  "response": {
+    "invocationId": "be59b72d-110b-4822-bd12-d7547606fe3d",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"choice\": \"CATEGORY\", \"keyword\": \"\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase\", \"reason\": \"Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2399,
+    "providerRequestId": "3c97690e-69a4-443c-88af-3219dbe84c43",
+    "usage": {
+      "inputTokens": 1970,
+      "outputTokens": 158,
+      "totalTokens": 2128
+    }
+  },
+  "proposal": {
+    "choice": "CATEGORY",
+    "keyword": "",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase",
+    "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates."
+  },
+  "selection": {
+    "accepted": true,
+    "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates.",
+    "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase"
+  },
+  "relevantCategorySelected": true,
+  "elapsedMs": 2399
+}

@@ -23,3 +23,26 @@ Proof scope so far: L0 validation and L1 production assembly/local Chromium. L3 
 Items 1-3 committed as `ba20b8a7e0ae5d00d93838f7f19b0ae01364e2be`. No Google production patch was needed; the existing keyword path is covered by the new three-source request assertion.
 
 The 14 requests, original input provenance, exact endpoint and fixed gate are frozen in prepared-requests.json, payload-audit.json and replay-freeze.json. Freeze SHA-256: `874320b9cc7151495a7f495e1a6410f23b52abb315799abe366fdde63dfed62f`. Offline empty run passed with 0 network/model calls (replay-dry-run.log). Source files still match the five-gate hashes. Only the repository configured DeepSeek beta structured-output endpoint is permitted by this one-shot replay executor.
+
+## Offline real-model single-decision replay
+
+Replay preparation commit: `4017981`. 14/14 calls succeeded; 14 charged model calls, 0 website/Google calls. Cumulative models 212/450, probes31/42, Google79. Gate PASS: h001, Kichijoji and Nakameguro all selected their supplied relevant category (3 distinct cases, required2). Only this narrow decision feasibility was evaluated. The 7 later-DOM inputs remain explicitly counterfactual; H002 has a missing-DOM evidence gap.
+
+| Run index / decision | Original choice | New choice / expression | Category provenance | Model reason |
+| --- | --- | --- | --- | --- |
+| 0 / #2 | KEYWORD | KEYWORD omakase | LATER_SAME_REGION_DOM_COUNTERFACTUAL | Retrieve Shibuya restaurants matching the hard criterion "omakase" via keyword search. |
+| 0 / #3 | KEEP | CATEGORY https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase | EXACT_RECORDED_PLANNING_DOM | Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates. |
+| 1 / #2 | KEYWORD | KEYWORD omakase | LATER_SAME_REGION_DOM_COUNTERFACTUAL | Retrieve Shibuya restaurants matching the hard criterion "omakase" via keyword search. |
+| 1 / #3 | KEEP | CATEGORY https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase | EXACT_RECORDED_PLANNING_DOM | Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates. |
+| 4 / #2 | KEYWORD | KEYWORD local cuisine | LATER_SAME_REGION_DOM_COUNTERFACTUAL | Search for restaurants emphasizing local food, the hard positive criterion. |
+| 4 / #3 | KEYWORD | KEYWORD regional cuisine | EXACT_RECORDED_PLANNING_DOM | The exact phrase "local food" returned zero results; retry the hard criterion with a different phrasing ("regional cuisine") rather than a synonym of the same failed term. |
+| 4 / #4 | KEYWORD | KEYWORD regional dishes | EXACT_RECORDED_PLANNING_DOM | Both prior keyword attempts returned explicit empty states; try a materially different keyword for the same hard criterion rather than a synonym of the failed terms. |
+| 5 / #2 | KEYWORD | KEYWORD local cuisine | LATER_SAME_REGION_DOM_COUNTERFACTUAL | Search for restaurants emphasizing local food/cuisine near Ginza. |
+| 5 / #3 | KEYWORD | KEYWORD regional cuisine | EXACT_RECORDED_PLANNING_DOM | The exact phrase "local food" returned an explicit empty result. Trying a materially different keyword for the same hard criterion (local/regional cuisine) rather than a synonym of the failed term. |
+| 5 / #4 | KEYWORD | KEYWORD regional dishes | EXACT_RECORDED_PLANNING_DOM | Both "local food" and "local cuisine" returned zero results; try a materially different keyword for the same hard criterion rather than another synonym of the same phrase. |
+| 6 / #2 | KEYWORD | CATEGORY https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura | LATER_SAME_REGION_DOM_COUNTERFACTUAL | Supplied category "Tempura" directly matches the hard criterion; narrows the broad area listing to tempura restaurants. |
+| 7 / #2 | KEYWORD | CATEGORY https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura | LATER_SAME_REGION_DOM_COUNTERFACTUAL | Use the supplied Tempura category to retrieve tempura restaurants in the Kichijoji area. |
+| 8 / #4 | KEYWORD | KEYWORD date night | EVIDENCE_GAP_NO_SAME_REGION_DOM | Retrieve restaurants suited to a first date near Higashi-ginza; current list is generic and lacks date-oriented framing. |
+| 9 / #3 | KEYWORD | CATEGORY https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/?sw=yakiniku | LATER_SAME_REGION_DOM_COUNTERFACTUAL | Use the supplied Yakiniku (Japanese BBQ) category to retrieve restaurants matching the hard yakiniku criterion in Nakameguro. |
+
+Raw outputs and usage: replay/summary.json and replay/<run>-<sequence>.json. Runtime proposals were never executed. KF-H005 choices are recorded without a quality score or causal improvement claim. New A10 is authorized by the fixed gate; the next comparison still uses baseline acfaaffa and the same input bytes.

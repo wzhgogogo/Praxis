@@ -1,0 +1,45 @@
+{
+  "id": "4-4",
+  "index": 4,
+  "caseId": "p2-kf-h005-20261029",
+  "sequence": 4,
+  "originalProposal": {
+    "choice": "KEYWORD",
+    "keyword": "local food",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Explicit empty state on the variant keyword; retry with the original hard-criterion keyword \"local food\" before broadening."
+  },
+  "provenance": "EXACT_RECORDED_PLANNING_DOM",
+  "realModelCalls": 1,
+  "status": "SUCCEEDED",
+  "response": {
+    "invocationId": "3b2fa221-3305-44a6-a917-6133dee10638",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"regional dishes\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Both prior keyword attempts returned explicit empty states; try a materially different keyword for the same hard criterion rather than a synonym of the failed terms.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1290,
+    "providerRequestId": "969db84f-6832-47da-a6bc-cc71a6fda54b",
+    "usage": {
+      "inputTokens": 1569,
+      "outputTokens": 134,
+      "totalTokens": 1703
+    }
+  },
+  "proposal": {
+    "choice": "KEYWORD",
+    "keyword": "regional dishes",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Both prior keyword attempts returned explicit empty states; try a materially different keyword for the same hard criterion rather than a synonym of the failed terms."
+  },
+  "selection": {
+    "accepted": true,
+    "reason": "Both prior keyword attempts returned explicit empty states; try a materially different keyword for the same hard criterion rather than a synonym of the failed terms.",
+    "keyword": "regional dishes",
+    "criterionRef": "criterion:0"
+  },
+  "relevantCategorySelected": false,
+  "elapsedMs": 1291
+}

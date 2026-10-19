@@ -1,0 +1,644 @@
+{
+  "status": "COMPLETE",
+  "outputs": [
+    {
+      "id": "0-2",
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "sequence": 2,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "omakase",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Search Shibuya listings for the hard criterion \"omakase\"."
+      },
+      "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "920549e8-880c-4992-a4fd-ac3fe2e4c316",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"omakase\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Retrieve Shibuya restaurants matching the hard criterion \\\"omakase\\\" via keyword search.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2834,
+        "providerRequestId": "7c1cb137-a2d6-4575-a4fe-584dd3eabb70",
+        "usage": {
+          "inputTokens": 2235,
+          "outputTokens": 126,
+          "totalTokens": 2361
+        }
+      },
+      "proposal": {
+        "choice": "KEYWORD",
+        "keyword": "omakase",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Retrieve Shibuya restaurants matching the hard criterion \"omakase\" via keyword search."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Retrieve Shibuya restaurants matching the hard criterion \"omakase\" via keyword search.",
+        "keyword": "omakase",
+        "criterionRef": "criterion:0"
+      },
+      "relevantCategorySelected": false,
+      "elapsedMs": 2837
+    },
+    {
+      "id": "0-3",
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "sequence": 3,
+      "originalProposal": {
+        "choice": "KEEP",
+        "keyword": "",
+        "criterionRef": "",
+        "categoryUrl": "",
+        "reason": "Current keyword search for \"omakase\" in Shibuya already returned a small, relevant list of 3 restaurants; no supplied categories exist to expand into, so retain this retrieval."
+      },
+      "provenance": "EXACT_RECORDED_PLANNING_DOM",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "e0fe7b24-b880-43eb-8bc8-9ef66ae60a23",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"CATEGORY\", \"keyword\": \"\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase\", \"reason\": \"Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2280,
+        "providerRequestId": "e8aa2857-c954-491e-8450-b24ec2e6657f",
+        "usage": {
+          "inputTokens": 1970,
+          "outputTokens": 158,
+          "totalTokens": 2128
+        }
+      },
+      "proposal": {
+        "choice": "CATEGORY",
+        "keyword": "",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase",
+        "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates.",
+        "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase"
+      },
+      "relevantCategorySelected": true,
+      "elapsedMs": 2281
+    },
+    {
+      "id": "1-2",
+      "index": 1,
+      "caseId": "p2-kf-h001-20261027",
+      "sequence": 2,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "omakase",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Search Shibuya listings for the hard criterion \"omakase\"."
+      },
+      "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "65965d7f-3a1a-4ebd-afe0-5a1b8fcaf7eb",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"omakase\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Retrieve Shibuya restaurants matching the hard criterion \\\"omakase\\\" via keyword search.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2308,
+        "providerRequestId": "748b5983-6853-45cb-b492-37997ce712e4",
+        "usage": {
+          "inputTokens": 2235,
+          "outputTokens": 126,
+          "totalTokens": 2361
+        }
+      },
+      "proposal": {
+        "choice": "KEYWORD",
+        "keyword": "omakase",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Retrieve Shibuya restaurants matching the hard criterion \"omakase\" via keyword search."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Retrieve Shibuya restaurants matching the hard criterion \"omakase\" via keyword search.",
+        "keyword": "omakase",
+        "criterionRef": "criterion:0"
+      },
+      "relevantCategorySelected": false,
+      "elapsedMs": 2310
+    },
+    {
+      "id": "1-3",
+      "index": 1,
+      "caseId": "p2-kf-h001-20261027",
+      "sequence": 3,
+      "originalProposal": {
+        "choice": "KEEP",
+        "keyword": "",
+        "criterionRef": "",
+        "categoryUrl": "",
+        "reason": "Current Shibuya omakase search returned 3 relevant listings; no supplied categories to expand into, so retain retrieval."
+      },
+      "provenance": "EXACT_RECORDED_PLANNING_DOM",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "be59b72d-110b-4822-bd12-d7547606fe3d",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"CATEGORY\", \"keyword\": \"\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase\", \"reason\": \"Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2399,
+        "providerRequestId": "3c97690e-69a4-443c-88af-3219dbe84c43",
+        "usage": {
+          "inputTokens": 1970,
+          "outputTokens": 158,
+          "totalTokens": 2128
+        }
+      },
+      "proposal": {
+        "choice": "CATEGORY",
+        "keyword": "",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase",
+        "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates.",
+        "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase"
+      },
+      "relevantCategorySelected": true,
+      "elapsedMs": 2399
+    },
+    {
+      "id": "4-2",
+      "index": 4,
+      "caseId": "p2-kf-h005-20261029",
+      "sequence": 2,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "local food",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Retrieve restaurants matching the hard criterion \"local food\" in the Ginza & Shimbashi & Yurakucho area."
+      },
+      "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "f99422bc-f4d2-45cc-97be-fcf94bfa5aef",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"local cuisine\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Search for restaurants emphasizing local food, the hard positive criterion.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1435,
+        "providerRequestId": "2f005c7c-b119-4321-9962-f478e6c2d774",
+        "usage": {
+          "inputTokens": 1996,
+          "outputTokens": 118,
+          "totalTokens": 2114
+        }
+      },
+      "proposal": {
+        "choice": "KEYWORD",
+        "keyword": "local cuisine",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Search for restaurants emphasizing local food, the hard positive criterion."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Search for restaurants emphasizing local food, the hard positive criterion.",
+        "keyword": "local cuisine",
+        "criterionRef": "criterion:0"
+      },
+      "relevantCategorySelected": false,
+      "elapsedMs": 1439
+    },
+    {
+      "id": "4-3",
+      "index": 4,
+      "caseId": "p2-kf-h005-20261029",
+      "sequence": 3,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "local cuisine",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "The keyword search returned an explicit empty state; retry with a close variant keyword for the same hard criterion."
+      },
+      "provenance": "EXACT_RECORDED_PLANNING_DOM",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "0902ce7c-85ae-44a6-a029-e05a6c254dd8",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"regional cuisine\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"The exact phrase \\\"local food\\\" returned zero results; retry the hard criterion with a different phrasing (\\\"regional cuisine\\\") rather than a synonym of the same failed term.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1734,
+        "providerRequestId": "4912c879-b676-420a-95f5-3cab621d307d",
+        "usage": {
+          "inputTokens": 1563,
+          "outputTokens": 140,
+          "totalTokens": 1703
+        }
+      },
+      "proposal": {
+        "choice": "KEYWORD",
+        "keyword": "regional cuisine",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "The exact phrase \"local food\" returned zero results; retry the hard criterion with a different phrasing (\"regional cuisine\") rather than a synonym of the same failed term."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "The exact phrase \"local food\" returned zero results; retry the hard criterion with a different phrasing (\"regional cuisine\") rather than a synonym of the same failed term.",
+        "keyword": "regional cuisine",
+        "criterionRef": "criterion:0"
+      },
+      "relevantCategorySelected": false,
+      "elapsedMs": 1737
+    },
+    {
+      "id": "4-4",
+      "index": 4,
+      "caseId": "p2-kf-h005-20261029",
+      "sequence": 4,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "local food",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Explicit empty state on the variant keyword; retry with the original hard-criterion keyword \"local food\" before broadening."
+      },
+      "provenance": "EXACT_RECORDED_PLANNING_DOM",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "3b2fa221-3305-44a6-a917-6133dee10638",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"regional dishes\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Both prior keyword attempts returned explicit empty states; try a materially different keyword for the same hard criterion rather than a synonym of the failed terms.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1290,
+        "providerRequestId": "969db84f-6832-47da-a6bc-cc71a6fda54b",
+        "usage": {
+          "inputTokens": 1569,
+          "outputTokens": 134,
+          "totalTokens": 1703
+        }
+      },
+      "proposal": {
+        "choice": "KEYWORD",
+        "keyword": "regional dishes",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Both prior keyword attempts returned explicit empty states; try a materially different keyword for the same hard criterion rather than a synonym of the failed terms."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Both prior keyword attempts returned explicit empty states; try a materially different keyword for the same hard criterion rather than a synonym of the failed terms.",
+        "keyword": "regional dishes",
+        "criterionRef": "criterion:0"
+      },
+      "relevantCategorySelected": false,
+      "elapsedMs": 1291
+    },
+    {
+      "id": "5-2",
+      "index": 5,
+      "caseId": "p2-kf-h005-20261029",
+      "sequence": 2,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "local food",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Retrieve restaurants matching the hard criterion \"local food\" in the Ginza/Shimbashi/Yurakucho area."
+      },
+      "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "28c71a82-5e4f-450d-839e-bf17dd910381",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"local cuisine\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Search for restaurants emphasizing local food/cuisine near Ginza.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1588,
+        "providerRequestId": "a038d4a1-218c-4f22-9338-c155b7dfac20",
+        "usage": {
+          "inputTokens": 1996,
+          "outputTokens": 119,
+          "totalTokens": 2115
+        }
+      },
+      "proposal": {
+        "choice": "KEYWORD",
+        "keyword": "local cuisine",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Search for restaurants emphasizing local food/cuisine near Ginza."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Search for restaurants emphasizing local food/cuisine near Ginza.",
+        "keyword": "local cuisine",
+        "criterionRef": "criterion:0"
+      },
+      "relevantCategorySelected": false,
+      "elapsedMs": 1588
+    },
+    {
+      "id": "5-3",
+      "index": 5,
+      "caseId": "p2-kf-h005-20261029",
+      "sequence": 3,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "local cuisine",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "The exact phrase \"local food\" returned zero results; retry with a close variant keyword for the same hard criterion."
+      },
+      "provenance": "EXACT_RECORDED_PLANNING_DOM",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "1f678292-3095-474a-a64d-0c62c872b3c7",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"regional cuisine\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"The exact phrase \\\"local food\\\" returned an explicit empty result. Trying a materially different keyword for the same hard criterion (local/regional cuisine) rather than a synonym of the failed term.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1818,
+        "providerRequestId": "fdbab517-f89b-413b-aee8-99743f4ebd9a",
+        "usage": {
+          "inputTokens": 1562,
+          "outputTokens": 144,
+          "totalTokens": 1706
+        }
+      },
+      "proposal": {
+        "choice": "KEYWORD",
+        "keyword": "regional cuisine",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "The exact phrase \"local food\" returned an explicit empty result. Trying a materially different keyword for the same hard criterion (local/regional cuisine) rather than a synonym of the failed term."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "The exact phrase \"local food\" returned an explicit empty result. Trying a materially different keyword for the same hard criterion (local/regional cuisine) rather than a synonym of the failed term.",
+        "keyword": "regional cuisine",
+        "criterionRef": "criterion:0"
+      },
+      "relevantCategorySelected": false,
+      "elapsedMs": 1818
+    },
+    {
+      "id": "5-4",
+      "index": 5,
+      "caseId": "p2-kf-h005-20261029",
+      "sequence": 4,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "local food",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "The variant \"local cuisine\" returned an explicit empty state; retry the original hard-criterion phrase \"local food\" as a keyword."
+      },
+      "provenance": "EXACT_RECORDED_PLANNING_DOM",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "8e88d42d-982e-40ab-a2e9-f7071af19d58",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"regional dishes\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Both \\\"local food\\\" and \\\"local cuisine\\\" returned zero results; try a materially different keyword for the same hard criterion rather than another synonym of the same phrase.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1345,
+        "providerRequestId": "72359508-e280-4660-bbeb-5c494f9270da",
+        "usage": {
+          "inputTokens": 1571,
+          "outputTokens": 139,
+          "totalTokens": 1710
+        }
+      },
+      "proposal": {
+        "choice": "KEYWORD",
+        "keyword": "regional dishes",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Both \"local food\" and \"local cuisine\" returned zero results; try a materially different keyword for the same hard criterion rather than another synonym of the same phrase."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Both \"local food\" and \"local cuisine\" returned zero results; try a materially different keyword for the same hard criterion rather than another synonym of the same phrase.",
+        "keyword": "regional dishes",
+        "criterionRef": "criterion:0"
+      },
+      "relevantCategorySelected": false,
+      "elapsedMs": 1346
+    },
+    {
+      "id": "6-2",
+      "index": 6,
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "sequence": 2,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "tempura",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Search for tempura restaurants in Kichijoji to satisfy the hard criterion."
+      },
+      "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "910d7912-cccf-4f54-ae7f-55d8ca66845d",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"CATEGORY\", \"keyword\": \"\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura\", \"reason\": \"Supplied category \\\"Tempura\\\" directly matches the hard criterion; narrows the broad area listing to tempura restaurants.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1880,
+        "providerRequestId": "9e27bc43-cad1-4683-940e-0ab2a948d6ef",
+        "usage": {
+          "inputTokens": 2279,
+          "outputTokens": 154,
+          "totalTokens": 2433
+        }
+      },
+      "proposal": {
+        "choice": "CATEGORY",
+        "keyword": "",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura",
+        "reason": "Supplied category \"Tempura\" directly matches the hard criterion; narrows the broad area listing to tempura restaurants."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Supplied category \"Tempura\" directly matches the hard criterion; narrows the broad area listing to tempura restaurants.",
+        "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura"
+      },
+      "relevantCategorySelected": true,
+      "elapsedMs": 1880
+    },
+    {
+      "id": "7-2",
+      "index": 7,
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "sequence": 2,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "tempura",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Search for tempura restaurants in Kichijoji to satisfy the hard criterion."
+      },
+      "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "09eb3f8b-b68e-4b94-9a1f-705ccec2971b",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"CATEGORY\", \"keyword\": \"\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura\", \"reason\": \"Use the supplied Tempura category to retrieve tempura restaurants in the Kichijoji area.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1960,
+        "providerRequestId": "bf5c3845-4f0a-4297-a975-b3d5e48e2ce3",
+        "usage": {
+          "inputTokens": 2279,
+          "outputTokens": 149,
+          "totalTokens": 2428
+        }
+      },
+      "proposal": {
+        "choice": "CATEGORY",
+        "keyword": "",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura",
+        "reason": "Use the supplied Tempura category to retrieve tempura restaurants in the Kichijoji area."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Use the supplied Tempura category to retrieve tempura restaurants in the Kichijoji area.",
+        "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/?sw=tempura"
+      },
+      "relevantCategorySelected": true,
+      "elapsedMs": 1961
+    },
+    {
+      "id": "8-4",
+      "index": 8,
+      "caseId": "p2-kf-h002-20261031",
+      "sequence": 4,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "date",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Search for restaurants suited to a first date near Higashi-ginza."
+      },
+      "provenance": "EVIDENCE_GAP_NO_SAME_REGION_DOM",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "aee3a57d-6abf-477a-8e49-af0b7a027f46",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"date night\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Retrieve restaurants suited to a first date near Higashi-ginza; current list is generic and lacks date-oriented framing.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1883,
+        "providerRequestId": "3db43d9d-5c63-44ed-8004-18ebbd524c1f",
+        "usage": {
+          "inputTokens": 2040,
+          "outputTokens": 131,
+          "totalTokens": 2171
+        }
+      },
+      "proposal": {
+        "choice": "KEYWORD",
+        "keyword": "date night",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Retrieve restaurants suited to a first date near Higashi-ginza; current list is generic and lacks date-oriented framing."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Retrieve restaurants suited to a first date near Higashi-ginza; current list is generic and lacks date-oriented framing.",
+        "keyword": "date night",
+        "criterionRef": "criterion:0"
+      },
+      "relevantCategorySelected": false,
+      "elapsedMs": 1883
+    },
+    {
+      "id": "9-3",
+      "index": 9,
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "sequence": 3,
+      "originalProposal": {
+        "choice": "KEYWORD",
+        "keyword": "yakiniku",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Search the Nakameguro area listing for yakiniku restaurants matching the hard criterion."
+      },
+      "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+      "realModelCalls": 1,
+      "status": "SUCCEEDED",
+      "response": {
+        "invocationId": "c55142ef-e586-4c92-8735-ce1c6a39cd54",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"choice\": \"CATEGORY\", \"keyword\": \"\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/?sw=yakiniku\", \"reason\": \"Use the supplied Yakiniku (Japanese BBQ) category to retrieve restaurants matching the hard yakiniku criterion in Nakameguro.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1766,
+        "providerRequestId": "2068734c-e306-40a2-91fa-502de93adf0f",
+        "usage": {
+          "inputTokens": 2402,
+          "outputTokens": 160,
+          "totalTokens": 2562
+        }
+      },
+      "proposal": {
+        "choice": "CATEGORY",
+        "keyword": "",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/?sw=yakiniku",
+        "reason": "Use the supplied Yakiniku (Japanese BBQ) category to retrieve restaurants matching the hard yakiniku criterion in Nakameguro."
+      },
+      "selection": {
+        "accepted": true,
+        "reason": "Use the supplied Yakiniku (Japanese BBQ) category to retrieve restaurants matching the hard yakiniku criterion in Nakameguro.",
+        "categoryUrl": "https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/?sw=yakiniku"
+      },
+      "relevantCategorySelected": true,
+      "elapsedMs": 1766
+    }
+  ],
+  "distinctRelevantCategoryCases": [
+    "p2-kf-h001-20261027",
+    "p2-kichijoji-tempura-20261027",
+    "p2-nakameguro-yakiniku-20261030"
+  ],
+  "gate": "PASS_ALLOW_A10",
+  "realModelCalls": 14,
+  "successes": 14,
+  "cumulativeModels": 212,
+  "cumulativeGoogle": 79,
+  "cumulativeProbes": 31,
+  "websiteRequests": 0,
+  "fullLive": 0,
+  "elapsedMs": 26536
+}

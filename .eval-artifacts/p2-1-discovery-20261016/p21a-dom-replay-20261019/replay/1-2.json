@@ -1,0 +1,45 @@
+{
+  "id": "1-2",
+  "index": 1,
+  "caseId": "p2-kf-h001-20261027",
+  "sequence": 2,
+  "originalProposal": {
+    "choice": "KEYWORD",
+    "keyword": "omakase",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Search Shibuya listings for the hard criterion \"omakase\"."
+  },
+  "provenance": "LATER_SAME_REGION_DOM_COUNTERFACTUAL",
+  "realModelCalls": 1,
+  "status": "SUCCEEDED",
+  "response": {
+    "invocationId": "65965d7f-3a1a-4ebd-afe0-5a1b8fcaf7eb",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"omakase\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"Retrieve Shibuya restaurants matching the hard criterion \\\"omakase\\\" via keyword search.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2308,
+    "providerRequestId": "748b5983-6853-45cb-b492-37997ce712e4",
+    "usage": {
+      "inputTokens": 2235,
+      "outputTokens": 126,
+      "totalTokens": 2361
+    }
+  },
+  "proposal": {
+    "choice": "KEYWORD",
+    "keyword": "omakase",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "Retrieve Shibuya restaurants matching the hard criterion \"omakase\" via keyword search."
+  },
+  "selection": {
+    "accepted": true,
+    "reason": "Retrieve Shibuya restaurants matching the hard criterion \"omakase\" via keyword search.",
+    "keyword": "omakase",
+    "criterionRef": "criterion:0"
+  },
+  "relevantCategorySelected": false,
+  "elapsedMs": 2310
+}

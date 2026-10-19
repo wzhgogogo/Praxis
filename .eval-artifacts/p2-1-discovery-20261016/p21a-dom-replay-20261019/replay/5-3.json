@@ -1,0 +1,45 @@
+{
+  "id": "5-3",
+  "index": 5,
+  "caseId": "p2-kf-h005-20261029",
+  "sequence": 3,
+  "originalProposal": {
+    "choice": "KEYWORD",
+    "keyword": "local cuisine",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "The exact phrase \"local food\" returned zero results; retry with a close variant keyword for the same hard criterion."
+  },
+  "provenance": "EXACT_RECORDED_PLANNING_DOM",
+  "realModelCalls": 1,
+  "status": "SUCCEEDED",
+  "response": {
+    "invocationId": "1f678292-3095-474a-a64d-0c62c872b3c7",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"choice\": \"KEYWORD\", \"keyword\": \"regional cuisine\", \"criterionRef\": \"criterion:0\", \"categoryUrl\": \"\", \"reason\": \"The exact phrase \\\"local food\\\" returned an explicit empty result. Trying a materially different keyword for the same hard criterion (local/regional cuisine) rather than a synonym of the failed term.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1818,
+    "providerRequestId": "fdbab517-f89b-413b-aee8-99743f4ebd9a",
+    "usage": {
+      "inputTokens": 1562,
+      "outputTokens": 144,
+      "totalTokens": 1706
+    }
+  },
+  "proposal": {
+    "choice": "KEYWORD",
+    "keyword": "regional cuisine",
+    "criterionRef": "criterion:0",
+    "categoryUrl": "",
+    "reason": "The exact phrase \"local food\" returned an explicit empty result. Trying a materially different keyword for the same hard criterion (local/regional cuisine) rather than a synonym of the failed term."
+  },
+  "selection": {
+    "accepted": true,
+    "reason": "The exact phrase \"local food\" returned an explicit empty result. Trying a materially different keyword for the same hard criterion (local/regional cuisine) rather than a synonym of the failed term.",
+    "keyword": "regional cuisine",
+    "criterionRef": "criterion:0"
+  },
+  "relevantCategorySelected": false,
+  "elapsedMs": 1818
+}
