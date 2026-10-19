@@ -1,0 +1,157 @@
+{
+  "models": 0,
+  "google": 0,
+  "preflightGoogle": 0,
+  "preflightFailures": 3,
+  "completed": [],
+  "attempts": [
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-19T12:33:35.461341+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1",
+      "status": "NO_PROBE_SUMMARY",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "finishedAt": "2026-10-19T12:33:35.920459+00:00",
+      "approvedSetupRestoration": true
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-19T12:49:03.411645+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-setup-2",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-setup-2/2026-10-19T12-49-03-820Z-d09544f5-69e6-4401-a365-2e08e2d8b201.result.json",
+      "networkPreflightResultSha256": "b644e2000a167599972a9a58436d31926a2dc4f22d16ea31dd5fd2a889da759e",
+      "finishedAt": "2026-10-19T12:49:16.116776+00:00"
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-19T12:59:43.645412+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-preflight-2",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-preflight-2/2026-10-19T12-59-44-084Z-b4982e00-3f56-4a01-acd5-f351d7876a27.result.json",
+      "networkPreflightResultSha256": "91abeabbbbc503b6b0f2e026cb3f730e8767886f564698f0cb90fa28ff80d872",
+      "finishedAt": "2026-10-19T12:59:52.985238+00:00"
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-19T14:40:31.516305+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-resume-3",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-resume-3/2026-10-19T14-40-32-201Z-1dfc77b3-7275-45d3-81a0-900992f474b9.result.json",
+      "networkPreflightResultSha256": "8c1db811592387b2adea8627b5284eb9da2299929f44ce18e3d1067315454020",
+      "finishedAt": "2026-10-19T14:40:45.366405+00:00"
+    }
+  ],
+  "stop": {
+    "code": "PREFLIGHT_FAILURE_LIMIT",
+    "index": 0,
+    "checkpointPreflightFailures": 3,
+    "sourceIds": []
+  },
+  "formalLiveRuns": 0,
+  "compressedBytesEstimate": 44727246,
+  "stopHistory": [
+    {
+      "stop": {
+        "code": "PROBE_NOT_COMPLETED",
+        "index": 0
+      },
+      "resolution": "USER_APPROVED_SETUP_RESTORATION",
+      "proofSha256": "a118cd33b323480d0ef7a33f9329af44229c7397f04c3d2e928f41116cf7736b",
+      "at": "2026-10-19T12:49:03.411505+00:00"
+    },
+    {
+      "stop": {
+        "code": "ENV_PREFLIGHT_RETRYABLE",
+        "index": 0,
+        "checkpointPreflightFailures": 1,
+        "sourceIds": [],
+        "retryNotBeforeEpoch": 1792414756.1167731,
+        "recoveryDeadlineEpoch": 1792415956.1167731,
+        "rule": "One retry after at least ten minutes; no recovery attempt beyond thirty minutes. Stop if the retry remains 503."
+      },
+      "resolution": "APPROVED_PREFLIGHT_ONLY_RETRY",
+      "at": "2026-10-19T12:59:43.645267+00:00"
+    },
+    {
+      "stop": {
+        "code": "TABLECHECK_503_PERSISTED_AFTER_RETRY",
+        "index": 0,
+        "checkpointPreflightFailures": 2,
+        "sourceIds": []
+      },
+      "resolution": "USER_REQUESTED_CONTINUATION_AFTER_SUCCESSFUL_NETWORK_RECHECK",
+      "approvalSha256": "a3cfe261e1b71117abbf8a9d60412d51c98c21db9afa5c3545f102035ee239da",
+      "at": "2026-10-19T14:40:31.516126+00:00"
+    }
+  ],
+  "userResume": {
+    "index": 0,
+    "priorPreflightAttempts": 2,
+    "approvalSha256": "a3cfe261e1b71117abbf8a9d60412d51c98c21db9afa5c3545f102035ee239da",
+    "at": "2026-10-19T14:40:31.516266+00:00"
+  }
+}
