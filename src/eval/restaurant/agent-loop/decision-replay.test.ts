@@ -10,7 +10,7 @@ import { assessSelectionReplay } from "./selection-replay-assessment.js";
 
 test("P2-2 conditional selection oracle checks every target and leaves uncompiled reviewer conditions unassessed", async () => {
   const root = new URL("../../../../",import.meta.url);
-  const annotations = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/seed-annotations.reviewer.json",root),"utf8"));
+  const annotations = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/seed-annotations.rev1.frozen.json",root),"utf8"));
   const contracts = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/selection-contracts.json",root),"utf8"));
   const seed = JSON.parse(await readFile(new URL(".eval-artifacts/phase1-replay/seeds.v7.json",root),"utf8")).seeds.find((seed: ReplaySeed) => seed.seedId === "p1-seed-0134");
   const capture = (await readFile(new URL(seed.origin.runArtifact,root),"utf8")).split(/\n/).filter(Boolean).map(line => JSON.parse(line)).find(row => row.sequence === seed.origin.decisionIndex);
