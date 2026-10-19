@@ -12,8 +12,9 @@ import { ModelBrowserReadActionDecision, decodeBrowserReadActionWire, BROWSER_AC
 import { normalizeRestaurantAgentActionStrictWire, RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA } from "../../../../domains/restaurant/agent-action.js";
 import { candidateAvailabilityPath, restaurantDiscoveryPacks } from "../../../../integrations/restaurant-search/source-packs.js";
 import { tabelogQueryControlHints } from "../../../../integrations/tabelog/tabelog-query-controls.js";
+import { availabilityCheckSelectionScope, observedCandidateDistance } from "../../../../domains/restaurant/candidate-read-observations.js";
 import { observedCandidateSourceCategories } from "../../../../domains/restaurant/agent-context.js";
-import { RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION, RESTAURANT_AGENT_DECISION_PROMPT_VERSION, RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION } from "../../../../domains/restaurant/agent-decision.js";
+import { RESTAURANT_AGENT_ACTION_FIELDS_INSTRUCTION, RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION, RESTAURANT_AGENT_DECISION_PROMPT_VERSION, RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION } from "../../../../domains/restaurant/agent-decision.js";
 import type { RestaurantOutlet, RestaurantReadEvidence } from "../../../../domains/restaurant/contracts.js";
 import { RESTAURANT_AGENT_CONTEXT_SCHEMA } from "../../../../domains/restaurant/agent-context.js";
 
@@ -33,20 +34,30 @@ export interface CapturedDecision {
 
 /** Same captured messages/constraints, enriched only with source IDs observed
  * before this turn. Independent labels and witnesses are never arguments. */
-export function availabilityPathInjectedRequest(seed: ReplaySeed, row: CapturedDecision, observed: readonly RestaurantOutlet[]): ModelRequest {
+export function availabilityPathInjectedRequest(seed: ReplaySeed, row: CapturedDecision, observed: readonly RestaurantOutlet[], evidence: readonly RestaurantReadEvidence[]): ModelRequest {
   if (seed.level !== "AGENT") throw Error("AVAILABILITY_PATH_REQUIRES_AGENT_SEED");
   const base = originalRequest(seed,row);
   return { ...base, promptVersion: RESTAURANT_AGENT_DECISION_PROMPT_VERSION,
     messages: row.messages.map(message => {
-      if (message.role === "system") return { ...message, content: message.content + "\n\n" + RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION };
+      if (message.role === "system") return { ...message, content: message.content + "\n\n" + RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION + "\n" + RESTAURANT_AGENT_ACTION_FIELDS_INSTRUCTION };
       if (message.role !== "user") return message;
       const input = JSON.parse(message.content);
-      return { ...message, content: JSON.stringify({ ...input, context: { ...input.context, schemaVersion: RESTAURANT_AGENT_CONTEXT_SCHEMA.version,
+      const context = { ...input.context, schemaVersion: RESTAURANT_AGENT_CONTEXT_SCHEMA.version,
         candidates: input.context.candidates.map((candidate: { id: string }) => {
           const outlet = observed.find(item => item.id === candidate.id);
           if (!outlet) throw Error(`MISSING_PRE_DECISION_SOURCE_IDS:${candidate.id}`);
           return { ...candidate, availabilityPath: candidateAvailabilityPath(outlet) };
-        }) } }) };
+        }) };
+      const previousIds = context.checkableCandidateIds ?? context.legalActions.checkAvailability;
+      const explicitRefresh = context.presentation.some((item: { recheckReason?: string }) => item.recheckReason === "USER_REQUESTED_REFRESH");
+      const scope = explicitRefresh ? previousIds : availabilityCheckSelectionScope(previousIds, context.candidates.map((candidate: {id:string;availabilityPath:"DIRECT_SOURCE_PAGE"|"NAME_RESOLUTION"|"NONE"}) => ({
+        id:candidate.id, availabilityPath:candidate.availabilityPath,
+        inRadius:observedCandidateDistance(evidence,candidate.id,context.now).distanceObservation!==undefined,
+        alreadyChecked:context.availabilityChecks[candidate.id]!==undefined,
+      })));
+      context.checkableCandidateIds=scope;
+      context.legalActions={...context.legalActions,checkAvailability:scope};
+      return { ...message, content: JSON.stringify({ ...input, context }) };
     }) };
 }
 /** Original messages plus source facts already observed at this decision, without DOM reconstruction. */

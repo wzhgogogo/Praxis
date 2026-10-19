@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { createHash } from "node:crypto";
 import { gunzipSync } from "node:zlib";
-import { runDecisionReplay, acceptableReplayAction, reproducesRecordedAction, rebuildBrowserInput, type ReplaySeed } from "./runners/run-decision-replay.js";
+import { availabilityPathInjectedRequest, runDecisionReplay, acceptableReplayAction, reproducesRecordedAction, rebuildBrowserInput, type ReplaySeed } from "./runners/run-decision-replay.js";
 import { assessSelectionReplay } from "./selection-replay-assessment.js";
 
 test("P2-2 conditional selection oracle checks every target and leaves uncompiled reviewer conditions unassessed", async () => {
@@ -31,6 +31,14 @@ test("P2-2 conditional selection oracle checks every target and leaves uncompile
   const mixedIds = [...directIds.slice(0,2),seed.recordedAction.candidateIds[1]];
   assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:mixedIds},context,observed,rev2,currentRules,1000).verdict,"ACCEPTABLE","approved revision2 permits two DIRECT plus one in-radius name resolution");
   assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:mixedIds},context,observed,annotation,rules,1000).verdict,"NOT_ACCEPTABLE","same output remains below the old strict rule");
+  const injected = availabilityPathInjectedRequest(seed,capture,observed,artifact.finalSnapshot.domainState.readEvidence);
+  const after = JSON.parse(injected.messages.find(message=>message.role==="user")!.content).context;
+  assert.equal(after.checkableCandidateIds.length,8,"production structural scope uses pre-decision circle evidence, not annotation IDs");
+  assert.deepEqual(after.legalActions.checkAvailability,after.checkableCandidateIds);
+  assert.equal(after.checkableCandidateIds.includes(seed.recordedAction.candidateIds[1]),false);
+  assert.deepEqual(after.factInvestigableCandidateIds,context.factInvestigableCandidateIds);
+  assert.deepEqual(after.intentDraft,context.intentDraft);assert.deepEqual(after.candidates.map((c:{id:string})=>c.id),context.candidates.map((c:{id:string})=>c.id));
+  assert.ok(injected.messages[0]!.content.includes("Every field unrelated to the selected action MUST be empty"));
   const reduced = {...context,checkableCandidateIds:directIds.slice(0,2),candidates:context.candidates.filter((c: {id:string}) => directIds.slice(0,2).includes(c.id) || c.id === seed.recordedAction.candidateIds[1])};
   assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:[directIds[0]]},reduced,observed,rev2,currentRules,1000).verdict,"NOT_ACCEPTABLE","with two direct options, both must be included");
   assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:directIds.slice(0,2)},reduced,observed,rev2,currentRules,1000).verdict,"ACCEPTABLE");
