@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.181
+- Document revision: 4.183
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4591,3 +4591,13 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## TEST-2026-10-19-P21-B-20M-RECHECK-RESULT
 
 按用户“你等20分钟再测一下”，冻结e691ca0后在UTC13:30:16.007–13:30:27.363执行一次runDiscoveryProbePreflight；晚于13:29:14，不提前访问。TableCheck范围GET206、Tabelog200、DeepSeek模型目录GET200、Google公开根路径404，NETWORK_READINESS PASSED，生产预检11219ms。原始HTTP元数据及摘要/SHA保存于checkpoint-b-corrected-20261019/environment-recheck-20m/attempt-1。仅4次既有预检GET，0模型生成、0Google搜索、0正式探测；没有来源非空预检、浏览器或Agent评价。原停止账本SHA不变，两次503和计数2保留；该通过不代表列表非空或B产品效果，不自动恢复B。新B仍0/10、模型278/450、探测44/55、Google117、完整Live0。复用a37e152五门禁951/951、Chromium119/119；此次冻结/历史/链接/diff与raw完整性另核。推送本批后停止待复核。报告：[追加预检结果](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。
+
+
+## TEST-2026-10-19-P21-B-USER-CONTINUE
+
+用户“你赶紧的”要求继续来源非空预检和修正B。独立outer user-resume-20261019已提交2f088b8：仅接纳两次503且0模型/0正式启动的停批状态，核对已成功补检与原账本SHA。原stop及完整账本另存，历史尝试不改，只追加恢复记录；保留计数2，任何新计数失败停批。生产a37e152、冻结输入和预算不变，无产品/Prompt/Schema修改。复用原Runner网络及来源非空预检，通过才开始模型，不另加重复来源请求。17项旧对照及7项恢复准入对照共24/24通过（0网络/模型）；复用源代码五门禁951与Chromium119。起点278模型/44探测/117Google，待原计划B10。报告：[续跑说明](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。
+
+
+## TEST-2026-10-19-P21-B-USER-CONTINUE-ENV-STOP
+
+用户要求立即继续，外层2f088b8已在执行前提交；宿主机a37e152/CLEAN于UTC14:40:31.516–14:40:45.366尝试首例。TableCheck首页GET再返回503（TLS成功），DeepSeek200、Tabelog200、Google公开根路径404；NETWORK_READINESS失败，尚未进入来源搜索非空检查、浏览器或模型。21:30曾206、22:40再503仅为观测事实，不据此归因VPN、限流或网站。旧三条attempt和stopHistory前缀保持，旧账本原字节另存；本次新增1次失败，累计3触发PREFLIGHT_FAILURE_LIMIT，未自动重试、未启动其他例。0新增模型/搜索/正式探测，修正B仍0/10，累计278/450模型、44/55探测、117Google、0完整Live。复用原生产五门禁951/119及24项外层离线对照，329原冻结与2893历史SHA通过。来源非空、模型效果及B比较保持NOT_REACHED。原始result、日志与账本同步证明：[续跑结果](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。保存提交推送后停止待复核。

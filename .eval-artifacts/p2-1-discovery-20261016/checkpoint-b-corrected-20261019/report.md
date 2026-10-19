@@ -122,3 +122,19 @@ Final delivery: source correction a37e152; initial freeze3c4d241; preserved star
 NETWORK_READINESS **PASSED**，生产预检耗时11219ms。TableCheck的206是范围GET的正常可达响应，Google404是公开根路径的可达性响应，均按原预检规则接纳；不是餐厅列表或库存证据。原始[网络预检result](environment-recheck-20m/attempt-1/2026-10-19T13-30-16-142Z-c6118fff-af53-45a7-a9ec-04f3b7746035.result.json)，SHA-256 `9120fac84f746e973982f1b910faa93472f592069d699280c62611fcab4f5ccb`；[一次性摘要](environment-recheck-20m/attempt-1/summary.json)、[完整外层日志](environment-recheck-20m/recheck.outer.log)。
 
 新增模型0、Google搜索0、正式探测0、完整Live0；只有4次原预检GET。未运行来源非空检查、浏览器、正式探测或Agent diagnostic evaluator；后者对此网络诊断为NOT_APPLICABLE。该结果只证明这一时刻可达，不证明搜索非空、环境持续稳定或B效果。原两次503、计数2、`TABLECHECK_503_PERSISTED_AFTER_RETRY`和停止账本字节未变；不抹除历史失败，也未擅自恢复B。修正B仍0/10、全部比较NOT_REACHED，累计仍278/450模型、44/55探测、117 Google、0完整Live。一次性授权已用完，不自动重试；保存并推送后停下待复核。
+
+
+## User-requested continuation of corrected B
+
+Following the user request to continue immediately, outer commit2f088b8 adds a strictly bounded continuation entry after the successful network recheck. Source a37e152, inputs and budgets are unchanged. The original stopped ledger is preserved at[user-resume-20261019/ledger-before.json](user-resume-20261019/ledger-before.json); no prior attempt or failure count is removed. The next countable failure exceeds the retained checkpoint count2 and stops. All24 offline controls passed with0 network/model calls. Each unchanged Runner invocation performs network and source-nonempty preflight before starting formal discovery; no duplicate stand-alone source check was added. See[approval and scope](user-resume-20261019/approval.json) and[freeze](user-resume-20261019/freeze.json).
+
+
+## Latest outcome: continuation stopped before source-data preflight (Beijing22:40)
+
+Attempt started UTC2026-10-19T14:40:31.516305+00:00 and finished 2026-10-19T14:40:45.366405+00:00. The source/outer freeze was committed before execution (source a37e152, outer2f088b8). The unchanged Runner failed NETWORK_READINESS: TableCheck homepage GET503 with TLS established; DeepSeek200, Tabelog200 and public Google reachability404. Network elapsed13128ms. The earlier Beijing21:30 TableCheck206 and this Beijing22:40 TableCheck503 are separate observations; no root cause is asserted.
+
+[Raw network result](runs/p2-kf-h001-20261027/attempt-1-user-resume-3/2026-10-19T14-40-32-201Z-1dfc77b3-7275-45d3-81a0-900992f474b9.result.json), SHA256 `8c1db811592387b2adea8627b5284eb9da2299929f44ce18e3d1067315454020`; [outer log](runs/p2-kf-h001-20261027/attempt-1-user-resume-3.outer.log); [attempt summary](user-resume-20261019/attempt-summary.json); [ledger prefix/SHA proof](user-resume-20261019/ledger-sync-proof.json); [original stopped ledger](user-resume-20261019/ledger-before.json); [current ledger](ledger.json).
+
+Prior attempt records and stopHistory prefix remain unchanged. User-approved continuation appended the recovery record and this failed attempt, preserving counter2; the new failure raises it to3 and stops with PREFLIGHT_FAILURE_LIMIT. No retry or later case was started. NETWORK_READINESS must pass before SOURCE_DATA_NONEMPTY, which therefore remains **NOT_REACHED**, not EMPTY_RESULT. Formal discovery, planning, first batch, witness metrics, Agent diagnostic evaluation, decisions and recording are also NOT_REACHED/NOT_APPLICABLE. Do not interpret zero calls or empty aggregates as functional success.
+
+Corrected B remains0/10 formal runs,0 new models,0 new Google discovery requests; cumulative278/450 models,44/55 probes,117 Google,0 full Live. Approved source fixes remain offline-verified only (951 default tests,119 local Chromium, typecheck/arch/build passed;24 outer controls). All ten A-versus-B rows stay NOT_REACHED. Stop and preserve evidence for review; no product, input, witness, permission or qualification change was made to continue.

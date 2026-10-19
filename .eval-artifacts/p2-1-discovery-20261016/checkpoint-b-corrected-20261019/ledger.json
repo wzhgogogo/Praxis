@@ -2,7 +2,7 @@
   "models": 0,
   "google": 0,
   "preflightGoogle": 0,
-  "preflightFailures": 2,
+  "preflightFailures": 3,
   "completed": [],
   "attempts": [
     {
@@ -75,16 +75,44 @@
       "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-preflight-2/2026-10-19T12-59-44-084Z-b4982e00-3f56-4a01-acd5-f351d7876a27.result.json",
       "networkPreflightResultSha256": "91abeabbbbc503b6b0f2e026cb3f730e8767886f564698f0cb90fa28ff80d872",
       "finishedAt": "2026-10-19T12:59:52.985238+00:00"
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-19T14:40:31.516305+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-resume-3",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-resume-3/2026-10-19T14-40-32-201Z-1dfc77b3-7275-45d3-81a0-900992f474b9.result.json",
+      "networkPreflightResultSha256": "8c1db811592387b2adea8627b5284eb9da2299929f44ce18e3d1067315454020",
+      "finishedAt": "2026-10-19T14:40:45.366405+00:00"
     }
   ],
   "stop": {
-    "code": "TABLECHECK_503_PERSISTED_AFTER_RETRY",
+    "code": "PREFLIGHT_FAILURE_LIMIT",
     "index": 0,
-    "checkpointPreflightFailures": 2,
+    "checkpointPreflightFailures": 3,
     "sourceIds": []
   },
   "formalLiveRuns": 0,
-  "compressedBytesEstimate": 44724575,
+  "compressedBytesEstimate": 44727246,
   "stopHistory": [
     {
       "stop": {
@@ -107,6 +135,23 @@
       },
       "resolution": "APPROVED_PREFLIGHT_ONLY_RETRY",
       "at": "2026-10-19T12:59:43.645267+00:00"
+    },
+    {
+      "stop": {
+        "code": "TABLECHECK_503_PERSISTED_AFTER_RETRY",
+        "index": 0,
+        "checkpointPreflightFailures": 2,
+        "sourceIds": []
+      },
+      "resolution": "USER_REQUESTED_CONTINUATION_AFTER_SUCCESSFUL_NETWORK_RECHECK",
+      "approvalSha256": "a3cfe261e1b71117abbf8a9d60412d51c98c21db9afa5c3545f102035ee239da",
+      "at": "2026-10-19T14:40:31.516126+00:00"
     }
-  ]
+  ],
+  "userResume": {
+    "index": 0,
+    "priorPreflightAttempts": 2,
+    "approvalSha256": "a3cfe261e1b71117abbf8a9d60412d51c98c21db9afa5c3545f102035ee239da",
+    "at": "2026-10-19T14:40:31.516266+00:00"
+  }
 }

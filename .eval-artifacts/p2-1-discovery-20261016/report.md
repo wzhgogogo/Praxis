@@ -229,3 +229,8 @@ B仅完成3/10发现探测：h001两次和神乐坂第1次；3条原始网络审
 ## 用户追加20分钟后网络预检（2026-10-19 北京21:30）
 
 UTC13:30:16–13:30:27独立预检通过：TableCheck206、Tabelog200、DeepSeek200、Google公开根路径404（原冻结规则认可可达）。0模型、0Google搜索、0正式探测；只证明网络可达，不证明搜索非空或B功能。原两次503与停止账本保持，修正B仍0/10。累计278/450模型、44/55探测、117 Google、0完整Live。详情和原始result见[修正B追加预检结果](checkpoint-b-corrected-20261019/report.md)。
+
+
+## User-requested B continuation: ENV_FAILURE (Beijing22:40)
+
+After the successful21:30 network-only recheck, the user requested immediate continuation. The outer2f088b8 preserved both previous503 failures. AtUTC14:40:32 the unchanged Runner received another503 from TableCheck homepage; network preflight failed before source-nonempty search checks or formal discovery. Counter3 triggered PREFLIGHT_FAILURE_LIMIT; no retry. Corrected B0/10,0 new models/Google searches/probes; cumulative278/450 models,44/55 probes,117Google,0fullLive. [Report and raw paths](checkpoint-b-corrected-20261019/report.md).
