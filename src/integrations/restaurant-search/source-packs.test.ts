@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFileSync } from "node:fs";
 
 import { discoveryPackById, googlePlacesDiscoveryPack, tableCheckDiscoveryPack, tabelogDiscoveryPack } from "./source-packs.js";
 
@@ -95,4 +96,19 @@ test("C8 list categories stay source-attributed to one outlet, without borrowing
     <article><a href="/en/outlet-one">One</a><span class="VisibleCuisineText">Japanese, Seafood</span></article>
     <article><a href="/en/outlet-two">Two</a><span class="VisibleCuisineText">French</span></article>` });
   assert.deepEqual(venues.outlets.map(outlet => outlet.sourceCategories), [["Japanese, Seafood"], ["French"]]);
+});
+
+
+test("observed regional homepage exposes only its own category listing links", () => {
+  const html = readFileSync(new URL('../tabelog/fixtures/p21-region-homepage-categories.html', import.meta.url), 'utf8');
+  const directory = tabelogDiscoveryPack.browser!.directory!;
+  const homepage = 'https://tabelog.com/en/tokyo/A1303/';
+  const foreign = 'https://tabelog.com/en/tokyo/A1301/rstLst/sushi/';
+  for (const url of [homepage, homepage + '?sw=omakase']) {
+    const links = directory.links({url, html: html + `<a href="${foreign}">Foreign category</a>`, title:'Region',text:'Region'}).filter(link => link.category);
+    assert.ok(links.length > 0, 'real A1 homepage category fragment must be exposed');
+    assert.ok(links.every(link => directory.listingRoot(link.url) === '/en/tokyo/A1303/rstLst/'));
+    assert.equal(links.some(link => link.url === foreign), false);
+  }
+  assert.equal(directory.links({url:'https://tabelog.com/en/',html,title:'National',text:''}).length,0);
 });

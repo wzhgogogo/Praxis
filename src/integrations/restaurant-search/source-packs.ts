@@ -146,7 +146,8 @@ function regionalDirectoryHomepage(value: string): string | undefined {
 }
 
 function directoryListingLinks(page: BrowserSnapshot): Array<{ url: string; label: string; attributes: string; category: boolean }> {
-  const root = directoryListingRoot(page.url);
+  const homepage = regionalDirectoryHomepage(page.url);
+  const root = directoryListingRoot(page.url) ?? (homepage ? `${new URL(homepage).pathname}rstLst/` : undefined);
   return [...page.html.matchAll(/<a\b([^>]*\bhref=["']([^"']+)["'][^>]*)>([\s\S]*?)<\/a>/gi)].flatMap((match) => {
     try {
       const url = new URL(match[2]!.replaceAll("&amp;", "&"), page.url);

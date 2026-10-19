@@ -2340,13 +2340,15 @@ test('P21 production discovery refines a dynamic explicit empty list before deta
  const {tabelogDiscoveryPack}=await import('../../integrations/restaurant-search/source-packs.js');
  const {restaurantSearchIntentFingerprint}=await import('../../domains/restaurant/contracts.js');
  const empty=await readFile(new URL('../../integrations/tabelog/fixtures/empty-kaiseki.html',import.meta.url),'utf8');
- const region='https://tabelog.com/en/tokyo/A1000/A100001/rstLst/';
- const category=region+'cuisine/';const foreign='https://tabelog.com/en/tokyo/A2000/A200001/rstLst/cuisine/';
+ const homepageFragment=await readFile(new URL('../../integrations/tabelog/fixtures/p21-region-homepage-categories.html',import.meta.url),'utf8');
+ for(const mode of ['refine','reject','homepage'] as const){
+ const region=mode==='homepage'?'https://tabelog.com/en/tokyo/A1303/':'https://tabelog.com/en/tokyo/A1000/A100001/rstLst/';
+ const category=mode==='homepage'?region+'rstLst/sushi/':region+'cuisine/';
+ const observedCategory=mode==='homepage'?category+'?sw=omakase':category;const foreign='https://tabelog.com/en/tokyo/A2000/A200001/rstLst/cuisine/';
  const root='https://tabelog.com/en/tokyo/rstLst/';const keyword=region+'?sw=kaiseki';
  const outlet=(n:number)=>`https://tabelog.com/tokyo/A1000/A100001/${12345600+n}/`;
  const links=(count:number)=>Array.from({length:count},(_,i)=>`<article><a class="list-rst__rst-name-target" href="${outlet(i+1)}">Fixture venue ${i+1}</a></article>`).join('');
- const categories=`<a href="${category}">Observed cuisine</a><a href="${foreign}">Foreign category</a><a style="display:none" href="${region}hidden/">Hidden category</a>`;
- for(const mode of ['refine','reject'] as const){
+ const categories=(mode==='homepage'?homepageFragment:`<a href="${category}">Observed cuisine</a>`)+`<a href="${foreign}">Foreign category</a><a style="display:none" href="${region}hidden/">Hidden category</a>`;
   const directory=await mkdtemp(join(tmpdir(),'p21-retrieval-'));const harPath=join(directory,'discovery.har');const navigations:string[]=[];const requests:Array<{purpose:string;body:any}>=[];
   const dynamic=(html:string)=>'<title>Fixture results</title><div class="skeleton" aria-busy="true">Loading results</div><script>setTimeout(()=>{document.body.innerHTML='+JSON.stringify(html)+'},120)</script>';
   const pages:Record<string,string>={[root]:`<title>Directory</title><a href="${region}">Fixture District</a>`,[region]:'<title>Region</title>'+links(1)+categories,[keyword]:dynamic(empty+categories),[category]:dynamic(links(5)+categories)};
@@ -2361,8 +2363,9 @@ test('P21 production discovery refines a dynamic explicit empty list before deta
     const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);requests.push({purpose:request.purpose,body});let result:unknown;
     if(request.purpose==='restaurant_discovery_retrieval'){
       assert.ok(body.observation.categories.every((c:{url:string})=>c.url!==foreign&&!c.url.endsWith('/hidden/')),'only visible same-region categories reach the model');
+      if(mode==='homepage')assert.ok(body.observation.categories.length>0,'observed region homepage categories reach the planner');
       result=mode==='reject'?{choice:body.current?'KEEP':'CATEGORY',keyword:'',criterionRef:'',categoryUrl:body.current?'':foreign,reason:'Challenge source scope'}
-        :body.current?{choice:'CATEGORY',keyword:'',criterionRef:'',categoryUrl:category,reason:'Explicit empty, use observed category'}:{choice:'KEYWORD',keyword:'kaiseki',criterionRef:'criterion:0',categoryUrl:'',reason:'Short positive retrieval'};
+        :body.current?{choice:'CATEGORY',keyword:'',criterionRef:'',categoryUrl:observedCategory,reason:'Explicit empty, use observed category'}:{choice:'KEYWORD',keyword:'kaiseki',criterionRef:'criterion:0',categoryUrl:'',reason:'Short positive retrieval'};
     }else{
       const target=body.observation.targets.find((t:{label:string})=>t.label==='Fixture District');
       result=target?{action:'OPEN_LINK',targetRef:target.ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Observed region'}:{action:'WAIT',targetRef:'',authoritativeField:'NONE',requestedState:'NONE',reason:'Wait for current result'};
@@ -2373,9 +2376,9 @@ test('P21 production discovery refines a dynamic explicit empty list before deta
   const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxModelCalls:15,maxAutomaticBrowserMs:30000,packs:[tabelogDiscoveryPack]}, {model,browser:runtime,google:new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async()=>{throw Error('No external Google');}}),clock:{now:()=>new Date('2026-10-17T00:00:00Z')}});
   try{
     const result=await assembly.search.search({readRunId:'chromium-retrieval',intent,continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:35,longitude:139,radiusMeters:1000,label:'Fixture District',areaMatchBasis:'NAMED_PLACE_RADIUS'}}},AbortSignal.timeout(30000));
-    assert.equal(result.candidates.length,mode==='refine'?5:1,JSON.stringify({metadata:result.metadata,navigations}));
+    assert.equal(result.candidates.length,mode==='reject'?1:5,JSON.stringify({metadata:result.metadata,navigations}));
     assert.equal(navigations.includes(foreign),false);assert.equal(navigations.some(u=>u.includes('/reserve')||u.includes('/booking')),false);
-    if(mode==='refine'){
+    if(mode!=='reject'){
       assert.ok(navigations.indexOf(category)<navigations.indexOf(outlet(1)),'refinement precedes detail reads');
       assert.ok(requests.some(r=>r.body.observation?.explicitEmpty),'recorded real empty state is parsed after its loader disappears');
       assert.equal(result.metadata.nativeDiscoveryFunnel?.retrieval?.rewrites,1);

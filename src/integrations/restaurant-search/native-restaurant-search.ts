@@ -354,15 +354,30 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       progressionReason: failed ? "SOURCE_FAILURE" as const : source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" as const : "FIRST_SOURCE_BATCH_ENDED" as const,
       listingObservations, retrieval, ...(queryAdjustment ? { queryAdjustment } : {}) });
     const planListing = async (initial: BrowserSnapshot, directoryRoot?: string) => {
-      let page=initial;
-      const directory=pack.browser!.directory;
-      const eligible=query.positiveCriteria.length>0;
-      const categories=async()=>{
-        if(!directory||!directoryRoot)return [];
-        const controls=await session!.observeControls?.()??[];
-        return directory.links(page).filter(link=>link.category&&directory.listingRoot(link.url)===directoryRoot&&controls.some(c=>c.visible&&c.kind==='LINK'&&c.href===link.url)).map(({url,label})=>({url,label}));
+      let page = initial;
+      const directory = pack.browser!.directory;
+      const eligible = query.positiveCriteria.length > 0;
+      // A Pack-verified regional homepage can expose category lists without
+      // being a directory listing itself. Keep that exact observed region as
+      // the boundary; URL syntax remains owned by the Pack.
+      const initialHomepage = !directoryRoot
+        && directory?.isObservedRegionHomepageListing?.(initial, initial.url) === true;
+      const sameRegionListing = (url: string) => !!directory && (
+        directoryRoot ? directory.listingRoot(url) === directoryRoot
+          : initialHomepage && !!directory.listingRoot(url)
+            && directory.isSameObservedRegionHomepage?.(url, initial.url) === true
+      );
+      const categories = async () => {
+        if (!directory) return [];
+        const controls = await session!.observeControls?.() ?? [];
+        return directory.links(page)
+          .filter(link => link.category && sameRegionListing(link.url)
+            && controls.some(control => control.visible && control.kind === 'LINK' && control.href === link.url))
+          .map(({url, label}) => ({url, label}));
       };
-      const scope=(current:BrowserSnapshot)=>!directory || !!directoryRoot&&directory.listingRoot(current.url)===directoryRoot || !!directory.isSameObservedRegionHomepage?.(initial.url,current.url)&&directory.isObservedRegionHomepageListing?.(current,initial.url)===true;
+      const scope = (current: BrowserSnapshot) => !directory || sameRegionListing(current.url)
+        || directory.isSameObservedRegionHomepage?.(initial.url, current.url) === true
+          && (initialHomepage || directory.isObservedRegionHomepageListing?.(current, initial.url) === true);
       const apply=async(selection: import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection)=>{
         const oldUrl=page.url;
         let url:string;

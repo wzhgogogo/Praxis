@@ -1,7 +1,7 @@
 # Golden Scenarios
 
 - Status: Accepted
-- Document revision: 0.13
+- Document revision: 0.14
 - Last updated: 2026-10-19
 - Source of truth for: 首批Harness场景目录和核心断言
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
@@ -117,3 +117,5 @@ The real local Chromium receiver in read-network-redirect.test.ts proves exact r
 ## 2026-10-19 authorized CORS follow-up
 
 read-network-redirect.test.ts additionally covers genuine browser GET preflight plus refused POST preflight, extra header, wrong path, missing GET rule and manual OPTIONS. CDP protocol facts, independent GET receiver, Live sanitization, Recorder and external observer are checked. Independent S0 covers normal, missing and contradictory facts. This local fixture is not current website or baseline evidence.
+
+2026-10-19补齐同地区首页：复用P21动态改写Chromium组合，加入A1原样类别锚点（无CSS）＋可控列表／加载过程；旧版类别0导致组合失败，新版能先改写再读5家详情。隐藏、跨地区类别与原拒绝路径仍验证。Pack单测另核对真实片段及全国入口反例；不是原网站静态Replay，外站效果另由新检查点A报告。

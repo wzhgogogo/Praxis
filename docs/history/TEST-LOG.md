@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.161
+- Document revision: 4.162
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4455,3 +4455,12 @@ A冻结39fc15e、外层先提交e7e6913；输入/见证/规则SHA与干净工作
 真实Chromium的6.5秒响应在旧代码下 EMPTY_RESULT/count0（red.log），修后返回1家/HTTP200（green.log）；既有空200、503无响应、无状态缺证及超时反例通过。五门禁typecheck/arch/build通过、默认941/941、完整真实Chromium117/117，日志见 checkpoint-a-corrected-20261019/preflight/gates/。
 
 按aaeb088复核及用户指令，旧3次失败追加标注为“预检缺陷，原因未完全确认”，停止计数归0；旧A #1标为“P2-1a缺陷版本”并排除比较，原始字节与旧账本不改，4模型/1正式探测仍计费。探测上限42、模型450，累计145模型/21探测/50Google；本项0模型/真实网络/探测/完整Live。基线acfaaffa不变，接下来只修首页类别与规划提示，再重冻A；nearby留A后，P2-1b不开始。
+
+
+## TEST-2026-10-19-P21-homepage-retrieval-fix
+
+补齐Pack已识别的同地区首页类别：Pack从实际锚点提取本地区类别，执行器通过Pack地区绑定与当前可见LINK核对，继续拒绝隐藏、异地区与全国入口。未增加网络权限或资格放宽。Planner Prompt@2明确改写保留候选、少于5家优先相关类别、KEEP只用于列表足够；Schema@1不变。
+
+A1原样7个类别锚点（snapshot5）旧Pack为0、新版大于0；生产组装的真实Chromium组合先红后绿，先改写再读取5家详情，原隐藏／异地区拒绝与候选保留覆盖仍通过。片段没有CSS，不当作原网站Replay；可见性由本地控件与新A来源另验。红灯red-pack.log/red-unit.log/red-composition.log，绿灯green-unit.log/green-composition.log；五门禁typecheck/arch/build通过、默认942/942、真实Chromium117/117，日志checkpoint-a-corrected-20261019/retrieval/gates/。
+
+本项0真实模型/Google/网站/探测/完整Live；累计145/450模型、21/42探测、50Google。基线acfaaffa不变，旧A1不计比较但用量保留。下一步新干净工作树从头A10；Google-only nearby留A后单独提交，P2-1b不开始。
