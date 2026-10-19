@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.262
+- Document revision: 4.263
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-1 A后Google-only nearby修正：** A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点规划输入不把nearby当成地点名，已规划Google Text Search复用现有去除nearby的area值。命名地点、权威坐标／半径、HARD和交付规则均不变；未修改P2-1a冻结工作树、Prompt、Schema或Gold。 生产createLiveReadAssembly入口＋脚本模型＋受控Google传输先红后绿：带来源／观察时间的有效坐标Fixture中，旧版location=nearby／local food nearby，新版空地点／local food；命名地点对照和坐标约束、intent不变通过，意外浏览器访问被测试拒绝。最终有效红灯nearby/red-typed-fixture.log，绿灯green-typed-fixture.log。原始缺失类型标注及两个依赖nearby字面量的旧组合失败日志保留；仅将h003/h005 SYNTHETIC_CONTROL检索匹配元数据改为通用restaurant，不改任何来源事实或Gold，既有五案组合恢复通过。 最终五门禁typecheck/arch/build通过、默认943/943、真实Chromium117/117，日志nearby/gates/。本项0真实模型／Google／来源／探测／整单Live；总量保持198/450模型、31/42探测、79Google。证明仅L0/L1受控组合，真实A仍用209ac42，效果和限制见A报告；不开始P2-1b或完整Live。按用户授权推送后停止待独立复核，推送以Git回执为准。
 
 - **2026-10-19 P2-1修正A10完成／结果待复核：** 修正A10在干净209ac42全部完成，外层ee6ebd0／315冻结SHA通过；10次来源非空预检READY，0补试／0正式重跑／0计数失败，正式trace独立S0_BOUNDARY全ABSENT（不推断未知GET无副作用）。新增53模型／53成功决策、19正式Google＋10预检Google；累计198/450模型、31/42探测、79Google、0整单Live。 与acfaaffa同序输入的10次基线比较：Tabelog列表见证1→8／首批0→3；TableCheck列表与首批均0→0；Google精确官网ID5→3（名称线索不计）。列表含宽地区导航，不能当最终改写成功；页面内14次规划类别仍全0，本地提取7个原始锚点与Chromium机制绿灯不能证明真实页面类别扩展有效。总模型55→53，总时长788353→1062253ms；24规划调用52395ms、0超时。两项READ_BUDGET_EXCEEDED及CONTROL候选减少按原记录报告，不归因为某项修复。 逐例比较、来源序列、实际接受历史、页数、半径、规划时间、capture／trace／recording SHA及四层评价限制见checkpoint-a-corrected-20261019/report.md、comparison.json、audit.json。807份历史文件字节不变，旧A1缺陷版本不参与比较且用量保留；录制状态不冒称Replay。源码不变复用五门禁942/942、真实Chromium117/117，另验纯文档链接、JSON、diff与预算。A后只做独立Google-only nearby局部修复，不开始P2-1b／完整Live。
 

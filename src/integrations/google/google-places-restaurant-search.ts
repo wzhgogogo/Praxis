@@ -71,7 +71,7 @@ export function buildGooglePlacesTextQuery(request: RestaurantSearchRequest): st
   }
   if(request.discoveryQuery)return `${request.discoveryQuery.category} ${request.discoveryQuery.location.label}`.trim();
   const area=request.intent.area.query.trim().toLowerCase()==='nearby'?'':request.intent.area.query;
-  if(request.discoveryRetrieval)return `${request.discoveryRetrieval.keyword??generalDiscoveryCategory(request.intent)} ${request.intent.area.query}`.trim();
+  if(request.discoveryRetrieval)return `${request.discoveryRetrieval.keyword??generalDiscoveryCategory(request.intent)} ${area}`.trim();
   return [request.intent.target?.query,'restaurant',area,request.retrievalHint?.trim()].filter(Boolean).join(' ');
 }
 

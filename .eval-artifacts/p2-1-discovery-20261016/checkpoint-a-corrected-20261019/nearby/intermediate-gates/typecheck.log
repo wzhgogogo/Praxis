@@ -1,0 +1,7 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/native-discovery-composition.test.ts(1021,35): error TS2322: Type '{ timezone: 'Asia/Tokyo'; area: { query: string; coordinates: { latitude: number; longitude: number; }; radiusMeters: number; }; criteria: { text: string; polarity: 'POSITIVE'; strength: 'HARD'; }[]; }' is not assignable to type 'RestaurantSearchIntent'.
+  The types of 'area.coordinates' are incompatible between these types.
+    Type '{ latitude: number; longitude: number; }' is missing the following properties from type 'RestaurantAreaCoordinates': observedAt, source

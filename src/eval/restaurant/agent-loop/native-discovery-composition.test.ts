@@ -15,7 +15,7 @@ import { LiveBrowserAvailability } from "../../../integrations/restaurant-availa
 import { createLiveReadAssembly } from "../../../integrations/restaurant-search/live-read-assembly.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../application/live-read-investigation-budget.js";
 import { NativeRestaurantSearch } from "../../../integrations/restaurant-search/native-restaurant-search.js";
-import { restaurantDiscoveryPacks, tableCheckDiscoveryPack, tabelogDiscoveryPack, type DiscoverySourcePack } from "../../../integrations/restaurant-search/source-packs.js";
+import { restaurantDiscoveryPacks, tableCheckDiscoveryPack, tabelogDiscoveryPack, googlePlacesDiscoveryPack, type DiscoverySourcePack } from "../../../integrations/restaurant-search/source-packs.js";
 import { restaurantSearchIntentFingerprint, type RestaurantTaskState } from "../../../domains/restaurant/contracts.js";
 import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
@@ -996,4 +996,35 @@ test('P21 native venue and Google entries reuse one initial text retrieval propo
  assert.deepEqual(result.attemptedSourceIds,['tabelog','tablecheck','google-places']);
  const initialTextPlans=model.requests.filter(r=>r.purpose==='restaurant_discovery_retrieval'&&JSON.parse(r.messages.find(m=>m.role==='user')!.content).observation===null);
  assert.equal(initialTextPlans.length,1);assert.ok(result.resources.modelCalls<=15);
+});
+
+
+test('Google-only planned retrieval omits nearby from place context and query while preserving its circle', async () => {
+  for (const areaQuery of ['nearby', 'Fixture District']) {
+    const modelInputs: Array<{location: string}> = [];
+    const bodies: Array<{textQuery: string; locationRestriction: {rectangle: {low: {latitude: number; longitude: number}; high: {latitude: number; longitude: number}}}}> = [];
+    const model: ModelGateway = {complete: async request => {
+      assert.equal(request.purpose, 'restaurant_discovery_retrieval');
+      modelInputs.push(JSON.parse(request.messages.find(message => message.role === 'user')!.content));
+      return reply(JSON.stringify({choice:'KEYWORD',keyword:'local food',criterionRef:'criterion:0',categoryUrl:'',reason:'Positive criterion'}), request.purpose);
+    }};
+    const assembly = createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET, packs:[googlePlacesDiscoveryPack]}, {
+      model, google: new GooglePlacesClient({apiKey:'FIXTURE', fetchImplementation:async (_url, init) => {
+        bodies.push(JSON.parse(String(init?.body)));
+        return new Response(JSON.stringify({places:[]}), {status:200});
+      }}),
+      browser:{readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async () => {throw Error('Google-only discovery must not open a browser');}},
+      clock:{now:() => reference},
+    });
+    const intent = {timezone:'Asia/Tokyo' as const,area:{query:areaQuery,coordinates:{latitude:35,longitude:139,observedAt:reference.toISOString(),source:'DEVICE' as const},radiusMeters:1000},criteria:[{text:'local food',polarity:'POSITIVE' as const,strength:'HARD' as const}]};
+    const before = structuredClone(intent);
+    await assembly.search.search({intent,readRunId:'google-only-nearby'}, new AbortController().signal);
+    const place = areaQuery === 'nearby' ? '' : areaQuery;
+    assert.deepEqual({location:modelInputs[0]?.location,textQuery:bodies[0]?.textQuery}, {location:place,textQuery:`local food ${place}`.trim()});
+    assert.equal(modelInputs.length,1);assert.equal(bodies.length,1);
+    const rectangle=bodies[0]!.locationRestriction.rectangle;
+    assert.ok(rectangle.low.latitude<35 && rectangle.high.latitude>35);
+    assert.ok(rectangle.low.longitude<139 && rectangle.high.longitude>139);
+    assert.deepEqual(intent,before,'retrieval changes neither authoritative location nor HARD criteria');
+  }
 });

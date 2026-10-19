@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.59
+- Document revision: 1.60
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -283,3 +283,5 @@ User 2026-10-19 approved GET-bound browser CORS preflight for the exact new sear
 The final Chromium Fetch boundary checks browser-reserved preflight headers, not timing-dependent Network markers. With and without Guard the exact prior search URL yields20 parsed outlets; all four reviewed search GETs200 and four GET-bound preflights admitted. Independent frozen S0 boundary audit ABSENT. This verifies current transport only; no venue qualification, inventory, full Live or checkpoint A claim. Zero-model fresh witness authentication is recorded separately in the batch report.
 
 2026-10-19 P2-1a修正（离线）：Pack已识别的同地区首页也提供实际可见类别；共享执行器仍以Pack地区绑定和当前可见控件核对，隐藏、异地区和全国入口不接纳。A1真实类别锚点片段从0变为7；片段无CSS，可见性由真实本地Chromium对照单独验证。Planner Prompt@2明确改写保留候选、稀疏优先相关类别，Schema@1不变。外站效果待新A10，旧A1缺陷版本不参与比较。
+
+2026-10-19 A后独立修正（离线）：Google-only组合不把nearby当作地点名传入规划，也不把它拼进已规划的Text Search；命名地点文字、权威坐标、半径和HARD原样保留。生产组装＋脚本模型＋受控Google传输的nearby／命名地点对照先红后绿，未新增真实探测或改变已完成A的冻结树。

@@ -463,3 +463,7 @@ Freeze/hash/clean checks PASS; historical 807 files byte-identical. All decision
 - Index9: [READY](../checkpoint-a-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/source-data-preflight.json), tabelog=20/HTTP200/7186ms; tablecheck=122/HTTP200/4510ms; google-places=1/HTTPNone/1279ms
 
 Whole P2-1 evidence gzip estimate: 31,077,820 bytes <60,000,000; [size check](artifact-size.json).
+
+## After-A Google-only correction
+
+A results were committed as52ff459 before this separate source correction. [Nearbyscope, red/green and gates](nearby/report.md): default943/943, real Chromium117/117, typecheck/arch/build PASS. No new model/Google/probe or full Live calls. A worktree remains209ac42.

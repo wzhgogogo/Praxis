@@ -112,13 +112,13 @@ export const CURRENT_DEVELOPMENT_SOURCE_SCENARIOS: readonly CurrentDevelopmentSo
     }),
   ] },
   { scenarioId: "h003", provenance: "SYNTHETIC_CONTROL", observations: [
-    observation("offline-h003-a", "Source Team Dinner", ["team", "dinner", "nearby"], "1-4 Yurakucho, Chiyoda City, Tokyo", 35.6741, 139.7637, "+81 3-6000-1003", "https://offline.example/h003-a", "/en/source-team-dinner", {
+    observation("offline-h003-a", "Source Team Dinner", ["team", "dinner", "restaurant"], "1-4 Yurakucho, Chiyoda City, Tokyo", 35.6741, 139.7637, "+81 3-6000-1003", "https://offline.example/h003-a", "/en/source-team-dinner", {
       availability: availability("AVAILABLE", "2026-08-21", 10, ["19:00"], "After work team dinner course, good for drinks with our shared beverage selection."),
     }),
-    observation("offline-h003-b", "Source Team Izakaya", ["team", "dinner", "nearby"], "2-6 Yurakucho, Chiyoda City, Tokyo", 35.6731, 139.7622, "+81 3-6000-1031", "https://offline.example/h003-b", "/en/source-team-izakaya", {
+    observation("offline-h003-b", "Source Team Izakaya", ["team", "dinner", "restaurant"], "2-6 Yurakucho, Chiyoda City, Tokyo", 35.6731, 139.7622, "+81 3-6000-1031", "https://offline.example/h003-b", "/en/source-team-izakaya", {
       availability: availability("AVAILABLE", "2026-08-21", 10, ["19:30"], "Team dinner and good for drinks course."),
     }),
-    observation("offline-h003-c", "Source Team Dining Marunouchi", ["team", "dinner", "nearby"], "1-1 Marunouchi, Chiyoda City, Tokyo", 35.6812, 139.7648, "+81 3-6000-1032", "https://offline.example/h003-c", "/en/source-team-marunouchi", {
+    observation("offline-h003-c", "Source Team Dining Marunouchi", ["team", "dinner", "restaurant"], "1-1 Marunouchi, Chiyoda City, Tokyo", 35.6812, 139.7648, "+81 3-6000-1032", "https://offline.example/h003-c", "/en/source-team-marunouchi", {
       availability: availability("AVAILABLE", "2026-08-21", 10, ["20:00"], "Team dinner, good for drinks."),
     }),
   ] },
@@ -134,13 +134,13 @@ export const CURRENT_DEVELOPMENT_SOURCE_SCENARIOS: readonly CurrentDevelopmentSo
     }),
   ] },
   { scenarioId: "h005", provenance: "SYNTHETIC_CONTROL", observations: [
-    observation("offline-h005-a", "Source Local Food", ["open", "tables", "nearby"], "5-3 Tsukiji, Chuo City, Tokyo", 35.6652, 139.7708, "+81 3-6000-1005", "https://offline.example/h005-a", "/en/source-local-food", {
+    observation("offline-h005-a", "Source Local Food", ["open", "tables", "restaurant"], "5-3 Tsukiji, Chuo City, Tokyo", 35.6652, 139.7708, "+81 3-6000-1005", "https://offline.example/h005-a", "/en/source-local-food", {
       websiteFacts: facts(["Edomae sushi restaurant", "Tokyo regional cuisine"], ["Wednesday: 11:00 AM – 11:00 PM"]), availability: availability("AVAILABLE", "2026-08-19", 4, ["17:00"], "Edomae sushi tasting menu"),
     }),
-    observation("offline-h005-b", "Source Tsukiji Local Kitchen", ["open", "tables", "nearby"], "4-8 Tsukiji, Chuo City, Tokyo", 35.6661, 139.7719, "+81 3-6000-1051", "https://offline.example/h005-b", "/en/source-tsukiji-local-kitchen", {
+    observation("offline-h005-b", "Source Tsukiji Local Kitchen", ["open", "tables", "restaurant"], "4-8 Tsukiji, Chuo City, Tokyo", 35.6661, 139.7719, "+81 3-6000-1051", "https://offline.example/h005-b", "/en/source-tsukiji-local-kitchen", {
       websiteFacts: facts(["Tokyo regional cuisine restaurant"], ["Wednesday: 11:00 AM – 11:00 PM"]), availability: availability("AVAILABLE", "2026-08-19", 4, ["17:00"], "Tokyo local dinner set"),
     }),
-    observation("offline-h005-c", "Source Nihonbashi Local Grill", ["open", "tables", "nearby"], "1-6 Nihonbashi, Chuo City, Tokyo", 35.6825, 139.7765, "+81 3-6000-1052", "https://offline.example/h005-c", "/en/source-nihonbashi-local-grill", {
+    observation("offline-h005-c", "Source Nihonbashi Local Grill", ["open", "tables", "restaurant"], "1-6 Nihonbashi, Chuo City, Tokyo", 35.6825, 139.7765, "+81 3-6000-1052", "https://offline.example/h005-c", "/en/source-nihonbashi-local-grill", {
       websiteFacts: facts(["Tokyo regional cuisine restaurant"], ["Wednesday: 11:00 AM – 11:00 PM"]), availability: availability("AVAILABLE", "2026-08-19", 4, ["17:00"], "Local grill dinner"),
     }),
   ] },

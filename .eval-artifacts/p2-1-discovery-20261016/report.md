@@ -191,3 +191,5 @@ Current exposed-development discovery baseline: [network-restored-20261019/repor
 逐例比较、来源序列、实际接受历史、页数、半径、规划时间、capture／trace／recording SHA及四层评价限制见checkpoint-a-corrected-20261019/report.md、comparison.json、audit.json。807份历史文件字节不变，旧A1缺陷版本不参与比较且用量保留；录制状态不冒称Replay。源码不变复用五门禁942/942、真实Chromium117/117，另验纯文档链接、JSON、diff与预算。A后只做独立Google-only nearby局部修复，不开始P2-1b／完整Live。
 
 [Full paired report](checkpoint-a-corrected-20261019/report.md)
+
+Google-only nearby correction was implemented separately after A, with no additional real calls: [evidence and final gates](checkpoint-a-corrected-20261019/nearby/report.md).
