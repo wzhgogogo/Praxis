@@ -474,6 +474,9 @@ function checkForFailure(
   )) {
     return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: observation.failureCode };
   }
+  if (observation.pageState === "EXTRACTION_FAILED" && observation.failureCode === "SOURCE_BUSY") {
+    return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "SOURCE_BUSY" };
+  }
   // A bot challenge is an observed page-level failure, not an outlet identity claim.
   if (observation.pageState === "BOT_CHALLENGE") {
     return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "BOT_CHALLENGE" };

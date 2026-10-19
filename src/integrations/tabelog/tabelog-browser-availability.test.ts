@@ -4,6 +4,8 @@ import { readFile } from "node:fs/promises";
 
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import { RESTAURANT_FAILURE_CLASSIFICATION } from "../../domains/restaurant/failure-codes.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { inspectTabelogEntity, resolveTabelogEntity } from "./tabelog-entity-resolver.js";
 import { TabelogBrowserAvailability, tabelogAvailabilityCompletion } from "./tabelog-browser-availability.js";
@@ -24,6 +26,57 @@ test("captured kf-h001 Sen after selecting the date still has no slot result and
   const result = await new TabelogBrowserAvailability({ openSession: async () => session }).check({ ...request, candidateIds: [sen.restaurant.id], candidates: [sen], hardCriteria: [] }, new AbortController().signal);
   assert.equal(result.availabilityChecks[sen.restaurant.id]?.status, "UNKNOWN");
   assert.equal(result.metadata.failureCode, "EXTRACTION_FAILED");
+});
+
+test("three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity", async () => {
+  const root = new URL("../../../", import.meta.url);
+  const manifest = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/manifest.json", root), "utf8"));
+  for (const input of manifest.inputs) {
+    const html = await readFile(new URL(input.snapshots[0].html, root), "utf8");
+    const title = html.match(/<title>([^<]+)<\/title>/)?.[1] ?? "";
+    const busy: BrowserSnapshot = { url: "https://tabelog.com/en/tokyo/A1303/A130301/13293469/", title, text: html.replace(/<[^>]+>/g, " "), html };
+    const session = new FixtureBrowserSession([busy]);
+    const listed = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { googleWebsiteUri: "https://tabelog.com/tokyo/A1303/A130301/13293469/?utm_source=google#menu" } } };
+    const diagnostics: unknown[] = [];
+    const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00Z", 5, { onIdentityDiagnostic: row => { diagnostics.push(row); } }).check(
+      { candidateIds: [listed.restaurant.id], candidates: [listed], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+    assert.equal(result.availabilityChecks[listed.restaurant.id]?.status, "UNKNOWN", input.run);
+    assert.equal(result.availabilityChecks[listed.restaurant.id]?.reasonCode, "SOURCE_BUSY", input.run);
+    assert.deepEqual(session.navigated, [busy.url, busy.url], "only one retry of the same normalized public outlet URL");
+    assert.equal(result.evidence.some(e => e.kind === "ENTITY_MATCH" && e.entityMatch?.confidence === "HIGH"), false);
+    assert.equal((diagnostics.at(-1) as {resolution:{reason:string}}).resolution.reason, "SOURCE_BUSY");
+  }
+});
+
+test("Tabelog busy retry can recover a known feasible control without bypassing identity", async () => {
+  const html = await readFile(new URL("../../../.eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8");
+  const url = "https://tabelog.com/en/tokyo/A1303/A130301/13293469/";
+  const busy = { url, title: "現在アクセスが集中しています [食べログ]", text: "", html };
+  const good = { url, title: "Restaurant 1", text: "予約 人数 19:00", html: '<h1 class="restaurant-name">Restaurant 1</h1><p class="restaurant-address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' };
+  const listed = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { googleWebsiteUri: "https://tabelog.com/tokyo/A1303/A130301/13293469/" } } };
+  for (const conflict of [false, true]) {
+    const session = new FixtureBrowserSession([busy, { ...good, html: conflict ? good.html.replace("1-1 Shinjuku, Tokyo", "8-9 Shibuya, Tokyo") : good.html }]);
+    const started = performance.now();
+    const result = await new TabelogBrowserAvailability({ openSession: async () => session }).check({ candidateIds: [listed.restaurant.id], candidates: [listed], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+    assert.ok(performance.now() - started >= 900, "the source retry waits before its second navigation");
+    assert.equal(result.availabilityChecks[listed.restaurant.id]?.status, conflict ? "UNKNOWN" : "AVAILABLE");
+    assert.equal(session.navigated.slice(0, 2).every(value => value === url), true);
+    if (!conflict) assert.ok(session.navigated.every(value => value === url), "recovery does not start name search or change the outlet");
+  }
+});
+
+test("Tabelog source-busy delay cannot reset or outrun the existing provider deadline", async () => {
+  const html = await readFile(new URL("../../../.eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8");
+  const session = new FixtureBrowserSession([{ url: "https://tabelog.com/en/tokyo/A1303/A130301/13293469/", title: "現在アクセスが集中しています [食べログ]", text: "", html }]);
+  const listed = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { googleWebsiteUri: "https://tabelog.com/tokyo/A1303/A130301/13293469/" } } };
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 10_000, maxElapsedMsPerProvider: 250, maxModelCallsTotal: 1, maxModelCallsPerCandidate: 1, maxOperationsPerCandidate: 24 });
+  try {
+    const result = await new TabelogBrowserAvailability(executor).check({ candidateIds: [listed.restaurant.id], candidates: [listed], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+    assert.equal(result.availabilityChecks[listed.restaurant.id]?.status, "UNKNOWN");
+    assert.equal(result.availabilityChecks[listed.restaurant.id]?.reasonCode, "BROWSER_TIMEOUT");
+    assert.equal(session.navigated.length, 1, "no retry is dispatched after the provider deadline");
+    assert.equal(RESTAURANT_FAILURE_CLASSIFICATION.SOURCE_BUSY, "ENVIRONMENT");
+  } finally { await executor.close(); }
 });
 
 test("Tabelog entity resolver is outlet-safe and rejects ambiguous branch matches", () => {
@@ -325,14 +378,14 @@ test("Tabelog reads a Google-listed merchant page through the identity gate befo
     },
   };
   const session = new FixtureBrowserSession([
-    { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
-    { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
+    { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
+    { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
   ]);
   const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(
     { candidateIds: [listedCandidate.restaurant.id], candidates: [listedCandidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] }, new AbortController().signal,
   );
   assert.equal(result.availabilityChecks[listedCandidate.restaurant.id]?.status, "AVAILABLE");
-  assert.equal(session.navigated[0], "https://tabelog.com/tokyo/A1304/A130401/123/");
+  assert.equal(session.navigated[0], "https://tabelog.com/en/tokyo/A1304/A130401/123/");
   assert.equal(session.navigated.some((url) => url.includes("/rstLst/")), false);
 });
 

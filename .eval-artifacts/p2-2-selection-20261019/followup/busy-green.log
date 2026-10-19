@@ -1,0 +1,32 @@
+✖ three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity (1010.564167ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1175.357333
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:1:2206
+✖ three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity (1010.564167ms)
+  AssertionError [ERR_ASSERTION]: only one retry of the same normalized public outlet URL
+  + actual - expected
+  
+    [
+      'https://tabelog.com/en/tokyo/A1303/A130301/13293469/',
+  +   'https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201',
+      'https://tabelog.com/en/tokyo/A1303/A130301/13293469/'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-2-selection-20261019/src/integrations/tabelog/tabelog-browser-availability.test.ts:43:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'https://tabelog.com/en/tokyo/A1303/A130301/13293469/', 'https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201', 'https://tabelog.com/en/tokyo/A1303/A130301/13293469/' ],
+    expected: [ 'https://tabelog.com/en/tokyo/A1303/A130301/13293469/', 'https://tabelog.com/en/tokyo/A1303/A130301/13293469/' ],
+    operator: 'deepStrictEqual'
+  }

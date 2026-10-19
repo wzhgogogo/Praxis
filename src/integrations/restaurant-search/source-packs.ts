@@ -6,7 +6,7 @@ import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserReadNetworkRe
 import { tabelogPublicReadNetworkPolicy } from "../tabelog/tabelog-public-query.js";
 import { tableCheckPublicReadNetworkPolicy } from "../tablecheck/tablecheck-public-query.js";
 import { tableCheckRequestedReservationUrl, type TableCheckReservationTarget } from "../tablecheck/tablecheck-page-parser.js";
-import { hasBotChallenge, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets, tabelogSearchResultBusy } from "../tabelog/tabelog-page-parser.js";
+import { hasTabelogSourceBusy, hasBotChallenge, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets, tabelogSearchResultBusy } from "../tabelog/tabelog-page-parser.js";
 import { hasTableCheckBotChallenge, hasTableCheckDiscoveryNoResult, tableCheckSearchResultBusy, inspectTableCheckPageUnavailable, parseTableCheckDiscoveryOutletUrls, parseTableCheckOutletIdentityWithEvidence } from "../tablecheck/tablecheck-page-parser.js";
 import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "../tablecheck/tablecheck-browser-availability.js";
 import type { TableCheckIdentityDiagnostic, TableCheckUserInterventionHandler } from "../tablecheck/tablecheck-contracts.js";
@@ -99,6 +99,8 @@ export interface DiscoverySourcePack {
     candidatePath(candidate: RestaurantOutlet): "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE";
     /** Stable default order among otherwise neutral current providers. */
     availabilityPriority: number;
+    /** Public source congestion, not an identity failure or bot challenge. */
+    sourceBusy?: { matches(page: BrowserSnapshot): boolean; retryDelayMs: number };
     /** Construct this Pack's existing availability adapter for one shared read run. */
     createProvider(context: SourcePackAvailabilityProviderContext): RestaurantAvailabilityProvider;
     /**
@@ -275,6 +277,13 @@ function isTabelogOutletUrl(value: string | undefined): boolean {
   } catch { return false; }
 }
 
+/** Preserve the numeric outlet and region path; locale/query/subpage are not identity. */
+export function normalizeTabelogOutletUrl(value: string): string | undefined {
+  if (!isTabelogOutletUrl(value)) return undefined;
+  const path = new URL(value).pathname.match(/^\/(?:[a-z]{2}\/)?([a-z-]+\/A\d+\/A\d+\/\d+)(?:\/|$)/)?.[1];
+  return path ? `https://tabelog.com/en/${path}/` : undefined;
+}
+
 function isTableCheckOutletUrl(value: string | undefined): boolean {
   if (!value) return false;
   try {
@@ -297,6 +306,7 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
   skillPath: "web-skills/tabelog/SKILL.md",
   availability: {
     provider: "TABELOG",
+    sourceBusy: { matches: hasTabelogSourceBusy, retryDelayMs: 1_000 },
     candidateBinding: tabelogAvailabilityBinding,
     candidatePath: candidate => tabelogAvailabilityBinding(candidate) === "INAPPLICABLE" ? "NONE"
       : [candidate.sourceIds.tabelogNativeDetailUri, candidate.sourceIds.googleWebsiteUri].some(isTabelogOutletUrl)

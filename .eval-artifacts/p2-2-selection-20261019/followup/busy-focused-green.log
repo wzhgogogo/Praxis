@@ -1,0 +1,86 @@
+✔ Tabelog Pack normalizes only a supported outlet URL to the same numeric ID in English (0.521375ms)
+✔ availability paths distinguish observed outlet entrances from source lists and unsupported booking hosts (0.289292ms)
+✔ real source packs own URLs, reviewed reads, skills, and opaque source IDs (0.5005ms)
+✔ TableCheck request URL construction is consumed through its source pack (0.149459ms)
+✔ directory retrieval URL grammar stays inside its pack (0.121208ms)
+✔ both browser source packs parse their own current listing entrances before the shared cursor schedules details (1.478542ms)
+✔ Tabelog region selection requires an exact source-owned region label and recognizes only local homepage cards (0.511333ms)
+✔ search availability URL values overwrite source links with the authoritative request, without creating stock (0.60725ms)
+✔ C8 list categories stay source-attributed to one outlet, without borrowing neighbouring or hidden text (0.318083ms)
+✔ observed regional homepage exposes only its own category listing links (0.531875ms)
+✔ captured kf-h001 Sen after selecting the date still has no slot result and remains EXTRACTION_FAILED (22.98825ms)
+✔ three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity (3015.360083ms)
+✖ Tabelog busy retry can recover a known feasible control without bypassing identity (1016.663166ms)
+✔ Tabelog entity resolver is outlet-safe and rejects ambiguous branch matches (1.00875ms)
+✔ Tabelog accepts complete reordered address components but rejects an incomplete source address (0.477583ms)
+✔ Tabelog does not turn identical but insufficient abbreviated addresses into outlet proof (0.164959ms)
+✔ Tabelog entity inspection retains phone conflict diagnostics without rejecting complete same-outlet proof (0.25625ms)
+✔ Tabelog blocks HIGH identity for a stated floor conflict or a shared phone at a distinct branch (2.018083ms)
+✔ Tabelog shares the Japanese basement and Latin B1F identity normalization (1.102708ms)
+✔ Tabelog relative search links are enriched with page identity before an exact phone creates a HIGH outlet match (1.471375ms)
+✔ Tabelog parser reports every observed outlet; the native batch owns the detail cap (0.363708ms)
+✔ Tabelog identity parser extracts JSON-LD identity field provenance (0.183709ms)
+✔ Tabelog slot parser ignores prose times and trusts only explicit available controls (0.274625ms)
+✔ Tabelog reads the visible requested calendar restriction without treating loading or hidden projected dates as terminal (1.274541ms)
+✔ Tabelog executor grounds a deterministic browser observation and never submits (2.204417ms)
+✔ Tabelog Tokyo discovery carries MARUNOUCHI BASE into outlet comparison without granting inventory (0.97475ms)
+✖ Tabelog reads a Google-listed merchant page through the identity gate before a wrong discovery branch (1.142834ms)
+✔ Tabelog native result keeps its observed outlet ID and skips name search without self-matching a phone (2.162ms)
+✔ Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby source slot as unavailable (0.553583ms)
+✔ Tabelog bot challenge and external booking redirect remain non-available results (0.837542ms)
+✔ Tabelog recovers one challenged canonical page through an observed alternate-language outlet (0.763125ms)
+✔ Tabelog rejects a challenged alternate that no longer proves the same outlet and keeps the earlier HIGH identity (0.486583ms)
+✔ Tabelog pauses a challenged local session for explicit human intervention, then resumes the same page/session without an automated retry (0.704541ms)
+✔ Tabelog fails closed when the challenge remains after an explicit resume signal (0.243791ms)
+✔ Tabelog browser session budget returns UNKNOWN rather than reusing or over-opening a session (0.084125ms)
+✔ Tabelog browser startup failure remains observable and is not reported as an entity mismatch (0.392083ms)
+✔ Tabelog entity failure sends a sanitized search, detail, and comparison diagnostic to the eval sink (0.410875ms)
+✔ Tabelog search challenge records its cause while removing transient challenge tokens (0.237917ms)
+✔ Tabelog external booking detection ignores unrelated links and requires a booking link (4.612625ms)
+✔ Tabelog captured vacancy binds source merchant, date, party and time rather than visible options (1.446792ms)
+✔ Tabelog discovery uses a phone-bound website heading when the translated Google name has no results (2.093625ms)
+✔ Tabelog applies availability controls on the resolved outlet after inspecting other branches (0.674333ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 40
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4289.896084
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:1:3908
+✖ Tabelog busy retry can recover a known feasible control without bypassing identity (1016.663166ms)
+  AssertionError [ERR_ASSERTION]: recovery does not repeat name search or reset the read
+  
+  3 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-2-selection-20261019/src/integrations/tabelog/tabelog-browser-availability.test.ts:62:27)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:1:21887
+✖ Tabelog reads a Google-listed merchant page through the identity gate before a wrong discovery branch (1.142834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-2-selection-20261019/src/integrations/tabelog/tabelog-browser-availability.test.ts:371:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
