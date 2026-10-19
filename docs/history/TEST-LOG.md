@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.172
+- Document revision: 4.173
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4546,3 +4546,8 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 ## TEST-2026-10-19-P21B-SEARCH-HINTS
 
 按 Accepted ADR-0042 第5项接入两个真实来源的 Pack URL 筛选：仅 AVAILABILITY/权威日期人数/可完整表达的单一时刻，核对页面实际选中值；缺值、冲突、忙或空结果最多一次未筛选回退，预留回退页数，原七/三页及90秒不提高。卡片时段不建 AVAILABILITY/Offer，资格不变。真实 Chromium 生产组合正反例与额外参数拒绝先红后绿；strictQueryKeys 避免带筛选的请求经通用公开 GET 绕过完整审核语法，Guard 无站点分支。独立网络审计、冻结用新 reviewed-reads.json、Recorder vac_net 同步。五门禁全绿：typecheck/arch/build，npm test948/948，Chromium119/119。红绿/中途 Fixture 计数迁移失败均保留在 `.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/search-hints/`。证明范围 L0/L1；0网站/真实模型。来源包生产代码净增54行，未以无关删除抵消，不认证阶段通用性退出条件。检查点B随后冻结运行，无完整Live。
+
+
+## TEST-2026-10-19-P21B-FREEZE
+
+生产冻结4975f9f，HARD修正884c56b，对照A为ba20b8a；新干净宿主机树p21-checkpoint-b。B外层复用批准的503分类/每项一次预检恢复，退役一次性A恢复入口；13/13离线对照、六个输入plan-only均0模型/网络。315文件SHA与A输入逐字节一致；新reviewed-reads SHA86c2203c…，outer SHAf833a007…，见证最早10/20 03:12:46UTC到期，仍有效故不额外认证。预算起点261/450模型、41/52探测、108Google；已计预检失败1沿用，超过2停止。运行前冻结配置，禁止中途变更。复用本次P2-1b五门禁948/119，冻结项只做离线配置矩阵。仅十次发现，不查位、不交付、不启动完整Live；完成后推送待复核。

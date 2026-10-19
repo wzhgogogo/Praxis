@@ -1,0 +1,38 @@
+"""Reuse the approved outer controls, with no network, browser or model."""
+from pathlib import Path
+import ast, copy, json
+
+root = Path(__file__).resolve().parent
+nodes = [node for node in ast.parse((root/'execute.py').read_text()).body if isinstance(node, ast.FunctionDef)]
+ns = {}
+exec(compile(ast.Module(body=nodes, type_ignores=[]), 'frozen-outer-functions', 'exec'), ns)
+raw = json.loads((root.parent/'checkpoint-a-dom-20261019/recovery/network-preflight.raw.json').read_text())
+checks = []
+def check(label, result):
+    assert result, label
+    checks.append(label)
+check('actual TableCheck503 with no model/formal work is countable NO_RESPONSE', ns['network_preflight_evidence'](raw)['reason']=='NO_RESPONSE')
+for label, mutate in [
+    ('missing status rejected', lambda v:v['attempts'][-1].pop('status')),
+    ('other endpoint rejected', lambda v:v['attempts'][-1]['request'].update(url='https://other.example/')),
+    ('other status rejected', lambda v:v['attempts'][-1].update(status=403)),
+    ('generation work rejected', lambda v:v.update(generationModelCalls=1)),
+    ('missing phase rejected', lambda v:v.pop('stage')),
+]:
+    value=copy.deepcopy(raw); mutate(value)
+    check(label, ns['network_preflight_evidence'](value) is None)
+ledger={'completed':[], 'preflightFailures':1, 'attempts':[{'index':0,'status':'ENV_FAILURE','formalProbeStarted':False,'models':0}], 'stop':{'code':'ENV_PREFLIGHT_RETRYABLE','index':0}}
+check('one preflight-only retry within cumulative limit admitted', ns['can_resume'](ledger,0,1))
+for label, mutate in [
+    ('S0 cannot resume', lambda v:v.update(stop={'code':'S0_BOUNDARY_VIOLATION','index':0})),
+    ('completed cannot resume', lambda v:v['completed'].append(0)),
+    ('formal start cannot resume', lambda v:v['attempts'][0].update(formalProbeStarted=True)),
+    ('model work cannot resume', lambda v:v['attempts'][0].update(models=1)),
+    ('second retry rejected', lambda v:v['attempts'].append(copy.deepcopy(v['attempts'][0]))),
+    ('cumulative failure limit rejected', lambda v:v.update(preflightFailures=2)),
+]:
+    value=copy.deepcopy(ledger); mutate(value)
+    check(label, not ns['can_resume'](value,0,1))
+assert len(checks)==13
+(root/'offline-controls.json').write_text(json.dumps({'status':'PASS','count':13,'checks':checks,'network':0,'modelCalls':0},indent=2)+'\n')
+print('13/13 PASS; 0 network/model')
