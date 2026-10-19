@@ -1,0 +1,255 @@
+# Phase 2 Live set — DRAFT for user approval (drafted by the independent reviewer 2026-10-19)
+# Used for the P2-1 full Live checkpoint (TARGET rows, 4 x 3 runs) and checkpoint C (all six rows, 6 x 3 runs).
+# Each entry is the rev2 text with ONLY the date moved forward by whole weeks (same weekday); content, semantic Gold,
+# criteria and acceptance are otherwise identical. Exposed development cases, not held-out.
+# Dates 2026-11-03..07, i.e. 7-14 days after runs on 2026-10-21..27. Note: Tuesday 2026-11-03 is a Japanese national
+# holiday (Culture Day); if witness certification for a Nov 3 case fails, the reviewer moves that case to Tuesday Nov 10
+# and asks the user again. Witnesses are certified within 24 h before each run.
+# Radius/location rules unchanged from rev2 (named places 1,000 m; "nearby" = Higashi-Ginza 35.6697,139.7670, 1,000 m).
+
+---
+id: p2l-kf-h001-20261103
+role: TARGET
+derived_from:
+  file: .eval-artifacts/p1-f-20261011/variants.rev2.yaml
+  id: p1f-kf-h001-20261020
+  change: date only
+dataset: restaurant-read-development-variant@3
+parent:
+  dataset: restaurant-read-development@6
+  sha256: 00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6
+reference_time: 2026-10-20T18:00:00+09:00
+content: |
+  Looking for an omakase spot near Shibuya for 2 people on Tuesday, November 3 at 7 PM.
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "Shibuya"
+    relation: "NEAR"
+  date:
+    expression: "Tuesday, November 3"
+    value: "2026-11-03"
+  time:
+    value: "19:00"
+  party_size: 2
+  criteria:
+    - value: "omakase"
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Shibuya point; source-supported omakase; a matching current slot on 2026-11-03 at 19:00 for 2.
+    - Preserve the explicit party size of 2; opening hours alone do not establish seating.
+  optional_investigation: []
+  review:
+    - Phase 2 Live-set date-shifted copy of the P1-F known-feasible variant; witnesses recorded separately within 24 hours before the run.
+
+---
+id: p2l-kf-h002-20261107
+role: BUDGET
+derived_from:
+  file: .eval-artifacts/p1-f-20261011/variants.rev2.yaml
+  id: p1f-kf-h002-20261024
+  change: date only
+dataset: restaurant-read-development-variant@3
+parent:
+  dataset: restaurant-read-development@6
+  sha256: 00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6
+reference_time: 2026-10-20T18:00:00+09:00
+content: >
+  Recommend a first-date restaurant near Higashi-Ginza for Saturday, November 7 at 6:30 PM. Around 10,000 yen per
+  person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "Higashi-Ginza"
+    relation: "NEAR"
+  date:
+    expression: "Saturday, November 7"
+    value: "2026-11-07"
+  time:
+    value: "18:30"
+  party_size: 2
+  criteria:
+    - value: "good for a first date"
+      polarity: POSITIVE
+      strength: UNSPECIFIED
+    - value: "around 10,000 yen per person"
+      polarity: POSITIVE
+      strength: SOFT
+    - value: "Sichuan/Hunan cuisine"
+      polarity: NEGATIVE
+      strength: HARD
+    - value: "hot pot restaurant"
+      polarity: NEGATIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Higashi-Ginza point and a matching current slot on 2026-11-07 at 18:30.
+    - Infer two diners only from the closed first-date party; retain that as an inference rather than user-quoted text.
+    - Exclude hot-pot restaurants and Sichuan/Hunan-style cuisine where spicy food is the main focus; this is not a ban on every spicy dish.
+  optional_investigation: []
+  review:
+    - Phase 2 Live-set date-shifted copy of the P1-F known-feasible variant. First-date suitability is UNSPECIFIED and approximately JPY 10000 per person is SOFT.
+
+---
+id: p2l-kf-h003-20261106
+role: BUDGET
+derived_from:
+  file: .eval-artifacts/p1-f-20261011/variants.rev2.yaml
+  id: p1f-kf-h003-20261023
+  change: date only
+dataset: restaurant-read-development-variant@3
+parent:
+  dataset: restaurant-read-development@6
+  sha256: 00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6
+reference_time: 2026-10-20T18:00:00+09:00
+content: >
+  Need a place for a team dinner nearby on Friday, November 6 after work. 10 people, around 3,000 yen per person,
+  good for drinks, ideally with a private room.
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "nearby"
+    relation: "NEAR_USER"
+  date:
+    expression: "Friday, November 6"
+    value: "2026-11-06"
+  time:
+    expression: "after work"
+    type: "TIME_WINDOW"
+    start: "17:30"
+    end: "22:00"
+  party_size: 10
+  criteria:
+    - value: "team dinner"
+      polarity: POSITIVE
+      strength: UNSPECIFIED
+    - value: "around 3,000 yen per person"
+      polarity: POSITIVE
+      strength: SOFT
+    - value: "good for drinks"
+      polarity: POSITIVE
+      strength: UNSPECIFIED
+    - value: "private room"
+      polarity: POSITIVE
+      strength: SOFT
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the supplied evaluation location; preserve Friday 2026-11-06, 10 people and after-work intent, and obtain a matching current slot in the 17:30–22:00 window.
+    - Do not claim that 10 people can be seated or booked without corresponding support.
+  optional_investigation: []
+  review:
+    - Phase 2 Live-set date-shifted copy of the P1-F known-feasible variant. Team-dinner/drinks remain UNSPECIFIED; budget and private room remain SOFT.
+
+---
+id: p2l-kf-h005-20261105
+role: TARGET
+derived_from:
+  file: .eval-artifacts/p1-f-20261011/variants.rev2.yaml
+  id: p1f-kf-h005-20261022
+  change: date only
+dataset: restaurant-read-development-variant@3
+parent:
+  dataset: restaurant-read-development@6
+  sha256: 00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6
+reference_time: 2026-10-20T18:00:00+09:00
+content: |
+  Any spots nearby with open tables on Thursday, November 5 at 6 PM for 4 people? Local food only, no fast food.
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "nearby"
+    relation: "NEAR_USER"
+  date:
+    expression: "Thursday, November 5"
+    value: "2026-11-05"
+  time:
+    value: "18:00"
+  party_size: 4
+  criteria:
+    - value: "local food"
+      polarity: POSITIVE
+      strength: HARD
+    - value: "fast food"
+      polarity: NEGATIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the supplied location, with source-supported local-food and no-fast-food conditions.
+    - An explicitly observed matching slot for 4 on 2026-11-05 at 18:00; opening hours alone are insufficient.
+  optional_investigation: []
+  review:
+    - Local food keeps the user meaning relative to the destination; do not broaden it to all food or equate missing fast-food keywords with compliance.
+
+---
+id: p2l-kagurazaka-kaiseki-20261105
+role: TARGET
+derived_from:
+  file: .eval-artifacts/p1-f-20261011/variants.rev2.yaml
+  id: p1f-novel-kagurazaka-kaiseki-20261022
+  change: date only
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-20T18:00:00+09:00
+content: |
+  Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, November 5 at 7:30 PM.
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "Kagurazaka"
+    relation: "NEAR"
+  date:
+    expression: "Thursday, November 5"
+    value: "2026-11-05"
+  time:
+    value: "19:30"
+  party_size: 3
+  criteria:
+    - value: "kaiseki"
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Kagurazaka point; source-supported kaiseki; a matching current slot on 2026-11-05 at 19:30 for 3.
+  optional_investigation: []
+  review:
+    - Novel place never used in development or probes. Fallback place if witnesses are insufficient: Yotsuya.
+
+---
+id: p2l-kichijoji-tempura-20261103
+role: TARGET
+derived_from:
+  file: .eval-artifacts/p1-f-20261011/variants.rev2.yaml
+  id: p1f-novel-kichijoji-tempura-20261020
+  change: date only
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-20T18:00:00+09:00
+content: |
+  Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, November 3 at 6 PM?
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "Kichijoji"
+    relation: "NEAR"
+  date:
+    expression: "Tuesday, November 3"
+    value: "2026-11-03"
+  time:
+    value: "18:00"
+  party_size: 2
+  criteria:
+    - value: "tempura"
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Kichijoji point; source-supported tempura; a matching current slot on 2026-11-03 at 18:00 for 2.
+  optional_investigation: []
+  review:
+    - Novel place never used in development or probes. Fallback place if witnesses are insufficient: Monzen-Nakacho.
