@@ -1,0 +1,49 @@
+✖ only positive HARD criteria can supply KEYWORD/COMBINED; other strengths can select observed categories (2.2595ms)
+H002 observed transport {"packs":["google-places"],"googleRequests":[{"url":"https://places.googleapis.com/v1/places:searchText","body":{"textQuery":"first date near Higashi-Ginza","pageSize":20,"locationRestriction":{"rectangle":{"low":{"latitude":35.652987588250085,"longitude":139.69273846327758},"high":{"latitude":35.67095381174991,"longitude":139.71485153672245}}}}}],"sharedPlans":1}
+✖ H002 without positive HARD uses general shared retrieval and Google nearby without a planning model call (923.798375ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1744.19275
+
+✖ failing tests:
+
+test at src/domains/restaurant/discovery-retrieval.test.ts:1:2020
+✖ only positive HARD criteria can supply KEYWORD/COMBINED; other strengths can select observed categories (2.2595ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'NON_RETRIEVABLE_CRITERION'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/domains/restaurant/discovery-retrieval.test.ts:20:53)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'NON_RETRIEVABLE_CRITERION',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:77845
+✖ H002 without positive HARD uses general shared retrieval and Google nearby without a planning model call (923.798375ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.equal(result.firstBatchDetails.length,5,"do not resume into the second detail batch")
+  
+      at TestContext.<anonymous> (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1065:48)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

@@ -15,3 +15,12 @@ test('an invalid model keyword falls back to general retrieval; no synthetic syn
  const planner=new ModelDiscoveryRetrievalPlanner({complete:async()=>({invocationId:'fixture',provider:'FIXTURE',model:'script',outputText:JSON.stringify({choice:'KEYWORD',keyword:'Fixture 2',criterionRef:'criterion:0',categoryUrl:'',reason:'Bad proposal'}),finishReason:'STOP',latencyMs:0})});
  const result=await planner.decide(input);assert.equal(result.accepted,false);assert.equal(result.keyword,undefined);assert.equal(result.rejectionReason,'INVALID_KEYWORD');
 });
+test('no positive HARD skips shared text planning but keeps observed category selection',async()=>{
+ let calls=0;const budget={totalModelCalls:0,maxModelCalls:1};
+ const categoryUrl='https://directory.test/region/category/';
+ const planner=new ModelDiscoveryRetrievalPlanner({complete:async()=>{calls++;return {invocationId:'category',provider:'FIXTURE',model:'script',outputText:JSON.stringify({choice:'CATEGORY',keyword:'',criterionRef:'criterion:0',categoryUrl,reason:'Observed category for preference'}),finishReason:'STOP',latencyMs:0};}},budget);
+ const request={...input,intent:{...input.intent,criteria:[{text:'good for a first date',polarity:'POSITIVE' as const,strength:'UNSPECIFIED' as const}]}};
+ assert.equal((await planner.decide(request)).keyword,undefined);assert.equal(calls,0);assert.equal(budget.totalModelCalls,0);
+ assert.equal((await planner.decide({...request,observation:{url:'https://directory.test/region/',title:'List',text:'Category',parsedCount:0,explicitEmpty:true,categories:[{url:categoryUrl,label:'Observed category'}]}})).categoryUrl,categoryUrl);
+ assert.equal(calls,1);assert.equal(budget.totalModelCalls,1);
+});

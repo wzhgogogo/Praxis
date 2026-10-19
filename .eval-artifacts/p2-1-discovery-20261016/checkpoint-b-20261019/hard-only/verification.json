@@ -1,0 +1,39 @@
+{
+  "mode": "OFFLINE_L0_L1",
+  "realModelCalls": 0,
+  "siteRequests": 0,
+  "gates": {
+    "typecheck-final.log": {
+      "status": "PASS",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    "arch-final.log": {
+      "status": "PASS",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    "test-final.log": {
+      "status": "PASS",
+      "sha256": "8afa62fadd4512400b03488bff2d32f854383f9cf179ad8d840bc2ab0f52d005"
+    },
+    "build-final.log": {
+      "status": "PASS",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    "browser.log": {
+      "status": "PASS",
+      "sha256": "f883a9659aae522f25ede899eb4da0932328c5c8e26c2972d1ac1f2f2cef1478"
+    }
+  },
+  "red": "red.log",
+  "green": "green.log",
+  "earlierGateFailuresRetained": [
+    "test.log",
+    "fixture-migration.log",
+    "typecheck.log"
+  ],
+  "sourceHashes": {
+    "src/domains/restaurant/discovery-retrieval.ts": "1700536146c6c4551957dd4d2dfc4753b77c8005ede6156684cbe3edfed2a7ac",
+    "src/integrations/restaurant-search/discovery-retrieval-planner.ts": "50476f8da180ab618be3d125115daa39bfdb01c02db8bc91c9f4fd2b90444412",
+    "src/integrations/google/google-places-restaurant-search.ts": "20b1c5ea521eec106b5c3a2d65b05bafa579663f530c1c292e113f04a5b842cd"
+  }
+}

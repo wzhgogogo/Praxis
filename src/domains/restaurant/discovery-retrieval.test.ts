@@ -14,3 +14,10 @@ test('Agent retrieval validates format and observed category scope without decid
  assert.equal(validateDiscoveryRetrieval({...category,choice:'GENERAL',categoryUrl:''},intent,'Fixture District',[]).accepted,true);
  assert.deepEqual(intent.criteria[0],{text:'local food',polarity:'POSITIVE',strength:'HARD'},'retrieval is not evidence or eligibility mutation');
 });
+test('only positive HARD criteria can supply KEYWORD/COMBINED; other strengths can select observed categories',()=>{
+ for(const strength of ['SOFT','UNSPECIFIED'] as const){
+  const request={...intent,criteria:[{text:'good for a first date',polarity:'POSITIVE' as const,strength}]};
+  for(const choice of ['KEYWORD','COMBINED'])assert.equal(validateDiscoveryRetrieval({...wire,choice,keyword:'first date',categoryUrl:choice==='COMBINED'?'https://directory.test/region/category/':''},request,'Fixture District',['https://directory.test/region/category/']).rejectionReason,'NON_RETRIEVABLE_CRITERION');
+  assert.equal(validateDiscoveryRetrieval({choice:'CATEGORY',keyword:'',criterionRef:'criterion:0',categoryUrl:'https://directory.test/region/category/',reason:'Observed category suits preference'},request,'Fixture District',['https://directory.test/region/category/']).accepted,true);
+ }
+});

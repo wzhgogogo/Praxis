@@ -1045,3 +1045,25 @@ test('Google-only planned retrieval omits nearby from place context and query wh
     assert.deepEqual(intent,before,'retrieval changes neither authoritative location nor HARD criteria');
   }
 });
+
+test('H002 without positive HARD uses general shared retrieval and Google nearby without a planning model call',async()=>{
+ for(const packs of [[googlePlacesDiscoveryPack],restaurantDiscoveryPacks]){
+  const requests:ModelRequest[]=[];const googleRequests:Array<{url:string;body:Record<string,unknown>}>=[];
+  const base=new H001NativeModel('BOTH_BOUNDED_EMPTY');
+  const model:ModelGateway={complete:async request=>{
+   requests.push(request);
+   if(request.purpose==='restaurant_discovery_retrieval')return reply(JSON.stringify({choice:'KEYWORD',keyword:'first date',criterionRef:'criterion:0',categoryUrl:'',reason:'Original H002 UNSPECIFIED proposal'}),request.purpose);
+   return base.complete(request);
+  }};
+  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs},{model,browser:sourcePages('BOTH_BOUNDED_EMPTY',[],[],[],[],{guardedReadBoundary:true}),google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async(url,init)=>{googleRequests.push({url:String(url),body:JSON.parse(String(init?.body))});return new Response(JSON.stringify({places:[]}),{status:200});}}),clock:{now:()=>reference}});
+  // Actual frozen H002 criteria, not Gold or a rewritten HARD preference.
+  const intent={timezone:'Asia/Tokyo' as const,target:{goal:'AVAILABILITY' as const,query:'first-date restaurant near Higashi-Ginza'},date:'2026-10-31',timeWindow:{earliest:'18:30',latest:'18:30'},partySize:2,area:{query:'near Higashi-Ginza',coordinates:{...center,observedAt:reference.toISOString(),source:'DEVICE' as const}},criteria:[{text:'first-date restaurant',polarity:'POSITIVE' as const,strength:'UNSPECIFIED' as const},{text:'around 10,000 yen per person',polarity:'POSITIVE' as const,strength:'SOFT' as const},{text:'hot-pot restaurants',polarity:'NEGATIVE' as const,strength:'HARD' as const},{text:'Sichuan/Hunan-style cuisine where spicy food is the main focus',polarity:'NEGATIVE' as const,strength:'HARD' as const}]};
+  const before=structuredClone(intent);let continuation: import("../../../domains/restaurant/contracts.js").RestaurantSearchContinuation | undefined;
+  do{const read=await assembly.search.search({intent,readRunId:'h002-hard-only',...(continuation?{continuation}:{})},new AbortController().signal);continuation=read.continuation;}while(continuation&&!continuation.exhausted);
+  const sharedPlans=requests.filter(r=>r.purpose==='restaurant_discovery_retrieval'&&JSON.parse(r.messages.find(m=>m.role==='user')!.content).observation===null);
+  console.log('H002 observed transport',JSON.stringify({packs:packs.map(p=>p.meta.id),googleRequests,sharedPlans:sharedPlans.length}));
+  assert.equal(googleRequests.length,1);assert.ok(googleRequests[0]!.url.endsWith('/places:searchNearby'));
+  assert.equal(googleRequests[0]!.body.textQuery,undefined);assert.equal(sharedPlans.length,0);
+  assert.deepEqual(intent,before);
+ }
+});

@@ -373,7 +373,8 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
 
   async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {
     const startedAt = Date.now();
-    const nearbyCategory = request.discoveryQuery?.keyword||request.discoveryRetrieval?.keyword ? undefined : request.discoveryQuery?.category;
+    const nearbyCategory = request.discoveryQuery?.keyword||request.discoveryRetrieval?.keyword ? undefined
+      : request.discoveryQuery?.category ?? (request.discoveryRetrieval ? generalDiscoveryCategory(request.intent) : undefined);
     const usesNearbySearch = nearbyCategory !== undefined;
     // Google page tokens are bound to the original request.  The Agent may
     // change a retrieval hint only for a new search; a continuation must keep

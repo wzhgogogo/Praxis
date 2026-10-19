@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.164
+- Document revision: 4.165
 - Last updated: 2026-10-19
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3830,3 +3830,8 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 事实比较Baseline→上一轮A→本轮A：Tabelog列表见证1→8→8/10、首批0→3→5/10；TableCheck列表/首批均0；Google精确官网ID5→3→5。模型55→53→49，正式耗时788353→1062253→942173ms（不含预检与等待批准）；本轮22规划调用/56097ms/0规划超时。KF-H005首批仍0、神乐坂两次仍READ_BUDGET_EXCEEDED，H002半径内解析家数30→10；不足和CONTROL下降不隐去。类别机制在本轮实际页面生效，但不把开发发现计数当资格/交付或因果结论。
 
 原318/恢复595冻结SHA、干净冻结工作树、1400历史文件、首五例262文件、49捕获计数、JSON/链接/diff/预算均核验通过。十份正式trace按独立冻结规则均S0_BOUNDARY ABSENT，仅限已记录规则证据，不证明任意GET副作用；端到端交付及S0声明未评价。源码未变，复用五门禁943/943、真实Chromium117/117；本轮只新增外层13对照与真实发现恢复证据。已按授权准备推送，Git回执为准，推送后停止待独立复核；P2-1b及完整Live未开始。
+
+
+## DEV-2026-10-19-P21-HARD-RETRIEVAL
+
+用户按 38b058e 复核批准 ADR-0042 追加：关键词仅绑定正向 HARD；SOFT/UNSPECIFIED 只可选择观察类别。共享无正向 HARD 的规划直接 GENERAL，0 模型，Google 附近搜索保留圆心。Prompt@4/Schema@1；原 ADR 原文保留。实际生产组合 H002 旧 textQuery=first date/1规划红灯，新 Nearby/0共享规划绿灯，HARD 关键词正向及页面类别对照通过。离线 Fixture 补齐已切换的 Nearby 响应与独立地点观察，不改原始 Gold/变体。证据 `.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/hard-only/`；五门禁全绿（默认946/946，Chromium117/117），仅 L0/L1，不宣称网站/模型质量。检查点 B 与 P2-1b 待后续实施，本项0付费模型/网站/探测。

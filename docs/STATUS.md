@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.268
+- Document revision: 4.269
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 H002 HARD 检索边界修正：** H002 关键词限制正向 HARD，实际组合红绿确认 Nearby/0共享规划，五门禁946/946与117/117；ADR追加/Prompt@4，P2-1b和B待实施。
 
 - **2026-10-19 P2-1a新A10完成／批准的外层恢复已验证：** 已批准外层b0d15d3恢复成功，原503计1次NO_RESPONSE、仅1次预检补试；原五例262文件/旧attempt不变，无正式重跑。新A10/10完成，49模型/29Google；累计261/450模型、41/42探测、108Google。Tabelog首批3→5/10，TableCheck仍0，神乐坂2次READ_BUDGET_EXCEEDED及H002候选减少如实保留。完整报告/逐源对照/原始SHA已核验，13外层对照和源五门禁通过；按授权推送后停止待复核，不开始P2-1b。
 

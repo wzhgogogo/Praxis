@@ -129,7 +129,7 @@ export function createCurrentDevelopmentFixedSources(
   };
   const client = new GooglePlacesClient({ apiKey: "mock-key", fetchImplementation: async (url, init) => {
     if (init?.method === "POST") {
-      const body = JSON.parse(String(init.body)) as { textQuery?: string };
+      const body = JSON.parse(String(init.body)) as { textQuery?: string; includedTypes?: string[]; locationRestriction?: {circle?:{center:{latitude:number;longitude:number};radius:number}} };
       const query = body.textQuery ?? "";
       const landmark = observations.find((item) => item.landmark && tokens(item.landmark.displayName).join("") === tokens(query).join(""))?.landmark;
       if (landmark) {
@@ -139,7 +139,14 @@ export function createCurrentDevelopmentFixedSources(
       }
       calls.search++;
       observed("GOOGLE", "SEARCH");
-      return new Response(JSON.stringify({ places: observations.filter((item) => discoverable(item, query)).map(googlePlace) }), { status: 200 });
+      const circle = String(url).endsWith('/places:searchNearby') ? body.locationRestriction?.circle : undefined;
+      const matches = circle ? observations.filter(item => {
+        const point=item.google.coordinates;
+        const dy=(point.latitude-circle.center.latitude)*111_320;
+        const dx=(point.longitude-circle.center.longitude)*111_320*Math.cos(circle.center.latitude*Math.PI/180);
+        return body.includedTypes?.includes('restaurant') && Math.hypot(dx,dy)<=circle.radius;
+      }) : observations.filter(item=>discoverable(item,query));
+      return new Response(JSON.stringify({ places: matches.map(googlePlace) }), { status: 200 });
     }
     const placeId = decodeURIComponent(String(url).split("/").at(-1) ?? "");
     const source = byId.get(placeId);

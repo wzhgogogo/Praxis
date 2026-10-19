@@ -1260,7 +1260,7 @@ test("T1 Web shared assembly keeps ownership during semantic parsing and complet
           { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: "tomorrow" } },
           { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:30", raw: "7pm" } },
           { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
-          { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shinjuku" } },
+          { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Shinjuku" } },
         ] }) };
       }
       assert.equal(request.purpose, "restaurant_agent_decide");
@@ -1269,8 +1269,9 @@ test("T1 Web shared assembly keeps ownership during semantic parsing and complet
       }) };
     } };
     let googleCalls = 0;
-    const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async () => {
+    const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url,init) => {
       googleCalls++;
+      if (JSON.parse(String(init?.body)).textQuery === "Shinjuku") return new Response(JSON.stringify({places:[{id:"fixture-station",displayName:{text:"Shinjuku"},types:["train_station"],location:{latitude:35.69,longitude:139.70}}]}),{status:200});
       return new Response(JSON.stringify({ places: [] }), { status: 200 });
     } });
     const readAssembly = createLiveReadAssembly({ ...readLimits, packs: [googlePlacesDiscoveryPack] }, {
@@ -1281,7 +1282,7 @@ test("T1 Web shared assembly keeps ownership during semantic parsing and complet
     let creation: ReturnType<typeof createCase> | undefined;
     try {
       const cookie = await login(running.baseUrl, "token-a");
-      creation = createCase(running.baseUrl, cookie, "semantic-concurrent-list", "Tomorrow at 7pm in Shinjuku for two, recommend restaurants.");
+      creation = createCase(running.baseUrl, cookie, "semantic-concurrent-list", "Tomorrow at 7pm near Shinjuku for two, recommend restaurants.");
       // Catch a rejected creation even when the ownership assertion fails first.
       void creation.catch(() => {});
       await withinTestTimeout(semanticStarted, "semantic model transport to start");
@@ -1297,7 +1298,7 @@ test("T1 Web shared assembly keeps ownership during semantic parsing and complet
       const result = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}`);
       const view = result.payload.view as RestaurantCaseView;
       assert.equal(view.case.phase, "NO_VERIFIED_RESULT", JSON.stringify(view));
-      assert.equal(googleCalls, 1, "real assembled Google discovery ran once after semantic release");
+      assert.equal(googleCalls, 2, "named-place observation and assembled general Nearby discovery follow semantic release");
       const artifact = await running.application.exportReadArtifact(created.case.caseId);
       const snapshot = artifact.finalSnapshot as { domainState: RestaurantTaskState };
       assert.equal(snapshot.domainState.failure, undefined);

@@ -44,7 +44,7 @@ export function validateDiscoveryRetrieval(
   if ((!withKeyword && keyword) || (!withCategory && categoryUrl)) return rejected('UNUSED_RETRIEVAL_FIELDS');
   if (withKeyword) {
     const criterion = positiveDiscoveryCriteria(intent).find(item => item.criterionRef === criterionRef);
-    if (!criterion || /[\p{N}¥￥$€£]|\b(?:price|budget|yen|dollars?|guests?|people|persons?|minutes?|hours?)\b/iu.test(criterion.text)) {
+    if (!criterion || criterion.strength !== 'HARD' || /[\p{N}¥￥$€£]|\b(?:price|budget|yen|dollars?|guests?|people|persons?|minutes?|hours?)\b/iu.test(criterion.text)) {
       return rejected('NON_RETRIEVABLE_CRITERION');
     }
     const phrase = (text: string) => text.normalize('NFKC').toLowerCase().replace(/[\s/-]+/g, ' ').trim();
