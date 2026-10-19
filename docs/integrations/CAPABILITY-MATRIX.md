@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.62
+- Document revision: 1.64
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -291,3 +291,9 @@ The final Chromium Fetch boundary checks browser-reserved preflight headers, not
 
 
 2026-10-19 P2-1b（本地契约）：生产发现组合在详情前用 Pack 公开 GET 参数提供搜索空位线索；只对可完整表达的 AVAILABILITY 日期/人数/时刻应用。页面选中值必须核对，未确认/冲突/空结果一次回退，实际页数与时间不重置；推荐和宽窗口跳过。Tabelog 四字段与 TableCheck 四字段采用严格查询语法，独立审核规则和 Recorder 同步。真实本地 Chromium 组合覆盖筛选、回退、不可改权威值、记录和未审核参数拒绝；不把卡片时间当库存。当前外站兼容性、见证命中及模型表现等待检查点 B，不由 Fixture 推断。证据：`.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/search-hints/`。
+
+## P2-2 availability path advisory (2026-10-19, isolated feature)
+
+Tabelog/TableCheck existing availability Packs expose a candidate path from already-observed outlet URLs: DIRECT_SOURCE_PAGE, NAME_RESOLUTION, or NONE. The shared production assembly projects the fact into DISCOVERY evidence before the Agent decision; it changes no source access, authorization, candidate order or qualification. Pack URL grammars remain source-owned. The Agent sees Context@13 and Prompt@26 guidance; missing HARD, identity and exact-request inventory still need independent evidence.
+
+Harness mapping: source-packs.test.ts outlet/list/booking-host controls, agent-context.test.ts latest/future/cross-candidate hint controls, and native-discovery-composition.test.ts H001 production initialization (effective old-assembly red, new fixed-source delivery green). Five offline gates pass952/952 and local Chromium119/119. Real-model one-turn replay under approved independent revision2 fails its selection gate (Kagurazaka fail, Shibuya1/3, control pass; five calls, no website/action execution). This is implemented advisory metadata, not proven reliable selection, current website compatibility, faster end-to-end delivery or full P2-2 acceptance. [Report](../../.eval-artifacts/p2-2-selection-20261019/report.md).

@@ -1,0 +1,112 @@
+{
+  "id": "p1fA-kf-h005-a1",
+  "group": "CALIBRATION22",
+  "input": {
+    "id": "p1fA-kf-h005-a1",
+    "group": "CALIBRATION22",
+    "artifact": {
+      "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/started.json.gz",
+      "sha256": "9174e51c2a804a2d1c15f3d1ce45da538210611139006218bd8e8bb42b967bde"
+    },
+    "decisions": {
+      "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/decisions.jsonl.gz",
+      "sha256": "048b780348e50726ec2af12d5b74a956f966833d78e2af77ffe7690f74d24540"
+    }
+  },
+  "timing": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "NOT_EVALUATED",
+    "elapsedMs": null,
+    "criticalPath": [],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 1941,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 1280,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 3,
+        "latencyMs": 1186,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 4,
+        "latencyMs": 1098,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 5,
+        "latencyMs": 1235,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 6,
+        "latencyMs": 1818,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 7,
+        "latencyMs": 1190,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 8,
+        "latencyMs": 1426,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 9,
+        "latencyMs": 2288,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 10,
+        "latencyMs": 2032,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 11,
+        "latencyMs": 1714,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 12,
+        "latencyMs": 1213,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 13,
+        "latencyMs": 1740,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 14,
+        "latencyMs": 1756,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "Missing valid run start/end timestamps.",
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  }
+}

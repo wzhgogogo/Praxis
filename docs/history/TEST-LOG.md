@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.174
+- Document revision: 4.176
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4556,3 +4556,11 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 ## TEST-2026-10-19-P21B-PARTIAL-STOP
 
 生产4975f9f/外层冻结c20001a不变。B完成3/10发现（h001×2、神乐坂#1），17条决策=17模型，3/3独立网络审计ABSENT；h001首批见证1/2，对照A2/2，不宣称提升。神乐坂#1仍READ_BUDGET_EXCEEDED。神乐坂#2两次网络预检均TableCheck首页HTTP503/NO_RESPONSE，0模型/0正式探测；本批2次+沿用A1次=3，触发PREFLIGHT_FAILURE_LIMIT，余7项未启动，H002/Nakameguro对照NOT_REACHED。新增17模型/3探测/9Google，累计278/450、44/52、117Google，完整Live新增0。见证未过期，0额外认证；315冻结/2660历史SHA、干净树核验通过。产物/逐例A-B/停止证据见 `.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/report.md`。代码五门禁948/119复用，收尾仅按纯文档/报告矩阵检查。按授权提交并推送后停止待独立复核，不修网络、不追加请求或重跑。
+
+## TEST-2026-10-19-P22-SELECTION-TIMING
+
+- 历史与oracle：P20/P1 Google多候选选择需查名，旧脚本化覆盖未验证预算选择；复核者revision2完整when独立评分，保留revision1同输出对照。已有native组合/Pack/Context/回放/计时断言复用；恢复旧组装的真实入口目标断言失败，修后正常控制在原预算交付，见old-assembly-path-red.log/path-timing-green.log。
+- 最终 typecheck、arch:check、build PASS；npm test952/952（gates/*rev2-final.log）。真实本地Chromium119/119（274410ms，gates/browser-final.log）复用本轮浏览器路径未再变化的结果。沙箱Chrome启动失败/旧断言/observer返回类型的调试日志保留，不算产品反例；允许本地进程权限后默认套件全绿。
+- 0网络/模型离线计算52次：50可计时、2中断未评；30地区轨迹诊断。优先级互斥区间与独立固定算术对照通过，初版错误DISCOVERY归因保留为superseded，当前timing-results.rev2。
+- 用户批准标注revision2后，真实DeepSeek单步回放5/30调用，23491ms，101327tokens；0Google/网站/动作执行/Live。0133不退步；神乐坂NOT_ACCEPTABLE；涩谷1/3，0134 TOOL_CALLS但$.retrievalHint非法被拒，整体门槛FAIL；S0–S4全任务影响不由单步结果推断。模型合法输出不等于可接受选择。
+- 冻结290658f/319SHA，按既有仅外层授权6283843/325SHA续跑未运行3颗；生产源码/Gold/日期/半径不改，旧两次结果保留，五颗没有重复调用，源HASH及完整上下文独立比较通过。raw wire、输入、账本、旧严格对照、地域诊断和四层边界见[报告](../../.eval-artifacts/p2-2-selection-20261019/report.md)。不进入Live/检查点C，不宣称总体P2-2通过。

@@ -1,0 +1,116 @@
+{
+  "id": "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+  "group": "P21_A_CORRECTED",
+  "input": {
+    "id": "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+    "group": "P21_A_CORRECTED",
+    "artifact": {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/probe-summary.json",
+      "sha256": "7007a95d24b3fe9684abb8a277fa56969b8bdd61d10123ab9022a57ffb431e72"
+    },
+    "trace": {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+      "sha256": "f71d33713a9a9219eb4240e4f9ccaa999d085d98ab2d4b805108ebd155b6c4f0"
+    },
+    "decisions": {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/probe.decisions.jsonl",
+      "sha256": "8bc1bdcc0cc3a36f2156cb7bb8939673ccd1b1847e71dc8195d44ea0fbbe154a"
+    }
+  },
+  "timing": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 160010,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:REGION",
+        "elapsedMs": 62834,
+        "percent": 39.26879570026873
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 26237,
+        "percent": 16.39710018123867
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:DETAIL",
+        "elapsedMs": 20901,
+        "percent": 13.062308605712142
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+        "elapsedMs": 18895,
+        "percent": 11.80863696018999
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:REGION",
+        "elapsedMs": 12408,
+        "percent": 7.754515342791075
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:SEARCH",
+        "elapsedMs": 5307,
+        "percent": 3.316667708268233
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+        "elapsedMs": 4923,
+        "percent": 3.076682707330792
+      },
+      {
+        "stage": "MODEL_DECISION:browser_read_decide",
+        "elapsedMs": 4894,
+        "percent": 3.0585588400724952
+      },
+      {
+        "stage": "DISCOVERY:google-places:SOURCE_TOTAL",
+        "elapsedMs": 3301,
+        "percent": 2.0629960627460786
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+        "elapsedMs": 117,
+        "percent": 0.07312042997312668
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+        "elapsedMs": 107,
+        "percent": 0.06687082057371414
+      },
+      {
+        "stage": "DISCOVERY:tablecheck:SOURCE_TOTAL",
+        "elapsedMs": 56,
+        "percent": 0.0349978126367102
+      },
+      {
+        "stage": "DISCOVERY:tabelog:SOURCE_TOTAL",
+        "elapsedMs": 30,
+        "percent": 0.01874882819823761
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 1,
+        "latencyMs": 4894,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 2,
+        "latencyMs": 2470,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 3,
+        "latencyMs": 2453,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  }
+}

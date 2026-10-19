@@ -1,0 +1,6 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/integrations/restaurant-search/source-packs.test.ts(21,44): error TS2741: Property 'provenance' is missing in type '{ id: string; outletName: string; address: string; sourceIds: { googleWebsiteUri: "https://restaurant.example/" | "https://tabelog.com/en/tokyo/A1303/A130301/13261619/menu/" | "https://tabelog.com/en/tokyo/rstLst/" | ... 4 more ... | "https://yoyaku.tabelog.com/reserve/abc"; }; }' but required in type 'RestaurantOutlet'.
+src/integrations/restaurant-search/source-packs.test.ts(22,44): error TS2741: Property 'provenance' is missing in type '{ id: string; outletName: string; address: string; sourceIds: { googleWebsiteUri: "https://restaurant.example/" | "https://tabelog.com/en/tokyo/A1303/A130301/13261619/menu/" | "https://tabelog.com/en/tokyo/rstLst/" | ... 4 more ... | "https://yoyaku.tabelog.com/reserve/abc"; }; }' but required in type 'RestaurantOutlet'.

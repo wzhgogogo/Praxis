@@ -1,0 +1,466 @@
+{
+  "id": "p1fA-kf-h005-a1r",
+  "group": "CALIBRATION22",
+  "input": {
+    "id": "p1fA-kf-h005-a1r",
+    "group": "CALIBRATION22",
+    "artifact": {
+      "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1r.result.json.gz",
+      "sha256": "5a83096ce2283c0f302c9d30c1b6e600eea7131c81ef7597049eb2f483e8db8e"
+    },
+    "decisions": {
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-inputs/p1fA-kf-h005-a1r.model-timings.jsonl",
+      "sha256": "7d22ae9c2ac096d328cd2e4f87ca8e536f8651938b74cbb713d2af634274753d"
+    }
+  },
+  "timing": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 328120,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+        "elapsedMs": 68152,
+        "percent": 20.770449835426064
+      },
+      {
+        "stage": "MODEL_DECISION:browser_read_decide",
+        "elapsedMs": 31835,
+        "percent": 9.702243081799342
+      },
+      {
+        "stage": "FACTS:TABLECHECK:tablecheck:jinghua-ginza",
+        "elapsedMs": 25668,
+        "percent": 7.822747775204193
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:mochiku-tempura:REQUEST_AND_RESULT",
+        "elapsedMs": 22760,
+        "percent": 6.936486651225161
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_agent_decide",
+        "elapsedMs": 21551,
+        "percent": 6.568023893697427
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:jinghua-ginza:REQUEST_AND_RESULT",
+        "elapsedMs": 13003,
+        "percent": 3.962879434353286
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:SEARCH",
+        "elapsedMs": 12908,
+        "percent": 3.933926612215043
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+        "elapsedMs": 11302,
+        "percent": 3.44447153480434
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:mochiku-tempura:RESOLUTION",
+        "elapsedMs": 11244,
+        "percent": 3.426795074972571
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:the-peninsula-tokyo-the-lobby:REQUEST_AND_RESULT",
+        "elapsedMs": 9519,
+        "percent": 2.901072778251859
+      },
+      {
+        "stage": "FACTS:TABLECHECK:tablecheck:momotenashiya",
+        "elapsedMs": 8505,
+        "percent": 2.5920394977447274
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:momotenashiya:REQUEST_AND_RESULT",
+        "elapsedMs": 8202,
+        "percent": 2.4996952334511766
+      },
+      {
+        "stage": "FACTS:TABLECHECK:tablecheck:suiten-ippeki",
+        "elapsedMs": 7928,
+        "percent": 2.41618919907351
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_fact_judgment",
+        "elapsedMs": 7832,
+        "percent": 2.3869316103864437
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:jinghua-ginza:RESOLUTION",
+        "elapsedMs": 7427,
+        "percent": 2.2635011581128857
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:suiten-ippeki:RESOLUTION",
+        "elapsedMs": 7261,
+        "percent": 2.2129099110081674
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:the-peninsula-tokyo-the-lobby:RESOLUTION",
+        "elapsedMs": 7203,
+        "percent": 2.195233451176399
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:omotenashi:REQUEST_AND_RESULT",
+        "elapsedMs": 6491,
+        "percent": 1.9782396684139951
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:suiten-ippeki:REQUEST_AND_RESULT",
+        "elapsedMs": 6386,
+        "percent": 1.9462391807875168
+      },
+      {
+        "stage": "FACTS:TABLECHECK:tablecheck:the-peninsula-tokyo-the-lobby",
+        "elapsedMs": 6105,
+        "percent": 1.8605997805680847
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:omotenashi:RESOLUTION",
+        "elapsedMs": 6091,
+        "percent": 1.8563330488845544
+      },
+      {
+        "stage": "FACTS:TABLECHECK:tablecheck:omotenashi",
+        "elapsedMs": 6070,
+        "percent": 1.8499329513592586
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:momotenashiya:RESOLUTION",
+        "elapsedMs": 5957,
+        "percent": 1.815494331342192
+      },
+      {
+        "stage": "FACTS:TABLECHECK:tablecheck:mochiku-tempura",
+        "elapsedMs": 5063,
+        "percent": 1.5430330366938925
+      },
+      {
+        "stage": "SEMANTIC",
+        "elapsedMs": 1688,
+        "percent": 0.5144459344142387
+      },
+      {
+        "stage": "SEARCH_RESTAURANTS",
+        "elapsedMs": 522,
+        "percent": 0.1590881384859198
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+        "elapsedMs": 369,
+        "percent": 0.11245885651590881
+      },
+      {
+        "stage": "CHECK_AVAILABILITY",
+        "elapsedMs": 302,
+        "percent": 0.09203949774472754
+      },
+      {
+        "stage": "FACTS",
+        "elapsedMs": 295,
+        "percent": 0.08990613190296233
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 270,
+        "percent": 0.08228696818237231
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+        "elapsedMs": 211,
+        "percent": 0.06430574180177984
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 1688,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 1326,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 3,
+        "latencyMs": 1194,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 4,
+        "latencyMs": 1126,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 5,
+        "latencyMs": 1155,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 6,
+        "latencyMs": 1283,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 7,
+        "latencyMs": 1642,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 8,
+        "latencyMs": 970,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 9,
+        "latencyMs": 1565,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 10,
+        "latencyMs": 1018,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 11,
+        "latencyMs": 1098,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 12,
+        "latencyMs": 1753,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 13,
+        "latencyMs": 1201,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 14,
+        "latencyMs": 1171,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 15,
+        "latencyMs": 1428,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 16,
+        "latencyMs": 1271,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 17,
+        "latencyMs": 1465,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 18,
+        "latencyMs": 1095,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 19,
+        "latencyMs": 1091,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 20,
+        "latencyMs": 1621,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 21,
+        "latencyMs": 1336,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 22,
+        "latencyMs": 1454,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 23,
+        "latencyMs": 1289,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 24,
+        "latencyMs": 1328,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 25,
+        "latencyMs": 1191,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 26,
+        "latencyMs": 1473,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 27,
+        "latencyMs": 1534,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 28,
+        "latencyMs": 1088,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 29,
+        "latencyMs": 1632,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 30,
+        "latencyMs": 1422,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 31,
+        "latencyMs": 2089,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 32,
+        "latencyMs": 1667,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 33,
+        "latencyMs": 1897,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 34,
+        "latencyMs": 1254,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 35,
+        "latencyMs": 1310,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 36,
+        "latencyMs": 1266,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 37,
+        "latencyMs": 1121,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 38,
+        "latencyMs": 1231,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 39,
+        "latencyMs": 1164,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 40,
+        "latencyMs": 1053,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 41,
+        "latencyMs": 1013,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 42,
+        "latencyMs": 945,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 43,
+        "latencyMs": 1373,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 44,
+        "latencyMs": 1249,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 45,
+        "latencyMs": 1240,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 46,
+        "latencyMs": 1638,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 47,
+        "latencyMs": 1488,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  }
+}

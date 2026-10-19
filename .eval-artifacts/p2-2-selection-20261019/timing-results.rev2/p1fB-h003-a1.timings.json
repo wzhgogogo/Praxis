@@ -1,0 +1,93 @@
+{
+  "id": "p1fB-h003-a1",
+  "group": "CALIBRATION22",
+  "input": {
+    "id": "p1fB-h003-a1",
+    "group": "CALIBRATION22",
+    "artifact": {
+      "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fB-h003-a1.result.json.gz",
+      "sha256": "98654876b1d25af9e755f6ccf0c21934e2184cfaee4063b4ded3e393aeee55ca"
+    },
+    "decisions": {
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-inputs/p1fB-h003-a1.model-timings.jsonl",
+      "sha256": "697a7c6bb15a437a157ffd89b8f4c2171268825bee2509735d30eb557c152a44"
+    }
+  },
+  "timing": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 60292,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+        "elapsedMs": 27651,
+        "percent": 45.86180587806011
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+        "elapsedMs": 24890,
+        "percent": 41.28242552909175
+      },
+      {
+        "stage": "SEMANTIC",
+        "elapsedMs": 2884,
+        "percent": 4.783387514098056
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_agent_decide",
+        "elapsedMs": 2551,
+        "percent": 4.2310754328932525
+      },
+      {
+        "stage": "MODEL_DECISION:browser_read_decide",
+        "elapsedMs": 1479,
+        "percent": 2.4530617660717837
+      },
+      {
+        "stage": "SEARCH_RESTAURANTS",
+        "elapsedMs": 560,
+        "percent": 0.9288131095336031
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+        "elapsedMs": 211,
+        "percent": 0.34996351091355404
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 66,
+        "percent": 0.10946725933788894
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 2884,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 1768,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 3,
+        "latencyMs": 1479,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 4,
+        "latencyMs": 783,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  }
+}

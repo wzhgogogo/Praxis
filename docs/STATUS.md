@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.272
+- Document revision: 4.274
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-2 独立分支：代码与诊断完成，选店验收未过。** Context@13/Prompt@26 暴露来源推导的 availabilityPath，候选顺序/资格/预算不改；52份旧产物离线计时（50有时间、2中断未评），30份地区轨迹只诊断。用户批准复核标注revision2后，五颗种子各一次DeepSeek，5/30调用、0网站/Google/动作执行；0133通过，神乐坂失败，涩谷1/3，整体门槛FAIL，0134因非法retrievalHint零执行，旧严格规则同输出对照保留。五门禁952/952与Chromium119/119通过；不把门禁绿替代模型验收，不进入Live/检查点C。见[报告](../.eval-artifacts/p2-2-selection-20261019/report.md)。
 
 - **2026-10-19 检查点 B 按预检阈值停批：** B按503预检阈值停批，完成3/10、17模型/9Google，累计278/450模型、44/52探测；无越界记录，余7/H002未到达，代码五门禁948/119，待复核。
 

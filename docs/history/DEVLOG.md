@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.168
+- Document revision: 4.170
 - Last updated: 2026-10-19
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3850,3 +3850,10 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 ## DEV-2026-10-19-P21B-PARTIAL-STOP
 
 生产4975f9f/外层冻结c20001a不变。B完成3/10发现（h001×2、神乐坂#1），17条决策=17模型，3/3独立网络审计ABSENT；h001首批见证1/2，对照A2/2，不宣称提升。神乐坂#1仍READ_BUDGET_EXCEEDED。神乐坂#2两次网络预检均TableCheck首页HTTP503/NO_RESPONSE，0模型/0正式探测；本批2次+沿用A1次=3，触发PREFLIGHT_FAILURE_LIMIT，余7项未启动，H002/Nakameguro对照NOT_REACHED。新增17模型/3探测/9Google，累计278/450、44/52、117Google，完整Live新增0。见证未过期，0额外认证；315冻结/2660历史SHA、干净树核验通过。产物/逐例A-B/停止证据见 `.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/report.md`。代码五门禁948/119复用，收尾仅按纯文档/报告矩阵检查。按授权提交并推送后停止待独立复核，不修网络、不追加请求或重跑。
+
+## DEV-2026-10-19-P22-SELECTION-TIMING
+
+- Evidence status: current executable isolated feature / exposed regression；分支codex/feat-p2-2-selection，主/P2-1树不变。
+- 两个现有Pack推导availabilityPath，生产组装附到DISCOVERY，Context@13/Prompt@26仅给选择线索，资格/排序/预算不变；最新已观察值不借旧或未来提示。旧组合路径断言有效红灯，现有正常受控组合交付3家。
+- Eval计时自动接Hybrid/来源探针成功失败产物；52份旧产物离线复算，明确未归因/缺时间；30次地区路径仅诊断，native-restaurant-search.ts未改。独立条件评分补充到原回放入口，无新平台。
+- 复核e96a493 revision2经用户批准，冻结290658f后五颗各一次；首轮外层在格式错停于2/5，按用户已授权的仅外层修正6283843续跑未运行3颗，不重跑/清洗旧输出。5/30模型，门槛FAIL，未开始Live/第5项。证据与限制见[批次报告](../../.eval-artifacts/p2-2-selection-20261019/report.md)。

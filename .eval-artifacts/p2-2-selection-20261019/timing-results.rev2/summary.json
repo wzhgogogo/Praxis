@@ -1,0 +1,952 @@
+{
+  "schema": "recorded-stage-timings@1",
+  "manifest": {
+    "path": ".eval-artifacts/p2-2-selection-20261019/timing-inputs.json",
+    "sha256": "514803416bfe0e64b2fdaf43dfc4daee3142c90d479f17bef7526498bf100183"
+  },
+  "models": 0,
+  "network": 0,
+  "note": "Wall-time attribution only; timing is a metric, never a pass threshold. P20 h001 is one of the22 calibration rows, not counted twice.",
+  "groups": [
+    {
+      "name": "CALIBRATION22",
+      "elapsedMs": 5108678,
+      "measured": 20,
+      "unassessed": 2,
+      "stages": [
+        {
+          "stage": "AVAILABILITY:RESOLUTION",
+          "elapsedMs": 1069263,
+          "percent": 20.930326789044056
+        },
+        {
+          "stage": "AVAILABILITY:REQUEST_AND_RESULT",
+          "elapsedMs": 749808,
+          "percent": 14.677143480172367
+        },
+        {
+          "stage": "MODEL_DECISION:browser_read_decide",
+          "elapsedMs": 688491,
+          "percent": 13.476891673344845
+        },
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+          "elapsedMs": 434759,
+          "percent": 8.510205575689053
+        },
+        {
+          "stage": "MODEL_DECISION:restaurant_agent_decide",
+          "elapsedMs": 400551,
+          "percent": 7.840599857732275
+        },
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+          "elapsedMs": 345989,
+          "percent": 6.772574039702639
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:SEARCH",
+          "elapsedMs": 338885,
+          "percent": 6.633516537937995
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:DETAIL",
+          "elapsedMs": 286324,
+          "percent": 5.60465936588683
+        },
+        {
+          "stage": "MODEL_DECISION:restaurant_fact_judgment",
+          "elapsedMs": 103655,
+          "percent": 2.028998500199073
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+          "elapsedMs": 88361,
+          "percent": 1.7296255508763716
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:jinghua-ginza",
+          "elapsedMs": 45532,
+          "percent": 0.8912677604656234
+        },
+        {
+          "stage": "SEMANTIC",
+          "elapsedMs": 40711,
+          "percent": 0.796898923752877
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1320/A132001/13297928",
+          "elapsedMs": 23844,
+          "percent": 0.4667352297404534
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1303/A130301/13308491",
+          "elapsedMs": 23406,
+          "percent": 0.45816158309449134
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1320/A132001/13187638",
+          "elapsedMs": 22948,
+          "percent": 0.44919644573410183
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1320/A132001/13040377",
+          "elapsedMs": 22312,
+          "percent": 0.43674704101530765
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1320/A132001/13032391",
+          "elapsedMs": 21207,
+          "percent": 0.4151171790431889
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1320/A132001/13222179",
+          "elapsedMs": 19810,
+          "percent": 0.3877715526404287
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13283245",
+          "elapsedMs": 18216,
+          "percent": 0.35656974270055775
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13291436",
+          "elapsedMs": 17327,
+          "percent": 0.33916798044425583
+        },
+        {
+          "stage": "SEARCH_RESTAURANTS",
+          "elapsedMs": 14918,
+          "percent": 0.29201292389146466
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13277198",
+          "elapsedMs": 14791,
+          "percent": 0.2895269578548501
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:1864-ginza",
+          "elapsedMs": 14590,
+          "percent": 0.28559247617485384
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13310761",
+          "elapsedMs": 14139,
+          "percent": 0.276764360564514
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13295658",
+          "elapsedMs": 13861,
+          "percent": 0.27132263963397185
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130102/13262740",
+          "elapsedMs": 12779,
+          "percent": 0.25014299198344464
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130103/13292459",
+          "elapsedMs": 12773,
+          "percent": 0.25002554476911637
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:168tenshin-ginzainz",
+          "elapsedMs": 12396,
+          "percent": 0.24264594480215823
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130102/13043019",
+          "elapsedMs": 12342,
+          "percent": 0.241588919873204
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:ageru-karin",
+          "elapsedMs": 12277,
+          "percent": 0.24031657505131465
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:sushi-itsumi-michiyuki",
+          "elapsedMs": 12100,
+          "percent": 0.23685188222863138
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:0711-ginzabistro",
+          "elapsedMs": 11769,
+          "percent": 0.23037271090485642
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:the-peninsula-tokyo-the-lobby",
+          "elapsedMs": 11351,
+          "percent": 0.22219055497332188
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:ahill-ginza",
+          "elapsedMs": 10811,
+          "percent": 0.21162030568377962
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:omotenashi",
+          "elapsedMs": 10721,
+          "percent": 0.20985859746885596
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13227099",
+          "elapsedMs": 10601,
+          "percent": 0.207509653182291
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130103/13002564",
+          "elapsedMs": 10445,
+          "percent": 0.2044560256097566
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130103/13002648",
+          "elapsedMs": 10368,
+          "percent": 0.20294878635921076
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:mochiku-tempura",
+          "elapsedMs": 9707,
+          "percent": 0.1900100182473822
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13257245",
+          "elapsedMs": 8768,
+          "percent": 0.17162952920501154
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:momotenashiya",
+          "elapsedMs": 8505,
+          "percent": 0.16648142631029006
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:yakiniku-champion-nat",
+          "elapsedMs": 8354,
+          "percent": 0.1635256714163625
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13002704",
+          "elapsedMs": 8077,
+          "percent": 0.1581035250215418
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:suiten-ippeki",
+          "elapsedMs": 7928,
+          "percent": 0.15518691919905697
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:kintan-daikanyama-yakiniku",
+          "elapsedMs": 7696,
+          "percent": 0.15064562691169808
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:ebisu-ushimitsu",
+          "elapsedMs": 7544,
+          "percent": 0.14767029748204918
+        },
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+          "elapsedMs": 7010,
+          "percent": 0.1372174954068352
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:ushimitsu-ebisuhonten",
+          "elapsedMs": 6705,
+          "percent": 0.13124726201181597
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:yakiniku-champion-honten",
+          "elapsedMs": 6013,
+          "percent": 0.11770168329262483
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:hotel-edmont-hirakawa-yamahiko-umihiko",
+          "elapsedMs": 5702,
+          "percent": 0.11161400268327734
+        },
+        {
+          "stage": "FACTS:TABLECHECK:tablecheck:konya",
+          "elapsedMs": 5441,
+          "percent": 0.1065050488599986
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+          "elapsedMs": 4948,
+          "percent": 0.096854802749361
+        },
+        {
+          "stage": "UNATTRIBUTED",
+          "elapsedMs": 4647,
+          "percent": 0.09096286749722726
+        },
+        {
+          "stage": "CHECK_AVAILABILITY",
+          "elapsedMs": 3955,
+          "percent": 0.07741728877803612
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13186583",
+          "elapsedMs": 3564,
+          "percent": 0.0697636453109787
+        },
+        {
+          "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13002369",
+          "elapsedMs": 3266,
+          "percent": 0.06393043366600909
+        },
+        {
+          "stage": "FACTS",
+          "elapsedMs": 3215,
+          "percent": 0.062932132344219
+        },
+        {
+          "stage": "MODEL_DECISION:restaurant_party_size_supplement",
+          "elapsedMs": 3123,
+          "percent": 0.061131275057852534
+        },
+        {
+          "stage": "END_READ",
+          "elapsedMs": 58,
+          "percent": 0.0011353230718397205
+        },
+        {
+          "stage": "PRESENTATION",
+          "elapsedMs": 21,
+          "percent": 0.00041106525014886436
+        }
+      ]
+    },
+    {
+      "name": "P21_BASELINE",
+      "elapsedMs": 975393,
+      "measured": 10,
+      "unassessed": 0,
+      "stages": [
+        {
+          "stage": "MODEL_DECISION:browser_read_decide",
+          "elapsedMs": 193043,
+          "percent": 19.79130463310686
+        },
+        {
+          "stage": "UNATTRIBUTED",
+          "elapsedMs": 187158,
+          "percent": 19.187958084587443
+        },
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+          "elapsedMs": 185205,
+          "percent": 18.987731099156953
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:SEARCH",
+          "elapsedMs": 169483,
+          "percent": 17.375867983469227
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:DETAIL",
+          "elapsedMs": 108221,
+          "percent": 11.095117557743391
+        },
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+          "elapsedMs": 67594,
+          "percent": 6.929924656010448
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+          "elapsedMs": 43012,
+          "percent": 4.409709727258654
+        },
+        {
+          "stage": "DISCOVERY:google-places:SOURCE_TOTAL",
+          "elapsedMs": 18400,
+          "percent": 1.886419115166912
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+          "elapsedMs": 1217,
+          "percent": 0.12477022082381153
+        },
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+          "elapsedMs": 1082,
+          "percent": 0.1109296457940543
+        },
+        {
+          "stage": "DISCOVERY:tablecheck:SOURCE_TOTAL",
+          "elapsedMs": 564,
+          "percent": 0.05782284679098579
+        },
+        {
+          "stage": "DISCOVERY:tabelog:SOURCE_TOTAL",
+          "elapsedMs": 414,
+          "percent": 0.04244443009125552
+        }
+      ]
+    },
+    {
+      "name": "P21_A_CORRECTED",
+      "elapsedMs": 1291698,
+      "measured": 10,
+      "unassessed": 0,
+      "stages": [
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+          "elapsedMs": 369063,
+          "percent": 28.571926255208265
+        },
+        {
+          "stage": "UNATTRIBUTED",
+          "elapsedMs": 229568,
+          "percent": 17.77257532333409
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+          "elapsedMs": 184573,
+          "percent": 14.289175952893013
+        },
+        {
+          "stage": "MODEL_DECISION:browser_read_decide",
+          "elapsedMs": 123953,
+          "percent": 9.596128506818157
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:DETAIL",
+          "elapsedMs": 119808,
+          "percent": 9.275233065314028
+        },
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+          "elapsedMs": 118974,
+          "percent": 9.210666889629
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:SEARCH",
+          "elapsedMs": 69627,
+          "percent": 5.390346659977797
+        },
+        {
+          "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+          "elapsedMs": 52395,
+          "percent": 4.056288699061236
+        },
+        {
+          "stage": "DISCOVERY:google-places:SOURCE_TOTAL",
+          "elapsedMs": 20668,
+          "percent": 1.6000644113407312
+        },
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+          "elapsedMs": 1167,
+          "percent": 0.09034619547293563
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+          "elapsedMs": 1065,
+          "percent": 0.08244961283519832
+        },
+        {
+          "stage": "DISCOVERY:tablecheck:SOURCE_TOTAL",
+          "elapsedMs": 531,
+          "percent": 0.041108680202338314
+        },
+        {
+          "stage": "DISCOVERY:tabelog:SOURCE_TOTAL",
+          "elapsedMs": 306,
+          "percent": 0.023689747913211913
+        }
+      ]
+    },
+    {
+      "name": "P21_A_DOM",
+      "elapsedMs": 1135746,
+      "measured": 10,
+      "unassessed": 0,
+      "stages": [
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+          "elapsedMs": 223735,
+          "percent": 19.699387010828126
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:DETAIL",
+          "elapsedMs": 200000,
+          "percent": 17.609571154113684
+        },
+        {
+          "stage": "UNATTRIBUTED",
+          "elapsedMs": 193693,
+          "percent": 17.05425332776871
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+          "elapsedMs": 136937,
+          "percent": 12.057009225654328
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:SEARCH",
+          "elapsedMs": 117514,
+          "percent": 10.346855723022577
+        },
+        {
+          "stage": "MODEL_DECISION:browser_read_decide",
+          "elapsedMs": 103544,
+          "percent": 9.116827177907737
+        },
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+          "elapsedMs": 81273,
+          "percent": 7.1559133820414065
+        },
+        {
+          "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+          "elapsedMs": 56097,
+          "percent": 4.939220565161576
+        },
+        {
+          "stage": "DISCOVERY:google-places:SOURCE_TOTAL",
+          "elapsedMs": 19689,
+          "percent": 1.7335742322667218
+        },
+        {
+          "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+          "elapsedMs": 1154,
+          "percent": 0.10160722555923596
+        },
+        {
+          "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+          "elapsedMs": 1102,
+          "percent": 0.0970287370591664
+        },
+        {
+          "stage": "DISCOVERY:tablecheck:SOURCE_TOTAL",
+          "elapsedMs": 578,
+          "percent": 0.05089166063538855
+        },
+        {
+          "stage": "DISCOVERY:tabelog:SOURCE_TOTAL",
+          "elapsedMs": 430,
+          "percent": 0.03786057798134442
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "p1fA-kf-h001-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fA-kf-h001-a1.timings.json",
+      "sha256": "71e5fc52f0dbf96531cd1e8ffe4565b0d299c44591a7e167f7bdda9e69a593be",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 128253
+    },
+    {
+      "id": "p1fA-kf-h002-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fA-kf-h002-a1.timings.json",
+      "sha256": "6407ecca3fdb83a343fa124fcfca34ae3b18edfaff53ad60a6c8405280698f09",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 149159
+    },
+    {
+      "id": "p1fA-kf-h003-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fA-kf-h003-a1.timings.json",
+      "sha256": "2163302804c4897da73c32ec104d539613d621304eeef8c74a1beac540ae299c",
+      "status": "NOT_EVALUATED",
+      "elapsedMs": null
+    },
+    {
+      "id": "p1fA-kf-h004-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fA-kf-h004-a1.timings.json",
+      "sha256": "69f2ef07ea67fc9eff08f71614e4891d579c80eb0b7f5bb239bb8bef99db6fc2",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 304406
+    },
+    {
+      "id": "p1fA-kf-h005-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fA-kf-h005-a1.timings.json",
+      "sha256": "8118a92f12730dc0cf7df0694be4eeb2fd8dfd8cc3237346fa998af5f86be50d",
+      "status": "NOT_EVALUATED",
+      "elapsedMs": null
+    },
+    {
+      "id": "p1fA-kagurazaka-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fA-kagurazaka-a1.timings.json",
+      "sha256": "e6f4f66c9077f44df923fd18ab28f8d5753d213ac318a5c34a4416ae559380f9",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 379101
+    },
+    {
+      "id": "p1fA-nakameguro-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fA-nakameguro-a1.timings.json",
+      "sha256": "3e69abcc41cda12996ebd36fb3e542c4909be61a887b27a9135ed882c3cff280",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 247394
+    },
+    {
+      "id": "p1fA-kf-h003-a2",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fA-kf-h003-a2.timings.json",
+      "sha256": "3cceb47c332acbc115f15163c310f8111af1463dc35231e32b419e6419da3ad8",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 431398
+    },
+    {
+      "id": "p1fA-kf-h005-a1r",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fA-kf-h005-a1r.timings.json",
+      "sha256": "f9d8edda02ecb12b95b698f1c83def135eff89add7c3b34c3cb222c2dd227668",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 328120
+    },
+    {
+      "id": "p1fA-kichijoji-a2",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fA-kichijoji-a2.timings.json",
+      "sha256": "56e4ec0e6084c7966ac194dc171d00a78b610a4e8a154db08d43cf52cb6820a3",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 2879
+    },
+    {
+      "id": "p1fB-h001-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fB-h001-a1.timings.json",
+      "sha256": "7253947d273d2e8dd9d011a0ef94f3de1b626b829c5e6600b783835646cbf34b",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 365248
+    },
+    {
+      "id": "p1fB-h002-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fB-h002-a1.timings.json",
+      "sha256": "c05e352a0d5a72ee6e8a8a11745c04aba99b87a9ade7e54e540fed54885a2f2f",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 185874
+    },
+    {
+      "id": "p1fB-h003-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fB-h003-a1.timings.json",
+      "sha256": "553f71366133121ce1956f5a34388320acaaf3ca5c664b6d7bed7f83f4451dba",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 60292
+    },
+    {
+      "id": "p1fB-h004-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fB-h004-a1.timings.json",
+      "sha256": "e22d8f0ddb6cabc9a8a639ceb48f730edcbccc6cf37047488c3e46e863c74dde",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 671
+    },
+    {
+      "id": "p1fB-h005-a2",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1fB-h005-a2.timings.json",
+      "sha256": "01b98244b47b6e9de7e794cd210d9fa8af5c63f019afdb2a2a0b80477c16d0fd",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 276362
+    },
+    {
+      "id": "p1g-kichijoji-a2",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1g-kichijoji-a2.timings.json",
+      "sha256": "845ae5b638c0895660b6ab66a2f5c07c81a31d370cb702ba372304592b713846",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 321014
+    },
+    {
+      "id": "p1g-h001-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1g-h001-a1.timings.json",
+      "sha256": "2d7dca111bab43afda87733c8c0079072d2e6b0034bcc69ae03f5caa7ea4314e",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 298089
+    },
+    {
+      "id": "p1g-h003-a2",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1g-h003-a2.timings.json",
+      "sha256": "e44672196c73340fee74b36fd15c9f6ed1f8e1e181d6eeef33461daa97925a97",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 319441
+    },
+    {
+      "id": "p1g-h004-a2",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1g-h004-a2.timings.json",
+      "sha256": "76f49e24d0b7dfecd942af1527794d4f0e59e66c384c736cf1a1c2523c66bc4e",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 267077
+    },
+    {
+      "id": "p1g2-h001-a4",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p1g2-h001-a4.timings.json",
+      "sha256": "8bf97cda5c7d4ce05e5e344d28bf7611c675075c0713e98df8085a904353c1bd",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 362399
+    },
+    {
+      "id": "p20-h002-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p20-h002-a1.timings.json",
+      "sha256": "4d62357c36e343e073cc6c32768756c9dbfcc83ce30078871fdc98a65b4b5878",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 207615
+    },
+    {
+      "id": "p20-h001-a1",
+      "group": "CALIBRATION22",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p20-h001-a1.timings.json",
+      "sha256": "08ed420466bd1abada1f2a4befca82f2ba07a23888ea29ab973000fd52a43024",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 473886
+    },
+    {
+      "id": "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+      "group": "P21_BASELINE",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1.timings.json",
+      "sha256": "6303024b14c8acae46a4271654b07e34d9eea7ef6be01e6e1bb18e168b4b2361",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 109689
+    },
+    {
+      "id": "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+      "group": "P21_BASELINE",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2.timings.json",
+      "sha256": "09d61becd64f08b0c19bec972d89a2e6b42e8de6e2ccbe7c4ee05ff238f6a0e7",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 121924
+    },
+    {
+      "id": "p21_baseline-p2-kf-h001-20261027-attempt-1",
+      "group": "P21_BASELINE",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_baseline-p2-kf-h001-20261027-attempt-1.timings.json",
+      "sha256": "63c12f2667e8a08b2f3f8d7266057601e8d90c4580fda126be6626f0c8fca296",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 59372
+    },
+    {
+      "id": "p21_baseline-p2-kf-h001-20261027-attempt-2",
+      "group": "P21_BASELINE",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_baseline-p2-kf-h001-20261027-attempt-2.timings.json",
+      "sha256": "3ba20994c207e8b8df70a7a5d1d7f2ecbf3fb8671e3f01c6c27df7de3d42e3b4",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 61073
+    },
+    {
+      "id": "p21_baseline-p2-kf-h002-20261031-attempt-1",
+      "group": "P21_BASELINE",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_baseline-p2-kf-h002-20261031-attempt-1.timings.json",
+      "sha256": "5f68d21bb929f116522f30eed7db9d33073527e3c07dab64e6a1cf664ebf85ae",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 106924
+    },
+    {
+      "id": "p21_baseline-p2-kf-h005-20261029-attempt-1",
+      "group": "P21_BASELINE",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_baseline-p2-kf-h005-20261029-attempt-1.timings.json",
+      "sha256": "e3a7da906923e44d21697f7ba7a588324198213640c6c4c9b993f06f7549b337",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 69111
+    },
+    {
+      "id": "p21_baseline-p2-kf-h005-20261029-attempt-2",
+      "group": "P21_BASELINE",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_baseline-p2-kf-h005-20261029-attempt-2.timings.json",
+      "sha256": "235fe38ee02291cea006ca1c13e15fcc282e13ab7bdf3742f6a385c7b1724940",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 74041
+    },
+    {
+      "id": "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+      "group": "P21_BASELINE",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_baseline-p2-kichijoji-tempura-20261027-attempt-1.timings.json",
+      "sha256": "dc7ac9a08d14161ced716ed935ec84584d796e43db55433a3be47910710bdaf5",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 126467
+    },
+    {
+      "id": "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+      "group": "P21_BASELINE",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_baseline-p2-kichijoji-tempura-20261027-attempt-2.timings.json",
+      "sha256": "857d18cf2fd96fdc16e889a01d691c344637648afe50df02c2ad835f5370559a",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 118922
+    },
+    {
+      "id": "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+      "group": "P21_BASELINE",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1.timings.json",
+      "sha256": "ff9b355c2c92e47a84e87920da5a711c71722edd49b899aa97c753e403a0acd6",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 127870
+    },
+    {
+      "id": "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1.timings.json",
+      "sha256": "4bd3bc127b8673016621e3987eeaab8c5426fb910fd6cefca63ddd883200eecb",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 112060
+    },
+    {
+      "id": "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+      "group": "P21_A_CORRECTED",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2.timings.json",
+      "sha256": "0b7057f02c63b2bf475f81c596637eda4398160469d25daf9bec83df592b0f29",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 200095
+    },
+    {
+      "id": "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_corrected-p2-kf-h001-20261027-attempt-1.timings.json",
+      "sha256": "3ed5d469b586fa625ede53245b798fddbcaa327bebd310d15ae2e74a095f1abc",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 83510
+    },
+    {
+      "id": "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+      "group": "P21_A_CORRECTED",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_corrected-p2-kf-h001-20261027-attempt-2.timings.json",
+      "sha256": "6edab313f08160f263fffa9848eb39388143127526d5ea1d306f7367d70c1c66",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 125958
+    },
+    {
+      "id": "p21_a_corrected-p2-kf-h002-20261031-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_corrected-p2-kf-h002-20261031-attempt-1.timings.json",
+      "sha256": "d7dde712000f56d4395cd7d8261c2682c530ac65447bfbe34a0dcd72d19649e3",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 125791
+    },
+    {
+      "id": "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_corrected-p2-kf-h005-20261029-attempt-1.timings.json",
+      "sha256": "d679d77384d2567ee640c28bd39c47bd38712ba5fd7eb65b1fb88d9efa4f4c8b",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 81447
+    },
+    {
+      "id": "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+      "group": "P21_A_CORRECTED",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_corrected-p2-kf-h005-20261029-attempt-2.timings.json",
+      "sha256": "6745afdb01275e596e8326f1dcc4842e1a2798642b8c550e374cdf5f65791165",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 85231
+    },
+    {
+      "id": "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1.timings.json",
+      "sha256": "fab2882b311b31919ae6c197992421ef4cb97961026a9ee4da159d37dc323c4a",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 157121
+    },
+    {
+      "id": "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+      "group": "P21_A_CORRECTED",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2.timings.json",
+      "sha256": "dd8c68b5dbdeacc7d7f640cc7d5e7a0b60c9fe16ffd2b9e381c041db5fb3a898",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 160010
+    },
+    {
+      "id": "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1.timings.json",
+      "sha256": "a323ad7ed22975c4a9ebb466110f41a3ceef0e4853ae28c9e33087708a1d0434",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 160475
+    },
+    {
+      "id": "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+      "group": "P21_A_DOM",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1.timings.json",
+      "sha256": "f10a224ac0f695676a58594f597373ad40d1d51308702a3c2d2fd7340ff05822",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 144712
+    },
+    {
+      "id": "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2",
+      "group": "P21_A_DOM",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2.timings.json",
+      "sha256": "07ae2fc5582d467bc599fdad9a132361e8c903e1ad787e668620777a89abf55f",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 116065
+    },
+    {
+      "id": "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+      "group": "P21_A_DOM",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_dom-p2-kf-h001-20261027-attempt-1.timings.json",
+      "sha256": "d184709495ce5f187b647a1c7f7177bafb449e9a875b77b44d2beaffe6825900",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 97723
+    },
+    {
+      "id": "p21_a_dom-p2-kf-h001-20261027-attempt-2",
+      "group": "P21_A_DOM",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_dom-p2-kf-h001-20261027-attempt-2.timings.json",
+      "sha256": "cb339eda0cebc323c50044412c1f7e9a1fd340f85e2e80871dbb40acc4a8ca03",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 122298
+    },
+    {
+      "id": "p21_a_dom-p2-kf-h002-20261031-attempt-1",
+      "group": "P21_A_DOM",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_dom-p2-kf-h002-20261031-attempt-1.timings.json",
+      "sha256": "61f1804659a232f9b7f6c707f589f09aa8aeb315033ba63007700fdaedc65338",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 119751
+    },
+    {
+      "id": "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+      "group": "P21_A_DOM",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_dom-p2-kf-h005-20261029-attempt-1.timings.json",
+      "sha256": "453b6b8a4637ff1ffd4b54eff7c7da262b585ce964d78a19f794282f2dc1cafd",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 100563
+    },
+    {
+      "id": "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2",
+      "group": "P21_A_DOM",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2.timings.json",
+      "sha256": "7594c6afe395bfca709f64d31856b7c58d20e19b501c1dd75af492c62a13a523",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 107195
+    },
+    {
+      "id": "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+      "group": "P21_A_DOM",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1.timings.json",
+      "sha256": "3e3fe5d1771505b15c13cef1deca4b18b5bd1d3708f82d078c51c565708e4878",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 121865
+    },
+    {
+      "id": "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2",
+      "group": "P21_A_DOM",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2.timings.json",
+      "sha256": "c36b2a9dbca902e59f4f918f0c1923c5671c51df30329814ded649ce2905fbb1",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 103682
+    },
+    {
+      "id": "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1",
+      "group": "P21_A_DOM",
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-results.rev2/p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1.timings.json",
+      "sha256": "1b4aec1a6e3ebaa12d09548f0bdbb0c723bb09114f41d7d56f4e06864a50c13a",
+      "status": "MEASURED_WITH_EXPLICIT_GAPS",
+      "elapsedMs": 101892
+    }
+  ]
+}
