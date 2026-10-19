@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.64
+- Document revision: 1.65
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -300,3 +300,9 @@ The final Chromium Fetch boundary checks browser-reserved preflight headers, not
 Tabelog/TableCheck existing availability Packs expose a candidate path from already-observed outlet URLs: DIRECT_SOURCE_PAGE, NAME_RESOLUTION, or NONE. The shared production assembly projects the fact into DISCOVERY evidence before the Agent decision; it changes no source access, authorization, candidate order or qualification. Pack URL grammars remain source-owned. The Agent sees Context@13 and Prompt@26 guidance; missing HARD, identity and exact-request inventory still need independent evidence.
 
 Harness mapping: source-packs.test.ts outlet/list/booking-host controls, agent-context.test.ts latest/future/cross-candidate hint controls, and native-discovery-composition.test.ts H001 production initialization (effective old-assembly red, new fixed-source delivery green). Five offline gates pass952/952 and local Chromium119/119. Real-model one-turn replay under approved independent revision2 fails its selection gate (Kagurazaka fail, Shibuya1/3, control pass; five calls, no website/action execution). This is implemented advisory metadata, not proven reliable selection, current website compatibility, faster end-to-end delivery or full P2-2 acceptance. [Report](../../.eval-artifacts/p2-2-selection-20261019/report.md).
+
+## 2026-10-19 Tabelog source congestion (offline feature)
+
+The availability Pack identifies its fixed Japanese access-congestion title/body separately from CAPTCHA. Its Adapter waits1000ms and retries the same public page at most once per candidate/source read, within the existing Executor operation and wall-time limits. Continued congestion becomes UNKNOWN/SOURCE_BUSY (ENVIRONMENT) before identity matching; it grants no identity, HARD or inventory evidence. Google-listed Tabelog detail links are normalized by the Pack to the same numeric outlet and region path under /en/, excluding query/hash/subpages; native identity rules are unchanged.
+
+Harness: three prior h001 recordings retain six identical raw HTML snapshots (one markup shape), Adapter/Pack recovery and conflict/deadline controls, and a real local Chromium busy-to-qualified-slot control with0 model calls. Current external-site behavior, limiting cause and speed benefit remain unverified. No new source/network permissions; pacing is a later proposal only. Evidence: [P2-2 followup](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md).

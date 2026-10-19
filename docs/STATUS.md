@@ -27,6 +27,8 @@
 
 - **2026-10-19 P2-1b 三项修正离线完成：** P2-1b 三项修正离线通过五门禁（951/119）；Schema@2/Prompt@5，TableCheck筛选跳过且不扩权限。旧B第一版排除；待新冻结后十次仅发现探测，预算278模型/44探测，完整Live未启动。
 
+- **2026-10-19 P2-2 Tabelog繁忙页离线修复完成：Pack识别固定访问集中提示，原预算内等1秒后最多重试1次，仍繁忙为UNKNOWN/SOURCE_BUSY（ENVIRONMENT），不再冒充身份不确定；Google门店链接规范同ID英文页。保存的3次运行6份同形HTML红绿、恢复/真实冲突/期限控制通过；五门禁957/957与Chromium120/120。0真实调用，当前网站未验。** [后续报告](../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。
+
 - **2026-10-19 P2-2首次查位结构约束离线通过：Context@14/Prompt@27与Validator同一scope，>=3未查且半径内直达时暂不提供名称解析候选；事实/显式刷新/资格不变。有效旧scope红灯、默认953/953及Chromium119/119全绿，0真实调用；本轮五种子回放留第3段。** [后续报告](../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。
 
 - **2026-10-19 P2-2 独立分支：代码与诊断完成，选店验收未过。** Context@13/Prompt@26 暴露来源推导的 availabilityPath，候选顺序/资格/预算不改；52份旧产物离线计时（50有时间、2中断未评），30份地区轨迹只诊断。用户批准复核标注revision2后，五颗种子各一次DeepSeek，5/30调用、0网站/Google/动作执行；0133通过，神乐坂失败，涩谷1/3，整体门槛FAIL，0134因非法retrievalHint零执行，旧严格规则同输出对照保留。五门禁952/952与Chromium119/119通过；不把门禁绿替代模型验收，不进入Live/检查点C。见[报告](../.eval-artifacts/p2-2-selection-20261019/report.md)。

@@ -1341,6 +1341,32 @@ test("saved Tabelog calendar keeps hidden future dates and disabled guests out o
   } finally { await session.close(); }
 });
 
+test("real Chromium recovers a Tabelog busy page once and still grounds the exact request", async () => {
+  const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const sourceUrl = "https://tabelog.com/en/tokyo/A1303/A130301/13293469/";
+  const pages = { [sourceUrl]: await readFile(new URL("../../../.eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8") };
+  const good = '<title>Restaurant 1</title><h1 class="restaurant-name">Restaurant 1</h1><p class="restaurant-address">1-1 Shinjuku, Tokyo</p><p>予約 人数</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>';
+  const raw = localFixture(pages), arrivals: Array<{url:string;at:number}> = [], diagnostics: BrowserExecutionDiagnostic[] = [];
+  const runtime: BrowserRuntime = { async openSession(input) {
+    const session = await raw.openSession(input);
+    return new Proxy(session, { get(target, key) {
+      if (key === "navigate") return async (...args: Parameters<typeof session.navigate>) => { arrivals.push({url:args[0],at:performance.now()}); if (arrivals.length === 2) pages[sourceUrl] = good; return target.navigate(...args); };
+      const value = Reflect.get(target,key,target); return typeof value === "function" ? value.bind(target) : value;
+    } });
+  } };
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 15_000, maxOperationsPerCandidate: 24, maxModelCallsTotal: 1, maxModelCallsPerCandidate: 1, onDiagnostic: row => { diagnostics.push(row); } });
+  const candidate = structuredClone(fixtureCandidates[0]!);candidate.restaurant.sourceIds = { googleWebsiteUri: "https://tabelog.com/tokyo/A1303/A130301/13293469/" };
+  try {
+    const result = await new TabelogBrowserAvailability(executor).check({ candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-08-05",partySize:2,timeWindow:{earliest:"19:00",latest:"19:00"},hardCriteria:[] }, new AbortController().signal);
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status,"AVAILABLE",JSON.stringify(result));
+    assert.equal(result.offers[0]?.partySize,2);assert.equal(result.offers[0]?.dateTime.slice(0,16),"2026-08-05T19:00");
+    assert.ok(arrivals.every(row=>row.url===sourceUrl));assert.ok(arrivals[1]!.at-arrivals[0]!.at>=1_000);
+    assert.equal(diagnostics.filter(row=>row.event==="OPERATION_STARTED"&&row.detail==="WAIT_FOR_SOURCE_RETRY").length,1);
+    assert.equal(diagnostics.filter(row=>row.event==="MODEL_DECISION_STARTED").length,0);
+  } finally { await executor.close(); }
+});
+
 test("Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout", async () => {
   const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
   const { fixtureCandidates } = await import("../restaurant-fixtures.js");
