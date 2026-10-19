@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.62
+- Document revision: 1.63
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -18,6 +18,8 @@ T1 Guard补充：CDP每个暂停请求执行原策略检查；同networkId的Net
 P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、超时和未到达情况见 [批次报告](../../.eval-artifacts/p2-1-discovery-20261016/report.md)。后续独立复核确认十次 TableCheck 失败为 VPN 环境问题，不能作为正常网络下的能力基线。
 
 2026-10-17 P2-1a（离线）：[Accepted ADR-0042](../decisions/0042-agent-planned-discovery-and-search-availability-hints.md) 的检索规划已接入生产读取组合；目录先观察地区，稀疏或明确空结果可在详情前最多改写两次。地区页最多四、检索页最多三、实际列表文档合计最多七，来源90秒及全局500秒/50模型不提高；详情批次和资格不变。TableCheck/Google 共用一次无页面初始文本规划。真实本地 Chromium 动态 Fixture 证明可见类别/空状态与越地区拒绝，不能证明当前外站或真实模型选词质量。Pack 未新增网络放行或空位筛选参数；P2-1b 未实施。预检/指标修正和证据见[离线收尾报告](../../.eval-artifacts/p2-1-discovery-20261016/followup/report.md)。
+
+2026-10-19 P2-3（离线）：现有Tabelog／TableCheck已打开页面的菜单读取保留数值、税、餐段、附加项及引用；介绍页价格不因独立查位UNKNOWN丢失。五份真实页面价格片段及受控Adapter/Web链证明接线，不能证明当前库存或完整Live。Aloft完整菜单文本另确认3300为BBQ附加项；生产Guard直接reserve导航仍拒绝，不作为浏览器成功样本。见[P2-3报告](../../.eval-artifacts/p2-3-conditions-20261019/report.md)。
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|

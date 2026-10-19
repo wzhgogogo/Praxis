@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.174
+- Document revision: 4.175
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4556,3 +4556,12 @@ A10完成并提交52ff459之后才实施Google-only nearby局部修正：地点�
 ## TEST-2026-10-19-P21B-PARTIAL-STOP
 
 生产4975f9f/外层冻结c20001a不变。B完成3/10发现（h001×2、神乐坂#1），17条决策=17模型，3/3独立网络审计ABSENT；h001首批见证1/2，对照A2/2，不宣称提升。神乐坂#1仍READ_BUDGET_EXCEEDED。神乐坂#2两次网络预检均TableCheck首页HTTP503/NO_RESPONSE，0模型/0正式探测；本批2次+沿用A1次=3，触发PREFLIGHT_FAILURE_LIMIT，余7项未启动，H002/Nakameguro对照NOT_REACHED。新增17模型/3探测/9Google，累计278/450、44/52、117Google，完整Live新增0。见证未过期，0额外认证；315冻结/2660历史SHA、干净树核验通过。产物/逐例A-B/停止证据见 `.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/report.md`。代码五门禁948/119复用，收尾仅按纯文档/报告矩阵检查。按授权提交并推送后停止待独立复核，不修网络、不追加请求或重跑。
+
+
+## TEST-2026-10-19-P2-3-PRICE-CONDITIONS
+
+- Historical cause: Sendou9800 course existed in recorded HTML but was only prose; old behavior tests omitted numeric price grounding and per-condition display. Baseline4592 Adapter fails the new9800 assertion (`old-adapter-price-red.log`); current source fragment control passes. Extend existing Adapter/assessment/context/evaluator/Web tests; do not count fixture construction failures as product regression evidence.
+- Known-feasible controls: exact recorded prices and tax retained, approved around endpoints2400/3600 accepted and4000 rejected, HARD missing/false blocked, SOFT false disclosed, lunch/add-on not used as dinner price. TableCheck retains guide facts when the request page is unavailable. Actual local Chromium Web refresh replaces the displayed price/status and keeps citations. Model/Google calls0.
+- Independent calibration: code d79dae7,49 frozen file hashes;22 saved automatic outputs frozen before the existing comparator read unchanged reviewer labels. Outcome22/22, normal S0_DECLARATION20/20, interrupted2/2 explicitly NOT_EVALUATED allowed; S0_BOUNDARY9 ABSENT,13 evidence gaps allowed,0 rule gaps. Not an overall boundary-zero claim or new-case accuracy.
+- Real read-only observation: guide317f501 yielded public menu HTML in12.9s; later user-supplied reserve URL was rejected before network by production Guard. Separate web text reading confirmed3300 drink option needs BBQ and cannot be booked alone. This is current text corroboration, not original historical DOM/Replay or inventory acceptance. No form interaction.
+- Gates: typecheck/architecture/build passed, default953/953; full actual Chromium119/119 passed. Existing failed old-context assertion and fixture debugging logs remain for attribution. No full task Live, real model replay, or external write.

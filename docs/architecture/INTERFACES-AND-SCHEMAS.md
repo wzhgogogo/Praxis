@@ -1,8 +1,8 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 3.5
-- Last updated: 2026-10-15
+- Document revision: 3.6
+- Last updated: 2026-10-19
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -10,6 +10,8 @@
 接口必须逐项标记状态，不得用局部原型暗示完整API或平台能力已经存在。
 
 ## Implementation Status
+
+当前P2-3离线切片：`restaurant-state@17`为每次展示保存按候选分组的 `conditionStates`（原条件、强度、极性、MET/NOT_MET/NOT_CHECKED、说明及引用）；`restaurant-agent-context@12`增加已读价格商业备注。`RestaurantReadEvidence.priceFacts@1`单独保留预算区间与套餐的数值、税、餐段、附加项、quote/sourceUrl，不是库存或Offer价格。旧开发State不兼容，按既有显式reset流程重建；本轮未连接或重置数据库。以下旧版本条目仅保留原阶段语境。
 
 Phase2（frozen regression，离线已验收）：`restaurant-state@12`保存opaque来源计划／游标和累计来源进度；`restaurant-agent-context@10`保持业务投影，旧State@11需按显式开发reset协议处理。Semantic@3与Gold不变。
 
