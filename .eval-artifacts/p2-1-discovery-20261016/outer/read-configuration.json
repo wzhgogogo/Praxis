@@ -1,9 +1,24 @@
 {
-  "mode": "READ_ONLY; part-one probes only; full Live awaits ADR and variant approval",
+  "mode": "P2-1 restored-network discovery baseline only; checkpoint A and full Live await independent review",
   "requestBodyObserver": "src/eval/restaurant/agent-loop/post-body-audit.mjs",
   "reviewedReads": ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json",
   "postRunWitnessCapture": ".eval-artifacts/p2-1-discovery-20261016/outer/post-delivery.mjs",
   "zeroDelivery": "Immediately issue exactly one four-parameter GET per registered witness, materialized authoritative date/time/party; no speculative requests or form navigation.",
-  "newReviewedRules": [],
-  "historicalConfig": "P2-0/e1 freeze files remain historical; moved module references recorded in this commit; old config hashes are not current execution approval."
+  "newReviewedRules": [
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "path": "/catalog.json",
+      "method": "GET",
+      "query": "no fields"
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "path": "/search/",
+      "method": "GET",
+      "query": "frozen exact required/allowed field names",
+      "corsPreflight": "browser-reserved CORS headers; requested GET, Origin www.tablecheck.com, only x-api-key, no body; no standalone OPTIONS"
+    }
+  ],
+  "historicalConfig": "P2-0/e1 freeze files remain historical; moved module references recorded in this commit; old config hashes are not current execution approval.",
+  "sourceReadiness": "Every planned source must return nonempty known-region data before a formal probe; TableCheck uses actual search JSON document hits"
 }

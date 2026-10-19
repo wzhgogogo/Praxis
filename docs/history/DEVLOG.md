@@ -3692,3 +3692,10 @@ Final GET-only offline gates: typecheck/arch/build PASS, default935/935, real lo
 CORS补齐：实际对照两种模式均20家；地图查询的合法预检被Chromium记为xhr，按同一协议规则识别Other/Fetch/XHR，范围不扩到其他请求。原始误拒及独立S0反例留证；XHR本地样本仍为Other，明确不将其称为红灯。
 
 最终协议依据：独立CDP观察证明四次均为浏览器预检，其中一次在Guard暂停事件缺关联Network标记；仅放开XHR类型不足。删除额外Network标记依赖，按实际请求的浏览器保留Origin/ACR*/Sec-Fetch-Mode=cors及已审核GET形状核验。真实本地“Guard无Network诊断流”先红后绿，独立CDP与GET接收端不受替换；手工OPTIONS尝试伪造预检头仍拒绝。无其他许可扩大。
+
+
+## DEV-2026-10-19-P21-restored-baseline-ready
+
+共同网络修复a60d27b（基于cac4b4f）已在真实来源验证：有/无Guard均20个解析门店，四条搜索GET200、四次合法浏览器预检放行，独立冻结S0边界审计ABSENT。见证重新认证32次公开GET，16原登记保留、13家合格，六例各至少一家，原始SHA/日期/人数/时段链接绑定独立校验通过；不打开链接、不调用模型。六份原输入SHA不变且Runner离线计划0网络/模型；共同配置/脚本/当前见证冻结后，十次基线在同一干净、未含P2-1a的工作树执行。原preparation/旧基线清单是历史材料；当前以network-restored-20261019/baseline-freeze.json为准。准备阶段0新增模型/Google/正式探测/整单Live，下一步是新基线；P2-1a还需变基到共同准备点，检查点A/Live不运行。
+
+验证复用最终协议版五门禁936/936与真实Chromium115/115（源码不变），新认证校验/六份空跑/JSON与脚本语法检查通过，模式为0模型来源观察与离线准备；不是完整Live或资格交付验收。

@@ -69,3 +69,9 @@ Previous statements that the first XHR-label correction completed the map handsh
 Final reserved-header implementation: all five gates PASS in gates/protocol-final/; full npm test936/936 and full real local Chromium115/115 (222.056s). Missing-marker real Chromium red/green and all forbidden modes passed. No production or test bypass.
 
 Actual final source comparison PASS: unguarded20 outlets/goto2997ms, guarded20 outlets/goto3782ms; guarded four search GET200 and four browser-generated GET-bound preflights admitted, including the XHR form. Independent frozen S0 boundary audit ABSENT; source bodies/metadata hashes in diagnostic/network-verification.json. This is zero-model connectivity evidence only, not witness qualification or a formal discovery probe.
+
+## Fresh witnesses and formal baseline preparation
+
+Witness recertification completed with32 public GETs,0 model/Google calls. All16 original registrations retained;13 certified, with at least one in each of six cases (2/2,2/3,1/2,3/3,3/3,2/3). verification.json independently binds raw SHA, authoritative date/party and requested slot link merchant/date/party/time without opening links. Each case has a24-hour validity recorded in witnesses.certified.json. New outputs never overwrite the original certification.
+
+All six offline Runner plans parse unchanged inputs with0 network/model/Live. The current outer review configuration and fresh baseline plan/source/witnesses are frozen in baseline-freeze.json; the old preparation and original baseline freezes are historical. The mutable new ledger is intentionally untracked until execution ends, so all formal probes can run at one clean frozen HEAD. No checkpoint A or full Live.

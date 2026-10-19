@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.56
+- Document revision: 1.57
 - Last updated: 2026-10-19
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -274,3 +274,8 @@ Zero-model Chromium comparison identified the new exact tablecheck.net /catalog.
 ## 2026-10-19 authorized CORS follow-up
 
 User 2026-10-19 approved GET-bound browser CORS preflight for the exact new search endpoint, with observed x-api-key header name and no body. CDP initiator, Origin, method, header names and matching GET query grammar are checked; external review/S0/Recorder are aligned. Local Chromium receiver and refusal controls pass. No code-initiated OPTIONS/header injection. Playwright locally fulfills intercepted preflights; unfaithful HAR remains NOT_REPLAYABLE. Actual source readiness and new baseline are still pending.
+
+
+## 2026-10-19 current-source transport verified
+
+The final Chromium Fetch boundary checks browser-reserved preflight headers, not timing-dependent Network markers. With and without Guard the exact prior search URL yields20 parsed outlets; all four reviewed search GETs200 and four GET-bound preflights admitted. Independent frozen S0 boundary audit ABSENT. This verifies current transport only; no venue qualification, inventory, full Live or checkpoint A claim. Zero-model fresh witness authentication is recorded separately in the batch report.
