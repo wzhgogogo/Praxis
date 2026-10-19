@@ -6,12 +6,12 @@ import { runBrowserReadProbe } from '../../src/eval/restaurant/agent-loop/browse
 import { captureRawPriceRegions } from '../../src/eval/restaurant/agent-loop/diagnostic-evaluator-prices.ts';
 
 const base = '.eval-artifacts/p2-3-conditions-20261019';
-const planPath = `${base}/aloft-capture-plan.json`;
+const planPath = process.argv[2] ?? `${base}/aloft-capture-plan.json`;
 const planBytes = await fs.readFile(planPath), plan = JSON.parse(planBytes);
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 execFileSync('git', ['diff', '--exit-code', 'HEAD', '--', 'src', planPath, `${base}/capture-aloft.mjs`], { stdio: 'pipe' });
 const codeCommit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
-const output = `${base}/aloft-public-capture`;
+const output = plan.outputDirectory ?? `${base}/aloft-public-capture`;
 await fs.mkdir(output); // One attempt, preserve all outcomes.
 const startedAt = new Date().toISOString(), snapshots = [];
 let result, error;
