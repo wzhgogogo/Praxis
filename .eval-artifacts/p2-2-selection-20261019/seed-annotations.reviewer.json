@@ -1,12 +1,13 @@
 {
   "schema": "independent-seed-annotation@1",
   "annotatedBy": "independent reviewer (Claude), not the implementer",
-  "annotatedAt": "2026-10-19T20:40:00+08:00",
+  "annotatedAt": "2026-10-19T21:30:00+08:00",
   "seedsFile": ".eval-artifacts/phase1-replay/seeds.v7.json",
   "note": "Annotations are kept outside the frozen seeds file. Each label names its basis; labels never require a specific restaurant. Labels are evaluation inputs and must never be supplied to production code or the model.",
   "definitions": {
     "DIRECT_SOURCE_PAGE": "Candidate has a supported-source outlet page without name search: a native Tabelog/TableCheck detail ID, or a Google website URL whose path is a Tabelog outlet detail page (https://tabelog.com/<lang?>/<pref>/A\\d+/A\\d+/\\d+/ with any trailing subpage ignored) or a TableCheck shop page (https://www.tablecheck.com/<lang>/<slug> or /shops/<slug>, trailing /reserve... subpaths ignored). Booking-form hosts such as yoyaku.tabelog.com are NOT direct outlet pages.",
-    "IN_RADIUS": "distanceObservation.meters <= 1000 in the captured decision context."
+    "IN_RADIUS": "distanceObservation.meters <= 1000 in the captured decision context.",
+    "SELECTION_RULE": "When at least 3 in-radius DIRECT_SOURCE_PAGE candidates are checkable, a CHECK_AVAILABILITY selection must contain at least 2 in-radius DIRECT_SOURCE_PAGE candidates and no candidate outside the radius. When fewer than 3 are checkable, any in-radius checkable selection that includes every available DIRECT candidate (up to the 3-candidate limit) is acceptable."
   },
   "annotations": [
     {
@@ -14,27 +15,104 @@
       "labelStatus": "ANNOTATED",
       "scoring": "INCLUDED",
       "acceptableActions": [
-        { "type": "CHECK_AVAILABILITY", "when": "The selection contains only observed, in-radius candidates with a supported source path." },
-        { "type": "INVESTIGATE_CANDIDATE_FACTS", "when": "Targets missing identity/area/HARD facts of an observed candidate with a supported path." },
-        { "type": "SEARCH_RESTAURANTS", "when": "Uses a materially different supported source or query; preserves every explicit condition." }
+        {
+          "type": "CHECK_AVAILABILITY",
+          "when": "The selection contains only observed, in-radius candidates with a supported source path."
+        },
+        {
+          "type": "INVESTIGATE_CANDIDATE_FACTS",
+          "when": "Targets missing identity/area/HARD facts of an observed candidate with a supported path."
+        },
+        {
+          "type": "SEARCH_RESTAURANTS",
+          "when": "Uses a materially different supported source or query; preserves every explicit condition."
+        }
       ],
       "recordedActionVerdict": "ACCEPTABLE",
-      "basis": "After Tabelog returned one in-radius omakase candidate (Sushi Teppen, native detail), checking it is a lawful, useful step for an open-ended AVAILABILITY request. This seed is a non-regression control: a correct change must not make the Agent stop or ask the user here."
+      "basis": "After Tabelog returned one in-radius omakase candidate (Sushi Teppen, native detail), checking it is a lawful, useful step for an open-ended AVAILABILITY request. This seed is a non-regression control: a correct change must not make the Agent stop or ask the user here.",
+      "scenario": "SINGLE_NATIVE_CANDIDATE_CONTROL"
     },
     {
       "seedId": "p1-seed-0134",
       "labelStatus": "ANNOTATED",
       "scoring": "INCLUDED",
       "acceptableActions": [
-        { "type": "CHECK_AVAILABILITY", "when": "At least 3 in-radius DIRECT_SOURCE_PAGE candidates are checkable in this context (there are 8: Sumi Sushi Shibuya, Sushi Tatsu Shibuya, Shibuya Sushi Jinnan, Sushi kazumasa, Sushi Matsumoto Shibuya, Sushi Inase, Sushi Rizaki, Naminoue shibuya), so every selected candidate must be in-radius and DIRECT_SOURCE_PAGE. Selecting a NAME_RESOLUTION candidate is acceptable only when fewer than 3 in-radius DIRECT candidates are checkable." },
-        { "type": "INVESTIGATE_CANDIDATE_FACTS", "when": "Targets in-radius DIRECT_SOURCE_PAGE candidates whose HARD fact (omakase) is not yet verified." }
+        {
+          "type": "CHECK_AVAILABILITY",
+          "when": "SELECTION_RULE. This context has 8 checkable in-radius DIRECT candidates (Sumi Sushi Shibuya, Sushi Tatsu Shibuya, Shibuya Sushi Jinnan, Sushi kazumasa, Sushi Matsumoto Shibuya, Sushi Inase, Sushi Rizaki, Naminoue shibuya)."
+        },
+        {
+          "type": "INVESTIGATE_CANDIDATE_FACTS",
+          "when": "Targets at least 2 in-radius DIRECT_SOURCE_PAGE candidates whose HARD fact (omakase) is not yet verified."
+        }
       ],
       "recordedActionVerdict": "NOT_ACCEPTABLE",
-      "basis": "Recorded action checked the three nearest sushi candidates by distance (189 m, 209 m, 197 m): Sumi Sushi Shibuya (Google website = Tabelog 13293469, DIRECT), Shibuya Sushi Labo (own website, NAME_RESOLUTION) and Sushi-Au (no website, NAME_RESOLUTION). The context offered 8 checkable in-radius DIRECT candidates, e.g. Sushi Tatsu Shibuya 191 m, Shibuya Sushi Jinnan 328 m, Sushi kazumasa 451 m, Sushi Matsumoto Shibuya 632 m (a later-certified witness). The decision context did not expose which candidates had a direct source page, so the Agent ranked by distance alone. Mapping from candidate IDs to source IDs was taken from the frozen run artifact p20-h001-a1.result.json.gz, not from production eligibility labels."
+      "basis": "Recorded action (1 DIRECT + 2 NAME_RESOLUTION) checked the three nearest sushi candidates by distance (189 m, 209 m, 197 m): Sumi Sushi Shibuya (Google website = Tabelog 13293469, DIRECT), Shibuya Sushi Labo (own website, NAME_RESOLUTION) and Sushi-Au (no website, NAME_RESOLUTION). The context offered 8 checkable in-radius DIRECT candidates, e.g. Sushi Tatsu Shibuya 191 m, Shibuya Sushi Jinnan 328 m, Sushi kazumasa 451 m, Sushi Matsumoto Shibuya 632 m (a later-certified witness). The decision context did not expose which candidates had a direct source page, so the Agent ranked by distance alone. Mapping from candidate IDs to source IDs was taken from the frozen run artifact p20-h001-a1.result.json.gz, not from production eligibility labels.",
+      "scenario": "SHIBUYA_OMAKASE"
+    },
+    {
+      "seedId": "p22-selection-001",
+      "run": "p1fA-kagurazaka-a1",
+      "labelStatus": "ANNOTATED",
+      "scoring": "INCLUDED",
+      "scenario": "KAGURAZAKA_KAISEKI",
+      "acceptableActions": [
+        {
+          "type": "CHECK_AVAILABILITY",
+          "when": "SELECTION_RULE. This context has exactly 3 checkable in-radius DIRECT candidates: Kagurazaka Jin 81 m (Google website = TableCheck shop), Sugata 107 m (Google website = Tabelog 13053749), 日本料理 ほそ川 神楽坂 95 m (Google website = Tabelog 13222581). All are Google japanese_restaurant; none has verified kaiseki yet."
+        },
+        {
+          "type": "INVESTIGATE_CANDIDATE_FACTS",
+          "when": "Targets at least 2 of those DIRECT candidates to verify the kaiseki HARD criterion."
+        }
+      ],
+      "recordedActionVerdict": "NOT_ACCEPTABLE",
+      "basis": "Recorded action checked three nearest NAME_RESOLUTION candidates (Kaiseki Japanese cuisine Utou 73 m, Washoku Kagurazaka KUROSU 43 m, Kagurazaka Ishikawa 80 m; websites are Instagram or own domains), 0 DIRECT, while 3 DIRECT in-radius candidates were checkable. Under the rule, keeping Utou (explicit 'Kaiseki' in its name) plus 2 DIRECT candidates is acceptable."
+    },
+    {
+      "seedId": "p22-selection-002",
+      "run": "p1fB-h001-a1",
+      "labelStatus": "ANNOTATED",
+      "scoring": "INCLUDED",
+      "scenario": "SHIBUYA_OMAKASE",
+      "acceptableActions": [
+        {
+          "type": "CHECK_AVAILABILITY",
+          "when": "SELECTION_RULE (9 checkable in-radius DIRECT candidates)."
+        },
+        {
+          "type": "INVESTIGATE_CANDIDATE_FACTS",
+          "when": "Targets at least 2 in-radius DIRECT candidates whose omakase fact is unverified."
+        }
+      ],
+      "recordedActionVerdict": "NOT_ACCEPTABLE",
+      "basis": "Same Shibuya omakase scenario as p1-seed-0134 on another run date. Recorded action again picked the three nearest sushi candidates (Sumi Sushi Shibuya 189 m DIRECT via Google website = Tabelog 13293469; Shibuya Sushi Labo 209 m and Sushi-Au 197 m, both NAME_RESOLUTION), i.e. 1 DIRECT. 9 checkable in-radius DIRECT candidates were present, including Shibuya Sushi Jinnan 328 m, Sushi kazumasa 451 m and Sushi Matsumoto Shibuya 632 m. Classification computed independently by the reviewer from the captured decision context plus sourceIds in the frozen result artifact, not from the implementer's observed-source-ids file."
+    },
+    {
+      "seedId": "p22-selection-003",
+      "run": "p1g-h001-a1",
+      "labelStatus": "ANNOTATED",
+      "scoring": "INCLUDED",
+      "scenario": "SHIBUYA_OMAKASE",
+      "acceptableActions": [
+        {
+          "type": "CHECK_AVAILABILITY",
+          "when": "SELECTION_RULE (9 checkable in-radius DIRECT candidates)."
+        },
+        {
+          "type": "INVESTIGATE_CANDIDATE_FACTS",
+          "when": "Targets at least 2 in-radius DIRECT candidates whose omakase fact is unverified."
+        }
+      ],
+      "recordedActionVerdict": "NOT_ACCEPTABLE",
+      "basis": "Same Shibuya omakase scenario as p1-seed-0134 on another run date. Recorded action again picked the three nearest sushi candidates (Sumi Sushi Shibuya 189 m DIRECT via Google website = Tabelog 13293469; Shibuya Sushi Labo 209 m and Sushi-Au 197 m, both NAME_RESOLUTION), i.e. 1 DIRECT. 9 checkable in-radius DIRECT candidates were present, including Shibuya Sushi Jinnan 328 m, Sushi kazumasa 451 m and Sushi Matsumoto Shibuya 632 m. Classification computed independently by the reviewer from the captured decision context plus sourceIds in the frozen result artifact, not from the implementer's observed-source-ids file."
     }
   ],
   "replayGate": {
-    "rule": "P2-2 item 3: at least 2/3 of annotated selection seeds (0134 plus implementer-extracted seeds once the reviewer has annotated them) must produce an ACCEPTABLE action after the availabilityPath change; 0133 must remain ACCEPTABLE.",
-    "pendingAnnotation": "Seeds newly extracted by the implementer stay NOT_EVALUATED until the reviewer annotates them in this file."
-  }
+    "rule": "After the availabilityPath change, with each seed replayed once on the real model: (1) p22-selection-001 (Kagurazaka) must be ACCEPTABLE; (2) at least 2 of the 3 SHIBUYA_OMAKASE seeds (p1-seed-0134, p22-selection-002, p22-selection-003) must be ACCEPTABLE; (3) the control p1-seed-0133 must remain ACCEPTABLE. The three Shibuya seeds are near-duplicates of one scenario, so they are not counted as independent evidence.",
+    "baselineExpectation": "With the recorded actions, (1) and (2) fail and (3) passes.",
+    "pendingAnnotation": "Any further implementer-extracted seed stays NOT_EVALUATED until annotated here."
+  },
+  "revision": 2,
+  "revisionNote": "Revision 2 (before any replay was run): the selection rule is relaxed from \"all selected must be DIRECT\" to \"at least 2 selected must be DIRECT\" so that one explicitly name-matching NAME_RESOLUTION candidate is not penalised; adds p22-selection-001/002/003; scores the h001 family as one scenario."
 }
