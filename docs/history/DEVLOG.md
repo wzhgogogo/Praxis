@@ -3717,3 +3717,10 @@ P2-1a implemented under Accepted ADR-0042: Agent-planned positive retrieval, vis
 新的10次发现基线均在干净acfaaffa完成，新增55模型/55决策（全成功）、19正式Google＋11非空预检Google，0整单Live。仅神乐坂第2轮预检空结果停批，在用户明确批准的外层1b610a8下补1次预检后正式执行；旧失败和正式产物保留，0正式重跑。Tabelog见证列表1/10（H002 CONTROL）、TableCheck0/10、Google精确官网ID5/10；首批详情0/10。SOURCE失败码和指标观察范围限制原样报告，未把探测当交付或进行归因修复。累计20/40探测、141/450模型、45Google。
 
 CORS共同修复a60d27b和新认证准备先于基线/P2-1a，P2-1a变基为39fc15e、直接父acfaaffa；源码增删补丁与原3094193一致。推送前发现远端复核0f7d43f，六份文档/日志原样保留为bdafd2e；其Google-only与可读性非阻断意见留到后续授权切片，本轮不改。报告network-restored-20261019/report.md及baseline-audit.json为当前开发基线，原10次与失败原样保留。检查点A等待新基线复核，不进入P2-1b或完整Live。
+
+
+## DEV-2026-10-19-P21-checkpoint-a-freeze
+
+用户批准进行检查点A。复用刚完成的0模型有/无Guard各20家对照、有效至10/20东京12:12后的同一见证认证、acfaaffa的10次基线；S0为0、基线预检ENV1次、4 TARGET原生来源命中0例，未触发新停止条件。A仅在干净39fc15e工作树执行，输入/见证/预检/指标与基线同字节；每次15模型/180秒/40Google，外层与计划先提交冻结，6份离线空跑0网络/模型。累计起点20/40探测、141/450模型、45Google；预检失败与基线合计超过2即停。A之后才单独修Google-only nearby，P2-1b/完整Live不启动。
+
+外层状态正反例、语法、六份空跑通过；冻结sha与证据见checkpoint-a-20261019。A源代码与已通过的组合五门禁39fc15e相同，复用typecheck/arch/build绿、940/940和真实Chromium116/116；本准备0新增真实网络/模型/探测。

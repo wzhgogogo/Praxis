@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.255
+- Document revision: 4.256
 - Last updated: 2026-10-19
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-19 P2-1 检查点A已批准／冻结：** 用户批准进行检查点A。复用刚完成的0模型有/无Guard各20家对照、有效至10/20东京12:12后的同一见证认证、acfaaffa的10次基线；S0为0、基线预检ENV1次、4 TARGET原生来源命中0例，未触发新停止条件。A仅在干净39fc15e工作树执行，输入/见证/预检/指标与基线同字节；每次15模型/180秒/40Google，外层与计划先提交冻结，6份离线空跑0网络/模型。累计起点20/40探测、141/450模型、45Google；预检失败与基线合计超过2即停。A之后才单独修Google-only nearby，P2-1b/完整Live不启动。
 
 - **2026-10-19 P2-1 网络恢复基线10次完成／待独立复核：** 新的10次发现基线均在干净acfaaffa完成，新增55模型/55决策（全成功）、19正式Google＋11非空预检Google，0整单Live。仅神乐坂第2轮预检空结果停批，在用户明确批准的外层1b610a8下补1次预检后正式执行；旧失败和正式产物保留，0正式重跑。Tabelog见证列表1/10（H002 CONTROL）、TableCheck0/10、Google精确官网ID5/10；首批详情0/10。SOURCE失败码和指标观察范围限制原样报告，未把探测当交付或进行归因修复。累计20/40探测、141/450模型、45Google。 [当前报告](../.eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/report.md)与baseline-audit.json保留逐来源、检索序列、原始路径及四层限制。共同基线acfaaffa，P2-1a39fc15e仅增加原P2-1a源码补丁；最终五门禁940/940、Chromium116/116全绿。复核者0f7d43f的6份原始文档/日志已原样纳入，P2-1a代码通过；这不替代新10次基线复核。用户授权推送，Git回执为准；随后停止，不跑A/B、P2-1b或完整Live。
 

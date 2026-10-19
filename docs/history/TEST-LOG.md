@@ -4423,3 +4423,10 @@ P2-1a implemented under Accepted ADR-0042: Agent-planned positive retrieval, vis
 真实模型＋实时来源、仅发现：10次均来源非空预检READY，模型≤15/耗时≤180s/Google≤40；冻结源码/配置/输入SHA、55决策数与SHA、10份summary/trace/recording存在及旧产物逐字节一致、干净HEAD通过。独立冻结S0_BOUNDARY全部ABSENT；不证明未知GET无副作用，S0声明/S1–S4及资格库存仍NE。录制全部NOT_REPLAYABLE，缺忠实HAR/动态响应的原因保留，不冒充Replay。
 
 L0/L1：有效红绿与原生崩溃中间日志保留；共同协议版936/936、真实Chromium115/115，最终变基组合940/940、Chromium116/116及typecheck/arch/build全绿。运行后无源码改动，复用五门禁；外层恢复实际脚本语法/账本正反例及纯文档链接、diff、权威/分母/命令检查另验。全批P2-1证据gzip估算约21.1MB＜60MB。当前端到端目标不适用，逐环节/严重度/归因限制见报告；新基线待独立复核后才决定A。
+
+
+## TEST-2026-10-19-P21-checkpoint-a-freeze
+
+用户批准进行检查点A。复用刚完成的0模型有/无Guard各20家对照、有效至10/20东京12:12后的同一见证认证、acfaaffa的10次基线；S0为0、基线预检ENV1次、4 TARGET原生来源命中0例，未触发新停止条件。A仅在干净39fc15e工作树执行，输入/见证/预检/指标与基线同字节；每次15模型/180秒/40Google，外层与计划先提交冻结，6份离线空跑0网络/模型。累计起点20/40探测、141/450模型、45Google；预检失败与基线合计超过2即停。A之后才单独修Google-only nearby，P2-1b/完整Live不启动。
+
+外层状态正反例、语法、六份空跑通过；冻结sha与证据见checkpoint-a-20261019。A源代码与已通过的组合五门禁39fc15e相同，复用typecheck/arch/build绿、940/940和真实Chromium116/116；本准备0新增真实网络/模型/探测。
