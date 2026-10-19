@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.178
+- Document revision: 4.180
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4576,3 +4576,13 @@ current executable。三项修正a37e152五门禁951/119通过；外层冻结3c4
 ## TEST-2026-10-19-P21-B-SETUP-RESTORE-APPROVED
 
 current executable。用户明确批准恢复补丁。按原提案逐字应用，只允许已留证据的首次0网络／0模型／未创建运行目录的准备失败恢复，输出改用setup-2，原日志和原ledger备份保留；正式探测不可重跑。17外层对照及10恢复准入对照全部通过，0新模型/网络。缺失审核文件已按同SHA部署且新增宿主机文件SHA绑定。生产a37e152／六输入／预算／预检十分钟及三十分钟规则不变；复用五门禁951/119。重冻329项，execute.py SHA 649f752e8b90f343d3f8b8a7f6a67fc8355c286f0cb597985336bf5c5345eacd。此前源冻结和脚本保存到recovery/，按Eval§5记录影响仅首个尚未进入预检的启动失败。继续B10，仅发现；旧B第一版排除，新起点278模型/44探测/117Google。报告.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md。
+
+
+## TEST-2026-10-19-P21-B-CORRECTED-ENV-STOP
+
+current executable / 本次外站效果未测。修正a37e152五门禁951/119全绿；初始3c4d241及首次0调用部署失败fc671b5保留。用户批准的精确恢复补丁在ae9288e重冻，17＋10离线对照通过，329冻结SHA包含实际审核文件部署；生产／输入／预算不变。北京20:49:03预检TableCheck503，首次结束627.529秒后在20:59:43使用唯一一次预检重试，仍503；TLS建立，其他就绪目标DeepSeek200、Tabelog200、公共Google404（非Places），根因未定。外层TABLECHECK_503_PERSISTED_AFTER_RETRY，检查点内失败2、起点0，按规则停止全部剩余。新B正式0/10，模型0、Google正式/数据预检0，累计278/450模型、44/55探测、117Google、0完整Live；全部B行NOT_REACHED，缺正式result/decisions/recording，诊断评价器不适用而非通过。A十行逐项对照保留，H002归HARD修正组，其余P2-1b；旧B第一版3次排除比较但保留用量和字节。329冻结及2893历史SHA、JSON/链接/diff核验，复用未变a37e152源五门禁；无源或配置继续修改，未额外探测／模型／重试。报告.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md，原始两次网络result和timeline/raw SHA保留。远端新增标注／未来变体通过普通merge4f57841保留，不用于当前B输入。用户授权推送，Git回执为准，之后停下待独立复核。
+
+
+## TEST-2026-10-19-P21-B-20M-RECHECK-FREEZE
+
+用户最新指令“你等20分钟再测一下”，以收到后UTC13:09:14为保守起点，不早于UTC13:29:14（北京时间21:29:14）补一次网络可达性预检。复用冻结a37e152生产函数与no-proxy，不改产品、模型、输入、原execute.py或已停止账本；两次503仍保留，不伪装为原30分钟恢复窗口内的重试。外层独立environment-recheck-20m/recheck.mjs与plan/approval已冻结，329项旧冻结验证、plan-only、提前调用拒绝均通过（0网络/模型），一次性原子目录防重复。只核对NETWORK_READINESS，不运行来源数据预检、模型或正式探测；返回结果再记录原始产物。复用a37e152五门禁951/951与Chromium119/119，来源能力和B比较仍未验证。累计278/450模型、44/55探测、117 Google、0完整Live不变。原始证据：[独立预检计划](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/environment-recheck-20m/plan.json)。

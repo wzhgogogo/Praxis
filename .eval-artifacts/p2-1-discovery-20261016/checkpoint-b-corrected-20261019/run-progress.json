@@ -1,12 +1,28 @@
 {
-  "status": "APPROVED_SETUP_RESTORATION_FROZEN",
+  "status": "STOP_PRESERVED_USER_APPROVED_ONE_NETWORK_RECHECK_PENDING",
+  "at": "2026-10-19T13:01:57.952308+00:00",
   "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
-  "nextIndex": 0,
+  "completed": [],
+  "formalProbesAdded": 0,
+  "modelCallsAdded": 0,
   "modelCumulative": 278,
   "probeCumulative": 44,
   "googleCumulative": 117,
   "fullLive": 0,
-  "modelCallsAdded": 0,
-  "formalProbesAdded": 0,
-  "approval": "\u6279\u51c6\u3002\u4f60\u628a\u4f60\u8be5\u505a\u7684\u5b8c\u6210"
+  "stop": {
+    "code": "TABLECHECK_503_PERSISTED_AFTER_RETRY",
+    "index": 0,
+    "checkpointPreflightFailures": 2,
+    "sourceIds": []
+  },
+  "remainingFormalRuns": 10,
+  "automaticRetryAllowed": false,
+  "report": "report.md",
+  "additionalRecheck": {
+    "notBefore": "2026-10-19T13:29:14Z",
+    "scope": "NETWORK_PREFLIGHT_ONLY",
+    "attemptsAllowed": 1,
+    "plan": "environment-recheck-20m/plan.json",
+    "originalStopUnchanged": true
+  }
 }

@@ -1,0 +1,54 @@
+{
+  "status": "ENV_FAILURE_B_NOT_REACHED",
+  "groups": {
+    "HARD_KEYWORD_CORRECTION": {
+      "indices": [
+        8
+      ],
+      "checkpointA": {
+        "runs": 1,
+        "models": 7,
+        "elapsedMs": 101016,
+        "listing": {
+          "tabelog": 1,
+          "tablecheck": 0,
+          "google-places": 0
+        },
+        "nativeFirstBatch": {
+          "tabelog": 0,
+          "tablecheck": 0
+        }
+      },
+      "checkpointB": "NOT_REACHED"
+    },
+    "P2_1B_AND_APPROVED_CORRECTIONS": {
+      "indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9
+      ],
+      "checkpointA": {
+        "runs": 9,
+        "models": 42,
+        "elapsedMs": 841157,
+        "listing": {
+          "tabelog": 7,
+          "tablecheck": 0,
+          "google-places": 5
+        },
+        "nativeFirstBatch": {
+          "tabelog": 5,
+          "tablecheck": 0
+        }
+      },
+      "checkpointB": "NOT_REACHED"
+    }
+  },
+  "note": "H002 belongs to HARD correction only; other9 compare the approved P2-1b combination. No outcome is inferred for unstarted B."
+}

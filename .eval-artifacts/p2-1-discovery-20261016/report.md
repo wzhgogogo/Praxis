@@ -213,3 +213,14 @@ B仅完成3/10发现探测：h001两次和神乐坂第1次；3条原始网络审
 编排冻结3c4d241，322项SHA、17离线对照及6输入解析通过。第一次启动因漏部署同SHA审核文件，在预检前ENOENT退出；新B正式0/10，新增网络0、模型0。文件已补齐，原外层停止未清除。最小恢复补丁与10项离线准入正反例已准备，按Eval Skill§5等待用户批准重冻后继续。旧B三次标为B第一版，保留并排除比较；先前h001 #2跳过原因更正为QUERY_NOT_REPRESENTABLE。模型278/450、探测44/55、Google117，完整Live0；与A的新十对比较目前全部NOT_REACHED。
 
 详见[修正报告](checkpoint-b-corrected-20261019/report.md)、[有效红绿和五门禁](checkpoint-b-corrected-20261019/fixes/verification.json)、[恢复补丁](checkpoint-b-corrected-20261019/recovery/outer-setup-restore.proposed.patch)、[启动0调用证据](checkpoint-b-corrected-20261019/recovery/setup-proof.json)。尚未推送本轮提交，待恢复完成后按用户授权推送。
+
+
+## 修正检查点 B 按环境停止规则结束（2026-10-19 北京21:00）
+
+三项代码修正a37e152已完成，五门禁951/951默认、119/119真实本地Chromium、typecheck/arch/build全绿；原红绿日志保留。初始冻结3c4d241因漏部署审核文件出现一次0调用启动准备失败，用户批准精确恢复补丁，17外层＋10恢复准入对照通过后于ae9288e重冻。生产、同六输入和预算不变；新329项SHA包含实际部署文件，旧冻结和原失败保留。
+
+恢复后，北京20:49:03开始预检，TableCheck首页HTTP503；按规则等到20:59:43才用唯一一次预检重试，距首次结束627.529秒，仍HTTP503。外层记录TABLECHECK_503_PERSISTED_AFTER_RETRY，检查点失败数2、起点0，未跨A/B累计。DeepSeek200、Tabelog200、公共Google连通性404（不是Places搜索），TLS均建立；根因未证实，不猜VPN或限流。没有启动正式发现、没有生成调用或Google搜索；原始网络预检元数据和时间戳均保存。
+
+新B0/10，全部NOT_REACHED，不作改进／退步或S0通过结论；没有正式Agent结果可交diagnostic evaluator。与A的十行数据和资源逐项保留，H002单列HARD修正组，其他九行P2-1b组合；旧B第一版三次仍排除新比较且计入总预算。新增模型0、正式探测0、正式/数据预检Google0；累计278/450模型、44/55探测、117Google、0新增完整Live。按预定规则停止，不再启动后续九项或额外补试。
+
+[最终报告](checkpoint-b-corrected-20261019/report.md)、[十行对照](checkpoint-b-corrected-20261019/comparison.json)、[时间线和raw SHA](checkpoint-b-corrected-20261019/preflight-timeline.json)、[评价范围](checkpoint-b-corrected-20261019/evaluation-status.json)、[账本](checkpoint-b-corrected-20261019/ledger.json)。模型/浏览器录制均未创建，未伪造产物。源五门禁复用，最终只追加观察与文档并核验冻结/历史SHA、JSON、链接和diff。用户已授权完成后推送，结果以Git回执为准；随后停止待独立复核与环境恢复安排。

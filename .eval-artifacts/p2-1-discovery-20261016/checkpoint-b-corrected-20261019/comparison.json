@@ -1,0 +1,3149 @@
+{
+  "status": "PARTIAL",
+  "comparisonAHead": "ba20b8a7e0ae5d00d93838f7f19b0ae01364e2be",
+  "checkpointBHead": "a37e152b4283d8f407c9650d19200708314e3362",
+  "pairs": [
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "role": "TARGET",
+      "approvedVariable": "P2_1B_SEARCH_AVAILABILITY_HINTS",
+      "checkpointA": {
+        "index": 0,
+        "caseId": "p2-kf-h001-20261027",
+        "resources": {
+          "modelCalls": 4,
+          "browserModelCalls": 4,
+          "google": {
+            "limit": 40,
+            "total": 2,
+            "namedPlaceResolution": 0,
+            "discovery": 2,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 79187,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 7,
+        "failureCodes": [],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": true,
+          "tablecheck": false,
+          "google-places": true
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": true,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 40,
+        "inRadiusBySource": {
+          "tabelog": 2,
+          "tablecheck": 5,
+          "google-places": 33
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139473,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1303/",
+            "parsedCount": 20,
+            "displayedTotal": 5616,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1303/",
+            "parsedCount": 20,
+            "displayedTotal": 5616,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "KEYWORD",
+            "keyword": "omakase",
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1303/?sw=omakase",
+            "parsedCount": 3,
+            "displayedTotal": 3,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/",
+            "parsedCount": 20,
+            "displayedTotal": 197,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/",
+            "parsedCount": 20,
+            "displayedTotal": 197,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "KEYWORD",
+            "keyword": "omakase",
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 2,
+            "latencyMs": 4630,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 49707,
+            "retrieval": {
+              "rewrites": 1,
+              "regionPages": 2,
+              "retrievalPages": 2,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Retrieve restaurants matching the hard criterion \"omakase\" in Shibuya.",
+                    "keyword": "omakase",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 24538,
+                  "parsedCount": 3
+                },
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase"
+                  },
+                  "elapsedMs": 26897,
+                  "parsedCount": 3
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase"
+              }
+            },
+            "failureCode": null
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 27540,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Initial retrieval for the hard criterion \"omakase\" in Shibuya.",
+                "keyword": "omakase",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval for the hard criterion \"omakase\" in Shibuya.",
+                    "keyword": "omakase",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 7283,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 2,
+            "source": "tabelog",
+            "latencyMs": 2283,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1303/",
+            "parsedCount": 20,
+            "categoryCount": 54,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "omakase",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Retrieve restaurants matching the hard criterion \"omakase\" in Shibuya."
+            }
+          },
+          {
+            "sequence": 3,
+            "source": "tabelog",
+            "latencyMs": 2347,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1303/?sw=omakase",
+            "parsedCount": 3,
+            "categoryCount": 5,
+            "proposal": {
+              "choice": "CATEGORY",
+              "keyword": "",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase",
+              "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates."
+            }
+          },
+          {
+            "sequence": 4,
+            "source": "SHARED_TEXT_RETRIEVAL",
+            "latencyMs": 2328,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": null,
+            "parsedCount": null,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "omakase",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval for the hard criterion \"omakase\" in Shibuya."
+            }
+          }
+        ],
+        "planningCallCount": 3,
+        "planningLatencyMs": 6958,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-1/probe-summary.json",
+        "summarySha256": "b96d2d18d88b7c4870d2c54367f54f5e93d833a92754e392cbe95186f7a28388",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-1/probe.decisions.jsonl",
+        "decisionsSha256": "d9939f3e5aefec53d15fe80c321d36eb09a83ea602c15abb0c7cac059bd91dea",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+        "traceSha256": "828d358f0f99f02ea5cb1abf2ae960cb15f71731a23a28af6baeac65fc9f96e0",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-1/recording/p2-kf-h001-20261027/recording.json",
+        "recordingSha256": "1728e930e0e99d8118debe0610ce1ba98094ecc454925ecaa837a538555bf0cf",
+        "googleActualTransport": [
+          {
+            "sequence": 244,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "omakase Shibuya"
+            },
+            "candidates": 33
+          }
+        ]
+      },
+      "checkpointB": {
+        "status": "NOT_STARTED"
+      }
+    },
+    {
+      "index": 1,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 2,
+      "role": "TARGET",
+      "approvedVariable": "P2_1B_SEARCH_AVAILABILITY_HINTS",
+      "checkpointA": {
+        "index": 1,
+        "caseId": "p2-kf-h001-20261027",
+        "resources": {
+          "modelCalls": 4,
+          "browserModelCalls": 4,
+          "google": {
+            "limit": 40,
+            "total": 2,
+            "namedPlaceResolution": 0,
+            "discovery": 2,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 100591,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 7,
+        "failureCodes": [],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": true,
+          "tablecheck": false,
+          "google-places": true
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": true,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 44,
+        "inRadiusBySource": {
+          "tabelog": 2,
+          "tablecheck": 5,
+          "google-places": 37
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139473,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1303/",
+            "parsedCount": 20,
+            "displayedTotal": 5616,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1303/",
+            "parsedCount": 20,
+            "displayedTotal": 5616,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "KEYWORD",
+            "keyword": "omakase",
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1303/?sw=omakase",
+            "parsedCount": 3,
+            "displayedTotal": 3,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/",
+            "parsedCount": 20,
+            "displayedTotal": 197,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/",
+            "parsedCount": 20,
+            "displayedTotal": 197,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "KEYWORD",
+            "keyword": "omakase",
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.70379499999999&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 2,
+            "latencyMs": 7522,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 69721,
+            "retrieval": {
+              "rewrites": 1,
+              "regionPages": 2,
+              "retrievalPages": 2,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Search directly for the hard criterion \"omakase\" in Shibuya.",
+                    "keyword": "omakase",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 31542,
+                  "parsedCount": 3
+                },
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase"
+                  },
+                  "elapsedMs": 33609,
+                  "parsedCount": 3
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase"
+              }
+            },
+            "failureCode": null
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 28568,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Initial retrieval for the hard criterion \"omakase\" in Shibuya.",
+                "keyword": "omakase",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval for the hard criterion \"omakase\" in Shibuya.",
+                    "keyword": "omakase",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 7906,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 2,
+            "source": "tabelog",
+            "latencyMs": 5468,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1303/",
+            "parsedCount": 20,
+            "categoryCount": 54,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "omakase",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Search directly for the hard criterion \"omakase\" in Shibuya."
+            }
+          },
+          {
+            "sequence": 3,
+            "source": "tabelog",
+            "latencyMs": 2054,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1303/?sw=omakase",
+            "parsedCount": 3,
+            "categoryCount": 5,
+            "proposal": {
+              "choice": "CATEGORY",
+              "keyword": "",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase",
+              "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant category for omakase, to surface more candidates."
+            }
+          },
+          {
+            "sequence": 4,
+            "source": "SHARED_TEXT_RETRIEVAL",
+            "latencyMs": 2137,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": null,
+            "parsedCount": null,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "omakase",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval for the hard criterion \"omakase\" in Shibuya."
+            }
+          }
+        ],
+        "planningCallCount": 3,
+        "planningLatencyMs": 9659,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-2/probe-summary.json",
+        "summarySha256": "ca85bcc4b92f56dd4ed80f7e68c2c123197c485c3cef58bb7210800b194e8b2c",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-2/probe.decisions.jsonl",
+        "decisionsSha256": "3b4f2d02f80b703548c17e3e00267edc1b1724da35f377de62c9f94958836bab",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+        "traceSha256": "b047bd4b30c224946b3eacc0cdb29dd799a6d28a9351cea5bd2ebba04431dd9b",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-2/recording/p2-kf-h001-20261027/recording.json",
+        "recordingSha256": "fb1dd7077a897ae79db7dc256bd8382b48dde69b44a89e6e800e9729e4f36179",
+        "googleActualTransport": [
+          {
+            "sequence": 244,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "omakase Shibuya"
+            },
+            "candidates": 37
+          }
+        ]
+      },
+      "checkpointB": {
+        "status": "NOT_STARTED"
+      }
+    },
+    {
+      "index": 2,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 1,
+      "role": "TARGET",
+      "approvedVariable": "P2_1B_SEARCH_AVAILABILITY_HINTS",
+      "checkpointA": {
+        "index": 2,
+        "caseId": "p2-kagurazaka-kaiseki-20261029",
+        "resources": {
+          "modelCalls": 9,
+          "browserModelCalls": 9,
+          "google": {
+            "limit": 40,
+            "total": 2,
+            "namedPlaceResolution": 0,
+            "discovery": 2,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 126650,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 8,
+        "failureCodes": [
+          "READ_BUDGET_EXCEEDED"
+        ],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": false,
+          "tablecheck": false,
+          "google-places": false
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": false,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 44,
+        "inRadiusBySource": {
+          "tablecheck": 5,
+          "google-places": 39
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139473,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1304/",
+            "parsedCount": 20,
+            "displayedTotal": 7124,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1304/A130401/",
+            "parsedCount": 20,
+            "displayedTotal": 5593,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1304/rstLst/?railroad=false",
+            "parsedCount": 0,
+            "displayedTotal": 7124,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1304/A130401/",
+            "parsedCount": 20,
+            "displayedTotal": 5593,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "KEYWORD",
+            "keyword": "kaiseki",
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.701459799999995&geo_longitude=139.7402946&geo_distance=1km&auto_geolocate=false&search_text=kaiseki",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 68809,
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 5,
+              "retrievalPages": 0,
+              "history": []
+            },
+            "failureCode": "READ_BUDGET_EXCEEDED"
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 55721,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Initial retrieval for the hard criterion \"kaiseki restaurant\" in Kagurazaka.",
+                "keyword": "kaiseki",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval for the hard criterion \"kaiseki restaurant\" in Kagurazaka.",
+                    "keyword": "kaiseki",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 24443,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 9,
+            "source": "SHARED_TEXT_RETRIEVAL",
+            "latencyMs": 2135,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": null,
+            "parsedCount": null,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "kaiseki",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval for the hard criterion \"kaiseki restaurant\" in Kagurazaka."
+            }
+          }
+        ],
+        "planningCallCount": 1,
+        "planningLatencyMs": 2135,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+        "summarySha256": "0e1be550565253ac8dc6b15460f34507c52a7fd42facc24c0917c3125f1993ac",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl",
+        "decisionsSha256": "8841b2d83354265e0005dacf17b0626868aeec1c212706d4d4142d9fe70317b6",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+        "traceSha256": "b64b62278a911420df762f4d953c2bd682bc5c9a49fff55aeb7ebdf40a8286ae",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/recording/p2-kagurazaka-kaiseki-20261029/recording.json",
+        "recordingSha256": "65e232ccc1682e02ec831d77b5dce0e8a5eda4b0315ebbb1dcf939b6fbe78f2d",
+        "googleActualTransport": [
+          {
+            "sequence": 332,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "kaiseki Kagurazaka"
+            },
+            "candidates": 39
+          }
+        ]
+      },
+      "checkpointB": {
+        "status": "NOT_STARTED"
+      }
+    },
+    {
+      "index": 3,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 2,
+      "role": "TARGET",
+      "approvedVariable": "P2_1B_SEARCH_AVAILABILITY_HINTS",
+      "checkpointA": {
+        "index": 3,
+        "caseId": "p2-kagurazaka-kaiseki-20261029",
+        "resources": {
+          "modelCalls": 9,
+          "browserModelCalls": 9,
+          "google": {
+            "limit": 40,
+            "total": 2,
+            "namedPlaceResolution": 0,
+            "discovery": 2,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 96753,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 8,
+        "failureCodes": [
+          "READ_BUDGET_EXCEEDED"
+        ],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": false,
+          "tablecheck": false,
+          "google-places": false
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": false,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 44,
+        "inRadiusBySource": {
+          "tablecheck": 5,
+          "google-places": 39
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139473,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1304/",
+            "parsedCount": 20,
+            "displayedTotal": 7124,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1304/A130401/",
+            "parsedCount": 20,
+            "displayedTotal": 5593,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1304/rstLst/?railroad=false",
+            "parsedCount": 0,
+            "displayedTotal": 7124,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1304/A130401/",
+            "parsedCount": 20,
+            "displayedTotal": 5593,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "KEYWORD",
+            "keyword": "kaiseki",
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.701459799999995&geo_longitude=139.7402946&geo_distance=1km&auto_geolocate=false&search_text=kaiseki",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 65630,
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 5,
+              "retrievalPages": 0,
+              "history": []
+            },
+            "failureCode": "READ_BUDGET_EXCEEDED"
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 29166,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Initial retrieval for the hard criterion \"kaiseki restaurant\" in Kagurazaka.",
+                "keyword": "kaiseki",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval for the hard criterion \"kaiseki restaurant\" in Kagurazaka.",
+                    "keyword": "kaiseki",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 8095,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 9,
+            "source": "SHARED_TEXT_RETRIEVAL",
+            "latencyMs": 2306,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": null,
+            "parsedCount": null,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "kaiseki",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval for the hard criterion \"kaiseki restaurant\" in Kagurazaka."
+            }
+          }
+        ],
+        "planningCallCount": 1,
+        "planningLatencyMs": 2306,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/probe-summary.json",
+        "summarySha256": "19de8becaa753f14dd17be5d71c37de9daf70a7a37db103a44f17c7195ae2d70",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/probe.decisions.jsonl",
+        "decisionsSha256": "1df4db460a2d9dcefe27c959d88163024a48bcd49a038112eaa6ec74bb281b75",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+        "traceSha256": "450a1efff8ef83d48459f2607fff629e473d490f0b93368b1b8a482510fd9354",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/recording/p2-kagurazaka-kaiseki-20261029/recording.json",
+        "recordingSha256": "d4299c0081900b2f52b57e62100c6a3d328b31c96b9ef7ca3d5fcb6352394420",
+        "googleActualTransport": [
+          {
+            "sequence": 332,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "kaiseki Kagurazaka"
+            },
+            "candidates": 39
+          }
+        ]
+      },
+      "checkpointB": {
+        "status": "NOT_STARTED"
+      }
+    },
+    {
+      "index": 4,
+      "caseId": "p2-kf-h005-20261029",
+      "repeat": 1,
+      "role": "TARGET",
+      "approvedVariable": "P2_1B_SEARCH_AVAILABILITY_HINTS",
+      "checkpointA": {
+        "index": 4,
+        "caseId": "p2-kf-h005-20261029",
+        "resources": {
+          "modelCalls": 3,
+          "browserModelCalls": 3,
+          "google": {
+            "limit": 40,
+            "total": 2,
+            "namedPlaceResolution": 0,
+            "discovery": 2,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 82361,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 6,
+        "failureCodes": [],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": true,
+          "tablecheck": false,
+          "google-places": false
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": false,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 49,
+        "inRadiusBySource": {
+          "tabelog": 4,
+          "tablecheck": 5,
+          "google-places": 40
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139472,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/",
+            "parsedCount": 20,
+            "displayedTotal": 6250,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/",
+            "parsedCount": 20,
+            "displayedTotal": 6250,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/",
+            "parsedCount": 20,
+            "displayedTotal": 2273,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/",
+            "parsedCount": 20,
+            "displayedTotal": 2273,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "KEYWORD",
+            "keyword": "local food",
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6697&geo_longitude=139.767&geo_distance=1km&auto_geolocate=false&search_text=local+food",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 1,
+            "latencyMs": 2504,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 52936,
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 2,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Expand to the supplied Washoku (Japanese cuisine) category to surface local Japanese food options near Ginza.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/"
+                  },
+                  "elapsedMs": 24029,
+                  "parsedCount": 20
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Expand to the supplied Washoku (Japanese cuisine) category to surface local Japanese food options near Ginza.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/"
+              }
+            },
+            "failureCode": null
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 27506,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Initial retrieval for the hard criterion \"local food\" with no prior attempts.",
+                "keyword": "local food",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval for the hard criterion \"local food\" with no prior attempts.",
+                    "keyword": "local food",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 7819,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 2,
+            "source": "tabelog",
+            "latencyMs": 2504,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1301/",
+            "parsedCount": 20,
+            "categoryCount": 57,
+            "proposal": {
+              "choice": "CATEGORY",
+              "keyword": "",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/",
+              "reason": "Expand to the supplied Washoku (Japanese cuisine) category to surface local Japanese food options near Ginza."
+            }
+          },
+          {
+            "sequence": 3,
+            "source": "SHARED_TEXT_RETRIEVAL",
+            "latencyMs": 2111,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": null,
+            "parsedCount": null,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "local food",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval for the hard criterion \"local food\" with no prior attempts."
+            }
+          }
+        ],
+        "planningCallCount": 2,
+        "planningLatencyMs": 4615,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-1/probe-summary.json",
+        "summarySha256": "3864b99eb6f9c4e14070dc2b3a1076285441500f5395912e6ca20826f2f62bcb",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-1/probe.decisions.jsonl",
+        "decisionsSha256": "fe3a75ef1108d70e5e14274174c6df0106ee238d3a1b74f9e8692be675766be3",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-1/trace.jsonl",
+        "traceSha256": "39050ee6b8932be67a1ce5de1f87773d101971a585bd2ab50a99fcce12759ffa",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-1/recording/p2-kf-h005-20261029/recording.json",
+        "recordingSha256": "a51a62d1ad3762ad051954277dac72401b93edf66d9c379a78d9f67b065b8b61",
+        "googleActualTransport": [
+          {
+            "sequence": 230,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "local food nearby"
+            },
+            "candidates": 40
+          }
+        ]
+      },
+      "checkpointB": {
+        "status": "NOT_STARTED"
+      }
+    },
+    {
+      "index": 5,
+      "caseId": "p2-kf-h005-20261029",
+      "repeat": 2,
+      "role": "TARGET",
+      "approvedVariable": "P2_1B_SEARCH_AVAILABILITY_HINTS",
+      "checkpointA": {
+        "index": 5,
+        "caseId": "p2-kf-h005-20261029",
+        "resources": {
+          "modelCalls": 3,
+          "browserModelCalls": 3,
+          "google": {
+            "limit": 40,
+            "total": 2,
+            "namedPlaceResolution": 0,
+            "discovery": 2,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 86541,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 6,
+        "failureCodes": [],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": true,
+          "tablecheck": false,
+          "google-places": false
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": false,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 49,
+        "inRadiusBySource": {
+          "tabelog": 4,
+          "tablecheck": 5,
+          "google-places": 40
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139472,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/",
+            "parsedCount": 20,
+            "displayedTotal": 6250,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/",
+            "parsedCount": 20,
+            "displayedTotal": 6250,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/",
+            "parsedCount": 20,
+            "displayedTotal": 2273,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/",
+            "parsedCount": 20,
+            "displayedTotal": 2273,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "KEYWORD",
+            "keyword": "local food",
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6697&geo_longitude=139.767&geo_distance=1km&auto_geolocate=false&search_text=local+food",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 1,
+            "latencyMs": 2903,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 46093,
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 2,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Local food maps to Washoku (Japanese cuisine); expand to that supplied category for a fuller list.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/"
+                  },
+                  "elapsedMs": 23826,
+                  "parsedCount": 20
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Local food maps to Washoku (Japanese cuisine); expand to that supplied category for a fuller list.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/"
+              }
+            },
+            "failureCode": null
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 37340,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Initial retrieval for the hard criterion \"local food\" with no prior attempts.",
+                "keyword": "local food",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval for the hard criterion \"local food\" with no prior attempts.",
+                    "keyword": "local food",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 13134,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 2,
+            "source": "tabelog",
+            "latencyMs": 2903,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1301/",
+            "parsedCount": 20,
+            "categoryCount": 57,
+            "proposal": {
+              "choice": "CATEGORY",
+              "keyword": "",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/",
+              "reason": "Local food maps to Washoku (Japanese cuisine); expand to that supplied category for a fuller list."
+            }
+          },
+          {
+            "sequence": 3,
+            "source": "SHARED_TEXT_RETRIEVAL",
+            "latencyMs": 2533,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": null,
+            "parsedCount": null,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "local food",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval for the hard criterion \"local food\" with no prior attempts."
+            }
+          }
+        ],
+        "planningCallCount": 2,
+        "planningLatencyMs": 5436,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2/probe-summary.json",
+        "summarySha256": "9f0295e6c7d995c4a14b9ee7cd3e9d7518c61c04d6ca03a4fd7acb77ca2670db",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2/probe.decisions.jsonl",
+        "decisionsSha256": "6c750cfb79611a8153ae0d760c0f7184270f5ac9902231e0cece459f33df2b9b",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2/trace.jsonl",
+        "traceSha256": "197df7c277513e1913abd3dc98771aabba3b6a011ebc4699bc84c99111a212c1",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2/recording/p2-kf-h005-20261029/recording.json",
+        "recordingSha256": "2c1c328f7e7368792e241d47a8b85437620efefbfc6e599d16bd6adf9873ef6c",
+        "googleActualTransport": [
+          {
+            "sequence": 230,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "local food nearby"
+            },
+            "candidates": 40
+          }
+        ]
+      },
+      "checkpointB": {
+        "status": "NOT_STARTED"
+      }
+    },
+    {
+      "index": 6,
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "repeat": 1,
+      "role": "TARGET",
+      "approvedVariable": "P2_1B_SEARCH_AVAILABILITY_HINTS",
+      "checkpointA": {
+        "index": 6,
+        "caseId": "p2-kichijoji-tempura-20261027",
+        "resources": {
+          "modelCalls": 3,
+          "browserModelCalls": 3,
+          "google": {
+            "limit": 40,
+            "total": 2,
+            "namedPlaceResolution": 0,
+            "discovery": 2,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 100222,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 6,
+        "failureCodes": [],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": true,
+          "tablecheck": false,
+          "google-places": true
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": true,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 50,
+        "inRadiusBySource": {
+          "tabelog": 5,
+          "tablecheck": 5,
+          "google-places": 40
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139471,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1320/",
+            "parsedCount": 20,
+            "displayedTotal": 2819,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1320/",
+            "parsedCount": 20,
+            "displayedTotal": 2819,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/",
+            "parsedCount": 20,
+            "displayedTotal": 22,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/",
+            "parsedCount": 20,
+            "displayedTotal": 22,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "KEYWORD",
+            "keyword": "tempura",
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.704096&geo_longitude=139.58020539999998&geo_distance=1km&auto_geolocate=false&search_text=tempura",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 1,
+            "latencyMs": 2787,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 48830,
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 2,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Supplied category \"Tempura\" directly matches the hard criterion; browsing it in the Kichijoji area.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/"
+                  },
+                  "elapsedMs": 27516,
+                  "parsedCount": 20
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Supplied category \"Tempura\" directly matches the hard criterion; browsing it in the Kichijoji area.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/"
+              }
+            },
+            "failureCode": null
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 49356,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Initial retrieval for the hard criterion \"tempura restaurant\" in Kichijōji.",
+                "keyword": "tempura",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval for the hard criterion \"tempura restaurant\" in Kichijōji.",
+                    "keyword": "tempura",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 11777,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 2,
+            "source": "tabelog",
+            "latencyMs": 2787,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1320/",
+            "parsedCount": 20,
+            "categoryCount": 53,
+            "proposal": {
+              "choice": "CATEGORY",
+              "keyword": "",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/",
+              "reason": "Supplied category \"Tempura\" directly matches the hard criterion; browsing it in the Kichijoji area."
+            }
+          },
+          {
+            "sequence": 3,
+            "source": "SHARED_TEXT_RETRIEVAL",
+            "latencyMs": 3193,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": null,
+            "parsedCount": null,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "tempura",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval for the hard criterion \"tempura restaurant\" in Kichijōji."
+            }
+          }
+        ],
+        "planningCallCount": 2,
+        "planningLatencyMs": 5980,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/probe-summary.json",
+        "summarySha256": "397eb595d092990be82fabde1c708c387486c910acd3019fd86a188d1be29816",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/probe.decisions.jsonl",
+        "decisionsSha256": "a4095db5b1e74e2ed9d37a528f8c33e192aed523ed4ab14c951ee184dd1fc82a",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+        "traceSha256": "b74ca13c61b46024a872392c6a9b17fb20cf6d9d4ab807f570f683581d4b22e6",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/recording/p2-kichijoji-tempura-20261027/recording.json",
+        "recordingSha256": "a92648b5bf7e53af6a9f86e6a2516795df2c8a523bd7cc822acddc5680ba27b6",
+        "googleActualTransport": [
+          {
+            "sequence": 230,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "tempura Kichijōji"
+            },
+            "candidates": 40
+          }
+        ]
+      },
+      "checkpointB": {
+        "status": "NOT_STARTED"
+      }
+    },
+    {
+      "index": 7,
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "repeat": 2,
+      "role": "TARGET",
+      "approvedVariable": "P2_1B_SEARCH_AVAILABILITY_HINTS",
+      "checkpointA": {
+        "index": 7,
+        "caseId": "p2-kichijoji-tempura-20261027",
+        "resources": {
+          "modelCalls": 3,
+          "browserModelCalls": 3,
+          "google": {
+            "limit": 40,
+            "total": 2,
+            "namedPlaceResolution": 0,
+            "discovery": 2,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 84654,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 6,
+        "failureCodes": [],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": true,
+          "tablecheck": false,
+          "google-places": true
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": true,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 50,
+        "inRadiusBySource": {
+          "tabelog": 5,
+          "tablecheck": 5,
+          "google-places": 40
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139471,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1320/",
+            "parsedCount": 20,
+            "displayedTotal": 2819,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1320/",
+            "parsedCount": 20,
+            "displayedTotal": 2819,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/",
+            "parsedCount": 20,
+            "displayedTotal": 22,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/",
+            "parsedCount": 20,
+            "displayedTotal": 22,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "KEYWORD",
+            "keyword": "tempura",
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.704096&geo_longitude=139.58020539999998&geo_distance=1km&auto_geolocate=false&search_text=tempura",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 1,
+            "latencyMs": 2687,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 53533,
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 2,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Supplied category \"Tempura\" directly matches the hard criterion (tempura restaurant) in the same region.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/"
+                  },
+                  "elapsedMs": 22855,
+                  "parsedCount": 20
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Supplied category \"Tempura\" directly matches the hard criterion (tempura restaurant) in the same region.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/"
+              }
+            },
+            "failureCode": null
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 29013,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Initial retrieval for the hard criterion \"tempura restaurant\" in Kichijōji.",
+                "keyword": "tempura",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval for the hard criterion \"tempura restaurant\" in Kichijōji.",
+                    "keyword": "tempura",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 9531,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 2,
+            "source": "tabelog",
+            "latencyMs": 2687,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1320/",
+            "parsedCount": 20,
+            "categoryCount": 53,
+            "proposal": {
+              "choice": "CATEGORY",
+              "keyword": "",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "https://tabelog.com/en/tokyo/A1320/rstLst/tempura/",
+              "reason": "Supplied category \"Tempura\" directly matches the hard criterion (tempura restaurant) in the same region."
+            }
+          },
+          {
+            "sequence": 3,
+            "source": "SHARED_TEXT_RETRIEVAL",
+            "latencyMs": 3157,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": null,
+            "parsedCount": null,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "tempura",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval for the hard criterion \"tempura restaurant\" in Kichijōji."
+            }
+          }
+        ],
+        "planningCallCount": 2,
+        "planningLatencyMs": 5844,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/probe-summary.json",
+        "summarySha256": "a51c1f138978594d2e6ef5171505a5b68deaee86445888a5e8842ac99945e459",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/probe.decisions.jsonl",
+        "decisionsSha256": "41d282b46a2ce4054b8a892391ce8d1064e489db8cba5854404f204dbd3a92e6",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+        "traceSha256": "c77e4ec2c64abc82c923fb523d5eba449a4c398debd080e4d041e86def7aa938",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/recording/p2-kichijoji-tempura-20261027/recording.json",
+        "recordingSha256": "5ca2956ffeedf897bb29d18f0dd3336e662b93d003568336128adf8ba0e74992",
+        "googleActualTransport": [
+          {
+            "sequence": 230,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "tempura Kichijōji"
+            },
+            "candidates": 40
+          }
+        ]
+      },
+      "checkpointB": {
+        "status": "NOT_STARTED"
+      }
+    },
+    {
+      "index": 8,
+      "caseId": "p2-kf-h002-20261031",
+      "repeat": 1,
+      "role": "CONTROL",
+      "approvedVariable": "HARD_KEYWORD_CORRECTION",
+      "checkpointA": {
+        "index": 8,
+        "caseId": "p2-kf-h002-20261031",
+        "resources": {
+          "modelCalls": 7,
+          "browserModelCalls": 7,
+          "google": {
+            "limit": 40,
+            "total": 1,
+            "namedPlaceResolution": 0,
+            "discovery": 1,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 101016,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 9,
+        "failureCodes": [],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": true,
+          "tablecheck": false,
+          "google-places": false
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": false,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 10,
+        "inRadiusBySource": {
+          "tabelog": 5,
+          "tablecheck": 5
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139471,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/",
+            "parsedCount": 20,
+            "displayedTotal": 6250,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/",
+            "parsedCount": 20,
+            "displayedTotal": 2658,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+            "parsedCount": 20,
+            "displayedTotal": 5034,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+            "parsedCount": 20,
+            "displayedTotal": 5034,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "KEYWORD",
+            "keyword": "date night",
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/?sw=date+night",
+            "parsedCount": 0,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "KEYWORD",
+            "keyword": "first date",
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/?sw=first+date",
+            "parsedCount": 0,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+            "parsedCount": 20,
+            "displayedTotal": 5034,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+            "parsedCount": 20,
+            "displayedTotal": 5034,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "PRE_DETAIL_RETRIEVAL_REWRITE"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "KEYWORD",
+            "keyword": "first date",
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.669700299999995&geo_longitude=139.7671399&geo_distance=1km&auto_geolocate=false&search_text=first+date",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 3,
+            "latencyMs": 6608,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 78391,
+            "retrieval": {
+              "rewrites": 2,
+              "regionPages": 4,
+              "retrievalPages": 3,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval targeting first-date-friendly restaurants near Higashi-ginza.",
+                    "keyword": "date night",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 45749,
+                  "parsedCount": 0
+                },
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "The \"date night\" retrieval returned an explicit empty state with no categories supplied, so I'm trying a materially different keyword tied to the first-date criterion.",
+                    "keyword": "first date",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 48215,
+                  "parsedCount": 0
+                },
+                {
+                  "selection": {
+                    "accepted": false,
+                    "reason": "Use a general list after rejected retrieval proposal.",
+                    "rejectionReason": "INVALID_KEYWORD"
+                  },
+                  "elapsedMs": 52706,
+                  "parsedCount": 0
+                }
+              ],
+              "selection": {
+                "accepted": false,
+                "reason": "Use a general list after rejected retrieval proposal.",
+                "rejectionReason": "INVALID_KEYWORD"
+              }
+            },
+            "failureCode": null
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 21263,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Initial retrieval for a first-date restaurant near Higashi-ginza.",
+                "keyword": "first date",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval for a first-date restaurant near Higashi-ginza.",
+                    "keyword": "first date",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 6763,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 4,
+            "source": "tabelog",
+            "latencyMs": 2565,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+            "parsedCount": 20,
+            "categoryCount": 57,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "date night",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval targeting first-date-friendly restaurants near Higashi-ginza."
+            }
+          },
+          {
+            "sequence": 5,
+            "source": "tabelog",
+            "latencyMs": 2461,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/?sw=date+night",
+            "parsedCount": 0,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "first date",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "The \"date night\" retrieval returned an explicit empty state with no categories supplied, so I'm trying a materially different keyword tied to the first-date criterion."
+            }
+          },
+          {
+            "sequence": 6,
+            "source": "tabelog",
+            "latencyMs": 1582,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/?sw=first+date",
+            "parsedCount": 0,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "Ginza",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Both prior keyword attempts returned explicit empty states and no categories were supplied, so I'm switching to a materially different, broader keyword tied to the location area rather than alternating synonyms of \"first date\"."
+            }
+          },
+          {
+            "sequence": 7,
+            "source": "SHARED_TEXT_RETRIEVAL",
+            "latencyMs": 1927,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": null,
+            "parsedCount": null,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "first date",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval for a first-date restaurant near Higashi-ginza."
+            }
+          }
+        ],
+        "planningCallCount": 4,
+        "planningLatencyMs": 8535,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1/probe-summary.json",
+        "summarySha256": "e01b797e59c811ee159ec8165dae734336959b66f4d9c87395cc87bfc675c7ec",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1/probe.decisions.jsonl",
+        "decisionsSha256": "b893ca9a838a5e7fa18d8b15a8b17011670d6c50502345c5511c62efb79c24e8",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1/trace.jsonl",
+        "traceSha256": "a06449023fec9ea5f0637130d88fe7cd4d2b96a3746b03d147420aa9bf3162dd",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1/recording/p2-kf-h002-20261031/recording.json",
+        "recordingSha256": "95a30113e560513b401502084f619303ec5742a30d850e884eebb48a2777bd3c",
+        "googleActualTransport": [
+          {
+            "sequence": 306,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "first date Higashi-ginza Sta."
+            },
+            "candidates": 0
+          }
+        ]
+      },
+      "checkpointB": {
+        "status": "NOT_STARTED"
+      }
+    },
+    {
+      "index": 9,
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "repeat": 1,
+      "role": "CONTROL",
+      "approvedVariable": "P2_1B_SEARCH_AVAILABILITY_HINTS",
+      "checkpointA": {
+        "index": 9,
+        "caseId": "p2-nakameguro-yakiniku-20261030",
+        "resources": {
+          "modelCalls": 4,
+          "browserModelCalls": 4,
+          "google": {
+            "limit": 40,
+            "total": 2,
+            "namedPlaceResolution": 0,
+            "discovery": 2,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 84198,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 7,
+        "failureCodes": [],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": true,
+          "tablecheck": false,
+          "google-places": true
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": true,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 43,
+        "inRadiusBySource": {
+          "tabelog": 4,
+          "tablecheck": 5,
+          "google-places": 34
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139471,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1317/",
+            "parsedCount": 20,
+            "displayedTotal": 9309,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1317/A131701/",
+            "parsedCount": 20,
+            "displayedTotal": 1080,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1317/A131701/",
+            "parsedCount": 20,
+            "displayedTotal": 1080,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/",
+            "parsedCount": 20,
+            "displayedTotal": 53,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/",
+            "parsedCount": 20,
+            "displayedTotal": 53,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "KEYWORD",
+            "keyword": "yakiniku",
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.638716099999996&geo_longitude=139.7026251&geo_distance=1km&auto_geolocate=false&search_text=yakiniku",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 1,
+            "latencyMs": 2530,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 57623,
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 3,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Supplied category \"Yakiniku (Japanese BBQ)\" directly matches the hard criterion; the general list shows no yakiniku entries.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/"
+                  },
+                  "elapsedMs": 31727,
+                  "parsedCount": 20
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Supplied category \"Yakiniku (Japanese BBQ)\" directly matches the hard criterion; the general list shows no yakiniku entries.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/"
+              }
+            },
+            "failureCode": null
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 24654,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Initial retrieval for the hard criterion \"yakiniku\" in Nakameguro.",
+                "keyword": "yakiniku",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Initial retrieval for the hard criterion \"yakiniku\" in Nakameguro.",
+                    "keyword": "yakiniku",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 8020,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 3,
+            "source": "tabelog",
+            "latencyMs": 2530,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1317/A131701/",
+            "parsedCount": 20,
+            "categoryCount": 52,
+            "proposal": {
+              "choice": "CATEGORY",
+              "keyword": "",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "https://tabelog.com/en/tokyo/A1317/A131701/rstLst/yakiniku/",
+              "reason": "Supplied category \"Yakiniku (Japanese BBQ)\" directly matches the hard criterion; the general list shows no yakiniku entries."
+            }
+          },
+          {
+            "sequence": 4,
+            "source": "SHARED_TEXT_RETRIEVAL",
+            "latencyMs": 2099,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": null,
+            "parsedCount": null,
+            "categoryCount": 0,
+            "proposal": {
+              "choice": "KEYWORD",
+              "keyword": "yakiniku",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "",
+              "reason": "Initial retrieval for the hard criterion \"yakiniku\" in Nakameguro."
+            }
+          }
+        ],
+        "planningCallCount": 2,
+        "planningLatencyMs": 4629,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/outer/reviewed-reads.json#sha256=a5dbbcd240c96b1099dd53c5296717008d6a84b9b9c43537c581b2918526c28f",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/probe-summary.json",
+        "summarySha256": "997bf3a8d1e061188b55c3ef8e3f93760d66534168c9b635b556204071c40423",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/probe.decisions.jsonl",
+        "decisionsSha256": "ceef5f4f19f437b8dbaa8c1e1a2e1f78c01f8549c6d687aac6aae87e8e1a9d00",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+        "traceSha256": "5fe12c95ceb60666f54ba6f69a51bb7a00f90a74c9e2455a9a1c3d86a9eed51c",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/recording/p2-nakameguro-yakiniku-20261030/recording.json",
+        "recordingSha256": "8394393cbc557e4c5ec91d977ff5cb6efcf0e2eeb97aa28820146eb56ad98e27",
+        "googleActualTransport": [
+          {
+            "sequence": 254,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "yakiniku Nakameguro"
+            },
+            "candidates": 34
+          }
+        ]
+      },
+      "checkpointB": {
+        "status": "NOT_STARTED"
+      }
+    }
+  ],
+  "comparisonScope": "Approved implementation-variable groups; repeated exposed discovery probes, not full Live or statistical causal proof."
+}

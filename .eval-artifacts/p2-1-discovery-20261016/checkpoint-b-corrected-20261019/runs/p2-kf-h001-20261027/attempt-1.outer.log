@@ -1,0 +1,15 @@
+node:internal/fs/promises:640
+  return new FileHandle(await PromisePrototypeThen(
+                        ^
+
+Error: ENOENT: no such file or directory, open '/Users/wangzhour/.codex/worktrees/p21-checkpoint-b-corrected/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/reviewed-reads.json'
+    at async open (node:internal/fs/promises:640:25)
+    at async readFile (node:internal/fs/promises:1277:14)
+    at async <anonymous> (/Users/wangzhour/.codex/worktrees/p21-checkpoint-b-corrected/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/run-discovery-probe.ts:30:21) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/wangzhour/.codex/worktrees/p21-checkpoint-b-corrected/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/reviewed-reads.json'
+}
+
+Node.js v24.4.1

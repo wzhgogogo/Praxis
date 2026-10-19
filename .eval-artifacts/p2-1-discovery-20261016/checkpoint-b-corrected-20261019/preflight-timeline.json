@@ -1,0 +1,80 @@
+{
+  "status": "STOPPED_ENV_FAILURE",
+  "checkpointPreflightFailures": 2,
+  "setupFailureCount": 1,
+  "formalProbes": 0,
+  "modelCalls": 0,
+  "records": [
+    {
+      "startedAt": "2026-10-19T12:49:03.411645+00:00",
+      "finishedAt": "2026-10-19T12:49:16.116776+00:00",
+      "classification": "ENV_FAILURE",
+      "phase": "NETWORK_READINESS",
+      "result": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-setup-2/2026-10-19T12-49-03-820Z-d09544f5-69e6-4401-a365-2e08e2d8b201.result.json",
+      "sha256": "b644e2000a167599972a9a58436d31926a2dc4f22d16ea31dd5fd2a889da759e",
+      "targets": [
+        {
+          "target": "DEEPSEEK",
+          "outcome": "REACHABLE",
+          "status": 200,
+          "tls": "ESTABLISHED"
+        },
+        {
+          "target": "GOOGLE",
+          "outcome": "REACHABLE",
+          "status": 404,
+          "tls": "ESTABLISHED"
+        },
+        {
+          "target": "TABELOG",
+          "outcome": "REACHABLE",
+          "status": 200,
+          "tls": "ESTABLISHED"
+        },
+        {
+          "target": "TABLECHECK",
+          "outcome": "FAILED",
+          "status": 503,
+          "tls": "ESTABLISHED"
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-10-19T12:59:43.645412+00:00",
+      "finishedAt": "2026-10-19T12:59:52.985238+00:00",
+      "classification": "ENV_FAILURE",
+      "phase": "NETWORK_READINESS",
+      "result": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-preflight-2/2026-10-19T12-59-44-084Z-b4982e00-3f56-4a01-acd5-f351d7876a27.result.json",
+      "sha256": "91abeabbbbc503b6b0f2e026cb3f730e8767886f564698f0cb90fa28ff80d872",
+      "targets": [
+        {
+          "target": "DEEPSEEK",
+          "outcome": "REACHABLE",
+          "status": 200,
+          "tls": "ESTABLISHED"
+        },
+        {
+          "target": "GOOGLE",
+          "outcome": "REACHABLE",
+          "status": 404,
+          "tls": "ESTABLISHED"
+        },
+        {
+          "target": "TABELOG",
+          "outcome": "REACHABLE",
+          "status": 200,
+          "tls": "ESTABLISHED"
+        },
+        {
+          "target": "TABLECHECK",
+          "outcome": "FAILED",
+          "status": 503,
+          "tls": "ESTABLISHED"
+        }
+      ]
+    }
+  ],
+  "retryGapSeconds": 627.528636,
+  "rule": "Only one retry after at least600s, within1800s; retry still503 stops.",
+  "setupProof": "recovery/setup-proof.json"
+}
