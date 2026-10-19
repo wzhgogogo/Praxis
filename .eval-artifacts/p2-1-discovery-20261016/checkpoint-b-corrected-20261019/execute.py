@@ -7,7 +7,7 @@ def preflight_only(a):
     return a.get('status') == 'ENV_FAILURE' and a.get('formalProbeStarted') is False and a.get('models') == 0
 
 def can_resume(ledger, index, now_epoch):
-    prior = [a for a in ledger['attempts'] if a['index'] == index]
+    prior = [a for a in ledger['attempts'] if a['index'] == index and not a.get('approvedSetupRestoration')]
     stop = ledger.get('stop') or {}
     return (stop.get('code') == 'ENV_PREFLIGHT_RETRYABLE' and stop.get('index') == index
             and index not in ledger['completed'] and len(prior) == 1 and preflight_only(prior[0])
@@ -48,7 +48,7 @@ plan = json.loads((config / 'plan.json').read_text())
 assert plan['status'] == 'FROZEN_CORRECTED_CHECKPOINT_B_DISCOVERY_ONLY'
 assert subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode().strip() == plan['productionHead']
 assert subprocess.check_output(['git', 'status', '--porcelain']).decode().strip() == ''
-assert set(sys.argv[2:]).issubset({'--resume-preflight-only'})
+assert set(sys.argv[2:]).issubset({'--resume-preflight-only','--resume-setup-only'})
 index = int(sys.argv[1]); assert 0 <= index < len(plan['planned'])
 origin = plan['budgetOrigin']
 root = Path('.eval-artifacts/p2-1-discovery-20261016')
@@ -58,6 +58,21 @@ ledger = json.loads(ledger_path.read_text()) if ledger_path.exists() else {
     'models': 0, 'google': 0, 'preflightGoogle': 0, 'preflightFailures': 0,
     'completed': [], 'attempts': [], 'stop': None, 'formalLiveRuns': 0}
 resume = '--resume-preflight-only' in sys.argv[2:]
+resume_setup = '--resume-setup-only' in sys.argv[2:]
+if resume_setup:
+    proof = json.loads((config / 'recovery/setup-proof.json').read_text())
+    assert not resume and ledger['stop'] == {'code':'PROBE_NOT_COMPLETED','index':0}
+    assert index == proof['index'] == 0 and proof['productionHead'] == plan['productionHead']
+    assert not ledger['completed'] and len(ledger['attempts']) == 1
+    failed = ledger['attempts'][0]
+    assert failed['directory'] == proof['directory'] and failed['status'] == 'NO_PROBE_SUMMARY'
+    assert failed.get('models') == 0 and failed.get('formalProbeStarted') is False
+    assert ledger['models'] == ledger['google'] == ledger['preflightGoogle'] == 0
+    assert sha(Path(proof['outerLog'])) == proof['outerLogSha256'] and not Path(failed['directory']).exists()
+    assert sha(Path(proof['requiredFile'])) == proof['requiredFileSha256']
+    ledger.setdefault('stopHistory', []).append({'stop':ledger['stop'],'resolution':'USER_APPROVED_SETUP_RESTORATION','proofSha256':sha(config/'recovery/setup-proof.json'),'at':now()})
+    failed['approvedSetupRestoration'] = True
+    ledger['stop'] = None
 if ledger['stop']:
     if ledger['stop'].get('code') == 'ENV_PREFLIGHT_RETRYABLE' and time.time() > ledger['stop'].get('recoveryDeadlineEpoch', float('inf')):
         ledger['stop'] = {**ledger['stop'], 'code': 'TABLECHECK_503_RECOVERY_WINDOW_EXPIRED'}
@@ -66,7 +81,7 @@ if ledger['stop']:
         raise SystemExit('BATCH_STOPPED: ' + str(ledger['stop']))
     ledger.setdefault('stopHistory', []).append({'stop': ledger['stop'], 'resolution': 'APPROVED_PREFLIGHT_ONLY_RETRY', 'at': now()})
     ledger['stop'] = None
-prior = [a for a in ledger['attempts'] if a['index'] == index]
+prior = [a for a in ledger['attempts'] if a['index'] == index and not a.get('approvedSetupRestoration')]
 assert index not in ledger['completed']
 assert not prior or (resume and len(prior) == 1 and preflight_only(prior[0]))
 assert ledger['preflightFailures'] <= 2
@@ -74,7 +89,8 @@ assert ledger['models'] + 15 <= 150 and origin['models'] + ledger['models'] + 15
 assert origin['formalProbes'] + len(ledger['completed']) < 55
 p = plan['planned'][index]
 directory = Path(p['output'])
-if prior: directory = directory.with_name(directory.name + '-preflight-2')
+if resume_setup: directory = directory.with_name(directory.name + '-setup-2')
+elif prior: directory = directory.with_name(directory.name + '-preflight-2')
 assert not directory.exists()
 directory.parent.mkdir(parents=True, exist_ok=True)
 a = {'index': index, 'caseId': p['caseId'], 'repeat': p['repeat'], 'head': plan['productionHead'],

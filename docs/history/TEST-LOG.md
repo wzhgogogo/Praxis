@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.177
+- Document revision: 4.178
 - Last updated: 2026-10-19
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4571,3 +4571,8 @@ current executable。生产a37e152b4283d8f407c9650d19200708314e3362，干净宿�
 ## TEST-2026-10-19-P21-B-SETUP-RESTORE-PENDING
 
 current executable。三项修正a37e152五门禁951/119通过；外层冻结3c4d241。首个外层尝试因新工作树漏部署冻结reviewed-reads.json，在Runner读取文件处ENOENT，未创建started、预检或决策目录，新增正式探测0／网络0／模型0；不是来源环境失败。原日志、ledger备份、0调用proof保留。已补齐原SHA审核文件，生产工作树仍CLEAN，冻结脚本未改、stop未清除。按Eval Skill§5发出最小外层恢复补丁批准请求，10项离线准入正反例通过（包括已完成／已正式启动／模型及Google计费／其他stop／不同HEAD拒绝），未擅自重跑。新B0/10，比较A全部NOT_REACHED；模型278/450、探测44/55、Google117、完整Live0。报告.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md及recovery/，源门禁复用，文档／证据按纯文档矩阵检查；尚未推送。
+
+
+## TEST-2026-10-19-P21-B-SETUP-RESTORE-APPROVED
+
+current executable。用户明确批准恢复补丁。按原提案逐字应用，只允许已留证据的首次0网络／0模型／未创建运行目录的准备失败恢复，输出改用setup-2，原日志和原ledger备份保留；正式探测不可重跑。17外层对照及10恢复准入对照全部通过，0新模型/网络。缺失审核文件已按同SHA部署且新增宿主机文件SHA绑定。生产a37e152／六输入／预算／预检十分钟及三十分钟规则不变；复用五门禁951/119。重冻329项，execute.py SHA 649f752e8b90f343d3f8b8a7f6a67fc8355c286f0cb597985336bf5c5345eacd。此前源冻结和脚本保存到recovery/，按Eval§5记录影响仅首个尚未进入预检的启动失败。继续B10，仅发现；旧B第一版排除，新起点278模型/44探测/117Google。报告.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md。
