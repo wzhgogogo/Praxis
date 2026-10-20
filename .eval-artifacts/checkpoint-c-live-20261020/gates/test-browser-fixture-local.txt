@@ -90,3 +90,62 @@
 ✔ P1-D Chromium observes LOCATION binding and fills exactly the resolved name, excluding personal address and nameless requests (1268.599917ms)
 ✔ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (9382.0135ms)
 ✔ P21 discovery uses DOM category links despite CSS and rejects foreign regions (11281.865625ms)
+✔ P21b production discovery checks search filters, falls back once, and records only read hints (38852.091917ms)
+✔ P21b guarded search filters reject unaudited parameters under the production generic-read policy (261.435042ms)
+✔ name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation (1540.454625ms)
+✔ P21c recorded regional links reach six controlled development results through the production assembly (17933.386625ms)
+✔ P21 source preflight retains a6.5s result under the production navigation budget (7058.678125ms)
+✔ E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3579.08725ms)
+✔ real Chromium rejects a second cross-origin redirect before receiver arrival (194.3595ms)
+✔ real Chromium rejects a second sensitive redirect before receiver arrival (190.244875ms)
+✔ real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (200.163958ms)
+✔ real Chromium checks every fetch redirect before cross-origin dispatch (187.339625ms)
+✔ real Chromium checks every xhr redirect before cross-origin dispatch (208.01125ms)
+✔ real Chromium checks every script redirect before cross-origin dispatch (179.667792ms)
+✔ real Chromium checks every stylesheet redirect before cross-origin dispatch (168.792709ms)
+✔ real Chromium checks every image redirect before cross-origin dispatch (164.533709ms)
+✔ real Chromium redirect loops fail at the Guard hop bound (148.238916ms)
+✔ real Chromium protects popup navigation before its first redirect (198.702166ms)
+✔ real Chromium protects iframe redirect chains (166.277375ms)
+✔ real Chromium preserves normal allowed popup redirect navigation (168.269625ms)
+✔ real Chromium protects dedicated-worker fetch redirects (167.758ms)
+✔ reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads (245.009083ms)
+▶ T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (187.255958ms)
+  ✔ dot (149.577208ms)
+  ✔ encodedDot (158.243375ms)
+  ✔ escaped (293.601959ms)
+  ✔ queryEscape (181.09775ms)
+  ✔ slash (148.202916ms)
+  ✔ unicode (133.212625ms)
+  ✔ protocolRelative (154.277042ms)
+✔ T1 native redirect URL-normalization attempts keep forbidden receivers untouched (1406.779583ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✔ T1 CDP independently rejects an unrecognized paused origin request (264.641083ms)
+✔ T1 CDP independently rejects an unrecognized paused method request (165.486834ms)
+✔ T1 CDP independently rejects an unrecognized paused resource-type request (151.703416ms)
+✔ TableCheck public search JSON reaches an independent receiver while writes, other paths and fields stay blocked (161.704708ms)
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata post [{"type":"Other","initiator":"preflight"}]
+preflight metadata extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata no-get-rule [{"type":"Other","initiator":"preflight"}]
+preflight metadata manual-options [{"type":"Fetch","initiator":"script"},{"type":"Other","initiator":"preflight"}]
+✔ TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths (554.8055ms)
+ℹ tests 122
+ℹ suites 0
+ℹ pass 122
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 298786.920542

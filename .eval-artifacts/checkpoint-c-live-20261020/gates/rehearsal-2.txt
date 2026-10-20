@@ -1,0 +1,10 @@
+/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/outer.ts:63
+  if(offline){if(existsSync(resolve(attemptDir,'network-denied.jsonl')))throw Error('OFFLINE_NETWORK_ATTEMPT');if(!resultPath||exit.code!==0)throw Error('REHEARSAL_RUNNER_FAILED');break;}
+                                                                                                                                                   ^
+
+
+Error: REHEARSAL_RUNNER_FAILED
+    at <anonymous> (/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/outer.ts:63:148)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+Node.js v24.4.1
