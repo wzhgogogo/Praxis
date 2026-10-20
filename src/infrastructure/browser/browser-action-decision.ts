@@ -342,7 +342,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
       response = await this.model.complete({
         taskId: input.taskId,
         purpose: "browser_read_decide",
-        promptVersion: "16",
+        promptVersion: "17",
         messages: [
           { role: "system", content: buildBrowserReadDecisionSystemPrompt() },
           {

@@ -4769,3 +4769,10 @@ current executable / 完成十次真实只读发现探测，不代表完整用�
 Checkpoint C offline integration starts from origin13c93a3, sequentially merges P2-2 7dfeb69 and P2-3 89e0dfb (41d677c/5309545). All13 conflicted paths preserve both behaviors/history/tests; combined Context@15, Prompt@27, State@17, Evaluator@30/rubric@26. Five gates PASS: typecheck/arch/build, default972/972 and local Chromium121/121. Original22 calibration retains22/22 outcome types,20/20 normal S0 declarations,8/8 delivery subtypes,0 false qualified; boundary9 ABSENT/13 historical gaps remain distinct. All354 frozen hashes and both branch test inventories verified. No websites/models/Google/probes/Live or name-resolution item4; primary user drafts/INDEX untouched. Independent integration branch only, pushed under explicit user authorization; no source/main merge. [Report](../../.eval-artifacts/checkpoint-c-integration-20261020/report.md).
 
 Concurrent remote review305d1e0 was synchronized verbatim after the feature merges (38 review-only lines,0 conflicts). src/package and all354 frozen hashes remain unchanged from5309545; the same five gates and22 calibration apply. No P2-1c implementation or new calls.
+
+<a id="test-2026-10-20-p21c-region-entrance"></a>
+## TEST-2026-10-20-P21C-REGION-ENTRANCE
+
+- 冻结输入/评分f85e7a0，源码/生产组装43000a9。旧覆盖遗漏：缺标签但已有同源指针；red.log在旧代码结果0且错误地区可执行。补强既有地区主测，含序列化一次消费、失败不重试、跨run/请求、外域/缺坐标/越界反例。
+- 六例实际生产factory+Guard+本地Chromium，真实链接/Google指针投影与合成详情分列；独立字面地区、几何、观察引用和原预算核验。不是完整任务或真实模型通过率。54条历史逐条评分，神乐坂4条缺入口观察保留未覆盖。
+- 默认973/973，本地Chromium122/122，typecheck/arch/build PASS；最终门禁及原始产物见[verification](../../.eval-artifacts/p2-1c-region-20261020/verification.json)。真实网站/模型/探测/Live均0，五次后续探测未运行。

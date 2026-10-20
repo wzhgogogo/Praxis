@@ -63,6 +63,20 @@ function normalized(value: string): string {
   return value.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "");
 }
 
+/** Nearby source pointers are routing hints, never identity or inventory evidence. */
+export function observedDirectoryOutletReference(pack: DiscoverySourcePack, read: RestaurantSearchRead, location: Location) {
+  return read.candidates.flatMap(candidate => {
+    const outlet = candidate.restaurant, point = outlet.coordinates;
+    const sourceUrl = outlet.sourceIds.googleWebsiteUri;
+    if (!sourceUrl || !point || !Number.isFinite(point.lat) || !Number.isFinite(point.lng)
+      || Math.abs(point.lat) > 90 || Math.abs(point.lng) > 180
+      || pack.availability?.candidatePath({...outlet, sourceIds: {googleWebsiteUri: sourceUrl}}) !== "DIRECT_SOURCE_PAGE") return [];
+    const distanceMeters = googleDiscoveryGeoDiagnostics({location: {latitude: point.lat, longitude: point.lng}}, {evaluationLocation: location}).distanceMeters;
+    return distanceMeters !== undefined && distanceMeters <= location.radiusMeters
+      ? [{sourceUrl, candidateId: outlet.id, distanceMeters}] : [];
+  }).sort((a, b) => a.distanceMeters - b.distanceMeters)[0];
+}
+
 /**
  * A nonempty card list may belong to a preceding query while the current
  * search is still loading. Only an observed public search input can bind that
@@ -258,6 +272,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     query: DiscoveryQuery,
     signal: AbortSignal,
     priorProgress?: NonNullable<RestaurantSearchRequest["continuation"]>["sourceProgress"],
+    loadRegionReferenceRead?: (remainingMs: number) => Promise<RestaurantSearchRead | undefined>,
   ) {
     const sourceSkillPath = pack.skillPath;
     let session: BrowserSession | undefined;
@@ -277,6 +292,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     let directoryRegion = priorProgress?.sourceId === pack.meta.id && priorProgress.directoryRegion ? structuredClone(priorProgress.directoryRegion) : undefined;
     const replaceRegion = directoryEntryReplacementAllowed(directoryRegion);
     let selectedRegion: DirectoryRegion["first"] | undefined;
+    let outletReference: ReturnType<typeof observedDirectoryOutletReference>;
     let selectingRegion = false;
     let filledRegion: { observedOn: string; targetRef: string; resultKey: string } | undefined;
     let regionResultKey = "";
@@ -292,19 +308,23 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         if (selectingRegion) {
           if (!visitedRegionPages.some(url => sameRegion(url, input.observation.url))) visitedRegionPages.push(input.observation.url);
           for (const target of input.observation.targets) {
-            if (target.href && target.availableActions?.includes("OPEN_LINK")
-              && pack.browser?.directory?.isRegionEntrance(target.href)
-              && !sameRegion(input.observation.url, target.href)
-              && visitedRegionPages.some(url => sameRegion(url, target.href!))) blockedRefs.add(target.ref);
+            if (!target.href || !target.availableActions?.includes("OPEN_LINK")) continue;
+            const directory = pack.browser?.directory;
+            const visited = directory?.isRegionEntrance(target.href) && !sameRegion(input.observation.url, target.href)
+              && visitedRegionPages.some(url => sameRegion(url, target.href!));
+            const unsupported = outletReference && !directory?.containsObservedOutlet?.(target.href, outletReference.sourceUrl)
+              && !(directory?.isRegionEntrance(input.observation.url) && sameRegion(input.observation.url, target.href));
+            if (visited || unsupported) blockedRefs.add(target.ref);
           }
         }
-        const action = await this.discoveryDecision!.decide(blockedRefs.size ? {
+        const action = await this.discoveryDecision!.decide({
           ...input,
+          ...(outletReference ? {progress: `${input.progress}\nNearby observed source outlet: ${JSON.stringify(outletReference)}. Choose a current observed region containing this outlet; this pointer is not identity or availability evidence.`} : {}),
           observation: { ...input.observation, targets: input.observation.targets.map(target => blockedRefs.has(target.ref)
-            ? { ...target, availableActions: target.availableActions?.filter(action => action !== "OPEN_LINK") ?? [], rejectionReason: "REGION_ALREADY_VISITED" } : target) },
-        } : input);
+            ? { ...target, availableActions: target.availableActions?.filter(action => action !== "OPEN_LINK") ?? [], rejectionReason: outletReference ? "REGION_OUTLET_EVIDENCE_MISMATCH_OR_VISITED" : "REGION_ALREADY_VISITED" } : target) },
+        });
         if (action.type === "OPEN_LINK" && blockedRefs.has(action.targetRef)) {
-          throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "REGION_ALREADY_VISITED: choose an unvisited observed region or the authoritative public location search");
+          throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "Choose an unvisited observed region supported by current location evidence or the authoritative public location search");
         }
         if (selectingRegion && action.type === "OPEN_LINK") {
           const target = input.observation.targets.find(target => target.ref === action.targetRef);
@@ -703,6 +723,18 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         raw = rawSourceLinks(page, pack);
         if (pack.browser!.hasChallenge(page)) throw Object.assign(new Error("Discovery source challenge"), { code: "DISCOVERY_SOURCE_BOT_CHALLENGE" });
         if (!currentAreaEntranceObserved) {
+          const requestedName = discoveryGoalLocation.name
+            ? normalized(request.intent.area.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").trim()) : "";
+          const directlyNamed = requestedName && [...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)].some(match => {
+            try {
+              return directory.isRegionEntrance(new URL(match[1]!.replaceAll('&amp;', '&'), page!.url).href)
+                && normalized(match[2]!.replace(/<[^>]*>/g, ' ')).includes(requestedName);
+            } catch { return false; }
+          });
+          if (requestedName && !directlyNamed && directory.containsObservedOutlet && loadRegionReferenceRead) {
+            const referenceRead = await loadRegionReferenceRead(Math.max(1, NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedMs()));
+            if (referenceRead) outletReference = observedDirectoryOutletReference(pack, referenceRead, location);
+          }
           selectingRegion = true;
           let regionPageUrl = page.url;
           try {
@@ -724,7 +756,13 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
                 const same = selectedRegion && (directory.listingRoot(selectedRegion.url) !== undefined && directory.listingRoot(current.url) === directory.listingRoot(selectedRegion.url)
                   || directory.isSameObservedRegionHomepage?.(selectedRegion.url, current.url));
                 const requestedAreaName = request.intent.area.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").trim();
-                const namedEntrance = !discoveryGoalLocation.name || !!filledRegion || normalized(selectedRegion?.label ?? "").includes(normalized(requestedAreaName));
+                const supportedEntrance = !!outletReference && !!selectedRegion && directory.containsObservedOutlet?.(selectedRegion.url, outletReference.sourceUrl) === true;
+                const deeperEntrance = supportedEntrance && controls.some(control => control.visible && control.href
+                  && directory.isRegionEntrance(control.href) && control.href !== selectedRegion!.url && !sameRegion(control.href, selectedRegion!.url)
+                  && new URL(control.href).pathname.split('/').length > new URL(selectedRegion!.url).pathname.split('/').length
+                  && directory.containsObservedOutlet?.(control.href, outletReference!.sourceUrl));
+                const namedEntrance = !discoveryGoalLocation.name || !!filledRegion || supportedEntrance && !deeperEntrance
+                  || normalized(selectedRegion?.label ?? "").includes(normalized(requestedAreaName));
                 const complete = !!same && namedEntrance && (pack.parseListing(current).outlets.length > 0 || pack.browser!.isExplicitEmptyListing(current));
                 return { complete, resultBusy: pack.browser!.resultBusy(current), resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort()]), reason: "Follow an observed region entrance naming the requested area, continuing through a broader parent menu if necessary; observe its public results." };
               },
@@ -1062,6 +1100,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
 
   async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {
     const startedAt = Date.now();
+    if (request.continuation && request.continuation.intentFingerprint !== restaurantSearchIntentFingerprint(request.intent)) {
+      throw Object.assign(Error("Discovery continuation belongs to a different request"), {code: "GOOGLE_MALFORMED_RESPONSE"});
+    }
     const { location, localityEvidence } = await this.location(request, signal);
     const discoveryPlan: DiscoveryPlan = structuredClone(request.continuation?.discoveryPlan
       ?? planDiscoverySources(request.intent, location, this.packs.map((pack) => pack.meta), this.now()));
@@ -1069,12 +1110,20 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     if (!entry) throw Object.assign(new Error("Discovery source plan is exhausted"), { code: "DISCOVERY_PLAN_EXHAUSTED" });
     const pack = this.packs.find((candidate) => candidate.meta.id === entry.sourceId);
     const source = nativeSourceForPack(pack);
+    const prepareTextRetrieval = async (timeoutMs: number) => {
+      if (!discoveryPlan.textRetrieval) {
+        discoveryPlan.textRetrieval = entry.query.positiveCriteria.length
+          ? await this.retrievalPlanner.decide({taskId: request.readRunId ?? 'discovery', intent: request.intent, locationName: location.label, attemptedRetrievals: [], rewrites: 0, timeoutMs})
+          : {accepted: true, reason: 'General retrieval: no positive criteria.'};
+        for (const planned of discoveryPlan.entries.filter(e => nativeSourceForPack(this.packs.find(p => p.meta.id === e.sourceId)) !== 'DIRECTORY')) {
+          if (discoveryPlan.textRetrieval.keyword) planned.query.keyword = discoveryPlan.textRetrieval.keyword;
+        }
+      }
+    };
     let planningElapsedMs=0;
     if(source!=='DIRECTORY' && !discoveryPlan.textRetrieval){
       const planningStarted=Date.now();
-      discoveryPlan.textRetrieval=entry.query.positiveCriteria.length?await this.retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName:location.label,attemptedRetrievals:[],rewrites:0,timeoutMs:NATIVE_SOURCE_ELAPSED_CAP_MS}):{accepted:true,reason:'General retrieval: no positive criteria.'};
-      const selection=discoveryPlan.textRetrieval;
-      if(selection.keyword)for(const planned of discoveryPlan.entries.filter(e=>this.packs.find(p=>p.meta.id===e.sourceId)?.browser?.flow!=='DIRECTORY'))planned.query.keyword=selection.keyword;
+      await prepareTextRetrieval(NATIVE_SOURCE_ELAPSED_CAP_MS);
       planningElapsedMs=Date.now()-planningStarted;
     }
     if(source!=='DIRECTORY'&&discoveryPlan.textRetrieval?.keyword)entry.query.keyword=discoveryPlan.textRetrieval.keyword;
@@ -1103,7 +1152,33 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         progressionReason: source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" : "FIRST_SOURCE_BATCH_ENDED", listingObservations: [] } };
     let failureCode: RestaurantFailureCode | undefined;
     try {
-      batch = await this.batch(pack!, source, request, location, entry.query, signal, request.continuation?.sourceProgress);
+      const referenceEntry = discoveryPlan.entries.slice(discoveryPlan.cursor + 1)
+        .find(e => !nativeSourceForPack(this.packs.find(p => p.meta.id === e.sourceId)));
+      const loadReferenceRead = referenceEntry ? async (remainingMs: number) => {
+        if (discoveryPlan.regionReferenceRead) {
+          if (discoveryPlan.regionReferenceRead.readRunId !== request.readRunId) throw Object.assign(Error('Region reference read belongs to a different run'), {code: 'GOOGLE_MALFORMED_RESPONSE'});
+          return discoveryPlan.regionReferenceRead.read;
+        }
+        const boundedSignal = AbortSignal.any([signal, AbortSignal.timeout(Math.max(1, Math.floor(remainingMs)))]);
+        await prepareTextRetrieval(remainingMs);
+        const {continuation: _prior, ...freshRequest} = request;
+        const readStarted = Date.now();
+        let read: RestaurantSearchRead;
+        try {
+          read = await this.locality.search({...freshRequest, discoveryQuery: referenceEntry.query, retrievalHint: referenceEntry.query.keyword ?? referenceEntry.query.category}, boundedSignal);
+        } catch (error) {
+          if (taskLevelFailure(error, signal)) throw error;
+          const code = restaurantFailureCode(candidateFailureCode(error, 'GOOGLE'), 'SEARCH_FAILED');
+          // Preserve this one failed read for the original source stage too;
+          // a missing routing hint must not silently schedule a second call.
+          read = {candidates: [], evidence: [], continuation: {
+            intentFingerprint: restaurantSearchIntentFingerprint(request.intent), usedPageTokens: [], pagesRead: 0, exhausted: true, lastFailureCode: code,
+          }, metadata: {provider: 'GOOGLE_PLACES', route: 'STRUCTURED_ADAPTER', latencyMs: Date.now() - readStarted, failureCode: code, googleRequests: this.locality.googleRequestUsage(request.readRunId)}};
+        }
+        discoveryPlan.regionReferenceRead = {sourceId: referenceEntry.sourceId, ...(request.readRunId ? {readRunId: request.readRunId} : {}), read};
+        return read;
+      } : undefined;
+      batch = await this.batch(pack!, source, request, location, entry.query, signal, request.continuation?.sourceProgress, loadReferenceRead);
     } catch (error) {
       if (taskLevelFailure(error, signal)) throw error;
       if (error && typeof error === "object" && "nativeFunnel" in error && error.nativeFunnel) {
@@ -1162,6 +1237,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     retrievalHint: string,
     location: Location,
   ): Promise<RestaurantSearchRead> {
+    const startedAt = Date.now();
     const continuation = request.continuation?.sourceProgress?.sourceId === sourceId
       ? {
         intentFingerprint: restaurantSearchIntentFingerprint(request.intent),
@@ -1177,7 +1253,12 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     // when this pack itself produced it; otherwise Google would correctly see
     // an exhausted, tokenless foreign cursor and skip its first provider read.
     const { continuation: _priorContinuation, ...freshRequest } = request;
-    const read = await this.locality.search({ ...freshRequest, retrievalHint, discoveryQuery: plan.entries[plan.cursor]!.query, ...(continuation ? { continuation } : {}) }, signal);
+    const saved = plan.regionReferenceRead;
+    if (saved && (saved.sourceId !== sourceId || saved.readRunId !== request.readRunId)) {
+      throw Object.assign(Error('Saved source read belongs to a different source or run'), {code: 'GOOGLE_MALFORMED_RESPONSE'});
+    }
+    const read = saved ? saved.read : await this.locality.search({ ...freshRequest, retrievalHint, discoveryQuery: plan.entries[plan.cursor]!.query, ...(continuation ? { continuation } : {}) }, signal);
+    delete plan.regionReferenceRead;
     if (!read.continuation) throw Object.assign(new Error("Google discovery did not return a bounded cursor"), { code: "GOOGLE_MALFORMED_RESPONSE" });
     const googleContinuation = read.continuation;
     const sourceEnded = googleContinuation.exhausted;
@@ -1189,6 +1270,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     return {
       ...read,
       candidates,
+      metadata: {...read.metadata, latencyMs: Date.now() - startedAt, googleRequests: this.locality.googleRequestUsage(request.readRunId)},
       continuation: {
         ...googleContinuation,
         discoveryPlan: nextPlan,

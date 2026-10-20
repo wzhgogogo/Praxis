@@ -4060,3 +4060,9 @@ current executable / 完成十次真实只读发现探测，不代表完整用�
 Checkpoint C offline integration starts from origin13c93a3, sequentially merges P2-2 7dfeb69 and P2-3 89e0dfb (41d677c/5309545). All13 conflicted paths preserve both behaviors/history/tests; combined Context@15, Prompt@27, State@17, Evaluator@30/rubric@26. Five gates PASS: typecheck/arch/build, default972/972 and local Chromium121/121. Original22 calibration retains22/22 outcome types,20/20 normal S0 declarations,8/8 delivery subtypes,0 false qualified; boundary9 ABSENT/13 historical gaps remain distinct. All354 frozen hashes and both branch test inventories verified. No websites/models/Google/probes/Live or name-resolution item4; primary user drafts/INDEX untouched. Independent integration branch only, pushed under explicit user authorization; no source/main merge. [Report](../../.eval-artifacts/checkpoint-c-integration-20261020/report.md).
 
 Concurrent remote review305d1e0 was synchronized verbatim after the feature merges (38 review-only lines,0 conflicts). src/package and all354 frozen hashes remain unchanged from5309545; the same five gates and22 calibration apply. No P2-1c implementation or new calls.
+
+<a id="dev-2026-10-20-p21c-region-entrance"></a>
+## DEV-2026-10-20-P21C-REGION-ENTRANCE
+
+- Exposed development，基线7dfeb69，复核305d1e0。缺同名入口时提前复用原计划Google批次，以原半径内同源门店URL约束观察引用；失败也缓存到原阶段消费，不重复读取。无地点/代码表，Pack净增0；4/5、身份、HARD与预算不变。
+- State17/TaskDefinition15、Browser Prompt17/action schema11；当前Fixture同步，无兼容路径或数据重置。54条源文件可追溯SHA；仅A上线，B的新模型推理未评。见[报告](../../.eval-artifacts/p2-1c-region-20261020/report.md)。

@@ -6,7 +6,7 @@ import type { BrowserReadActionDecisionPort } from '../../infrastructure/browser
 import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from '../../infrastructure/browser/browser-runtime.js';
 import { GooglePlacesClient } from '../google/google-places-client.js';
 import { GooglePlacesRestaurantSearch } from '../google/google-places-restaurant-search.js';
-import { NativeRestaurantSearch, directoryEntryReplacementAllowed } from './native-restaurant-search.js';
+import { NativeRestaurantSearch, directoryEntryReplacementAllowed, observedDirectoryOutletReference } from './native-restaurant-search.js';
 import { tabelogDiscoveryPack } from './source-packs.js';
 import type { RestaurantSearchContinuation, RestaurantSearchIntent } from '../../domains/restaurant/contracts.js';
 
@@ -132,4 +132,118 @@ test('a confirmed authoritative location search replaces a previous broad region
  assert.equal(result.candidates.length,1,'the known-feasible exact-location result must survive prior broad-region state');
  assert.equal(result.metadata.nativeDiscoveryFunnel!.directoryRegion!.first.url,'https://tabelog.com/en/tokyo/A1309/A130905/rstLst/');
  assert.equal(f.decisions,3);assert.ok(result.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!<90_000);
+});
+
+// Independent source records + controlled details: this checks routing and the
+// original budget, not current inventory or a real model's new decisions.
+import {gunzipSync} from 'node:zlib';
+import {googlePlacesDiscoveryPack} from './source-packs.js';
+import type {RestaurantSearchRead} from '../../domains/restaurant/contracts.js';
+const recordedRegions = JSON.parse(gunzipSync(readFileSync(new URL('../../../.eval-artifacts/p2-1c-region-20261020/recordings.json.gz',import.meta.url))).toString()) as Array<{
+ caseId:string;group:string;location:NonNullable<RestaurantSearchContinuation['locationContext']>;
+ googleBatch?:{detail:{read:RestaurantSearchRead}};
+}>;
+function linkedRegionFixture(caseId:string, rogue=false, failedRead=false, hard=false) {
+ const record=recordedRegions.find(r=>r.group==='checkpoint-b-corrected-20261019'&&r.caseId===caseId)!;
+ const references=record.googleBatch!.detail.read;
+ const navigations:string[]=[];const googleKeywords:Array<string|undefined>=[];let googleCalls=0, decisions=0, planningCalls=0;
+ const requested=record.location.label;
+ // Only the test's independent expected pages supply this table. Production
+ // receives the unchanged recorded Google links and observed root links.
+ const expected=caseId.includes('kagurazaka')?'A1309':'A1317';
+ const good=`https://tabelog.com/en/tokyo/${expected}/`;
+ const wrong=caseId.includes('kagurazaka')?capturedParent:'https://tabelog.com/en/tokyo/A1316/';
+ const outlet=`${good}${expected}01/13999999/`;
+ let page:BrowserSnapshot={url:capturedRoot,title:'Regions',text:'',html:''};
+ const runtime:BrowserRuntime={openSession:async()=>({
+  metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now},
+  navigate:async(url)=>{navigations.push(url);const current=url.includes('/tokyo/rstLst/')?capturedRoot:url;
+   const path=new URL(current);path.search='';
+   const html=path.href===capturedRoot?regionFragment('root'):path.href===good?`<a class="list-rst__rst-name-target" href="${outlet}">Controlled result</a>`:current===outlet?`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Controlled result',address:'Tokyo',geo:{latitude:record.location.latitude,longitude:record.location.longitude}})}</script>`:'';
+   page={url:current,title:'Observed regions',text:html.replace(/<[^>]*>/g,' '),html};},snapshot:async()=>page,
+  observeControls:async()=>[...page.html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m,n)=>({id:String(n),stableKey:m[1]!,kind:'LINK' as const,role:'link',label:m[2]!.replaceAll('&amp;','&'),href:m[1]!,visible:true,disabled:false})),
+  click:async()=>{throw Error('No click');},fill:async()=>{throw Error('No invented input');},select:async()=>[],waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{},
+ })};
+ const decision:BrowserReadActionDecisionPort={decide:async input=>{
+  decisions++;
+  if(failedRead)return {type:'REQUEST_HUMAN_HELP',reason:'No observed region evidence in the controlled source'};
+  const incorrect=input.observation.targets.find(t=>t.href===wrong)!;
+  if(rogue)return {type:'OPEN_LINK',targetRef:incorrect.ref,reason:'Synthetic bypass of unsupported region'};
+  assert.equal(incorrect.availableActions?.includes('OPEN_LINK'),false,'an administrative/name-similar guess must not remain executable');
+  const supported=input.observation.targets.find(t=>t.href===good)!;
+  assert.ok(supported.availableActions?.includes('OPEN_LINK'),'the observed matching entrance remains reachable');
+  return {type:'OPEN_LINK',targetRef:supported.ref,reason:'Observed same-origin outlet supports this region'};
+ }};
+ const google=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async()=>{throw Error('No network');}}));
+ google.search=async request=>{googleCalls++;googleKeywords.push(request.discoveryQuery?.keyword);if(failedRead)throw Object.assign(Error('Controlled provider failure'),{code:'GOOGLE_NETWORK_FAILED'});return {...structuredClone(references),continuation:{...structuredClone(references.continuation!),intentFingerprint:JSON.stringify(request.intent)}};};
+ const planner={decide:async()=>{planningCalls++;return fixtureRetrieval.decide();}};
+ const native=new NativeRestaurantSearch(runtime,google,planner,()=>now,undefined,decision,undefined,undefined,{maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},undefined,[tabelogDiscoveryPack,googlePlacesDiscoveryPack]);
+ const inputIntent={...intent,area:{query:`near ${requested}`,radiusMeters:1000},...(hard?{criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]}:{})};
+ const request={intent:inputIntent,readRunId:`region-${caseId}`,continuation:{intentFingerprint:JSON.stringify(inputIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:record.location}};
+ return {native,request,navigations,good,wrong,references,googleKeywords,get googleCalls(){return googleCalls;},get decisions(){return decisions;},get planningCalls(){return planningCalls;}};
+}
+test('recorded Kagurazaka and Nakameguro links constrain the first region and reach a controlled result within the unchanged budget',async()=>{
+ for(const caseId of ['p2-kagurazaka-kaiseki-20261029','p2-nakameguro-yakiniku-20261030']){
+  const f=linkedRegionFixture(caseId);const result=await f.native.search(f.request,new AbortController().signal);
+  assert.equal(result.candidates.length,1,'a known-feasible regional result must be obtained, not just refused safely');
+  assert.equal(result.metadata.nativeDiscoveryFunnel!.directoryRegion!.first.url,f.good);
+  assert.equal(f.navigations.includes(f.wrong),false);
+  assert.equal(f.googleCalls,1);assert.equal(f.decisions,1);assert.ok(result.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!<90_000);
+  const next=await f.native.search({...f.request,continuation:JSON.parse(JSON.stringify(result.continuation))},new AbortController().signal);
+  assert.equal(f.googleCalls,1,'the original Google stage consumes the saved read, including after a serialized continuation');
+  assert.equal(next.candidates.length,f.references.candidates.length);
+ }
+});
+test('an action bypassing observed outlet region evidence cannot navigate to the wrong region',async()=>{
+ const f=linkedRegionFixture('p2-kagurazaka-kaiseki-20261029',true);
+ const result=await f.native.search(f.request,new AbortController().signal);
+ assert.equal(f.navigations.includes(f.wrong),false);assert.equal(result.candidates.length,0);
+});
+
+test('region evidence excludes foreign/malformed URLs, missing or invalid coordinates, and points beyond the original radius',()=>{
+ const r=recordedRegions.find(r=>r.group==='checkpoint-b-corrected-20261019'&&r.caseId.includes('kagurazaka'))!;
+ const source=r.googleBatch!.detail.read;
+ const baseline=observedDirectoryOutletReference(tabelogDiscoveryPack,source,r.location)!;
+ assert.ok(baseline);assert.ok(baseline.distanceMeters<=r.location.radiusMeters);
+ const candidate=source.candidates.find(c=>c.restaurant.id===baseline.candidateId)!;
+ for(const edit of [
+  {sourceIds:{googleWebsiteUri:baseline.sourceUrl}}, {coordinates:{lat:NaN,lng:139}}, {coordinates:{lat:100,lng:139}},
+  {coordinates:{lat:r.location.latitude+1,lng:r.location.longitude}},
+  {sourceIds:{googleWebsiteUri:'https://unrelated.example/tokyo/A1309/A130905/12345678/'}},
+  {sourceIds:{googleWebsiteUri:'https://tabelog.com/en/tokyo/A1309/'}},
+ ]){
+  const changed=structuredClone(candidate);
+  if(!('coordinates' in edit)&&edit.sourceIds.googleWebsiteUri===baseline.sourceUrl)delete changed.restaurant.coordinates;
+  else Object.assign(changed.restaurant,edit);
+  assert.equal(observedDirectoryOutletReference(tabelogDiscoveryPack,{...source,candidates:[changed]},r.location),undefined);
+ }
+ const directory=tabelogDiscoveryPack.browser!.directory!;
+ assert.equal(directory.containsObservedOutlet!('https://tabelog.com/en/tokyo/A1309/',baseline.sourceUrl),true);
+ assert.equal(directory.containsObservedOutlet!('https://tabelog.com/en/tokyo/A1304/',baseline.sourceUrl),false);
+ assert.equal(directory.containsObservedOutlet!('https://evil.example/en/tokyo/A1309/',baseline.sourceUrl),false);
+});
+
+test('a saved early source read cannot cross the authoritative request or runtime run',async()=>{
+ const f=linkedRegionFixture('p2-kagurazaka-kaiseki-20261029');
+ const result=await f.native.search(f.request,new AbortController().signal);
+ await assert.rejects(f.native.search({...f.request,intent:{...f.request.intent,partySize:9},continuation:result.continuation!},new AbortController().signal),{code:'GOOGLE_MALFORMED_RESPONSE'});
+ await assert.rejects(f.native.search({...f.request,readRunId:'different-run',continuation:result.continuation!},new AbortController().signal),{code:'GOOGLE_MALFORMED_RESPONSE'});
+ assert.equal(f.googleCalls,1);
+});
+
+test('an early provider failure is reported at its original source stage without a second request',async()=>{
+ const f=linkedRegionFixture('p2-kagurazaka-kaiseki-20261029',false,true);
+ const first=await f.native.search(f.request,new AbortController().signal);
+ const next=await f.native.search({...f.request,continuation:JSON.parse(JSON.stringify(first.continuation))},new AbortController().signal);
+ assert.equal(f.googleCalls,1);assert.equal(next.candidates.length,0);assert.equal(next.metadata.failureCode,'GOOGLE_NETWORK_FAILED');
+});
+
+test('early region reference reading keeps the shared positive HARD retrieval and does not plan it twice',async()=>{
+ const f=linkedRegionFixture('p2-kagurazaka-kaiseki-20261029',false,false,true);
+ const first=await f.native.search(f.request,new AbortController().signal);
+ assert.equal(first.candidates.length,1);assert.deepEqual(f.googleKeywords,['omakase']);
+ const planningCalls=f.planningCalls;assert.ok(planningCalls>0);
+ await f.native.search({...f.request,continuation:JSON.parse(JSON.stringify(first.continuation))},new AbortController().signal);
+ assert.equal(f.googleCalls,1);assert.equal(f.planningCalls,planningCalls);
+ assert.deepEqual(f.request.intent.criteria,[{text:'omakase',polarity:'POSITIVE',strength:'HARD'}]);
 });
