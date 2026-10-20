@@ -1,0 +1,33 @@
+{
+  "humanInstruction": "继续第七次",
+  "recordedAt": "2026-10-20T05:27:48.466329+00:00",
+  "interpretation": "Resume seventh formal probe, Nakameguro/index9, after its preflight-only HTTP429. Retain prior approval for the existing remaining order and unchanged403/503/busy single15min retry. No automatic429 retry; no completed probe rerun.",
+  "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
+  "ledgerBeforeSha256": "fe679d10b6a604ee19adf911f2ed3abdbceb84d0e11fcdf0bc1f71440a2f2fa7",
+  "caseIndex": 9,
+  "completedIndices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    8
+  ],
+  "expectedStop": {
+    "code": "PREFLIGHT_EVIDENCE_GAP",
+    "index": 9
+  },
+  "modelsBefore": 31,
+  "preflightFailuresBefore": 6,
+  "sourcePreflightResult": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-browser-ready-20261020/source-data-preflight.json",
+  "sourcePreflightSha256": "b7ee7c53baa50714d3e7c4d4aec47a1d173929c9294e8e471bd61860e110a353",
+  "notBeforeEpoch": 1792473536.504203,
+  "priorFailedAttemptDirectory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-browser-ready-20261020",
+  "remainingOrder": [
+    9,
+    6,
+    7,
+    5
+  ],
+  "scope": "Outer exact admission only; same frozen entry, model/input/source/metrics/Guard/witnesses. No full Live."
+}

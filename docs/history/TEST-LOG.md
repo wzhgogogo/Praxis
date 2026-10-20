@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.192
+- Document revision: 4.193
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4680,3 +4680,16 @@ current executable / 修正B部分真实发现证据，未整体验收。
 - 评价与限制：原两次READ_BUDGET_EXCEEDED保留；完整十行A/B表只对已到达6行比较，H002/HARD与其余P2-1b分组。六条正式轨迹的独立网络审计ABSENT仅限这些轨迹，来源预检非空不证明查位/交付。录制均保存原SHA，NOT_REPLAYABLE/UNSAFE_DOCUMENT标记如实保留，不声称静态回放通过。完整Task evaluator不适用于本次仅发现探测。
 - 用量：本轮新增1正式探测、4模型、3 Google（1正式＋2来源预检）；累计309/450模型、50/55正式发现、136 Google、0完整Live。原329冻结、历史2893、当前738与已完成314文件SHA核验；源码、Prompt、Schema、Guard、输入、见证及已有录制未改。纯文档矩阵检查账本前缀、产物、链接、索引和diff，原网页字节保留。完成证据提交推送，停止等待独立复核，自动化保持暂停。
 - 证据：[逐例报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[新冻结回执](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/freeze-commit.json)、[续跑汇总](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/attempt-summary.json)、[429停止事实](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/stop-facts.json)、[间隔核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/pacing-verification.json)、[后验验证](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/post-change-verification.json)。
+
+
+## TEST-2026-10-20-P21-B-SEVENTH-RECOVERY-FREEZE
+
+current executable / 本次仅外层恢复准入，外站结果待运行。
+
+用户最新明确要求“继续第七次”。第七次为中目黑index9，前次仅来源预检Tabelog429，0模型、未正式启动；上次结束UTC05:03:56.504，现在已超过900秒。新恢复只接受这份原始429产物、原账本SHA、completed[0,1,2,3,4,8]、31个B模型调用和历史失败6；错误用例、已完成、正式启动、已消耗模型、安全停止、不同产物或提前时钟均拒绝。旧stop/attempt/recovery历史原样保留并追加本次人类授权，不清零。
+
+新准入20项0网络/模型离线对照PASS，复用原44项预检/观察/节奏对照和5输入解析空跑。原冻结浏览器入口SHA47db4b10…完全复用；生产仍a37e152，262源码SHA、原五门禁951/951、119/119与typecheck/arch/build日志核验通过。826项SHA冻结，379份已存运行文件保护，用户INDEX、演示文稿、产品草稿不动。
+
+准入后仍先做其他三项网络预检与三来源非空数据预检，TableCheck仅浏览器搜索就绪；正常间隔至少5分钟，明确403/503或已观察繁忙页才允许15分钟后单次自动重试，429未新增为自动条件。中目黑通过后，按此前已批准的剩余顺序吉祥寺#1、吉祥寺#2、KF-H005#2继续；任一冻结stop即结束。总上限仍450模型/55正式发现，当前309/50/136 Google、0完整Live，无额外认证或网站诊断。
+
+[本次授权](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/approval.json)、[20项离线对照](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/offline-controls.json)、[新冻结](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/freeze.json)、[运行前核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/pre-launch-verification.json)。
