@@ -57,3 +57,5 @@
 Mock／Scripted Offline：本次 PASS；Replay、Live Read-only、Controlled Live-write：本次均未运行。
 
 最终交付复核另确认：繁忙信号本身不能授予重跑资格，仍须 ENV_FAILURE 或 ORCHESTRATION_INTERRUPTED；该规则已纳入八项外层控制并在最终冻结后重跑完整离线链路。
+
+Diff复核：源码／文档／结构化输入的行尾空白检查通过。原始门禁日志逐字保留测试渲染器的空白行和行尾空格，全分支默认whitespace检查会提示这些日志及EOF空行；不为消除提示改写审计原始输出。生产／批准输入diff为空。
