@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {nextAction,gateWitness} from './policy.mjs';
-import {httpSignal,busyQuote} from './transports.ts';
+import {httpSignal,busyQuote,checkpointCaseCohort} from './transports.ts';
 import {parseReviewedReads} from '../../src/eval/restaurant/agent-loop/diagnostic-evaluator-network.ts';
 import {dryRunReviewedPostAudit} from '../../src/eval/restaurant/agent-loop/post-body-audit.mjs';
 import {loadFrozenLiveCases} from '../../src/eval/restaurant/agent-loop/live-case-materializer.ts';
@@ -10,7 +10,7 @@ import {base,sha} from './freeze.mjs';
 const plan=JSON.parse(readFileSync(base+'/plan.json','utf8'));
 test('approved bytes, independent literal 18-run roster and spacing',async()=>{
  assert.equal(sha(readFileSync(plan.source)),'910ba0fdf755392ab1d2a1b0c2da5f9fa8d66a32217c109e8eb5f3b3ee24e8b6');
- const cases=await loadFrozenLiveCases(plan.runnerInput);assert.equal(cases.length,6);
+ const cases=await loadFrozenLiveCases(plan.runnerInput);assert.equal(cases.length,6);for(const c of cases)assert.ok(await checkpointCaseCohort(c));
  const {parseAllDocuments}=await import('yaml');const originals=parseAllDocuments(readFileSync(plan.source,'utf8')).map(d=>d.toJS());
  assert.deepEqual(cases,originals.map(({role,derived_from,...c})=>c));
  const expected=['p2l-kf-h001-20261103','p2l-kf-h002-20261107','p2l-kf-h005-20261105','p2l-kf-h003-20261106','p2l-kagurazaka-kaiseki-20261105','p2l-kichijoji-tempura-20261103'];

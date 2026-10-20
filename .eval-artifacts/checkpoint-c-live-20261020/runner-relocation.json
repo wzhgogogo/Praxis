@@ -1,7 +1,7 @@
 {
   "source": "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
   "sourceSha256": "b1b737c7f06d679db77696302f4740ffbef17c315fdf29c77d45a7abbdf92465",
-  "generatedSha256": "362304e6d01269b8e79e2df5cc41b31f67a76a55fb70592acc2c115b647c47a1",
+  "generatedSha256": "89a68fa743bb90fe8aeb0f8e14059853b063530930879e9027a803c534514d9e",
   "changes": [
     {
       "from": "import { preflightSourceIds, runSourceDataPreflight }",
@@ -10,6 +10,10 @@
     {
       "from": "environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration, runLivePreflight",
       "to": "environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration, runLivePreflight as originalNetworkPreflight"
+    },
+    {
+      "from": "customLiveCaseCohort(frozen)",
+      "to": "checkpointCaseCohort(frozen)"
     },
     {
       "from": "async function runHybridLiveRead(): Promise<void> {",

@@ -57,3 +57,10 @@ export function installObservers(){
  };
 }
 export function browserTransport(environment:any){installObservers();return offline?fixtureBrowser():browserRuntimeFromEnvironment(environment);}
+
+// Eval-only adapter for the already-approved variant@3 metadata; the same retained parent SHA is mandatory.
+export async function checkpointCaseCohort(source:any){
+ const {customLiveCaseCohort,validDevelopmentVariantParent}=await import('../../src/eval/restaurant/agent-loop/live-case-materializer.ts');
+ if(source.dataset==='restaurant-read-development-variant@3'&&await validDevelopmentVariantParent(source.parent))return 'DEVELOPMENT_DIAGNOSTIC';
+ return customLiveCaseCohort(source);
+}
