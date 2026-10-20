@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {pacedRead,binding} from './certify-witnesses.mjs';
+import {pacedRead,binding,pageEvidence} from './certify-witnesses.mjs';
 
 test('all same-source page and inventory reads are at least 30 seconds after previous completion',async()=>{
  let time=0;const calls=[],records=[];
@@ -27,4 +27,12 @@ test('inventory certification binds raw date, party, outlet and exact time witho
  assert.deepEqual(binding(row,'13261619',v),['19:00']);
  for(const changed of [{...v,date:'2026-11-10'},{...v,partySize:4},{...v,earliest:'18:00',latest:'18:00'}])assert.deepEqual(binding(row,'13261619',changed),[]);
  assert.deepEqual(binding(row,'99999999',v),[]);
+});
+
+test('source evidence retains entity-encoded HARD quote bytes, not only a found flag',()=>{
+ const quote='We offer only the "Omakase Course."';
+ const encoded='We offer only the &quot;Omakase Course.&quot;';
+ const evidence=pageEvidence('<p>'+encoded+'</p>',{hardEvidence:[{criterion:'omakase',quote}]});
+ assert.equal(evidence.hardQuoteObservations[0].found,true);
+ assert.equal(evidence.rawQuotes[0]?.raw,encoded);
 });

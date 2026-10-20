@@ -45,7 +45,7 @@ export function pacedRead({transport=fetch,now=Date.now,sleep=ms=>new Promise(r=
 
 // Exact source fragments retain the relevant raw business evidence without copying
 // unrelated customer reviews, user handles, tracking scripts or response cookies.
-function pageEvidence(html,w){
+export function pageEvidence(html,w){
  const jsonLd=[];
  for(const match of html.matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)){
   try{const value=JSON.parse(match[1]);if(/Restaurant|FoodEstablishment/.test(JSON.stringify(value['@type']))&&!/"(?:author|review)"\s*:/.test(match[1]))jsonLd.push({raw:match[1],sha256:sha(Buffer.from(match[1])),htmlCharacterOffset:match.index});}catch{}
@@ -53,7 +53,11 @@ function pageEvidence(html,w){
  const text=visible(html),quotes=w.hardEvidence.map(h=>({criterion:h.criterion,preregisteredQuote:h.quote,found:norm(text).includes(norm(h.quote))}));
  const fields=business(html);
  // Store exact minimal HTML around preregistered evidence if literal bytes occur.
- const rawQuotes=w.hardEvidence.flatMap(h=>{const at=html.toLowerCase().indexOf(h.quote.toLowerCase());return at<0?[]:[{criterion:h.criterion,htmlCharacterOffset:at,raw:html.slice(at,at+h.quote.length)}];});
+ const rawQuotes=w.hardEvidence.flatMap(h=>{
+  const variants=[h.quote,...['&quot;','&#34;','&#x22;'].map(q=>h.quote.replaceAll('"',q)),h.quote.replaceAll("'",'&#39;')];
+  for(const quote of variants){const at=html.toLowerCase().indexOf(quote.toLowerCase());if(at>=0)return [{criterion:h.criterion,htmlCharacterOffset:at,raw:html.slice(at,at+quote.length)}];}
+  return [];
+ });
  return {businesses:fields,jsonLd,rawQuotes,hardQuoteObservations:quotes,privacy:'Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained.'};
 }
 

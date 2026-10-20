@@ -1,0 +1,27 @@
+{
+  "action": "CERTIFY_CHECKPOINT_C_WITNESSES",
+  "approvedBy": "USER",
+  "authorizationSource": "Explicit latest user instruction in current chat; recorded by Codex, not an invented external reviewer signature",
+  "recordedAt": "2026-10-20T12:25:43.581Z",
+  "freezeSha256": "c0eb42cdc45cd6579a2b327a336cde051bc1eb5a152399a37169deac1d3666f6",
+  "witnessPlanSha256": "793a25d208dc25c1a02675633feee1e4fa7c2e89fbfebef6cdc234941b73a05e",
+  "validUntil": "2026-10-20T16:25:43.581Z",
+  "liveMustFinishWithinMs": 86400000,
+  "minSourceGapMs": 30000,
+  "cooldownMs": 900000,
+  "cooldownRetries": 1,
+  "stopOnNov3CertificationFailure": true,
+  "models": 0,
+  "allowed": [
+    "preregistered public outlet pages",
+    "preregistered supplemental party page",
+    "GET /en/booking/calendar/find_vacancy/ with rst_id,svd,svps,svt only"
+  ],
+  "forbidden": [
+    "booking form navigation",
+    "slot clicks",
+    "model calls",
+    "full Live"
+  ],
+  "userInstruction": "用户已批准见证认证（0 模型；只读门店页和四参数空位接口，不打开预约表单，不点时段）。同一来源相邻请求≥30秒；403/503/429或繁忙页暂停15分钟、重试1次，仍失败就停；11月3日用例认证失败时不改日期，停下报告。提交原始材料和认证登记表、生成最终Live冻结包；推送后停止，等待复核者和用户批准冻结SHA。"
+}

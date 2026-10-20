@@ -1,0 +1,459 @@
+{
+  "mode": "LIVE_READ_ONLY_WITNESS_CAPTURE",
+  "finishedAt": "2026-10-20T12:31:20.953Z",
+  "freezeSha256": "c0eb42cdc45cd6579a2b327a336cde051bc1eb5a152399a37169deac1d3666f6",
+  "witnessPlanSha256": "793a25d208dc25c1a02675633feee1e4fa7c2e89fbfebef6cdc234941b73a05e",
+  "variants": [
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "variantId": "p2l-kf-h001-20261103",
+      "role": "TARGET",
+      "requestText": "Looking for an omakase spot near Shibuya for 2 people on Tuesday, November 3 at 7 PM.",
+      "date": "2026-11-03",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 2,
+      "center": {
+        "latitude": 35.6619707,
+        "longitude": 139.70379499999999,
+        "radiusMeters": 1000,
+        "label": "Shibuya",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "Shibuya",
+            "shortText": "Shibuya",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Tokyo",
+            "shortText": "Tokyo",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "Japan",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          }
+        ]
+      },
+      "criteria": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "priorRegistry": {
+        "path": ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json",
+        "sha256": "1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "variantId": "p1f-kf-h001-20261020"
+      },
+      "witnesses": [
+        {
+          "outletName": "Shibuya Sushi Matsumoto",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "omakase",
+              "quote": "We offer only the \"Omakase Course.\""
+            }
+          ]
+        },
+        {
+          "outletName": "Shibuya Sushi Sen",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "omakase",
+              "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/party/",
+              "quote": "Omakase Course"
+            }
+          ]
+        }
+      ],
+      "status": "PENDING_CURRENT_CERTIFICATION; prior registration is not current inventory or negative-HARD certification",
+      "observedWitnesses": [
+        {
+          "outletName": "Shibuya Sushi Matsumoto",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "omakase",
+              "quote": "We offer only the \"Omakase Course.\""
+            }
+          ],
+          "rst_id": "13261619",
+          "identityMatched": true,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Dogenzaka Shibuya Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1500043",
+            "addressCountry": "JP"
+          },
+          "distanceMeters": 631.9527795034945,
+          "hardObservations": [
+            {
+              "criterion": "omakase",
+              "quote": "We offer only the \"Omakase Course.\"",
+              "found": true,
+              "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+              "sourceSha256": "1e9dad47a0f0cbba3a5d1b58f398365494cb10688ffb441a653d9ca2f9cb1404"
+            }
+          ],
+          "inventory": {
+            "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13261619&svd=20261103&svps=2&svt=1900",
+            "method": "GET",
+            "attempt": 1,
+            "requestNumber": 2,
+            "requestedAt": "2026-10-20T12:26:41.866Z",
+            "finishedAt": "2026-10-20T12:26:48.744Z",
+            "status": 200,
+            "contentType": "application/json; charset=utf-8",
+            "sha256": "8feca5254137b4d1db7728c9e4828d348d5d816a7462ce13c705e68eb6017bdc",
+            "parameters": {
+              "rst_id": "13261619",
+              "svd": "20261103",
+              "svps": "2",
+              "svt": "1900"
+            },
+            "bodyPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13261619.vacancy-attempt-1.body.txt"
+          },
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "PENDING_INDEPENDENT_HARD_REVIEW"
+        },
+        {
+          "outletName": "Shibuya Sushi Sen",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "omakase",
+              "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/party/",
+              "quote": "Omakase Course"
+            }
+          ],
+          "rst_id": "13275802",
+          "identityMatched": true,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Shibuya Shibuya Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1500002",
+            "addressCountry": "JP"
+          },
+          "distanceMeters": 259.59906766413724,
+          "hardObservations": [
+            {
+              "criterion": "omakase",
+              "quote": "Omakase Course",
+              "found": true,
+              "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/party/",
+              "sourceSha256": "2d0337dd391e4ac612eef4892ff0fc94499913182ad5c4112ae696b9a25dc08a"
+            }
+          ],
+          "inventory": {
+            "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13275802&svd=20261103&svps=2&svt=1900",
+            "method": "GET",
+            "attempt": 1,
+            "requestNumber": 5,
+            "requestedAt": "2026-10-20T12:28:25.024Z",
+            "finishedAt": "2026-10-20T12:28:26.176Z",
+            "status": 200,
+            "contentType": "application/json; charset=utf-8",
+            "sha256": "29e0b76b44e49fc6f8f7a5de7dffe7e251a6dcf10d0f6c3340c91cabb1fef83e",
+            "parameters": {
+              "rst_id": "13275802",
+              "svd": "20261103",
+              "svps": "2",
+              "svt": "1900"
+            },
+            "bodyPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13275802.vacancy-attempt-1.body.txt"
+          },
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "PENDING_INDEPENDENT_HARD_REVIEW"
+        }
+      ]
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "variantId": "p2l-kf-h002-20261107",
+      "role": "BUDGET",
+      "requestText": "Recommend a first-date restaurant near Higashi-Ginza for Saturday, November 7 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.",
+      "date": "2026-11-07",
+      "earliest": "18:30",
+      "latest": "18:30",
+      "partySize": 2,
+      "center": {
+        "latitude": 35.669700299999995,
+        "longitude": 139.7671399,
+        "radiusMeters": 1000,
+        "label": "Higashi-ginza Sta.",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "１０先",
+            "shortText": "１０先",
+            "types": [
+              "premise"
+            ]
+          },
+          {
+            "longText": "10",
+            "shortText": "10",
+            "types": [
+              "sublocality_level_4",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "4-chōme",
+            "shortText": "4-chōme",
+            "types": [
+              "sublocality_level_3",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Ginza",
+            "shortText": "Ginza",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Chuo City",
+            "shortText": "Chuo City",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Tokyo",
+            "shortText": "Tokyo",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "Japan",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          },
+          {
+            "longText": "104-0061",
+            "shortText": "104-0061",
+            "types": [
+              "postal_code"
+            ]
+          }
+        ]
+      },
+      "criteria": [
+        {
+          "value": "good for a first date",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED"
+        },
+        {
+          "value": "around 10,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        },
+        {
+          "value": "Sichuan/Hunan cuisine",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "hot pot restaurant",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "priorRegistry": {
+        "path": ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json",
+        "sha256": "1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "variantId": "p1f-kf-h002-20261024"
+      },
+      "witnesses": [
+        {
+          "outletName": "Ginza Sushi Tempura Iwai",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "exclusions",
+              "quote": "Sushi, Tempura, Japanese Cuisine"
+            }
+          ]
+        },
+        {
+          "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13296659/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "exclusions",
+              "quote": "Teppanyaki, Steak, Seafood"
+            }
+          ]
+        },
+        {
+          "outletName": "Ginza Sushi Den",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13291473/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "exclusions",
+              "quote": "Sushi, Seafood, Japanese Cuisine"
+            }
+          ]
+        }
+      ],
+      "status": "PENDING_CURRENT_CERTIFICATION; prior registration is not current inventory or negative-HARD certification",
+      "observedWitnesses": [
+        {
+          "outletName": "Ginza Sushi Tempura Iwai",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "exclusions",
+              "quote": "Sushi, Tempura, Japanese Cuisine"
+            }
+          ],
+          "rst_id": "13305528",
+          "identityMatched": true,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Ginza Chuo Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1040061",
+            "addressCountry": "JP"
+          },
+          "distanceMeters": 395.02775928468293,
+          "hardObservations": [
+            {
+              "criterion": "exclusions",
+              "quote": "Sushi, Tempura, Japanese Cuisine",
+              "found": true,
+              "url": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+              "sourceSha256": "4193cb6585c9a833c5ddb6ce47b0c80d15b2e59389dae2ae5ac2a84f588959c8"
+            }
+          ],
+          "inventory": {
+            "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13305528&svd=20261107&svps=2&svt=1830",
+            "method": "GET",
+            "attempt": 1,
+            "requestNumber": 7,
+            "requestedAt": "2026-10-20T12:29:29.858Z",
+            "finishedAt": "2026-10-20T12:29:35.324Z",
+            "status": 200,
+            "contentType": "application/json; charset=utf-8",
+            "sha256": "32fb879b847b46fef14251bc82913a706d379173d587c5959207eb47c18c0604",
+            "parameters": {
+              "rst_id": "13305528",
+              "svd": "20261107",
+              "svps": "2",
+              "svt": "1830"
+            },
+            "bodyPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.vacancy-attempt-1.body.txt"
+          },
+          "matchingSlots": [
+            "18:30"
+          ],
+          "classification": "PENDING_INDEPENDENT_HARD_REVIEW"
+        },
+        {
+          "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13296659/",
+          "bookingSource": "TABELOG",
+          "hardEvidence": [
+            {
+              "criterion": "exclusions",
+              "quote": "Teppanyaki, Steak, Seafood"
+            }
+          ],
+          "rst_id": "13296659",
+          "identityMatched": true,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Ginza Chuo Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1040061",
+            "addressCountry": "JP"
+          },
+          "distanceMeters": 393.2673845252285,
+          "hardObservations": [
+            {
+              "criterion": "exclusions",
+              "quote": "Teppanyaki, Steak, Seafood",
+              "found": true,
+              "url": "https://tabelog.com/en/tokyo/A1301/A130101/13296659/",
+              "sourceSha256": "69435256035404812cd185970bb88e17bc7ad799dbf4ac65815243e0f3eb28dc"
+            }
+          ],
+          "inventory": {
+            "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13296659&svd=20261107&svps=2&svt=1830",
+            "method": "GET",
+            "attempt": 1,
+            "requestNumber": 9,
+            "requestedAt": "2026-10-20T12:30:39.562Z",
+            "finishedAt": "2026-10-20T12:30:40.423Z",
+            "status": 200,
+            "contentType": "application/json; charset=utf-8",
+            "sha256": "8e2b52f88dce2efc9e2eff9bd6e9b8e92ad93181f939d5d2bfe2dbd96453bbf2",
+            "parameters": {
+              "rst_id": "13296659",
+              "svd": "20261107",
+              "svps": "2",
+              "svt": "1830"
+            },
+            "bodyPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13296659.vacancy-attempt-1.body.txt"
+          },
+          "matchingSlots": [
+            "18:30"
+          ],
+          "classification": "PENDING_INDEPENDENT_HARD_REVIEW"
+        }
+      ]
+    }
+  ],
+  "gets": 10,
+  "models": 0,
+  "stopped": {
+    "caseId": "p2l-kf-h002-20261107",
+    "message": "SOURCE_TRANSPORT_FAILURE; no automatic retry"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "captureSha256": "0a48636936e79b5702dcb68ef6fdb1b9c1bdf4e762110c63063c3a0c089da237",
+  "reviewedBy": "CODEX_EVALUATION_SIDE",
+  "independentOfProduction": true,
+  "externalReviewerApproval": "PENDING",
+  "method": "Offline source/raw JSON-LD and raw vacancy review; no production parser or eligibility, no new network or model call",
+  "witnesses": [
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "rst_id": "13261619",
+      "hardCriteria": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "status": "NOT_EVALUATED",
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13261619.attempt-1.source.json",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13261619.page-observation.json"
+          ],
+          "rationale": "Current source explicitly names the preregistered omakase course. A found flag without retained raw quote bytes is insufficient for this certification.",
+          "rawQuoteBytesRetained": false
+        }
+      ],
+      "classification": "NOT_CERTIFIED_RAW_HARD_EVIDENCE_GAP"
+    },
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "rst_id": "13275802",
+      "hardCriteria": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13275802-party.attempt-1.source.json",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13275802.page-observation.json"
+          ],
+          "rationale": "Current source explicitly names the preregistered omakase course. A found flag without retained raw quote bytes is insufficient for this certification.",
+          "rawQuoteBytesRetained": true
+        }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "rst_id": "13305528",
+      "hardCriteria": [
+        {
+          "value": "Sichuan/Hunan cuisine",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.attempt-1.source.json",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.page-observation.json"
+          ],
+          "rationale": "Current source positively classifies the outlet as Sushi,Tempura,Japanese Cuisine; semantic classification excludes a hot-pot or Sichuan/Hunan-focused restaurant, rather than treating absent keywords as proof. External reviewer confirmation pending.",
+          "rawQuoteBytesRetained": true
+        },
+        {
+          "value": "hot pot restaurant",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.attempt-1.source.json",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.page-observation.json"
+          ],
+          "rationale": "Current source positively classifies the outlet as Sushi,Tempura,Japanese Cuisine; semantic classification excludes a hot-pot or Sichuan/Hunan-focused restaurant, rather than treating absent keywords as proof. External reviewer confirmation pending.",
+          "rawQuoteBytesRetained": true
+        }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "rst_id": "13296659",
+      "hardCriteria": [
+        {
+          "value": "Sichuan/Hunan cuisine",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13296659.attempt-1.source.json",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13296659.page-observation.json"
+          ],
+          "rationale": "Current source positively classifies the outlet as Teppanyaki,Steak,Seafood; semantic classification excludes a hot-pot or Sichuan/Hunan-focused restaurant, rather than treating absent keywords as proof. External reviewer confirmation pending.",
+          "rawQuoteBytesRetained": true
+        },
+        {
+          "value": "hot pot restaurant",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13296659.attempt-1.source.json",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13296659.page-observation.json"
+          ],
+          "rationale": "Current source positively classifies the outlet as Teppanyaki,Steak,Seafood; semantic classification excludes a hot-pot or Sichuan/Hunan-focused restaurant, rather than treating absent keywords as proof. External reviewer confirmation pending.",
+          "rawQuoteBytesRetained": true
+        }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    }
+  ],
+  "caseSummary": [
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "planned": 2,
+      "sourceCertifiedPendingExternalReview": 1,
+      "inventoryMatched": 2,
+      "sourceFailure": 0,
+      "notReached": 0,
+      "hardEvidenceGap": 1
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "planned": 3,
+      "sourceCertifiedPendingExternalReview": 2,
+      "inventoryMatched": 2,
+      "sourceFailure": 1,
+      "notReached": 0,
+      "hardEvidenceGap": 0
+    },
+    {
+      "caseId": "p2l-kf-h003-20261106",
+      "planned": 3,
+      "sourceCertifiedPendingExternalReview": 0,
+      "inventoryMatched": 0,
+      "sourceFailure": 0,
+      "notReached": 3,
+      "hardEvidenceGap": 0
+    },
+    {
+      "caseId": "p2l-kf-h005-20261105",
+      "planned": 2,
+      "sourceCertifiedPendingExternalReview": 0,
+      "inventoryMatched": 0,
+      "sourceFailure": 0,
+      "notReached": 2,
+      "hardEvidenceGap": 0
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "planned": 3,
+      "sourceCertifiedPendingExternalReview": 0,
+      "inventoryMatched": 0,
+      "sourceFailure": 0,
+      "notReached": 3,
+      "hardEvidenceGap": 0
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "planned": 3,
+      "sourceCertifiedPendingExternalReview": 0,
+      "inventoryMatched": 0,
+      "sourceFailure": 0,
+      "notReached": 3,
+      "hardEvidenceGap": 0
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.203
+- Document revision: 4.204
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4817,3 +4817,11 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 五门禁全绿：typecheck/arch/build，默认978/978、Chromium122/122。未知即停批与shops/slug绑定有目标断言红灯；14项外层绿灯、1项真实Chromium/Guard本地捕获控制、独立外层typecheck通过。最终冻结1d40f62／364文件，SHA 4141d17db6601e404a6c3e23a8adae04e2f2bfa1833de8875091d4e40487ce4c；冻结后完整脚本化Runner→@30/rubric26→四层报告通过，8脚本响应，0外站/真实模型/认证/Live。较早冻结演练保留为历史，不覆盖。
 - 未评价不等于安全通过；当前库存、真实模型表现均未验证。认证预计30–60分钟，18次预计3–4小时，满预算预留4–4.5小时；环境冷却另加。推送准备分支后停下等批准。
 - [报告](../../.eval-artifacts/checkpoint-c-live-20261020/review-followup/report.md)／[验证](../../.eval-artifacts/checkpoint-c-live-20261020/review-followup/verification.json)。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-WITNESS-INTERRUPTED
+
+- Evidence status: current partial Live Read-only witness evidence；非Clean Baseline。
+- 认证前3/3节奏/重试/绑定控制PASS；停止后实体quote断言红→绿4/4，JS语法/外层类型检查PASS；partial finalize与六例Live门禁均拒绝，未启动Live。库存正文和JSON-LD原始片段SHA独立核验PASS，五门禁复用未变生产基线978/978＋122/122；这些不等于认证或Live通过。
+- 用户批准认证，未批准Live；H002第三家fetch failed且无HTTP状态，停止后没有重试或自动恢复。最终认证未完成，无最终Live冻结SHA；只封存中断证据。
+- [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/report.md)、[未完成登记](../../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/registry.pending.json)。

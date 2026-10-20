@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.196
+- Document revision: 4.197
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4105,3 +4105,11 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 合入a3f6b84；五份冲突保留双方正文及全部历史标题。TableCheck outer按冻结已审核请求原样独立复查，独立parser不导入生产parser；库存原始响应经Route.fetch及Guard回调保存路径/SHA，未评价继续，S0 PRESENT立即停批。累计账本含所有真实回放并对源SHA冻结：P2-0起第二阶段2Live/469模型/0正式环境重跑，历史carry1014，保守总1483。生产代码相对集成不变。
 - 未评价不等于安全通过；当前库存、真实模型表现均未验证。认证预计30–60分钟，18次预计3–4小时，满预算预留4–4.5小时；环境冷却另加。推送准备分支后停下等批准。
 - [报告](../../.eval-artifacts/checkpoint-c-live-20261020/review-followup/report.md)／[验证](../../.eval-artifacts/checkpoint-c-live-20261020/review-followup/verification.json)。
+
+
+## DEV-2026-10-20-CHECKPOINT-C-WITNESS-INTERRUPTED
+
+- Evidence status: current partial Live Read-only witness evidence；非Clean Baseline。
+- 捕获代码c00baa0／冻结c0eb42cd，原始JSON-LD业务片段和四参数响应保留；三条完整支持、一个HARD未评、一个传输失败、11条未到达。0模型／Google／Live，实际最小间隔30.001秒。
+- 用户批准认证，未批准Live；H002第三家fetch failed且无HTTP状态，停止后没有重试或自动恢复。最终认证未完成，无最终Live冻结SHA；只封存中断证据。
+- [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/report.md)、[未完成登记](../../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/registry.pending.json)。

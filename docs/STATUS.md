@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.299
+- Document revision: 4.300
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-20 检查点 C 见证认证中断：** 用户批准0模型只读认证；10次请求尝试、9个200、1次H002第三家fetch failed，无HTTP状态，按冻结规则停止且未追加请求。H001完整来源支持1/2（库存2家匹配，1家HARD原始句不足）、H002支持2/3（库存2家匹配），其余4例未到达；认证未完成，无最终Live冻结SHA。停止后仅离线修正实体quote摘录，红→绿4/4；原记录不改。0模型/Google/整单Live，日期不变，推送中断材料后停下。[报告](../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/report.md)。
 
 - **2026-10-20 检查点 C 复核收尾（离线）：** 已合入a3f6b84并保留双方历史；五门禁978/978、Chromium122/122通过。TableCheck已审核请求可独立原样复查；未评价继续、S0 PRESENT立即停批，原始库存响应路径/SHA保留。阶段账本2次Live/469模型/0正式环境重跑，含1014历史模型保守扣账1483；剩余模型2517。最终冻结1d40f62、364文件，14项外层与1项真实浏览器控制绿，完整脚本化演练0外站/模型通过；认证与Live未运行，推送准备分支后等批准。[报告](../.eval-artifacts/checkpoint-c-live-20261020/review-followup/report.md)。
 
