@@ -1,0 +1,20 @@
+{
+  "action": "CERTIFY_CHECKPOINT_C_WITNESSES",
+  "approvedBy": "USER",
+  "authorizationSource": "Explicit latest user instruction authorizing resume, preserved witnesses and 2-minute no-status retry",
+  "recordedAt": "2026-10-20T13:18:24.138Z",
+  "freezeSha256": "fe22db6af1cd46989944604ba995be30ebd1896c2080770d18d2d518b657bc8f",
+  "witnessPlanSha256": "793a25d208dc25c1a02675633feee1e4fa7c2e89fbfebef6cdc234941b73a05e",
+  "resumePlanSha256": "86a5165502593e7885744addc175e53fb5d9be851fca481e19edb7e80b03c70c",
+  "validUntil": "2026-10-20T17:18:24.138Z",
+  "liveMustFinishWithinMs": 86400000,
+  "minSourceGapMs": 30000,
+  "cooldownMs": 900000,
+  "cooldownRetries": 1,
+  "transportRetryMs": 120000,
+  "transportRetries": 1,
+  "stopOnNov3CertificationFailure": true,
+  "models": 0,
+  "allowLive": false,
+  "userInstruction": "用户批准恢复见证认证：无HTTP状态传输错误等2分钟原样重试1次，仍失败停；403/503/429/繁忙页等15分钟重试1次；同源≥30秒，0模型只读，不开表单不点时段，11月3日失败不改日期。保留完整支持的3家，不重采；只补Matsumoto HARD原句并续采其余登记见证；提交登记及原始材料、生成最终Live冻结，推送后停，不开始Live。"
+}

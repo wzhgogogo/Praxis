@@ -83,6 +83,26 @@ export function pageEvidence(html,w){
  return {businesses:fields,jsonLd,rawQuotes,hardQuoteObservations:quotes,privacy:'Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained.'};
 }
 
+// Exact name capture is only an observation. An explicit evaluation-side identity
+// review may resolve a translated name using the preregistered canonical outlet
+// and the retained raw business JSON-LD; the original capture is never rewritten.
+export function reviewedIdentity(row,review,variant){
+ const identity=review?.identityReview;
+ if(identity?.status!=='SUPPORTED'||!identity.currentSourceName||!identity.rationale)return {matched:false};
+ for(const ref of identity.evidenceRefs??[]){
+  const bytes=readFileSync(ref.path);if(sha(bytes)!==ref.sha256)throw Error('IDENTITY_SOURCE_SHA_MISMATCH');
+  const source=JSON.parse(bytes);
+  for(const block of source.evidence?.jsonLd??[]){
+   if(sha(Buffer.from(block.raw))!==block.sha256)throw Error('IDENTITY_RAW_JSON_LD_SHA_MISMATCH');
+   const business=JSON.parse(block.raw),geo=business.geo;
+   if(business['@id']!==row.sourceUrl||norm(business.name)!==norm(identity.currentSourceName)||!geo||!Number.isFinite(Number(geo.latitude))||!Number.isFinite(Number(geo.longitude)))continue;
+   const meters=distance(variant.center,geo);
+   return {matched:meters<=variant.center.radiusMeters,distanceMeters:meters,currentSourceName:business.name,canonicalUrl:business['@id'],evidenceRef:ref};
+  }
+ }
+ return {matched:false};
+}
+
 async function main(){
 const {values}=parseArgs({options:{action:{type:'string'},freeze:{type:'string'},approval:{type:'string'},output:{type:'string'},capture:{type:'string'},review:{type:'string'},resume:{type:'string'}}});
 if(values.action==='capture'){
@@ -179,8 +199,9 @@ if(values.action==='capture'){
    if(!r||r.hardCriteria?.length!==required.length||!required.every(c=>r.hardCriteria.some(h=>h.value===c.value&&h.polarity===c.polarity&&['SUPPORTED','NOT_SUPPORTED','NOT_EVALUATED'].includes(h.status))))throw Error('CURRENT_HARD_REVIEW_INCOMPLETE');
    const raw=readFileSync(row.inventory.bodyPath);if(sha(raw)!==row.inventory.sha256)throw Error('RAW_SHA_MISMATCH');
    const slots=binding(JSON.parse(raw),row.rst_id,v);
-   const supported=semantic&&row.inventory.status===200&&row.identityMatched&&row.distanceMeters!==null&&row.distanceMeters<=1000&&slots.length>0;
-   witnesses.push({...row,hardReview:r,classification:supported?'KNOWN_FEASIBLE_SUPPORTED':'NOT_CERTIFIED'});
+   const identity=reviewedIdentity(row,r,v);
+   const supported=semantic&&identity.matched&&row.inventory.status===200&&slots.length>0;
+   witnesses.push({...row,hardReview:r,independentIdentityReview:identity,classification:supported?'KNOWN_FEASIBLE_SUPPORTED':'NOT_CERTIFIED'});
   }
   const observations=witnesses.flatMap(w=>w.observationRefs?.length?w.observationRefs.map(ref=>Date.parse(ref.requestedAt)):[Date.parse(w.inventory.requestedAt)]);
   if(!observations.every(Number.isFinite))throw Error('WITNESS_OBSERVATION_TIME_MISSING');

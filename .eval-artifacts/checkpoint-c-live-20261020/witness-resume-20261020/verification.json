@@ -1,0 +1,85 @@
+{
+  "status": "RESUME_STOPPED_AFTER_AUTHORIZED_RETRY_EXHAUSTED",
+  "captureCodeCommit": "08bf8415c5ddb143a0c533924fe4be520c427aa5",
+  "captureFreezeSha256": "fe22db6af1cd46989944604ba995be30ebd1896c2080770d18d2d518b657bc8f",
+  "newHttpAttempts": 8,
+  "newHttp200": 6,
+  "newNoStatusErrors": 2,
+  "transportRetries": 1,
+  "transportRetryWaitSeconds": 120.002,
+  "minSourceGapSeconds": 30.002,
+  "preservedWitnessesNotRecaptured": 3,
+  "matsumotoOnlyHardPageRefreshedInventoryRetained": true,
+  "models": 0,
+  "googleRequests": 0,
+  "fullLiveRuns": 0,
+  "formalLiveEnvironmentReruns": 0,
+  "rawInventoryAndJsonLdShaAudit": "PASS",
+  "expectedReadOnlyRequestSequence": "PASS; first seven of 24 planned distinct requests, with only the last retried once",
+  "priorArtifactsUnchanged": "PASS",
+  "runtimeFrozenCodeFromRecordedCommit": "PASS; only documented post-stop source-review controls differ in working tree",
+  "postStopOfflineChangedFiles": [
+    ".eval-artifacts/checkpoint-c-live-20261020/certify-witnesses.mjs",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-control.test.mjs"
+  ],
+  "certificationCompletedAt": null,
+  "stoppedAt": "2026-10-20T13:24:41.550Z",
+  "earliestWitnessObservedAt": "2026-10-20T12:26:41.866000+00:00",
+  "earliestWitnessExpiry": "2026-10-21T12:26:41.866000+00:00",
+  "finalLiveFreezeSha256": null,
+  "caseSummary": [
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "planned": 2,
+      "sourceCertifiedPendingExternalReview": 2,
+      "inventoryMatched": 2,
+      "partialPageOnly": 0,
+      "notReached": 0
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "planned": 3,
+      "sourceCertifiedPendingExternalReview": 3,
+      "inventoryMatched": 3,
+      "partialPageOnly": 0,
+      "notReached": 0
+    },
+    {
+      "caseId": "p2l-kf-h003-20261106",
+      "planned": 3,
+      "sourceCertifiedPendingExternalReview": 1,
+      "inventoryMatched": 1,
+      "partialPageOnly": 1,
+      "notReached": 1
+    },
+    {
+      "caseId": "p2l-kf-h005-20261105",
+      "planned": 2,
+      "sourceCertifiedPendingExternalReview": 0,
+      "inventoryMatched": 0,
+      "partialPageOnly": 0,
+      "notReached": 2
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "planned": 3,
+      "sourceCertifiedPendingExternalReview": 0,
+      "inventoryMatched": 0,
+      "partialPageOnly": 0,
+      "notReached": 3
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "planned": 3,
+      "sourceCertifiedPendingExternalReview": 0,
+      "inventoryMatched": 0,
+      "partialPageOnly": 0,
+      "notReached": 3
+    }
+  ],
+  "offlinePreCaptureControls": 6,
+  "offlinePostStopControls": 7,
+  "outerControls": 14,
+  "outerTypecheck": "PASS",
+  "incompleteFinalizeAndAllSixLiveWitnessGates": "REJECTED_AS_REQUIRED"
+}

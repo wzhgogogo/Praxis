@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.197
+- Document revision: 4.198
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4113,3 +4113,11 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 捕获代码c00baa0／冻结c0eb42cd，原始JSON-LD业务片段和四参数响应保留；三条完整支持、一个HARD未评、一个传输失败、11条未到达。0模型／Google／Live，实际最小间隔30.001秒。
 - 用户批准认证，未批准Live；H002第三家fetch failed且无HTTP状态，停止后没有重试或自动恢复。最终认证未完成，无最终Live冻结SHA；只封存中断证据。
 - [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/report.md)、[未完成登记](../../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/registry.pending.json)。
+
+
+## DEV-2026-10-20-CHECKPOINT-C-WITNESS-RESUME-STOP
+
+- Evidence status: current partial Live Read-only witness evidence；已暴露开发集，非Clean Baseline。
+- 用户批准恢复及2分钟传输重试，运行前提交08bf841、冻结fe22db6a；3家保留、Matsumoto只补HARD。H003第二家按2分钟仅重试1次仍无状态失败，停止后不再访问网站。原捕获和输入不变；当前6条完整来源支持、1条门店页、9条未到达；无最终Live冻结SHA。
+- 0模型／Google／整单Live／正式Live环境重跑；最早见证2026-10-20 20:26:41.866北京，24h截止次日同刻，认证完成时间为空。未自行改日期、未打开表单或点击时段。
+- [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/report.md)、[未完成登记](../../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/registry.pending.json)。

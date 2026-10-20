@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.204
+- Document revision: 4.205
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4825,3 +4825,11 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 认证前3/3节奏/重试/绑定控制PASS；停止后实体quote断言红→绿4/4，JS语法/外层类型检查PASS；partial finalize与六例Live门禁均拒绝，未启动Live。库存正文和JSON-LD原始片段SHA独立核验PASS，五门禁复用未变生产基线978/978＋122/122；这些不等于认证或Live通过。
 - 用户批准认证，未批准Live；H002第三家fetch failed且无HTTP状态，停止后没有重试或自动恢复。最终认证未完成，无最终Live冻结SHA；只封存中断证据。
 - [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/report.md)、[未完成登记](../../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/registry.pending.json)。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-WITNESS-RESUME-STOP
+
+- Evidence status: current partial Live Read-only witness evidence；已暴露开发集，非Clean Baseline。
+- 两分钟重试红→绿；认证6/6、外层14/14、类型／语法通过。真实认证8次HTTP尝试6个200及2次无状态失败，重试等待120.002s、最小来源间隔30.002s。停止后JSON-LD身份复核7/7（含异店拒绝），旧捕获exact-name=false保留；partial finalize及全部六例Live门禁均拒绝。原始SHA与只读请求序列独立核验PASS；五门禁复用未变生产基线，不将源码门禁当完整认证／Live通过。
+- 0模型／Google／整单Live／正式Live环境重跑；最早见证2026-10-20 20:26:41.866北京，24h截止次日同刻，认证完成时间为空。未自行改日期、未打开表单或点击时段。
+- [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/report.md)、[未完成登记](../../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/registry.pending.json)。

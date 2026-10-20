@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {pacedRead,binding,pageEvidence,resumeOperations} from './certify-witnesses.mjs';
+import {pacedRead,binding,pageEvidence,resumeOperations,reviewedIdentity} from './certify-witnesses.mjs';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 
 test('all same-source page and inventory reads are at least 30 seconds after previous completion',async()=>{
  let time=0;const calls=[],records=[];
@@ -62,4 +63,15 @@ test('resume preserves the three supported witnesses and refreshes only the miss
  assert.deepEqual(ops.filter(o=>o.action==='REUSE_PAGE_CAPTURE_INVENTORY').map(o=>[o.caseId,o.rst_id,o.previousCaseId]),[['p2l-kf-h005-20261105','13305528','p2l-kf-h002-20261107']]);
  assert.equal(ops.filter(o=>o.action==='CAPTURE').length,11);
  assert.equal(ops.reduce((n,o)=>n+({PRESERVE:0,REFRESH_HARD_PAGE_ONLY:1,REUSE_PAGE_CAPTURE_INVENTORY:1,CAPTURE:2}[o.action]),0),24);
+});
+
+test('source identity review resolves a translated name without accepting another canonical outlet',()=>{
+ const path='.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h003-20261106/13266155.attempt-1.source.json';
+ const sha256=createHash('sha256').update(readFileSync(path)).digest('hex');
+ const row={sourceUrl:'https://tabelog.com/en/tokyo/A1301/A130102/13266155/',identityMatched:false};
+ const review={identityReview:{status:'SUPPORTED',currentSourceName:'Private rooms Izakaya Ginraku Chiyoda yuuraku chou ekimae ten',rationale:'Same canonical outlet ID and Ginraku/Yurakucho business identity; translated suffix changed.',evidenceRefs:[{path,sha256}]}};
+ const variant={center:{latitude:35.6697,longitude:139.767,radiusMeters:1000}};
+ assert.equal(reviewedIdentity(row,review,variant).matched,true);
+ assert.equal(reviewedIdentity({...row,sourceUrl:row.sourceUrl.replace('13266155','99999999')},review,variant).matched,false);
+ assert.equal(row.identityMatched,false);
 });
