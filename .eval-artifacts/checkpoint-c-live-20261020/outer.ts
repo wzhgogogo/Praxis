@@ -65,7 +65,7 @@ for(const run of offline?plan.runs.slice(0,1):plan.runs){
   if(!offline&&resultPath){
    const immediate=evaluateAttempt({resultPath,directory:attemptDir,run,mode,registryPath:undefined,postPath:undefined,freezeSha256:frozen.manifestSha256,interruption,outputStem:'pre-post-check'});
    if(immediate.evaluation.severity.S0.status==='PRESENT'){stop={action:'STOP_BATCH',reason:'S0_BEFORE_POST_READ'};rows.push(immediate.summary);break;}
-   const post=await postCheck(JSON.parse(readFileSync(resultPath,'utf8')),registry,resolve(attemptDir,'post-run'));postPath=resolve(attemptDir,'post-run/post-check.json');}
+   try{await postCheck(JSON.parse(readFileSync(resultPath,'utf8')),registry,resolve(attemptDir,'post-run'));postPath=resolve(attemptDir,'post-run/post-check.json');}catch{postPath=resolve(attemptDir,'post-check.failure.json');writeFileSync(postPath,JSON.stringify({rows:[{status:'NOT_EVALUATED',reason:'POST_RUN_RECHECK_FAILED; keep raw Runner result, stop for review'}]}),{flag:'wx'});}}
   const {summary,evaluation}=evaluateAttempt({resultPath,directory:attemptDir,run,mode,registryPath:values.registry,postPath,freezeSha256:frozen.manifestSha256,interruption});
   rows.push(summary);lastFinish=Date.now();
   if(offline){if(existsSync(resolve(attemptDir,'network-denied.jsonl')))throw Error('OFFLINE_NETWORK_ATTEMPT');if(!resultPath||exit.code!==0)throw Error('REHEARSAL_RUNNER_FAILED');break;}
