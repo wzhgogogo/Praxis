@@ -1,0 +1,25 @@
+{
+  "cwd": "/private/tmp/praxis-checkpoint-c-prep",
+  "hardDeadline": "2026-10-21T12:26:00Z",
+  "approvedFreezeSha256": "7caa315a0f02bff9a3476eaaff6b67ab849b6f42af5b7cf113e39b6b1fad2573",
+  "command": [
+    "/opt/homebrew/bin/node",
+    "--env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    ".eval-artifacts/checkpoint-c-live-20261020/outer.ts",
+    "--mode",
+    "LIVE_READ_ONLY",
+    "--freeze",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/live-freeze.json",
+    "--output",
+    ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results",
+    "--approval",
+    ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/user-approval.json",
+    "--registry",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json",
+    "--ledger",
+    ".eval-artifacts/checkpoint-c-live-20261020/phase2-ledger.json"
+  ],
+  "scope": "Only deadline enforcement; approved outer, Runner, plan, evaluator, rubric and frozen inputs unchanged. No restart, extra request or model call by supervisor."
+}

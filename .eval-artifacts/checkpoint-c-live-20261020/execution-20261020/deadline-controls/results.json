@@ -1,0 +1,26 @@
+[
+  {
+    "control": "normal",
+    "expected": "OUTER_EXITED",
+    "actual": {
+      "at": "2026-10-20T15:58:57.298318+00:00",
+      "status": "OUTER_EXITED",
+      "returncode": 0
+    },
+    "passed": true,
+    "networkRequests": 0,
+    "modelCalls": 0
+  },
+  {
+    "control": "deadline",
+    "expected": "STOPPED_HARD_DEADLINE",
+    "actual": {
+      "at": "2026-10-20T15:58:57.603635+00:00",
+      "status": "STOPPED_HARD_DEADLINE",
+      "returncode": -9
+    },
+    "passed": true,
+    "networkRequests": 0,
+    "modelCalls": 0
+  }
+]
