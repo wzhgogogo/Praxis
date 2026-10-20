@@ -10,11 +10,12 @@
 | --- | --- |
 | Latest origin/codex/feat-live-restaurant-read-path fetched at task start | `13c93a325a80a97eb2c663613c4360776b5afe5d` |
 | P2-2 selection input | `7dfeb692dfb04ed5a62c767f9694fc88c493cfb2` |
+| Concurrent source review, fetched before final remote verification | `305d1e0d4cac07ae83003d1fda27e732063ee459` |
 | First merge | `41d677ce906065771cfefb9601ec785a87cb3f30` |
 | P2-3 conditions input | `89e0dfb2159c816095e6995827b53537ed3fe73b` |
 | Second merge / integrated production code and calibration freeze | `5309545a639aeb3958b1ea60ba2987f0cff250d1` |
 
-The final handoff commit follows these two merge commits and changes documentation/evidence only; use the pushed integration branch HEAD for review. Source branch refs are not advanced. No release/configuration/Gold/variant/witness/seed or prior recording was rewritten.
+The final handoff also merges the concurrently published305d1e0 review verbatim; this third merge changes documentation/evidence only. Use the pushed integration branch HEAD for review. This task does not advance any source branch refs. No release/configuration/Gold/variant/witness/seed or prior recording was rewritten.
 
 ## Conflict resolution
 
@@ -91,6 +92,10 @@ The integration introduces no extra product behavior beyond combining those bran
 | Existing independent comparator | **22/22 result types;20/20 S0 declarations;8/8 delivered subtypes;0 false qualified** | [comparison log](calibration-comparison.log) |
 
 Calibration reuses the P2-3 wrapper and unchanged E1 evaluator entry/comparator, with a new output directory/freeze only. All354 bound source/input/configuration files are SHA-verified before/after. The original22 inputs, reviewer labels, Gold corrections, observations and independent network rules are byte-identical. Automatic output hashes were saved before the separate comparator opened labels. [Freeze](calibration-freeze.json), [automatic outputs](calibration/summary.json), [full comparison](calibration/comparison/comparison.md), [verification/log SHAs](verification.json).
+
+## Concurrent source review
+
+The source remote advanced during this task to305d1e0, adding only38 lines to the P2-1 independent review. It is included verbatim after the two feature merges, with no conflicts. All354 frozen files and the complete src/package trees remain unchanged from5309545, so all five gates and22 calibration results apply. [Review-sync receipt](concurrent-review.json). The review identifies region-entrance selection as a remaining risk; its proposed P2-1c is not implemented or evaluated here.
 
 ## Four-layer evidence and limits
 

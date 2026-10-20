@@ -1,13 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.293
+- Document revision: 4.294
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
 
-- **2026-10-20 Checkpoint C offline integration ready for review:** `codex/integration-checkpoint-c` combines P2-2/P2-3 at5309545, Context@15/Prompt@27/State@17. Five gates972/972 and Chromium121/121 pass; original22 calibration22/22 and S0 declarations20/20 preserved. Both branches retain all tests. No website/model/probe/Live; benchmark item4 deferred. Independent branch only; source/main unchanged. [Integration report](../.eval-artifacts/checkpoint-c-integration-20261020/report.md).
+- **2026-10-20 Checkpoint C offline integration ready for review:** `codex/integration-checkpoint-c` combines P2-2/P2-3 at5309545, Context@15/Prompt@27/State@17. Five gates972/972 and Chromium121/121 pass; original22 calibration22/22 and S0 declarations20/20 preserved. Both branches retain all tests. No website/model/probe/Live; benchmark item4 deferred. Includes concurrent review305d1e0 verbatim; product code remains5309545. Independent branch only; no source/main merge. [Integration report](../.eval-artifacts/checkpoint-c-integration-20261020/report.md).
 
 - **2026-10-20 第七次恢复后修正B十次发现探测全部完成：** 精确恢复中目黑后，按原序完成吉祥寺两次和KF-H005第二次，保留原六项，修正B10/10。新增4正式探测、18模型、12 Google；累计327/450模型、54/55探测、148 Google、0完整Live。无新环境失败/自动重试。整体Tabelog首批A5→B5，H002为0→1、其余9例5→4；来源预算超限A2→B3，等待独立复核。
 
