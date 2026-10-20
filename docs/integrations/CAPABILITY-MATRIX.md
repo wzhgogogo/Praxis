@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.68
+- Document revision: 1.69
 - Last updated: 2026-10-20
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -316,3 +316,6 @@ Harness: three prior h001 recordings retain six identical raw HTML snapshots (on
 
 
 2026-10-20 P2-1c集成更新（仅离线）：State18／TaskDefinition16已同时保留P2-3价格与条件字段、地区提前读取；Browser Prompt17保持。原生产factory+Guard+Chromium六地区组合及预算仍通过，五门禁默认978／Chromium122全绿，原22条Evaluator校准22/22／S0声明20/20。旧段落版本/结果为原分支历史；实际网站/模型能力不由本轮推断。用户已批准后续5探测预算，等待另行通知；[本轮集成报告](../../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。
+
+
+2026-10-20 P2-1c真实发现诊断：当前集成源码不变，神乐坂两次A1309/A130905（TL5/TC5）、中目黑两次A1317/A131701（TL4/TC5）、h001一次A1303（TL4/TC5，原见证首批保留）；79–113秒/例、每例4模型，无失败码或READ_BUDGET_EXCEEDED。五次真实只读boundary审计ABSENT，0完整Live/库存/外写。本轮已暴露开发诊断，不作整体成功率；Recorder仍NOT_REPLAYABLE/UNSAFE_DOCUMENT，跨来源缓存消费不由这个按源Runner评价。20模型/23Google，仅存储上限经用户批准65MB；[原始报告/评价](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)。

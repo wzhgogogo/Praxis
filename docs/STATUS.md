@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.295
+- Document revision: 4.297
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-20 P2-1c五次真实发现探测验收通过：** 神乐坂2/2进入A1309/A130905，中目黑2/2进入A1317/A131701；h001单次保持TL4/TC5及见证首批。五例均无失败码/READ_BUDGET_EXCEEDED，20模型均成功，23 Google（含5预检）；发现账本累计347/450模型、59/60探测、171 Google。仅存储额度经用户批准60→65MB，其他预算与生产源码不变；0重试/完整Live/外写，原见证未续期。录制manifest仍NOT_REPLAYABLE，非完整任务签收。[报告](../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)。推送后等复核。
 
 - **2026-10-20 P2-1c 合入 Checkpoint C，离线验收完成：** 以8ecfcfc为基线合入已复核ddfdedd，源码/配置冻结d6d989b；State@18／TaskDefinition@16，保留价格/条件状态与地区提前读取，Browser Prompt@17。五门禁PASS：默认978/978、本地Chromium122/122，type/arch/build通过；原22份校准结果类型22/22、S0声明20/20。真实网站/模型/探测/Live均0。 后续5次探测等待用户通知；见证最早2026-10-21 10:47北京过期，不续期。[本轮报告](../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。
 

@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.191
+- Document revision: 4.192
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4072,3 +4072,9 @@ Concurrent remote review305d1e0 was synchronized verbatim after the feature merg
 - 以8ecfcfc为基线合入已复核ddfdedd，源码/配置冻结d6d989b；State@18／TaskDefinition@16，保留价格/条件状态与地区提前读取，Browser Prompt@17。五门禁PASS：默认978/978、本地Chromium122/122，type/arch/build通过；原22份校准结果类型22/22、S0声明20/20。真实网站/模型/探测/Live均0。
 - 两边测试/原日志/旧产物保留；仅当前State调用方同步18，既有持久化覆盖同时核验价格及提前读取批次；无兼容层、reset、ADR或Gold变更。独立临时工作树普通推送到指定集成分支，其他检出不动。
 - [报告](../../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。离线 acceptance 通过；实际地区/来源预算和h001非退步等后续5探测等待用户通知，最早见证到期即停、不续期。
+
+## DEV-2026-10-20-P21C-LIVE-PROBES
+
+- 产品源码3998076保持，外层机械重绑当前集成，冻结cfcf73f。原输入/见证不变；先完成3例，再按用户明确批准存储60→65MB，96f4bf6重冻余2例，旧配置保留。模型/探测/时间/半径不扩大，未修改ADR或Gold。
+- 五例均无失败码/READ_BUDGET_EXCEEDED，模型20/20成功，Google正式18+预检5；累计347模型/59探测/171Google。全部间隔≥300秒、0环境重试；原见证截止前完成未续期。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT为当前限制，非库存/完整Live验收。
+- [报告](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)与执行/评价/调用账本分列；普通推送集成分支后停下等复核，不追加探测。

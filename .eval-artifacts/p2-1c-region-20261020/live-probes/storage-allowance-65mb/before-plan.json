@@ -1,0 +1,113 @@
+{
+  "status": "FROZEN_LIVE_READ_ONLY_DISCOVERY_PROBES",
+  "productionBaseline": "39980768d90658e0c4741f87f4346338a3a56172",
+  "base": ".eval-artifacts/p2-1c-region-20261020/live-probes",
+  "planned": [
+    {
+      "index": 0,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 1,
+      "input": ".eval-artifacts/p2-1-discovery-20261016/inputs/p2-kagurazaka-kaiseki-20261029.json",
+      "inputSha256": "4d10cbc840f579c03144f637bbb11553160589efd6628b75466c28b3caf7f203",
+      "output": ".eval-artifacts/p2-1c-region-20261020/live-probes/runs/01-p2-kagurazaka-kaiseki-20261029-r1"
+    },
+    {
+      "index": 1,
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "repeat": 1,
+      "input": ".eval-artifacts/p2-1-discovery-20261016/inputs/p2-nakameguro-yakiniku-20261030.json",
+      "inputSha256": "9baa38dcbb7e16df29e5e9bedfa4858b0710e4c5a2bfc99d2c0ea647dae31276",
+      "output": ".eval-artifacts/p2-1c-region-20261020/live-probes/runs/02-p2-nakameguro-yakiniku-20261030-r1"
+    },
+    {
+      "index": 2,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "input": ".eval-artifacts/p2-1-discovery-20261016/inputs/p2-kf-h001-20261027.json",
+      "inputSha256": "6f3d795ed51f8bc52aa387bb3946bcf0ee019e6ca0dd2e15dfcc1e1bd799cdd7",
+      "output": ".eval-artifacts/p2-1c-region-20261020/live-probes/runs/03-p2-kf-h001-20261027-r1"
+    },
+    {
+      "index": 3,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 2,
+      "input": ".eval-artifacts/p2-1-discovery-20261016/inputs/p2-kagurazaka-kaiseki-20261029.json",
+      "inputSha256": "4d10cbc840f579c03144f637bbb11553160589efd6628b75466c28b3caf7f203",
+      "output": ".eval-artifacts/p2-1c-region-20261020/live-probes/runs/04-p2-kagurazaka-kaiseki-20261029-r2"
+    },
+    {
+      "index": 4,
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "repeat": 2,
+      "input": ".eval-artifacts/p2-1-discovery-20261016/inputs/p2-nakameguro-yakiniku-20261030.json",
+      "inputSha256": "9baa38dcbb7e16df29e5e9bedfa4858b0710e4c5a2bfc99d2c0ea647dae31276",
+      "output": ".eval-artifacts/p2-1c-region-20261020/live-probes/runs/05-p2-nakameguro-yakiniku-20261030-r2"
+    }
+  ],
+  "witnesses": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/start-b-20261020/witnesses.certified.json",
+  "witnessesSha256": "a43cfe1ba6626a4d4a692612879191f65aafe8d0302ad7633edaf6a4a6a9cf44",
+  "witnessCutoff": "2026-10-21T02:47:04.643Z",
+  "renewWitnesses": false,
+  "reviewedReads": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/reviewed-reads.json",
+  "networkPreflightTargets": [
+    "DEEPSEEK",
+    "GOOGLE",
+    "TABELOG"
+  ],
+  "tablecheckReadiness": "SOURCE_DATA_ONLY",
+  "proxyMode": "DISABLED_BY_CLI",
+  "budgetOrigin": {
+    "models": 327,
+    "formalProbes": 54,
+    "google": 148
+  },
+  "limits": {
+    "modelCalls": 450,
+    "formalProbes": 60,
+    "perProbeModelCalls": 15,
+    "perProbeTimeoutMs": 180000,
+    "outerProcessTimeoutSeconds": 240,
+    "compressedArtifactsBytes": 60000000
+  },
+  "spacingSeconds": 300,
+  "retrySeconds": 900,
+  "maxEnvironmentRetriesPerItem": 1,
+  "retrySignals": {
+    "http": [
+      403,
+      503,
+      429
+    ],
+    "busyPage": true
+  },
+  "h001Baselines": [
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-start-b-20261020/probe-summary.json",
+      "sha256": "9919e2fd7e3cf2629558fb184bd41c863e7a7fa2906f4278cd691ab228d3c54a"
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-network-fixed-20261020/probe-summary.json",
+      "sha256": "3f101ba5d45365f57af4f57cfe20664e72e0b3283ee4602e9f926a2170470379"
+    }
+  ],
+  "acceptance": {
+    "expectedTopRegion": {
+      "p2-kagurazaka-kaiseki-20261029": "A1309",
+      "p2-nakameguro-yakiniku-20261030": "A1317",
+      "p2-kf-h001-20261027": "A1303"
+    },
+    "targetNoReadBudgetExceeded": true,
+    "h001NonRegression": {
+      "tabelogInRadiusCandidatesMin": 4,
+      "tablecheckInRadiusCandidatesMin": 5,
+      "tabelogWitnessInListing": true,
+      "tabelogWitnessInFirstBatch": true,
+      "noFailureCodes": true
+    },
+    "comparisonScope": "Two target diagnostics each and one control; not statistical success rates or full-task delivery."
+  },
+  "history": "B Kagurazaka2/2 and Nakameguro1/1 wrong entrance with READ_BUDGET_EXCEEDED. Offline P2-1c review passed; current merge and controlled cases verified at d6d989b/3998076. Original B artifacts and witness registry remain unchanged.",
+  "evaluator": "Reuse discovery-probe metrics and boundary audit. Supplement independent literal region-path, original trace/model-observation, source failure and witness/geometry checks; no Gold or budget changes beyond user-approved probe cap60.",
+  "authorizedBy": "User approved five later probes; latest continue is the notification to start. Freeze all outer inputs before external access; stop after report/push for review.",
+  "historicalCompressedBytes": 55531327
+}
