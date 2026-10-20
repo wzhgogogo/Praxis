@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.197
+- Document revision: 4.198
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4782,3 +4782,9 @@ Concurrent remote review305d1e0 was synchronized verbatim after the feature merg
 - 以8ecfcfc为基线合入已复核ddfdedd，源码/配置冻结d6d989b；State@18／TaskDefinition@16，保留价格/条件状态与地区提前读取，Browser Prompt@17。五门禁PASS：默认978/978、本地Chromium122/122，type/arch/build通过；原22份校准结果类型22/22、S0声明20/20。真实网站/模型/探测/Live均0。
 - 用户18预期先红（17≠18）后绿；误选测试和初始类型错误单列，不算原故障红灯。六个受控生产地区组合按原独立Gold/几何/预算检查通过。Evaluator/Comparator复用，运行前冻结358项SHA；2中断声明不入20分母，边界9 ABSENT/13历史证据缺口保持。
 - [报告](../../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。离线 acceptance 通过；实际地区/来源预算和h001非退步等后续5探测等待用户通知，最早见证到期即停、不续期。
+
+## TEST-2026-10-20-P21C-LIVE-PROBES
+
+- 复用B失败原证据和P2-1c固定录制红绿，外层15核对+3 plan-only均0网络/模型；源码不变，复用前切片五门禁978/122与22份校准。真实五例神乐坂2/2正确A1309、中目黑2/2正确A1317、h001单次保持TL4/TC5及见证首批；原始snapshot/观察引用/几何/预算和只读边界独立核对通过。
+- 五例均无失败码/READ_BUDGET_EXCEEDED，模型20/20成功，Google正式18+预检5；累计347模型/59探测/171Google。全部间隔≥300秒、0环境重试；原见证截止前完成未续期。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT为当前限制，非库存/完整Live验收。
+- [报告](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)与执行/评价/调用账本分列；普通推送集成分支后停下等复核，不追加探测。

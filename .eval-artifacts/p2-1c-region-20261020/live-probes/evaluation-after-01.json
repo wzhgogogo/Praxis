@@ -1,0 +1,136 @@
+{
+  "status": "INCOMPLETE",
+  "scope": "LIVE_READ_ONLY_DISCOVERY_DIAGNOSTICS; exposed development; 2+2 targets and one control, no statistical success rate",
+  "layers": {
+    "endToEnd": "NOT_EVALUATED: no inventory or final task delivery",
+    "stages": "Expected literal region corroborated by raw snapshots; no read budget overrun; h001 parsed-candidate and witness control",
+    "severity": "Existing independent read-boundary audit; no delivery claims; HARD/identity/inventory quality not evaluated here",
+    "attribution": "Controlled code baseline and fixed input comparison against B; no claim that all improvement is caused by P2-1c alone"
+  },
+  "rows": [
+    {
+      "index": 0,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 1,
+      "status": "SATISFIED",
+      "region": "https://tabelog.com/en/tokyo/A1309/A130905/",
+      "expectedRegion": "A1309",
+      "regionCorrect": true,
+      "rawSnapshotCorroboratesRegion": true,
+      "noReadBudgetExceeded": true,
+      "withinOriginalBudget": true,
+      "validWitnessWindow": true,
+      "h001NonRegression": "NOT_APPLICABLE",
+      "parsedInRadiusBySource": {
+        "tabelog": 5,
+        "tablecheck": 5,
+        "google-places": 39
+      },
+      "nativeCandidateDistances": [
+        {
+          "sourceId": "tabelog",
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13180712",
+          "distanceMeters": 94.26739382501404
+        },
+        {
+          "sourceId": "tabelog",
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+          "distanceMeters": 127.14762030898235
+        },
+        {
+          "sourceId": "tabelog",
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13218101",
+          "distanceMeters": 294.13170710884265
+        },
+        {
+          "sourceId": "tabelog",
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+          "distanceMeters": 74.0648589901342
+        },
+        {
+          "sourceId": "tabelog",
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13281152",
+          "distanceMeters": 591.0717669780513
+        },
+        {
+          "sourceId": "tablecheck",
+          "candidateId": "tablecheck:nose-to-tail",
+          "distanceMeters": 4.625743051970634
+        },
+        {
+          "sourceId": "tablecheck",
+          "candidateId": "tablecheck:ragusa-kagurazaka",
+          "distanceMeters": 10.493301533232696
+        },
+        {
+          "sourceId": "tablecheck",
+          "candidateId": "tablecheck:sushiyahajime",
+          "distanceMeters": 31.432703485470533
+        },
+        {
+          "sourceId": "tablecheck",
+          "candidateId": "tablecheck:uoida-kagurazaka",
+          "distanceMeters": 33.09726390881326
+        },
+        {
+          "sourceId": "tablecheck",
+          "candidateId": "tablecheck:konbuya-kagurazaka",
+          "distanceMeters": 34.54112117081794
+        }
+      ],
+      "tabelogWitnessInListing": true,
+      "tabelogWitnessInFirstBatch": true,
+      "modelCalls": 4,
+      "elapsedMs": 82443,
+      "failureCodes": [],
+      "boundary": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      },
+      "summary": ".eval-artifacts/p2-1c-region-20261020/live-probes/runs/01-p2-kagurazaka-kaiseki-20261029-r1/probe-summary.json",
+      "summarySha256": "4ef27e14d5e82f8c41b763c872124f2dc70e2c05a6e4ac716fd2c26852bf4a52",
+      "traceSha256": "4e590e370ad68a060c74c96d355cef4792bc66547be006fb6761a325b668b7e1",
+      "decisionsSha256": "1fe4d59af224ea68a73230c07ae4ae21a8c2b2c20a5b604aad3790064d72e28b"
+    },
+    {
+      "index": 1,
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "repeat": 1,
+      "status": "NOT_REACHED",
+      "reason": "not started"
+    },
+    {
+      "index": 2,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "status": "NOT_REACHED",
+      "reason": "not started"
+    },
+    {
+      "index": 3,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 2,
+      "status": "NOT_REACHED",
+      "reason": "not started"
+    },
+    {
+      "index": 4,
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "repeat": 2,
+      "status": "NOT_REACHED",
+      "reason": "not started"
+    }
+  ],
+  "ledgerSha256": "4b9dc32f1034954d6e8779bbe25da84632856f8a097a5765e200579be8ca5f96",
+  "models": 4,
+  "formalProbes": 1,
+  "stop": null
+}
