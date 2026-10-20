@@ -1,0 +1,27 @@
+✖ name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation (1107.246625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1515.191333
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:167:33742
+✖ name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation (1107.246625ms)
+  AssertionError [ERR_ASSERTION]: {"sampleId":"chromium","method":"A","platform":"TABLECHECK","accepted":false,"identityRecorded":false,"observedOutletUrls":[],"searchCompleted":false,"elapsedMs":95,"modelCalls":0,"failure":"BROWSER_RUNTIME_FAILED"}
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-2-selection-20261019/src/harness/browser/browser-read-fixture.test.ts:2494:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

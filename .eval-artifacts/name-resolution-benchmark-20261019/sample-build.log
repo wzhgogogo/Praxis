@@ -1,0 +1,21 @@
+{
+  schema: 'name-resolution-sample-freeze@1',
+  status: 'PENDING_REVIEW',
+  sha256: '89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87',
+  sourceManifestSha256: 'cebea2423d981350a3462837f856c25f76952dc9b428e70311b60717f49a7510',
+  sources: 66,
+  eligibleGold: { TABELOG: 31, TABLECHECK: 2 },
+  selected: { TABELOG: 30, TABLECHECK: 2, controls: 10 },
+  exclusions: { incomplete: 45, missingGoogleId: 341 },
+  modelBudget: { A: 150, B: 100, BConditional: true, used: 0 },
+  areas: [
+    'near Shibuya',
+    'near Nakameguro',
+    'near Kagurazaka',
+    'near Kichijoji',
+    'nearby',
+    'near Higashi-Ginza'
+  ],
+  shapes: [ 'ENGLISH', 'GENERIC_TERM', 'JAPANESE', 'BRANCH_SUFFIX', 'OTHER' ],
+  note: 'TableCheck shortage is explicit; do not synthesize Gold. Control platform assigned alternately; no website or expected ID enters method input.'
+}
