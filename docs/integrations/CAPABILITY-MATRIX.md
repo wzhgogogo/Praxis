@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.67
+- Document revision: 1.68
 - Last updated: 2026-10-20
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -313,3 +313,6 @@ Harness: three prior h001 recordings retain six identical raw HTML snapshots (on
 2026-10-20 P2-2地区离线修复：共享DIRECTORY在Agent观察入口中屏蔽已访问其他地区的首页/列表别名，执行返回同样拒绝绕过；当前地区首页恢复列表保持。LOCATION必须观察权威输入与实际结果更新，并替换旧链接绑定。真实神乐坂菜单链接片段只证明重复入口阻止；合成公开LOCATION查询在原预算产出有坐标候选。既有坐标/身份/4/5规则不变，ADR-0040不改；本轮未访问网站，真实正确神乐坂路径未覆盖。Harness：directory-region-selection.test.ts、native-discovery-composition.test.ts和本地Chromium原门禁；[报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md#4-地区选择主线集成与离线机制修复)。
 
 2026-10-20 P2-1c（离线）：缺同名标签时复用同请求、原半径内Google候选的Pack同源门店路径，约束当前可操作地区入口；原Google阶段消费提前读取，不重复请求。无地名/代码表，站点包净增0；身份/库存/半径/权限不变。既有directory-region-selection主测覆盖拒绝及恢复，实际生产factory+Guard+Chromium六地区受控正例通过；真实链接投影与合成详情分列，54条历史含神乐坂4条缺入口观察，不能计作新路径成功。State17/TaskDefinition15、Browser Prompt17，预算未改；真实网站和模型未跑，后续五次探测等待批准。[报告](../../.eval-artifacts/p2-1c-region-20261020/report.md)。
+
+
+2026-10-20 P2-1c集成更新（仅离线）：State18／TaskDefinition16已同时保留P2-3价格与条件字段、地区提前读取；Browser Prompt17保持。原生产factory+Guard+Chromium六地区组合及预算仍通过，五门禁默认978／Chromium122全绿，原22条Evaluator校准22/22／S0声明20/20。旧段落版本/结果为原分支历史；实际网站/模型能力不由本轮推断。用户已批准后续5探测预算，等待另行通知；[本轮集成报告](../../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。

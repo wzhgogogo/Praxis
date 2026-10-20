@@ -7,7 +7,7 @@
 
 ## 当前门槛
 
-- **2026-10-20 P2-1c 合入 Checkpoint C，离线验证中：** 以8ecfcfc为基线合入ddfdedd；State@18／TaskDefinition@16，同时保留价格／条件状态与地区来源提前读取，Browser Prompt@17。两边测试保留核对通过；既有持久化恢复合同已先失败再修复。五门禁及原22份产物校准待本轮冻结后运行；不启动网站、模型、探测或Live。后续5次探测仅待用户通知启动，见证到期不续期。
+- **2026-10-20 P2-1c 合入 Checkpoint C，离线验收完成：** 以8ecfcfc为基线合入已复核ddfdedd，源码/配置冻结d6d989b；State@18／TaskDefinition@16，保留价格/条件状态与地区提前读取，Browser Prompt@17。五门禁PASS：默认978/978、本地Chromium122/122，type/arch/build通过；原22份校准结果类型22/22、S0声明20/20。真实网站/模型/探测/Live均0。 后续5次探测等待用户通知；见证最早2026-10-21 10:47北京过期，不续期。[本轮报告](../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。
 
 - **2026-10-20 Checkpoint C offline integration ready for review:** `codex/integration-checkpoint-c` combines P2-2/P2-3 at5309545, Context@15/Prompt@27/State@17. Five gates972/972 and Chromium121/121 pass; original22 calibration22/22 and S0 declarations20/20 preserved. Both branches retain all tests. No website/model/probe/Live; benchmark item4 deferred. Includes concurrent review305d1e0 verbatim; product code remains5309545. Independent branch only; no source/main merge. [Integration report](../.eval-artifacts/checkpoint-c-integration-20261020/report.md).
 

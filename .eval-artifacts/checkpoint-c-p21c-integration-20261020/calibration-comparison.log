@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "exitCode": 0,
+  "gates": {
+    "normalS0Declaration": {
+      "required": 20,
+      "matched": 20,
+      "passed": true
+    },
+    "interruptedS0Declaration": {
+      "required": 2,
+      "allowedUnknown": 2,
+      "passed": true
+    },
+    "s0Boundary": {
+      "required": 22,
+      "evaluatedAbsent": 9,
+      "observedViolation": 0,
+      "allowedEvidenceGaps": 13,
+      "ruleGaps": [],
+      "passed": true
+    },
+    "deliveryTypes": {
+      "required": 8,
+      "matched": 8,
+      "passed": true
+    },
+    "noFalseQualified": {
+      "count": 0,
+      "passed": true
+    },
+    "noEvaluatorErrors": {
+      "remaining": 0
+    }
+  },
+  "outcomeMatches": 22,
+  "total": 22
+}
