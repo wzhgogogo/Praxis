@@ -1,0 +1,42 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {nextAction,gateWitness} from './policy.mjs';
+import {httpSignal,busyQuote} from './transports.ts';
+import {parseReviewedReads} from '../../src/eval/restaurant/agent-loop/diagnostic-evaluator-network.ts';
+import {dryRunReviewedPostAudit} from '../../src/eval/restaurant/agent-loop/post-body-audit.mjs';
+import {loadFrozenLiveCases} from '../../src/eval/restaurant/agent-loop/live-case-materializer.ts';
+import {base,sha} from './freeze.mjs';
+const plan=JSON.parse(readFileSync(base+'/plan.json','utf8'));
+test('approved bytes, independent literal 18-run roster and spacing',async()=>{
+ assert.equal(sha(readFileSync(plan.source)),'910ba0fdf755392ab1d2a1b0c2da5f9fa8d66a32217c109e8eb5f3b3ee24e8b6');
+ const cases=await loadFrozenLiveCases(plan.runnerInput);assert.equal(cases.length,6);
+ const {parseAllDocuments}=await import('yaml');const originals=parseAllDocuments(readFileSync(plan.source,'utf8')).map(d=>d.toJS());
+ assert.deepEqual(cases,originals.map(({role,derived_from,...c})=>c));
+ const expected=['p2l-kf-h001-20261103','p2l-kf-h002-20261107','p2l-kf-h005-20261105','p2l-kf-h003-20261106','p2l-kagurazaka-kaiseki-20261105','p2l-kichijoji-tempura-20261103'];
+ assert.equal(plan.runs.length,18);for(const id of expected)assert.equal(plan.runs.filter(r=>r.caseId===id).length,3);
+ for(let i=1;i<18;i++)assert.notEqual(plan.runs[i].caseId,plan.runs[i-1].caseId);
+ assert.deepEqual(plan.ceilings,{timeoutMs:500000,maxModelCalls:50,maxGoogleRequests:40});
+});
+test('S0 stops before any retry; ordinary product failures cannot retry; environment limits apply across repetitions',()=>{
+ assert.equal(nextAction({s0:true,cooldown:true,classification:'ENV_FAILURE'},plan).action,'STOP_BATCH');
+ for(const classification of ['QUALIFIED_DELIVERY','CAPABILITY_MISS','INTERNAL_FAILURE','HONEST_NO_RESULT'])assert.equal(nextAction({classification},plan).action,'CONTINUE');
+ for(const classification of ['ENV_FAILURE','ORCHESTRATION_INTERRUPTED']){
+  assert.equal(nextAction({classification},plan).action,'RETRY');assert.equal(nextAction({classification,caseReruns:1},plan).action,'STOP_BATCH');assert.equal(nextAction({classification,totalReruns:10},plan).action,'STOP_BATCH');
+ }
+ assert.deepEqual(nextAction({cooldown:true},plan),{action:'RETRY',waitMs:900000});
+ assert.equal(nextAction({classification:'QUALIFIED_DELIVERY'},plan).waitMs,300000);
+ assert.equal(nextAction({unknownSafety:true},plan).action,'STOP_BATCH');
+});
+test('403/503/429 and observed busy pages are bounded cooldown signals',()=>{
+ for(const status of [403,503,429])assert.equal(httpSignal(status),true);assert.equal(httpSignal(200),false);
+ assert.ok(busyQuote('Search is unavailable right now. Please try again.'));assert.equal(busyQuote('No seats available'),null);
+});
+test('witness future/expired/uncertified rejected, current accepted',()=>{
+ const now=Date.now(),row={variantId:'case',witnesses:[{}],classification:'KNOWN_FEASIBLE_SUPPORTED',certifiedAt:new Date(now-1000).toISOString(),validUntil:new Date(now+3600000).toISOString()};
+ assert.equal(gateWitness({variants:[row]},'case',now),row);
+ for(const change of [{certifiedAt:new Date(now+1).toISOString()},{validUntil:new Date(now-1).toISOString()},{classification:'PENDING'},{witnesses:[]}])assert.throws(()=>gateWitness({variants:[{...row,...change}]},'case',now));
+});
+test('frozen independent reviewed body grammar detects mutation',()=>{
+ const bytes=readFileSync(base+'/reviewed-reads.json');parseReviewedReads(bytes,base+'/reviewed-reads.json');assert.equal(dryRunReviewedPostAudit(bytes).status,'PASS');
+});
