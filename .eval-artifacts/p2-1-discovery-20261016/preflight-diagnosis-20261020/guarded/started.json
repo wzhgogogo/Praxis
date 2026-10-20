@@ -1,0 +1,33 @@
+{
+  "startedAt": "2026-10-20T02:40:42.346Z",
+  "mode": "guarded",
+  "plan": {
+    "status": "FROZEN_CURRENT_READ_ONLY_DIAGNOSTIC",
+    "purpose": "Determine whether the TableCheck preflight misses observed results; no B, no product fixes, no model/Google API.",
+    "userRequest": "Investigate further; user browser searches successfully.",
+    "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
+    "worktree": "/Users/wangzhour/.codex/worktrees/p21-checkpoint-b-corrected/Praxis-Zhixing",
+    "modes": [
+      "production",
+      "guarded",
+      "plain"
+    ],
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+    "totalMs": 60000,
+    "requestMs": 35000,
+    "observeMs": 35000,
+    "navigationsCap": 3,
+    "models": 0,
+    "googleApi": 0,
+    "formalProbes": 0,
+    "actions": "Navigation and passive observation only. No click, fill, reservation or form submission. Plain mode blocks all writes and admits only matching browser GET preflight.",
+    "controls": "Production is the actual unchanged source-data preflight with passive hooks. Guarded/plain share fresh headless isolated context, blocked ServiceWorkers, URL and deadlines. Guarded policy is unchanged.",
+    "interpretation": "Positive results now do not rewrite historical failures. A result visible before closure with missing count implicates observation. Positive after20s supports early-close mechanism. Sequential single-page contrasts are diagnostic, not causal or capability acceptance.",
+    "oldLedgerSha256": "3e498eeca51b29901a2042355c4016d70b2848c6f48141bdb488aa0faab21053",
+    "userIndexSha256": "7c89d5a6e314513070949124ef22279a6a84da0ec2a09f3ed05430c01ede2553"
+  },
+  "scriptSha256": "388cdf41fe3299a5d19e84d2b04cd6c753ca45d6de27a9ef7a011884f1d168b8",
+  "models": 0,
+  "googleApi": 0,
+  "formalProbes": 0
+}

@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.179
+- Document revision: 4.180
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3905,3 +3905,8 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## DEV-2026-10-20-P21-B-RETRY5-SOURCE-PREFLIGHT-STOP
 
 按用户“你再试一次，如果没问题就跑b”，外层76137e8已在运行前冻结，24项离线对照通过；生产a37e152、输入/见证/资格与预算不变。UTC02:07:09.619–02:07:55.426首例尝试中网络预检通过（TC206、Tabelog/DeepSeek200、Google根路径404）。来源非空检查：Tabelog20家/HTTP200/7581ms；TableCheck count=null、无HTTP状态、NO_RESPONSE/NO_VALID_SEARCH_RESPONSE/22178ms；Google文本搜索count=null、无状态、READ_FAILED/8001ms。不得记作搜索结果为0或擅自归因。来源失败缺少HTTP状态或TIMEOUT证据，不计入阈值，历史计数4保留，PREFLIGHT_EVIDENCE_GAP停批。未开始正式B、模型、决策或录制；本次0模型/0正式探测，Google搜索尝试1次，累计278/450模型、44/55探测、118Google、0完整Live，B0/10。旧attempt/stopHistory/recovery记录前缀均保留，证据和报告保存。复用源五门禁951/119，冻结和历史SHA核验；[原始路径与报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。提交推送后停止，无额外重试或规则放宽。
+
+
+## DEV-2026-10-20-P21-TABLECHECK-DIAGNOSTIC-CONTRAST
+
+用户要求进一步核查网页正常而预检失败。冻结4552b06后，仅对同一Ginza预检URL做3次只读诊断，生产仍a37e152，Guard规则未改，0模型/0自有Google API/0正式发现探测。原生产runSourceDataPreflight在4149ms接纳HTTP200、122条接口文档命中；其关闭前页面尚未渲染卡片，不等于来源没有数据。手动原Guard与普通Chromium分别在3880/3610ms首次收到阳性API响应，随后页面都显示20张卡片及Showing1–20of652。请求分组口径不同，122不是页面总家数。全部响应早于20秒，未复现提前关闭、监听漏记或持续Guard阻断；此前geolocation拦截也出现于成功记录，不能作单独归因。历史NO_RESPONSE原因仍NOT_CONFIRMED，旧失败、stop账本和2893历史文件保持原样，不能用当前成功回写旧结果或再笼统认定VPN/网站故障。三组均无点击/填写，未观察到POST响应；不作全链路S0认证。B未启动，Google之前READ_FAILED未复测，累计仍278/450模型、44/55正式探测、118Google。复用原生产五门禁951/119，新增诊断仅脚本语法/plan-only及raw/冻结/链接/diff核验。[三组对照报告](../../.eval-artifacts/p2-1-discovery-20261016/preflight-diagnosis-20261020/report.md)。

@@ -1,0 +1,1225 @@
+{
+  "mode": "production",
+  "startedAt": "2026-10-20T02:40:11.578Z",
+  "finishedAt": "2026-10-20T02:40:16.219Z",
+  "elapsedMs": 4641,
+  "outcome": {
+    "artifactPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/preflight-diagnosis-20261020/production/source-data-preflight.json",
+    "attempts": [
+      {
+        "sourceId": "tablecheck",
+        "check": {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+        },
+        "count": 122,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 4149,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      }
+    ]
+  },
+  "firstPositiveMs": 4420,
+  "firstPositiveCount": 122,
+  "stop": null,
+  "rows": [
+    {
+      "atMs": 619,
+      "event": "request",
+      "id": 1,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/en/japan/search",
+      "queryKeys": [
+        "auto_geolocate",
+        "geo_distance",
+        "geo_latitude",
+        "geo_longitude",
+        "search_text",
+        "service_mode",
+        "sort_by",
+        "venue_type"
+      ],
+      "method": "GET",
+      "type": "document"
+    },
+    {
+      "atMs": 1552,
+      "event": "response",
+      "id": 1,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/en/japan/search",
+      "queryKeys": [
+        "auto_geolocate",
+        "geo_distance",
+        "geo_latitude",
+        "geo_longitude",
+        "search_text",
+        "service_mode",
+        "sort_by",
+        "venue_type"
+      ],
+      "method": "GET",
+      "type": "document",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "atMs": 1562,
+      "event": "request",
+      "id": 2,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/css/tablekit-font-faces.v1.min.css",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "stylesheet"
+    },
+    {
+      "atMs": 1562,
+      "event": "request",
+      "id": 3,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-Cs36bQiE.js",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "script"
+    },
+    {
+      "atMs": 1563,
+      "event": "request",
+      "id": 4,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-rdqy8Uxb.css",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "stylesheet"
+    },
+    {
+      "atMs": 1563,
+      "event": "request",
+      "id": 5,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/images/logos/tc/v2.0.0/logo.svg",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "image"
+    },
+    {
+      "atMs": 1567,
+      "event": "finished",
+      "id": 1,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/en/japan/search",
+      "queryKeys": [
+        "auto_geolocate",
+        "geo_distance",
+        "geo_latitude",
+        "geo_longitude",
+        "search_text",
+        "service_mode",
+        "sort_by",
+        "venue_type"
+      ]
+    },
+    {
+      "atMs": 2719,
+      "event": "response",
+      "id": 4,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-rdqy8Uxb.css",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "stylesheet",
+      "status": 200,
+      "contentType": "text/css"
+    },
+    {
+      "atMs": 2719,
+      "event": "finished",
+      "id": 4,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-rdqy8Uxb.css",
+      "queryKeys": []
+    },
+    {
+      "atMs": 2896,
+      "event": "response",
+      "id": 2,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/css/tablekit-font-faces.v1.min.css",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "stylesheet",
+      "status": 200,
+      "contentType": "text/css"
+    },
+    {
+      "atMs": 2896,
+      "event": "finished",
+      "id": 2,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/css/tablekit-font-faces.v1.min.css",
+      "queryKeys": []
+    },
+    {
+      "atMs": 2922,
+      "event": "request",
+      "id": 6,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/fonts/tablekit-languages/plex-sans/IBMPlexSans-Regular.woff2",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "font"
+    },
+    {
+      "atMs": 2923,
+      "event": "request",
+      "id": 7,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/fonts/tablekit-languages/plex-sans/IBMPlexSans-SemiBold.woff2",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "font"
+    },
+    {
+      "atMs": 2924,
+      "event": "response",
+      "id": 5,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/images/logos/tc/v2.0.0/logo.svg",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "image",
+      "status": 200,
+      "contentType": "image/svg+xml"
+    },
+    {
+      "atMs": 2924,
+      "event": "finished",
+      "id": 5,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/images/logos/tc/v2.0.0/logo.svg",
+      "queryKeys": []
+    },
+    {
+      "atMs": 3113,
+      "event": "response",
+      "id": 3,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-Cs36bQiE.js",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "script",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "atMs": 3113,
+      "event": "finished",
+      "id": 3,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-Cs36bQiE.js",
+      "queryKeys": []
+    },
+    {
+      "atMs": 3199,
+      "event": "request",
+      "id": 8,
+      "origin": "https://umami-next.post.tablecheck.com",
+      "pathname": "/script.js",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "script"
+    },
+    {
+      "atMs": 3199,
+      "event": "failed",
+      "id": 8,
+      "origin": "https://umami-next.post.tablecheck.com",
+      "pathname": "/script.js",
+      "queryKeys": [],
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "atMs": 3199,
+      "event": "request",
+      "id": 9,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-BewsTGll.js",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "script"
+    },
+    {
+      "atMs": 3361,
+      "event": "response",
+      "id": 9,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-BewsTGll.js",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "script",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "atMs": 3361,
+      "event": "finished",
+      "id": 9,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-BewsTGll.js",
+      "queryKeys": []
+    },
+    {
+      "atMs": 3373,
+      "event": "request",
+      "id": 10,
+      "origin": "https://o126849.ingest.us.sentry.io",
+      "pathname": "/api/4507697548034048/envelope/",
+      "queryKeys": [
+        "sentry_client",
+        "sentry_key",
+        "sentry_version"
+      ],
+      "method": "POST",
+      "type": "fetch"
+    },
+    {
+      "atMs": 3373,
+      "event": "failed",
+      "id": 10,
+      "origin": "https://o126849.ingest.us.sentry.io",
+      "pathname": "/api/4507697548034048/envelope/",
+      "queryKeys": [
+        "sentry_client",
+        "sentry_key",
+        "sentry_version"
+      ],
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "atMs": 3423,
+      "event": "request",
+      "id": 11,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/catalog.json",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "atMs": 3463,
+      "event": "request",
+      "id": 12,
+      "origin": "https://production.tablecheck.com",
+      "pathname": "/v2/geolocation",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "atMs": 3464,
+      "event": "failed",
+      "id": 12,
+      "origin": "https://production.tablecheck.com",
+      "pathname": "/v2/geolocation",
+      "queryKeys": [],
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "atMs": 3467,
+      "event": "request",
+      "id": 13,
+      "origin": "https://maps.ingress.production.tablecheck.com",
+      "pathname": "/tiles/20241111.json",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "atMs": 3467,
+      "event": "failed",
+      "id": 13,
+      "origin": "https://maps.ingress.production.tablecheck.com",
+      "pathname": "/tiles/20241111.json",
+      "queryKeys": [],
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "atMs": 3472,
+      "event": "response",
+      "id": 6,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/fonts/tablekit-languages/plex-sans/IBMPlexSans-Regular.woff2",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "font",
+      "status": 200,
+      "contentType": "font/woff2"
+    },
+    {
+      "atMs": 3472,
+      "event": "finished",
+      "id": 6,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/fonts/tablekit-languages/plex-sans/IBMPlexSans-Regular.woff2",
+      "queryKeys": []
+    },
+    {
+      "atMs": 3472,
+      "event": "request",
+      "id": 14,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/images/apps/din/map/sprites/light.json",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "atMs": 3472,
+      "event": "failed",
+      "id": 14,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/images/apps/din/map/sprites/light.json",
+      "queryKeys": [],
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "atMs": 3472,
+      "event": "request",
+      "id": 15,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/images/apps/din/map/sprites/light.png",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "atMs": 3472,
+      "event": "failed",
+      "id": 15,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/images/apps/din/map/sprites/light.png",
+      "queryKeys": [],
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "atMs": 3481,
+      "event": "request",
+      "id": 16,
+      "origin": "https://o126849.ingest.us.sentry.io",
+      "pathname": "/api/4507697548034048/envelope/",
+      "queryKeys": [
+        "sentry_client",
+        "sentry_key",
+        "sentry_version"
+      ],
+      "method": "POST",
+      "type": "fetch"
+    },
+    {
+      "atMs": 3481,
+      "event": "failed",
+      "id": 16,
+      "origin": "https://o126849.ingest.us.sentry.io",
+      "pathname": "/api/4507697548034048/envelope/",
+      "queryKeys": [
+        "sentry_client",
+        "sentry_key",
+        "sentry_version"
+      ],
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "atMs": 3482,
+      "event": "request",
+      "id": 17,
+      "origin": "https://o126849.ingest.us.sentry.io",
+      "pathname": "/api/4507697548034048/envelope/",
+      "queryKeys": [
+        "sentry_client",
+        "sentry_key",
+        "sentry_version"
+      ],
+      "method": "POST",
+      "type": "fetch"
+    },
+    {
+      "atMs": 3482,
+      "event": "failed",
+      "id": 17,
+      "origin": "https://o126849.ingest.us.sentry.io",
+      "pathname": "/api/4507697548034048/envelope/",
+      "queryKeys": [
+        "sentry_client",
+        "sentry_key",
+        "sentry_version"
+      ],
+      "error": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+    },
+    {
+      "atMs": 3483,
+      "event": "response",
+      "id": 7,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/fonts/tablekit-languages/plex-sans/IBMPlexSans-SemiBold.woff2",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "font",
+      "status": 200,
+      "contentType": "font/woff2"
+    },
+    {
+      "atMs": 3483,
+      "event": "finished",
+      "id": 7,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/fonts/tablekit-languages/plex-sans/IBMPlexSans-SemiBold.woff2",
+      "queryKeys": []
+    },
+    {
+      "atMs": 3768,
+      "event": "request",
+      "id": 18,
+      "origin": "https://production.tablecheck.com",
+      "pathname": "/v2/geolocation",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "atMs": 4158,
+      "event": "response",
+      "id": 11,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/catalog.json",
+      "queryKeys": [],
+      "method": "GET",
+      "type": "fetch",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bodyBytes": 63741,
+      "bodySha256": "f21850d3c964ca0923fb45699ad8bbbf08abfc04dc6b5356a73d9b0f595078f4",
+      "count": null,
+      "bodyAtMs": 4167
+    },
+    {
+      "atMs": 4160,
+      "event": "finished",
+      "id": 11,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/catalog.json",
+      "queryKeys": []
+    },
+    {
+      "atMs": 4170,
+      "event": "request",
+      "id": 19,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "cuisine",
+        "hits",
+        "lat",
+        "lng",
+        "offset",
+        "party_size",
+        "queryProfile",
+        "radius_km",
+        "scope",
+        "sort"
+      ],
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "atMs": 4171,
+      "event": "request",
+      "id": 20,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "cuisine",
+        "hits",
+        "lat",
+        "lng",
+        "party_size",
+        "queryProfile",
+        "radius_km",
+        "scope",
+        "sort"
+      ],
+      "method": "GET",
+      "type": "fetch"
+    },
+    {
+      "atMs": 4449,
+      "event": "response",
+      "id": 19,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "cuisine",
+        "hits",
+        "lat",
+        "lng",
+        "offset",
+        "party_size",
+        "queryProfile",
+        "radius_km",
+        "scope",
+        "sort"
+      ],
+      "method": "GET",
+      "type": "fetch",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bodyBytes": 1565364,
+      "bodySha256": "41a46272b277142c4ae1d75ceaaec65fd341e4cf61ea0b6a04797a736160c775",
+      "count": 122,
+      "bodyAtMs": 4512
+    },
+    {
+      "atMs": 4456,
+      "event": "finished",
+      "id": 19,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "cuisine",
+        "hits",
+        "lat",
+        "lng",
+        "offset",
+        "party_size",
+        "queryProfile",
+        "radius_km",
+        "scope",
+        "sort"
+      ]
+    },
+    {
+      "atMs": 4461,
+      "event": "request",
+      "id": 21,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "cuisine",
+        "hits",
+        "id",
+        "open_day",
+        "party_size",
+        "queryProfile",
+        "service_mode"
+      ],
+      "method": "GET",
+      "type": "fetch"
+    }
+  ],
+  "hooks": [
+    {
+      "atMs": 1546,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/en/japan/search",
+      "queryKeys": [
+        "auto_geolocate",
+        "geo_distance",
+        "geo_latitude",
+        "geo_longitude",
+        "search_text",
+        "service_mode",
+        "sort_by",
+        "venue_type"
+      ],
+      "method": "GET",
+      "resourceType": "document",
+      "status": 200,
+      "bytes": 99089,
+      "bodySha256": "1e90c5aec9ad1cd39f4adfc6ee268761be44c55f96b54f4b36fb6c7fb508fd84",
+      "count": null
+    },
+    {
+      "atMs": 2701,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-rdqy8Uxb.css",
+      "queryKeys": [],
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "status": 200,
+      "bytes": 530725,
+      "bodySha256": "905cd129c2d5f808e4526638c4bdd7cfef7d831c221e88beac49edbb24e17d1c",
+      "count": null
+    },
+    {
+      "atMs": 2892,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/css/tablekit-font-faces.v1.min.css",
+      "queryKeys": [],
+      "method": "GET",
+      "resourceType": "stylesheet",
+      "status": 200,
+      "bytes": 27321,
+      "bodySha256": "3faa12e7130048310440f596033fd32fc6bfad248de822ae3c8c09e90bbfa846",
+      "count": null
+    },
+    {
+      "atMs": 2893,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/images/logos/tc/v2.0.0/logo.svg",
+      "queryKeys": [],
+      "method": "GET",
+      "resourceType": "image",
+      "status": 200,
+      "bytes": 5677,
+      "bodySha256": "65a83b9a42f24ee0d722be44af37154a8fa7abcd37b635cdfa6ed10fb4cdfd7f",
+      "count": null
+    },
+    {
+      "atMs": 2933,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-Cs36bQiE.js",
+      "queryKeys": [],
+      "method": "GET",
+      "resourceType": "script",
+      "status": 200,
+      "bytes": 10264819,
+      "bodySha256": "7b45fb530c35e79d0f9bf1fba1fd8a94df2d5d1040c21c8069c2f26986d4ae18",
+      "count": null
+    },
+    {
+      "atMs": 3345,
+      "origin": "https://www.tablecheck.com",
+      "pathname": "/portal/assets/index-BewsTGll.js",
+      "queryKeys": [],
+      "method": "GET",
+      "resourceType": "script",
+      "status": 200,
+      "bytes": 419492,
+      "bodySha256": "ce1fcdc93cb8af0c28627fbf8a1006651f39687c4df708a5251c3c0f1449ce2e",
+      "count": null
+    },
+    {
+      "atMs": 3463,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/fonts/tablekit-languages/plex-sans/IBMPlexSans-Regular.woff2",
+      "queryKeys": [],
+      "method": "GET",
+      "resourceType": "font",
+      "status": 200,
+      "bytes": 63020,
+      "bodySha256": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+      "count": null
+    },
+    {
+      "atMs": 3479,
+      "origin": "https://cdn0.tablecheck.com",
+      "pathname": "/common/fonts/tablekit-languages/plex-sans/IBMPlexSans-SemiBold.woff2",
+      "queryKeys": [],
+      "method": "GET",
+      "resourceType": "font",
+      "status": 200,
+      "bytes": 67060,
+      "bodySha256": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+      "count": null
+    },
+    {
+      "atMs": 4153,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/catalog.json",
+      "queryKeys": [],
+      "method": "GET",
+      "resourceType": "fetch",
+      "status": 200,
+      "bytes": 63741,
+      "bodySha256": "f21850d3c964ca0923fb45699ad8bbbf08abfc04dc6b5356a73d9b0f595078f4",
+      "count": null
+    },
+    {
+      "atMs": 4168,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "cuisine",
+        "hits",
+        "lat",
+        "lng",
+        "offset",
+        "party_size",
+        "queryProfile",
+        "radius_km",
+        "scope",
+        "sort"
+      ],
+      "method": "OPTIONS",
+      "resourceType": "other",
+      "status": 204,
+      "bytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "count": null
+    },
+    {
+      "atMs": 4168,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "cuisine",
+        "hits",
+        "lat",
+        "lng",
+        "party_size",
+        "queryProfile",
+        "radius_km",
+        "scope",
+        "sort"
+      ],
+      "method": "OPTIONS",
+      "resourceType": "other",
+      "status": 204,
+      "bytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "count": null
+    },
+    {
+      "atMs": 4419,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "cuisine",
+        "hits",
+        "lat",
+        "lng",
+        "offset",
+        "party_size",
+        "queryProfile",
+        "radius_km",
+        "scope",
+        "sort"
+      ],
+      "method": "GET",
+      "resourceType": "fetch",
+      "status": 200,
+      "bytes": 1565364,
+      "bodySha256": "41a46272b277142c4ae1d75ceaaec65fd341e4cf61ea0b6a04797a736160c775",
+      "count": 122
+    },
+    {
+      "atMs": 4459,
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "cuisine",
+        "hits",
+        "id",
+        "open_day",
+        "party_size",
+        "queryProfile",
+        "service_mode"
+      ],
+      "method": "OPTIONS",
+      "resourceType": "other",
+      "status": 204,
+      "bytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "count": null
+    }
+  ],
+  "snapshots": [
+    {
+      "label": "before-production-close",
+      "atMs": 4590,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+      "title": "Map Search - Japan",
+      "parsedOutlets": 0,
+      "visibleTextExcerpt": "For restaurateurs\nHelp\nDestination\nArea, station, line or restaurant\nCuisine\nAny cuisine\nDate\nAny date\nGuests\n2 guests\nJapan\nLogin",
+      "htmlSha256": "8ed7b9100228a62375ac9cdb46122b1f3dbcdd87d53162be07c7cb29163230e9",
+      "networkDiagnostics": [
+        {
+          "code": "BLOCKED_ENDPOINT",
+          "origin": "https://umami-next.post.tablecheck.com",
+          "pathname": "/script.js",
+          "method": "GET",
+          "resourceType": "script",
+          "queryKeys": []
+        },
+        {
+          "code": "BLOCKED_METHOD",
+          "origin": "https://o126849.ingest.us.sentry.io",
+          "pathname": "/api/4507697548034048/envelope/",
+          "method": "POST",
+          "resourceType": "xhr",
+          "queryKeys": [
+            "sentry_client",
+            "sentry_key",
+            "sentry_version"
+          ]
+        },
+        {
+          "code": "BLOCKED_ENDPOINT",
+          "origin": "https://production.tablecheck.com",
+          "pathname": "/v2/geolocation",
+          "method": "GET",
+          "resourceType": "xhr",
+          "queryKeys": []
+        },
+        {
+          "code": "BLOCKED_ENDPOINT",
+          "origin": "https://maps.ingress.production.tablecheck.com",
+          "pathname": "/tiles/20241111.json",
+          "method": "GET",
+          "resourceType": "xhr",
+          "queryKeys": []
+        },
+        {
+          "code": "BLOCKED_ENDPOINT",
+          "origin": "https://cdn0.tablecheck.com",
+          "pathname": "/common/images/apps/din/map/sprites/light.json",
+          "method": "GET",
+          "resourceType": "xhr",
+          "queryKeys": []
+        },
+        {
+          "code": "BLOCKED_ENDPOINT",
+          "origin": "https://cdn0.tablecheck.com",
+          "pathname": "/common/images/apps/din/map/sprites/light.png",
+          "method": "GET",
+          "resourceType": "xhr",
+          "queryKeys": []
+        },
+        {
+          "code": "BLOCKED_METHOD",
+          "origin": "https://o126849.ingest.us.sentry.io",
+          "pathname": "/api/4507697548034048/envelope/",
+          "method": "POST",
+          "resourceType": "xhr",
+          "queryKeys": [
+            "sentry_client",
+            "sentry_key",
+            "sentry_version"
+          ]
+        },
+        {
+          "code": "BLOCKED_METHOD",
+          "origin": "https://o126849.ingest.us.sentry.io",
+          "pathname": "/api/4507697548034048/envelope/",
+          "method": "POST",
+          "resourceType": "xhr",
+          "queryKeys": [
+            "sentry_client",
+            "sentry_key",
+            "sentry_version"
+          ]
+        }
+      ],
+      "networkRequests": [
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://www.tablecheck.com",
+          "pathname": "/en/japan/search",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": [
+            "auto_geolocate",
+            "geo_distance",
+            "geo_latitude",
+            "geo_longitude",
+            "search_text",
+            "service_mode",
+            "sort_by",
+            "venue_type"
+          ]
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://cdn0.tablecheck.com",
+          "pathname": "/common/css/tablekit-font-faces.v1.min.css",
+          "method": "GET",
+          "resourceType": "stylesheet",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://www.tablecheck.com",
+          "pathname": "/portal/assets/index-Cs36bQiE.js",
+          "method": "GET",
+          "resourceType": "script",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://www.tablecheck.com",
+          "pathname": "/portal/assets/index-rdqy8Uxb.css",
+          "method": "GET",
+          "resourceType": "stylesheet",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://cdn0.tablecheck.com",
+          "pathname": "/common/images/logos/tc/v2.0.0/logo.svg",
+          "method": "GET",
+          "resourceType": "image",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://cdn0.tablecheck.com",
+          "pathname": "/common/fonts/tablekit-languages/plex-sans/IBMPlexSans-Regular.woff2",
+          "method": "GET",
+          "resourceType": "font",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://cdn0.tablecheck.com",
+          "pathname": "/common/fonts/tablekit-languages/plex-sans/IBMPlexSans-SemiBold.woff2",
+          "method": "GET",
+          "resourceType": "font",
+          "queryKeys": []
+        },
+        {
+          "outcome": "BLOCKED",
+          "origin": "https://umami-next.post.tablecheck.com",
+          "pathname": "/script.js",
+          "method": "GET",
+          "resourceType": "script",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://www.tablecheck.com",
+          "pathname": "/portal/assets/index-BewsTGll.js",
+          "method": "GET",
+          "resourceType": "script",
+          "queryKeys": []
+        },
+        {
+          "outcome": "BLOCKED",
+          "origin": "https://o126849.ingest.us.sentry.io",
+          "pathname": "/api/4507697548034048/envelope/",
+          "method": "POST",
+          "resourceType": "xhr",
+          "queryKeys": [
+            "sentry_client",
+            "sentry_key",
+            "sentry_version"
+          ]
+        },
+        {
+          "outcome": "BLOCKED",
+          "origin": "https://production.tablecheck.com",
+          "pathname": "/v2/geolocation",
+          "method": "GET",
+          "resourceType": "xhr",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "pathname": "/catalog.json",
+          "method": "GET",
+          "resourceType": "fetch",
+          "queryKeys": []
+        },
+        {
+          "outcome": "BLOCKED",
+          "origin": "https://maps.ingress.production.tablecheck.com",
+          "pathname": "/tiles/20241111.json",
+          "method": "GET",
+          "resourceType": "xhr",
+          "queryKeys": []
+        },
+        {
+          "outcome": "BLOCKED",
+          "origin": "https://cdn0.tablecheck.com",
+          "pathname": "/common/images/apps/din/map/sprites/light.json",
+          "method": "GET",
+          "resourceType": "xhr",
+          "queryKeys": []
+        },
+        {
+          "outcome": "BLOCKED",
+          "origin": "https://cdn0.tablecheck.com",
+          "pathname": "/common/images/apps/din/map/sprites/light.png",
+          "method": "GET",
+          "resourceType": "xhr",
+          "queryKeys": []
+        },
+        {
+          "outcome": "BLOCKED",
+          "origin": "https://o126849.ingest.us.sentry.io",
+          "pathname": "/api/4507697548034048/envelope/",
+          "method": "POST",
+          "resourceType": "xhr",
+          "queryKeys": [
+            "sentry_client",
+            "sentry_key",
+            "sentry_version"
+          ]
+        },
+        {
+          "outcome": "BLOCKED",
+          "origin": "https://o126849.ingest.us.sentry.io",
+          "pathname": "/api/4507697548034048/envelope/",
+          "method": "POST",
+          "resourceType": "xhr",
+          "queryKeys": [
+            "sentry_client",
+            "sentry_key",
+            "sentry_version"
+          ]
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://production.tablecheck.com",
+          "pathname": "/v2/geolocation",
+          "method": "GET",
+          "resourceType": "fetch",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "pathname": "/search/",
+          "method": "OPTIONS",
+          "resourceType": "other",
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "lat",
+            "lng",
+            "offset",
+            "party_size",
+            "queryProfile",
+            "radius_km",
+            "scope",
+            "sort"
+          ],
+          "corsPreflight": {
+            "initiator": "BROWSER_PREFLIGHT",
+            "secFetchMode": "cors",
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedMethod": "GET",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ],
+            "bodyBytes": 0
+          }
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "pathname": "/search/",
+          "method": "OPTIONS",
+          "resourceType": "xhr",
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "lat",
+            "lng",
+            "party_size",
+            "queryProfile",
+            "radius_km",
+            "scope",
+            "sort"
+          ],
+          "corsPreflight": {
+            "initiator": "BROWSER_PREFLIGHT",
+            "secFetchMode": "cors",
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedMethod": "GET",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ],
+            "bodyBytes": 0
+          }
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "pathname": "/search/",
+          "method": "GET",
+          "resourceType": "fetch",
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "lat",
+            "lng",
+            "offset",
+            "party_size",
+            "queryProfile",
+            "radius_km",
+            "scope",
+            "sort"
+          ]
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "pathname": "/search/",
+          "method": "GET",
+          "resourceType": "fetch",
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "lat",
+            "lng",
+            "party_size",
+            "queryProfile",
+            "radius_km",
+            "scope",
+            "sort"
+          ]
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "pathname": "/search/",
+          "method": "OPTIONS",
+          "resourceType": "xhr",
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "id",
+            "open_day",
+            "party_size",
+            "queryProfile",
+            "service_mode"
+          ],
+          "corsPreflight": {
+            "initiator": "BROWSER_PREFLIGHT",
+            "secFetchMode": "cors",
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedMethod": "GET",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ],
+            "bodyBytes": 0
+          }
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "pathname": "/search/",
+          "method": "GET",
+          "resourceType": "fetch",
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "id",
+            "open_day",
+            "party_size",
+            "queryProfile",
+            "service_mode"
+          ]
+        }
+      ]
+    }
+  ],
+  "models": 0,
+  "googleApi": 0,
+  "formalProbes": 0,
+  "clicks": 0,
+  "scope": "Current read-only diagnostic; does not relabel historical failures or resume B."
+}

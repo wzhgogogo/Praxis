@@ -244,3 +244,8 @@ The requested retry (outer63a8136/sourcea37e152) again received TableCheck homep
 ## October20 retry: source-data preflight blocks B
 
 AtBeijing10:07 network readiness passed, including TableCheck206. Source checks observed Tabelog20/HTTP200, but no valid TableCheck search response and Google text search READ_FAILED (both counts/statuses unobserved). PREFLIGHT_EVIDENCE_GAP stopped before formal B; historical failure counter4 is unchanged. No new models/probes;1 Google search attempt, cumulative278/450 models,44/55 probes,118Google. Corrected B0/10 remains NOT_REACHED. [Detailed source observations and raw paths](checkpoint-b-corrected-20261019/report.md).
+
+
+## October20 TableCheck diagnosis: current success in all3 controls
+
+Same public URL under the unchanged production preflight, productionGuard and plain Chromium now returns search data. Actual production source preflight is NONEMPTY/HTTP200 with122 document hits in4149ms; manual guarded/plain both render20 cards (UI Showing1-20of652). No persistent search failure or20s cutoff is reproduced. Historical root cause remains NOT_CONFIRMED; do not relabel old artifacts or assume VPN/site failure. New diagnostic navigations3, models0, ownGoogle API0, formal probes0; cumulative278/450 models,44/55 formal probes,118Google unchanged. B and the earlier Google READ_FAILED are not retested. [Full contrast, timings and screenshots](preflight-diagnosis-20261020/report.md).

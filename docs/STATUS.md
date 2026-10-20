@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.283
+- Document revision: 4.284
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-20 TableCheck三组只读对照均成功，历史失败原因未确认：** 同一TableCheck URL三组只读均成功：原生产预检HTTP200/122条命中；有Guard和普通Chromium都显示20卡片。未复现此前失败，历史根因未确认，不修改生产或旧产物；B与Google失败复测未启动。
 
 - **2026-10-20 10月20日网络可达，来源非空预检仍阻断B：** 10/20重试网络通过，Tabelog来源20家；TC搜索无有效响应、Google文本读取失败，PREFLIGHT_EVIDENCE_GAP停批。B0/10、0新增模型、Google尝试1次；累计278模型/44探测/118Google。
 

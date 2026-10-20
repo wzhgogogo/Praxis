@@ -1,0 +1,242 @@
+{
+  "status": "CURRENT_SUCCESS_HISTORICAL_FAILURE_NOT_REPRODUCED",
+  "rows": [
+    {
+      "mode": "production",
+      "startedAt": "2026-10-20T02:40:11.578Z",
+      "finishedAt": "2026-10-20T02:40:16.219Z",
+      "elapsedMs": 4641,
+      "firstPositiveMs": 4420,
+      "firstPositiveCount": 122,
+      "preflightResult": {
+        "artifactPath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/preflight-diagnosis-20261020/production/source-data-preflight.json",
+        "attempts": [
+          {
+            "sourceId": "tablecheck",
+            "check": {
+              "sourceId": "tablecheck",
+              "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+            },
+            "count": 122,
+            "responseStatus": 200,
+            "reason": null,
+            "elapsedMs": 4149,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          }
+        ]
+      },
+      "visibleCardsAtClosure": 0,
+      "visibleListingCounter": null,
+      "searchResponses": [
+        {
+          "atMs": 4449,
+          "status": 200,
+          "type": "fetch",
+          "count": 122,
+          "bodyBytes": 1565364,
+          "bodyAtMs": 4512,
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "lat",
+            "lng",
+            "offset",
+            "party_size",
+            "queryProfile",
+            "radius_km",
+            "scope",
+            "sort"
+          ]
+        }
+      ],
+      "resultPath": ".eval-artifacts/p2-1-discovery-20261016/preflight-diagnosis-20261020/production/result.json",
+      "resultSha256": "701847cadfeb81814b8187c992822722c402b0b6b78cc70536500197dade32db",
+      "screenshot": null
+    },
+    {
+      "mode": "guarded",
+      "startedAt": "2026-10-20T02:40:42.346Z",
+      "finishedAt": "2026-10-20T02:40:46.944Z",
+      "elapsedMs": 4598,
+      "firstPositiveMs": 3880,
+      "firstPositiveCount": 122,
+      "preflightResult": "NOT_APPLICABLE_MANUAL_OBSERVATION",
+      "visibleCardsAtClosure": 20,
+      "visibleListingCounter": "Showing 1\u201320 of 652\n\nCADRAN\n\nGinza 160m\nM\nG\nH\n\n\u9280\u5ea7\u306e\u8857\u4e26\u307f\u3092\u773a",
+      "searchResponses": [
+        {
+          "atMs": 3904,
+          "status": 200,
+          "type": "fetch",
+          "count": 122,
+          "bodyBytes": 1565364,
+          "bodyAtMs": 3966,
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "lat",
+            "lng",
+            "offset",
+            "party_size",
+            "queryProfile",
+            "radius_km",
+            "scope",
+            "sort"
+          ]
+        },
+        {
+          "atMs": 4070,
+          "status": 200,
+          "type": "fetch",
+          "count": 57,
+          "bodyBytes": 1150060,
+          "bodyAtMs": 4110,
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "id",
+            "open_day",
+            "party_size",
+            "queryProfile",
+            "service_mode"
+          ]
+        },
+        {
+          "atMs": 4161,
+          "status": 200,
+          "type": "fetch",
+          "count": 51,
+          "bodyBytes": 69557,
+          "bodyAtMs": 4165,
+          "queryKeys": [
+            "hits",
+            "id",
+            "queryProfile"
+          ]
+        },
+        {
+          "atMs": 4291,
+          "status": 200,
+          "type": "fetch",
+          "count": 525,
+          "bodyBytes": 316246,
+          "bodyAtMs": 4307,
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "lat",
+            "lng",
+            "party_size",
+            "queryProfile",
+            "radius_km",
+            "scope",
+            "sort"
+          ]
+        }
+      ],
+      "resultPath": ".eval-artifacts/p2-1-discovery-20261016/preflight-diagnosis-20261020/guarded/result.json",
+      "resultSha256": "b0c0fe3575174a7d10fc2dc37ebbde044ee6d20124a28ec3e479059c6fa10f6b",
+      "screenshot": ".eval-artifacts/p2-1-discovery-20261016/preflight-diagnosis-20261020/guarded/page.png"
+    },
+    {
+      "mode": "plain",
+      "startedAt": "2026-10-20T02:41:16.600Z",
+      "finishedAt": "2026-10-20T02:41:20.982Z",
+      "elapsedMs": 4382,
+      "firstPositiveMs": 3610,
+      "firstPositiveCount": 122,
+      "preflightResult": "NOT_APPLICABLE_MANUAL_OBSERVATION",
+      "visibleCardsAtClosure": 20,
+      "visibleListingCounter": "Showing 1\u201320 of 652\n\nCADRAN\n\nGinza 160m\nM\nG\nH\n\n\u9280\u5ea7\u306e\u8857\u4e26\u307f\u3092\u773a",
+      "searchResponses": [
+        {
+          "atMs": 3457,
+          "status": 200,
+          "type": "fetch",
+          "count": 122,
+          "bodyBytes": 1565364,
+          "bodyAtMs": 3610,
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "lat",
+            "lng",
+            "offset",
+            "party_size",
+            "queryProfile",
+            "radius_km",
+            "scope",
+            "sort"
+          ]
+        },
+        {
+          "atMs": 3550,
+          "status": 200,
+          "type": "fetch",
+          "count": 525,
+          "bodyBytes": 316187,
+          "bodyAtMs": 3666,
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "lat",
+            "lng",
+            "party_size",
+            "queryProfile",
+            "radius_km",
+            "scope",
+            "sort"
+          ]
+        },
+        {
+          "atMs": 3692,
+          "status": 200,
+          "type": "fetch",
+          "count": 57,
+          "bodyBytes": 1150060,
+          "bodyAtMs": 3765,
+          "queryKeys": [
+            "cuisine",
+            "hits",
+            "id",
+            "open_day",
+            "party_size",
+            "queryProfile",
+            "service_mode"
+          ]
+        },
+        {
+          "atMs": 3815,
+          "status": 200,
+          "type": "fetch",
+          "count": 51,
+          "bodyBytes": 69557,
+          "bodyAtMs": 3824,
+          "queryKeys": [
+            "hits",
+            "id",
+            "queryProfile"
+          ]
+        }
+      ],
+      "resultPath": ".eval-artifacts/p2-1-discovery-20261016/preflight-diagnosis-20261020/plain/result.json",
+      "resultSha256": "dae2f6d27bc1dbfbf8f43fa995936d40cea90d8e05a8f97449f5d7423e072fbb",
+      "screenshot": ".eval-artifacts/p2-1-discovery-20261016/preflight-diagnosis-20261020/plain/page.png"
+    }
+  ],
+  "navigations": 3,
+  "models": 0,
+  "googleApi": 0,
+  "formalProbes": 0,
+  "fullLive": 0,
+  "BResumed": false,
+  "sourceChanged": false,
+  "BStopLedgerUnchanged": true,
+  "frozenFilesVerified": 331,
+  "historicalFilesUnchanged": 2893,
+  "earlyCloseHypothesis": "Not reproduced; every current positive response arrived before20s.",
+  "guardHypothesis": "No persistent Guard blockage observed; same URL succeeds under unchanged production policy.",
+  "historicalRootCause": "NOT_CONFIRMED; prior failed run lacks request timeline and page capture. Current success does not relabel or erase prior failure.",
+  "googlePreviousFailure": "NOT_RETESTED; TableCheck-only diagnostic."
+}
