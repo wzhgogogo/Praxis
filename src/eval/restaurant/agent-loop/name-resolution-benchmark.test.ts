@@ -18,6 +18,7 @@ test('name benchmark uses independent literal IDs, requires raw selected evidenc
  const {rawSelectedPageUrl:_raw,...noRaw}=result;assert.equal(evaluateNameResolution(sample,noRaw).verdict,'NOT_EVALUATED');
  const {expected:_expected,...control}=sample;assert.equal(evaluateNameResolution({...control,role:'CONTROL'},result).verdict,'REVIEW_REQUIRED');
  assert.equal(evaluateNameResolution(sample,{...result,accepted:false,failure:'SOURCE_BUSY'}).verdict,'ENV_FAILURE');
+ for(const status of [403,429])assert.equal(evaluateNameResolution(sample,{...result,accepted:false,failure:`SOURCE_HTTP_${status}`}).verdict,'ENV_FAILURE');
  assert.equal(evaluateNameResolution(sample,{...result,accepted:false,observedOutletUrls:[]}).verdict,'NOT_FOUND');
  assert.equal(evaluateNameResolution(sample,{...result,accepted:false}).verdict,'UNCERTAIN');
  const aggregate=summarizeNameResolution([sample],[result]);assert.equal(aggregate.methods[0]!.medianMs,100);assert.equal(aggregate.methods[1]!.correctRate,null);
@@ -35,18 +36,21 @@ test('frozen name samples have exact declared counts and no URL/Gold can reach m
 });
 test('name benchmark cannot admit live before sample approval and healthy source evidence',()=>{
  const ready={sampleSha256:'x',approval:{sampleSha256:'x',reviewer:'independent-fixture',approved:true},preflight:{tablecheckStatus:200,tabelogStatus:200,tabelogBusy:false}};
- assert.doesNotThrow(()=>assertNameResolutionLiveAdmission(ready));
- assert.doesNotThrow(()=>assertNameResolutionLiveAdmission({...ready,preflight:{...ready.preflight,tabelogStatus:206}}));
- assert.throws(()=>assertNameResolutionLiveAdmission({...ready,approval:{...ready.approval,approved:false}}),/approval/);
- assert.throws(()=>assertNameResolutionLiveAdmission({...ready,preflight:{...ready.preflight,tablecheckStatus:503}}),/not ready/);
- assert.throws(()=>assertNameResolutionLiveAdmission({...ready,preflight:{...ready.preflight,tabelogBusy:true}}),/not ready/);
+ assert.doesNotThrow(()=>assertNameResolutionLiveAdmission({...ready,preflight:{tabelogStatus:200,tabelogBusy:false}},'TABELOG'));
+ assert.doesNotThrow(()=>assertNameResolutionLiveAdmission(ready,'TABELOG'));
+ assert.throws(()=>assertNameResolutionLiveAdmission({...ready,preflight:{tabelogStatus:200,tabelogBusy:false}},'TABLECHECK'),/not ready/);
+ assert.throws(()=>assertNameResolutionLiveAdmission({...ready,preflight:{tablecheckStatus:200}},'TABELOG'),/not ready/);
+ assert.doesNotThrow(()=>assertNameResolutionLiveAdmission({...ready,preflight:{...ready.preflight,tabelogStatus:206}},'TABELOG'));
+ assert.throws(()=>assertNameResolutionLiveAdmission({...ready,approval:{...ready.approval,approved:false}},'TABELOG'),/approval/);
+ assert.throws(()=>assertNameResolutionLiveAdmission({...ready,preflight:{...ready.preflight,tablecheckStatus:503}},'TABLECHECK'),/not ready/);
+ assert.throws(()=>assertNameResolutionLiveAdmission({...ready,preflight:{...ready.preflight,tabelogBusy:true}},'TABELOG'),/not ready/);
 });
 test('production name prefix succeeds for both sources without using a known URL or operating availability',async()=>{
  for(const platform of ['TABELOG','TABLECHECK'] as const){
   const navigated:string[]=[],actions:string[]=[];let current:BrowserSnapshot;
   const detail=platform==='TABELOG'?source:'https://www.tablecheck.com/en/fixture';
   const runtime:BrowserRuntime={openSession:async()=>({metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:'2026-10-20T00:00:00Z'},
-   navigate:async url=>{navigated.push(url);const search=/rstLst|japan\/search/.test(url);const html=search?`<a class="list-rst__rst-name-target" href="${detail}">Fixture Restaurant</a>`:`<title>Fixture Restaurant</title><h1>Fixture Restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Fixture Restaurant',address:'1-1 Tokyo Fixture Street',telephone:'03-1111-2222'})}</script><a href="https://www.tablecheck.com/en/shops/fixture/reserve">Reserve</a>`;current={url,title:'Fixture Restaurant',text:html.replace(/<[^>]*>/g,' '),html};},
+   navigate:async url=>{navigated.push(url);const search=/rstLst|japan\/search/.test(url);const html=search?`<a class="list-rst__rst-name-target" href="${detail}">Fixture Restaurant</a>`:`<title>Fixture Restaurant</title><h1>Fixture Restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Fixture Restaurant',address:'1-1 Tokyo Fixture Street',telephone:'03-1111-2222'})}</script>${platform==='TABELOG'?'<p>Availability</p><select name="party_size"><option value="1">1</option></select><select name="date"><option value="1970-01-01">1970-01-01</option></select>':'<a href="https://www.tablecheck.com/en/shops/fixture/reserve">Reserve</a>'}`;current={url,title:'Fixture Restaurant',text:html.replace(/<[^>]*>/g,' '),html};},
    snapshot:async()=>current,click:async()=>{actions.push('click');},fill:async()=>{actions.push('fill');},select:async()=>{actions.push('select');return[];},waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{},
   })};
   const artifact=await runNameResolutionMethodA('test',platform,sample.subject,{mode:'OFFLINE_FIXTURE',runtime,signal:new AbortController().signal});

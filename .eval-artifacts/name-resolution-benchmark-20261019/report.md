@@ -1,6 +1,14 @@
-# 店名解析基准：第1–3项离线准备
+# 店名解析基准：Tabelog方法A已完成
 
-Evidence status: frozen regression / exposed development sample candidates，PENDING_REVIEW。未运行第4项，未评价真实找对率。
+Evidence status: exposed development / 本次Tabelog方法A只读结果，等待独立复核；不是Clean Baseline。
+
+本轮第4项（Tabelog方法A）已完成：30家Gold各认证一次，最终29 VERIFIED/1 DROPPED；29家评分中12 CORRECT（41.4%）、15 NOT_FOUND、2 UNCERTAIN、0 WRONG_ACCEPTED。5家对照2 REVIEW_REQUIRED/3 UNCERTAIN，不计正确率。方法A35模型；前置5条选店回放全ACCEPTABLE、13/13直接门店页，合计40模型。Google/完整Live/方法B新增均0，TableCheck未跑。当前独立网络审计保留64组会话/完整请求链缺证，不能宣称总体S0边界已验证。
+
+[本轮逐店、分组、红绿灯、冻结、调用和原始路径](live-20261020/report.md)。运行冻结1b4cfda，样本89ce49a4原字节保留。
+
+## 以下保留2026-10-19离线准备历史（superseded retrospective）
+
+早期无控件Fixture没有抓住诊断异常被吞后继续SELECT的缺口；本轮已用有效红灯与真实Chromium补强并修正评测停止边界。以下“未运行／等待批准”等只描述当时状态，不代表当前进展。
 
 ## 范围、输入与冻结
 
@@ -55,3 +63,19 @@ Gold pending不是当前已认可标准答案；未来live必须有同样本SHA�
 样本/接线冻结提交1624aa3；样本SHA保持89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87。typecheck/arch/build PASS；默认967/967（22631ms），真实本地Chromium121/121（283348ms），其中新增双来源名称前缀在真实本地浏览器读到HIGH并在预约导航前停止；指标/缺证/去泄漏/禁止日期的5项控制通过。完整浏览器日志中的预检字样属于本地Fixture合同，绝非本轮真实来源预检。
 
 原66份输入与冻结源码/配置逐一核SHA不变；新增仅src/eval和Harness，没有生产Adapter、Prompt、身份或交付规则修改。原P2-2模型账本/Gold未改。保存全部原日志（含初始调试失败），不把合成控制当真实平台结果。推送后停止等复核；0真实模型/来源访问，后续预算未使用。
+
+## 2026-10-20 approved execution preparation
+
+Current execution status supersedes the earlier pending preparation above: integrated Context15 recheck5/5 PASS (13/13 direct choices,5 model calls,0 websites). Tabelog-only30 Gold +5 controls are now prepared under the reviewer-approved sample SHA. Source-specific eval admission and403/429 environment classification are red/green; typecheck/arch/default972/972/build green, production browser unchanged. Before any source read the new outer/321 hashes are committed. [Current phase report](live-20261020/report.md); no source/benchmark model call yet.
+
+
+## 2026-10-20 第4项结果与含义
+
+本轮第4项（Tabelog方法A）已完成：30家Gold各认证一次，最终29 VERIFIED/1 DROPPED；29家评分中12 CORRECT（41.4%）、15 NOT_FOUND、2 UNCERTAIN、0 WRONG_ACCEPTED。5家对照2 REVIEW_REQUIRED/3 UNCERTAIN，不计正确率。方法A35模型；前置5条选店回放全ACCEPTABLE、13/13直接门店页，合计40模型。Google/完整Live/方法B新增均0，TableCheck未跑。当前独立网络审计保留64组会话/完整请求链缺证，不能宣称总体S0边界已验证。
+
+本次Tabelog既有有界解析仅12/29通过，名称解析仍是实际缺口。本批全部已完成样本最终文档HTTP200，0次限流／繁忙暂停；14次rstLst请求的最终URL已离开列表路径（原始search诊断保留），多个不同店名落到同一地区首页／相同结果，优先值得检查检索是否真正落地。15个NOT_FOUND不能解释成“平台上没有店”：所有评分Gold已独立认证存在。英文组8/22正确、日文组4/7正确，是暴露小样本描述，不能证明换语言一定有效。
+
+对P2-2：继续优先利用已观察到的直接门店入口有明确价值；如要继续名称解析改进，应先检验检索落地，再分别验证规范化、换语言或其他检索线索，不能用放宽电话／身份核对换命中率。相对收益尚无A/B干预证据；方法B没有启动。TableCheck本轮未测，不推断它的难度或网络状态。
+
+
+Publication after execution preserves concurrent remoteState18/P2-1c and its independently owned probe evidence. Name benchmark remains bound to1b4cfda/production8ecfcfc, not replayed. Fresh final merged gates978/978 +122/122 all green; original22/22 evaluator calibration retained unchanged. [Details](live-20261020/report.md#publication-merge-after-all-sourcemodel-work-ended).

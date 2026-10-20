@@ -1,0 +1,62 @@
+{
+  "sampleId": "nr-003",
+  "status": "VERIFIED",
+  "google": {
+    "name": "Washoku Dining Hana Kagura",
+    "address": "3-chōme-1 Kagurazaka, Shinjuku City, Tokyo 162-0825, Japan",
+    "phone": "03-3260-0767",
+    "coordinates": {
+      "lat": 35.702148699999995,
+      "lng": 139.7404692
+    }
+  },
+  "expected": {
+    "outletId": "13021574",
+    "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13021574/"
+  },
+  "observed": {
+    "phones": [
+      "+81-3-3260-0767",
+      "050-5592-1398",
+      "03-3260-0767"
+    ],
+    "addresses": [
+      "1620825 Tokyo Kagurazaka Shinjuku Tokyo ",
+      "東京都新宿区神楽坂3-1 Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-3-3260-0767",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1620825 Tokyo Kagurazaka Shinjuku Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "050-5592-1398",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都新宿区神楽坂3-1 Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      },
+      {
+        "field": "phone",
+        "value": "03-3260-0767",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13021574/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": "+81-3-3260-0767",
+  "addressMatch": null,
+  "reason": "Independent exact public phone or full address matches Google",
+  "error": null
+}

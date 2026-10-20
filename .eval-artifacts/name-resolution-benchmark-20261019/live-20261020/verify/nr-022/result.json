@@ -1,0 +1,62 @@
+{
+  "sampleId": "nr-022",
+  "status": "VERIFIED",
+  "google": {
+    "name": "Sushi and Tempura Iwai Kichijoji",
+    "address": "Japan, 〒180-0004 Tokyo, Musashino, Kichijōji Honchō, 1-chōme−9−９ 寿楽ビル 2F-D",
+    "phone": "0422-27-1303",
+    "coordinates": {
+      "lat": 35.7044875,
+      "lng": 139.57989890000002
+    }
+  },
+  "expected": {
+    "outletId": "13282321",
+    "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13282321/"
+  },
+  "observed": {
+    "phones": [
+      "+81-42-227-1303",
+      "050-5600-1993",
+      "042-227-1303"
+    ],
+    "addresses": [
+      "1800004 Tokyo Kichijoji Honcho Musashino Tokyo ",
+      "東京都武蔵野市吉祥寺本町1-9-9 壽楽ビル 2F-D Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-42-227-1303",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1800004 Tokyo Kichijoji Honcho Musashino Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "050-5600-1993",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都武蔵野市吉祥寺本町1-9-9 壽楽ビル 2F-D Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      },
+      {
+        "field": "phone",
+        "value": "042-227-1303",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": "+81-42-227-1303",
+  "addressMatch": null,
+  "reason": "Independent exact public phone or full address matches Google",
+  "error": null
+}

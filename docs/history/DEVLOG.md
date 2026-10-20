@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.193
+- Document revision: 4.195
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4060,6 +4060,18 @@ current executable / 完成十次真实只读发现探测，不代表完整用�
 Checkpoint C offline integration starts from origin13c93a3, sequentially merges P2-2 7dfeb69 and P2-3 89e0dfb (41d677c/5309545). All13 conflicted paths preserve both behaviors/history/tests; combined Context@15, Prompt@27, State@17, Evaluator@30/rubric@26. Five gates PASS: typecheck/arch/build, default972/972 and local Chromium121/121. Original22 calibration retains22/22 outcome types,20/20 normal S0 declarations,8/8 delivery subtypes,0 false qualified; boundary9 ABSENT/13 historical gaps remain distinct. All354 frozen hashes and both branch test inventories verified. No websites/models/Google/probes/Live or name-resolution item4; primary user drafts/INDEX untouched. Independent integration branch only, pushed under explicit user authorization; no source/main merge. [Report](../../.eval-artifacts/checkpoint-c-integration-20261020/report.md).
 
 Concurrent remote review305d1e0 was synchronized verbatim after the feature merges (38 review-only lines,0 conflicts). src/package and all354 frozen hashes remain unchanged from5309545; the same five gates and22 calibration apply. No P2-1c implementation or new calls.
+
+## DEV-2026-10-20-CHECKPOINT-C-SELECTION-NAME-BENCHMARK
+
+Integrated branch8ecfcfc review read. Freeze1c08f4c and explicit specific-payload human approval precede5 actual DeepSeek selection replays: all ACCEPTABLE, Kagurazaka1/1, Shibuya3/3,0133control1/1, direct13/13. Context15/current Prompt27; original event prefixes supply commercial facts, but none of these historical turns has a price fact (no invented prices).0 websites/Google/actions/Live during replay. Tabelog benchmark now prepared:30Gold+5controls, TableCheck7 deferred; frozen sample89ce49a4 retained. Eval-only source admission removes cross-source readiness dependency,403/429 are ENV, both valid red/green. Final four code gates PASS (972/972), local browser121/121 reused because production browser/prefix unchanged. Outer11 offline controls and321 input/source/config hashes. Gold once/30s; source block10m and3/day stop; methodA<=150 and3/subject; methodB disabled. [Selection report](../../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md), [benchmark phase](../../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md). Real source work starts only after this freeze commit; final results follow in the same entry.
+
+
+Gold phase2260cc8 subsequently completed30 once-onlyHTTP200 reads (0 models), min gap30.032s; original28/2 automatic certificate preserved, manual full-address comparison before A yields29VERIFIED/1DROPPED. User-approved eval identity-stop patch closes swallowed-diagnostic continuation: strengthened existing default test red(select)→green(no controls), local Chromium identity prefix green, production unchanged. Fresh five gates PASS972/972 +121/121 (279333ms). MethodA-only390 SHA freeze and13 offline controls retain30 prior reads/5 replay calls; public-payload authorization recorded,34 subjects planned/≤150 models. No MethodA call yet. Parallel remote changes deferred until this frozen execution ends.
+
+
+Final execution:30Gold once(allHTTP200),29VERIFIED/1DROPPED fixed before A;34/34 methodA subjects complete at1b4cfda. Gold12/29 CORRECT,15NOT_FOUND,2UNCERTAIN,0WRONG_ACCEPTED; controls2REVIEW_REQUIRED/3UNCERTAIN unscored.35 actual deepseek-flash calls(≤3/subject),5 selection calls,total40; Google/fullLive/B0. Median32530.5ms,max61442ms;63 logical gaps minimum30.025s,0source blocks.390 current/321 historical SHA,66 original input SHA,35 normalized paid-request SHA and unchanged30Gold ledger prefix verified. Independent response audit0 recorded violations but64 session/request gaps remain NOT_EVALUATED.14 list-request final URLs leave rstLst; record observation without attributing language/phone-rule cause. Root and phase reports include all result/artifact/raw/model paths and area/name-shape groups. Source execution finished before any parallel remote integration; no rerun or new call.
+
+Publication-only remote merge after source completion preservesfe9b3fc and State18/P2-1c, with5 document conflicts resolved retaining both complete bodies/indices; all236 raw benchmark files and18 replay files unchanged. Fresh merged five gates978/978 +122/122 PASS.11 independent evaluator files unchanged; remote22/22 types and20/20 S0 calibration reused. Current State18/Task16/BrowserPrompt17; original name run remains frozen1b4cfda/State17. No extra model/source calls or source/main merge; publication-retention.json and report document scope.
 
 <a id="dev-2026-10-20-p21c-region-entrance"></a>
 ## DEV-2026-10-20-P21C-REGION-ENTRANCE

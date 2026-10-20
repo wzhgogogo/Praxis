@@ -41,7 +41,7 @@ export interface NameResolutionObservation {
 }
 export function nameResolutionFailureCategory(result:NameResolutionObservation){
  const reason=result.failure??'';
- if(/SOURCE_BUSY|503|RATE_LIMIT/.test(reason))return 'BUSY_OR_RATE_LIMIT';
+ if(/SOURCE_BUSY|SOURCE_HTTP_(?:403|429)|503|RATE_LIMIT/.test(reason))return 'BUSY_OR_RATE_LIMIT';
  if(/TIMEOUT/.test(reason))return 'TIMEOUT';
  if(/BENCHMARK_FORM_BOUNDARY/.test(reason))return 'READ_BOUNDARY';
  if(/AMBIGUOUS|MULTIPLE/.test(reason))return 'AMBIGUOUS_RESULTS';
@@ -63,7 +63,7 @@ export function evaluateNameResolution(sample:NameResolutionSample,result:NameRe
   else if(returned.platform===sample.platform&&returned.outletId===sample.expected.outletId){verdict='CORRECT';reason='Independent URL ID equals Gold and production identity accepted';}
   else{verdict='WRONG_ACCEPTED';reason='Accepted another outlet ID';}
  }else if(!result.accepted){
-  if(/SOURCE_BUSY|503|RATE_LIMIT|TIMEOUT|BROWSER_TIMEOUT/.test(result.failure??'')){verdict='ENV_FAILURE';reason=result.failure!;}
+  if(/SOURCE_BUSY|SOURCE_HTTP_(?:403|429)|503|RATE_LIMIT|TIMEOUT|BROWSER_TIMEOUT/.test(result.failure??'')){verdict='ENV_FAILURE';reason=result.failure!;}
   else if(result.searchCompleted&&sample.expected&&!result.observedOutletUrls.some(url=>{const x=benchmarkOutlet(url);return x?.platform===sample.platform&&x.outletId===sample.expected!.outletId;})){verdict='NOT_FOUND';reason='Gold absent from this bounded search result';}
   else if(result.observedOutletUrls.length){verdict='UNCERTAIN';reason=result.failure??'Identity rejected or insufficient';}
   else if(result.searchCompleted){verdict='NOT_FOUND';reason='No outlet found within the recorded search';}

@@ -1,0 +1,62 @@
+{
+  "sampleId": "nr-008",
+  "status": "VERIFIED",
+  "google": {
+    "name": "Shibuya Kappo Sancho",
+    "address": "6-1 Maruyamachō, Shibuya, Tokyo 150-0044, Japan",
+    "phone": "03-6455-1363",
+    "coordinates": {
+      "lat": 35.6576133,
+      "lng": 139.6948873
+    }
+  },
+  "expected": {
+    "outletId": "13160273",
+    "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13160273/"
+  },
+  "observed": {
+    "phones": [
+      "+81-3-6455-1363",
+      "050-5872-4033",
+      "03-6455-1363"
+    ],
+    "addresses": [
+      "1500044 Tokyo Maruyamacho Shibuya Tokyo ",
+      "東京都渋谷区円山町6-1 Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-3-6455-1363",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1500044 Tokyo Maruyamacho Shibuya Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "050-5872-4033",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都渋谷区円山町6-1 Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      },
+      {
+        "field": "phone",
+        "value": "03-6455-1363",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": "+81-3-6455-1363",
+  "addressMatch": null,
+  "reason": "Independent exact public phone or full address matches Google",
+  "error": null
+}

@@ -1,0 +1,23 @@
+--- a/src/eval/restaurant/agent-loop/name-resolution-method-a.ts
++++ b/src/eval/restaurant/agent-loop/name-resolution-method-a.ts
+@@ -26,15 +26,16 @@
+  const started=Date.now(),pages:BrowserSnapshot[]=[],diagnostics:unknown[]=[],trace:BrowserExecutionDiagnostic[]=[];
+  let identityStop=false,formStop=false;
+  const noForm=(url:string)=>{if(/\/(?:reserve|booking|checkout|payment|cancel)(?:\/|[?#]|$)/i.test(new URL(url).pathname)){formStop=true;throw Error('BENCHMARK_FORM_BOUNDARY');}};
++ const identityOnly=()=>{if(identityStop)throw Error('BENCHMARK_IDENTITY_COMPLETE');};
+  const runtime:BrowserRuntime={...(ports.runtime.readNetworkBoundaryCapability?{readNetworkBoundaryCapability:ports.runtime.readNetworkBoundaryCapability}:{}),openSession:async input=>{
+   const session=await ports.runtime.openSession(input);
+   return new Proxy(session,{get(target,key){
+-   if(key==='snapshot')return async()=>{const page=await target.snapshot();pages.push(structuredClone(page));return page;};
++   if(key==='snapshot')return async()=>{identityOnly();const page=await target.snapshot();pages.push(structuredClone(page));return page;};
+    if(key==='navigate'||key==='prepareNavigation'||key==='prepareObservedNavigation'){
+-    const original=target[key];return original?async(url:string,options?:never)=>{noForm(url);await original.call(target,url,options);}:undefined;
++    const original=target[key];return original?async(url:string,options?:never)=>{identityOnly();noForm(url);await original.call(target,url,options);}:undefined;
+    }
+-   if(key==='openLink'&&target.openLink)return async(ref:string,href?:string,options?:never)=>{if(!href)throw Error('Unbound public link');noForm(href);await target.openLink!(ref,href,options);};
+-   const value=Reflect.get(target,key);return typeof value==='function'?value.bind(target):value;
++   if(key==='openLink'&&target.openLink)return async(ref:string,href?:string,options?:never)=>{identityOnly();if(!href)throw Error('Unbound public link');noForm(href);await target.openLink!(ref,href,options);};
++   const value=Reflect.get(target,key);return typeof value==='function'?((...args:unknown[])=>{if(key!=='close')identityOnly();return value.apply(target,args);}):value;
+   }});
+  }};
+  const executor=new BrowserTaskExecutor(runtime,{maxAutomaticElapsedMs:300_000,maxOperationsPerCandidate:24,maxModelCallsPerCandidate:3,maxModelCallsTotal:3,

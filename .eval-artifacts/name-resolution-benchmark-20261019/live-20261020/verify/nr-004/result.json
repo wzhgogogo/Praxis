@@ -1,0 +1,56 @@
+{
+  "sampleId": "nr-004",
+  "status": "VERIFIED",
+  "google": {
+    "name": "鮨処 みこし",
+    "address": "9 13 1, １丁目-１３-9 吉祥寺本町 武蔵野市 東京都 180-0004, Japan",
+    "phone": "0422-21-0263",
+    "coordinates": {
+      "lat": 35.705042,
+      "lng": 139.58093399999998
+    }
+  },
+  "expected": {
+    "outletId": "13034967",
+    "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13034967/"
+  },
+  "observed": {
+    "phones": [
+      "+81-422-21-0263",
+      "0422-21-0263"
+    ],
+    "addresses": [
+      "1800004 Tokyo Kichijoji Honcho Musashino Tokyo ",
+      "東京都武蔵野市吉祥寺本町1-13-9 山本ビル １Ｆ・２Ｆ Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-422-21-0263",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1800004 Tokyo Kichijoji Honcho Musashino Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "0422-21-0263",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都武蔵野市吉祥寺本町1-13-9 山本ビル １Ｆ・２Ｆ Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": "+81-422-21-0263",
+  "addressMatch": null,
+  "reason": "Independent exact public phone or full address matches Google",
+  "error": null
+}

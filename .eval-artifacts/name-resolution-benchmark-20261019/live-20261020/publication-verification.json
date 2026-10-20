@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "parents": {
+    "localResults": "3db14706a2f1f45fd2fd12ed39dd411fe09b0475",
+    "remote": "fe9b3fc70138dd03cf01cee9624fcde9de087ee6"
+  },
+  "versions": {
+    "restaurantState": 18,
+    "taskDefinition": 16,
+    "browserPrompt": 17,
+    "browserActionSchema": 11,
+    "agentContext": 15,
+    "agentPrompt": 27,
+    "agentActionSchema": 4,
+    "retrievalPrompt": 5,
+    "retrievalSchema": 2,
+    "priceFacts": 1,
+    "evaluator": 30,
+    "rubric": 26
+  },
+  "gates": {
+    "typecheck": "PASS",
+    "archCheck": "PASS",
+    "npmTest": {
+      "pass": 978,
+      "fail": 0
+    },
+    "build": "PASS",
+    "browserFixture": {
+      "pass": 122,
+      "fail": 0
+    }
+  },
+  "benchmarkFreezeCommit": "1b4cfda05b9ba88a2eeebcb16cd9beded82f7aa8",
+  "models": 40,
+  "extraCallsDuringPublication": 0,
+  "documentValidation": {
+    "scope": "New benchmark/report links and current selection/benchmark STATUS references",
+    "checked": 5,
+    "status": "PASS",
+    "existingUnchangedReferenceNotPresentInThisWorktree": "../.eval-artifacts/p1-e-early-20261009/report.md",
+    "existingReferenceAction": "Preserved; not introduced by this task, outside current change scope"
+  }
+}

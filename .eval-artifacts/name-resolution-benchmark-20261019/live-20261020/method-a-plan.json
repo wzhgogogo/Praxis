@@ -1,0 +1,35 @@
+{
+  "mode": "LIVE_READ_ONLY_NAME_RESOLUTION",
+  "sampleSha256": "89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87",
+  "selectionSummary": ".eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/summary.json",
+  "platform": "TABELOG",
+  "gold": "Each frozen Gold public outlet URL opened once; independent exact phone/full-address comparison, otherwise DROPPED; no retries or replacements",
+  "controls": 5,
+  "tablecheckSkipped": 7,
+  "method": "A, existing production name/identity prefix only",
+  "maxModelCalls": 150,
+  "maxPerSubject": 3,
+  "sourceIntervalMs": 30000,
+  "sourceCooldownMs": 600000,
+  "dayTimeZone": "Asia/Shanghai",
+  "sameDaySourceBlockLimit": 3,
+  "sourceBlockStatuses": [
+    403,
+    429,
+    503
+  ],
+  "stop": "Wrong accepted outlet immediately; any write/form/foreign document attempt; three source blocks/day. No method B. No inventory/booking/full Live.",
+  "productionCodeChange": false,
+  "evalOnlyChange": "Admission checks only the planned source; no fake TableCheck status",
+  "phase": "method-a",
+  "certificationPath": ".eval-artifacts/name-resolution-benchmark-20261019/live-20261020/verify/certified-summary.json",
+  "verifiedGold": 29,
+  "droppedGold": [
+    "nr-023"
+  ],
+  "runnable": 34,
+  "priorVerificationCommit": "2260cc81ecc56128be294801ff77257a600dee7b",
+  "freezeChange": "User-approved eval identity-stop correction; original Gold freeze and raw outputs preserved",
+  "selectionReplaysRepeated": false,
+  "goldReadsRepeated": false
+}

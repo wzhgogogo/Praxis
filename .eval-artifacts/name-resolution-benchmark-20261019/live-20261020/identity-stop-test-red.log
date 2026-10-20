@@ -1,0 +1,35 @@
+✔ name benchmark uses independent literal IDs, requires raw selected evidence and stops on wrong acceptance (1.239ms)
+✔ frozen name samples have exact declared counts and no URL/Gold can reach method input (0.778542ms)
+✔ name benchmark cannot admit live before sample approval and healthy source evidence (0.130125ms)
+✖ production name prefix succeeds for both sources without using a known URL or operating availability (6.35625ms)
+✔ scripted browser decisions cannot see placeholder dates or fill request controls in a name-only task (3.793375ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 284.566875
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/name-resolution-benchmark.test.ts:1:5228
+✖ production name prefix succeeds for both sources without using a known URL or operating availability (6.35625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'select'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/integration-checkpoint-c/Praxis-Zhixing/src/eval/restaurant/agent-loop/name-resolution-benchmark.test.ts:59:72)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'select' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }

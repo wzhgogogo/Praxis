@@ -1,0 +1,56 @@
+{
+  "sampleId": "nr-029",
+  "status": "DROPPED",
+  "google": {
+    "name": "焼肉 うし幸",
+    "address": "Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 2-chōme−13−３ GEMS中目黒 7F",
+    "phone": "050-5459-5324",
+    "coordinates": {
+      "lat": 35.6428625,
+      "lng": 139.69848829999998
+    }
+  },
+  "expected": {
+    "outletId": "13312085",
+    "sourceUrl": "https://tabelog.com/tokyo/A1317/A131701/13312085/"
+  },
+  "observed": {
+    "phones": [
+      "+81-50-5459-5323",
+      "050-5459-5323"
+    ],
+    "addresses": [
+      "1530051 Tokyo Kamimeguro Meguro Tokyo ",
+      "東京都目黒区上目黒2-13-3 GEMS中目黒 7F Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-50-5459-5323",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1530051 Tokyo Kamimeguro Meguro Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "050-5459-5323",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都目黒区上目黒2-13-3 GEMS中目黒 7F Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13312085/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": null,
+  "addressMatch": null,
+  "reason": "No independently confirmed matching phone or full address; excluded from scoring",
+  "error": null
+}

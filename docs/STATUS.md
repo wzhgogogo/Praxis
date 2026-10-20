@@ -9,6 +9,8 @@
 
 - **2026-10-20 检查点 C 离线运行准备：** 独立准备分支完成六例×三次交错顺序、500秒/50模型/40Google、S0停批/有限重跑、24h见证认证与四层报告脚本；完整 Runner 脚本化传输演练通过，0外站/真实模型/Live/认证。五门禁978/978、Chromium122/122及外层8/8通过；@30/rubric@26复用。同步fe9b3fc仅证据变更，生产与输入不变；推送准备分支后等复核。TableCheck独立运行后复查缺证仍停批未评。[交付报告](../.eval-artifacts/checkpoint-c-live-20261020/report.md)。
 
+- **2026-10-20 Context15选店回放与Tabelog方法A完成：**5条独立标注种子全ACCEPTABLE、13/13直接门店页。Gold30家各认证一次、最终29VERIFIED/1DROPPED；方法A34/34完成，Gold12/29正确、15未找到、2不确定、0找错；对照2待复核/3不确定，不计分。模型35+回放5=40，Google/完整Live/方法B新增0。评测身份停止有效红→绿，五门禁972/972+121/121；321旧/390新SHA及66历史输入不变。网络审计64组仍缺会话/完整请求证据，不作总体S0认证。冻结1b4cfda在原8ecfcfc生产基础运行，平行P2-1c合入前结束。运行后仅为发布保留远端State18/P2-1c并行提交；合并后五门禁978/978+122/122通过，未重跑模型或源站。等待独立复核。[选店报告](../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md)、[名称基准](../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md)。
+
 - **2026-10-20 P2-1c五次真实发现探测验收通过：** 神乐坂2/2进入A1309/A130905，中目黑2/2进入A1317/A131701；h001单次保持TL4/TC5及见证首批。五例均无失败码/READ_BUDGET_EXCEEDED，20模型均成功，23 Google（含5预检）；发现账本累计347/450模型、59/60探测、171 Google。仅存储额度经用户批准60→65MB，其他预算与生产源码不变；0重试/完整Live/外写，原见证未续期。录制manifest仍NOT_REPLAYABLE，非完整任务签收。[报告](../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)。推送后等复核。
 
 - **2026-10-20 P2-1c 合入 Checkpoint C，离线验收完成：** 以8ecfcfc为基线合入已复核ddfdedd，源码/配置冻结d6d989b；State@18／TaskDefinition@16，保留价格/条件状态与地区提前读取，Browser Prompt@17。五门禁PASS：默认978/978、本地Chromium122/122，type/arch/build通过；原22份校准结果类型22/22、S0声明20/20。真实网站/模型/探测/Live均0。 后续5次探测等待用户通知；见证最早2026-10-21 10:47北京过期，不续期。[本轮报告](../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。

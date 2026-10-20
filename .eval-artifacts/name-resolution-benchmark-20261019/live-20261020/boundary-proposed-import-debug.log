@@ -1,0 +1,22 @@
+node:internal/modules/cjs/loader:1369
+  const err = new Error(message);
+              ^
+
+Error: Cannot find module './name-resolution-benchmark.js'
+Require stack:
+- /private/tmp/name-resolution-method-a-boundary-proposed.ts
+    at node:internal/modules/cjs/loader:1369:15
+    at w._resolveFilename (file:///Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/tsx/dist/register-UucfuICO.mjs:2:16192)
+    at nextResolveSimple (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/tsx/dist/register-BcxQ17Jo.cjs:10:1006)
+    at /Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/tsx/dist/register-BcxQ17Jo.cjs:9:4679
+    at /Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/tsx/dist/register-BcxQ17Jo.cjs:9:3981
+    at resolveTsPaths (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/tsx/dist/register-BcxQ17Jo.cjs:10:759)
+    at Module._resolveFilename (/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/node_modules/tsx/dist/register-BcxQ17Jo.cjs:10:1199)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Module._load (node:internal/modules/cjs/loader:1179:37) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/private/tmp/name-resolution-method-a-boundary-proposed.ts' ]
+}
+
+Node.js v24.4.1
