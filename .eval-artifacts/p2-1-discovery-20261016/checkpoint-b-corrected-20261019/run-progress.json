@@ -1,28 +1,27 @@
 {
-  "status": "B_BROWSER_SOURCE_READINESS_FROZEN",
-  "at": "2026-10-20T04:55:29.727824+00:00",
+  "status": "B_STOPPED_AFTER_BROWSER_SOURCE_READINESS_CONTINUATION",
+  "at": "2026-10-20T05:07:42.462589+00:00",
   "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
   "completed": [
     0,
     1,
     2,
     3,
-    4
+    4,
+    8
   ],
-  "formalProbesAdded": 5,
-  "modelCallsAdded": 27,
-  "modelCumulative": 305,
-  "probeCumulative": 49,
-  "googleCumulative": 133,
+  "formalProbesAdded": 6,
+  "modelCallsAdded": 31,
+  "modelCumulative": 309,
+  "probeCumulative": 50,
+  "googleCumulative": 136,
   "fullLive": 0,
   "stop": {
-    "code": "PREFLIGHT_FAILURE_LIMIT",
-    "index": 5,
-    "checkpointPreflightFailures": 5,
-    "sourceIds": []
+    "code": "PREFLIGHT_EVIDENCE_GAP",
+    "index": 9
   },
-  "remainingFormalRuns": 5,
-  "automaticRetryAllowed": "Only one per-item 403/503/busy retry after>=15min under current explicit approval. Other failures stop.",
+  "remainingFormalRuns": 4,
+  "automaticRetryAllowed": false,
   "report": "report.md",
   "additionalRecheck": {
     "notBefore": "2026-10-19T13:29:14Z",
@@ -39,8 +38,8 @@
     "sourceDataPreflight": "NOT_RUN",
     "automaticRetryAllowed": false
   },
-  "preflightFailures": 5,
-  "sourceDataPreflight": "PENDING_NEW_OUTER_RUN",
+  "preflightFailures": 6,
+  "sourceDataPreflight": "TABELOG_HTTP429_ENV_FAILURE_TABLECHECK122_GOOGLE1",
   "userContinuation": {
     "outerCommit": "2f088b88f90da33c7ae97d25e78c2b5e342f5596",
     "summary": "user-resume-20261019/attempt-summary.json",
@@ -55,7 +54,7 @@
     "models": 0,
     "formalProbes": 0
   },
-  "activeFreezeCommit": "PENDING_COMMIT_RECEIPT",
+  "activeFreezeCommit": "31866be3fbe104ccf696361e8f4a50edc14aaf3f",
   "previousStopRetainedInLedgerHistory": true,
   "userRetry5": {
     "outerCommit": "76137e814518a7571050c54e70925a20bea85d67",
@@ -65,9 +64,9 @@
     "formalProbes": 0,
     "googleSearchAttempts": 1
   },
-  "networkReadiness": "PENDING_OTHER_THREE_TARGETS",
+  "networkReadiness": "PASSED_THREE_TARGETS",
   "witnessRefresh": "start-b-20261020/witnesses.certified.json",
-  "formalRunsCompletedInCurrentBatch": 5,
+  "formalRunsCompletedInCurrentBatch": 6,
   "ledgerAuthority": "/Users/wangzhour/.codex/worktrees/p21-checkpoint-b-corrected/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/ledger.json",
   "launchSummary": "start-b-20261020/launch-summary.json",
   "retryPlan": "user-retry-10m-20261020/approval.json",
@@ -87,5 +86,15 @@
   ],
   "browserReadinessResume": "browser-ready-resume-20261020/approval.json",
   "outerFreezeSha256": "8e189d3a51e6229bed31c3e465b42b22db2322a0562bfe14c20cd51dc33c4bb9",
-  "outerSha256": "52543ba3a0c9f4885e929ca7a74668ff46b9a00256cbc969ea7d43a22751041c"
+  "outerSha256": "52543ba3a0c9f4885e929ca7a74668ff46b9a00256cbc969ea7d43a22751041c",
+  "nextIndex": null,
+  "nextNotBeforeUTC": null,
+  "browserReadinessResumeSummary": "browser-ready-resume-20261020/attempt-summary.json",
+  "remainingExecutionOrder": [
+    9,
+    6,
+    7,
+    5
+  ],
+  "latestStopFacts": "browser-ready-resume-20261020/stop-facts.json"
 }

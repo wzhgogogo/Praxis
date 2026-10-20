@@ -1,14 +1,15 @@
 {
-  "models": 27,
-  "google": 10,
-  "preflightGoogle": 6,
-  "preflightFailures": 5,
+  "models": 31,
+  "google": 11,
+  "preflightGoogle": 8,
+  "preflightFailures": 6,
   "completed": [
     0,
     1,
     2,
     3,
-    4
+    4,
+    8
   ],
   "attempts": [
     {
@@ -483,16 +484,109 @@
       "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/2026-10-20T04-19-41-398Z-e1b5af96-bc2f-45d9-abb6-6658dd5c4e10.result.json",
       "networkPreflightResultSha256": "8662502bd34529fb4dc407079fc6394e993dfbe5cca2acf6c77dbd068e9052bb",
       "finishedAt": "2026-10-20T04:19:46.421813+00:00"
+    },
+    {
+      "index": 8,
+      "caseId": "p2-kf-h002-20261031",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T04:56:20.156850+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020",
+      "status": "PROBE_RECORDED",
+      "outerApprovalSha256": "2c0974fe5df707cc1cf634173a9c0b1e572476b6bda9a11c544f068421117dd2",
+      "outerFreezeCommit": "31866be3fbe104ccf696361e8f4a50edc14aaf3f",
+      "policyAttempt": 1,
+      "notBeforeEpoch": 1792470286.421813,
+      "exit": 0,
+      "preflightGoogle": 1,
+      "retrySignals": [],
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020/probe-summary.json",
+      "summarySha256": "ecff2fcb5bddb6afa95bbb227d09575b5dd31e8b497b082bb0c8be02e7665a0d",
+      "models": 4,
+      "formalProbeStarted": true,
+      "google": 1,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "witnessInFirstBatch": true,
+      "inRadiusParsed": 30,
+      "finishedAt": "2026-10-20T04:58:00.506198+00:00"
+    },
+    {
+      "index": 9,
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T05:03:46.223562+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-browser-ready-20261020",
+      "status": "ENV_FAILURE",
+      "outerApprovalSha256": "2c0974fe5df707cc1cf634173a9c0b1e572476b6bda9a11c544f068421117dd2",
+      "outerFreezeCommit": "31866be3fbe104ccf696361e8f4a50edc14aaf3f",
+      "policyAttempt": 1,
+      "notBeforeEpoch": 1792472580.506198,
+      "exit": 1,
+      "preflightGoogle": 1,
+      "retrySignals": [],
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [
+        "tabelog"
+      ],
+      "failureCode": "ENV_FAILURE",
+      "preflightEvidence": [
+        {
+          "sourceId": "tabelog",
+          "check": {
+            "sourceId": "tabelog",
+            "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+          },
+          "count": null,
+          "responseStatus": 429,
+          "reason": "NO_RESPONSE",
+          "detail": "HTTP_STATUS",
+          "elapsedMs": 999,
+          "outcome": "FAILED",
+          "countsTowardStop": true
+        },
+        {
+          "sourceId": "tablecheck",
+          "check": {
+            "sourceId": "tablecheck",
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+          },
+          "count": 122,
+          "responseStatus": 200,
+          "reason": null,
+          "elapsedMs": 4227,
+          "outcome": "NONEMPTY",
+          "countsTowardStop": false
+        },
+        {
+          "sourceId": "google-places",
+          "check": {
+            "sourceId": "google-places",
+            "textQuery": "restaurants near Ginza, Tokyo"
+          },
+          "count": 1,
+          "responseStatus": null,
+          "reason": null,
+          "elapsedMs": 1261,
+          "outcome": "NONEMPTY",
+          "countsTowardStop": false
+        }
+      ],
+      "countsTowardStop": true,
+      "finishedAt": "2026-10-20T05:03:56.504203+00:00"
     }
   ],
   "stop": {
-    "code": "PREFLIGHT_FAILURE_LIMIT",
-    "index": 5,
-    "checkpointPreflightFailures": 5,
-    "sourceIds": []
+    "code": "PREFLIGHT_EVIDENCE_GAP",
+    "index": 9
   },
   "formalLiveRuns": 0,
-  "compressedBytesEstimate": 49582625,
+  "compressedBytesEstimate": 50634490,
   "stopHistory": [
     {
       "stop": {
@@ -584,13 +678,30 @@
       "resolution": "USER_REQUESTED_B_CONTINUATION_AFTER_HOST_ROUTING_REPAIR",
       "approvalSha256": "7060ae776c3204e0e152b4767b0fd118f46a5aee9cdec711de9f944f3d8cd168",
       "at": "2026-10-20T04:06:53.039610+00:00"
+    },
+    {
+      "stop": {
+        "code": "PREFLIGHT_FAILURE_LIMIT",
+        "index": 5,
+        "checkpointPreflightFailures": 5,
+        "sourceIds": []
+      },
+      "resolution": "USER_APPROVED_BROWSER_DATA_READINESS_AND_BOUNDED_COOLDOWN",
+      "approvalSha256": "2c0974fe5df707cc1cf634173a9c0b1e572476b6bda9a11c544f068421117dd2",
+      "at": "2026-10-20T04:56:20.156652+00:00"
     }
   ],
   "userResume": {
-    "index": 1,
-    "priorPreflightAttempts": 2,
-    "approvalSha256": "7060ae776c3204e0e152b4767b0fd118f46a5aee9cdec711de9f944f3d8cd168",
-    "at": "2026-10-20T04:06:53.039748+00:00"
+    "index": 8,
+    "order": [
+      8,
+      9,
+      6,
+      7,
+      5
+    ],
+    "approvalSha256": "2c0974fe5df707cc1cf634173a9c0b1e572476b6bda9a11c544f068421117dd2",
+    "at": "2026-10-20T04:56:20.156764+00:00"
   },
   "userResumeHistory": [
     {
@@ -622,6 +733,32 @@
       "priorPreflightAttempts": 1,
       "approvalSha256": "3b8a09038eccbfcfbd6f31b673ba5ca781e54c46c610ba1a44071cfe40e82d25",
       "at": "2026-10-20T03:07:10.201471+00:00"
+    },
+    {
+      "index": 1,
+      "priorPreflightAttempts": 2,
+      "approvalSha256": "7060ae776c3204e0e152b4767b0fd118f46a5aee9cdec711de9f944f3d8cd168",
+      "at": "2026-10-20T04:06:53.039748+00:00"
     }
-  ]
+  ],
+  "activeOuterPolicy": {
+    "approvalSha256": "2c0974fe5df707cc1cf634173a9c0b1e572476b6bda9a11c544f068421117dd2",
+    "freezeCommit": "31866be3fbe104ccf696361e8f4a50edc14aaf3f",
+    "order": [
+      8,
+      9,
+      6,
+      7,
+      5
+    ],
+    "networkTargets": [
+      "DEEPSEEK",
+      "GOOGLE",
+      "TABELOG"
+    ],
+    "spacingSeconds": 300,
+    "retrySeconds": 900,
+    "maxRetriesPerItem": 1
+  },
+  "formalProbeAttemptsStarted": 6
 }

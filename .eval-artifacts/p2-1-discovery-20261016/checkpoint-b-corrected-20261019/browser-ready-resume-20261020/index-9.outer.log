@@ -1,0 +1,82 @@
+{
+  "attempt": {
+    "index": 9,
+    "caseId": "p2-nakameguro-yakiniku-20261030",
+    "repeat": 1,
+    "head": "a37e152b4283d8f407c9650d19200708314e3362",
+    "startedAt": "2026-10-20T05:03:46.223562+00:00",
+    "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-browser-ready-20261020",
+    "status": "ENV_FAILURE",
+    "outerApprovalSha256": "2c0974fe5df707cc1cf634173a9c0b1e572476b6bda9a11c544f068421117dd2",
+    "outerFreezeCommit": "31866be3fbe104ccf696361e8f4a50edc14aaf3f",
+    "policyAttempt": 1,
+    "notBeforeEpoch": 1792472580.506198,
+    "exit": 1,
+    "preflightGoogle": 1,
+    "retrySignals": [],
+    "models": 0,
+    "formalProbeStarted": false,
+    "sourceIds": [
+      "tabelog"
+    ],
+    "failureCode": "ENV_FAILURE",
+    "preflightEvidence": [
+      {
+        "sourceId": "tabelog",
+        "check": {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+        },
+        "count": null,
+        "responseStatus": 429,
+        "reason": "NO_RESPONSE",
+        "detail": "HTTP_STATUS",
+        "elapsedMs": 999,
+        "outcome": "FAILED",
+        "countsTowardStop": true
+      },
+      {
+        "sourceId": "tablecheck",
+        "check": {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+        },
+        "count": 122,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 4227,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "google-places",
+        "check": {
+          "sourceId": "google-places",
+          "textQuery": "restaurants near Ginza, Tokyo"
+        },
+        "count": 1,
+        "responseStatus": null,
+        "reason": null,
+        "elapsedMs": 1261,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      }
+    ],
+    "countsTowardStop": true,
+    "finishedAt": "2026-10-20T05:03:56.504203+00:00"
+  },
+  "models": 31,
+  "completed": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    8
+  ],
+  "formalProbeAttemptsStarted": 6,
+  "stop": {
+    "code": "PREFLIGHT_EVIDENCE_GAP",
+    "index": 9
+  }
+}

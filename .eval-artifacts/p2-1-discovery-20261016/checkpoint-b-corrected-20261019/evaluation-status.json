@@ -1,10 +1,10 @@
 {
   "status": "PARTIAL_STOPPED",
   "planned": 10,
-  "formalStarted": 5,
-  "formalCompleted": 5,
-  "scorableFormalRuns": 5,
-  "recordedPreflights": 13,
+  "formalStarted": 6,
+  "formalCompleted": 6,
+  "scorableFormalRuns": 6,
+  "recordedPreflights": 15,
   "setupFailures": 1,
   "layers": {
     "endToEnd": "FULL_USER_DELIVERY_NOT_EVALUATED_DISCOVERY_FIRST_BATCH_ONLY",
@@ -14,13 +14,13 @@
         1,
         2,
         3,
-        4
+        4,
+        8
       ],
       "notReachedIndices": [
         5,
         6,
         7,
-        8,
         9
       ]
     },
@@ -31,16 +31,17 @@
         "1": "ABSENT",
         "2": "ABSENT",
         "3": "ABSENT",
-        "4": "ABSENT"
+        "4": "ABSENT",
+        "8": "ABSENT"
       }
     },
     "attribution": "H002/HARD correction versus other-nine/P2-1b groups separately reported. Host routing repair and source/model fluctuation prevent single-factor causal certification."
   },
   "diagnosticEvaluator": "NOT_APPLICABLE_FULL_TASK_EVALUATOR: discovery probe uses frozen discovery metrics and independent network rules",
-  "newDecisionCapture": "27_ROWS_EQUAL_MODEL_CALLS_FOR_RECORDED_PROBES",
+  "newDecisionCapture": "31_ROWS_EQUAL_MODEL_CALLS_FOR_RECORDED_PROBES",
   "newBrowserRecording": "ALL_RECORDED_PROBES_SAVED_WITH_SHA",
-  "newModelCalls": 27,
-  "newGoogleDiscoveryCalls": 10,
+  "newModelCalls": 31,
+  "newGoogleDiscoveryCalls": 11,
   "fullLive": 0,
   "latestUserContinuation": {
     "networkReadiness": "FAILED_HTTP503_TABLECHECK",
@@ -64,7 +65,7 @@
     "countablePreflightFailures": 4,
     "cumulativeGoogle": 118
   },
-  "newGoogleSourcePreflightCalls": 6,
+  "newGoogleSourcePreflightCalls": 8,
   "latestLaunch": {
     "formalIndices": [
       0
@@ -123,5 +124,13 @@
     "newModels": 23,
     "newGoogleFormal": 8,
     "newGooglePreflight": 4
+  },
+  "browserReadinessContinuation": {
+    "summary": "browser-ready-resume-20261020/attempt-summary.json",
+    "status": "PARTIAL_STOPPED",
+    "newFormalRecorded": 1,
+    "newModels": 4,
+    "newGoogleFormal": 1,
+    "newGooglePreflight": 2
   }
 }

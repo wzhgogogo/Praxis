@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "mode": "ACTUAL_READ_ONLY_SOURCE_PREFLIGHT_EVIDENCE",
+  "caseId": "p2-kf-h002-20261031",
+  "networkTargets": [
+    "DEEPSEEK",
+    "GOOGLE",
+    "TABELOG"
+  ],
+  "networkAttempts": [
+    {
+      "target": "DEEPSEEK",
+      "status": 200,
+      "outcome": "REACHABLE"
+    },
+    {
+      "target": "GOOGLE",
+      "status": 404,
+      "outcome": "REACHABLE"
+    },
+    {
+      "target": "TABELOG",
+      "status": 200,
+      "outcome": "REACHABLE"
+    }
+  ],
+  "sourceData": [
+    {
+      "sourceId": "tabelog",
+      "count": 20,
+      "status": 200,
+      "outcome": "NONEMPTY"
+    },
+    {
+      "sourceId": "tablecheck",
+      "count": 122,
+      "status": 200,
+      "outcome": "NONEMPTY"
+    },
+    {
+      "sourceId": "google-places",
+      "count": 1,
+      "status": null,
+      "outcome": "NONEMPTY"
+    }
+  ],
+  "networkResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020/2026-10-20T04-56-20-542Z-5b646f0d-27f9-4aed-8c84-faf3573f86d6.result.json",
+  "networkResultSha256": "13cda225eb6a57ed75542b258481e7679f93fb7b77ece76e8dacd00431d3909e",
+  "sourceResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020/source-data-preflight.json",
+  "sourceResultSha256": "20ca3a185a4aaf1eaf96c76b7bd8aa08249c3bbad70c41fb69dae222c2002af6",
+  "scope": "TableCheck readiness based on existing real Chromium search response, not homepage Range GET. These are preflight facts; formal discovery quality separate."
+}

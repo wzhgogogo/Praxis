@@ -1,0 +1,29 @@
+{
+  "status": "ENV_FAILURE",
+  "caseId": "p2-nakameguro-yakiniku-20261030",
+  "phase": "SOURCE_DATA_PREFLIGHT",
+  "sourceId": "tabelog",
+  "responseStatus": 429,
+  "detail": "HTTP_STATUS",
+  "generationModelCalls": 0,
+  "formalProbeStarted": false,
+  "googleSourcePreflightCalls": 1,
+  "tablecheckCount": 122,
+  "tablecheckStatus": 200,
+  "networkTargets": [
+    "DEEPSEEK",
+    "GOOGLE",
+    "TABELOG"
+  ],
+  "sourceResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-browser-ready-20261020/source-data-preflight.json",
+  "sourceResultSha256": "b7ee7c53baa50714d3e7c4d4aec47a1d173929c9294e8e471bd61860e110a353",
+  "networkResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-browser-ready-20261020/2026-10-20T05-03-46-658Z-d7dc50b0-5fd8-41a3-b010-416ba970ce95.result.json",
+  "networkResultSha256": "a5597c877a4cba22d68d19308a832c08780bf50573de77b7ecfc225e08699f95",
+  "outerStop": {
+    "code": "PREFLIGHT_EVIDENCE_GAP",
+    "index": 9
+  },
+  "busyQuoteRecorded": false,
+  "retrySignals": [],
+  "interpretation": "Failed source readiness with saved HTTP429 status. No403/503 or frozen busy-page quote was recorded, so no approved automatic retry was triggered. Historical failure counter is retained but is not this stop trigger. Outer code PREFLIGHT_EVIDENCE_GAP is a generic unmatched-failure branch, not proof that the429status evidence is absent. Cause is not attributed."
+}

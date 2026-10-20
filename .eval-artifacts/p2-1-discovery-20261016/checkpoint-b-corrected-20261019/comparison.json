@@ -4418,7 +4418,335 @@
         ]
       },
       "checkpointB": {
-        "status": "NOT_STARTED"
+        "index": 8,
+        "caseId": "p2-kf-h002-20261031",
+        "resources": {
+          "modelCalls": 4,
+          "browserModelCalls": 4,
+          "google": {
+            "limit": 40,
+            "total": 1,
+            "namedPlaceResolution": 0,
+            "discovery": 1,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "elapsedMs": 85872,
+          "ceilings": {
+            "maxModelCalls": 15,
+            "maxDiscoveryCandidates": 10,
+            "maxGoogleRequests": 40,
+            "maxStructuredReadMs": 30000,
+            "maxAvailabilitySourceBrowserSessions": 3,
+            "maxAvailabilitySourceCandidateMatches": 3,
+            "maxAvailabilityReads": 20,
+            "maxBrowserRuntimeFallbacks": 1,
+            "maxBrowserModelCallsPerCandidate": 20,
+            "maxBrowserModelCallsTotal": 120,
+            "maxBrowserOperationsPerCandidate": 80,
+            "maxFactModelCallsPerCandidate": 4,
+            "maxFactBrowserOperationsPerCandidate": 24,
+            "maxFactBrowserMs": 45000,
+            "maxFactProviderMs": 30000,
+            "maxCandidateBrowserMs": 60000,
+            "maxProviderBrowserMs": 45000,
+            "maxAutomaticBrowserMs": 180000,
+            "maxAgentSteps": 30,
+            "maxRejectedActions": 5
+          }
+        },
+        "pages": 8,
+        "failureCodes": [],
+        "terminationReason": "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED",
+        "witnessInListingBySource": {
+          "tabelog": true,
+          "tablecheck": false,
+          "google-places": false
+        },
+        "witnessInFirstBatchBySource": {
+          "tabelog": true,
+          "tablecheck": false
+        },
+        "googleFirstBatchScope": "NOT_APPLICABLE_NATIVE_DETAILS",
+        "inRadiusParsed": 30,
+        "inRadiusBySource": {
+          "tabelog": 5,
+          "tablecheck": 5,
+          "google-places": 20
+        },
+        "retrievalAttempts": [
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/",
+            "parsedCount": 20,
+            "displayedTotal": 139463,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/",
+            "parsedCount": 20,
+            "displayedTotal": 6249,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/",
+            "parsedCount": 20,
+            "displayedTotal": 2658,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+            "parsedCount": 20,
+            "displayedTotal": 5034,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+            "parsedCount": 20,
+            "displayedTotal": 5034,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": "English",
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/",
+            "parsedCount": 20,
+            "displayedTotal": 414,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "BROWSER_AGENT_OR_SOURCE_PAGINATION",
+            "reason": "OBSERVED_LISTING_CONTINUATION"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "SEARCH_AVAILABILITY_HINT",
+            "keyword": null,
+            "categoryLabel": "800m [ 158 Count ]",
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/?vac_net=1&svd=20261031&svt=1830&svps=2",
+            "parsedCount": 16,
+            "displayedTotal": 158,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "EXECUTOR_AUTHORITATIVE_REQUEST",
+            "reason": "OBSERVED_QUERY_MATCH"
+          },
+          {
+            "sourceId": "tabelog",
+            "type": "SEARCH_AVAILABILITY_HINT",
+            "keyword": null,
+            "categoryLabel": "800m [ 158 Count ]",
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/?vac_net=1&svd=20261031&svt=1830&svps=2",
+            "parsedCount": 16,
+            "displayedTotal": 158,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "EXECUTOR_AUTHORITATIVE_REQUEST",
+            "reason": "OBSERVED_QUERY_MATCH"
+          },
+          {
+            "sourceId": "tablecheck",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.669700299999995&geo_longitude=139.7671399&geo_distance=1km&auto_geolocate=false",
+            "parsedCount": 20,
+            "displayedTotal": null,
+            "observationStatus": "OBSERVED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          },
+          {
+            "sourceId": "google-places",
+            "type": "CATEGORY_OR_GENERAL_LIST",
+            "keyword": null,
+            "categoryLabel": null,
+            "url": "google-places:nearby-search",
+            "parsedCount": null,
+            "displayedTotal": null,
+            "observationStatus": "PLANNED_URL_WITHOUT_COMPLETED_LISTING",
+            "decidedBy": "PLANNER_AND_OBSERVED_REGION_AGENT",
+            "reason": "CURRENT_FIRST_BATCH"
+          }
+        ],
+        "sourceRetrieval": {
+          "tabelog": {
+            "callCount": 1,
+            "latencyMs": 2597,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 66231,
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 4,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Sushi counters are a classic first-date choice and the observed list shows several sushi spots near the 10,000 yen soft budget; expanding to the supplied Sushi category gives a focused, sufficient set.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/"
+                  },
+                  "elapsedMs": 39255,
+                  "parsedCount": 20
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Sushi counters are a classic first-date choice and the observed list shows several sushi spots near the 10,000 yen soft budget; expanding to the supplied Sushi category gives a focused, sufficient set.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/"
+              }
+            },
+            "failureCode": null
+          },
+          "tablecheck": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": 90000,
+            "sourceElapsedMs": 17674,
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "General retrieval: no positive HARD criterion."
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "General retrieval: no positive HARD criterion."
+                  },
+                  "elapsedMs": 4141,
+                  "parsedCount": 20
+                }
+              ]
+            },
+            "failureCode": null
+          },
+          "google-places": {
+            "callCount": 0,
+            "latencyMs": 0,
+            "timeouts": 0,
+            "sourceBudgetMs": null,
+            "sourceElapsedMs": null,
+            "retrieval": null,
+            "failureCode": null
+          }
+        },
+        "planningCalls": [
+          {
+            "sequence": 4,
+            "source": "tabelog",
+            "latencyMs": 2597,
+            "outcome": "SUCCEEDED",
+            "errorCode": null,
+            "timeout": false,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+            "parsedCount": 20,
+            "categoryCount": 57,
+            "proposal": {
+              "choice": "CATEGORY",
+              "keyword": "",
+              "criterionRef": "criterion:0",
+              "categoryUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/",
+              "reason": "Sushi counters are a classic first-date choice and the observed list shows several sushi spots near the 10,000 yen soft budget; expanding to the supplied Sushi category gives a focused, sufficient set."
+            }
+          }
+        ],
+        "planningCallCount": 1,
+        "planningLatencyMs": 2597,
+        "planningTimeouts": 0,
+        "boundary": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        },
+        "unattemptedSourceIds": [],
+        "recordingReplayStatus": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        },
+        "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020/probe-summary.json",
+        "summarySha256": "ecff2fcb5bddb6afa95bbb227d09575b5dd31e8b497b082bb0c8be02e7665a0d",
+        "decisions": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020/probe.decisions.jsonl",
+        "decisionsSha256": "980605c7279b37ab70d8ea53572296e8cd9702575a8126858fe2a0f2a28ec20d",
+        "trace": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020/trace.jsonl",
+        "traceSha256": "9351fb510a87330fdaf527232b23b7b373930d4706bbc282b0518e5e9fdd7c84",
+        "recording": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020/recording/p2-kf-h002-20261031/recording.json",
+        "recordingSha256": "a39eb9ea7dd027ba402a0fe67fcbd4002aa54b61d411f6e3ec7b4df31f4e6e77",
+        "googleActualTransport": [
+          {
+            "sequence": 288,
+            "sourceId": "google-places",
+            "sourceRequestContext": {
+              "textQuery": "nearby:restaurant"
+            },
+            "candidates": 20
+          }
+        ],
+        "searchAvailabilityHints": {
+          "tabelog": {
+            "status": "APPLIED",
+            "reason": "OBSERVED_QUERY_MATCH",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/?vac_net=1&svd=20261031&svt=1830&svps=2",
+            "unfilteredUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/",
+            "request": {
+              "date": "2026-10-31",
+              "partySize": 2,
+              "time": "18:30"
+            },
+            "observed": {
+              "date": "2026-10-31",
+              "partySize": 2,
+              "time": "18:30"
+            },
+            "parsedCount": 16
+          },
+          "tablecheck": {
+            "status": "SKIPPED",
+            "reason": "FILTER_TRANSPORT_NOT_REVIEWED",
+            "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.669700299999995&geo_longitude=139.7671399&geo_distance=1km&auto_geolocate=false",
+            "unfilteredUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.669700299999995&geo_longitude=139.7671399&geo_distance=1km&auto_geolocate=false"
+          },
+          "google-places": null
+        }
       }
     },
     {

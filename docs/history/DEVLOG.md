@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.185
+- Document revision: 4.186
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3961,3 +3961,16 @@ current executable / 外层编排冻结；外站结果待运行。
 源262SHA及原五门禁复用（默认951/951，真实本地Chromium119/119；typecheck、arch、build通过）；现有16个注册见证认证未过期，不新增认证。准备阶段仍305/450模型、49/55正式发现、133 Google、0完整Live。先提交新外层、SHA和离线证据，再在同一干净宿主机工作树执行，结果完成或停批后按授权推送，等待复核。
 
 [本轮授权](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/approval.json)、[顺序/预算](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/plan.json)、[传输对照](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/offline-network-contrasts.json)、[时序对照](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/offline-policy-controls.json)、[冻结](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/freeze.json)。
+
+
+## DEV-2026-10-20-P21-B-BROWSER-READINESS-H002-429-STOP
+
+current executable / 修正B部分真实发现证据，未整体验收。
+
+- 改动及冻结：本轮只改外层，冻结提交`31866be3fbe104ccf696361e8f4a50edc14aaf3f`，738项SHA，生产仍`a37e152b4283d8f407c9650d19200708314e3362`。TableCheck去掉首页网络GET，原真实Chromium非空来源数据预检保留；DeepSeek、Google、Tabelog网络预检保留。18项传输/观察＋26项时序/重试离线对照、5项Runner解析空跑通过，0网络/模型；生产五门禁复用262源码SHA和日志SHA（951/951、119/119、typecheck/arch/build PASS）。
+- 本轮完成：按批准顺序先跑H002，三来源预检非空，TableCheck200/122条；正式发现85,872ms、4模型、1正式Google＋1来源预检Google。Tabelog见证进入列表与首批，半径内解析候选30个；共享文本规划0次，页面类别规划1次，Google上下文nearby:restaurant。H002作为HARD修正组单列，不把这一个结果推广为P2-1b效果。
+- 本轮停止：H002记录结束04:58:00.506Z，中目黑05:03:46.223Z启动，间隔345.717秒，满足至少5分钟。三项网络预检通过；来源数据预检Tabelog列表HTTP429/NO_RESPONSE/HTTP_STATUS，TableCheck200/122条，Google1条。该次0模型、0正式探测，1次来源预检Google。未记录403、503或冻结忙碌原文匹配信号，外层未触发15分钟单次重试，按来源就绪失败停批。字面停止码PREFLIGHT_EVIDENCE_GAP是未匹配失败分支；本次已有429状态证据，不能解释为无HTTP响应。历史失败5→6保留，但不是触发旧累计阈值；不归因VPN或网站防护。
+- 完成/剩余：原H001两次、神乐坂两次、KF-H005第1次全部未重跑且SHA保留，本轮新增H002，修正B共6/10。余中目黑、吉祥寺#1、吉祥寺#2、KF-H005#2未正式启动，中目黑仅预检，其他3项NOT_REACHED。真实15分钟重试未触发，其规则仅由本轮离线对照覆盖。
+- 评价与限制：原两次READ_BUDGET_EXCEEDED保留；完整十行A/B表只对已到达6行比较，H002/HARD与其余P2-1b分组。六条正式轨迹的独立网络审计ABSENT仅限这些轨迹，来源预检非空不证明查位/交付。录制均保存原SHA，NOT_REPLAYABLE/UNSAFE_DOCUMENT标记如实保留，不声称静态回放通过。完整Task evaluator不适用于本次仅发现探测。
+- 用量：本轮新增1正式探测、4模型、3 Google（1正式＋2来源预检）；累计309/450模型、50/55正式发现、136 Google、0完整Live。原329冻结、历史2893、当前738与已完成314文件SHA核验；源码、Prompt、Schema、Guard、输入、见证及已有录制未改。纯文档矩阵检查账本前缀、产物、链接、索引和diff，原网页字节保留。完成证据提交推送，停止等待独立复核，自动化保持暂停。
+- 证据：[逐例报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[新冻结回执](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/freeze-commit.json)、[续跑汇总](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/attempt-summary.json)、[429停止事实](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/stop-facts.json)、[间隔核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/pacing-verification.json)、[后验验证](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/post-change-verification.json)。
