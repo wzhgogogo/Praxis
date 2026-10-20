@@ -1,0 +1,57 @@
+{
+  "accepted": true,
+  "boundary": {
+    "identityStop": true,
+    "formStop": false,
+    "availabilityEvaluated": false
+  },
+  "actions": [
+    "snapshot",
+    "snapshot",
+    "AVAILABILITY_SELECT",
+    "AVAILABILITY_SELECT"
+  ],
+  "availabilityTrace": [
+    {
+      "event": "OPERATION_STARTED",
+      "detail": "SELECT"
+    },
+    {
+      "event": "OPERATION_FINISHED",
+      "detail": "SELECT"
+    },
+    {
+      "event": "ASYNC_WAIT",
+      "detail": "PAGE_SETTLED"
+    },
+    {
+      "event": "OPERATION_STARTED",
+      "detail": "SELECT"
+    },
+    {
+      "event": "OPERATION_FINISHED",
+      "detail": "SELECT"
+    },
+    {
+      "event": "ASYNC_WAIT",
+      "detail": "PAGE_SETTLED"
+    }
+  ]
+}
+node:internal/modules/run_main:105
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Identity-only benchmark must stop before underlying availability select
+
+true !== false
+
+    at <anonymous> (/Users/wangzhour/.codex/worktrees/integration-checkpoint-c/Praxis-Zhixing/.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/boundary-red.mjs:12:8) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: true,
+  expected: false,
+  operator: 'strictEqual'
+}
+
+Node.js v24.4.1
