@@ -1,0 +1,388 @@
+{
+  "models": 0,
+  "google": 0,
+  "preflightGoogle": 1,
+  "preflightFailures": 4,
+  "completed": [],
+  "attempts": [
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-19T12:33:35.461341+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1",
+      "status": "NO_PROBE_SUMMARY",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "finishedAt": "2026-10-19T12:33:35.920459+00:00",
+      "approvedSetupRestoration": true
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-19T12:49:03.411645+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-setup-2",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-setup-2/2026-10-19T12-49-03-820Z-d09544f5-69e6-4401-a365-2e08e2d8b201.result.json",
+      "networkPreflightResultSha256": "b644e2000a167599972a9a58436d31926a2dc4f22d16ea31dd5fd2a889da759e",
+      "finishedAt": "2026-10-19T12:49:16.116776+00:00"
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-19T12:59:43.645412+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-preflight-2",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-preflight-2/2026-10-19T12-59-44-084Z-b4982e00-3f56-4a01-acd5-f351d7876a27.result.json",
+      "networkPreflightResultSha256": "91abeabbbbc503b6b0f2e026cb3f730e8767886f564698f0cb90fa28ff80d872",
+      "finishedAt": "2026-10-19T12:59:52.985238+00:00"
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-19T14:40:31.516305+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-resume-3",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-resume-3/2026-10-19T14-40-32-201Z-1dfc77b3-7275-45d3-81a0-900992f474b9.result.json",
+      "networkPreflightResultSha256": "8c1db811592387b2adea8627b5284eb9da2299929f44ce18e3d1067315454020",
+      "finishedAt": "2026-10-19T14:40:45.366405+00:00"
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-19T14:54:30.243968+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-retry-4",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-retry-4/2026-10-19T14-54-30-689Z-dff3aed2-22fb-4476-9895-60bc64714fbc.result.json",
+      "networkPreflightResultSha256": "5f5417705b062ebe16a7c89bcc26defa9f1d6460f1b9cacc50be6b319f8131f4",
+      "finishedAt": "2026-10-19T14:54:40.127711+00:00"
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T02:07:09.618912+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-retry-5",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 1,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [
+        "tablecheck",
+        "google-places"
+      ],
+      "preflightEvidence": [
+        {
+          "sourceId": "tabelog",
+          "check": {
+            "sourceId": "tabelog",
+            "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+          },
+          "count": 20,
+          "responseStatus": 200,
+          "reason": null,
+          "elapsedMs": 7581,
+          "outcome": "NONEMPTY",
+          "countsTowardStop": false
+        },
+        {
+          "sourceId": "tablecheck",
+          "check": {
+            "sourceId": "tablecheck",
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+          },
+          "count": null,
+          "responseStatus": null,
+          "reason": "NO_RESPONSE",
+          "detail": "NO_VALID_SEARCH_RESPONSE",
+          "networkDiagnostics": [
+            {
+              "code": "BLOCKED_ENDPOINT",
+              "origin": "https://umami-next.post.tablecheck.com",
+              "pathname": "/script.js",
+              "method": "GET",
+              "resourceType": "script",
+              "queryKeys": []
+            },
+            {
+              "code": "BLOCKED_METHOD",
+              "origin": "https://o126849.ingest.us.sentry.io",
+              "pathname": "/api/4507697548034048/envelope/",
+              "method": "POST",
+              "resourceType": "xhr",
+              "queryKeys": [
+                "sentry_client",
+                "sentry_key",
+                "sentry_version"
+              ]
+            },
+            {
+              "code": "BLOCKED_ENDPOINT",
+              "origin": "https://production.tablecheck.com",
+              "pathname": "/v2/geolocation",
+              "method": "GET",
+              "resourceType": "xhr",
+              "queryKeys": []
+            },
+            {
+              "code": "BLOCKED_ENDPOINT",
+              "origin": "https://maps.ingress.production.tablecheck.com",
+              "pathname": "/tiles/20241111.json",
+              "method": "GET",
+              "resourceType": "xhr",
+              "queryKeys": []
+            },
+            {
+              "code": "BLOCKED_ENDPOINT",
+              "origin": "https://cdn0.tablecheck.com",
+              "pathname": "/common/images/apps/din/map/sprites/light.json",
+              "method": "GET",
+              "resourceType": "xhr",
+              "queryKeys": []
+            },
+            {
+              "code": "BLOCKED_ENDPOINT",
+              "origin": "https://cdn0.tablecheck.com",
+              "pathname": "/common/images/apps/din/map/sprites/light.png",
+              "method": "GET",
+              "resourceType": "xhr",
+              "queryKeys": []
+            },
+            {
+              "code": "BLOCKED_METHOD",
+              "origin": "https://o126849.ingest.us.sentry.io",
+              "pathname": "/api/4507697548034048/envelope/",
+              "method": "POST",
+              "resourceType": "xhr",
+              "queryKeys": [
+                "sentry_client",
+                "sentry_key",
+                "sentry_version"
+              ]
+            },
+            {
+              "code": "BLOCKED_METHOD",
+              "origin": "https://o126849.ingest.us.sentry.io",
+              "pathname": "/api/4507697548034048/envelope/",
+              "method": "POST",
+              "resourceType": "xhr",
+              "queryKeys": [
+                "sentry_client",
+                "sentry_key",
+                "sentry_version"
+              ]
+            },
+            {
+              "code": "BLOCKED_METHOD",
+              "origin": "https://o126849.ingest.us.sentry.io",
+              "pathname": "/api/4507697548034048/envelope/",
+              "method": "POST",
+              "resourceType": "fetch",
+              "queryKeys": [
+                "sentry_client",
+                "sentry_key",
+                "sentry_version"
+              ]
+            },
+            {
+              "code": "BLOCKED_METHOD",
+              "origin": "https://o126849.ingest.us.sentry.io",
+              "pathname": "/api/4507697548034048/envelope/",
+              "method": "POST",
+              "resourceType": "xhr",
+              "queryKeys": [
+                "sentry_client",
+                "sentry_key",
+                "sentry_version"
+              ]
+            }
+          ],
+          "elapsedMs": 22178,
+          "outcome": "FAILED",
+          "countsTowardStop": false
+        },
+        {
+          "sourceId": "google-places",
+          "check": {
+            "sourceId": "google-places",
+            "textQuery": "restaurants near Ginza, Tokyo"
+          },
+          "count": null,
+          "responseStatus": null,
+          "reason": "NO_RESPONSE",
+          "detail": "READ_FAILED",
+          "elapsedMs": 8001,
+          "outcome": "FAILED",
+          "countsTowardStop": false
+        }
+      ],
+      "countsTowardStop": false,
+      "finishedAt": "2026-10-20T02:07:55.426096+00:00"
+    }
+  ],
+  "stop": {
+    "code": "PREFLIGHT_EVIDENCE_GAP",
+    "index": 0,
+    "checkpointPreflightFailures": 4,
+    "sourceIds": [
+      "tablecheck",
+      "google-places"
+    ]
+  },
+  "formalLiveRuns": 0,
+  "compressedBytesEstimate": 44733371,
+  "stopHistory": [
+    {
+      "stop": {
+        "code": "PROBE_NOT_COMPLETED",
+        "index": 0
+      },
+      "resolution": "USER_APPROVED_SETUP_RESTORATION",
+      "proofSha256": "a118cd33b323480d0ef7a33f9329af44229c7397f04c3d2e928f41116cf7736b",
+      "at": "2026-10-19T12:49:03.411505+00:00"
+    },
+    {
+      "stop": {
+        "code": "ENV_PREFLIGHT_RETRYABLE",
+        "index": 0,
+        "checkpointPreflightFailures": 1,
+        "sourceIds": [],
+        "retryNotBeforeEpoch": 1792414756.1167731,
+        "recoveryDeadlineEpoch": 1792415956.1167731,
+        "rule": "One retry after at least ten minutes; no recovery attempt beyond thirty minutes. Stop if the retry remains 503."
+      },
+      "resolution": "APPROVED_PREFLIGHT_ONLY_RETRY",
+      "at": "2026-10-19T12:59:43.645267+00:00"
+    },
+    {
+      "stop": {
+        "code": "TABLECHECK_503_PERSISTED_AFTER_RETRY",
+        "index": 0,
+        "checkpointPreflightFailures": 2,
+        "sourceIds": []
+      },
+      "resolution": "USER_REQUESTED_CONTINUATION_AFTER_SUCCESSFUL_NETWORK_RECHECK",
+      "approvalSha256": "a3cfe261e1b71117abbf8a9d60412d51c98c21db9afa5c3545f102035ee239da",
+      "at": "2026-10-19T14:40:31.516126+00:00"
+    },
+    {
+      "stop": {
+        "code": "PREFLIGHT_FAILURE_LIMIT",
+        "index": 0,
+        "checkpointPreflightFailures": 3,
+        "sourceIds": []
+      },
+      "resolution": "USER_REQUESTED_CONTINUATION_AFTER_SUCCESSFUL_NETWORK_RECHECK",
+      "approvalSha256": "c5cd58a5c53e5c9a6db4d4c6d55b8679279d1855e0e462f5274dbcce2535c3d6",
+      "at": "2026-10-19T14:54:30.243765+00:00"
+    },
+    {
+      "stop": {
+        "code": "PREFLIGHT_FAILURE_LIMIT",
+        "index": 0,
+        "checkpointPreflightFailures": 4,
+        "sourceIds": []
+      },
+      "resolution": "USER_REQUESTED_CONTINUATION_AFTER_SUCCESSFUL_NETWORK_RECHECK",
+      "approvalSha256": "7b6cf15d9cea2f1e5049f1dfd6f34f48188b6c076b29d20c6ea8012c1933ac21",
+      "at": "2026-10-20T02:07:09.618718+00:00"
+    }
+  ],
+  "userResume": {
+    "index": 0,
+    "priorPreflightAttempts": 4,
+    "approvalSha256": "7b6cf15d9cea2f1e5049f1dfd6f34f48188b6c076b29d20c6ea8012c1933ac21",
+    "at": "2026-10-20T02:07:09.618872+00:00"
+  },
+  "userResumeHistory": [
+    {
+      "index": 0,
+      "priorPreflightAttempts": 2,
+      "approvalSha256": "a3cfe261e1b71117abbf8a9d60412d51c98c21db9afa5c3545f102035ee239da",
+      "at": "2026-10-19T14:40:31.516266+00:00"
+    },
+    {
+      "index": 0,
+      "priorPreflightAttempts": 3,
+      "approvalSha256": "c5cd58a5c53e5c9a6db4d4c6d55b8679279d1855e0e462f5274dbcce2535c3d6",
+      "at": "2026-10-19T14:54:30.243930+00:00"
+    }
+  ]
+}
