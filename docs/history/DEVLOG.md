@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.200
-- Last updated: 2026-10-20
+- Document revision: 4.201
+- Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -10,6 +10,14 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-21-CHECKPOINT-C-LIVE-ENV-STOP
+
+- Evidence status: exposed development / pending independent review；不是Clean Baseline。用户与复核者批准冻结7caa315a…，fetch后快进0794040；授权、启动命令及只处理硬截止的进程外控制在9cace9d提交后启动，不改冻结外层／Runner／输入／评价器。
+- 正式Live2/18完成：H001 CAPABILITY_MISS、H002 HONEST_NO_RESULT，均0家／47模型；H005两次TableCheck `/en/japan/search`文档GET无HTTP状态，ENV_FAILURE，等待303.812秒后唯一重试仍失败，00:26:04北京停批。正式NOT_REACHED16，另有15个位置完全未尝试；原脚本liveCompleted=3含预检排除项，补充报告按正式运行2校正口径，不改原始产物。
+- 新增94模型、11 Google含预检；外层重试1（预检）、正式环境重跑0，H005单例额度已耗尽。阶段累计正式4/100、模型563＋更早保守结转1014＝1577/4000。
+- 停批后先核对523冻结文件全部未变，再仅同步结果与状态／历史导航；不重冻、不自动恢复。源代码与a3f6b84无差异，批准变体／Gold／Holdout与集成分支未改。
+- 四层报告逐计划、逐条件和P2-1/P2-2/P2-3分开保存；无交付使价格／披露评价无分母，S0未知与历史安全缺证单列。停止后不扩展网络诊断或产品修复，只推准备分支等待复核。[报告](../../.eval-artifacts/checkpoint-c-live-20261020/execution-20261020/report.md)。
 
 
 ## DEV-2026-10-08-PLAYBOOK-PHASE3-RENEWAL

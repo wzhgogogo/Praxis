@@ -1,0 +1,92 @@
+{
+  "status": "RECONCILED",
+  "baselinePath": ".eval-artifacts/checkpoint-c-live-20261020/phase2-ledger.json",
+  "baselineSha256": "01913d152b5aa9d1095ae49c3bea90e5006d0443790f0bf8d0fe51d400417f33",
+  "checkpointC": {
+    "attempts": 4,
+    "plannedRunsReached": 3,
+    "formalFullLiveRuns": 2,
+    "formalEnvironmentReruns": 0,
+    "attemptRetriesIncludingPreflight": 1,
+    "observedModelCalls": 94,
+    "allModelCountsComplete": true,
+    "conservativeBudgetCharge": 94,
+    "newModelReplays": 0,
+    "sourceOnlyPreflightRetryAttempts": 1,
+    "caseRetryAllowanceUsed": {
+      "p2l-kf-h005-20261105": 1
+    },
+    "googleRequestsIncludingPreflight": 11,
+    "outerRetryBudget": {
+      "reservedMaximum": 6,
+      "usedIncludingSourcePreflight": 1,
+      "perCaseMaximum": 1,
+      "exhaustedCases": [
+        "p2l-kf-h005-20261105"
+      ],
+      "note": "Frozen ledger environmentReruns counts formal Live restarts; outer totalReruns also charges preflight retries. Both are retained; no second H005 retry is available."
+    }
+  },
+  "phase2ModelCalls": 563,
+  "priorPhaseModelCalls": 1014,
+  "totalModelCalls": 1577,
+  "totalFullLiveRuns": 4,
+  "environmentReruns": 0,
+  "limits": {
+    "fullLiveRuns": 100,
+    "modelCalls": 4000,
+    "environmentReruns": 10
+  },
+  "remaining": {
+    "modelCalls": 2423,
+    "fullLiveRuns": 96,
+    "environmentReruns": 10
+  },
+  "accountingNotes": [
+    "All failed model invocations and prior model replays remain charged.",
+    "Missing model counts are never zero: reserve the per-attempt 50-call ceiling and retain the observed lower bound.",
+    "Source-only preflight retries are separate from restarted formal full Live."
+  ],
+  "sources": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/run-report.json",
+      "sha256": "05ca876721044a7152b569f9f4f721a1ba69dc2e65cf26b18dc7a459ad1420d7",
+      "modelChecks": {
+        "resource": 47,
+        "decisionRecords": 47,
+        "maxDecisionSequence": 47,
+        "invocations": 47
+      }
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/run-report.json",
+      "sha256": "a6a44e35f7093b0dcb295b472a1ef60e75dd1b9c0849f8581a9a90e917a27188",
+      "modelChecks": {
+        "resource": 47,
+        "decisionRecords": 47,
+        "maxDecisionSequence": 47,
+        "invocations": 47
+      }
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-1/run-report.json",
+      "sha256": "b1f5382126154c056c95dbedadefdb0c8acfa0de219a40a205a4fdcf9483c167",
+      "modelChecks": {
+        "resource": 0,
+        "decisionRecords": 0,
+        "maxDecisionSequence": 0,
+        "invocations": null
+      }
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-2/run-report.json",
+      "sha256": "9bf52670d56d64e66ad699fed3f8c6d8e710a4763128291370b04820ac68a719",
+      "modelChecks": {
+        "resource": 0,
+        "decisionRecords": 0,
+        "maxDecisionSequence": 0,
+        "invocations": null
+      }
+    }
+  ]
+}

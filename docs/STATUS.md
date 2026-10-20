@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.303
-- Last updated: 2026-10-20
+- Document revision: 4.304
+- Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-21 检查点 C Live 因环境重试耗尽停批／待复核：** 批准冻结7caa315a…在523文件运行前后核对一致，生产未变。4次尝试中2次正式Live完成（H001 CAPABILITY_MISS、H002 HONEST_NO_RESULT，0合格交付）；H005两次TableCheck搜索文档GET无HTTP状态而ENV_FAILURE，间隔303.812秒，唯一重试后00:26:04北京停批。正式未到达16/18（含c-03预检失败，另15个位置未尝试）；模型94、Google含预检11、外层预检重试1／正式环境重跑0。正式S0声明／越界各2 ABSENT，排除尝试各2未评；退出1/3/4/5均未签收。累计正式Live4/100、模型1577/4000，H005重试额度已耗尽；只推送准备分支结果后停止待复核。[四层报告](../.eval-artifacts/checkpoint-c-live-20261020/execution-20261020/report.md)。此前准备／待批准条目作为历史保留。
 
 - **2026-10-20 检查点 C 见证认证完成／待最终SHA批准：** 原6条完整证据未重采，18个新GET全200、0重试／模型／Live。六例认证2/2、3/3、3/3、2/2、2/3、3/3；Komuro指定时刻未匹配，Fukumimi原句变化及当前菜系人工依据单列。最早观察10/20 20:26:41.866北京，Live须10/21同一时刻前跑完；六例时效门禁和额度检查通过，最终冻结后仅推送准备分支，等外部复核与用户批准，不启动Live。[报告](../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/report.md)。
 

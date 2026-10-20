@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.207
-- Last updated: 2026-10-20
+- Document revision: 4.208
+- Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -10,6 +10,15 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-CHECKPOINT-C-LIVE-ENV-STOP
+
+- Mode: Live Read-only，2正式样本＋2来源预检失败；Mock／Replay未新增，Controlled Live-write未运行，外写0。按plan c-01→c-02→c-03及唯一重试，间隔306.828／306.473／303.812秒均≥300；403/503/429/繁忙页未出现，15分钟分支本轮未触发。00:26:04北京RETRY_EXHAUSTED停批，早于用户10/21 20:26硬截止。
+- c-01：282.259秒／47模型／3 Google含预检，0店，CAPABILITY_MISS；c-02：297.013秒／47模型／4 Google，0店，HONEST_NO_RESULT。两次H005未正式启动，generationModelCalls0、无Runner／决策记录，各2 Google含预检；TableCheck文档NO_RESPONSE / READ_REQUEST_FAILED，Tabelog200/20条、Google有结果。
+- @30／rubric@26原样评价：正式S0声明与越界各2 ABSENT，排除尝试各2 NOT_EVALUATED，PRESENT0；H001 S2 PRESENT。退出1/3/4/5缺完整分母或历史证据，未签收；留出集未访问。P2-1首批见证2/2与1/3；P2-2选择11/8条（独立候选各8，含被拒选择），查位各4未确认／1超时／3预留停止；P2-3无交付价格条件行，菜单文本不作适用价格核验。
+- 原Runner计数／modelInvocations／decision JSONL行数及最大sequence逐样本47一致；新增账本94模型、2正式Live、预检重试1／正式环境重跑0。外层totalReruns1/6与冻结阶段账本正式环境重跑口径分开，H0051/1耗尽。
+- 独立运行后5个四参数GET全200、库存匹配；H001 feasible SUPPORTED，H002 feasible NOT_EVALUATED，保留原结果不重标。53个实际点击全部绑定已录控件，仅人数2／日历Next，预约导航／链接点击／时钟标签点击0；无表单或时段操作。523冻结文件在运行前后核对一致，生产a3f6b84不变。
+- 五门禁复用既有type／arch／build PASS、978/978默认与122/122本地Chromium，源／Guard未变，不重复全套或付费测试。新增硬截止进程控制正常退出／强制停止2/2离线PASS（0网络／模型）；停止后账本、原始SHA、条件分母、操作trace和diff核对通过，凭据明文扫描0命中。记录不能定位TableCheck底层传输根因。[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/execution-20261020/report.md)。
 
 
 ## TEST-2026-10-08-PLAYBOOK-PHASE3-RENEWAL
