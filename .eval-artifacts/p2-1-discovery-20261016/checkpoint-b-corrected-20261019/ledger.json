@@ -1,7 +1,7 @@
 {
-  "models": 31,
-  "google": 11,
-  "preflightGoogle": 8,
+  "models": 49,
+  "google": 19,
+  "preflightGoogle": 12,
   "preflightFailures": 6,
   "completed": [
     0,
@@ -9,7 +9,11 @@
     2,
     3,
     4,
-    8
+    8,
+    9,
+    6,
+    7,
+    5
   ],
   "attempts": [
     {
@@ -579,14 +583,127 @@
       ],
       "countsTowardStop": true,
       "finishedAt": "2026-10-20T05:03:56.504203+00:00"
+    },
+    {
+      "index": 9,
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T05:32:31.425408+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-user-seventh-20261020",
+      "status": "PROBE_RECORDED",
+      "outerApprovalSha256": "7aabbb828ddd57c16677424dcc89e3634e5e008bf1b47423e639dffd7fe68ebc",
+      "outerFreezeCommit": "7103f0f24cd78febaaa8cacd1b42078e3292fbb5",
+      "policyAttempt": 1,
+      "notBeforeEpoch": 1792473536.504203,
+      "exit": 0,
+      "preflightGoogle": 1,
+      "retrySignals": [],
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-user-seventh-20261020/probe-summary.json",
+      "summarySha256": "f4f10b75e6ba0be0853153d1b880da7ec865310bd6f5df89f3b08d6a45def01b",
+      "models": 9,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": false,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "witnessInFirstBatch": false,
+      "inRadiusParsed": 39,
+      "finishedAt": "2026-10-20T05:33:54.998692+00:00"
+    },
+    {
+      "index": 6,
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T05:41:03.348687+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1-user-seventh-20261020",
+      "status": "PROBE_RECORDED",
+      "outerApprovalSha256": "7aabbb828ddd57c16677424dcc89e3634e5e008bf1b47423e639dffd7fe68ebc",
+      "outerFreezeCommit": "7103f0f24cd78febaaa8cacd1b42078e3292fbb5",
+      "policyAttempt": 1,
+      "notBeforeEpoch": 1792474734.998692,
+      "exit": 0,
+      "preflightGoogle": 1,
+      "retrySignals": [],
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1-user-seventh-20261020/probe-summary.json",
+      "summarySha256": "ee85606d9825dcc196188754319016bab34507ebe04b2d051d2976d4ac3efac8",
+      "models": 3,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "witnessInFirstBatch": true,
+      "inRadiusParsed": 50,
+      "finishedAt": "2026-10-20T05:42:34.988422+00:00"
+    },
+    {
+      "index": 7,
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "repeat": 2,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T05:49:07.276958+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2-user-seventh-20261020",
+      "status": "PROBE_RECORDED",
+      "outerApprovalSha256": "7aabbb828ddd57c16677424dcc89e3634e5e008bf1b47423e639dffd7fe68ebc",
+      "outerFreezeCommit": "7103f0f24cd78febaaa8cacd1b42078e3292fbb5",
+      "policyAttempt": 1,
+      "notBeforeEpoch": 1792475254.988422,
+      "exit": 0,
+      "preflightGoogle": 1,
+      "retrySignals": [],
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2-user-seventh-20261020/probe-summary.json",
+      "summarySha256": "4ed103b3c353223342526a3a7704a36289ba24012563e898ec78e6ed9600cc7b",
+      "models": 3,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "witnessInFirstBatch": true,
+      "inRadiusParsed": 50,
+      "finishedAt": "2026-10-20T05:50:34.575137+00:00"
+    },
+    {
+      "index": 5,
+      "caseId": "p2-kf-h005-20261029",
+      "repeat": 2,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T05:57:04.227233+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2-user-seventh-20261020",
+      "status": "PROBE_RECORDED",
+      "outerApprovalSha256": "7aabbb828ddd57c16677424dcc89e3634e5e008bf1b47423e639dffd7fe68ebc",
+      "outerFreezeCommit": "7103f0f24cd78febaaa8cacd1b42078e3292fbb5",
+      "policyAttempt": 1,
+      "notBeforeEpoch": 1792475734.575137,
+      "exit": 0,
+      "preflightGoogle": 1,
+      "retrySignals": [],
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2-user-seventh-20261020/probe-summary.json",
+      "summarySha256": "79ce828d6631561441969d64bfe35a6837e476996b110175bfe525a850e14113",
+      "models": 3,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "witnessInFirstBatch": false,
+      "inRadiusParsed": 46,
+      "finishedAt": "2026-10-20T05:58:40.262616+00:00"
     }
   ],
-  "stop": {
-    "code": "PREFLIGHT_EVIDENCE_GAP",
-    "index": 9
-  },
+  "stop": null,
   "formalLiveRuns": 0,
-  "compressedBytesEstimate": 50634490,
+  "compressedBytesEstimate": 54638987,
   "stopHistory": [
     {
       "stop": {
@@ -689,10 +806,19 @@
       "resolution": "USER_APPROVED_BROWSER_DATA_READINESS_AND_BOUNDED_COOLDOWN",
       "approvalSha256": "2c0974fe5df707cc1cf634173a9c0b1e572476b6bda9a11c544f068421117dd2",
       "at": "2026-10-20T04:56:20.156652+00:00"
+    },
+    {
+      "stop": {
+        "code": "PREFLIGHT_EVIDENCE_GAP",
+        "index": 9
+      },
+      "resolution": "USER_REQUESTED_SEVENTH_AFTER_PREFLIGHT_ONLY_429",
+      "approvalSha256": "7aabbb828ddd57c16677424dcc89e3634e5e008bf1b47423e639dffd7fe68ebc",
+      "at": "2026-10-20T05:32:31.425244+00:00"
     }
   ],
   "userResume": {
-    "index": 8,
+    "index": 9,
     "order": [
       8,
       9,
@@ -700,8 +826,8 @@
       7,
       5
     ],
-    "approvalSha256": "2c0974fe5df707cc1cf634173a9c0b1e572476b6bda9a11c544f068421117dd2",
-    "at": "2026-10-20T04:56:20.156764+00:00"
+    "approvalSha256": "7aabbb828ddd57c16677424dcc89e3634e5e008bf1b47423e639dffd7fe68ebc",
+    "at": "2026-10-20T05:32:31.425359+00:00"
   },
   "userResumeHistory": [
     {
@@ -739,11 +865,23 @@
       "priorPreflightAttempts": 2,
       "approvalSha256": "7060ae776c3204e0e152b4767b0fd118f46a5aee9cdec711de9f944f3d8cd168",
       "at": "2026-10-20T04:06:53.039748+00:00"
+    },
+    {
+      "index": 8,
+      "order": [
+        8,
+        9,
+        6,
+        7,
+        5
+      ],
+      "approvalSha256": "2c0974fe5df707cc1cf634173a9c0b1e572476b6bda9a11c544f068421117dd2",
+      "at": "2026-10-20T04:56:20.156764+00:00"
     }
   ],
   "activeOuterPolicy": {
-    "approvalSha256": "2c0974fe5df707cc1cf634173a9c0b1e572476b6bda9a11c544f068421117dd2",
-    "freezeCommit": "31866be3fbe104ccf696361e8f4a50edc14aaf3f",
+    "approvalSha256": "7aabbb828ddd57c16677424dcc89e3634e5e008bf1b47423e639dffd7fe68ebc",
+    "freezeCommit": "7103f0f24cd78febaaa8cacd1b42078e3292fbb5",
     "order": [
       8,
       9,
@@ -760,5 +898,5 @@
     "retrySeconds": 900,
     "maxRetriesPerItem": 1
   },
-  "formalProbeAttemptsStarted": 6
+  "formalProbeAttemptsStarted": 10
 }

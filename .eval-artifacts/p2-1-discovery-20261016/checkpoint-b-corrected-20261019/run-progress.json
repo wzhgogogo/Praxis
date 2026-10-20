@@ -1,6 +1,6 @@
 {
-  "status": "B_STOPPED_AFTER_BROWSER_SOURCE_READINESS_CONTINUATION",
-  "at": "2026-10-20T05:07:42.462589+00:00",
+  "status": "B_COMPLETE_WAITING_INDEPENDENT_REVIEW",
+  "at": "2026-10-20T06:01:37.409372+00:00",
   "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
   "completed": [
     0,
@@ -8,19 +8,20 @@
     2,
     3,
     4,
-    8
+    8,
+    9,
+    6,
+    7,
+    5
   ],
-  "formalProbesAdded": 6,
-  "modelCallsAdded": 31,
-  "modelCumulative": 309,
-  "probeCumulative": 50,
-  "googleCumulative": 136,
+  "formalProbesAdded": 10,
+  "modelCallsAdded": 49,
+  "modelCumulative": 327,
+  "probeCumulative": 54,
+  "googleCumulative": 148,
   "fullLive": 0,
-  "stop": {
-    "code": "PREFLIGHT_EVIDENCE_GAP",
-    "index": 9
-  },
-  "remainingFormalRuns": 4,
+  "stop": null,
+  "remainingFormalRuns": 0,
   "automaticRetryAllowed": false,
   "report": "report.md",
   "additionalRecheck": {
@@ -39,7 +40,7 @@
     "automaticRetryAllowed": false
   },
   "preflightFailures": 6,
-  "sourceDataPreflight": "TABELOG_HTTP429_ENV_FAILURE_TABLECHECK122_GOOGLE1",
+  "sourceDataPreflight": "READY",
   "userContinuation": {
     "outerCommit": "2f088b88f90da33c7ae97d25e78c2b5e342f5596",
     "summary": "user-resume-20261019/attempt-summary.json",
@@ -54,7 +55,7 @@
     "models": 0,
     "formalProbes": 0
   },
-  "activeFreezeCommit": "31866be3fbe104ccf696361e8f4a50edc14aaf3f",
+  "activeFreezeCommit": "7103f0f24cd78febaaa8cacd1b42078e3292fbb5",
   "previousStopRetainedInLedgerHistory": true,
   "userRetry5": {
     "outerCommit": "76137e814518a7571050c54e70925a20bea85d67",
@@ -66,7 +67,7 @@
   },
   "networkReadiness": "PASSED_THREE_TARGETS",
   "witnessRefresh": "start-b-20261020/witnesses.certified.json",
-  "formalRunsCompletedInCurrentBatch": 6,
+  "formalRunsCompletedInCurrentBatch": 10,
   "ledgerAuthority": "/Users/wangzhour/.codex/worktrees/p21-checkpoint-b-corrected/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/ledger.json",
   "launchSummary": "start-b-20261020/launch-summary.json",
   "retryPlan": "user-retry-10m-20261020/approval.json",
@@ -90,11 +91,14 @@
   "nextIndex": null,
   "nextNotBeforeUTC": null,
   "browserReadinessResumeSummary": "browser-ready-resume-20261020/attempt-summary.json",
-  "remainingExecutionOrder": [
-    9,
-    6,
-    7,
-    5
-  ],
-  "latestStopFacts": "browser-ready-resume-20261020/stop-facts.json"
+  "remainingExecutionOrder": [],
+  "latestSourceReadiness": {
+    "tabelog": 20,
+    "tablecheck": 122,
+    "google-places": 1
+  },
+  "priorStopFacts": "browser-ready-resume-20261020/stop-facts.json",
+  "activeRecoverySummary": "user-resume-seventh-20261020/approval.json",
+  "seventhRecoveryResumeSummary": "user-resume-seventh-20261020/attempt-summary.json",
+  "finalRecoverySummary": "user-resume-seventh-20261020/attempt-summary.json"
 }

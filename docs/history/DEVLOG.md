@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.187
+- Document revision: 4.188
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3987,3 +3987,16 @@ current executable / 本次仅外层恢复准入，外站结果待运行。
 准入后仍先做其他三项网络预检与三来源非空数据预检，TableCheck仅浏览器搜索就绪；正常间隔至少5分钟，明确403/503或已观察繁忙页才允许15分钟后单次自动重试，429未新增为自动条件。中目黑通过后，按此前已批准的剩余顺序吉祥寺#1、吉祥寺#2、KF-H005#2继续；任一冻结stop即结束。总上限仍450模型/55正式发现，当前309/50/136 Google、0完整Live，无额外认证或网站诊断。
 
 [本次授权](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/approval.json)、[20项离线对照](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/offline-controls.json)、[新冻结](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/freeze.json)、[运行前核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/pre-launch-verification.json)。
+
+
+## DEV-2026-10-20-P21-B-SEVENTH-RECOVERY-B10-COMPLETE
+
+current executable / 完成十次真实只读发现探测，不代表完整用户交付或阶段签收。
+
+- 冻结与准入：用户“继续第七次”后，外层恢复冻结`7103f0f24cd78febaaa8cacd1b42078e3292fbb5`、826项SHA。新20项0网络/模型精确准入对照通过，复用原44项外层对照、5输入解析和262源码/五门禁（默认951/951、真实本地Chromium119/119、typecheck/arch/build PASS）。原生产仍a37e152，原浏览器入口SHA47db4b10…完全复用；不新增自动429重试，旧失败计数6和全部历史保留。
+- 第七至十次依序完成：中目黑66,740ms/9模型，Tabelog READ_BUDGET_EXCEEDED、Google精确命中；吉祥寺#1为74,501ms/3模型，#2为71,563ms/3模型，均Tabelog见证进入列表/首批且Google精确命中，无来源失败码；KF-H005#2为79,170ms/3模型，Tabelog见证进入列表未进首批，无来源失败码。所有原六项不重跑，四次预检均Tabelog20/TableCheck122/Google1，TableCheck200；Google来源预检状态未保留，不补造。
+- 调度与边界：其他三项网络预检保留，TableCheck不做首页GET，只用原真实浏览器搜索非空。首个手动恢复距前429失败超过15分钟，后续间隔均至少5分钟；实际时间与原始响应SHA保存。无新403/503/繁忙页信号，无自动重试，无任何完整Live。十条正式轨迹的独立网络审计ABSENT仅限记录内，不能当作通用只读安全证明；录制NOT_REPLAYABLE/UNSAFE_DOCUMENT标记保留，不声称可执行静态回放。
+- A/B十行对照：整体Tabelog列表8→7、首批5→5，Google精确5→4，TableCheck0→0；H002/HARD组首批0→1，其余9例/P2-1b组首批5→4。模型A/B均49，正式耗时942,173→806,489ms；规划22→18次、56,097→40,607ms，规划超时均0。READ_BUDGET_EXCEEDED为A2/B3（B神乐坂两次、中目黑一次）。不以耗时减少代替能力改善，不作单变量归因；宿主路由、来源数据、模型和外层节奏差异均披露。完整Task诊断Evaluator不适用于本批发现切片，用户交付/查位仍NOT_EVALUATED。
+- 用量与验证：本次新增4探测、18模型、8正式Google＋4来源预检Google；修正B共49模型、19正式Google＋12来源预检Google。累计327/450模型、54/55正式探测、148 Google；artifact压缩估算54,638,987/60,000,000 bytes。49条决策逐次等于模型调用；原379运行文件、历史2893、原329/当前826及源码/门禁SHA核验，见证仍有效且未重新认证。按纯文档矩阵核对链接、索引、账本前缀和diff，原网页字节不清洗，用户INDEX、演示文稿和产品草稿不动。
+- 完成后正常提交推送，自动化保持暂停，不启动完整Live或其他工作包，停止等待独立复核。
+- 证据：[完整A/B报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[四次续跑汇总](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/attempt-summary.json)、[新冻结回执](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/freeze-commit.json)、[实际间隔](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/pacing-verification.json)、[预检原始记录与SHA](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/actual-readiness-verification.json)、[后验核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/post-change-verification.json)。

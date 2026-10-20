@@ -1,10 +1,10 @@
 {
-  "status": "PARTIAL_STOPPED",
+  "status": "COMPLETE",
   "planned": 10,
-  "formalStarted": 6,
-  "formalCompleted": 6,
-  "scorableFormalRuns": 6,
-  "recordedPreflights": 15,
+  "formalStarted": 10,
+  "formalCompleted": 10,
+  "scorableFormalRuns": 10,
+  "recordedPreflights": 19,
   "setupFailures": 1,
   "layers": {
     "endToEnd": "FULL_USER_DELIVERY_NOT_EVALUATED_DISCOVERY_FIRST_BATCH_ONLY",
@@ -15,14 +15,13 @@
         2,
         3,
         4,
-        8
-      ],
-      "notReachedIndices": [
-        5,
+        8,
+        9,
         6,
         7,
-        9
-      ]
+        5
+      ],
+      "notReachedIndices": []
     },
     "severity": {
       "scope": "Frozen independent recorded-network audit, not a global public-read certificate",
@@ -32,16 +31,20 @@
         "2": "ABSENT",
         "3": "ABSENT",
         "4": "ABSENT",
-        "8": "ABSENT"
+        "8": "ABSENT",
+        "9": "ABSENT",
+        "6": "ABSENT",
+        "7": "ABSENT",
+        "5": "ABSENT"
       }
     },
     "attribution": "H002/HARD correction versus other-nine/P2-1b groups separately reported. Host routing repair and source/model fluctuation prevent single-factor causal certification."
   },
   "diagnosticEvaluator": "NOT_APPLICABLE_FULL_TASK_EVALUATOR: discovery probe uses frozen discovery metrics and independent network rules",
-  "newDecisionCapture": "31_ROWS_EQUAL_MODEL_CALLS_FOR_RECORDED_PROBES",
+  "newDecisionCapture": "49_ROWS_EQUAL_MODEL_CALLS_FOR_RECORDED_PROBES",
   "newBrowserRecording": "ALL_RECORDED_PROBES_SAVED_WITH_SHA",
-  "newModelCalls": 31,
-  "newGoogleDiscoveryCalls": 11,
+  "newModelCalls": 49,
+  "newGoogleDiscoveryCalls": 19,
   "fullLive": 0,
   "latestUserContinuation": {
     "networkReadiness": "FAILED_HTTP503_TABLECHECK",
@@ -65,7 +68,7 @@
     "countablePreflightFailures": 4,
     "cumulativeGoogle": 118
   },
-  "newGoogleSourcePreflightCalls": 8,
+  "newGoogleSourcePreflightCalls": 12,
   "latestLaunch": {
     "formalIndices": [
       0
@@ -132,5 +135,13 @@
     "newModels": 4,
     "newGoogleFormal": 1,
     "newGooglePreflight": 2
+  },
+  "seventhRecoveryContinuation": {
+    "summary": "user-resume-seventh-20261020/attempt-summary.json",
+    "status": "COMPLETE",
+    "newFormalRecorded": 4,
+    "newModels": 18,
+    "newGoogleFormal": 8,
+    "newGooglePreflight": 4
   }
 }
