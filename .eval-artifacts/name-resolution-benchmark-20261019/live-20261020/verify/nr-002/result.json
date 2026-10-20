@@ -1,0 +1,62 @@
+{
+  "sampleId": "nr-002",
+  "status": "VERIFIED",
+  "google": {
+    "name": "焼肉おおにし 祐天寺店",
+    "address": "2-chōme-6-11 Yūtenji, Meguro City, Tokyo 153-0052, Japan",
+    "phone": "050-5456-5059",
+    "coordinates": {
+      "lat": 35.6366991,
+      "lng": 139.6937005
+    }
+  },
+  "expected": {
+    "outletId": "13242327",
+    "sourceUrl": "https://tabelog.com/tokyo/A1317/A131701/13242327/"
+  },
+  "observed": {
+    "phones": [
+      "+81-3-6451-0291",
+      "050-5456-5059",
+      "03-6451-0291"
+    ],
+    "addresses": [
+      "1530052 Tokyo Yutenji Meguro Tokyo ",
+      "東京都目黒区祐天寺2-6-11 Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-3-6451-0291",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1530052 Tokyo Yutenji Meguro Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "050-5456-5059",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都目黒区祐天寺2-6-11 Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      },
+      {
+        "field": "phone",
+        "value": "03-6451-0291",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": "050-5456-5059",
+  "addressMatch": null,
+  "reason": "Independent exact public phone or full address matches Google",
+  "error": null
+}

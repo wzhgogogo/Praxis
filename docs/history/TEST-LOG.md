@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.197
+- Document revision: 4.198
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4773,3 +4773,6 @@ Concurrent remote review305d1e0 was synchronized verbatim after the feature merg
 ## TEST-2026-10-20-CHECKPOINT-C-SELECTION-NAME-BENCHMARK
 
 Integrated branch8ecfcfc review read. Freeze1c08f4c and explicit specific-payload human approval precede5 actual DeepSeek selection replays: all ACCEPTABLE, Kagurazaka1/1, Shibuya3/3,0133control1/1, direct13/13. Context15/current Prompt27; original event prefixes supply commercial facts, but none of these historical turns has a price fact (no invented prices).0 websites/Google/actions/Live during replay. Tabelog benchmark now prepared:30Gold+5controls, TableCheck7 deferred; frozen sample89ce49a4 retained. Eval-only source admission removes cross-source readiness dependency,403/429 are ENV, both valid red/green. Final four code gates PASS (972/972), local browser121/121 reused because production browser/prefix unchanged. Outer11 offline controls and321 input/source/config hashes. Gold once/30s; source block10m and3/day stop; methodA<=150 and3/subject; methodB disabled. [Selection report](../../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md), [benchmark phase](../../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md). Real source work starts only after this freeze commit; final results follow in the same entry.
+
+
+Gold phase2260cc8 subsequently completed30 once-onlyHTTP200 reads (0 models), min gap30.032s; original28/2 automatic certificate preserved, manual full-address comparison before A yields29VERIFIED/1DROPPED. User-approved eval identity-stop patch closes swallowed-diagnostic continuation: strengthened existing default test red(select)→green(no controls), local Chromium identity prefix green, production unchanged. Fresh five gates PASS972/972 +121/121 (279333ms). MethodA-only390 SHA freeze and13 offline controls retain30 prior reads/5 replay calls; public-payload authorization recorded,34 subjects planned/≤150 models. No MethodA call yet. Parallel remote changes deferred until this frozen execution ends.

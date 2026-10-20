@@ -1,0 +1,62 @@
+{
+  "sampleId": "nr-028",
+  "status": "VERIFIED",
+  "google": {
+    "name": "Ginza Bokujin",
+    "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−7−１３ 成田屋ビル 7階",
+    "phone": "03-5159-7366",
+    "coordinates": {
+      "lat": 35.671572499999996,
+      "lng": 139.766762
+    }
+  },
+  "expected": {
+    "outletId": "13310287",
+    "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13310287/"
+  },
+  "observed": {
+    "phones": [
+      "+81-3-5159-7366",
+      "050-5456-6712",
+      "03-5159-7366"
+    ],
+    "addresses": [
+      "1040061 Tokyo Ginza Chuo Tokyo ",
+      "東京都中央区銀座3-7-13 銀座成田屋ビル 7F Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-3-5159-7366",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1040061 Tokyo Ginza Chuo Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "050-5456-6712",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都中央区銀座3-7-13 銀座成田屋ビル 7F Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      },
+      {
+        "field": "phone",
+        "value": "03-5159-7366",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": "+81-3-5159-7366",
+  "addressMatch": null,
+  "reason": "Independent exact public phone or full address matches Google",
+  "error": null
+}

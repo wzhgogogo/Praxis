@@ -1,0 +1,56 @@
+{
+  "sampleId": "nr-026",
+  "status": "VERIFIED",
+  "google": {
+    "name": "Kushiyaki Bistro Fukumimi Ginza 6",
+    "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 6-chōme−14−５ 東武銀座第1ビル 地下1階",
+    "phone": "03-6278-7774",
+    "coordinates": {
+      "lat": 35.6687947,
+      "lng": 139.7654995
+    }
+  },
+  "expected": {
+    "outletId": "13307478",
+    "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/"
+  },
+  "observed": {
+    "phones": [
+      "+81-3-6278-7774",
+      "03-6278-7774"
+    ],
+    "addresses": [
+      "1040061 Tokyo Ginza Chuo Tokyo ",
+      "東京都中央区銀座6-14-5 東武銀座第一ビル B1F Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-3-6278-7774",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1040061 Tokyo Ginza Chuo Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "03-6278-7774",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都中央区銀座6-14-5 東武銀座第一ビル B1F Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13307478/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": "+81-3-6278-7774",
+  "addressMatch": null,
+  "reason": "Independent exact public phone or full address matches Google",
+  "error": null
+}

@@ -1,0 +1,62 @@
+{
+  "sampleId": "nr-013",
+  "status": "VERIFIED",
+  "google": {
+    "name": "Horumon Matsuda HANARE Yakiniku Nakameguro",
+    "address": "Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 2-chōme−18−９ 高伸ビル 2階 中 目黒",
+    "phone": "03-6303-3405",
+    "coordinates": {
+      "lat": 35.6413346,
+      "lng": 139.6974215
+    }
+  },
+  "expected": {
+    "outletId": "13235974",
+    "sourceUrl": "https://tabelog.com/tokyo/A1317/A131701/13235974/"
+  },
+  "observed": {
+    "phones": [
+      "+81-3-6303-3405",
+      "050-5597-6521",
+      "03-6303-3405"
+    ],
+    "addresses": [
+      "1530051 Tokyo Kamimeguro Meguro Tokyo ",
+      "東京都目黒区上目黒2-18-9 高伸ビル 2Ｆ Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-3-6303-3405",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1530051 Tokyo Kamimeguro Meguro Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "050-5597-6521",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都目黒区上目黒2-18-9 高伸ビル 2Ｆ Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      },
+      {
+        "field": "phone",
+        "value": "03-6303-3405",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13235974/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": "+81-3-6303-3405",
+  "addressMatch": null,
+  "reason": "Independent exact public phone or full address matches Google",
+  "error": null
+}
