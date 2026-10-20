@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.189
+- Document revision: 4.190
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4641,3 +4641,14 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 新外层仅精确准入index1的两次0调用HTTP403预检之后的这一次恢复；账本与上次已提交SHA及回执一致，completed[0]、历史失败计数4、formalGoogle2/preflightGoogle2均保留，旧attempt/stop/recovery历史不清零。28项0网络离线对照PASS；408项文件SHA冻结，原329/历史2893/源码262和五门禁日志核对后复用951/951默认、119/119本地Chromium、typecheck/arch/build PASS。任一新stop结束本轮，无自动额外重试；源预检通过才正式发现，每次15模型/180秒/40Google，0完整Live。
 
 本次准备新增模型/正式探测/Google均0，累计仍282/450模型、45/55探测、121Google；余9次最坏54/55探测、417/450模型。已批准正常推送将在结果汇总后执行，随后待复核；其他聊天P2-2/P2-3不动。[恢复授权与精确范围](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/approval.json)、[离线对照](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/offline-controls.json)、[冻结](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/freeze.json)。
+
+
+## TEST-2026-10-20-P21-B-NETWORK-FIXED-PARTIAL-503
+
+- 范围：按用户“现在应该行了。你再跑下b试试”继续仅发现的修正检查点B；保留已完成index0，源生产`a37e152b4283d8f407c9650d19200708314e3362`及输入不变。当前恢复冻结提交`9b1e5f17fd604c98bca5d302a26f8cd82203f989`、408项SHA，外层SHA`180d48674c1d923840685fd8494d6f2d8a23d3adafeebcf3815482628b27ec6c`；28项0网络离线对照复用。用户在运行前修复宿主机路由，此环境变化限制A/B的单变量归因。
+- 真实只读发现：本次indices1–4完成（h001第2次、神乐坂两次、KF-H005第1次），新增23模型、8正式Google＋4预检Google。每次三来源数据预检均通过，TableCheck返回122条命中；新产物决策数逐次等于模型调用数。B共5/10、27模型、10正式Google＋6预检Google；两次神乐坂来源含`READ_BUDGET_EXCEEDED`，不能把运行完成记为全部能力通过。
+- 停止：index5于UTC2026-10-20T04:19:41.398进行NETWORK_READINESS，TableCheck首页GET返回503，未进入来源数据检查、模型或正式探测；保留原始响应与旧账本前缀，历史失败4→5，冻结外层触发`PREFLIGHT_FAILURE_LIMIT`。剩余KF-H005第2次、吉祥寺两次、H002、中目黑均NOT_REACHED，不额外重试、不继续P2-2/P2-3。
+- 评价：按Eval四层分列；五条轨迹的独立网络审计ABSENT仅证明其记录内未见越界。十行A/B保留、只比较同例已到达的5行；H002的HARD修正组未到达。Tabelog见证进入列表3/5、首批2/5；TableCheck0/5；Google精确ID1/5。检索规划耗时、页数、检索序列、半径内家数和源级失败详见报告；仅发现不运行完整Task诊断评价，不证明实时库存或交付。
+- 验证：生产源码未改，复用262源码SHA与五门禁（typecheck、arch、build；默认951/951、真实本地Chromium119/119）；核对408当前冻结、329原冻结、2893历史SHA、见证原认证、五条决策/模型计数及产物引用。按纯文档矩阵检查链接、账本、索引、diff和权威一致性；原网页录制字节保留，不清洗空白。未改用户INDEX、演示文稿与产品草稿。
+- 用量：累计305/450模型、49/55正式发现探测、133 Google、0完整Live。停止后本地提交并按既有授权正常推送，等待独立复核，无后续自动运行。
+- 证据：[B逐例报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[续跑汇总](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/attempt-summary.json)、[预检时间线](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/preflight-timeline.json)、[后验核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/post-change-verification.json)。

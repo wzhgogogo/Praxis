@@ -1,5 +1,5 @@
 {
-  "status": "PARTIAL_ONE_COMPARABLE_ROW_NO_CAUSAL_CONCLUSION",
+  "status": "PARTIAL_STOPPED",
   "groups": {
     "HARD_KEYWORD_CORRECTION": {
       "indices": [
@@ -65,38 +65,34 @@
         }
       },
       "checkpointB": {
-        "runs": 1,
-        "models": 4,
-        "elapsedMs": 84990,
+        "runs": 5,
+        "models": 27,
+        "elapsedMs": 428643,
         "listing": {
-          "tabelog": 1,
+          "tabelog": 3,
           "tablecheck": 0,
           "google-places": 1
         },
         "nativeFirstBatch": {
-          "tabelog": 1,
+          "tabelog": 2,
           "tablecheck": 0
         }
       },
       "checkpointAComparable": {
-        "runs": 1,
-        "models": 4,
-        "elapsedMs": 79187,
+        "runs": 5,
+        "models": 29,
+        "elapsedMs": 485542,
         "listing": {
-          "tabelog": 1,
+          "tabelog": 3,
           "tablecheck": 0,
-          "google-places": 1
+          "google-places": 2
         },
         "nativeFirstBatch": {
-          "tabelog": 1,
+          "tabelog": 2,
           "tablecheck": 0
         }
       },
       "notReachedIndices": [
-        1,
-        2,
-        3,
-        4,
         5,
         6,
         7,
@@ -104,5 +100,5 @@
       ]
     }
   },
-  "note": "H002/HARD correction not reached. Only index0 is comparable in the other-nine P2-1b group; one row cannot establish an improvement or causal effect. Nine remaining formal runs were not started."
+  "note": "H002 is the approved HARD-keyword correction group; other nine are the P2-1b correction group. Host routing changed before this continuation. Public data and real-model choices vary; these groups delimit implementation scope, not a proven single-factor causal effect."
 }

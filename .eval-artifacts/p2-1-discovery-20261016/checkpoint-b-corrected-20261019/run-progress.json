@@ -1,23 +1,27 @@
 {
-  "status": "B_NETWORK_REPAIR_RESUME_FROZEN_PENDING_EXECUTION",
-  "at": "2026-10-20T03:09:45.186178+00:00",
+  "status": "B_STOPPED_AFTER_NETWORK_REPAIR_CONTINUATION",
+  "at": "2026-10-20T04:22:30.669037+00:00",
   "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
   "completed": [
-    0
+    0,
+    1,
+    2,
+    3,
+    4
   ],
-  "formalProbesAdded": 1,
-  "modelCallsAdded": 4,
-  "modelCumulative": 282,
-  "probeCumulative": 45,
-  "googleCumulative": 121,
+  "formalProbesAdded": 5,
+  "modelCallsAdded": 27,
+  "modelCumulative": 305,
+  "probeCumulative": 49,
+  "googleCumulative": 133,
   "fullLive": 0,
   "stop": {
-    "code": "PREFLIGHT_EVIDENCE_GAP",
-    "index": 1,
-    "checkpointPreflightFailures": 4,
+    "code": "PREFLIGHT_FAILURE_LIMIT",
+    "index": 5,
+    "checkpointPreflightFailures": 5,
     "sourceIds": []
   },
-  "remainingFormalRuns": 9,
+  "remainingFormalRuns": 5,
   "automaticRetryAllowed": false,
   "report": "report.md",
   "additionalRecheck": {
@@ -36,7 +40,7 @@
     "automaticRetryAllowed": false
   },
   "preflightFailures": 4,
-  "sourceDataPreflight": "INDEX0_READY_INDEX1_RETRY_NOT_REACHED",
+  "sourceDataPreflight": "READY_TABLELOG20_TABLECHECK122_GOOGLE1",
   "userContinuation": {
     "outerCommit": "2f088b88f90da33c7ae97d25e78c2b5e342f5596",
     "summary": "user-resume-20261019/attempt-summary.json",
@@ -51,7 +55,7 @@
     "models": 0,
     "formalProbes": 0
   },
-  "activeFreezeCommit": "03944f447073b222ca45f3d3de3ea04e6e7728dc",
+  "activeFreezeCommit": "9b1e5f17fd604c98bca5d302a26f8cd82203f989",
   "previousStopRetainedInLedgerHistory": true,
   "userRetry5": {
     "outerCommit": "76137e814518a7571050c54e70925a20bea85d67",
@@ -61,9 +65,9 @@
     "formalProbes": 0,
     "googleSearchAttempts": 1
   },
-  "networkReadiness": "INDEX1_RETRY_TABLECHECK_HTTP403",
+  "networkReadiness": "PASSED",
   "witnessRefresh": "start-b-20261020/witnesses.certified.json",
-  "formalRunsCompletedInCurrentBatch": 1,
+  "formalRunsCompletedInCurrentBatch": 5,
   "ledgerAuthority": "/Users/wangzhour/.codex/worktrees/p21-checkpoint-b-corrected/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/ledger.json",
   "launchSummary": "start-b-20261020/launch-summary.json",
   "retryPlan": "user-retry-10m-20261020/approval.json",
@@ -72,6 +76,6 @@
   "tenMinuteRetrySummary": "user-retry-10m-20261020/attempt-summary.json",
   "userRequestedNoRetry": false,
   "pushRequested": true,
-  "activeIndex": 1,
-  "networkRepairResume": "network-fixed-resume-20261020/approval.json"
+  "networkRepairResume": "network-fixed-resume-20261020/approval.json",
+  "networkRepairResumeSummary": "network-fixed-resume-20261020/attempt-summary.json"
 }

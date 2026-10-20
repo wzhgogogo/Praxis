@@ -20,39 +20,43 @@
     }
   },
   "checkpointAComparable": {
-    "runs": 1,
-    "models": 4,
-    "elapsedMs": 79187,
-    "planningCalls": 3,
-    "planningMs": 6958,
+    "runs": 5,
+    "models": 29,
+    "elapsedMs": 485542,
+    "planningCalls": 10,
+    "planningMs": 25673,
     "planningTimeouts": 0,
     "listing": {
-      "tabelog": 1,
+      "tabelog": 3,
       "tablecheck": 0,
-      "google-places": 1
+      "google-places": 2
     },
     "firstBatch": {
-      "tabelog": 1,
+      "tabelog": 2,
       "tablecheck": 0
     },
-    "failures": {}
+    "failures": {
+      "READ_BUDGET_EXCEEDED": 2
+    }
   },
   "checkpointB": {
-    "runs": 1,
-    "models": 4,
-    "elapsedMs": 84990,
-    "planningCalls": 3,
-    "planningMs": 6516,
+    "runs": 5,
+    "models": 27,
+    "elapsedMs": 428643,
+    "planningCalls": 10,
+    "planningMs": 22008,
     "planningTimeouts": 0,
     "listing": {
-      "tabelog": 1,
+      "tabelog": 3,
       "tablecheck": 0,
       "google-places": 1
     },
     "firstBatch": {
-      "tabelog": 1,
+      "tabelog": 2,
       "tablecheck": 0
     },
-    "failures": {}
+    "failures": {
+      "READ_BUDGET_EXCEEDED": 2
+    }
   }
 }

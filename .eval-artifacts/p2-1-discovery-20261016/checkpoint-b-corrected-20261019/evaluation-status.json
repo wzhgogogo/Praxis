@@ -1,22 +1,46 @@
 {
-  "status": "PARTIAL_STOPPED_AFTER_USER_TEN_MINUTE_RETRY_HTTP403",
+  "status": "PARTIAL_STOPPED",
   "planned": 10,
-  "formalStarted": 1,
-  "formalCompleted": 1,
-  "scorableFormalRuns": 1,
-  "recordedPreflights": 8,
+  "formalStarted": 5,
+  "formalCompleted": 5,
+  "scorableFormalRuns": 5,
+  "recordedPreflights": 13,
   "setupFailures": 1,
   "layers": {
-    "endToEnd": "FULL_TASK_NOT_EVALUATED_DISCOVERY_SLICE_ONLY",
-    "formalStages": "INDEX0_RECORDED_INDICES1_TO9_NOT_REACHED",
-    "severity": "ABSENT_IN_ONE_RECORDED_TRACE_REMAINING9_NOT_EVALUATED",
-    "attribution": "One comparable discovery row only; TableCheck homepage Range GET HTTP403 blocked index1 twice before source-data/model stage. Cause NOT_CONFIRMED. No P2-1b effect conclusion."
+    "endToEnd": "FULL_USER_DELIVERY_NOT_EVALUATED_DISCOVERY_FIRST_BATCH_ONLY",
+    "formalStages": {
+      "recordedIndices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "notReachedIndices": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "severity": {
+      "scope": "Frozen independent recorded-network audit, not a global public-read certificate",
+      "byIndex": {
+        "0": "ABSENT",
+        "1": "ABSENT",
+        "2": "ABSENT",
+        "3": "ABSENT",
+        "4": "ABSENT"
+      }
+    },
+    "attribution": "H002/HARD correction versus other-nine/P2-1b groups separately reported. Host routing repair and source/model fluctuation prevent single-factor causal certification."
   },
-  "diagnosticEvaluator": "NOT_APPLICABLE_FULL_AGENT_DELIVERY_EVALUATOR: discovery probe measured by frozen discovery metrics and independent recorded-network audit",
-  "newDecisionCapture": "4_ROWS_EQUAL_4_MODEL_CALLS",
-  "newBrowserRecording": "INDEX0_SAVED_AND_HASH_VERIFIED",
-  "newModelCalls": 4,
-  "newGoogleDiscoveryCalls": 2,
+  "diagnosticEvaluator": "NOT_APPLICABLE_FULL_TASK_EVALUATOR: discovery probe uses frozen discovery metrics and independent network rules",
+  "newDecisionCapture": "27_ROWS_EQUAL_MODEL_CALLS_FOR_RECORDED_PROBES",
+  "newBrowserRecording": "ALL_RECORDED_PROBES_SAVED_WITH_SHA",
+  "newModelCalls": 27,
+  "newGoogleDiscoveryCalls": 10,
   "fullLive": 0,
   "latestUserContinuation": {
     "networkReadiness": "FAILED_HTTP503_TABLECHECK",
@@ -40,7 +64,7 @@
     "countablePreflightFailures": 4,
     "cumulativeGoogle": 118
   },
-  "newGoogleSourcePreflightCalls": 2,
+  "newGoogleSourcePreflightCalls": 6,
   "latestLaunch": {
     "formalIndices": [
       0
@@ -91,5 +115,13 @@
       "sourceIds": []
     },
     "outerDiagnosticGap": "Frozen classifier recognizes TableCheck503 only; the definite HTTP403 remains PREFLIGHT_EVIDENCE_GAP without counter increment. Frozen code and ledger counter not overridden."
+  },
+  "networkRepairedContinuation": {
+    "summary": "network-fixed-resume-20261020/attempt-summary.json",
+    "status": "PARTIAL_STOPPED",
+    "newFormalRecorded": 4,
+    "newModels": 23,
+    "newGoogleFormal": 8,
+    "newGooglePreflight": 4
   }
 }

@@ -1,0 +1,172 @@
+{
+  "status": "PARTIAL_STOPPED",
+  "freezeCommit": "9b1e5f17fd604c98bca5d302a26f8cd82203f989",
+  "sourceHead": "a37e152b4283d8f407c9650d19200708314e3362",
+  "outerSha256": "180d48674c1d923840685fd8494d6f2d8a23d3adafeebcf3815482628b27ec6c",
+  "freezeSha256": "5187a66d38f3359d7ff05b12814846a70ca6f3c5860fef45e2af2224ae7013f4",
+  "frozenFiles": 408,
+  "witnessRegistrySha256": "a43cfe1ba6626a4d4a692612879191f65aafe8d0302ad7633edaf6a4a6a9cf44",
+  "completedBefore": [
+    0
+  ],
+  "newAttemptCount": 5,
+  "newFormalRecorded": 4,
+  "newModelCalls": 23,
+  "newGoogleFormal": 8,
+  "newGooglePreflight": 4,
+  "completedIndices": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "notReachedIndices": [
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "stop": {
+    "code": "PREFLIGHT_FAILURE_LIMIT",
+    "index": 5,
+    "checkpointPreflightFailures": 5,
+    "sourceIds": []
+  },
+  "historicalFailureCounterBefore": 4,
+  "failureCounterAfter": 5,
+  "cumulativeModels": 305,
+  "modelCap": 450,
+  "cumulativeFormalProbes": 49,
+  "probeCap": 55,
+  "cumulativeGoogle": 133,
+  "fullLive": 0,
+  "attempts": [
+    {
+      "index": 1,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 2,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T04:06:53.039782+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-network-fixed-20261020",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-network-fixed-20261020/probe-summary.json",
+      "summarySha256": "3f101ba5d45365f57af4f57cfe20664e72e0b3283ee4602e9f926a2170470379",
+      "models": 4,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "witnessInFirstBatch": true,
+      "inRadiusParsed": 44,
+      "finishedAt": "2026-10-20T04:08:32.768711+00:00"
+    },
+    {
+      "index": 2,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T04:10:12.453192+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+      "summarySha256": "5f328831fda9a124137bac4ffccb652824f0080f007d8f1b81170d85e8298dbd",
+      "models": 8,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": false,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "witnessInFirstBatch": false,
+      "inRadiusParsed": 45,
+      "finishedAt": "2026-10-20T04:11:57.159255+00:00"
+    },
+    {
+      "index": 3,
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "repeat": 2,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T04:13:20.135255+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/probe-summary.json",
+      "summarySha256": "e2d542b02bf5b2e42d33cb7ab0f49b710014264a93f6d8b7bb454d950000d1fd",
+      "models": 8,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": false,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "witnessInFirstBatch": false,
+      "inRadiusParsed": 45,
+      "finishedAt": "2026-10-20T04:15:16.852080+00:00"
+    },
+    {
+      "index": 4,
+      "caseId": "p2-kf-h005-20261029",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T04:16:53.625895+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/probe-summary.json",
+      "summarySha256": "683eaf35fd9e02ae07966a4060df47f708de12e1fe7e938bdd4ea7fe180cd391",
+      "models": 3,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": false
+      },
+      "witnessInFirstBatch": false,
+      "inRadiusParsed": 49,
+      "finishedAt": "2026-10-20T04:18:32.004276+00:00"
+    },
+    {
+      "index": 5,
+      "caseId": "p2-kf-h005-20261029",
+      "repeat": 2,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T04:19:40.940414+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [
+        {
+          "reason": "NO_RESPONSE",
+          "responseStatus": 503,
+          "sourceId": "tablecheck",
+          "outcome": "FAILED",
+          "countsTowardStop": true,
+          "phase": "NETWORK_READINESS"
+        }
+      ],
+      "countsTowardStop": true,
+      "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/2026-10-20T04-19-41-398Z-e1b5af96-bc2f-45d9-abb6-6658dd5c4e10.result.json",
+      "networkPreflightResultSha256": "8662502bd34529fb4dc407079fc6394e993dfbe5cca2acf6c77dbd068e9052bb",
+      "finishedAt": "2026-10-20T04:19:46.421813+00:00"
+    }
+  ],
+  "scope": "Same exposed development discovery inputs/source/metrics. Host routing repaired before this continuation. No full Live, P2-2/P2-3 work or production changes. Observational comparison, not a clean or single-factor causal estimate."
+}

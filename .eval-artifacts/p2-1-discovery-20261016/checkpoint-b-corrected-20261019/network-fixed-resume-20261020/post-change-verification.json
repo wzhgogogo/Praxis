@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "testedAt": "2026-10-20T04:32:44.117493+00:00",
+  "proofScope": "Evidence and document consistency; unchanged production gates reused. Partial real-model discovery is separate from L0/L1 and full Live.",
+  "frozenFileCounts": {
+    "current": 408,
+    "previousRetry": 400,
+    "firstLaunch": 390,
+    "original": 329
+  },
+  "historicalFilesUnchanged": 2893,
+  "sourceHashesUnchanged": 262,
+  "gatesReused": {
+    "npm run typecheck": "PASS",
+    "npm run arch:check": "PASS",
+    "npm test": "PASS",
+    "npm run build": "PASS",
+    "npm run test:browser:fixture": "PASS"
+  },
+  "defaultTests": 951,
+  "browserFixtureTests": 119,
+  "worktreeClean": true,
+  "sourceHead": "a37e152b4283d8f407c9650d19200708314e3362",
+  "userIndexUnchanged": true,
+  "freezeCommit": "9b1e5f17fd604c98bca5d302a26f8cd82203f989",
+  "freezeCommittedBeforeFirstAttempt": true,
+  "offlineOuterControls": 28,
+  "ledgerSha256": "c64167ea636f246984522c6858f50d15b8fe1fefc188078a5140d5687e27ad4f",
+  "ledgerMatchesHostWorktree": true,
+  "ledgerHistoryPrefixesRetained": true,
+  "completedIndices": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "notReachedIndices": [
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "stop": {
+    "code": "PREFLIGHT_FAILURE_LIMIT",
+    "index": 5,
+    "checkpointPreflightFailures": 5,
+    "sourceIds": []
+  },
+  "formalProbes": 5,
+  "newFormalProbes": 4,
+  "modelRowsEqualCalls": 27,
+  "newModelCalls": 23,
+  "cumulativeModels": 305,
+  "cumulativeFormalProbes": 49,
+  "cumulativeGoogle": 133,
+  "fullLive": 0,
+  "networkAuditScope": "ABSENT in five recorded traces only; independent frozen rules, not a universal safety certificate.",
+  "sourceReadBudgetExceededRuns": 2,
+  "recordingManifestAssetsVerified": 227,
+  "recordingReplayFlags": {
+    "NOT_REPLAYABLE/UNSAFE_DOCUMENT": 5
+  },
+  "registeredWitnessVerification": 16,
+  "witnessesValidThroughoutRun": true,
+  "finalAttempt": "NETWORK_READINESS_HTTP503",
+  "finalAttemptFormalOrModelCalls": 0,
+  "missingFormalArtifactsExpected": true,
+  "monthlyIndexCounts": {
+    "开发记录": 158,
+    "验证记录": 165
+  },
+  "newLocalLinksChecked": 44,
+  "authoredDiffCheck": "PASS",
+  "rawRecordingWhitespaceNotices": 2521,
+  "rawRecordingBytesPreserved": true,
+  "automationPaused": true,
+  "unrelatedUserChangesExcludedFromIndex": true,
+  "nextStep": "No further run or retry; submit/push evidence under existing authorization, then independent review."
+}

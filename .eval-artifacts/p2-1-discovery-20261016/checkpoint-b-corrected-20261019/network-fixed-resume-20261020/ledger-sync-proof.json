@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "at": "2026-10-20T04:22:29.671400+00:00",
+  "ledgerBeforeSha256": "0cc295bd03d8ace182c2f0baf7bc1ebf86fddc79127f8192fcb27f34739e3f2d",
+  "ledgerAfterSha256": "c64167ea636f246984522c6858f50d15b8fe1fefc188078a5140d5687e27ad4f",
+  "oldAttemptPrefixUnchanged": true,
+  "oldStopHistoryPrefixUnchanged": true,
+  "oldRecoveryHistoryRetained": true,
+  "completedBefore": [
+    0
+  ],
+  "completedAfter": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "newFormalProbes": 4,
+  "newModels": 23,
+  "newGoogleFormal": 8,
+  "newGooglePreflight": 4,
+  "preflightFailureCounterBefore": 4,
+  "preflightFailureCounterAfter": 5,
+  "stop": {
+    "code": "PREFLIGHT_FAILURE_LIMIT",
+    "index": 5,
+    "checkpointPreflightFailures": 5,
+    "sourceIds": []
+  }
+}

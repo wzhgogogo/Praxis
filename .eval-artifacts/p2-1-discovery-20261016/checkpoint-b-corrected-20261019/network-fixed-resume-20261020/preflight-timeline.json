@@ -1,0 +1,514 @@
+[
+  {
+    "index": 0,
+    "repeat": 1,
+    "startedAt": "2026-10-19T12:33:35.461341+00:00",
+    "phase": "SETUP_NOT_ENTERED",
+    "formalStarted": false,
+    "details": []
+  },
+  {
+    "index": 0,
+    "repeat": 1,
+    "startedAt": "2026-10-19T12:49:03.411645+00:00",
+    "phase": "NETWORK_READINESS",
+    "formalStarted": false,
+    "details": [
+      {
+        "target": "TABLECHECK",
+        "status": 503,
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+        "file": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-setup-2/2026-10-19T12-49-03-820Z-d09544f5-69e6-4401-a365-2e08e2d8b201.result.json",
+        "sha256": "b644e2000a167599972a9a58436d31926a2dc4f22d16ea31dd5fd2a889da759e"
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "repeat": 1,
+    "startedAt": "2026-10-19T12:59:43.645412+00:00",
+    "phase": "NETWORK_READINESS",
+    "formalStarted": false,
+    "details": [
+      {
+        "target": "TABLECHECK",
+        "status": 503,
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+        "file": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-preflight-2/2026-10-19T12-59-44-084Z-b4982e00-3f56-4a01-acd5-f351d7876a27.result.json",
+        "sha256": "91abeabbbbc503b6b0f2e026cb3f730e8767886f564698f0cb90fa28ff80d872"
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "repeat": 1,
+    "startedAt": "2026-10-19T14:40:31.516305+00:00",
+    "phase": "NETWORK_READINESS",
+    "formalStarted": false,
+    "details": [
+      {
+        "target": "TABLECHECK",
+        "status": 503,
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+        "file": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-resume-3/2026-10-19T14-40-32-201Z-1dfc77b3-7275-45d3-81a0-900992f474b9.result.json",
+        "sha256": "8c1db811592387b2adea8627b5284eb9da2299929f44ce18e3d1067315454020"
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "repeat": 1,
+    "startedAt": "2026-10-19T14:54:30.243968+00:00",
+    "phase": "NETWORK_READINESS",
+    "formalStarted": false,
+    "details": [
+      {
+        "target": "TABLECHECK",
+        "status": 503,
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+        "file": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-retry-4/2026-10-19T14-54-30-689Z-dff3aed2-22fb-4476-9895-60bc64714fbc.result.json",
+        "sha256": "5f5417705b062ebe16a7c89bcc26defa9f1d6460f1b9cacc50be6b319f8131f4"
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "repeat": 1,
+    "startedAt": "2026-10-20T02:07:09.618912+00:00",
+    "phase": "SOURCE_DATA",
+    "formalStarted": false,
+    "details": [
+      {
+        "sourceId": "tabelog",
+        "check": {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+        },
+        "count": 20,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 7581,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "tablecheck",
+        "check": {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+        },
+        "count": null,
+        "responseStatus": null,
+        "reason": "NO_RESPONSE",
+        "detail": "NO_VALID_SEARCH_RESPONSE",
+        "networkDiagnostics": [
+          {
+            "code": "BLOCKED_ENDPOINT",
+            "origin": "https://umami-next.post.tablecheck.com",
+            "pathname": "/script.js",
+            "method": "GET",
+            "resourceType": "script",
+            "queryKeys": []
+          },
+          {
+            "code": "BLOCKED_METHOD",
+            "origin": "https://o126849.ingest.us.sentry.io",
+            "pathname": "/api/4507697548034048/envelope/",
+            "method": "POST",
+            "resourceType": "xhr",
+            "queryKeys": [
+              "sentry_client",
+              "sentry_key",
+              "sentry_version"
+            ]
+          },
+          {
+            "code": "BLOCKED_ENDPOINT",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/geolocation",
+            "method": "GET",
+            "resourceType": "xhr",
+            "queryKeys": []
+          },
+          {
+            "code": "BLOCKED_ENDPOINT",
+            "origin": "https://maps.ingress.production.tablecheck.com",
+            "pathname": "/tiles/20241111.json",
+            "method": "GET",
+            "resourceType": "xhr",
+            "queryKeys": []
+          },
+          {
+            "code": "BLOCKED_ENDPOINT",
+            "origin": "https://cdn0.tablecheck.com",
+            "pathname": "/common/images/apps/din/map/sprites/light.json",
+            "method": "GET",
+            "resourceType": "xhr",
+            "queryKeys": []
+          },
+          {
+            "code": "BLOCKED_ENDPOINT",
+            "origin": "https://cdn0.tablecheck.com",
+            "pathname": "/common/images/apps/din/map/sprites/light.png",
+            "method": "GET",
+            "resourceType": "xhr",
+            "queryKeys": []
+          },
+          {
+            "code": "BLOCKED_METHOD",
+            "origin": "https://o126849.ingest.us.sentry.io",
+            "pathname": "/api/4507697548034048/envelope/",
+            "method": "POST",
+            "resourceType": "xhr",
+            "queryKeys": [
+              "sentry_client",
+              "sentry_key",
+              "sentry_version"
+            ]
+          },
+          {
+            "code": "BLOCKED_METHOD",
+            "origin": "https://o126849.ingest.us.sentry.io",
+            "pathname": "/api/4507697548034048/envelope/",
+            "method": "POST",
+            "resourceType": "xhr",
+            "queryKeys": [
+              "sentry_client",
+              "sentry_key",
+              "sentry_version"
+            ]
+          },
+          {
+            "code": "BLOCKED_METHOD",
+            "origin": "https://o126849.ingest.us.sentry.io",
+            "pathname": "/api/4507697548034048/envelope/",
+            "method": "POST",
+            "resourceType": "fetch",
+            "queryKeys": [
+              "sentry_client",
+              "sentry_key",
+              "sentry_version"
+            ]
+          },
+          {
+            "code": "BLOCKED_METHOD",
+            "origin": "https://o126849.ingest.us.sentry.io",
+            "pathname": "/api/4507697548034048/envelope/",
+            "method": "POST",
+            "resourceType": "xhr",
+            "queryKeys": [
+              "sentry_client",
+              "sentry_key",
+              "sentry_version"
+            ]
+          }
+        ],
+        "elapsedMs": 22178,
+        "outcome": "FAILED",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "google-places",
+        "check": {
+          "sourceId": "google-places",
+          "textQuery": "restaurants near Ginza, Tokyo"
+        },
+        "count": null,
+        "responseStatus": null,
+        "reason": "NO_RESPONSE",
+        "detail": "READ_FAILED",
+        "elapsedMs": 8001,
+        "outcome": "FAILED",
+        "countsTowardStop": false
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "repeat": 1,
+    "startedAt": "2026-10-20T02:48:13.749379+00:00",
+    "phase": "SOURCE_DATA",
+    "formalStarted": true,
+    "details": [
+      {
+        "sourceId": "tabelog",
+        "check": {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+        },
+        "count": 20,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 7563,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "tablecheck",
+        "check": {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+        },
+        "count": 122,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 5838,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "google-places",
+        "check": {
+          "sourceId": "google-places",
+          "textQuery": "restaurants near Ginza, Tokyo"
+        },
+        "count": 1,
+        "responseStatus": null,
+        "reason": null,
+        "elapsedMs": 1243,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      }
+    ]
+  },
+  {
+    "index": 1,
+    "repeat": 2,
+    "startedAt": "2026-10-20T02:50:30.050921+00:00",
+    "phase": "NETWORK_READINESS",
+    "formalStarted": false,
+    "details": [
+      {
+        "target": "TABLECHECK",
+        "status": 403,
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+        "file": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2/2026-10-20T02-50-30-493Z-ae128868-8b80-4db9-9409-5cc416468c51.result.json",
+        "sha256": "da94db44eff055265925ac2ff566a1e292832aebf19fa476bb8066b85997cc6e"
+      }
+    ]
+  },
+  {
+    "index": 1,
+    "repeat": 2,
+    "startedAt": "2026-10-20T03:07:10.201608+00:00",
+    "phase": "NETWORK_READINESS",
+    "formalStarted": false,
+    "details": [
+      {
+        "target": "TABLECHECK",
+        "status": 403,
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+        "file": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-user-retry10m-20261020/2026-10-20T03-07-10-964Z-73adcf56-9f98-4495-8bf1-21851a86ee93.result.json",
+        "sha256": "43be1d978e69d12d645dd9c43e57c07970126722fbff62d2b85c1802538c1e9d"
+      }
+    ]
+  },
+  {
+    "index": 1,
+    "repeat": 2,
+    "startedAt": "2026-10-20T04:06:53.039782+00:00",
+    "phase": "SOURCE_DATA",
+    "formalStarted": true,
+    "details": [
+      {
+        "sourceId": "tabelog",
+        "check": {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+        },
+        "count": 20,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 7369,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "tablecheck",
+        "check": {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+        },
+        "count": 122,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 4901,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "google-places",
+        "check": {
+          "sourceId": "google-places",
+          "textQuery": "restaurants near Ginza, Tokyo"
+        },
+        "count": 1,
+        "responseStatus": null,
+        "reason": null,
+        "elapsedMs": 1245,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      }
+    ]
+  },
+  {
+    "index": 2,
+    "repeat": 1,
+    "startedAt": "2026-10-20T04:10:12.453192+00:00",
+    "phase": "SOURCE_DATA",
+    "formalStarted": true,
+    "details": [
+      {
+        "sourceId": "tabelog",
+        "check": {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+        },
+        "count": 20,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 5866,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "tablecheck",
+        "check": {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+        },
+        "count": 122,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 5876,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "google-places",
+        "check": {
+          "sourceId": "google-places",
+          "textQuery": "restaurants near Ginza, Tokyo"
+        },
+        "count": 1,
+        "responseStatus": null,
+        "reason": null,
+        "elapsedMs": 1211,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      }
+    ]
+  },
+  {
+    "index": 3,
+    "repeat": 2,
+    "startedAt": "2026-10-20T04:13:20.135255+00:00",
+    "phase": "SOURCE_DATA",
+    "formalStarted": true,
+    "details": [
+      {
+        "sourceId": "tabelog",
+        "check": {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+        },
+        "count": 20,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 5830,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "tablecheck",
+        "check": {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+        },
+        "count": 122,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 5249,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "google-places",
+        "check": {
+          "sourceId": "google-places",
+          "textQuery": "restaurants near Ginza, Tokyo"
+        },
+        "count": 1,
+        "responseStatus": null,
+        "reason": null,
+        "elapsedMs": 1415,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      }
+    ]
+  },
+  {
+    "index": 4,
+    "repeat": 1,
+    "startedAt": "2026-10-20T04:16:53.625895+00:00",
+    "phase": "SOURCE_DATA",
+    "formalStarted": true,
+    "details": [
+      {
+        "sourceId": "tabelog",
+        "check": {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+        },
+        "count": 20,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 6969,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "tablecheck",
+        "check": {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+        },
+        "count": 122,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 5571,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      {
+        "sourceId": "google-places",
+        "check": {
+          "sourceId": "google-places",
+          "textQuery": "restaurants near Ginza, Tokyo"
+        },
+        "count": 1,
+        "responseStatus": null,
+        "reason": null,
+        "elapsedMs": 1194,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      }
+    ]
+  },
+  {
+    "index": 5,
+    "repeat": 2,
+    "startedAt": "2026-10-20T04:19:40.940414+00:00",
+    "phase": "NETWORK_READINESS",
+    "formalStarted": false,
+    "details": [
+      {
+        "target": "TABLECHECK",
+        "status": 503,
+        "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED",
+        "file": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/2026-10-20T04-19-41-398Z-e1b5af96-bc2f-45d9-abb6-6658dd5c4e10.result.json",
+        "sha256": "8662502bd34529fb4dc407079fc6394e993dfbe5cca2acf6c77dbd068e9052bb"
+      }
+    ]
+  }
+]

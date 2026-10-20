@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.287
+- Document revision: 4.288
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-20 修正B续跑完成5/10，TableCheck503按冻结规则停批：** 网络修复后续跑新增4次正式发现、23模型及12 Google，修正B累计5/10；KF-H005第二次在首页预检TableCheck503，0模型/搜索/正式探测，历史计数4→5触发PREFLIGHT_FAILURE_LIMIT。累计305/450模型、49/55探测、133 Google、0完整Live。余5项及H002未到达；记录两次READ_BUDGET_EXCEEDED，不作整体通过或因果改善结论；停止后提交推送，等待复核。
 
 - **2026-10-20 网络修复后按用户要求续跑B剩余九次：** 用户在网络修复后要求继续B；新恢复仅准入未完成index1并顺序执行剩余九项，index0不重跑，历史失败4及全部调用账本保留。408项SHA与28离线对照冻结，源五门禁复用；准备阶段仍282/450模型、45/55探测、121Google，Runner逐例预检通过才启动发现。
 
