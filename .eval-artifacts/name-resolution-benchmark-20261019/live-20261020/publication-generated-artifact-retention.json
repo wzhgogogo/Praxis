@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "reason": "Existing full local Chromium suite writes this tracked fixture output; only20 timing fields changed",
+  "trackedOriginal": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/region-composition-results.json",
+  "restoredSha256": "70f78ab6a177d002f00702851f2849b67217a4888ab52a535ef25bac197492e8",
+  "thisGateOutput": ".eval-artifacts/name-resolution-benchmark-20261019/live-20261020/publication-region-composition-results.json",
+  "thisGateOutputSha256": "63429f9ad49d2ab97e5591b5d30dd7595dfb82d8f98f326b9a516093de3cd90e",
+  "timingDifferences": [
+    {
+      "path": "results.0.read.continuation.discoveryPlan.regionReferenceRead.read.metadata.latencyMs",
+      "before": 3,
+      "after": 4
+    },
+    {
+      "path": "results.0.read.metadata.latencyMs",
+      "before": 2579,
+      "after": 2574
+    },
+    {
+      "path": "results.0.read.metadata.nativeDiscoveryFunnel.sourceElapsedMs",
+      "before": 2562,
+      "after": 2553
+    },
+    {
+      "path": "results.0.read.metadata.nativeDiscoveryFunnel.retrieval.history.0.elapsedMs",
+      "before": 2229,
+      "after": 2224
+    },
+    {
+      "path": "results.1.read.metadata.latencyMs",
+      "before": 2552,
+      "after": 2583
+    },
+    {
+      "path": "results.1.read.metadata.nativeDiscoveryFunnel.sourceElapsedMs",
+      "before": 2535,
+      "after": 2559
+    },
+    {
+      "path": "results.1.read.metadata.nativeDiscoveryFunnel.retrieval.history.0.elapsedMs",
+      "before": 2202,
+      "after": 2228
+    },
+    {
+      "path": "results.2.read.metadata.latencyMs",
+      "before": 2550,
+      "after": 2557
+    },
+    {
+      "path": "results.2.read.metadata.nativeDiscoveryFunnel.sourceElapsedMs",
+      "before": 2533,
+      "after": 2540
+    },
+    {
+      "path": "results.2.read.metadata.nativeDiscoveryFunnel.retrieval.history.0.elapsedMs",
+      "before": 2203,
+      "after": 2209
+    },
+    {
+      "path": "results.3.read.metadata.latencyMs",
+      "before": 2562,
+      "after": 2570
+    },
+    {
+      "path": "results.3.read.metadata.nativeDiscoveryFunnel.sourceElapsedMs",
+      "before": 2545,
+      "after": 2554
+    },
+    {
+      "path": "results.3.read.metadata.nativeDiscoveryFunnel.retrieval.history.0.elapsedMs",
+      "before": 2215,
+      "after": 2226
+    },
+    {
+      "path": "results.4.read.metadata.latencyMs",
+      "before": 1557,
+      "after": 1578
+    },
+    {
+      "path": "results.4.read.metadata.nativeDiscoveryFunnel.sourceElapsedMs",
+      "before": 1538,
+      "after": 1560
+    },
+    {
+      "path": "results.4.read.metadata.nativeDiscoveryFunnel.retrieval.history.0.elapsedMs",
+      "before": 1206,
+      "after": 1227
+    },
+    {
+      "path": "results.5.read.continuation.discoveryPlan.regionReferenceRead.read.metadata.latencyMs",
+      "before": 2,
+      "after": 1
+    },
+    {
+      "path": "results.5.read.metadata.latencyMs",
+      "before": 5913,
+      "after": 5914
+    },
+    {
+      "path": "results.5.read.metadata.nativeDiscoveryFunnel.sourceElapsedMs",
+      "before": 5896,
+      "after": 5897
+    },
+    {
+      "path": "results.5.read.metadata.nativeDiscoveryFunnel.retrieval.history.0.elapsedMs",
+      "before": 5566,
+      "after": 5565
+    }
+  ]
+}
