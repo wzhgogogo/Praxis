@@ -1,0 +1,140 @@
+{
+  "refs": {
+    "base": "13c93a325a80a97eb2c663613c4360776b5afe5d",
+    "p2-2": "7dfeb692dfb04ed5a62c767f9694fc88c493cfb2",
+    "p2-3": "89e0dfb2159c816095e6995827b53537ed3fe73b",
+    "integrated": "5309545a639aeb3958b1ea60ba2987f0cff250d1"
+  },
+  "axes": [
+    {
+      "axis": "Agent decision Prompt",
+      "source": "src/domains/restaurant/agent-decision.ts",
+      "values": {
+        "base": "25",
+        "p2-2": "27",
+        "p2-3": "25",
+        "integrated": "27"
+      }
+    },
+    {
+      "axis": "Agent Context Schema",
+      "source": "src/domains/restaurant/agent-context.ts",
+      "values": {
+        "base": "11",
+        "p2-2": "14",
+        "p2-3": "12",
+        "integrated": "15"
+      }
+    },
+    {
+      "axis": "Agent Action Schema",
+      "source": "src/domains/restaurant/agent-action.ts",
+      "values": {
+        "base": "4",
+        "p2-2": "4",
+        "p2-3": "4",
+        "integrated": "4"
+      }
+    },
+    {
+      "axis": "Restaurant State",
+      "source": "src/domains/restaurant/contracts.ts",
+      "values": {
+        "base": "16",
+        "p2-2": "16",
+        "p2-3": "17",
+        "integrated": "17"
+      }
+    },
+    {
+      "axis": "Restaurant TaskDefinition",
+      "source": "src/domains/restaurant/task-definition.ts",
+      "values": {
+        "base": "14",
+        "p2-2": "14",
+        "p2-3": "14",
+        "integrated": "14"
+      }
+    },
+    {
+      "axis": "Browser decision Prompt",
+      "source": "src/infrastructure/browser/browser-action-decision.ts",
+      "values": {
+        "base": "16",
+        "p2-2": "16",
+        "p2-3": "16",
+        "integrated": "16"
+      }
+    },
+    {
+      "axis": "Browser Action Schema",
+      "source": "src/infrastructure/browser/browser-action-decision.ts",
+      "values": {
+        "base": "11",
+        "p2-2": "11",
+        "p2-3": "11",
+        "integrated": "11"
+      }
+    },
+    {
+      "axis": "Retrieval Prompt",
+      "source": "src/integrations/restaurant-search/discovery-retrieval-planner.ts",
+      "values": {
+        "base": "restaurant-discovery-retrieval-prompt@5",
+        "p2-2": "restaurant-discovery-retrieval-prompt@5",
+        "p2-3": "restaurant-discovery-retrieval-prompt@4",
+        "integrated": "restaurant-discovery-retrieval-prompt@5"
+      }
+    },
+    {
+      "axis": "Retrieval Schema",
+      "source": "src/integrations/restaurant-search/discovery-retrieval-planner.ts",
+      "values": {
+        "base": "2",
+        "p2-2": "2",
+        "p2-3": "1",
+        "integrated": "2"
+      }
+    },
+    {
+      "axis": "Semantic Prompt",
+      "source": "src/domains/restaurant/semantic-proposal.ts",
+      "values": {
+        "base": "v21",
+        "p2-2": "v21",
+        "p2-3": "v21",
+        "integrated": "v21"
+      }
+    },
+    {
+      "axis": "Semantic Schema",
+      "source": "src/domains/restaurant/contracts.ts",
+      "values": {
+        "base": "3",
+        "p2-2": "3",
+        "p2-3": "3",
+        "integrated": "3"
+      }
+    },
+    {
+      "axis": "Evaluator",
+      "source": "src/eval/restaurant/agent-loop/diagnostic-evaluator.ts",
+      "values": {
+        "base": "restaurant-hybrid-read-diagnostic-evaluator@29",
+        "p2-2": "restaurant-hybrid-read-diagnostic-evaluator@29",
+        "p2-3": "restaurant-hybrid-read-diagnostic-evaluator@30",
+        "integrated": "restaurant-hybrid-read-diagnostic-evaluator@30"
+      }
+    },
+    {
+      "axis": "Evaluator rubric",
+      "source": "src/eval/restaurant/agent-loop/diagnostic-evaluator.ts",
+      "values": {
+        "base": "restaurant-hybrid-read-diagnostic-rubric@25",
+        "p2-2": "restaurant-hybrid-read-diagnostic-rubric@25",
+        "p2-3": "restaurant-hybrid-read-diagnostic-rubric@26",
+        "integrated": "restaurant-hybrid-read-diagnostic-rubric@26"
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.194
+- Document revision: 4.195
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4763,3 +4763,7 @@ current executable / 完成十次真实只读发现探测，不代表完整用�
 - Independent calibration: code d79dae7,49 frozen file hashes;22 saved automatic outputs frozen before the existing comparator read unchanged reviewer labels. Outcome22/22, normal S0_DECLARATION20/20, interrupted2/2 explicitly NOT_EVALUATED allowed; S0_BOUNDARY9 ABSENT,13 evidence gaps allowed,0 rule gaps. Not an overall boundary-zero claim or new-case accuracy.
 - Real read-only observation: guide317f501 yielded public menu HTML in12.9s; later user-supplied reserve URL was rejected before network by production Guard. Separate web text reading confirmed3300 drink option needs BBQ and cannot be booked alone. This is current text corroboration, not original historical DOM/Replay or inventory acceptance. No form interaction.
 - Gates: typecheck/architecture/build passed, default953/953; full actual Chromium119/119 passed. Existing failed old-context assertion and fixture debugging logs remain for attribution. No full task Live, real model replay, or external write.
+
+## TEST-2026-10-20-CHECKPOINT-C-INTEGRATION
+
+Checkpoint C offline integration starts from origin13c93a3, sequentially merges P2-2 7dfeb69 and P2-3 89e0dfb (41d677c/5309545). All13 conflicted paths preserve both behaviors/history/tests; combined Context@15, Prompt@27, State@17, Evaluator@30/rubric@26. Five gates PASS: typecheck/arch/build, default972/972 and local Chromium121/121. Original22 calibration retains22/22 outcome types,20/20 normal S0 declarations,8/8 delivery subtypes,0 false qualified; boundary9 ABSENT/13 historical gaps remain distinct. All354 frozen hashes and both branch test inventories verified. No websites/models/Google/probes/Live or name-resolution item4; primary user drafts/INDEX untouched. Independent integration branch only, pushed under explicit user authorization; no source/main merge. [Report](../../.eval-artifacts/checkpoint-c-integration-20261020/report.md).

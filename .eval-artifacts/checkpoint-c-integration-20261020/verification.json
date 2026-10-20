@@ -1,0 +1,67 @@
+{
+  "schema": "checkpoint-c-verification@1",
+  "productionCommit": "5309545a639aeb3958b1ea60ba2987f0cff250d1",
+  "mode": "OFFLINE_ONLY",
+  "gates": {
+    "typecheck": "PASS",
+    "arch:check": "PASS",
+    "npm test": {
+      "pass": 972,
+      "fail": 0
+    },
+    "build": "PASS",
+    "test:browser:fixture": {
+      "pass": 121,
+      "fail": 0
+    }
+  },
+  "calibration": {
+    "resultTypes": "22/22",
+    "S0Declaration": "20/20",
+    "deliveryTypes": "8/8",
+    "falseQualified": 0,
+    "boundaryEvaluatedAbsent": 9,
+    "boundaryEvidenceGaps": 13
+  },
+  "frozenFilesVerified": 354,
+  "testRetentionPassed": true,
+  "logs": {
+    "typecheck-initial.log": {
+      "path": ".eval-artifacts/checkpoint-c-integration-20261020/typecheck-initial.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    "arch.log": {
+      "path": ".eval-artifacts/checkpoint-c-integration-20261020/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    "test.log": {
+      "path": ".eval-artifacts/checkpoint-c-integration-20261020/test.log",
+      "sha256": "a9cf8ae04cfc41aa024022d8a98548b2d38312c39cef729cafb19138637f33ee"
+    },
+    "build.log": {
+      "path": ".eval-artifacts/checkpoint-c-integration-20261020/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    "browser.log": {
+      "path": ".eval-artifacts/checkpoint-c-integration-20261020/browser.log",
+      "sha256": "5e4dac36a9a038aa22a683d4a8288610df3ab792b54b0e1ba786a21aed44da69"
+    },
+    "calibration.log": {
+      "path": ".eval-artifacts/checkpoint-c-integration-20261020/calibration.log",
+      "sha256": "346a2873f2bcf8a99f664d1321a804755f1a549a74945a254f0a804ed363dc42"
+    },
+    "calibration-comparison.log": {
+      "path": ".eval-artifacts/checkpoint-c-integration-20261020/calibration-comparison.log",
+      "sha256": "ddcbe9aa38c813554b69696c9d93a5266283a0f45c5ac7ce583ed3271fcfbc22"
+    }
+  },
+  "usage": {
+    "models": 0,
+    "google": 0,
+    "websites": 0,
+    "probes": 0,
+    "live": 0,
+    "localChromium": "LOCAL_FIXTURE_ONLY"
+  },
+  "note": "Git fetch/push are the only remote operations. No .env loaded, website reads, model replay, name-resolution benchmark item4, or database reset."
+}
