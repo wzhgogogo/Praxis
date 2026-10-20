@@ -1,0 +1,57 @@
+{
+  "seedId": "p1-seed-0133",
+  "scenario": "SINGLE_NATIVE_CANDIDATE_CONTROL",
+  "codeCommit": "1c08f4cff61bddcc52c92e625a2f56471a15f47a",
+  "action": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "tabelog:en/tokyo/A1303/A130301/13308491"
+    ],
+    "decisionSummary": "Only one candidate is known and it has a direct source page; a request-bound availability read can supply both the omakase fact and a slot for 2026-10-16 19:00 for 2."
+  },
+  "wireText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"tabelog:en/tokyo/A1303/A130301/13308491\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Only one candidate is known and it has a direct source page; a request-bound availability read can supply both the omakase fact and a slot for 2026-10-16 19:00 for 2.\"}",
+  "finishReason": "TOOL_CALLS",
+  "call": {
+    "seedId": "p1-seed-0133",
+    "startedAt": "2026-10-20T08:24:19.223Z",
+    "status": "SUCCEEDED",
+    "requestSha256": "09f353e778474e1761f07ed92a36125e39224fa17f528909162d88bfc04aed34",
+    "model": "deepseek-flash",
+    "latencyMs": 3285,
+    "usage": {
+      "inputTokens": 4222,
+      "outputTokens": 215,
+      "totalTokens": 4437
+    },
+    "finishedAt": "2026-10-20T08:24:22.509Z",
+    "errorCode": null
+  },
+  "verdict": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 1,
+      "directSelected": 1,
+      "directInRadiusCheckable": 1,
+      "directSelectionRatio": 1
+    }
+  },
+  "selected": [
+    {
+      "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+      "name": "Sushi Teppen",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 749
+    }
+  ],
+  "directCount": 1,
+  "totalSelected": 1,
+  "reconstruction": {
+    "stateVersionBefore": 2,
+    "events": 2,
+    "observedFactsCount": 0,
+    "priceFactsCount": 0
+  }
+}

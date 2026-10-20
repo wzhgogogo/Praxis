@@ -1,0 +1,374 @@
+{
+  "schema": "name-benchmark-public-payload-boundary@1",
+  "destination": "https://api.deepseek.com",
+  "methods": [
+    "POST /chat/completions",
+    "POST /beta/chat/completions"
+  ],
+  "scope": "Only method A Tabelog name-resolution for these35 frozen public restaurant subjects; Gold-dropped subjects excluded before methods. Each sample <=3 calls, global<=150; methodB disabled.",
+  "modelInputFields": [
+    "given public business name/address/phone/coordinates",
+    "current public Tabelog search/detail visible text and observed control/link references",
+    "bounded source action history and production Browser Prompt16/Action Schema11"
+  ],
+  "notTransmitted": [
+    "Gold outlet ID/expected URL",
+    "reviewer annotations",
+    "sample provenance",
+    "credentials in payload/logs",
+    "personal customer data"
+  ],
+  "note": "Public dynamic Tabelog observations cannot be precomputed offline. Every actual request/response is saved; existing model port and Guard remain production code. Only the benchmark subject whitelist reaches the method.",
+  "subjects": [
+    {
+      "id": "nr-001",
+      "name": "Sushi Tatsu Shibuya",
+      "address": "Japan, \u3012150-0002 Tokyo, Shibuya, 1-ch\u014dme\u221215\u2212\uff11\uff19 \u6771\u53e3\u4e8c\u8449\u30d3\u30eb 4F",
+      "phone": "050-5597-4631",
+      "coordinates": {
+        "lat": 35.660547199999996,
+        "lng": 139.7026205
+      }
+    },
+    {
+      "id": "nr-002",
+      "name": "\u713c\u8089\u304a\u304a\u306b\u3057 \u7950\u5929\u5bfa\u5e97",
+      "address": "2-ch\u014dme-6-11 Y\u016btenji, Meguro City, Tokyo 153-0052, Japan",
+      "phone": "050-5456-5059",
+      "coordinates": {
+        "lat": 35.6366991,
+        "lng": 139.6937005
+      }
+    },
+    {
+      "id": "nr-003",
+      "name": "Washoku Dining Hana Kagura",
+      "address": "3-ch\u014dme-1 Kagurazaka, Shinjuku City, Tokyo 162-0825, Japan",
+      "phone": "03-3260-0767",
+      "coordinates": {
+        "lat": 35.702148699999995,
+        "lng": 139.7404692
+      }
+    },
+    {
+      "id": "nr-004",
+      "name": "\u9ba8\u51e6 \u307f\u3053\u3057",
+      "address": "9 13 1, \uff11\u4e01\u76ee-\uff11\uff13-9 \u5409\u7965\u5bfa\u672c\u753a \u6b66\u8535\u91ce\u5e02 \u6771\u4eac\u90fd 180-0004, Japan",
+      "phone": "0422-21-0263",
+      "coordinates": {
+        "lat": 35.705042,
+        "lng": 139.58093399999998
+      }
+    },
+    {
+      "id": "nr-005",
+      "name": "Ginhachi",
+      "address": "Japan, \u3012104-0061 Tokyo, Chuo City, Ginza, 2-ch\u014dme\u22129\u2212\uff11\uff12 \u68ee\u7530\u30d3\u30eb \uff11\u968e",
+      "phone": "03-3538-6100",
+      "coordinates": {
+        "lat": 35.6724715,
+        "lng": 139.7680423
+      }
+    },
+    {
+      "id": "nr-006",
+      "name": "Sugata",
+      "address": "Japan, \u3012162-0825 \u6771\u4eac\u90fd\u65b0\u5bbf\u533a\u795e\u697d\u5742\uff13\u4e01\u76ee\uff11\uff10",
+      "phone": "03-3268-5587",
+      "coordinates": {
+        "lat": 35.700556399999996,
+        "lng": 139.7407054
+      }
+    },
+    {
+      "id": "nr-007",
+      "name": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+      "address": "Japan, \u3012153-0051 Tokyo, Meguro City, Kamimeguro, 2-ch\u014dme\u221244\u2212\uff18 \u30ed\uff65\u30ab\u30fc\u30b5\u4e0a\u76ee\u9ed2 B1",
+      "phone": "03-5768-3601",
+      "coordinates": {
+        "lat": 35.6413594,
+        "lng": 139.6963026
+      }
+    },
+    {
+      "id": "nr-008",
+      "name": "Shibuya Kappo Sancho",
+      "address": "6-1 Maruyamach\u014d, Shibuya, Tokyo 150-0044, Japan",
+      "phone": "03-6455-1363",
+      "coordinates": {
+        "lat": 35.6576133,
+        "lng": 139.6948873
+      }
+    },
+    {
+      "id": "nr-009",
+      "name": "Naminoue shibuya",
+      "address": "2-ch\u014dme-22-16 Higashi, Shibuya, Tokyo 150-0011, Japan",
+      "phone": "03-6427-9115",
+      "coordinates": {
+        "lat": 35.6543929,
+        "lng": 139.7084906
+      }
+    },
+    {
+      "id": "nr-010",
+      "name": "Yakitori & Obanzai SAKAMOTO",
+      "address": "Japan, \u3012180-0003 Tokyo, Musashino, Kichij\u014dji Minamich\u014d, 1-ch\u014dme\u22123\u2212\uff13 \u5409\u7965\u5bfa\u5357\u53e3\u30d3\u30eb 1F",
+      "phone": "0422-71-0066",
+      "coordinates": {
+        "lat": 35.7023375,
+        "lng": 139.5797416
+      }
+    },
+    {
+      "id": "nr-011",
+      "name": "\u65e5\u672c\u6599\u7406 \u307b\u305d\u5ddd \u795e\u697d\u5742",
+      "address": "Japan, \u3012162-0825 Tokyo, Shinjuku City, Kagurazaka, 3-ch\u014dme\u2212\uff16 \u795e\u697d\u5742\u9928 1\u968e",
+      "phone": "03-3267-0031",
+      "coordinates": {
+        "lat": 35.7008064,
+        "lng": 139.73962659999998
+      }
+    },
+    {
+      "id": "nr-012",
+      "name": "Sushi Rizaki",
+      "address": "8-2 Kamiyamach\u014d, Shibuya, Tokyo 150-0047, Japan",
+      "phone": "03-5738-8293",
+      "coordinates": {
+        "lat": 35.66416720000001,
+        "lng": 139.69392610000003
+      }
+    },
+    {
+      "id": "nr-013",
+      "name": "Horumon Matsuda HANARE Yakiniku Nakameguro",
+      "address": "Japan, \u3012153-0051 Tokyo, Meguro City, Kamimeguro, 2-ch\u014dme\u221218\u2212\uff19 \u9ad8\u4f38\u30d3\u30eb 2\u968e \u4e2d \u76ee\u9ed2",
+      "phone": "03-6303-3405",
+      "coordinates": {
+        "lat": 35.6413346,
+        "lng": 139.6974215
+      }
+    },
+    {
+      "id": "nr-014",
+      "name": "\u70ad\u706b\u713c\u8089\u30db\u30eb\u30e2\u30f3\u307e\u3093\u3066\u3093\u9ad8\u67b6\u4e0b",
+      "address": "3-ch\u014dme-5-25 Kamimeguro, Meguro City, Tokyo 153-0051, Japan",
+      "phone": "03-3793-4129",
+      "coordinates": {
+        "lat": 35.642913,
+        "lng": 139.6973638
+      }
+    },
+    {
+      "id": "nr-015",
+      "name": "Sushi Yamashiro Kichijoji",
+      "address": "Japan, \u3012180-0004 Tokyo, Musashino, Kichij\u014dji Honch\u014d, 1-ch\u014dme\u22129\u2212\uff19 \u5bff\u697d\u30d3\u30eb 3F",
+      "phone": "0422-27-1032",
+      "coordinates": {
+        "lat": 35.7045296,
+        "lng": 139.5798797
+      }
+    },
+    {
+      "id": "nr-016",
+      "name": "\u713c\u304d\u9ce5\u3068\u854e\u9ea6 \u706f",
+      "address": "Japan, \u3012180-0004 Tokyo, Musashino, Kichij\u014dji Honch\u014d, 1-ch\u014dme\u22128\u2212\uff11\uff10 Kichijoji Ex, 4\u968e",
+      "phone": "03-4241-4563",
+      "coordinates": {
+        "lat": 35.7048135,
+        "lng": 139.5787757
+      }
+    },
+    {
+      "id": "nr-017",
+      "name": "Sushi Matsumoto Shibuya",
+      "address": "Japan, \u3012150-0043 Tokyo, Shibuya, D\u014dgenzaka, 1-ch\u014dme\u22126\u2212\uff18 \u6960\u672c\u7b2c\uff12\u30d3\u30eb 3F",
+      "phone": "050-5570-1846",
+      "coordinates": {
+        "lat": 35.6577969,
+        "lng": 139.6990511
+      }
+    },
+    {
+      "id": "nr-018",
+      "name": "Yakiniku Ushicoco Nakameguro",
+      "address": "Japan, \u3012153-0051 Tokyo, Meguro City, Kamimeguro, 2-ch\u014dme\u221216\u2212\uff11 \u30ea\u30fc\u30c9\u30b7\u30fc\u4e2d\u76ee\u9ed2 4F",
+      "phone": "03-6303-3190",
+      "coordinates": {
+        "lat": 35.6424811,
+        "lng": 139.69821299999998
+      }
+    },
+    {
+      "id": "nr-019",
+      "name": "T nakameguro",
+      "address": "Japan, \u3012153-0051 Tokyo, Meguro City, Kamimeguro, 2-ch\u014dme\u221237\u2212\uff11\uff12 Comfort Nakameguro, 1\u968e",
+      "phone": "03-6303-0849",
+      "coordinates": {
+        "lat": 35.641192499999995,
+        "lng": 139.69615869999998
+      }
+    },
+    {
+      "id": "nr-020",
+      "name": "Sushi kazumasa",
+      "address": "Japan, \u3012150-0043 Tokyo, Shibuya, 2-ch\u014dme\u22122\u2212\uff12 Luke Building, 1F",
+      "phone": "03-6434-1107",
+      "coordinates": {
+        "lat": 35.6607645,
+        "lng": 139.7085533
+      }
+    },
+    {
+      "id": "nr-021",
+      "name": "\u713c\u8089 \u725b\u76ee\u9ed2",
+      "address": "Japan, \u3012153-0051 Tokyo, Meguro City, Kamimeguro, 2-ch\u014dme\u22127\u2212\uff11\uff12 Doors Nakameguro, 1F",
+      "phone": "03-6452-2139",
+      "coordinates": {
+        "lat": 35.642911,
+        "lng": 139.6993492
+      }
+    },
+    {
+      "id": "nr-022",
+      "name": "Sushi and Tempura Iwai Kichijoji",
+      "address": "Japan, \u3012180-0004 Tokyo, Musashino, Kichij\u014dji Honch\u014d, 1-ch\u014dme\u22129\u2212\uff19 \u5bff\u697d\u30d3\u30eb 2F-D",
+      "phone": "0422-27-1303",
+      "coordinates": {
+        "lat": 35.7044875,
+        "lng": 139.57989890000002
+      }
+    },
+    {
+      "id": "nr-023",
+      "name": "WAGYU SUSHI and SANDWICH Tsukiji Wine Stand 88",
+      "address": "Japan, \u3012104-0045 Tokyo, Chuo City, Tsukiji, 4-ch\u014dme\u221210\u2212\uff11\uff14 \u52a0\u85e4\u30d3\u30eb \uff11F-5",
+      "phone": "03-6264-2800",
+      "coordinates": {
+        "lat": 35.6653953,
+        "lng": 139.7700501
+      }
+    },
+    {
+      "id": "nr-024",
+      "name": "Nakameguro Yakiniku Togyumon",
+      "address": "Japan, \u3012153-0051 Tokyo, Meguro City, Kamimeguro, 1-ch\u014dme\u221223\u2212\uff11 \u4e2d\u76ee\u9ed2\u30a2\u30ea\u30fc\u30ca B1",
+      "phone": "03-6451-2939",
+      "coordinates": {
+        "lat": 35.6443648,
+        "lng": 139.6996333
+      }
+    },
+    {
+      "id": "nr-025",
+      "name": "Sumi Sushi Shibuya",
+      "address": "Japan, \u3012150-0002 Tokyo, Shibuya, 1-ch\u014dme\u221215\u2212\uff11\uff19 \u6771\u53e3\u4e8c\u8449\u30d3\u30eb 4F",
+      "phone": "03-6427-2653",
+      "coordinates": {
+        "lat": 35.6605667,
+        "lng": 139.70262979999998
+      }
+    },
+    {
+      "id": "nr-026",
+      "name": "Kushiyaki Bistro Fukumimi Ginza 6",
+      "address": "Japan, \u3012104-0061 Tokyo, Chuo City, Ginza, 6-ch\u014dme\u221214\u2212\uff15 \u6771\u6b66\u9280\u5ea7\u7b2c1\u30d3\u30eb \u5730\u4e0b1\u968e",
+      "phone": "03-6278-7774",
+      "coordinates": {
+        "lat": 35.6687947,
+        "lng": 139.7654995
+      }
+    },
+    {
+      "id": "nr-027",
+      "name": "Shibuya Sushi Jinnan",
+      "address": "Japan, \u3012150-0041 Tokyo, Shibuya, Jinnan, 1-ch\u014dme\u221220\u2212\uff15 Vort Shibuya Briller, 9F",
+      "phone": "03-6416-3220",
+      "coordinates": {
+        "lat": 35.6617387,
+        "lng": 139.7001764
+      }
+    },
+    {
+      "id": "nr-028",
+      "name": "Ginza Bokujin",
+      "address": "Japan, \u3012104-0061 Tokyo, Chuo City, Ginza, 3-ch\u014dme\u22127\u2212\uff11\uff13 \u6210\u7530\u5c4b\u30d3\u30eb 7\u968e",
+      "phone": "03-5159-7366",
+      "coordinates": {
+        "lat": 35.671572499999996,
+        "lng": 139.766762
+      }
+    },
+    {
+      "id": "nr-029",
+      "name": "\u713c\u8089 \u3046\u3057\u5e78",
+      "address": "Japan, \u3012153-0051 Tokyo, Meguro City, Kamimeguro, 2-ch\u014dme\u221213\u2212\uff13 GEMS\u4e2d\u76ee\u9ed2 7F",
+      "phone": "050-5459-5324",
+      "coordinates": {
+        "lat": 35.6428625,
+        "lng": 139.69848829999998
+      }
+    },
+    {
+      "id": "nr-030",
+      "name": "Sushi Nasu",
+      "address": "Japan, \u3012150-0043 Tokyo, Shibuya, D\u014dgenzaka, 1-ch\u014dme\u221221\u2212\uff11 \u6e0b\u8c37\u30bd\u30e9\u30b9\u30bf 2\u968e",
+      "phone": "03-5422-3322",
+      "coordinates": {
+        "lat": 35.656241800000004,
+        "lng": 139.696061
+      }
+    },
+    {
+      "id": "nr-033",
+      "name": "Age.3 GINZA",
+      "address": "Japan, \u3012104-0061 Tokyo, Chuo City, Ginza, 1-ch\u014dme\u221224\u2212\uff11\uff11 \u6749\u6d66\u30d3\u30eb 1\uff26",
+      "phone": "070-1317-7334",
+      "coordinates": {
+        "lat": 35.6727584,
+        "lng": 139.77129449999998
+      }
+    },
+    {
+      "id": "nr-035",
+      "name": "\u767d\u8def",
+      "address": "Japan, \u3012162-0825 Tokyo, Shinjuku City, Kagurazaka, 6-ch\u014dme\u2212\uff18 \uff22\uff2f\uff32\uff27\uff2f\uff2f\uff4f\uff4a\uff49\uff4d\uff45",
+      "phone": "070-9457-0652",
+      "coordinates": {
+        "lat": 35.7031281,
+        "lng": 139.737991
+      }
+    },
+    {
+      "id": "nr-037",
+      "name": "Shibuya Namikibashi Sushi Hajime",
+      "address": "Japan, \u3012150-0002 Tokyo, Shibuya, 3-ch\u014dme\u221215\u2212\uff15 \u30b0\u30ea\u30fc\u30e0\u30d3\u30eb \u5730\u4e0b1\u968e",
+      "phone": "03-6419-7621",
+      "coordinates": {
+        "lat": 35.6556109,
+        "lng": 139.7059043
+      }
+    },
+    {
+      "id": "nr-039",
+      "name": "Fushikino",
+      "address": "Japan, \u3012162-0825 Tokyo, Shinjuku City, Kagurazaka, 4-ch\u014dme\u2212\uff13\u2212\uff11\uff11 \u3064\u306a\u3057\u3087\u3046\u30c6\u30e9\u30b9 \uff12\u968e(\u672c\u591a\u6a2a\u4e01",
+      "phone": "03-3269-4556",
+      "coordinates": {
+        "lat": 35.7019759,
+        "lng": 139.7400479
+      }
+    },
+    {
+      "id": "nr-041",
+      "name": "pololi\u98df\u5802\u3068pihakopi",
+      "address": "102 2-ch\u014dme-8-1 Kichij\u014dji Minamich\u014d, Musashino, Tokyo 180-0003, Japan",
+      "phone": "0422-42-5930",
+      "coordinates": {
+        "lat": 35.7023338,
+        "lng": 139.58223379999998
+      }
+    }
+  ]
+}

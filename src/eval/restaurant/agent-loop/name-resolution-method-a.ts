@@ -9,17 +9,20 @@ import {benchmarkOutlet,type NameResolutionPlatform,type NameResolutionSubject,t
 export interface NameResolutionLiveAdmission {
  sampleSha256:string;
  approval:{sampleSha256:string;reviewer:string;approved:boolean};
- preflight:{tablecheckStatus:number;tabelogStatus:number;tabelogBusy:boolean};
+ preflight:{tablecheckStatus?:number;tabelogStatus?:number;tabelogBusy?:boolean};
 }
-export function assertNameResolutionLiveAdmission(input:NameResolutionLiveAdmission){
+export function assertNameResolutionLiveAdmission(input:NameResolutionLiveAdmission,platform:NameResolutionPlatform){
  if(!input.approval.approved||!input.approval.reviewer||input.approval.sampleSha256!==input.sampleSha256)throw Error('Sample approval missing or SHA mismatch');
- if(input.preflight.tablecheckStatus!==200||(input.preflight.tabelogStatus<200||input.preflight.tabelogStatus>=300)||input.preflight.tabelogBusy)throw Error('Sources not ready');
+ const ready=platform==='TABELOG'
+  ? typeof input.preflight.tabelogStatus==='number'&&input.preflight.tabelogStatus>=200&&input.preflight.tabelogStatus<300&&input.preflight.tabelogBusy===false
+  : input.preflight.tablecheckStatus===200;
+ if(!ready)throw Error('Sources not ready');
 }
 type Ports={runtime:BrowserRuntime;decision?:BrowserReadActionDecisionPort;signal:AbortSignal;networkPolicy?:BrowserReadNetworkPolicy}
  &({mode:'OFFLINE_FIXTURE'}|{mode:'LIVE';admission:NameResolutionLiveAdmission});
 /** Existing production search/identity prefix; the outer boundary stops inventory work. */
 export async function runNameResolutionMethodA(id:string,platform:NameResolutionPlatform,subject:NameResolutionSubject,ports:Ports){
- if(ports.mode==='LIVE')assertNameResolutionLiveAdmission(ports.admission);
+ if(ports.mode==='LIVE')assertNameResolutionLiveAdmission(ports.admission,platform);
  const started=Date.now(),pages:BrowserSnapshot[]=[],diagnostics:unknown[]=[],trace:BrowserExecutionDiagnostic[]=[];
  let identityStop=false,formStop=false;
  const noForm=(url:string)=>{if(/\/(?:reserve|booking|checkout|payment|cancel)(?:\/|[?#]|$)/i.test(new URL(url).pathname)){formStop=true;throw Error('BENCHMARK_FORM_BOUNDARY');}};

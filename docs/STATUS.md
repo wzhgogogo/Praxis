@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.294
+- Document revision: 4.295
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-20 Context15 selection recheck passed; Tabelog name benchmark prepared:** five independently annotated seeds all ACCEPTABLE (13/13 direct;5 models,0 websites), original gate PASS. No retained prices at those historical turns. Tabelog-only30Gold+5controls prepared with source-specific eval admission/403-429 classification red-green and four gates972/972. Production unchanged; Gold verification/MethodA pending frozen launch. [Selection](../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md), [benchmark](../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md).
 
 - **2026-10-20 Checkpoint C offline integration ready for review:** `codex/integration-checkpoint-c` combines P2-2/P2-3 at5309545, Context@15/Prompt@27/State@17. Five gates972/972 and Chromium121/121 pass; original22 calibration22/22 and S0 declarations20/20 preserved. Both branches retain all tests. No website/model/probe/Live; benchmark item4 deferred. Includes concurrent review305d1e0 verbatim; product code remains5309545. Independent branch only; no source/main merge. [Integration report](../.eval-artifacts/checkpoint-c-integration-20261020/report.md).
 

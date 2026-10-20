@@ -55,3 +55,7 @@ Gold pending不是当前已认可标准答案；未来live必须有同样本SHA�
 样本/接线冻结提交1624aa3；样本SHA保持89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87。typecheck/arch/build PASS；默认967/967（22631ms），真实本地Chromium121/121（283348ms），其中新增双来源名称前缀在真实本地浏览器读到HIGH并在预约导航前停止；指标/缺证/去泄漏/禁止日期的5项控制通过。完整浏览器日志中的预检字样属于本地Fixture合同，绝非本轮真实来源预检。
 
 原66份输入与冻结源码/配置逐一核SHA不变；新增仅src/eval和Harness，没有生产Adapter、Prompt、身份或交付规则修改。原P2-2模型账本/Gold未改。保存全部原日志（含初始调试失败），不把合成控制当真实平台结果。推送后停止等复核；0真实模型/来源访问，后续预算未使用。
+
+## 2026-10-20 approved execution preparation
+
+Current execution status supersedes the earlier pending preparation above: integrated Context15 recheck5/5 PASS (13/13 direct choices,5 model calls,0 websites). Tabelog-only30 Gold +5 controls are now prepared under the reviewer-approved sample SHA. Source-specific eval admission and403/429 environment classification are red/green; typecheck/arch/default972/972/build green, production browser unchanged. Before any source read the new outer/321 hashes are committed. [Current phase report](live-20261020/report.md); no source/benchmark model call yet.
