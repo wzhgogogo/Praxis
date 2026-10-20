@@ -114,3 +114,12 @@ Groups can overlap; do not add their denominators.
 ### What this says about name resolution
 
 This is a single exposed Tabelog-only run. Reported rates measure the existing bounded search/identity pipeline on independently verified Gold, not whether restaurants exist online. Exact-ID false acceptance is separately zero-tolerance; accepted unlabeled controls remain unscored. TableCheck difficulty is not measured here. The saved search/identity diagnostics identify where to inspect normalization, language/search strategy and contact extraction, but their relative benefit needs a separately approved intervention; no benefit is claimed and methodB was not enabled.
+
+
+## Publication merge (after all source/model work ended)
+
+Remote concurrent integration and its five discovery probes atfe9b3fc70138dd03cf01cee9624fcde9de087ee6 are preserved by ordinary merge, without rewriting either frozen history. Only5 state/history/index documents conflicted; both complete bodies and index entries retained (176Dev/183Test). Source auto-merged; relative to remote, this batch changes only3 eval files and the existing Chromium test. Current branch versions: `{"agentActionSchema": 4, "agentContext": 15, "agentPrompt": 27, "browserActionSchema": 11, "browserPrompt": 17, "evaluator": 30, "priceFacts": 1, "restaurantState": 18, "retrievalPrompt": 5, "retrievalSchema": 2, "rubric": 26, "taskDefinition": 16}`. No new product implementation in this task; remote State18/P2-1c is separately identified.
+
+The benchmark above executed **before** this publication merge on1b4cfda/production8ecfcfc (State17); it is not a rerun on remote State18. Gold/selection/methodA were not repeated. Latest source versions are integration metadata, not a claim of new benchmark results.
+
+Fresh publication gates: typecheck/arch/default978/978/build/Chromium122/122 PASS (browser duration296793.522458ms). Both parents' literal test declarations retained;236 original Gold/method files and18 selection files unchanged,11 independent evaluator files identical to remote22/22 outcome/20/20 S0-declaration calibration (reused, no new network/models). See publication-conflicts.json/publication-retention.json and publication-*.log. Common history bodies verified after regenerating an initially invalid, uncommitted document resolver output. No change to Gold, thresholds or captured source bytes.

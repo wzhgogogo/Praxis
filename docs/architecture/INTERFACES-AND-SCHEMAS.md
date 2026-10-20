@@ -1,7 +1,7 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 3.9
+- Document revision: 3.10
 - Last updated: 2026-10-20
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
@@ -13,9 +13,9 @@
 
 Checkpoint C integration (2026-10-20, offline verification): `restaurant-agent-context@15` combines source-derived candidate `availabilityPath` and price `commercialNotes`. The shared first-check scope restricts availability IDs to uninvestigated, observed in-radius DIRECT candidates when at least three exist; fact reads and explicit refresh keep their existing rules. Domain does not parse source URLs. Agent Prompt@27 and Action Schema@4 retain the P2-2 instructions and strict action contract.
 
-`restaurant-state@17` stores per-candidate per-criterion `conditionStates` at presentation (original criterion, strength, polarity, MET/NOT_MET/NOT_CHECKED, reason and citations). `RestaurantReadEvidence.priceFacts@1` retains quoted public ranges and course prices with tax, meal and add-on scope; menu facts do not prove inventory or an Offer price. HARD price evidence uses the approved condition policy; SOFT/UNSPECIFIED conditions disclose status without blocking. TaskDefinition@14 and Trajectory@5 remain unchanged. All active TS callers and fixtures use the combined Context schema; historical captures retain their original versions. Old development State requires the existing explicit reset workflow; no database is accessed or reset by this integration.
+`restaurant-state@18` stores per-candidate per-criterion `conditionStates` at presentation (original criterion, strength, polarity, MET/NOT_MET/NOT_CHECKED, reason and citations). `RestaurantReadEvidence.priceFacts@1` retains quoted public ranges and course prices with tax, meal and add-on scope; menu facts do not prove inventory or an Offer price. HARD price evidence uses the approved condition policy; SOFT/UNSPECIFIED conditions disclose status without blocking. TaskDefinition@16 also retains the P2-1c `discoveryPlan.regionReferenceRead` source batch, which is consumed once at its planned cursor and is not identity, HARD-condition or inventory evidence. Browser Prompt@17 retains the observed-region entrance constraint; Trajectory@5 remains unchanged. All active TS callers and fixtures use the combined Context schema; historical captures retain their original versions. Old development State requires the existing explicit reset workflow; no database is accessed or reset by this integration.
 
-Independent branch evidence remains in the [P2-2 followup](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md) and [P2-3 report](../../.eval-artifacts/p2-3-conditions-20261019/report.md). Combined gates and calibration are recorded in the [integration report](../../.eval-artifacts/checkpoint-c-integration-20261020/report.md). This is not full Checkpoint C Live acceptance. Earlier version entries below retain their original stage context.
+Independent branch evidence remains in the [P2-2 followup](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md) and [P2-3 report](../../.eval-artifacts/p2-3-conditions-20261019/report.md). Combined gates and calibration are recorded in the [integration report](../../.eval-artifacts/checkpoint-c-integration-20261020/report.md). The P2-1c merge, State@18 / TaskDefinition@16 contract and offline re-verification are tracked separately in the [P2-1c integration report](../../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md). This is not full Checkpoint C Live acceptance. Earlier version entries below retain their original stage context.
 
 Phase2（frozen regression，离线已验收）：`restaurant-state@12`保存opaque来源计划／游标和累计来源进度；`restaurant-agent-context@10`保持业务投影，旧State@11需按显式开发reset协议处理。Semantic@3与Gold不变。
 

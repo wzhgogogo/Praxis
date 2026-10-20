@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.199
+- Document revision: 4.200
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4779,3 +4779,24 @@ Gold phase2260cc8 subsequently completed30 once-onlyHTTP200 reads (0 models), mi
 
 
 Final execution:30Gold once(allHTTP200),29VERIFIED/1DROPPED fixed before A;34/34 methodA subjects complete at1b4cfda. Gold12/29 CORRECT,15NOT_FOUND,2UNCERTAIN,0WRONG_ACCEPTED; controls2REVIEW_REQUIRED/3UNCERTAIN unscored.35 actual deepseek-flash calls(≤3/subject),5 selection calls,total40; Google/fullLive/B0. Median32530.5ms,max61442ms;63 logical gaps minimum30.025s,0source blocks.390 current/321 historical SHA,66 original input SHA,35 normalized paid-request SHA and unchanged30Gold ledger prefix verified. Independent response audit0 recorded violations but64 session/request gaps remain NOT_EVALUATED.14 list-request final URLs leave rstLst; record observation without attributing language/phone-rule cause. Root and phase reports include all result/artifact/raw/model paths and area/name-shape groups. Source execution finished before any parallel remote integration; no rerun or new call.
+
+Publication-only remote merge after source completion preservesfe9b3fc and State18/P2-1c, with5 document conflicts resolved retaining both complete bodies/indices; all236 raw benchmark files and18 replay files unchanged. Fresh merged five gates978/978 +122/122 PASS.11 independent evaluator files unchanged; remote22/22 types and20/20 S0 calibration reused. Current State18/Task16/BrowserPrompt17; original name run remains frozen1b4cfda/State17. No extra model/source calls or source/main merge; publication-retention.json and report document scope.
+
+<a id="test-2026-10-20-p21c-region-entrance"></a>
+## TEST-2026-10-20-P21C-REGION-ENTRANCE
+
+- 冻结输入/评分f85e7a0，源码/生产组装43000a9。旧覆盖遗漏：缺标签但已有同源指针；red.log在旧代码结果0且错误地区可执行。补强既有地区主测，含序列化一次消费、失败不重试、跨run/请求、外域/缺坐标/越界反例。
+- 六例实际生产factory+Guard+本地Chromium，真实链接/Google指针投影与合成详情分列；独立字面地区、几何、观察引用和原预算核验。不是完整任务或真实模型通过率。54条历史逐条评分，神乐坂4条缺入口观察保留未覆盖。
+- 默认973/973，本地Chromium122/122，typecheck/arch/build PASS；最终门禁及原始产物见[verification](../../.eval-artifacts/p2-1c-region-20261020/verification.json)。真实网站/模型/探测/Live均0，五次后续探测未运行。
+
+## TEST-2026-10-20-P21C-CHECKPOINT-C-INTEGRATION
+
+- 以8ecfcfc为基线合入已复核ddfdedd，源码/配置冻结d6d989b；State@18／TaskDefinition@16，保留价格/条件状态与地区提前读取，Browser Prompt@17。五门禁PASS：默认978/978、本地Chromium122/122，type/arch/build通过；原22份校准结果类型22/22、S0声明20/20。真实网站/模型/探测/Live均0。
+- 用户18预期先红（17≠18）后绿；误选测试和初始类型错误单列，不算原故障红灯。六个受控生产地区组合按原独立Gold/几何/预算检查通过。Evaluator/Comparator复用，运行前冻结358项SHA；2中断声明不入20分母，边界9 ABSENT/13历史证据缺口保持。
+- [报告](../../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。离线 acceptance 通过；实际地区/来源预算和h001非退步等后续5探测等待用户通知，最早见证到期即停、不续期。
+
+## TEST-2026-10-20-P21C-LIVE-PROBES
+
+- 复用B失败原证据和P2-1c固定录制红绿，外层15核对+3 plan-only均0网络/模型；源码不变，复用前切片五门禁978/122与22份校准。真实五例神乐坂2/2正确A1309、中目黑2/2正确A1317、h001单次保持TL4/TC5及见证首批；原始snapshot/观察引用/几何/预算和只读边界独立核对通过。
+- 五例均无失败码/READ_BUDGET_EXCEEDED，模型20/20成功，Google正式18+预检5；累计347模型/59探测/171Google。全部间隔≥300秒、0环境重试；原见证截止前完成未续期。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT为当前限制，非库存/完整Live验收。
+- [报告](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)与执行/评价/调用账本分列；普通推送集成分支后停下等复核，不追加探测。

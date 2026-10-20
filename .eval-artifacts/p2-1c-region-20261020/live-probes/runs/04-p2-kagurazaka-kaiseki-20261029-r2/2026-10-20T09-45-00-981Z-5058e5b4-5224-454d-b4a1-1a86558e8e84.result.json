@@ -1,0 +1,74 @@
+{
+  "mode": "LIVE_NETWORK_PREFLIGHT",
+  "preflightVersion": "live-network-preflight@1",
+  "runner": "SOURCE_STAGE_PROBE",
+  "plannedTargets": [
+    "DEEPSEEK",
+    "GOOGLE",
+    "TABELOG"
+  ],
+  "timeoutMs": 10000,
+  "generationModelCalls": 0,
+  "restaurantDiscoveryRequests": 0,
+  "evaluator": {
+    "applicability": "NOT_APPLICABLE",
+    "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+  },
+  "network": {
+    "proxyMode": "DISABLED_BY_CLI"
+  },
+  "status": "SUCCEEDED",
+  "stage": "NETWORK_READINESS",
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/.eval-artifacts/p2-1c-region-20261020/live-probes/runs/04-p2-kagurazaka-kaiseki-20261029-r2/2026-10-20T09-45-00-981Z-5058e5b4-5224-454d-b4a1-1a86558e8e84.result.json",
+  "attempts": [
+    {
+      "target": "DEEPSEEK",
+      "request": {
+        "method": "GET",
+        "url": "https://api.deepseek.com/models",
+        "range": "NONE",
+        "authorization": "PRESENT"
+      },
+      "elapsedMs": 1710,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "GOOGLE",
+      "request": {
+        "method": "GET",
+        "url": "https://places.googleapis.com/",
+        "range": "NONE",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 1302,
+      "outcome": "REACHABLE",
+      "status": 404,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "TABELOG",
+      "request": {
+        "method": "GET",
+        "url": "https://tabelog.com/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 1190,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    }
+  ],
+  "elapsedMs": 4206,
+  "configuration": {
+    "proxyMode": "DISABLED_BY_CLI",
+    "googleProxyConfigured": false,
+    "browserProxyConfigured": false
+  },
+  "schemaVersion": "1",
+  "runId": "5058e5b4-5224-454d-b4a1-1a86558e8e84",
+  "startedAt": "2026-10-20T09:45:00.981Z",
+  "finishedAt": "2026-10-20T09:45:05.187Z"
+}

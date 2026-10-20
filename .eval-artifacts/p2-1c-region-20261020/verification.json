@@ -1,0 +1,54 @@
+{
+  "status": "ALL_FIVE_GATES_PASS",
+  "productionFreeze": "43000a97c6a68256c6b272a81fb9d5d42bcd689a",
+  "regressionFreeze": "9bfa8bd65cc27c42a96834aee34d054f3ce196fe",
+  "inputFreeze": "f85e7a0",
+  "recordingsSha256": "f66c2a04b9dfdd919625475cb86fa0bbc4c35a1863de286f45c8171367da50b2",
+  "gates": {
+    "typecheck": {
+      "status": "PASS",
+      "log": "typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    "arch:check": {
+      "status": "PASS",
+      "log": "arch-check.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    "build": {
+      "status": "PASS",
+      "log": "build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    "test": {
+      "status": "PASS",
+      "log": "test.log",
+      "sha256": "24f102f798eff890e5454fd3c7a9e09e51976184c0aa4668739f112adbd6822c",
+      "passed": 973,
+      "failed": 0
+    },
+    "test:browser:fixture": {
+      "status": "PASS",
+      "log": "browser.log",
+      "sha256": "6285d481bf2026590bd83832e0a9d804880e5ad77b772946fe48fca715fc0a8a",
+      "passed": 122,
+      "failed": 0
+    }
+  },
+  "compositionEvaluation": {
+    "path": "composition-evaluation.json",
+    "sha256": "c0c870ef6cf4f40d1b04dd71d41ae5d3647d56d2c0f3405afb8de6f4976224ec",
+    "status": "PASS",
+    "cases": 6
+  },
+  "sitePackLineDelta": 0,
+  "realModelCalls": 0,
+  "realSiteRequests": 0,
+  "probes": 0,
+  "liveRuns": 0,
+  "originalRecordedSources": 54,
+  "historicalLimits": {
+    "kagurazakaMissingObservedEntrance": 4
+  },
+  "stop": "PUSH_AND_AWAIT_REVIEW; five probes require separate approval"
+}

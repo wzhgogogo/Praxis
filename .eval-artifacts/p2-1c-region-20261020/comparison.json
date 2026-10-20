@@ -1,0 +1,2641 @@
+{
+  "status": "OFFLINE_REFERENCE_ROUTING_COMPARISON",
+  "mode": "RECORDED_INPUTS_WITHOUT_MODEL",
+  "freeze": {
+    "path": "recordings.json.gz",
+    "sha256": "f66c2a04b9dfdd919625475cb86fa0bbc4c35a1863de286f45c8171367da50b2"
+  },
+  "realModelCalls": 0,
+  "networkCalls": 0,
+  "layer1": "NOT_EVALUATED: no full task, inventory or delivery",
+  "layer2": "Recorded regional evidence classification; production completion separately tested with controlled browser fixtures",
+  "severity": "No live S0 conclusion; independent region Gold finds no new incorrect region in covered records",
+  "attribution": "Old coverage omitted absent-name routing from observed same-source outlet paths; old administrative/name-similar choices are documented source navigation failures",
+  "method": "A selected; B new-model behavior not evaluated, source-observed station/neighborhood coverage only",
+  "cases": [
+    {
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "n": 11,
+      "oldCorrect": 0,
+      "oldIncorrect": 10,
+      "referenceCorrect": 7,
+      "referenceIncorrect": 0,
+      "unchangedOrMissing": 4,
+      "wait": {
+        "n": 11,
+        "medianMs": 4161,
+        "maxMs": 4597
+      }
+    },
+    {
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "n": 5,
+      "oldCorrect": 2,
+      "oldIncorrect": 3,
+      "referenceCorrect": 5,
+      "referenceIncorrect": 0,
+      "unchangedOrMissing": 0,
+      "wait": {
+        "n": 5,
+        "medianMs": 3229,
+        "maxMs": 4378
+      }
+    },
+    {
+      "caseId": "p2-kf-h001-20261027",
+      "n": 13,
+      "oldCorrect": 13,
+      "oldIncorrect": 0,
+      "referenceCorrect": 12,
+      "referenceIncorrect": 0,
+      "unchangedOrMissing": 1,
+      "wait": {
+        "n": 12,
+        "medianMs": 4244.5,
+        "maxMs": 5186
+      }
+    },
+    {
+      "caseId": "p2-kf-h005-20261029",
+      "n": 10,
+      "oldCorrect": 6,
+      "oldIncorrect": 2,
+      "referenceCorrect": 6,
+      "referenceIncorrect": 0,
+      "unchangedOrMissing": 4,
+      "wait": {
+        "n": 10,
+        "medianMs": 3802,
+        "maxMs": 6065
+      }
+    },
+    {
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "n": 10,
+      "oldCorrect": 9,
+      "oldIncorrect": 0,
+      "referenceCorrect": 8,
+      "referenceIncorrect": 0,
+      "unchangedOrMissing": 2,
+      "wait": {
+        "n": 9,
+        "medianMs": 4196,
+        "maxMs": 5754
+      }
+    },
+    {
+      "caseId": "p2-kf-h002-20261031",
+      "n": 5,
+      "oldCorrect": 5,
+      "oldIncorrect": 0,
+      "referenceCorrect": 0,
+      "referenceIncorrect": 0,
+      "unchangedOrMissing": 5,
+      "wait": {
+        "n": 5,
+        "medianMs": 2562,
+        "maxMs": 3316
+      }
+    }
+  ],
+  "records": [
+    {
+      "id": "baseline/p2-kagurazaka-kaiseki-20261029/attempt-1",
+      "group": "baseline",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/C13104/rstLst/?sw=kaiseki%20restaurant",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13053749/",
+        "candidateId": "praxis:restaurant:f7be11a2d29a00afc46d46e4",
+        "distanceMeters": 107.20405310011755
+      },
+      "observedReferenceMatch": null,
+      "after": "NO_OBSERVED_MATCH",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 3776,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 3776
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+          "sha256": "090f2926c7be4ea2d8e8757b4c8b68df85b5b7d608971270ee816e6fdbffcfdc"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "469b4471d60349f42ee486f72e8b6d6e7ba5bed089fb287e8726eafacfff0f22"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "69411ab292aea29945b3e34c5554ea5a6da27177c9a96572b33e6791d833f40a"
+        }
+      ]
+    },
+    {
+      "id": "baseline/p2-kagurazaka-kaiseki-20261029/attempt-2",
+      "group": "baseline",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "NOT_REACHED",
+      "firstUrl": null,
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13053749/",
+        "candidateId": "praxis:restaurant:f7be11a2d29a00afc46d46e4",
+        "distanceMeters": 107.20405310011755
+      },
+      "observedReferenceMatch": null,
+      "after": "NO_OBSERVED_MATCH",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2829,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 2829
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/probe-summary.json",
+          "sha256": "467280c670e7f84fca3609ffe4f164afe2c1e4f51c3c07b50e56a4d5fce0b588"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+          "sha256": "4dc64e1cb28c87e59e5d6a809e440433627e4260c0800694f662ca31ed711d8e"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/probe.decisions.jsonl",
+          "sha256": "2ef032313628646890718ab302c2fe450c220b2eeea891303372e09f8f5a7266"
+        }
+      ]
+    },
+    {
+      "id": "baseline/p2-kf-h001-20261027/attempt-1-after-config-fix",
+      "group": "baseline",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+      "reference": null,
+      "observedReferenceMatch": null,
+      "after": "UNCHANGED_NO_REFERENCE",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": null,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": null
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h001-20261027/attempt-1-after-config-fix/probe-summary.json",
+          "sha256": "32f07ac1454bbb51a5574fc284d5256c668a97c66a72643f7ac0b524b04b7df5"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h001-20261027/attempt-1-after-config-fix/trace.jsonl",
+          "sha256": "fe5f378ce471b0d13ffd31df322b0a5956cd49a83096b20af1519957ecd4765a"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h001-20261027/attempt-1-after-config-fix/probe.decisions.jsonl",
+          "sha256": "279ddcc7f0f678a0ecafff48eb722391aeaf58102e9e80be1b6be39a4f4ed4fb"
+        }
+      ]
+    },
+    {
+      "id": "baseline/p2-kf-h001-20261027/attempt-2",
+      "group": "baseline",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 3091,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 3091
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h001-20261027/attempt-2/probe-summary.json",
+          "sha256": "1071b563f9ea947e7081bafbc1a6b5b2f06623a940e7f3cfcb783a5b8def2ce3"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+          "sha256": "02c7db13e31517f675f3117ca74072e803af865cd0192269e03a1f27166a597a"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h001-20261027/attempt-2/probe.decisions.jsonl",
+          "sha256": "0ca0daac23af96a936ae233cc40c19934f0eb047233154c8448f6362e387ba6c"
+        }
+      ]
+    },
+    {
+      "id": "baseline/p2-kf-h002-20261031/attempt-1",
+      "group": "baseline",
+      "caseId": "p2-kf-h002-20261031",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": null,
+      "observedReferenceMatch": null,
+      "after": "UNCHANGED_NO_REFERENCE",
+      "b": {
+        "observedNames": [
+          "Higashi-ginza Sta.",
+          "10",
+          "4-chōme",
+          "Ginza"
+        ],
+        "matchingLabels": [
+          "Ginza & Shimbashi & Yurakucho",
+          "Ginza",
+          "Ginza & Shimbashi & Yurakucho Restaurants",
+          "Ginza Itchome Sta.",
+          "Ginza Sta.",
+          "Higashi Ginza Sta."
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2562,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 2562
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h002-20261031/attempt-1/probe-summary.json",
+          "sha256": "4afc5403fcadf0c6c7082f257ef21a320b7647bf806959534d0e6e2013d50f1f"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h002-20261031/attempt-1/trace.jsonl",
+          "sha256": "d250282e3cced5238e54809029b56c076f755cba686d015872a6f5f932621700"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h002-20261031/attempt-1/probe.decisions.jsonl",
+          "sha256": "43619a8ea3d2e7e298d24be0aad4c9f5da4c33a5ea6fdb27f2203c867923649a"
+        }
+      ]
+    },
+    {
+      "id": "baseline/p2-kf-h005-20261029/attempt-1",
+      "group": "baseline",
+      "caseId": "p2-kf-h005-20261029",
+      "expected": "A1301",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/C13102/rstLst/?sw=local%20food",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/",
+        "candidateId": "praxis:restaurant:3a25504a9420008789fb9565",
+        "distanceMeters": 169.02742352206178
+      },
+      "observedReferenceMatch": null,
+      "after": "NO_OBSERVED_MATCH",
+      "b": {
+        "observedNames": [
+          "nearby",
+          "東銀座駅",
+          "１０",
+          "４丁目",
+          "銀座"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 3678,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 3678
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h005-20261029/attempt-1/probe-summary.json",
+          "sha256": "c2d581316567f0e9ace29c8c55fae2c6b642b70132db92966ca23b29d8411479"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h005-20261029/attempt-1/trace.jsonl",
+          "sha256": "9b54ac166da2379eb4817de33429fddc96b13356e66ea9902315479d12473728"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h005-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "bc03cecc3fcea14fe29667212a71022e97e9723255c3c10943cd0cddabab29af"
+        }
+      ]
+    },
+    {
+      "id": "baseline/p2-kf-h005-20261029/attempt-2",
+      "group": "baseline",
+      "caseId": "p2-kf-h005-20261029",
+      "expected": "A1301",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/C13102/rstLst/?sw=local%20food",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/",
+        "candidateId": "praxis:restaurant:3a25504a9420008789fb9565",
+        "distanceMeters": 169.02742352206178
+      },
+      "observedReferenceMatch": null,
+      "after": "NO_OBSERVED_MATCH",
+      "b": {
+        "observedNames": [
+          "nearby",
+          "東銀座駅",
+          "１０",
+          "４丁目",
+          "銀座"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 3036,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 3036
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h005-20261029/attempt-2/probe-summary.json",
+          "sha256": "7a2120a4ef6abfb1342a448c97ac736e187b8067415a8ac6087fdf34508f0c0c"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h005-20261029/attempt-2/trace.jsonl",
+          "sha256": "d359b4bb3f576c820b23d4c66eda3446b01f3eb76431b2d1ca209e5034688b80"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h005-20261029/attempt-2/probe.decisions.jsonl",
+          "sha256": "9d8fb847873960391922aa8fa56b5c78c92e4db59c56cc3507a43073edf4e326"
+        }
+      ]
+    },
+    {
+      "id": "baseline/p2-kichijoji-tempura-20261027/attempt-1",
+      "group": "baseline",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "expected": "A1320",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1320/",
+      "reference": null,
+      "observedReferenceMatch": null,
+      "after": "UNCHANGED_NO_REFERENCE",
+      "b": {
+        "observedNames": [
+          "Kichijōji"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": null,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": null
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kichijoji-tempura-20261027/attempt-1/probe-summary.json",
+          "sha256": "426f23abec73eed5ce12d55bf06a55012e9390141ec02b92763c13ce36fd0bae"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+          "sha256": "328ed5b644da70ecf550e0f21bdebc21a6483b46b17407df6c12b9c141976b42"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kichijoji-tempura-20261027/attempt-1/probe.decisions.jsonl",
+          "sha256": "36c2e6e490b80f9086b014e81c583322fd1253c70dee5aadf32b141d6e32502d"
+        }
+      ]
+    },
+    {
+      "id": "baseline/p2-kichijoji-tempura-20261027/attempt-2",
+      "group": "baseline",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "expected": "A1320",
+      "old": "NOT_REACHED",
+      "firstUrl": null,
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13282321/",
+        "candidateId": "praxis:restaurant:a061edd94e921b3d4444d239",
+        "distanceMeters": 51.6432289819973
+      },
+      "observedReferenceMatch": null,
+      "after": "NO_OBSERVED_MATCH",
+      "b": {
+        "observedNames": [
+          "Kichijōji"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 5227,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 5227
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kichijoji-tempura-20261027/attempt-2/probe-summary.json",
+          "sha256": "5def5c978b0aeb209c7ac084f46672899d08eb3d30c5487056df74a065411b1d"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+          "sha256": "ff88d5188e045ae110981af7baa7129b4de5f45f830c084ea6bf1f1755db8535"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kichijoji-tempura-20261027/attempt-2/probe.decisions.jsonl",
+          "sha256": "9552c50b83932ee68ebc8b2bad75716b15001db68716efc5c34d2a06ae77842e"
+        }
+      ]
+    },
+    {
+      "id": "baseline/p2-nakameguro-yakiniku-20261030/attempt-1",
+      "group": "baseline",
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "expected": "A1317",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1316/rstLst/?sw=yakiniku",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1317/A131701/13281273/",
+        "candidateId": "praxis:restaurant:4accb9c925e87759c597d7ad",
+        "distanceMeters": 553.0854485305954
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1317/rstLst/?sw=yakiniku",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Nakameguro",
+          "Nakameguro"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 3130,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 3130
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-nakameguro-yakiniku-20261030/attempt-1/probe-summary.json",
+          "sha256": "c497850f7a92050ce294ae2993ae259f4b180b3f6fccbed1a89fe19116b25fca"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+          "sha256": "298c031b59a1ae3d2b988397a78fb3a69e48a9721c6285d51d6d6196edd7d52c"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-nakameguro-yakiniku-20261030/attempt-1/probe.decisions.jsonl",
+          "sha256": "5a35cc4fabdbc305714dc744f1806e746382a75df432fc976ce573f290430a6e"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-1",
+      "group": "checkpoint-a-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2601,
+        "sharedTextPlanningMs": 2288,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 4889
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-1/probe-summary.json",
+          "sha256": "4777e40b2379f02bd31e6d18428bdb97b32cacd15286eae894cc93a393f7ee9f"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+          "sha256": "eb51c5302c55fbc9d2597f059990abc179ca98d888a9c13c1313fb3fe7392ed4"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-1/probe.decisions.jsonl",
+          "sha256": "a71332ce40842d9c89b9331a6a127928cf42d05098d6185a0b14beb26abfa3f9"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1",
+      "group": "checkpoint-a-corrected-20261019",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1304/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13222581/",
+        "candidateId": "praxis:restaurant:359e4485b73417043bd3a76a",
+        "distanceMeters": 94.53660090160417
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1309/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2227,
+        "sharedTextPlanningMs": 2214,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4441
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+          "sha256": "084dbb7498a070989596de1e300b9340ef279ccd87c5197bb878a9c087d015a8"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "0e95f11b54844b1da81686f7c42bcf25fef20271650241ed2501f2a5ae783a9d"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "ec85d79337d6f439ed8b2ee87fb4b3eebeb861dc11eb23f14a91cb0f32a420ee"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2",
+      "group": "checkpoint-a-corrected-20261019",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1304/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13222581/",
+        "candidateId": "praxis:restaurant:359e4485b73417043bd3a76a",
+        "distanceMeters": 94.53660090160417
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1309/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1718,
+        "sharedTextPlanningMs": 1995,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 3713
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/probe-summary.json",
+          "sha256": "2868b93206a56d33ccb11c00d4251b30aadac3ba942f2d5c0a2972b024ce4307"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+          "sha256": "5406c12c5cd56929efb610d8de7892ce9f0751657c110d1cf0b0202a639b08f3"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/probe.decisions.jsonl",
+          "sha256": "67fb2316f9bec973dfdc642f2b77c31f2665521bdfa6581b65cf711ee1b2957a"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1",
+      "group": "checkpoint-a-corrected-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1751,
+        "sharedTextPlanningMs": 2083,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 3834
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1/probe-summary.json",
+          "sha256": "97821ce83c3413bf74c6742f9dc424b4c507387a9daad0b719872c53f5a407b7"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+          "sha256": "b1094c4646222cbd566ae75f3bed75c73b663b3aba093457b78fad3538e8eb66"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1/probe.decisions.jsonl",
+          "sha256": "22eff28814e5f1ea4591da25b758043ea94abe9e1d3f3fd0e5217560b6473456"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2",
+      "group": "checkpoint-a-corrected-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2188,
+        "sharedTextPlanningMs": 2197,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 4385
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2/probe-summary.json",
+          "sha256": "2fa5d19e73f0d675a23e85574c86e036c265151f67afc94af43323cae3cef947"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+          "sha256": "dca7003de6ee3a5ad20cb03317a30108d77bf41353e84ea52cc42204b3d8e310"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2/probe.decisions.jsonl",
+          "sha256": "3acb9bf8bcec41356531a2c4dc74a9369e5259044f2096fdb9d49941921aed2b"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1",
+      "group": "checkpoint-a-corrected-20261019",
+      "caseId": "p2-kf-h002-20261031",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": null,
+      "observedReferenceMatch": null,
+      "after": "UNCHANGED_NO_REFERENCE",
+      "b": {
+        "observedNames": [
+          "Higashi-ginza Sta.",
+          "10",
+          "4-chōme",
+          "Ginza"
+        ],
+        "matchingLabels": [
+          "Ginza & Shimbashi & Yurakucho",
+          "Ginza",
+          "Ginza & Shimbashi & Yurakucho Restaurants",
+          "Ginza Itchome Sta.",
+          "Ginza Sta.",
+          "Higashi Ginza Sta."
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1172,
+        "sharedTextPlanningMs": 2144,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 3316
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1/probe-summary.json",
+          "sha256": "1caf2145d9c1793703ed4cc7e4d55c629bd2290d53ea79e30b6a5575b4d68cf4"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1/trace.jsonl",
+          "sha256": "ea2db1b82e4c8af294143bb5354d143e26c4ea6050ace26a9ad9a47577e3bbc2"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1/probe.decisions.jsonl",
+          "sha256": "f03592db9a2fb00b2365e0811b7b99f80d3e8eb84c2f1e5dcb35c9c84f2a8153"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1",
+      "group": "checkpoint-a-corrected-20261019",
+      "caseId": "p2-kf-h005-20261029",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/",
+        "candidateId": "praxis:restaurant:3a25504a9420008789fb9565",
+        "distanceMeters": 169.02742352206178
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1301/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "nearby",
+          "東銀座駅",
+          "１０",
+          "４丁目",
+          "銀座"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1956,
+        "sharedTextPlanningMs": 1426,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 3382
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/probe-summary.json",
+          "sha256": "e165b76382f241fe29b85168d50ba1fdc17f6eebb2948e39be7e8bbcd627cb6c"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/trace.jsonl",
+          "sha256": "6b1e9460e808f6f4387fda68aa42624f5646e6a89c005fabe2526f6c16a332db"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "92e9315fb28819754a20bf60318d606d93f6fe092b33c2ff68b2815d360c69da"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2",
+      "group": "checkpoint-a-corrected-20261019",
+      "caseId": "p2-kf-h005-20261029",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/",
+        "candidateId": "praxis:restaurant:3a25504a9420008789fb9565",
+        "distanceMeters": 169.02742352206178
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1301/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "nearby",
+          "東銀座駅",
+          "１０",
+          "４丁目",
+          "銀座"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2622,
+        "sharedTextPlanningMs": 2208,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4830
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/probe-summary.json",
+          "sha256": "a10866f1b90a22ebbe3fe725ab722989974a2c0303df3c5d58966ff965695375"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/trace.jsonl",
+          "sha256": "d2aab1fbacc992afb064a136c894427a3be0332f0847691389d68b0da91a1ac2"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/probe.decisions.jsonl",
+          "sha256": "6fff00b9dedc832402ad2f126a9304d73f32d6ea8a0a53928272f5ccc217924c"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1",
+      "group": "checkpoint-a-corrected-20261019",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "expected": "A1320",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1320/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13282321/",
+        "candidateId": "praxis:restaurant:a061edd94e921b3d4444d239",
+        "distanceMeters": 51.6432289819973
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1320/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kichijōji"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1745,
+        "sharedTextPlanningMs": 2384,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4129
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/probe-summary.json",
+          "sha256": "08851d187d500eb2ef8ed3337749217fdae3c64a949ed67be30990ea56df4043"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+          "sha256": "9f05e522f5dd3fb73cf2aed72ac60c9eb43c41e45c5c010d7f312061334b1454"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/probe.decisions.jsonl",
+          "sha256": "4bf8a259236dfe2737d27bd4d9af2cd88be371d98642b75542ec7a718eec97a0"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2",
+      "group": "checkpoint-a-corrected-20261019",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "expected": "A1320",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1320/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13282321/",
+        "candidateId": "praxis:restaurant:a061edd94e921b3d4444d239",
+        "distanceMeters": 51.6432289819973
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1320/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kichijōji"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 3301,
+        "sharedTextPlanningMs": 2453,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 5754
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/probe-summary.json",
+          "sha256": "7007a95d24b3fe9684abb8a277fa56969b8bdd61d10123ab9022a57ffb431e72"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+          "sha256": "f71d33713a9a9219eb4240e4f9ccaa999d085d98ab2d4b805108ebd155b6c4f0"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/probe.decisions.jsonl",
+          "sha256": "8bc1bdcc0cc3a36f2156cb7bb8939673ccd1b1847e71dc8195d44ea0fbbe154a"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1",
+      "group": "checkpoint-a-corrected-20261019",
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "expected": "A1317",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1317/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1317/A131701/13281273/",
+        "candidateId": "praxis:restaurant:4accb9c925e87759c597d7ad",
+        "distanceMeters": 553.0854485305954
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1317/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Nakameguro",
+          "Nakameguro"
+        ],
+        "matchingLabels": [
+          "Naka-Meguro & Yutenji"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1999,
+        "sharedTextPlanningMs": 2379,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 4378
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/probe-summary.json",
+          "sha256": "3f890279f3e6412a579130ab7ac8a0a47e04228d3db277c9aca09c139316e04b"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+          "sha256": "a6621ce5994cd6b02851fb07d827f8cbdb7db3f050cefb58bf527ffa83a8de3c"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/probe.decisions.jsonl",
+          "sha256": "b89f9b36f362bb3bf7b40fc3a8e429f6962b06d0a730fd5334fe6226217a538d"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1",
+      "group": "checkpoint-a-dom-20261019",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1304/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13222581/",
+        "candidateId": "praxis:restaurant:359e4485b73417043bd3a76a",
+        "distanceMeters": 94.53660090160417
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1309/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2025.9999999999998,
+        "sharedTextPlanningMs": 2135,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4161
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+          "sha256": "0e1be550565253ac8dc6b15460f34507c52a7fd42facc24c0917c3125f1993ac"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "b64b62278a911420df762f4d953c2bd682bc5c9a49fff55aeb7ebdf40a8286ae"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "8841b2d83354265e0005dacf17b0626868aeec1c212706d4d4142d9fe70317b6"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2",
+      "group": "checkpoint-a-dom-20261019",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1304/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13222581/",
+        "candidateId": "praxis:restaurant:359e4485b73417043bd3a76a",
+        "distanceMeters": 94.53660090160417
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1309/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1857,
+        "sharedTextPlanningMs": 2306,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4163
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/probe-summary.json",
+          "sha256": "19de8becaa753f14dd17be5d71c37de9daf70a7a37db103a44f17c7195ae2d70"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+          "sha256": "450a1efff8ef83d48459f2607fff629e473d490f0b93368b1b8a482510fd9354"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/probe.decisions.jsonl",
+          "sha256": "1df4db460a2d9dcefe27c959d88163024a48bcd49a038112eaa6ec74bb281b75"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-1",
+      "group": "checkpoint-a-dom-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1831,
+        "sharedTextPlanningMs": 2328,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 4159
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-1/probe-summary.json",
+          "sha256": "b96d2d18d88b7c4870d2c54367f54f5e93d833a92754e392cbe95186f7a28388"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+          "sha256": "828d358f0f99f02ea5cb1abf2ae960cb15f71731a23a28af6baeac65fc9f96e0"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-1/probe.decisions.jsonl",
+          "sha256": "d9939f3e5aefec53d15fe80c321d36eb09a83ea602c15abb0c7cac059bd91dea"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-2",
+      "group": "checkpoint-a-dom-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2193,
+        "sharedTextPlanningMs": 2137,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 4330
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-2/probe-summary.json",
+          "sha256": "ca85bcc4b92f56dd4ed80f7e68c2c123197c485c3cef58bb7210800b194e8b2c"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+          "sha256": "b047bd4b30c224946b3eacc0cdb29dd799a6d28a9351cea5bd2ebba04431dd9b"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-2/probe.decisions.jsonl",
+          "sha256": "3b4f2d02f80b703548c17e3e00267edc1b1724da35f377de62c9f94958836bab"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1",
+      "group": "checkpoint-a-dom-20261019",
+      "caseId": "p2-kf-h002-20261031",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": null,
+      "observedReferenceMatch": null,
+      "after": "UNCHANGED_NO_REFERENCE",
+      "b": {
+        "observedNames": [
+          "Higashi-ginza Sta.",
+          "10",
+          "4-chōme",
+          "Ginza"
+        ],
+        "matchingLabels": [
+          "Ginza & Shimbashi & Yurakucho",
+          "Ginza",
+          "Ginza & Shimbashi & Yurakucho Restaurants",
+          "Ginza Itchome Sta.",
+          "Ginza Sta.",
+          "Higashi Ginza Sta."
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1270,
+        "sharedTextPlanningMs": 1927,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 3197
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1/probe-summary.json",
+          "sha256": "e01b797e59c811ee159ec8165dae734336959b66f4d9c87395cc87bfc675c7ec"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1/trace.jsonl",
+          "sha256": "a06449023fec9ea5f0637130d88fe7cd4d2b96a3746b03d147420aa9bf3162dd"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1/probe.decisions.jsonl",
+          "sha256": "b893ca9a838a5e7fa18d8b15a8b17011670d6c50502345c5511c62efb79c24e8"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-1",
+      "group": "checkpoint-a-dom-20261019",
+      "caseId": "p2-kf-h005-20261029",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/",
+        "candidateId": "praxis:restaurant:3a25504a9420008789fb9565",
+        "distanceMeters": 169.02742352206178
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1301/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "nearby",
+          "東銀座駅",
+          "１０",
+          "４丁目",
+          "銀座"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1815,
+        "sharedTextPlanningMs": 2111,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 3926
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-1/probe-summary.json",
+          "sha256": "3864b99eb6f9c4e14070dc2b3a1076285441500f5395912e6ca20826f2f62bcb"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-1/trace.jsonl",
+          "sha256": "39050ee6b8932be67a1ce5de1f87773d101971a585bd2ab50a99fcce12759ffa"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "fe3a75ef1108d70e5e14274174c6df0106ee238d3a1b74f9e8692be675766be3"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2",
+      "group": "checkpoint-a-dom-20261019",
+      "caseId": "p2-kf-h005-20261029",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/",
+        "candidateId": "praxis:restaurant:3a25504a9420008789fb9565",
+        "distanceMeters": 169.02742352206178
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1301/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "nearby",
+          "東銀座駅",
+          "１０",
+          "４丁目",
+          "銀座"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2991,
+        "sharedTextPlanningMs": 2533,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 5524
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2/probe-summary.json",
+          "sha256": "9f0295e6c7d995c4a14b9ee7cd3e9d7518c61c04d6ca03a4fd7acb77ca2670db"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2/trace.jsonl",
+          "sha256": "197df7c277513e1913abd3dc98771aabba3b6a011ebc4699bc84c99111a212c1"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2/probe.decisions.jsonl",
+          "sha256": "6c750cfb79611a8153ae0d760c0f7184270f5ac9902231e0cece459f33df2b9b"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1",
+      "group": "checkpoint-a-dom-20261019",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "expected": "A1320",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1320/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13282321/",
+        "candidateId": "praxis:restaurant:a061edd94e921b3d4444d239",
+        "distanceMeters": 51.6432289819973
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1320/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kichijōji"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1927,
+        "sharedTextPlanningMs": 3193,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 5120
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/probe-summary.json",
+          "sha256": "397eb595d092990be82fabde1c708c387486c910acd3019fd86a188d1be29816"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+          "sha256": "b74ca13c61b46024a872392c6a9b17fb20cf6d9d4ab807f570f683581d4b22e6"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/probe.decisions.jsonl",
+          "sha256": "a4095db5b1e74e2ed9d37a528f8c33e192aed523ed4ab14c951ee184dd1fc82a"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2",
+      "group": "checkpoint-a-dom-20261019",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "expected": "A1320",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1320/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13282321/",
+        "candidateId": "praxis:restaurant:a061edd94e921b3d4444d239",
+        "distanceMeters": 51.6432289819973
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1320/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kichijōji"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1973,
+        "sharedTextPlanningMs": 3157,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 5130
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/probe-summary.json",
+          "sha256": "a51c1f138978594d2e6ef5171505a5b68deaee86445888a5e8842ac99945e459"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+          "sha256": "c77e4ec2c64abc82c923fb523d5eba449a4c398debd080e4d041e86def7aa938"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/probe.decisions.jsonl",
+          "sha256": "41d282b46a2ce4054b8a892391ce8d1064e489db8cba5854404f204dbd3a92e6"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1",
+      "group": "checkpoint-a-dom-20261019",
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "expected": "A1317",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1317/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1317/A131701/13281273/",
+        "candidateId": "praxis:restaurant:4accb9c925e87759c597d7ad",
+        "distanceMeters": 553.0854485305954
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1317/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Nakameguro",
+          "Nakameguro"
+        ],
+        "matchingLabels": [
+          "Naka-Meguro & Yutenji"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1814,
+        "sharedTextPlanningMs": 2099,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 3913
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/probe-summary.json",
+          "sha256": "997bf3a8d1e061188b55c3ef8e3f93760d66534168c9b635b556204071c40423"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+          "sha256": "5fe12c95ceb60666f54ba6f69a51bb7a00f90a74c9e2455a9a1c3d86a9eed51c"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/probe.decisions.jsonl",
+          "sha256": "ceef5f4f19f437b8dbaa8c1e1a2e1f78c01f8549c6d687aac6aae87e8e1a9d00"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1",
+      "group": "checkpoint-b-20261019",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1304/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13021574/",
+        "candidateId": "praxis:restaurant:ed8b2d50b5e66717f7b8cd81",
+        "distanceMeters": 78.29578197603826
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1309/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1919,
+        "sharedTextPlanningMs": 2678,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4597
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+          "sha256": "0a79b784ae6aaf96025e78207cfa1134847e4c4d2a39b45e5b88972ab71f3efa"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "86082ecf846281d3f935b0f4fb8e54b2b8e2c13c828ca76faef5a8a697cbb56d"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "3c477095da026541920673d64d43a2f05584b42916d08ecd82567fd218cad0a4"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-1",
+      "group": "checkpoint-b-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1831,
+        "sharedTextPlanningMs": 2841,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 4672
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-1/probe-summary.json",
+          "sha256": "89a92223397291f0ee613c1014dc1140f60489215f386936447eb7f2d29dd455"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+          "sha256": "08b8504deabd5c57e4d0b09989f4f38c2124f3f52d5585670a7119d0ea6c1b2b"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-1/probe.decisions.jsonl",
+          "sha256": "9cef03b6414e49ed4e9b20424f3322d3cf901c495bb10095f0a5e0ca53184626"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-2",
+      "group": "checkpoint-b-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2166,
+        "sharedTextPlanningMs": 3020,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 5186
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-2/probe-summary.json",
+          "sha256": "959f44a6bc15b37a7e9d5b5934f5a63dca7bf6388c7c209380d1a9c3f1c968d0"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+          "sha256": "5db6da147436a3e3fa4e06282218236b73a496ffc08d33b73f0241c4e41155bb"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-2/probe.decisions.jsonl",
+          "sha256": "4b9180d9f9e67a76b2969acb102af48b17adfd142c69fcde3517bb0d01fd03bf"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1",
+      "group": "checkpoint-b-corrected-20261019",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1304/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13222581/",
+        "candidateId": "praxis:restaurant:359e4485b73417043bd3a76a",
+        "distanceMeters": 94.53660090160417
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1309/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2011.0000000000002,
+        "sharedTextPlanningMs": 2223,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4234
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+          "sha256": "5f328831fda9a124137bac4ffccb652824f0080f007d8f1b81170d85e8298dbd"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "0cffbc8444538af10169deb17a5aa5c0ac1176fab3911a10935ed5525871164c"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "a19b48427e977acd6a7df27d032c191c1f6a3aa577cab8c600991d3ff9d62777"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2",
+      "group": "checkpoint-b-corrected-20261019",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1304/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13222581/",
+        "candidateId": "praxis:restaurant:359e4485b73417043bd3a76a",
+        "distanceMeters": 94.53660090160417
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1309/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1902,
+        "sharedTextPlanningMs": 2349,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4251
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/probe-summary.json",
+          "sha256": "e2d542b02bf5b2e42d33cb7ab0f49b710014264a93f6d8b7bb454d950000d1fd"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+          "sha256": "a23bc09b2ab0daee2e443b96a62dfb12e14a413e1b368044f04f5a332beac85c"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/probe.decisions.jsonl",
+          "sha256": "63db181b517dd396a56533b3734b77e89aae6af6588856dbfe153005eb4b293b"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-start-b-20261020",
+      "group": "checkpoint-b-corrected-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1946,
+        "sharedTextPlanningMs": 2557,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 4503
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-start-b-20261020/probe-summary.json",
+          "sha256": "9919e2fd7e3cf2629558fb184bd41c863e7a7fa2906f4278cd691ab228d3c54a"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-start-b-20261020/trace.jsonl",
+          "sha256": "25d2f530bbb30e1486330b174411e9717280eb7b70753b727cd71798e4920375"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-start-b-20261020/probe.decisions.jsonl",
+          "sha256": "77f156b1d410c5c1fa1d6eea8281c15f7e5068eea8cc10858e828190f6007760"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-network-fixed-20261020",
+      "group": "checkpoint-b-corrected-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1805,
+        "sharedTextPlanningMs": 2269,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 4074
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-network-fixed-20261020/probe-summary.json",
+          "sha256": "3f101ba5d45365f57af4f57cfe20664e72e0b3283ee4602e9f926a2170470379"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-network-fixed-20261020/trace.jsonl",
+          "sha256": "8509a1158cf3ac83f509404db77ac03dd48ad15a31e8b06432c0c2204a68792e"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-network-fixed-20261020/probe.decisions.jsonl",
+          "sha256": "eb5540db72503c5dd33e57bb773c8c269f4fd2e0e16813ce074e79f58187dcf0"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020",
+      "group": "checkpoint-b-corrected-20261019",
+      "caseId": "p2-kf-h002-20261031",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": null,
+      "observedReferenceMatch": null,
+      "after": "UNCHANGED_NO_REFERENCE",
+      "b": {
+        "observedNames": [
+          "Higashi-ginza Sta.",
+          "10",
+          "4-chōme",
+          "Ginza"
+        ],
+        "matchingLabels": [
+          "Ginza & Shimbashi & Yurakucho",
+          "Ginza",
+          "Ginza & Shimbashi & Yurakucho Restaurants",
+          "Ginza Itchome Sta.",
+          "Ginza Sta.",
+          "Higashi Ginza Sta."
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1858,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 1858
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020/probe-summary.json",
+          "sha256": "ecff2fcb5bddb6afa95bbb227d09575b5dd31e8b497b082bb0c8be02e7665a0d"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020/trace.jsonl",
+          "sha256": "9351fb510a87330fdaf527232b23b7b373930d4706bbc282b0518e5e9fdd7c84"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1-browser-ready-20261020/probe.decisions.jsonl",
+          "sha256": "980605c7279b37ab70d8ea53572296e8cd9702575a8126858fe2a0f2a28ec20d"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1",
+      "group": "checkpoint-b-corrected-20261019",
+      "caseId": "p2-kf-h005-20261029",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/",
+        "candidateId": "praxis:restaurant:3a25504a9420008789fb9565",
+        "distanceMeters": 169.02742352206178
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1301/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "nearby",
+          "東銀座駅",
+          "１０",
+          "４丁目",
+          "銀座"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 3911,
+        "sharedTextPlanningMs": 2154,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 6065
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/probe-summary.json",
+          "sha256": "683eaf35fd9e02ae07966a4060df47f708de12e1fe7e938bdd4ea7fe180cd391"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/trace.jsonl",
+          "sha256": "af0dbab7d41ddae220520ae4a3b6d22e6fdaec2367ab76c1cc3467db0d4cc74b"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "28880d3a91c48d95ee506ae0b6ce3fced3eabb1f9947a39af27332e6acf2dc85"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2-user-seventh-20261020",
+      "group": "checkpoint-b-corrected-20261019",
+      "caseId": "p2-kf-h005-20261029",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/",
+        "candidateId": "praxis:restaurant:3a25504a9420008789fb9565",
+        "distanceMeters": 169.02742352206178
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1301/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "nearby",
+          "東銀座駅",
+          "１０",
+          "４丁目",
+          "銀座"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2246,
+        "sharedTextPlanningMs": 1988,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4234
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2-user-seventh-20261020/probe-summary.json",
+          "sha256": "79ce828d6631561441969d64bfe35a6837e476996b110175bfe525a850e14113"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2-user-seventh-20261020/trace.jsonl",
+          "sha256": "965d6277f01a5835ba5dece0c8ed5e3e25baafeb03f79363fab000c6adfdd8a2"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2-user-seventh-20261020/probe.decisions.jsonl",
+          "sha256": "e920fcc77a930c00ccb01d8c110a28b4a8b3e1055a607fdc11ed961dcca2e171"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1-user-seventh-20261020",
+      "group": "checkpoint-b-corrected-20261019",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "expected": "A1320",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1320/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13282321/",
+        "candidateId": "praxis:restaurant:a061edd94e921b3d4444d239",
+        "distanceMeters": 51.6432289819973
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1320/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kichijōji"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1777,
+        "sharedTextPlanningMs": 2276,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4053
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1-user-seventh-20261020/probe-summary.json",
+          "sha256": "ee85606d9825dcc196188754319016bab34507ebe04b2d051d2976d4ac3efac8"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1-user-seventh-20261020/trace.jsonl",
+          "sha256": "9b58482dd319ef01f0b7f31d7ce50d56d24075d243f980028764213d2de740bb"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1-user-seventh-20261020/probe.decisions.jsonl",
+          "sha256": "1353ee152bd1dd5bcff4ab996d48aae1b4e49029373b99ff9bad4933fb82ff1d"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2-user-seventh-20261020",
+      "group": "checkpoint-b-corrected-20261019",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "expected": "A1320",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1320/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13282321/",
+        "candidateId": "praxis:restaurant:a061edd94e921b3d4444d239",
+        "distanceMeters": 51.6432289819973
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1320/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kichijōji"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1870,
+        "sharedTextPlanningMs": 2326,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 4196
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2-user-seventh-20261020/probe-summary.json",
+          "sha256": "4ed103b3c353223342526a3a7704a36289ba24012563e898ec78e6ed9600cc7b"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2-user-seventh-20261020/trace.jsonl",
+          "sha256": "73306131c1c1d7c04264a942ea5d4821af01be4377c4d1bd2743d176dd69fedb"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2-user-seventh-20261020/probe.decisions.jsonl",
+          "sha256": "560b299a620885c8fc37bb65211be968e16c62eb3251c4908234f75007b98dbe"
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-user-seventh-20261020",
+      "group": "checkpoint-b-corrected-20261019",
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "expected": "A1317",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1316/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1317/A131701/13281273/",
+        "candidateId": "praxis:restaurant:4accb9c925e87759c597d7ad",
+        "distanceMeters": 553.0854485305954
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1317/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Nakameguro",
+          "Nakameguro"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1696,
+        "sharedTextPlanningMs": 1533,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 3229
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-user-seventh-20261020/probe-summary.json",
+          "sha256": "f4f10b75e6ba0be0853153d1b880da7ec865310bd6f5df89f3b08d6a45def01b"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-user-seventh-20261020/trace.jsonl",
+          "sha256": "c36b8523c2c09908818ecc953f94f3d0f4bbaed89dffe4cf745e3e97f1014e3c"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1-user-seventh-20261020/probe.decisions.jsonl",
+          "sha256": "5f0bc33058b10908a8d81d01a52522a6fb0322bd99822ccbedf18bbc135c8449"
+        }
+      ]
+    },
+    {
+      "id": "network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1",
+      "group": "network-restored-20261019",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/C13104/rstLst/?sw=kaiseki%20restaurant",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13222581/",
+        "candidateId": "praxis:restaurant:359e4485b73417043bd3a76a",
+        "distanceMeters": 94.53660090160417
+      },
+      "observedReferenceMatch": null,
+      "after": "NO_OBSERVED_MATCH",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1791,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 1791
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe-summary.json",
+          "sha256": "25b836728708d56c4b1281af5c00e357ef858dc68b67119ac831222e65b72734"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "b754b4e751c4516b51beae0c513a6c23f778b53ccd891a468494947837e44196"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "361f05fc88abe3313ff7a8e30a8f0bcea0f39a7c8751fb9ccfeb490efd5e38d5"
+        }
+      ]
+    },
+    {
+      "id": "network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2-preflight-2",
+      "group": "network-restored-20261019",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "expected": "A1309",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/C13104/rstLst/?sw=kaiseki%20restaurant",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13222581/",
+        "candidateId": "praxis:restaurant:359e4485b73417043bd3a76a",
+        "distanceMeters": 94.53660090160417
+      },
+      "observedReferenceMatch": null,
+      "after": "NO_OBSERVED_MATCH",
+      "b": {
+        "observedNames": [
+          "Kagurazaka",
+          "Kagurazaka"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1862,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 1862
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2-preflight-2/probe-summary.json",
+          "sha256": "e3bc54db6b8ee1ca5b9a95252fa342a0f5f6dfc8bbc0f1df105d2849cce5b4aa"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2-preflight-2/trace.jsonl",
+          "sha256": "9b5eea28408d5a65381ed629fe9b4af406982d67a11eb1216450ca7f1666cdc2"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2-preflight-2/probe.decisions.jsonl",
+          "sha256": "52d81e845b5bd044c3e655e6d5ca2bc920c3bc6c7b9dbb647a1f45042064dc06"
+        }
+      ]
+    },
+    {
+      "id": "network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-1",
+      "group": "network-restored-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1980,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 1980
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-1/probe-summary.json",
+          "sha256": "79c5eda037cf0bb867f0aed6ced04315ebf0dedd3057c8ba29bf6502f6d90cc9"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+          "sha256": "0224a2423386262e06abbefe0aac98972741a2ea5285c432a07773b0a2ebbf05"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-1/probe.decisions.jsonl",
+          "sha256": "4e0f954363fcda9a723b33aed6e87799eb0809a033f9845eeaf374afdecf4053"
+        }
+      ]
+    },
+    {
+      "id": "network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-2",
+      "group": "network-restored-20261019",
+      "caseId": "p2-kf-h001-20261027",
+      "expected": "A1303",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+        "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+        "distanceMeters": 188.50389572651477
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Shibuya"
+        ],
+        "matchingLabels": [
+          "Shibuya & Ebisu & Daikanyama"
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1709,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 1709
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-2/probe-summary.json",
+          "sha256": "6697005ac6077358305b6adf6356de662fb4ba8fa35f86c1fc26e8d77c7dbee5"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+          "sha256": "c9cf6440e79233e4a1eced2699b7f890b4eed646fdc2a5444f143568335c56c6"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-2/probe.decisions.jsonl",
+          "sha256": "c46ef9f6cf5ddb3b0275cba3a9effb497dc15ae0efc0e285b4d8dcfc1f25f810"
+        }
+      ]
+    },
+    {
+      "id": "network-restored-20261019/baseline/p2-kf-h002-20261031/attempt-1",
+      "group": "network-restored-20261019",
+      "caseId": "p2-kf-h002-20261031",
+      "expected": "A1301",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1301/",
+      "reference": null,
+      "observedReferenceMatch": null,
+      "after": "UNCHANGED_NO_REFERENCE",
+      "b": {
+        "observedNames": [
+          "Higashi-ginza Sta.",
+          "10",
+          "4-chōme",
+          "Ginza"
+        ],
+        "matchingLabels": [
+          "Ginza & Shimbashi & Yurakucho",
+          "Ginza",
+          "Ginza & Shimbashi & Yurakucho Restaurants",
+          "Ginza Itchome Sta.",
+          "Ginza Sta.",
+          "Higashi Ginza Sta."
+        ],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1131,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": false,
+        "estimatedPreselectionWaitMs": 1131
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h002-20261031/attempt-1/probe-summary.json",
+          "sha256": "5db47e6fc9a1dc3d2c300e58435faa21569111b0b3b0432926a154bde5e41f9d"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h002-20261031/attempt-1/trace.jsonl",
+          "sha256": "b3ef6695dd16cb8a5ff91481aa895358d13741a0f7593c53b27669a65eab676d"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h002-20261031/attempt-1/probe.decisions.jsonl",
+          "sha256": "4034c85ed1604521ec71b1c5e65e19a0c9e0514c05d6c3a7e90851303a661f5b"
+        }
+      ]
+    },
+    {
+      "id": "network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-1",
+      "group": "network-restored-20261019",
+      "caseId": "p2-kf-h005-20261029",
+      "expected": "A1301",
+      "old": "NOT_REACHED",
+      "firstUrl": null,
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/",
+        "candidateId": "praxis:restaurant:3a25504a9420008789fb9565",
+        "distanceMeters": 169.02742352206178
+      },
+      "observedReferenceMatch": null,
+      "after": "NO_OBSERVED_MATCH",
+      "b": {
+        "observedNames": [
+          "nearby",
+          "東銀座駅",
+          "１０",
+          "４丁目",
+          "銀座"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2013.9999999999998,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 2013.9999999999998
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-1/probe-summary.json",
+          "sha256": "bf53eff664b3b8d3a896c8e3bbf00a24a695b2f96dbb7409f435257358dbff7e"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-1/trace.jsonl",
+          "sha256": "109c10466611ced0f411c02cba6541acd70b9ee218fcece1db3b4270a4381a60"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-1/probe.decisions.jsonl",
+          "sha256": "dcd1a58bfab8f63aa88ef5d8ffa9f868a8d049f5ccbfbb98c1e9dae02337acab"
+        }
+      ]
+    },
+    {
+      "id": "network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-2",
+      "group": "network-restored-20261019",
+      "caseId": "p2-kf-h005-20261029",
+      "expected": "A1301",
+      "old": "NOT_REACHED",
+      "firstUrl": null,
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1301/A130101/13307478/",
+        "candidateId": "praxis:restaurant:3a25504a9420008789fb9565",
+        "distanceMeters": 169.02742352206178
+      },
+      "observedReferenceMatch": null,
+      "after": "NO_OBSERVED_MATCH",
+      "b": {
+        "observedNames": [
+          "nearby",
+          "東銀座駅",
+          "１０",
+          "４丁目",
+          "銀座"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1859,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 1859
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-2/probe-summary.json",
+          "sha256": "0611ba281d64365c6780f839ace24ac092a850760cc8b6737a0f6ddecfe2b3f5"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-2/trace.jsonl",
+          "sha256": "4ffeed57f7929f139bf0e15fe0fe05641ba720854f1366bfece83aaa50ea2187"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-2/probe.decisions.jsonl",
+          "sha256": "2fece4894b344f2bdc3b45f0476edf35ed65c6eb64d6321724badcfe30334b30"
+        }
+      ]
+    },
+    {
+      "id": "network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-1",
+      "group": "network-restored-20261019",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "expected": "A1320",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1320/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13282321/",
+        "candidateId": "praxis:restaurant:a061edd94e921b3d4444d239",
+        "distanceMeters": 51.6432289819973
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1320/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kichijōji"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 2380,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 2380
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-1/probe-summary.json",
+          "sha256": "96f83f651af7045f36831c27896a8e5795328f8e386c481f49dc464578c082a5"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+          "sha256": "682d3ddeae2fa6c9727d13e9f88c6bc005f71f5f89e67915e50a0ce58e942a8d"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-1/probe.decisions.jsonl",
+          "sha256": "4343626a9e6d3f97daa3dd2d20d291ca7e5c5de14bc76e2234b53e57ea7e7aca"
+        }
+      ]
+    },
+    {
+      "id": "network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-2",
+      "group": "network-restored-20261019",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "expected": "A1320",
+      "old": "CORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1320/",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13282321/",
+        "candidateId": "praxis:restaurant:a061edd94e921b3d4444d239",
+        "distanceMeters": 51.6432289819973
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1320/",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Kichijōji"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1803,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 1803
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-2/probe-summary.json",
+          "sha256": "1dde5ed66481521bb98ee774f1fc8b2f42c2e957fadbc65b983ad2ad81db8269"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+          "sha256": "ff0dfe5bc4fbaa66b5b4743f6800e27309f22c8987b16bbce4e3d58b2f666f7c"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-2/probe.decisions.jsonl",
+          "sha256": "fb2d809b8821f714500a080e33be0fa00c7d94b47aca94e98eccaf4f2eb9bb95"
+        }
+      ]
+    },
+    {
+      "id": "network-restored-20261019/baseline/p2-nakameguro-yakiniku-20261030/attempt-1",
+      "group": "network-restored-20261019",
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "expected": "A1317",
+      "old": "INCORRECT",
+      "firstUrl": "https://tabelog.com/en/tokyo/A1316/rstLst/?sw=yakiniku",
+      "reference": {
+        "sourceUrl": "https://tabelog.com/tokyo/A1317/A131701/13281273/",
+        "candidateId": "praxis:restaurant:4accb9c925e87759c597d7ad",
+        "distanceMeters": 553.0854485305954
+      },
+      "observedReferenceMatch": "https://tabelog.com/en/tokyo/A1317/rstLst/?sw=yakiniku",
+      "after": "CORRECT",
+      "b": {
+        "observedNames": [
+          "Nakameguro",
+          "Nakameguro"
+        ],
+        "matchingLabels": [],
+        "newModelRationale": "NOT_EVALUATED"
+      },
+      "timing": {
+        "googleStageMs": 1881,
+        "sharedTextPlanningMs": 0,
+        "indirectInRecordedObservations": true,
+        "estimatedPreselectionWaitMs": 1881
+      },
+      "sources": [
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-nakameguro-yakiniku-20261030/attempt-1/probe-summary.json",
+          "sha256": "03ac49a90e67e4777b19725fa58e17c41271678bcb2081146e22753534ffc4cd"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+          "sha256": "6f0da0d47f3de60bb682e97f698d6d10f3f19c1922ebf1a7e1257bb6a17047ee"
+        },
+        {
+          "gitCommit": "305d1e0",
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-nakameguro-yakiniku-20261030/attempt-1/probe.decisions.jsonl",
+          "sha256": "53879c252d71306785f05d2e76aca2d26225087c3a380e1af569b5e8157d79c9"
+        }
+      ]
+    }
+  ]
+}

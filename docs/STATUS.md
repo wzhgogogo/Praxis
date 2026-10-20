@@ -1,13 +1,17 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.297
+- Document revision: 4.298
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
 
-- **2026-10-20 Context15选店回放与Tabelog方法A完成：**5条独立标注种子全ACCEPTABLE、13/13直接门店页。Gold30家各认证一次、最终29VERIFIED/1DROPPED；方法A34/34完成，Gold12/29正确、15未找到、2不确定、0找错；对照2待复核/3不确定，不计分。模型35+回放5=40，Google/完整Live/方法B新增0。评测身份停止有效红→绿，五门禁972/972+121/121；321旧/390新SHA及66历史输入不变。网络审计64组仍缺会话/完整请求证据，不作总体S0认证。冻结1b4cfda在原8ecfcfc生产基础运行，平行P2-1c合入前结束。等待独立复核。[选店报告](../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md)、[名称基准](../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md)。
+- **2026-10-20 Context15选店回放与Tabelog方法A完成：**5条独立标注种子全ACCEPTABLE、13/13直接门店页。Gold30家各认证一次、最终29VERIFIED/1DROPPED；方法A34/34完成，Gold12/29正确、15未找到、2不确定、0找错；对照2待复核/3不确定，不计分。模型35+回放5=40，Google/完整Live/方法B新增0。评测身份停止有效红→绿，五门禁972/972+121/121；321旧/390新SHA及66历史输入不变。网络审计64组仍缺会话/完整请求证据，不作总体S0认证。冻结1b4cfda在原8ecfcfc生产基础运行，平行P2-1c合入前结束。运行后仅为发布保留远端State18/P2-1c并行提交；合并后五门禁978/978+122/122通过，未重跑模型或源站。等待独立复核。[选店报告](../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md)、[名称基准](../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md)。
+
+- **2026-10-20 P2-1c五次真实发现探测验收通过：** 神乐坂2/2进入A1309/A130905，中目黑2/2进入A1317/A131701；h001单次保持TL4/TC5及见证首批。五例均无失败码/READ_BUDGET_EXCEEDED，20模型均成功，23 Google（含5预检）；发现账本累计347/450模型、59/60探测、171 Google。仅存储额度经用户批准60→65MB，其他预算与生产源码不变；0重试/完整Live/外写，原见证未续期。录制manifest仍NOT_REPLAYABLE，非完整任务签收。[报告](../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)。推送后等复核。
+
+- **2026-10-20 P2-1c 合入 Checkpoint C，离线验收完成：** 以8ecfcfc为基线合入已复核ddfdedd，源码/配置冻结d6d989b；State@18／TaskDefinition@16，保留价格/条件状态与地区提前读取，Browser Prompt@17。五门禁PASS：默认978/978、本地Chromium122/122，type/arch/build通过；原22份校准结果类型22/22、S0声明20/20。真实网站/模型/探测/Live均0。 后续5次探测等待用户通知；见证最早2026-10-21 10:47北京过期，不续期。[本轮报告](../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。
 
 - **2026-10-20 Checkpoint C offline integration ready for review:** `codex/integration-checkpoint-c` combines P2-2/P2-3 at5309545, Context@15/Prompt@27/State@17. Five gates972/972 and Chromium121/121 pass; original22 calibration22/22 and S0 declarations20/20 preserved. Both branches retain all tests. No website/model/probe/Live; benchmark item4 deferred. Includes concurrent review305d1e0 verbatim; product code remains5309545. Independent branch only; no source/main merge. [Integration report](../.eval-artifacts/checkpoint-c-integration-20261020/report.md).
 
@@ -30,6 +34,8 @@
 - **2026-10-20 TableCheck三组只读对照均成功，历史失败原因未确认：** 同一TableCheck URL三组只读均成功：原生产预检HTTP200/122条命中；有Guard和普通Chromium都显示20卡片。未复现此前失败，历史根因未确认，不修改生产或旧产物；B与Google失败复测未启动。
 
 - **2026-10-20 10月20日网络可达，来源非空预检仍阻断B：** 10/20重试网络通过，Tabelog来源20家；TC搜索无有效响应、Google文本读取失败，PREFLIGHT_EVIDENCE_GAP停批。B0/10、0新增模型、Google尝试1次；累计278模型/44探测/118Google。
+
+- **2026-10-20 P2-1c离线地区入口：从P2-2 7dfeb69分支，依305d1e0复核选择同源门店URL证据；不加地名/代码表，站点包净增0。54条旧轨迹分层记录，神乐坂旧菜单4条缺入口观察不计成功；六例受控Chromium走通。State17/TaskDefinition15、Browser Prompt17；真实网站/模型/探测均0，五门禁与最终证据见报告，推送后等复核。** [报告](../.eval-artifacts/p2-1c-region-20261020/report.md)。
 
 - **2026-10-20 P2-2 店名解析样本冻结待复核：** 样本/离线接线冻结1624aa3，SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87；30TL/2TC/10对照，TC缺口保留。五门禁type/arch/build PASS、默认967/967、本地Chromium121/121（283348ms），5项指标/泄漏/禁止日期控制通过，66份原输入及配置SHA不变。真实模型/网站/预检均0，方法B未启用；推送后停下等样本批准，第4项仍须批准与网络就绪。见基准report.md。
 

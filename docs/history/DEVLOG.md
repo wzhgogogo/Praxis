@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.193
+- Document revision: 4.194
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4070,3 +4070,23 @@ Gold phase2260cc8 subsequently completed30 once-onlyHTTP200 reads (0 models), mi
 
 
 Final execution:30Gold once(allHTTP200),29VERIFIED/1DROPPED fixed before A;34/34 methodA subjects complete at1b4cfda. Gold12/29 CORRECT,15NOT_FOUND,2UNCERTAIN,0WRONG_ACCEPTED; controls2REVIEW_REQUIRED/3UNCERTAIN unscored.35 actual deepseek-flash calls(≤3/subject),5 selection calls,total40; Google/fullLive/B0. Median32530.5ms,max61442ms;63 logical gaps minimum30.025s,0source blocks.390 current/321 historical SHA,66 original input SHA,35 normalized paid-request SHA and unchanged30Gold ledger prefix verified. Independent response audit0 recorded violations but64 session/request gaps remain NOT_EVALUATED.14 list-request final URLs leave rstLst; record observation without attributing language/phone-rule cause. Root and phase reports include all result/artifact/raw/model paths and area/name-shape groups. Source execution finished before any parallel remote integration; no rerun or new call.
+
+Publication-only remote merge after source completion preservesfe9b3fc and State18/P2-1c, with5 document conflicts resolved retaining both complete bodies/indices; all236 raw benchmark files and18 replay files unchanged. Fresh merged five gates978/978 +122/122 PASS.11 independent evaluator files unchanged; remote22/22 types and20/20 S0 calibration reused. Current State18/Task16/BrowserPrompt17; original name run remains frozen1b4cfda/State17. No extra model/source calls or source/main merge; publication-retention.json and report document scope.
+
+<a id="dev-2026-10-20-p21c-region-entrance"></a>
+## DEV-2026-10-20-P21C-REGION-ENTRANCE
+
+- Exposed development，基线7dfeb69，复核305d1e0。缺同名入口时提前复用原计划Google批次，以原半径内同源门店URL约束观察引用；失败也缓存到原阶段消费，不重复读取。无地点/代码表，Pack净增0；4/5、身份、HARD与预算不变。
+- State17/TaskDefinition15、Browser Prompt17/action schema11；当前Fixture同步，无兼容路径或数据重置。54条源文件可追溯SHA；仅A上线，B的新模型推理未评。见[报告](../../.eval-artifacts/p2-1c-region-20261020/report.md)。
+
+## DEV-2026-10-20-P21C-CHECKPOINT-C-INTEGRATION
+
+- 以8ecfcfc为基线合入已复核ddfdedd，源码/配置冻结d6d989b；State@18／TaskDefinition@16，保留价格/条件状态与地区提前读取，Browser Prompt@17。五门禁PASS：默认978/978、本地Chromium122/122，type/arch/build通过；原22份校准结果类型22/22、S0声明20/20。真实网站/模型/探测/Live均0。
+- 两边测试/原日志/旧产物保留；仅当前State调用方同步18，既有持久化覆盖同时核验价格及提前读取批次；无兼容层、reset、ADR或Gold变更。独立临时工作树普通推送到指定集成分支，其他检出不动。
+- [报告](../../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。离线 acceptance 通过；实际地区/来源预算和h001非退步等后续5探测等待用户通知，最早见证到期即停、不续期。
+
+## DEV-2026-10-20-P21C-LIVE-PROBES
+
+- 产品源码3998076保持，外层机械重绑当前集成，冻结cfcf73f。原输入/见证不变；先完成3例，再按用户明确批准存储60→65MB，96f4bf6重冻余2例，旧配置保留。模型/探测/时间/半径不扩大，未修改ADR或Gold。
+- 五例均无失败码/READ_BUDGET_EXCEEDED，模型20/20成功，Google正式18+预检5；累计347模型/59探测/171Google。全部间隔≥300秒、0环境重试；原见证截止前完成未续期。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT为当前限制，非库存/完整Live验收。
+- [报告](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)与执行/评价/调用账本分列；普通推送集成分支后停下等复核，不追加探测。

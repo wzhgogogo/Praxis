@@ -1,0 +1,91 @@
+{
+  "status": "PASS_FOR_APPROVED_FIVE_DISCOVERY_PROBES",
+  "mode": "LIVE_READ_ONLY_DISCOVERY_PROBES",
+  "productionSourceBaseline": "39980768d90658e0c4741f87f4346338a3a56172",
+  "runHeads": [
+    "1aefa43aa94c9c0064a4d767d9a4d5e28412a298",
+    "422e64865e742d5bb1639cd4d04983b60fc22874"
+  ],
+  "freezeReceipts": [
+    {
+      "freezeCommit": "cfcf73fc026ac6b38e06c4843822cc0394908284",
+      "freezeSha256": "a9f079c972e09ef5d159168cbc27ba7d37f2ea9f841df100968ae168eacc8594",
+      "productionSourceBaseline": "39980768d90658e0c4741f87f4346338a3a56172",
+      "modelsBefore": 0,
+      "networkBefore": 0
+    },
+    {
+      "freezeCommit": "96f4bf6430f810152b8c3f8d55a5210db88c63aa",
+      "freezeSha256": "1a5a75cdbd99d15dc4f659586558eabb71d0f5f4e524214eae820f19ee799994",
+      "productionSourceBaseline": "39980768d90658e0c4741f87f4346338a3a56172",
+      "affectedIndices": [
+        3,
+        4
+      ],
+      "priorFreezeReceipt": ".eval-artifacts/p2-1c-region-20261020/live-probes/storage-allowance-65mb/before-freeze-commit.json",
+      "userApprovedStorageLimitBytes": 65000000
+    }
+  ],
+  "frozenFilesChecked": 341,
+  "productionAndSupportFilesUnchanged": 315,
+  "allSourceFilesSameAcrossFive": true,
+  "spacingSeconds": [
+    321.27,
+    312.043,
+    309.706,
+    318.379
+  ],
+  "witnessCutoff": "2026-10-21T02:47:04.643Z",
+  "finishedAt": "2026-10-20T09:54:05.259101+00:00",
+  "witnessRenewal": false,
+  "independentAcceptance": {
+    "kagurazaka": "2/2 A1309, raw snapshots and observed model links corroborated",
+    "nakameguro": "2/2 A1317, raw snapshots and observed model links corroborated",
+    "h001": "1/1 single control; TL4,TC5,TL witness listing and first batch retained",
+    "readBudgetExceeded": 0,
+    "failureCodes": 0,
+    "readBoundary": "ABSENT 5/5"
+  },
+  "usage": {
+    "generationModelCalls": 20,
+    "googlePlacesDiscovery": 18,
+    "googlePlacesSourcePreflight": 5,
+    "formalProbes": 5,
+    "environmentRetries": 0,
+    "fullLive": 0,
+    "controlledLiveWrite": 0,
+    "cumulativeDiscoveryLedger": {
+      "models": 347,
+      "formalProbes": 59,
+      "google": 171
+    }
+  },
+  "storageAllowance": {
+    "original": 60000000,
+    "approved": 65000000,
+    "affectedIndices": [
+      3,
+      4
+    ],
+    "approval": ".eval-artifacts/p2-1c-region-20261020/live-probes/storage-allowance-65mb/approval.json"
+  },
+  "independentEvaluation": {
+    "path": ".eval-artifacts/p2-1c-region-20261020/live-probes/evaluation.json",
+    "sha256": "0a5c603df1a426ee4b99e7f43d8d9318d4c1b72a876cf58a7c48bc57ee31db27"
+  },
+  "previousCodeGates": {
+    "mode": "REUSED_UNCHANGED_PRODUCT_SOURCE",
+    "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/verification.json",
+    "defaultTests": "978/978",
+    "browserFixtures": "122/122",
+    "calibration": "22/22 outcomes;20/20 S0 declarations"
+  },
+  "newOuterOfflineChecks": {
+    "protocolControls": 15,
+    "dryRunCases": 3,
+    "modelCalls": 0,
+    "network": 0
+  },
+  "finalCompressedBytes": 60709241,
+  "frozenSourceModelInputsUnchanged": true
+}

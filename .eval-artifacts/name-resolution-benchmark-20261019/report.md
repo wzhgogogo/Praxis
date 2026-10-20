@@ -76,3 +76,6 @@ Current execution status supersedes the earlier pending preparation above: integ
 本次Tabelog既有有界解析仅12/29通过，名称解析仍是实际缺口。本批全部已完成样本最终文档HTTP200，0次限流／繁忙暂停；14次rstLst请求的最终URL已离开列表路径（原始search诊断保留），多个不同店名落到同一地区首页／相同结果，优先值得检查检索是否真正落地。15个NOT_FOUND不能解释成“平台上没有店”：所有评分Gold已独立认证存在。英文组8/22正确、日文组4/7正确，是暴露小样本描述，不能证明换语言一定有效。
 
 对P2-2：继续优先利用已观察到的直接门店入口有明确价值；如要继续名称解析改进，应先检验检索落地，再分别验证规范化、换语言或其他检索线索，不能用放宽电话／身份核对换命中率。相对收益尚无A/B干预证据；方法B没有启动。TableCheck本轮未测，不推断它的难度或网络状态。
+
+
+Publication after execution preserves concurrent remoteState18/P2-1c and its independently owned probe evidence. Name benchmark remains bound to1b4cfda/production8ecfcfc, not replayed. Fresh final merged gates978/978 +122/122 all green; original22/22 evaluator calibration retained unchanged. [Details](live-20261020/report.md#publication-merge-after-all-sourcemodel-work-ended).
