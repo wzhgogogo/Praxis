@@ -1,0 +1,22 @@
+{
+  "observedAt": "2026-10-20T04:05:46.209179+00:00",
+  "generatedConfigSha256": "3e7f04e513ef20aa463af2ab0b34cb4ca76a5d9c623cc2adf9c42d7d9a11c182",
+  "restaurantRules": [
+    {
+      "type": "field",
+      "outboundTag": "direct",
+      "domain": [
+        "domain:tablecheck.com",
+        "domain:tablecheck.net",
+        "domain:tabelog.com"
+      ]
+    }
+  ],
+  "tun": [
+    {
+      "name": "utun15",
+      "autoOutboundsInterface": "auto"
+    }
+  ],
+  "scope": "Host environment observation only; not product/source configuration. User added the en0-scoped default route and then enabled restaurant direct routing. Current rules include Tabelog as well as TableCheck; no automated VPN edit."
+}

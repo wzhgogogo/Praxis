@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.182
+- Document revision: 4.183
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3926,3 +3926,12 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 修正B仍1/10正式完成、余9项NOT_REACHED，首例4条决策=4模型，未重跑。累计282/450模型、45/55正式探测、121Google、0完整Live。旧attempt/stop/recovery前缀核对后同步账本，原329冻结/2893历史文件不变；源262及门禁日志SHA复用五门禁（951/951默认、119/119本地Chromium、typecheck/arch/build PASS），24外层离线控制PASS。新运行仅为只读预检，不构成B改善或完整交付验证，H002组未到达。
 
 用户最新要求不再重试并正常推送已完成工作；心跳已暂停，不启动其余运行。只同步本批证据与文档，用户INDEX和未跟踪稿件不暂存。[部分B报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[补试事实与raw SHA](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-retry-10m-20261020/attempt-summary.json)、[最终核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-retry-10m-20261020/post-change-verification.json)。推送结果以Git回执为准，完成后停下待复核。
+
+
+## DEV-2026-10-20-P21-B-NETWORK-FIXED-RESUME-FREEZE
+
+用户确认网页恢复并要求“现在应该行了。你再跑下b试试”，本次授权覆盖先前停止重试的指令，仅续跑未完成的B计划indices1–9，已正式完成的index0绝不重跑。生产a37e152、原十项计划/六输入、Prompt/Schema/指标/Guard/预算均不变；沿用8f39756冻结的同集合见证，最早有效至UTC2026-10-21 02:47:04。用户在宿主机添加en0作用域默认路由，独立物理出口公开GET获得TableCheck301/Tabelog200；当前实际直连规则覆盖TableCheck com/net及Tabelog。这些只作为宿主机环境观察，不替代Runner每例的网络和来源非空预检，未认证完整搜索或B改善。
+
+新外层仅精确准入index1的两次0调用HTTP403预检之后的这一次恢复；账本与上次已提交SHA及回执一致，completed[0]、历史失败计数4、formalGoogle2/preflightGoogle2均保留，旧attempt/stop/recovery历史不清零。28项0网络离线对照PASS；408项文件SHA冻结，原329/历史2893/源码262和五门禁日志核对后复用951/951默认、119/119本地Chromium、typecheck/arch/build PASS。任一新stop结束本轮，无自动额外重试；源预检通过才正式发现，每次15模型/180秒/40Google，0完整Live。
+
+本次准备新增模型/正式探测/Google均0，累计仍282/450模型、45/55探测、121Google；余9次最坏54/55探测、417/450模型。已批准正常推送将在结果汇总后执行，随后待复核；其他聊天P2-2/P2-3不动。[恢复授权与精确范围](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/approval.json)、[离线对照](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/offline-controls.json)、[冻结](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/freeze.json)。
