@@ -143,10 +143,10 @@ const recordedRegions = JSON.parse(gunzipSync(readFileSync(new URL('../../../.ev
  caseId:string;group:string;location:NonNullable<RestaurantSearchContinuation['locationContext']>;
  googleBatch?:{detail:{read:RestaurantSearchRead}};
 }>;
-function linkedRegionFixture(caseId:string, rogue=false, failedRead=false) {
+function linkedRegionFixture(caseId:string, rogue=false, failedRead=false, hard=false) {
  const record=recordedRegions.find(r=>r.group==='checkpoint-b-corrected-20261019'&&r.caseId===caseId)!;
  const references=record.googleBatch!.detail.read;
- const navigations:string[]=[];let googleCalls=0, decisions=0;
+ const navigations:string[]=[];const googleKeywords:Array<string|undefined>=[];let googleCalls=0, decisions=0, planningCalls=0;
  const requested=record.location.label;
  // Only the test's independent expected pages supply this table. Production
  // receives the unchanged recorded Google links and observed root links.
@@ -158,7 +158,8 @@ function linkedRegionFixture(caseId:string, rogue=false, failedRead=false) {
  const runtime:BrowserRuntime={openSession:async()=>({
   metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now},
   navigate:async(url)=>{navigations.push(url);const current=url.includes('/tokyo/rstLst/')?capturedRoot:url;
-   const html=current===capturedRoot?regionFragment('root'):current===good?`<a class="list-rst__rst-name-target" href="${outlet}">Controlled result</a>`:current===outlet?`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Controlled result',address:'Tokyo',geo:{latitude:record.location.latitude,longitude:record.location.longitude}})}</script>`:'';
+   const path=new URL(current);path.search='';
+   const html=path.href===capturedRoot?regionFragment('root'):path.href===good?`<a class="list-rst__rst-name-target" href="${outlet}">Controlled result</a>`:current===outlet?`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Controlled result',address:'Tokyo',geo:{latitude:record.location.latitude,longitude:record.location.longitude}})}</script>`:'';
    page={url:current,title:'Observed regions',text:html.replace(/<[^>]*>/g,' '),html};},snapshot:async()=>page,
   observeControls:async()=>[...page.html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m,n)=>({id:String(n),stableKey:m[1]!,kind:'LINK' as const,role:'link',label:m[2]!.replaceAll('&amp;','&'),href:m[1]!,visible:true,disabled:false})),
   click:async()=>{throw Error('No click');},fill:async()=>{throw Error('No invented input');},select:async()=>[],waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{},
@@ -174,11 +175,12 @@ function linkedRegionFixture(caseId:string, rogue=false, failedRead=false) {
   return {type:'OPEN_LINK',targetRef:supported.ref,reason:'Observed same-origin outlet supports this region'};
  }};
  const google=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async()=>{throw Error('No network');}}));
- google.search=async request=>{googleCalls++;if(failedRead)throw Object.assign(Error('Controlled provider failure'),{code:'GOOGLE_NETWORK_FAILED'});return {...structuredClone(references),continuation:{...structuredClone(references.continuation!),intentFingerprint:JSON.stringify(request.intent)}};};
- const native=new NativeRestaurantSearch(runtime,google,fixtureRetrieval,()=>now,undefined,decision,undefined,undefined,{maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},undefined,[tabelogDiscoveryPack,googlePlacesDiscoveryPack]);
- const inputIntent={...intent,area:{query:`near ${requested}`,radiusMeters:1000}};
+ google.search=async request=>{googleCalls++;googleKeywords.push(request.discoveryQuery?.keyword);if(failedRead)throw Object.assign(Error('Controlled provider failure'),{code:'GOOGLE_NETWORK_FAILED'});return {...structuredClone(references),continuation:{...structuredClone(references.continuation!),intentFingerprint:JSON.stringify(request.intent)}};};
+ const planner={decide:async()=>{planningCalls++;return fixtureRetrieval.decide();}};
+ const native=new NativeRestaurantSearch(runtime,google,planner,()=>now,undefined,decision,undefined,undefined,{maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},undefined,[tabelogDiscoveryPack,googlePlacesDiscoveryPack]);
+ const inputIntent={...intent,area:{query:`near ${requested}`,radiusMeters:1000},...(hard?{criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]}:{})};
  const request={intent:inputIntent,readRunId:`region-${caseId}`,continuation:{intentFingerprint:JSON.stringify(inputIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:record.location}};
- return {native,request,navigations,good,wrong,references,get googleCalls(){return googleCalls;},get decisions(){return decisions;}};
+ return {native,request,navigations,good,wrong,references,googleKeywords,get googleCalls(){return googleCalls;},get decisions(){return decisions;},get planningCalls(){return planningCalls;}};
 }
 test('recorded Kagurazaka and Nakameguro links constrain the first region and reach a controlled result within the unchanged budget',async()=>{
  for(const caseId of ['p2-kagurazaka-kaiseki-20261029','p2-nakameguro-yakiniku-20261030']){
@@ -234,4 +236,14 @@ test('an early provider failure is reported at its original source stage without
  const first=await f.native.search(f.request,new AbortController().signal);
  const next=await f.native.search({...f.request,continuation:JSON.parse(JSON.stringify(first.continuation))},new AbortController().signal);
  assert.equal(f.googleCalls,1);assert.equal(next.candidates.length,0);assert.equal(next.metadata.failureCode,'GOOGLE_NETWORK_FAILED');
+});
+
+test('early region reference reading keeps the shared positive HARD retrieval and does not plan it twice',async()=>{
+ const f=linkedRegionFixture('p2-kagurazaka-kaiseki-20261029',false,false,true);
+ const first=await f.native.search(f.request,new AbortController().signal);
+ assert.equal(first.candidates.length,1);assert.deepEqual(f.googleKeywords,['omakase']);
+ const planningCalls=f.planningCalls;assert.ok(planningCalls>0);
+ await f.native.search({...f.request,continuation:JSON.parse(JSON.stringify(first.continuation))},new AbortController().signal);
+ assert.equal(f.googleCalls,1);assert.equal(f.planningCalls,planningCalls);
+ assert.deepEqual(f.request.intent.criteria,[{text:'omakase',polarity:'POSITIVE',strength:'HARD'}]);
 });
