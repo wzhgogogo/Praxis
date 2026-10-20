@@ -1,22 +1,22 @@
 {
-  "status": "ENV_FAILURE",
+  "status": "PARTIAL_STOPPED_NETWORK_PREFLIGHT_HTTP403",
   "planned": 10,
-  "formalStarted": 0,
-  "formalCompleted": 0,
-  "scorableFormalRuns": 0,
-  "recordedPreflights": 2,
+  "formalStarted": 1,
+  "formalCompleted": 1,
+  "scorableFormalRuns": 1,
+  "recordedPreflights": 7,
   "setupFailures": 1,
   "layers": {
-    "endToEnd": "NOT_REACHED",
-    "formalStages": "NOT_REACHED",
-    "severity": "NOT_EVALUATED_NO_FORMAL_TRAJECTORY",
-    "attribution": "ENV_FAILURE: two raw TableCheck503 observations; no P2-1b website-effect claim"
+    "endToEnd": "FULL_TASK_NOT_EVALUATED_DISCOVERY_SLICE_ONLY",
+    "formalStages": "INDEX0_RECORDED_INDICES1_TO9_NOT_REACHED",
+    "severity": "ABSENT_IN_ONE_RECORDED_TRACE_REMAINING9_NOT_EVALUATED",
+    "attribution": "Index1 TableCheck public homepage Range GET HTTP403 before source-data/model stages; cause NOT_CONFIRMED. No causal P2-1b effect claim from one row."
   },
-  "diagnosticEvaluator": "NOT_APPLICABLE: no Agent/restaurant probe result; *.result.json here are LIVE_NETWORK_PREFLIGHT only",
-  "newDecisionCapture": "NOT_CREATED_BEFORE_MODEL_STAGE",
-  "newBrowserRecording": "NOT_CREATED_BEFORE_BROWSER_STAGE",
-  "newModelCalls": 0,
-  "newGoogleDiscoveryCalls": 0,
+  "diagnosticEvaluator": "NOT_APPLICABLE_FULL_AGENT_DELIVERY_EVALUATOR: discovery probe measured by frozen discovery metrics and independent recorded-network audit",
+  "newDecisionCapture": "4_ROWS_EQUAL_4_MODEL_CALLS",
+  "newBrowserRecording": "INDEX0_SAVED_AND_HASH_VERIFIED",
+  "newModelCalls": 4,
+  "newGoogleDiscoveryCalls": 2,
   "fullLive": 0,
   "latestUserContinuation": {
     "networkReadiness": "FAILED_HTTP503_TABLECHECK",
@@ -39,5 +39,38 @@
     "diagnosticEvaluator": "NOT_APPLICABLE_NO_FORMAL_AGENT_RUN",
     "countablePreflightFailures": 4,
     "cumulativeGoogle": 118
+  },
+  "newGoogleSourcePreflightCalls": 2,
+  "latestLaunch": {
+    "formalIndices": [
+      0
+    ],
+    "notReachedIndices": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "attempts": 2,
+    "modelCalls": 4,
+    "googleFormal": 2,
+    "googlePreflight": 1,
+    "sourcePreflightIndex0": "READY_TABLELOG20_TABLECHECK122_GOOGLE1",
+    "index1": {
+      "networkReadiness": "FAILED_HTTP403_TABLECHECK",
+      "sourceDataPreflight": "NOT_REACHED",
+      "formalDiscovery": "NOT_REACHED",
+      "modelCalls": 0,
+      "googleSearchCalls": 0,
+      "raw": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2/2026-10-20T02-50-30-493Z-ae128868-8b80-4db9-9409-5cc416468c51.result.json",
+      "sha256": "da94db44eff055265925ac2ff566a1e292832aebf19fa476bb8066b85997cc6e"
+    },
+    "retainedCountablePreflightFailures": 4,
+    "outerDiagnosticGap": "Frozen classifier recognizes TableCheck503 only; raw403 produces PREFLIGHT_EVIDENCE_GAP without increasing that counter. No override or retry."
   }
 }

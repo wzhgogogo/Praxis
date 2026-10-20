@@ -1,9 +1,11 @@
 {
-  "models": 0,
-  "google": 0,
-  "preflightGoogle": 1,
+  "models": 4,
+  "google": 2,
+  "preflightGoogle": 2,
   "preflightFailures": 4,
-  "completed": [],
+  "completed": [
+    0
+  ],
   "attempts": [
     {
       "index": 0,
@@ -295,19 +297,57 @@
       ],
       "countsTowardStop": false,
       "finishedAt": "2026-10-20T02:07:55.426096+00:00"
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T02:48:13.749379+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-start-b-20261020",
+      "status": "PROBE_RECORDED",
+      "exit": 0,
+      "preflightGoogle": 1,
+      "summary": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-start-b-20261020/probe-summary.json",
+      "summarySha256": "9919e2fd7e3cf2629558fb184bd41c863e7a7fa2906f4278cd691ab228d3c54a",
+      "models": 4,
+      "formalProbeStarted": true,
+      "google": 2,
+      "witnessInListingBySource": {
+        "tabelog": true,
+        "tablecheck": false,
+        "google-places": true
+      },
+      "witnessInFirstBatch": true,
+      "inRadiusParsed": 43,
+      "finishedAt": "2026-10-20T02:49:59.157618+00:00"
+    },
+    {
+      "index": 1,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 2,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T02:50:30.050921+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [],
+      "countsTowardStop": false,
+      "finishedAt": "2026-10-20T02:50:36.500055+00:00"
     }
   ],
   "stop": {
     "code": "PREFLIGHT_EVIDENCE_GAP",
-    "index": 0,
+    "index": 1,
     "checkpointPreflightFailures": 4,
-    "sourceIds": [
-      "tablecheck",
-      "google-places"
-    ]
+    "sourceIds": []
   },
   "formalLiveRuns": 0,
-  "compressedBytesEstimate": 44733371,
+  "compressedBytesEstimate": 45759792,
   "stopHistory": [
     {
       "stop": {
@@ -363,13 +403,27 @@
       "resolution": "USER_REQUESTED_CONTINUATION_AFTER_SUCCESSFUL_NETWORK_RECHECK",
       "approvalSha256": "7b6cf15d9cea2f1e5049f1dfd6f34f48188b6c076b29d20c6ea8012c1933ac21",
       "at": "2026-10-20T02:07:09.618718+00:00"
+    },
+    {
+      "stop": {
+        "code": "PREFLIGHT_EVIDENCE_GAP",
+        "index": 0,
+        "checkpointPreflightFailures": 4,
+        "sourceIds": [
+          "tablecheck",
+          "google-places"
+        ]
+      },
+      "resolution": "USER_REQUESTED_CONTINUATION_AFTER_SUCCESSFUL_NETWORK_RECHECK",
+      "approvalSha256": "0114cf46032364a4e58422e57c20691bed11b287f962435ca70976a6ca993e78",
+      "at": "2026-10-20T02:48:13.749204+00:00"
     }
   ],
   "userResume": {
     "index": 0,
-    "priorPreflightAttempts": 4,
-    "approvalSha256": "7b6cf15d9cea2f1e5049f1dfd6f34f48188b6c076b29d20c6ea8012c1933ac21",
-    "at": "2026-10-20T02:07:09.618872+00:00"
+    "priorPreflightAttempts": 5,
+    "approvalSha256": "0114cf46032364a4e58422e57c20691bed11b287f962435ca70976a6ca993e78",
+    "at": "2026-10-20T02:48:13.749344+00:00"
   },
   "userResumeHistory": [
     {
@@ -383,6 +437,12 @@
       "priorPreflightAttempts": 3,
       "approvalSha256": "c5cd58a5c53e5c9a6db4d4c6d55b8679279d1855e0e462f5274dbcce2535c3d6",
       "at": "2026-10-19T14:54:30.243930+00:00"
+    },
+    {
+      "index": 0,
+      "priorPreflightAttempts": 4,
+      "approvalSha256": "7b6cf15d9cea2f1e5049f1dfd6f34f48188b6c076b29d20c6ea8012c1933ac21",
+      "at": "2026-10-20T02:07:09.618872+00:00"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "status": "ENV_FAILURE_B_NOT_REACHED",
+  "status": "PARTIAL_ONE_COMPARABLE_ROW_NO_CAUSAL_CONCLUSION",
   "groups": {
     "HARD_KEYWORD_CORRECTION": {
       "indices": [
@@ -19,7 +19,24 @@
           "tablecheck": 0
         }
       },
-      "checkpointB": "NOT_REACHED"
+      "checkpointB": "NOT_REACHED",
+      "checkpointAComparable": {
+        "runs": 0,
+        "models": 0,
+        "elapsedMs": 0,
+        "listing": {
+          "tabelog": 0,
+          "tablecheck": 0,
+          "google-places": 0
+        },
+        "nativeFirstBatch": {
+          "tabelog": 0,
+          "tablecheck": 0
+        }
+      },
+      "notReachedIndices": [
+        8
+      ]
     },
     "P2_1B_AND_APPROVED_CORRECTIONS": {
       "indices": [
@@ -47,8 +64,45 @@
           "tablecheck": 0
         }
       },
-      "checkpointB": "NOT_REACHED"
+      "checkpointB": {
+        "runs": 1,
+        "models": 4,
+        "elapsedMs": 84990,
+        "listing": {
+          "tabelog": 1,
+          "tablecheck": 0,
+          "google-places": 1
+        },
+        "nativeFirstBatch": {
+          "tabelog": 1,
+          "tablecheck": 0
+        }
+      },
+      "checkpointAComparable": {
+        "runs": 1,
+        "models": 4,
+        "elapsedMs": 79187,
+        "listing": {
+          "tabelog": 1,
+          "tablecheck": 0,
+          "google-places": 1
+        },
+        "nativeFirstBatch": {
+          "tabelog": 1,
+          "tablecheck": 0
+        }
+      },
+      "notReachedIndices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9
+      ]
     }
   },
-  "note": "H002 belongs to HARD correction only; other9 compare the approved P2-1b combination. No outcome is inferred for unstarted B."
+  "note": "H002/HARD correction not reached. Only index0 is comparable in the other-nine P2-1b group; one row cannot establish an improvement or causal effect. Nine remaining formal runs were not started."
 }

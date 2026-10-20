@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.186
+- Document revision: 4.187
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4616,3 +4616,10 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## TEST-2026-10-20-P21-TABLECHECK-DIAGNOSTIC-CONTRAST
 
 用户要求进一步核查网页正常而预检失败。冻结4552b06后，仅对同一Ginza预检URL做3次只读诊断，生产仍a37e152，Guard规则未改，0模型/0自有Google API/0正式发现探测。原生产runSourceDataPreflight在4149ms接纳HTTP200、122条接口文档命中；其关闭前页面尚未渲染卡片，不等于来源没有数据。手动原Guard与普通Chromium分别在3880/3610ms首次收到阳性API响应，随后页面都显示20张卡片及Showing1–20of652。请求分组口径不同，122不是页面总家数。全部响应早于20秒，未复现提前关闭、监听漏记或持续Guard阻断；此前geolocation拦截也出现于成功记录，不能作单独归因。历史NO_RESPONSE原因仍NOT_CONFIRMED，旧失败、stop账本和2893历史文件保持原样，不能用当前成功回写旧结果或再笼统认定VPN/网站故障。三组均无点击/填写，未观察到POST响应；不作全链路S0认证。B未启动，Google之前READ_FAILED未复测，累计仍278/450模型、44/55正式探测、118Google。复用原生产五门禁951/119，新增诊断仅脚本语法/plan-only及raw/冻结/链接/diff核验。[三组对照报告](../../.eval-artifacts/p2-1-discovery-20261016/preflight-diagnosis-20261020/report.md)。
+
+
+## TEST-2026-10-20-P21-B-START-AND-RETRY10M-FREEZE
+
+当前切片仅为已批准的 P2-1 修正B发现探测，不做完整Live。生产 a37e152 与原十项输入不变，16个注册见证原集合经32次公开GET更新认证，支持ID集合均未改变，0模型/Google；认证冻结0e4eed2、运行冻结8f39756。h001首例正式完成：84990ms、4模型、2正式Google+1数据预检Google，4条决策=4次调用，Tabelog/Google精确见证命中、TableCheck列表20卡片但无见证，录制网络独立审计ABSENT仅限该trace。第二例首页Range GET返回HTTP403，尚未进入来源数据/模型阶段；外层只识别503，记PREFLIGHT_EVIDENCE_GAP且历史计数4保留，缺口如实记录，不在运行中修代码。累计282/450模型、45/55探测、121Google、0完整Live。
+
+用户随后批准“你可以十分钟之后再试一次”。只冻结新的外层准入：UTC2026-10-20 03:05:44后对未正式启动的index1补一次，来源预检通过后继续剩余顺序；已完成index0绝不重跑，既有attempt/stop/counter保留。24项0网络离线对照通过，原源五门禁951/951与119/119以源码和日志SHA复用。冻结输入/见证/指标/Guard不改；后续任何stop即停止，不自动追加重试。当前尚未执行本次补试，结果另记。[运行报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[新准入和时限](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-retry-10m-20261020/approval.json)。L0/L1门禁、0模型认证和真实模型发现证据分开，不宣称B全批或完整交付通过。

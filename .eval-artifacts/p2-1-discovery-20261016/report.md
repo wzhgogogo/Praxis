@@ -249,3 +249,12 @@ AtBeijing10:07 network readiness passed, including TableCheck206. Source checks 
 ## October20 TableCheck diagnosis: current success in all3 controls
 
 Same public URL under the unchanged production preflight, productionGuard and plain Chromium now returns search data. Actual production source preflight is NONEMPTY/HTTP200 with122 document hits in4149ms; manual guarded/plain both render20 cards (UI Showing1-20of652). No persistent search failure or20s cutoff is reproduced. Historical root cause remains NOT_CONFIRMED; do not relabel old artifacts or assume VPN/site failure. New diagnostic navigations3, models0, ownGoogle API0, formal probes0; cumulative278/450 models,44/55 formal probes,118Google unchanged. B and the earlier Google READ_FAILED are not retested. [Full contrast, timings and screenshots](preflight-diagnosis-20261020/report.md).
+
+
+## October20 B started: one formal probe, then homepage403 stop
+
+The user-requested B launch used unchanged production a37e152, the original ten semantic inputs, outer freeze8f39756 and refreshed same registered witnesses (16 identities/32GET; active supported ID sets unchanged). h001 repeat1 completed in84990ms with4 model calls and2 formalGoogle +1 preflightGoogle; decisions4=calls4. Witness listing Tabelogtrue/TableCheckfalse/Google exacttrue; first-batch Tabelogtrue, radius parsed43 (4Tabelog/5TableCheck/34Google). TableCheck itself produced20 listing cards. Recorded network audit ABSENT within trace scope, not a general boundary certificate.
+
+Before h001 repeat2, the homepage Range GET returned TableCheck403. No source-data, formal probe or model stage started;0 new model/search calls for that attempt. The frozen outer recognizes503 only and reports PREFLIGHT_EVIDENCE_GAP without increasing the historical counter4; this diagnostic gap is recorded, not fixed during the batch. Stop at1/10; remaining9 NOT_REACHED and completed index0 must not be rerun. No full-task improvement conclusion; H002/HARD group not reached.
+
+Cumulative282/450 models,45/55 formal discovery probes,121Google attempts,0fullLive. Reused unchanged source five gates951/951 and119/119; launch24offline controls and16-witness binding verification PASS. [Current detailed report, all ten comparison rows and raw paths](checkpoint-b-corrected-20261019/report.md), [launch summary and raw403 SHA](checkpoint-b-corrected-20261019/start-b-20261020/launch-summary.json). Complete the evidence commit/push under existing authorization, then stop for review; no automatic retry.
