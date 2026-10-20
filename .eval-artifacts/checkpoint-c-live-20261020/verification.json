@@ -1,8 +1,8 @@
 {
   "evidenceStatus": "frozen regression; offline preparation, not Live acceptance",
   "baseCommit": "39980768d90658e0c4741f87f4346338a3a56172",
-  "frozenCommit": "0daee013f90b8b987f46be30e9423e3652757ee4",
-  "freezeSha256": "f4c558548aef723e3412feebdb130e32b4c700582e66646e4c1aa5f39415a8cd",
+  "frozenCommit": "0ce8a3f25ecbf8d04e26f826b2b26076906dabe4",
+  "freezeSha256": "8c0f8fdce77104df58244c4a8c4fd66e7ce3e8ee79932062ad424f1138445735",
   "frozenFiles": 341,
   "gates": {
     "typecheck": {
@@ -39,17 +39,17 @@
   },
   "outerControls": {
     "status": "PASS",
-    "tests": 7,
-    "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/outer-controls-delivery-final.txt"
+    "tests": 8,
+    "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/outer-controls-handoff.txt"
   },
   "outerTypecheck": {
     "status": "PASS",
-    "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/outer-typecheck-reviewed.txt",
+    "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/outer-typecheck-handoff.txt",
     "scope": "TypeScript eval outer, relocated Runner and imported JS; allowJs/checkJs=false"
   },
   "rehearsal": {
     "status": "PASS",
-    "report": ".eval-artifacts/checkpoint-c-live-20261020/rehearsal-final/report.md",
+    "report": ".eval-artifacts/checkpoint-c-live-20261020/rehearsal-handoff/report.md",
     "outcome": "HONEST_NO_RESULT",
     "elapsedMs": 55,
     "scriptedModelResponses": 8,
@@ -73,5 +73,7 @@
     "user-authorized certification <=24h before Live",
     "reviewed global budget/safety ledger and immutable Live freeze",
     "independent TableCheck post-delivery review if encountered; missing evidence blocks safety acceptance"
-  ]
+  ],
+  "integrationSnapshotAtHandoff": "fe9b3fc70138dd03cf01cee9624fcde9de087ee6",
+  "sourceAndConfigurationUnchangedAcrossEvidenceSync": true
 }

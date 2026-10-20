@@ -24,9 +24,10 @@ test('S0 stops before any retry; ordinary product failures cannot retry; environ
  for(const classification of ['ENV_FAILURE','ORCHESTRATION_INTERRUPTED']){
   assert.equal(nextAction({classification},plan).action,'RETRY');assert.equal(nextAction({classification,caseReruns:1},plan).action,'STOP_BATCH');assert.equal(nextAction({classification,totalReruns:10},plan).action,'STOP_BATCH');
  }
- assert.deepEqual(nextAction({cooldown:true},plan),{action:'RETRY',waitMs:900000});
+ assert.deepEqual(nextAction({cooldown:true,classification:'ENV_FAILURE'},plan),{action:'RETRY',waitMs:900000});
  assert.equal(nextAction({classification:'QUALIFIED_DELIVERY'},plan).waitMs,300000);
  assert.equal(nextAction({unknownSafety:true},plan).action,'STOP_BATCH');
+ assert.equal(nextAction({cooldown:true,classification:'HONEST_NO_RESULT'},plan).action,'STOP_BATCH');
 });
 test('403/503/429 and observed busy pages are bounded cooldown signals',()=>{
  for(const status of [403,503,429])assert.equal(httpSignal(status),true);assert.equal(httpSignal(200),false);

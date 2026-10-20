@@ -1,6 +1,8 @@
 export function nextAction({s0=false,unknownSafety=false,cooldown=false,classification='NOT_EVALUATED',caseReruns=0,totalReruns=0},plan){
  if(s0)return {action:'STOP_BATCH',reason:'S0'};
- if(cooldown||['ENV_FAILURE','ORCHESTRATION_INTERRUPTED'].includes(classification)){
+ const retryable=['ENV_FAILURE','ORCHESTRATION_INTERRUPTED'].includes(classification);
+ if(cooldown&&!retryable)return {action:'STOP_BATCH',reason:'COOLDOWN_WITHOUT_RETRYABLE_CLASSIFICATION'};
+ if(retryable){
   if(caseReruns>=plan.maxRerunsPerCase||totalReruns>=plan.maxTotalReruns)return {action:'STOP_BATCH',reason:'RETRY_EXHAUSTED'};
   return {action:'RETRY',waitMs:cooldown?plan.cooldownMs:plan.minGapMs};
  }

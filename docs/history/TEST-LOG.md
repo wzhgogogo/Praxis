@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.198
+- Document revision: 4.199
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4788,3 +4788,10 @@ Concurrent remote review305d1e0 was synchronized verbatim after the feature merg
 - 复用B失败原证据和P2-1c固定录制红绿，外层15核对+3 plan-only均0网络/模型；源码不变，复用前切片五门禁978/122与22份校准。真实五例神乐坂2/2正确A1309、中目黑2/2正确A1317、h001单次保持TL4/TC5及见证首批；原始snapshot/观察引用/几何/预算和只读边界独立核对通过。
 - 五例均无失败码/READ_BUDGET_EXCEEDED，模型20/20成功，Google正式18+预检5；累计347模型/59探测/171Google。全部间隔≥300秒、0环境重试；原见证截止前完成未续期。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT为当前限制，非库存/完整Live验收。
 - [报告](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)与执行/评价/调用账本分列；普通推送集成分支后停下等复核，不追加探测。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-OFFLINE-PREP
+
+- Evidence status: current executable preparation；演练为frozen regression，非Clean Baseline。
+- 五门禁PASS：typecheck、arch:check、npm test 978/978、build、本地Chromium122/122。首次沙箱本地监听／浏览器权限失败独立保留，放行本地Fixture后全绿，未访问外站。外层控制8/8、外层TypeScript及认证脚本语法PASS。最终冻结0ce8a3f，341文件，脚本化传输完整跑通外层→Runner→@30/rubric@26→四层报告，8个脚本响应、0真实模型／网络／Live／认证；HONEST_NO_RESULT，S0声明ABSENT、越界NOT_EVALUATED，不当作Live验收。运行后来源失败控制保留原result和evidence-gap；仍待用户批准24h内见证、Live及预算／安全账本复核。
+- [本批报告](../../.eval-artifacts/checkpoint-c-live-20261020/report.md)／[验证记录](../../.eval-artifacts/checkpoint-c-live-20261020/verification.json)。

@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.192
+- Document revision: 4.193
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4078,3 +4078,10 @@ Concurrent remote review305d1e0 was synchronized verbatim after the feature merg
 - 产品源码3998076保持，外层机械重绑当前集成，冻结cfcf73f。原输入/见证不变；先完成3例，再按用户明确批准存储60→65MB，96f4bf6重冻余2例，旧配置保留。模型/探测/时间/半径不扩大，未修改ADR或Gold。
 - 五例均无失败码/READ_BUDGET_EXCEEDED，模型20/20成功，Google正式18+预检5；累计347模型/59探测/171Google。全部间隔≥300秒、0环境重试；原见证截止前完成未续期。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT为当前限制，非库存/完整Live验收。
 - [报告](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)与执行/评价/调用账本分列；普通推送集成分支后停下等复核，不追加探测。
+
+
+## DEV-2026-10-20-CHECKPOINT-C-OFFLINE-PREP
+
+- Evidence status: current executable preparation；演练为frozen regression，非Clean Baseline。
+- 完成检查点 C 离线编排、批准元数据投影／父SHA适配、见证认证脚本、不可变冻结、授权一次消费、8项外层控制及四层报告。复用完整 Runner 和 B 来源预检（TableCheck只做来源数据预检），无生产变更／Gold变更／留出集读取。起始3998076；并发fe9b3fc仅证据同步到准备分支；所有新交付在指定批目录。停止于推送后等待独立复核，不执行认证或Live。
+- [本批报告](../../.eval-artifacts/checkpoint-c-live-20261020/report.md)／[验证记录](../../.eval-artifacts/checkpoint-c-live-20261020/verification.json)。
