@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.297
+- Document revision: 4.298
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 

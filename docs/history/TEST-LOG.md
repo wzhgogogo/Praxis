@@ -4795,3 +4795,5 @@ Concurrent remote review305d1e0 was synchronized verbatim after the feature merg
 - Evidence status: current executable preparation；演练为frozen regression，非Clean Baseline。
 - 五门禁PASS：typecheck、arch:check、npm test 978/978、build、本地Chromium122/122。首次沙箱本地监听／浏览器权限失败独立保留，放行本地Fixture后全绿，未访问外站。外层控制8/8、外层TypeScript及认证脚本语法PASS。最终冻结0ce8a3f，341文件，脚本化传输完整跑通外层→Runner→@30/rubric@26→四层报告，8个脚本响应、0真实模型／网络／Live／认证；HONEST_NO_RESULT，S0声明ABSENT、越界NOT_EVALUATED，不当作Live验收。运行后来源失败控制保留原result和evidence-gap；仍待用户批准24h内见证、Live及预算／安全账本复核。
 - [本批报告](../../.eval-artifacts/checkpoint-c-live-20261020/report.md)／[验证记录](../../.eval-artifacts/checkpoint-c-live-20261020/verification.json)。
+
+- 后续外层最终合同检查：繁忙信号也须 ENV_FAILURE / ORCHESTRATION_INTERRUPTED 才能重跑；八项控制与外层typecheck仍PASS。当前有效冻结更新为 `d18c0ae`／SHA `961d5d62236c229ff4dc3762e93cc045588d9e51cb43b3e55d33bed02dc68157`，341文件，`rehearsal-policy/` 再次跑通完整0网络／0真实模型链路；较早冻结与演练作为历史保留，不覆盖原产物。

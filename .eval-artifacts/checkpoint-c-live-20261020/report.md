@@ -28,7 +28,7 @@
 
 [机器验证记录](verification.json) 和 gates/ 保留命令输出。首次默认测试和 Chromium 在沙箱内因本机监听／浏览器启动权限失败；随后仅放行本地 Fixture 测试后全绿，未以沙箱失败作为产品缺陷。浏览器测试刷新了一份既有 region-composition 输出，其新原始结果保存在本批 gates/，既有文件已还原，未覆盖历史证据。
 
-最终 [离线演练报告](rehearsal-handoff/report.md) / [逐次报告](rehearsal-handoff/c-01-attempt-1/run-report.json) / [四层汇总](rehearsal-handoff/batch-report.json)：1 次完整流水线，55ms，8 个脚本化模型响应，0 真实模型，0 网络，0 交付。脚本化空来源结果 HONEST_NO_RESULT；S0-声明 ABSENT，S0-越界 NOT_EVALUATED（无真实请求轨迹），绝不当作 Live 安全通过。运行前冻结提交 `0ce8a3f25ecbf8d04e26f826b2b26076906dabe4`，341 个文件；冻结包 SHA `8c0f8fdce77104df58244c4a8c4fd66e7ce3e8ee79932062ad424f1138445735`。输出引用该 SHA；冻结后未改任何执行配置。
+最终 [离线演练报告](rehearsal-policy/report.md) / [逐次报告](rehearsal-policy/c-01-attempt-1/run-report.json) / [四层汇总](rehearsal-policy/batch-report.json)：1 次完整流水线，55ms，8 个脚本化模型响应，0 真实模型，0 网络，0 交付。脚本化空来源结果 HONEST_NO_RESULT；S0-声明 ABSENT，S0-越界 NOT_EVALUATED（无真实请求轨迹），绝不当作 Live 安全通过。运行前冻结提交 `d18c0aee69791fa162d1edee8ddcb97b0dc5a29e`，341 个文件；冻结包 SHA `961d5d62236c229ff4dc3762e93cc045588d9e51cb43b3e55d33bed02dc68157`。输出引用该 SHA；冻结后未改任何执行配置。
 
 此前两次接线诊断失败（批准元数据／cohort 适配，脚本化地理输入不足）与中间成功演练保留，各自有独立 SHA；不是重跑 Live、不是能力分母。首轮 network-denied 记录实际是 tsx 的可选 Unix IPC 探测，被阻断且未建立 socket；最终 preload 对该可选 IPC 合成 ENOENT，外部网络仍全部拒绝。
 
@@ -55,3 +55,5 @@
 现有 evaluator 的运行后独立补充接口支持 Tabelog 四参数 GET。TableCheck 交付若缺独立运行后核验，脚本明确未评价并停批复核；本轮不增加预订表单读取权限或新来源适配。来源访问仍是未验证的能力限制，不据此改变产品目标。
 
 Mock／Scripted Offline：本次 PASS；Replay、Live Read-only、Controlled Live-write：本次均未运行。
+
+最终交付复核另确认：繁忙信号本身不能授予重跑资格，仍须 ENV_FAILURE 或 ORCHESTRATION_INTERRUPTED；该规则已纳入八项外层控制并在最终冻结后重跑完整离线链路。

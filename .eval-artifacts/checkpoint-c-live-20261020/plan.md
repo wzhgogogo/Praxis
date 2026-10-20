@@ -77,8 +77,8 @@ capture 保存独立 JSON-LD 身份／坐标、登记 HARD quote、响应 SHA �
 node --import tsx .eval-artifacts/checkpoint-c-live-20261020/prepare.mjs
 node --import tsx --test .eval-artifacts/checkpoint-c-live-20261020/controls.test.ts
 # 提交所有编排和输入后：
-node .eval-artifacts/checkpoint-c-live-20261020/freeze.mjs .eval-artifacts/checkpoint-c-live-20261020/offline-freeze-handoff.json
-node --import tsx .eval-artifacts/checkpoint-c-live-20261020/outer.ts --mode OFFLINE_REHEARSAL --freeze .eval-artifacts/checkpoint-c-live-20261020/offline-freeze-handoff.json --output .eval-artifacts/checkpoint-c-live-20261020/rehearsal-handoff
+node .eval-artifacts/checkpoint-c-live-20261020/freeze.mjs .eval-artifacts/checkpoint-c-live-20261020/handoff-policy-freeze.json
+node --import tsx .eval-artifacts/checkpoint-c-live-20261020/outer.ts --mode OFFLINE_REHEARSAL --freeze .eval-artifacts/checkpoint-c-live-20261020/handoff-policy-freeze.json --output .eval-artifacts/checkpoint-c-live-20261020/rehearsal-policy
 # 以下仅供未来授权后使用；本任务不运行：
 node .eval-artifacts/checkpoint-c-live-20261020/certify-witnesses.mjs --action capture --freeze FREEZE --approval USER_APPROVAL --output BATCH_CERTIFICATION_DIRECTORY
 node .eval-artifacts/checkpoint-c-live-20261020/certify-witnesses.mjs --action finalize --capture CAPTURE_JSON --review INDEPENDENT_HARD_REVIEW_JSON --output BATCH_CERTIFIED_REGISTRY
@@ -90,3 +90,5 @@ node --import tsx .eval-artifacts/checkpoint-c-live-20261020/outer.ts --mode LIV
 五门禁按 Test Skill：typecheck、arch:check、npm test、build、本地 Chromium Fixture。外层另行 TypeScript 检查（含 allowJs 的 JS 边界）与控制检查；外层控制覆盖已有真实失败（输入元数据／oracle 格式）、冻结拒改、S0 停批、唯一重跑额度、间隔、认证有效期、独立 POST 审查；不新建生产通用抽象。
 
 授权文件的 SHA 消费回执在本批目录保存，同一授权不能通过重启或换输出目录重启整批。认证和 Live 授权分开消费。运行后复查传输／原始字节校验失败只留下独立 evidence-gap sidecar 和未评价状态，保留原始 result，停批复核，不补造见证或自动换类型。
+
+复跑示例须使用新的唯一冻结包／输出目录名称；现有路径是本次不可覆盖证据。当前有效离线冻结为 handoff-policy-freeze.json，历史冻结与诊断产物仅作历史证据保留，不代表最终 Live 准入。
