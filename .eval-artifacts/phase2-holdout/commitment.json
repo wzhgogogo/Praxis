@@ -1,0 +1,23 @@
+{
+  "schema": "holdout-commitment@1",
+  "set": "Phase 2 held-out set",
+  "status": "APPROVED_BY_USER",
+  "approvedAt": "2026-10-20T19:59:00+08:00",
+  "committedBy": "independent reviewer (Claude)",
+  "textLocation": "Claude project only (holdout/PHASE-2-HOLDOUT.md). The text is NOT in this repository and must not be added before the exit check.",
+  "use": "Phase 2 exit check only, 6 cases x 3 runs (playbook section 6 item 2). Exposed after use.",
+  "hashMethod": {
+    "file": "SHA-256 of the UTF-8, LF-terminated YAML block (5418 bytes), header comments included, with {DATE} placeholders unfilled.",
+    "case": "Split the YAML on lines consisting exactly of '---'; for each case document, strip leading/trailing newlines, append one LF, SHA-256 of the UTF-8 bytes. {DATE} placeholders unfilled."
+  },
+  "dateRule": "At exit, {DATE} is replaced by the case's listed weekday falling 7-14 days after the exit check starts. Filling the date (and switching to the listed fallback place if witness certification fails) are the only permitted changes; both must be recorded.",
+  "fileSha256": "cb0efa949f21fc0c19c7a6fd48e6a51c1848bb722c795b0ccd51213c43ecb98e",
+  "caseSha256": {
+    "p2-holdout-01": "60e8905ebdfeeae8440d85016b4a49b7ee2b4880e8e05e60d08ea102cb0a2f98",
+    "p2-holdout-02": "d28422c5074abd9dc0f0fcc271304380caa75ecb722435262ae910ef6c1b0d81",
+    "p2-holdout-03": "fe51ada02be9f5391ec57bf402a7be44cbc590171ac94e917b3c3d0aa095cbb3",
+    "p2-holdout-04": "10588c5ea665ed2d1c0bb2f9b14016ed908d14459d257fb18021bc29d0cf075e",
+    "p2-holdout-05": "8881b32353350166a40cda8aaecf3aa9020fd189e018dea6b76ab1972872c81e",
+    "p2-holdout-06": "8c4c9c3b8bdd44b5946f8c18514a7d05c1928efd2ffc12f4044ba7030415aa75"
+  }
+}
