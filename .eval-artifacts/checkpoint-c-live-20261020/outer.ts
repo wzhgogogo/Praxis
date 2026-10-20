@@ -3,7 +3,7 @@ import {mkdirSync,readFileSync,writeFileSync,readdirSync,existsSync,openSync,clo
 import {resolve,relative} from 'node:path';
 import {parseArgs} from 'node:util';
 import {base,verifyFreeze,sha} from './freeze.mjs';
-import {gateWitness,nextAction,consumeAuthorization} from './policy.mjs';
+import {gateWitness,nextAction,consumeAuthorization,checkStageBudget} from './policy.mjs';
 import {evaluateAttempt,writeBatchReport} from './evaluate-report.ts';
 import {postCheck} from './post-check.mjs';
 const {values}=parseArgs({options:{mode:{type:'string'},freeze:{type:'string'},output:{type:'string'},approval:{type:'string'},registry:{type:'string'},ledger:{type:'string'}}});
@@ -13,23 +13,22 @@ const mode=values.mode!,directory=resolve(values.output),inside=relative(resolve
 if(!inside||inside.startsWith('..'))throw Error('OUTPUT_OUTSIDE_BATCH');
 const frozen=verifyFreeze(values.freeze),plan=JSON.parse(readFileSync(resolve(base,'plan.json'),'utf8'));
 const offline=mode==='OFFLINE_REHEARSAL';
-let ledger:any;
+const ledgerPath=values.ledger??base+'/phase2-ledger.json';
+const ledger=JSON.parse(readFileSync(ledgerPath,'utf8'));
+const budget=checkStageBudget(ledger,plan);
+for(const source of ledger.sources)if(frozen.files[source.path]!==source.sha256||sha(readFileSync(source.path))!==source.sha256)throw Error('FROZEN_LEDGER_EVIDENCE_MISMATCH');
 if(!offline){
- if(!values.approval||!values.registry||!values.ledger)throw Error('EXPLICIT_USER_APPROVAL_CERTIFIED_REGISTRY_AND_GLOBAL_BUDGET_LEDGER_REQUIRED');
+ if(!values.approval||!values.registry)throw Error('EXPLICIT_USER_APPROVAL_CERTIFIED_REGISTRY_AND_GLOBAL_BUDGET_LEDGER_REQUIRED');
  const approval=JSON.parse(readFileSync(values.approval,'utf8'));
  if(approval.action!=='CHECKPOINT_C_LIVE_18'||approval.approvedBy!=='USER'||approval.freezeSha256!==frozen.manifestSha256||approval.registrySha256!==sha(readFileSync(values.registry))||!Number.isFinite(Date.parse(approval.validUntil))||Date.parse(approval.validUntil)<=Date.now())throw Error('INVALID_LIVE_APPROVAL');
- for(const p of [values.registry,values.ledger])if(frozen.files[p]!==sha(readFileSync(p)))throw Error('RUNTIME_INPUT_NOT_COMMITTED_AND_FROZEN:'+p);
- ledger=JSON.parse(readFileSync(values.ledger,'utf8'));
+ for(const p of [values.registry,ledgerPath])if(frozen.files[relative(process.cwd(),resolve(p))]!==sha(readFileSync(p)))throw Error('RUNTIME_INPUT_NOT_COMMITTED_AND_FROZEN:'+p);
  for(const ref of ledger.priorStageSafety?.refs??[])if(frozen.files[ref.path]!==ref.sha256||sha(readFileSync(ref.path))!==ref.sha256)throw Error('PRIOR_STAGE_SAFETY_EVIDENCE_NOT_FROZEN');
- // Reserve the allowed remaining retries against the global ledger; missing counters fail closed.
- const reservedRetries=Math.min(6,10-ledger.environmentReruns);
- plan.maxTotalReruns=reservedRetries;
- if(ledger.reviewed!==true||!['totalFullLiveRuns','totalModelCalls','environmentReruns'].every(k=>Number.isSafeInteger(ledger[k])&&ledger[k]>=0)||ledger.totalFullLiveRuns+18+reservedRetries>100||ledger.totalModelCalls+(18+reservedRetries)*50>4000||ledger.environmentReruns>10)throw Error('GLOBAL_BUDGET_NOT_AVAILABLE');
+ plan.maxTotalReruns=budget.reservedRetries;
 }
 if(!offline)await consumeAuthorization(base,sha(readFileSync(values.approval!)),{action:'CHECKPOINT_C_LIVE_18',freezeSha256:frozen.manifestSha256,directory});
 mkdirSync(directory,{recursive:false});
 const write=(p:string,v:any)=>writeFileSync(resolve(directory,p),JSON.stringify(v,null,2)+'\n',{flag:'wx'});
-write('started.json',{mode,at:new Date().toISOString(),freezeSha256:frozen.manifestSha256,commit:frozen.commit,planned:offline?1:18,network:offline?0:'AUTHORIZED_LIVE',models:offline?0:'AUTHORIZED_LIVE'});
+write('started.json',{mode,at:new Date().toISOString(),freezeSha256:frozen.manifestSha256,commit:frozen.commit,ledgerPath,ledgerSha256:sha(readFileSync(ledgerPath)),budget,planned:offline?1:18,network:offline?0:'AUTHORIZED_LIVE',models:offline?0:'AUTHORIZED_LIVE'});
 const rows:any[]=[],caseRetries=new Map<string,number>();let totalReruns=0,lastFinish=0,stop:any=null;
 async function waitUntil(time:number){while(Date.now()<time)await new Promise(r=>setTimeout(r,Math.min(1000,time-Date.now())));}
 const registry=values.registry?JSON.parse(readFileSync(values.registry,'utf8')):undefined;
@@ -65,7 +64,7 @@ for(const run of offline?plan.runs.slice(0,1):plan.runs){
   if(!offline&&resultPath){
    const immediate=evaluateAttempt({resultPath,directory:attemptDir,run,mode,registryPath:undefined,postPath:undefined,freezeSha256:frozen.manifestSha256,interruption,outputStem:'pre-post-check'});
    if(immediate.evaluation.severity.S0.status==='PRESENT'){stop={action:'STOP_BATCH',reason:'S0_BEFORE_POST_READ'};rows.push(immediate.summary);break;}
-   try{await postCheck(JSON.parse(readFileSync(resultPath,'utf8')),registry,resolve(attemptDir,'post-run'));postPath=resolve(attemptDir,'post-run/post-check.json');}catch{postPath=resolve(attemptDir,'post-check.failure.json');writeFileSync(postPath,JSON.stringify({rows:[{status:'NOT_EVALUATED',reason:'POST_RUN_RECHECK_FAILED; keep raw Runner result, stop for review'}]}),{flag:'wx'});}}
+   try{await postCheck(JSON.parse(readFileSync(resultPath,'utf8')),registry,resolve(attemptDir,'post-run'));postPath=resolve(attemptDir,'post-run/post-check.json');}catch{postPath=resolve(attemptDir,'post-check.failure.json');writeFileSync(postPath,JSON.stringify({rows:[{status:'NOT_EVALUATED',reason:'POST_RUN_RECHECK_FAILED; retain raw result for review, continue unless S0 PRESENT'}]}),{flag:'wx'});}}
   const {summary,evaluation}=evaluateAttempt({resultPath,directory:attemptDir,run,mode,registryPath:values.registry,postPath,freezeSha256:frozen.manifestSha256,interruption});
   rows.push(summary);lastFinish=Date.now();
   if(offline){if(existsSync(resolve(attemptDir,'network-denied.jsonl')))throw Error('OFFLINE_NETWORK_ATTEMPT');if(!resultPath||exit.code!==0)throw Error('REHEARSAL_RUNNER_FAILED');break;}

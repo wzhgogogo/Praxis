@@ -10,6 +10,7 @@ import {browserRuntimeFromEnvironment} from '../../src/infrastructure/browser/br
 import {LocalPlaywrightChromium} from '../../src/infrastructure/browser/local-playwright-chromium.ts';
 import {PlaywrightReadNetworkGuard} from '../../src/infrastructure/browser/playwright-read-network-guard.ts';
 import {installReviewedPostObserver,postBodyStop} from '../../src/eval/restaurant/agent-loop/post-body-audit.mjs';
+import {installTableCheckResponseObserver,saveTableCheckResponse} from './tablecheck-post-review.mjs';
 import {response,strictAction,scriptedRetrieval} from '../../src/harness/restaurant-read-test-fixtures.ts';
 const offline=process.env.CHECKPOINT_C_MODE==='OFFLINE_REHEARSAL';
 const dir=()=>process.env.CHECKPOINT_C_ATTEMPT!;
@@ -52,9 +53,20 @@ export function installObservers(){
  if(installed||offline)return;installed=true;
  const reviewed=readFileSync(process.env.CHECKPOINT_C_REVIEWED_READS!);
  installReviewedPostObserver(PlaywrightReadNetworkGuard,reviewed,(row:any)=>{record(row);observeTrace(row);});
+ installTableCheckResponseObserver(PlaywrightReadNetworkGuard,resolve(dir(),'tablecheck-source'),reviewed);
  const original=LocalPlaywrightChromium.prototype.openSession;
  LocalPlaywrightChromium.prototype.openSession=async function(options:any={}){
-  const session=await original.call(this,{...options,recordResponse:async(r:any)=>{await options.recordResponse?.(r);if(httpSignal(r.status))record({kind:'COOLDOWN_SIGNAL',url:r.url,status:r.status});}});
+  let observedDocumentUrl:string|undefined;
+  const session=await original.call(this,{...options,recordResponse:async(r:any)=>{
+   await options.recordResponse?.(r);
+   const url=new URL(r.url);const tablecheck=/(^|\.)tablecheck\.(com|net)$/.test(url.hostname);
+   if(tablecheck&&r.resourceType==='document')observedDocumentUrl=r.url;
+   // Also retain Guard callback bytes for CDP/native paths that bypass Route.fetch.
+   if(tablecheck&&/\/(?:availability_calendar_v2|available)$/.test(url.pathname)){
+    try{saveTableCheckResponse(resolve(dir(),'tablecheck-source'),{contextUrl:observedDocumentUrl,url:r.url,method:r.method,status:r.status,contentType:r.contentType,request:null,capturePath:'GUARD_RAW_RESPONSE_CALLBACK'},r.body);}catch{record({kind:'TABLECHECK_RAW_CAPTURE_GAP',url:r.url});}
+   }
+   if(httpSignal(r.status))record({kind:'COOLDOWN_SIGNAL',url:r.url,status:r.status});
+  }});
   const snapshot=session.snapshot.bind(session);session.snapshot=async()=>{const page=await snapshot();const quote=busyQuote(page.text);if(quote)record({kind:'COOLDOWN_SIGNAL',url:page.url,quote});return page;};return session;
  };
 }

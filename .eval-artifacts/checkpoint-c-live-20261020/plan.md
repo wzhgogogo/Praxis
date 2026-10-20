@@ -1,3 +1,5 @@
+> 当前复核修订见 [review-followup/plan.md](review-followup/plan.md)。本页较早的“未评价即停批”及账本待提交说明已被用户本轮要求取代；历史准备和旧冻结 SHA 仅作 superseded retrospective 保留。
+
 # 检查点 C：离线运行准备
 
 - Evidence status: current executable preparation；已暴露开发集，非 Clean Baseline。Live 未授权、未运行。

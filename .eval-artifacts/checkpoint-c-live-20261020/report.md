@@ -1,3 +1,5 @@
+> 本页是早期准备的 superseded retrospective；复核后的当前交付见 [review-followup/report.md](review-followup/report.md)。旧演练产物与冻结不覆盖。
+
 # 检查点 C 离线准备交付
 
 - Evidence status: current executable preparation；演练为 frozen regression，已暴露开发集，非 Clean Baseline。

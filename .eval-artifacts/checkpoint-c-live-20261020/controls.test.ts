@@ -26,7 +26,7 @@ test('S0 stops before any retry; ordinary product failures cannot retry; environ
  }
  assert.deepEqual(nextAction({cooldown:true,classification:'ENV_FAILURE'},plan),{action:'RETRY',waitMs:900000});
  assert.equal(nextAction({classification:'QUALIFIED_DELIVERY'},plan).waitMs,300000);
- assert.equal(nextAction({unknownSafety:true},plan).action,'STOP_BATCH');
+ assert.equal(nextAction({unknownSafety:true},plan).action,'CONTINUE');
  assert.equal(nextAction({cooldown:true,classification:'HONEST_NO_RESULT'},plan).action,'STOP_BATCH');
 });
 test('403/503/429 and observed busy pages are bounded cooldown signals',()=>{
