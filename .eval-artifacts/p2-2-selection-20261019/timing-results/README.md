@@ -1,0 +1,1 @@
+Superseded diagnostic computation at9a1fc15. It mislabeled known-candidate source name lookup as new restaurant discovery. Preserved for attribution; use timing-results.rev2, computed after a6b8aac. Original52 inputs are unchanged.

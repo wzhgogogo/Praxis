@@ -4706,3 +4706,52 @@ current executable / 完成十次真实只读发现探测，不代表完整用�
 - 用量与验证：本次新增4探测、18模型、8正式Google＋4来源预检Google；修正B共49模型、19正式Google＋12来源预检Google。累计327/450模型、54/55正式探测、148 Google；artifact压缩估算54,638,987/60,000,000 bytes。49条决策逐次等于模型调用；原379运行文件、历史2893、原329/当前826及源码/门禁SHA核验，见证仍有效且未重新认证。按纯文档矩阵核对链接、索引、账本前缀和diff，原网页字节不清洗，用户INDEX、演示文稿和产品草稿不动。
 - 完成后正常提交推送，自动化保持暂停，不启动完整Live或其他工作包，停止等待独立复核。
 - 证据：[完整A/B报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[四次续跑汇总](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/attempt-summary.json)、[新冻结回执](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/freeze-commit.json)、[实际间隔](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/pacing-verification.json)、[预检原始记录与SHA](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/actual-readiness-verification.json)、[后验核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/post-change-verification.json)。
+
+## TEST-2026-10-19-P22-SELECTION-TIMING
+
+- 历史与oracle：P20/P1 Google多候选选择需查名，旧脚本化覆盖未验证预算选择；复核者revision2完整when独立评分，保留revision1同输出对照。已有native组合/Pack/Context/回放/计时断言复用；恢复旧组装的真实入口目标断言失败，修后正常控制在原预算交付，见old-assembly-path-red.log/path-timing-green.log。
+- 最终 typecheck、arch:check、build PASS；npm test952/952（gates/*rev2-final.log）。真实本地Chromium119/119（274410ms，gates/browser-final.log）复用本轮浏览器路径未再变化的结果。沙箱Chrome启动失败/旧断言/observer返回类型的调试日志保留，不算产品反例；允许本地进程权限后默认套件全绿。
+- 0网络/模型离线计算52次：50可计时、2中断未评；30地区轨迹诊断。优先级互斥区间与独立固定算术对照通过，初版错误DISCOVERY归因保留为superseded，当前timing-results.rev2。
+- 用户批准标注revision2后，真实DeepSeek单步回放5/30调用，23491ms，101327tokens；0Google/网站/动作执行/Live。0133不退步；神乐坂NOT_ACCEPTABLE；涩谷1/3，0134 TOOL_CALLS但$.retrievalHint非法被拒，整体门槛FAIL；S0–S4全任务影响不由单步结果推断。模型合法输出不等于可接受选择。
+- 冻结290658f/319SHA，按既有仅外层授权6283843/325SHA续跑未运行3颗；生产源码/Gold/日期/半径不改，旧两次结果保留，五颗没有重复调用，源HASH及完整上下文独立比较通过。raw wire、输入、账本、旧严格对照、地域诊断和四层边界见[报告](../../.eval-artifacts/p2-2-selection-20261019/report.md)。不进入Live/检查点C，不宣称总体P2-2通过。
+
+## TEST-2026-10-19-P22-STRUCTURAL-SCOPE
+
+- P2-2首次查位结构约束离线通过：Context@14/Prompt@27与Validator同一scope，>=3未查且半径内直达时暂不提供名称解析候选；事实/显式刷新/资格不变。有效旧scope红灯、默认953/953及Chromium119/119全绿，0真实调用；本轮五种子回放留第3段。
+- 证据：[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。旧实验/Gold/预算不变，原始失败不覆盖。
+
+## TEST-2026-10-19-P22-TABELOG-SOURCE-BUSY
+
+- P2-2 Tabelog繁忙页离线修复完成：Pack识别固定访问集中提示，原预算内等1秒后最多重试1次，仍繁忙为UNKNOWN/SOURCE_BUSY（ENVIRONMENT），不再冒充身份不确定；Google门店链接规范同ID英文页。保存的3次运行6份同形HTML红绿、恢复/真实冲突/期限控制通过；五门禁957/957与Chromium120/120。0真实调用，当前网站未验。
+- 证据：[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。原始模型回放/Gold/预算和身份规则不变。
+
+## TEST-2026-10-19-P22-STRUCTURAL-REPLAY
+
+- P2-2结构约束真实模型回放达到门槛：冻结1646667，五颗各一次均可接受；神乐坂1/1、涩谷3/3、0133不退步，0134旧严格对照亦通过。新增5调用、累计10/30，0网站/Google/动作/Live；不额外重跑，历史见证未选中，非库存或端到端验收，继续已批准地区/测量工作。
+- 五门禁957/957与Chromium120/120；原请求/Gold/旧产物不变，单步理由/独立判定/冻结SHA及四层限制见[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。
+
+
+<a id="test-2026-10-20-p22-region"></a>
+## TEST-2026-10-20-P22-REGION
+
+- Red：旧代码父页面仍可选、合法LOCATION完成后候选为0；真实观察链接投影与合成搜索明示分开，初始Fixture失败保留。Green：7项地区行为与既有生产组合；旧卡片零调查、父入口强行绕过零导航，3步可行恢复在原预算产出1家；保留同地区首页恢复、4/5替换等边界。五门禁typecheck/arch/build PASS、默认962/962、本地Chromium120/120（278349ms）；最终地区/生产组合补充回归通过。见[原日志](../../.eval-artifacts/p2-2-selection-20261019/followup/step4-gates/)。默认测试沙箱EPERM及初始类型/同地区列表误拒均保留诊断，修后重验，不作有效故障红灯。无网站、Live、真实模型追加；完整交付/真实正确神乐坂路线未评。
+
+<a id="test-2026-10-20-p22-timing-plan"></a>
+## TEST-2026-10-20-P22-TIMING-PLAN
+
+- 沿用52份旧产物（50可计时/2未评），汇总前三段为VENUE_SEARCH详情、Browser模型、查位解析；保留校准与仅发现分组，给出三个未实测节省区间/风险及同来源最小请求间隔方案。只写方案，0外站/模型、未实施、不变预算或门槛。报告：.eval-artifacts/p2-2-selection-20261019/followup/performance-proposals.md；纯文档核对原始汇总/算术/链接，复用第4段门禁。
+
+<a id="test-2026-10-20-p22-website-measurement"></a>
+## TEST-2026-10-20-P22-WEBSITE-MEASUREMENT
+
+- 脚本冻结cf11c54后仅读取52份旧产物及30份trace并核SHA；32份有Google候选，20份无观察不计成功空结果。每run首见去重共1191次候选出现：158直达、927网站字段待查（77.8%）、106无网站；跨run253个ID中198待查（78.3%）。不等于已证实官网或预约出链率，检查点C未评。字面计数/去重/冲突/脏URL/SHA控制通过；0外站/模型，不接线抓取器，复用第4段生产门禁。
+
+<a id="test-2026-10-20-p22-name-resolution-prep"></a>
+## TEST-2026-10-20-P22-NAME-RESOLUTION-PREP
+
+- 按主分支指令完成待审样本42条（30 Tabelog/2 TableCheck/10无Gold对照），来源66份原产物SHA可追溯，TableCheck少8家明示。样本SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87。src/eval接生产名称/身份前缀、独立ID指标/S0停批及去官网/Gold边界，生产代码和既有Gold不变；方法B条件未满足不启用。默认967/967及离线控制通过；Chromium门禁完成后另记。0真实模型/网站/预检，新增预算A150/B条件100未使用。报告：.eval-artifacts/name-resolution-benchmark-20261019/report.md；推送后等待样本独立批准，不跑第4项。
+
+<a id="test-2026-10-20-p22-name-resolution-frozen"></a>
+## TEST-2026-10-20-P22-NAME-RESOLUTION-FROZEN
+
+- 样本/离线接线冻结1624aa3，SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87；30TL/2TC/10对照，TC缺口保留。五门禁type/arch/build PASS、默认967/967、本地Chromium121/121（283348ms），5项指标/泄漏/禁止日期控制通过，66份原输入及配置SHA不变。真实模型/网站/预检均0，方法B未启用；推送后停下等样本批准，第4项仍须批准与网络就绪。见基准report.md。

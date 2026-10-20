@@ -4000,3 +4000,51 @@ current executable / 完成十次真实只读发现探测，不代表完整用�
 - 用量与验证：本次新增4探测、18模型、8正式Google＋4来源预检Google；修正B共49模型、19正式Google＋12来源预检Google。累计327/450模型、54/55正式探测、148 Google；artifact压缩估算54,638,987/60,000,000 bytes。49条决策逐次等于模型调用；原379运行文件、历史2893、原329/当前826及源码/门禁SHA核验，见证仍有效且未重新认证。按纯文档矩阵核对链接、索引、账本前缀和diff，原网页字节不清洗，用户INDEX、演示文稿和产品草稿不动。
 - 完成后正常提交推送，自动化保持暂停，不启动完整Live或其他工作包，停止等待独立复核。
 - 证据：[完整A/B报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[四次续跑汇总](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/attempt-summary.json)、[新冻结回执](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/freeze-commit.json)、[实际间隔](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/pacing-verification.json)、[预检原始记录与SHA](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/actual-readiness-verification.json)、[后验核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/post-change-verification.json)。
+
+## DEV-2026-10-19-P22-SELECTION-TIMING
+
+- Evidence status: current executable isolated feature / exposed regression；分支codex/feat-p2-2-selection，主/P2-1树不变。
+- 两个现有Pack推导availabilityPath，生产组装附到DISCOVERY，Context@13/Prompt@26仅给选择线索，资格/排序/预算不变；最新已观察值不借旧或未来提示。旧组合路径断言有效红灯，现有正常受控组合交付3家。
+- Eval计时自动接Hybrid/来源探针成功失败产物；52份旧产物离线复算，明确未归因/缺时间；30次地区路径仅诊断，native-restaurant-search.ts未改。独立条件评分补充到原回放入口，无新平台。
+- 复核e96a493 revision2经用户批准，冻结290658f后五颗各一次；首轮外层在格式错停于2/5，按用户已授权的仅外层修正6283843续跑未运行3颗，不重跑/清洗旧输出。5/30模型，门槛FAIL，未开始Live/第5项。证据与限制见[批次报告](../../.eval-artifacts/p2-2-selection-20261019/report.md)。
+
+## DEV-2026-10-19-P22-STRUCTURAL-SCOPE
+
+- P2-2首次查位结构约束离线通过：Context@14/Prompt@27与Validator同一scope，>=3未查且半径内直达时暂不提供名称解析候选；事实/显式刷新/资格不变。有效旧scope红灯、默认953/953及Chromium119/119全绿，0真实调用；本轮五种子回放留第3段。
+- 证据：[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。旧实验/Gold/预算不变，原始失败不覆盖。
+
+## DEV-2026-10-19-P22-TABELOG-SOURCE-BUSY
+
+- P2-2 Tabelog繁忙页离线修复完成：Pack识别固定访问集中提示，原预算内等1秒后最多重试1次，仍繁忙为UNKNOWN/SOURCE_BUSY（ENVIRONMENT），不再冒充身份不确定；Google门店链接规范同ID英文页。保存的3次运行6份同形HTML红绿、恢复/真实冲突/期限控制通过；五门禁957/957与Chromium120/120。0真实调用，当前网站未验。
+- 证据：[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。原始模型回放/Gold/预算和身份规则不变。
+
+## DEV-2026-10-19-P22-STRUCTURAL-REPLAY
+
+- P2-2结构约束真实模型回放达到门槛：冻结1646667，五颗各一次均可接受；神乐坂1/1、涩谷3/3、0133不退步，0134旧严格对照亦通过。新增5调用、累计10/30，0网站/Google/动作/Live；不额外重跑，历史见证未选中，非库存或端到端验收，继续已批准地区/测量工作。
+- 五门禁957/957与Chromium120/120；原请求/Gold/旧产物不变，单步理由/独立判定/冻结SHA及四层限制见[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。
+
+
+<a id="dev-2026-10-20-p22-region"></a>
+## DEV-2026-10-20-P22-REGION
+
+- Exposed development：集成主线8b70084/a37e152；仅地区阶段屏蔽已访问其他入口（Pack首页/列表别名），拒绝模型绕过，保留当前地区列表恢复。LOCATION清旧绑定，观察权威值且结果更新才重新绑定。ADR-0040、坐标/4/5/预算不变。历史旧覆盖遗漏与片段/合成控制分列[本轮报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md#4-地区选择主线集成与离线机制修复)。0外站/新增模型；真实正确神乐坂路径未覆盖。
+
+<a id="dev-2026-10-20-p22-timing-plan"></a>
+## DEV-2026-10-20-P22-TIMING-PLAN
+
+- 沿用52份旧产物（50可计时/2未评），汇总前三段为VENUE_SEARCH详情、Browser模型、查位解析；保留校准与仅发现分组，给出三个未实测节省区间/风险及同来源最小请求间隔方案。只写方案，0外站/模型、未实施、不变预算或门槛。报告：.eval-artifacts/p2-2-selection-20261019/followup/performance-proposals.md；纯文档核对原始汇总/算术/链接，复用第4段门禁。
+
+<a id="dev-2026-10-20-p22-website-measurement"></a>
+## DEV-2026-10-20-P22-WEBSITE-MEASUREMENT
+
+- 脚本冻结cf11c54后仅读取52份旧产物及30份trace并核SHA；32份有Google候选，20份无观察不计成功空结果。每run首见去重共1191次候选出现：158直达、927网站字段待查（77.8%）、106无网站；跨run253个ID中198待查（78.3%）。不等于已证实官网或预约出链率，检查点C未评。字面计数/去重/冲突/脏URL/SHA控制通过；0外站/模型，不接线抓取器，复用第4段生产门禁。
+
+<a id="dev-2026-10-20-p22-name-resolution-prep"></a>
+## DEV-2026-10-20-P22-NAME-RESOLUTION-PREP
+
+- 按主分支指令完成待审样本42条（30 Tabelog/2 TableCheck/10无Gold对照），来源66份原产物SHA可追溯，TableCheck少8家明示。样本SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87。src/eval接生产名称/身份前缀、独立ID指标/S0停批及去官网/Gold边界，生产代码和既有Gold不变；方法B条件未满足不启用。默认967/967及离线控制通过；Chromium门禁完成后另记。0真实模型/网站/预检，新增预算A150/B条件100未使用。报告：.eval-artifacts/name-resolution-benchmark-20261019/report.md；推送后等待样本独立批准，不跑第4项。
+
+<a id="dev-2026-10-20-p22-name-resolution-frozen"></a>
+## DEV-2026-10-20-P22-NAME-RESOLUTION-FROZEN
+
+- 样本/离线接线冻结1624aa3，SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87；30TL/2TC/10对照，TC缺口保留。五门禁type/arch/build PASS、默认967/967、本地Chromium121/121（283348ms），5项指标/泄漏/禁止日期控制通过，66份原输入及配置SHA不变。真实模型/网站/预检均0，方法B未启用；推送后停下等样本批准，第4项仍须批准与网络就绪。见基准report.md。

@@ -1,4 +1,4 @@
-import { observedCandidateDistance } from "../domains/restaurant/agent-context.js";
+import { observedCandidateDistance } from "../domains/restaurant/candidate-read-observations.js";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 
 import type {

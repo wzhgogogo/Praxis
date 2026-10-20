@@ -67,3 +67,69 @@ test('directory navigation timeout retains its runtime code rather than claiming
  const result=await f.native.search({intent},new AbortController().signal);
  assert.equal(result.metadata.failureCode,'BROWSER_TIMEOUT');assert.equal(result.candidates.length,0);
 });
+
+// Projected real region links; the optional location-search/result transition
+// below is a synthetic control, not a claim that this control was recorded.
+import {readFileSync} from 'node:fs';
+const regionFragment = (name:string) => readFileSync(new URL(`../../../.eval-artifacts/p2-2-selection-20261019/followup/region-inputs/${name}.html`,import.meta.url),'utf8');
+const capturedRoot='https://tabelog.com/en/tokyo/';
+const capturedParent='https://tabelog.com/en/tokyo/A1304/';
+const capturedChild='https://tabelog.com/en/tokyo/A1304/A130401/';
+function regionRecoveryFixture(locationSearch:boolean, rogue=false) {
+ const navigations:string[]=[];let decisions=0, blocked=false, filled='',submitted=false;
+ const resultUrl='https://tabelog.com/en/tokyo/A1309/A130905/rstLst/';
+ const outletUrl='https://tabelog.com/en/tokyo/A1309/A130905/13000001/';
+ let page:BrowserSnapshot={url:capturedRoot,title:'Regions',text:'',html:''};
+ const update=(url:string)=>{
+  let html=url===capturedRoot?regionFragment('root'):url===capturedParent?regionFragment('parent'):url===capturedChild?regionFragment('child'):url===resultUrl?`<a class="list-rst__rst-name-target" href="${outletUrl}">Controlled restaurant</a>`:`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Controlled restaurant',address:'Tokyo',geo:{latitude:35.66,longitude:139.70}})}</script>`;
+  if(locationSearch&&url===capturedParent)html+='<input aria-label="Station or area"><button>Search</button><a class="list-rst__rst-name-target" href="https://tabelog.com/en/tokyo/A1304/A130401/13000002/">Previous broad result</a>';
+  page={url,title:'Regions',text:html.replace(/<[^>]*>/g,' '),html};
+ };
+ const runtime:BrowserRuntime={openSession:async()=>({
+  metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now,readNetworkBoundary:'INSTALLED'},
+  navigate:async(url)=>{navigations.push(url);update(url.includes('/tokyo/rstLst/')?capturedRoot:url);},snapshot:async()=>page,
+  observeControls:async()=>[
+   ...[...page.html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m,n)=>({id:String(n),stableKey:m[1]!,kind:'LINK' as const,role:'link',label:m[2]!.replaceAll('&amp;','&'),href:m[1]!.replaceAll('&amp;','&'),visible:true,disabled:false})),
+   ...(locationSearch && (page.url===capturedParent||page.url===resultUrl)?[{id:'area',stableKey:'area',kind:'INPUT' as const,role:'textbox',label:'Station or area',type:'search',structure:{tag:'INPUT',name:'location',classes:[],dialogLabel:'',formClass:'',sliderCount:0},value:filled,visible:true,disabled:false},{id:'search',stableKey:'search',kind:'BUTTON' as const,role:'button',label:'Search',visible:true,disabled:false}]:[])
+  ],
+  fill:async(id,value)=>{assert.equal(id,'area');filled=value;},click:async(id)=>{assert.equal(id,'search');submitted=true;update(resultUrl);},select:async()=>[],waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{},
+ })};
+ const decision:BrowserReadActionDecisionPort={decide:async(input)=>{
+  decisions++;
+  if(decisions===1)return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.href===capturedParent)!.ref,reason:'Captured broad parent'};
+  if(locationSearch){
+   if(decisions===2)return {type:'FILL_AUTHORITATIVE',targetRef:input.observation.targets.find(t=>t.label==='Station or area')!.ref,field:'LOCATION',reason:'Use exact request location'};
+   if(decisions===3){assert.equal(submitted,false);return {type:'CLICK',targetRef:input.observation.targets.find(t=>t.label==='Search')!.ref,reason:'Apply observed public location search'};}
+   return {type:'REQUEST_HUMAN_HELP',reason:'No further scripted step'};
+  }
+  if(decisions===2)return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.href===capturedChild)!.ref,reason:'Captured child'};
+  if(decisions===3){
+   const parent=input.observation.targets.find(t=>t.href?.includes('/A1304/rstLst/'))!;
+   blocked=!parent.availableActions?.includes('OPEN_LINK');
+   return rogue?{type:'OPEN_LINK',targetRef:parent.ref,reason:'Synthetic attempt to bypass blocked edge'}:{type:'REQUEST_HUMAN_HELP',reason:'Captured route has no verified next entrance'};
+  }
+  return {type:'REQUEST_HUMAN_HELP',reason:'Stop after one rejected proposal'};
+ }};
+ const google=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async()=>{throw Error('No network');}}));
+ const native=new NativeRestaurantSearch(runtime,google,fixtureRetrieval,()=>now,undefined,decision,undefined,undefined,{maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},undefined,[tabelogDiscoveryPack]);
+ const namedIntent={...intent,area:{query:'near Kagurazaka',radiusMeters:1000}};
+ const request={intent:namedIntent,continuation:{intentFingerprint:JSON.stringify(namedIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:35.66,longitude:139.70,radiusMeters:1000,label:'Kagurazaka',areaMatchBasis:'NAMED_PLACE_RADIUS' as const}}};
+ return {native,request,navigations,get blocked(){return blocked;},get decisions(){return decisions;},get filled(){return filled;},get submitted(){return submitted;}};
+}
+test('captured Kagurazaka region loop cannot reopen an already visited parent, even with listing query aliases',async()=>{
+ for(const rogue of [false,true]){
+  const f=regionRecoveryFixture(false,rogue);const result=await f.native.search(f.request,new AbortController().signal);
+  assert.equal(f.blocked,true,'the previously visited parent must not be offered again');
+  assert.equal(f.navigations.filter(url=>url.includes('/A1304/rstLst/')).length,0,'a model cannot bypass the narrowed action scope');
+  assert.equal(result.candidates.length,0);assert.equal(result.metadata.nativeDiscoveryFunnel!.inspectedOutlets,0);
+  assert.ok(f.decisions<=4);assert.ok(result.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!<90_000);
+ }
+});
+test('a confirmed authoritative location search replaces a previous broad region without accepting the filled old page',async()=>{
+ const f=regionRecoveryFixture(true);const result=await f.native.search(f.request,new AbortController().signal);
+ assert.equal(f.filled,'Kagurazaka');assert.equal(f.submitted,true,'fill alone cannot accept the previous broad page');
+ assert.equal(f.navigations.some(url=>url.endsWith('/13000002/')),false,'old broad-result cards must never reach detail investigation');
+ assert.equal(result.candidates.length,1,'the known-feasible exact-location result must survive prior broad-region state');
+ assert.equal(result.metadata.nativeDiscoveryFunnel!.directoryRegion!.first.url,'https://tabelog.com/en/tokyo/A1309/A130905/rstLst/');
+ assert.equal(f.decisions,3);assert.ok(result.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!<90_000);
+});

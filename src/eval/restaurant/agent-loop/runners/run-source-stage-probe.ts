@@ -513,8 +513,12 @@ try {
       let recording: BrowserReadRecording | undefined;
       let replayDecision: ReturnType<typeof createFrozenReplayBrowserDecision> | undefined;
       const diagnostics: Array<ReturnType<typeof safeSourceStageDiagnostic>> = [];
-      const browserTrace: Array<{ kind: string; detail: unknown }> = [];
+      const browserTrace: Array<{ kind: string; at: string; detail: unknown }> = [];
       const sampleBudget: BrowserExecutionBudget = { totalModelCalls: 0, maxModelCalls: sampleModelLimit };
+      const modelTimings: Array<{ purpose: string; latencyMs: number; settledAt: string }> = [];
+      const providerModel = () => DeepSeekModelGateway.fromEnvironment(effectiveEnvironment, {
+        observer: { observe: record => { modelTimings.push({ purpose: record.purpose, latencyMs: record.latencyMs, settledAt: new Date().toISOString() }); } },
+      });
       try {
         if (sample.input.locationResolution === "UNRESOLVED" || sample.input.locationResolution === "PENDING_NAMED_LOCATION_READ") {
           throw Object.assign(new Error("Frozen named-location resolution did not produce an exact coordinate context"), { code: "LOCATION_RESOLUTION_UNRESOLVED" });
@@ -528,7 +532,7 @@ try {
         let recordingResult: Awaited<ReturnType<BrowserReadRecording["finish"]>> | undefined;
         const recordTrace = (kind: string, detail: unknown) => {
           const safeDetail = safeSourceStageTrace(kind, detail);
-          browserTrace.push({ kind, detail: safeDetail });
+          browserTrace.push({ kind, at: new Date().toISOString(), detail: safeDetail });
           recording?.record(kind, safeDetail);
           return browserTrace.length;
         };
@@ -560,7 +564,7 @@ try {
           );
           const result = await runSourceStagePackDiscoveryProbe({ pack, search: google, intent, location,
             readRunId: `source-stage:${manifestFingerprint}:${sample.id}`, signal: AbortSignal.timeout(manifest.budget.sampleMaxElapsedMs),
-            browserBudget:sampleBudget,retrievalPlanner:{decide:request=>new ModelDiscoveryRetrievalPlanner(sharedSourceStageModelGateway(DeepSeekModelGateway.fromEnvironment(effectiveEnvironment),sampleBudget)).decide(request)},timeoutMs:manifest.budget.sampleMaxElapsedMs });
+            browserBudget:sampleBudget,retrievalPlanner:{decide:request=>new ModelDiscoveryRetrievalPlanner(sharedSourceStageModelGateway(providerModel(),sampleBudget)).decide(request)},timeoutMs:manifest.budget.sampleMaxElapsedMs });
           status = result.status === "LIST_OBSERVED" ? "SUCCEEDED" : result.status === "NO_COVERAGE" ? "NO_COVERAGE" : "FAILED";
           discoveryCoverage = result.discoveryCoverage;
           modelCallsStarted = result.modelCallsStarted;
@@ -586,7 +590,7 @@ try {
           const browser = traceBrowserRuntime(replayRuntime, browserProvider, recordTrace, recording?.snapshotSink());
           const model = replayHarPath
             ? { async complete() { throw Object.assign(new Error("Replay never dispatches a model request"), { code: "REPLAY_MODEL_DISABLED" }); } }
-            : sharedSourceStageModelGateway(DeepSeekModelGateway.fromEnvironment(effectiveEnvironment), sampleBudget);
+            : sharedSourceStageModelGateway(providerModel(), sampleBudget);
         if (manifest.stage === "DISCOVERY" || replay?.originalStage === "DISCOVERY") {
           if (manifest.stage === "REPLAY" && replay?.originalStage !== "DISCOVERY") {
             throw Object.assign(new Error("Frozen Replay stage does not match the discovery production port"), { code: "REPLAY_ACTION_NO_COVERAGE" });
@@ -684,6 +688,8 @@ try {
           : recordingResult?.replay.status === "REPLAYABLE" ? "NO_COVERAGE" as const
             : manifest.recording.enabled ? "NO_COVERAGE" as const : "NOT_APPLICABLE" as const;
         await journal.finish({ status: status === "NO_COVERAGE" ? "FAILED" : status, stage: manifest.stage, elapsedMs: Date.now() - startedAt, modelCallsStarted,
+          modelInvocations: modelTimings,
+          stageTimings: restaurantRunStageTimings({ startedAt: new Date(startedAt).toISOString(), finishedAt: new Date().toISOString(), browserTrace, modelInvocations: modelTimings }),
           result: { ...stageResult, diagnostics, browserTrace, ...(recordingResult ? { recording: recordingResult } : {}) } });
         attempt = { sampleId: sample.id, status, elapsedMs: Date.now() - startedAt, modelCallsStarted, ...(preflight ? { preflightArtifactPath: preflight.artifactPath } : {}),
           resultArtifactPath: journal.resultPath, ...(manifest.stage === "DISCOVERY" && discoveryCoverage ? { discoveryCoverage } : {}), guardAssessment: "NOT_ASSESSED", replay };
@@ -698,7 +704,10 @@ try {
         // rebind to the current DOM. A missing trace/HAR action is evidence of
         // coverage loss, not a failed remote source operation.
         const replayNoCoverage = manifest.stage === "REPLAY" && failureCode.startsWith("REPLAY_");
-        await journal.finish({ status: "FAILED", stage: manifest.stage, elapsedMs: Date.now() - startedAt, modelCallsStarted, failureCode, diagnostics, browserTrace, ...(manifest.stage === "REPLAY" ? { replayedDecisionCount: replayDecision?.replayedDecisionCount() ?? 0 } : {}), ...(recordingResult ? { recording: recordingResult } : {}) });
+        await journal.finish({ status: "FAILED", stage: manifest.stage, elapsedMs: Date.now() - startedAt, modelCallsStarted, failureCode, diagnostics, browserTrace,
+          modelInvocations: modelTimings,
+          stageTimings: restaurantRunStageTimings({ startedAt: new Date(startedAt).toISOString(), finishedAt: new Date().toISOString(), browserTrace, modelInvocations: modelTimings }),
+          ...(manifest.stage === "REPLAY" ? { replayedDecisionCount: replayDecision?.replayedDecisionCount() ?? 0 } : {}), ...(recordingResult ? { recording: recordingResult } : {}) });
         attempt = { sampleId: sample.id, status: replayNoCoverage ? "NO_COVERAGE" : "FAILED", elapsedMs: Date.now() - startedAt, modelCallsStarted, ...(preflight ? { preflightArtifactPath: preflight.artifactPath } : {}), resultArtifactPath: journal.resultPath, failureCode, guardAssessment: "NOT_ASSESSED", replay: manifest.stage === "REPLAY" ? "NO_COVERAGE" : manifest.recording.enabled ? "NO_COVERAGE" : "NOT_APPLICABLE" };
       }
       // Keep the settled attempt before optional sidecar writes. If a sidecar
@@ -759,3 +768,4 @@ try {
   });
   throw error;
 }
+import { restaurantRunStageTimings } from "../run-stage-timings.js";

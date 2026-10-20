@@ -1,0 +1,9 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/domains/restaurant/action-validator.test.ts(49,58): error TS2741: Property 'query' is missing in type '{ goal: "AVAILABILITY"; }' but required in type 'RestaurantTarget'.
+src/domains/restaurant/action-validator.test.ts(51,5): error TS2322: Type '{ evidenceId: string; candidateId: string; kind: "DISCOVERY"; provider: "FIXTURE"; observedAt: string; requestFingerprint: string; claims: { availabilityPath: string; areaMatch: boolean; areaMatchBasis: string; distanceMeters: number; }; }[]' is not assignable to type 'RestaurantReadEvidence[]'.
+  Type '{ evidenceId: string; candidateId: string; kind: "DISCOVERY"; provider: "FIXTURE"; observedAt: string; requestFingerprint: string; claims: { availabilityPath: string; areaMatch: boolean; areaMatchBasis: string; distanceMeters: number; }; }' is not assignable to type 'RestaurantReadEvidence'.
+    Types of property 'provider' are incompatible.
+      Type '"FIXTURE"' is not assignable to type 'RestaurantReadEvidenceProvider'.

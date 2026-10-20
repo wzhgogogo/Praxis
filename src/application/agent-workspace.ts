@@ -1,4 +1,4 @@
-import type { CandidateDistanceObservation } from "../domains/restaurant/agent-context.js";
+import type { CandidateDistanceObservation } from "../domains/restaurant/candidate-read-observations.js";
 import type { TaskLifecycleState } from "../core/task-runtime/contracts.js";
 import type {
   AvailabilityOffer,

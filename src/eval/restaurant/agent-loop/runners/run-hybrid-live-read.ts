@@ -1,4 +1,5 @@
 import { preflightSourceIds, runSourceDataPreflight } from "../source-data-preflight.js";
+import { restaurantRunStageTimings } from "../run-stage-timings.js";
 import { DeliveryReservedModelGateway } from "../../../../application/delivery-reserved-model-gateway.js";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -297,7 +298,7 @@ let modelCallsStarted = 0;
 const taskId = `hybrid-live:${materialized.id}:${startedAt.valueOf()}`;
 const runId = `run:${taskId}`;
 const clock = { now: () => new Date() };
-const modelInvocations: ModelInvocationRecord[] = [];
+const modelInvocations: Array<ModelInvocationRecord & { settledAt: string }> = [];
 const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-hybrid-live-read"), {
   mode: "HYBRID_LIVE_READ", caseId: materialized.id,
   scorerStatus: "FULL_RUBRIC_NOT_INTEGRATED",
@@ -360,7 +361,7 @@ function captureProgress() {
 }
 try {
   const providerModel = DeepSeekModelGateway.fromEnvironment(effectiveEnvironment, {
-    observer: { observe: (record) => { modelInvocations.push(structuredClone(record)); } },
+    observer: { observe: (record) => { modelInvocations.push({ ...structuredClone(record), settledAt: new Date().toISOString() }); } },
   });
   const countedModel: ModelGateway = { async complete(request) {
     if (modelCallsStarted >= maxModelCalls) throw Object.assign(new Error("Run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
@@ -459,7 +460,7 @@ try {
     ...(await finishBrowserRecording() ? { browserRecording: browserRecordingResult } : {}),
   };
   const completed = ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase) && loop.status === "TERMINAL";
-  await journal.finish({ ...artifact, status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "LIVE_CASE_NOT_COMPLETED" });
+  await journal.finish({ ...artifact, stageTimings: restaurantRunStageTimings({ ...artifact, startedAt: startedAt.toISOString(), finishedAt: new Date().toISOString() }), status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "LIVE_CASE_NOT_COMPLETED" });
   const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
   console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
   if (!completed) process.exitCode = 1;
@@ -472,6 +473,7 @@ try {
     materializedCase, runtimeContext,
     semanticStatus: semantic?.status ?? "NOT_RETURNED",
     ...progress,
+    stageTimings: restaurantRunStageTimings({ ...progress, startedAt: startedAt.toISOString(), finishedAt: new Date().toISOString() }),
     termination: { scope: "TASK", code: failureCode, reason: stage === "SEMANTIC" ? "Run stopped before execution" : "Run failed or was cancelled during execution" },
     partial: true,
     downstream: stage === "SEMANTIC" ? "GOOGLE_BROWSER_AGENT_NOT_REACHED" : "SEE_EXECUTED_EVENTS",

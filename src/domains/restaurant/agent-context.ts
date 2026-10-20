@@ -7,15 +7,16 @@ import type {
 } from "./contracts.js";
 import { missingBlockingFields, missingSearchFields } from "./intent-state.js";
 import { assessRestaurantRead, distinctDiscoveryResultCandidateIds, discoveryShortBatchDeliveryReady, discoveryPlanSearchBlockReason, restaurantCurrentFactEvidence, immediateRequestWindowExpired } from "./read-assessment.js";
+import { observedCandidateAvailabilityPath, observedCandidateDistance, type CandidateDistanceObservation } from "./candidate-read-observations.js";
 import { defaultBatchDeliveryWindowActive } from "./action-validator.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
-  version: "11",
+  version: "14",
 } as const;
 
 export interface RestaurantAgentContext {
-  schemaVersion: "11";
+  schemaVersion: "14";
   now: string;
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
@@ -27,6 +28,7 @@ export interface RestaurantAgentContext {
     address: string;
     distanceObservation?: CandidateDistanceObservation;
     sourceCategories: Array<{ source: string; values: string[] }>;
+    availabilityPath: "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE";
     matchReasons: string[];
     warnings: string[];
     executionConfidence: "HIGH" | "MEDIUM" | "LOW";
@@ -95,23 +97,6 @@ export interface RestaurantAgentContext {
   selectedCandidateId?: string;
   selectedOfferId?: string;
   failure?: { code: string };
-}
-
-export interface CandidateDistanceObservation {
-  meters: number;
-  centerBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
-  source: string;
-}
-
-/** Already grounded circle evidence only; advisory projection never changes qualification. */
-export function observedCandidateDistance(evidence: readonly RestaurantReadEvidence[], candidateId: string, now: string): { distanceObservation?: CandidateDistanceObservation } {
-  const item = evidence.filter(item => item.kind === "DISCOVERY" && item.candidateId === candidateId
-    && Date.parse(item.observedAt) <= Date.parse(now) && item.claims.areaMatch === true
-    && typeof item.claims.distanceMeters === "number" && Number.isFinite(item.claims.distanceMeters) && item.claims.distanceMeters >= 0
-    && ["TASK_LOCATION_RADIUS", "EVALUATION_LOCATION_RADIUS", "NAMED_PLACE_RADIUS"].includes(String(item.claims.areaMatchBasis)))
-    .sort((a, b) => Date.parse(b.observedAt) - Date.parse(a.observedAt))[0];
-  return item ? { distanceObservation: { meters: Math.round(item.claims.distanceMeters as number),
-    centerBasis: item.claims.areaMatchBasis as CandidateDistanceObservation["centerBasis"], source: item.provider } } : {};
 }
 
 /** Advisory discovery observations; they never participate in qualification. */
@@ -185,7 +170,7 @@ export function projectRestaurantAgentContext(
     };
   };
   return {
-    schemaVersion: "11",
+    schemaVersion: "14",
     now,
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
@@ -199,6 +184,7 @@ export function projectRestaurantAgentContext(
       address: candidate.restaurant.address,
       ...observedCandidateDistance(state.readEvidence, candidate.restaurant.id, now),
       sourceCategories: observedCandidateSourceCategories(state.readEvidence, candidate.restaurant.id, now),
+      availabilityPath: observedCandidateAvailabilityPath(state.readEvidence, candidate.restaurant.id, now),
       matchReasons: [...candidate.matchReasons],
       warnings: [...candidate.warnings],
       executionConfidence: candidate.executionConfidence,

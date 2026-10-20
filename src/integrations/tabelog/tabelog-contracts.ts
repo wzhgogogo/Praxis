@@ -40,6 +40,7 @@ export type TabelogIdentityFieldComparison = "MATCH" | "CONFLICT" | "INSUFFICIEN
 export type TabelogEntityResolutionReason =
   | "HIGH_EXACT_PHONE"
   | "HIGH_NAME_AND_ADDRESS"
+  | "SOURCE_BUSY"
   | "SEARCH_BOT_CHALLENGE"
   | "DETAIL_BOT_CHALLENGE"
   | "NO_OUTLETS_PARSED"

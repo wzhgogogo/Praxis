@@ -1,0 +1,61 @@
+✔ Tabelog Pack normalizes only a supported outlet URL to the same numeric ID in English (0.544917ms)
+✔ availability paths distinguish observed outlet entrances from source lists and unsupported booking hosts (0.288083ms)
+✔ real source packs own URLs, reviewed reads, skills, and opaque source IDs (0.500375ms)
+✔ TableCheck request URL construction is consumed through its source pack (0.146083ms)
+✔ directory retrieval URL grammar stays inside its pack (0.122459ms)
+✔ both browser source packs parse their own current listing entrances before the shared cursor schedules details (1.504791ms)
+✔ Tabelog region selection requires an exact source-owned region label and recognizes only local homepage cards (0.305166ms)
+✔ search availability URL values overwrite source links with the authoritative request, without creating stock (0.53ms)
+✔ C8 list categories stay source-attributed to one outlet, without borrowing neighbouring or hidden text (0.299583ms)
+✔ observed regional homepage exposes only its own category listing links (0.566792ms)
+✔ captured kf-h001 Sen after selecting the date still has no slot result and remains EXTRACTION_FAILED (22.656208ms)
+✔ three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity (3010.776625ms)
+✔ Tabelog busy retry can recover a known feasible control without bypassing identity (2018.412875ms)
+✖ Tabelog source-busy delay cannot reset or outrun the existing provider deadline (1.142125ms)
+✔ Tabelog entity resolver is outlet-safe and rejects ambiguous branch matches (9.328666ms)
+✔ Tabelog accepts complete reordered address components but rejects an incomplete source address (0.499875ms)
+✔ Tabelog does not turn identical but insufficient abbreviated addresses into outlet proof (0.141708ms)
+✔ Tabelog entity inspection retains phone conflict diagnostics without rejecting complete same-outlet proof (1.04725ms)
+✔ Tabelog blocks HIGH identity for a stated floor conflict or a shared phone at a distinct branch (2.212833ms)
+✔ Tabelog shares the Japanese basement and Latin B1F identity normalization (0.875083ms)
+✔ Tabelog relative search links are enriched with page identity before an exact phone creates a HIGH outlet match (0.761875ms)
+✔ Tabelog parser reports every observed outlet; the native batch owns the detail cap (0.224125ms)
+✔ Tabelog identity parser extracts JSON-LD identity field provenance (0.115834ms)
+✔ Tabelog slot parser ignores prose times and trusts only explicit available controls (0.175708ms)
+✔ Tabelog reads the visible requested calendar restriction without treating loading or hidden projected dates as terminal (0.900125ms)
+✔ Tabelog executor grounds a deterministic browser observation and never submits (0.965625ms)
+✔ Tabelog Tokyo discovery carries MARUNOUCHI BASE into outlet comparison without granting inventory (0.594292ms)
+✔ Tabelog reads a Google-listed merchant page through the identity gate before a wrong discovery branch (0.666209ms)
+✔ Tabelog native result keeps its observed outlet ID and skips name search without self-matching a phone (1.701667ms)
+✔ Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby source slot as unavailable (0.460708ms)
+✔ Tabelog bot challenge and external booking redirect remain non-available results (0.657542ms)
+✔ Tabelog recovers one challenged canonical page through an observed alternate-language outlet (0.677417ms)
+✔ Tabelog rejects a challenged alternate that no longer proves the same outlet and keeps the earlier HIGH identity (0.419959ms)
+✔ Tabelog pauses a challenged local session for explicit human intervention, then resumes the same page/session without an automated retry (0.61625ms)
+✔ Tabelog fails closed when the challenge remains after an explicit resume signal (0.228417ms)
+✔ Tabelog browser session budget returns UNKNOWN rather than reusing or over-opening a session (0.071833ms)
+✔ Tabelog browser startup failure remains observable and is not reported as an entity mismatch (0.299209ms)
+✔ Tabelog entity failure sends a sanitized search, detail, and comparison diagnostic to the eval sink (0.597417ms)
+✔ Tabelog search challenge records its cause while removing transient challenge tokens (0.252542ms)
+✔ Tabelog external booking detection ignores unrelated links and requires a booking link (3.09325ms)
+✔ Tabelog captured vacancy binds source merchant, date, party and time rather than visible options (1.155417ms)
+✔ Tabelog discovery uses a phone-bound website heading when the translated Google name has no results (1.824375ms)
+✔ Tabelog applies availability controls on the resolved outlet after inspecting other branches (0.611458ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 42
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5290.378375
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:1:5987
+✖ Tabelog source-busy delay cannot reset or outrun the existing provider deadline (1.142125ms)
+  TypeError [Error]: Explicit positive browser limit required: maxModelCallsPerCandidate
+      at new BrowserTaskExecutor (/private/tmp/praxis-p2-2-selection-20261019/src/infrastructure/browser/browser-task-executor.ts:279:75)
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-2-selection-20261019/src/integrations/tabelog/tabelog-browser-availability.test.ts:72:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)

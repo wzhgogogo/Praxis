@@ -25,6 +25,12 @@ function excerpt(input: string): string {
 
 export function isTabelogUrl(url: string): boolean { return TABELOG_URL.test(url); }
 
+/** Source-owned congestion page, separate from CAPTCHA and outlet identity. */
+export function hasTabelogSourceBusy(snapshot: BrowserSnapshot): boolean {
+  return /現在アクセスが集中しています/.test(snapshot.title)
+    || /現在アクセスが集中し、ページが表示されにくい状態/.test(`${snapshot.text} ${snapshot.html.replace(/<[^>]+>/g, " ")}`);
+}
+
 export function hasBotChallenge(snapshot: BrowserSnapshot): boolean {
   return /captcha|verify you are human|access denied|unusual traffic|robot|just a moment/i.test(`${snapshot.title}\n${snapshot.text}`);
 }

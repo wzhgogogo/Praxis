@@ -1,0 +1,49 @@
+✔ directory Agent uses observed references; a proved wrong first entry is replaced once without resetting progress (10.921375ms)
+✔ unknown coordinates do not establish a wrong entry and cannot admit candidates (1.475292ms)
+✔ only four proved outside among exactly five allow one replacement; spent deadline stays spent (0.330708ms)
+✔ a named request continues through an unrelated parent menu before admitting child-list details (2.315291ms)
+✔ directory navigation timeout retains its runtime code rather than claiming no observed region (0.673ms)
+✖ captured Kagurazaka region loop cannot reopen an already visited parent, even with listing query aliases (3.492875ms)
+✖ a confirmed authoritative location search replaces a previous broad region without accepting the filled old page (2.236958ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 206.533458
+
+✖ failing tests:
+
+test at src/integrations/restaurant-search/directory-region-selection.test.ts:1:13551
+✖ captured Kagurazaka region loop cannot reopen an already visited parent, even with listing query aliases (3.492875ms)
+  AssertionError [ERR_ASSERTION]: the previously visited parent must not be offered again
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-2-selection-20261019/src/integrations/restaurant-search/directory-region-selection.test.ts:122:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-search/directory-region-selection.test.ts:1:14251
+✖ a confirmed authoritative location search replaces a previous broad region without accepting the filled old page (2.236958ms)
+  AssertionError [ERR_ASSERTION]: the known-feasible exact-location result must survive prior broad-region state
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-2-selection-20261019/src/integrations/restaurant-search/directory-region-selection.test.ts:131:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

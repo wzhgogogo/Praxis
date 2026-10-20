@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import { fixtureCandidates, fixtureIntent, fixtureOffers } from "../../harness/restaurant-fixtures.js";
 import type { RestaurantTaskState } from "./contracts.js";
+import { observedCandidateAvailabilityPath } from "./candidate-read-observations.js";
 import { projectRestaurantAgentContext } from "./agent-context.js";
 
 test("Restaurant Agent context retains bounded observations and action scope while excluding execution authority and raw provider artifacts", () => {
@@ -66,7 +67,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
   const context = projectRestaurantAgentContext(state);
 
   assert.deepEqual(context.missingBlockingFields, []);
-  assert.equal(context.schemaVersion, "11");
+  assert.equal(context.schemaVersion, "14");
   assert.deepEqual(context.searchAvailability, { available: true });
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
   assert.deepEqual(context.availabilityChecks, {
@@ -77,6 +78,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
     outletName: fixtureCandidates[0]!.restaurant.outletName,
     address: fixtureCandidates[0]!.restaurant.address,
     sourceCategories: [],
+    availabilityPath: "NONE",
     matchReasons: fixtureCandidates[0]!.matchReasons,
     warnings: fixtureCandidates[0]!.warnings,
     executionConfidence: fixtureCandidates[0]!.executionConfidence,
@@ -97,6 +99,17 @@ test("Restaurant Agent context retains bounded observations and action scope whi
   assert.equal("evidence" in context, false);
   assert.equal("reservation" in context, false);
   assert.equal(JSON.stringify(context).includes("mock://private"), false);
+});
+
+test("availability path uses the latest observed claim without reusing stale or future direct hints", () => {
+  const evidence: RestaurantTaskState["readEvidence"] = [
+    { evidenceId: "old-direct", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId: "a", observedAt: "2026-10-10T10:00:00Z", requestFingerprint: "old", claims: { availabilityPath: "DIRECT_SOURCE_PAGE" } },
+    { evidenceId: "new-name", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId: "a", observedAt: "2026-10-10T10:01:00Z", requestFingerprint: "new", claims: { availabilityPath: "NAME_RESOLUTION" } },
+    { evidenceId: "future-direct", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId: "a", observedAt: "2026-10-10T10:03:00Z", requestFingerprint: "future", claims: { availabilityPath: "DIRECT_SOURCE_PAGE" } },
+  ];
+  assert.equal(observedCandidateAvailabilityPath(evidence, "a", "2026-10-10T10:02:00Z"), "NAME_RESOLUTION");
+  assert.equal(observedCandidateAvailabilityPath(evidence, "a", "2026-10-10T09:59:00Z"), "NONE");
+  assert.equal(observedCandidateAvailabilityPath(evidence, "b", "2026-10-10T10:02:00Z"), "NONE");
 });
 
 test("Restaurant Agent context exposes a stable exhausted-discovery state without provider internals", () => {

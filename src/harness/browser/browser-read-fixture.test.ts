@@ -1341,6 +1341,32 @@ test("saved Tabelog calendar keeps hidden future dates and disabled guests out o
   } finally { await session.close(); }
 });
 
+test("real Chromium recovers a Tabelog busy page once and still grounds the exact request", async () => {
+  const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const sourceUrl = "https://tabelog.com/en/tokyo/A1303/A130301/13293469/";
+  const pages = { [sourceUrl]: await readFile(new URL("../../../.eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8") };
+  const good = '<title>Restaurant 1</title><h1 class="restaurant-name">Restaurant 1</h1><p class="restaurant-address">1-1 Shinjuku, Tokyo</p><p>予約 人数</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>';
+  const raw = localFixture(pages), arrivals: Array<{url:string;at:number}> = [], diagnostics: BrowserExecutionDiagnostic[] = [];
+  const runtime: BrowserRuntime = { async openSession(input) {
+    const session = await raw.openSession(input);
+    return new Proxy(session, { get(target, key) {
+      if (key === "navigate") return async (...args: Parameters<typeof session.navigate>) => { arrivals.push({url:args[0],at:performance.now()}); if (arrivals.length === 2) pages[sourceUrl] = good; return target.navigate(...args); };
+      const value = Reflect.get(target,key,target); return typeof value === "function" ? value.bind(target) : value;
+    } });
+  } };
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 15_000, maxOperationsPerCandidate: 24, maxModelCallsTotal: 1, maxModelCallsPerCandidate: 1, onDiagnostic: row => { diagnostics.push(row); } });
+  const candidate = structuredClone(fixtureCandidates[0]!);candidate.restaurant.sourceIds = { googleWebsiteUri: "https://tabelog.com/tokyo/A1303/A130301/13293469/" };
+  try {
+    const result = await new TabelogBrowserAvailability(executor).check({ candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-08-05",partySize:2,timeWindow:{earliest:"19:00",latest:"19:00"},hardCriteria:[] }, new AbortController().signal);
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status,"AVAILABLE",JSON.stringify(result));
+    assert.equal(result.offers[0]?.partySize,2);assert.equal(result.offers[0]?.dateTime.slice(0,16),"2026-08-05T19:00");
+    assert.ok(arrivals.every(row=>row.url===sourceUrl));assert.ok(arrivals[1]!.at-arrivals[0]!.at>=1_000);
+    assert.equal(diagnostics.filter(row=>row.event==="OPERATION_STARTED"&&row.detail==="WAIT_FOR_SOURCE_RETRY").length,1);
+    assert.equal(diagnostics.filter(row=>row.event==="MODEL_DECISION_STARTED").length,0);
+  } finally { await executor.close(); }
+});
+
 test("Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout", async () => {
   const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
   const { fixtureCandidates } = await import("../restaurant-fixtures.js");
@@ -2453,5 +2479,20 @@ test('P21b guarded search filters reject unaudited parameters under the producti
    await session.prepareNavigation?.(good,{timeoutMs:2000});await session.navigate(good,{timeoutMs:2000});
    await assert.rejects(async()=>{await session.prepareNavigation?.(bad,{timeoutMs:2000});await session.navigate(bad,{timeoutMs:2000});},/admitted|blocked|failed/i);
   }finally{await session.close();await rm(directory,{recursive:true,force:true});}
+ }
+});
+
+test('name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation',async()=>{
+ const {runNameResolutionMethodA}=await import('../../eval/restaurant/agent-loop/name-resolution-method-a.js');
+ const subject={name:'Fixture Restaurant',address:'1-1 Tokyo Fixture Street',phone:'03-1111-2222',coordinates:{lat:35.66,lng:139.7}};
+ for(const platform of ['TABELOG','TABLECHECK'] as const){
+  const detail=platform==='TABELOG'?'https://tabelog.com/tokyo/A1303/A130301/12345/':'https://www.tablecheck.com/en/fixture';
+  const searches=platform==='TABELOG'?['https://tabelog.com/en/tokyo/rstLst/?sw=Fixture%20Restaurant']:['https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Fixture+Restaurant&geo_latitude=35.66&geo_longitude=139.7&geo_distance=5km&auto_geolocate=false'];
+  const html=`<title>Fixture Restaurant</title><h1>Fixture Restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:subject.name,address:subject.address,telephone:subject.phone})}</script><a href="https://www.tablecheck.com/en/shops/fixture/reserve">Reserve</a>`;
+  const pages:Record<string,string>={[detail]:html};for(const search of searches)pages[search]=`<a class="list-rst__rst-name-target" href="${detail}">Fixture Restaurant</a>`;
+  const artifact=await runNameResolutionMethodA('chromium',platform,subject,{mode:'OFFLINE_FIXTURE',runtime:localFixture(pages),signal:new AbortController().signal});
+  assert.equal(artifact.observation.accepted,true,JSON.stringify(artifact.observation));
+  assert.equal(artifact.observation.rawSelectedPageUrl,detail);assert.equal(artifact.observation.modelCalls,0);
+  assert.equal(artifact.pages.some(p=>p.url.includes('/reserve')),false);assert.equal(artifact.boundary.availabilityEvaluated,false);
  }
 });

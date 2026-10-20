@@ -1,0 +1,61 @@
+{
+  "id": "p1fA-kichijoji-a2",
+  "group": "CALIBRATION22",
+  "input": {
+    "id": "p1fA-kichijoji-a2",
+    "group": "CALIBRATION22",
+    "artifact": {
+      "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kichijoji-a2.result.json.gz",
+      "sha256": "70bca71741c28e97c814d17928918410c5a11260b33b1295ce1a65eaa1ee1ad0"
+    },
+    "decisions": {
+      "path": ".eval-artifacts/p2-2-selection-20261019/timing-inputs/p1fA-kichijoji-a2.model-timings.jsonl",
+      "sha256": "c6d941f82b76ae0c6ec242d7564fd54f56abf2a5a0fe543849d5179ac89133b9"
+    }
+  },
+  "timing": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 2879,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "SEMANTIC",
+        "elapsedMs": 1423,
+        "percent": 49.42688433483848
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_agent_decide",
+        "elapsedMs": 1189,
+        "percent": 41.2990621743661
+      },
+      {
+        "stage": "SEARCH_RESTAURANTS",
+        "elapsedMs": 251,
+        "percent": 8.718304967002432
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 16,
+        "percent": 0.5557485237929837
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 1423,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 1189,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  }
+}

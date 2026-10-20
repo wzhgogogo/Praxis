@@ -1,0 +1,49 @@
+{
+  "schema": "compiled-selection-conditions@1",
+  "status": "IMPLEMENTER_TRANSLATION_OF_INDEPENDENT_LABELS_NOT_NEW_GOLD",
+  "annotationCommit": "92f72d3",
+  "radiusMeters": 1000,
+  "rules": [
+    {
+      "seedId": "p1-seed-0133",
+      "type": "CHECK_AVAILABILITY",
+      "when": "The selection contains only observed, in-radius candidates with a supported source path.",
+      "requireInRadius": true,
+      "path": "SUPPORTED",
+      "requireMissingHard": false
+    },
+    {
+      "seedId": "p1-seed-0133",
+      "type": "INVESTIGATE_CANDIDATE_FACTS",
+      "when": "Targets missing identity/area/HARD facts of an observed candidate with a supported path.",
+      "requireInRadius": false,
+      "path": "SUPPORTED",
+      "requireMissingHard": true
+    },
+    {
+      "seedId": "p1-seed-0133",
+      "type": "SEARCH_RESTAURANTS",
+      "when": "Uses a materially different supported source or query; preserves every explicit condition.",
+      "requireInRadius": false,
+      "path": "MANUAL",
+      "requireMissingHard": false
+    },
+    {
+      "seedId": "p1-seed-0134",
+      "type": "CHECK_AVAILABILITY",
+      "when": "At least 3 in-radius DIRECT_SOURCE_PAGE candidates are checkable in this context (there are 8: Sumi Sushi Shibuya, Sushi Tatsu Shibuya, Shibuya Sushi Jinnan, Sushi kazumasa, Sushi Matsumoto Shibuya, Sushi Inase, Sushi Rizaki, Naminoue shibuya), so every selected candidate must be in-radius and DIRECT_SOURCE_PAGE. Selecting a NAME_RESOLUTION candidate is acceptable only when fewer than 3 in-radius DIRECT candidates are checkable.",
+      "requireInRadius": true,
+      "path": "DIRECT_WHEN_THREE",
+      "requireMissingHard": false
+    },
+    {
+      "seedId": "p1-seed-0134",
+      "type": "INVESTIGATE_CANDIDATE_FACTS",
+      "when": "Targets in-radius DIRECT_SOURCE_PAGE candidates whose HARD fact (omakase) is not yet verified.",
+      "requireInRadius": true,
+      "path": "DIRECT",
+      "requireMissingHard": true
+    }
+  ],
+  "manualConditionPolicy": "Uncompiled or semantic-search conditions remain NOT_EVALUATED, never action-type-only PASS."
+}

@@ -1,3 +1,4 @@
+import { setTimeout as wait } from "node:timers/promises";
 import type { BrowserControlHint, BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError, type BrowserDeadlineScope, type BrowserRuntimeFailureCode } from "./browser-runtime-errors.js";
 import {
@@ -392,6 +393,11 @@ export class BrowserTaskExecutor {
       await input.session.navigate(url, { ...options, waitUntil: "domcontentloaded" });
     });
     await this.settleAfterDirectAction(input);
+  }
+
+  /** Code-owned source retry delay shares the current operation and wall-time budgets. */
+  async waitForSourceRetry(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal">, delayMs: number): Promise<void> {
+    await this.operation(input, "WAIT_FOR_SOURCE_RETRY", () => wait(delayMs, undefined, { signal: input.signal }));
   }
 
   async select(

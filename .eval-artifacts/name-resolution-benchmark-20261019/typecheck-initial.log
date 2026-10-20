@@ -1,0 +1,5 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/name-resolution-method-a.ts(46,39): error TS2741: Property 'provenance' is missing in type '{ id: string; outletName: string; address: string; coordinates: { lat: number; lng: number; }; sourceIds: { phone: string; }; }' but required in type 'RestaurantOutlet'.

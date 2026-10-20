@@ -20,6 +20,7 @@ export type RestaurantActionRejectionCode =
   | "SELECTION_REQUIRED"
   | "ACTIVE_ATTEMPT"
   | "OUTCOME_UNKNOWN"
+  | "AVAILABILITY_NOT_CHECKABLE"
   | "AVAILABILITY_ALREADY_CHECKED"
   | "REFRESH_TARGET_REQUIRED"
   | "PRESENTATION_READY"
@@ -227,9 +228,11 @@ export function validateRestaurantAction(
     const unavailable = action.candidateIds.filter((candidateId) =>
       state.availabilityChecks[candidateId] !== undefined && !recheckable.has(candidateId),
     );
-    return unavailable.length === 0
+    if (unavailable.length) return rejected("AVAILABILITY_ALREADY_CHECKED", `Availability was already checked for ${unavailable.join(", ")} and no expiry or user refresh permits a recheck`);
+    const allowedIds = assessRestaurantRead(state, now).checkableCandidateIds;
+    return action.candidateIds.every(id => allowedIds.includes(id))
       ? { status: "ALLOWED" }
-      : rejected("AVAILABILITY_ALREADY_CHECKED", `Availability was already checked for ${unavailable.join(", ")} and no expiry or user refresh permits a recheck`);
+      : rejected("AVAILABILITY_NOT_CHECKABLE", "Choose only IDs in the current checkable scope; direct source entrances have priority while at least three unchecked in-radius choices remain");
   }
 
   if (action.type === "PRESENT_RESULTS") {
