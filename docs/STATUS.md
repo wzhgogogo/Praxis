@@ -1,13 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.296
+- Document revision: 4.297
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
 
-- **2026-10-20 Context15 selection gate passed; Tabelog MethodA re-frozen:**5/5 independently annotated real-model replays ACCEPTABLE,13/13 direct.30 once-only Gold reads allHTTP200; final29VERIFIED/1DROPPED includes disclosed manual full-address comparison before method outcomes. Approved eval-only identity boundary red→green, fresh five gates972/972 +121/121 pass;390-SHA/13 offline controls freeze34 methodA subjects. Production8ecfcfc unchanged; methodA launch follows this commit. [Selection](../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md), [benchmark](../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md).
+- **2026-10-20 Context15选店回放与Tabelog方法A完成：**5条独立标注种子全ACCEPTABLE、13/13直接门店页。Gold30家各认证一次、最终29VERIFIED/1DROPPED；方法A34/34完成，Gold12/29正确、15未找到、2不确定、0找错；对照2待复核/3不确定，不计分。模型35+回放5=40，Google/完整Live/方法B新增0。评测身份停止有效红→绿，五门禁972/972+121/121；321旧/390新SHA及66历史输入不变。网络审计64组仍缺会话/完整请求证据，不作总体S0认证。冻结1b4cfda在原8ecfcfc生产基础运行，平行P2-1c合入前结束。等待独立复核。[选店报告](../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md)、[名称基准](../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md)。
 
 - **2026-10-20 Checkpoint C offline integration ready for review:** `codex/integration-checkpoint-c` combines P2-2/P2-3 at5309545, Context@15/Prompt@27/State@17. Five gates972/972 and Chromium121/121 pass; original22 calibration22/22 and S0 declarations20/20 preserved. Both branches retain all tests. No website/model/probe/Live; benchmark item4 deferred. Includes concurrent review305d1e0 verbatim; product code remains5309545. Independent branch only; no source/main merge. [Integration report](../.eval-artifacts/checkpoint-c-integration-20261020/report.md).
 

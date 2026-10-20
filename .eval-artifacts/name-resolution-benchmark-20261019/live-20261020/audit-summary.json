@@ -1,5 +1,5 @@
 {
-  "status": "GOLD_COMPLETE_METHOD_PENDING",
+  "status": "COMPLETED",
   "freezeCommit": "2260cc81ecc56128be294801ff77257a600dee7b",
   "sampleSha256": "89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87",
   "plannedTabelog": {
@@ -10,27 +10,2496 @@
     "attempted": 30,
     "verified": 28,
     "dropped": 2,
-    "notReached": 0
+    "notReached": 0,
+    "effectiveVerified": 29,
+    "effectiveDropped": 1,
+    "manualAddressSidecar": "verify/manual-address-verification.json"
   },
   "methodA": {
-    "attempted": 0,
-    "models": 0,
+    "attempted": 34,
+    "models": 35,
     "perSubjectMax": 3,
     "modelMax": 150,
-    "rows": []
+    "rows": [
+      {
+        "sampleId": "nr-001",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-001",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 35259,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-001",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 35259,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-002",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-002",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13242327/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 11491,
+          "modelCalls": 0,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-002",
+          "verdict": "UNCERTAIN",
+          "reason": "KNOWN_PHONE_CONFLICT",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 11491,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-003",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-003",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 47284,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-003",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 47284,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-004",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-004",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1323/A132301/13072420/",
+            "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+            "https://tabelog.com/en/tokyo/A1319/A131907/13238586/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 15803,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/"
+        },
+        "evaluation": {
+          "sampleId": "nr-004",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 15803,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-005",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-005",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+            "https://tabelog.com/en/tokyo/A1315/A131501/13006067/",
+            "https://tabelog.com/en/tokyo/A1310/A131003/13011365/",
+            "https://tabelog.com/en/tokyo/A1315/A131502/13301314/",
+            "https://tabelog.com/en/tokyo/A1306/A130603/13154460/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 33997,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/"
+        },
+        "evaluation": {
+          "sampleId": "nr-005",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 33997,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-006",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-006",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+            "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+            "https://tabelog.com/en/tokyo/A1321/A132105/13267882/",
+            "https://tabelog.com/en/tokyo/A1305/A130501/13264835/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 31763,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/"
+        },
+        "evaluation": {
+          "sampleId": "nr-006",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 31763,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-007",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-007",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 61442,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-007",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 61442,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-008",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-008",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 48128,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-008",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 48128,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-009",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-009",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": false,
+          "observedOutletUrls": [],
+          "searchCompleted": true,
+          "elapsedMs": 19485,
+          "modelCalls": 3,
+          "failure": "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"
+        },
+        "evaluation": {
+          "sampleId": "nr-009",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "MODEL_FAILURE",
+          "goldScorable": true,
+          "elapsedMs": 19485,
+          "modelCalls": 3
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-010",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-010",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 32004,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-010",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 32004,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-011",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-011",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 45274,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-011",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 45274,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-012",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-012",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13235258/",
+            "https://tabelog.com/en/tokyo/A1307/A130701/13253572/",
+            "https://tabelog.com/en/tokyo/A1307/A130701/13283447/",
+            "https://tabelog.com/en/tokyo/A1303/A130302/13263817/",
+            "https://tabelog.com/en/tokyo/A1318/A131810/13313702/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 33256,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13235258/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13235258/"
+        },
+        "evaluation": {
+          "sampleId": "nr-012",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 33256,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-013",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-013",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 46170,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-013",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 46170,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-014",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-014",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13241250/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 7568,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13241250/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13241250/"
+        },
+        "evaluation": {
+          "sampleId": "nr-014",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 7568,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-015",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-015",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 40041,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-015",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 40041,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-016",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-016",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+            "https://tabelog.com/en/tokyo/A1314/A131401/13283581/",
+            "https://tabelog.com/en/tokyo/A1316/A131601/13305531/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 12262,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/"
+        },
+        "evaluation": {
+          "sampleId": "nr-016",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 12262,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-017",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-017",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 34087,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-017",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 34087,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-018",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-018",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 32833,
+          "modelCalls": 3,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-018",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 32833,
+          "modelCalls": 3
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-019",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-019",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13292623/",
+            "https://tabelog.com/en/tokyo/A1317/A131701/13188190/",
+            "https://tabelog.com/en/tokyo/A1317/A131701/13191293/",
+            "https://tabelog.com/en/tokyo/A1317/A131701/13301855/",
+            "https://tabelog.com/en/tokyo/A1317/A131701/13146060/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 30370,
+          "modelCalls": 0,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-019",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 30370,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-020",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-020",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+            "https://tabelog.com/en/tokyo/A1307/A130701/13122868/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 15671,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275782/"
+        },
+        "evaluation": {
+          "sampleId": "nr-020",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 15671,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-021",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-021",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13281273/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 9160,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/"
+        },
+        "evaluation": {
+          "sampleId": "nr-021",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 9160,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-022",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-022",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": false,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 38003,
+          "modelCalls": 3,
+          "failure": "ENTITY_MATCH_UNCERTAIN"
+        },
+        "evaluation": {
+          "sampleId": "nr-022",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 38003,
+          "modelCalls": 3
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-024",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-024",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13290371/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 10302,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/"
+        },
+        "evaluation": {
+          "sampleId": "nr-024",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 10302,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-025",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-025",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 47726,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-025",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 47726,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-026",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-026",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 46098,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-026",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 46098,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-027",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-027",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13307953/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 11077,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/"
+        },
+        "evaluation": {
+          "sampleId": "nr-027",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 11077,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-028",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-028",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130101/13310287/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 8826,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/"
+        },
+        "evaluation": {
+          "sampleId": "nr-028",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 8826,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-029",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-029",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13312085/",
+            "https://tabelog.com/en/tokyo/A1314/A131401/13163446/",
+            "https://tabelog.com/en/tokyo/A1305/A130501/13286744/",
+            "https://tabelog.com/en/tokyo/A1322/A132204/13272237/",
+            "https://tabelog.com/en/tokyo/A1307/A130701/13319284/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 35753,
+          "modelCalls": 0,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-029",
+          "verdict": "UNCERTAIN",
+          "reason": "KNOWN_PHONE_CONFLICT",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 35753,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-030",
+        "role": "GOLD",
+        "observation": {
+          "sampleId": "nr-030",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+            "https://tabelog.com/en/tokyo/A1308/A130801/13223828/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13006820/",
+            "https://tabelog.com/en/tokyo/A1329/A132901/13094425/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 32228,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/"
+        },
+        "evaluation": {
+          "sampleId": "nr-030",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 32228,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-033",
+        "role": "CONTROL",
+        "observation": {
+          "sampleId": "nr-033",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 40596,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-033",
+          "verdict": "UNCERTAIN",
+          "reason": "KNOWN_PHONE_CONFLICT",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": false,
+          "elapsedMs": 40596,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-035",
+        "role": "CONTROL",
+        "observation": {
+          "sampleId": "nr-035",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1309/A130905/13326918/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 13861,
+          "modelCalls": 0,
+          "failure": "NO_COMPARABLE_IDENTITY_SIGNAL"
+        },
+        "evaluation": {
+          "sampleId": "nr-035",
+          "verdict": "UNCERTAIN",
+          "reason": "NO_COMPARABLE_IDENTITY_SIGNAL",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": false,
+          "elapsedMs": 13861,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-037",
+        "role": "CONTROL",
+        "observation": {
+          "sampleId": "nr-037",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": false,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13302257/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 44385,
+          "modelCalls": 2,
+          "failure": "KNOWN_PHONE_CONFLICT"
+        },
+        "evaluation": {
+          "sampleId": "nr-037",
+          "verdict": "UNCERTAIN",
+          "reason": "KNOWN_PHONE_CONFLICT",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": false,
+          "elapsedMs": 44385,
+          "modelCalls": 2
+        },
+        "boundary": {
+          "identityStop": false,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-039",
+        "role": "CONTROL",
+        "observation": {
+          "sampleId": "nr-039",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1309/A130905/13130697/",
+            "https://tabelog.com/en/tokyo/A1317/A131710/13159565/",
+            "https://tabelog.com/en/tokyo/A1321/A132101/13202116/",
+            "https://tabelog.com/en/tokyo/A1311/A131101/13033931/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13075199/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 25812,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13130697/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13130697/"
+        },
+        "evaluation": {
+          "sampleId": "nr-039",
+          "verdict": "REVIEW_REQUIRED",
+          "reason": "Control has no independently reviewed Gold",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": false,
+          "elapsedMs": 25812,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      },
+      {
+        "sampleId": "nr-041",
+        "role": "CONTROL",
+        "observation": {
+          "sampleId": "nr-041",
+          "method": "A",
+          "platform": "TABELOG",
+          "accepted": true,
+          "identityRecorded": true,
+          "observedOutletUrls": [
+            "https://tabelog.com/en/tokyo/A1320/A132001/13252791/"
+          ],
+          "searchCompleted": true,
+          "elapsedMs": 8059,
+          "modelCalls": 0,
+          "returnedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13252791/",
+          "rawSelectedPageUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13252791/"
+        },
+        "evaluation": {
+          "sampleId": "nr-041",
+          "verdict": "REVIEW_REQUIRED",
+          "reason": "Control has no independently reviewed Gold",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": false,
+          "elapsedMs": 8059,
+          "modelCalls": 0
+        },
+        "boundary": {
+          "identityStop": true,
+          "formStop": false,
+          "availabilityEvaluated": false
+        }
+      }
+    ],
+    "evaluation": {
+      "planned": 34,
+      "rows": [
+        {
+          "sampleId": "nr-001",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 35259,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Shibuya"
+            ],
+            "nameShapes": [
+              "ENGLISH",
+              "GENERIC_TERM"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-002",
+          "verdict": "UNCERTAIN",
+          "reason": "KNOWN_PHONE_CONFLICT",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 11491,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Nakameguro"
+            ],
+            "nameShapes": [
+              "JAPANESE",
+              "BRANCH_SUFFIX"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-003",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 47284,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Kagurazaka"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-004",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 15803,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Kichijoji"
+            ],
+            "nameShapes": [
+              "JAPANESE"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-005",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 33997,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "nearby"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-006",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 31763,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Kagurazaka"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-007",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 61442,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Nakameguro"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-008",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 48128,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Shibuya"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-009",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "MODEL_FAILURE",
+          "goldScorable": true,
+          "elapsedMs": 19485,
+          "modelCalls": 3,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Shibuya"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-010",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 32004,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Kichijoji"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-011",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 45274,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Kagurazaka"
+            ],
+            "nameShapes": [
+              "JAPANESE"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-012",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 33256,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Shibuya"
+            ],
+            "nameShapes": [
+              "ENGLISH",
+              "GENERIC_TERM"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-013",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 46170,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Nakameguro"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-014",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 7568,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Nakameguro"
+            ],
+            "nameShapes": [
+              "JAPANESE"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-015",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 40041,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Kichijoji"
+            ],
+            "nameShapes": [
+              "ENGLISH",
+              "GENERIC_TERM"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-016",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 12262,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Kichijoji"
+            ],
+            "nameShapes": [
+              "JAPANESE"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-017",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 34087,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Shibuya"
+            ],
+            "nameShapes": [
+              "ENGLISH",
+              "GENERIC_TERM"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-018",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 32833,
+          "modelCalls": 3,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Nakameguro"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-019",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 30370,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Nakameguro"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-020",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 15671,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Shibuya"
+            ],
+            "nameShapes": [
+              "ENGLISH",
+              "GENERIC_TERM"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-021",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 9160,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Nakameguro"
+            ],
+            "nameShapes": [
+              "JAPANESE"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-022",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 38003,
+          "modelCalls": 3,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Kichijoji"
+            ],
+            "nameShapes": [
+              "ENGLISH",
+              "GENERIC_TERM"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-024",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 10302,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Nakameguro"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-025",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 47726,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Shibuya"
+            ],
+            "nameShapes": [
+              "ENGLISH",
+              "GENERIC_TERM"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-026",
+          "verdict": "NOT_FOUND",
+          "reason": "Gold absent from this bounded search result",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 46098,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "nearby"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-027",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 11077,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Shibuya"
+            ],
+            "nameShapes": [
+              "ENGLISH",
+              "GENERIC_TERM"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-028",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 8826,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "nearby"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-029",
+          "verdict": "UNCERTAIN",
+          "reason": "KNOWN_PHONE_CONFLICT",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": true,
+          "elapsedMs": 35753,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Nakameguro"
+            ],
+            "nameShapes": [
+              "JAPANESE"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-030",
+          "verdict": "CORRECT",
+          "reason": "Independent URL ID equals Gold and production identity accepted",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": true,
+          "elapsedMs": 32228,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "GOLD",
+          "groups": {
+            "areas": [
+              "near Shibuya"
+            ],
+            "nameShapes": [
+              "ENGLISH",
+              "GENERIC_TERM"
+            ],
+            "linkKind": "DIRECT"
+          }
+        },
+        {
+          "sampleId": "nr-033",
+          "verdict": "UNCERTAIN",
+          "reason": "KNOWN_PHONE_CONFLICT",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": false,
+          "elapsedMs": 40596,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "CONTROL",
+          "groups": {
+            "areas": [
+              "near Higashi-Ginza",
+              "nearby"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "OTHER_WEBSITE"
+          }
+        },
+        {
+          "sampleId": "nr-035",
+          "verdict": "UNCERTAIN",
+          "reason": "NO_COMPARABLE_IDENTITY_SIGNAL",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": false,
+          "elapsedMs": 13861,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "CONTROL",
+          "groups": {
+            "areas": [
+              "near Kagurazaka"
+            ],
+            "nameShapes": [
+              "JAPANESE"
+            ],
+            "linkKind": "INSTAGRAM"
+          }
+        },
+        {
+          "sampleId": "nr-037",
+          "verdict": "UNCERTAIN",
+          "reason": "KNOWN_PHONE_CONFLICT",
+          "stopBatch": false,
+          "failureCategory": "UNCLASSIFIED",
+          "goldScorable": false,
+          "elapsedMs": 44385,
+          "modelCalls": 2,
+          "method": "A",
+          "role": "CONTROL",
+          "groups": {
+            "areas": [
+              "near Shibuya"
+            ],
+            "nameShapes": [
+              "ENGLISH",
+              "GENERIC_TERM"
+            ],
+            "linkKind": "OTHER_WEBSITE"
+          }
+        },
+        {
+          "sampleId": "nr-039",
+          "verdict": "REVIEW_REQUIRED",
+          "reason": "Control has no independently reviewed Gold",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": false,
+          "elapsedMs": 25812,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "CONTROL",
+          "groups": {
+            "areas": [
+              "near Kagurazaka"
+            ],
+            "nameShapes": [
+              "ENGLISH"
+            ],
+            "linkKind": "OTHER_WEBSITE"
+          }
+        },
+        {
+          "sampleId": "nr-041",
+          "verdict": "REVIEW_REQUIRED",
+          "reason": "Control has no independently reviewed Gold",
+          "stopBatch": false,
+          "failureCategory": "NONE",
+          "goldScorable": false,
+          "elapsedMs": 8059,
+          "modelCalls": 0,
+          "method": "A",
+          "role": "CONTROL",
+          "groups": {
+            "areas": [
+              "near Kichijoji"
+            ],
+            "nameShapes": [
+              "JAPANESE"
+            ],
+            "linkKind": "OTHER_WEBSITE"
+          }
+        }
+      ],
+      "stopBatch": false,
+      "methods": [
+        {
+          "method": "A",
+          "failureCategories": {
+            "UNCLASSIFIED": 19,
+            "NONE": 14,
+            "MODEL_FAILURE": 1
+          },
+          "started": 34,
+          "goldStarted": 29,
+          "goldEvaluated": 29,
+          "controls": 5,
+          "correct": 12,
+          "wrongAccepted": 0,
+          "uncertain": 2,
+          "notFound": 15,
+          "environment": 0,
+          "notEvaluated": 0,
+          "correctRate": 0.41379310344827586,
+          "wrongRate": 0,
+          "uncertainRate": 0.06896551724137931,
+          "notFoundRate": 0.5172413793103449,
+          "medianMs": 32530.5,
+          "maxMs": 61442,
+          "modelCalls": 35,
+          "areas": [
+            {
+              "area": "near Shibuya",
+              "failureCategories": {
+                "UNCLASSIFIED": 5,
+                "MODEL_FAILURE": 1,
+                "NONE": 4
+              },
+              "started": 10,
+              "goldStarted": 9,
+              "goldEvaluated": 9,
+              "controls": 1,
+              "correct": 4,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 5,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": 0.4444444444444444,
+              "wrongRate": 0,
+              "uncertainRate": 0,
+              "notFoundRate": 0.5555555555555556,
+              "medianMs": 33671.5,
+              "maxMs": 48128,
+              "modelCalls": 13
+            },
+            {
+              "area": "near Nakameguro",
+              "failureCategories": {
+                "UNCLASSIFIED": 6,
+                "NONE": 3
+              },
+              "started": 9,
+              "goldStarted": 9,
+              "goldEvaluated": 9,
+              "controls": 0,
+              "correct": 3,
+              "wrongAccepted": 0,
+              "uncertain": 2,
+              "notFound": 4,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": 0.3333333333333333,
+              "wrongRate": 0,
+              "uncertainRate": 0.2222222222222222,
+              "notFoundRate": 0.4444444444444444,
+              "medianMs": 30370,
+              "maxMs": 61442,
+              "modelCalls": 7
+            },
+            {
+              "area": "near Kagurazaka",
+              "failureCategories": {
+                "UNCLASSIFIED": 3,
+                "NONE": 2
+              },
+              "started": 5,
+              "goldStarted": 3,
+              "goldEvaluated": 3,
+              "controls": 2,
+              "correct": 1,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 2,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": 0.3333333333333333,
+              "wrongRate": 0,
+              "uncertainRate": 0,
+              "notFoundRate": 0.6666666666666666,
+              "medianMs": 31763,
+              "maxMs": 47284,
+              "modelCalls": 4
+            },
+            {
+              "area": "near Kichijoji",
+              "failureCategories": {
+                "NONE": 3,
+                "UNCLASSIFIED": 3
+              },
+              "started": 6,
+              "goldStarted": 5,
+              "goldEvaluated": 5,
+              "controls": 1,
+              "correct": 2,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 3,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": 0.4,
+              "wrongRate": 0,
+              "uncertainRate": 0,
+              "notFoundRate": 0.6,
+              "medianMs": 23903.5,
+              "maxMs": 40041,
+              "modelCalls": 7
+            },
+            {
+              "area": "nearby",
+              "failureCategories": {
+                "NONE": 2,
+                "UNCLASSIFIED": 2
+              },
+              "started": 4,
+              "goldStarted": 3,
+              "goldEvaluated": 3,
+              "controls": 1,
+              "correct": 2,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 1,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": 0.6666666666666666,
+              "wrongRate": 0,
+              "uncertainRate": 0,
+              "notFoundRate": 0.3333333333333333,
+              "medianMs": 37296.5,
+              "maxMs": 46098,
+              "modelCalls": 4
+            },
+            {
+              "area": "near Higashi-Ginza",
+              "failureCategories": {
+                "UNCLASSIFIED": 1
+              },
+              "started": 1,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 1,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": 40596,
+              "maxMs": 40596,
+              "modelCalls": 2
+            }
+          ],
+          "nameShapes": [
+            {
+              "shape": "ENGLISH",
+              "failureCategories": {
+                "UNCLASSIFIED": 15,
+                "NONE": 9,
+                "MODEL_FAILURE": 1
+              },
+              "started": 25,
+              "goldStarted": 22,
+              "goldEvaluated": 22,
+              "controls": 3,
+              "correct": 8,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 14,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": 0.36363636363636365,
+              "wrongRate": 0,
+              "uncertainRate": 0,
+              "notFoundRate": 0.6363636363636364,
+              "medianMs": 33997,
+              "maxMs": 61442,
+              "modelCalls": 33
+            },
+            {
+              "shape": "GENERIC_TERM",
+              "failureCategories": {
+                "UNCLASSIFIED": 6,
+                "NONE": 4
+              },
+              "started": 10,
+              "goldStarted": 9,
+              "goldEvaluated": 9,
+              "controls": 1,
+              "correct": 4,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 5,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": 0.4444444444444444,
+              "wrongRate": 0,
+              "uncertainRate": 0,
+              "notFoundRate": 0.5555555555555556,
+              "medianMs": 34673,
+              "maxMs": 47726,
+              "modelCalls": 13
+            },
+            {
+              "shape": "JAPANESE",
+              "failureCategories": {
+                "UNCLASSIFIED": 4,
+                "NONE": 5
+              },
+              "started": 9,
+              "goldStarted": 7,
+              "goldEvaluated": 7,
+              "controls": 2,
+              "correct": 4,
+              "wrongAccepted": 0,
+              "uncertain": 2,
+              "notFound": 1,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": 0.5714285714285714,
+              "wrongRate": 0,
+              "uncertainRate": 0.2857142857142857,
+              "notFoundRate": 0.14285714285714285,
+              "medianMs": 12262,
+              "maxMs": 45274,
+              "modelCalls": 2
+            },
+            {
+              "shape": "BRANCH_SUFFIX",
+              "failureCategories": {
+                "UNCLASSIFIED": 1
+              },
+              "started": 1,
+              "goldStarted": 1,
+              "goldEvaluated": 1,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 1,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": 0,
+              "wrongRate": 0,
+              "uncertainRate": 1,
+              "notFoundRate": 0,
+              "medianMs": 11491,
+              "maxMs": 11491,
+              "modelCalls": 0
+            }
+          ]
+        },
+        {
+          "method": "B",
+          "failureCategories": {},
+          "started": 0,
+          "goldStarted": 0,
+          "goldEvaluated": 0,
+          "controls": 0,
+          "correct": 0,
+          "wrongAccepted": 0,
+          "uncertain": 0,
+          "notFound": 0,
+          "environment": 0,
+          "notEvaluated": 0,
+          "correctRate": null,
+          "wrongRate": null,
+          "uncertainRate": null,
+          "notFoundRate": null,
+          "medianMs": null,
+          "maxMs": null,
+          "modelCalls": 0,
+          "areas": [
+            {
+              "area": "near Shibuya",
+              "failureCategories": {},
+              "started": 0,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": null,
+              "maxMs": null,
+              "modelCalls": 0
+            },
+            {
+              "area": "near Nakameguro",
+              "failureCategories": {},
+              "started": 0,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": null,
+              "maxMs": null,
+              "modelCalls": 0
+            },
+            {
+              "area": "near Kagurazaka",
+              "failureCategories": {},
+              "started": 0,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": null,
+              "maxMs": null,
+              "modelCalls": 0
+            },
+            {
+              "area": "near Kichijoji",
+              "failureCategories": {},
+              "started": 0,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": null,
+              "maxMs": null,
+              "modelCalls": 0
+            },
+            {
+              "area": "nearby",
+              "failureCategories": {},
+              "started": 0,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": null,
+              "maxMs": null,
+              "modelCalls": 0
+            },
+            {
+              "area": "near Higashi-Ginza",
+              "failureCategories": {},
+              "started": 0,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": null,
+              "maxMs": null,
+              "modelCalls": 0
+            }
+          ],
+          "nameShapes": [
+            {
+              "shape": "ENGLISH",
+              "failureCategories": {},
+              "started": 0,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": null,
+              "maxMs": null,
+              "modelCalls": 0
+            },
+            {
+              "shape": "GENERIC_TERM",
+              "failureCategories": {},
+              "started": 0,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": null,
+              "maxMs": null,
+              "modelCalls": 0
+            },
+            {
+              "shape": "JAPANESE",
+              "failureCategories": {},
+              "started": 0,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": null,
+              "maxMs": null,
+              "modelCalls": 0
+            },
+            {
+              "shape": "BRANCH_SUFFIX",
+              "failureCategories": {},
+              "started": 0,
+              "goldStarted": 0,
+              "goldEvaluated": 0,
+              "controls": 0,
+              "correct": 0,
+              "wrongAccepted": 0,
+              "uncertain": 0,
+              "notFound": 0,
+              "environment": 0,
+              "notEvaluated": 0,
+              "correctRate": null,
+              "wrongRate": null,
+              "uncertainRate": null,
+              "notFoundRate": null,
+              "medianMs": null,
+              "maxMs": null,
+              "modelCalls": 0
+            }
+          ]
+        }
+      ]
+    }
   },
   "usage": {
     "selectionModels": 5,
-    "benchmarkModels": 0,
-    "batchModels": 5,
+    "benchmarkModels": 35,
+    "batchModels": 40,
     "google": 0,
     "fullLive": 0
   },
   "stop": null,
   "cadence": {
-    "gapsChecked": 29,
-    "minimumSeconds": 30.032000064849854,
+    "gapsChecked": 63,
+    "minimumSeconds": 30.02500009536743,
     "cooldownEvents": 0
   },
-  "frozenFilesVerified": 321
+  "frozenFilesVerified": 390,
+  "historicalGoldFilesVerified": 321,
+  "methodAFreezeCommit": "1b4cfda05b9ba88a2eeebcb16cd9beded82f7aa8"
 }

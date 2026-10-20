@@ -1,4 +1,4 @@
-import json,gzip,hashlib,re,statistics
+import json,gzip,hashlib,re,statistics,subprocess
 from pathlib import Path
 from datetime import datetime
 base=Path('.eval-artifacts/name-resolution-benchmark-20261019');out=base/'live-20261020'
@@ -27,9 +27,20 @@ for a in finished:
   if row.get('evaluation',{}).get('verdict')=='CORRECT':
    sample=byid[a['sampleId']];o=row['observation'];idof=lambda value:re.search(r'/A\d+/A\d+/(\d+)(?:/|$)',value)[1]
    assert idof(o['returnedUrl'])==idof(o['rawSelectedPageUrl'])==sample['expected']['outletId']
-for name,want in read(out/'freeze.json')['files'].items():assert sha(name)==want,name
+# Gold source/config bytes remain bound to their original committed version,
+# while the separately approved method-A re-freeze is checked on disk.
+old_commit='2260cc81ecc56128be294801ff77257a600dee7b'
+for name,want in read(out/'freeze.json')['files'].items():
+ data=subprocess.check_output(['git','show',old_commit+':'+name]);assert hashlib.sha256(data).hexdigest()==want,('GOLD_HISTORICAL_FREEZE',name)
+current_freeze=read(out/'method-a-freeze.json')
+for name,want in current_freeze['files'].items():assert sha(name)==want,('METHOD_A_CURRENT_FREEZE',name)
+before=read(out/'ledger-before-method-a.json');assert ledger['attempts'][:30]==before['attempts'];assert len(before['attempts'])==30
+certificate=read(out/'verify/certified-summary.json');assert certificate['status']=='COMPLETED';effective=[r for r in certificate['rows'] if r['status']=='VERIFIED'];assert len(effective)==29
+assert not any(r['sampleId']=='nr-023' for r in methods)
+assert len({r['sampleId']for r in methods})==len(methods)
+
 selection=read('.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/summary.json');a_calls=len(ledger['modelCalls']);verified=[r for r in cert if r['status']=='VERIFIED'];dropped=[r for r in cert if r['status']=='DROPPED']
-summary={'status':'RUNNING'if not ledger.get('stop')else'STOPPED','freezeCommit':ledger['codeCommit'],'sampleSha256':sha(original),'plannedTabelog':{'gold':30,'controls':5},'certification':{'attempted':len(cert),'verified':len(verified),'dropped':len(dropped),'notReached':30-len(cert)},'methodA':{'attempted':len(modelrows),'models':a_calls,'perSubjectMax':3,'modelMax':150,'rows':[{k:v for k,v in r.items() if k in ['sampleId','role','observation','evaluation','boundary','status','error']}for r in methods]},'usage':{'selectionModels':selection['modelCalls'],'benchmarkModels':a_calls,'batchModels':selection['modelCalls']+a_calls,'google':0,'fullLive':0},'stop':ledger['stop'],'cadence':{'gapsChecked':len(gaps),'minimumSeconds':min(gaps)if gaps else None,'cooldownEvents':len(ledger['sourceBlocks'])},'frozenFilesVerified':len(read(out/'freeze.json')['files'])}
+summary={'status':'RUNNING'if not ledger.get('stop')else'STOPPED','freezeCommit':ledger['codeCommit'],'sampleSha256':sha(original),'plannedTabelog':{'gold':30,'controls':5},'certification':{'attempted':len(cert),'verified':len(verified),'dropped':len(dropped),'notReached':30-len(cert),'effectiveVerified':len(effective),'effectiveDropped':30-len(effective),'manualAddressSidecar':'verify/manual-address-verification.json'},'methodA':{'attempted':len(modelrows),'models':a_calls,'perSubjectMax':3,'modelMax':150,'rows':[{k:v for k,v in r.items() if k in ['sampleId','role','observation','evaluation','boundary','status','error']}for r in methods]},'usage':{'selectionModels':selection['modelCalls'],'benchmarkModels':a_calls,'batchModels':selection['modelCalls']+a_calls,'google':0,'fullLive':0},'stop':ledger['stop'],'cadence':{'gapsChecked':len(gaps),'minimumSeconds':min(gaps)if gaps else None,'cooldownEvents':len(ledger['sourceBlocks'])},'frozenFilesVerified':len(current_freeze['files']),'historicalGoldFilesVerified':len(read(out/'freeze.json')['files']),'methodAFreezeCommit':ledger.get('methodAConfiguration',{}).get('codeCommit')}
 if(out/'method-a/summary.json').exists():summary['status']=read(out/'method-a/summary.json')['status'];summary['methodA']['evaluation']=read(out/'method-a/summary.json').get('evaluation')
 elif(out/'verify/summary.json').exists():summary['status']='GOLD_COMPLETE_METHOD_PENDING'if not ledger['stop']else'STOPPED'
 (out/'audit-summary.json').write_text(json.dumps(summary,indent=2)+'\n')

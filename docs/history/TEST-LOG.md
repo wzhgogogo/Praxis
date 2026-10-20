@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.198
+- Document revision: 4.199
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4776,3 +4776,6 @@ Integrated branch8ecfcfc review read. Freeze1c08f4c and explicit specific-payloa
 
 
 Gold phase2260cc8 subsequently completed30 once-onlyHTTP200 reads (0 models), min gap30.032s; original28/2 automatic certificate preserved, manual full-address comparison before A yields29VERIFIED/1DROPPED. User-approved eval identity-stop patch closes swallowed-diagnostic continuation: strengthened existing default test red(select)→green(no controls), local Chromium identity prefix green, production unchanged. Fresh five gates PASS972/972 +121/121 (279333ms). MethodA-only390 SHA freeze and13 offline controls retain30 prior reads/5 replay calls; public-payload authorization recorded,34 subjects planned/≤150 models. No MethodA call yet. Parallel remote changes deferred until this frozen execution ends.
+
+
+Final execution:30Gold once(allHTTP200),29VERIFIED/1DROPPED fixed before A;34/34 methodA subjects complete at1b4cfda. Gold12/29 CORRECT,15NOT_FOUND,2UNCERTAIN,0WRONG_ACCEPTED; controls2REVIEW_REQUIRED/3UNCERTAIN unscored.35 actual deepseek-flash calls(≤3/subject),5 selection calls,total40; Google/fullLive/B0. Median32530.5ms,max61442ms;63 logical gaps minimum30.025s,0source blocks.390 current/321 historical SHA,66 original input SHA,35 normalized paid-request SHA and unchanged30Gold ledger prefix verified. Independent response audit0 recorded violations but64 session/request gaps remain NOT_EVALUATED.14 list-request final URLs leave rstLst; record observation without attributing language/phone-rule cause. Root and phase reports include all result/artifact/raw/model paths and area/name-shape groups. Source execution finished before any parallel remote integration; no rerun or new call.
