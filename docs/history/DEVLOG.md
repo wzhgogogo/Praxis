@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.181
+- Document revision: 4.182
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3917,3 +3917,12 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 当前切片仅为已批准的 P2-1 修正B发现探测，不做完整Live。生产 a37e152 与原十项输入不变，16个注册见证原集合经32次公开GET更新认证，支持ID集合均未改变，0模型/Google；认证冻结0e4eed2、运行冻结8f39756。h001首例正式完成：84990ms、4模型、2正式Google+1数据预检Google，4条决策=4次调用，Tabelog/Google精确见证命中、TableCheck列表20卡片但无见证，录制网络独立审计ABSENT仅限该trace。第二例首页Range GET返回HTTP403，尚未进入来源数据/模型阶段；外层只识别503，记PREFLIGHT_EVIDENCE_GAP且历史计数4保留，缺口如实记录，不在运行中修代码。累计282/450模型、45/55探测、121Google、0完整Live。
 
 用户随后批准“你可以十分钟之后再试一次”。只冻结新的外层准入：UTC2026-10-20 03:05:44后对未正式启动的index1补一次，来源预检通过后继续剩余顺序；已完成index0绝不重跑，既有attempt/stop/counter保留。24项0网络离线对照通过，原源五门禁951/951与119/119以源码和日志SHA复用。冻结输入/见证/指标/Guard不改；后续任何stop即停止，不自动追加重试。当前尚未执行本次补试，结果另记。[运行报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[新准入和时限](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-retry-10m-20261020/approval.json)。L0/L1门禁、0模型认证和真实模型发现证据分开，不宣称B全批或完整交付通过。
+
+
+## DEV-2026-10-20-P21-B-RETRY10M-HTTP403-FINAL
+
+按用户“十分钟之后再试一次”的批准，冻结03944f4/400项SHA/outer df8f94a...；宿主机生产a37e152/CLEAN与所有输入、原见证集合、Guard和指标不变。UTC03:07:10启动（晚于03:05:44），03:07:17结束：TableCheck首页Range GET再次403，TLS已建立；网络预检6339ms，TC1850ms。DeepSeek200、Tabelog200、Google公开根404仅为连通性结果。尚未进入来源数据、模型或正式发现阶段，未创建决策/录制/完整任务评价；本次新增模型/Google搜索/探测均0。外层仅识别503，因此保留PREFLIGHT_EVIDENCE_GAP和历史计数4，不能把诊断缺口改成额外重试。原始result SHA43be1d97...已保存。
+
+修正B仍1/10正式完成、余9项NOT_REACHED，首例4条决策=4模型，未重跑。累计282/450模型、45/55正式探测、121Google、0完整Live。旧attempt/stop/recovery前缀核对后同步账本，原329冻结/2893历史文件不变；源262及门禁日志SHA复用五门禁（951/951默认、119/119本地Chromium、typecheck/arch/build PASS），24外层离线控制PASS。新运行仅为只读预检，不构成B改善或完整交付验证，H002组未到达。
+
+用户最新要求不再重试并正常推送已完成工作；心跳已暂停，不启动其余运行。只同步本批证据与文档，用户INDEX和未跟踪稿件不暂存。[部分B报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[补试事实与raw SHA](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-retry-10m-20261020/attempt-summary.json)、[最终核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-retry-10m-20261020/post-change-verification.json)。推送结果以Git回执为准，完成后停下待复核。

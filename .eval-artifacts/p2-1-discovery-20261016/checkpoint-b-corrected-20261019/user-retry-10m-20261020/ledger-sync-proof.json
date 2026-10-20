@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "at": "2026-10-20T03:08:25.883893+00:00",
+  "ledgerBeforeSha256": "ebed741bacfcfe05a4bd209536d64084ba8ff5de567efe4523e1c72f44d8ff6c",
+  "ledgerAfterSha256": "0cc295bd03d8ace182c2f0baf7bc1ebf86fddc79127f8192fcb27f34739e3f2d",
+  "oldAttemptPrefixUnchanged": true,
+  "oldStopHistoryPrefixUnchanged": true,
+  "oldRecoveryHistoryRetained": true,
+  "completedIndices": [
+    0
+  ],
+  "newFormalProbes": 0,
+  "newModels": 0,
+  "newGoogleFormal": 0,
+  "newGooglePreflight": 0,
+  "cumulativeModels": 282,
+  "cumulativeProbes": 45,
+  "cumulativeGoogle": 121,
+  "stop": {
+    "code": "PREFLIGHT_EVIDENCE_GAP",
+    "index": 1,
+    "checkpointPreflightFailures": 4,
+    "sourceIds": []
+  },
+  "attempt": {
+    "index": 1,
+    "caseId": "p2-kf-h001-20261027",
+    "repeat": 2,
+    "head": "a37e152b4283d8f407c9650d19200708314e3362",
+    "startedAt": "2026-10-20T03:07:10.201608+00:00",
+    "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-user-retry10m-20261020",
+    "status": "ENV_FAILURE",
+    "exit": 1,
+    "preflightGoogle": 0,
+    "models": 0,
+    "formalProbeStarted": false,
+    "sourceIds": [],
+    "preflightEvidence": [],
+    "countsTowardStop": false,
+    "finishedAt": "2026-10-20T03:07:17.334641+00:00"
+  }
+}

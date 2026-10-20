@@ -1,0 +1,69 @@
+{
+  "status": "ENV_FAILURE_NETWORK_READINESS_HTTP403",
+  "freezeCommit": "03944f447073b222ca45f3d3de3ea04e6e7728dc",
+  "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
+  "outerSha256": "df8f94aee5a0feb7ade3bf9076cac337fe99b1f873c298f01f0041458a601e97",
+  "freezeSha256": "5e7e7ed46b9b7b72ec24333943705008e80ab69c55733dead46b2bd14b2c45cd",
+  "witnessRegistrySha256": "a43cfe1ba6626a4d4a692612879191f65aafe8d0302ad7633edaf6a4a6a9cf44",
+  "frozenFiles": 400,
+  "requestedNotBefore": "2026-10-20T03:05:44Z",
+  "startedAt": "2026-10-20T03:07:10.201608+00:00",
+  "finishedAt": "2026-10-20T03:07:17.334641+00:00",
+  "secondsAfterNotBefore": 86.202,
+  "networkPreflightElapsedMs": 6339,
+  "tablecheck": {
+    "target": "TABLECHECK",
+    "request": {
+      "method": "GET",
+      "url": "https://www.tablecheck.com/en/",
+      "range": "BYTES_0_0",
+      "authorization": "ABSENT"
+    },
+    "elapsedMs": 1850,
+    "outcome": "FAILED",
+    "status": 403,
+    "tls": "ESTABLISHED",
+    "failureCode": "PREFLIGHT_PUBLIC_ENDPOINT_REJECTED"
+  },
+  "otherStatuses": {
+    "DEEPSEEK": 200,
+    "GOOGLE": 404,
+    "TABELOG": 200
+  },
+  "raw": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-user-retry10m-20261020/2026-10-20T03-07-10-964Z-73adcf56-9f98-4495-8bf1-21851a86ee93.result.json",
+  "rawSha256": "43be1d978e69d12d645dd9c43e57c07970126722fbff62d2b85c1802538c1e9d",
+  "outerLogSha256": "054eac808671c959f6a288024c7477e19e26a5162b902bbafc02bbb61945bedc",
+  "sourceDataPreflight": "NOT_REACHED",
+  "formalProbeStarted": false,
+  "newModels": 0,
+  "newGoogleSearchAttempts": 0,
+  "newFormalProbes": 0,
+  "correctedBFormalCompleted": 1,
+  "notReachedIndices": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "stop": {
+    "code": "PREFLIGHT_EVIDENCE_GAP",
+    "index": 1,
+    "checkpointPreflightFailures": 4,
+    "sourceIds": []
+  },
+  "historicalFailureCounterRetained": 4,
+  "outerDiagnosticGap": "Frozen classifier recognizes TableCheck503 only; the definite HTTP403 remains PREFLIGHT_EVIDENCE_GAP without counter increment. Frozen code and ledger counter not overridden.",
+  "cumulativeModels": 282,
+  "modelCap": 450,
+  "cumulativeFormalProbes": 45,
+  "probeCap": 55,
+  "cumulativeGoogle": 121,
+  "fullLive": 0,
+  "automaticRetryAllowed": false,
+  "automationStatus": "PAUSED"
+}

@@ -1,6 +1,6 @@
 {
-  "status": "B_STOPPED_USER_RETRY_AUTHORIZED_NOT_BEFORE_TEN_MINUTES",
-  "at": "2026-10-20T02:56:24.397164+00:00",
+  "status": "B_STOPPED_AFTER_TEN_MINUTE_RETRY_HTTP403",
+  "at": "2026-10-20T03:09:45.186178+00:00",
   "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
   "completed": [
     0
@@ -36,7 +36,7 @@
     "automaticRetryAllowed": false
   },
   "preflightFailures": 4,
-  "sourceDataPreflight": "INDEX0_READY_INDEX1_NOT_REACHED",
+  "sourceDataPreflight": "INDEX0_READY_INDEX1_RETRY_NOT_REACHED",
   "userContinuation": {
     "outerCommit": "2f088b88f90da33c7ae97d25e78c2b5e342f5596",
     "summary": "user-resume-20261019/attempt-summary.json",
@@ -51,7 +51,7 @@
     "models": 0,
     "formalProbes": 0
   },
-  "activeFreezeCommit": "8f39756993d6fd5dd78e7f56ea4bd5d590459c38",
+  "activeFreezeCommit": "03944f447073b222ca45f3d3de3ea04e6e7728dc",
   "previousStopRetainedInLedgerHistory": true,
   "userRetry5": {
     "outerCommit": "76137e814518a7571050c54e70925a20bea85d67",
@@ -61,11 +61,15 @@
     "formalProbes": 0,
     "googleSearchAttempts": 1
   },
-  "networkReadiness": "INDEX1_TABLECHECK_HTTP403",
+  "networkReadiness": "INDEX1_RETRY_TABLECHECK_HTTP403",
   "witnessRefresh": "start-b-20261020/witnesses.certified.json",
   "formalRunsCompletedInCurrentBatch": 1,
   "ledgerAuthority": "/Users/wangzhour/.codex/worktrees/p21-checkpoint-b-corrected/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/ledger.json",
   "launchSummary": "start-b-20261020/launch-summary.json",
   "retryPlan": "user-retry-10m-20261020/approval.json",
-  "retryNotBefore": "2026-10-20T03:05:44Z"
+  "retryNotBefore": "2026-10-20T03:05:44Z",
+  "automationStatus": "PAUSED",
+  "tenMinuteRetrySummary": "user-retry-10m-20261020/attempt-summary.json",
+  "userRequestedNoRetry": true,
+  "pushRequested": true
 }

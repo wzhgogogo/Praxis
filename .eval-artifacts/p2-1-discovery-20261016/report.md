@@ -258,3 +258,12 @@ The user-requested B launch used unchanged production a37e152, the original ten 
 Before h001 repeat2, the homepage Range GET returned TableCheck403. No source-data, formal probe or model stage started;0 new model/search calls for that attempt. The frozen outer recognizes503 only and reports PREFLIGHT_EVIDENCE_GAP without increasing the historical counter4; this diagnostic gap is recorded, not fixed during the batch. Stop at1/10; remaining9 NOT_REACHED and completed index0 must not be rerun. No full-task improvement conclusion; H002/HARD group not reached.
 
 Cumulative282/450 models,45/55 formal discovery probes,121Google attempts,0fullLive. Reused unchanged source five gates951/951 and119/119; launch24offline controls and16-witness binding verification PASS. [Current detailed report, all ten comparison rows and raw paths](checkpoint-b-corrected-20261019/report.md), [launch summary and raw403 SHA](checkpoint-b-corrected-20261019/start-b-20261020/launch-summary.json). Complete the evidence commit/push under existing authorization, then stop for review; no automatic retry.
+
+
+## October20 approved ten-minute retry: homepage403 persists
+
+User-approved index1 retry was frozen at03944f4 (400 SHA entries;24 offline controls), preserving completed index0 and all old ledger prefixes. Actual outer startUTC03:07:10, after not-before03:05:44; network preflight6339ms again returned TableCheck homepage Range GET403 (1850ms/TLS established). DeepSeek200/Tabelog200/Google public root404. Source-data/model/formal discovery not reached:0 new models,0 Google searches,0 formal probes. No additional retry.
+
+CorrectedB remains1/10;9 pending formal runs NOT_REACHED. Cumulative282/450 models,45/55 probes,121Google,0fullLive. Historical count4 remains because frozen classifier only recognizes503 and records403 as PREFLIGHT_EVIDENCE_GAP; raw status evidence is preserved and not reclassified in the runtime. Source/input/witness/Prompt/Schema/policy unchanged; five gates reused with SHA proof. [Retry summary and raw403 SHA](checkpoint-b-corrected-20261019/user-retry-10m-20261020/attempt-summary.json), [full partial B report and ten A comparison rows](checkpoint-b-corrected-20261019/report.md). Heartbeat paused; commit/push under existing authorization, then stop for review.
+
+Latest user instruction: no further retry; normal push of the completed work. Automation paused, remaining nine formal B probes unstarted.

@@ -338,6 +338,23 @@
       "preflightEvidence": [],
       "countsTowardStop": false,
       "finishedAt": "2026-10-20T02:50:36.500055+00:00"
+    },
+    {
+      "index": 1,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 2,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T03:07:10.201608+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-user-retry10m-20261020",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 0,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [],
+      "preflightEvidence": [],
+      "countsTowardStop": false,
+      "finishedAt": "2026-10-20T03:07:17.334641+00:00"
     }
   ],
   "stop": {
@@ -347,7 +364,7 @@
     "sourceIds": []
   },
   "formalLiveRuns": 0,
-  "compressedBytesEstimate": 45759792,
+  "compressedBytesEstimate": 45762284,
   "stopHistory": [
     {
       "stop": {
@@ -417,13 +434,24 @@
       "resolution": "USER_REQUESTED_CONTINUATION_AFTER_SUCCESSFUL_NETWORK_RECHECK",
       "approvalSha256": "0114cf46032364a4e58422e57c20691bed11b287f962435ca70976a6ca993e78",
       "at": "2026-10-20T02:48:13.749204+00:00"
+    },
+    {
+      "stop": {
+        "code": "PREFLIGHT_EVIDENCE_GAP",
+        "index": 1,
+        "checkpointPreflightFailures": 4,
+        "sourceIds": []
+      },
+      "resolution": "USER_APPROVED_TEN_MINUTE_RETRY_AFTER_HTTP403",
+      "approvalSha256": "3b8a09038eccbfcfbd6f31b673ba5ca781e54c46c610ba1a44071cfe40e82d25",
+      "at": "2026-10-20T03:07:10.201154+00:00"
     }
   ],
   "userResume": {
-    "index": 0,
-    "priorPreflightAttempts": 5,
-    "approvalSha256": "0114cf46032364a4e58422e57c20691bed11b287f962435ca70976a6ca993e78",
-    "at": "2026-10-20T02:48:13.749344+00:00"
+    "index": 1,
+    "priorPreflightAttempts": 1,
+    "approvalSha256": "3b8a09038eccbfcfbd6f31b673ba5ca781e54c46c610ba1a44071cfe40e82d25",
+    "at": "2026-10-20T03:07:10.201471+00:00"
   },
   "userResumeHistory": [
     {
@@ -443,6 +471,12 @@
       "priorPreflightAttempts": 4,
       "approvalSha256": "7b6cf15d9cea2f1e5049f1dfd6f34f48188b6c076b29d20c6ea8012c1933ac21",
       "at": "2026-10-20T02:07:09.618872+00:00"
+    },
+    {
+      "index": 0,
+      "priorPreflightAttempts": 5,
+      "approvalSha256": "0114cf46032364a4e58422e57c20691bed11b287f962435ca70976a6ca993e78",
+      "at": "2026-10-20T02:48:13.749344+00:00"
     }
   ]
 }

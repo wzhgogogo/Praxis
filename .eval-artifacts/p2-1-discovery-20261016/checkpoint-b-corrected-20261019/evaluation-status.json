@@ -1,16 +1,16 @@
 {
-  "status": "PARTIAL_STOPPED_NETWORK_PREFLIGHT_HTTP403",
+  "status": "PARTIAL_STOPPED_AFTER_USER_TEN_MINUTE_RETRY_HTTP403",
   "planned": 10,
   "formalStarted": 1,
   "formalCompleted": 1,
   "scorableFormalRuns": 1,
-  "recordedPreflights": 7,
+  "recordedPreflights": 8,
   "setupFailures": 1,
   "layers": {
     "endToEnd": "FULL_TASK_NOT_EVALUATED_DISCOVERY_SLICE_ONLY",
     "formalStages": "INDEX0_RECORDED_INDICES1_TO9_NOT_REACHED",
     "severity": "ABSENT_IN_ONE_RECORDED_TRACE_REMAINING9_NOT_EVALUATED",
-    "attribution": "Index1 TableCheck public homepage Range GET HTTP403 before source-data/model stages; cause NOT_CONFIRMED. No causal P2-1b effect claim from one row."
+    "attribution": "One comparable discovery row only; TableCheck homepage Range GET HTTP403 blocked index1 twice before source-data/model stage. Cause NOT_CONFIRMED. No P2-1b effect conclusion."
   },
   "diagnosticEvaluator": "NOT_APPLICABLE_FULL_AGENT_DELIVERY_EVALUATOR: discovery probe measured by frozen discovery metrics and independent recorded-network audit",
   "newDecisionCapture": "4_ROWS_EQUAL_4_MODEL_CALLS",
@@ -72,5 +72,24 @@
     },
     "retainedCountablePreflightFailures": 4,
     "outerDiagnosticGap": "Frozen classifier recognizes TableCheck503 only; raw403 produces PREFLIGHT_EVIDENCE_GAP without increasing that counter. No override or retry."
+  },
+  "tenMinuteRetry": {
+    "status": "ENV_FAILURE_NETWORK_READINESS_HTTP403",
+    "startedAt": "2026-10-20T03:07:10.201608+00:00",
+    "finishedAt": "2026-10-20T03:07:17.334641+00:00",
+    "raw": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2-user-retry10m-20261020/2026-10-20T03-07-10-964Z-73adcf56-9f98-4495-8bf1-21851a86ee93.result.json",
+    "rawSha256": "43be1d978e69d12d645dd9c43e57c07970126722fbff62d2b85c1802538c1e9d",
+    "sourceDataPreflight": "NOT_REACHED",
+    "formalProbeStarted": false,
+    "newModels": 0,
+    "newGoogleSearchAttempts": 0,
+    "newFormalProbes": 0,
+    "stop": {
+      "code": "PREFLIGHT_EVIDENCE_GAP",
+      "index": 1,
+      "checkpointPreflightFailures": 4,
+      "sourceIds": []
+    },
+    "outerDiagnosticGap": "Frozen classifier recognizes TableCheck503 only; the definite HTTP403 remains PREFLIGHT_EVIDENCE_GAP without counter increment. Frozen code and ledger counter not overridden."
   }
 }
