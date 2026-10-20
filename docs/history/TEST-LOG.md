@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.206
+- Document revision: 4.207
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4840,3 +4840,12 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - Evidence status: current executable preparation；已暴露开发证据，非Clean Baseline。
 - Live Read-only认证准备：8项认证控制通过，实际红灯证实旧实现会重采Meibutsuya门店页；跨轮SHA／时间保留反例通过。外层14控制、typecheck／arch／build通过；生产与a3f6b84同字节，复用978/978默认及122/122真实Chromium门禁。此时0新增网站／模型／Google／整单Live。
 - [计划](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/plan.md) · [离线核验](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/pre-capture-verification.json)。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-WITNESS-CERTIFIED
+
+- Evidence status: current Live Read-only witness certification；已暴露开发集，非Clean Baseline，不是正式Live。
+- 精确续采18GET全200、最小间隔30.000秒、0重试／模型／Google／完整Live；保留原6家不重采。6例15/16登记认证，计数2/3/3/2/2/3；Komuro指定库存未匹配，Fukumimi当前菜系证据与原句变化及人工判断单列。
+- 460项冻结运行输入结束后不变；原始SHA／请求字面量审计、六例500秒时效门禁与阶段剩余额度通过。认证控制8、外层14、本地边界1，typecheck／arch／build通过；生产未变复用978/122门禁。
+- 最早见证2026-10-20 20:26:41.866北京，Live须在次日同一时刻前完成；生成最终Live冻结后推送准备分支，等待复核者和用户批准SHA，不开始Live。
+- [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/report.md) · [核验](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/verification.json)。

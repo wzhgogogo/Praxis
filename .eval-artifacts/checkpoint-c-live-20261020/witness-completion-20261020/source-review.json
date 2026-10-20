@@ -1,0 +1,700 @@
+{
+  "captureSha256": "363c9cd9c14ec54a988aeaf04e95b696679c87bc44fcfbe826be39ce72331ae8",
+  "reviewedBy": "CODEX_EVALUATION_SIDE",
+  "independentOfProduction": true,
+  "externalReviewerApproval": "PENDING",
+  "method": "Independent literal request/date/party oracle, raw JSON-LD and inventory bytes, manual source interpretations; no production parser, models, or network.",
+  "witnesses": [
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "rst_id": "13261619",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Shibuya Sushi Matsumoto",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+        "distanceMeters": 631.9527795034945,
+        "rationale": "Exact preregistered canonical outlet ID and current raw business name/address/geo.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h001-20261103/13261619.attempt-1.source.json",
+            "sha256": "3dbffc7919748b517eb9661fe5228d2a2a2008ecc3e76d346b9756e7e4f5750d"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "rationale": "Current raw business excerpt explicitly identifies the omakase course; HTML entities decoded only for independent comparison.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h001-20261103/13261619.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "matchingSlots": [
+          "19:00"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13261619.vacancy-attempt-1.body.txt",
+        "sha256": "8feca5254137b4d1db7728c9e4828d348d5d816a7462ce13c705e68eb6017bdc"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "rst_id": "13275802",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Shibuya Sushi Sen",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+        "distanceMeters": 259.59906766413724,
+        "rationale": "Exact preregistered canonical outlet ID and current raw business name/address/geo.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13275802.attempt-1.source.json",
+            "sha256": "17e3a8b429dde14024ae26197afa1051731e84c785aa6782e89992313254b5e2"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "rationale": "Current raw business excerpt explicitly identifies the omakase course; HTML entities decoded only for independent comparison.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13275802-party.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "matchingSlots": [
+          "19:00"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13275802.vacancy-attempt-1.body.txt",
+        "sha256": "29e0b76b44e49fc6f8f7a5de7dffe7e251a6dcf10d0f6c3340c91cabb1fef83e"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "rst_id": "13305528",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Ginza Sushi Tempura Iwai",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+        "distanceMeters": 395.02775928468293,
+        "rationale": "Exact preregistered canonical outlet ID and current raw business name/address/geo.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.attempt-1.source.json",
+            "sha256": "1bb515ab5992f3eb37f0cd87abc4e3c91800f3a5a601ec8f8bc279d9d19304e9"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "Sichuan/Hunan cuisine",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "rationale": "Current positive main-cuisine classification Sushi,Tempura,Japanese Cuisine establishes a sushi/tempura or teppanyaki/steak restaurant rather than a hot-pot or Sichuan/Hunan-focused outlet; not an absence-of-keyword inference. External review pending.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true
+        },
+        {
+          "value": "hot pot restaurant",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "rationale": "Current positive main-cuisine classification Sushi,Tempura,Japanese Cuisine establishes a sushi/tempura or teppanyaki/steak restaurant rather than a hot-pot or Sichuan/Hunan-focused outlet; not an absence-of-keyword inference. External review pending.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "matchingSlots": [
+          "18:30"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.vacancy-attempt-1.body.txt",
+        "sha256": "32fb879b847b46fef14251bc82913a706d379173d587c5959207eb47c18c0604"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "rst_id": "13296659",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Ginza Wagyu Teppanyaki USHIGAMI",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13296659/",
+        "distanceMeters": 393.2673845252285,
+        "rationale": "Exact preregistered canonical outlet ID and current raw business name/address/geo.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13296659.attempt-1.source.json",
+            "sha256": "138862ea197dd8e8445dade832fd9e1a35ac96238bf35b04e4936d58aca1ea1d"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "Sichuan/Hunan cuisine",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "rationale": "Current positive main-cuisine classification Teppanyaki,Steak,Seafood establishes a sushi/tempura or teppanyaki/steak restaurant rather than a hot-pot or Sichuan/Hunan-focused outlet; not an absence-of-keyword inference. External review pending.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13296659.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true
+        },
+        {
+          "value": "hot pot restaurant",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "rationale": "Current positive main-cuisine classification Teppanyaki,Steak,Seafood establishes a sushi/tempura or teppanyaki/steak restaurant rather than a hot-pot or Sichuan/Hunan-focused outlet; not an absence-of-keyword inference. External review pending.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13296659.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "matchingSlots": [
+          "18:30"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13296659.vacancy-attempt-1.body.txt",
+        "sha256": "8e2b52f88dce2efc9e2eff9bd6e9b8e92ad93181f939d5d2bfe2dbd96453bbf2"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "rst_id": "13291473",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Ginza Sushi Den",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13291473/",
+        "distanceMeters": 247.9432568874196,
+        "rationale": "Exact preregistered canonical outlet ID and current raw business name/address/geo.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h002-20261107/13291473.attempt-1.source.json",
+            "sha256": "2c008d036a16e7512e0475cc8639e8de9ad76a721db55ea12b91367e5fb2fe25"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "Sichuan/Hunan cuisine",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "rationale": "Current positive main-cuisine classification Sushi,Seafood,Japanese Cuisine establishes a sushi/tempura or teppanyaki/steak restaurant rather than a hot-pot or Sichuan/Hunan-focused outlet; not an absence-of-keyword inference. External review pending.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h002-20261107/13291473.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true
+        },
+        {
+          "value": "hot pot restaurant",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "rationale": "Current positive main-cuisine classification Sushi,Seafood,Japanese Cuisine establishes a sushi/tempura or teppanyaki/steak restaurant rather than a hot-pot or Sichuan/Hunan-focused outlet; not an absence-of-keyword inference. External review pending.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h002-20261107/13291473.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "matchingSlots": [
+          "18:30"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h002-20261107/13291473.vacancy-attempt-1.body.txt",
+        "sha256": "28d4c83b51323585ded6933571b8d663a3220c8c5c4d42015745ca85de17be28"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h003-20261106",
+      "rst_id": "13266155",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Private rooms Izakaya Ginraku Chiyoda yuuraku chou ekimae ten",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130102/13266155/",
+        "distanceMeters": 610.9058908063553,
+        "rationale": "Preregistered canonical 13266155 is unchanged; Ginraku and Yurakucho remain the same business identity. The source now expands the English station/ward suffix to Chiyoda yuuraku chou ekimae ten. Original automatic exact-name=false is retained; independent source review resolves this translation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h003-20261106/13266155.attempt-1.source.json",
+            "sha256": "043ec522953be51529e2ee18775663a5c94020eca2eb7c69165ecc9b640e76f0"
+          }
+        ]
+      },
+      "hardCriteria": [],
+      "inventoryReview": {
+        "matchingSlots": [
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00",
+          "21:15",
+          "21:30",
+          "21:45",
+          "22:00"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h003-20261106/13266155.vacancy-attempt-1.body.txt",
+        "sha256": "bf14063c5720df90550401e27757ff4124e08aee0b8132cde3995ef7f60385bf"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h003-20261106",
+      "rst_id": "13281962",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Meibutsuya Yuurakuchou ten",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130102/13281962/",
+        "distanceMeters": 704.3123733600221,
+        "rationale": "Same preregistered canonical outlet ID, business identity, source address and in-radius coordinates; translated or expanded branch suffixes are recorded without changing the original exact-name observation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h003-20261106/13281962.attempt-1.source.json",
+            "sha256": "f595ac62dac7dccb05b6a2506d6604eb7f5593e3d2976bfb8d91853e8e8b7ab6"
+          }
+        ]
+      },
+      "hardCriteria": [],
+      "inventoryReview": {
+        "status": "MATCHED",
+        "matchingSlots": [
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00",
+          "21:15",
+          "21:30",
+          "21:45",
+          "22:00"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kf-h003-20261106/13281962.vacancy-attempt-1.body.txt",
+        "sha256": "e8cff729d58ee5f6526626a8d0b541db4393182a2ba3bbfc2bcfce9468eec6f7"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h003-20261106",
+      "rst_id": "13318227",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Uotami Tsukiji ekimae ten",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1313/A131301/13318227/",
+        "distanceMeters": 496.7060042531837,
+        "rationale": "Same preregistered canonical outlet ID, business identity, source address and in-radius coordinates; translated or expanded branch suffixes are recorded without changing the original exact-name observation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kf-h003-20261106/13318227.attempt-1.source.json",
+            "sha256": "cb2937ee0d2926a692651a72ddae2aea00099c394727e0af858cdd04b210a0cf"
+          }
+        ]
+      },
+      "hardCriteria": [],
+      "inventoryReview": {
+        "status": "MATCHED",
+        "matchingSlots": [
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00",
+          "21:15",
+          "21:30",
+          "21:45",
+          "22:00"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kf-h003-20261106/13318227.vacancy-attempt-1.body.txt",
+        "sha256": "3f2f15be4a3715e84114da04b13bd78d403258eee45ef6a6accc19b75bd298cd"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h005-20261105",
+      "rst_id": "13305528",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Ginza Sushi Tempura Iwai",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+        "distanceMeters": 383.096726162394,
+        "rationale": "Same preregistered canonical outlet ID, business identity, source address and in-radius coordinates; translated or expanded branch suffixes are recorded without changing the original exact-name observation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.attempt-1.source.json",
+            "sha256": "1bb515ab5992f3eb37f0cd87abc4e3c91800f3a5a601ec8f8bc279d9d19304e9"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "local food",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+          "rationale": "Current positive main-cuisine facts identify Japanese sushi/tempura or an izakaya/yakitori restaurant. Evaluation-side manual interpretation of the unchanged local-food requirement; Fukumimi is supported by current JSON-LD, not its absent preregistered literal quote.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true,
+          "rawBusinessJsonLdRetained": true
+        },
+        {
+          "value": "fast food",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+          "rationale": "Evaluation-side manual source interpretation: the positively described sushi/tempura restaurant (JPY 10,000–14,999) or Japanese izakaya/yakitori tavern (JPY 4,000–4,999), together with its registered business identity, supports a full-service venue rather than a fast-food establishment. This is not an absence-of-keyword inference or an explicit source quotation of the exclusion; external review remains pending.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true,
+          "rawBusinessJsonLdRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "status": "MATCHED",
+        "matchingSlots": [
+          "18:00"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kf-h005-20261105/13305528.vacancy-attempt-1.body.txt",
+        "sha256": "94ed604e8e82fc08f89a163ff976235c38e24d09c0d85b0c86dad303a22ebcff"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kf-h005-20261105",
+      "rst_id": "13255508",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Kushiyaki Bistro Fukumimi Ginza koridō ten",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13255508/",
+        "distanceMeters": 637.9157599220711,
+        "rationale": "Same preregistered canonical outlet ID, business identity, source address and in-radius coordinates; translated or expanded branch suffixes are recorded without changing the original exact-name observation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kf-h005-20261105/13255508.attempt-1.source.json",
+            "sha256": "8b3d1e8b1d5a536cd11e80160ab60d004a0aadd6072fa1fc81f152ed65edd45d"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "local food",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+          "rationale": "Current positive main-cuisine facts identify Japanese sushi/tempura or an izakaya/yakitori restaurant. Evaluation-side manual interpretation of the unchanged local-food requirement; Fukumimi is supported by current JSON-LD, not its absent preregistered literal quote.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kf-h005-20261105/13255508.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": false,
+          "rawBusinessJsonLdRetained": true
+        },
+        {
+          "value": "fast food",
+          "polarity": "NEGATIVE",
+          "status": "SUPPORTED",
+          "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+          "rationale": "Evaluation-side manual source interpretation: the positively described sushi/tempura restaurant (JPY 10,000–14,999) or Japanese izakaya/yakitori tavern (JPY 4,000–4,999), together with its registered business identity, supports a full-service venue rather than a fast-food establishment. This is not an absence-of-keyword inference or an explicit source quotation of the exclusion; external review remains pending.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kf-h005-20261105/13255508.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": false,
+          "rawBusinessJsonLdRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "status": "MATCHED",
+        "matchingSlots": [
+          "18:00"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kf-h005-20261105/13255508.vacancy-attempt-1.body.txt",
+        "sha256": "b2e4f63f92b2b26cb8cdfee40825ce9290478fc857999847a2f7dca508748b3f"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "rst_id": "13218101",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Kaiseki Komuro",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13218101/",
+        "distanceMeters": 294.13170710920247,
+        "rationale": "Same preregistered canonical outlet ID, business identity, source address and in-radius coordinates; translated or expanded branch suffixes are recorded without changing the original exact-name observation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13218101.attempt-1.source.json",
+            "sha256": "db3f6551facb341855d778039ab09d53070e1707559a81c7fbe6cced8d54f8c9"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "kaiseki",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+          "rationale": "Current retained raw quote explicitly identifies kaiseki cuisine/course or the registered venue offering Kaiseki; unchanged HARD criterion.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13218101.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true,
+          "rawBusinessJsonLdRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "status": "NO_MATCH_FOR_REGISTERED_REQUEST",
+        "matchingSlots": [],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13218101.vacancy-attempt-1.body.txt",
+        "sha256": "b8ed034ec2772dcb5cea30cedb9ba9cb300b18e08bfc322ad7fe4de973d492c3"
+      },
+      "classification": "NOT_CERTIFIED_NO_MATCHING_INVENTORY"
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "rst_id": "13048623",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+        "distanceMeters": 127.14762030916016,
+        "rationale": "Same preregistered canonical outlet ID, business identity, source address and in-radius coordinates; translated or expanded branch suffixes are recorded without changing the original exact-name observation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json",
+            "sha256": "c99855f6461844fd595f4aa7d3d803b991e20aee3305a5be389523ac22594fb7"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "kaiseki",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+          "rationale": "Current retained raw quote explicitly identifies kaiseki cuisine/course or the registered venue offering Kaiseki; unchanged HARD criterion.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true,
+          "rawBusinessJsonLdRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "status": "MATCHED",
+        "matchingSlots": [
+          "19:30"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13048623.vacancy-attempt-1.body.txt",
+        "sha256": "3953a2b7306da9fe47b46f46392bf896a7ddaa52db6c2c371ff2639e91a6ba89"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "rst_id": "13011403",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Chisou Konya",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13011403/",
+        "distanceMeters": 83.65418943897754,
+        "rationale": "Same preregistered canonical outlet ID, business identity, source address and in-radius coordinates; translated or expanded branch suffixes are recorded without changing the original exact-name observation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13011403.attempt-1.source.json",
+            "sha256": "90225ed6230f22bd9a475092ad453ce870dc5a44a60f84ba3324fef2dda33b1e"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "kaiseki",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+          "rationale": "Current retained raw quote explicitly identifies kaiseki cuisine/course or the registered venue offering Kaiseki; unchanged HARD criterion.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13011403.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true,
+          "rawBusinessJsonLdRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "status": "MATCHED",
+        "matchingSlots": [
+          "19:30"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13011403.vacancy-attempt-1.body.txt",
+        "sha256": "7640fbf7d83d6502dff55edf17435c9ad5e92118abbc3556763ca90b22778285"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "rst_id": "13282321",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Kichijoji Sushi Tempura Iwai",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+        "distanceMeters": 51.97904967156231,
+        "rationale": "Same preregistered canonical outlet ID, business identity, source address and in-radius coordinates; translated or expanded branch suffixes are recorded without changing the original exact-name observation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kichijoji-tempura-20261103/13282321.attempt-1.source.json",
+            "sha256": "c5c01444406aa6b5ced2ec4498a5e82fd075c4b8ecf2ef51db3d5f2daff7fea5"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "tempura",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+          "rationale": "Current retained raw business cuisine classification explicitly includes Tempura; unchanged HARD criterion.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kichijoji-tempura-20261103/13282321.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true,
+          "rawBusinessJsonLdRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "status": "MATCHED",
+        "matchingSlots": [
+          "18:00"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kichijoji-tempura-20261103/13282321.vacancy-attempt-1.body.txt",
+        "sha256": "5df193ef08a1bda7ac046f273d5e3f6ff4122e2d12ac7eaee359e3209800e862"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "rst_id": "13303321",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Tempura Murayama",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13303321/",
+        "distanceMeters": 317.3181880171076,
+        "rationale": "Same preregistered canonical outlet ID, business identity, source address and in-radius coordinates; translated or expanded branch suffixes are recorded without changing the original exact-name observation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kichijoji-tempura-20261103/13303321.attempt-1.source.json",
+            "sha256": "67f1092b7cbd08fac64a74f7b93b6f49df4a866e39b2418d7f4a966d3cd1a170"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "tempura",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+          "rationale": "Current retained raw business cuisine classification explicitly includes Tempura; unchanged HARD criterion.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kichijoji-tempura-20261103/13303321.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true,
+          "rawBusinessJsonLdRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "status": "MATCHED",
+        "matchingSlots": [
+          "18:00"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kichijoji-tempura-20261103/13303321.vacancy-attempt-1.body.txt",
+        "sha256": "90d3b34e626faf945c6aaa891c24c12bbb6979fb6d2c56aed33ba7f903b0e4e9"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "rst_id": "13192886",
+      "identityReview": {
+        "status": "SUPPORTED",
+        "currentSourceName": "Suzuna",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13192886/",
+        "distanceMeters": 574.6767868329313,
+        "rationale": "Same preregistered canonical outlet ID, business identity, source address and in-radius coordinates; translated or expanded branch suffixes are recorded without changing the original exact-name observation.",
+        "evidenceRefs": [
+          {
+            "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kichijoji-tempura-20261103/13192886.attempt-1.source.json",
+            "sha256": "cd8278b2ac198e6acfaa50cb8a17eb701c47224b6541fdd9baaddc165964f052"
+          }
+        ]
+      },
+      "hardCriteria": [
+        {
+          "value": "tempura",
+          "polarity": "POSITIVE",
+          "status": "SUPPORTED",
+          "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+          "rationale": "Current retained raw business cuisine classification explicitly includes Tempura; unchanged HARD criterion.",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kichijoji-tempura-20261103/13192886.attempt-1.source.json"
+          ],
+          "rawQuoteBytesRetained": true,
+          "rawBusinessJsonLdRetained": true
+        }
+      ],
+      "inventoryReview": {
+        "status": "MATCHED",
+        "matchingSlots": [
+          "18:00"
+        ],
+        "rawPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kichijoji-tempura-20261103/13192886.vacancy-attempt-1.body.txt",
+        "sha256": "fe21e546e8a3241f557b94fe8c84156a1771c93b5eb6e753c31ab8831d1c934a"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED"
+    }
+  ]
+}
