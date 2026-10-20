@@ -12,7 +12,7 @@ export function nextAction({s0=false,unknownSafety=false,cooldown=false,classifi
 }
 export function gateWitness(registry,caseId,now,horizonMs=0){
  const matches=registry.variants.filter(v=>v.variantId===caseId);if(matches.length!==1)throw Error('UNIQUE_WITNESS_CASE_REQUIRED');const row=matches[0];
- if(!row||!row.witnesses?.length||!row.certifiedWitnesses?.length||!Number.isFinite(Date.parse(row.certifiedAt))||!Number.isFinite(Date.parse(row.validUntil))||row.classification!=='KNOWN_FEASIBLE_SUPPORTED'||Date.parse(row.certifiedAt)>now||now-Date.parse(row.certifiedAt)>86400000||Date.parse(row.validUntil)<=now+horizonMs)throw Error('VALID_WITNESS_REQUIRED:'+caseId);
+ if(!row||!row.witnesses?.length||!row.certifiedWitnesses?.length||!Number.isFinite(Date.parse(row.certifiedAt))||!Number.isFinite(Date.parse(row.validUntil))||!Number.isFinite(Date.parse(registry.validUntil))||row.classification!=='KNOWN_FEASIBLE_SUPPORTED'||Date.parse(row.certifiedAt)>now||now-Date.parse(row.certifiedAt)>86400000||Date.parse(row.validUntil)<=now+horizonMs||Date.parse(registry.validUntil)<=now+horizonMs)throw Error('VALID_WITNESS_REQUIRED:'+caseId);
  return row;
 }
 

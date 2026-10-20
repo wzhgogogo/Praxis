@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {pacedRead,binding,pageEvidence} from './certify-witnesses.mjs';
+import {pacedRead,binding,pageEvidence,resumeOperations} from './certify-witnesses.mjs';
+import {readFileSync} from 'node:fs';
 
 test('all same-source page and inventory reads are at least 30 seconds after previous completion',async()=>{
  let time=0;const calls=[],records=[];
@@ -35,4 +36,30 @@ test('source evidence retains entity-encoded HARD quote bytes, not only a found 
  const evidence=pageEvidence('<p>'+encoded+'</p>',{hardEvidence:[{criterion:'omakase',quote}]});
  assert.equal(evidence.hardQuoteObservations[0].found,true);
  assert.equal(evidence.rawQuotes[0]?.raw,encoded);
+});
+
+test('no-status transport failure waits two minutes, replays once unchanged and stops on a second failure',async()=>{
+ for(const recover of [true,false]){
+  let time=0;const calls=[],records=[];
+  const read=pacedRead({now:()=>time,sleep:async ms=>{assert.ok(ms<=30000);time+=ms;},transport:async(url,options)=>{
+   calls.push({time,url:String(url),method:options.method,redirect:options.redirect,credentials:options.credentials});
+   if(calls.length===1||!recover)throw new TypeError('fetch failed');
+   return new Response('OK');
+  }});
+  const operation=read('https://tabelog.com/approved',(item)=>records.push(item));
+  if(recover)assert.equal((await operation).body,'OK');else await assert.rejects(operation,/SOURCE_TRANSPORT_RETRY_EXHAUSTED/);
+  assert.deepEqual(calls.map(c=>c.time),[0,120000]);assert.deepEqual({...calls[0],time:0},{...calls[1],time:0});assert.equal(records.length,2);assert.equal(records[0].status,null);
+ }
+});
+
+test('resume preserves the three supported witnesses and refreshes only the missing evidence',()=>{
+ const root='.eval-artifacts/checkpoint-c-live-20261020',old=root+'/witness-certification-20261020';
+ const read=p=>JSON.parse(readFileSync(p,'utf8'));
+ const ops=resumeOperations(read(root+'/witness-plan.json'),read(old+'/capture/capture.json'),read(old+'/registry.pending.json'));
+ assert.deepEqual(ops.filter(o=>o.action==='PRESERVE').map(o=>[o.caseId,o.rst_id]),[
+  ['p2l-kf-h001-20261103','13275802'],['p2l-kf-h002-20261107','13305528'],['p2l-kf-h002-20261107','13296659']]);
+ assert.deepEqual(ops.filter(o=>o.action==='REFRESH_HARD_PAGE_ONLY').map(o=>o.rst_id),['13261619']);
+ assert.deepEqual(ops.filter(o=>o.action==='REUSE_PAGE_CAPTURE_INVENTORY').map(o=>[o.caseId,o.rst_id,o.previousCaseId]),[['p2l-kf-h005-20261105','13305528','p2l-kf-h002-20261107']]);
+ assert.equal(ops.filter(o=>o.action==='CAPTURE').length,11);
+ assert.equal(ops.reduce((n,o)=>n+({PRESERVE:0,REFRESH_HARD_PAGE_ONLY:1,REUSE_PAGE_CAPTURE_INVENTORY:1,CAPTURE:2}[o.action]),0),24);
 });

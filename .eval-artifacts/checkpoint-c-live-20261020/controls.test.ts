@@ -35,8 +35,10 @@ test('403/503/429 and observed busy pages are bounded cooldown signals',()=>{
 });
 test('witness future/expired/uncertified rejected, current accepted',()=>{
  const now=Date.now(),row={variantId:'case',witnesses:[{}],certifiedWitnesses:[{}],classification:'KNOWN_FEASIBLE_SUPPORTED',certifiedAt:new Date(now-1000).toISOString(),validUntil:new Date(now+3600000).toISOString()};
- assert.equal(gateWitness({variants:[row]},'case',now),row);
- for(const change of [{certifiedAt:new Date(now+1).toISOString()},{validUntil:new Date(now-1).toISOString()},{classification:'PENDING'},{witnesses:[]},{certifiedWitnesses:[]},{certifiedAt:'invalid'},{validUntil:'invalid'}])assert.throws(()=>gateWitness({variants:[{...row,...change}]},'case',now));
+ const registry={variants:[row],validUntil:row.validUntil};
+ assert.equal(gateWitness(registry,'case',now),row);
+ for(const change of [{certifiedAt:new Date(now+1).toISOString()},{validUntil:new Date(now-1).toISOString()},{classification:'PENDING'},{witnesses:[]},{certifiedWitnesses:[]},{certifiedAt:'invalid'},{validUntil:'invalid'}])assert.throws(()=>gateWitness({...registry,variants:[{...row,...change}]},'case',now));
+ assert.throws(()=>gateWitness({...registry,validUntil:new Date(now+499999).toISOString()},'case',now,500000),/VALID_WITNESS_REQUIRED/);
 });
 test('frozen independent reviewed body grammar detects mutation',()=>{
  const bytes=readFileSync(base+'/reviewed-reads.json');parseReviewedReads(bytes,base+'/reviewed-reads.json');assert.equal(dryRunReviewedPostAudit(bytes).status,'PASS');
