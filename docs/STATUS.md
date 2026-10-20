@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.301
+- Document revision: 4.302
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-20 检查点 C 网络恢复后续采准备：** 保留已有6家完整见证，Meibutsuya与H005 Iwai只查库存，正常18个只读GET；8项认证控制、外层14控制及typecheck／arch／build通过，生产未变复用978/122门禁。先提交冻结后采集，0模型／Live；完成后需形成新登记与最终Live SHA，推送停下待批准。[计划](../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/plan.md)。
 
 - **2026-10-20 检查点 C 恢复认证再次停止：** 按用户新规则保留原3家、补齐Matsumoto HARD与H002第三家；H003第二家库存先超时，等120.002秒原样重试仍fetch failed，21:24:41北京停止。当前来源支持H001 2/2、H002 3/3、H003 1/3，其余未到达；最早见证20:26:41北京，24h截止10月21日20:26:41。8次新请求、0模型/Google/整单Live；认证未完成，无最终Live冻结SHA。仅封存中断材料后推送停下。[报告](../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/report.md)。
 

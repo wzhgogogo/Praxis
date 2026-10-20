@@ -1,6 +1,6 @@
 // Prepared only. Capture needs explicit user authorization; finalize is offline independent review.
 import {readFileSync,writeFileSync,mkdirSync,appendFileSync} from 'node:fs';
-import {resolve,relative,dirname} from 'node:path';
+import {resolve,relative} from 'node:path';
 import {parseArgs} from 'node:util';
 import {consumeAuthorization} from './policy.mjs';
 import {base,sha,verifyFreeze} from './freeze.mjs';
@@ -47,20 +47,38 @@ export function pacedRead({transport=fetch,now=Date.now,sleep=ms=>new Promise(r=
  };
 }
 
-export function resumeOperations(witnessPlan,priorCapture,priorRegistry){
+export function retainedObservationRefs(row,frozenFiles){
+ if(!row.observationRefs?.length)throw Error('RETAINED_OBSERVATION_REFERENCES_REQUIRED');
+ const refs=row.observationRefs;
+ for(const ref of refs){
+  const path=relative(process.cwd(),resolve(ref.path));
+  if(sha(readFileSync(ref.path))!==ref.fileSha256||frozenFiles[path]!==ref.fileSha256)throw Error('REUSED_WITNESS_SOURCE_NOT_FROZEN');
+ }
+ return refs;
+}
+
+export function resumeOperations(witnessPlan,priorCapture,priorRegistry,partialPages=[]){
  const operations=[];
  for(const v of witnessPlan.variants)for(const w of v.witnesses){
   const rst_id=new URL(w.sourceUrl).pathname.match(/(\d{8})\/$/)?.[1];
   let previous=priorCapture.variants.find(x=>x.caseId===v.caseId)?.observedWitnesses.find(x=>x.rst_id===rst_id);
   const registration=priorRegistry.variants.find(x=>x.caseId===v.caseId)?.witnesses.find(x=>x.rst_id===rst_id);
-  let action=registration?.classification==='KNOWN_FEASIBLE_SUPPORTED'?'PRESERVE':registration?.classification==='NOT_CERTIFIED_RAW_HARD_EVIDENCE_GAP'?'REFRESH_HARD_PAGE_ONLY':'CAPTURE',previousCaseId;
-  if(action==='CAPTURE'){
+  let action=registration?.classification==='KNOWN_FEASIBLE_SUPPORTED'?'PRESERVE':'CAPTURE',previousCaseId;
+  const partial=partialPages.find(p=>p.caseId===v.caseId&&p.rst_id===rst_id);
+  let pageSourcePath;
+  if(action==='CAPTURE'&&partial){
+   if(registration?.classification!=='PARTIAL_PAGE_ONLY_INVENTORY_TRANSPORT_FAILURE'||previous)throw Error('PARTIAL_PAGE_SCOPE_MISMATCH');
+   action='REUSE_PAGE_CAPTURE_INVENTORY';previousCaseId=v.caseId;pageSourcePath=partial.sourcePath;
+  }else if(action==='CAPTURE'){
    const samePage=priorRegistry.variants.find(x=>x.witnesses.some(y=>y.classification==='KNOWN_FEASIBLE_SUPPORTED'&&y.sourceUrl===w.sourceUrl));
    if(samePage){action='REUSE_PAGE_CAPTURE_INVENTORY';previousCaseId=samePage.caseId;previous=priorCapture.variants.find(x=>x.caseId===previousCaseId)?.observedWitnesses.find(x=>x.rst_id===rst_id);}
   }
-  if(action!=='CAPTURE'&&!previous)throw Error('RESUME_SOURCE_ROW_MISSING');
-  if(action==='REFRESH_HARD_PAGE_ONLY'&&w.hardEvidence.some(h=>h.url&&h.url!==w.sourceUrl))throw Error('HARD_ONLY_REQUEST_NOT_PREREGISTERED');
-  operations.push({caseId:v.caseId,rst_id,action,...(previousCaseId?{previousCaseId}:{}),previous});
+  if(action==='REUSE_PAGE_CAPTURE_INVENTORY'&&!pageSourcePath){
+   pageSourcePath=previous?.observationRefs?.find(ref=>ref.kind==='IDENTITY')?.path;
+   if(!pageSourcePath)throw Error('REUSED_PAGE_SOURCE_MISSING');
+  }
+  if(action!=='CAPTURE'&&!previous&&!partial)throw Error('RESUME_SOURCE_ROW_MISSING');
+  operations.push({caseId:v.caseId,rst_id,action,...(previousCaseId?{previousCaseId}:{}),...(pageSourcePath?{pageSourcePath}:{}),previous});
  }
  return operations;
 }
@@ -109,12 +127,14 @@ if(values.action==='capture'){
  if(!values.freeze||!values.approval||!values.output)throw Error('USER_APPROVAL_REQUIRED; this preparation task does not authorize certification');
  const frozen=verifyFreeze(values.freeze),approval=get(values.approval);
  if(approval.action!=='CERTIFY_CHECKPOINT_C_WITNESSES'||approval.approvedBy!=='USER'||approval.freezeSha256!==frozen.manifestSha256||approval.witnessPlanSha256!==sha(readFileSync(resolve(base,'witness-plan.json')))||!Number.isFinite(Date.parse(approval.validUntil))||Date.parse(approval.validUntil)<=Date.now()||approval.liveMustFinishWithinMs!==86400000||approval.minSourceGapMs!==30000||approval.cooldownMs!==900000||approval.cooldownRetries!==1||approval.transportRetryMs!==120000||approval.transportRetries!==1||approval.stopOnNov3CertificationFailure!==true)throw Error('INVALID_CERTIFICATION_AUTHORIZATION');
+ if(approval.resumePlanSha256&&!values.resume)throw Error('RESUME_PLAN_REQUIRED_BY_AUTHORIZATION');
  let resume,operations;
  if(values.resume){
   resume=get(values.resume);
-  for(const file of [values.resume,resume.sourceCapture.path,resume.sourceRegistry.path])if(frozen.files[relative(process.cwd(),resolve(file))]!==sha(readFileSync(file)))throw Error('RESUME_INPUT_NOT_FROZEN');
+  for(const file of [values.resume,resume.sourceCapture.path,resume.sourceRegistry.path,...(resume.partialPages??[]).flatMap(p=>[p.metadataPath,p.sourcePath])])if(frozen.files[relative(process.cwd(),resolve(file))]!==sha(readFileSync(file)))throw Error('RESUME_INPUT_NOT_FROZEN');
   if(approval.resumePlanSha256!==sha(readFileSync(values.resume))||sha(readFileSync(resume.sourceCapture.path))!==resume.sourceCapture.sha256||sha(readFileSync(resume.sourceRegistry.path))!==resume.sourceRegistry.sha256)throw Error('RESUME_INPUT_SHA_MISMATCH');
-  operations=resumeOperations(plan,get(resume.sourceCapture.path),get(resume.sourceRegistry.path));
+  for(const partial of resume.partialPages??[])if(sha(readFileSync(partial.sourcePath))!==partial.sourceSha256)throw Error('PARTIAL_PAGE_SHA_MISMATCH');
+  operations=resumeOperations(plan,get(resume.sourceCapture.path),get(resume.sourceRegistry.path),resume.partialPages??[]);
   if(JSON.stringify(operations.map(({previous,...op})=>op))!==JSON.stringify(resume.operations))throw Error('RESUME_OPERATIONS_CHANGED');
  }
  await consumeAuthorization(base,sha(readFileSync(values.approval)),{action:'CERTIFY_CHECKPOINT_C_WITNESSES',freezeSha256:frozen.manifestSha256});
@@ -126,30 +146,18 @@ if(values.action==='capture'){
  async function page(url,stem,d,w){const u=new URL(url);if(!approvedPages.has(u.href)||u.origin!=='https://tabelog.com'||u.search||u.hash||!/^\/en\/tokyo\/(?:A\d+\/)+\d{8}\/(?:party\/)?$/.test(u.pathname))throw Error('UNAPPROVED_WITNESS_GET');
   const result=await read(u,async(item,bytes)=>{gets++;const evidencePath=resolve(d,stem+`.attempt-${item.attempt}.source.json`);const evidence=bytes?pageEvidence(bytes.toString('utf8'),w):null;write(evidencePath,{...item,evidence});appendFileSync(resolve(directory,'requests.jsonl'),JSON.stringify({...item,evidencePath})+'\n');});
   return {o:{...result.item,sourcePath:resolve(d,stem+`.attempt-${result.item.attempt}.source.json`),observedAt:result.item.finishedAt,businesses:business(result.body)},html:result.body};}
- function previousRefs(v,row){
-  const d=resolve(dirname(resume.sourceCapture.path),v.caseId),refs=[];
-  for(const [stem,kind]of [[row.rst_id,'IDENTITY'],...row.hardObservations.map(h=>[row.rst_id+(h.url.endsWith('/party/')?'-party':''),'HARD'])]){
-   const files=get(resolve(d,row.rst_id+'.page-observation.json'));
-   const request=get(resolve(d,stem+`.attempt-${files.attempt??1}.source.json`));
-   refs.push({kind,path:resolve(d,stem+`.attempt-${request.attempt}.source.json`),fileSha256:sha(readFileSync(resolve(d,stem+`.attempt-${request.attempt}.source.json`))),requestedAt:request.requestedAt,sourceResponseSha256:request.sha256});
-  }
-  refs.push({kind:'INVENTORY',path:row.inventory.bodyPath,fileSha256:row.inventory.sha256,requestedAt:row.inventory.requestedAt});
-  for(const ref of refs)if(frozen.files[relative(process.cwd(),ref.path)]!==ref.fileSha256)throw Error('REUSED_WITNESS_SOURCE_NOT_FROZEN');
-  return refs;
- }
  for(const v of plan.variants){
   const rows=[],d=resolve(directory,v.caseId);mkdirSync(d);
   for(const w of v.witnesses){
    try{
     const rst=new URL(w.sourceUrl).pathname.match(/(\d{8})\/$/)[1],operation=operations?.find(op=>op.caseId===v.caseId&&op.rst_id===rst);
     if(operation?.action==='PRESERVE'){
-     const row={...operation.previous,observationRefs:previousRefs(v,operation.previous),reusedFromCapture:resume.sourceCapture};rows.push(row);
+     const row={...operation.previous,observationRefs:retainedObservationRefs(operation.previous,frozen.files),reusedFromCapture:resume.sourceCapture};rows.push(row);
      const event={kind:'WITNESS_PRESERVED_NO_REQUEST',caseId:v.caseId,rst_id:rst,inventorySha256:row.inventory.sha256};appendFileSync(resolve(directory,'events.jsonl'),JSON.stringify(event)+'\n');console.log(JSON.stringify(event));continue;
     }
     let p;
     if(operation?.action==='REUSE_PAGE_CAPTURE_INVENTORY'){
-     const previousDir=resolve(dirname(resume.sourceCapture.path),operation.previousCaseId),metadata=get(resolve(previousDir,rst+'.page-observation.json'));
-     const sourcePath=resolve(previousDir,rst+`.attempt-${metadata.attempt}.source.json`),source=get(sourcePath);
+     const sourcePath=resolve(operation.pageSourcePath),source=get(sourcePath);
      if(frozen.files[relative(process.cwd(),sourcePath)]!==sha(readFileSync(sourcePath)))throw Error('REUSED_PAGE_NOT_FROZEN');
      p={o:{...source,sourcePath,businesses:source.evidence.businesses},html:source.evidence.rawQuotes.map(q=>q.raw).join(' ')+' '+source.evidence.jsonLd.map(q=>q.raw).join(' ')};
      const event={kind:'WITNESS_PAGE_REUSED_NEW_INVENTORY_ONLY',caseId:v.caseId,rst_id:rst,fromCaseId:operation.previousCaseId};appendFileSync(resolve(directory,'events.jsonl'),JSON.stringify(event)+'\n');console.log(JSON.stringify(event));
@@ -163,16 +171,11 @@ if(values.action==='capture'){
     write(resolve(d,rst+'.page-observation.json'),{...p.o,identityMatched:!!company,distanceMeters:meters,hardObservations:hard,privacy:'Business fields and preregistered exact quotes only; full HTML is not retained.'});
     const parameters={rst_id:rst,svd:v.date.replaceAll('-',''),svps:String(v.partySize),svt:v.earliest.replace(':','')};
     const vacancyUrl=new URL('https://tabelog.com/en/booking/calendar/find_vacancy/');for(const k of ['rst_id','svd','svps','svt'])vacancyUrl.searchParams.set(k,parameters[k]);
-    let item,body;
-    if(operation?.action==='REFRESH_HARD_PAGE_ONLY'){
-     item=operation.previous.inventory;body=readFileSync(item.bodyPath,'utf8');if(sha(readFileSync(item.bodyPath))!==item.sha256||frozen.files[relative(process.cwd(),resolve(item.bodyPath))]!==item.sha256)throw Error('REUSED_INVENTORY_SHA_MISMATCH');
-    }else{
-     const vacancy=await read(vacancyUrl,async(item,bytes)=>{gets++;const rawPath=resolve(d,rst+`.vacancy-attempt-${item.attempt}.body.txt`);if(bytes)writeFileSync(rawPath,bytes,{flag:'wx'});const metadataPath=resolve(d,rst+`.vacancy-attempt-${item.attempt}.metadata.json`);write(metadataPath,{...item,bodyPath:bytes?rawPath:null,parameters});appendFileSync(resolve(directory,'requests.jsonl'),JSON.stringify({...item,bodyPath:bytes?rawPath:null,metadataPath})+'\n');});
-     item={...vacancy.item,parameters,bodyPath:resolve(d,rst+`.vacancy-attempt-${vacancy.item.attempt}.body.txt`)};body=vacancy.body;
-    }
+    const vacancy=await read(vacancyUrl,async(item,bytes)=>{gets++;const rawPath=resolve(d,rst+`.vacancy-attempt-${item.attempt}.body.txt`);if(bytes)writeFileSync(rawPath,bytes,{flag:'wx'});const metadataPath=resolve(d,rst+`.vacancy-attempt-${item.attempt}.metadata.json`);write(metadataPath,{...item,bodyPath:bytes?rawPath:null,parameters});appendFileSync(resolve(directory,'requests.jsonl'),JSON.stringify({...item,bodyPath:bytes?rawPath:null,metadataPath})+'\n');});
+    const item={...vacancy.item,parameters,bodyPath:resolve(d,rst+`.vacancy-attempt-${vacancy.item.attempt}.body.txt`)},body=vacancy.body;
     observationRefs.push({kind:'INVENTORY',path:item.bodyPath,fileSha256:item.sha256,requestedAt:item.requestedAt});
     let slots=[];try{slots=binding(JSON.parse(body),rst,v);}catch{}
-    rows.push({...w,rst_id:rst,identityMatched:!!company,address:company?.address??null,distanceMeters:meters,hardObservations:hard,inventory:item,matchingSlots:slots,observationRefs,reusedInventory:operation?.action==='REFRESH_HARD_PAGE_ONLY'?resume.sourceCapture:null,classification:'PENDING_INDEPENDENT_HARD_REVIEW'});
+    rows.push({...w,rst_id:rst,identityMatched:!!company,address:company?.address??null,distanceMeters:meters,hardObservations:hard,inventory:item,matchingSlots:slots,observationRefs,classification:'PENDING_INDEPENDENT_HARD_REVIEW'});
    }catch(error){stopped={caseId:v.caseId,message:error.message};break;}
   }
   variants.push({...v,observedWitnesses:rows});

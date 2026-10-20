@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.205
+- Document revision: 4.206
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4833,3 +4833,10 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 两分钟重试红→绿；认证6/6、外层14/14、类型／语法通过。真实认证8次HTTP尝试6个200及2次无状态失败，重试等待120.002s、最小来源间隔30.002s。停止后JSON-LD身份复核7/7（含异店拒绝），旧捕获exact-name=false保留；partial finalize及全部六例Live门禁均拒绝。原始SHA与只读请求序列独立核验PASS；五门禁复用未变生产基线，不将源码门禁当完整认证／Live通过。
 - 0模型／Google／整单Live／正式Live环境重跑；最早见证2026-10-20 20:26:41.866北京，24h截止次日同刻，认证完成时间为空。未自行改日期、未打开表单或点击时段。
 - [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/report.md)、[未完成登记](../../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/registry.pending.json)。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-WITNESS-COMPLETION
+
+- Evidence status: current executable preparation；已暴露开发证据，非Clean Baseline。
+- Live Read-only认证准备：8项认证控制通过，实际红灯证实旧实现会重采Meibutsuya门店页；跨轮SHA／时间保留反例通过。外层14控制、typecheck／arch／build通过；生产与a3f6b84同字节，复用978/978默认及122/122真实Chromium门禁。此时0新增网站／模型／Google／整单Live。
+- [计划](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/plan.md) · [离线核验](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/pre-capture-verification.json)。

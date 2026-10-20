@@ -1,0 +1,118 @@
+{
+  "status": "USER_APPROVED_COMPLETION_SCOPE_PENDING_CAPTURE",
+  "sourceCapture": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/capture.json",
+    "sha256": "1a780c830934a49a11f2dbacdaadc9af57cb4425fec0f04254ce224c8e12c809"
+  },
+  "sourceRegistry": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/registry.pending.json",
+    "sha256": "3bcb3cd9269b725533fa91a1ecd91f83d78003bea00670e507aacfa0187cbc08"
+  },
+  "partialPages": [
+    {
+      "caseId": "p2l-kf-h003-20261106",
+      "rst_id": "13281962",
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h003-20261106/13281962.page-observation.json",
+      "metadataSha256": "079900f8c64b4f383767302ec0b2293ba24adcdd1483b83e1dc7c3410cce5f85",
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h003-20261106/13281962.attempt-1.source.json",
+      "sourceSha256": "f595ac62dac7dccb05b6a2506d6604eb7f5593e3d2976bfb8d91853e8e8b7ab6"
+    }
+  ],
+  "operations": [
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "rst_id": "13261619",
+      "action": "PRESERVE"
+    },
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "rst_id": "13275802",
+      "action": "PRESERVE"
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "rst_id": "13305528",
+      "action": "PRESERVE"
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "rst_id": "13296659",
+      "action": "PRESERVE"
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "rst_id": "13291473",
+      "action": "PRESERVE"
+    },
+    {
+      "caseId": "p2l-kf-h003-20261106",
+      "rst_id": "13266155",
+      "action": "PRESERVE"
+    },
+    {
+      "caseId": "p2l-kf-h003-20261106",
+      "rst_id": "13281962",
+      "action": "REUSE_PAGE_CAPTURE_INVENTORY",
+      "previousCaseId": "p2l-kf-h003-20261106",
+      "pageSourcePath": ".eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h003-20261106/13281962.attempt-1.source.json"
+    },
+    {
+      "caseId": "p2l-kf-h003-20261106",
+      "rst_id": "13318227",
+      "action": "CAPTURE"
+    },
+    {
+      "caseId": "p2l-kf-h005-20261105",
+      "rst_id": "13305528",
+      "action": "REUSE_PAGE_CAPTURE_INVENTORY",
+      "previousCaseId": "p2l-kf-h002-20261107",
+      "pageSourcePath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h002-20261107/13305528.attempt-1.source.json"
+    },
+    {
+      "caseId": "p2l-kf-h005-20261105",
+      "rst_id": "13255508",
+      "action": "CAPTURE"
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "rst_id": "13218101",
+      "action": "CAPTURE"
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "rst_id": "13048623",
+      "action": "CAPTURE"
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "rst_id": "13011403",
+      "action": "CAPTURE"
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "rst_id": "13282321",
+      "action": "CAPTURE"
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "rst_id": "13303321",
+      "action": "CAPTURE"
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "rst_id": "13192886",
+      "action": "CAPTURE"
+    }
+  ],
+  "baselineRequests": 18,
+  "preservedWitnesses": 6,
+  "reusedBusinessPagesWithNewInventory": 2,
+  "fullWitnessCaptures": 8,
+  "models": 0,
+  "minSourceGapMs": 30000,
+  "transportRetryMs": 120000,
+  "transportRetries": 1,
+  "cooldownMs": 900000,
+  "cooldownRetries": 1,
+  "liveAllowed": false
+}

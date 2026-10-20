@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.198
+- Document revision: 4.199
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4121,3 +4121,10 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 用户批准恢复及2分钟传输重试，运行前提交08bf841、冻结fe22db6a；3家保留、Matsumoto只补HARD。H003第二家按2分钟仅重试1次仍无状态失败，停止后不再访问网站。原捕获和输入不变；当前6条完整来源支持、1条门店页、9条未到达；无最终Live冻结SHA。
 - 0模型／Google／整单Live／正式Live环境重跑；最早见证2026-10-20 20:26:41.866北京，24h截止次日同刻，认证完成时间为空。未自行改日期、未打开表单或点击时段。
 - [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/report.md)、[未完成登记](../../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/registry.pending.json)。
+
+
+## DEV-2026-10-20-CHECKPOINT-C-WITNESS-COMPLETION
+
+- Evidence status: current executable preparation；已暴露开发证据，非Clean Baseline。
+- 网络恢复后按用户批准准备精确续采：六家完整证据原样保留，Meibutsuya与H005 Iwai仅查库存，余八家完整读取。跨轮原始引用与SHA检查补齐，旧HARD刷新执行分支和历史专用测试退役；先提交冻结再认证。生产／批准输入不改，不开始Live。
+- [计划](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/plan.md) · [离线核验](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/pre-capture-verification.json)。
