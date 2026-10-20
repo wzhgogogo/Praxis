@@ -1,3 +1,4 @@
+import { publicPriceText, sourcePriceElements, quotedCoursePrice } from "../restaurant-availability/source-price-facts.js";
 import { tabelogCapturedSlots } from "./tabelog-query-controls.js";
 import { resultRegionBusy } from "../restaurant-search/result-region-busy.js";
 
@@ -257,4 +258,27 @@ export function parseTabelogListedCourses(snapshot: BrowserSnapshot): string[] {
     const note = `${name} — ${price}${party ? `; ${party}` : ""}${description ? `. ${description}` : ""}`;
     return note.length <= 1600 ? [note] : [];
   }).slice(0, 3);
+}
+
+/** Prices from the same detail snapshot; no additional page or model read. */
+export function parseTabelogPriceFacts(snapshot: BrowserSnapshot): import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts | undefined {
+  const facts: import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts = { schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [] };
+  for (const block of sourcePriceElements(snapshot.html, tag => /class=["'][^"']*rdheader-budget__icon/.test(tag))) {
+    const quote = publicPriceText(block);
+    const amounts = [...quote.matchAll(/(?:JPY|¥)\s*([\d,]+)/g)].map(value => Number(value[1]!.replaceAll(",", "")));
+    if (amounts.length !== 2 || amounts.some(value => !Number.isSafeInteger(value) || value < 0) || amounts[0]! > amounts[1]!) continue;
+    const value = { min: amounts[0]!, max: amounts[1]!, quote, sourceUrl: snapshot.url };
+    if (/aria-label=["']Dinner["']/i.test(block)) facts.dinnerBudgetRangeYen = value;
+    if (/aria-label=["']Lunch["']/i.test(block)) facts.lunchBudgetRangeYen = value;
+  }
+  for (const block of sourcePriceElements(snapshot.html, tag => /class=["']rstdtl-course-list js-rstdtl-course-list["']/.test(tag))) {
+    const quote = publicPriceText(block);
+    const price = sourcePriceElements(block, tag => /class=["']rstdtl-course-list__price-num["']/.test(tag))[0];
+    const amount = price && publicPriceText(price).match(/(?:JPY|¥)\s*([\d,]+)/)?.[1];
+    const value = amount && quotedCoursePrice(quote, snapshot.url, Number(amount.replaceAll(",", "")));
+    const title = sourcePriceElements(block, tag => /class=["']rstdtl-course-list__course-title-text["']/.test(tag))[0];
+    const observed = snapshot.text.replace(/\s/g, "");
+    if (value && title && observed.includes(publicPriceText(title).replace(/\s/g, "")) && observed.includes(publicPriceText(price!).replace(/\s/g, ""))) facts.listedCoursePricesYen.push(value);
+  }
+  return facts.dinnerBudgetRangeYen || facts.lunchBudgetRangeYen || facts.listedCoursePricesYen.length ? facts : undefined;
 }

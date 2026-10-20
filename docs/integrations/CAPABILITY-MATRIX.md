@@ -19,6 +19,8 @@ P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、�
 
 2026-10-17 P2-1a（离线）：[Accepted ADR-0042](../decisions/0042-agent-planned-discovery-and-search-availability-hints.md) 的检索规划已接入生产读取组合；目录先观察地区，稀疏或明确空结果可在详情前最多改写两次。地区页最多四、检索页最多三、实际列表文档合计最多七，来源90秒及全局500秒/50模型不提高；详情批次和资格不变。TableCheck/Google 共用一次无页面初始文本规划。真实本地 Chromium 动态 Fixture 证明可见类别/空状态与越地区拒绝，不能证明当前外站或真实模型选词质量。Pack 未新增网络放行或空位筛选参数；P2-1b 未实施。预检/指标修正和证据见[离线收尾报告](../../.eval-artifacts/p2-1-discovery-20261016/followup/report.md)。
 
+2026-10-19 P2-3（离线）：现有Tabelog／TableCheck已打开页面的菜单读取保留数值、税、餐段、附加项及引用；介绍页价格不因独立查位UNKNOWN丢失。五份真实页面价格片段及受控Adapter/Web链证明接线，不能证明当前库存或完整Live。Aloft完整菜单文本另确认3300为BBQ附加项；生产Guard直接reserve导航仍拒绝，不作为浏览器成功样本。见[P2-3报告](../../.eval-artifacts/p2-3-conditions-20261019/report.md)。
+
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|
 | DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；Semantic与Agent使用Beta strict function。strict wire object的所有字段均为required并关闭additional properties，Domain再恢复canonical可选字段；non-blank等其余规则由本地Validator保证。安全诊断保留status/request ID/code/type/脱敏message；传输错误仅保留已知cause code（不保留原始异常文本），正文读取失败与JSON格式失败分开，模型不直接执行工具或写状态 |

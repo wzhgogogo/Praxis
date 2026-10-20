@@ -1,3 +1,4 @@
+import { priceCommercialNotes } from "./condition-states.js";
 import type {
   RestaurantSearchIntent,
   RestaurantReadEvidence,
@@ -12,11 +13,11 @@ import { defaultBatchDeliveryWindowActive } from "./action-validator.js";
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
-  version: "14",
+  version: "15",
 } as const;
 
 export interface RestaurantAgentContext {
-  schemaVersion: "14";
+  schemaVersion: "15";
   now: string;
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
@@ -40,7 +41,7 @@ export interface RestaurantAgentContext {
       openingHoursMatch: boolean;
       /** Current candidate-bound public commercial facts, each with its source. */
       commercialNotes: Array<{
-        field: "COURSE_PRICE" | "COURSE_DETAILS" | "PRIVATE_ROOM_MINIMUM" | "CANCELLATION" | "NO_SHOW";
+        field: "COURSE_PRICE" | "COURSE_DETAILS" | "DINNER_BUDGET" | "LUNCH_BUDGET" | "PRIVATE_ROOM_MINIMUM" | "CANCELLATION" | "NO_SHOW";
         value: string;
         source: string;
       }>;
@@ -140,6 +141,7 @@ export function projectRestaurantAgentContext(
       return formatted ? [{ field, value: formatted, source: evidence.provider }] : [];
     });
     const commercialNotes = [
+      ...priceCommercialNotes(facts),
       ...facts.flatMap(evidence => Array.isArray(evidence.claims.listedCourseDetails) ? evidence.claims.listedCourseDetails.filter((value): value is string => typeof value === "string" && value.length <= 1600).slice(0, 3).map(value => ({ field: "COURSE_DETAILS" as const, value, source: evidence.provider })) : []),
       ...commercialNote("COURSE_PRICE", "coursePriceYen", (value, evidence) => {
         if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 0) return undefined;
@@ -170,7 +172,7 @@ export function projectRestaurantAgentContext(
     };
   };
   return {
-    schemaVersion: "14",
+    schemaVersion: "15",
     now,
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),

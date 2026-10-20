@@ -135,6 +135,7 @@ export interface TabelogAvailabilityPageObservation {
   sourceEntityId?: string;
   sourceUrl?: string;
   observedAt: string;
+  priceFacts?: import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts | undefined;
   requestedDate?: string;
   requestedPartySize?: number;
   entityMatch: TabelogEntityResolution;

@@ -1,0 +1,29 @@
+{
+  "mode": "OFFLINE_INTEGRATION",
+  "branch": "codex/integration-checkpoint-c",
+  "refs": {
+    "base": "13c93a325a80a97eb2c663613c4360776b5afe5d",
+    "p2-2": "7dfeb692dfb04ed5a62c767f9694fc88c493cfb2",
+    "p2-3": "89e0dfb2159c816095e6995827b53537ed3fe73b"
+  },
+  "promise": "Preserve both feature behaviors and tests; five gates and existing22 evaluator calibration; push integration branch only.",
+  "limits": {
+    "models": 0,
+    "externalWebsites": 0,
+    "probes": 0,
+    "live": 0,
+    "nameResolutionBenchmarkItem4": "DEFERRED"
+  },
+  "gates": [
+    "typecheck",
+    "arch:check",
+    "test",
+    "build",
+    "test:browser:fixture"
+  ],
+  "calibration": {
+    "results": 22,
+    "normalS0Declaration": 20
+  },
+  "mainWorktreeIndexSha256": "7c89d5a6e314513070949124ef22279a6a84da0ec2a09f3ed05430c01ede2553"
+}

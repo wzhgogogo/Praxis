@@ -4,7 +4,8 @@ export function evaluatorImportViolation(importer: string, imported: string, sta
     && (/^eval\/.*(?:discovery-probe|witness)[^/]*\.(?:ts|json)$/.test(imported) || /(?:\.eval-artifacts|\.eval-private)\/.*witness/i.test(imported))) {
     return "production must not depend on eval witnesses, probe metrics or other evaluation modules";
   }
-  const productionJudgment = /^domains\/restaurant\/(?:read-grounding|read-assessment|action-validator)\.ts$/.test(imported)
+  const productionJudgment = /^domains\/restaurant\/(?:read-grounding|read-assessment|action-validator|condition-states|price-facts)\.ts$/.test(imported)
+    || /^integrations\/.*(?:page-parser|source-price-facts)\.ts$/.test(imported)
     || imported === "infrastructure/browser/playwright-read-network-guard.ts"
     || /^integrations\/.*(?:public-query|read-network-policy)\.ts$/.test(imported);
   if (!/^eval\/restaurant\/agent-loop\/diagnostic-evaluator[^/]*\.ts$/.test(importer) || !productionJudgment) return undefined;

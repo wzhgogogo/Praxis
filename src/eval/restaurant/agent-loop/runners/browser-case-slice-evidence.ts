@@ -1,3 +1,4 @@
+import { captureRawPriceRegions } from "../diagnostic-evaluator-prices.js";
 import { createHash } from "node:crypto";
 
 import type { BrowserReadActionTarget } from "../../../../infrastructure/browser/browser-action-decision.js";
@@ -359,6 +360,7 @@ export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknow
     pageId: snapshot.pageId, htmlSha256: createHash("sha256").update(snapshot.html).digest("hex"),
     htmlLength: snapshot.html.length, observedStateTags: observedStateTags(snapshot.html),
     queryRegions,
+    priceRegions: captureRawPriceRegions(snapshot.html, snapshot.text),
     responses: passiveResponses(snapshot),
     ...(snapshot.networkDiagnostics?.length ? { networkDiagnostics: snapshot.networkDiagnostics.map(item => ({
       code: item.code, origin: item.origin, pathname: item.pathname,

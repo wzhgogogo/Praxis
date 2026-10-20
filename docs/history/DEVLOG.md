@@ -4048,3 +4048,9 @@ current executable / 完成十次真实只读发现探测，不代表完整用�
 ## DEV-2026-10-20-P22-NAME-RESOLUTION-FROZEN
 
 - 样本/离线接线冻结1624aa3，SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87；30TL/2TC/10对照，TC缺口保留。五门禁type/arch/build PASS、默认967/967、本地Chromium121/121（283348ms），5项指标/泄漏/禁止日期控制通过，66份原输入及配置SHA不变。真实模型/网站/预检均0，方法B未启用；推送后停下等样本批准，第4项仍须批准与网络就绪。见基准report.md。
+
+## DEV-2026-10-19-P2-3-PRICE-CONDITIONS
+
+- Current baseline on isolated `codex/feat-p2-3-conditions`, exposed development evidence. Source Packs retain quoted dinner/lunch ranges and course values, tax/meal/add-on scope and source URL from already opened pages. Guide menu facts survive a separate UNKNOWN availability page; no extra production reads.
+- User-approved `condition-policy.json` stores around-price ±20%. State@17/context@12 add prices and persisted code-derived condition states. HARD price evidence is checked before presentation; SOFT/UNSPECIFIED remain disclosed without blocking. Listed menus never assert plan inventory. No legacy state compatibility path; old development tasks use the existing explicit reset protocol.
+- Evaluator@30/rubric@26 independently parses retained raw price regions and separately reads the approved data. False displayed MET is S0 only with contradictory independent evidence; missing independent support is S1. Original22 inputs, Gold, ADRs and budgets unchanged. [Report](../../.eval-artifacts/p2-3-conditions-20261019/report.md).

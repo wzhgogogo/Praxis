@@ -1757,7 +1757,10 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
   const view = () => ({
     mode: "FIXTURE", case: { caseId: "case", title: "Compare restaurants", status: "ACTIVE", phase: "PRESENT_RESULTS", taskVersion: refreshed ? 2 : 1 },
     conversation: { id: "conversation", messages: [] }, activities: [],
-    restaurant: { intentDraft: { target: { goal: "AVAILABILITY" } }, missingRequiredFields: [], candidates: [{ restaurant: { id: "a", outletName: "Cafe A", address: "Tokyo" } }, { restaurant: { id: "b", outletName: "Discovery only", address: "Tokyo" } }], presentedCandidateIds: ["a"], availability: { a: [{ dateTime: "2026-09-18T19:00:00+09:00", source: "TABLECHECK", displayExpiresAt: new Date(Date.now() + (refreshed ? 600000 : -600000)).toISOString() }] }, availabilityChecks: { a: { status: "AVAILABLE", checkedAt: new Date(Date.now() - 600000).toISOString(), displayExpiresAt: new Date(Date.now() + (refreshed ? 600000 : -600000)).toISOString() } }, readEvidence: [old, current], currentFactEvidence: refreshed ? [current, discoveryOnly] : [old, discoveryOnly] },
+    restaurant: { intentDraft: { target: { goal: "AVAILABILITY" } }, missingRequiredFields: [], candidates: [{ restaurant: { id: "a", outletName: "Cafe A", address: "Tokyo" } }, { restaurant: { id: "b", outletName: "Discovery only", address: "Tokyo" } }], presentedCandidateIds: ["a"], availability: { a: [{ dateTime: "2026-09-18T19:00:00+09:00", source: "TABLECHECK", displayExpiresAt: new Date(Date.now() + (refreshed ? 600000 : -600000)).toISOString() }] }, availabilityChecks: { a: { status: "AVAILABLE", checkedAt: new Date(Date.now() - 600000).toISOString(), displayExpiresAt: new Date(Date.now() + (refreshed ? 600000 : -600000)).toISOString() } }, readEvidence: [old, current], currentFactEvidence: refreshed ? [current, discoveryOnly] : [old, discoveryOnly], conditionStates: { a: [
+      { text: "Around ¥10,000 per person", status: refreshed ? "MET" : "NOT_MET", explanation: "Recorded course price; tax retained without conversion.", sources: [{ sourceUrl: current.sourceUrl, quote: refreshed ? "Dinner course ¥8,000" : "Dinner course ¥7,500" }] },
+      { text: "Private room", status: "NOT_CHECKED", explanation: "No source evidence.", sources: [] },
+    ] } },
   });
   try {
     await page.route("**/*", async route => {
@@ -1772,11 +1775,14 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
     await page.getByText("No-show: old rule", { exact: false }).waitFor();
     assert.match(await page.locator("#artifact").innerText(), /Availability expired/);
     assert.doesNotMatch(await page.locator("#artifact").innerText(), /Evidence-grounded result/);
+    assert.match(await page.locator("#artifact").innerText(), /Around ¥10,000 per person — not met/);
+    assert.match(await page.locator("#artifact").innerText(), /Private room — not checked/);
     await page.getByRole("button", { name: "Refresh availability" }).click();
     await page.getByText("Cancellation: current rule", { exact: false }).waitFor();
     assert.equal(await page.locator(".candidate").count(), 1, "discovery-only Google facts must not appear as an investigated result");
     const text = await page.locator(".candidate").innerText();
     assert.match(text, /8,000/);
+    assert.match(text, /Around ¥10,000 per person — met/);
     assert.doesNotMatch(text, /7,500|No-show: old rule/);
     assert.equal(await page.getByRole("link", { name: "Terms source" }).getAttribute("href"), current.sourceUrl);
     assert.match(text, /Evidence-grounded result/);

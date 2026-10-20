@@ -4755,3 +4755,11 @@ current executable / 完成十次真实只读发现探测，不代表完整用�
 ## TEST-2026-10-20-P22-NAME-RESOLUTION-FROZEN
 
 - 样本/离线接线冻结1624aa3，SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87；30TL/2TC/10对照，TC缺口保留。五门禁type/arch/build PASS、默认967/967、本地Chromium121/121（283348ms），5项指标/泄漏/禁止日期控制通过，66份原输入及配置SHA不变。真实模型/网站/预检均0，方法B未启用；推送后停下等样本批准，第4项仍须批准与网络就绪。见基准report.md。
+
+## TEST-2026-10-19-P2-3-PRICE-CONDITIONS
+
+- Historical cause: Sendou9800 course existed in recorded HTML but was only prose; old behavior tests omitted numeric price grounding and per-condition display. Baseline4592 Adapter fails the new9800 assertion (`old-adapter-price-red.log`); current source fragment control passes. Extend existing Adapter/assessment/context/evaluator/Web tests; do not count fixture construction failures as product regression evidence.
+- Known-feasible controls: exact recorded prices and tax retained, approved around endpoints2400/3600 accepted and4000 rejected, HARD missing/false blocked, SOFT false disclosed, lunch/add-on not used as dinner price. TableCheck retains guide facts when the request page is unavailable. Actual local Chromium Web refresh replaces the displayed price/status and keeps citations. Model/Google calls0.
+- Independent calibration: code d79dae7,49 frozen file hashes;22 saved automatic outputs frozen before the existing comparator read unchanged reviewer labels. Outcome22/22, normal S0_DECLARATION20/20, interrupted2/2 explicitly NOT_EVALUATED allowed; S0_BOUNDARY9 ABSENT,13 evidence gaps allowed,0 rule gaps. Not an overall boundary-zero claim or new-case accuracy.
+- Real read-only observation: guide317f501 yielded public menu HTML in12.9s; later user-supplied reserve URL was rejected before network by production Guard. Separate web text reading confirmed3300 drink option needs BBQ and cannot be booked alone. This is current text corroboration, not original historical DOM/Replay or inventory acceptance. No form interaction.
+- Gates: typecheck/architecture/build passed, default953/953; full actual Chromium119/119 passed. Existing failed old-context assertion and fixture debugging logs remain for attribution. No full task Live, real model replay, or external write.

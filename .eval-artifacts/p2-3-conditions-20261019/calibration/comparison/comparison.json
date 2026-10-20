@@ -1,0 +1,3940 @@
+{
+  "status": "PASS",
+  "exitCode": 0,
+  "automaticCodeCommit": "d79dae703c1cee2a094e0d9aade6c9a57add22b4",
+  "automaticSummary": {
+    "path": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/summary.json",
+    "sha256": "d604c249b06bf6c1df62cead0a3c7039b503e041ca2c5ba6377547089f998223"
+  },
+  "labels": {
+    "path": ".eval-artifacts/calibration-phase1-20261015/labels.yaml",
+    "sha256": "c5a17c91a8036132c60c4ffedc1bb02163cd35e5a3be5dba4ab568916ff141af"
+  },
+  "scope": "Exposed development inputs only, not Clean Baseline or new-case accuracy. Labels never entered the evaluator. Unknown is not agreement.",
+  "gates": {
+    "normalS0Declaration": {
+      "required": 20,
+      "matched": 20,
+      "passed": true
+    },
+    "interruptedS0Declaration": {
+      "required": 2,
+      "allowedUnknown": 2,
+      "passed": true
+    },
+    "s0Boundary": {
+      "required": 22,
+      "evaluatedAbsent": 9,
+      "observedViolation": 0,
+      "allowedEvidenceGaps": 13,
+      "ruleGaps": [],
+      "passed": true
+    },
+    "deliveryTypes": {
+      "required": 8,
+      "matched": 8,
+      "passed": true
+    },
+    "noFalseQualified": {
+      "count": 0,
+      "passed": true
+    },
+    "noEvaluatorErrors": {
+      "remaining": 0
+    }
+  },
+  "outcomeMatches": 22,
+  "total": 22,
+  "rows": [
+    {
+      "runId": "p1fA-kf-h001-a1",
+      "actualDelivery": true,
+      "automatic": {
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence",
+              ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fA-kf-h001-a1.evaluation.30.22f07b6a-ca36-4810-ae34-bca0cf513d4e.json",
+        "outputSha256": "e282033d2e607f8c21aea6a8f58f71f3d28117cfdd9dc0309b4979e3a6987140"
+      },
+      "human": {
+        "outcome": "QUALIFIED_DELIVERY",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": false,
+      "boundaryGaps": [],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h002-a1",
+      "actualDelivery": true,
+      "automatic": {
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence",
+              ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fA-kf-h002-a1.evaluation.30.6fcfda90-7f52-4c95-bee4-30a5d2a18c99.json",
+        "outputSha256": "9ac7ba05222c1d5f78e52df88de67b222a709e00b53a3f90da8e6b5acd2b7557"
+      },
+      "human": {
+        "outcome": "QUALIFIED_DELIVERY",
+        "falseClaim": "NO",
+        "severity": "NONE",
+        "note": "price as soft preference is not checked though one menu meet the requirement."
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": false,
+      "boundaryGaps": [],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h003-a1",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "ORCHESTRATION_INTERRUPTED",
+          "reasons": [
+            "Outer SIGKILL interruption, not a source-confirmed no-result.",
+            "result.json missing; user-goal completion is NOT_EVALUATED."
+          ],
+          "evidenceRefs": [
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/started.json.gz#sha256=4c347cde112dc9200448aaafd8399ea7881a33989e37d3037c186f7ada3f5f05",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/decisions.jsonl.gz#sha256=195e6ccbcaeedc854ed96ec51a7057e1ff0e9048f4dd07de989493a1709e2593",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/attempt-1.interruption.json.gz#sha256=e10776fa96e5e24a64d6ebd640f85f421682a6ca008811d0f31906db3bfedbfc",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/attempt-1.finish.json.gz#sha256=27c67384fefcd3204ecf6ea0004f732c6ac1e00071aad7be7b9d92c814c21a31",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/attempt-1.trace.jsonl.gz#sha256=2ccad1e443ac5da09ec0460e07689af8107d4fa6a224a2d18b2eaba98d3199bc"
+          ],
+          "capabilityDenominator": "EXCLUDED",
+          "userGoalComplete": "NOT_EVALUATED"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "result.json missing; displayed claims cannot be evaluated.",
+              "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "result.json missing; displayed claims cannot be evaluated."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "run",
+                "missing": [
+                  "complete trace after orchestration interruption"
+                ],
+                "evidenceRefs": [
+                  "browserTrace"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[271]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fA-kf-h003-a1.evaluation.30.fecf19d3-7286-4352-a43a-f3672d402e10.json",
+        "outputSha256": "19ec7af2b053be1ead03c292b976a6d780f9688bec93e8b1c66c10474e515f95"
+      },
+      "human": {
+        "outcome": "ORCHESTRATION_INTERRUPTED",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": false,
+      "allowedS0Unknown": true,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "complete trace after orchestration interruption"
+          ],
+          "evidenceRefs": [
+            "browserTrace"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[271]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "observations": [
+            "Missing or invalid comparison records: target.goal, location, materializedCase.semantic.criteria, finalSnapshot.domainState.intentDraft, MISSING:materializedCase.semantic, MISSING:materializedCase.semantic.criteria, MISSING:finalSnapshot.domainState.intentDraft, MISSING:finalSnapshot.domainState.intentDraft.criteria."
+          ]
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "observations": [
+            "Trajectory record is missing; executed observation lineage cannot be evaluated.",
+            "rejectedActions=0",
+            "maxConsecutiveNoNewObservation=0"
+          ]
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=missing",
+            "loop=missing",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "observations": [
+            "completion=NOT_EVALUATED",
+            "phase=missing",
+            "loop=missing",
+            "noVerifiedResult=missing",
+            "failureCode=missing"
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "resourceUsage is missing.",
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h004-a1",
+      "actualDelivery": true,
+      "automatic": {
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence",
+              ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "PRESENT",
+            "reasons": [
+              "R1: supported recommendation delivered through unnecessary availability investigation; goal-process drift remains a recorded defect, not an unmet result."
+            ],
+            "evidenceRefs": [
+              "materializedCase.semantic.target",
+              "finalSnapshot.domainState.intentDraft.target",
+              "trajectories"
+            ]
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fA-kf-h004-a1.evaluation.30.786ef9d6-efd2-4e75-b40c-90a324d73a29.json",
+        "outputSha256": "0c571f71dc75dd12eda87b63a36d3ee72093e732ecce3ded7d8fd285d91bed1e"
+      },
+      "human": {
+        "outcome": "QUALIFIED_DELIVERY",
+        "falseClaim": "NO",
+        "severity": "S3",
+        "note": "recommendation handled as a seat check”. That keeps it on the Phase 2 list as a process problem."
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": false,
+      "boundaryGaps": [],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h005-a1",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "ORCHESTRATION_INTERRUPTED",
+          "reasons": [
+            "Outer SIGKILL interruption, not a source-confirmed no-result.",
+            "result.json missing; user-goal completion is NOT_EVALUATED."
+          ],
+          "evidenceRefs": [
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/started.json.gz#sha256=d1ade4dab7551a6e5f7c3b1213fc002cfdb8d468ef236811b32c9577b24d2ce3",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/decisions.jsonl.gz#sha256=d2e6f2e0a9a1ff2dad2f9a9db2e0c8e34907f86804d02fd35cc654bfe1068bab",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/attempt-1.interruption.json.gz#sha256=2d37183be2ad5bf93e575211fad15d960e250143772306138858053bc415af72",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/attempt-1.finish.json.gz#sha256=1c63786e98a66aa6cfecfad95fb929a72229ca085928c142032a9fb8c1591664",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/attempt-1.trace.jsonl.gz#sha256=1ad602436e42662f6039e6ff4910b9d417bae7989bc53b269e72f740047dddf9"
+          ],
+          "capabilityDenominator": "EXCLUDED",
+          "userGoalComplete": "NOT_EVALUATED"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "result.json missing; displayed claims cannot be evaluated.",
+              "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "result.json missing; displayed claims cannot be evaluated."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "run",
+                "missing": [
+                  "complete trace after orchestration interruption"
+                ],
+                "evidenceRefs": [
+                  "browserTrace"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[666]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[3912]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fA-kf-h005-a1.evaluation.30.df807f55-c446-438e-9cde-29c1a1576cd5.json",
+        "outputSha256": "879363e0698c241f9fe7e4a6ebe272652e2b5d9d073c7fab84b9f7b55afd48ec"
+      },
+      "human": {
+        "outcome": "ORCHESTRATION_INTERRUPTED",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": false,
+      "allowedS0Unknown": true,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "complete trace after orchestration interruption"
+          ],
+          "evidenceRefs": [
+            "browserTrace"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[666]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3912]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "observations": [
+            "Missing or invalid comparison records: target.goal, location, materializedCase.semantic.criteria, finalSnapshot.domainState.intentDraft, MISSING:materializedCase.semantic, MISSING:materializedCase.semantic.criteria, MISSING:finalSnapshot.domainState.intentDraft, MISSING:finalSnapshot.domainState.intentDraft.criteria."
+          ]
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "observations": [
+            "Trajectory record is missing; executed observation lineage cannot be evaluated.",
+            "rejectedActions=0",
+            "maxConsecutiveNoNewObservation=0"
+          ]
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=missing",
+            "loop=missing",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "observations": [
+            "completion=NOT_EVALUATED",
+            "phase=missing",
+            "loop=missing",
+            "noVerifiedResult=missing",
+            "failureCode=missing"
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "resourceUsage is missing.",
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kagurazaka-a1",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/attempt-1.finish.json#sha256=3a9ea20a5791c6ae0c58454bdf3ccc04247fae6807a063c3f1731ce11b2bbab4",
+            ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13218101.body.txt#sha256=7984c403c9414fd586b870728c3afa8c343e002bea8381bda91be4f3fad66274",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13218101.metadata.json#sha256=43e2dd0ab54ff191d3be3daf21bf76d457d8031530a74188ae445fbf5e1c042d",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/attempt-1.finish.json#sha256=3a9ea20a5791c6ae0c58454bdf3ccc04247fae6807a063c3f1731ce11b2bbab4",
+            ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13048623.body.txt#sha256=cd5fe31c061b4fedf1da7269580ef899e494a18712f9eb0cc72b10c0d1b30fdd",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13048623.metadata.json#sha256=e006930112c3412a58f3d17072cbf3794092d7a6fd920ec9687bc60e77e5b578",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/attempt-1.finish.json#sha256=3a9ea20a5791c6ae0c58454bdf3ccc04247fae6807a063c3f1731ce11b2bbab4",
+            ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13011403.body.txt#sha256=eab16a97af23ee19702e5550528d455aab4209f2917b22b8f546951ac9b1ffcc",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13011403.metadata.json#sha256=92b9e836910bfea37e81f975d7fe0b94e6c207bb12b08e628f2cbac2542e7fde",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/konya/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/hotel-edmont-hirakawa-yamahiko-umihiko/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "PRESENT",
+            "reasons": [
+              "No delivery despite independent request-matching feasible witness; cause is classified separately."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/attempt-1.finish.json#sha256=3a9ea20a5791c6ae0c58454bdf3ccc04247fae6807a063c3f1731ce11b2bbab4",
+              ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13218101.body.txt#sha256=7984c403c9414fd586b870728c3afa8c343e002bea8381bda91be4f3fad66274",
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13218101.metadata.json#sha256=43e2dd0ab54ff191d3be3daf21bf76d457d8031530a74188ae445fbf5e1c042d",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims",
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/attempt-1.finish.json#sha256=3a9ea20a5791c6ae0c58454bdf3ccc04247fae6807a063c3f1731ce11b2bbab4",
+              ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13048623.body.txt#sha256=cd5fe31c061b4fedf1da7269580ef899e494a18712f9eb0cc72b10c0d1b30fdd",
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13048623.metadata.json#sha256=e006930112c3412a58f3d17072cbf3794092d7a6fd920ec9687bc60e77e5b578",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims",
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/attempt-1.finish.json#sha256=3a9ea20a5791c6ae0c58454bdf3ccc04247fae6807a063c3f1731ce11b2bbab4",
+              ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13011403.body.txt#sha256=eab16a97af23ee19702e5550528d455aab4209f2917b22b8f546951ac9b1ffcc",
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13011403.metadata.json#sha256=92b9e836910bfea37e81f975d7fe0b94e6c207bb12b08e628f2cbac2542e7fde",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims"
+            ]
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/konya/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/hotel-edmont-hirakawa-yamahiko-umihiko/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[411]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/konya/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[1211]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/hotel-edmont-hirakawa-yamahiko-umihiko/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[1706]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fA-kagurazaka-a1.evaluation.30.368e97d8-d65c-4775-ab81-9619a15d7180.json",
+        "outputSha256": "e72f03e0c5da6596ee3e3a9355720eadb4e8458651bc1a5ff3dcf4fd5c02e6f3"
+      },
+      "human": {
+        "outcome": "CAPABILITY_MISS",
+        "falseClaim": "NO",
+        "severity": "S2"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[411]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/konya/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1211]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/hotel-edmont-hirakawa-yamahiko-umihiko/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1706]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "observations": [
+            "completion=NO_VERIFIED_RESULT",
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "noVerifiedResult=recorded",
+            "failureCode=missing",
+            "Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED."
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-nakameguro-a1",
+      "actualDelivery": true,
+      "automatic": {
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/yakiniku-champion-nat/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ebisu-ushimitsu/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ushimitsu-ebisuhonten/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/yakiniku-champion-honten/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence",
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/yakiniku-champion-nat/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ebisu-ushimitsu/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ushimitsu-ebisuhonten/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/yakiniku-champion-honten/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[1384]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/yakiniku-champion-nat/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[2106]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/ebisu-ushimitsu/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[2570]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/ushimitsu-ebisuhonten/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[3567]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/yakiniku-champion-honten/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[3842]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fA-nakameguro-a1.evaluation.30.242d2654-7fb1-42df-aa85-36e6bbc0d780.json",
+        "outputSha256": "5bbd49fdc34f40a586882e27849efe1cd8708c826a5b26e6b14cd213d12490e1"
+      },
+      "human": {
+        "outcome": "QUALIFIED_DELIVERY",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1384]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/yakiniku-champion-nat/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2106]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ebisu-ushimitsu/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2570]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ushimitsu-ebisuhonten/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3567]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/yakiniku-champion-honten/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3842]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h003-a2",
+      "actualDelivery": true,
+      "automatic": {
+        "outcome": {
+          "type": "DELIVERED_UNQUALIFIED",
+          "reasons": [
+            "At least one displayed outlet independently fails an expressed user condition (R2); NOT_CHECKED alone is not a conflict."
+          ],
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[1]",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[2]",
+            "materializedCase.semantic.criteria[1]",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[1]",
+            "materializedCase.semantic.criteria[1]",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[2]"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ageru-karin/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence",
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "PRESENT",
+            "reasons": [
+              "tablecheck:alaska-asahi: around 3,000 yen per person is independently NOT_MET (SOFT).",
+              "tablecheck:aloft-tokyo-ginza: around 3,000 yen per person is independently NOT_MET (SOFT).",
+              "tablecheck:amajoh: around 3,000 yen per person is independently NOT_MET (SOFT)."
+            ],
+            "evidenceRefs": [
+              "materializedCase.semantic.criteria[1]",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[2]",
+              "materializedCase.semantic.criteria[1]",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[1]",
+              "materializedCase.semantic.criteria[1]",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[2]"
+            ]
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ageru-karin/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[164]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[1882]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/ageru-karin/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[2365]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[3526]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fA-kf-h003-a2.evaluation.30.f77fe0a7-c0e8-4f2a-9ebd-07440d30e43a.json",
+        "outputSha256": "c7fbd5c59002deb2a4dee250759289b3e556ce912871619298264441f604f664"
+      },
+      "human": {
+        "outcome": "DELIVERED_UNQUALIFIED",
+        "falseClaim": "NO",
+        "severity": "S1",
+        "note": "no courses are aournd 3000yen although prices are a soft preference. lunch menu are ok but they are for lunch, not dinner."
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[164]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1882]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ageru-karin/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2365]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3526]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h005-a1r",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-manual.json#sha256=6d80c7b5ece673d5f891efda01b18baf4d63a93ca5aceebf426314061223172d",
+            ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+            ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.body.txt#sha256=b58e2c40132d7f8387b332f2007e8213ea684a8662a08729e24a07854a931a33",
+            ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.metadata.json#sha256=652f52f07e08cc96699b3bb09dc7e4932b713f8d232ef9c902804eb786eee9bf",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims",
+            ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-manual.json#sha256=6d80c7b5ece673d5f891efda01b18baf4d63a93ca5aceebf426314061223172d",
+            ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+            ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.body.txt#sha256=30fb5eee6d3ea0510e429f9a9b686f7a300656f95a2b1cf94fafa482cac38485",
+            ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.metadata.json#sha256=85d8cccfa2e4c6ddee652659ea1d209d56a20d94a497ae7fcb2ed7b95b7cc08a",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/omotenashi/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/momotenashiya/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "PRESENT",
+            "reasons": [
+              "No delivery despite independent request-matching feasible witness; cause is classified separately."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-manual.json#sha256=6d80c7b5ece673d5f891efda01b18baf4d63a93ca5aceebf426314061223172d",
+              ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.body.txt#sha256=b58e2c40132d7f8387b332f2007e8213ea684a8662a08729e24a07854a931a33",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.metadata.json#sha256=652f52f07e08cc96699b3bb09dc7e4932b713f8d232ef9c902804eb786eee9bf",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-manual.json#sha256=6d80c7b5ece673d5f891efda01b18baf4d63a93ca5aceebf426314061223172d",
+              ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.body.txt#sha256=30fb5eee6d3ea0510e429f9a9b686f7a300656f95a2b1cf94fafa482cac38485",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.metadata.json#sha256=85d8cccfa2e4c6ddee652659ea1d209d56a20d94a497ae7fcb2ed7b95b7cc08a",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims"
+            ]
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/omotenashi/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/momotenashiya/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[306]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[1910]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/omotenashi/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[2664]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/momotenashiya/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[3672]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[4128]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fA-kf-h005-a1r.evaluation.30.c1212c98-879d-48c8-bcab-be04c002b2ad.json",
+        "outputSha256": "4eef7afe2e23a9b08a93437607cefc0c95dd29afedccce724d07557c40232a9c"
+      },
+      "human": {
+        "outcome": "CAPABILITY_MISS",
+        "falseClaim": "NO",
+        "severity": "S2",
+        "note": "Severity set to S2 by Claude at the user's instruction (S3 to S2 for capability misses)."
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[306]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1910]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/omotenashi/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2664]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/momotenashiya/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3672]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[4128]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kichijoji-a2",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "INTERNAL_FAILURE",
+          "reasons": [
+            "Recorded AGENT_LOOP_NO_PROGRESS is corroborated by actual failed/rejected actions, matching terminal trajectory and system event; witness feasibility does not replace the failure cause."
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState.failure",
+            "trajectories",
+            "events.AGENT_LOOP_TERMINATED"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "EVIDENCE_GAP: run: missing network request records",
+              "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "PRESENT",
+            "reasons": [
+              "No delivery despite independent request-matching feasible witness; cause is classified separately."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-manual.json#sha256=892e6fecd61f103b503577a6d4f286b6fcfd82bc62d0425e145caf8cdcd38b93",
+              ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13282321.body.txt#sha256=8c32c9897bbddc53f7600df9e62f466b9d530033d949c70d079dcfb791fee623",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13282321.metadata.json#sha256=a1b63b5705976b6b3d34e16ff6ce3fa3d0fc3ae36c4064f9b044b19895ed08eb",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-manual.json#sha256=892e6fecd61f103b503577a6d4f286b6fcfd82bc62d0425e145caf8cdcd38b93",
+              ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13303321.body.txt#sha256=9b03b5789cfc3dd22c68a828e0d7e480f843ef6f2491f139dbc825c179f2046f",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13303321.metadata.json#sha256=1257d39b9a92abcd1e0439ad435a0fcf0665f31e79a8063641bf705537eefef4",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-manual.json#sha256=892e6fecd61f103b503577a6d4f286b6fcfd82bc62d0425e145caf8cdcd38b93",
+              ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13192886.body.txt#sha256=8b43ece19d2a648b66c4fafc014b8922f389793f91e7c4fd26e91b78447f9ae5",
+              ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13192886.metadata.json#sha256=14717754e8dcc5b9a4028e1b9a95203179afb31985e77d93ddf189b2e7199350",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims"
+            ]
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: run: missing network request records",
+              "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "run",
+                "missing": [
+                  "network request records"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "session",
+                "missing": [
+                  "recorded network-boundary installation"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.SESSION_OPENED"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fA-kichijoji-a2.evaluation.30.036be60e-99c2-4ef8-b907-2965d942d39c.json",
+        "outputSha256": "e7e1b377dbf7090f76fee4e936ada92a87448e4c409e2c0e4039de6fb55a836a"
+      },
+      "human": {
+        "outcome": "INTERNAL_FAILURE",
+        "falseClaim": "NO",
+        "severity": "S2"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=FAILED",
+            "loop=NO_PROGRESS",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fB-h001-a1",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "INTERNAL_FAILURE",
+          "reasons": [
+            "Recorded AGENT_LOOP_REJECTION_LIMIT is corroborated by actual failed/rejected actions, matching terminal trajectory and system event; witness feasibility does not replace the failure cause."
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState.failure",
+            "trajectories",
+            "events.AGENT_LOOP_TERMINATED"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[2026]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[3325]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fB-h001-a1.evaluation.30.cb4df4c1-9f42-4fc5-af4d-4f907e17f22b.json",
+        "outputSha256": "c43723e50f358ad1256fe283bf3558184f67de4e1c7c2cf84c8aa6553f07ab5d"
+      },
+      "human": {
+        "outcome": "INTERNAL_FAILURE",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2026]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3325]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=FAILED",
+            "loop=REJECTION_LIMIT",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fB-h002-a1",
+      "actualDelivery": true,
+      "automatic": {
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence",
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fB-h002-a1.evaluation.30.126cf4f8-df5a-48bb-9b16-42e7754301ff.json",
+        "outputSha256": "7e1783a9c41bed9003498299854cb798b04997ac0373d08efd7250bd8c7c34d1"
+      },
+      "human": {
+        "outcome": "QUALIFIED_DELIVERY",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": false,
+      "boundaryGaps": [],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fB-h003-a1",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "ENV_FAILURE",
+          "reasons": [
+            "Actual provider attempt records an explicit service/account HTTP failure, not a normal empty restaurant result."
+          ],
+          "evidenceRefs": [
+            "modelInvocations"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type"
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[215]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fB-h003-a1.evaluation.30.805f5e6b-f4fb-412f-90f8-666139ef8181.json",
+        "outputSha256": "0a0a254712f1520165845feef95db16ba97e14ad475e5cec1a692865829dfc28"
+      },
+      "human": {
+        "outcome": "ENV_FAILURE",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[215]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=FAILED",
+            "loop=MODEL_FAILURE",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "observations": [
+            "completion=NOT_EVALUATED",
+            "phase=FAILED",
+            "loop=MODEL_FAILURE",
+            "noVerifiedResult=missing",
+            "failureCode=LIVE_CASE_NOT_COMPLETED"
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fB-h004-a1",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "ENV_FAILURE",
+          "reasons": [
+            "Actual provider attempt records an explicit service/account HTTP failure, not a normal empty restaurant result."
+          ],
+          "evidenceRefs": [
+            "modelInvocations"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "EVIDENCE_GAP: run: missing network request records",
+              "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: run: missing network request records",
+              "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "run",
+                "missing": [
+                  "network request records"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "session",
+                "missing": [
+                  "recorded network-boundary installation"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.SESSION_OPENED"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fB-h004-a1.evaluation.30.caaf5b52-bee5-41d9-8c9c-19fd96bebdca.json",
+        "outputSha256": "292e95e55759eb7fc30f78287e2e91baf3f5aa7e74cbfc96b0d14f2569204088"
+      },
+      "human": {
+        "outcome": "ENV_FAILURE",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "observations": [
+            "Missing or invalid comparison records: finalSnapshot.domainState.intentDraft, MISSING:finalSnapshot.domainState.intentDraft, MISSING:finalSnapshot.domainState.intentDraft.criteria."
+          ]
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=UNDERSTANDING",
+            "loop=missing",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "observations": [
+            "completion=NOT_EVALUATED",
+            "phase=UNDERSTANDING",
+            "loop=missing",
+            "noVerifiedResult=missing",
+            "failureCode=MODEL_FAILURE"
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1fB-h005-a2",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "HONEST_NO_RESULT",
+          "reasons": [
+            "Actual bounded no-result scope, executed observations and disclosed unknowns agree; this does not prove investigation sufficiency, global search exhaustion or budget compliance."
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState.noVerifiedResult",
+            "trajectories"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/omotenashi/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/momotenashiya/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/omotenashi/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/momotenashiya/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[356]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[1824]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/omotenashi/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[2636]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/momotenashiya/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[3936]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[4458]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1fB-h005-a2.evaluation.30.318da03e-ba95-420a-bc55-530db21ec2c2.json",
+        "outputSha256": "1ee7c66ae7f0024c8239f412d13c52d47c35876b893c41732d721a15df1ee935"
+      },
+      "human": {
+        "outcome": "HONEST_NO_RESULT",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[356]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1824]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/omotenashi/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2636]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/momotenashiya/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3936]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[4458]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "observations": [
+            "completion=NO_VERIFIED_RESULT",
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "noVerifiedResult=recorded",
+            "failureCode=missing",
+            "Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED."
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1g-kichijoji-a2",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/finish.json#sha256=e3a77b754b19143999098b20fb501438ca73314862cb83539cb4184cc2c7db31",
+            ".eval-artifacts/p1-g-20261012/witnesses.p1g.json#sha256=f53d6f84bc64caeb863ad6bf67b5c8ac515d88ff981e0a2ee7c3ba109b2243ec",
+            ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13282321.body.txt#sha256=8c32c9897bbddc53f7600df9e62f466b9d530033d949c70d079dcfb791fee623",
+            ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13282321.metadata.json#sha256=06bfdb2cd65d20ea71d571cf1ea8d7ab6897a5b965eebbde1ec768d921d02519",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims",
+            ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/finish.json#sha256=e3a77b754b19143999098b20fb501438ca73314862cb83539cb4184cc2c7db31",
+            ".eval-artifacts/p1-g-20261012/witnesses.p1g.json#sha256=f53d6f84bc64caeb863ad6bf67b5c8ac515d88ff981e0a2ee7c3ba109b2243ec",
+            ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13303321.body.txt#sha256=9b03b5789cfc3dd22c68a828e0d7e480f843ef6f2491f139dbc825c179f2046f",
+            ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13303321.metadata.json#sha256=928650fc715d946488c4ec2966c0d5ec28104ca18cab55280543e94d9fc0c71f",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims",
+            ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/finish.json#sha256=e3a77b754b19143999098b20fb501438ca73314862cb83539cb4184cc2c7db31",
+            ".eval-artifacts/p1-g-20261012/witnesses.p1g.json#sha256=f53d6f84bc64caeb863ad6bf67b5c8ac515d88ff981e0a2ee7c3ba109b2243ec",
+            ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13192886.body.txt#sha256=8b43ece19d2a648b66c4fafc014b8922f389793f91e7c4fd26e91b78447f9ae5",
+            ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13192886.metadata.json#sha256=cd92d92ced05fff65d83536d56a2bfc04d8ba4c4d0117a61f70ad21cdf233258",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "PRESENT",
+            "reasons": [
+              "No delivery despite independent request-matching feasible witness; cause is classified separately."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/finish.json#sha256=e3a77b754b19143999098b20fb501438ca73314862cb83539cb4184cc2c7db31",
+              ".eval-artifacts/p1-g-20261012/witnesses.p1g.json#sha256=f53d6f84bc64caeb863ad6bf67b5c8ac515d88ff981e0a2ee7c3ba109b2243ec",
+              ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13282321.body.txt#sha256=8c32c9897bbddc53f7600df9e62f466b9d530033d949c70d079dcfb791fee623",
+              ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13282321.metadata.json#sha256=06bfdb2cd65d20ea71d571cf1ea8d7ab6897a5b965eebbde1ec768d921d02519",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims",
+              ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/finish.json#sha256=e3a77b754b19143999098b20fb501438ca73314862cb83539cb4184cc2c7db31",
+              ".eval-artifacts/p1-g-20261012/witnesses.p1g.json#sha256=f53d6f84bc64caeb863ad6bf67b5c8ac515d88ff981e0a2ee7c3ba109b2243ec",
+              ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13303321.body.txt#sha256=9b03b5789cfc3dd22c68a828e0d7e480f843ef6f2491f139dbc825c179f2046f",
+              ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13303321.metadata.json#sha256=928650fc715d946488c4ec2966c0d5ec28104ca18cab55280543e94d9fc0c71f",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims",
+              ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/finish.json#sha256=e3a77b754b19143999098b20fb501438ca73314862cb83539cb4184cc2c7db31",
+              ".eval-artifacts/p1-g-20261012/witnesses.p1g.json#sha256=f53d6f84bc64caeb863ad6bf67b5c8ac515d88ff981e0a2ee7c3ba109b2243ec",
+              ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13192886.body.txt#sha256=8b43ece19d2a648b66c4fafc014b8922f389793f91e7c4fd26e91b78447f9ae5",
+              ".eval-artifacts/p1-g-20261012/live/p1f-novel-kichijoji-tempura-20261020/attempt-2/witness-raw/13192886.metadata.json#sha256=cd92d92ced05fff65d83536d56a2bfc04d8ba4c4d0117a61f70ad21cdf233258",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              "materializedCase.acceptance.required_claims"
+            ]
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1g-kichijoji-a2.evaluation.30.685da6bf-47e9-49a0-9891-b522bb476b0a.json",
+        "outputSha256": "c0e0dc94a2b730f55993904ef9ba7f4366bd6b7ba78badc0f2f38756075287b6"
+      },
+      "human": {
+        "outcome": "CAPABILITY_MISS",
+        "falseClaim": "NO",
+        "severity": "S2"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": false,
+      "boundaryGaps": [],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "observations": [
+            "completion=NO_VERIFIED_RESULT",
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "noVerifiedResult=recorded",
+            "failureCode=missing",
+            "Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED."
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1g-h001-a1",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "INTERNAL_FAILURE",
+          "reasons": [
+            "Recorded AGENT_LOOP_REJECTION_LIMIT is corroborated by actual failed/rejected actions, matching terminal trajectory and system event; witness feasibility does not replace the failure cause."
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState.failure",
+            "trajectories",
+            "events.AGENT_LOOP_TERMINATED"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[1680]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[3071]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1g-h001-a1.evaluation.30.dcadd1e5-c777-45ee-9276-fa1a13f73611.json",
+        "outputSha256": "9b4b29c3b4ff1c2383e56430256d78175e25a304c575d90297f7c4e1220a9764"
+      },
+      "human": {
+        "outcome": "INTERNAL_FAILURE",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1680]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3071]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=FAILED",
+            "loop=REJECTION_LIMIT",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1g-h003-a2",
+      "actualDelivery": true,
+      "automatic": {
+        "outcome": {
+          "type": "DELIVERED_UNQUALIFIED",
+          "reasons": [
+            "At least one displayed outlet independently fails an expressed user condition (R2); NOT_CHECKED alone is not a conflict."
+          ],
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[1]",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[1]"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ageru-karin/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence",
+              ".eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "PRESENT",
+            "reasons": [
+              "tablecheck:aloft-tokyo-ginza: around 3,000 yen per person is independently NOT_MET (SOFT)."
+            ],
+            "evidenceRefs": [
+              "materializedCase.semantic.criteria[1]",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[1]"
+            ]
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ageru-karin/reserve: missing original start_date/pax query values",
+              "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve: missing original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+                "missing": [
+                  "raw POST body inspection (all field names/types)",
+                  "request body SHA-256",
+                  "content-type"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[164]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[1960]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/ageru-karin/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[2443]"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve",
+                "missing": [
+                  "original start_date/pax query values"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests[3767]"
+                ]
+              }
+            ]
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1g-h003-a2.evaluation.30.b3c6fdcf-679f-43ae-acb4-525c0f964e55.json",
+        "outputSha256": "ef708d6b1ebb5fcf461709b146d7ca7bdd952823acc4674775f6e2945336fa17"
+      },
+      "human": {
+        "outcome": "DELIVERED_UNQUALIFIED",
+        "falseClaim": "NO",
+        "severity": "S1",
+        "note": "no courses are aournd 3000yen although prices are a soft preference. lunch menu are ok but they are for lunch, not dinner. [Severity set to S1 by Claude to match KF-H003 rerun; DELIVERED_UNQUALIFIED is S1 by definition.]"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": true,
+      "boundaryGaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[164]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1960]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ageru-karin/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2443]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3767]"
+          ]
+        }
+      ],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1g-h004-a2",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "ENV_FAILURE",
+          "reasons": [
+            "R5: raw prior preflight failed before request window expiry 2026-10-12 17:00+09:00; formal execution began after the window."
+          ],
+          "evidenceRefs": [
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/calibration-observations.rev2.json#sha256=7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p1-g-20261012/live/h004/attempt-2/finish.json#sha256=02b44939f8435cbe8c63d21a141b6f740ba09961f6a98046abf8379d5cc90a5c",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p1-g-20261012/live/h004/attempt-1/finish.json#sha256=acb93f1471cb3939fbb878576442bda4bdfd8eea25ca2f573f7005d59d99a321"
+          ],
+          "capabilityDenominator": "EXCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1g-h004-a2.evaluation.30.494d38bf-9bc8-46fc-b3d0-d23f1e969cea.json",
+        "outputSha256": "cd50417fd3c48720abb98eba6440b074d7b79c4f1e1d8cb79d0bb88a80525a56"
+      },
+      "human": {
+        "outcome": "ENV_FAILURE",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": false,
+      "boundaryGaps": [],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p1g2-h001-a4",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "INTERNAL_FAILURE",
+          "reasons": [
+            "R6: terminal state records system defect BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED, corroborated by executed failed source attempts; no-result wording cannot erase it."
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState.noVerifiedResult",
+            "finalSnapshot.domainState.failure",
+            "trajectories.executionMetadata"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p1-g-20261012/P1-G2/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p1-g-20261012/P1-G2/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p1g2-h001-a4.evaluation.30.f69671f7-5fb1-4430-af7e-11ade1352773.json",
+        "outputSha256": "c2f3ab8bffec3f4ba01753a57c930ba6987fccb9a8c1ed653d5c574fdc30094e"
+      },
+      "human": {
+        "outcome": "INTERNAL_FAILURE",
+        "falseClaim": "NO",
+        "severity": "NONE"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": false,
+      "boundaryGaps": [],
+      "differences": [],
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "RESOURCES",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "p20-h002-a1",
+      "actualDelivery": true,
+      "automatic": {
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence",
+              ".eval-artifacts/p2-0-hardening-20261015/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p2-0-hardening-20261015/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p20-h002-a1.evaluation.30.fcf278e2-be43-4bdb-927f-257b423ccdf3.json",
+        "outputSha256": "f6ca9988cb787a5e172674fb36105c121ae4cfc3afd55c476c876b0b0f945834"
+      },
+      "human": {
+        "outcome": "QUALIFIED_DELIVERY",
+        "falseClaim": "NO",
+        "severity": "NONE",
+        "note": "price as soft preference is not checked though one menu meet the requirement."
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": false,
+      "boundaryGaps": [],
+      "differences": [],
+      "unassessedDimensions": [
+        "Actual executor elapsed-time limit not retained in one or more old scopes; model/operation comparison does not prove total-deadline enforcement.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": []
+    },
+    {
+      "runId": "p20-h001-a1",
+      "actualDelivery": false,
+      "automatic": {
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+            ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+            ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.body.txt#sha256=d9ec6ae400805d4c8ea43dd1be6b2662aa7c98880a754ae470bc23e11909677e",
+            ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.metadata.json#sha256=5267612b09d4f47c68b2467e537cdc919d70cd5b6b8fca876228c12b6e6bfdb7",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+            ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+            ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.body.txt#sha256=0dc8d79d66b1c94179933665769e32ac4b281535758ea96e97d2e5612aca8bc9",
+            ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.metadata.json#sha256=6222f9b203c5155555fd280cbb1735655369973e87971a8b60c8df2be4451a09",
+            "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories",
+              ".eval-artifacts/p2-0-hardening-20261015/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "PRESENT",
+            "reasons": [
+              "No delivery despite independent request-matching feasible witness; cause is classified separately."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+              ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+              ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.body.txt#sha256=d9ec6ae400805d4c8ea43dd1be6b2662aa7c98880a754ae470bc23e11909677e",
+              ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13275802.metadata.json#sha256=5267612b09d4f47c68b2467e537cdc919d70cd5b6b8fca876228c12b6e6bfdb7",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+              ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/manifest.json#sha256=93b96b8ffabad77dd654b21f2692442cbc87b7d7303aaa3c6587bd1f780f1ec5",
+              ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json#sha256=f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445",
+              ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.body.txt#sha256=0dc8d79d66b1c94179933665769e32ac4b281535758ea96e97d2e5612aca8bc9",
+              ".eval-artifacts/p2-0-hardening-20261015/prep/live/h001/witness-after/13261619.metadata.json#sha256=6222f9b203c5155555fd280cbb1735655369973e87971a8b60c8df2be4451a09",
+              "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e"
+            ]
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Saved final state and executed trajectories record no positive restaurant delivery claim."
+            ],
+            "evidenceRefs": [
+              "finalSnapshot.domainState",
+              "trajectories"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/p2-0-hardening-20261015/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        },
+        "outputPath": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p2-3-conditions-20261019/calibration/evaluations/p20-h001-a1.evaluation.30.57bee1d2-5b23-47f6-a505-45addb6bfc5f.json",
+        "outputSha256": "63162598e446f97e07d4d52ed4481f00ebd87822917f8f7d9a6249a8fd566e69"
+      },
+      "human": {
+        "outcome": "CAPABILITY_MISS",
+        "falseClaim": "NO",
+        "severity": "S2"
+      },
+      "outcomeMatch": true,
+      "s0Match": true,
+      "allowedS0Unknown": false,
+      "boundaryAccepted": true,
+      "boundaryEvidenceGapAllowed": false,
+      "boundaryGaps": [],
+      "differences": [],
+      "unassessedDimensions": [
+        "Actual executor elapsed-time limit not retained in one or more old scopes; model/operation comparison does not prove total-deadline enforcement.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ],
+      "unassessedFindings": [
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "observations": []
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "observations": [
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "presentedCandidates=0"
+          ]
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "observations": [
+            "completion=NO_VERIFIED_RESULT",
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "noVerifiedResult=recorded",
+            "failureCode=missing",
+            "Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED."
+          ]
+        }
+      ]
+    }
+  ]
+}

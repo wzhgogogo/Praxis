@@ -1157,7 +1157,7 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
   const artifact = {
     status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: "review-refresh", runId: taskId,
     materializedCase: { semantic: { target: { goal: "RECOMMENDATION" }, date: { value: "2026-09-17" }, party_size: 2, time: { start: "12:00", end: "17:00" }, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [{ value: "cafe", polarity: "POSITIVE", strength: "HARD" }] } },
-    finalSnapshot: { ...composition.runtime.snapshot(taskId), domainState: { ...state, phase: "PRESENT_RESULTS", presentedResults: { ...initial.domainState.presentedResults!, presentedAt: time.toISOString() } } }, trajectories: composition.trajectories.steps, loop: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000,  status: "TERMINAL" },
+    finalSnapshot: { ...composition.runtime.snapshot(taskId), domainState: { ...state, phase: "PRESENT_RESULTS", presentedResults: { ...initial.domainState.presentedResults!, presentedAt: time.toISOString(), conditionStates: {} } } }, trajectories: composition.trajectories.steps, loop: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000,  status: "TERMINAL" },
     resourceUsage: { elapsedMs: 0, agentDecisions: composition.trajectories.steps.length, browserModelCalls: 0, googleRequests: composition.google.googleRequestUsage(`${taskId}:investigation:${state.investigationRevision}`) },
   };
   const evaluation = evaluateRestaurantHybridLiveArtifact(artifact, { path: "refresh.result.json", sha256: (await import("node:crypto")).createHash("sha256").update(JSON.stringify(artifact, null, 2)).digest("hex") });

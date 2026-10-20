@@ -1,3 +1,4 @@
+import { independentPriceCondition } from "./diagnostic-evaluator-prices.js";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -84,6 +85,9 @@ export function assessUserConditions(root: RunRecord, table: CriterionEquivalenc
       const base = { text: criterionText, polarity, strength, evidenceRefs: [`materializedCase.semantic.criteria[${index}]`] };
       if (!["POSITIVE", "NEGATIVE"].includes(polarity) || !["HARD", "SOFT", "UNSPECIFIED"].includes(strength) || criterionText === "MISSING_CRITERION_TEXT")
         return { ...base, status: "NOT_CHECKED", basis: ["The original criterion record lacks a valid text, polarity or strength."] };
+      const rawPrice = independentPriceCondition(root, candidateId, criterionText, sourceFacts);
+      if (rawPrice && rawPrice.status !== "NOT_CHECKED") return { ...base, ...rawPrice,
+        status: polarity === "NEGATIVE" ? rawPrice.status === "MET" ? "NOT_MET" : "MET" : rawPrice.status };
       const applicableGold = gold && strength === "SOFT" && polarity === "POSITIVE" && restaurant && frozenRun?.artifactSha256 === artifactSha256
         ? gold.observations.flatMap((row, observationIndex) => row.runIds.includes(frozenRun.runId) && matchesRestaurant(restaurant, row.restaurant)
           && sameCriterion(row.criterion, criterionText, polarity, table) ? [{ row, observationIndex }] : []) : [];
@@ -94,7 +98,7 @@ export function assessUserConditions(root: RunRecord, table: CriterionEquivalenc
           evidenceRefs: [...base.evidenceRefs, ...applicableGold.map(item => `${gold.path}#sha256=${gold.sha256}:observations[${item.observationIndex}]`)] };
       }
       if (/(?:yen|jpy|budget|price|cost|¥|円)/i.test(criterionText)) return { ...base, status: "NOT_CHECKED",
-        basis: ["No applicable independently recorded budget Gold; numeric 'around' tolerance is not defined (R3). Do not infer price from names, menus or categories."] };
+        basis: ["No applicable independently recorded budget Gold; no independently retained applicable raw meal-price region. Do not infer price from names or normalized commercial claims."] };
       // Only an explicit source type statement equal to the condition can be
       // read literally here. A model-derived verified* label is not this oracle.
       const explicit = sourceFacts.filter(item => item.claims?.restaurantTypeFacts?.some(value => sameCriterion(criterionText, value, polarity, table)));

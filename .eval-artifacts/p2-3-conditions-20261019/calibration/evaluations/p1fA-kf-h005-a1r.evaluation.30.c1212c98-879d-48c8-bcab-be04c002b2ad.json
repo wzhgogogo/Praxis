@@ -1,0 +1,706 @@
+{
+  "outcome": {
+    "type": "CAPABILITY_MISS",
+    "reasons": [
+      "No delivery despite independent request-matching feasible witness; cause is classified separately."
+    ],
+    "evidenceRefs": [
+      ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-manual.json#sha256=6d80c7b5ece673d5f891efda01b18baf4d63a93ca5aceebf426314061223172d",
+      ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+      ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.body.txt#sha256=b58e2c40132d7f8387b332f2007e8213ea684a8662a08729e24a07854a931a33",
+      ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.metadata.json#sha256=652f52f07e08cc96699b3bb09dc7e4932b713f8d232ef9c902804eb786eee9bf",
+      "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+      "materializedCase.acceptance.required_claims",
+      ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-manual.json#sha256=6d80c7b5ece673d5f891efda01b18baf4d63a93ca5aceebf426314061223172d",
+      ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+      ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.body.txt#sha256=30fb5eee6d3ea0510e429f9a9b686f7a300656f95a2b1cf94fafa482cac38485",
+      ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.metadata.json#sha256=85d8cccfa2e4c6ddee652659ea1d209d56a20d94a497ae7fcb2ed7b95b7cc08a",
+      "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+      "materializedCase.acceptance.required_claims"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "NO"
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+        "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/omotenashi/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/momotenashiya/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve: missing original start_date/pax query values"
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories",
+        ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "PRESENT",
+      "reasons": [
+        "No delivery despite independent request-matching feasible witness; cause is classified separately."
+      ],
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-manual.json#sha256=6d80c7b5ece673d5f891efda01b18baf4d63a93ca5aceebf426314061223172d",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.body.txt#sha256=b58e2c40132d7f8387b332f2007e8213ea684a8662a08729e24a07854a931a33",
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.metadata.json#sha256=652f52f07e08cc96699b3bb09dc7e4932b713f8d232ef9c902804eb786eee9bf",
+        "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims",
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-manual.json#sha256=6d80c7b5ece673d5f891efda01b18baf4d63a93ca5aceebf426314061223172d",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.body.txt#sha256=30fb5eee6d3ea0510e429f9a9b686f7a300656f95a2b1cf94fafa482cac38485",
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.metadata.json#sha256=85d8cccfa2e4c6ddee652659ea1d209d56a20d94a497ae7fcb2ed7b95b7cc08a",
+        "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim."
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/omotenashi/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/momotenashiya/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve: missing original start_date/pax query values"
+      ],
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[306]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/the-peninsula-tokyo-the-lobby/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1910]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/omotenashi/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2664]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/momotenashiya/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3672]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/suiten-ippeki/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[4128]"
+          ]
+        }
+      ]
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [],
+  "conditionStateComparisons": [],
+  "softPreferenceObservations": {
+    "path": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml",
+    "sha256": "39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce"
+  },
+  "witnessFunnel": [
+    {
+      "outletName": "Ginza Sushi Tempura Iwai",
+      "sourceId": "13305528",
+      "discovery": {
+        "status": "NOT_FOUND",
+        "candidateIds": [],
+        "possibleCandidateIds": [],
+        "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+      },
+      "identity": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "facts": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [],
+        "witness": "AVAILABLE",
+        "observedAt": "2026-10-11T20:50:10.739Z",
+        "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+      },
+      "presented": "NO",
+      "feasible": "SUPPORTED",
+      "blocker": {
+        "stage": "DISCOVERY",
+        "certainty": "HYPOTHESIS",
+        "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-manual.json#sha256=6d80c7b5ece673d5f891efda01b18baf4d63a93ca5aceebf426314061223172d",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.body.txt#sha256=b58e2c40132d7f8387b332f2007e8213ea684a8662a08729e24a07854a931a33",
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13305528.metadata.json#sha256=652f52f07e08cc96699b3bb09dc7e4932b713f8d232ef9c902804eb786eee9bf",
+        "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    },
+    {
+      "outletName": "Kushiyaki Bistro Fukumimi Ginza korido",
+      "sourceId": "13255508",
+      "discovery": {
+        "status": "NOT_FOUND",
+        "candidateIds": [],
+        "possibleCandidateIds": [],
+        "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+      },
+      "identity": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "facts": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [],
+        "witness": "AVAILABLE",
+        "observedAt": "2026-10-11T20:50:11.107Z",
+        "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+      },
+      "presented": "NO",
+      "feasible": "SUPPORTED",
+      "blocker": {
+        "stage": "DISCOVERY",
+        "certainty": "HYPOTHESIS",
+        "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-manual.json#sha256=6d80c7b5ece673d5f891efda01b18baf4d63a93ca5aceebf426314061223172d",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.body.txt#sha256=30fb5eee6d3ea0510e429f9a9b686f7a300656f95a2b1cf94fafa482cac38485",
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h005-20261022/attempt-1/witness-raw/13255508.metadata.json#sha256=85d8cccfa2e4c6ddee652659ea1d209d56a20d94a497ae7fcb2ed7b95b7cc08a",
+        "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    }
+  ],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 4,
+    "maxConsecutiveNoNewObservation": 3,
+    "noNewObservationRuns": [
+      {
+        "key": "b2b765e7eb0ab5dc",
+        "steps": [
+          7,
+          8,
+          9
+        ]
+      },
+      {
+        "key": "b2b765e7eb0ab5dc",
+        "steps": [
+          13,
+          14
+        ]
+      }
+    ],
+    "sameFailureRuns": [
+      {
+        "key": "b2b765e7eb0ab5dc:CHECK_AVAILABILITY:TABLECHECK:AVAILABILITY_SOURCES_EXHAUSTED",
+        "steps": [
+          3,
+          5,
+          11
+        ]
+      },
+      {
+        "key": "b2b765e7eb0ab5dc:CHECK_AVAILABILITY:UNRECORDED_SOURCE:REJECTED",
+        "steps": [
+          7,
+          9
+        ]
+      }
+    ],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": [
+        {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/portopia-saku",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/the-peninsula-tokyo-the-lobby",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/omotenashi",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/jinghua-ginza",
+          "count": 4,
+          "reloads": 3
+        },
+        {
+          "url": "https://www.tablecheck.com/en/mochiku-tempura",
+          "count": 4,
+          "reloads": 3
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/the-peninsula-tokyo-the-lobby/reserve",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/omotenashi/reserve",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/momotenashiya",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/suiten-ippeki",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/editionhotels-tokyo-lobbybar",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sta-azabudai",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/editionhotels-tokyo-thejaderoom",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/momotenashiya/reserve",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/suiten-ippeki/reserve",
+          "count": 1,
+          "reloads": 0
+        }
+      ]
+    },
+    "violations": [
+      "rejectedActions=4>3"
+    ],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionEquivalences": {
+    "path": "/private/tmp/praxis-p2-3-conditions-20261019/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+    "sha256": "9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440",
+    "tableVersion": "criterion-equivalences@1/revision-1"
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@30",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@26",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1r.result.json.gz",
+    "sha256": "407328dae652de55e4e11dc61894f06bd43a37a07e7586167808316c34cfd77d",
+    "runId": "e330ebb5-9bb7-423b-8ee8-86bc6c1720f4",
+    "caseId": "p1f-kf-h005-20261022"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_SUPPORTED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NO_VERIFIED_RESULT"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tablecheck:the-peninsula-tokyo-the-lobby",
+      "outletName": "The Lobby",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:b95de90d97f089f3504afb35]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:3ccd724be8703be26670b846]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:omotenashi",
+      "outletName": "Platinum Fish OMOTENASHI Kakure",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:0ffde8de6c3ec79d2db6e7ff]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:7a48889bced0b31fedda2a56]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:ead472eefd5b816e1280a477]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:omotenashi:document:86332bb1b889cab2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:omotenashi:2026-10-11T20:47:44.252Z:tablecheck:omotenashi:document:86332bb1b889cab2]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:jinghua-ginza",
+      "outletName": "Jing Hua Ginza",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:04bbfc5b32d52fa5bd533a20]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:81a9d85196d65c733c170a6b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:70b56c0d685501f5bf89928d]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:mochiku-tempura",
+      "outletName": "Tempura Mochiku",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:00974d53d9a383780f9ce164]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:f35f1d4b44242556f27abca7]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:f843617e508bed2c1cf315b8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:mochiku-tempura:document:e1d84f144399f955]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:mochiku-tempura:2026-10-11T20:47:09.971Z:tablecheck:mochiku-tempura:document:e1d84f144399f955]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:momotenashiya",
+      "outletName": "Momotenashiya",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[10].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:65efeb8fe82a27d1d1a7b4ca]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:1ff8b09a124c4e2d41db674d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:c53166de2f8d1b6669f28ea4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:momotenashiya:document:526163f00eb51613]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:momotenashiya:2026-10-11T20:49:19.433Z:tablecheck:momotenashiya:document:526163f00eb51613]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:suiten-ippeki",
+      "outletName": "Sushi Suitenippeki",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[10].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:ae5d26083e6d86f9c93971b6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:f6fd9aec03831adefdd4ddce]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:e9b8273285d509ae57250d8f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:suiten-ippeki:document:2d21bd0323fe81a2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:suiten-ippeki:2026-10-11T20:49:28.664Z:tablecheck:suiten-ippeki:document:2d21bd0323fe81a2]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "NOT_SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=10",
+        "applicableObservations=10",
+        "executedInvestigationVisits=12",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=4",
+        "maxConsecutiveNoNewObservation=3",
+        "rejectedActions=4>3"
+      ],
+      "directCause": "Actual rejection/no-progress/repeated-failure/navigation records exceed the frozen diagnostic thresholds.",
+      "rootCauseHypothesis": "Agent/context/source failure recovery requires review; these counters do not prove investigation sufficiency or causal blame.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation",
+        "trajectories[9].observation",
+        "trajectories[10].observation",
+        "trajectories[11].observation",
+        "trajectories[13].observation"
+      ],
+      "downstreamImpact": "Coverage and evidence-lineage claims cannot be inferred from this artifact."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "presentedCandidates=0"
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NO_VERIFIED_RESULT",
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "noVerifiedResult=recorded",
+        "failureCode=missing",
+        "Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED."
+      ],
+      "directCause": "Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "trajectories"
+      ],
+      "downstreamImpact": "Do not represent the scoped stop as a source-confirmed global negative result."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ],
+  "frozenInput": {
+    "manifestSha256": "68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2",
+    "fileRefs": [
+      "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1r.result.json.gz#sha256=407328dae652de55e4e11dc61894f06bd43a37a07e7586167808316c34cfd77d"
+    ],
+    "observationContextSha256": "7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+    "observationRefs": [
+      "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/e1-evaluator-20261016/calibration-observations.rev2.json#sha256=7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+      "/private/tmp/praxis-p2-3-conditions-20261019/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae"
+    ]
+  }
+}

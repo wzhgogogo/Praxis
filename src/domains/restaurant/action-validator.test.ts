@@ -16,7 +16,7 @@ import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtu
 import type { RestaurantOutcome } from "./contracts.js";
 
 const incompleteState: RestaurantTaskState = {
-  schemaVersion: "16",
+  schemaVersion: "17",
   phase: "UNDERSTANDING",
   candidates: [],
   availability: {},
@@ -622,7 +622,7 @@ test("User refresh reopens only displayed candidates and preserves prior evidenc
     availability: { a: [{ id: "old-slot", restaurantId: "a", source: "TABELOG", dateTime: "2026-08-05T19:00:00+09:00", timezone: "Asia/Tokyo", partySize: 2, bookingMode: "REQUEST", executionMode: "BROWSER", checkedAt: now, expiresAt: "2026-08-05T09:02:00.000Z", displayExpiresAt: "2026-08-05T09:02:00.000Z" }] },
     availabilityChecks: { a: { status: "AVAILABLE", checkedAt: now, evidenceIds: ["old-evidence"], displayExpiresAt: "2026-08-05T09:02:00.000Z" } },
     readEvidence: [{ evidenceId: "old-evidence", kind: "AVAILABILITY", provider: "TABELOG", candidateId: "a", observedAt: now, requestFingerprint: "x", claims: {} }],
-    presentedResults: { candidateIds: ["a"], evidenceIds: ["old-evidence"], presentedAt: now },
+    presentedResults: { candidateIds: ["a"], evidenceIds: ["old-evidence"], presentedAt: now, conditionStates: {} },
   };
   const next = restaurantBookingTaskDefinition.transition(state, { type: "AVAILABILITY_REFRESH_REQUESTED", candidateIds: ["a"] }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
   assert.equal(next.phase, "SEARCHING");
@@ -647,7 +647,7 @@ test("Recommendation refresh reopens displayed facts without routing through ava
   const state: RestaurantTaskState = {
     ...incompleteState, phase: "PRESENT_RESULTS",
     intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "Tokyo" } }),
-    candidates: [candidate], presentedResults: { candidateIds: ["a"], evidenceIds: ["old-facts"], presentedAt: now },
+    candidates: [candidate], presentedResults: { candidateIds: ["a"], evidenceIds: ["old-facts"], presentedAt: now, conditionStates: {} },
     factChecks: { a: { status: "COMPLETED", checkedAt: now, evidenceIds: ["old-facts"] } },
     readEvidence: [{ evidenceId: "old-facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId: "a", observedAt: now, requestFingerprint: "old", claims: { verifiedHardCriteria: ["cafe"] } }],
   };
@@ -670,7 +670,7 @@ test("a requested website-fact refresh replaces only stale same-source commercia
   const state: RestaurantTaskState = {
     ...incompleteState, phase: "PRESENT_RESULTS",
     intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe with cancellation details" }, area: { query: "Tokyo" } }),
-    candidates: [candidate], presentedResults: { candidateIds: ["a"], evidenceIds: ["old-facts"], presentedAt: now },
+    candidates: [candidate], presentedResults: { candidateIds: ["a"], evidenceIds: ["old-facts"], presentedAt: now, conditionStates: {} },
     factChecks: { a: { status: "COMPLETED", checkedAt: now, evidenceIds: ["old-facts"], sourceProvider: "RESTAURANT_WEBSITE" } },
     readEvidence: [{
       evidenceId: "website-entity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE", candidateId: "a", sourceEntityId: "website:a",
@@ -818,4 +818,26 @@ test("C6a expired immediate window ends without investigating another candidate"
   const ended = restaurantBookingTaskDefinition.transition(expired, execution.event, { taskId: "expiry", runId: "expiry", now: later, createId: prefix => prefix });
   assert.equal(ended.state.phase, "NO_VERIFIED_RESULT");
   assert.equal(sourceCalls, 0);
+});
+
+test("source price statuses disclose soft shortfalls but gate hard budgets before presentation", () => {
+  const candidateId = "budget-cafe";
+  const make = (strength: "SOFT" | "HARD", amount?: number): RestaurantTaskState => ({ ...incompleteState, phase: "SEARCHING",
+    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "Tokyo" }, addCriteria: [{ text: "around 3,000 yen per person", polarity: "POSITIVE", strength }] }),
+    candidates: [{ restaurant: { id: candidateId, outletName: "Budget Cafe", address: "Tokyo", sourceIds: {}, provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    readEvidence: [
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: now, requestFingerprint: "request", claims: { areaQuery: "Tokyo", areaMatch: true } },
+      { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "TABLECHECK", candidateId, sourceEntityId: "outlet", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] } },
+      { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "TABLECHECK", candidateId, sourceEntityId: "outlet", sourceUrl: "https://www.tablecheck.com/en/budget-cafe", observedAt: now, requestFingerprint: "request", claims: {}, ...(amount ? { priceFacts: { schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [{ amount, kind: "MEAL", meal: "UNSPECIFIED", tax: "INCLUDED", quote: `Course JPY ${amount} including tax`, sourceUrl: "https://www.tablecheck.com/en/budget-cafe" }] } } : {}) },
+    ],
+  });
+  const present = { type: "PRESENT_RESULTS" as const, candidateIds: [candidateId] };
+  assert.equal(validateRestaurantAction(make("HARD", 3300), present, now).status, "ALLOWED");
+  assert.equal(validateRestaurantAction(make("HARD", 4000), present, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(make("HARD"), present, now).status, "REJECTED");
+  const soft = make("SOFT", 4000);
+  assert.equal(validateRestaurantAction(soft, present, now).status, "ALLOWED");
+  const evidenceIds = restaurantPresentationEvidenceIds(soft, candidateId, now)!;
+  const shown = restaurantBookingTaskDefinition.transition(soft, { type: "RESULTS_PRESENTED", candidateIds: [candidateId], evidenceIds }, { taskId: "price", runId: "price", now, createId: prefix => prefix }).state;
+  assert.equal(shown.presentedResults?.conditionStates?.[candidateId]?.[0]?.status, "NOT_MET");
 });

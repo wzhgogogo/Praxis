@@ -1,3 +1,4 @@
+import { independentPriceCondition } from "./diagnostic-evaluator-prices.js";
 import { isRestaurantFailureCode, RESTAURANT_FAILURE_CLASSIFICATION } from "../../../domains/restaurant/failure-codes.js";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -22,8 +23,8 @@ import { assessUserConditions, loadSoftPreferenceObservations } from "./diagnost
 import type { CandidateConditionStates, SoftPreferenceObservations } from "./diagnostic-evaluator-preferences.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@29";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@25";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@30";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@26";
 
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
 
@@ -79,6 +80,7 @@ export interface RestaurantHybridDiagnosticEvaluation {
   criterionEquivalences: { path: string; sha256: string; tableVersion: string };
   pendingCriterionWordings: PendingCriterionWording[];
   conditionStates: CandidateConditionStates[];
+  conditionStateComparisons: Array<{ candidateId: string; text: string; displayed: string; independent: string; assessment: string }>;
   softPreferenceObservations: { path: string; sha256: string } | null;
   outcome: RunOutcome;
   severity: RunSeverity;
@@ -773,7 +775,13 @@ function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: 
     return normalizedArea(asString(claims.areaQuery)) === normalizedArea(request.location?.value);
   })) conflicts.push("cited discovery evidence does not establish the requested area");
   const positiveHard = request.criteria.filter((criterion) => criterion.endsWith("|POSITIVE|HARD")).map((criterion) => criterion.split("|")[0]!);
-  for (const hardCriterion of positiveHard) if (!facts.some((item) => strings((item.claims)?.verifiedHardCriteria).some((value) => normalized(value) === hardCriterion))) missing.push(`HARD criterion ${hardCriterion}`);
+  for (const hardCriterion of positiveHard) {
+    const price = independentPriceCondition(root, candidateId, hardCriterion, facts);
+    if (price) {
+      if (price.status === "NOT_MET") conflicts.push(`raw source price contradicts HARD criterion ${hardCriterion}`);
+      else if (price.status !== "MET") missing.push(`independent raw price for HARD criterion ${hardCriterion}`);
+    } else if (!facts.some(item => strings(item.claims?.verifiedHardCriteria).some(value => normalized(value) === hardCriterion))) missing.push(`HARD criterion ${hardCriterion}`);
+  }
   const negativeHard = request.criteria.filter((criterion) => criterion.endsWith("|NEGATIVE|HARD")).map((criterion) => criterion.split("|")[0]!);
   for (const hardCriterion of negativeHard) {
     if (facts.some((item) => strings((item.claims)?.violatedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
@@ -829,7 +837,7 @@ function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: 
       }
       if (offerScope) {
         for (const hardCriterion of positiveHard) {
-          const scopedSupport = facts.some((fact) => strings((fact.claims)?.verifiedHardCriteria)
+          const scopedSupport = independentPriceCondition(root, candidateId, hardCriterion, facts)?.status === "MET" || facts.some((fact) => strings((fact.claims)?.verifiedHardCriteria)
             .some((value) => normalized(value) === hardCriterion)
             && factSupportsServiceScope(fact, offerScope, facts));
           if (!scopedSupport) conflicts.push(`HARD criterion ${hardCriterion} lacks a scope-bound raw support chain for the presented offer`);
@@ -1185,6 +1193,20 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     ...(feasibleWitnesses.length ? { knownFeasibleWitness: { refs: feasibleWitnesses.flatMap(row => row.evidenceRefs) } } : {}),
     ...(conditionsStatus === "SATISFIED" && noResultAssessment && (noResultAssessment.status === "SATISFIED" || "scopeMatched" in noResultAssessment && noResultAssessment.scopeMatched)
       ? { honestNoResultScope: { refs: noResultAssessment.refs } } : {}), resultMissing });
+  const conditionStateComparisons = conditionStates.flatMap(candidate => candidate.criteria.map(condition => {
+    const displayed = root.finalSnapshot?.domainState?.presentedResults?.conditionStates?.[candidate.candidateId]?.find(row => row.text === condition.text && row.polarity === condition.polarity && row.strength === condition.strength);
+    return { candidateId: candidate.candidateId, text: condition.text, displayed: displayed?.status ?? "NOT_RECORDED", independent: condition.status,
+      assessment: displayed?.status === "MET" && condition.status === "NOT_MET" ? "S0_DECLARATION"
+        : displayed?.status === "MET" && condition.status === "NOT_CHECKED" ? "S1_UNSUPPORTED"
+        : displayed?.status === "NOT_CHECKED" && condition.status !== "NOT_CHECKED" ? "MISSED_KNOWN_CONDITION" : displayed ? "CONSISTENT" : "HISTORICAL_DISPLAY_NOT_RECORDED" };
+  }));
+  const falseStatuses = conditionStateComparisons.filter(row => row.assessment === "S0_DECLARATION");
+  if (falseStatuses.length) {
+    const assessment = { status: "PRESENT" as const, reasons: falseStatuses.map(row => `${row.candidateId}: displayed MET for ${row.text}, independently NOT_MET.`), evidenceRefs: falseStatuses.map(row => `presentedResults.conditionStates[${row.candidateId}]`) };
+    classification.severity.S0 = assessment; classification.severity.S0_DECLARATION = assessment;
+  }
+  if (conditionStateComparisons.some(row => row.assessment === "S1_UNSUPPORTED")) classification.severity.S1 = {
+    status: "PRESENT", reasons: ["A displayed MET condition lacks independent source evidence; this is S1, not an independently established S0."], evidenceRefs: ["presentedResults.conditionStates"] };
   const corroboratedInternalFailure = classification.outcome.type === "INTERNAL_FAILURE";
   if (corroboratedInternalFailure) {
     const ending = findings.find(finding => finding.dimension === "COMPLETION_OUTCOME")!;
@@ -1194,7 +1216,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     ending.directCause = "Independent terminal/source/action records corroborate an internal failure; it is not an ordinary no-result.";
   }
   const goldCorrection = options.goldCorrection ? { applied: true as const, artifactSha256: options.goldCorrection.artifactSha256, rev1Sha256: options.goldCorrection.rev1Sha256, rev2Sha256: options.goldCorrection.rev2Sha256, refs: options.goldCorrection.refs } : null;
-  return { ...classification, goldCorrection, conditionStates, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
+  return { ...classification, goldCorrection, conditionStates, conditionStateComparisons, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.

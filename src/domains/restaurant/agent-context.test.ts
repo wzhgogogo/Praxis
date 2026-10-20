@@ -8,7 +8,7 @@ import { projectRestaurantAgentContext } from "./agent-context.js";
 
 test("Restaurant Agent context retains bounded observations and action scope while excluding execution authority and raw provider artifacts", () => {
   const state: RestaurantTaskState = {
-    schemaVersion: "16",
+    schemaVersion: "17",
     phase: "SEARCHING",
     intentDraft: { ...fixtureIntent, schemaVersion: "3" },
     intent: fixtureIntent,
@@ -67,7 +67,7 @@ test("Restaurant Agent context retains bounded observations and action scope whi
   const context = projectRestaurantAgentContext(state);
 
   assert.deepEqual(context.missingBlockingFields, []);
-  assert.equal(context.schemaVersion, "14");
+  assert.equal(context.schemaVersion, "15");
   assert.deepEqual(context.searchAvailability, { available: true });
   assert.deepEqual(context.failure, { code: "SEARCH_FAILED" });
   assert.deepEqual(context.availabilityChecks, {
@@ -114,7 +114,7 @@ test("availability path uses the latest observed claim without reusing stale or 
 
 test("Restaurant Agent context exposes a stable exhausted-discovery state without provider internals", () => {
   const context = projectRestaurantAgentContext({
-    schemaVersion: "16", phase: "SEARCHING", candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
+    schemaVersion: "17", phase: "SEARCHING", candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
     failure: { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", message: "provider-specific private detail" },
     sourceReadState: { googlePlacesSearchBudget: "EXHAUSTED" },
   });
@@ -127,7 +127,7 @@ test("current identity-bound negative HARD conflict removes an outlet from costl
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const criteria = [{ text: "hot pot restaurant", polarity: "NEGATIVE" as const, strength: "HARD" as const }];
   const context = projectRestaurantAgentContext({
-    schemaVersion: "16", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
+    schemaVersion: "17", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
     intent: { ...fixtureIntent, criteria }, candidates: [fixtureCandidates[0]!], availability: {}, availabilityChecks: {}, searchRevision: 1,
     readEvidence: [{ evidenceId: "identity", kind: "ENTITY_MATCH", provider: "GOOGLE_PLACES", candidateId, sourceEntityId: "place-1",
       observedAt: "2026-08-05T09:00:00.000Z", requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_PLACE_ID"] } },
@@ -143,7 +143,7 @@ test("missing negative HARD evidence stays UNKNOWN and leaves a legal read path"
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const criteria = [{ text: "hot pot restaurant", polarity: "NEGATIVE" as const, strength: "HARD" as const }];
   const context = projectRestaurantAgentContext({
-    schemaVersion: "16", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
+    schemaVersion: "17", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria },
     intent: { ...fixtureIntent, criteria }, candidates: [fixtureCandidates[0]!], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1,
   });
   assert.equal(context.candidates[0]?.observedFacts.violatedNegativeCriteria.length, 0);
@@ -153,7 +153,7 @@ test("missing negative HARD evidence stays UNKNOWN and leaves a legal read path"
 test("Restaurant Agent context exposes bounded candidate facts, provider attempts, reception and code-derived next actions", () => {
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const context = projectRestaurantAgentContext({
-    schemaVersion: "16", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
+    schemaVersion: "17", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
     candidates: fixtureCandidates, availability: {}, searchRevision: 1,
     availabilityChecks: {
       [candidateId]: {
@@ -185,7 +185,7 @@ test("Restaurant Agent context exposes bounded candidate facts, provider attempt
 test("Restaurant Agent context exposes only current candidate-bound commercial notes with their evidence source", () => {
   const candidateId = fixtureCandidates[0]!.restaurant.id;
   const context = projectRestaurantAgentContext({
-    schemaVersion: "16", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
+    schemaVersion: "17", phase: "SEARCHING", intentDraft: { ...fixtureIntent, schemaVersion: "3" }, intent: fixtureIntent,
     candidates: fixtureCandidates, availability: {}, availabilityChecks: {}, searchRevision: 1,
     factChecks: {
       [candidateId]: {
@@ -218,7 +218,7 @@ test("Restaurant Agent context exposes only current candidate-bound commercial n
 
 test("C8 source categories remain advisory and source-attributed without changing legal candidates", () => {
   const candidateId=fixtureCandidates[0]!.restaurant.id;
-  const state:RestaurantTaskState={schemaVersion:'16',phase:'SEARCHING',intentDraft:{...fixtureIntent,schemaVersion:'3'},intent:fixtureIntent,candidates:[fixtureCandidates[0]!],availability:{},availabilityChecks:{},readEvidence:[],searchRevision:1};
+  const state:RestaurantTaskState={schemaVersion:'17',phase:'SEARCHING',intentDraft:{...fixtureIntent,schemaVersion:'3'},intent:fixtureIntent,candidates:[fixtureCandidates[0]!],availability:{},availabilityChecks:{},readEvidence:[],searchRevision:1};
   const before=projectRestaurantAgentContext(state);
   state.readEvidence=[{evidenceId:'discovery-types',kind:'DISCOVERY',provider:'GOOGLE_PLACES',candidateId,sourceEntityId:'place-a',observedAt:'2026-10-10T00:00:00Z',requestFingerprint:'request',claims:{types:['italian_restaurant','restaurant']}},
     {evidenceId:'listing-categories',kind:'DISCOVERY',provider:'TABELOG',candidateId,sourceEntityId:'outlet-a',observedAt:'2026-10-10T00:00:00Z',requestFingerprint:'request',claims:{sourceCategories:['Italian cuisine']}}];
@@ -232,11 +232,28 @@ test("C8 source categories remain advisory and source-attributed without changin
 
 test("candidate distance is a bounded source observation without changing legal presentation", () => {
   const candidate = fixtureCandidates[0]!;
-  const state: RestaurantTaskState = { schemaVersion: "16", phase: "SEARCHING", intent: fixtureIntent, candidates: [candidate], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1 };
+  const state: RestaurantTaskState = { schemaVersion: "17", phase: "SEARCHING", intent: fixtureIntent, candidates: [candidate], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 1 };
   const before = projectRestaurantAgentContext(state, "2026-10-11T00:00:00Z");
   state.readEvidence.push({ evidenceId: "distance", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId: candidate.restaurant.id, observedAt: "2026-10-10T00:00:00Z", requestFingerprint: "current", claims: { areaMatch: true, areaMatchBasis: "TASK_LOCATION_RADIUS", distanceMeters: 999.4 } });
   const after = projectRestaurantAgentContext(state, "2026-10-11T00:00:00Z");
   assert.deepEqual((after.candidates[0] as unknown as { distanceObservation?: unknown }).distanceObservation, { meters: 999, centerBasis: "TASK_LOCATION_RADIUS", source: "GOOGLE_PLACES" });
   assert.deepEqual(after.legalActions, before.legalActions);
   assert.deepEqual(after.presentation, before.presentation);
+});
+
+test("approved price tolerance compares meals, keeps unknown and distinguishes soft from hard", async () => {
+  const { assessRestaurantConditions } = await import("./condition-states.js");
+  const { readFileSync } = await import("node:fs");
+  const policy = JSON.parse(readFileSync(new URL("./condition-policy.json", import.meta.url), "utf8"));
+  assert.equal(policy.aroundPriceTolerance, 0.2, "independent user-approved literal");
+  const make = (amount: number, kind: "MEAL" | "ADD_ON" = "MEAL", meal: "DINNER" | "LUNCH" = "DINNER") => ({ evidenceId: "quoted", kind: "RESTAURANT_FACT" as const, provider: "TABELOG" as const, candidateId: "a", sourceUrl: "https://tabelog.com/en/tokyo/A1301/A130101/13295658/", observedAt: "2026-10-19T00:00:00Z", requestFingerprint: "r", claims: {}, priceFacts: { schemaVersion: "restaurant-price-facts@1" as const, listedCoursePricesYen: [{ amount, kind, meal, tax: "INCLUDED" as const, quote: `Dinner course JPY ${amount} tax included`, sourceUrl: "https://tabelog.com/en/tokyo/A1301/A130101/13295658/" }] } });
+  const request = { criteria: [{ text: "around 3,000 yen per person", polarity: "POSITIVE" as const, strength: "SOFT" as const }], timeWindow: { earliest: "19:00", latest: "19:00" } };
+  for (const [amount, expected] of [[2400, "MET"], [3600, "MET"], [4000, "NOT_MET"]] as const) assert.equal(assessRestaurantConditions(request, [make(amount)])[0]?.status, expected);
+  assert.equal(assessRestaurantConditions(request, [make(3300, "ADD_ON")])[0]?.status, "NOT_CHECKED");
+  assert.equal(assessRestaurantConditions(request, [make(3300, "MEAL", "LUNCH")])[0]?.status, "NOT_CHECKED");
+  assert.equal(assessRestaurantConditions(request, [make(4000), make(3300, "ADD_ON")])[0]?.status, "NOT_MET", "a drink add-on cannot make an expensive meal fit");
+  assert.equal(assessRestaurantConditions(request, [])[0]?.status, "NOT_CHECKED");
+  const under = { ...request, criteria: [{ ...request.criteria[0]!, text: "no more than 3,000 yen per person" }] };
+  assert.equal(assessRestaurantConditions(under, [make(3000)])[0]?.status, "MET");
+  assert.equal(assessRestaurantConditions(under, [make(3001)])[0]?.status, "NOT_MET");
 });
