@@ -31,7 +31,7 @@ test('independent parser requires explicit same-outlet/date/party/time links; fa
 test('approved replay retains identical method/URL/body and independent original/recheck raw SHAs',async()=>{
  const directory=mkdtempSync(base+'/tc-control-');try{
   const original=saveTableCheckResponse(resolve(directory,'tablecheck-source'),{contextUrl:'https://www.tablecheck.com/en/shops/kagurazaka-jin/reserve',url:request.url,request,replayable:true,requestSha256:hash(body),reviewedReadsSha256:hash(bytes)},Buffer.from('original response'));
-  const candidate={restaurant:{id:'candidate',sourceIds:{tablecheck:'kagurazaka-jin'}}};
+  const candidate={restaurant:{id:'candidate',sourceIds:{tablecheck:'shops/kagurazaka-jin'}}};
   const artifact={materializedCase:{semantic:{date:{value:'2026-11-05'},party_size:3}},finalSnapshot:{domainState:{availability:{candidate:[{source:'TABLECHECK',dateTime:'2026-11-05T19:30:00+09:00'}]}}}};
   let calls=0;const row=await recheckTableCheck(candidate,artifact,resolve(directory,'post'),directory,async(url:any,init:any)=>{calls++;assert.equal(url,request.url);assert.equal(init.method,'POST');assert.equal(init.body,body);assert.equal(init.redirect,'error');assert.equal(init.credentials,'omit');return new Response(html,{status:200});});
   assert.equal(calls,1);assert.equal(row.status,'SUPPORTED');assert.ok('recheck' in row);assert.equal(row.rawEvidence[0].sha256,original.sha256);assert.equal(row.recheck.sha256,hash(Buffer.from(html)));assert.ok(existsSync(row.recheck.bodyPath));

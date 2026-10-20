@@ -37,3 +37,5 @@ phase2-ledger.json：P2-0 两次整单 Live／72 模型；P2-1 347 模型（已�
 认证：16 家登记见证，约 32 个基础 GET，额外登记 party 页最多 1 个；按每 GET 20 秒预算，纯传输上限约 11 分钟，另含逐项 HARD 与身份独立人工复核，建议预留 30–60 分钟，0 模型。
 
 18 次：沿用历史 130–430 秒范围，通常约 3–4 小时（含 17 个至少5分钟间隔及运行后复查）。满额500秒 ×18＋17×300秒＝235分钟（3小时55分钟），另最多约18分钟的逐店独立复查，建议安排4–4.5小时窗口。403/503/429 的15分钟冷却和环境重跑另加，不纳入上述常态估算；认证与 Live 同一24小时窗口内安排。
+
+补充真实来源绑定控制：生产 Pack 的 sourceEntityId 既可能是 slug，也可能是 shops/slug；已有“原样复查”控制改用实际 shops/slug 形状后红灯，评测侧按这两种当前形状取得同一 slug 后恢复绿灯。不猜店、不做跨店回放。较早 live-freeze.json／rehearsal/ 保留作 superseded retrospective，当前有效配置冻结及演练以 live-freeze-reviewed.json／rehearsal-reviewed/ 为准。

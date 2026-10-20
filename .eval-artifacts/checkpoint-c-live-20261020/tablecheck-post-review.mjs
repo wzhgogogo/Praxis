@@ -18,7 +18,7 @@ export function reviewedTableCheckRequest(request,rules){
   try{const body=JSON.parse(request.body);return /^application\/json(?:;|$)/i.test(request.contentType)&&rule.bodyFields&&Object.keys(body).sort().join()===Object.keys(rule.bodyFields).sort().join()&&Object.entries(rule.bodyFields).every(([k,type])=>typeof body[k]===type);}catch{return false;}
  });
 }
-function slug(url){try{const p=new URL(url).pathname;return p.match(/^\/en\/shops\/([^/]+)\/(?:reserve|available)/)?.[1]??p.match(/^\/en\/([^/]+)(?:\/reserve\/landing)?\/?$/)?.[1];}catch{return typeof url==='string'&&/^[a-z0-9-]+$/.test(url)?url:undefined;}}
+function slug(url){try{const p=new URL(url).pathname;return p.match(/^\/en\/shops\/([^/]+)\/(?:reserve|available)/)?.[1]??p.match(/^\/en\/([^/]+)(?:\/reserve\/landing)?\/?$/)?.[1];}catch{return typeof url==='string'?url.match(/^(?:shops\/)?([a-z0-9-]+)$/)?.[1]:undefined;}}
 export function parseTableCheckRecheck(bytes,{candidateSlug,date,partySize,times}){
  let text=Buffer.from(bytes).toString('utf8');
  try{const data=JSON.parse(text);const strings=[];const walk=(v,depth=0)=>{if(depth>12)return;if(typeof v==='string'&&/<a\b/i.test(v))strings.push(v);else if(Array.isArray(v))v.forEach(x=>walk(x,depth+1));else if(v&&typeof v==='object')Object.values(v).forEach(x=>walk(x,depth+1));};walk(data);text=strings.join('\n');}catch{}
