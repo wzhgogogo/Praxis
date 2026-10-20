@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.183
+- Document revision: 4.184
 - Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -3948,3 +3948,9 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## DEV-2026-10-20-P22-NAME-RESOLUTION-FROZEN
 
 - 样本/离线接线冻结1624aa3，SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87；30TL/2TC/10对照，TC缺口保留。五门禁type/arch/build PASS、默认967/967、本地Chromium121/121（283348ms），5项指标/泄漏/禁止日期控制通过，66份原输入及配置SHA不变。真实模型/网站/预检均0，方法B未启用；推送后停下等样本批准，第4项仍须批准与网络就绪。见基准report.md。
+
+<a id="dev-2026-10-20-p21c-region-entrance"></a>
+## DEV-2026-10-20-P21C-REGION-ENTRANCE
+
+- Exposed development，基线7dfeb69，复核305d1e0。缺同名入口时提前复用原计划Google批次，以原半径内同源门店URL约束观察引用；失败也缓存到原阶段消费，不重复读取。无地点/代码表，Pack净增0；4/5、身份、HARD与预算不变。
+- State17/TaskDefinition15、Browser Prompt17/action schema11；当前Fixture同步，无兼容路径或数据重置。54条源文件可追溯SHA；仅A上线，B的新模型推理未评。见[报告](../../.eval-artifacts/p2-1c-region-20261020/report.md)。

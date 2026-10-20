@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.189
+- Document revision: 4.190
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4655,3 +4655,10 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## TEST-2026-10-20-P22-NAME-RESOLUTION-FROZEN
 
 - 样本/离线接线冻结1624aa3，SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87；30TL/2TC/10对照，TC缺口保留。五门禁type/arch/build PASS、默认967/967、本地Chromium121/121（283348ms），5项指标/泄漏/禁止日期控制通过，66份原输入及配置SHA不变。真实模型/网站/预检均0，方法B未启用；推送后停下等样本批准，第4项仍须批准与网络就绪。见基准report.md。
+
+<a id="test-2026-10-20-p21c-region-entrance"></a>
+## TEST-2026-10-20-P21C-REGION-ENTRANCE
+
+- 冻结输入/评分f85e7a0，源码/生产组装43000a9。旧覆盖遗漏：缺标签但已有同源指针；red.log在旧代码结果0且错误地区可执行。补强既有地区主测，含序列化一次消费、失败不重试、跨run/请求、外域/缺坐标/越界反例。
+- 六例实际生产factory+Guard+本地Chromium，真实链接/Google指针投影与合成详情分列；独立字面地区、几何、观察引用和原预算核验。不是完整任务或真实模型通过率。54条历史逐条评分，神乐坂4条缺入口观察保留未覆盖。
+- 默认973/973，本地Chromium122/122，typecheck/arch/build PASS；最终门禁及原始产物见[verification](../../.eval-artifacts/p2-1c-region-20261020/verification.json)。真实网站/模型/探测/Live均0，五次后续探测未运行。

@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.287
+- Document revision: 4.288
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-20 P2-1c离线地区入口：从P2-2 7dfeb69分支，依305d1e0复核选择同源门店URL证据；不加地名/代码表，站点包净增0。54条旧轨迹分层记录，神乐坂旧菜单4条缺入口观察不计成功；六例受控Chromium走通。State17/TaskDefinition15、Browser Prompt17；真实网站/模型/探测均0，五门禁与最终证据见报告，推送后等复核。** [报告](../.eval-artifacts/p2-1c-region-20261020/report.md)。
 
 - **2026-10-20 P2-2 店名解析样本冻结待复核：** 样本/离线接线冻结1624aa3，SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87；30TL/2TC/10对照，TC缺口保留。五门禁type/arch/build PASS、默认967/967、本地Chromium121/121（283348ms），5项指标/泄漏/禁止日期控制通过，66份原输入及配置SHA不变。真实模型/网站/预检均0，方法B未启用；推送后停下等样本批准，第4项仍须批准与网络就绪。见基准report.md。
 
