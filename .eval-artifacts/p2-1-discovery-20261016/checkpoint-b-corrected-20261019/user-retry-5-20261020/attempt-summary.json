@@ -1,0 +1,60 @@
+{
+  "status": "ENV_FAILURE",
+  "startedAt": "2026-10-20T02:07:09.618912+00:00",
+  "finishedAt": "2026-10-20T02:07:55.426096+00:00",
+  "networkReadiness": "PASSED",
+  "networkElapsedMs": 5028,
+  "sourceDataPreflight": "ENV_FAILURE",
+  "sourceAttempts": [
+    {
+      "sourceId": "tabelog",
+      "count": 20,
+      "responseStatus": 200,
+      "reason": null,
+      "detail": null,
+      "elapsedMs": 7581,
+      "outcome": "NONEMPTY",
+      "countsTowardStop": false
+    },
+    {
+      "sourceId": "tablecheck",
+      "count": null,
+      "responseStatus": null,
+      "reason": "NO_RESPONSE",
+      "detail": "NO_VALID_SEARCH_RESPONSE",
+      "elapsedMs": 22178,
+      "outcome": "FAILED",
+      "countsTowardStop": false
+    },
+    {
+      "sourceId": "google-places",
+      "count": null,
+      "responseStatus": null,
+      "reason": "NO_RESPONSE",
+      "detail": "READ_FAILED",
+      "elapsedMs": 8001,
+      "outcome": "FAILED",
+      "countsTowardStop": false
+    }
+  ],
+  "modelCalls": 0,
+  "formalProbes": 0,
+  "googleSearchAttempts": 1,
+  "fullLive": 0,
+  "countableFailures": 4,
+  "failureCountDelta": 0,
+  "stop": {
+    "code": "PREFLIGHT_EVIDENCE_GAP",
+    "index": 0,
+    "checkpointPreflightFailures": 4,
+    "sourceIds": [
+      "tablecheck",
+      "google-places"
+    ]
+  },
+  "rawNetworkResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-retry-5/2026-10-20T02-07-10-234Z-18d8f704-fa4a-4fb8-abe7-36ba63c7c052.result.json",
+  "rawNetworkResultSha256": "00b8f4af5f2508bdb6409fdfcb01da11984cc7473c1e87487dcb03b949914e09",
+  "sourceDataArtifact": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-retry-5/source-data-preflight.json",
+  "sourceDataArtifactSha256": "9fe0a297624d4397e1a72dde5c3e7869a5e428a9a65a7ee775bb508cc948d4ab",
+  "automaticRetryAllowed": false
+}

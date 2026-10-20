@@ -1,7 +1,7 @@
 {
   "models": 0,
   "google": 0,
-  "preflightGoogle": 0,
+  "preflightGoogle": 1,
   "preflightFailures": 4,
   "completed": [],
   "attempts": [
@@ -131,16 +131,183 @@
       "networkPreflightResult": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-retry-4/2026-10-19T14-54-30-689Z-dff3aed2-22fb-4476-9895-60bc64714fbc.result.json",
       "networkPreflightResultSha256": "5f5417705b062ebe16a7c89bcc26defa9f1d6460f1b9cacc50be6b319f8131f4",
       "finishedAt": "2026-10-19T14:54:40.127711+00:00"
+    },
+    {
+      "index": 0,
+      "caseId": "p2-kf-h001-20261027",
+      "repeat": 1,
+      "head": "a37e152b4283d8f407c9650d19200708314e3362",
+      "startedAt": "2026-10-20T02:07:09.618912+00:00",
+      "directory": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1-user-retry-5",
+      "status": "ENV_FAILURE",
+      "exit": 1,
+      "preflightGoogle": 1,
+      "models": 0,
+      "formalProbeStarted": false,
+      "sourceIds": [
+        "tablecheck",
+        "google-places"
+      ],
+      "preflightEvidence": [
+        {
+          "sourceId": "tabelog",
+          "check": {
+            "sourceId": "tabelog",
+            "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+          },
+          "count": 20,
+          "responseStatus": 200,
+          "reason": null,
+          "elapsedMs": 7581,
+          "outcome": "NONEMPTY",
+          "countsTowardStop": false
+        },
+        {
+          "sourceId": "tablecheck",
+          "check": {
+            "sourceId": "tablecheck",
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+          },
+          "count": null,
+          "responseStatus": null,
+          "reason": "NO_RESPONSE",
+          "detail": "NO_VALID_SEARCH_RESPONSE",
+          "networkDiagnostics": [
+            {
+              "code": "BLOCKED_ENDPOINT",
+              "origin": "https://umami-next.post.tablecheck.com",
+              "pathname": "/script.js",
+              "method": "GET",
+              "resourceType": "script",
+              "queryKeys": []
+            },
+            {
+              "code": "BLOCKED_METHOD",
+              "origin": "https://o126849.ingest.us.sentry.io",
+              "pathname": "/api/4507697548034048/envelope/",
+              "method": "POST",
+              "resourceType": "xhr",
+              "queryKeys": [
+                "sentry_client",
+                "sentry_key",
+                "sentry_version"
+              ]
+            },
+            {
+              "code": "BLOCKED_ENDPOINT",
+              "origin": "https://production.tablecheck.com",
+              "pathname": "/v2/geolocation",
+              "method": "GET",
+              "resourceType": "xhr",
+              "queryKeys": []
+            },
+            {
+              "code": "BLOCKED_ENDPOINT",
+              "origin": "https://maps.ingress.production.tablecheck.com",
+              "pathname": "/tiles/20241111.json",
+              "method": "GET",
+              "resourceType": "xhr",
+              "queryKeys": []
+            },
+            {
+              "code": "BLOCKED_ENDPOINT",
+              "origin": "https://cdn0.tablecheck.com",
+              "pathname": "/common/images/apps/din/map/sprites/light.json",
+              "method": "GET",
+              "resourceType": "xhr",
+              "queryKeys": []
+            },
+            {
+              "code": "BLOCKED_ENDPOINT",
+              "origin": "https://cdn0.tablecheck.com",
+              "pathname": "/common/images/apps/din/map/sprites/light.png",
+              "method": "GET",
+              "resourceType": "xhr",
+              "queryKeys": []
+            },
+            {
+              "code": "BLOCKED_METHOD",
+              "origin": "https://o126849.ingest.us.sentry.io",
+              "pathname": "/api/4507697548034048/envelope/",
+              "method": "POST",
+              "resourceType": "xhr",
+              "queryKeys": [
+                "sentry_client",
+                "sentry_key",
+                "sentry_version"
+              ]
+            },
+            {
+              "code": "BLOCKED_METHOD",
+              "origin": "https://o126849.ingest.us.sentry.io",
+              "pathname": "/api/4507697548034048/envelope/",
+              "method": "POST",
+              "resourceType": "xhr",
+              "queryKeys": [
+                "sentry_client",
+                "sentry_key",
+                "sentry_version"
+              ]
+            },
+            {
+              "code": "BLOCKED_METHOD",
+              "origin": "https://o126849.ingest.us.sentry.io",
+              "pathname": "/api/4507697548034048/envelope/",
+              "method": "POST",
+              "resourceType": "fetch",
+              "queryKeys": [
+                "sentry_client",
+                "sentry_key",
+                "sentry_version"
+              ]
+            },
+            {
+              "code": "BLOCKED_METHOD",
+              "origin": "https://o126849.ingest.us.sentry.io",
+              "pathname": "/api/4507697548034048/envelope/",
+              "method": "POST",
+              "resourceType": "xhr",
+              "queryKeys": [
+                "sentry_client",
+                "sentry_key",
+                "sentry_version"
+              ]
+            }
+          ],
+          "elapsedMs": 22178,
+          "outcome": "FAILED",
+          "countsTowardStop": false
+        },
+        {
+          "sourceId": "google-places",
+          "check": {
+            "sourceId": "google-places",
+            "textQuery": "restaurants near Ginza, Tokyo"
+          },
+          "count": null,
+          "responseStatus": null,
+          "reason": "NO_RESPONSE",
+          "detail": "READ_FAILED",
+          "elapsedMs": 8001,
+          "outcome": "FAILED",
+          "countsTowardStop": false
+        }
+      ],
+      "countsTowardStop": false,
+      "finishedAt": "2026-10-20T02:07:55.426096+00:00"
     }
   ],
   "stop": {
-    "code": "PREFLIGHT_FAILURE_LIMIT",
+    "code": "PREFLIGHT_EVIDENCE_GAP",
     "index": 0,
     "checkpointPreflightFailures": 4,
-    "sourceIds": []
+    "sourceIds": [
+      "tablecheck",
+      "google-places"
+    ]
   },
   "formalLiveRuns": 0,
-  "compressedBytesEstimate": 44729832,
+  "compressedBytesEstimate": 44733371,
   "stopHistory": [
     {
       "stop": {
@@ -185,13 +352,24 @@
       "resolution": "USER_REQUESTED_CONTINUATION_AFTER_SUCCESSFUL_NETWORK_RECHECK",
       "approvalSha256": "c5cd58a5c53e5c9a6db4d4c6d55b8679279d1855e0e462f5274dbcce2535c3d6",
       "at": "2026-10-19T14:54:30.243765+00:00"
+    },
+    {
+      "stop": {
+        "code": "PREFLIGHT_FAILURE_LIMIT",
+        "index": 0,
+        "checkpointPreflightFailures": 4,
+        "sourceIds": []
+      },
+      "resolution": "USER_REQUESTED_CONTINUATION_AFTER_SUCCESSFUL_NETWORK_RECHECK",
+      "approvalSha256": "7b6cf15d9cea2f1e5049f1dfd6f34f48188b6c076b29d20c6ea8012c1933ac21",
+      "at": "2026-10-20T02:07:09.618718+00:00"
     }
   ],
   "userResume": {
     "index": 0,
-    "priorPreflightAttempts": 3,
-    "approvalSha256": "c5cd58a5c53e5c9a6db4d4c6d55b8679279d1855e0e462f5274dbcce2535c3d6",
-    "at": "2026-10-19T14:54:30.243930+00:00"
+    "priorPreflightAttempts": 4,
+    "approvalSha256": "7b6cf15d9cea2f1e5049f1dfd6f34f48188b6c076b29d20c6ea8012c1933ac21",
+    "at": "2026-10-20T02:07:09.618872+00:00"
   },
   "userResumeHistory": [
     {
@@ -199,6 +377,12 @@
       "priorPreflightAttempts": 2,
       "approvalSha256": "a3cfe261e1b71117abbf8a9d60412d51c98c21db9afa5c3545f102035ee239da",
       "at": "2026-10-19T14:40:31.516266+00:00"
+    },
+    {
+      "index": 0,
+      "priorPreflightAttempts": 3,
+      "approvalSha256": "c5cd58a5c53e5c9a6db4d4c6d55b8679279d1855e0e462f5274dbcce2535c3d6",
+      "at": "2026-10-19T14:54:30.243930+00:00"
     }
   ]
 }

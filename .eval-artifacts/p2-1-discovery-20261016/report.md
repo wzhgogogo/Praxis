@@ -239,3 +239,8 @@ After the successful21:30 network-only recheck, the user requested immediate con
 ## One more user-authorized retry (Beijing22:54)
 
 The requested retry (outer63a8136/sourcea37e152) again received TableCheck homepage503 before source-data preflight. Counter4 stopped the batch; no automatic retry or formal B started.0 new models/Google searches/probes; cumulative278/450 models,44/55 probes,117Google. [Raw evidence and current report](checkpoint-b-corrected-20261019/report.md).
+
+
+## October20 retry: source-data preflight blocks B
+
+AtBeijing10:07 network readiness passed, including TableCheck206. Source checks observed Tabelog20/HTTP200, but no valid TableCheck search response and Google text search READ_FAILED (both counts/statuses unobserved). PREFLIGHT_EVIDENCE_GAP stopped before formal B; historical failure counter4 is unchanged. No new models/probes;1 Google search attempt, cumulative278/450 models,44/55 probes,118Google. Corrected B0/10 remains NOT_REACHED. [Detailed source observations and raw paths](checkpoint-b-corrected-20261019/report.md).

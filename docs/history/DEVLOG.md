@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.178
-- Last updated: 2026-10-19
+- Document revision: 4.179
+- Last updated: 2026-10-20
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -3900,3 +3900,8 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 ## DEV-2026-10-19-P21-B-USER-RETRY4-ENV-STOP
 
 按用户“再试一次，如果通过直接跑”，外层63a8136在运行前冻结，仅接纳当前0模型/0正式启动、历史3次失败的状态；保留旧attempt/stopHistory与userResume历史，允许这一次额外尝试，不放宽网络或来源非空检查。24项离线对照通过。UTC14:54:30.244–14:54:40.128再次尝试，TableCheck首页范围GET503（TLS成功），DeepSeek200、Tabelog200、Google公开根路径404。NETWORK_READINESS失败，来源非空和正式B均未到达，未增加自动重试。累计失败4、PREFLIGHT_FAILURE_LIMIT；本次0模型/Google搜索/正式探测，B仍0/10，累计278/450模型、44/55探测、117Google、0完整Live。复用a37e152五门禁951/119，原始HTTP元数据、账本前缀证明、冻结和历史SHA完整性均保存。报告：[本次结果](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。提交推送后停下。
+
+
+## DEV-2026-10-20-P21-B-RETRY5-SOURCE-PREFLIGHT-STOP
+
+按用户“你再试一次，如果没问题就跑b”，外层76137e8已在运行前冻结，24项离线对照通过；生产a37e152、输入/见证/资格与预算不变。UTC02:07:09.619–02:07:55.426首例尝试中网络预检通过（TC206、Tabelog/DeepSeek200、Google根路径404）。来源非空检查：Tabelog20家/HTTP200/7581ms；TableCheck count=null、无HTTP状态、NO_RESPONSE/NO_VALID_SEARCH_RESPONSE/22178ms；Google文本搜索count=null、无状态、READ_FAILED/8001ms。不得记作搜索结果为0或擅自归因。来源失败缺少HTTP状态或TIMEOUT证据，不计入阈值，历史计数4保留，PREFLIGHT_EVIDENCE_GAP停批。未开始正式B、模型、决策或录制；本次0模型/0正式探测，Google搜索尝试1次，累计278/450模型、44/55探测、118Google、0完整Live，B0/10。旧attempt/stopHistory/recovery记录前缀均保留，证据和报告保存。复用源五门禁951/119，冻结和历史SHA核验；[原始路径与报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。提交推送后停止，无额外重试或规则放宽。

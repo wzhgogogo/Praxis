@@ -1,19 +1,22 @@
 {
-  "status": "STOPPED_PREFLIGHT_FAILURE_LIMIT_AFTER_USER_RETRY4",
-  "at": "2026-10-19T14:54:40.127711+00:00",
+  "status": "STOPPED_SOURCE_DATA_PREFLIGHT_EVIDENCE_GAP",
+  "at": "2026-10-20T02:07:55.426096+00:00",
   "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
   "completed": [],
   "formalProbesAdded": 0,
   "modelCallsAdded": 0,
   "modelCumulative": 278,
   "probeCumulative": 44,
-  "googleCumulative": 117,
+  "googleCumulative": 118,
   "fullLive": 0,
   "stop": {
-    "code": "PREFLIGHT_FAILURE_LIMIT",
+    "code": "PREFLIGHT_EVIDENCE_GAP",
     "index": 0,
     "checkpointPreflightFailures": 4,
-    "sourceIds": []
+    "sourceIds": [
+      "tablecheck",
+      "google-places"
+    ]
   },
   "remainingFormalRuns": 10,
   "automaticRetryAllowed": false,
@@ -34,7 +37,7 @@
     "automaticRetryAllowed": false
   },
   "preflightFailures": 4,
-  "sourceDataPreflight": "NOT_REACHED",
+  "sourceDataPreflight": "ENV_FAILURE",
   "userContinuation": {
     "outerCommit": "2f088b88f90da33c7ae97d25e78c2b5e342f5596",
     "summary": "user-resume-20261019/attempt-summary.json",
@@ -48,5 +51,15 @@
     "status": "ENV_FAILURE",
     "models": 0,
     "formalProbes": 0
+  },
+  "activeFreezeCommit": "76137e814518a7571050c54e70925a20bea85d67",
+  "previousStopRetainedInLedgerHistory": true,
+  "userRetry5": {
+    "outerCommit": "76137e814518a7571050c54e70925a20bea85d67",
+    "summary": "user-retry-5-20261020/attempt-summary.json",
+    "networkReadiness": "PASSED",
+    "models": 0,
+    "formalProbes": 0,
+    "googleSearchAttempts": 1
   }
 }

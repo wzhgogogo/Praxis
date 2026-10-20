@@ -147,3 +147,20 @@ The user explicitly requested one more attempt and immediate B execution on succ
 [Raw network result](runs/p2-kf-h001-20261027/attempt-1-user-retry-4/2026-10-19T14-54-30-689Z-dff3aed2-22fb-4476-9895-60bc64714fbc.result.json), SHA256 `5f5417705b062ebe16a7c89bcc26defa9f1d6460f1b9cacc50be6b319f8131f4`; [outer log](runs/p2-kf-h001-20261027/attempt-1-user-retry-4.outer.log); [attempt summary](user-retry-4/attempt-summary.json); [ledger-prefix proof](user-retry-4/ledger-sync-proof.json); [pre-retry ledger](user-retry-4/ledger-before.json).
 
 All previous attempts, stopHistory and the prior recovery receipt are retained. Counter3 became4; PREFLIGHT_FAILURE_LIMIT stops this one authorized attempt. No automatic retry, later case, source-search check, model call or formal discovery followed. New models/Google discovery/probes/fullLive are0. Corrected B remains0/10 with all comparison outcomes NOT_REACHED; cumulative278/450 models,44/55 probes,117Google,0 fullLive. This is a network-only environment failure, not an empty restaurant search or a functional verdict. Save, push and stop.
+
+
+## Latest outcome: October20 network ready; source-data preflight failed
+
+The user requested one more try and immediate B execution on success. Outer76137e8 was committed before execution; production a37e152,10 inputs, witness bytes, limits and safety rules remained unchanged. Attempt ran UTC2026-10-20T02:07:09.618912+00:00 to2026-10-20T02:07:55.426096+00:00, while the unchanged witness registry was still valid (earliest expiryUTC03:12:46.141). Network readiness passed: TableCheck206, Tabelog200, DeepSeek200, public Google root404; network elapsed5028ms. The mandatory source-data checks then failed:
+
+| Source | Count | HTTP status | Reason / detail | Elapsed ms | Outcome |
+| --- | --- | --- | --- | --- | --- |
+| tabelog | 20 | 200 | None / None | 7581 | NONEMPTY |
+| tablecheck | None | None | NO_RESPONSE / NO_VALID_SEARCH_RESPONSE | 22178 | FAILED |
+| google-places | None | None | NO_RESPONSE / READ_FAILED | 8001 | FAILED |
+
+Null count is an unobserved result, not0 restaurants. Neither failed source retained a response status or TIMEOUT detail, so these failures do not increment the threshold counter. Historical count4 remains and PREFLIGHT_EVIDENCE_GAP stops for diagnosis. TableCheck blocked-resource diagnostics are retained without asserting they caused the missing search response; Google READ_FAILED does not identify a status or root cause. No rules were relaxed or failures bypassed to start B.
+
+[Network raw](runs/p2-kf-h001-20261027/attempt-1-user-retry-5/2026-10-20T02-07-10-234Z-18d8f704-fa4a-4fb8-abe7-36ba63c7c052.result.json), SHA256 `00b8f4af5f2508bdb6409fdfcb01da11984cc7473c1e87487dcb03b949914e09`; [source-data preflight](runs/p2-kf-h001-20261027/attempt-1-user-retry-5/source-data-preflight.json), SHA256 `9fe0a297624d4397e1a72dde5c3e7869a5e428a9a65a7ee775bb508cc948d4ab`; [outer log](runs/p2-kf-h001-20261027/attempt-1-user-retry-5.outer.log); [summary](user-retry-5-20261020/attempt-summary.json); [ledger-prefix proof](user-retry-5-20261020/ledger-sync-proof.json); [pre-retry ledger](user-retry-5-20261020/ledger-before.json); [freeze receipt](user-retry-5-20261020/freeze-commit.json).
+
+No formal discovery, planning/model call, formal decision or recording was started. Corrected B0/10; source-data preflight1 (Tabelog1/1 nonempty, other2/2 unobserved), new Google text-search attempts1. Cumulative278/450 models,44/55 probes,118Google,0 fullLive. All ten A-versus-B functional comparisons remain NOT_REACHED. The source preflight result is not an Agent outcome and its restaurant diagnostic evaluator is NOT_APPLICABLE. Source gates remain951 default tests/119 Chromium plus typecheck/arch/build; outer24 controls passed. Save and push evidence, then stop without further retries.
