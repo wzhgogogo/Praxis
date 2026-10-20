@@ -14,7 +14,7 @@ test('approved bytes, independent literal 18-run roster and spacing',async()=>{
  const {parseAllDocuments}=await import('yaml');const originals=parseAllDocuments(readFileSync(plan.source,'utf8')).map(d=>d.toJS());
  assert.deepEqual(cases,originals.map(({role,derived_from,...c})=>c));
  const expected=['p2l-kf-h001-20261103','p2l-kf-h002-20261107','p2l-kf-h005-20261105','p2l-kf-h003-20261106','p2l-kagurazaka-kaiseki-20261105','p2l-kichijoji-tempura-20261103'];
- assert.equal(plan.runs.length,18);for(const id of expected)assert.equal(plan.runs.filter(r=>r.caseId===id).length,3);
+ assert.equal(plan.runs.length,18);for(const id of expected)assert.equal(plan.runs.filter((r:any)=>r.caseId===id).length,3);
  for(let i=1;i<18;i++)assert.notEqual(plan.runs[i].caseId,plan.runs[i-1].caseId);
  assert.deepEqual(plan.ceilings,{timeoutMs:500000,maxModelCalls:50,maxGoogleRequests:40});
 });
@@ -33,10 +33,20 @@ test('403/503/429 and observed busy pages are bounded cooldown signals',()=>{
  assert.ok(busyQuote('Search is unavailable right now. Please try again.'));assert.equal(busyQuote('No seats available'),null);
 });
 test('witness future/expired/uncertified rejected, current accepted',()=>{
- const now=Date.now(),row={variantId:'case',witnesses:[{}],classification:'KNOWN_FEASIBLE_SUPPORTED',certifiedAt:new Date(now-1000).toISOString(),validUntil:new Date(now+3600000).toISOString()};
+ const now=Date.now(),row={variantId:'case',witnesses:[{}],certifiedWitnesses:[{}],classification:'KNOWN_FEASIBLE_SUPPORTED',certifiedAt:new Date(now-1000).toISOString(),validUntil:new Date(now+3600000).toISOString()};
  assert.equal(gateWitness({variants:[row]},'case',now),row);
- for(const change of [{certifiedAt:new Date(now+1).toISOString()},{validUntil:new Date(now-1).toISOString()},{classification:'PENDING'},{witnesses:[]}])assert.throws(()=>gateWitness({variants:[{...row,...change}]},'case',now));
+ for(const change of [{certifiedAt:new Date(now+1).toISOString()},{validUntil:new Date(now-1).toISOString()},{classification:'PENDING'},{witnesses:[]},{certifiedWitnesses:[]},{certifiedAt:'invalid'},{validUntil:'invalid'}])assert.throws(()=>gateWitness({variants:[{...row,...change}]},'case',now));
 });
 test('frozen independent reviewed body grammar detects mutation',()=>{
  const bytes=readFileSync(base+'/reviewed-reads.json');parseReviewedReads(bytes,base+'/reviewed-reads.json');assert.equal(dryRunReviewedPostAudit(bytes).status,'PASS');
+});
+
+test('frozen SHA oracle rejects a changed digest without editing any production input',async()=>{
+ const {mkdtempSync,writeFileSync,rmSync}=await import('node:fs');const {join}=await import('node:path');const {verifyFreeze}=await import('./freeze.mjs');
+ const d=mkdtempSync(base+'/freeze-control-');try{const path=join(d,'manifest.json');writeFileSync(path,JSON.stringify({files:{[base+'/plan.json']:'0'.repeat(64)}}));assert.throws(()=>verifyFreeze(path),/FROZEN_FILE_CHANGED/);}finally{rmSync(d,{recursive:true});}
+});
+
+test('an approval cannot launch a duplicate batch with a new output path',async()=>{
+ const {mkdtempSync,rmSync}=await import('node:fs');const {consumeAuthorization}=await import('./policy.mjs');const d=mkdtempSync(base+'/approval-control-');
+ try{await consumeAuthorization(d,'a'.repeat(64),{directory:'first'});await assert.rejects(consumeAuthorization(d,'a'.repeat(64),{directory:'second'}),/EEXIST/);}finally{rmSync(d,{recursive:true});}
 });

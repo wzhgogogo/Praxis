@@ -3,6 +3,7 @@ import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {resolve,relative} from 'node:path';
 import {parseArgs} from 'node:util';
 import {captureVacancy} from '../p2-1-discovery-20261016/outer/post-delivery.mjs';
+import {consumeAuthorization} from './policy.mjs';
 import {base,sha,verifyFreeze} from './freeze.mjs';
 const {values}=parseArgs({options:{action:{type:'string'},freeze:{type:'string'},approval:{type:'string'},output:{type:'string'},capture:{type:'string'},review:{type:'string'}}});
 const get=p=>JSON.parse(readFileSync(p,'utf8'));
@@ -21,7 +22,8 @@ function distance(a,b){const r=Math.PI/180,p=a.latitude*r,q=Number(b.latitude)*r
 if(values.action==='capture'){
  if(!values.freeze||!values.approval||!values.output)throw Error('USER_APPROVAL_REQUIRED; this preparation task does not authorize certification');
  const frozen=verifyFreeze(values.freeze),approval=get(values.approval);
- if(approval.action!=='CERTIFY_CHECKPOINT_C_WITNESSES'||approval.approvedBy!=='USER'||approval.freezeSha256!==frozen.manifestSha256||approval.witnessPlanSha256!==sha(readFileSync(resolve(base,'witness-plan.json')))||Date.parse(approval.validUntil)<=Date.now()||Date.parse(approval.plannedLiveAt)<Date.now()||Date.parse(approval.plannedLiveAt)-Date.now()>86400000)throw Error('CERTIFICATION_MUST_BE_APPROVED_WITHIN_24H_BEFORE_LIVE');
+ if(approval.action!=='CERTIFY_CHECKPOINT_C_WITNESSES'||approval.approvedBy!=='USER'||approval.freezeSha256!==frozen.manifestSha256||approval.witnessPlanSha256!==sha(readFileSync(resolve(base,'witness-plan.json')))||![approval.validUntil,approval.plannedLiveAt].every(t=>Number.isFinite(Date.parse(t)))||Date.parse(approval.validUntil)<=Date.now()||Date.parse(approval.plannedLiveAt)<Date.now()||Date.parse(approval.plannedLiveAt)-Date.now()>86400000)throw Error('CERTIFICATION_MUST_BE_APPROVED_WITHIN_24H_BEFORE_LIVE');
+ await consumeAuthorization(base,sha(readFileSync(values.approval)),{action:'CERTIFY_CHECKPOINT_C_WITNESSES',freezeSha256:frozen.manifestSha256});
  const directory=local(values.output);mkdirSync(directory,{recursive:false});
  write(resolve(directory,'started.json'),{at:new Date().toISOString(),action:'CERTIFICATION_CAPTURE',freezeSha256:frozen.manifestSha256,models:0});
  const variants=[];let stopped=null,gets=0;

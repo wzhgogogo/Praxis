@@ -35,7 +35,7 @@
 
 上一尝试结束到下一尝试开始至少 5 分钟。403/503/429 或明确繁忙页记录后中断当前尝试，暂停至少 15 分钟，只允许一次重试；第二次失败停批。只允许 ENV_FAILURE / ORCHESTRATION_INTERRUPTED 重跑；每例跨三次重复累计最多一次，整批 ≤10，六例实际最多六次。S0 声明或越界立即停整批；S0 未评价不能算零，除上述可重跑环境／外层中断外停批等独立复核。正常产品失败无自动重跑。
 
-Live 前独立复核累计预算账本（所有检查点 Live ≤100、模型含回放 ≤4000、环境重跑 ≤10）。脚本要求账本已提交并冻结，为最坏的 18+6 次、1200 模型保留额度，不从历史摘要猜本期剩余额度。认证／运行后复查 0 模型，单列来源 GET 数及耗时，不冒充产品运行速度。
+Live 前独立复核累计预算账本（所有检查点 Live ≤100、模型含回放 ≤4000、环境重跑 ≤10）。脚本要求账本已提交并冻结，按剩余环境重跑额度（最多六例各一次）为 18+剩余额度 次、每次 50 模型保留额度，不从历史摘要猜本期剩余额度。认证／运行后复查 0 模型，单列来源 GET 数及耗时，不冒充产品运行速度。
 
 ## 完整 Runner 与冻结
 
@@ -43,7 +43,7 @@ Live 前独立复核累计预算账本（所有检查点 Live ≤100、模型含
 
 外层沿用 B 的网络预检目标 DEEPSEEK / GOOGLE / TABELOG；TableCheck 只经生产 `runSourceDataPreflight` 的真实来源非空数据预检。离线时仅用该预检既有依赖注入点给脚本化来源响应；正式 Live 不跳过来源预检。两种模式输出目录隔离。
 
-批准变体 SHA：`910ba0fdf755392ab1d2a1b0c2da5f9fa8d66a32217c109e8eb5f3b3ee24e8b6`。严格加载器不接受 role / derived_from 元数据；`runner-input.yaml` 是仅删除这两个顶层元数据的机械投影。独立断言逐对象深比较其余字段（含正文、Gold、日期、所有条件和验收）；原文件不改。
+批准变体 SHA：`910ba0fdf755392ab1d2a1b0c2da5f9fa8d66a32217c109e8eb5f3b3ee24e8b6`。严格加载器不接受 role / derived_from 元数据；`runner-input.yaml` 是仅删除这两个顶层元数据的机械投影。独立断言逐对象深比较其余字段（含正文、Gold、日期、所有条件和验收）；原文件不改。另在 eval 边界为已批准的 development-variant@3 接纳相同的旧父数据 SHA 校验；原生产加载器只识别 @1，不变更它。
 
 独立 reviewed-reads 直接复用 B 已冻结文件（SHA `86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62`），不从生产 Guard 导出 oracle。外层按生产 post-body-audit 的独立规则保存请求体字段类型／SHA；不保存 Cookie、Secret 或请求体值。
 
@@ -67,7 +67,7 @@ capture 保存独立 JSON-LD 身份／坐标、登记 HARD quote、响应 SHA �
 
 汇总按四层输出：端到端结果；逐环节；严重程度；归因（HYPOTHESIS，不以合并 Live 宣称因果）。退出条件 1 对四 TARGET 各 3 次至少 2 次合格，明确有效分母及排除样本；3 全阶段累计安全另需历史材料且所有新尝试 S0 声明／越界可评且零；4 每次交付所有条件有状态且展示一致；5 交付运行中位数／最长耗时仅指标，不作为退出门槛。留出集退出条件 2 本任务不跑。
 
-逐包指标分开列：P2-1 首批见证与 native funnel；P2-2 CHECK_AVAILABILITY 选店的 DIRECT_SOURCE_PAGE 数、原始决策 context 与耗时分解；P2-3 逐店价格状态、依据及展示一致性、交付数量。缺失记录不能算零次成功，需明确 NOT_EVALUATED。P2-1 的 Live 单独贡献不可从 C 推断，沿用探测／离线证据。
+逐包指标分开列：P2-1 首批见证与 native funnel；P2-2 CHECK_AVAILABILITY 选店的 DIRECT_SOURCE_PAGE 数、原始决策 context 与耗时分解；P2-3 逐店价格状态、依据及展示一致性、交付数量。缺失记录不能算零次成功，需明确 NOT_EVALUATED。退出条件 3 同时分开报告本批 S0 与全阶段历史 S0：账本未附已冻结并独立复核的 priorStageSafety 及 refs（path/SHA）时，全阶段条件保持 NOT_EVALUATED，不能用本批零错误代替。P2-1 的 Live 单独贡献不可从 C 推断，沿用探测／离线证据。
 
 离线演练使用批准 H001 投影和脚本化语义／选路／空来源；替换边界是模型、Google、浏览器和两类预检传输，主调用链保留。`offline-deny.mjs` 在所有 imports 前禁止 fetch／http／https／net／tls，意外网络尝试留文件且判失败。它证明外层 → 完整 Runner → @30 评价 → 四层报告接线，不证明实时库存、模型质量、合格交付或当前网站能力。Mock、Replay、Live Read-only、Controlled Live-write 分开报告；本轮仅 Scripted Offline，后三者均未运行。
 
@@ -77,8 +77,8 @@ capture 保存独立 JSON-LD 身份／坐标、登记 HARD quote、响应 SHA �
 node --import tsx .eval-artifacts/checkpoint-c-live-20261020/prepare.mjs
 node --import tsx --test .eval-artifacts/checkpoint-c-live-20261020/controls.test.ts
 # 提交所有编排和输入后：
-node .eval-artifacts/checkpoint-c-live-20261020/freeze.mjs .eval-artifacts/checkpoint-c-live-20261020/offline-freeze.json
-node --import tsx .eval-artifacts/checkpoint-c-live-20261020/outer.ts --mode OFFLINE_REHEARSAL --freeze .eval-artifacts/checkpoint-c-live-20261020/offline-freeze.json --output .eval-artifacts/checkpoint-c-live-20261020/rehearsal
+node .eval-artifacts/checkpoint-c-live-20261020/freeze.mjs .eval-artifacts/checkpoint-c-live-20261020/offline-freeze-final.json
+node --import tsx .eval-artifacts/checkpoint-c-live-20261020/outer.ts --mode OFFLINE_REHEARSAL --freeze .eval-artifacts/checkpoint-c-live-20261020/offline-freeze-final.json --output .eval-artifacts/checkpoint-c-live-20261020/rehearsal-final
 # 以下仅供未来授权后使用；本任务不运行：
 node .eval-artifacts/checkpoint-c-live-20261020/certify-witnesses.mjs --action capture --freeze FREEZE --approval USER_APPROVAL --output BATCH_CERTIFICATION_DIRECTORY
 node .eval-artifacts/checkpoint-c-live-20261020/certify-witnesses.mjs --action finalize --capture CAPTURE_JSON --review INDEPENDENT_HARD_REVIEW_JSON --output BATCH_CERTIFIED_REGISTRY
@@ -87,4 +87,4 @@ node --import tsx .eval-artifacts/checkpoint-c-live-20261020/outer.ts --mode LIV
 
 授权文件字段见相应脚本的严格 action／SHA／时间检查；USER_APPROVAL action 为 CERTIFY_CHECKPOINT_C_WITNESSES，USER_LIVE_APPROVAL action 为 CHECKPOINT_C_LIVE_18。两者都须 approvedBy=USER，绑定 freezeSha256／有效期；认证另含 witnessPlanSha256／plannedLiveAt，Live 另含 registrySha256。审核文件含 captureSha256、reviewedBy=INDEPENDENT_REVIEWER、witnesses[].caseId/rst_id/hardCriteria[]（value/polarity/status/evidenceRefs）。不能以准备脚本本身代替真实授权。
 
-五门禁按 Test Skill：typecheck、arch:check、npm test、build、本地 Chromium Fixture。外层控制覆盖已有真实失败（输入元数据／oracle 格式）、冻结拒改、S0 停批、唯一重跑额度、间隔、认证有效期、独立 POST 审查；不新建生产通用抽象。
+五门禁按 Test Skill：typecheck、arch:check、npm test、build、本地 Chromium Fixture。外层另行 TypeScript 检查（含 allowJs 的 JS 边界）与控制检查；外层控制覆盖已有真实失败（输入元数据／oracle 格式）、冻结拒改、S0 停批、唯一重跑额度、间隔、认证有效期、独立 POST 审查；不新建生产通用抽象。
