@@ -1,6 +1,6 @@
 {
-  "status": "B_STOPPED_AFTER_NETWORK_REPAIR_CONTINUATION",
-  "at": "2026-10-20T04:22:30.669037+00:00",
+  "status": "B_BROWSER_SOURCE_READINESS_FROZEN",
+  "at": "2026-10-20T04:55:29.727824+00:00",
   "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
   "completed": [
     0,
@@ -22,7 +22,7 @@
     "sourceIds": []
   },
   "remainingFormalRuns": 5,
-  "automaticRetryAllowed": false,
+  "automaticRetryAllowed": "Only one per-item 403/503/busy retry after>=15min under current explicit approval. Other failures stop.",
   "report": "report.md",
   "additionalRecheck": {
     "notBefore": "2026-10-19T13:29:14Z",
@@ -39,8 +39,8 @@
     "sourceDataPreflight": "NOT_RUN",
     "automaticRetryAllowed": false
   },
-  "preflightFailures": 4,
-  "sourceDataPreflight": "READY_TABLELOG20_TABLECHECK122_GOOGLE1",
+  "preflightFailures": 5,
+  "sourceDataPreflight": "PENDING_NEW_OUTER_RUN",
   "userContinuation": {
     "outerCommit": "2f088b88f90da33c7ae97d25e78c2b5e342f5596",
     "summary": "user-resume-20261019/attempt-summary.json",
@@ -55,7 +55,7 @@
     "models": 0,
     "formalProbes": 0
   },
-  "activeFreezeCommit": "9b1e5f17fd604c98bca5d302a26f8cd82203f989",
+  "activeFreezeCommit": "PENDING_COMMIT_RECEIPT",
   "previousStopRetainedInLedgerHistory": true,
   "userRetry5": {
     "outerCommit": "76137e814518a7571050c54e70925a20bea85d67",
@@ -65,7 +65,7 @@
     "formalProbes": 0,
     "googleSearchAttempts": 1
   },
-  "networkReadiness": "PASSED",
+  "networkReadiness": "PENDING_OTHER_THREE_TARGETS",
   "witnessRefresh": "start-b-20261020/witnesses.certified.json",
   "formalRunsCompletedInCurrentBatch": 5,
   "ledgerAuthority": "/Users/wangzhour/.codex/worktrees/p21-checkpoint-b-corrected/Praxis-Zhixing/.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/ledger.json",
@@ -77,5 +77,15 @@
   "userRequestedNoRetry": false,
   "pushRequested": true,
   "networkRepairResume": "network-fixed-resume-20261020/approval.json",
-  "networkRepairResumeSummary": "network-fixed-resume-20261020/attempt-summary.json"
+  "networkRepairResumeSummary": "network-fixed-resume-20261020/attempt-summary.json",
+  "nextOrder": [
+    8,
+    9,
+    6,
+    7,
+    5
+  ],
+  "browserReadinessResume": "browser-ready-resume-20261020/approval.json",
+  "outerFreezeSha256": "8e189d3a51e6229bed31c3e465b42b22db2322a0562bfe14c20cd51dc33c4bb9",
+  "outerSha256": "52543ba3a0c9f4885e929ca7a74668ff46b9a00256cbc969ea7d43a22751041c"
 }

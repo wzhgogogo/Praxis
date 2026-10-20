@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.190
+- Document revision: 4.191
 - Last updated: 2026-10-20
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4652,3 +4652,18 @@ current executable / 本次外站效果未测。修正a37e152五门禁951/119全
 - 验证：生产源码未改，复用262源码SHA与五门禁（typecheck、arch、build；默认951/951、真实本地Chromium119/119）；核对408当前冻结、329原冻结、2893历史SHA、见证原认证、五条决策/模型计数及产物引用。按纯文档矩阵检查链接、账本、索引、diff和权威一致性；原网页录制字节保留，不清洗空白。未改用户INDEX、演示文稿与产品草稿。
 - 用量：累计305/450模型、49/55正式发现探测、133 Google、0完整Live。停止后本地提交并按既有授权正常推送，等待独立复核，无后续自动运行。
 - 证据：[B逐例报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[续跑汇总](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/attempt-summary.json)、[预检时间线](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/preflight-timeline.json)、[后验核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/network-fixed-resume-20261020/post-change-verification.json)。
+
+
+## TEST-2026-10-20-P21-B-BROWSER-READINESS-FREEZE
+
+current executable / 外层编排冻结；外站结果待运行。
+
+用户最新明确授权：移除TableCheck首页Range GET网络预检，TableCheck就绪仅依据原有真实Chromium来源数据预检返回非空；DeepSeek、Google、Tabelog网络预检照旧。外层入口从冻结的原Runner机械生成，只替换网络预检调用、模块定位与被动环境信号观察；生产组装、Guard、来源数据读取、模型捕获、资格与探测指标保持原样，生产仍`a37e152b4283d8f407c9650d19200708314e3362`，干净工作树不改。
+
+离线44项对照（18项实际预检传输/观察＋26项外层时序/重试）及5项冻结输入Runner解析空跑全部PASS，0网络/模型。原逻辑遇模拟TableCheck首页403/503失败，新外层只发其他三项网络检查；真实浏览器来源预检的非空/空/超时语义仍复用原函数。Google无密钥根端点只证明HTTPS可达，任意HTTP状态与其原行为一致；传输失败仍阻断。被动观察保留原Guard策略和回调存在性，不新增响应体读取。
+
+新顺序indices8、9、6、7、5，既有completed[0..4]保留且禁止重跑。正常从上一次尝试结束起至少300秒；确切403/503或来源繁忙页从失败结束起至少900秒，仅同项重试一次，持续失败停批。旧累计失败5原样保留，旧stop按此次明确授权归档；新策略不沿用旧累计阈值自动拒绝本次准入。任何正式环境重跑都计探测/模型预算；总上限55探测、450模型、60MB压缩artifact不增加。S0和旧安全停止规则继续最高优先级。
+
+源262SHA及原五门禁复用（默认951/951，真实本地Chromium119/119；typecheck、arch、build通过）；现有16个注册见证认证未过期，不新增认证。准备阶段仍305/450模型、49/55正式发现、133 Google、0完整Live。先提交新外层、SHA和离线证据，再在同一干净宿主机工作树执行，结果完成或停批后按授权推送，等待复核。
+
+[本轮授权](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/approval.json)、[顺序/预算](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/plan.json)、[传输对照](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/offline-network-contrasts.json)、[时序对照](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/offline-policy-controls.json)、[冻结](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/browser-ready-resume-20261020/freeze.json)。

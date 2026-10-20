@@ -1,0 +1,27 @@
+{
+  "humanInstruction": "复核意见：TableCheck 的就绪判断改为只用来源数据预检（真实浏览器搜索返回非空），去掉首页 GET 的网络预检；其他来源的网络预检保留（只改外层，已预先授权）。探测之间至少间隔 5 分钟；遇到 403、503 或繁忙页，暂停 15 分钟后重试 1 次，仍然失败就停下报告。先做离线对照，提交新冻结 SHA，然后按以下顺序续跑检查点 B 剩余 5 次：H002 → 中目黑 → 吉祥寺 #1 → 吉祥寺 #2 → KF-H005 #2（已完成的 5 次不重跑）。中途停下时，报告中写明已完成哪些。完成后推送并停下，等复核。不要开始完整 Live。",
+  "productionHead": "a37e152b4283d8f407c9650d19200708314e3362",
+  "ledgerBeforeSha256": "c64167ea636f246984522c6858f50d15b8fe1fefc188078a5140d5687e27ad4f",
+  "completedIndices": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "remainingOrder": [
+    8,
+    9,
+    6,
+    7,
+    5
+  ],
+  "scope": "Eval outer only: omit TableCheck network homepage request, retain all real-browser source-data checks and all other network checks; 5min spacing/15min one retry. No full Live.",
+  "cumulativeOrigin": {
+    "models": 305,
+    "formalProbes": 49,
+    "google": 133
+  },
+  "modelCap": 450,
+  "formalProbeCap": 55
+}

@@ -1,0 +1,157 @@
+{
+  "status": "PASS",
+  "mode": "MOCK_HTTP_TRANSPORT_NO_NETWORK",
+  "contrasts": [
+    {
+      "tablecheckHomepageStatus": 403,
+      "old": "FAILED",
+      "oldCalls": [
+        {
+          "host": "api.deepseek.com",
+          "method": "GET"
+        },
+        {
+          "host": "places.googleapis.com",
+          "method": "GET"
+        },
+        {
+          "host": "tabelog.com",
+          "method": "GET"
+        },
+        {
+          "host": "www.tablecheck.com",
+          "method": "GET"
+        }
+      ],
+      "new": "SUCCEEDED",
+      "newCalls": [
+        {
+          "host": "api.deepseek.com",
+          "method": "GET"
+        },
+        {
+          "host": "places.googleapis.com",
+          "method": "GET"
+        },
+        {
+          "host": "tabelog.com",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "tablecheckHomepageStatus": 503,
+      "old": "FAILED",
+      "oldCalls": [
+        {
+          "host": "api.deepseek.com",
+          "method": "GET"
+        },
+        {
+          "host": "places.googleapis.com",
+          "method": "GET"
+        },
+        {
+          "host": "tabelog.com",
+          "method": "GET"
+        },
+        {
+          "host": "www.tablecheck.com",
+          "method": "GET"
+        }
+      ],
+      "new": "SUCCEEDED",
+      "newCalls": [
+        {
+          "host": "api.deepseek.com",
+          "method": "GET"
+        },
+        {
+          "host": "places.googleapis.com",
+          "method": "GET"
+        },
+        {
+          "host": "tabelog.com",
+          "method": "GET"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "old-homepage-403-blocks-new-omits-only-tablecheck",
+      "status": "PASS"
+    },
+    {
+      "name": "old-homepage-503-blocks-new-omits-only-tablecheck",
+      "status": "PASS"
+    },
+    {
+      "name": "network-targets-exact",
+      "status": "PASS"
+    },
+    {
+      "name": "retain-DEEPSEEK-failure",
+      "status": "PASS"
+    },
+    {
+      "name": "retain-GOOGLE-failure",
+      "status": "PASS"
+    },
+    {
+      "name": "retain-TABELOG-failure",
+      "status": "PASS"
+    },
+    {
+      "name": "real-source-data-preflight-nonempty",
+      "status": "PASS"
+    },
+    {
+      "name": "real-source-data-preflight-empty",
+      "status": "PASS"
+    },
+    {
+      "name": "real-source-data-preflight-timeout",
+      "status": "PASS"
+    },
+    {
+      "name": "observed-tabelog-busy",
+      "status": "PASS"
+    },
+    {
+      "name": "observed-tablecheck-busy",
+      "status": "PASS"
+    },
+    {
+      "name": "empty-is-not-busy",
+      "status": "PASS"
+    },
+    {
+      "name": "403-source-document",
+      "status": "PASS"
+    },
+    {
+      "name": "503-source-json",
+      "status": "PASS"
+    },
+    {
+      "name": "ignore-unrelated-image",
+      "status": "PASS"
+    },
+    {
+      "name": "normal-response-not-retry",
+      "status": "PASS"
+    },
+    {
+      "name": "passive-observer-preserves-policy-snapshot-and-no-new-body-read",
+      "status": "PASS"
+    },
+    {
+      "name": "passive-observer-preserves-existing-response-callback",
+      "status": "PASS"
+    }
+  ],
+  "count": 18,
+  "network": 0,
+  "models": 0
+}
