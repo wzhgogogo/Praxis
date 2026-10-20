@@ -71,6 +71,7 @@ export interface BrowserDiscoveryPackCapability {
   directory?: {
     listingRoot(url: string): string | undefined;
     isRegionEntrance(url: string): boolean;
+    containsObservedOutlet?(entranceUrl: string, outletUrl: string): boolean;
     links(page: BrowserSnapshot): Array<{ url: string; label: string; attributes: string; category: boolean }>;
     /** Pack-owned URL grammar for a bounded listing retrieval expression. */
     withRetrievalExpression(url: string, expression: string): string;
@@ -340,6 +341,10 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
     },
     directory: {
       listingRoot: directoryListingRoot,
+      containsObservedOutlet(entrance, outlet) {
+        const detail = normalizeTabelogOutletUrl(outlet), region = regionalDirectoryHomepage(entrance);
+        return this.isRegionEntrance(entrance) && !!detail && !!region && detail.startsWith(region);
+      },
       isRegionEntrance(value) { try { const url = new URL(value); return url.origin === "https://tabelog.com" && /^\/en\/[^/]+\/(?:A\d+|C\d+|R\d+)(?:\/(?:A\d+|C\d+|R\d+))*\/(?:rstLst\/)?$/.test(url.pathname); } catch { return false; } },
       links: directoryListingLinks,
       withRetrievalExpression(value, expression) { const url = new URL(value); url.searchParams.set("sw", expression); return url.toString(); },
@@ -353,18 +358,13 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
           && tabelogListing(page).outlets.length > 0;
       },
       observedListingFromRegionHomepage(page, observedListingUrl) {
-        const expectedHomepage = regionalDirectoryHomepage(observedListingUrl);
         const expectedListingRoot = directoryListingRoot(observedListingUrl);
-        if (!expectedHomepage || !expectedListingRoot) return undefined;
+        if (!regionalDirectoryHomepage(observedListingUrl) || !expectedListingRoot) return undefined;
         return [...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)].flatMap((match) => {
           try {
             const url = new URL((match[1] ?? "").replaceAll("&amp;", "&"), page.url);
-            // A homepage may expose subarea/category links before its own
-            // unfiltered directory. Only the exact originally observed
-            // listing root restores this query; a different prefix would
-            // silently change the current region or retrieval scope.
-            return url.origin === "https://tabelog.com" && `${url.origin}${url.pathname}`.startsWith(expectedHomepage)
-              && url.pathname === expectedListingRoot && !url.search && !url.hash
+            // Exact root equality also excludes subareas and categories.
+            return url.origin === "https://tabelog.com" && url.pathname === expectedListingRoot && !url.search && !url.hash
               ? [url.toString()] : [];
           } catch { return []; }
         })[0];

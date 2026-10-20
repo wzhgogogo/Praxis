@@ -273,6 +273,8 @@ export interface LocationAddressObservation {
 
 export interface RestaurantDiscoveryPlan {
   textRetrieval?: import("./discovery-retrieval.js").DiscoveryRetrievalSelection;
+  /** A planned source batch read early for region evidence, consumed once at its original cursor. */
+  regionReferenceRead?: { sourceId: string; readRunId?: string; read: RestaurantSearchRead };
   entries: Array<{
     sourceId: string;
     query: {
@@ -692,7 +694,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "16";
+  schemaVersion: "17";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;
