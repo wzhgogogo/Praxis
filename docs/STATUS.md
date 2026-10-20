@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.298
+- Document revision: 4.299
 - Last updated: 2026-10-20
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-20 检查点 C 复核收尾（离线）：** 已合入a3f6b84并保留双方历史；五门禁978/978、Chromium122/122通过。TableCheck已审核请求可独立原样复查；未评价继续、S0 PRESENT立即停批，原始库存响应路径/SHA保留。阶段账本2次Live/469模型/0正式环境重跑，含1014历史模型保守扣账1483；剩余模型2517。最终冻结1d40f62、364文件，14项外层与1项真实浏览器控制绿，完整脚本化演练0外站/模型通过；认证与Live未运行，推送准备分支后等批准。[报告](../.eval-artifacts/checkpoint-c-live-20261020/review-followup/report.md)。
 
 - **2026-10-20 检查点 C 离线运行准备：** 独立准备分支完成六例×三次交错顺序、500秒/50模型/40Google、S0停批/有限重跑、24h见证认证与四层报告脚本；完整 Runner 脚本化传输演练通过，0外站/真实模型/Live/认证。五门禁978/978、Chromium122/122及外层8/8通过；@30/rubric@26复用。同步fe9b3fc仅证据变更，生产与输入不变；推送准备分支后等复核。TableCheck独立运行后复查缺证仍停批未评。[交付报告](../.eval-artifacts/checkpoint-c-live-20261020/report.md)。
 
