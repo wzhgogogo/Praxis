@@ -1,0 +1,414 @@
+{
+  "mode": "SAVED_SOURCE_FIELDS_THEN_ROUTER_REDUCER",
+  "source": {
+    "path": "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json",
+    "sha256": "99a9e3e8139b0ebdc73e3cd404065ed2f08ddb250812716d1893d88deba6f931"
+  },
+  "baselineCommit": "27b3884aad4f6dfff1b8d139d164b1c6fdf94352",
+  "codeCommit": "f097ab15aeca1ed10426bc67eccb7042b3a9105a",
+  "originalPresentation": {
+    "candidateIds": [
+      "tabelog:en/tokyo/A1309/A130905/13300814",
+      "tabelog:en/tokyo/A1309/A130905/13048623"
+    ],
+    "evidenceIds": [
+      "evidence:restaurant:tabelog-entity-match:0c0e0a37649be5678cf85a5b",
+      "evidence:restaurant:native-discovery:b1792d5d2f76e315affe7beb",
+      "evidence:restaurant:tabelog-availability:bc23305aef01bca83da5542e",
+      "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+      "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+      "evidence:restaurant:native-fact-identity:e67e8e03c8e99d35631be13f",
+      "evidence:restaurant:native-discovery:868d6d701a1bee1f50959160",
+      "evidence:restaurant:tabelog-availability:90c44a954c15314812a85f35",
+      "evidence:restaurant:tabelog-entity-match:e33cac038a64260750395638",
+      "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+      "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+    ],
+    "presentedAt": "2026-10-21T11:21:32.252Z",
+    "conditionStates": {
+      "tabelog:en/tokyo/A1309/A130905/13300814": [
+        {
+          "text": "kaiseki restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "status": "MET",
+          "explanation": "Current candidate-bound source facts establish this condition status.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+          ],
+          "sources": []
+        }
+      ],
+      "tabelog:en/tokyo/A1309/A130905/13048623": [
+        {
+          "text": "kaiseki restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "status": "MET",
+          "explanation": "Current candidate-bound source facts establish this condition status.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+          ],
+          "sources": []
+        }
+      ]
+    }
+  },
+  "before": {
+    "stateSchema": "18",
+    "presentation": {
+      "candidateIds": [
+        "tabelog:en/tokyo/A1309/A130905/13300814",
+        "tabelog:en/tokyo/A1309/A130905/13048623"
+      ],
+      "evidenceIds": [
+        "evidence:restaurant:tabelog-entity-match:0c0e0a37649be5678cf85a5b",
+        "evidence:restaurant:native-discovery:b1792d5d2f76e315affe7beb",
+        "evidence:restaurant:tabelog-availability:bc23305aef01bca83da5542e",
+        "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+        "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+        "evidence:restaurant:native-fact-identity:e67e8e03c8e99d35631be13f",
+        "evidence:restaurant:native-discovery:868d6d701a1bee1f50959160",
+        "evidence:restaurant:tabelog-availability:90c44a954c15314812a85f35",
+        "evidence:restaurant:tabelog-entity-match:e33cac038a64260750395638",
+        "evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e8fa1f",
+        "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+        "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+      ],
+      "presentedAt": "2026-10-21T11:21:32.252Z",
+      "conditionStates": {
+        "tabelog:en/tokyo/A1309/A130905/13300814": [
+          {
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Current candidate-bound source facts establish this condition status.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+            ],
+            "sources": []
+          }
+        ],
+        "tabelog:en/tokyo/A1309/A130905/13048623": [
+          {
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Current candidate-bound source facts establish this condition status.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+            ],
+            "sources": []
+          }
+        ]
+      }
+    }
+  },
+  "after": {
+    "stateSchema": "19",
+    "presentation": {
+      "candidateIds": [
+        "tabelog:en/tokyo/A1309/A130905/13300814",
+        "tabelog:en/tokyo/A1309/A130905/13048623"
+      ],
+      "evidenceIds": [
+        "evidence:restaurant:tabelog-entity-match:0c0e0a37649be5678cf85a5b",
+        "evidence:restaurant:native-discovery:b1792d5d2f76e315affe7beb",
+        "evidence:restaurant:tabelog-availability:bc23305aef01bca83da5542e",
+        "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+        "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+        "evidence:restaurant:native-fact-identity:e67e8e03c8e99d35631be13f",
+        "evidence:restaurant:native-discovery:868d6d701a1bee1f50959160",
+        "evidence:restaurant:tabelog-availability:90c44a954c15314812a85f35",
+        "evidence:restaurant:tabelog-entity-match:e33cac038a64260750395638",
+        "evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e8fa1f",
+        "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+        "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+      ],
+      "presentedAt": "2026-10-21T11:21:32.252Z",
+      "conditionStates": {
+        "tabelog:en/tokyo/A1309/A130905/13300814": [
+          {
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+              "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+            ],
+            "sources": [
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          }
+        ],
+        "tabelog:en/tokyo/A1309/A130905/13048623": [
+          {
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+            ],
+            "sources": [
+              {
+                "field": "NAME",
+                "quote": "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "A Flaw in the Spring Kaiseki Experience",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "conditions": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+      "text": "kaiseki restaurant",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "originalLive": {
+        "text": "kaiseki restaurant",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+        ],
+        "sources": []
+      },
+      "currentBase": {
+        "text": "kaiseki restaurant",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:0",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+        ],
+        "sources": []
+      },
+      "fixed": {
+        "text": "kaiseki restaurant",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:0",
+        "status": "MET",
+        "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+        "evidenceIds": [
+          "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+          "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+        ],
+        "sources": [
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      }
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+      "text": "kaiseki restaurant",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "originalLive": {
+        "text": "kaiseki restaurant",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+        ],
+        "sources": []
+      },
+      "currentBase": {
+        "text": "kaiseki restaurant",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:0",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+        ],
+        "sources": []
+      },
+      "fixed": {
+        "text": "kaiseki restaurant",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:0",
+        "status": "NOT_CHECKED",
+        "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+        "evidenceIds": [
+          "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+        ],
+        "sources": [
+          {
+            "field": "NAME",
+            "quote": "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "A Flaw in the Spring Kaiseki Experience",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+      "evidenceId": "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+      "snapshot": 33,
+      "path": "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/snapshot-0033.html",
+      "sha256": "ea18f66713d89beca3aa62e0ec162e7885721547047704476c2fcd640a29a1c6",
+      "selectedModelQuotes": true,
+      "fields": [
+        {
+          "field": "NAME",
+          "quote": "Kaiseki Utou",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "A toast with Aomori's blessings and ...",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "A Good Sense of Anticipation",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "A New Building Discovered on the Cob...",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "We offer an omakase course featuring approximately 8 to 9 dishes. We source exceptional seasonal ingredients from Japan, including vegetables, fish, and meat, from trusted producers across the country. Our menu is tailored daily to suit our guests. At the counter, you will find a tempura pot and a charcoal grill, where we prepare dishes right before your eyes. We take pride in highlighting the unique flavors of each ingredient, presenting beautifully crafted dishes that embody a sense of wabi-sabi.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Seasonal Omakase Course \"Utou\" ◆ Enjoy exquisite dishes featuring seasonal ingredients at a leisurely pace",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "We offer an omakase course featuring approximately 8 to 9 dishes. We source wonderful seasonal ingredients from Japan, including vegetables, fish, and meat, from connected producers across the country. Our menu is tailored daily to suit our guests. At the counter, you will find a tempura pot and a charcoal grill, where we prepare dishes fresh right before your eyes. Each ingredient is carefully selected to bring out its unique flavors, and we present beautifully crafted dishes that embody a sense of wabi-sabi.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Seasonal Omakase Course \"Yanagi\" Simple and Delicious Seasonal Ingredients",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Experience a variety of wonderful Japanese ingredients, prepared simply and thoughtfully.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CATEGORY",
+          "quote": "Japanese Cuisine",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+      "evidenceId": "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+      "snapshot": 34,
+      "path": "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/snapshot-0034.html",
+      "sha256": "cd9c48359d4982b4b1f82e376e777b443ada73c2a73069e06f896da811ba2c72",
+      "selectedModelQuotes": true,
+      "fields": [
+        {
+          "field": "NAME",
+          "quote": "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Authentic Kaga Cuisine Experience in...",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "A Flaw in the Spring Kaiseki Experience",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "\"Solitary Gourmet in a Spacious Priv...",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CATEGORY",
+          "quote": "Japanese Cuisine, Creative",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    }
+  ],
+  "sourceCalls": 0,
+  "modelCalls": 0,
+  "limitation": "Counterfactual source-field metadata reconstructed from saved HTML and original selected quotes; original IDs/labels retained to reconnect original model references. No source or model re-execution, no new availability claim."
+}

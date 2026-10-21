@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.226
+- Document revision: 4.227
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -13,7 +13,7 @@
 
 ## TEST-2026-10-21-CONDITION-DISPLAY-EVIDENCE
 
-- Valid original Kaga Router->Reducer red plus quote/meal/name/review controls saved. Focused57/57, default986/986, local Chromium131/131 and type/arch/build pass. Chromium verifies real source field labels in Web. Source parsing rejects nested reviews/neighbors and preserves lunch. Frozen quick3 display replay pending; zero real model/site calls.
+- Valid original Kaga Router->Reducer red plus quote/meal/name/review controls saved. Focused57/57, default986/986, local Chromium131/131 and type/arch/build pass. Chromium verifies real source field labels in Web. Source parsing rejects nested reviews/neighbors and preserves lunch. Frozen quick3 display replay3/3 PASS; 1352 hashes unchanged,17 raw-HTML quote checks, no candidate-set changes; only Kaga status MET->NOT_CHECKED. Two lunch offerings stay explicitly LUNCH, requested-time course availability unverified. Codef097ab15/freeze740cdc8a; zero real model/site/Google/Live calls. Raw source artifacts unchanged; counterfactual metadata replay and local Chromium do not prove current external behavior.
 - [Report](../../.eval-artifacts/condition-display-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
 
 ## TEST-2026-10-21-CRITERION-PRESENTATION-REPAIR

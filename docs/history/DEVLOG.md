@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.219
+- Document revision: 4.220
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -13,7 +13,7 @@
 
 ## DEV-2026-10-21-CONDITION-DISPLAY-EVIDENCE
 
-- Parser-owned field quotations now reach condition-states3 and the Web with their real source words and meal scope. Names/customer reviews alone cannot display HARD MET; no condition text is fabricated as a quote. Two actual producers retain the metadata: Tabelog availability and native fact reads. Private source roles are omitted from model requests, keeping Prompt14/Schema4 unchanged. State19/TaskDefinition17 updates current callers directly; no compatibility, migration or reset. Eligibility/Guard/freshness unchanged.
+- Parser-owned field quotations now reach condition-states3 and the Web with their real source words and meal scope. Names/customer reviews alone cannot display HARD MET; no condition text is fabricated as a quote. Two actual producers retain the metadata: Tabelog availability and native fact reads. Private source roles are omitted from model requests, keeping Prompt14/Schema4 unchanged. State19/TaskDefinition17 updates current callers directly; no compatibility, migration or reset. Eligibility/Guard/freshness unchanged. Codef097ab15; committed freeze740cdc8a (1352 hashes), offline source-field Router->Reducer replay3/3 complete: four merchant-supported HARD MET states retain real quotes, Kaga becomes NOT_CHECKED. Existing qualification and candidate sets unchanged; not a Live or model rerun.
 - [Report](../../.eval-artifacts/condition-display-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
 
 ## DEV-2026-10-21-CRITERION-PRESENTATION-REPAIR
