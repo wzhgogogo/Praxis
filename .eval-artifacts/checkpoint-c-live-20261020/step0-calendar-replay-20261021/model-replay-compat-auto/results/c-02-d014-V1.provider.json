@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "55e39f1ea9ab6c6149e840ec9205656619ee487d1642213fb5510723c0959f8b",
+  "id": "78f43703-72b6-478a-8a30-71a9699dbaf0",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14269,
+    "completion_tokens": 127,
+    "total_tokens": 14396,
+    "prompt_tokens_details": {
+      "cached_tokens": 3200
+    },
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 11069
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_WCt6OrhmH1LlorH4ujED8101",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:5:target:124\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select guest count 2 via the authoritative party-size control.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

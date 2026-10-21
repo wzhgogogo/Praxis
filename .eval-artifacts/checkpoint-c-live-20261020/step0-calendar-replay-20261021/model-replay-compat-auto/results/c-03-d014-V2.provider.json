@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "8073a3f8160d9f638a2975601b572a29c29500fa7a444cc94f7ea15602b54df7",
+  "id": "c2c81476-6180-41a2-88b1-a0ef642aacb0",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14146,
+    "completion_tokens": 2275,
+    "total_tokens": 16421,
+    "prompt_tokens_details": {
+      "cached_tokens": 3072
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2134
+    },
+    "prompt_cache_hit_tokens": 3072,
+    "prompt_cache_miss_tokens": 11074
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_2Pk9V84GxcvvQU7M376j2754",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:10:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the observed date strip past 2026-10-31 toward the requested 2026-11-05.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

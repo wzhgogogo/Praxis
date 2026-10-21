@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.210
+- Document revision: 4.211
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-CHECKPOINT-C-CALENDAR-REPLAY
+
+- Mode分开：Scripted Offline原7项＋兼容3项全通过，原全流程4个脚本化请求／0网络／0真实模型；Real Model Decision Replay为69点×四变体、276试次／277 API，0来源／浏览器动作／Google／完整Live／外写。原五次Live原始结果、Gold／变体／见证和历史S0不改，未调用生产DOM parser生成答案。
+- Oracle红／绿：c-01 sequence28真实month target90判正，人数131／时间136／错误action／坏JSON判负。104宽筛逐点保存DOM SHA，69主样本均有真实空标签LINK且CLICK可用；V3所有month／guest／time组绑定核对。独立差异检查69点验证V0原消息逐字、V1只generic、V2只thinking/timeout/output、V3只observation；额外批准的线协议auto只改tool_choice，其他变体payload字节不变。网站／其他模型路径／GET拒绝、300硬限和重复开始凭据拒绝；脚本化生产Gateway→原始输出→独立评分→报告闭环通过。
+- 真实协议反例：原V2命名工具选择HTTP400停批，用户批准补充冻结后只补未生成结果的V2、不重跑成功V0/V1；原失败计入277。全部HTTP为276个200＋1个400，273结构化有效、3个V2缺tool_calls；69个V2试次都有usage，原400未知，不填0。原434／兼容459文件哈希运行前后保持，277份调用／传输凭据与账本按原始输出独立核对。
+- 冻结真实month选择率V0/V1/V2各0/69、V3为68/69（原运行18/19、17/17、16/16、1/1、16/16）；平均1.79/1.83/7.89/1.89秒。V2输出93711含推理84566；全批已报告3964257输入／119291输出，缓存不均单列，费用未评。V3一次选择人数2不升级为S0，单步不证明实际点击效果／查位／交付；69点偏向已知失败且重复，不作泛化或显著性签收。
+- 生产及web-skills与a3f6b84无差异，五生产门禁复用978/978、Chromium122/122和type／arch／build PASS；没有为eval-only脚本重复生产全套或访问留出原文。阶段累计1995/4000模型（含400保守扣账）、7/100完整Live、0/10正式环境重跑；不解除原H003 S0，报告后停止待选择方案。[四层报告与限制](../../.eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/four-layer-report.md)、[逐点／token／API分母](../../.eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/comparison.json)。
 
 ## TEST-2026-10-21-CHECKPOINT-C-FIVE-RUN-USER-STOP
 

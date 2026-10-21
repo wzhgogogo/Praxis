@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "3a710608d05f7181f46b565e24085c16d374a86e511fa6c0eea067d9c3441700",
+  "id": "fcb57746-f885-41f6-8314-abd7a08dbf73",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14919,
+    "completion_tokens": 121,
+    "total_tokens": 15040,
+    "prompt_tokens_details": {
+      "cached_tokens": 4096
+    },
+    "prompt_cache_hit_tokens": 4096,
+    "prompt_cache_miss_tokens": 10823
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_e93yOujFC6Rkb1rclUnb3940",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:5:target:117\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select guest count 2\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

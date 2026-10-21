@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "6e191c9703619f05e48a911a0af29bec09691743f6fcec6cc0bc6dab3a6168b3",
+  "id": "4ea3021a-9ee4-4286-8c66-f4a7afe49592",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14547,
+    "completion_tokens": 123,
+    "total_tokens": 14670,
+    "prompt_tokens_details": {
+      "cached_tokens": 3328
+    },
+    "prompt_cache_hit_tokens": 3328,
+    "prompt_cache_miss_tokens": 11219
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_ObMAhB84yusMRyjRdL7u9857",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:13:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar month toward 2026-11-03\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

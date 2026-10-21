@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "7d380463de9655fa39ee1b6a2d8597458bbe39c50bf0a1b91fed8859e6971cc3",
+  "id": "8f3bb263-ffd7-4205-9942-1c064f456ac2",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 13948,
+    "completion_tokens": 299,
+    "total_tokens": 14247,
+    "prompt_tokens_details": {
+      "cached_tokens": 2816
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 165
+    },
+    "prompt_cache_hit_tokens": 2816,
+    "prompt_cache_miss_tokens": 11132
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_IzFxqv5Hy4xb1hXgSZrx5470",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:3:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the public date list toward the requested 2026-11-05 date.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

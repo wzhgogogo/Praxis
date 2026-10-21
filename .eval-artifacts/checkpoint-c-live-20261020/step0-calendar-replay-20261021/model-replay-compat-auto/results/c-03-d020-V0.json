@@ -1,0 +1,63 @@
+{
+  "id": "c-03-d020-V0",
+  "seedId": "c-03-d020",
+  "variant": "V0",
+  "runId": "c-03",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "2c97445cef2e331c1de9920f3d4d2c16da15ac9afe21075644898df938d6220a",
+  "startedAt": "2026-10-21T03:52:20.347Z",
+  "finishedAt": "2026-10-21T03:52:21.807Z",
+  "elapsedMs": 1460.4741249999497,
+  "fetches": 1,
+  "outcome": "SUCCEEDED",
+  "response": {
+    "invocationId": "80c67f41-3bea-4b64-a534-85302d646edb",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:4:target:130\", \"authoritativeField\": \"DATE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to November to reach the requested date 2026-11-05.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1460,
+    "providerRequestId": "19bf893d-ff4d-49c1-a78d-db5db4dbb2f0",
+    "usage": {
+      "inputTokens": 14150,
+      "outputTokens": 131,
+      "totalTokens": 14281
+    }
+  },
+  "error": null,
+  "invocation": {
+    "invocationId": "80c67f41-3bea-4b64-a534-85302d646edb",
+    "taskId": "checkpoint-c-calendar:c-03-d020:V0",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "SUCCEEDED",
+    "latencyMs": 1460,
+    "providerStatus": 200,
+    "usage": {
+      "inputTokens": 14150,
+      "outputTokens": 131,
+      "totalTokens": 14281
+    },
+    "providerRequestId": "19bf893d-ff4d-49c1-a78d-db5db4dbb2f0"
+  },
+  "providerUsage": {
+    "prompt_tokens": 14150,
+    "completion_tokens": 131,
+    "total_tokens": 14281,
+    "prompt_tokens_details": {
+      "cached_tokens": 13952
+    },
+    "prompt_cache_hit_tokens": 13952,
+    "prompt_cache_miss_tokens": 198
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash"
+}

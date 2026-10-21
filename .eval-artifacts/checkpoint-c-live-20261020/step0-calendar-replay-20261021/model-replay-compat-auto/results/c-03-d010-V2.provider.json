@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "37c1e65364196987c9c69f8834f8a32d3bba10159ffba09560785c9ba4ec6e06",
+  "id": "ba680ed9-ac0f-4af0-8ddf-d1d6f1ee6506",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14067,
+    "completion_tokens": 729,
+    "total_tokens": 14796,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 603
+    },
+    "prompt_cache_hit_tokens": 1664,
+    "prompt_cache_miss_tokens": 12403
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_8TgfyDeu86ij6Fjod9Fv4170",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:6:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the date strip to reach November dates.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

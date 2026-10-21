@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "a4ff92e40da6e7023f36bffa90014b7643868a8eb2897ed59f86fd9b96e118e9",
+  "id": "84b31ee6-a2d8-4cb1-9104-b102b0e8cb21",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14260,
+    "completion_tokens": 807,
+    "total_tokens": 15067,
+    "prompt_tokens_details": {
+      "cached_tokens": 3072
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 675
+    },
+    "prompt_cache_hit_tokens": 3072,
+    "prompt_cache_miss_tokens": 11188
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_AyzdMthS4GiAuyF3KAq49238",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:10:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the visible calendar date strip toward the requested November 2026 date.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

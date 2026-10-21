@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "a37860c36601911cc917d243c2a4c82275d5c8840ff5ca630a18de56b6602199",
+  "id": "530d511f-3407-44e1-b41c-6703c7b234d3",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 13935,
+    "completion_tokens": 656,
+    "total_tokens": 14591,
+    "prompt_tokens_details": {
+      "cached_tokens": 2944
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 523
+    },
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 10991
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_uXfMJBdYemy3yWMijfaT1530",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:123\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the calendar date list toward the requested November date, then re-observe.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

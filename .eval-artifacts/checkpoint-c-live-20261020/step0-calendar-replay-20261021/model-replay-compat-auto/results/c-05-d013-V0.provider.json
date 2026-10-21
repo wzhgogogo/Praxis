@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "f95e98edc3d13b7133b3c2dea9953ac77362dd7ced62df5595b5187a9ed4f6c7",
+  "id": "c4e3f65c-1ab7-4b64-a22e-c34a18da6261",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 13851,
+    "completion_tokens": 134,
+    "total_tokens": 13985,
+    "prompt_tokens_details": {
+      "cached_tokens": 13696
+    },
+    "prompt_cache_hit_tokens": 13696,
+    "prompt_cache_miss_tokens": 155
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_h8KJW8sYwhEPyY3LdIeC6076",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:4:target:118\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select party size 2 as a step toward 3? No — must select 3.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

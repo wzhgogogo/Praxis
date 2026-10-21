@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "3f63a905671f09d15b0dd1318bc066ad9662cc00452928aa37d2b499595ecb97",
+  "id": "eede77b7-f124-4f72-994b-f6160b59fa76",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14260,
+    "completion_tokens": 1225,
+    "total_tokens": 15485,
+    "prompt_tokens_details": {
+      "cached_tokens": 3072
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1096
+    },
+    "prompt_cache_hit_tokens": 3072,
+    "prompt_cache_miss_tokens": 11188
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_vKCaXn8luDgbHSid8xiX7118",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:13:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance date strip toward 2026-11-03\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "85fcfbd3a10748f7edb2f92b4a22c51248aafdef1ff7e85556207fda32ae4ce0",
+  "id": "7d8b4942-8fb7-4483-9c94-ad80157c9e9f",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14143,
+    "completion_tokens": 1657,
+    "total_tokens": 15800,
+    "prompt_tokens_details": {
+      "cached_tokens": 2944
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1517
+    },
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 11199
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_d2i4h6DoeSQSmBnacODn4264",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:15:target:135\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the date calendar past October toward the requested 2026-11-07 using the calendar's next control.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "26e35d42f379543eb124007a643ab0175c15989457bc83a4e9530452ec2f8f05",
+  "id": "7b5de238-1e48-4062-a1b3-3b26d057f82a",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 13268,
+    "completion_tokens": 918,
+    "total_tokens": 14186,
+    "prompt_tokens_details": {
+      "cached_tokens": 2944
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 773
+    },
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 10324
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_msD3lYOhFZlPOefqsEwy7260",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:106\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the calendar's date strip to reach the requested 2026-11-05, since only late-October dates are currently shown.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "3a5cbc7bcf974c36854b7af4ebd9a80cf3fa0d264fe9bc8df83eea1b8e234065",
+  "id": "50a52d68-1acc-4a06-ad38-c9fb8bd955c3",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14147,
+    "completion_tokens": 125,
+    "total_tokens": 14272,
+    "prompt_tokens_details": {
+      "cached_tokens": 13952
+    },
+    "prompt_cache_hit_tokens": 13952,
+    "prompt_cache_miss_tokens": 195
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_51czZ8j3CwfDOv9e9JoZ5469",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:4:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to reach requested date 2026-11-07\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

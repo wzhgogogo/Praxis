@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "b7b91ff3b4dc899ad94c3b74da95e75c6f9bfc2f7f915692341134601e62ac4a",
+  "id": "d53c4edc-b4e9-4910-b273-4c3fd4d75f6c",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14167,
+    "completion_tokens": 3890,
+    "total_tokens": 18057,
+    "prompt_tokens_details": {
+      "cached_tokens": 2816
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3746
+    },
+    "prompt_cache_hit_tokens": 2816,
+    "prompt_cache_miss_tokens": 11351
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_eqSkvE4HMdbAQu0NItdE0913",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:4:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the calendar/date strip beyond the visible Oct 21-31 range toward the requested 2026-11-07 date.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

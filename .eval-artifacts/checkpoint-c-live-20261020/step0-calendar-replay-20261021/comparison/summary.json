@@ -1,0 +1,366 @@
+{
+  "schema": "checkpoint-c-calendar-report@1",
+  "mode": "REAL_MODEL_REPLAY",
+  "startedAt": "2026-10-21T03:36:44.588Z",
+  "finishedAt": "2026-10-21T03:56:07.570Z",
+  "freeze": {
+    "sha256": "c784a31ef87577789bb72d5197cda8da5ec81b1ce63d301512b1e8240af71e38",
+    "files": 459
+  },
+  "committedSha": "15e77164adcee198893070b2bff6a4c62e816d44",
+  "planned": 276,
+  "attempted": 276,
+  "actualModelCalls": 277,
+  "websiteRequests": 0,
+  "stopped": null,
+  "variants": [
+    {
+      "variant": "V0",
+      "planned": 69,
+      "attempted": 69,
+      "succeeded": 69,
+      "notReached": 0,
+      "correct": 0,
+      "accuracyAllPlanned": 0,
+      "accuracyAttempted": 0,
+      "meanElapsedMs": 1793.5077077101455,
+      "meanSucceededElapsedMs": 1793.5077077101455,
+      "categories": {
+        "GUEST_PAGER": 65,
+        "OTHER_ACTION": 4
+      },
+      "tokens": {
+        "input": {
+          "sum": 962375,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "output": {
+          "sum": 8585,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "total": {
+          "sum": 970960,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "reasoning": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 69
+        },
+        "cacheHit": {
+          "sum": 949493,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "cacheMiss": {
+          "sum": 12882,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 0
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 0
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 0
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 0
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 0
+        }
+      ],
+      "returnedModels": [
+        "deepseek-flash"
+      ]
+    },
+    {
+      "variant": "V1",
+      "planned": 69,
+      "attempted": 69,
+      "succeeded": 69,
+      "notReached": 0,
+      "correct": 0,
+      "accuracyAllPlanned": 0,
+      "accuracyAttempted": 0,
+      "meanElapsedMs": 1834.2274800869568,
+      "meanSucceededElapsedMs": 1834.2274800869568,
+      "categories": {
+        "GUEST_PAGER": 67,
+        "OTHER_ACTION": 2
+      },
+      "tokens": {
+        "input": {
+          "sum": 983558,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "output": {
+          "sum": 8485,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "total": {
+          "sum": 992043,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "reasoning": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 69
+        },
+        "cacheHit": {
+          "sum": 193024,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "cacheMiss": {
+          "sum": 790534,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 0
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 0
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 0
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 0
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 0
+        }
+      ],
+      "returnedModels": [
+        "deepseek-flash"
+      ]
+    },
+    {
+      "variant": "V2",
+      "planned": 69,
+      "attempted": 69,
+      "succeeded": 66,
+      "notReached": 0,
+      "correct": 0,
+      "accuracyAllPlanned": 0,
+      "accuracyAttempted": 0,
+      "meanElapsedMs": 7886.383283246381,
+      "meanSucceededElapsedMs": 8098.039530333338,
+      "categories": {
+        "GUEST_PAGER": 60,
+        "PROVIDER_FAILURE": 3,
+        "OTHER_ACTION": 4,
+        "TIME_PAGER": 2
+      },
+      "tokens": {
+        "input": {
+          "sum": 963755,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "output": {
+          "sum": 93711,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "total": {
+          "sum": 1057466,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "reasoning": {
+          "sum": 84566,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "cacheHit": {
+          "sum": 154368,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "cacheMiss": {
+          "sum": 809387,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 0
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 0
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 0
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 0
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 0
+        }
+      ],
+      "returnedModels": [
+        "deepseek-flash"
+      ]
+    },
+    {
+      "variant": "V3",
+      "planned": 69,
+      "attempted": 69,
+      "succeeded": 69,
+      "notReached": 0,
+      "correct": 68,
+      "accuracyAllPlanned": 0.9855072463768116,
+      "accuracyAttempted": 0.9855072463768116,
+      "meanElapsedMs": 1885.9853141014435,
+      "meanSucceededElapsedMs": 1885.9853141014435,
+      "categories": {
+        "CORRECT_MONTH_CONTROL": 68,
+        "OTHER_ACTION": 1
+      },
+      "tokens": {
+        "input": {
+          "sum": 1054569,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "output": {
+          "sum": 8510,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "total": {
+          "sum": 1063079,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "reasoning": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 69
+        },
+        "cacheHit": {
+          "sum": 283520,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "cacheMiss": {
+          "sum": 771049,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 18
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 17
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 16
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 1
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 16
+        }
+      ],
+      "returnedModels": [
+        "deepseek-flash"
+      ]
+    }
+  ],
+  "paired": [
+    {
+      "variant": "V1",
+      "versus": "V0",
+      "pairedPlanned": 69,
+      "improved": 0,
+      "regressed": 0,
+      "bothCorrect": 0,
+      "bothWrongOrNotReached": 69
+    },
+    {
+      "variant": "V2",
+      "versus": "V0",
+      "pairedPlanned": 69,
+      "improved": 0,
+      "regressed": 0,
+      "bothCorrect": 0,
+      "bothWrongOrNotReached": 69
+    },
+    {
+      "variant": "V3",
+      "versus": "V0",
+      "pairedPlanned": 69,
+      "improved": 68,
+      "regressed": 0,
+      "bothCorrect": 0,
+      "bothWrongOrNotReached": 1
+    }
+  ],
+  "monetaryCost": "NOT_EVALUATED_NO_FROZEN_UNIT_PRICE",
+  "endpoint": "https://api.deepseek.com/beta/chat/completions",
+  "noBrowserActionsExecuted": true,
+  "productionChanges": 0,
+  "originalS0": "c-04 PRESENT retained; no Live reauthorization implied"
+}

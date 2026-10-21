@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "2caed4f8ee96252cdc215619f0a5412e75ac100fa16a574cdf0becf6cac14607",
+  "id": "28ab8b01-ae0b-492c-b7eb-41369b985515",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 13898,
+    "completion_tokens": 580,
+    "total_tokens": 14478,
+    "prompt_tokens_details": {
+      "cached_tokens": 2816
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 442
+    },
+    "prompt_cache_hit_tokens": 2816,
+    "prompt_cache_miss_tokens": 11082
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_d9MhmHkdhcKC4910ykGJ5508",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:4:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the date strip toward 2026-11-07; party size 2 appears already selected.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

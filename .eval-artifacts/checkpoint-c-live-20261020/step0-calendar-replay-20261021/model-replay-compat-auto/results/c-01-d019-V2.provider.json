@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "54fb9c038f4196c8b14a2ac963f5cb295655a4b7c76fa6126cc352eaab3a4254",
+  "id": "b105b46a-1308-4af5-9018-f17869b98d86",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14270,
+    "completion_tokens": 561,
+    "total_tokens": 14831,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 431
+    },
+    "prompt_cache_hit_tokens": 1664,
+    "prompt_cache_miss_tokens": 12606
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_s2DGnYBFtegkaC7wcLFz5152",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:8:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the public date strip toward the requested November 3 date.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

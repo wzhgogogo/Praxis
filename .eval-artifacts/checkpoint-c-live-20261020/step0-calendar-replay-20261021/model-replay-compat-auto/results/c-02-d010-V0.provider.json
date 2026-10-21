@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "ef13b46e6fe74f6190ca1717cc826784d2a7bc12060d7ae9c8620c5c78f7aff2",
+  "id": "d72b62ff-294b-4b36-8f8c-740b228865f5",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 13878,
+    "completion_tokens": 126,
+    "total_tokens": 14004,
+    "prompt_tokens_details": {
+      "cached_tokens": 13696
+    },
+    "prompt_cache_hit_tokens": 13696,
+    "prompt_cache_miss_tokens": 182
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_KYZ2UHe4qtIsqEU8rvyt4013",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:4:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to later months to reach 2026-11-07\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

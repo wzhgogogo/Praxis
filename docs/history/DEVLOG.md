@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.203
+- Document revision: 4.204
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,13 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-21-CHECKPOINT-C-CALENDAR-REPLAY
+
+- Evidence status: exposed development / decision replay；不是Clean Baseline，未集成任何变体。用户补充第0步、0网站，原200调用上限提高至300；153个browser决策宽筛104点，按原输出明确选Next取69点（19/17/16/1/16），其余35点保留清单，重复不去重。独立HTMLParser核对原DOM和CONTROLS发现原位置规则错指59个时间／10个人数Next，真实日历导航已有原targetRef但label为空；用户批准V3补齐语义并按真实控件评分，原复核文件及五次Live结果不改。
+- 冻结ee9ac1a／967d63e2…434文件后首3 API中V0/V1完成，V2因thinking不支持强制tool_choice返回400，按冻结停批。用户明确批准仅V2改auto，补充冻结15e7716／c784a31e…459文件，保留已完成项和原400，新274请求后共277／300；V2兼容属于额外变量，不宣称仅thinking的因果对照。生产Gateway与严格工具schema复用，全部实验代码在指定artifact目录，生产／web-skills与a3f6b84字节不变。
+- 276试次全部尝试：V0/V1/V2均0/69，V3为68/69；平均1.7935／1.8342／7.8864／1.8860秒。V3唯一未中点选择人数2，按冻结翻月标准计未中，不据此认定该动作本身不合理；本步没有执行点击，不能证明实际月份变化或完整交付。V2有3个200无工具调用，原400无usage；合计已报告输入3964257／输出119291（推理84566包含在输出内），缓存命中98.7/19.6/16.0/26.9%，不编造货币成本或同缓存比较。
+- 0来源／浏览器动作／Google／Live／外写；原434与补充459冻结独立核对不变。阶段累计1995/4000模型、7/100完整Live、0/10正式环境重跑，原H003 S0和Live阻断保留。7原控制＋3兼容控制通过，完整Gateway脚本化传输→评分→报告0网络／模型；五门禁沿用未改生产978默认／122 Chromium及type／arch／build。仅提交、推准备分支并停止待复核者／用户决定方案，不继续后续1–5步。[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/four-layer-report.md)。
 
 ## DEV-2026-10-21-CHECKPOINT-C-FIVE-RUN-USER-STOP
 

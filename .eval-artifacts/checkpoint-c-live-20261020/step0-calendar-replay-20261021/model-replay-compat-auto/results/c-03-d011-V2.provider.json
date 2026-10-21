@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "837d68c168cffaa629c25ee41f03d102f56319693f8748c2b3c5ffe1274739f8",
+  "id": "1e8f2395-d3e1-44f5-b615-e0301cefa38b",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14096,
+    "completion_tokens": 528,
+    "total_tokens": 14624,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 388
+    },
+    "prompt_cache_hit_tokens": 1664,
+    "prompt_cache_miss_tokens": 12432
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_d1bH4YeBcwNpz72VEsXc6712",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:7:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance date carousel past 2026-10-31 toward requested date 2026-11-05\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

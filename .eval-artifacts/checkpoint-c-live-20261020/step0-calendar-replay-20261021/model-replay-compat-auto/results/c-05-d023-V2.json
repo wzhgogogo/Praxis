@@ -1,0 +1,55 @@
+{
+  "id": "c-05-d023-V2",
+  "seedId": "c-05-d023",
+  "variant": "V2",
+  "runId": "c-05",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "d7283f4a9ad1ecc97d230b76ce7a668ce5b1937918ceeea65beb104aeb65010b",
+  "startedAt": "2026-10-21T03:55:29.674Z",
+  "finishedAt": "2026-10-21T03:55:31.925Z",
+  "elapsedMs": 2250.9257499999367,
+  "fetches": 1,
+  "outcome": "FAILED",
+  "response": null,
+  "error": {
+    "code": "MALFORMED_RESPONSE",
+    "providerStatus": null,
+    "transportCode": null
+  },
+  "invocation": {
+    "invocationId": "fa849779-c5a5-4d6d-ad9f-201886b60fc1",
+    "taskId": "checkpoint-c-calendar:c-05-d023:V2",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-v4-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "FAILED",
+    "latencyMs": 2250,
+    "errorCode": "MALFORMED_RESPONSE",
+    "providerError": {
+      "type": "STRUCTURED_OUTPUT_SHAPE",
+      "message": "finish_reason=stop; tool_calls=0"
+    }
+  },
+  "providerUsage": {
+    "prompt_tokens": 13663,
+    "completion_tokens": 184,
+    "total_tokens": 13847,
+    "prompt_tokens_details": {
+      "cached_tokens": 3072
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 128
+    },
+    "prompt_cache_hit_tokens": 3072,
+    "prompt_cache_miss_tokens": 10591
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash"
+}

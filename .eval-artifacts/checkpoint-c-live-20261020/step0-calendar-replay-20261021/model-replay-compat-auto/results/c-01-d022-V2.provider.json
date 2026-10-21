@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "d399a0a609fceb59cff5272b4612022e43d23c56aa2dc49f688b81333251f62f",
+  "id": "997e44b2-dd2b-4bee-90e4-0a08d039ee8b",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14260,
+    "completion_tokens": 557,
+    "total_tokens": 14817,
+    "prompt_tokens_details": {
+      "cached_tokens": 3072
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 426
+    },
+    "prompt_cache_hit_tokens": 3072,
+    "prompt_cache_miss_tokens": 11188
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_jYDoxEy9ZVW4peX7WWv83376",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:11:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the public date strip toward 2026-11-03.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "checkpoint-c-calendar-independent-verification@1",
+  "checkedAt": "2026-10-21T03:58:48.714904+00:00",
+  "method": "Python stdlib independent of experiment loader/scorer; original source DOM oracle retained",
+  "freezes": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/freeze.json",
+      "sha256": "967d63e2d8e06ccbdcbb0134d55fdf4588124c8f0fa7dc49a45ac178e4a8a283",
+      "files": 434,
+      "mismatches": []
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/compat-freeze.json",
+      "sha256": "c784a31ef87577789bb72d5197cda8da5ec81b1ce63d301512b1e8240af71e38",
+      "files": 459,
+      "mismatches": []
+    }
+  ],
+  "apiRequests": 277,
+  "durableStarts": 277,
+  "gatewayTransportReceipts": 277,
+  "actualCompatibilityReceipts": 274,
+  "changedV2Payloads": 69,
+  "unchangedOtherPayloads": 205,
+  "websiteRequests": 0,
+  "networkScope": "All recorded transport receipts POST the single whitelisted DeepSeek beta endpoint; no browser constructed",
+  "httpStatusCounts": {
+    "200": 276,
+    "400": 1
+  },
+  "errors": {
+    "PROVIDER_REJECTED": 1,
+    "MALFORMED_RESPONSE": 3
+  },
+  "canonicalDecisionTrials": 276,
+  "correctByVariant": {
+    "V0": 0,
+    "V1": 0,
+    "V2": 0,
+    "V3": 68
+  },
+  "usageKnown": 276,
+  "usageUnknown": 1,
+  "tokens": {
+    "prompt_tokens": 3964257,
+    "completion_tokens": 119291,
+    "total_tokens": 4083548
+  },
+  "reasoningTokensIncludedInOutput": 84566,
+  "modelsReturned": [
+    "deepseek-flash"
+  ],
+  "productionUnchangedFrom": "a3f6b84",
+  "fiveProductionGates": "REUSED_UNCHANGED_978_DEFAULT_122_CHROMIUM_TYPE_ARCH_BUILD_PASS",
+  "liveAndEnvironmentRerunsAdded": 0,
+  "remainingModelRequests": 2005,
+  "automaticFollowUp": "NONE_WAIT_FOR_REVIEW_AND_USER_CHOICE"
+}

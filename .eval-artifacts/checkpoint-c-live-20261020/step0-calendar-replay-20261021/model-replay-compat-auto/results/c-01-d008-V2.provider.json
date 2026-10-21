@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "dfce55c4e3ce24e5d744e5f38e5fdc1cbcb6fe27bfd42b2aa27843fea814653a",
+  "id": "1e77f4d2-cbb0-41b4-9bd4-bc4535e3d92f",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14096,
+    "completion_tokens": 420,
+    "total_tokens": 14516,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 252
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 14096
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_7DPZpe9WwoIaxOkfix7e7543",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:4:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the public availability calendar to the next month so the requested date 2026-11-03 becomes visible.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

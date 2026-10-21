@@ -1,0 +1,65 @@
+{
+  "id": "c-05-d013-V0",
+  "seedId": "c-05-d013",
+  "variant": "V0",
+  "runId": "c-05",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "9e2bb4ec83b4aecaf59bf1a1ee7f7b2e03f027f2e70cb12d7a9ade348f0d2f4c",
+  "startedAt": "2026-10-21T03:54:00.312Z",
+  "finishedAt": "2026-10-21T03:54:02.074Z",
+  "elapsedMs": 1761.7885000000242,
+  "fetches": 1,
+  "outcome": "SUCCEEDED",
+  "response": {
+    "invocationId": "8af8ec36-8142-426b-9e76-1d0be371fec1",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:4:target:118\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select party size 2 as a step toward 3? No — must select 3.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1762,
+    "providerRequestId": "c4e3f65c-1ab7-4b64-a22e-c34a18da6261",
+    "usage": {
+      "inputTokens": 13851,
+      "outputTokens": 134,
+      "totalTokens": 13985
+    }
+  },
+  "error": null,
+  "invocation": {
+    "invocationId": "8af8ec36-8142-426b-9e76-1d0be371fec1",
+    "taskId": "checkpoint-c-calendar:c-05-d013:V0",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "SUCCEEDED",
+    "latencyMs": 1762,
+    "providerStatus": 200,
+    "usage": {
+      "inputTokens": 13851,
+      "outputTokens": 134,
+      "totalTokens": 13985
+    },
+    "providerRequestId": "c4e3f65c-1ab7-4b64-a22e-c34a18da6261"
+  },
+  "providerUsage": {
+    "prompt_tokens": 13851,
+    "completion_tokens": 134,
+    "total_tokens": 13985,
+    "prompt_tokens_details": {
+      "cached_tokens": 13696
+    },
+    "prompt_cache_hit_tokens": 13696,
+    "prompt_cache_miss_tokens": 155
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash",
+  "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d013-V0.json",
+  "sourceSha256": "562b9592ccc5b2c6d8a8657ad58b2778aafaa1cca6f1a74b8c2c5f91af2d9904"
+}

@@ -1,0 +1,63 @@
+{
+  "id": "c-05-d014-V1",
+  "seedId": "c-05-d014",
+  "variant": "V1",
+  "runId": "c-05",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "47eb66be03df6f15fb863c51bf2aef162a3074bea3433c222aca66634cb0297d",
+  "startedAt": "2026-10-21T03:54:08.203Z",
+  "finishedAt": "2026-10-21T03:54:09.579Z",
+  "elapsedMs": 1375.9799999999814,
+  "fetches": 1,
+  "outcome": "SUCCEEDED",
+  "response": {
+    "invocationId": "546c2e4d-83ce-44ad-b442-6344eeb5ab3e",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:123\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar month toward November 2026 to reach the requested date.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1376,
+    "providerRequestId": "27a4f16f-d73f-473b-a228-250843b85865",
+    "usage": {
+      "inputTokens": 14222,
+      "outputTokens": 125,
+      "totalTokens": 14347
+    }
+  },
+  "error": null,
+  "invocation": {
+    "invocationId": "546c2e4d-83ce-44ad-b442-6344eeb5ab3e",
+    "taskId": "checkpoint-c-calendar:c-05-d014:V1",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "SUCCEEDED",
+    "latencyMs": 1376,
+    "providerStatus": 200,
+    "usage": {
+      "inputTokens": 14222,
+      "outputTokens": 125,
+      "totalTokens": 14347
+    },
+    "providerRequestId": "27a4f16f-d73f-473b-a228-250843b85865"
+  },
+  "providerUsage": {
+    "prompt_tokens": 14222,
+    "completion_tokens": 125,
+    "total_tokens": 14347,
+    "prompt_tokens_details": {
+      "cached_tokens": 3200
+    },
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 11022
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash"
+}

@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "23ef34516308fd86d9633182c7eaccf3f80e3a64b64753c6cd3ee30eba523756",
+  "id": "5176ff51-4e14-4515-bd36-f6f710b21068",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14343,
+    "completion_tokens": 137,
+    "total_tokens": 14480,
+    "prompt_tokens_details": {
+      "cached_tokens": 3200
+    },
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 11143
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_s7yWo7a0RdgzChdLPQG64886",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:4:target:125\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select party size 3? No — need 2; 2 is not offered. Instead advance calendar.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.306
+- Document revision: 4.307
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-21 检查点 C 第0步翻月决策回放完成／待选择方案：** 0网站／浏览器动作／Live，原五次69个明确Next尝试×四变体，276试次、277 API请求（含原thinking强制tool_choice的400）。原位置答案经保存DOM纠正：59个时间Next、10个人数Next，真实翻月为空标签链接；用户批准V3补全其语义。V0/V1/V2均0/69，V3为68/69；平均1.79/1.83/7.89/1.89秒，V2另有3次200无工具响应。V2 auto工具选择兼容经用户批准重冻，属于额外变量；缓存命中显著不均，不作同成本或纯thinking因果结论。原冻结434／兼容459文件及生产a3f6b84均未改，10项离线控制通过、五生产门禁复用。阶段1995/4000模型（含失败）、7完整Live、0正式环境重跑；原H003 S0与Live阻断保留。只报告并推准备分支，不采用变体、不进入后续1–5步。[四层报告](../.eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/four-layer-report.md)、[逐点与成本JSON](../.eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/comparison.json)。
 
 - **2026-10-21 检查点 C 第五次后用户停止／待排查：** 神乐坂c-05完成299.901秒／47模型／5 Google，0交付、CAPABILITY_MISS；10:49:40北京按用户要求终止批次，c-06未启动。累计5/18正式、0合格、13 NOT_REACHED（3 CAPABILITY_MISS、2 HONEST_NO_RESULT），C235模型／22 Google；阶段7 Live／1718模型，正式环境重跑0。五次均在47调用的预留收尾窗口结束，43 UNKNOWN中18次请求条件未确认、5次浏览器超时，需从原始result／决策／录制离线排查，未确认唯一根因。源码及Runner／Guard／外层／评测器文件未改；本次仅运行时移除预约页GET例外，1447文件冻结停止后核对一致，83份保存HTML未检出预约表单，不是永久产品修复。原H003 S0仍PRESENT、退出3不满足；五门禁复用978/122及type／arch／build，其他退出缺分母未签收。原始5份result及SHA集中索引，只推准备分支后停止。[报告](../.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/report.md)、[原始结果索引](../.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/results-index.md)。
 

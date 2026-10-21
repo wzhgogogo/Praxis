@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "68c0241283c6aa9ba6fbfec4ec38cad297f0e96230b2717fd439ea49ca91af80",
+  "id": "865d6db0-05a4-4ab0-8a4c-648d8a8fe380",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14056,
+    "completion_tokens": 3031,
+    "total_tokens": 17087,
+    "prompt_tokens_details": {
+      "cached_tokens": 2816
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2903
+    },
+    "prompt_cache_hit_tokens": 2816,
+    "prompt_cache_miss_tokens": 11240
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_rCsqbbSI2uP25VFc0Vbx9419",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:4:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the calendar control to reach the requested November date.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

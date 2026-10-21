@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "021ec2580367ec2f8c10364c8cf9d49c1662d7404954e45c317af9972a117de1",
+  "id": "e25706db-5c71-407a-8308-b7229e60e939",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14547,
+    "completion_tokens": 122,
+    "total_tokens": 14669,
+    "prompt_tokens_details": {
+      "cached_tokens": 3328
+    },
+    "prompt_cache_hit_tokens": 3328,
+    "prompt_cache_miss_tokens": 11219
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_93I130sb7qbX9zRx3z2v3304",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:10:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance guest-count pager toward party size 2\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

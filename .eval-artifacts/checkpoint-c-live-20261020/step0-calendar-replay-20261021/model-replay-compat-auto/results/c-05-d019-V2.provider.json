@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "d0cfbef68de93dd9cc3094c68a61832d482298860b16c56fb9d1fcd56dc0c4db",
+  "id": "81b1610b-f91c-46f2-9c39-de3616f9af39",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 13573,
+    "completion_tokens": 208,
+    "total_tokens": 13781,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 81
+    },
+    "prompt_cache_hit_tokens": 1664,
+    "prompt_cache_miss_tokens": 11909
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_Tf5TVM0k1BcbEb5Pvl1m0771",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:121\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar from October to November 2026.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}
