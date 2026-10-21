@@ -1,8 +1,8 @@
 {
   "action": "CHECKPOINT_C_LIVE_18",
-  "approvedBy": "USER",
+  "approvedBy": "NONE_EXECUTION_CONSTRAINT_UNMET",
   "approvalBasis": "Latest explicit user direction to run the remaining tests without any code changes; execution selection is c-05..c-18 from the original 18-run plan. Not a safety acceptance or claim that the historical S0 is fixed.",
-  "authorizingMessage": "你不要改任何代码，就直接跑其余的测试。如实记录即可",
+  "authorizingMessage": "\u4f60\u4e0d\u8981\u6539\u4efb\u4f55\u4ee3\u7801\uff0c\u5c31\u76f4\u63a5\u8dd1\u5176\u4f59\u7684\u6d4b\u8bd5\u3002\u5982\u5b9e\u8bb0\u5f55\u5373\u53ef",
   "freezeSha256": "ba9f551d28aa6fbd754dc853e4dbeddb7d72350f6736fc998537c14ba1701b04",
   "registrySha256": "55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
   "validUntil": "2026-10-21T12:26:00Z",
@@ -25,5 +25,9 @@
   "userDirectionPath": ".eval-artifacts/checkpoint-c-live-20261020/continuation-20261021/user-direction.json",
   "userDirectionSha256": "4f19b4390caa7624e634f140cb5cf30d4a1bbe16f418e0660600a7b490901d4b",
   "knownS0Retained": true,
-  "codeChanges": 0
+  "codeChanges": 0,
+  "status": "INACTIVE_DO_NOT_LAUNCH",
+  "userRequestedContinuation": true,
+  "latestUserInstruction": "\u4e0d\u6253\u5f00\u9884\u7ea6\u8868\u5355\uff0c\u7ee7\u7eed\u8dd1",
+  "reason": "No-form constraint remains explicit. Unchanged Runner lacks a runtime no-form navigation option. Do not retry rejected launch."
 }
