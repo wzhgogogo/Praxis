@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.217
+- Document revision: 4.218
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,13 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-21-CRITERION-PRESENTATION-REPAIR
+
+- Scope: user review66269d74; offline only; codex/fix-criterion-presentation-evidence, draft / not integrated. Stop for review after push; no third quick validation.
+- Evaluator@31/rubric@27 replaces executable wording pairs with criterionRef/semantic IDs, generic normalization, and exact-artifact-SHA-scoped reviewed index bindings (13 artifacts/20 pairs; no labels/source-truth claims). All eight display records resolve. Original Gold/variants/holdout and evaluations unchanged. Historical wording YAML remains immutable review evidence; obsolete loader removed.
+- Product: earlier factChecks omitted Kaga's later availability-read fact. Current fact view retains later check-referenced facts while later same-source reads, supersession, candidate identity and raw model-support checks still apply. Router citations are complete; Reducer rejects omissions; condition-states@2 adds local criterionRef. Prompt texts/versions unchanged, proven by exact request equality.
+- Evidence: code1bb92bca, freeze commit ebe8162f, SHA`003c8b69db188ae4d5091d88e8729905fd3d845eb664d22d7423f01ea706aca8`; [four layers](../../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/four-layer-report.md), [product event replay](../../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/product-replay.json). No integration branch mutation.
 
 ## DEV-2026-10-21-CHECKPOINT-C-QUICK-GATE-STOP
 

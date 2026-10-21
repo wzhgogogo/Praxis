@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.224
+- Document revision: 4.225
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-CRITERION-PRESENTATION-REPAIR
+
+- Offline PASS: typecheck, architecture, build; default982/982; real local Chromium131/131. Evaluator focused134/134; three meaningful baseline red controls retained, corresponding green and missing-citation/superseded/cross-candidate controls pass. Saved c05 six source/semantic events replay through current Reducer -> Router -> Reducer, required later fact cited.
+- Same69 calendar points69/69 and selection5/5; current DOM/prompt and current state/context reconstruction requests byte-equal accepted requests; cached original real-model responses rescored with current code. New model API calls0, websites0; not a fresh real-model or Live sample.
+- Calibration22/22; normal S0 declaration20/20; two resultless interruptions remain allowed unknown; boundary13 historical evidence gaps retained (not zero errors). Labels read only by final independent comparison after automatic outputs frozen.
+- Three saved quick results and original@30/@26 ratings immutable. @31/@27 reference: c01 QD->QD,c02 NE->QD,c05 DU->DU; original quick gate1/3 unchanged. Eight missing display rows resolved: six CONSISTENT, two S1_UNSUPPORTED; original two missed price conditions persist. No S0/rate claims for new Live.
+- Freeze SHA`003c8b69db188ae4d5091d88e8729905fd3d845eb664d22d7423f01ea706aca8`,1345 files unchanged; cumulative ledger35 sources verified, zero new spend, totals2418 models/13 Live/0 formal environment reruns. No certification or C18. [Four layers](../../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/four-layer-report.md), [result](../../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/result.json), [original/new comparison](../../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/quick-comparison.json).
 
 ## TEST-2026-10-21-CHECKPOINT-C-QUICK-GATE-STOP
 

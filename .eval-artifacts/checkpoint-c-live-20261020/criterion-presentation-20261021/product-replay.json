@@ -1,0 +1,116 @@
+{
+  "mode": "SAVED_EVENTS_CURRENT_REDUCER_ROUTER_REPLAY",
+  "source": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json",
+    "sha256": "99a9e3e8139b0ebdc73e3cd404065ed2f08ddb250812716d1893d88deba6f931"
+  },
+  "freezeSha256": "003c8b69db188ae4d5091d88e8729905fd3d845eb664d22d7423f01ea706aca8",
+  "eventsReplayed": [
+    {
+      "type": "SEMANTIC_PROPOSAL_COMPILED",
+      "occurredAt": "2026-10-21T11:17:17.196Z"
+    },
+    {
+      "type": "SEARCH_COMPLETED",
+      "occurredAt": "2026-10-21T11:18:36.686Z"
+    },
+    {
+      "type": "AVAILABILITY_CHECKED",
+      "occurredAt": "2026-10-21T11:19:28.318Z"
+    },
+    {
+      "type": "CANDIDATE_FACTS_CHECKED",
+      "occurredAt": "2026-10-21T11:20:03.411Z"
+    },
+    {
+      "type": "AVAILABILITY_CHECKED",
+      "occurredAt": "2026-10-21T11:21:03.739Z"
+    },
+    {
+      "type": "CANDIDATE_FACTS_CHECKED",
+      "occurredAt": "2026-10-21T11:21:29.752Z"
+    }
+  ],
+  "originalPresentation": {
+    "type": "RESULTS_PRESENTED",
+    "candidateIds": [
+      "tabelog:en/tokyo/A1309/A130905/13300814",
+      "tabelog:en/tokyo/A1309/A130905/13048623"
+    ],
+    "evidenceIds": [
+      "evidence:restaurant:tabelog-entity-match:0c0e0a37649be5678cf85a5b",
+      "evidence:restaurant:native-discovery:b1792d5d2f76e315affe7beb",
+      "evidence:restaurant:tabelog-availability:bc23305aef01bca83da5542e",
+      "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+      "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+      "evidence:restaurant:native-fact-identity:e67e8e03c8e99d35631be13f",
+      "evidence:restaurant:native-discovery:868d6d701a1bee1f50959160",
+      "evidence:restaurant:tabelog-availability:90c44a954c15314812a85f35",
+      "evidence:restaurant:tabelog-entity-match:e33cac038a64260750395638",
+      "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+      "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+    ]
+  },
+  "currentPresentation": {
+    "candidateIds": [
+      "tabelog:en/tokyo/A1309/A130905/13300814",
+      "tabelog:en/tokyo/A1309/A130905/13048623"
+    ],
+    "evidenceIds": [
+      "evidence:restaurant:tabelog-entity-match:0c0e0a37649be5678cf85a5b",
+      "evidence:restaurant:native-discovery:b1792d5d2f76e315affe7beb",
+      "evidence:restaurant:tabelog-availability:bc23305aef01bca83da5542e",
+      "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+      "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+      "evidence:restaurant:native-fact-identity:e67e8e03c8e99d35631be13f",
+      "evidence:restaurant:native-discovery:868d6d701a1bee1f50959160",
+      "evidence:restaurant:tabelog-availability:90c44a954c15314812a85f35",
+      "evidence:restaurant:tabelog-entity-match:e33cac038a64260750395638",
+      "evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e8fa1f",
+      "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+      "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+    ],
+    "presentedAt": "2026-10-21T11:21:32.252Z",
+    "conditionStates": {
+      "tabelog:en/tokyo/A1309/A130905/13300814": [
+        {
+          "text": "kaiseki restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "MET",
+          "explanation": "Current candidate-bound source facts establish this condition status.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+          ],
+          "sources": []
+        }
+      ],
+      "tabelog:en/tokyo/A1309/A130905/13048623": [
+        {
+          "text": "kaiseki restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "MET",
+          "explanation": "Current candidate-bound source facts establish this condition status.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+          ],
+          "sources": []
+        }
+      ]
+    }
+  },
+  "kagaCurrentFactEvidenceIds": [
+    "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+    "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+    "evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e8fa1f"
+  ],
+  "beforeCitesLaterFact": false,
+  "afterCitesLaterFact": true,
+  "modelCalls": 0,
+  "sourceCalls": 0,
+  "fullLiveRuns": 0,
+  "limitation": "Counterfactual local event replay; original result and its independent reevaluation remain unchanged. Not a new Live delivery."
+}

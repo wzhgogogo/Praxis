@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.320
+- Document revision: 4.321
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-21 Offline criterion/presentation repair PASS; fix branch only, awaiting review:** Evaluator@31/rubric@27 associates conditions by explicit IDs or reviewed exact-artifact semantic indices; formatting normalization only, no executable synonym lookup. All eight existing-but-unmatched display rows now resolve (six consistent unknowns, two still independently unsupported). Kaga's later availability-read fact was filtered by an earlier same-source fact-check list; current Router/Reducer citations now retain it and reject omission. Condition-states@2 adds request-local criterionRef. Five gates green (982 default / 131 Chromium), calendar69/69 and selection5/5 from byte-identical requests and cached real responses, calibration22/22. Saved quick3 reference outcomes QD/QD/DU; original QD/NE/DU and quick gate1/3 retained. Code1bb92bca; freeze`003c8b69db188ae4d5091d88e8729905fd3d845eb664d22d7423f01ea706aca8` (1345 files). Zero new models/websites/Live; cumulative2418/13/0 environment reruns. No integration merge, recertification or fresh C18; no third quick run. [Four-layer report](../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/four-layer-report.md), [result.json](../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/result.json).
 
 - **2026-10-21 Quick3 gate NOT PASSED; stopped for review:** Network-restored quick3 completed before old witness deadline: c01 QUALIFIED_DELIVERY(3 outlets,167.421s,18 calls); c02 NOT_EVALUATED(2,177.643s,16; hot pot versus hot-pot wording unresolved); c05 DELIVERED_UNQUALIFIED(2,259.302s,31; Kaga required HARD check evidence omitted from presentation citations). Gate1/3<2/3; declaration ABSENT1/NE2,boundary ABSENT3, no zero-S0 certification. Stop before recertification/fresh18.12 outlets:10 selected/captured,7 displayed inventories exactly match independent GET,5 uncovered.65 calls/12Google/3Live added; totals2418 models/13Live/0formal env reruns.587 frozen files unchanged; historical H003 S0 and old failures retained. Post-batch report supplement handles serialized URI root slash; original helper/evaluator/results unchanged. [Report](../.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/four-layer-report.md), [result.json](../.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/result.json).
 
