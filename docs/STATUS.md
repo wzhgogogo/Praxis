@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.307
+- Document revision: 4.308
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-21 Checkpoint C continuous validation, step 1 PASS:** accepted review 481b893; unchanged frozen code/input verified (628 files); calendar69/69, selection5/5, calibration22/22, five gates977/129. No new model/network/Live; cumulative2143/4000 models,7/100 full Live,0/10 environment reruns. Next: authorized integration/prep merge and freeze. Evidence: `.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-1.json`.
 
 ## 当前门槛
 
@@ -26,6 +28,10 @@
 - **2026-10-20 检查点 C 复核收尾（离线）：** 已合入a3f6b84并保留双方历史；五门禁978/978、Chromium122/122通过。TableCheck已审核请求可独立原样复查；未评价继续、S0 PRESENT立即停批，原始库存响应路径/SHA保留。阶段账本2次Live/469模型/0正式环境重跑，含1014历史模型保守扣账1483；剩余模型2517。最终冻结1d40f62、364文件，14项外层与1项真实浏览器控制绿，完整脚本化演练0外站/模型通过；认证与Live未运行，推送准备分支后等批准。[报告](../.eval-artifacts/checkpoint-c-live-20261020/review-followup/report.md)。
 
 - **2026-10-20 检查点 C 离线运行准备：** 独立准备分支完成六例×三次交错顺序、500秒/50模型/40Google、S0停批/有限重跑、24h见证认证与四层报告脚本；完整 Runner 脚本化传输演练通过，0外站/真实模型/Live/认证。五门禁978/978、Chromium122/122及外层8/8通过；@30/rubric@26复用。同步fe9b3fc仅证据变更，生产与输入不变；推送准备分支后等复核。TableCheck独立运行后复查缺证仍停批未评。[交付报告](../.eval-artifacts/checkpoint-c-live-20261020/report.md)。
+
+- **2026-10-21 通用选中状态与人数确认离线门槛通过（draft / not integrated）：** 54ac940复核后补ARIA/精确状态class、真实DOM组当前选中值，保留已选控件证据并禁止重复动作；人数点击必须回读同组唯一值等于请求，未确认不能完成。Browser Prompt19/Context2，wire11及Restaurant Context15/Prompt27、skills/thinking、reserve禁令不变。引用/观察编号逐点一致；同69点69/69（要求≥68），原15问题点15/15；选店5/5、直接页13/13；校准22/22（S0声明20/20、越界13份缺口保留）；五门禁默认977/977、Chromium129/129及type/arch/build全绿。冻结8e47ddf/628项SHA不变；74模型、0重试，阶段2143/4000，剩1857；0网站/Google/Live。原54/69与历史H003 S0保留，URL捷径未实现。推独立修复分支后停止等复核。[四层报告](../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/four-layer-report.md)、[result.json](../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/result.json)。
+
+- **2026-10-21 日历V3生产修复未通过验收（draft / not integrated）：** 独立`codex/fix-calendar-next-month`基于远端a3f6b84，仅采用复核6d92882的V3；Browser Prompt18／首次Browser Context1，Restaurant Context15/Prompt27与action wire11不变。公开DOM控件组/月标题/空链接文字补齐，翻月未变反馈NO_CHANGE；TableCheck reserve及子路径永久拒绝，H003接收器零到达。五门禁默认977/977、Chromium126/126及type/arch/build全绿；22校准22/22、选店5/5（直接页13/13），但翻月54/69低于≥68，15点改选人数，**总体NOT_ACCEPTED**。静态重建69个目标集合、64份可见文本与第0步不同，不作严格单变量因果比较，不改评分。冻结b7f56b6、625项SHA运行后原样验证；74模型/0重试，阶段2069/4000，剩1931；0网站/Google/Live。Tabelog历史URL初始化日期/人数仅报告未实现；旧H003 S0保留。推独立分支后停止等复核。[四层报告](../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)、[result.json](../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/result.json)。
 
 - **2026-10-20 Context15选店回放与Tabelog方法A完成：**5条独立标注种子全ACCEPTABLE、13/13直接门店页。Gold30家各认证一次、最终29VERIFIED/1DROPPED；方法A34/34完成，Gold12/29正确、15未找到、2不确定、0找错；对照2待复核/3不确定，不计分。模型35+回放5=40，Google/完整Live/方法B新增0。评测身份停止有效红→绿，五门禁972/972+121/121；321旧/390新SHA及66历史输入不变。网络审计64组仍缺会话/完整请求证据，不作总体S0认证。冻结1b4cfda在原8ecfcfc生产基础运行，平行P2-1c合入前结束。运行后仅为发布保留远端State18/P2-1c并行提交；合并后五门禁978/978+122/122通过，未重跑模型或源站。等待独立复核。[选店报告](../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md)、[名称基准](../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md)。
 

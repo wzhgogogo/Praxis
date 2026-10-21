@@ -7,6 +7,7 @@ import {
   type BrowserReadGoal,
   type BrowserReadActionTarget,
   type BrowserReadHistoryStep,
+  type BrowserReadDecisionInput,
   browserReadActionTargetReplayFingerprint,
   type BrowserActionWireRejection,
   BrowserReadDecisionError,
@@ -114,7 +115,7 @@ export interface BrowserGenericReadResult {
   controls: BrowserPageControl[];
 }
 
-interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; nativeTag?: string; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
+interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
 
 interface Observation {
   revision: number;
@@ -207,13 +208,20 @@ function pointerObstruction(error: unknown): boolean {
 function toObservedTargets(controls: BrowserPageControl[], revision: number): Map<string, ObservedTarget> {
   const targets = new Map<string, ObservedTarget>();
   const controlRefs = new Map<string, string>();
+  const groupRefs = new Map<string, string>();
   const eligible = controls.filter(control => control.visible && !control.blockedByActiveLayer && (!control.observationOnly || control.calendarDate !== undefined)
     && (control.kind !== "LINK" || control.href !== undefined));
   for (const control of eligible) {
+    const groupKey = control.controlGroupLabel !== "Unlabelled group" ? control.controlGroupKey : undefined;
+    if (groupKey && !groupRefs.has(groupKey)) groupRefs.set(groupKey, `observation:${revision}:group:${groupRefs.size + 1}`);
+    const group = groupKey ? { controlGroupKey: groupKey, controlGroupRef: groupRefs.get(groupKey)! } : {};
     const ref = `observation:${revision}:target:${targets.size + 1}`;
     controlRefs.set(control.id, ref);
     targets.set(ref, {
       ref, controlId: control.id, stableKey: control.stableKey, ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}), kind: control.kind, role: control.role, label: control.label,
+      controlGroupLabel: control.controlGroupLabel ?? "Unlabelled group",
+      ...group,
+      ...(control.labelSource ? { labelSource: control.labelSource } : {}),
       ...(control.kind === "RADIO" && control.structure?.radioGroupKey ? { radioGroupKey: control.structure.radioGroupKey } : {}),
       ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}),
       ...(control.calendarDate ? { calendarDate: control.calendarDate } : {}),
@@ -225,6 +233,8 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
         const optionRef = `observation:${revision}:target:${targets.size + 1}`;
         targets.set(optionRef, {
           ref: optionRef, kind: "OPTION", role: "option", label: option.label, value: option.value,
+          controlGroupLabel: control.controlGroupLabel ?? "Unlabelled group",
+          ...group,
           selected: option.selected, disabled: option.disabled, ownerRef: ref,
           controlId: control.id, optionOwnerId: control.id, optionNative: true,
           ownerStableKey: control.stableKey,
@@ -487,6 +497,7 @@ export class BrowserTaskExecutor {
     let postAction = false;
     let pendingOption: ObservedTarget | undefined;
     let pendingRadio: ObservedTarget | undefined;
+    let pendingParty: { groupKey?: string } | undefined;
     let unchangedPageKey: string | undefined;
     let lastRejectedProposal: string | undefined;
     let repeatedRejectedProposals = 0;
@@ -535,7 +546,7 @@ export class BrowserTaskExecutor {
           snapshot = await this.snapshot(input);
           verifiedObservation = await this.observe(input, snapshot);
           completion = await assess(snapshot, verifiedObservation.controls);
-          if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
+          if (completion.complete && !pendingParty) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
           progress = completion.reason;
           this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: `${input.shortcut.name}: ${progress}` });
         } catch (error) {
@@ -553,8 +564,9 @@ export class BrowserTaskExecutor {
       verifiedObservation = undefined;
       if (pendingOption && this.optionSelectionObserved(pendingOption, observation.controls)) pendingOption = undefined;
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, observation.controls)) pendingRadio = undefined;
+      if (pendingParty && partyGroupConfirmed(observation, input.goal, pendingParty.groupKey)) pendingParty = undefined;
       completion = await assess(snapshot, observation.controls);
-      if (completion.complete && !pendingOption && !pendingRadio) return { status: "COMPLETED", snapshot, controls: observation.controls };
+      if (completion.complete && !pendingOption && !pendingRadio && !pendingParty) return { status: "COMPLETED", snapshot, controls: observation.controls };
       if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       if (!postAction) {
         recordPageVisit(snapshot, observation.controls);
@@ -583,11 +595,11 @@ export class BrowserTaskExecutor {
       // cannot fix a different missing field such as guest count.
       const alreadySelected = observation.controls.filter(control => control.visible && control.selected === true
         && (matchesAuthoritativeControl(control, "DATE", input.goal) || matchesAuthoritativeControl(control, "PARTY_SIZE", input.goal)));
-      const selectedFields = (["DATE", "PARTY_SIZE"] as const).filter(field => alreadySelected.some(control => matchesAuthoritativeControl(control, field, input.goal)));
-      const actionTargets = [...observation.targets.values()].filter(target => !pendingControlKeys.has(target.stableKey)
-        && !(target.role === "combobox" && observation.controls.some(control => control.id === target.controlId && control.expanded === true))
-        && !(target.kind === "BUTTON" && selectedFields.some(field => matchesAuthoritativeControl(target, field, input.goal))));
+      const actionTargets = [...observation.targets.values()].filter(target => (!pendingControlKeys.has(target.stableKey) || target.selected === true)
+        && !(target.role === "combobox" && observation.controls.some(control => control.id === target.controlId && control.expanded === true)));
+      if (pendingParty) progress = "PARTY_SIZE_NOT_CONFIRMED: no unique selected value in the clicked control group confirms the requested guest count. Read the current selected values; unrelated page changes are not confirmation.";
       let action: BrowserReadAction;
+      const month = displayedCalendarMonth(observation.controls);
       try {
         this.modelCalls += 1;
         this.budget.totalModelCalls += 1;
@@ -606,8 +618,10 @@ export class BrowserTaskExecutor {
             url: observation.snapshot.url,
             title: observation.snapshot.title,
             visibleText: safeText(observation.snapshot.text),
+            ...(month ? { displayedCalendarMonth: month } : {}),
+            controlGroups: observedControlGroups(observation),
             pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? ["WAIT", "PRESS_ESCAPE"] : ["WAIT"],
-            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
+            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
               ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined),
             })),
           },
@@ -656,7 +670,7 @@ export class BrowserTaskExecutor {
         consecutiveStateRepeats = 0;
         completion = await assess(snapshot, observation.controls);
         if (pendingOption || pendingRadio) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
-        if (completion.complete) return { status: "COMPLETED", snapshot, controls: observation.controls };
+        if (completion.complete && !pendingParty) return { status: "COMPLETED", snapshot, controls: observation.controls };
         // COMPLETE is a request to finish, never evidence that the source has
         // finished.  Keep the same browser session and give the concrete
         // missing predicate back to the model.  A second COMPLETE on the same
@@ -680,7 +694,7 @@ export class BrowserTaskExecutor {
         snapshot = await this.snapshot(input);
         verifiedObservation = await this.observe(input, snapshot);
         completion = await assess(snapshot, verifiedObservation.controls);
-        if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
+        if (completion.complete && !pendingParty) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
         postAction = true;
         continue;
       }
@@ -758,6 +772,13 @@ export class BrowserTaskExecutor {
         pendingRadio = target;
       }
       const priorSnapshot = snapshot;
+      const calendarNavigation = action.type === "CLICK" && target?.controlGroupLabel === "Calendar"
+        && /\b(?:next|previous|prev|forward|back)\b/i.test(target.label);
+      const priorMonth = calendarNavigation ? displayedCalendarMonth(observation.controls) : undefined;
+      const partyClick = action.type === "CLICK_AUTHORITATIVE" && action.field === "PARTY_SIZE"
+        || action.type === "CLICK" && !!target?.controlGroupKey && /guest|people|person|party|pax|人数|名|人/i.test(target.controlGroupLabel ?? "")
+          && matchesAuthoritativeControl(target, "PARTY_SIZE", input.goal);
+      if (partyClick) pendingParty = target?.controlGroupKey ? { groupKey: target.controlGroupKey } : {};
       const publicQuerySubmit = action.type === "CLICK" && !!target && this.guardedPublicQuerySubmit(input, target);
       if (action.type !== "WAIT") await this.waitForSettled(input, priorSnapshot);
       snapshot = await this.snapshot(input);
@@ -767,24 +788,46 @@ export class BrowserTaskExecutor {
       const publicQueryWaitChanged = changed && snapshot.settlement !== "PENDING";
       if (pendingOption && this.optionSelectionObserved(pendingOption, postActionObservation.controls)) pendingOption = undefined;
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, postActionObservation.controls)) pendingRadio = undefined;
+      if (pendingParty && partyGroupConfirmed(postActionObservation, input.goal, pendingParty.groupKey)) pendingParty = undefined;
       const optionConfirmed = !pendingOption && !pendingRadio;
       // A source that did not show an async page change may still be settling
       // its controls. Reobserve on the next turn in that case.
       verifiedObservation = changed && optionConfirmed ? postActionObservation : undefined;
-      const effectVerified = changed || observedControlChange;
+      const currentMonth = calendarNavigation ? displayedCalendarMonth(postActionObservation.controls) : undefined;
+      const monthChanged = !!priorMonth && !!currentMonth && (priorMonth.year !== currentMonth.year || priorMonth.month !== currentMonth.month);
+      const monthUnconfirmed = calendarNavigation && !monthChanged;
+      const partyUnconfirmed = partyClick && pendingParty !== undefined;
+      const effectVerified = partyClick ? !partyUnconfirmed : calendarNavigation ? monthChanged : changed || observedControlChange;
       remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
         ...("field" in action ? { field: action.field } : {}), outcome: effectVerified ? "PAGE_CHANGED" : "NO_CHANGE",
+        ...(partyUnconfirmed ? { reason: "PARTY_SIZE_NOT_CONFIRMED" } : monthUnconfirmed ? { reason: "CALENDAR_MONTH_UNCHANGED" } : {}),
         urlChanged: priorSnapshot.url !== snapshot.url });
       this.record({
         source: input.source,
         stage: input.stage,
         event: "POST_ACTION_VERIFIED",
         url: snapshot.url,
-        detail: optionConfirmed ? effectVerified ? "OBSERVED_CHANGE_AFTER_MODEL_ACTION" : "ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION" : "OPTION_VALUE_NOT_CONFIRMED",
+        detail: partyUnconfirmed ? "PARTY_SIZE_NOT_CONFIRMED" : partyClick ? "PARTY_SIZE_CONFIRMED" : monthUnconfirmed ? "CALENDAR_MONTH_UNCHANGED" : optionConfirmed ? effectVerified ? "OBSERVED_CHANGE_AFTER_MODEL_ACTION" : "ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION" : "OPTION_VALUE_NOT_CONFIRMED",
         observation: this.diagnosticObservation(postActionObservation),
       });
       completion = await assess(snapshot, postActionObservation.controls);
-      if (completion.complete && optionConfirmed) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
+      if (completion.complete && optionConfirmed && !monthUnconfirmed && !pendingParty) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
+      if (partyUnconfirmed) {
+        if (target) pendingControlKeys.add(target.stableKey);
+        unchangedPageKey = observationKey(snapshot);
+        progress = "PARTY_SIZE_NOT_CONFIRMED: the clicked group has not shown the requested selected value. Wait for current source state or choose another observed control.";
+        this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "PARTY_SIZE_NOT_CONFIRMED" });
+        postAction = true;
+        continue;
+      }
+      if (monthUnconfirmed) {
+        if (target) pendingControlKeys.add(target.stableKey);
+        unchangedPageKey = observationKey(snapshot);
+        progress = `CALENDAR_MONTH_UNCHANGED: the calendar month did not confirm a change (${priorMonth?.caption ?? "unknown"} -> ${currentMonth?.caption ?? "unknown"}). Unrelated page changes are not calendar progress. Inspect another current observed control or request human help.`;
+        this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "CALENDAR_MONTH_UNCHANGED" });
+        postAction = true;
+        continue;
+      }
       if (publicQuerySubmit && !publicQueryWaitChanged) {
         pendingControlKeys.add(target!.stableKey);
         progress = "The public query submit changed only local form state and no result arrived within its bounded wait. Do not repeat that submit; wait for a result or choose another observed safe action.";
@@ -904,11 +947,18 @@ export class BrowserTaskExecutor {
         && !/\/(?:login|signin|account|checkout|payment|reserve|booking|cancel)(?:\/|$)/i.test(new URL(target.href).pathname)) availableActions.push("OPEN_LINK");
       else rejectionReason = "NAVIGATION_PROHIBITED";
     } else if (target.kind === "BUTTON") {
+      const dateConfirmed = matchesAuthoritativeControl(target, "DATE", input.goal)
+        && observation.controls.some(control => control.visible && !control.blockedByActiveLayer && control.selected && matchesAuthoritativeControl(control, "DATE", input.goal));
+      const partyConfirmed = matchesAuthoritativeControl(target, "PARTY_SIZE", input.goal) && partyGroupConfirmed(observation, input.goal, target.controlGroupKey);
+      if (dateConfirmed || partyConfirmed || target.selected && (["DATE", "PARTY_SIZE"] as const).some(field => matchesAuthoritativeControl(target, field, input.goal))) {
+        return { availableActions, rejectionReason: "ALREADY_SELECTED" };
+      }
       if (this.safeGenericClick(target) || this.guardedReadControl(input, target)) availableActions.push("CLICK");
       else rejectionReason = "WRITE_PROHIBITED";
       if ((this.safeGenericClick(target) || this.guardedReadControl(input, target)) && target.role !== "combobox" && target.selected !== true) {
         for (const field of ["DATE", "PARTY_SIZE"] as const) {
-          if (matchesAuthoritativeControl(target, field, input.goal)) availableActions.push(`CLICK_AUTHORITATIVE:${field}`);
+          if (matchesAuthoritativeControl(target, field, input.goal)
+            && !(field === "PARTY_SIZE" && partyGroupConfirmed(observation, input.goal, target.controlGroupKey))) availableActions.push(`CLICK_AUTHORITATIVE:${field}`);
         }
       }
     } else if (target.kind === "INPUT") {
@@ -1039,6 +1089,7 @@ export class BrowserTaskExecutor {
       if (target.role === "option") throw new Error("CLICK_AUTHORITATIVE cannot choose an option; use CHOOSE_OPTION");
       if (target.role === "combobox") throw new Error("Open a custom combobox with CLICK, then choose its newly observed option with CHOOSE_OPTION.");
       if (target.kind !== "BUTTON" || target.selected === true
+        || action.field === "PARTY_SIZE" && partyGroupConfirmed(observation, input.goal, target.controlGroupKey)
         || (!this.safeGenericClick(target) && !this.guardedReadControl(input, target))
         || !matchesAuthoritativeControl(target, action.field, input.goal)) {
         throw new Error("CLICK_AUTHORITATIVE target is not a visible, exact, non-submit authoritative control");
@@ -1431,6 +1482,34 @@ function sameObservation(left: BrowserSnapshot, right: BrowserSnapshot): boolean
   // observe. Completion has already inspected the fresh DOM; repeat prevention is based on
   // the user-visible page state only.
   return left.url === right.url && left.title === right.title && left.text === right.text;
+}
+
+/** No requested date participates in observing a displayed calendar month. */
+function displayedCalendarMonth(controls: BrowserPageControl[]) {
+  const months = new Map(controls.filter(control => control.visible && !control.blockedByActiveLayer && control.calendarMonth)
+    .map(control => [`${control.calendarMonth!.year}-${control.calendarMonth!.month}`, control.calendarMonth!]));
+  return months.size === 1 ? [...months.values()][0] : undefined;
+}
+
+/** Values are positive DOM observations. Empty or multiple values never imply a default. */
+function observedControlGroups(observation: Observation): NonNullable<BrowserReadDecisionInput["observation"]["controlGroups"]> {
+  const groups = new Map<string, { ref: string; label: string; selectedValues: string[] }>();
+  for (const target of observation.targets.values()) {
+    if (!target.controlGroupRef || !target.controlGroupLabel || target.controlGroupLabel === "Unlabelled group") continue;
+    const group = groups.get(target.controlGroupRef) ?? { ref: target.controlGroupRef, label: target.controlGroupLabel, selectedValues: [] };
+    groups.set(group.ref, group);
+    const values = target.kind === "SELECT" ? (target.options ?? []).filter(option => option.selected).map(option => option.value || option.label)
+      : target.selected || target.checked ? [target.calendarDate || target.value || target.label] : [];
+    for (const value of values) if (value && !group.selectedValues.includes(value)) group.selectedValues.push(value);
+  }
+  return [...groups.values()];
+}
+
+function partyGroupConfirmed(observation: Observation, goal: BrowserReadGoal, groupKey: string | undefined): boolean {
+  if (!groupKey || goal.partySize === undefined) return false;
+  const ref = [...observation.targets.values()].find(target => target.controlGroupKey === groupKey)?.controlGroupRef;
+  const group = ref ? observedControlGroups(observation).find(group => group.ref === ref) : undefined;
+  return group?.selectedValues.length === 1 && matchesAuthoritativeControl({ label: group.selectedValues[0]!, value: group.selectedValues[0]!, role: "button" }, "PARTY_SIZE", goal);
 }
 
 function observationKey(snapshot: BrowserSnapshot, controls: BrowserPageControl[] = []): string {

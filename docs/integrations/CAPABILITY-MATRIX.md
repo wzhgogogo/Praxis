@@ -1,13 +1,15 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.69
-- Last updated: 2026-10-20
+- Document revision: 1.73
+- Last updated: 2026-10-21
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
 
 状态：`verified`表示官方文档确认；`assumed`表示设计假设待实测；`requires partnership`表示存在能力但访问条件未取得；`unsupported`表示当前不纳入。
+
+2026-10-21 选中状态补修（离线，draft / not integrated）：通用Browser从明确ARIA或精确状态class读取selected，DOM组无唯一归属/当前选中值时保持未知。人数点击后必须在同组回读请求人数，才允许完成读取；已选控件作为证据保留，不能重复人数操作。真实Chromium反例证明可见文案改变不能替代确认，同名不同DOM组不合并。旧TableCheck reserve路径撤销不变；Tabelog日期/人数URL参数仍仅为历史核查报告，本次未实现或访问。最终模型与校准结果单列，不由本地Fixture推导来源兼容性。 最终离线回放69/69、选店5/5、校准22/22、五门禁977+129通过，0网站/Live；仍待复核，不代表实时库存或完整交付。
 
 T1离线组装证据（2026-10-15）：Runner、Web和固定来源主组合共用生产读取factory及一个browserBudget；native组合实际查位累计>12调用后仍能找店，恢复旧阈值目标断言失败；真实Chromium动态Tabelog两种库存路径100/100门禁通过。仅证明固定传输下限额／接线，不新增来源能力或Live兼容性结论。见`.eval-artifacts/t1-assembly-20261015/report.md`。
 
@@ -21,6 +23,8 @@ P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、�
 
 2026-10-19 P2-3（离线）：现有Tabelog／TableCheck已打开页面的菜单读取保留数值、税、餐段、附加项及引用；介绍页价格不因独立查位UNKNOWN丢失。五份真实页面价格片段及受控Adapter/Web链证明接线，不能证明当前库存或完整Live。Aloft完整菜单文本另确认3300为BBQ附加项；生产Guard直接reserve导航仍拒绝，不作为浏览器成功样本。见[P2-3报告](../../.eval-artifacts/p2-3-conditions-20261019/report.md)。
 
+2026-10-21 日历与只读边界修复（离线，draft / not integrated，翻月54/69未通过门槛）：生产V3补充公开DOM控件组、实际月标题和空标签链接替代文本；翻月后独立回读月份，不变即NO_CHANGE。TableCheck来源永久撤销`/reserve`及子路径读取许可，旧G1的start_date/pax例外删除；prepared/observed navigation、CDP与重定向均由同一Guard先拒绝。H003本地独立接收器证明零到达，旧两条reserve菜单交付测试退役为拒绝交付合同。公开guide、搜索及已审核四参数空位请求不因该路径撤销而开放或关闭。历史H001 slot和菜单记录保留为历史证据，不代表当前可进入预约页。[本轮证据](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)。
+
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|
 | DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；Semantic与Agent使用Beta strict function。strict wire object的所有字段均为required并关闭additional properties，Domain再恢复canonical可选字段；non-blank等其余规则由本地Validator保证。安全诊断保留status/request ID/code/type/脱敏message；传输错误仅保留已知cause code（不保留原始异常文本），正文读取失败与JSON格式失败分开，模型不直接执行工具或写状态 |
@@ -32,7 +36,7 @@ P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、�
 | Hot Pepper Web Service | 餐厅、区域、预算等 | 未见公开库存API | 未见公开Consumer Booking API | 否 | 否 | 否 | `verified` Discovery；预约需网页或合作能力 |
 | Hot Pepper Web | 餐厅页 | 网页可查 | Browser | Browser/管理链接 | 成功页、邮件、订单状态 | 登录/验证/支付 | `assumed`，需逐流程Adapter验证；Request Booking不是即时成功 |
 | TableCheck API | 有集成能力 | 可能 | 可能 | 可能 | 可能 | 取决于流程 | `requires partnership`；不作为MVP无条件依赖 |
-| TableCheck Web | 公开的`/en/japan/search`按候选名称和Google坐标发现渲染出的guide页链接；原生入口同样按五详情工作块保留后续已观察入口至十详情／二列表页／90秒来源上限（每块最多一列表页） | H001只读Browser Adapter（已在原始 H001 得到一个完整 grounded slot） | 否 | 否 | 否 | 受控模型接管仅限同一会话中已观察到的只读目标 | 按请求Planner与候选的可信入口选择来源。搜索排序只限制待读取页面，不构成identity；详情页必须以JSON-LD/DOM/tel link的Google exact phone或name+full address达到HIGH。预约页只接受详情页实际链接或其嵌入的公开Availability结构，绝不派生slug；仅设置只读日期/人数参数并读取明确bookable slot。对详情页实际观察到的同门店`/shops/<same-shop>/reserve`或`/<same-shop>/reserve[/landing]`入口，Adapter可被动记录页面自己发出的同店`GET /available` JSON；即使响应URL精确绑定东京日期、成人数和单一请求时段，`failure/data:null`也只保留为诊断，不能接纳无位。不同门店、日期、人数、成功/未知响应、缺失响应或宽时间窗一律保持UNKNOWN。公开查询控件在隔离网络边界确实INSTALLED后使用共享click／checkbox／radio／range合同；无需来源UI权限函数或哈希class。敏感业务操作、个人字段仍拒绝，日期／人数／时间操作继续绑定目标并读回；真实选后库存结果绑定尚未观察，故范围库存仍为UNKNOWN。结果审计保存脱敏`Venue Availability`查询区域和当前控件；页面未确认请求、等待中、解析器不支持的结果与确认的无在线结果保持不同状态。`TABLECHECK_DISCOVERY_NO_RESULT`、`TABLECHECK_DISCOVERY_INCOMPLETE`、`TABLECHECK_ENTITY_MATCH_UNCERTAIN`、`TABLECHECK_PAGE_UNAVAILABLE`和`TABLECHECK_PARSE_FAILED`分开保留；`PAGE_UNAVAILABLE`仅可由错误页title/primary heading证明，不能由正文数字或任意`not found`字样触发。搜索页未抽取链接时同一session交给受限模型，artifact记录交接原因、观察、动作和动作后验证；耗尽后才退出该来源。2026-09-08冻结 H001 在 KINKA Sushi Bar Izakaya 渋谷通过Google exact phone达到HIGH，回读`2026-09-08`、2 人、`19:00`的公开可订slot，并进入`PRESENT_RESULTS`；这只证明该次来源/库存，不保证其他门店、日期或Web UI已验收。没有登录、个人资料、支付、点击确认或提交。identity、日期/人数或slot不确定时fail closed。TableCheck API仍`requires partnership` |
+| TableCheck Web | 公开`/en/japan/search`及guide原生发现；既有五详情工作块/来源预算不变 | 公开guide与已审核只读库存接口；进入`/reserve`的查位或菜单路径返回UNKNOWN，不能交付 | 否 | 否 | 否 | 仅允许的公开只读目标 | 当前永久拒绝tablecheck.com及子域所有`reserve`路径段和子路径（GET/HEAD/其他方法、显式allow和重定向均不例外）；不打开预约表单。identity仍须Google exact phone或name+full address达到HIGH；明确库存必须匹配门店、东京日期、人数和时段。公开查询的受控操作不授予个人信息、时段点击或提交权限。H003旧Live越界结论保留；2026-09-08 H001的KINKA完整slot为历史单次记录，不代表当前入口许可或其他门店兼容性。搜索、来源失败、UNKNOWN与UNAVAILABLE原因仍分开；本次只做离线，未重新证明实时库存或完整交付。TableCheck API仍requires partnership |
 | Google-listed Restaurant Website | 仅已发现候选的Google `websiteUri` | 有界只读的JSON-LD、可见字段及引用式原文事实交接 | 否 | 否 | 否 | 否 | 代码实现、尚待本切片Live实测。复用受控Browser Executor及Generic网络档打开HTTP(S)同源网址，移除query/fragment并拒绝凭据、跨源跳转及敏感控件。候选名称加地址包含、同序门牌加可用地域词对应，或唯一公开电话（可见数字/tel链接）精确对应，才可建立HIGH identity；门牌数字本身、同名、缺地址或明确不同城市/街区均为UNKNOWN。JSON-LD是快捷路径，不会遮住同页可见事实；身份确认后才接纳明确标注的公开套餐价/税费、包间低消、取消和no-show字段，裸金额不推断；字段彼此不派生。候选身份确认后可把每候选最多6,000字符的原文按片段ID临时交给既有事实模型；模型每页最多选择3条原文，代码仅按观察到的ID保存短引用及同来源身份，不保存整页原文到Task State。派生`MODEL_JUDGMENT`只保存到原始来源事实的引用链，不伪装为页面来源。交接不证明条件或库存；Agent仍负责后续调查。536项默认测试与生产组合通过，Matsue两页Replay可绑定；不同电话/跨语言地址及共享菜单归属未解决，一次固定来源真实模型已证明Matsue阅读交接，但fact judgment11有引用格式失败；当前12/schema4以当前来源ID枚举约束引用，仅离线门禁通过，尚无修正后的模型或新整单Live验收。Google Maps URL、Google列出的网址或模型结论都不单独证明官网/门店事实；失败为candidate-scoped UNKNOWN，绝不构成无位 |
 | Phone-only Restaurant | 可能 | 电话 | 否 | 否 | 用户/餐厅确认 | 用户 | `unsupported`于MVP |
 

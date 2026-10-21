@@ -1,0 +1,71 @@
+{
+  "kind": "CALENDAR",
+  "id": "c-01-d045",
+  "codeCommit": "b7f56b660c9a1fc017b792a01eb405ff83349383",
+  "freezeSha256": "d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d",
+  "call": {
+    "kind": "CALENDAR",
+    "id": "c-01-d045",
+    "startedAt": "2026-10-21T04:30:27.406Z",
+    "requestSha256": "eddbe9c44c3896bb9c4b60a605c9c9311d122e210819e45714958ae91aead986",
+    "status": "SUCCEEDED",
+    "finishedAt": "2026-10-21T04:30:29.449Z",
+    "wallMs": 2041.5803339999984,
+    "latencyMs": 2041,
+    "model": "deepseek-flash",
+    "usage": {
+      "inputTokens": 12727,
+      "outputTokens": 124,
+      "totalTokens": 12851
+    },
+    "error": null
+  },
+  "action": {
+    "type": "CLICK_AUTHORITATIVE",
+    "targetRef": "observation:1:target:91",
+    "field": "PARTY_SIZE",
+    "reason": "Select guest count 2 in Guests control"
+  },
+  "rawResponse": {
+    "invocationId": "3aee41af-11a6-4ffc-9745-49b4204b8add",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:1:target:91\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select guest count 2 in Guests control\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2041,
+    "providerRequestId": "32b2dcdd-27ab-468c-9840-fcb80c0b141a",
+    "usage": {
+      "inputTokens": 12727,
+      "outputTokens": 124,
+      "totalTokens": 12851
+    }
+  },
+  "verdict": {
+    "acceptable": false,
+    "expected": {
+      "action": "CLICK",
+      "targetRef": "observation:1:target:61",
+      "originalRef": "observation:5:target:84",
+      "rule": "Original DOM node a containing Next month in calendar navigation, bound through captured stableKey and exact original targetRef; never target order",
+      "binding": {
+        "controlId": "dom:1:61",
+        "stableKey": "a[href],[role=link]|link||Next month||105",
+        "outerHTML": "<a href=\"https://tabelog.com/en/tokyo/A1303/A130301/13298154/#\" class=\"p-booking-calendar__calendar-navi-target p-booking-calendar__calendar-navi-target--next\"><i>Next month</i></a>"
+      }
+    },
+    "actualTarget": {
+      "ref": "observation:1:target:91",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "2",
+      "controlGroupLabel": "Guests",
+      "value": "2",
+      "type": "button",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:PARTY_SIZE"
+      ]
+    }
+  },
+  "acceptable": false
+}

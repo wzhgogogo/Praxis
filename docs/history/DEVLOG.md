@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.204
+- Document revision: 4.205
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4168,3 +4168,36 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 460项冻结运行输入结束后不变；原始SHA／请求字面量审计、六例500秒时效门禁与阶段剩余额度通过。认证控制8、外层14、本地边界1，typecheck／arch／build通过；生产未变复用978/122门禁。
 - 最早见证2026-10-20 20:26:41.866北京，Live须在次日同一时刻前完成；生成最终Live冻结后推送准备分支，等待复核者和用户批准SHA，不开始Live。
 - [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/report.md) · [核验](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/verification.json)。
+
+## DEV-2026-10-21-CALENDAR-NEXT-MONTH
+
+- Evidence status: draft / not integrated；已暴露开发证据。
+- 用户批准采用第0步复核6d92882的V3，在远端集成a3f6b84独立分支实现；通用web-skills、thinking、生产Gateway不变。Registry提取唯一附近控件组与实际calendar caption、链接公开替代文本；绑定不明仍Unlabelled group。Executor翻月后核对年月，未变化反馈NO_CHANGE并拒绝把无关DOM变化当进展。Browser Prompt17→18，首次给此前无版本的Browser context标@1，action wire11与Restaurant Context15/Prompt27不变。
+- TableCheck来源策略永久禁止reserve路径段及子路径，在prepared/observed、普通路由、CDP、preflight和redirect优先拒绝；移除旧G1 start_date/pax文档例外，合并读取策略携带source-owned撤销，不影响其他来源已审核公开query。两条旧reserve菜单成功测试合并退役为两种顺序都UNKNOWN/无交付合同；历史记录不改。
+- 69点用原保存HTML/CSS通过生产Registry/Executor重建，精确节点独立绑定，未注入实验V3标签。历史HTML脱敏器删去的两个日历href末尾#仅按原始观察恢复，保留SHA/明细；请求里不含oracle。5选店payload与当前生产system prompt逐字核对。原22校准、Gold和种子不改，冻结后才跑评测和最多74次真实模型离线回放，不自动重试。
+- 仅保存材料核查发现Tabelog历史门店URL svd=20261021&svps=4可在无交互下初始化日期/人数，独立DOM有is-current日期及4人active/hidden值；未实现快捷导航，不推广至所有门店或11月。
+- 计划与证据：[`calendar-next-month-20261021`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/plan.md)；五门禁已通过，模型与22校准待冻结。无新网站、Google、Live、预约表单或时段操作；不推集成分支。
+
+- 本轮冻结后结果（同一切片）：b7f56b660c9a1fc017b792a01eb405ff83349383 / freeze SHA256 d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d，625项运行后无变。原22校准22/22（S0声明20/20、8交付子类8/8、0误判合格；越界9无/13缺口），P2-2五选店5/5、直接页13/13；翻月仅54/69，15点为PARTY_SIZE，未达≥68/69，整体NOT_ACCEPTED。全部74请求成功、无重试，984912输入/9975输出token、0 reasoning；模型请求墙钟翻月均1.890s、选店2.132s，批次141.296s。阶段账本2069/4000、完整Live7/100、环境重跑0/10；0新网站/Google/Live。
+- 偏离与限制：真实静态生产重建的69份target集合、64份visibleText与第0步不同，history/progress/skills未变；不能把原68/69与新54/69当作严格单变量比较，门槛仍失败，不改标签/不付费补跑。独立Fixture证明字段与月份后置条件，不能代替真实任务或下游反事实。Guard旧S0不撤销。
+- 浏览器门禁原有测试会覆盖旧region-composition-results.json，已将本轮产物另存本批次并恢复旧文件逐字原样；受保护Gold/变体/种子与所有冻结代码/输入/脚本均未变化。机器输出[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/result.json)、[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/decision-matrix.json)与[运行后校验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/post-verification.json)。推送独立修复分支后停止，等待复核，不合入集成、不跑Live。
+
+## DEV-2026-10-21-CALENDAR-SELECTED-STATE
+
+- Evidence status: draft / not integrated；已暴露开发回归，不是Clean Baseline。基线54ac940，上一轮54/69及原始证据不改。
+- 只实现复核要求：通用ARIA/精确状态class产生selected，DOM实际owner绑定组与当前选中值，未知不推定；保留已选控件证据，阻止重复人数及等价日期动作。人数点击后必须回读同组唯一值等于请求，未确认则NO_CHANGE/PARTY_SIZE_NOT_CONFIRMED，源页面只改成功文案也不能完成。组身份按owner层级路径，而非易受其他内容增减影响的整页元素序号；同名不同组不合并。
+- Browser Prompt18→19、Browser Context1→2；wire11、Restaurant Context15/Prompt27、web-skills/thinking、TableCheck reserve永久禁止不变。URL参数仍仅历史核查，不实现。
+- 当前69点从原HTML/CSS走生产Registry/Executor重建，参考原观察与历史最大编号生成更晚的fresh revision；目标、ownerRef及groupRef一起更新。每点保存original/registry/replay revision；原history/progress逐字保留，没有显式历史targetRef需重绑。原15未命中点现在均有正确已选人数；34点当前人数等于请求，3点不等，32点无可见正选中，全部保留不补造。
+- 针对性四项有效红→绿；完整回归修复旧Fixture的隐藏已选控件假设和只有成功文案的假确认，不修改原69种子、Gold、变体或库存标签。最终五门禁与冻结后原22校准、69+5单次模型回放待记；最多74请求含失败，0自动重试，阶段账本2069/4000。无新网站/Google/Live，不推集成。
+- [计划](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/plan.md)；结果与四层报告待冻结后记录。
+
+- 冻结后最终结果：运行提交8e47ddfd70be692e5d43dd70474e7e1a78b22d88，SHA256 040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b，628项复验一致；同69点69/69，原15未命中点15/15且重复已确认人数提议0；选店5/5、直接页13/13；原22校准22/22（正常S0声明20/20，交付子类8/8，0误判合格，越界9份无/13份缺口保持）。五门禁type/arch/build、默认977/977、真实Chromium129/129全绿。
+- 全部74次API成功、0重试；翻月平均1.877s、961320输入/8535输出token，选店平均2.053s、95435输入/1361输出；reasoning0，批次墙钟140.104s。阶段账本2069→2143/4000、剩1857，完整Live7/100、环境重跑0/10不变。0网站/Google/Live，不实现URL路径。
+- 37点正选中（34与请求一致、3不同），32点未观察到；独立来源核查69/69一致，未知不编造。69点历史/观察编号逐点一致，history/progress无改、显式历史targetRef0。选中状态/组投影/引用修正共同变化，非严格单字段因果试验，也不代表完整交付或泛化；历史H003 S0与上一轮54/69保持。
+- [四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/four-layer-report.md)、[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/result.json)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/decision-matrix.json)、[引用审计](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/reference-audit.json)和[冻结复验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/post-verification.json)。既有门禁生成的区域输出另存本批次后原文件恢复，代码/输入/外层运行中无改。离线门槛通过、待复核，推本修复分支后停止。
+
+
+## DEV-2026-10-21-CHECKPOINT-C-CONTINUOUS-STEP-1
+
+- Evidence status: frozen regression, exposed development. Accepted review481b893 and 628 frozen-file SHAs independently rechecked; production/skills unchanged since8e47ddf. Calendar69/69, selection5/5, calibration22/22, all five gates PASS (977 default/129 Chromium). Reused existing unchanged evidence; new model/network/Live0.
+- Freeze040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b; cumulative models2143/4000, fullLive7/100, environment reruns0/10. Historical H003 S0 retained. [Four-layer report](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-1-report.md).

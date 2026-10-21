@@ -308,51 +308,19 @@ test("H001 native cited-menu follow-up carries source-bound HARD evidence to a c
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
-test("H001 TableCheck reserve-menu scope reaches a synthetic-only current result without borrowing a sibling menu", async () => {
-  const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS");
-  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, failure: result.state.failure, facts: result.state.factChecks, availability: result.state.availabilityChecks, purposes: result.model.purposes, browserInputs: result.model.browserDecisionInputs, navigations: result.navigations }));
-  assert.ok(result.networkRequests.some(request => request.outcome === "ADMITTED" && request.pathname === "/en/shops/native-omakase-1/reserve"
-    && request.method === "GET" && request.resourceType === "document" && request.queryKeys.join(",") === "pax,start_date"),
-    "the same production Live Guard must admit the generated fixed-query document before this composition can deliver");
-  assert.equal(result.navigations.some((url) => url === "https://www.tablecheck.com/en/native-omakase-1"), true, "the guide is read first and has no scoped menu text");
-  assert.equal(result.navigations.some((url) => url.startsWith("https://www.tablecheck.com/en/shops/native-omakase-1/reserve")), true, "the scoped menu comes from the guide-observed same-outlet reserve entrance");
-  assert.equal(result.model.purposes.filter((purpose) => purpose === "browser_read_decide").length >= 1, true, "the production executor selects the category and settles its result before another decision");
-  const scopedFacts = result.state.readEvidence.filter((item) => item.kind === "RESTAURANT_FACT" && item.claims.serviceScopeValue === "sushi");
-  assert.equal(scopedFacts.some((item) => Array.isArray(item.claims.verifiedHardCriteria) && item.claims.verifiedHardCriteria.includes("omakase")), true);
-  const actions = result.trajectories.flatMap((step) => step.agentAction ? [step.agentAction.type] : []);
-  assert.ok(actions.indexOf("INVESTIGATE_CANDIDATE_FACTS") < actions.indexOf("CHECK_AVAILABILITY"), `expected facts before availability, received ${actions.join(",")}`);
-  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
-  const rejected = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { bareReserveLink: true });
-  assert.equal(rejected.state.phase, "NO_VERIFIED_RESULT", JSON.stringify(rejected.artifact));
-  assert.equal(rejected.state.factChecks?.["tablecheck:native-omakase-1"]?.status, "UNKNOWN");
-  assert.equal(rejected.state.presentedResults, undefined, "a bare reserve link cannot supply scoped HARD facts through the Live Guard");
-  assert.ok(!rejected.navigations.some(url => new URL(url).pathname.endsWith("/reserve") && !new URL(url).search), "the Guard rejects a bare entry before the fixed source page can load");
-
-});
-
-test("H001 TableCheck reserve-menu scope can check availability before facts and exposes the service-radio prerequisite", async () => {
-  const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { availabilityFirst: true });
-  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, failure: result.state.failure, facts: result.state.factChecks, availability: result.state.availabilityChecks, purposes: result.model.purposes }));
-  assert.ok(result.networkRequests.some(request => request.outcome === "ADMITTED" && request.pathname === "/en/shops/native-omakase-1/reserve"
-    && request.method === "GET" && request.resourceType === "document" && request.queryKeys.join(",") === "pax,start_date"),
-    "the same production Live Guard must admit the generated fixed-query document before this composition can deliver");
-  const categoryPrompt = result.model.browserDecisionInputs.find((input) => input.observation.targets.some((target) => target.label === "Sushi"));
-  assert.ok(categoryPrompt, "the production browser executor sends a category decision input");
-  assert.match(categoryPrompt.objective, /service-category radio/i);
-  assert.match(categoryPrompt.progress, /no selected service category/i);
-  assert.deepEqual(categoryPrompt.observation.targets.find((target) => target.label === "Sushi")?.availableActions, ["SET_CHECKED"]);
-  const waitPrompt = result.model.browserDecisionInputs.find((input) => input.observation.pageActions?.includes("WAIT"));
-  assert.ok(waitPrompt, "the loading result exposes canonical WAIT as a page action, never as a target capability");
-  assert.equal(waitPrompt.observation.targets.some((target) => target.availableActions?.includes("WAIT")), false);
-  const actions = result.trajectories.flatMap((step) => step.agentAction ? [step.agentAction.type] : []);
-  assert.ok(actions.indexOf("CHECK_AVAILABILITY") < actions.indexOf("INVESTIGATE_CANDIDATE_FACTS"), `expected availability before facts, received ${actions.join(",")}`);
-  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
-  const rejected = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { bareReserveLink: true, availabilityFirst: true });
-  assert.equal(rejected.state.phase, "NO_VERIFIED_RESULT", JSON.stringify(rejected.artifact));
-  assert.equal(rejected.state.factChecks?.["tablecheck:native-omakase-1"]?.status, "UNKNOWN");
-  assert.equal(rejected.state.presentedResults, undefined, "a bare reserve link cannot supply scoped HARD facts through the Live Guard");
-  assert.ok(!rejected.navigations.some(url => new URL(url).pathname.endsWith("/reserve") && !new URL(url).search), "the Guard rejects a bare entry before the fixed source page can load");
-
+test("H001 TableCheck reserve-menu facts cannot bypass the permanent form prohibition", async () => {
+  for (const availabilityFirst of [false, true]) {
+    const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { availabilityFirst });
+    assert.equal(result.state.phase, "NO_VERIFIED_RESULT");
+    assert.equal(result.state.presentedResults, undefined);
+    assert.equal(result.state.factChecks?.["tablecheck:native-omakase-1"]?.status, "UNKNOWN");
+    assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "NO");
+    assert.equal(result.navigations.some(url => new URL(url).pathname.split("/").includes("reserve")), false,
+      "neither facts-first nor availability-first may reach the booking form");
+    assert.equal(result.networkRequests.some(request => request.outcome === "ADMITTED" && request.pathname.includes("/reserve")), false);
+    assert.equal(result.state.readEvidence.some(item => item.kind === "RESTAURANT_FACT" && item.claims.serviceScopeValue === "sushi"), false,
+      "the inaccessible form cannot contribute scoped menu evidence");
+  }
 });
 
 test("H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver", async () => {

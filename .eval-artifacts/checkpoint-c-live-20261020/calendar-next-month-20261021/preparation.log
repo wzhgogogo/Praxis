@@ -1,0 +1,8 @@
+file:///private/tmp/praxis-fix-calendar-next-month/.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/prepare.mjs:68
+  if(!target||target.kind!=='LINK'||target.label!=='Next month'||target.controlGroupLabel!=='Calendar'||!target.availableActions.includes('CLICK')||rebuilt.observation.displayedCalendarMonth?.month!==10)throw Error(`PRODUCTION_V3_PREFLIGHT:${seed.id}:${JSON.stringify({target,month:rebuilt.observation.displayedCalendarMonth})}`);
+                                                                                                                                                                                                                 ^
+
+Error: PRODUCTION_V3_PREFLIGHT:c-01-d008:{"target":{"ref":"observation:1:target:63","kind":"LINK","role":"link","label":"Next month","controlGroupLabel":"Calendar","labelSource":"DOM descendant text","href":"https://tabelog.com/en/tokyo/A1303/A130301/13274777/","availableActions":["OPEN_LINK"]},"month":{"year":2026,"month":10,"caption":"Oct 2026","source":"DOM caption"}}
+    at file:///private/tmp/praxis-fix-calendar-next-month/.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/prepare.mjs:68:210
+
+Node.js v24.4.1

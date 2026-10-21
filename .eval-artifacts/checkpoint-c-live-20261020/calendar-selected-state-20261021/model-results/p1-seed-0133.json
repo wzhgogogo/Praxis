@@ -1,0 +1,57 @@
+{
+  "kind": "SELECTION",
+  "id": "p1-seed-0133",
+  "codeCommit": "8e47ddfd70be692e5d43dd70474e7e1a78b22d88",
+  "freezeSha256": "040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b",
+  "call": {
+    "kind": "SELECTION",
+    "id": "p1-seed-0133",
+    "startedAt": "2026-10-21T05:17:48.841Z",
+    "requestSha256": "09f353e778474e1761f07ed92a36125e39224fa17f528909162d88bfc04aed34",
+    "status": "SUCCEEDED",
+    "finishedAt": "2026-10-21T05:17:50.540Z",
+    "wallMs": 1699.9796250000072,
+    "latencyMs": 1699,
+    "model": "deepseek-flash",
+    "usage": {
+      "inputTokens": 4222,
+      "outputTokens": 213,
+      "totalTokens": 4435
+    },
+    "error": null
+  },
+  "action": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "tabelog:en/tokyo/A1303/A130301/13308491"
+    ],
+    "decisionSummary": "Only one candidate is known and checkable; a request-bound availability read can supply both the omakase source facts and a fresh slot for 2026-10-16 19:00 for 2."
+  },
+  "rawResponse": {
+    "invocationId": "dfd63b75-7f40-4d8c-bd3c-d2728d381ef6",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"tabelog:en/tokyo/A1303/A130301/13308491\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Only one candidate is known and checkable; a request-bound availability read can supply both the omakase source facts and a fresh slot for 2026-10-16 19:00 for 2.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1699,
+    "providerRequestId": "e0ac2ed4-2d54-482e-9246-f5175efdfc3d",
+    "usage": {
+      "inputTokens": 4222,
+      "outputTokens": 213,
+      "totalTokens": 4435
+    }
+  },
+  "verdict": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 1,
+      "directSelected": 1,
+      "directInRadiusCheckable": 1,
+      "directSelectionRatio": 1
+    }
+  },
+  "acceptable": true
+}

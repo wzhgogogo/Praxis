@@ -1,0 +1,59 @@
+{
+  "kind": "SELECTION",
+  "id": "p22-selection-002",
+  "codeCommit": "b7f56b660c9a1fc017b792a01eb405ff83349383",
+  "freezeSha256": "d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d",
+  "call": {
+    "kind": "SELECTION",
+    "id": "p22-selection-002",
+    "startedAt": "2026-10-21T04:32:11.995Z",
+    "requestSha256": "d16067a5616f8d3405cbb80fd00de5b7b68d968d1c949c2b4f06beee3b91ae4d",
+    "status": "SUCCEEDED",
+    "finishedAt": "2026-10-21T04:32:14.187Z",
+    "wallMs": 2190.37408400001,
+    "latencyMs": 2190,
+    "model": "deepseek-flash",
+    "usage": {
+      "inputTokens": 22628,
+      "outputTokens": 294,
+      "totalTokens": 22922
+    },
+    "error": null
+  },
+  "action": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:6343d9d19c9b69881948e082",
+      "praxis:restaurant:5f4fbd6b462f17e62da5bb43",
+      "praxis:restaurant:c510b28f298c4785d5fff548"
+    ],
+    "decisionSummary": "AVAILABILITY goal for 2 at 19:00 on 2026-10-12; no eligible candidates yet. Checking request-bound availability on the nearest direct-source sushi candidates (Sumi Sushi Shibuya 189m, Sushi kazumasa 451m, Shibuya Sushi Jinnan 328m) to obtain slots plus source facts."
+  },
+  "rawResponse": {
+    "invocationId": "60036f59-7658-457b-b957-744ce06a4483",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:6343d9d19c9b69881948e082\", \"praxis:restaurant:5f4fbd6b462f17e62da5bb43\", \"praxis:restaurant:c510b28f298c4785d5fff548\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"AVAILABILITY goal for 2 at 19:00 on 2026-10-12; no eligible candidates yet. Checking request-bound availability on the nearest direct-source sushi candidates (Sumi Sushi Shibuya 189m, Sushi kazumasa 451m, Shibuya Sushi Jinnan 328m) to obtain slots plus source facts.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2190,
+    "providerRequestId": "6da52a95-a13b-48c9-a345-71ba5764dd65",
+    "usage": {
+      "inputTokens": 22628,
+      "outputTokens": 294,
+      "totalTokens": 22922
+    }
+  },
+  "verdict": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 3,
+      "directInRadiusCheckable": 9,
+      "directSelectionRatio": 1
+    }
+  },
+  "acceptable": true
+}

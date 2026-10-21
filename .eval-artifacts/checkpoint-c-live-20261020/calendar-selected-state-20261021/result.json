@@ -1,0 +1,125 @@
+{
+  "schema": "calendar-selected-state-result@1",
+  "status": "OFFLINE_GATES_PASS_REVIEW_PENDING",
+  "mode": "OFFLINE_PRODUCTION_DECISION_REPLAY",
+  "codeCommit": "8e47ddfd70be692e5d43dd70474e7e1a78b22d88",
+  "freezeSha256": "040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b",
+  "layers": {
+    "endToEnd": {
+      "status": "NOT_EVALUATED",
+      "reason": "No full real restaurant task or Live run executed."
+    },
+    "stageJudgements": {
+      "selectedStateSourceConsistency": {
+        "passed": 69,
+        "total": 69
+      },
+      "calendarDecision": {
+        "passed": 69,
+        "total": 69,
+        "minimum": 68,
+        "status": "PASS"
+      },
+      "previous15Correct": 15,
+      "confirmedPartyRepeatProposals": 0,
+      "p22Selection": {
+        "passed": 5,
+        "total": 5,
+        "direct": 13,
+        "selected": 13,
+        "status": "PASS"
+      },
+      "calibration": {
+        "passed": 22,
+        "total": 22,
+        "status": "PASS"
+      },
+      "fiveGates": {
+        "status": "PASS",
+        "default": 977,
+        "chromium": 129
+      },
+      "partyAndCalendarPostconditions": "FIXTURE_PASS"
+    },
+    "severity": {
+      "newRealWorldS0": "NOT_EVALUATED_NO_LIVE",
+      "historicalH003S0": "PRESENT_UNCHANGED",
+      "calibrationBoundaryEvaluatedAbsent": 9,
+      "calibrationBoundaryEvidenceGaps": 13
+    },
+    "attribution": {
+      "status": "SUPPORTED_FOR_CONTROLLED_FIXTURE_AND_EXPOSED_REPLAY",
+      "observation": "All previous15 now expose the requested selected party and all15 choose the real month anchor; no duplicate confirmed-party proposal.",
+      "limits": "Selected state, group projection and replay references changed together; not an isolated causal estimate or end-to-end/generalization proof."
+    }
+  },
+  "selectedStateCoverage": {
+    "positiveObserved": 37,
+    "matchesRequestedParty": 34,
+    "differentFromRequestedParty": 3,
+    "notObserved": 32,
+    "noDefaultsInvented": true
+  },
+  "resources": {
+    "modelCalls": 74,
+    "calendarModelCalls": 69,
+    "selectionModelCalls": 5,
+    "automaticRetries": 0,
+    "websiteRequests": 0,
+    "googleRequests": 0,
+    "fullLiveRuns": 0,
+    "inputTokens": 1056755,
+    "outputTokens": 9896,
+    "reasoningTokens": 0,
+    "batchElapsedSeconds": 140.104,
+    "phaseModelCalls": 2143,
+    "remainingPhaseModelCalls": 1857
+  },
+  "calendar": {
+    "planned": 69,
+    "attempted": 69,
+    "succeeded": 69,
+    "passed": 69,
+    "failedIds": [],
+    "meanWallMs": 1876.7972988550716,
+    "meanModelLatencyMs": 1875.695652173913,
+    "inputTokens": 961320,
+    "outputTokens": 8535,
+    "reasoningTokens": 0
+  },
+  "selection": {
+    "planned": 5,
+    "attempted": 5,
+    "succeeded": 5,
+    "passed": 5,
+    "failedIds": [],
+    "meanWallMs": 2053.312008400005,
+    "meanModelLatencyMs": 2052.4,
+    "inputTokens": 95435,
+    "outputTokens": 1361,
+    "reasoningTokens": 0
+  },
+  "byOriginalRun": {
+    "c-01": {
+      "total": 19,
+      "correct": 19
+    },
+    "c-02": {
+      "total": 17,
+      "correct": 17
+    },
+    "c-03": {
+      "total": 16,
+      "correct": 16
+    },
+    "c-04": {
+      "total": 1,
+      "correct": 1
+    },
+    "c-05": {
+      "total": 16,
+      "correct": 16
+    }
+  },
+  "report": "four-layer-report.md"
+}

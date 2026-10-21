@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.211
+- Document revision: 4.212
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4884,3 +4884,35 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 460项冻结运行输入结束后不变；原始SHA／请求字面量审计、六例500秒时效门禁与阶段剩余额度通过。认证控制8、外层14、本地边界1，typecheck／arch／build通过；生产未变复用978/122门禁。
 - 最早见证2026-10-20 20:26:41.866北京，Live须在次日同一时刻前完成；生成最终Live冻结后推送准备分支，等待复核者和用户批准SHA，不开始Live。
 - [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/report.md) · [核验](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/verification.json)。
+
+## TEST-2026-10-21-CALENDAR-NEXT-MONTH
+
+- Evidence status: draft / not integrated；Fixture/静态生产观察，已暴露开发集。
+- 初始sandbox Chrome/localhost启动失败单列；提权后有效旧实现红灯3/3：Matsumoto重复错误Next耗尽、月份未变无NO_CHANGE反馈、H003接收器收到reserve请求。修复后3/3绿，新增公开aria/title/img/svg文字及多个日历不乱绑Fixture通过。中间序列化__name导致观察缺失已修复并留原日志，不把它混作设计红灯。
+- 五门禁：npm run typecheck PASS；npm run arch:check PASS（0 forbidden）；npm test PASS 977/977；npm run build PASS；npm run test:browser:fixture PASS 126/126（真实本地Chromium）。默认978→977来自两条过期reserve菜单成功测试合并为一条两顺序拒绝合同；Chromium122→126补当前真实失效点。0模型/真实网站。
+- 69点生产观察预检69/69：真实Next month anchor对应公开DOM节点、Calendar组、Oct2026与CLICK许可；同一批69原种子/oracle不改。重建有CSS，本地履行所有文档/样式，其他资源拒绝；脚本不执行，未打开表单或点击时段。准备保留原progress/history；两日历锚点href按原始观察恢复脱敏丢失#，记录输入SHA。
+- 冻结后计划：原22自动产物先保存SHA再独立比较；69浏览器点≥68，5选店5/5；最多74模型含失败且无付费重试。阶段账本1995/4000为唯一基线。单点回放不代表完整任务、实时库存或泛化能力；旧Live S0不撤销。
+- 记录：[`gates.json`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/gates.json)、[`原始反例`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/red-fixtures.log)、[`Tabelog参数核查`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/url-parameter-audit/audit.json)。
+
+- 本轮冻结后结果（同一切片）：b7f56b660c9a1fc017b792a01eb405ff83349383 / freeze SHA256 d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d，625项运行后无变。原22校准22/22（S0声明20/20、8交付子类8/8、0误判合格；越界9无/13缺口），P2-2五选店5/5、直接页13/13；翻月仅54/69，15点为PARTY_SIZE，未达≥68/69，整体NOT_ACCEPTED。全部74请求成功、无重试，984912输入/9975输出token、0 reasoning；模型请求墙钟翻月均1.890s、选店2.132s，批次141.296s。阶段账本2069/4000、完整Live7/100、环境重跑0/10；0新网站/Google/Live。
+- 偏离与限制：真实静态生产重建的69份target集合、64份visibleText与第0步不同，history/progress/skills未变；不能把原68/69与新54/69当作严格单变量比较，门槛仍失败，不改标签/不付费补跑。独立Fixture证明字段与月份后置条件，不能代替真实任务或下游反事实。Guard旧S0不撤销。
+- 浏览器门禁原有测试会覆盖旧region-composition-results.json，已将本轮产物另存本批次并恢复旧文件逐字原样；受保护Gold/变体/种子与所有冻结代码/输入/脚本均未变化。机器输出[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/result.json)、[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/decision-matrix.json)与[运行后校验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/post-verification.json)。推送独立修复分支后停止，等待复核，不合入集成、不跑Live。
+
+## TEST-2026-10-21-CALENDAR-SELECTED-STATE
+
+- Evidence status: draft / not integrated；真实本地Chromium与固定开发输入，非Clean Baseline。
+- 有效红灯4/4：已有2人仍重复点击/1人点击后循环、通用选中状态缺失、人数未变但无关文案改变却COMPLETED。修后4/4绿；涵盖8种精确class及4种ARIA正状态、负状态不猜、同名不同组隔离、无人数组不编造、已选控件作为证据保留、人数未确认不能收尾。Matsumoto Fixture包含其他区域DOM内容更新，组确认仍绑定真实owner。
+- 默认回归旧单元Fixture仅改变“confirmed”文案，现补选中控件与组；浏览器旧断言要求隐藏选中日期，现改为保留证据且无可执行动作。Tabelog组合与C3成功Fixture补真实标记与组归属，失败场景不改。测试证明当前行为合同，不改69点评分和原输入。
+- 准备69原点全部独立DOM绑定真正Next month，当前引用均一致；历史引用时序逐点审计，0模型/网站。原15问题点selected=请求人数且不再给PARTY_SIZE权威点击；32未观察选择、3不同请求均如实保留。旧54/69与74调用原样保留。
+- 最终五门禁、原22校准与69+5回放待提交冻结后记录；最多74真实模型请求，不重试，0网站/Google/Live。文件均在[本批次](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/plan.md)。
+
+- 冻结后最终结果：运行提交8e47ddfd70be692e5d43dd70474e7e1a78b22d88，SHA256 040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b，628项复验一致；同69点69/69，原15未命中点15/15且重复已确认人数提议0；选店5/5、直接页13/13；原22校准22/22（正常S0声明20/20，交付子类8/8，0误判合格，越界9份无/13份缺口保持）。五门禁type/arch/build、默认977/977、真实Chromium129/129全绿。
+- 全部74次API成功、0重试；翻月平均1.877s、961320输入/8535输出token，选店平均2.053s、95435输入/1361输出；reasoning0，批次墙钟140.104s。阶段账本2069→2143/4000、剩1857，完整Live7/100、环境重跑0/10不变。0网站/Google/Live，不实现URL路径。
+- 37点正选中（34与请求一致、3不同），32点未观察到；独立来源核查69/69一致，未知不编造。69点历史/观察编号逐点一致，history/progress无改、显式历史targetRef0。选中状态/组投影/引用修正共同变化，非严格单字段因果试验，也不代表完整交付或泛化；历史H003 S0与上一轮54/69保持。
+- [四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/four-layer-report.md)、[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/result.json)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/decision-matrix.json)、[引用审计](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/reference-audit.json)和[冻结复验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/post-verification.json)。既有门禁生成的区域输出另存本批次后原文件恢复，代码/输入/外层运行中无改。离线门槛通过、待复核，推本修复分支后停止。
+
+
+## TEST-2026-10-21-CHECKPOINT-C-CONTINUOUS-STEP-1
+
+- Evidence status: frozen regression, exposed development. Accepted review481b893 and 628 frozen-file SHAs independently rechecked; production/skills unchanged since8e47ddf. Calendar69/69, selection5/5, calibration22/22, all five gates PASS (977 default/129 Chromium). Reused existing unchanged evidence; new model/network/Live0.
+- Freeze040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b; cumulative models2143/4000, fullLive7/100, environment reruns0/10. Historical H003 S0 retained. [Four-layer report](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-1-report.md).

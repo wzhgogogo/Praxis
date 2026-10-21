@@ -1,0 +1,80 @@
+✖ Matsumoto selected-party 1 escapes the guest Next loop through production observation (3069.232125ms)
+✖ Matsumoto selected-party 2 escapes the guest Next loop through production observation (2796.490917ms)
+✖ generic selected state comes from ARIA and exact state classes, with independent same-label groups (497.745833ms)
+✖ party click does not confirm from unrelated page changes or an unchanged group value (821.670333ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7618.247791
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:68:3248
+✖ Matsumoto selected-party 1 escapes the guest Next loop through production observation (3069.232125ms)
+  Error [BrowserRuntimeError]: Shared browser-model budget exhausted for this read run
+      at BrowserTaskExecutor.runSkill (/private/tmp/praxis-fix-calendar-next-month/src/infrastructure/browser/browser-task-executor.ts:518:23)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-calendar-next-month/src/harness/browser/browser-read-fixture.test.ts:1067:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED',
+    cause: undefined,
+    scope: undefined
+  }
+
+test at src/harness/browser/browser-read-fixture.test.ts:68:3248
+✖ Matsumoto selected-party 2 escapes the guest Next loop through production observation (2796.490917ms)
+  Error [BrowserRuntimeError]: Shared browser-model budget exhausted for this read run
+      at BrowserTaskExecutor.runSkill (/private/tmp/praxis-fix-calendar-next-month/src/infrastructure/browser/browser-task-executor.ts:518:23)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-calendar-next-month/src/harness/browser/browser-read-fixture.test.ts:1067:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED',
+    cause: undefined,
+    scope: undefined
+  }
+
+test at src/harness/browser/browser-read-fixture.test.ts:78:3537
+✖ generic selected state comes from ARIA and exact state classes, with independent same-label groups (497.745833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-calendar-next-month/src/harness/browser/browser-read-fixture.test.ts:1109:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-fixture.test.ts:85:1668
+✖ party click does not confirm from unrelated page changes or an unchanged group value (821.670333ms)
+  AssertionError [ERR_ASSERTION]: source completion cannot bypass party postcondition
+  + actual - expected
+  
+  + 'COMPLETED'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-calendar-next-month/src/harness/browser/browser-read-fixture.test.ts:1133:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'COMPLETED',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }
