@@ -1,0 +1,5546 @@
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2l-kf-h001-20261103",
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@30",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@26"
+  },
+  "runtimeContext": {
+    "commitSha": "9381d976f0bbe67c5b8664199c702f29c080bdbe",
+    "worktree": "CLEAN",
+    "dataset": {
+      "version": "restaurant-read-development-variant@3",
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+      "sha256": "571c673070b517795f6eddfb9fd3b1e9c31a7607ff670fda8adb9ed28448c1f4",
+      "parent": {
+        "dataset": "restaurant-read-development@6",
+        "sha256": "00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6"
+      },
+      "cohort": "DEVELOPMENT_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/offline-rehearsal/c-01-attempt-1/network-preflight/2026-10-21T10-34-05-740Z-4582f97c-fca5-43dd-99bc-a365c09ec3f5.result.json",
+      "elapsedMs": 1,
+      "targetCount": 3
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    }
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "requestedRunCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "schemaVersion": "1",
+  "limits": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "runCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "requestMetadata": {
+    "sha256": "3a9713e9aed8abef6999b2d0bc2803e5ac3a6b4c083c2718a6d6ef1dc1930d0b",
+    "characterCount": 86
+  },
+  "materializedCase": {
+    "id": "p2l-kf-h001-20261103",
+    "dataset": "restaurant-read-development-variant@3",
+    "parent": {
+      "dataset": "restaurant-read-development@6",
+      "sha256": "00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6"
+    },
+    "reference_time": "2026-10-20T18:00:00+09:00",
+    "semantic": {
+      "target": {
+        "goal": "AVAILABILITY"
+      },
+      "location": {
+        "value": "Shibuya",
+        "relation": "NEAR"
+      },
+      "date": {
+        "expression": "Tuesday, November 3",
+        "value": "2026-11-03"
+      },
+      "time": {
+        "value": "19:00"
+      },
+      "party_size": 2,
+      "criteria": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "acceptance": {
+      "required_claims": [
+        "Correct outlet within 1,000 m of the resolved Shibuya point; source-supported omakase; a matching current slot on 2026-11-03 at 19:00 for 2.",
+        "Preserve the explicit party size of 2; opening hours alone do not establish seating."
+      ],
+      "optional_investigation": [],
+      "review": [
+        "Phase 2 Live-set date-shifted copy of the P1-F known-feasible variant; witnesses recorded separately within 24 hours before the run."
+      ]
+    },
+    "materialization": {
+      "sourceReferenceTime": "2026-10-20T18:00:00+09:00",
+      "resolvedReferenceTime": "2026-10-21T10:34:05.749Z"
+    }
+  },
+  "semantic": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "omakase"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near Shibuya"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "value": "2026-11-03",
+            "raw": "Tuesday, November 3"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:00",
+            "latest": "19:00",
+            "raw": "7 PM"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 2
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "scripted-semantic",
+        "provider": "FIXTURE",
+        "model": "external-boundary-stub",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v21",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "3"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      }
+    ]
+  },
+  "modelInvocations": [],
+  "events": [
+    {
+      "id": "event:hybrid-live:p2l-kf-h001-20261103:1792578845749:semantic:1",
+      "taskId": "hybrid-live:p2l-kf-h001-20261103:1792578845749",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase"
+          },
+          "area": {
+            "query": "near Shibuya"
+          },
+          "partySize": 2,
+          "partySizeSource": null,
+          "addCriteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "date": "2026-11-03",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-21T10:34:05.749Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tuesday, November 3",
+              "resolvedDate": "2026-11-03",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-10-21T10:34:05.789Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749",
+        "correlationId": "event:hybrid-live:p2l-kf-h001-20261103:1792578845749:semantic:1",
+        "actor": "MODEL"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:1",
+      "taskId": "hybrid-live:p2l-kf-h001-20261103:1792578845749",
+      "event": {
+        "type": "SEARCH_COMPLETED",
+        "request": {
+          "intent": {
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "omakase"
+            },
+            "date": "2026-11-03",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "near Shibuya"
+            },
+            "criteria": [
+              {
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ]
+          },
+          "readRunId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749:investigation:1"
+        },
+        "candidates": [],
+        "evidence": [
+          {
+            "evidenceId": "37ae5d757b8ab4ec244e872cd4b3eb6707bd4a0b8e81280801207a1b35540450",
+            "kind": "DISCOVERY",
+            "provider": "GOOGLE_PLACES",
+            "sourceEntityId": "shibuya-landmark",
+            "observedAt": "2026-10-21T10:34:05.793Z",
+            "requestFingerprint": "dabe8b558333bee830c4693104b33cb5bbf74a9a2317df55a63ff42de3a43b1d",
+            "claims": {
+              "locationResolutionQuery": "Shibuya",
+              "resolvedPlaceName": "Shibuya",
+              "resolvedPlaceId": "shibuya-landmark",
+              "latitude": 35.6619707,
+              "longitude": 139.703795,
+              "radiusMeters": 1000,
+              "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+            }
+          }
+        ],
+        "continuation": {
+          "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase\"},\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+          "discoveryPlan": {
+            "entries": [
+              {
+                "sourceId": "tabelog",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "omakase",
+                      "strength": "HARD"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "sourceId": "tablecheck",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "omakase",
+                      "strength": "HARD"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  },
+                  "keyword": "omakase"
+                }
+              },
+              {
+                "sourceId": "google-places",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "omakase",
+                      "strength": "HARD"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  },
+                  "keyword": "omakase"
+                }
+              }
+            ],
+            "cursor": 1,
+            "textRetrieval": {
+              "accepted": true,
+              "reason": "Scripted positive retrieval for controlled source contract",
+              "keyword": "omakase",
+              "criterionRef": "criterion:0"
+            },
+            "regionReferenceRead": {
+              "sourceId": "google-places",
+              "readRunId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749:investigation:1",
+              "read": {
+                "candidates": [],
+                "evidence": [],
+                "continuation": {
+                  "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase\"},\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+                  "usedPageTokens": [],
+                  "pagesRead": 1,
+                  "exhausted": true,
+                  "locationContext": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  },
+                  "sourceRequestContext": {
+                    "textQuery": "omakase Shibuya"
+                  }
+                },
+                "metadata": {
+                  "provider": "GOOGLE_PLACES",
+                  "route": "STRUCTURED_ADAPTER",
+                  "latencyMs": 0,
+                  "googleRequests": {
+                    "limit": 38,
+                    "total": 2,
+                    "namedPlaceResolution": 1,
+                    "discovery": 1,
+                    "placeDetails": 0,
+                    "reverseAddressObservation": 0
+                  },
+                  "googleGeoDiagnostics": {
+                    "providerMode": "GOOGLE_TEXT_SEARCH",
+                    "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+                    "exactRadiusGate": "ENFORCED",
+                    "center": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.703795
+                    },
+                    "radiusMeters": 1000,
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "candidates": []
+                  }
+                }
+              }
+            }
+          },
+          "currentDiscoveryBatch": {
+            "sourceId": "tabelog",
+            "candidateIds": []
+          },
+          "usedPageTokens": [],
+          "pagesRead": 1,
+          "exhausted": false,
+          "sourceProgress": {
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 1,
+              "retrievalPages": 0,
+              "history": []
+            },
+            "sourceId": "tabelog",
+            "inspectedSourceIds": [],
+            "detailAttempts": 0,
+            "pagesRead": 1,
+            "elapsedMs": 8,
+            "visitedListingUrls": [
+              "https://tabelog.com/en/tokyo/rstLst/"
+            ],
+            "pendingSourceEntries": [],
+            "pendingSourceIds": []
+          },
+          "lastFailureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+          "locationContext": {
+            "latitude": 35.6619707,
+            "longitude": 139.703795,
+            "radiusMeters": 1000,
+            "label": "Shibuya",
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "longText": "Shibuya",
+                "types": [
+                  "locality",
+                  "political"
+                ]
+              }
+            ]
+          }
+        },
+        "metadata": {
+          "provider": "TABELOG",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 10,
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "rawSourceLinks": 0,
+            "parsedOutlets": 0,
+            "inspectedOutlets": 0,
+            "batchCap": 5,
+            "sourceDetailCap": 10,
+            "sourceDetailAttempts": 0,
+            "deferredByBatchCap": [],
+            "rejected": [],
+            "accepted": 0,
+            "sourcePageCap": 7,
+            "sourceElapsedCapMs": 90000,
+            "sourceElapsedMs": 8,
+            "sourceTimeLimitReached": false,
+            "pagesRead": 1,
+            "batchLimitReached": false,
+            "sourceExhausted": "UNKNOWN",
+            "batchEnded": true,
+            "sourceEnded": true,
+            "progressionReason": "SOURCE_FAILURE",
+            "listingObservations": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/rstLst/",
+                "parsedOutlets": 0
+              }
+            ],
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 1,
+              "retrievalPages": 0,
+              "history": []
+            }
+          },
+          "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+          "googleRequests": {
+            "limit": 38,
+            "total": 2,
+            "namedPlaceResolution": 1,
+            "discovery": 1,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        }
+      },
+      "occurredAt": "2026-10-21T10:34:05.802Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749",
+        "correlationId": "event:restaurant-agent:1",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:2",
+      "taskId": "hybrid-live:p2l-kf-h001-20261103:1792578845749",
+      "event": {
+        "type": "SEARCH_COMPLETED",
+        "request": {
+          "intent": {
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "omakase"
+            },
+            "date": "2026-11-03",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "near Shibuya"
+            },
+            "criteria": [
+              {
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ]
+          },
+          "continuation": {
+            "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase\"},\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+            "discoveryPlan": {
+              "entries": [
+                {
+                  "sourceId": "tabelog",
+                  "query": {
+                    "category": "restaurant",
+                    "positiveCriteria": [
+                      {
+                        "criterionRef": "criterion:0",
+                        "text": "omakase",
+                        "strength": "HARD"
+                      }
+                    ],
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.703795,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "sourceId": "tablecheck",
+                  "query": {
+                    "category": "restaurant",
+                    "positiveCriteria": [
+                      {
+                        "criterionRef": "criterion:0",
+                        "text": "omakase",
+                        "strength": "HARD"
+                      }
+                    ],
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.703795,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        }
+                      ]
+                    },
+                    "keyword": "omakase"
+                  }
+                },
+                {
+                  "sourceId": "google-places",
+                  "query": {
+                    "category": "restaurant",
+                    "positiveCriteria": [
+                      {
+                        "criterionRef": "criterion:0",
+                        "text": "omakase",
+                        "strength": "HARD"
+                      }
+                    ],
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.703795,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        }
+                      ]
+                    },
+                    "keyword": "omakase"
+                  }
+                }
+              ],
+              "cursor": 1,
+              "textRetrieval": {
+                "accepted": true,
+                "reason": "Scripted positive retrieval for controlled source contract",
+                "keyword": "omakase",
+                "criterionRef": "criterion:0"
+              },
+              "regionReferenceRead": {
+                "sourceId": "google-places",
+                "readRunId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749:investigation:1",
+                "read": {
+                  "candidates": [],
+                  "evidence": [],
+                  "continuation": {
+                    "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase\"},\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+                    "usedPageTokens": [],
+                    "pagesRead": 1,
+                    "exhausted": true,
+                    "locationContext": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.703795,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        }
+                      ]
+                    },
+                    "sourceRequestContext": {
+                      "textQuery": "omakase Shibuya"
+                    }
+                  },
+                  "metadata": {
+                    "provider": "GOOGLE_PLACES",
+                    "route": "STRUCTURED_ADAPTER",
+                    "latencyMs": 0,
+                    "googleRequests": {
+                      "limit": 38,
+                      "total": 2,
+                      "namedPlaceResolution": 1,
+                      "discovery": 1,
+                      "placeDetails": 0,
+                      "reverseAddressObservation": 0
+                    },
+                    "googleGeoDiagnostics": {
+                      "providerMode": "GOOGLE_TEXT_SEARCH",
+                      "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+                      "exactRadiusGate": "ENFORCED",
+                      "center": {
+                        "latitude": 35.6619707,
+                        "longitude": 139.703795
+                      },
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "candidates": []
+                    }
+                  }
+                }
+              }
+            },
+            "currentDiscoveryBatch": {
+              "sourceId": "tabelog",
+              "candidateIds": []
+            },
+            "usedPageTokens": [],
+            "pagesRead": 1,
+            "exhausted": false,
+            "sourceProgress": {
+              "retrieval": {
+                "rewrites": 0,
+                "regionPages": 1,
+                "retrievalPages": 0,
+                "history": []
+              },
+              "sourceId": "tabelog",
+              "inspectedSourceIds": [],
+              "detailAttempts": 0,
+              "pagesRead": 1,
+              "elapsedMs": 8,
+              "visitedListingUrls": [
+                "https://tabelog.com/en/tokyo/rstLst/"
+              ],
+              "pendingSourceEntries": [],
+              "pendingSourceIds": []
+            },
+            "lastFailureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+            "locationContext": {
+              "latitude": 35.6619707,
+              "longitude": 139.703795,
+              "radiusMeters": 1000,
+              "label": "Shibuya",
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "addressComponents": [
+                {
+                  "longText": "Shibuya",
+                  "types": [
+                    "locality",
+                    "political"
+                  ]
+                }
+              ]
+            }
+          },
+          "readRunId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749:investigation:1"
+        },
+        "candidates": [],
+        "evidence": [],
+        "continuation": {
+          "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase\"},\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+          "discoveryPlan": {
+            "entries": [
+              {
+                "sourceId": "tabelog",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "omakase",
+                      "strength": "HARD"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "sourceId": "tablecheck",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "omakase",
+                      "strength": "HARD"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  },
+                  "keyword": "omakase"
+                }
+              },
+              {
+                "sourceId": "google-places",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "omakase",
+                      "strength": "HARD"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  },
+                  "keyword": "omakase"
+                }
+              }
+            ],
+            "cursor": 2,
+            "textRetrieval": {
+              "accepted": true,
+              "reason": "Scripted positive retrieval for controlled source contract",
+              "keyword": "omakase",
+              "criterionRef": "criterion:0"
+            },
+            "regionReferenceRead": {
+              "sourceId": "google-places",
+              "readRunId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749:investigation:1",
+              "read": {
+                "candidates": [],
+                "evidence": [],
+                "continuation": {
+                  "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase\"},\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+                  "usedPageTokens": [],
+                  "pagesRead": 1,
+                  "exhausted": true,
+                  "locationContext": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  },
+                  "sourceRequestContext": {
+                    "textQuery": "omakase Shibuya"
+                  }
+                },
+                "metadata": {
+                  "provider": "GOOGLE_PLACES",
+                  "route": "STRUCTURED_ADAPTER",
+                  "latencyMs": 0,
+                  "googleRequests": {
+                    "limit": 38,
+                    "total": 2,
+                    "namedPlaceResolution": 1,
+                    "discovery": 1,
+                    "placeDetails": 0,
+                    "reverseAddressObservation": 0
+                  },
+                  "googleGeoDiagnostics": {
+                    "providerMode": "GOOGLE_TEXT_SEARCH",
+                    "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+                    "exactRadiusGate": "ENFORCED",
+                    "center": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.703795
+                    },
+                    "radiusMeters": 1000,
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "candidates": []
+                  }
+                }
+              }
+            }
+          },
+          "currentDiscoveryBatch": {
+            "sourceId": "tablecheck",
+            "candidateIds": []
+          },
+          "usedPageTokens": [],
+          "pagesRead": 2,
+          "exhausted": false,
+          "sourceProgress": {
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Scripted positive retrieval for controlled source contract",
+                "keyword": "omakase",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 0,
+              "history": []
+            },
+            "sourceId": "tablecheck",
+            "inspectedSourceIds": [],
+            "detailAttempts": 0,
+            "pagesRead": 1,
+            "elapsedMs": 2,
+            "visitedListingUrls": [],
+            "pendingSourceEntries": [],
+            "pendingSourceIds": []
+          },
+          "lastFailureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+          "locationContext": {
+            "latitude": 35.6619707,
+            "longitude": 139.703795,
+            "radiusMeters": 1000,
+            "label": "Shibuya",
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "longText": "Shibuya",
+                "types": [
+                  "locality",
+                  "political"
+                ]
+              }
+            ]
+          }
+        },
+        "metadata": {
+          "provider": "TABLECHECK",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 2,
+          "nativeDiscoveryFunnel": {
+            "source": "TABLECHECK",
+            "rawSourceLinks": 0,
+            "parsedOutlets": 0,
+            "inspectedOutlets": 0,
+            "batchCap": 5,
+            "sourceDetailCap": 10,
+            "sourceDetailAttempts": 0,
+            "deferredByBatchCap": [],
+            "rejected": [],
+            "accepted": 0,
+            "sourcePageCap": 3,
+            "sourceElapsedCapMs": 90000,
+            "sourceElapsedMs": 2,
+            "sourceTimeLimitReached": false,
+            "pagesRead": 1,
+            "batchLimitReached": false,
+            "sourceExhausted": "UNKNOWN",
+            "batchEnded": true,
+            "sourceEnded": true,
+            "progressionReason": "SOURCE_FAILURE",
+            "listingObservations": [],
+            "retrieval": {
+              "selection": {
+                "accepted": true,
+                "reason": "Scripted positive retrieval for controlled source contract",
+                "keyword": "omakase",
+                "criterionRef": "criterion:0"
+              },
+              "rewrites": 0,
+              "regionPages": 0,
+              "retrievalPages": 0,
+              "history": []
+            }
+          },
+          "failureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+          "googleRequests": {
+            "limit": 38,
+            "total": 2,
+            "namedPlaceResolution": 1,
+            "discovery": 1,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        }
+      },
+      "occurredAt": "2026-10-21T10:34:05.805Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749",
+        "correlationId": "event:restaurant-agent:2",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:3",
+      "taskId": "hybrid-live:p2l-kf-h001-20261103:1792578845749",
+      "event": {
+        "type": "SEARCH_COMPLETED",
+        "request": {
+          "intent": {
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "omakase"
+            },
+            "date": "2026-11-03",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "near Shibuya"
+            },
+            "criteria": [
+              {
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ]
+          },
+          "continuation": {
+            "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase\"},\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+            "discoveryPlan": {
+              "entries": [
+                {
+                  "sourceId": "tabelog",
+                  "query": {
+                    "category": "restaurant",
+                    "positiveCriteria": [
+                      {
+                        "criterionRef": "criterion:0",
+                        "text": "omakase",
+                        "strength": "HARD"
+                      }
+                    ],
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.703795,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "sourceId": "tablecheck",
+                  "query": {
+                    "category": "restaurant",
+                    "positiveCriteria": [
+                      {
+                        "criterionRef": "criterion:0",
+                        "text": "omakase",
+                        "strength": "HARD"
+                      }
+                    ],
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.703795,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        }
+                      ]
+                    },
+                    "keyword": "omakase"
+                  }
+                },
+                {
+                  "sourceId": "google-places",
+                  "query": {
+                    "category": "restaurant",
+                    "positiveCriteria": [
+                      {
+                        "criterionRef": "criterion:0",
+                        "text": "omakase",
+                        "strength": "HARD"
+                      }
+                    ],
+                    "location": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.703795,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        }
+                      ]
+                    },
+                    "keyword": "omakase"
+                  }
+                }
+              ],
+              "cursor": 2,
+              "textRetrieval": {
+                "accepted": true,
+                "reason": "Scripted positive retrieval for controlled source contract",
+                "keyword": "omakase",
+                "criterionRef": "criterion:0"
+              },
+              "regionReferenceRead": {
+                "sourceId": "google-places",
+                "readRunId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749:investigation:1",
+                "read": {
+                  "candidates": [],
+                  "evidence": [],
+                  "continuation": {
+                    "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase\"},\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+                    "usedPageTokens": [],
+                    "pagesRead": 1,
+                    "exhausted": true,
+                    "locationContext": {
+                      "latitude": 35.6619707,
+                      "longitude": 139.703795,
+                      "radiusMeters": 1000,
+                      "label": "Shibuya",
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "addressComponents": [
+                        {
+                          "longText": "Shibuya",
+                          "types": [
+                            "locality",
+                            "political"
+                          ]
+                        }
+                      ]
+                    },
+                    "sourceRequestContext": {
+                      "textQuery": "omakase Shibuya"
+                    }
+                  },
+                  "metadata": {
+                    "provider": "GOOGLE_PLACES",
+                    "route": "STRUCTURED_ADAPTER",
+                    "latencyMs": 0,
+                    "googleRequests": {
+                      "limit": 38,
+                      "total": 2,
+                      "namedPlaceResolution": 1,
+                      "discovery": 1,
+                      "placeDetails": 0,
+                      "reverseAddressObservation": 0
+                    },
+                    "googleGeoDiagnostics": {
+                      "providerMode": "GOOGLE_TEXT_SEARCH",
+                      "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+                      "exactRadiusGate": "ENFORCED",
+                      "center": {
+                        "latitude": 35.6619707,
+                        "longitude": 139.703795
+                      },
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                      "candidates": []
+                    }
+                  }
+                }
+              }
+            },
+            "currentDiscoveryBatch": {
+              "sourceId": "tablecheck",
+              "candidateIds": []
+            },
+            "usedPageTokens": [],
+            "pagesRead": 2,
+            "exhausted": false,
+            "sourceProgress": {
+              "retrieval": {
+                "selection": {
+                  "accepted": true,
+                  "reason": "Scripted positive retrieval for controlled source contract",
+                  "keyword": "omakase",
+                  "criterionRef": "criterion:0"
+                },
+                "rewrites": 0,
+                "regionPages": 0,
+                "retrievalPages": 0,
+                "history": []
+              },
+              "sourceId": "tablecheck",
+              "inspectedSourceIds": [],
+              "detailAttempts": 0,
+              "pagesRead": 1,
+              "elapsedMs": 2,
+              "visitedListingUrls": [],
+              "pendingSourceEntries": [],
+              "pendingSourceIds": []
+            },
+            "lastFailureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+            "locationContext": {
+              "latitude": 35.6619707,
+              "longitude": 139.703795,
+              "radiusMeters": 1000,
+              "label": "Shibuya",
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "addressComponents": [
+                {
+                  "longText": "Shibuya",
+                  "types": [
+                    "locality",
+                    "political"
+                  ]
+                }
+              ]
+            }
+          },
+          "readRunId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749:investigation:1"
+        },
+        "candidates": [],
+        "evidence": [],
+        "continuation": {
+          "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase\"},\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+          "usedPageTokens": [],
+          "pagesRead": 1,
+          "exhausted": true,
+          "locationContext": {
+            "latitude": 35.6619707,
+            "longitude": 139.703795,
+            "radiusMeters": 1000,
+            "label": "Shibuya",
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "longText": "Shibuya",
+                "types": [
+                  "locality",
+                  "political"
+                ]
+              }
+            ]
+          },
+          "sourceRequestContext": {
+            "textQuery": "omakase Shibuya"
+          },
+          "discoveryPlan": {
+            "entries": [
+              {
+                "sourceId": "tabelog",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "omakase",
+                      "strength": "HARD"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "sourceId": "tablecheck",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "omakase",
+                      "strength": "HARD"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  },
+                  "keyword": "omakase"
+                }
+              },
+              {
+                "sourceId": "google-places",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "omakase",
+                      "strength": "HARD"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6619707,
+                    "longitude": 139.703795,
+                    "radiusMeters": 1000,
+                    "label": "Shibuya",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Shibuya",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      }
+                    ]
+                  },
+                  "keyword": "omakase"
+                }
+              }
+            ],
+            "cursor": 3,
+            "textRetrieval": {
+              "accepted": true,
+              "reason": "Scripted positive retrieval for controlled source contract",
+              "keyword": "omakase",
+              "criterionRef": "criterion:0"
+            }
+          },
+          "currentDiscoveryBatch": {
+            "sourceId": "google-places",
+            "candidateIds": []
+          }
+        },
+        "metadata": {
+          "provider": "GOOGLE_PLACES",
+          "route": "STRUCTURED_ADAPTER",
+          "latencyMs": 0,
+          "googleRequests": {
+            "limit": 38,
+            "total": 2,
+            "namedPlaceResolution": 1,
+            "discovery": 1,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+            "exactRadiusGate": "ENFORCED",
+            "center": {
+              "latitude": 35.6619707,
+              "longitude": 139.703795
+            },
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "candidates": []
+          }
+        }
+      },
+      "occurredAt": "2026-10-21T10:34:05.805Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749",
+        "correlationId": "event:restaurant-agent:3",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:4",
+      "taskId": "hybrid-live:p2l-kf-h001-20261103:1792578845749",
+      "event": {
+        "type": "READ_ENDED_NO_VERIFIED_RESULT",
+        "investigatedCandidateIds": [],
+        "unresolvedCandidateIds": [],
+        "remainingGaps": [
+          "The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated"
+        ]
+      },
+      "occurredAt": "2026-10-21T10:34:05.806Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749",
+        "correlationId": "event:restaurant-agent:4",
+        "actor": "SYSTEM"
+      }
+    }
+  ],
+  "trajectories": [
+    {
+      "id": "trajectory:hybrid-live:p2l-kf-h001-20261103:1792578845749:1",
+      "taskId": "hybrid-live:p2l-kf-h001-20261103:1792578845749",
+      "stepNumber": 1,
+      "occurredAt": "2026-10-21T10:34:05.791Z",
+      "stateVersionBefore": 1,
+      "stateHashBefore": "bcff47e2597a9436fe23cbbdac02fb600cee9002c423d33480f78a5eef7004c6",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:1"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-21T10:34:05.790Z",
+        "phase": "UNDERSTANDING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase"
+          },
+          "date": "2026-11-03",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-21T10:34:05.749Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tuesday, November 3",
+              "resolvedDate": "2026-11-03",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS"
+      },
+      "decisionSummary": "synthetic boundary action",
+      "modelAttempt": {
+        "invocationId": "scripted-decision",
+        "provider": "FIXTURE",
+        "model": "external-boundary-stub",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "TABELOG",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 10,
+        "nativeDiscoveryFunnel": {
+          "source": "TABELOG",
+          "rawSourceLinks": 0,
+          "parsedOutlets": 0,
+          "inspectedOutlets": 0,
+          "batchCap": 5,
+          "sourceDetailCap": 10,
+          "sourceDetailAttempts": 0,
+          "deferredByBatchCap": [],
+          "rejected": [],
+          "accepted": 0,
+          "sourcePageCap": 7,
+          "sourceElapsedCapMs": 90000,
+          "sourceElapsedMs": 8,
+          "sourceTimeLimitReached": false,
+          "pagesRead": 1,
+          "batchLimitReached": false,
+          "sourceExhausted": "UNKNOWN",
+          "batchEnded": true,
+          "sourceEnded": true,
+          "progressionReason": "SOURCE_FAILURE",
+          "listingObservations": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/rstLst/",
+              "parsedOutlets": 0
+            }
+          ],
+          "retrieval": {
+            "rewrites": 0,
+            "regionPages": 1,
+            "retrievalPages": 0,
+            "history": []
+          }
+        },
+        "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+        "googleRequests": {
+          "limit": 38,
+          "total": 2,
+          "namedPlaceResolution": 1,
+          "discovery": 1,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY",
+        "detail": "0 candidates discovered; 0 newly accepted",
+        "candidateIds": [],
+        "newCandidateIds": [],
+        "evidenceIds": [
+          "37ae5d757b8ab4ec244e872cd4b3eb6707bd4a0b8e81280801207a1b35540450"
+        ]
+      },
+      "stateVersionAfter": 2,
+      "stateHashAfter": "d8c27f5a2af14320ed289a15c1a2f35b3dd681938e308c47be3772201a7afe6a",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:hybrid-live:p2l-kf-h001-20261103:1792578845749:2",
+      "taskId": "hybrid-live:p2l-kf-h001-20261103:1792578845749",
+      "stepNumber": 2,
+      "occurredAt": "2026-10-21T10:34:05.802Z",
+      "stateVersionBefore": 2,
+      "stateHashBefore": "d8c27f5a2af14320ed289a15c1a2f35b3dd681938e308c47be3772201a7afe6a",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:2"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-21T10:34:05.802Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase"
+          },
+          "date": "2026-11-03",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-21T10:34:05.749Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tuesday, November 3",
+              "resolvedDate": "2026-11-03",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "intent": {
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase"
+          },
+          "date": "2026-11-03",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          },
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ]
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [],
+          "reason": "A bounded discovery-plan source remains unread"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS"
+      },
+      "decisionSummary": "synthetic boundary action",
+      "modelAttempt": {
+        "invocationId": "scripted-decision",
+        "provider": "FIXTURE",
+        "model": "external-boundary-stub",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "TABLECHECK",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 2,
+        "nativeDiscoveryFunnel": {
+          "source": "TABLECHECK",
+          "rawSourceLinks": 0,
+          "parsedOutlets": 0,
+          "inspectedOutlets": 0,
+          "batchCap": 5,
+          "sourceDetailCap": 10,
+          "sourceDetailAttempts": 0,
+          "deferredByBatchCap": [],
+          "rejected": [],
+          "accepted": 0,
+          "sourcePageCap": 3,
+          "sourceElapsedCapMs": 90000,
+          "sourceElapsedMs": 2,
+          "sourceTimeLimitReached": false,
+          "pagesRead": 1,
+          "batchLimitReached": false,
+          "sourceExhausted": "UNKNOWN",
+          "batchEnded": true,
+          "sourceEnded": true,
+          "progressionReason": "SOURCE_FAILURE",
+          "listingObservations": [],
+          "retrieval": {
+            "selection": {
+              "accepted": true,
+              "reason": "Scripted positive retrieval for controlled source contract",
+              "keyword": "omakase",
+              "criterionRef": "criterion:0"
+            },
+            "rewrites": 0,
+            "regionPages": 0,
+            "retrievalPages": 0,
+            "history": []
+          }
+        },
+        "failureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+        "googleRequests": {
+          "limit": 38,
+          "total": 2,
+          "namedPlaceResolution": 1,
+          "discovery": 1,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY",
+        "detail": "0 candidates discovered; 0 newly accepted",
+        "candidateIds": [],
+        "newCandidateIds": [],
+        "evidenceIds": []
+      },
+      "stateVersionAfter": 3,
+      "stateHashAfter": "53d02832105baa5004a6c58e7b77b0e229cdb424430a5cc0a2e8436bec3f4d23",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:hybrid-live:p2l-kf-h001-20261103:1792578845749:3",
+      "taskId": "hybrid-live:p2l-kf-h001-20261103:1792578845749",
+      "stepNumber": 3,
+      "occurredAt": "2026-10-21T10:34:05.805Z",
+      "stateVersionBefore": 3,
+      "stateHashBefore": "53d02832105baa5004a6c58e7b77b0e229cdb424430a5cc0a2e8436bec3f4d23",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:3"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-21T10:34:05.805Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase"
+          },
+          "date": "2026-11-03",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-21T10:34:05.749Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tuesday, November 3",
+              "resolvedDate": "2026-11-03",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "intent": {
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase"
+          },
+          "date": "2026-11-03",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          },
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ]
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [],
+          "reason": "A bounded discovery-plan source remains unread"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS"
+      },
+      "decisionSummary": "synthetic boundary action",
+      "modelAttempt": {
+        "invocationId": "scripted-decision",
+        "provider": "FIXTURE",
+        "model": "external-boundary-stub",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "GOOGLE_PLACES",
+        "route": "STRUCTURED_ADAPTER",
+        "latencyMs": 0,
+        "googleRequests": {
+          "limit": 38,
+          "total": 2,
+          "namedPlaceResolution": 1,
+          "discovery": 1,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "googleGeoDiagnostics": {
+          "providerMode": "GOOGLE_TEXT_SEARCH",
+          "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+          "exactRadiusGate": "ENFORCED",
+          "center": {
+            "latitude": 35.6619707,
+            "longitude": 139.703795
+          },
+          "radiusMeters": 1000,
+          "areaMatchBasis": "NAMED_PLACE_RADIUS",
+          "candidates": []
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY",
+        "detail": "0 candidates discovered; 0 newly accepted",
+        "candidateIds": [],
+        "newCandidateIds": [],
+        "evidenceIds": []
+      },
+      "stateVersionAfter": 4,
+      "stateHashAfter": "6566f454f11be83bba433ee0122fa9214e2e0b9180ef8ecc94376aab96a1d9ae",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:hybrid-live:p2l-kf-h001-20261103:1792578845749:4",
+      "taskId": "hybrid-live:p2l-kf-h001-20261103:1792578845749",
+      "stepNumber": 4,
+      "occurredAt": "2026-10-21T10:34:05.806Z",
+      "stateVersionBefore": 4,
+      "stateHashBefore": "6566f454f11be83bba433ee0122fa9214e2e0b9180ef8ecc94376aab96a1d9ae",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:4"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-21T10:34:05.805Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase"
+          },
+          "date": "2026-11-03",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-21T10:34:05.749Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tuesday, November 3",
+              "resolvedDate": "2026-11-03",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          }
+        },
+        "intent": {
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "omakase"
+          },
+          "date": "2026-11-03",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near Shibuya"
+          },
+          "criteria": [
+            {
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ]
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": false,
+          "reason": "DISCOVERY_PLAN_EXHAUSTED"
+        },
+        "readCompletion": {
+          "allowed": true,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": []
+        },
+        "legalActions": {
+          "search": false,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": true
+        }
+      },
+      "agentAction": {
+        "type": "END_READ"
+      },
+      "decisionSummary": "synthetic boundary action",
+      "modelAttempt": {
+        "invocationId": "scripted-decision",
+        "provider": "FIXTURE",
+        "model": "external-boundary-stub",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "observation": {
+        "type": "READ_ENDED",
+        "detail": "Bounded read ended without a grounded result",
+        "candidateIds": [],
+        "unresolvedCandidateIds": []
+      },
+      "stateVersionAfter": 5,
+      "stateHashAfter": "8f29222efef023f8c93a8ed38c42baa195e2d3398d61ed81a93b0f3d9dfa91e0",
+      "stepOutcome": "TERMINAL"
+    }
+  ],
+  "diagnostics": {
+    "tablecheckIdentity": [],
+    "tabelogIdentity": [],
+    "tabelogUserInterventions": [],
+    "browserExecution": [
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "CANDIDATE_STARTED",
+        "detail": "CANDIDATE_SCOPE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_STARTED",
+        "detail": "PROVIDER_SCOPE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "SESSION_OPENING",
+        "detail": "OPEN_SESSION",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "SESSION_OPENED",
+        "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_STARTED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FINISHED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "ASYNC_WAIT",
+        "url": "",
+        "detail": "PAGE_SETTLED",
+        "waitMs": 1,
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 2,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 2,
+          "providerElapsedMs": 1,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 2,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 2,
+          "providerElapsedMs": 1,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 3,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 3,
+          "providerElapsedMs": 2,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OBSERVED",
+        "url": "https://tabelog.com/en/tokyo/rstLst/",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 3,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 3,
+          "providerElapsedMs": 2,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 6,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 6,
+          "providerElapsedMs": 5,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 1
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 6,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 6,
+          "providerElapsedMs": 5,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 1
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OBSERVED",
+        "url": "https://tabelog.com/en/tokyo/rstLst/",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 6,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 6,
+          "providerElapsedMs": 5,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 1
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_STARTED",
+        "detail": "OBSERVE_CONTROLS",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 6,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 6,
+          "providerElapsedMs": 5,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 1
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FINISHED",
+        "detail": "OBSERVE_CONTROLS",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 6,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 6,
+          "providerElapsedMs": 5,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 1
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "SKILL_STARTED",
+        "url": "https://tabelog.com/en/tokyo/rstLst/",
+        "detail": "Follow an observed region entrance naming the requested area, continuing through a broader parent menu if necessary; observe its public results.",
+        "observation": {
+          "title": "Offline empty listing",
+          "visibleTextExcerpt": "No matching restaurants found.",
+          "targets": []
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 7,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 7,
+          "providerElapsedMs": 6,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 1
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "MODEL_DECISION_STARTED",
+        "detail": "MODEL_DECISION",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 7,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 7,
+          "providerElapsedMs": 6,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "MODEL_WIRE",
+        "url": "https://tabelog.com/en/tokyo/rstLst/",
+        "detail": "MODEL_WIRE:{\"action\":\"REQUEST_HUMAN_HELP\",\"targetRef\":\"\",\"authoritativeField\":\"NONE\",\"requestedState\":\"NONE\",\"reason\":\"REDACTED\",\"extras\":[]}",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 7,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 7,
+          "providerElapsedMs": 6,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "MODEL_DECISION_FINISHED",
+        "detail": "MODEL_DECISION",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 8,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 8,
+          "providerElapsedMs": 7,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "MODEL_STOP",
+        "url": "https://tabelog.com/en/tokyo/rstLst/",
+        "detail": "MODEL_REQUEST_HUMAN_HELP",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 8,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 8,
+          "providerElapsedMs": 7,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "CLOSED",
+        "detail": "SESSION_RETIRED",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 8,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 8,
+          "providerElapsedMs": 7,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_FINISHED",
+        "detail": "PROVIDER_SCOPE",
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 8,
+          "providerElapsedMs": 7,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 2,
+          "reason": "EXECUTOR_CLOSED"
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 8
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "CANDIDATE_FINISHED",
+        "detail": "CANDIDATE_SCOPE",
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 8,
+          "providerElapsedMs": 7,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 2,
+          "reason": "EXECUTOR_CLOSED"
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 8
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "CANDIDATE_STARTED",
+        "detail": "CANDIDATE_SCOPE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_STARTED",
+        "detail": "PROVIDER_SCOPE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "SESSION_OPENING",
+        "detail": "OPEN_SESSION",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "SESSION_OPENED",
+        "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_STARTED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FINISHED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "ASYNC_WAIT",
+        "url": "",
+        "detail": "PAGE_SETTLED",
+        "waitMs": 0,
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OBSERVED",
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.703795&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 1,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 1,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OBSERVED",
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.703795&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 1,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_STARTED",
+        "detail": "OBSERVE_CONTROLS",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 1,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FINISHED",
+        "detail": "OBSERVE_CONTROLS",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 1,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "SKILL_STARTED",
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.703795&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+        "detail": "The current source listing has not yet produced a parsed public venue result or an explicit empty result.",
+        "observation": {
+          "title": "Offline empty listing",
+          "visibleTextExcerpt": "No matching restaurants found.",
+          "targets": []
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 1,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 2
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "MODEL_DECISION_STARTED",
+        "detail": "MODEL_DECISION",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 1,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 3
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "MODEL_WIRE",
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.703795&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+        "detail": "MODEL_WIRE:{\"action\":\"REQUEST_HUMAN_HELP\",\"targetRef\":\"\",\"authoritativeField\":\"NONE\",\"requestedState\":\"NONE\",\"reason\":\"REDACTED\",\"extras\":[]}",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 1,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 3
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "MODEL_DECISION_FINISHED",
+        "detail": "MODEL_DECISION",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 2,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 2,
+          "providerElapsedMs": 2,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 3
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "MODEL_STOP",
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.703795&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+        "detail": "MODEL_REQUEST_HUMAN_HELP",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 2,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 2,
+          "providerElapsedMs": 2,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 3
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "CLOSED",
+        "detail": "SESSION_RETIRED",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 2,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 2,
+          "providerElapsedMs": 2,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 3
+        }
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_FINISHED",
+        "detail": "PROVIDER_SCOPE",
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 2,
+          "providerElapsedMs": 2,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 3,
+          "reason": "EXECUTOR_CLOSED"
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 2
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "CANDIDATE_FINISHED",
+        "detail": "CANDIDATE_SCOPE",
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 2,
+          "providerElapsedMs": 2,
+          "candidateModelCalls": 1,
+          "providerModelCalls": 1,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 3,
+          "reason": "EXECUTOR_CLOSED"
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "elapsedMs": 2
+      }
+    ],
+    "browserTrace": [
+      {
+        "sequence": 1,
+        "at": "2026-10-21T10:34:05.794Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "CANDIDATE_STARTED",
+          "detail": "CANDIDATE_SCOPE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 2,
+        "at": "2026-10-21T10:34:05.795Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "PROVIDER_STARTED",
+          "detail": "PROVIDER_SCOPE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 3,
+        "at": "2026-10-21T10:34:05.795Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "SESSION_OPENING",
+          "detail": "OPEN_SESSION",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 4,
+        "at": "2026-10-21T10:34:05.795Z",
+        "kind": "SESSION_OPENED",
+        "detail": {
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "engine": "CHROMIUM",
+          "readNetworkBoundary": "INSTALLED",
+          "startedAt": "2026-10-21T10:34:05.795Z"
+        }
+      },
+      {
+        "sequence": 5,
+        "at": "2026-10-21T10:34:05.795Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "SESSION_OPENED",
+          "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 6,
+        "at": "2026-10-21T10:34:05.795Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_STARTED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 7,
+        "at": "2026-10-21T10:34:05.795Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "navigate",
+          "args": [
+            "https://tabelog.com/en/tokyo/rstLst/",
+            {
+              "timeoutMs": 35000,
+              "waitUntil": "domcontentloaded"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 8,
+        "at": "2026-10-21T10:34:05.795Z",
+        "kind": "SESSION_RETURN",
+        "detail": {
+          "method": "navigate"
+        }
+      },
+      {
+        "sequence": 9,
+        "at": "2026-10-21T10:34:05.795Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_FINISHED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 10,
+        "at": "2026-10-21T10:34:05.796Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "waitForSettled",
+          "args": [
+            {
+              "url": "",
+              "title": "",
+              "text": {
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "length": 0
+              },
+              "html": {
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "length": 0,
+                "observedStateTags": []
+              }
+            },
+            700
+          ]
+        }
+      },
+      {
+        "sequence": 11,
+        "at": "2026-10-21T10:34:05.796Z",
+        "kind": "SESSION_RETURN",
+        "detail": {
+          "method": "waitForSettled",
+          "result": true
+        }
+      },
+      {
+        "sequence": 12,
+        "at": "2026-10-21T10:34:05.796Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "ASYNC_WAIT",
+          "url": "",
+          "detail": "PAGE_SETTLED",
+          "waitMs": 1,
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 2,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 2,
+            "providerElapsedMs": 1,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 13,
+        "at": "2026-10-21T10:34:05.796Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_STARTED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 2,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 2,
+            "providerElapsedMs": 1,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 2,
+            "providerRuntimeOperations": 2,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 14,
+        "at": "2026-10-21T10:34:05.797Z",
+        "kind": "SNAPSHOT",
+        "detail": {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "title": "Offline empty listing",
+          "textSha256": "13a1ad2e3b64084a8ca3bf281cb9b0fb7d07e2689eeb70bf3ab682e7ec663e8c",
+          "textLength": 30,
+          "htmlSha256": "613ff3370a5ab0d17918378aa695651c91f925eb86a9080c5b0e98d651cb5d7d",
+          "htmlLength": 43,
+          "observedStateTags": [],
+          "queryRegions": [],
+          "priceRegions": [],
+          "responses": []
+        }
+      },
+      {
+        "sequence": 15,
+        "at": "2026-10-21T10:34:05.797Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_FINISHED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 3,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 3,
+            "providerElapsedMs": 2,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 2,
+            "providerRuntimeOperations": 2,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 16,
+        "at": "2026-10-21T10:34:05.797Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OBSERVED",
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 3,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 3,
+            "providerElapsedMs": 2,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 2,
+            "providerRuntimeOperations": 2,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 17,
+        "at": "2026-10-21T10:34:05.800Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_STARTED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 6,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 6,
+            "providerElapsedMs": 5,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 1
+          }
+        }
+      },
+      {
+        "sequence": 18,
+        "at": "2026-10-21T10:34:05.800Z",
+        "kind": "SNAPSHOT",
+        "detail": {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "title": "Offline empty listing",
+          "textSha256": "13a1ad2e3b64084a8ca3bf281cb9b0fb7d07e2689eeb70bf3ab682e7ec663e8c",
+          "textLength": 30,
+          "htmlSha256": "613ff3370a5ab0d17918378aa695651c91f925eb86a9080c5b0e98d651cb5d7d",
+          "htmlLength": 43,
+          "observedStateTags": [],
+          "queryRegions": [],
+          "priceRegions": [],
+          "responses": []
+        }
+      },
+      {
+        "sequence": 19,
+        "at": "2026-10-21T10:34:05.800Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_FINISHED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 6,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 6,
+            "providerElapsedMs": 5,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 1
+          }
+        }
+      },
+      {
+        "sequence": 20,
+        "at": "2026-10-21T10:34:05.800Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OBSERVED",
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 6,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 6,
+            "providerElapsedMs": 5,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 1
+          }
+        }
+      },
+      {
+        "sequence": 21,
+        "at": "2026-10-21T10:34:05.800Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_STARTED",
+          "detail": "OBSERVE_CONTROLS",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 6,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 6,
+            "providerElapsedMs": 5,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 1
+          }
+        }
+      },
+      {
+        "sequence": 22,
+        "at": "2026-10-21T10:34:05.800Z",
+        "kind": "CONTROLS",
+        "detail": {
+          "snapshotSequence": 18,
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "totalObserved": 0,
+          "scope": "ALL_OBSERVED_REDACTED",
+          "controls": []
+        }
+      },
+      {
+        "sequence": 23,
+        "at": "2026-10-21T10:34:05.800Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_FINISHED",
+          "detail": "OBSERVE_CONTROLS",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 6,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 6,
+            "providerElapsedMs": 5,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 1
+          }
+        }
+      },
+      {
+        "sequence": 24,
+        "at": "2026-10-21T10:34:05.801Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "SKILL_STARTED",
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "detail": "Follow an observed region entrance naming the requested area, continuing through a broader parent menu if necessary; observe its public results.",
+          "observation": {
+            "title": "Offline empty listing",
+            "visibleTextExcerpt": "No matching restaurants found.",
+            "targets": []
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 7,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 7,
+            "providerElapsedMs": 6,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 1
+          }
+        }
+      },
+      {
+        "sequence": 25,
+        "at": "2026-10-21T10:34:05.801Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "MODEL_DECISION_STARTED",
+          "detail": "MODEL_DECISION",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 7,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 7,
+            "providerElapsedMs": 6,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 26,
+        "at": "2026-10-21T10:34:05.801Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "MODEL_WIRE",
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "detail": "MODEL_WIRE:{\"action\":\"REQUEST_HUMAN_HELP\",\"targetRef\":\"\",\"authoritativeField\":\"NONE\",\"requestedState\":\"NONE\",\"reason\":\"REDACTED\",\"extras\":[]}",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 7,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 7,
+            "providerElapsedMs": 6,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 27,
+        "at": "2026-10-21T10:34:05.802Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "MODEL_DECISION_FINISHED",
+          "detail": "MODEL_DECISION",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 8,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 8,
+            "providerElapsedMs": 7,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 28,
+        "at": "2026-10-21T10:34:05.802Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "MODEL_STOP",
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "detail": "MODEL_REQUEST_HUMAN_HELP",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 8,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 8,
+            "providerElapsedMs": 7,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 29,
+        "at": "2026-10-21T10:34:05.802Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "CLOSED",
+          "detail": "SESSION_RETIRED",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 8,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 8,
+            "providerElapsedMs": 7,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 30,
+        "at": "2026-10-21T10:34:05.802Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "PROVIDER_FINISHED",
+          "detail": "PROVIDER_SCOPE",
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 8,
+            "providerElapsedMs": 7,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 2,
+            "reason": "EXECUTOR_CLOSED"
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 8
+        }
+      },
+      {
+        "sequence": 31,
+        "at": "2026-10-21T10:34:05.802Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "CANDIDATE_FINISHED",
+          "detail": "CANDIDATE_SCOPE",
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 8,
+            "providerElapsedMs": 7,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 2,
+            "reason": "EXECUTOR_CLOSED"
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 8
+        }
+      },
+      {
+        "sequence": 32,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "CANDIDATE_STARTED",
+          "detail": "CANDIDATE_SCOPE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 33,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "PROVIDER_STARTED",
+          "detail": "PROVIDER_SCOPE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 34,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "SESSION_OPENING",
+          "detail": "OPEN_SESSION",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 35,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "SESSION_OPENED",
+        "detail": {
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "engine": "CHROMIUM",
+          "readNetworkBoundary": "INSTALLED",
+          "startedAt": "2026-10-21T10:34:05.803Z"
+        }
+      },
+      {
+        "sequence": 36,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "SESSION_OPENED",
+          "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 37,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_STARTED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 38,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "navigate",
+          "args": [
+            "https://www.tablecheck.com/en/japan/search",
+            {
+              "timeoutMs": 35000,
+              "waitUntil": "domcontentloaded"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 39,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "SESSION_RETURN",
+        "detail": {
+          "method": "navigate"
+        }
+      },
+      {
+        "sequence": 40,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_FINISHED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 41,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "waitForSettled",
+          "args": [
+            {
+              "url": "",
+              "title": "",
+              "text": {
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "length": 0
+              },
+              "html": {
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "length": 0,
+                "observedStateTags": []
+              }
+            },
+            700
+          ]
+        }
+      },
+      {
+        "sequence": 42,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "SESSION_RETURN",
+        "detail": {
+          "method": "waitForSettled",
+          "result": true
+        }
+      },
+      {
+        "sequence": 43,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "ASYNC_WAIT",
+          "url": "",
+          "detail": "PAGE_SETTLED",
+          "waitMs": 0,
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 44,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_STARTED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 2,
+            "providerRuntimeOperations": 2,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 45,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "SNAPSHOT",
+        "detail": {
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "title": "Offline empty listing",
+          "textSha256": "13a1ad2e3b64084a8ca3bf281cb9b0fb7d07e2689eeb70bf3ab682e7ec663e8c",
+          "textLength": 30,
+          "htmlSha256": "613ff3370a5ab0d17918378aa695651c91f925eb86a9080c5b0e98d651cb5d7d",
+          "htmlLength": 43,
+          "observedStateTags": [],
+          "queryRegions": [],
+          "priceRegions": [],
+          "responses": []
+        }
+      },
+      {
+        "sequence": 46,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_FINISHED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 2,
+            "providerRuntimeOperations": 2,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 47,
+        "at": "2026-10-21T10:34:05.803Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "OBSERVED",
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 2,
+            "providerRuntimeOperations": 2,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 48,
+        "at": "2026-10-21T10:34:05.804Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_STARTED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 1,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 49,
+        "at": "2026-10-21T10:34:05.804Z",
+        "kind": "SNAPSHOT",
+        "detail": {
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "title": "Offline empty listing",
+          "textSha256": "13a1ad2e3b64084a8ca3bf281cb9b0fb7d07e2689eeb70bf3ab682e7ec663e8c",
+          "textLength": 30,
+          "htmlSha256": "613ff3370a5ab0d17918378aa695651c91f925eb86a9080c5b0e98d651cb5d7d",
+          "htmlLength": 43,
+          "observedStateTags": [],
+          "queryRegions": [],
+          "priceRegions": [],
+          "responses": []
+        }
+      },
+      {
+        "sequence": 50,
+        "at": "2026-10-21T10:34:05.804Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_FINISHED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 1,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 51,
+        "at": "2026-10-21T10:34:05.804Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "OBSERVED",
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 1,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 52,
+        "at": "2026-10-21T10:34:05.804Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_STARTED",
+          "detail": "OBSERVE_CONTROLS",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 1,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 53,
+        "at": "2026-10-21T10:34:05.804Z",
+        "kind": "CONTROLS",
+        "detail": {
+          "snapshotSequence": 49,
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "totalObserved": 0,
+          "scope": "ALL_OBSERVED_REDACTED",
+          "controls": []
+        }
+      },
+      {
+        "sequence": 54,
+        "at": "2026-10-21T10:34:05.804Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_FINISHED",
+          "detail": "OBSERVE_CONTROLS",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 1,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 55,
+        "at": "2026-10-21T10:34:05.804Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "SKILL_STARTED",
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "detail": "The current source listing has not yet produced a parsed public venue result or an explicit empty result.",
+          "observation": {
+            "title": "Offline empty listing",
+            "visibleTextExcerpt": "No matching restaurants found.",
+            "targets": []
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 1,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 2
+          }
+        }
+      },
+      {
+        "sequence": 56,
+        "at": "2026-10-21T10:34:05.804Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "MODEL_DECISION_STARTED",
+          "detail": "MODEL_DECISION",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 1,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 3
+          }
+        }
+      },
+      {
+        "sequence": 57,
+        "at": "2026-10-21T10:34:05.805Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "MODEL_WIRE",
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "detail": "MODEL_WIRE:{\"action\":\"REQUEST_HUMAN_HELP\",\"targetRef\":\"\",\"authoritativeField\":\"NONE\",\"requestedState\":\"NONE\",\"reason\":\"REDACTED\",\"extras\":[]}",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 1,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 3
+          }
+        }
+      },
+      {
+        "sequence": 58,
+        "at": "2026-10-21T10:34:05.805Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "MODEL_DECISION_FINISHED",
+          "detail": "MODEL_DECISION",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 2,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 2,
+            "providerElapsedMs": 2,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 3
+          }
+        }
+      },
+      {
+        "sequence": 59,
+        "at": "2026-10-21T10:34:05.805Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "MODEL_STOP",
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "detail": "MODEL_REQUEST_HUMAN_HELP",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 2,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 2,
+            "providerElapsedMs": 2,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 3
+          }
+        }
+      },
+      {
+        "sequence": 60,
+        "at": "2026-10-21T10:34:05.805Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "CLOSED",
+          "detail": "SESSION_RETIRED",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 2,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 2,
+            "providerElapsedMs": 2,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 3
+          }
+        }
+      },
+      {
+        "sequence": 61,
+        "at": "2026-10-21T10:34:05.805Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "PROVIDER_FINISHED",
+          "detail": "PROVIDER_SCOPE",
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 2,
+            "providerElapsedMs": 2,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 3,
+            "reason": "EXECUTOR_CLOSED"
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 2
+        }
+      },
+      {
+        "sequence": 62,
+        "at": "2026-10-21T10:34:05.805Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "VENUE_SEARCH",
+          "stage": "DISCOVERY",
+          "event": "CANDIDATE_FINISHED",
+          "detail": "CANDIDATE_SCOPE",
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 2,
+            "providerElapsedMs": 2,
+            "candidateModelCalls": 1,
+            "providerModelCalls": 1,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 3,
+            "reason": "EXECUTOR_CLOSED"
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:VENUE_SEARCH",
+          "elapsedMs": 2
+        }
+      }
+    ]
+  },
+  "finalSnapshot": {
+    "id": "hybrid-live:p2l-kf-h001-20261103:1792578845749",
+    "runId": "run:hybrid-live:p2l-kf-h001-20261103:1792578845749",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "16",
+    "lifecycleState": "SUCCEEDED",
+    "domainState": {
+      "schemaVersion": "18",
+      "phase": "NO_VERIFIED_RESULT",
+      "searchRevision": 3,
+      "investigationRevision": 1,
+      "intentDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "omakase"
+        },
+        "date": "2026-11-03",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-21T10:34:05.749Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Tuesday, November 3",
+            "resolvedDate": "2026-11-03",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "area": {
+          "query": "near Shibuya"
+        }
+      },
+      "candidates": [],
+      "availability": {},
+      "availabilityChecks": {},
+      "factChecks": {},
+      "readEvidence": [
+        {
+          "evidenceId": "37ae5d757b8ab4ec244e872cd4b3eb6707bd4a0b8e81280801207a1b35540450",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "shibuya-landmark",
+          "observedAt": "2026-10-21T10:34:05.793Z",
+          "requestFingerprint": "dabe8b558333bee830c4693104b33cb5bbf74a9a2317df55a63ff42de3a43b1d",
+          "claims": {
+            "locationResolutionQuery": "Shibuya",
+            "resolvedPlaceName": "Shibuya",
+            "resolvedPlaceId": "shibuya-landmark",
+            "latitude": 35.6619707,
+            "longitude": 139.703795,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "omakase"
+        },
+        "date": "2026-11-03",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "near Shibuya"
+        },
+        "criteria": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "searchContinuation": {
+        "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase\"},\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+        "usedPageTokens": [],
+        "pagesRead": 1,
+        "exhausted": true,
+        "locationContext": {
+          "latitude": 35.6619707,
+          "longitude": 139.703795,
+          "radiusMeters": 1000,
+          "label": "Shibuya",
+          "areaMatchBasis": "NAMED_PLACE_RADIUS",
+          "addressComponents": [
+            {
+              "longText": "Shibuya",
+              "types": [
+                "locality",
+                "political"
+              ]
+            }
+          ]
+        },
+        "sourceRequestContext": {
+          "textQuery": "omakase Shibuya"
+        },
+        "discoveryPlan": {
+          "entries": [
+            {
+              "sourceId": "tabelog",
+              "query": {
+                "category": "restaurant",
+                "positiveCriteria": [
+                  {
+                    "criterionRef": "criterion:0",
+                    "text": "omakase",
+                    "strength": "HARD"
+                  }
+                ],
+                "location": {
+                  "latitude": 35.6619707,
+                  "longitude": 139.703795,
+                  "radiusMeters": 1000,
+                  "label": "Shibuya",
+                  "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                  "addressComponents": [
+                    {
+                      "longText": "Shibuya",
+                      "types": [
+                        "locality",
+                        "political"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "sourceId": "tablecheck",
+              "query": {
+                "category": "restaurant",
+                "positiveCriteria": [
+                  {
+                    "criterionRef": "criterion:0",
+                    "text": "omakase",
+                    "strength": "HARD"
+                  }
+                ],
+                "location": {
+                  "latitude": 35.6619707,
+                  "longitude": 139.703795,
+                  "radiusMeters": 1000,
+                  "label": "Shibuya",
+                  "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                  "addressComponents": [
+                    {
+                      "longText": "Shibuya",
+                      "types": [
+                        "locality",
+                        "political"
+                      ]
+                    }
+                  ]
+                },
+                "keyword": "omakase"
+              }
+            },
+            {
+              "sourceId": "google-places",
+              "query": {
+                "category": "restaurant",
+                "positiveCriteria": [
+                  {
+                    "criterionRef": "criterion:0",
+                    "text": "omakase",
+                    "strength": "HARD"
+                  }
+                ],
+                "location": {
+                  "latitude": 35.6619707,
+                  "longitude": 139.703795,
+                  "radiusMeters": 1000,
+                  "label": "Shibuya",
+                  "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                  "addressComponents": [
+                    {
+                      "longText": "Shibuya",
+                      "types": [
+                        "locality",
+                        "political"
+                      ]
+                    }
+                  ]
+                },
+                "keyword": "omakase"
+              }
+            }
+          ],
+          "cursor": 3,
+          "textRetrieval": {
+            "accepted": true,
+            "reason": "Scripted positive retrieval for controlled source contract",
+            "keyword": "omakase",
+            "criterionRef": "criterion:0"
+          }
+        },
+        "currentDiscoveryBatch": {
+          "sourceId": "google-places",
+          "candidateIds": []
+        }
+      },
+      "noVerifiedResult": {
+        "termination": {
+          "type": "END_READ",
+          "reasonCode": "AGENT_END_READ",
+          "isSystemReason": false,
+          "initiator": "AGENT"
+        },
+        "endedAt": "2026-10-21T10:34:05.806Z",
+        "investigatedCandidateIds": [],
+        "unresolvedCandidateIds": [],
+        "remainingGaps": [
+          "The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated"
+        ]
+      }
+    },
+    "outcome": {
+      "status": "NO_VERIFIED_RESULT",
+      "investigatedCandidateIds": [],
+      "unresolvedCandidateIds": [],
+      "remainingGaps": [
+        "The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated"
+      ]
+    },
+    "version": 5,
+    "createdAt": "2026-10-21T10:34:05.787Z",
+    "updatedAt": "2026-10-21T10:34:05.806Z"
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 4,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 8,
+    "browserRuntimeCalls": 8,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 4,
+      "native-discovery:VENUE_SEARCH": 4
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 1,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 38,
+      "total": 2,
+      "namedPlaceResolution": 1,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 57
+  },
+  "searchState": {
+    "candidatesDiscovered": 0,
+    "candidatesInvestigated": 0,
+    "candidatesAvailabilityChecked": 0,
+    "remainingCandidateIds": [],
+    "remainingAvailabilityCandidateIds": [],
+    "continuationExhausted": true,
+    "nextPageTokenPresent": false
+  },
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 4
+  },
+  "latencyMs": 57,
+  "decisionCapture": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/offline-rehearsal/c-01-attempt-1/runner/2026-10-21T10-34-05-786Z-28b448c7-0aff-4491-8c18-42c5c7e67e48.decisions.jsonl",
+    "sha256": "c4ca2c626e2d8104df1c3620c1d02851018cf2ce7b56b4ceaaa0e1890fa3a5de",
+    "callsStarted": 8,
+    "rowsWritten": 8,
+    "errors": []
+  },
+  "stageTimings": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 59,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 46,
+        "percent": 77.96610169491525
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:SEARCH",
+        "elapsedMs": 6,
+        "percent": 10.16949152542373
+      },
+      {
+        "stage": "SEARCH_RESTAURANTS",
+        "elapsedMs": 3,
+        "percent": 5.084745762711865
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+        "elapsedMs": 2,
+        "percent": 3.389830508474576
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+        "elapsedMs": 2,
+        "percent": 3.389830508474576
+      }
+    ],
+    "modelSteps": [],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  },
+  "status": "SUCCEEDED",
+  "stage": "AGENT_LOOP",
+  "failureCode": null,
+  "runId": "28b448c7-0aff-4491-8c18-42c5c7e67e48",
+  "startedAt": "2026-10-21T10:34:05.786Z",
+  "finishedAt": "2026-10-21T10:34:05.808Z"
+}
