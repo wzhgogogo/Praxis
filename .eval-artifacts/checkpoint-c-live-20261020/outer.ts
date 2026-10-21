@@ -7,7 +7,8 @@ import {gateWitness,nextAction,consumeAuthorization,checkStageBudget} from './po
 import {evaluateAttempt,writeBatchReport} from './evaluate-report.ts';
 import {postCheck} from './post-check.mjs';
 import {loadResume} from './resume.mjs';
-const {values}=parseArgs({options:{mode:{type:'string'},freeze:{type:'string'},output:{type:'string'},approval:{type:'string'},registry:{type:'string'},ledger:{type:'string'},resume:{type:'string'}}});
+import {executionRuns} from './run-selection.mjs';
+const {values}=parseArgs({options:{mode:{type:'string'},freeze:{type:'string'},output:{type:'string'},approval:{type:'string'},registry:{type:'string'},ledger:{type:'string'},resume:{type:'string'},'run-ids':{type:'string'}}});
 if(!['OFFLINE_REHEARSAL','LIVE_READ_ONLY'].includes(values.mode??''))throw Error('--mode OFFLINE_REHEARSAL|LIVE_READ_ONLY required');
 if(!values.freeze||!values.output)throw Error('--freeze --output required');
 const mode=values.mode!,directory=resolve(values.output),inside=relative(resolve(base),directory);
@@ -16,6 +17,8 @@ const frozen=verifyFreeze(values.freeze),plan=JSON.parse(readFileSync(resolve(ba
 const offline=mode==='OFFLINE_REHEARSAL';
 if(offline&&values.resume)throw Error('LIVE_RESUME_ONLY');
 const resume=values.resume?loadResume(values.resume,frozen,plan):undefined;
+const quick=values['run-ids']!==undefined,runs=executionRuns(plan,{runIds:values['run-ids'],offline,resume});
+const authorizationAction=quick?'CHECKPOINT_C_QUICK_VALIDATION':resume?'CHECKPOINT_C_RESUME':'CHECKPOINT_C_LIVE_18';
 const ledgerPath=values.ledger??base+'/phase2-ledger.json';
 const ledger=JSON.parse(readFileSync(ledgerPath,'utf8'));
 const budget=checkStageBudget(ledger,plan);
@@ -23,19 +26,20 @@ for(const source of ledger.sources)if(frozen.files[source.path]!==source.sha256|
 if(!offline){
  if(!values.approval||!values.registry)throw Error('EXPLICIT_USER_APPROVAL_CERTIFIED_REGISTRY_AND_GLOBAL_BUDGET_LEDGER_REQUIRED');
  const approval=JSON.parse(readFileSync(values.approval,'utf8'));
- if(approval.action!==(resume?'CHECKPOINT_C_RESUME':'CHECKPOINT_C_LIVE_18')||approval.approvedBy!=='USER'||approval.freezeSha256!==frozen.manifestSha256||approval.registrySha256!==sha(readFileSync(values.registry))||!Number.isFinite(Date.parse(approval.validUntil))||Date.parse(approval.validUntil)<=Date.now()||resume&&approval.resumeSha256!==resume.sha256)throw Error('INVALID_LIVE_APPROVAL');
+ if(approval.action!==authorizationAction||approval.approvedBy!=='USER'||approval.freezeSha256!==frozen.manifestSha256||approval.registrySha256!==sha(readFileSync(values.registry))||!Number.isFinite(Date.parse(approval.validUntil))||Date.parse(approval.validUntil)<=Date.now()||resume&&approval.resumeSha256!==resume.sha256||quick&&JSON.stringify(approval.runIds)!==JSON.stringify(runs.map(run=>run.runId)))throw Error('INVALID_LIVE_APPROVAL');
  for(const p of [values.registry,ledgerPath])if(frozen.files[relative(process.cwd(),resolve(p))]!==sha(readFileSync(p)))throw Error('RUNTIME_INPUT_NOT_COMMITTED_AND_FROZEN:'+p);
  for(const ref of ledger.priorStageSafety?.refs??[])if(frozen.files[ref.path]!==ref.sha256||sha(readFileSync(ref.path))!==ref.sha256)throw Error('PRIOR_STAGE_SAFETY_EVIDENCE_NOT_FROZEN');
  plan.maxTotalReruns=resume?Math.min(plan.maxTotalReruns,resume.totalReruns+budget.reservedRetries):budget.reservedRetries;
 }
-if(!offline)await consumeAuthorization(base,sha(readFileSync(values.approval!)),{action:resume?'CHECKPOINT_C_RESUME':'CHECKPOINT_C_LIVE_18',freezeSha256:frozen.manifestSha256,...(resume?{resumeSha256:resume.sha256,priorDirectory:resume.config.priorDirectory}:{}),directory});
+if(!offline)await consumeAuthorization(base,sha(readFileSync(values.approval!)),{action:authorizationAction,freezeSha256:frozen.manifestSha256,...(resume?{resumeSha256:resume.sha256,priorDirectory:resume.config.priorDirectory}:{}),...(quick?{label:'快速验证',runIds:runs.map(run=>run.runId),checkpointC18Runs:0}:{}),directory});
 mkdirSync(directory,{recursive:false});
 const write=(p:string,v:any)=>writeFileSync(resolve(directory,p),JSON.stringify(v,null,2)+'\n',{flag:'wx'});
-write('started.json',{mode,at:new Date().toISOString(),freezeSha256:frozen.manifestSha256,commit:frozen.commit,ledgerPath,ledgerSha256:sha(readFileSync(ledgerPath)),budget,planned:offline?1:resume?resume.runs.length:18,carriedAttempts:resume?.rows.length??0,...(resume?{resumeSha256:resume.sha256,priorDirectory:resume.config.priorDirectory,extraUserAuthorizedAttempt:resume.config.extraAttempt}:{}),network:offline?0:'AUTHORIZED_LIVE',models:offline?0:'AUTHORIZED_LIVE'});
+write('started.json',{mode,at:new Date().toISOString(),freezeSha256:frozen.manifestSha256,commit:frozen.commit,ledgerPath,ledgerSha256:sha(readFileSync(ledgerPath)),budget,planned:runs.length,carriedAttempts:resume?.rows.length??0,...(resume?{resumeSha256:resume.sha256,priorDirectory:resume.config.priorDirectory,extraUserAuthorizedAttempt:resume.config.extraAttempt}:{}),...(quick?{label:'快速验证',runIds:runs.map(run=>run.runId),checkpointC18Runs:0}:{}),network:offline?0:'AUTHORIZED_LIVE',models:offline?0:'AUTHORIZED_LIVE'});
+if(quick)write('scope.json',{label:'快速验证',runIds:runs.map(run=>run.runId),checkpointC18Runs:0,planned:3,reportTemplate:'Unchanged Checkpoint C reporting template; its 18-run exit denominator is not a quick-validation gate.'});
 const rows:any[]=resume?[...resume.rows]:[],caseRetries:Map<string,number>=resume?resume.caseRetries:new Map();let totalReruns=resume?.totalReruns??0,lastFinish=resume?.lastFinish??0,stop:any=null;
 async function waitUntil(time:number){while(Date.now()<time)await new Promise(r=>setTimeout(r,Math.min(1000,time-Date.now())));}
 const registry=values.registry?JSON.parse(readFileSync(values.registry,'utf8')):undefined;
-for(const run of offline?plan.runs.slice(0,1):resume?resume.runs:plan.runs){
+for(const run of runs){
  let attempt=(resume?.attemptCounts as Record<string,number>|undefined)?.[run.runId]??0;
  while(true){
   if(!offline)await waitUntil(lastFinish+plan.minGapMs);
@@ -81,5 +85,6 @@ for(const run of offline?plan.runs.slice(0,1):resume?resume.runs:plan.runs){
  if(stop)break;
 }
 writeBatchReport(directory,plan,rows,mode,ledger);
+if(quick){const report=resolve(directory,'report.md');writeFileSync(report,'# 快速验证（不计入检查点 C 的 18 次）\n\n本目录只记录 c-01、c-02、c-05；逐次评价和下方原报告模板保持不变，模板的 18 次退出条件不作为快速验证门槛。\n\n'+readFileSync(report,'utf8'));}
 write('finish.json',{at:new Date().toISOString(),mode,stop,totalReruns,attempts:rows.length,network:offline?0:'SEE_RAW_RECORDS',realModels:offline?0:'SEE_RAW_RECORDS',status:stop?'STOPPED':'COMPLETED'});
 console.log(JSON.stringify({mode,report:resolve(directory,'report.md'),attempts:rows.length,stop}));

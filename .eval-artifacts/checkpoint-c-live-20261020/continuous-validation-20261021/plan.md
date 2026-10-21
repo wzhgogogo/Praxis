@@ -11,3 +11,5 @@ Evidence status: current executable; exposed development, not Clean Baseline.
 5. 按原 plan.json 完整重跑 18 次，保留此前五次第一次尝试。S0 立即停批；仅 ENV_FAILURE / ORCHESTRATION_INTERRUPTED 可重跑，每例最多一次、累计环境重跑不超过 10 次。新见证最早观察后 24 小时内结束。
 
 全程只读，永久禁止 TableCheck /reserve 及子路径，不打开预约表单，不点时段。403/503/429/繁忙页按既有外层暂停 15 分钟并仅重试一次。每步结束提交推送结果、冻结 SHA 和累计账本；所有模型请求（含回放、失败请求）计入 4,000，完整 Live 计入 100。结果、逐环节、严重程度与归因分别报告；未核验项保持 NOT_EVALUATED。
+
+用户后续明确批准仅增加 --run-ids 三例选择入口；授权与验证范围见 run-selection-approval.md。其余原连续步骤继续有效。

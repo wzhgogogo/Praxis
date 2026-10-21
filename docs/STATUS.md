@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.310
+- Document revision: 4.311
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -10,6 +10,8 @@
 - **2026-10-21 Checkpoint C step2 merged:** accepted fix8589b3b pushed to integration; prep merge92beed0 preserves both documentation histories. Production/skills/dependencies equal accepted source; frozen628 inputs unchanged. Existing outer/18-plan/Runner/evaluator30/rubric26 unchanged. Cumulative ledger2143 models/7 fullLive/0 env reruns now reconciles replay source SHAs. No new website/model/Live. Freeze receipt: `.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-2-freeze-receipt.json`.
 
 - **2026-10-21 Continuous checkpoint C at quick-Live entry:** step1/2 PASS and pushed; unchanged outer rehearsal complete,0 real models/network. Freeze b1175e307a68e021e0e7744eda750b488d36f72f84038cbfb3ed04224c8b2273. Existing outer cannot select H001/H002/Kagurazaka without changing outer or18-plan; user clarification requested, no Live started, steps3–5 NOT_REACHED. Ledger2143 models/7 Live/0 env reruns unchanged; historical H003 S0 remains PRESENT. [Four-layer report](../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/four-layer-report.md).
+
+- **2026-10-21 Quick validation entry explicitly approved:** add --run-ids only for c-01/c-02/c-05, retain original plan/order/each-run behavior/spacing/stop/budget/evaluation. Twenty offline controls PASS; no production changes, existing five gates reused. Separate quick label and directory exclude these runs from checkpointC18. Commit/freeze then actual0-network three-run/default rehearsal before authorized quick Live. Model/Live ledger2143/7 unchanged.
 
 ## 当前门槛
 

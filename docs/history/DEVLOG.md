@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.207
+- Document revision: 4.208
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4213,3 +4213,9 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 
 - Evidence status: current executable plus frozen regression, exposed development. Steps1/2 PASS; original outer complete0-network/0-model rehearsal succeeds and553 freeze files reverified. SHA b1175e307a68e021e0e7744eda750b488d36f72f84038cbfb3ed04224c8b2273. No original outer/plan modification.
 - Quick3 cannot be selected by current CLI (only18 or historical fixed-c03 resume); clarification requested before relaxing explicit immutable-outer constraint. No authorization consumed or Live started; steps3–5 NOT_REACHED. Cumulative2143 models,7 fullLive,0 env reruns unchanged; old H003 S0 retained. [Report](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/four-layer-report.md).
+
+
+## DEV-2026-10-21-CHECKPOINT-C-RUN-SELECTION
+
+- Evidence status: current executable preparation, exposed development. User explicitly approved minimal --run-ids entry for c-01/c-02/c-05 only. Select original run objects in plan order; reject unknown/duplicate/empty IDs and resume combination. Default18 Live/default1 rehearsal/historical resume unchanged; no changes to Runner, plan, policies, evaluator or run budgets.
+- Twenty offline controls PASS; full original outer scripted three-run/default verification follows committed freeze. New models/sites/Live0; cumulative2143/7/0 unchanged. Scope label and separate results keep quick samples outside checkpointC18. [Authorization](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/run-selection-approval.md).
