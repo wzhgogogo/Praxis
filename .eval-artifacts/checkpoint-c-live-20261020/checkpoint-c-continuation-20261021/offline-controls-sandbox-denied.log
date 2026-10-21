@@ -1,0 +1,54 @@
+✔ quick selection executes exactly the approved three original run objects in plan order (1.371875ms)
+✔ no parameter retains original 18-run Live, one-run rehearsal and historical resume branches (0.162917ms)
+✔ unknown, duplicate, empty, nonapproved subset and resume combination fail before transport (0.479208ms)
+✔ approved bytes, independent literal 18-run roster and spacing (18.571333ms)
+✔ S0 stops before any retry; ordinary product failures cannot retry; environment limits apply across repetitions (0.137208ms)
+✔ 403/503/429 and observed busy pages are bounded cooldown signals (0.12725ms)
+✔ witness future/expired/uncertified rejected, current accepted (0.341292ms)
+✔ frozen independent reviewed body grammar detects mutation (0.639334ms)
+✔ frozen SHA oracle rejects a changed digest without editing any production input (1.158958ms)
+✔ an approval cannot launch a duplicate batch with a new output path (1.199375ms)
+✔ failed independent post-run read preserves evaluation and reports an evidence gap (18.37925ms)
+✔ current continuation carries all10 attempts and runs exactly c09-c18; original unselected18 is unchanged (29.503541ms)
+✔ prior summary or independent S0, witness deadline extension, and formal retry cannot be bypassed (65.12ms)
+✔ unfrozen prior evidence is rejected before any transport (11.630125ms)
+✔ missing or duplicate prior attempts and reset retry charge are rejected (38.498208ms)
+✔ even newly frozen prior data must match the original raw manifest (10.642ms)
+✖ passive outer recorder preserves actual Chromium response bytes without changing request or retaining headers (3.04275ms)
+✔ unassessed TableCheck claim continues while S0 PRESENT still stops immediately (0.351834ms)
+✔ only actual Guard-admitted frozen public grammar can be independently replayed (0.432167ms)
+✔ independent parser requires explicit same-outlet/date/party/time links; failure/null is unknown (1.352125ms)
+✔ approved replay retains identical method/URL/body and independent original/recheck raw SHAs (24.805709ms)
+✔ unreviewed inventory makes no request, retains run-time raw refs, and cannot hide a positive S0 (0.93625ms)
+✔ cumulative budget includes historical carry and every replay, and rejects insufficient or inconsistent ledgers (0.737209ms)
+✔ all same-source page and inventory reads are at least 30 seconds after previous completion (10.578458ms)
+✔ busy/status failure waits 15 minutes exactly once, retains both responses, then stops if still failing (2.146ms)
+✔ inventory certification binds raw date, party, outlet and exact time without opening slot URLs (0.161916ms)
+✔ source evidence retains entity-encoded HARD quote bytes, not only a found flag (0.735125ms)
+✔ no-status transport failure waits two minutes, replays once unchanged and stops on a second failure (0.273875ms)
+✔ source identity review resolves a translated name without accepting another canonical outlet (0.388167ms)
+✔ completion preserves six supported witnesses and reuses Meibutsuya business page for inventory only (0.935458ms)
+✔ retained observations keep cross-round paths and earliest timestamps, refusing changed hashes (1.054833ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 30
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 687.511417
+
+✖ failing tests:
+
+test at .eval-artifacts/checkpoint-c-live-20261020/tablecheck-capture-browser.test.ts:1:579
+✖ passive outer recorder preserves actual Chromium response bytes without changing request or retaining headers (3.04275ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }

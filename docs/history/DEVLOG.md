@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.221
+- Document revision: 4.222
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-21-CHECKPOINT-C-CONTINUATION-READY
+
+用户要求继续剩余Live；只从c-09预检失败处额外进入1次，再原序c-10至c-18，不带--run-ids。旧8次正式样本/10条attempt原评价不动，神乐坂自动额度仍耗尽，S0继续立即停。仅替换过期c03恢复入口为当前c09证据绑定；31项离线控制通过，生产/外层主脚本/计划/评测器@31/rubric@27均未改，旧门禁与69/5/22结果复用。账本2596模型/21Live/0正式环境重跑，所有47来源SHA核对；截止仍10月22日20:23:38.769北京。先提交冻结后启动，未知条件与展示问题继续如实记录。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/plan.md).
 
 ## DEV-2026-10-21-CHECKPOINT-C-LIVE-STOPPED
 

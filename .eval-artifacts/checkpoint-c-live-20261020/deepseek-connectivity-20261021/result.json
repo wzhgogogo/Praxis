@@ -1,0 +1,110 @@
+{
+  "plan": {
+    "mode": "NETWORK_ONLY_DIAGNOSTIC",
+    "method": "GET",
+    "url": "https://api.deepseek.com/models",
+    "samples": 3,
+    "timeoutMs": 30000,
+    "minGapMs": 30000,
+    "generationModelCalls": 0,
+    "fullLiveRuns": 0,
+    "productionTimeoutUnchanged": true,
+    "stop": "After3 samples, or first HTTP access/rate/server failure; no retries",
+    "scriptSha256": "9dd79c5de59f3bedcb1fe2e7a1cecc09e4cbaad2a23e2738a89b8adef5733ad3"
+  },
+  "startedAt": "2026-10-21T14:47:54.988Z",
+  "runtime": "v24.4.1",
+  "rows": [
+    {
+      "sample": 1,
+      "startedAt": "2026-10-21T14:47:55.211Z",
+      "connectionEvents": [
+        {
+          "event": "undici:client:beforeConnect",
+          "elapsedMs": 24
+        },
+        {
+          "event": "undici:client:connected",
+          "elapsedMs": 1127,
+          "remoteAddress": "3.173.21.63",
+          "remoteFamily": "IPv4",
+          "alpnProtocol": "http/1.1"
+        }
+      ],
+      "headersMs": 1814,
+      "status": 200,
+      "httpDate": "Wed, 21 Oct 2026 14:47:57 GMT",
+      "bodyBytes": 743,
+      "bodySha256": "b86388abe65929c84de3825eee299b8d78bae23e82e300239f3c788569eb5f39",
+      "elapsedMs": 1817,
+      "outcome": "REACHABLE",
+      "exceedsProduction10s": false,
+      "finishedAt": "2026-10-21T14:47:57.029Z"
+    },
+    {
+      "sample": 2,
+      "startedAt": "2026-10-21T14:48:27.031Z",
+      "connectionEvents": [
+        {
+          "event": "undici:client:beforeConnect",
+          "elapsedMs": 1
+        },
+        {
+          "event": "undici:client:connected",
+          "elapsedMs": 4914,
+          "remoteAddress": "3.173.21.63",
+          "remoteFamily": "IPv4",
+          "alpnProtocol": "http/1.1"
+        }
+      ],
+      "headersMs": 5421,
+      "status": 200,
+      "httpDate": "Wed, 21 Oct 2026 14:48:32 GMT",
+      "bodyBytes": 743,
+      "bodySha256": "b86388abe65929c84de3825eee299b8d78bae23e82e300239f3c788569eb5f39",
+      "elapsedMs": 5422,
+      "outcome": "REACHABLE",
+      "exceedsProduction10s": false,
+      "finishedAt": "2026-10-21T14:48:32.453Z"
+    },
+    {
+      "sample": 3,
+      "startedAt": "2026-10-21T14:49:02.455Z",
+      "connectionEvents": [
+        {
+          "event": "undici:client:beforeConnect",
+          "elapsedMs": 1
+        },
+        {
+          "event": "undici:client:connected",
+          "elapsedMs": 1045,
+          "remoteAddress": "3.173.21.63",
+          "remoteFamily": "IPv4",
+          "alpnProtocol": "http/1.1"
+        }
+      ],
+      "headersMs": 1528,
+      "status": 200,
+      "httpDate": "Wed, 21 Oct 2026 14:49:04 GMT",
+      "bodyBytes": 743,
+      "bodySha256": "b86388abe65929c84de3825eee299b8d78bae23e82e300239f3c788569eb5f39",
+      "elapsedMs": 1529,
+      "outcome": "REACHABLE",
+      "exceedsProduction10s": false,
+      "finishedAt": "2026-10-21T14:49:03.984Z"
+    }
+  ],
+  "dns": {
+    "addresses": [
+      {
+        "address": "3.173.21.63",
+        "family": 4
+      }
+    ],
+    "elapsedMs": 223
+  },
+  "finishedAt": "2026-10-21T14:49:03.985Z",
+  "status": "COMPLETED",
+  "generationModelCalls": 0,
+  "fullLiveRuns": 0
+}
