@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.229
+- Document revision: 4.230
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-22-CHECKPOINT-C-CONTINUATION-RESULTS
+
+当前C18正式18次完成（原8次保留，续跑c-09至c-18共10次）；冻结评测器@31/rubric@27：4 QUALIFIED_DELIVERY、1 CAPABILITY_MISS、1 HONEST_NO_RESULT、12 NOT_EVALUATED。退出条件1/3为NOT_EVALUATED，4为NOT_SATISFIED，5仅测量（交付中位224.642秒、最大341.062秒）；正式S0声明9 ABSENT/9未评价，越界18 ABSENT。续跑新增231模型调用/10正式Live；累计2827/4000模型、31/100正式Live、0/10正式环境重跑；原8次/178调用不重复计账。续跑冻结a6843af52023b2febdcb6fc5e5b576262c649fb82f1d686a7d59706b2c701e1e；558冻结输入、1044旧原始文件与2299总原始文件SHA核对通过。汇总审计0网络/模型，非Clean Baseline；已结束执行，提交推送后停下等独立复核。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/four-layer-report.md).
 
 ## TEST-2026-10-21-CHECKPOINT-C-CONTINUATION-READY
 

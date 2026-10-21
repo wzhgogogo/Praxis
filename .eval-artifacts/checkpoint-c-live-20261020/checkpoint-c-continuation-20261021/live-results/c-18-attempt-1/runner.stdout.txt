@@ -1,0 +1,49 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2l-kf-h003-20261106","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/network-preflight/2026-10-21T16-23-33-083Z-e852e2b6-6800-4a93-bb14-e29f2d65ac32.result.json","elapsedMs":4727,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2l-kf-h003-20261106",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 14
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 14,
+    "candidatesChecked": 13,
+    "agentDecisions": 14,
+    "browserModelCalls": 31,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 292,
+    "browserOperationsByCandidate": {
+      "native-discovery:VENUE_SEARCH": 27,
+      "tablecheck:nakamata-nodoguro-ginza": 32,
+      "tablecheck:takahashiya-ginza": 31,
+      "tablecheck:tounai": 7,
+      "tablecheck:m3-felice": 7,
+      "tablecheck:kanaike-kinri": 32,
+      "tablecheck:grandbach-ginza-magdalena": 7,
+      "tablecheck:satoyama-zenhouse": 7,
+      "tablecheck:fugu-nakamata": 32,
+      "tablecheck:ginza-masaki": 32,
+      "tablecheck:teki": 7,
+      "native-discovery:DIRECTORY": 23,
+      "tabelog:en/tokyo/A1301/A130101/13138388": 32,
+      "tabelog:en/tokyo/A1301/A130101/13011570": 16
+    },
+    "pageStillLoadingWithinBound": 65,
+    "postActionWaitTotalMs": 138650,
+    "browserModelActions": 30,
+    "googleRequests": {
+      "limit": 38,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 1
+    },
+    "elapsedMs": 466954
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/runner/2026-10-21T16-23-52-862Z-cb6b94a5-2e3c-4053-aa07-6973db7433e7.result.json",
+  "evaluationPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/runner/2026-10-21T16-23-52-862Z-cb6b94a5-2e3c-4053-aa07-6973db7433e7.result.evaluation.31-1792600300216.json",
+  "latencyMs": 466954,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
