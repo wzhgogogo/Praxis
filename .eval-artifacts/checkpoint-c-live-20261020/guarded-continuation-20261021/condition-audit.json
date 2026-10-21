@@ -1,0 +1,1942 @@
+{
+  "source": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+  "sourceSha256": "571c673070b517795f6eddfb9fd3b1e9c31a7607ff670fda8adb9ed28448c1f4",
+  "note": "All five formal runs delivered zero restaurants. No empty-denominator pass; original evaluator condition states retained.",
+  "runs": [
+    {
+      "run": {
+        "runId": "c-01",
+        "caseId": "p2l-kf-h001-20261103",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "CAPABILITY_MISS",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Shibuya",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Tuesday, November 3",
+          "value": "2026-11-03"
+        },
+        "time": {
+          "value": "19:00"
+        },
+        "party_size": 2,
+        "criteria": [
+          {
+            "value": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "No restaurant delivered; no per-candidate displayed condition denominator.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Shibuya",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Tuesday, November 3",
+            "value": "2026-11-03"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "19:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "party_size",
+          "requested": 2,
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-02",
+        "caseId": "p2l-kf-h002-20261107",
+        "repeat": 1,
+        "role": "BUDGET"
+      },
+      "formalLiveStatus": "HONEST_NO_RESULT",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Higashi-Ginza",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Saturday, November 7",
+          "value": "2026-11-07"
+        },
+        "time": {
+          "value": "18:30"
+        },
+        "party_size": 2,
+        "criteria": [
+          {
+            "value": "good for a first date",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "value": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "value": "Sichuan/Hunan cuisine",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          {
+            "value": "hot pot restaurant",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "No restaurant delivered; no per-candidate displayed condition denominator.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Higashi-Ginza",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Saturday, November 7",
+            "value": "2026-11-07"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "18:30"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "party_size",
+          "requested": 2,
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "good for a first date",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "Sichuan/Hunan cuisine",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "hot pot restaurant",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-03",
+        "caseId": "p2l-kf-h005-20261105",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "CAPABILITY_MISS",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "nearby",
+          "relation": "NEAR_USER"
+        },
+        "date": {
+          "expression": "Thursday, November 5",
+          "value": "2026-11-05"
+        },
+        "time": {
+          "value": "18:00"
+        },
+        "party_size": 4,
+        "criteria": [
+          {
+            "value": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "value": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "No restaurant delivered; no per-candidate displayed condition denominator.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "nearby",
+            "relation": "NEAR_USER"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Thursday, November 5",
+            "value": "2026-11-05"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "18:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "party_size",
+          "requested": 4,
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-04",
+        "caseId": "p2l-kf-h003-20261106",
+        "repeat": 1,
+        "role": "BUDGET"
+      },
+      "formalLiveStatus": "HONEST_NO_RESULT",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "nearby",
+          "relation": "NEAR_USER"
+        },
+        "date": {
+          "expression": "Friday, November 6",
+          "value": "2026-11-06"
+        },
+        "time": {
+          "expression": "after work",
+          "type": "TIME_WINDOW",
+          "start": "17:30",
+          "end": "22:00"
+        },
+        "party_size": 10,
+        "criteria": [
+          {
+            "value": "team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "value": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "value": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "value": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "No restaurant delivered; no per-candidate displayed condition denominator.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "nearby",
+            "relation": "NEAR_USER"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Friday, November 6",
+            "value": "2026-11-06"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "expression": "after work",
+            "type": "TIME_WINDOW",
+            "start": "17:30",
+            "end": "22:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "party_size",
+          "requested": 10,
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-05",
+        "caseId": "p2l-kagurazaka-kaiseki-20261105",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "CAPABILITY_MISS",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Kagurazaka",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Thursday, November 5",
+          "value": "2026-11-05"
+        },
+        "time": {
+          "value": "19:30"
+        },
+        "party_size": 3,
+        "criteria": [
+          {
+            "value": "kaiseki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "No delivered restaurant; delivery conditions and display consistency remain NOT_EVALUATED.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Kagurazaka",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Thursday, November 5",
+            "value": "2026-11-05"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "19:30"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "party_size",
+          "requested": 3,
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "kaiseki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NO_DELIVERED_RESTAURANT"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-06",
+        "caseId": "p2l-kichijoji-tempura-20261103",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Kichijoji",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Tuesday, November 3",
+          "value": "2026-11-03"
+        },
+        "time": {
+          "value": "18:00"
+        },
+        "party_size": 2,
+        "criteria": [
+          {
+            "value": "tempura",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Kichijoji",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Tuesday, November 3",
+            "value": "2026-11-03"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "18:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 2,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "tempura",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-07",
+        "caseId": "p2l-kf-h005-20261105",
+        "repeat": 2,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "nearby",
+          "relation": "NEAR_USER"
+        },
+        "date": {
+          "expression": "Thursday, November 5",
+          "value": "2026-11-05"
+        },
+        "time": {
+          "value": "18:00"
+        },
+        "party_size": 4,
+        "criteria": [
+          {
+            "value": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "value": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "nearby",
+            "relation": "NEAR_USER"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Thursday, November 5",
+            "value": "2026-11-05"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "18:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 4,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-08",
+        "caseId": "p2l-kf-h003-20261106",
+        "repeat": 2,
+        "role": "BUDGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "nearby",
+          "relation": "NEAR_USER"
+        },
+        "date": {
+          "expression": "Friday, November 6",
+          "value": "2026-11-06"
+        },
+        "time": {
+          "expression": "after work",
+          "type": "TIME_WINDOW",
+          "start": "17:30",
+          "end": "22:00"
+        },
+        "party_size": 10,
+        "criteria": [
+          {
+            "value": "team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "value": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "value": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "value": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "nearby",
+            "relation": "NEAR_USER"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Friday, November 6",
+            "value": "2026-11-06"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "expression": "after work",
+            "type": "TIME_WINDOW",
+            "start": "17:30",
+            "end": "22:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 10,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-09",
+        "caseId": "p2l-kagurazaka-kaiseki-20261105",
+        "repeat": 2,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Kagurazaka",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Thursday, November 5",
+          "value": "2026-11-05"
+        },
+        "time": {
+          "value": "19:30"
+        },
+        "party_size": 3,
+        "criteria": [
+          {
+            "value": "kaiseki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Kagurazaka",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Thursday, November 5",
+            "value": "2026-11-05"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "19:30"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 3,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "kaiseki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-10",
+        "caseId": "p2l-kichijoji-tempura-20261103",
+        "repeat": 2,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Kichijoji",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Tuesday, November 3",
+          "value": "2026-11-03"
+        },
+        "time": {
+          "value": "18:00"
+        },
+        "party_size": 2,
+        "criteria": [
+          {
+            "value": "tempura",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Kichijoji",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Tuesday, November 3",
+            "value": "2026-11-03"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "18:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 2,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "tempura",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-11",
+        "caseId": "p2l-kf-h001-20261103",
+        "repeat": 2,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Shibuya",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Tuesday, November 3",
+          "value": "2026-11-03"
+        },
+        "time": {
+          "value": "19:00"
+        },
+        "party_size": 2,
+        "criteria": [
+          {
+            "value": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Shibuya",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Tuesday, November 3",
+            "value": "2026-11-03"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "19:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 2,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-12",
+        "caseId": "p2l-kf-h002-20261107",
+        "repeat": 2,
+        "role": "BUDGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Higashi-Ginza",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Saturday, November 7",
+          "value": "2026-11-07"
+        },
+        "time": {
+          "value": "18:30"
+        },
+        "party_size": 2,
+        "criteria": [
+          {
+            "value": "good for a first date",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "value": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "value": "Sichuan/Hunan cuisine",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          {
+            "value": "hot pot restaurant",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Higashi-Ginza",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Saturday, November 7",
+            "value": "2026-11-07"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "18:30"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 2,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "good for a first date",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "Sichuan/Hunan cuisine",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "hot pot restaurant",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-13",
+        "caseId": "p2l-kagurazaka-kaiseki-20261105",
+        "repeat": 3,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Kagurazaka",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Thursday, November 5",
+          "value": "2026-11-05"
+        },
+        "time": {
+          "value": "19:30"
+        },
+        "party_size": 3,
+        "criteria": [
+          {
+            "value": "kaiseki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Kagurazaka",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Thursday, November 5",
+            "value": "2026-11-05"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "19:30"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 3,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "kaiseki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-14",
+        "caseId": "p2l-kichijoji-tempura-20261103",
+        "repeat": 3,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Kichijoji",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Tuesday, November 3",
+          "value": "2026-11-03"
+        },
+        "time": {
+          "value": "18:00"
+        },
+        "party_size": 2,
+        "criteria": [
+          {
+            "value": "tempura",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Kichijoji",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Tuesday, November 3",
+            "value": "2026-11-03"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "18:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 2,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "tempura",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-15",
+        "caseId": "p2l-kf-h001-20261103",
+        "repeat": 3,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Shibuya",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Tuesday, November 3",
+          "value": "2026-11-03"
+        },
+        "time": {
+          "value": "19:00"
+        },
+        "party_size": 2,
+        "criteria": [
+          {
+            "value": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Shibuya",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Tuesday, November 3",
+            "value": "2026-11-03"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "19:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 2,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-16",
+        "caseId": "p2l-kf-h002-20261107",
+        "repeat": 3,
+        "role": "BUDGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Higashi-Ginza",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Saturday, November 7",
+          "value": "2026-11-07"
+        },
+        "time": {
+          "value": "18:30"
+        },
+        "party_size": 2,
+        "criteria": [
+          {
+            "value": "good for a first date",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "value": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "value": "Sichuan/Hunan cuisine",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          {
+            "value": "hot pot restaurant",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "Higashi-Ginza",
+            "relation": "NEAR"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Saturday, November 7",
+            "value": "2026-11-07"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "18:30"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 2,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "good for a first date",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "Sichuan/Hunan cuisine",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "hot pot restaurant",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-17",
+        "caseId": "p2l-kf-h005-20261105",
+        "repeat": 3,
+        "role": "TARGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "nearby",
+          "relation": "NEAR_USER"
+        },
+        "date": {
+          "expression": "Thursday, November 5",
+          "value": "2026-11-05"
+        },
+        "time": {
+          "value": "18:00"
+        },
+        "party_size": 4,
+        "criteria": [
+          {
+            "value": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "value": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "nearby",
+            "relation": "NEAR_USER"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Thursday, November 5",
+            "value": "2026-11-05"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "value": "18:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 4,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    },
+    {
+      "run": {
+        "runId": "c-18",
+        "caseId": "p2l-kf-h003-20261106",
+        "repeat": 3,
+        "role": "BUDGET"
+      },
+      "formalLiveStatus": "NOT_REACHED",
+      "requestedSemantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "nearby",
+          "relation": "NEAR_USER"
+        },
+        "date": {
+          "expression": "Friday, November 6",
+          "value": "2026-11-06"
+        },
+        "time": {
+          "expression": "after work",
+          "type": "TIME_WINDOW",
+          "start": "17:30",
+          "end": "22:00"
+        },
+        "party_size": 10,
+        "criteria": [
+          {
+            "value": "team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "value": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "value": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "value": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ]
+      },
+      "deliveredConditionStates": [],
+      "conditionStatus": "NOT_EVALUATED",
+      "displayConsistency": "NOT_EVALUATED",
+      "reason": "Formal Live not reached.",
+      "requestedConditionStates": [
+        {
+          "field": "target",
+          "requested": {
+            "goal": "AVAILABILITY"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "location",
+          "requested": {
+            "value": "nearby",
+            "relation": "NEAR_USER"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "date",
+          "requested": {
+            "expression": "Friday, November 6",
+            "value": "2026-11-06"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "time",
+          "requested": {
+            "expression": "after work",
+            "type": "TIME_WINDOW",
+            "start": "17:30",
+            "end": "22:00"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "party_size",
+          "requested": 10,
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        },
+        {
+          "field": "criterion",
+          "requested": {
+            "value": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          "status": "NOT_CHECKED",
+          "reason": "NOT_REACHED"
+        }
+      ]
+    }
+  ]
+}

@@ -17,6 +17,30 @@
   "maxTotalReruns": 10,
   "runs": [
     {
+      "runId": "c-01",
+      "caseId": "p2l-kf-h001-20261103",
+      "repeat": 1,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-02",
+      "caseId": "p2l-kf-h002-20261107",
+      "repeat": 1,
+      "role": "BUDGET"
+    },
+    {
+      "runId": "c-03",
+      "caseId": "p2l-kf-h005-20261105",
+      "repeat": 1,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-04",
+      "caseId": "p2l-kf-h003-20261106",
+      "repeat": 1,
+      "role": "BUDGET"
+    },
+    {
       "runId": "c-05",
       "caseId": "p2l-kagurazaka-kaiseki-20261105",
       "repeat": 1,
@@ -100,15 +124,5 @@
       "repeat": 3,
       "role": "BUDGET"
     }
-  ],
-  "continuation": {
-    "priorCompleted": [
-      "c-01",
-      "c-02",
-      "c-03",
-      "c-04"
-    ],
-    "userDirection": "Do not change code; do not open reservation forms; directly run the remaining tests.",
-    "priorS0Retained": true
-  }
+  ]
 }

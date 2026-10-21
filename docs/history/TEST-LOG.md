@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.209
+- Document revision: 4.210
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-CHECKPOINT-C-FIVE-RUN-USER-STOP
+
+- Mode: Live Read-only新增1正式样本／47模型／5 Google含预检；Mock／真实模型Replay／Controlled Live-write均未新增。原H001/H002/H005/H003与两次旧来源预检失败原样保留。用户10:49:40北京要求停止，c-05已正常结束、c-06未启动，本批进程组消失，原supervisor退出-15；不补造外层finish或正式中断样本。
+- 源码、Runner、Guard、外层及@30／rubric@26代码未变，运行时策略数据只移除预约文档GET例外；子进程启动控制与两套实际生产策略组合通过现有Guard验证导航前拒绝，0来源请求／模型。没有新增专门的Chromium Fixture，不把静态控制冒充真实浏览器验证；实际c-05录制83文档未检出预约表单，23操作全部绑定controls，客户字段／时钟标签点击／预约创建请求记录均0，敏感文档拒绝2条。原H003阳性与检测控制保留，不清零S0、不宣称永久修复。
+- 新c-05：299.901秒、47模型、0店，CAPABILITY_MISS；原始模型调用、decision行数与resourceUsage均47。三次四参数见证复查全200，Chisou Konya独立feasible SUPPORTED却未发现／交付；Komuro无匹配库存、Kaga可行性未评，原结论保留。首批来源ID2/3不等于独立正确身份，直接页选择10条，事实模型6次，交付价格／条件／展示评价因零分母未评。
+- 全部5正式样本0合格，3 CAPABILITY_MISS／2 HONEST_NO_RESULT、13 NOT_REACHED；235模型技术成功、153浏览器决策，查位43 UNKNOWN／3 UNAVAILABLE记录，18 REQUEST_SELECTION_UNCONFIRMED、5 BROWSER_TIMEOUT。五次均MODEL_CALL_RESERVE收尾，源码剩余≤4次窗口解释相同47计数；未据此确认单一根因或真实库存不存在。
+- 1447文件停止时冻结一致、源码a3f6b84无差异；之后恢复完整plan并更新5份治理文档，逐文件新旧SHA另存。五门禁复用978/978、Chromium122/122及type／arch／build，不重复模型或Live；C累计5正式／235模型／22 Google，阶段7/100 Live／1718/4000模型／0正式环境重跑。有效退出3 NOT_SATISFIED，1/4/5保持未评；原自动汇总与独立S0补充分开。[报告与原始结果索引](../../.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/report.md)。
 
 ## TEST-2026-10-21-CHECKPOINT-C-RETRY-S0-STOP
 

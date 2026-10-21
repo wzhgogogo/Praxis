@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-21T02:39:53.793189+00:00",
+  "hardDeadline": "2026-10-21T12:26:00Z",
+  "launchSha256": "0a878d3a163b4ff687b6f346c979a4371ef8c6257d67d5c2ee57acb46c7967e6",
+  "supervisorSha256": "0782efdf7fb1ec8c01b6300ed621b059a0ddb4e96bd7c906b070c6a53ef9f9ee",
+  "command": [
+    "/usr/bin/env",
+    "CHECKPOINT_C_NO_FORM_CONFIG=/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/no-form-policy.json",
+    "NODE_OPTIONS=--import=tsx --import=data:text/javascript,import%20fs%20from%20%22node%3Afs%22%3Bimport%20path%20from%20%22node%3Apath%22%3Bimport%20assert%20from%20%22node%3Aassert%2Fstrict%22%3Bimport%20%7BcreateHash%7D%20from%20%22node%3Acrypto%22%3Bimport%20%7BpathToFileURL%7D%20from%20%22node%3Aurl%22%3Bconst%20c%3DJSON.parse(fs.readFileSync(process.env.CHECKPOINT_C_NO_FORM_CONFIG%2C%22utf8%22))%3Bconst%20%7BtableCheckPublicReadNetworkPolicy%3Ap%7D%3Dawait%20import(pathToFileURL(path.resolve(%22src%2Fintegrations%2Ftablecheck%2Ftablecheck-public-query.ts%22)).href)%3Bconst%20sha%3Dv%3D%3EcreateHash(%22sha256%22).update(v).digest(%22hex%22)%3Bassert.equal(sha(JSON.stringify(p))%2Cc.originalPolicySha256)%3Bconst%20removed%3Dp.dynamicReads.filter(r%3D%3Er.origin%3D%3D%3Dc.removeRule.origin%26%26r.pathnamePattern%3D%3D%3Dc.removeRule.pathnamePattern)%3Bassert.deepEqual(removed%2C%5Bc.removeRule%5D)%3Bp.dynamicReads.splice(0%2Cp.dynamicReads.length%2C...p.dynamicReads.filter(r%3D%3E!removed.includes(r)))%3Bassert.equal(sha(JSON.stringify(p))%2Cc.effectivePolicySha256)%3Bconst%20%7BPlaywrightReadNetworkGuard%3AG%7D%3Dawait%20import(pathToFileURL(path.resolve(%22src%2Finfrastructure%2Fbrowser%2Fplaywright-read-network-guard.ts%22)).href)%3Bconst%20g%3Dnew%20G(p)%3Bfor(const%20u%20of%20c.forbiddenExamples)assert.throws(()%3D%3Eg.prepareObservedNavigation(u)%2C%2Fsensitive%20document%2F)%3Bg.prepareObservedNavigation(%22https%3A%2F%2Fwww.tablecheck.com%2Fen%2Ftounai%22)%3Bconst%20dir%3Dprocess.env.CHECKPOINT_C_ATTEMPT%7C%7Cc.attestationDirectory%3Bfs.mkdirSync(dir%2C%7Brecursive%3Atrue%7D)%3Bfs.writeFileSync(path.join(dir%2C%22no-form-policy-%22%2Bprocess.pid%2B%22.json%22)%2CJSON.stringify(%7Bat%3Anew%20Date().toISOString()%2Cpid%3Aprocess.pid%2CeffectivePolicySha256%3Ac.effectivePolicySha256%2CremovedRule%3Ac.removeRule%2CforbiddenExamplesBlockedBeforeNavigation%3Atrue%2CcodeFileChanges%3A0%7D)%2B%22%5Cn%22%2C%7Bflag%3A%22wx%22%7D)%3B",
+    "/opt/homebrew/bin/node",
+    "--env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    ".eval-artifacts/checkpoint-c-live-20261020/outer.ts",
+    "--mode",
+    "LIVE_READ_ONLY",
+    "--freeze",
+    ".eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/live-freeze.json",
+    "--output",
+    ".eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/results",
+    "--approval",
+    ".eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/user-approval.json",
+    "--registry",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json",
+    "--ledger",
+    ".eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/phase2-ledger.json"
+  ],
+  "cwd": "/private/tmp/praxis-checkpoint-c-prep",
+  "approvedFreezeSha256": "08e18fc581c0490b788cdfa4249107aefdaedcf9000072e30cb13befe8697dac"
+}

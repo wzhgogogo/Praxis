@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.305
+- Document revision: 4.306
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-21 检查点 C 第五次后用户停止／待排查：** 神乐坂c-05完成299.901秒／47模型／5 Google，0交付、CAPABILITY_MISS；10:49:40北京按用户要求终止批次，c-06未启动。累计5/18正式、0合格、13 NOT_REACHED（3 CAPABILITY_MISS、2 HONEST_NO_RESULT），C235模型／22 Google；阶段7 Live／1718模型，正式环境重跑0。五次均在47调用的预留收尾窗口结束，43 UNKNOWN中18次请求条件未确认、5次浏览器超时，需从原始result／决策／录制离线排查，未确认唯一根因。源码及Runner／Guard／外层／评测器文件未改；本次仅运行时移除预约页GET例外，1447文件冻结停止后核对一致，83份保存HTML未检出预约表单，不是永久产品修复。原H003 S0仍PRESENT、退出3不满足；五门禁复用978/122及type／arch／build，其他退出缺分母未签收。原始5份result及SHA集中索引，只推准备分支后停止。[报告](../.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/report.md)、[原始结果索引](../.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/results-index.md)。
 
 - **2026-10-21 检查点 C 用户补试后S0停批／待复核：** H005补试273.976秒／47模型完成，0交付、CAPABILITY_MISS；继续H003424.090秒／47模型、HONEST_NO_RESULT后，保存HTML独立确认已打开5张含客户字段与`new_reservation`的预约表单，违反用户禁令，09:51:48北京立即终止本批，c-05及以后未启动。原@30越界未评不覆盖，独立S0_BOUNDARY PRESENT单列，未记录填客户信息／点时段／提交预约；退出3明确NOT_SATISFIED。合计4/18正式完成、0合格、14 NOT_REACHED；本轮94模型，C累计188、第二阶段1671/4000，正式Live6/100。恢复冻结10202ba3…共942文件停止后核对一致，生产／输入／见证未改；本次用户显式补试不清除历史自动额度。只交付反例／四层报告并推准备分支，修复和复核前不恢复Live。[报告](../.eval-artifacts/checkpoint-c-live-20261020/resume-20261021/report.md)。
 

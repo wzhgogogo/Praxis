@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.202
+- Document revision: 4.203
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-21-CHECKPOINT-C-FIVE-RUN-USER-STOP
+
+- Evidence status: exposed development / USER_STOPPED_PENDING_REVIEW；不是Clean Baseline。用户在已知H003 S0后要求剩余测试继续，同时保留“不改代码”和“不打开预约表单”。原样启动被自动审批拒绝，0新增运行；阻断记录9fa7836保留。随后采用更严格的现有运行时策略数据，启动前删除TableCheck预约文档GET的唯一例外，外层／子进程继承，不修改任何源码、Runner、Guard、外层或评测器代码文件；配置770d96f、启动元数据dadca01先提交，冻结08e18fc5…1447文件。
+- 仅新c-05神乐坂正式完成：299.901秒／47模型／5 Google含预检、0交付、CAPABILITY_MISS。10:49:40.822北京用户要求停止，SIGTERM本批专用进程组后确认消失，停止位于间隔内，无c-06，不将c-05改标编排中断。C合计5正式、0合格、13 NOT_REACHED，另2次旧来源预检排除项；3 CAPABILITY_MISS和2 HONEST_NO_RESULT均未完成用户目标。
+- 五份原始result、决策JSONL、录制、@30评价和运行后原始复查集中按路径／SHA索引，旧产物不覆盖。五次均47模型，235次技术状态成功，其中153次浏览器决策；46条查位记录43 UNKNOWN，含18请求条件未确认、5超时。共同47来自剩余≤4次时开启收尾窗口，并不证明调用上限本身是bug；后续应离线调查浏览器操作／请求绑定／响应解析，未宣称唯一根因或修复。
+- 新c-05保存83份HTML未检出预约表单，23控件操作可绑定，未记录客户字段、时钟标签点击或预约创建请求。运行时策略收紧产生敏感文档拒绝，与前四次冻结分别报告；不能作为永久产品修复或改动因果签收。原H003独立S0仍PRESENT、退出3不满足。1447冻结文件停止后先核对一致，再恢复完整18次计划并更新治理文档；Gold／变体／见证／留出集和生产a3f6b84不变。
+- 第二阶段累计7/100正式Live、1718/4000模型（含既往回放与结转）、正式环境重跑0/10；C235模型／22 Google。五门禁代码未变复用978/978、Chromium122/122、type／arch／build PASS；不新增模型、网站诊断或修复，只推准备分支结果后停止。[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/report.md)、[五份原始结果](../../.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/results-index.md)。
 
 ## DEV-2026-10-21-CHECKPOINT-C-RETRY-S0-STOP
 
