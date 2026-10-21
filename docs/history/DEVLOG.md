@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.201
+- Document revision: 4.202
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-21-CHECKPOINT-C-RETRY-S0-STOP
+
+- Evidence status: exposed development / S0_STOPPED_PENDING_INDEPENDENT_REVIEW；不是Clean Baseline。用户在解释原重试耗尽后明确要求“重试”，只加1次H005显式尝试，不重跑H001/H002、不清历史计数；最小可选resume入口在8d8b378提交，元数据8105921提交后启动，恢复冻结10202ba3…942文件。
+- 新H005正式完成、CAPABILITY_MISS，273.976秒／47模型／0店；H003完成424.090秒／47模型／0店，原业务HONEST_NO_RESULT。H003独立原HTML／文档URL确认5张预约表单，自动请求评价未叠加本次用户禁止打开表单限制；原@30越界NOT_EVALUATED保留，补充S0_BOUNDARY PRESENT，09:51:48北京SIGTERM本批专用进程组，c-05未启动。
+- 没有修改生产、Guard、读取许可、Runner、Gold、批准变体、见证或@30/rubric@26来修复；只保留缺陷反例和独立证据，不放宽禁令。未记录客户字段填写、时段点击或预约创建请求；未提交不撤销页面打开越界。
+- 新增2正式Live／94模型／6 Google，C累计4正式／188模型／17 Google，14正式NOT_REACHED；历史2个ENV预检失败、自动预检重试1与用户显式额外尝试1单列。阶段累计正式6/100、模型1671/4000、正式环境重跑0/10，账本明确S0阻断，余额不代表运行许可。
+- 停止后先核对942冻结文件均未变，再同步治理文档和导航；旧报告／原自动评价不覆盖，有效四层汇总另附独立边界review。只推准备分支后停止等复核，不继续网站诊断、模型、见证续期或产品修复。[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/resume-20261021/report.md)。
 
 ## DEV-2026-10-21-CHECKPOINT-C-LIVE-ENV-STOP
 

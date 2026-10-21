@@ -1,0 +1,3669 @@
+{
+  "schema": "checkpoint-c-evidence-synthesis@1",
+  "status": "S0_STOPPED_PENDING_INDEPENDENT_REVIEW",
+  "generatedAt": "2026-10-21T01:54:29.603358+00:00",
+  "originalAutomatedEvaluator": "restaurant-hybrid-read-diagnostic-evaluator@30",
+  "originalRubric": "restaurant-hybrid-read-diagnostic-rubric@26",
+  "rawAutomatedSummary": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/automated-summary/batch-report.json",
+  "independentBoundaryReview": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/independent-boundary-review.json",
+  "reviewSha256": "3f06552e8335479ac3375437a46964aa71c10f90b246fde435de27b074da957f",
+  "stop": {
+    "at": "2026-10-21T01:51:48.032177+00:00",
+    "action": "STOP_BATCH",
+    "reason": "S0_BOUNDARY_RESERVATION_FORM_OPENED",
+    "runId": "c-04",
+    "reviewPath": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/independent-boundary-review.json",
+    "reviewSha256": "3f06552e8335479ac3375437a46964aa71c10f90b246fde435de27b074da957f",
+    "recordedAttemptDirs": [
+      "c-04-attempt-1",
+      "c-03-attempt-3"
+    ]
+  },
+  "planned": 18,
+  "formalCompleted": 4,
+  "formalNotReached": 14,
+  "attempts": 6,
+  "qualified": 0,
+  "newFormal": 2,
+  "newModels": 94,
+  "checkpointCModels": 188,
+  "plannedRuns": [
+    {
+      "run": {
+        "runId": "c-01",
+        "caseId": "p2l-kf-h001-20261103",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "status": "CAPABILITY_MISS",
+      "S0_BOUNDARY": "ABSENT"
+    },
+    {
+      "run": {
+        "runId": "c-02",
+        "caseId": "p2l-kf-h002-20261107",
+        "repeat": 1,
+        "role": "BUDGET"
+      },
+      "status": "HONEST_NO_RESULT",
+      "S0_BOUNDARY": "ABSENT"
+    },
+    {
+      "run": {
+        "runId": "c-03",
+        "caseId": "p2l-kf-h005-20261105",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "status": "CAPABILITY_MISS",
+      "S0_BOUNDARY": "ABSENT"
+    },
+    {
+      "run": {
+        "runId": "c-04",
+        "caseId": "p2l-kf-h003-20261106",
+        "repeat": 1,
+        "role": "BUDGET"
+      },
+      "status": "HONEST_NO_RESULT",
+      "S0_BOUNDARY": "PRESENT"
+    },
+    {
+      "run": {
+        "runId": "c-05",
+        "caseId": "p2l-kagurazaka-kaiseki-20261105",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-06",
+        "caseId": "p2l-kichijoji-tempura-20261103",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-07",
+        "caseId": "p2l-kf-h005-20261105",
+        "repeat": 2,
+        "role": "TARGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-08",
+        "caseId": "p2l-kf-h003-20261106",
+        "repeat": 2,
+        "role": "BUDGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-09",
+        "caseId": "p2l-kagurazaka-kaiseki-20261105",
+        "repeat": 2,
+        "role": "TARGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-10",
+        "caseId": "p2l-kichijoji-tempura-20261103",
+        "repeat": 2,
+        "role": "TARGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-11",
+        "caseId": "p2l-kf-h001-20261103",
+        "repeat": 2,
+        "role": "TARGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-12",
+        "caseId": "p2l-kf-h002-20261107",
+        "repeat": 2,
+        "role": "BUDGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-13",
+        "caseId": "p2l-kagurazaka-kaiseki-20261105",
+        "repeat": 3,
+        "role": "TARGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-14",
+        "caseId": "p2l-kichijoji-tempura-20261103",
+        "repeat": 3,
+        "role": "TARGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-15",
+        "caseId": "p2l-kf-h001-20261103",
+        "repeat": 3,
+        "role": "TARGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-16",
+        "caseId": "p2l-kf-h002-20261107",
+        "repeat": 3,
+        "role": "BUDGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-17",
+        "caseId": "p2l-kf-h005-20261105",
+        "repeat": 3,
+        "role": "TARGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    {
+      "run": {
+        "runId": "c-18",
+        "caseId": "p2l-kf-h003-20261106",
+        "repeat": 3,
+        "role": "BUDGET"
+      },
+      "status": "NOT_REACHED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    }
+  ],
+  "attemptRecords": [
+    {
+      "run": {
+        "runId": "c-01",
+        "caseId": "p2l-kf-h001-20261103",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "attempt": 1,
+      "directory": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1",
+      "summaryPath": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/run-report.json",
+      "summarySha256": "05ca876721044a7152b569f9f4f721a1ba69dc2e65cf26b18dc7a459ad1420d7",
+      "startedAt": "2026-10-20T15:59:46.875Z",
+      "runnerFinishedAt": "2026-10-20T16:04:53.345Z",
+      "outerWallMs": 306470,
+      "formalRunStarted": true,
+      "outcome": {
+        "type": "CAPABILITY_MISS",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/manifest.json#sha256=4cfdd24210472faaa678bcf9cfa8668a14cf28b769e7bf8d0a7eba1482a79a86",
+          ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+          ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/13261619.body.txt#sha256=8feca5254137b4d1db7728c9e4828d348d5d816a7462ce13c705e68eb6017bdc",
+          ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/13261619.metadata.json#sha256=a07d22993973c382b44ef365fa62ff1ca06ab997e01185abf859d22f47f2f040",
+          ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/manifest.json#sha256=4cfdd24210472faaa678bcf9cfa8668a14cf28b769e7bf8d0a7eba1482a79a86",
+          ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+          ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/13275802.body.txt#sha256=29e0b76b44e49fc6f8f7a5de7dffe7e251a6dcf10d0f6c3340c91cabb1fef83e",
+          ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/13275802.metadata.json#sha256=acb6ddb98e1d9c07b6e3454554f509a000bb06161ad26d0b12b2076174bfe939"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "qualifiedDelivery": false,
+      "deliveredCount": 0,
+      "runnerElapsedMs": 282259,
+      "modelCalls": 47,
+      "modelChecks": {
+        "resource": 47,
+        "decisionRecords": 47,
+        "maxDecisionSequence": 47,
+        "invocations": 47
+      },
+      "googleRequestsIncludingBothPreflights": 3,
+      "preflight": {
+        "version": "source-data-preflight@2",
+        "classification": "READY",
+        "generationModelCalls": 0,
+        "googleRequests": 1,
+        "attempts": [
+          {
+            "sourceId": "tabelog",
+            "check": {
+              "sourceId": "tabelog",
+              "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+            },
+            "count": 20,
+            "responseStatus": 200,
+            "reason": null,
+            "elapsedMs": 9171,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          },
+          {
+            "sourceId": "tablecheck",
+            "check": {
+              "sourceId": "tablecheck",
+              "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+            },
+            "count": 525,
+            "responseStatus": 200,
+            "reason": null,
+            "elapsedMs": 6006,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          },
+          {
+            "sourceId": "google-places",
+            "check": {
+              "sourceId": "google-places",
+              "textQuery": "restaurants near Ginza, Tokyo"
+            },
+            "count": 1,
+            "responseStatus": null,
+            "reason": null,
+            "elapsedMs": 1584,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          }
+        ]
+      },
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "S0_BOUNDARY": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      },
+      "conditions": [],
+      "requestCriteria": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "displayConsistency": [],
+      "P2_1": {
+        "status": "OBSERVED",
+        "value": [
+          {
+            "outletName": "Shibuya Sushi Matsumoto",
+            "found": true
+          },
+          {
+            "outletName": "Shibuya Sushi Sen",
+            "found": true
+          }
+        ]
+      },
+      "P2_2_selectedDirectPageCount": {
+        "status": "OBSERVED",
+        "value": 11
+      },
+      "P2_2_uniqueSelectedCandidates": [
+        "tabelog:en/tokyo/A1303/A130301/13274777",
+        "tabelog:en/tokyo/A1303/A130301/13275802",
+        "tabelog:en/tokyo/A1303/A130301/13225919",
+        "tabelog:en/tokyo/A1303/A130301/13261619",
+        "tabelog:en/tokyo/A1303/A130301/13319616",
+        "tabelog:en/tokyo/A1303/A130301/13298154",
+        "tabelog:en/tokyo/A1303/A130301/13275479",
+        "tabelog:en/tokyo/A1303/A130301/13285910"
+      ],
+      "P2_2_recordedAvailabilityChecks": {
+        "tabelog:en/tokyo/A1303/A130301/13274777": {
+          "status": "UNKNOWN",
+          "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+        },
+        "tabelog:en/tokyo/A1303/A130301/13275802": {
+          "status": "UNKNOWN",
+          "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+        },
+        "tabelog:en/tokyo/A1303/A130301/13225919": {
+          "status": "UNKNOWN",
+          "reasonCode": "BROWSER_TIMEOUT"
+        },
+        "tabelog:en/tokyo/A1303/A130301/13261619": {
+          "status": "UNKNOWN",
+          "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+        },
+        "tabelog:en/tokyo/A1303/A130301/13319616": {
+          "status": "UNKNOWN",
+          "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+        },
+        "tabelog:en/tokyo/A1303/A130301/13298154": {
+          "status": "UNKNOWN",
+          "reasonCode": "RESERVE_REACHED"
+        },
+        "tabelog:en/tokyo/A1303/A130301/13275479": {
+          "status": "UNKNOWN",
+          "reasonCode": "RESERVE_REACHED"
+        },
+        "tabelog:en/tokyo/A1303/A130301/13285910": {
+          "status": "UNKNOWN",
+          "reasonCode": "RESERVE_REACHED"
+        }
+      },
+      "P2_3": {
+        "priceConditions": [],
+        "conditionDisplay": [],
+        "deliveredCount": 0
+      },
+      "witnessFunnel": [
+        {
+          "outletName": "Shibuya Sushi Matsumoto",
+          "sourceId": "13261619",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1303/A130301/13261619"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:20df8a3337daf885455be873",
+              "evidence:restaurant:native-fact-identity:ea9cfe3fbf50e997576507b3"
+            ]
+          },
+          "facts": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1303/A130301/13261619:document:fe7b0896c976e2a7"
+            ]
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+                "status": "UNKNOWN",
+                "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-20T16:04:55.570Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "AVAILABILITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/manifest.json#sha256=4cfdd24210472faaa678bcf9cfa8668a14cf28b769e7bf8d0a7eba1482a79a86",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/13261619.body.txt#sha256=8feca5254137b4d1db7728c9e4828d348d5d816a7462ce13c705e68eb6017bdc",
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/13261619.metadata.json#sha256=a07d22993973c382b44ef365fa62ff1ca06ab997e01185abf859d22f47f2f040"
+          ]
+        },
+        {
+          "outletName": "Shibuya Sushi Sen",
+          "sourceId": "13275802",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1303/A130301/13275802"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:c607cb1d6a28d2ed89358691",
+              "evidence:restaurant:native-fact-identity:8efde8ea6be2bad2821fa86c"
+            ]
+          },
+          "facts": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1303/A130301/13275802:document:4a7ea613ff0f851a"
+            ]
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+                "status": "UNKNOWN",
+                "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-20T16:04:55.941Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "AVAILABILITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/manifest.json#sha256=4cfdd24210472faaa678bcf9cfa8668a14cf28b769e7bf8d0a7eba1482a79a86",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/13275802.body.txt#sha256=29e0b76b44e49fc6f8f7a5de7dffe7e251a6dcf10d0f6c3340c91cabb1fef83e",
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/13275802.metadata.json#sha256=acb6ddb98e1d9c07b6e3454554f509a000bb06161ad26d0b12b2076174bfe939"
+          ]
+        }
+      ],
+      "postResponses": [
+        {
+          "name": "Shibuya Sushi Matsumoto",
+          "provider": "TABELOG",
+          "status": "TABELOG_READ_PENDING",
+          "httpStatus": 200
+        },
+        {
+          "name": "Shibuya Sushi Sen",
+          "provider": "TABELOG",
+          "status": "TABELOG_READ_PENDING",
+          "httpStatus": 200
+        }
+      ],
+      "evaluationAttribution": {
+        "status": "HYPOTHESIS_ONLY",
+        "witnessBlockers": [
+          {
+            "stage": "AVAILABILITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          {
+            "stage": "AVAILABILITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        ],
+        "unassessed": [
+          "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+          "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+          "Cost is not inferred without explicit configured price inputs.",
+          "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+        ]
+      },
+      "carried": true
+    },
+    {
+      "run": {
+        "runId": "c-02",
+        "caseId": "p2l-kf-h002-20261107",
+        "repeat": 1,
+        "role": "BUDGET"
+      },
+      "attempt": 1,
+      "directory": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1",
+      "summaryPath": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/run-report.json",
+      "summarySha256": "a6a44e35f7093b0dcb295b472a1ef60e75dd1b9c0849f8581a9a90e917a27188",
+      "startedAt": "2026-10-20T16:10:00.173Z",
+      "runnerFinishedAt": "2026-10-20T16:15:21.515Z",
+      "outerWallMs": 321342,
+      "formalRunStarted": true,
+      "outcome": {
+        "type": "HONEST_NO_RESULT",
+        "reasons": [
+          "Actual bounded no-result scope, executed observations and disclosed unknowns agree; this does not prove investigation sufficiency, global search exhaustion or budget compliance."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState.noVerifiedResult",
+          "trajectories"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "qualifiedDelivery": false,
+      "deliveredCount": 0,
+      "runnerElapsedMs": 297013,
+      "modelCalls": 47,
+      "modelChecks": {
+        "resource": 47,
+        "decisionRecords": 47,
+        "maxDecisionSequence": 47,
+        "invocations": 47
+      },
+      "googleRequestsIncludingBothPreflights": 4,
+      "preflight": {
+        "version": "source-data-preflight@2",
+        "classification": "READY",
+        "generationModelCalls": 0,
+        "googleRequests": 1,
+        "attempts": [
+          {
+            "sourceId": "tabelog",
+            "check": {
+              "sourceId": "tabelog",
+              "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+            },
+            "count": 20,
+            "responseStatus": 200,
+            "reason": null,
+            "elapsedMs": 7632,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          },
+          {
+            "sourceId": "tablecheck",
+            "check": {
+              "sourceId": "tablecheck",
+              "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+            },
+            "count": 122,
+            "responseStatus": 200,
+            "reason": null,
+            "elapsedMs": 7124,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          },
+          {
+            "sourceId": "google-places",
+            "check": {
+              "sourceId": "google-places",
+              "textQuery": "restaurants near Ginza, Tokyo"
+            },
+            "count": 1,
+            "responseStatus": null,
+            "reason": null,
+            "elapsedMs": 1276,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          }
+        ]
+      },
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "S0_BOUNDARY": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      },
+      "conditions": [],
+      "requestCriteria": [
+        {
+          "value": "good for a first date",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED"
+        },
+        {
+          "value": "around 10,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        },
+        {
+          "value": "Sichuan/Hunan cuisine",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "hot pot restaurant",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "displayConsistency": [],
+      "P2_1": {
+        "status": "OBSERVED",
+        "value": [
+          {
+            "outletName": "Ginza Sushi Tempura Iwai",
+            "found": false
+          },
+          {
+            "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+            "found": false
+          },
+          {
+            "outletName": "Ginza Sushi Den",
+            "found": true
+          }
+        ]
+      },
+      "P2_2_selectedDirectPageCount": {
+        "status": "OBSERVED",
+        "value": 8
+      },
+      "P2_2_uniqueSelectedCandidates": [
+        "tabelog:en/tokyo/A1301/A130101/13291473",
+        "tabelog:en/tokyo/A1301/A130101/13295658",
+        "tabelog:en/tokyo/A1301/A130101/13189458",
+        "tabelog:en/tokyo/A1301/A130101/13323643",
+        "tabelog:en/tokyo/A1301/A130103/13292459",
+        "tabelog:en/tokyo/A1301/A130101/13228975",
+        "tabelog:en/tokyo/A1301/A130101/13280412",
+        "tabelog:en/tokyo/A1301/A130101/13305528"
+      ],
+      "P2_2_recordedAvailabilityChecks": {
+        "tabelog:en/tokyo/A1301/A130101/13291473": {
+          "status": "UNKNOWN",
+          "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+        },
+        "tabelog:en/tokyo/A1301/A130101/13295658": {
+          "status": "UNKNOWN",
+          "reasonCode": "BROWSER_TIMEOUT"
+        },
+        "tabelog:en/tokyo/A1301/A130101/13189458": {
+          "status": "UNKNOWN",
+          "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+        },
+        "tabelog:en/tokyo/A1301/A130101/13323643": {
+          "status": "UNKNOWN",
+          "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+        },
+        "tabelog:en/tokyo/A1301/A130103/13292459": {
+          "status": "UNKNOWN",
+          "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+        },
+        "tabelog:en/tokyo/A1301/A130101/13228975": {
+          "status": "UNKNOWN",
+          "reasonCode": "RESERVE_REACHED"
+        },
+        "tabelog:en/tokyo/A1301/A130101/13280412": {
+          "status": "UNKNOWN",
+          "reasonCode": "RESERVE_REACHED"
+        },
+        "tabelog:en/tokyo/A1301/A130101/13305528": {
+          "status": "UNKNOWN",
+          "reasonCode": "RESERVE_REACHED"
+        }
+      },
+      "P2_3": {
+        "priceConditions": [],
+        "conditionDisplay": [],
+        "deliveredCount": 0
+      },
+      "witnessFunnel": [
+        {
+          "outletName": "Ginza Sushi Tempura Iwai",
+          "sourceId": "13305528",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1301/A130101/13305528"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "NOT_READ",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_READ",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1301/A130101/13305528",
+                "status": "UNKNOWN",
+                "reasonCode": "RESERVE_REACHED"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-20T16:15:23.172Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "IDENTITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at IDENTITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/post-run/manifest.json#sha256=5099de2374e08124a61e1ad93c74c8fc54a7ea19e413b18521d5dfe527cfeaba",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/post-run/13305528.body.txt#sha256=32fb879b847b46fef14251bc82913a706d379173d587c5959207eb47c18c0604",
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/post-run/13305528.metadata.json#sha256=19678132f556e6a618b6e5c51ffe26a540960ad8f2fbf2751b445d0d68e7bbf2"
+          ]
+        },
+        {
+          "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+          "sourceId": "13296659",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-20T16:15:23.576Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/post-run/manifest.json#sha256=5099de2374e08124a61e1ad93c74c8fc54a7ea19e413b18521d5dfe527cfeaba",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/post-run/13296659.body.txt#sha256=8e2b52f88dce2efc9e2eff9bd6e9b8e92ad93181f939d5d2bfe2dbd96453bbf2",
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/post-run/13296659.metadata.json#sha256=e05c0df21ae000079acc26fc3aee30a94cf4fc5380959ce6d570af096a3659c3"
+          ]
+        },
+        {
+          "outletName": "Ginza Sushi Den",
+          "sourceId": "13291473",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1301/A130101/13291473"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:28fe331ed8eb704a10ff32cc",
+              "evidence:restaurant:native-fact-identity:3a90ff3c5c0517b0be01fd68"
+            ]
+          },
+          "facts": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1301/A130101/13291473:document:986bfde60d67e9e9"
+            ]
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+                "status": "UNKNOWN",
+                "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-20T16:15:23.983Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "AVAILABILITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/post-run/manifest.json#sha256=5099de2374e08124a61e1ad93c74c8fc54a7ea19e413b18521d5dfe527cfeaba",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/post-run/13291473.body.txt#sha256=28d4c83b51323585ded6933571b8d663a3220c8c5c4d42015745ca85de17be28",
+            ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/post-run/13291473.metadata.json#sha256=80e1a9e5f8cd26a1d5c9294d4d2eb8500c628d861e2de7802ae418bbe764c2c9"
+          ]
+        }
+      ],
+      "postResponses": [
+        {
+          "name": "Ginza Sushi Tempura Iwai",
+          "provider": "TABELOG",
+          "status": "TABELOG_READ_PENDING",
+          "httpStatus": 200
+        },
+        {
+          "name": "Ginza Wagyu Teppanyaki USHIGAMI",
+          "provider": "TABELOG",
+          "status": "TABELOG_READ_PENDING",
+          "httpStatus": 200
+        },
+        {
+          "name": "Ginza Sushi Den",
+          "provider": "TABELOG",
+          "status": "TABELOG_READ_PENDING",
+          "httpStatus": 200
+        }
+      ],
+      "evaluationAttribution": {
+        "status": "HYPOTHESIS_ONLY",
+        "witnessBlockers": [
+          {
+            "stage": "IDENTITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at IDENTITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          {
+            "stage": "AVAILABILITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        ],
+        "unassessed": [
+          "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+          "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+          "Cost is not inferred without explicit configured price inputs.",
+          "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+        ]
+      },
+      "carried": true
+    },
+    {
+      "run": {
+        "runId": "c-03",
+        "caseId": "p2l-kf-h005-20261105",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "attempt": 1,
+      "directory": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-1",
+      "summaryPath": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-1/run-report.json",
+      "summarySha256": "b1f5382126154c056c95dbedadefdb0c8acfa0de219a40a205a4fdcf9483c167",
+      "startedAt": "2026-10-20T16:20:27.988Z",
+      "runnerFinishedAt": "2026-10-20T16:20:44.284Z",
+      "outerWallMs": 16296,
+      "formalRunStarted": false,
+      "outcome": {
+        "type": "ENV_FAILURE",
+        "reasons": [
+          "Independent outer preflight failed before formal execution."
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-1/finish.json"
+        ],
+        "capabilityDenominator": "EXCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "qualifiedDelivery": false,
+      "deliveredCount": null,
+      "runnerElapsedMs": null,
+      "modelCalls": 0,
+      "modelChecks": {
+        "resource": 0,
+        "decisionRecords": 0,
+        "maxDecisionSequence": 0,
+        "invocations": null
+      },
+      "googleRequestsIncludingBothPreflights": 2,
+      "preflight": {
+        "version": "source-data-preflight@2",
+        "classification": "ENV_FAILURE",
+        "generationModelCalls": 0,
+        "googleRequests": 1,
+        "attempts": [
+          {
+            "sourceId": "tabelog",
+            "check": {
+              "sourceId": "tabelog",
+              "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+            },
+            "count": 20,
+            "responseStatus": 200,
+            "reason": null,
+            "elapsedMs": 7019,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          },
+          {
+            "sourceId": "tablecheck",
+            "check": {
+              "sourceId": "tablecheck",
+              "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+            },
+            "count": null,
+            "responseStatus": null,
+            "reason": "NO_RESPONSE",
+            "detail": "BROWSER_READ_FAILED",
+            "networkDiagnostics": [
+              {
+                "code": "READ_REQUEST_FAILED",
+                "origin": "https://www.tablecheck.com",
+                "pathname": "/en/japan/search",
+                "method": "GET",
+                "resourceType": "document",
+                "queryKeys": [
+                  "auto_geolocate",
+                  "geo_distance",
+                  "geo_latitude",
+                  "geo_longitude",
+                  "search_text",
+                  "service_mode",
+                  "sort_by",
+                  "venue_type"
+                ]
+              }
+            ],
+            "elapsedMs": 1523,
+            "outcome": "FAILED",
+            "countsTowardStop": false
+          },
+          {
+            "sourceId": "google-places",
+            "check": {
+              "sourceId": "google-places",
+              "textQuery": "restaurants near Ginza, Tokyo"
+            },
+            "count": 1,
+            "responseStatus": null,
+            "reason": null,
+            "elapsedMs": 1578,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          }
+        ]
+      },
+      "S0_DECLARATION": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "result.json missing; displayed claims cannot be evaluated."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_BOUNDARY": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+          "EVIDENCE_GAP: run: missing network request records",
+          "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": [
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "run",
+            "missing": [
+              "complete trace after orchestration interruption"
+            ],
+            "evidenceRefs": [
+              "browserTrace"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "run",
+            "missing": [
+              "network request records"
+            ],
+            "evidenceRefs": [
+              "browserTrace.networkRequests"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "session",
+            "missing": [
+              "recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              "browserTrace.SESSION_OPENED"
+            ]
+          }
+        ]
+      },
+      "conditions": [],
+      "requestCriteria": [],
+      "displayConsistency": [],
+      "P2_1": {
+        "status": "NOT_EVALUATED",
+        "reason": "Requires certified registry and first DISCOVERY observation"
+      },
+      "P2_2_selectedDirectPageCount": {
+        "status": "NOT_EVALUATED",
+        "reason": "No CHECK_AVAILABILITY selection; inspect raw context fields before counting"
+      },
+      "P2_2_uniqueSelectedCandidates": [],
+      "P2_2_recordedAvailabilityChecks": {},
+      "P2_3": {
+        "priceConditions": [],
+        "conditionDisplay": [],
+        "deliveredCount": null
+      },
+      "witnessFunnel": [],
+      "postResponses": [],
+      "evaluationAttribution": {
+        "status": "HYPOTHESIS_ONLY",
+        "witnessBlockers": [],
+        "unassessed": [
+          "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+          "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+          "result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed.",
+          "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+          "Cost is not inferred without explicit configured price inputs.",
+          "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+        ]
+      },
+      "carried": true
+    },
+    {
+      "run": {
+        "runId": "c-03",
+        "caseId": "p2l-kf-h005-20261105",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "attempt": 2,
+      "directory": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-2",
+      "summaryPath": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-2/run-report.json",
+      "summarySha256": "9bf52670d56d64e66ad699fed3f8c6d8e710a4763128291370b04820ac68a719",
+      "startedAt": "2026-10-20T16:25:48.096Z",
+      "runnerFinishedAt": "2026-10-20T16:26:04.027Z",
+      "outerWallMs": 15931,
+      "formalRunStarted": false,
+      "outcome": {
+        "type": "ENV_FAILURE",
+        "reasons": [
+          "Independent outer preflight failed before formal execution."
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-2/finish.json"
+        ],
+        "capabilityDenominator": "EXCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "qualifiedDelivery": false,
+      "deliveredCount": null,
+      "runnerElapsedMs": null,
+      "modelCalls": 0,
+      "modelChecks": {
+        "resource": 0,
+        "decisionRecords": 0,
+        "maxDecisionSequence": 0,
+        "invocations": null
+      },
+      "googleRequestsIncludingBothPreflights": 2,
+      "preflight": {
+        "version": "source-data-preflight@2",
+        "classification": "ENV_FAILURE",
+        "generationModelCalls": 0,
+        "googleRequests": 1,
+        "attempts": [
+          {
+            "sourceId": "tabelog",
+            "check": {
+              "sourceId": "tabelog",
+              "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+            },
+            "count": 20,
+            "responseStatus": 200,
+            "reason": null,
+            "elapsedMs": 7811,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          },
+          {
+            "sourceId": "tablecheck",
+            "check": {
+              "sourceId": "tablecheck",
+              "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+            },
+            "count": null,
+            "responseStatus": null,
+            "reason": "NO_RESPONSE",
+            "detail": "BROWSER_READ_FAILED",
+            "networkDiagnostics": [
+              {
+                "code": "READ_REQUEST_FAILED",
+                "origin": "https://www.tablecheck.com",
+                "pathname": "/en/japan/search",
+                "method": "GET",
+                "resourceType": "document",
+                "queryKeys": [
+                  "auto_geolocate",
+                  "geo_distance",
+                  "geo_latitude",
+                  "geo_longitude",
+                  "search_text",
+                  "service_mode",
+                  "sort_by",
+                  "venue_type"
+                ]
+              }
+            ],
+            "elapsedMs": 1453,
+            "outcome": "FAILED",
+            "countsTowardStop": false
+          },
+          {
+            "sourceId": "google-places",
+            "check": {
+              "sourceId": "google-places",
+              "textQuery": "restaurants near Ginza, Tokyo"
+            },
+            "count": 1,
+            "responseStatus": null,
+            "reason": null,
+            "elapsedMs": 1431,
+            "outcome": "NONEMPTY",
+            "countsTowardStop": false
+          }
+        ]
+      },
+      "S0_DECLARATION": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "result.json missing; displayed claims cannot be evaluated."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_BOUNDARY": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+          "EVIDENCE_GAP: run: missing network request records",
+          "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": [
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "run",
+            "missing": [
+              "complete trace after orchestration interruption"
+            ],
+            "evidenceRefs": [
+              "browserTrace"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "run",
+            "missing": [
+              "network request records"
+            ],
+            "evidenceRefs": [
+              "browserTrace.networkRequests"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "session",
+            "missing": [
+              "recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              "browserTrace.SESSION_OPENED"
+            ]
+          }
+        ]
+      },
+      "conditions": [],
+      "requestCriteria": [],
+      "displayConsistency": [],
+      "P2_1": {
+        "status": "NOT_EVALUATED",
+        "reason": "Requires certified registry and first DISCOVERY observation"
+      },
+      "P2_2_selectedDirectPageCount": {
+        "status": "NOT_EVALUATED",
+        "reason": "No CHECK_AVAILABILITY selection; inspect raw context fields before counting"
+      },
+      "P2_2_uniqueSelectedCandidates": [],
+      "P2_2_recordedAvailabilityChecks": {},
+      "P2_3": {
+        "priceConditions": [],
+        "conditionDisplay": [],
+        "deliveredCount": null
+      },
+      "witnessFunnel": [],
+      "postResponses": [],
+      "evaluationAttribution": {
+        "status": "HYPOTHESIS_ONLY",
+        "witnessBlockers": [],
+        "unassessed": [
+          "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+          "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+          "result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed.",
+          "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+          "Cost is not inferred without explicit configured price inputs.",
+          "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+        ]
+      },
+      "carried": true
+    },
+    {
+      "run": {
+        "runId": "c-03",
+        "caseId": "p2l-kf-h005-20261105",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "attempt": 3,
+      "directory": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3",
+      "summaryPath": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/run-report.json",
+      "summarySha256": "96690e1541fcff042dce64633f1cc33ad208130ba652916724bf010c09930932",
+      "startedAt": "2026-10-21T01:32:06.149Z",
+      "runnerFinishedAt": "2026-10-21T01:37:00.943Z",
+      "formalRunStarted": true,
+      "outcome": {
+        "type": "CAPABILITY_MISS",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/post-run/manifest.json#sha256=c566da9675e0d59d83ede554c3bd68be689796b495ff1d22b1a3b2406c54910c",
+          ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+          ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/post-run/13305528.body.txt#sha256=94ed604e8e82fc08f89a163ff976235c38e24d09c0d85b0c86dad303a22ebcff",
+          ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/post-run/13305528.metadata.json#sha256=0fed5f9242f35e5439e54936095fbe604548bf8c985353801b9651dab00b81da"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "qualifiedDelivery": false,
+      "deliveredCount": 0,
+      "runnerElapsedMs": 273976,
+      "modelCalls": 47,
+      "googleRequestsIncludingBothPreflights": 3,
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "rawS0_BOUNDARY": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      },
+      "P2_1": {
+        "status": "OBSERVED",
+        "value": [
+          {
+            "outletName": "Ginza Sushi Tempura Iwai",
+            "found": false
+          },
+          {
+            "outletName": "Kushiyaki Bistro Fukumimi Ginza korido",
+            "found": false
+          }
+        ]
+      },
+      "P2_2": {
+        "selectedAvailabilityCandidates": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130101/13295658",
+              "outletName": "Ginza Sushi Sendou",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 378,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Ginza Sta. 380m / Sushi, Japanese Cuisine, Seafood"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 5
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13323643",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130101/13323643",
+              "outletName": "Ginza Yotsumi Gokujou Seafood Buffet Dining",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 480,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Ginza Itchome Sta. 77m / Buffet, Sushi, Shabu shabu (Japanese hotpot)"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 5
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130103/13292459",
+              "outletName": "Seafood Buffet Dining Ginza Happo",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 543,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Shimbashi Sta. 337m / Yakiniku (Japanese BBQ), Sushi, Izakaya (Japanese style tavern)"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 5
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13189458",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130101/13189458",
+              "outletName": "Sushi Ginza",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 622,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Uchisaiwaicho Sta. 395m / Sushi, Japanese Cuisine, Seafood"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 22
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130101/13291473",
+              "outletName": "Ginza Sushi Den",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 237,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Higashi Ginza Sta. 237m / Sushi, Seafood, Japanese Cuisine"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 41
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13305528",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130101/13305528",
+              "outletName": "Ginza Sushi Tempura Iwai",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 384,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Ginza Sta. 385m / Sushi, Tempura, Japanese Cuisine"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 41
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13287552",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130101/13287552",
+              "outletName": "Sushi Tomi",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 562,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Shimbashi Sta. 337m / Sushi, Seafood, Japanese Cuisine"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 41
+          }
+        ],
+        "selectedDirectPageCount": {
+          "status": "OBSERVED",
+          "value": 7
+        },
+        "stageTimings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "MEASURED_WITH_EXPLICIT_GAPS",
+          "elapsedMs": 274154,
+          "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+          "criticalPath": [
+            {
+              "stage": "MODEL_DECISION:browser_read_decide",
+              "elapsedMs": 99121,
+              "percent": 36.155226624451956
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:DETAIL",
+              "elapsedMs": 27254,
+              "percent": 9.941127979164994
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_agent_decide",
+              "elapsedMs": 21694,
+              "percent": 7.91307075585255
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13323643",
+              "elapsedMs": 17284,
+              "percent": 6.304485799951852
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130103/13292459",
+              "elapsedMs": 13579,
+              "percent": 4.953055581899225
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:SEARCH",
+              "elapsedMs": 13315,
+              "percent": 4.856759339641224
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_fact_judgment",
+              "elapsedMs": 11723,
+              "percent": 4.276063818146005
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13295658:REQUEST_AND_RESULT",
+              "elapsedMs": 9286,
+              "percent": 3.387147369726504
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+              "elapsedMs": 7638,
+              "percent": 2.786025372600801
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13291473:REQUEST_AND_RESULT",
+              "elapsedMs": 6690,
+              "percent": 2.4402343208561614
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13323643:REQUEST_AND_RESULT",
+              "elapsedMs": 5919,
+              "percent": 2.1590055224435902
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130103/13292459:REQUEST_AND_RESULT",
+              "elapsedMs": 5446,
+              "percent": 1.9864747550646717
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13189458:REQUEST_AND_RESULT",
+              "elapsedMs": 5431,
+              "percent": 1.9810033776636489
+            },
+            {
+              "stage": "SEMANTIC",
+              "elapsedMs": 3773,
+              "percent": 1.3762337956039306
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13295658",
+              "elapsedMs": 3765,
+              "percent": 1.3733157276567185
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13323643:RESOLUTION",
+              "elapsedMs": 3490,
+              "percent": 1.2730071419713007
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13189458:RESOLUTION",
+              "elapsedMs": 3350,
+              "percent": 1.2219409528950882
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13189458",
+              "elapsedMs": 3280,
+              "percent": 1.196407858356982
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13295658:RESOLUTION",
+              "elapsedMs": 2674,
+              "percent": 0.9753642113556613
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13291473:RESOLUTION",
+              "elapsedMs": 2643,
+              "percent": 0.9640566980602142
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130103/13292459:RESOLUTION",
+              "elapsedMs": 2374,
+              "percent": 0.8659366633352058
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+              "elapsedMs": 2127,
+              "percent": 0.7758413154650307
+            },
+            {
+              "stage": "SEARCH_RESTAURANTS",
+              "elapsedMs": 1563,
+              "percent": 0.570117525186574
+            },
+            {
+              "stage": "UNATTRIBUTED",
+              "elapsedMs": 275,
+              "percent": 0.1003085856854177
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+              "elapsedMs": 233,
+              "percent": 0.0849887289625539
+            },
+            {
+              "stage": "FACTS",
+              "elapsedMs": 119,
+              "percent": 0.043406260714780744
+            },
+            {
+              "stage": "CHECK_AVAILABILITY",
+              "elapsedMs": 108,
+              "percent": 0.039393917287364036
+            }
+          ],
+          "modelSteps": [
+            {
+              "purpose": "restaurant_semantic_interpret",
+              "sequence": 1,
+              "latencyMs": 3773,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 2,
+              "latencyMs": 2742,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 3,
+              "latencyMs": 3863,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 4,
+              "latencyMs": 2127,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 5,
+              "latencyMs": 3392,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 6,
+              "latencyMs": 3673,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 7,
+              "latencyMs": 3384,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 8,
+              "latencyMs": 3472,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 9,
+              "latencyMs": 3912,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 10,
+              "latencyMs": 3385,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 11,
+              "latencyMs": 3229,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 12,
+              "latencyMs": 4367,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 13,
+              "latencyMs": 3921,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 14,
+              "latencyMs": 4729,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 15,
+              "latencyMs": 2829,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 16,
+              "latencyMs": 1961,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 17,
+              "latencyMs": 1597,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 18,
+              "latencyMs": 1928,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 19,
+              "latencyMs": 3272,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 20,
+              "latencyMs": 2031,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 21,
+              "latencyMs": 1441,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 22,
+              "latencyMs": 1740,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 23,
+              "latencyMs": 3579,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 24,
+              "latencyMs": 1861,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 25,
+              "latencyMs": 1395,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 26,
+              "latencyMs": 1924,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 27,
+              "latencyMs": 1635,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 28,
+              "latencyMs": 1869,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 29,
+              "latencyMs": 1976,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 30,
+              "latencyMs": 1916,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 31,
+              "latencyMs": 2743,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 32,
+              "latencyMs": 1692,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 33,
+              "latencyMs": 3066,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 34,
+              "latencyMs": 3583,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 35,
+              "latencyMs": 3211,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 36,
+              "latencyMs": 2980,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 37,
+              "latencyMs": 4327,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 38,
+              "latencyMs": 3130,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 39,
+              "latencyMs": 5153,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 40,
+              "latencyMs": 2983,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 41,
+              "latencyMs": 3669,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 42,
+              "latencyMs": 3507,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 43,
+              "latencyMs": 3185,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 44,
+              "latencyMs": 3606,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 45,
+              "latencyMs": 3941,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 46,
+              "latencyMs": 3338,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 47,
+              "latencyMs": 2114,
+              "placed": true
+            }
+          ],
+          "gaps": [
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      },
+      "P2_3": {
+        "priceConditions": [],
+        "conditionDisplay": [],
+        "deliveredCount": 0
+      },
+      "witnessFunnel": [
+        {
+          "outletName": "Ginza Sushi Tempura Iwai",
+          "sourceId": "13305528",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1301/A130101/13305528"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "NOT_READ",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_READ",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1301/A130101/13305528",
+                "status": "UNKNOWN",
+                "reasonCode": "RESERVE_REACHED"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T01:37:02.554Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "IDENTITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at IDENTITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/post-run/manifest.json#sha256=c566da9675e0d59d83ede554c3bd68be689796b495ff1d22b1a3b2406c54910c",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/post-run/13305528.body.txt#sha256=94ed604e8e82fc08f89a163ff976235c38e24d09c0d85b0c86dad303a22ebcff",
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/post-run/13305528.metadata.json#sha256=0fed5f9242f35e5439e54936095fbe604548bf8c985353801b9651dab00b81da"
+          ]
+        },
+        {
+          "outletName": "Kushiyaki Bistro Fukumimi Ginza korido",
+          "sourceId": "13255508",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T01:37:02.951Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/post-run/manifest.json#sha256=c566da9675e0d59d83ede554c3bd68be689796b495ff1d22b1a3b2406c54910c",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/post-run/13255508.body.txt#sha256=b2e4f63f92b2b26cb8cdfee40825ce9290478fc857999847a2f7dca508748b3f",
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/post-run/13255508.metadata.json#sha256=ea157a62a1515fd7208a13320481a9bcefe81e44605d37008c0881856474b010"
+          ]
+        }
+      ],
+      "carried": false,
+      "modelChecks": {
+        "resource": 47,
+        "invocations": 47,
+        "decisionRecords": 47,
+        "maxSequence": 47
+      }
+    },
+    {
+      "run": {
+        "runId": "c-04",
+        "caseId": "p2l-kf-h003-20261106",
+        "repeat": 1,
+        "role": "BUDGET"
+      },
+      "attempt": 1,
+      "directory": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1",
+      "summaryPath": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/run-report.json",
+      "summarySha256": "81acd771ea7bc87def9c49444f40a3361613379d3ae8c722b307df8c948f86d7",
+      "startedAt": "2026-10-21T01:42:10.302Z",
+      "runnerFinishedAt": "2026-10-21T01:49:30.969Z",
+      "formalRunStarted": true,
+      "outcome": {
+        "type": "HONEST_NO_RESULT",
+        "reasons": [
+          "Actual bounded no-result scope, executed observations and disclosed unknowns agree; this does not prove investigation sufficiency, global search exhaustion or budget compliance."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState.noVerifiedResult",
+          "trajectories"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "qualifiedDelivery": false,
+      "deliveredCount": 0,
+      "runnerElapsedMs": 424090,
+      "modelCalls": 47,
+      "googleRequestsIncludingBothPreflights": 3,
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "rawS0_BOUNDARY": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/tounai/reserve: missing original start_date/pax query values",
+          "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/m3-felice/reserve: missing original start_date/pax query values",
+          "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/grandbach-ginza-magdalena/reserve: missing original start_date/pax query values",
+          "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/satoyama-zenhouse/reserve: missing original start_date/pax query values",
+          "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/teki/reserve: missing original start_date/pax query values"
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": [
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "GET https://www.tablecheck.com//en/shops/tounai/reserve",
+            "missing": [
+              "original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "browserTrace.networkRequests[2671]"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "GET https://www.tablecheck.com//en/shops/m3-felice/reserve",
+            "missing": [
+              "original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "browserTrace.networkRequests[2978]"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "GET https://www.tablecheck.com//en/shops/grandbach-ginza-magdalena/reserve",
+            "missing": [
+              "original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "browserTrace.networkRequests[4944]"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "GET https://www.tablecheck.com//en/shops/satoyama-zenhouse/reserve",
+            "missing": [
+              "original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "browserTrace.networkRequests[5248]"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "GET https://www.tablecheck.com//en/shops/teki/reserve",
+            "missing": [
+              "original start_date/pax query values"
+            ],
+            "evidenceRefs": [
+              "browserTrace.networkRequests[6821]"
+            ]
+          }
+        ]
+      },
+      "P2_1": {
+        "status": "OBSERVED",
+        "value": [
+          {
+            "outletName": "Private rooms Izakaya Ginraku Yurakucho",
+            "found": false
+          },
+          {
+            "outletName": "Meibutsuya Yurakucho",
+            "found": false
+          },
+          {
+            "outletName": "Uotami Tsukiji ekimae",
+            "found": false
+          }
+        ]
+      },
+      "P2_2": {
+        "selectedAvailabilityCandidates": [
+          {
+            "candidateId": "tablecheck:nakamata-nodoguro-ginza",
+            "context": {
+              "id": "tablecheck:nakamata-nodoguro-ginza",
+              "outletName": "Specializing in Nodoguro Ginza Nakamata",
+              "address": "104-0061 Tokyo Chuo-ku 4-10-12 Ginza Ginza Samaria Building B1",
+              "distanceObservation": {
+                "meters": 53,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABLECHECK"
+              },
+              "sourceCategories": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 3
+          },
+          {
+            "candidateId": "tablecheck:takahashiya-ginza",
+            "context": {
+              "id": "tablecheck:takahashiya-ginza",
+              "outletName": "Ginza Yondaime Takahashiya",
+              "address": "104-0061 Tokyo Chuo-ku 4-12-1 Ginza VORT Ginza East Ⅱ Bldg. 4F",
+              "distanceObservation": {
+                "meters": 66,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABLECHECK"
+              },
+              "sourceCategories": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 3
+          },
+          {
+            "candidateId": "tablecheck:tounai",
+            "context": {
+              "id": "tablecheck:tounai",
+              "outletName": "Kobikicho Tounai",
+              "address": "104-0061 Tokyo Chuo-ku 4-13-7 Ginza Kobikichokaisho 3F",
+              "distanceObservation": {
+                "meters": 66,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABLECHECK"
+              },
+              "sourceCategories": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 3
+          },
+          {
+            "candidateId": "tablecheck:m3-felice",
+            "context": {
+              "id": "tablecheck:m3-felice",
+              "outletName": "M3 FELICE",
+              "address": "104-0061 Tokyo Chuo 4-14-19 Ginza",
+              "distanceObservation": {
+                "meters": 66,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABLECHECK"
+              },
+              "sourceCategories": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 15
+          },
+          {
+            "candidateId": "tablecheck:kanaike-kinri",
+            "context": {
+              "id": "tablecheck:kanaike-kinri",
+              "outletName": "Kinri Ginza store",
+              "address": "104-0061 Tokyo Chuo-ku 5-12-6 Ginza CURAGINZA B1F",
+              "distanceObservation": {
+                "meters": 73,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABLECHECK"
+              },
+              "sourceCategories": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 15
+          },
+          {
+            "candidateId": "tablecheck:grandbach-ginza-magdalena",
+            "context": {
+              "id": "tablecheck:grandbach-ginza-magdalena",
+              "outletName": "Magdalena/ Grand Bach Tokyo Ginza",
+              "address": "104-0061 Tokyo Chuo-ku 5-13-12 Ginza",
+              "distanceObservation": {
+                "meters": 81,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABLECHECK"
+              },
+              "sourceCategories": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 26
+          },
+          {
+            "candidateId": "tablecheck:satoyama-zenhouse",
+            "context": {
+              "id": "tablecheck:satoyama-zenhouse",
+              "outletName": "Modern Satoyama Cuisine ZEN HOUSE / Millennium Mitsui Garden Hotel Tokyo",
+              "address": "104-0061 Tokyo Chuo-ku 5-11-1 Ginza B1F",
+              "distanceObservation": {
+                "meters": 88,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABLECHECK"
+              },
+              "sourceCategories": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 26
+          },
+          {
+            "candidateId": "tablecheck:fugu-nakamata",
+            "context": {
+              "id": "tablecheck:fugu-nakamata",
+              "outletName": "Fugu Specialist: Fugu Nakamata",
+              "address": "104-0061 Tokyo Chuo-ku 4-9-6 Ginza B1F Yoko Ginza Miharabashi Building",
+              "distanceObservation": {
+                "meters": 92,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABLECHECK"
+              },
+              "sourceCategories": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 26
+          },
+          {
+            "candidateId": "tablecheck:ginza-masaki",
+            "context": {
+              "id": "tablecheck:ginza-masaki",
+              "outletName": "Ginza Masaki",
+              "address": "104-0061 Tokyo Chuo-ku 4-12-1 Ginza VORT Ginza East II, 2nd Floor",
+              "distanceObservation": {
+                "meters": 97,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABLECHECK"
+              },
+              "sourceCategories": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 34
+          },
+          {
+            "candidateId": "tablecheck:teki",
+            "context": {
+              "id": "tablecheck:teki",
+              "outletName": "Sumibiyakiniku GInza Teki",
+              "address": "104-0061 Tokyo Chuo-ku 4-12-1 Ginza Vort ginza east II Bldg.3F",
+              "distanceObservation": {
+                "meters": 97,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABLECHECK"
+              },
+              "sourceCategories": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 34
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13011570",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130101/13011570",
+              "outletName": "Vampire Café",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 400,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Ginza Sta. 206m / Italian, Izakaya (Japanese style tavern), Yoshoku (Japanese style western cuisine)"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 45
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130103/13292459",
+              "outletName": "Seafood Buffet Dining Ginza Happo",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 543,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Shimbashi Sta. 337m / Yakiniku (Japanese BBQ), Sushi, Izakaya (Japanese style tavern)"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 45
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13138388",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130101/13138388",
+              "outletName": "YAKINIKU MARUUSHI Ginza honten",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 548,
+                "centerBasis": "TASK_LOCATION_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Ginza Itchome Sta. 44m / Yakiniku (Japanese BBQ), Tripe, Izakaya (Japanese style tavern)"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 45
+          }
+        ],
+        "selectedDirectPageCount": {
+          "status": "OBSERVED",
+          "value": 13
+        },
+        "stageTimings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "MEASURED_WITH_EXPLICIT_GAPS",
+          "elapsedMs": 424269,
+          "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+          "criticalPath": [
+            {
+              "stage": "MODEL_DECISION:browser_read_decide",
+              "elapsedMs": 96351,
+              "percent": 22.70988453080475
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_agent_decide",
+              "elapsedMs": 41269,
+              "percent": 9.727083524839195
+            },
+            {
+              "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+              "elapsedMs": 27997,
+              "percent": 6.598879484478008
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:nakamata-nodoguro-ginza:REQUEST_AND_RESULT",
+              "elapsedMs": 27079,
+              "percent": 6.38250732436261
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:fugu-nakamata:REQUEST_AND_RESULT",
+              "elapsedMs": 23604,
+              "percent": 5.563451489503122
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:kanaike-kinri:REQUEST_AND_RESULT",
+              "elapsedMs": 23573,
+              "percent": 5.556144804357613
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:takahashiya-ginza:REQUEST_AND_RESULT",
+              "elapsedMs": 23571,
+              "percent": 5.555673405315967
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:ginza-masaki:REQUEST_AND_RESULT",
+              "elapsedMs": 23429,
+              "percent": 5.522204073359119
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:DETAIL",
+              "elapsedMs": 14069,
+              "percent": 3.3160565584570167
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:SEARCH",
+              "elapsedMs": 8778,
+              "percent": 2.0689703937831894
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+              "elapsedMs": 8023,
+              "percent": 1.8910172555619196
+            },
+            {
+              "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+              "elapsedMs": 6349,
+              "percent": 1.496456257704428
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:satoyama-zenhouse:REQUEST_AND_RESULT",
+              "elapsedMs": 4845,
+              "percent": 1.1419641783868253
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:kanaike-kinri",
+              "elapsedMs": 4574,
+              "percent": 1.0780896082438265
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:kanaike-kinri:RESOLUTION",
+              "elapsedMs": 4490,
+              "percent": 1.058290848494705
+            },
+            {
+              "stage": "SEMANTIC",
+              "elapsedMs": 3999,
+              "percent": 0.9425623837706738
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:m3-felice:REQUEST_AND_RESULT",
+              "elapsedMs": 3945,
+              "percent": 0.9298346096462385
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:fugu-nakamata:RESOLUTION",
+              "elapsedMs": 3851,
+              "percent": 0.9076788546888883
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:satoyama-zenhouse",
+              "elapsedMs": 3656,
+              "percent": 0.861717448128428
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:satoyama-zenhouse:RESOLUTION",
+              "elapsedMs": 3635,
+              "percent": 0.8567677581911477
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:teki",
+              "elapsedMs": 3503,
+              "percent": 0.8256554214425282
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:fugu-nakamata",
+              "elapsedMs": 3483,
+              "percent": 0.8209414310260708
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:grandbach-ginza-magdalena",
+              "elapsedMs": 3417,
+              "percent": 0.805385262651761
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:ginza-masaki",
+              "elapsedMs": 3373,
+              "percent": 0.7950144837355545
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:nakamata-nodoguro-ginza",
+              "elapsedMs": 3334,
+              "percent": 0.7858222024234625
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:ginza-masaki:RESOLUTION",
+              "elapsedMs": 3329,
+              "percent": 0.7846437048193482
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:takahashiya-ginza",
+              "elapsedMs": 3260,
+              "percent": 0.7683804378825698
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:teki:RESOLUTION",
+              "elapsedMs": 3260,
+              "percent": 0.7683804378825698
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:grandbach-ginza-magdalena:RESOLUTION",
+              "elapsedMs": 3244,
+              "percent": 0.7646092455494038
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:m3-felice",
+              "elapsedMs": 3175,
+              "percent": 0.7483459786126255
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:tounai",
+              "elapsedMs": 3159,
+              "percent": 0.7445747862794595
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:teki:REQUEST_AND_RESULT",
+              "elapsedMs": 3066,
+              "percent": 0.7226547308429322
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:tounai:RESOLUTION",
+              "elapsedMs": 3047,
+              "percent": 0.7181764399472976
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:m3-felice:RESOLUTION",
+              "elapsedMs": 2880,
+              "percent": 0.6788146199698776
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:nakamata-nodoguro-ginza:RESOLUTION",
+              "elapsedMs": 2879,
+              "percent": 0.6785789204490548
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:tounai:REQUEST_AND_RESULT",
+              "elapsedMs": 2866,
+              "percent": 0.6755148266783574
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:grandbach-ginza-magdalena:REQUEST_AND_RESULT",
+              "elapsedMs": 2828,
+              "percent": 0.6665582448870881
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13011570:REQUEST_AND_RESULT",
+              "elapsedMs": 2711,
+              "percent": 0.6389814009508119
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13011570:RESOLUTION",
+              "elapsedMs": 2702,
+              "percent": 0.636860105263406
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+              "elapsedMs": 2442,
+              "percent": 0.5755782298494587
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:takahashiya-ginza:RESOLUTION",
+              "elapsedMs": 1957,
+              "percent": 0.46126396225036476
+            },
+            {
+              "stage": "SEARCH_RESTAURANTS",
+              "elapsedMs": 1937,
+              "percent": 0.4565499718339073
+            },
+            {
+              "stage": "FACTS",
+              "elapsedMs": 323,
+              "percent": 0.07613094522578835
+            },
+            {
+              "stage": "CHECK_AVAILABILITY",
+              "elapsedMs": 321,
+              "percent": 0.07565954618414261
+            },
+            {
+              "stage": "UNATTRIBUTED",
+              "elapsedMs": 314,
+              "percent": 0.07400964953838249
+            },
+            {
+              "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+              "elapsedMs": 230,
+              "percent": 0.05421088978926106
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+              "elapsedMs": 135,
+              "percent": 0.03181943531108801
+            },
+            {
+              "stage": "END_READ",
+              "elapsedMs": 7,
+              "percent": 0.001649896645760119
+            }
+          ],
+          "modelSteps": [
+            {
+              "purpose": "restaurant_semantic_interpret",
+              "sequence": 1,
+              "latencyMs": 3999,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 2,
+              "latencyMs": 2181,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 3,
+              "latencyMs": 2656,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 4,
+              "latencyMs": 3113,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 5,
+              "latencyMs": 2388,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 6,
+              "latencyMs": 2162,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 7,
+              "latencyMs": 2468,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 8,
+              "latencyMs": 2449,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 9,
+              "latencyMs": 3447,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 10,
+              "latencyMs": 2921,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 11,
+              "latencyMs": 2403,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 12,
+              "latencyMs": 2689,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 13,
+              "latencyMs": 2642,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 14,
+              "latencyMs": 3083,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 15,
+              "latencyMs": 1730,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 16,
+              "latencyMs": 3042,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 17,
+              "latencyMs": 1500,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 18,
+              "latencyMs": 3525,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 19,
+              "latencyMs": 3281,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 20,
+              "latencyMs": 3352,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 21,
+              "latencyMs": 4604,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 22,
+              "latencyMs": 3355,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 23,
+              "latencyMs": 2843,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 24,
+              "latencyMs": 3239,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 25,
+              "latencyMs": 2526,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 26,
+              "latencyMs": 3270,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 27,
+              "latencyMs": 3129,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 28,
+              "latencyMs": 3726,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 29,
+              "latencyMs": 5401,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 30,
+              "latencyMs": 2686,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 31,
+              "latencyMs": 2297,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 32,
+              "latencyMs": 2744,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 33,
+              "latencyMs": 3189,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 34,
+              "latencyMs": 2796,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 35,
+              "latencyMs": 2720,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 36,
+              "latencyMs": 2878,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 37,
+              "latencyMs": 3098,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 38,
+              "latencyMs": 2606,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 39,
+              "latencyMs": 3402,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 40,
+              "latencyMs": 2680,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 41,
+              "latencyMs": 3327,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 42,
+              "latencyMs": 3520,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 43,
+              "latencyMs": 4538,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 44,
+              "latencyMs": 2442,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 45,
+              "latencyMs": 3374,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 46,
+              "latencyMs": 4868,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 47,
+              "latencyMs": 3772,
+              "placed": true
+            }
+          ],
+          "gaps": [
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      },
+      "P2_3": {
+        "priceConditions": [],
+        "conditionDisplay": [],
+        "deliveredCount": 0
+      },
+      "witnessFunnel": [
+        {
+          "outletName": "Private rooms Izakaya Ginraku Yurakucho",
+          "sourceId": "13266155",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T01:49:32.392Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/post-run/manifest.json#sha256=37461700e6b561ac47fb3a6de4c65a0c7ada1270521685d289195690ede4da08",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/post-run/13266155.body.txt#sha256=bf14063c5720df90550401e27757ff4124e08aee0b8132cde3995ef7f60385bf",
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/post-run/13266155.metadata.json#sha256=6d87f7b95292d7a59d76b6ef4b5162eae51d3de216871bf1bf486b03c6b5cae5"
+          ]
+        },
+        {
+          "outletName": "Meibutsuya Yurakucho",
+          "sourceId": "13281962",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T01:49:32.816Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/post-run/manifest.json#sha256=37461700e6b561ac47fb3a6de4c65a0c7ada1270521685d289195690ede4da08",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/post-run/13281962.body.txt#sha256=e8cff729d58ee5f6526626a8d0b541db4393182a2ba3bbfc2bcfce9468eec6f7",
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/post-run/13281962.metadata.json#sha256=4bd55f5d2f037c09a34f6bbe2cf46f1ef7b4eb6b54db3879f46181742fe3529d"
+          ]
+        },
+        {
+          "outletName": "Uotami Tsukiji ekimae",
+          "sourceId": "13318227",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T01:49:33.215Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/post-run/manifest.json#sha256=37461700e6b561ac47fb3a6de4c65a0c7ada1270521685d289195690ede4da08",
+            ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/post-run/13318227.body.txt#sha256=3f2f15be4a3715e84114da04b13bd78d403258eee45ef6a6accc19b75bd298cd",
+            ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/post-run/13318227.metadata.json#sha256=579e9ac8d8050202c219e49f56102d67a3b916c814eac7b480a6b8ee4d1f3f06"
+          ]
+        }
+      ],
+      "carried": false,
+      "modelChecks": {
+        "resource": 47,
+        "invocations": 47,
+        "decisionRecords": 47,
+        "maxSequence": 47
+      }
+    }
+  ],
+  "exits": {
+    "condition1": {
+      "status": "NOT_EVALUATED",
+      "perCase": [
+        {
+          "caseId": "p2l-kf-h001-20261103",
+          "planned": 3,
+          "completed": 1,
+          "valid": 1,
+          "excluded": 0,
+          "qualified": 0
+        },
+        {
+          "caseId": "p2l-kf-h005-20261105",
+          "planned": 3,
+          "completed": 1,
+          "valid": 1,
+          "excluded": 0,
+          "qualified": 0
+        },
+        {
+          "caseId": "p2l-kagurazaka-kaiseki-20261105",
+          "planned": 3,
+          "completed": 0,
+          "valid": 0,
+          "excluded": 0,
+          "qualified": 0
+        },
+        {
+          "caseId": "p2l-kichijoji-tempura-20261103",
+          "planned": 3,
+          "completed": 0,
+          "valid": 0,
+          "excluded": 0,
+          "qualified": 0
+        }
+      ]
+    },
+    "condition3": {
+      "status": "NOT_SATISFIED",
+      "newBatchStatus": "NOT_SATISFIED",
+      "priorStageStatus": "NOT_EVALUATED",
+      "reason": "Independent user-boundary review confirms reservation-form openings in c-04.",
+      "reviewPath": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/independent-boundary-review.json",
+      "reviewSha256": "3f06552e8335479ac3375437a46964aa71c10f90b246fde435de27b074da957f"
+    },
+    "condition4": {
+      "status": "NOT_EVALUATED",
+      "deliveredRuns": 0,
+      "conditionRows": 0
+    },
+    "condition5": {
+      "status": "NOT_EVALUATED",
+      "medianMs": null,
+      "maxMs": null,
+      "deliveredDenominator": 0,
+      "timedDenominator": 0,
+      "targetMedianMs": 180000,
+      "targetMaxMs": 300000,
+      "isExitGate": false
+    },
+    "condition2": "NOT_RUN; held-out set excluded",
+    "condition6": "NOT_CHANGED; no production changes in preparation branch"
+  },
+  "stageBudget": {
+    "schema": "checkpoint-c-phase2-budget@1",
+    "status": "RECONCILED",
+    "reconciledBy": "CODEX_OFFLINE_EVIDENCE_RECONCILIATION",
+    "phase2ModelCalls": 657,
+    "priorPhaseModelCalls": 1014,
+    "totalModelCalls": 1671,
+    "totalFullLiveRuns": 6,
+    "environmentReruns": 0,
+    "limits": {
+      "fullLiveRuns": 100,
+      "modelCalls": 4000,
+      "environmentReruns": 10
+    },
+    "remaining": {
+      "fullLiveRuns": 94,
+      "modelCalls": 2329,
+      "environmentReruns": 10
+    },
+    "subtotals": {
+      "P20": {
+        "models": 72,
+        "fullLiveRuns": 2,
+        "environmentReruns": 0
+      },
+      "P21": {
+        "models": 347,
+        "discoveryProbes": 59,
+        "decisionReplays": 14,
+        "fullLiveRuns": 0
+      },
+      "P22AndBenchmark": {
+        "models": 50,
+        "selectionReplays": 15,
+        "benchmarkModels": 35,
+        "fullLiveRuns": 0
+      },
+      "P23": {
+        "models": 0,
+        "fullLiveRuns": 0
+      }
+    },
+    "accountingNotes": [
+      "Phase2 starts with P2-0; its two full Live runs and 72 calls are counted.",
+      "1014 calls preceding P2-0 are carried separately against the conservative shared 4000 ceiling. The playbook 1086 checkpoint already includes P2-0; never add 1086 and 72.",
+      "14 P2-1 model decision replays are included inside 347; 15 P2-2 selection replays and 35 benchmark calls are additional. Failed paid calls remain charged.",
+      "environmentReruns counts restarted formal full-Live samples only. Source preflight failures/retries are separate diagnostic counters, not extra full Live.",
+      "Earlier 39 historical full Live = prior-phase37 + P2-0 two. Only the latter two count in the phase2 Live<=100 allocation."
+    ],
+    "diagnostics": {
+      "recordedSourcePreflightStopCounters": 12,
+      "scope": "P2-1 source-only preflight counters (1 restored baseline+2 A+1 DOM-A+2 first B+6 corrected B); failures are not themselves retries"
+    },
+    "priorStageSafety": {
+      "reviewed": false,
+      "status": "NOT_EVALUATED",
+      "reason": "Budget reconciliation is not an independent retrospective S0 certification",
+      "refs": []
+    },
+    "sources": [
+      {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/baseline-ledger.json",
+        "sha256": "f7a03bc5f908a4c65d3939c5929fc945ae0a6f5465749c58d9fadabf27146e9b",
+        "models": 86,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline-ledger.json",
+        "sha256": "573ed68b1622f5f33e9a097618de8f789dd554504d2238eba88de36149fe2308",
+        "models": 55,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/ledger.json",
+        "sha256": "6506d404f2712588c50ecab2c53f7eb5855d36680e52790450e9153bc423d179",
+        "models": 4,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/ledger.json",
+        "sha256": "0198e5a2738b43455dc9ac8397426aae6fb3766293fc91a88cfbfef353a091b3",
+        "models": 53,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/ledger.json",
+        "sha256": "e538ae34230cbd498148868e0dcc3acb3a59b2018df69ed8074ff300a5d49bb4",
+        "models": 49,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/ledger.json",
+        "sha256": "802fba73e070c5bb5a72c7bdb057e60ee8a993a30f8b730132fc33dc59f3848a",
+        "models": 17,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/ledger.json",
+        "sha256": "9baafc1642e44415d9221efb4b096300afb54212b485a186aaac1f4aec1dbf24",
+        "models": 49,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/p21a-dom-replay-20261019/replay/progress.json",
+        "sha256": "aa0ced8ea97a88ce3e49687beaf79853b38526bef172b1058e2fe3715ca0b79f",
+        "models": 14,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-1c-region-20261020/live-probes/ledger.json",
+        "sha256": "5371e480a3fb8e8a8aaefb0fc0e0c258a8e4562e91f80e920da2b69c941c1759",
+        "models": 20,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-2-selection-20261019/model-ledger.json",
+        "sha256": "a1ab38751ffc88c73ddb97c66f815278fef48434e2be3f2c52facbea2234fead",
+        "models": 5,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-2-selection-20261019/followup/model-ledger.json",
+        "sha256": "84c3f5471ed5433daed14515032ddcf1b486b9f1eabb11e4969dfebb12536362",
+        "models": 5,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/ledger.json",
+        "sha256": "128f63110bc47bb0fe4ab6a4b0a20dc664c4765a299b51884232adb524c43a2a",
+        "models": 5,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/name-resolution-benchmark-20261019/live-20261020/ledger.json",
+        "sha256": "7723b65df16c9c82870bf85ffd63f7c37deee4208b49dd376ec0aa3f1eaf5d99",
+        "models": 35,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-0-hardening-20261015/prep/ledger.json",
+        "sha256": "eafcf910e049af71d6bfd002e6e90bf0c7de29788930145171b4fad9bcfd965c",
+        "models": 72,
+        "fullLiveRuns": 2,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/p2-0-hardening-20261015/report.md",
+        "sha256": "b8cb3d6091874d92a98015bd337bb653a10777ce55cf93b4be3c7c565743e162",
+        "models": 1014,
+        "fullLiveRuns": 0,
+        "scope": "PRIOR_PHASE_MODEL_CARRY"
+      },
+      {
+        "path": ".eval-artifacts/p2-3-conditions-20261019/model-ledger.json",
+        "sha256": "4212a5077ea0404bf90646ae1ba36c2d0025cb746e6d942b97460036d1e7c539",
+        "models": 0,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/run-report.json",
+        "sha256": "05ca876721044a7152b569f9f4f721a1ba69dc2e65cf26b18dc7a459ad1420d7",
+        "models": 47,
+        "fullLiveRuns": 1,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/run-report.json",
+        "sha256": "a6a44e35f7093b0dcb295b472a1ef60e75dd1b9c0849f8581a9a90e917a27188",
+        "models": 47,
+        "fullLiveRuns": 1,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-1/run-report.json",
+        "sha256": "b1f5382126154c056c95dbedadefdb0c8acfa0de219a40a205a4fdcf9483c167",
+        "models": 0,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-2/run-report.json",
+        "sha256": "9bf52670d56d64e66ad699fed3f8c6d8e710a4763128291370b04820ac68a719",
+        "models": 0,
+        "fullLiveRuns": 0,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/run-report.json",
+        "sha256": "96690e1541fcff042dce64633f1cc33ad208130ba652916724bf010c09930932",
+        "models": 47,
+        "fullLiveRuns": 1,
+        "scope": "PHASE2"
+      },
+      {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/run-report.json",
+        "sha256": "81acd771ea7bc87def9c49444f40a3361613379d3ae8c722b307df8c948f86d7",
+        "models": 47,
+        "fullLiveRuns": 1,
+        "scope": "PHASE2"
+      }
+    ],
+    "priorCheckpointC": {
+      "formalLiveCompleted": 2,
+      "models": 94,
+      "googleRequestsIncludingPreflight": 11,
+      "sourceOnlyPreflightRetries": 1,
+      "outerTotalRerunsBeforeExplicitGrant": 1,
+      "exhaustedCase": "p2l-kf-h005-20261105",
+      "explicitUserAdditionalAttempt": 1
+    },
+    "checkpointC": {
+      "formalFullLiveRuns": 4,
+      "attempts": 6,
+      "modelCalls": 188,
+      "googleRequestsIncludingAllPreflights": 17,
+      "sourceOnlyPreflightFailures": 2,
+      "sourceOnlyAutomaticRetry": 1,
+      "explicitUserAdditionalAttempt": 1,
+      "outerRetryChargesIncludingExplicitGrant": 2,
+      "formalEnvironmentReruns": 0,
+      "exhaustedAutomaticCases": [
+        "p2l-kf-h005-20261105"
+      ],
+      "newInThisResume": {
+        "formalFullLiveRuns": 2,
+        "modelCalls": 94,
+        "googleRequestsIncludingPreflight": 6
+      }
+    },
+    "stageSafety": {
+      "status": "S0_PRESENT_LIVE_BLOCKED_PENDING_FIX_AND_REVIEW",
+      "S0_BOUNDARY_PRESENT_RUNS": [
+        "c-04"
+      ],
+      "S0_DECLARATION_PRESENT_RUNS": [],
+      "reviewPath": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/independent-boundary-review.json",
+      "reviewSha256": "3f06552e8335479ac3375437a46964aa71c10f90b246fde435de27b074da957f",
+      "ruleSource": "User explicit no reservation forms; independent raw HTML corroborates executed form openings. Original automated @30 boundary verdict NOT_EVALUATED is preserved."
+    }
+  }
+}
