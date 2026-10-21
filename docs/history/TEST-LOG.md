@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.204
+- Document revision: 4.205
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4821,3 +4821,8 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 默认回归旧单元Fixture仅改变“confirmed”文案，现补选中控件与组；浏览器旧断言要求隐藏选中日期，现改为保留证据且无可执行动作。Tabelog组合与C3成功Fixture补真实标记与组归属，失败场景不改。测试证明当前行为合同，不改69点评分和原输入。
 - 准备69原点全部独立DOM绑定真正Next month，当前引用均一致；历史引用时序逐点审计，0模型/网站。原15问题点selected=请求人数且不再给PARTY_SIZE权威点击；32未观察选择、3不同请求均如实保留。旧54/69与74调用原样保留。
 - 最终五门禁、原22校准与69+5回放待提交冻结后记录；最多74真实模型请求，不重试，0网站/Google/Live。文件均在[本批次](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/plan.md)。
+
+- 冻结后最终结果：运行提交8e47ddfd70be692e5d43dd70474e7e1a78b22d88，SHA256 040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b，628项复验一致；同69点69/69，原15未命中点15/15且重复已确认人数提议0；选店5/5、直接页13/13；原22校准22/22（正常S0声明20/20，交付子类8/8，0误判合格，越界9份无/13份缺口保持）。五门禁type/arch/build、默认977/977、真实Chromium129/129全绿。
+- 全部74次API成功、0重试；翻月平均1.877s、961320输入/8535输出token，选店平均2.053s、95435输入/1361输出；reasoning0，批次墙钟140.104s。阶段账本2069→2143/4000、剩1857，完整Live7/100、环境重跑0/10不变。0网站/Google/Live，不实现URL路径。
+- 37点正选中（34与请求一致、3不同），32点未观察到；独立来源核查69/69一致，未知不编造。69点历史/观察编号逐点一致，history/progress无改、显式历史targetRef0。选中状态/组投影/引用修正共同变化，非严格单字段因果试验，也不代表完整交付或泛化；历史H003 S0与上一轮54/69保持。
+- [四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/four-layer-report.md)、[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/result.json)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/decision-matrix.json)、[引用审计](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/reference-audit.json)和[冻结复验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/post-verification.json)。既有门禁生成的区域输出另存本批次后原文件恢复，代码/输入/外层运行中无改。离线门槛通过、待复核，推本修复分支后停止。

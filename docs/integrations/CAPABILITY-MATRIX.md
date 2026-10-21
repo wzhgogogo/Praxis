@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.72
+- Document revision: 1.73
 - Last updated: 2026-10-21
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -9,7 +9,7 @@
 
 状态：`verified`表示官方文档确认；`assumed`表示设计假设待实测；`requires partnership`表示存在能力但访问条件未取得；`unsupported`表示当前不纳入。
 
-2026-10-21 选中状态补修（离线，draft / not integrated）：通用Browser从明确ARIA或精确状态class读取selected，DOM组无唯一归属/当前选中值时保持未知。人数点击后必须在同组回读请求人数，才允许完成读取；已选控件作为证据保留，不能重复人数操作。真实Chromium反例证明可见文案改变不能替代确认，同名不同DOM组不合并。旧TableCheck reserve路径撤销不变；Tabelog日期/人数URL参数仍仅为历史核查报告，本次未实现或访问。最终模型与校准结果单列，不由本地Fixture推导来源兼容性。
+2026-10-21 选中状态补修（离线，draft / not integrated）：通用Browser从明确ARIA或精确状态class读取selected，DOM组无唯一归属/当前选中值时保持未知。人数点击后必须在同组回读请求人数，才允许完成读取；已选控件作为证据保留，不能重复人数操作。真实Chromium反例证明可见文案改变不能替代确认，同名不同DOM组不合并。旧TableCheck reserve路径撤销不变；Tabelog日期/人数URL参数仍仅为历史核查报告，本次未实现或访问。最终模型与校准结果单列，不由本地Fixture推导来源兼容性。 最终离线回放69/69、选店5/5、校准22/22、五门禁977+129通过，0网站/Live；仍待复核，不代表实时库存或完整交付。
 
 T1离线组装证据（2026-10-15）：Runner、Web和固定来源主组合共用生产读取factory及一个browserBudget；native组合实际查位累计>12调用后仍能找店，恢复旧阈值目标断言失败；真实Chromium动态Tabelog两种库存路径100/100门禁通过。仅证明固定传输下限额／接线，不新增来源能力或Live兼容性结论。见`.eval-artifacts/t1-assembly-20261015/report.md`。
 

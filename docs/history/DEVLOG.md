@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.197
+- Document revision: 4.198
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4112,3 +4112,8 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 当前69点从原HTML/CSS走生产Registry/Executor重建，参考原观察与历史最大编号生成更晚的fresh revision；目标、ownerRef及groupRef一起更新。每点保存original/registry/replay revision；原history/progress逐字保留，没有显式历史targetRef需重绑。原15未命中点现在均有正确已选人数；34点当前人数等于请求，3点不等，32点无可见正选中，全部保留不补造。
 - 针对性四项有效红→绿；完整回归修复旧Fixture的隐藏已选控件假设和只有成功文案的假确认，不修改原69种子、Gold、变体或库存标签。最终五门禁与冻结后原22校准、69+5单次模型回放待记；最多74请求含失败，0自动重试，阶段账本2069/4000。无新网站/Google/Live，不推集成。
 - [计划](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/plan.md)；结果与四层报告待冻结后记录。
+
+- 冻结后最终结果：运行提交8e47ddfd70be692e5d43dd70474e7e1a78b22d88，SHA256 040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b，628项复验一致；同69点69/69，原15未命中点15/15且重复已确认人数提议0；选店5/5、直接页13/13；原22校准22/22（正常S0声明20/20，交付子类8/8，0误判合格，越界9份无/13份缺口保持）。五门禁type/arch/build、默认977/977、真实Chromium129/129全绿。
+- 全部74次API成功、0重试；翻月平均1.877s、961320输入/8535输出token，选店平均2.053s、95435输入/1361输出；reasoning0，批次墙钟140.104s。阶段账本2069→2143/4000、剩1857，完整Live7/100、环境重跑0/10不变。0网站/Google/Live，不实现URL路径。
+- 37点正选中（34与请求一致、3不同），32点未观察到；独立来源核查69/69一致，未知不编造。69点历史/观察编号逐点一致，history/progress无改、显式历史targetRef0。选中状态/组投影/引用修正共同变化，非严格单字段因果试验，也不代表完整交付或泛化；历史H003 S0与上一轮54/69保持。
+- [四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/four-layer-report.md)、[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/result.json)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/decision-matrix.json)、[引用审计](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/reference-audit.json)和[冻结复验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/post-verification.json)。既有门禁生成的区域输出另存本批次后原文件恢复，代码/输入/外层运行中无改。离线门槛通过、待复核，推本修复分支后停止。
