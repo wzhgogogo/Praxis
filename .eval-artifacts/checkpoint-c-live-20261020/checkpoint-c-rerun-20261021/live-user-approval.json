@@ -1,0 +1,13 @@
+{
+  "action": "CHECKPOINT_C_LIVE_18",
+  "approvedBy": "USER",
+  "authorizationRecord": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/execution-authorization.json",
+  "reviewCommit": "27b3884a",
+  "freezeSha256": "598585fd34b9b5877ba644cdfb5b6a20d4cf83a796de1219ae4f70a53dedeb7d",
+  "registrySha256": "d9aec98e76bf01316ec484c1913c4df4ecb035d63d420dde2c1b8f34a5de1d93",
+  "validUntil": "2026-10-22T12:23:38.769Z",
+  "plannedRuns": 18,
+  "noRunIds": true,
+  "source": "Direct user preapproval: merge/refreeze -> recertify >=1 witness for every6 case -> original18 fullLive. No further quick validation.",
+  "rules": "500s/50models/40Google; gap>=5min;403/503/429/busy pause15min and retry1; only ENV_FAILURE/ORCHESTRATION_INTERRUPTED may rerun once/case within<=10total; S0 immediately stop; no forms,/reserve,time clicks; finish within earliest witness+24h."
+}
