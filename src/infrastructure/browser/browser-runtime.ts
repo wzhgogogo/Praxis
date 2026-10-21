@@ -114,7 +114,7 @@ export interface BrowserControlHint {
   selector: string;
   labelPrefix: string;
   value: "TEXT" | "DATE_PARTS";
-  selectedClass: string;
+  selectedClass?: string;
   /** Source has observed a navigation/write boundary; keep as evidence only. */
   observationOnly?: boolean;
 }

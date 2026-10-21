@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.218
+- Document revision: 4.220
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,13 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-TABELOG-QUERY-BINDING
+
+- 已知反例：旧代码对相同19快照确认0/19；独立HTMLParser基于公开状态得到17/19。真实Chromium隔离旧版本时旧标记2/2正常、新标记2/2在目标AVAILABLE断言红灯；修复后两种运行时/两种标记4/4绿灯。首次隔离副本漏web-skills的环境失败不计为有效红灯，保留日志。
+- 补强既有来源Fixture：选中状态与独立JSON响应均须完整；错误日期、人数、门店、过期/冲突响应和缺响应均拒绝，不使用可见时段补库存。原简化Fixture缺来源绑定时补齐原始来源形状，未放宽产品断言；完整Runner组合保留正常与隔离控制。
+- 19条逐项离线重算：17条页面选择确认、2条未确认；当时监听遗漏无尾斜杠find_vacancy，19条均没有捕获JSON，因此库存全保留UNKNOWN。4条可比较来源的页面时段是事后四参数GET的受支持子集；全集相等0/4、未支持时段0，不回填历史响应或重新判为合格交付。
+- 冻结配置690项（ebf1389代码/ca88fa6运行，SHA `7f0c3026058901326a32f589fcf884d72ea6bad7c5050a1243430dbc89de5c7a`），运行后全部原样核验。同69点真实模型69/69；选店5个相同请求复用原始真实模型输出重评5/5，新增调用0；22校准22/22、正常S0声明20/20、历史越界缺口13份保留。五门禁typecheck/arch/test/build/browser全绿：默认979/979、Chromium131/131。新增69模型/0重试，输入952027/输出8506 tokens，平均1.829秒，累计2353/4000；0外站/Google/完整Live/环境重跑。原始输出、逐项重算、四层报告和账本见`.eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/`。未运行当前网站或完整Live，不关闭外部验收缺口。
 
 ## TEST-2026-10-21-CHECKPOINT-C-CALENDAR-REPLAY
 

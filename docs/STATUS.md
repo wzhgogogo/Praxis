@@ -1,11 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.314
+- Document revision: 4.316
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
-- **2026-10-21 Checkpoint C continuous validation, step 1 PASS:** accepted review 481b893; unchanged frozen code/input verified (628 files); calendar69/69, selection5/5, calibration22/22, five gates977/129. No new model/network/Live; cumulative2143/4000 models,7/100 full Live,0/10 environment reruns. Next: authorized integration/prep merge and freeze. Evidence: `.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-1.json`.
+- **历史阶段记录：2026-10-21 continuous validation step 1 PASS:** accepted review 481b893; unchanged frozen code/input verified (628 files); calendar69/69, selection5/5, calibration22/22, five gates977/129. No new model/network/Live; cumulative2143/4000 models,7/100 full Live,0/10 environment reruns. That historical merge/freeze step completed in prep; quick validation then stopped at 0/3. Current next gate is the Tabelog repair review below. Evidence: `.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-1.json`.
 
 - **2026-10-21 Checkpoint C step2 merged:** accepted fix8589b3b pushed to integration; prep merge92beed0 preserves both documentation histories. Production/skills/dependencies equal accepted source; frozen628 inputs unchanged. Existing outer/18-plan/Runner/evaluator30/rubric26 unchanged. Cumulative ledger2143 models/7 fullLive/0 env reruns now reconciles replay source SHAs. No new website/model/Live. Freeze receipt: `.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-2-freeze-receipt.json`.
 
@@ -20,6 +20,8 @@
 - **2026-10-21 检查点C快速验证停止待复核：** 快速验证未通过，按门槛停止：H001/神乐坂 CAPABILITY_MISS，H002 HONEST_NO_RESULT；QUALIFIED_DELIVERY 0/3（要求≥2/3），交付均为0，两项S0各3/3 ABSENT。三次47模型共141，Google含预检12，累计2284/4000模型、10/100完整Live、0/10正式环境重跑。快速三次不计检查点C18，原五次及H003 S0保留；第4步认证与新18次均NOT_REACHED。 冻结225ca8b9…共559项运行前后一致，仅用户批准run-ids选择例外；原生产/计划/Runner/@30/@26不变。神乐坂Runner482.445秒、外层墙钟504.686秒及OUTER_DEADLINE标记明示，最终exit0/完整result，未改类重跑。三份原始result、决策/录制/独立复查、四层报告与账本提交推送后停下。[报告](../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-four-layer-report.md)、[结果JSON](../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-result.json)。
 
 ## 当前门槛
+
+- **2026-10-21 Tabelog 改版离线补修验收通过（draft / not integrated）：** 撤去消失的js-钩子/必需隐藏字段，通用状态复用；同日期/人数/门店的最新find_vacancy与页面选择一致才接纳，补监听无尾斜杠路径。19旧失败快照选中确认0→17，2仍未确认；历史JSON全未捕获，19库存均UNKNOWN，不能重判Live。4条可比较来源时段均为事后GET的受支持子集（全集相等0/4）。同69点真实模型69/69、相同输入选店缓存重评5/5、校准22/22；五门禁979/979、Chromium131/131及type/arch/build全绿。冻结ebf1389/ca88fa6、690项SHA无变，离线冻结SHA `7f0c3026058901326a32f589fcf884d72ea6bad7c5050a1243430dbc89de5c7a`；新增69模型/0重试，累计2353/4000，0网站/Google/Live。私有class18处（7消失修复/11仍存在仅报告），URL捷径未实现、Prompt19/Context2与评测器30/rubric26不变。原快速验证0/3、H003 S0保留；后续步骤暂停等复核。[四层报告](../.eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/four-layer-report.md)、[result.json](../.eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/result.json)。
 
 - **2026-10-21 检查点 C 第0步翻月决策回放完成／待选择方案：** 0网站／浏览器动作／Live，原五次69个明确Next尝试×四变体，276试次、277 API请求（含原thinking强制tool_choice的400）。原位置答案经保存DOM纠正：59个时间Next、10个人数Next，真实翻月为空标签链接；用户批准V3补全其语义。V0/V1/V2均0/69，V3为68/69；平均1.79/1.83/7.89/1.89秒，V2另有3次200无工具响应。V2 auto工具选择兼容经用户批准重冻，属于额外变量；缓存命中显著不均，不作同成本或纯thinking因果结论。原冻结434／兼容459文件及生产a3f6b84均未改，10项离线控制通过、五生产门禁复用。阶段1995/4000模型（含失败）、7完整Live、0正式环境重跑；原H003 S0与Live阻断保留。只报告并推准备分支，不采用变体、不进入后续1–5步。[四层报告](../.eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/four-layer-report.md)、[逐点与成本JSON](../.eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/comparison.json)。
 

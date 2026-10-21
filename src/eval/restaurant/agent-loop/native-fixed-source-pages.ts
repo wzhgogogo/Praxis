@@ -451,12 +451,12 @@ export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNA
       <td><p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="8" data-day="18" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">18</span></p></td>
       <td><p class="js-calendar-day-target is-selectable" data-year="2026" data-month="8" data-day="19" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">19</span></p></td>
     </tr></tbody></table>
-    <div class="js-select-member"><button type="button" class="js-people-button is-active" onclick="pickGuests(this)">1</button>
-    <button type="button" class="js-people-button" onclick="pickGuests(this)">2</button></div>
+    <div class="js-select-member"><button type="button" class="p-booking-calendar__people-button js-people-button is-active" onclick="pickGuests(this)">1</button>
+    <button type="button" class="p-booking-calendar__people-button js-people-button" onclick="pickGuests(this)">2</button></div>
     <input class="js-people-hidden-value" type="hidden" value="1"><div id="availability"></div></div>
     <script>
       const fixtureResult='${result}'; let selectedDate='2026-08-18'; let selectedGuests=1;
-      function guestButton(value,active){const button=document.createElement('button');button.type='button';button.classList.add('js-'+'people-button');if(active)button.classList.add('is-'+'active');button.textContent=String(value);button.onclick=()=>pickGuests(button);return button}
+      function guestButton(value,active){const button=document.createElement('button');button.type='button';button.classList.add('p-booking-calendar__people-button','js-'+'people-button');if(active)button.classList.add('is-'+'active');button.textContent=String(value);button.onclick=()=>pickGuests(button);return button}
       function renderGuests(active){document.querySelector('.js-select-member').replaceChildren(guestButton(1,active===1),guestButton(2,active===2))}
       function refresh(){ if(selectedDate!=='2026-08-19'||selectedGuests!==2)return;
         fetch('${vacancyPath}?date='+selectedDate+'&member='+selectedGuests).then(r=>r.json()).then(()=>{
@@ -506,7 +506,9 @@ export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNA
               ? { base_date: { year: 2026, month: 8, day: 19 }, members: 2,
                 selection: result === "AVAILABLE"
                   ? { 0: { time: "19:00", url: "/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=1900" } }
-                  : [] }
+                  // A bound source slot outside 19:00 proves no matching slot;
+                  // an empty payload without merchant binding stays UNKNOWN.
+                  : { 0: { time: "21:00", url: "/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=2100" } } }
               : { base_date: { year: 2026, month: 8, day: 18 }, members: 1, selection: {} };
             await route.fulfill({ contentType: "application/json; charset=utf-8", body: JSON.stringify(body) });
             return;

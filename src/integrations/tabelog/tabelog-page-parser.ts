@@ -1,5 +1,5 @@
 import { publicPriceText, sourcePriceElements, quotedCoursePrice } from "../restaurant-availability/source-price-facts.js";
-import { tabelogCapturedSlots } from "./tabelog-query-controls.js";
+import { tabelogCapturedSlots, tabelogQueryControlHints } from "./tabelog-query-controls.js";
 import { resultRegionBusy } from "../restaurant-search/result-region-busy.js";
 
 export function tabelogSearchResultBusy(snapshot: BrowserSnapshot): boolean {
@@ -209,6 +209,9 @@ export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot, request
   if (snapshot.settlement === "PENDING") return { availableSlots: [], hasExplicitSlotUi: false };
   const captured = request ? tabelogCapturedSlots(snapshot, request.date, request.partySize) : undefined;
   if (captured) return captured;
+  // Public English outlet calendars need the exact bound response. Visible
+  // time templates cannot rescue a missing, stale or contradictory payload.
+  if (request && tabelogQueryControlHints(snapshot).length) return { availableSlots: [], hasExplicitSlotUi: false };
   const slots = new Set<string>();
   let hasExplicitSlotUi = false;
   const element = /<(button|a|li|div)[^>]*?(?:data-(?:time|start-time)|class=["'][^"']*(?:slot|time|reserve|vacancy)[^"']*)[^>]*>([\s\S]{0,500}?)<\/\1>/gi;

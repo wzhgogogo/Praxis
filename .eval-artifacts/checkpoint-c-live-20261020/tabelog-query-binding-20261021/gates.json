@@ -1,0 +1,101 @@
+{
+  "status": "PASS",
+  "mode": "OFFLINE_FIXTURE_ONLY",
+  "sourceRequests": 0,
+  "modelCalls": 0,
+  "fullLiveRuns": 0,
+  "entries": [
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-typecheck.log",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "architecture",
+      "command": "npm run arch:check",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-arch.log",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "defaultTests",
+      "command": "npm test",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-test.log",
+      "logSha256": "aad67fc63908cb8245e7a39b08af99c8e0b894a49d45be7d7fb33d820a043eb2",
+      "total": 979,
+      "passed": 979,
+      "failed": 0
+    },
+    {
+      "name": "build",
+      "command": "npm run build",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-build.log",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browserFixtures",
+      "command": "npm run test:browser:fixture",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-browser.log",
+      "logSha256": "c9854529e5035fd5822ab1cc7d3cf346e12b61f31bb863fc5754be7a6c9bc46a",
+      "total": 131,
+      "passed": 131,
+      "failed": 0
+    }
+  ],
+  "typecheck": {
+    "name": "typecheck",
+    "command": "npm run typecheck",
+    "status": "PASS",
+    "exitCode": 0,
+    "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-typecheck.log",
+    "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+  },
+  "architecture": {
+    "name": "architecture",
+    "command": "npm run arch:check",
+    "status": "PASS",
+    "exitCode": 0,
+    "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-arch.log",
+    "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+  },
+  "defaultTests": {
+    "name": "defaultTests",
+    "command": "npm test",
+    "status": "PASS",
+    "exitCode": 0,
+    "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-test.log",
+    "logSha256": "aad67fc63908cb8245e7a39b08af99c8e0b894a49d45be7d7fb33d820a043eb2",
+    "total": 979,
+    "passed": 979,
+    "failed": 0
+  },
+  "build": {
+    "name": "build",
+    "command": "npm run build",
+    "status": "PASS",
+    "exitCode": 0,
+    "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-build.log",
+    "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+  },
+  "browserFixtures": {
+    "name": "browserFixtures",
+    "command": "npm run test:browser:fixture",
+    "status": "PASS",
+    "exitCode": 0,
+    "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-browser.log",
+    "logSha256": "c9854529e5035fd5822ab1cc7d3cf346e12b61f31bb863fc5754be7a6c9bc46a",
+    "total": 131,
+    "passed": 131,
+    "failed": 0
+  }
+}

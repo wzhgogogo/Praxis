@@ -638,11 +638,9 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
     const body = finalSnapshot?.responses?.at(-1)?.body;
     assert.deepEqual({ base_date: body?.base_date, members: body?.members }, {
       base_date: { year: 2026, month: 8, day: 19 }, members: 2,
-    }, "empty vacancy responses still retain the final source query date and party");
-    // The artifact sanitizer omits an empty selection array.  Its absence is
-    // not stock proof; the provider page's explicit unavailable slot drives
-    // the UNAVAILABLE outcome above.
-    assert.equal("selection" in (body ?? {}), false);
+    }, "the no-matching-slot response retains the final source query date and party");
+    assert.equal(body?.selection?.length, 1);
+    assert.equal((body?.selection?.[0] as {time?:string} | undefined)?.time, "21:00", "only the independently bound source slot outside the requested window supports this negative result");
   }
 });
 }
@@ -1514,8 +1512,10 @@ test("real Chromium recovers a Tabelog busy page once and still grounds the exac
   const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
   const { fixtureCandidates } = await import("../restaurant-fixtures.js");
   const sourceUrl = "https://tabelog.com/en/tokyo/A1303/A130301/13293469/";
-  const pages = { [sourceUrl]: await readFile(new URL("../../../.eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8") };
-  const good = '<title>Restaurant 1</title><h1 class="restaurant-name">Restaurant 1</h1><p class="restaurant-address">1-1 Shinjuku, Tokyo</p><p>予約 人数</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>';
+  const queryUrl='https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13293469&svd=20260805&svps=2&svt=1900';
+  const pages = { [sourceUrl]: await readFile(new URL("../../../.eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8"),
+    [queryUrl]:JSON.stringify({base_date:{year:2026,month:8,day:5},members:2,selection:{0:{time:'19:00',url:'/en/booking/form_course/new?rcd=13293469&member=2&visit_date=20260805&visit_time=1900'}}}) };
+  const good = '<title>Restaurant 1</title><h1 class="restaurant-name">Restaurant 1</h1><p class="restaurant-address">1-1 Shinjuku, Tokyo</p><p>予約 人数</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><div class="p-booking-calendar"><button class="is-selected" data-year="2026" data-month="8" data-day="5">5</button><fieldset><legend>Guests</legend><button aria-pressed="true" data-value="2">2</button></fieldset></div>'+`<script>fetch('${queryUrl}')</script>`;
   const raw = localFixture(pages), arrivals: Array<{url:string;at:number}> = [], diagnostics: BrowserExecutionDiagnostic[] = [];
   const runtime: BrowserRuntime = { async openSession(input) {
     const session = await raw.openSession(input);
@@ -1975,10 +1975,10 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const html = `<h1>Restaurant 1</h1><p>1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p><div class="p-booking-calendar" style="display:none">
       <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17">17</p>
       <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20">20</p>
-      <button type="button" class="js-people-button is-active">2</button><button type="button" class="js-people-button">4</button>
+      <button type="button" class="p-booking-calendar__people-button js-people-button is-active">2</button><button type="button" class="p-booking-calendar__people-button js-people-button">4</button>
       <input type="hidden" class="js-people-hidden-value" value="2">
       <button data-state="disabled" data-date="2026-9-16" type="button">Disabled date</button>
-      <button class="js-time-button" type="button">7:00 PM</button>
+      <button class="p-booking-calendar__time-button js-time-button" data-time="1900" type="button">7:00 PM</button>
       </div><a href="https://social.example/restaurant">Official website</a>
       <script>
       setTimeout(()=>document.querySelector('.p-booking-calendar').style.display='block',150);
@@ -2240,26 +2240,29 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
 
 
 for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
-  test(`${runtimeKind} Tabelog Adapter grounds passive exact-query responses and clears them on navigation`, async () => {
+ for (const markup of ["legacy", "current"] as const) {
+  test(`${runtimeKind} ${markup} Tabelog Adapter grounds passive exact-query responses and clears them on navigation`, async () => {
     const {TabelogBrowserAvailability}=await import("../../integrations/tabelog/tabelog-browser-availability.js");
     const {fixtureCandidates}=await import("../restaurant-fixtures.js");
     const candidate=structuredClone(fixtureCandidates[0]!);candidate.restaurant.sourceIds.phone="03-1111-2222";
     const sourceUrl="https://tabelog.com/en/tokyo/A1301/A130103/13292459/";
-    const endpoint="https://tabelog.com/en/booking/calendar/find_vacancy/";
-    const html=`<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p>
+    const endpoint="https://tabelog.com/en/booking/calendar/find_vacancy"+(markup==="legacy"?"/":"");
+    let html=`<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p>
       <div class="rstdtl-course-list js-rstdtl-course-list"><span class="rstdtl-course-list__course-title-text">Seasonal lunch course</span><p class="rstdtl-course-list__desc">Lunch only, 11:30 to 14:00.</p><del>JPY 9,000</del><span class="rstdtl-course-list__price-num">JPY<em>8,000</em><span>（Price including tax）per person</span></span><dl class="rstdtl-course-list__course-rule"><dt>Number of people</dt><dd>2 - 4</dd></dl></div>
       <div class="p-booking-calendar">
       <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17">17</p>
       <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20">20</p>
-      <fieldset><legend>Guests</legend><button type="button" class="js-people-button is-active">2</button><button type="button" class="js-people-button">4</button>
-      <input type="hidden" class="js-people-hidden-value" value="2"></fieldset></div>
-      <script>function query(){fetch('/en/booking/calendar/find_vacancy/?member='+document.querySelector('input').value);fetch('/unrelated.json')}
+      <fieldset><legend>Guests</legend><button type="button" class="p-booking-calendar__people-button js-people-button is-active">2</button><button type="button" class="p-booking-calendar__people-button js-people-button">4</button>
+      <input type="hidden" class="js-people-hidden-value" value="2"></fieldset><button type="button" class="p-booking-calendar__time-button" data-time="1845">6:45 PM</button></div>
+      <script>function query(){fetch('${endpoint}?member='+document.querySelector('.p-booking-calendar__people-button.is-active').textContent);fetch('/unrelated.json')}
       document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{document.querySelector('.is-current').classList.remove('is-current');el.classList.add('is-current');query()});
-      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');document.querySelector('input').value=el.textContent;query()});</script>`;
+      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');const hidden=document.querySelector('input');if(hidden)hidden.value=el.textContent;query()});</script>`;
+    if(markup==="current") html=html.replace(/<p class="js-calendar-day-target([^"]*)"([^>]*)>([^<]*)<\/p>/g,'<button type="button" class="p-booking-calendar__day$1"$2>$3</button>').replaceAll('js-calendar-day-target','p-booking-calendar__day').replaceAll('js-people-button','current-people-control');
+    if(markup==="current") html=html.replace('<input type="hidden" class="js-people-hidden-value" value="2">','');
     const payload=(members:number,time:string)=>JSON.stringify({base_date:{year:2026,month:9,day:20},members,selection:{0:{time,url:`/en/booking/form_course/new?rcd=13292459&member=${members}&visit_date=20260920&visit_time=${time.replace(':','')}`}}});
     const pages={ [sourceUrl]:html,"https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201":`<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,[endpoint+"?member=2"]:payload(2,"19:00"),[endpoint+"?member=4"]:payload(4,"18:45"),"https://tabelog.com/unrelated.json":JSON.stringify({private:"must not capture"}) };
     let calls=0;
-    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.deepEqual(input.observation.targets.find(t=>t.label==="Date 2026-09-20")?.availableActions, [], "selected date remains evidence without a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
+    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){assert.equal(input.observation.targets.some(t=>t.label==="Booking time 6:45 PM"&&(t.availableActions?.length??0)>0),false,"time has no model action");const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.deepEqual(input.observation.targets.find(t=>t.label==="Date 2026-09-20")?.availableActions, [], "selected date remains evidence without a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
     const signal=new AbortController().signal;
     try{
       const result=await new TabelogBrowserAvailability(executor).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-20",partySize:4,timeWindow:{earliest:"18:30",latest:"19:30"},hardCriteria:[]},signal);
@@ -2275,6 +2278,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     }finally{await executor.close()}
   });
 }
+ }
 
 test("workspace New case survives a late initial case-list response", async () => {
   const { LOCAL_WORKSPACE_PAGE } = await import('../../web/local-workspace-page.js');

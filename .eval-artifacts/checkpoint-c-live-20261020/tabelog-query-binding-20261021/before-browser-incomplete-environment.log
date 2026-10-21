@@ -1,0 +1,94 @@
+✖ LOCAL legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (921.967584ms)
+✖ LOCAL current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (861.633167ms)
+✖ CLOUDFLARE_SESSION legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (857.627959ms)
+✖ CLOUDFLARE_SESSION current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (852.820917ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3913.5065
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:173:3390
+✖ LOCAL legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (921.967584ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-10-21T08:20:28.832Z","evidenceIds":["evidence:restaurant:tabelog-entity-match:353e3fad97dc753f48eed322","evidence:restaurant:tabelog-hard-criteria:9a2843fe9983a8d4b1477d91"],"reasonCode":"REQUEST_SELECTION_UNCONFIRMED"}},"evidence":[{"evidenceId":"evidence:restaurant:tabelog-entity-match:353e3fad97dc753f48eed322","kind":"ENTITY_MATCH","provider":"TABELOG","candidateId":"restaurant-1","sourceEntityId":"en/tokyo/A1301/A130103/13292459","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","observedAt":"2026-10-21T08:20:28.832Z","requestFingerprint":"e140d202dfcfc76422553f94190d9016998c7534a65b95363d2644ab1c212a98","claims":{"outletName":"Restaurant 1"},"entityMatch":{"confidence":"HIGH","matchedBy":["EXACT_PHONE"]}},{"evidenceId":"evidence:restaurant:tabelog-hard-criteria:9a2843fe9983a8d4b1477d91","kind":"RESTAURANT_FACT","provider":"TABELOG","candidateId":"restaurant-1","sourceEntityId":"en/tokyo/A1301/A130103/13292459","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","observedAt":"2026-10-21T08:20:28.832Z","requestFingerprint":"6c475821df7b65acc33ecfe3d6b0c3521d8b9f2ed00bae0dc659519a0b185bc4","claims":{"verifiedHardCriteria":[],"listedCourseDetails":["Seasonal lunch course — JPY 8,000 （Price including tax）per person; Number of people 2 - 4. Lunch only, 11:30 to 14:00."]},"priceFacts":{"schemaVersion":"restaurant-price-facts@1","listedCoursePricesYen":[{"amount":8000,"sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","quote":"Seasonal lunch course Lunch only, 11:30 to 14:00. JPY 8,000 （Price including tax）per person Number of people 2 - 4","tax":"INCLUDED","meal":"LUNCH","kind":"MEAL"}]},"entityMatch":{"confidence":"HIGH","matchedBy":["EXACT_PHONE"]}}],"candidateFactUpdates":[{"candidateId":"restaurant-1","matchReasons":[],"evidenceIds":["evidence:restaurant:tabelog-hard-criteria:9a2843fe9983a8d4b1477d91"]}],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":888,"failureCode":"REQUEST_SELECTION_UNCONFIRMED","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:e1528d23-f6a5-4ac6-bacc-c36283e8ea27","startedAt":"2026-10-21T08:20:28.058Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-tabelog-red-20261021/src/harness/browser/browser-read-fixture.test.ts:2269:14)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-fixture.test.ts:173:3390
+✖ LOCAL current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (861.633167ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-10-21T08:20:29.696Z","evidenceIds":["evidence:restaurant:tabelog-entity-match:3fe004949609c976352932af","evidence:restaurant:tabelog-hard-criteria:57ceb1f70412ba0f035d1833"],"reasonCode":"REQUEST_SELECTION_UNCONFIRMED"}},"evidence":[{"evidenceId":"evidence:restaurant:tabelog-entity-match:3fe004949609c976352932af","kind":"ENTITY_MATCH","provider":"TABELOG","candidateId":"restaurant-1","sourceEntityId":"en/tokyo/A1301/A130103/13292459","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","observedAt":"2026-10-21T08:20:29.696Z","requestFingerprint":"e140d202dfcfc76422553f94190d9016998c7534a65b95363d2644ab1c212a98","claims":{"outletName":"Restaurant 1"},"entityMatch":{"confidence":"HIGH","matchedBy":["EXACT_PHONE"]}},{"evidenceId":"evidence:restaurant:tabelog-hard-criteria:57ceb1f70412ba0f035d1833","kind":"RESTAURANT_FACT","provider":"TABELOG","candidateId":"restaurant-1","sourceEntityId":"en/tokyo/A1301/A130103/13292459","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","observedAt":"2026-10-21T08:20:29.696Z","requestFingerprint":"6c475821df7b65acc33ecfe3d6b0c3521d8b9f2ed00bae0dc659519a0b185bc4","claims":{"verifiedHardCriteria":[],"listedCourseDetails":["Seasonal lunch course — JPY 8,000 （Price including tax）per person; Number of people 2 - 4. Lunch only, 11:30 to 14:00."]},"priceFacts":{"schemaVersion":"restaurant-price-facts@1","listedCoursePricesYen":[{"amount":8000,"sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","quote":"Seasonal lunch course Lunch only, 11:30 to 14:00. JPY 8,000 （Price including tax）per person Number of people 2 - 4","tax":"INCLUDED","meal":"LUNCH","kind":"MEAL"}]},"entityMatch":{"confidence":"HIGH","matchedBy":["EXACT_PHONE"]}}],"candidateFactUpdates":[{"candidateId":"restaurant-1","matchReasons":[],"evidenceIds":["evidence:restaurant:tabelog-hard-criteria:57ceb1f70412ba0f035d1833"]}],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":848,"failureCode":"REQUEST_SELECTION_UNCONFIRMED","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:c964b3a6-5802-4a51-9af4-935bb896df19","startedAt":"2026-10-21T08:20:28.935Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-tabelog-red-20261021/src/harness/browser/browser-read-fixture.test.ts:2269:14)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-fixture.test.ts:173:3390
+✖ CLOUDFLARE_SESSION legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (857.627959ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-10-21T08:20:30.555Z","evidenceIds":["evidence:restaurant:tabelog-entity-match:d4c12042f12a2bc8bca91fff","evidence:restaurant:tabelog-hard-criteria:b923d3985d318da42d3f0d12"],"reasonCode":"REQUEST_SELECTION_UNCONFIRMED"}},"evidence":[{"evidenceId":"evidence:restaurant:tabelog-entity-match:d4c12042f12a2bc8bca91fff","kind":"ENTITY_MATCH","provider":"TABELOG","candidateId":"restaurant-1","sourceEntityId":"en/tokyo/A1301/A130103/13292459","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","observedAt":"2026-10-21T08:20:30.555Z","requestFingerprint":"e140d202dfcfc76422553f94190d9016998c7534a65b95363d2644ab1c212a98","claims":{"outletName":"Restaurant 1"},"entityMatch":{"confidence":"HIGH","matchedBy":["EXACT_PHONE"]}},{"evidenceId":"evidence:restaurant:tabelog-hard-criteria:b923d3985d318da42d3f0d12","kind":"RESTAURANT_FACT","provider":"TABELOG","candidateId":"restaurant-1","sourceEntityId":"en/tokyo/A1301/A130103/13292459","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","observedAt":"2026-10-21T08:20:30.555Z","requestFingerprint":"6c475821df7b65acc33ecfe3d6b0c3521d8b9f2ed00bae0dc659519a0b185bc4","claims":{"verifiedHardCriteria":[],"listedCourseDetails":["Seasonal lunch course — JPY 8,000 （Price including tax）per person; Number of people 2 - 4. Lunch only, 11:30 to 14:00."]},"priceFacts":{"schemaVersion":"restaurant-price-facts@1","listedCoursePricesYen":[{"amount":8000,"sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","quote":"Seasonal lunch course Lunch only, 11:30 to 14:00. JPY 8,000 （Price including tax）per person Number of people 2 - 4","tax":"INCLUDED","meal":"LUNCH","kind":"MEAL"}]},"entityMatch":{"confidence":"HIGH","matchedBy":["EXACT_PHONE"]}}],"candidateFactUpdates":[{"candidateId":"restaurant-1","matchReasons":[],"evidenceIds":["evidence:restaurant:tabelog-hard-criteria:b923d3985d318da42d3f0d12"]}],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":845,"failureCode":"REQUEST_SELECTION_UNCONFIRMED","browser":{"runtimeProvider":"CLOUDFLARE_BROWSER_RUN","engine":"CHROMIUM","startedAt":"2026-10-21T08:20:29.796Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-tabelog-red-20261021/src/harness/browser/browser-read-fixture.test.ts:2269:14)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-fixture.test.ts:173:3390
+✖ CLOUDFLARE_SESSION current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (852.820917ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-10-21T08:20:31.408Z","evidenceIds":["evidence:restaurant:tabelog-entity-match:487c32323affdfdfccf49935","evidence:restaurant:tabelog-hard-criteria:3b1ff2646d77a4df06a54afd"],"reasonCode":"REQUEST_SELECTION_UNCONFIRMED"}},"evidence":[{"evidenceId":"evidence:restaurant:tabelog-entity-match:487c32323affdfdfccf49935","kind":"ENTITY_MATCH","provider":"TABELOG","candidateId":"restaurant-1","sourceEntityId":"en/tokyo/A1301/A130103/13292459","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","observedAt":"2026-10-21T08:20:31.408Z","requestFingerprint":"e140d202dfcfc76422553f94190d9016998c7534a65b95363d2644ab1c212a98","claims":{"outletName":"Restaurant 1"},"entityMatch":{"confidence":"HIGH","matchedBy":["EXACT_PHONE"]}},{"evidenceId":"evidence:restaurant:tabelog-hard-criteria:3b1ff2646d77a4df06a54afd","kind":"RESTAURANT_FACT","provider":"TABELOG","candidateId":"restaurant-1","sourceEntityId":"en/tokyo/A1301/A130103/13292459","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","observedAt":"2026-10-21T08:20:31.408Z","requestFingerprint":"6c475821df7b65acc33ecfe3d6b0c3521d8b9f2ed00bae0dc659519a0b185bc4","claims":{"verifiedHardCriteria":[],"listedCourseDetails":["Seasonal lunch course — JPY 8,000 （Price including tax）per person; Number of people 2 - 4. Lunch only, 11:30 to 14:00."]},"priceFacts":{"schemaVersion":"restaurant-price-facts@1","listedCoursePricesYen":[{"amount":8000,"sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","quote":"Seasonal lunch course Lunch only, 11:30 to 14:00. JPY 8,000 （Price including tax）per person Number of people 2 - 4","tax":"INCLUDED","meal":"LUNCH","kind":"MEAL"}]},"entityMatch":{"confidence":"HIGH","matchedBy":["EXACT_PHONE"]}}],"candidateFactUpdates":[{"candidateId":"restaurant-1","matchReasons":[],"evidenceIds":["evidence:restaurant:tabelog-hard-criteria:3b1ff2646d77a4df06a54afd"]}],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":841,"failureCode":"REQUEST_SELECTION_UNCONFIRMED","browser":{"runtimeProvider":"CLOUDFLARE_BROWSER_RUN","engine":"CHROMIUM","startedAt":"2026-10-21T08:20:30.650Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-tabelog-red-20261021/src/harness/browser/browser-read-fixture.test.ts:2269:14)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }

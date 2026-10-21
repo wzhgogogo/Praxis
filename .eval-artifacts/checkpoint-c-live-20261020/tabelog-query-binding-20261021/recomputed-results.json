@@ -1,0 +1,990 @@
+{
+  "schema": "tabelog-query-binding-recompute@1",
+  "codeCommit": "ca88fa6537a8c16a3ea41f565c4eb43aa36915b4",
+  "mode": "SAVED_SOURCE_REPLAY",
+  "sampleCount": 19,
+  "beforeConfirmed": 0,
+  "afterConfirmed": 17,
+  "stillSelectionUnknown": [
+    "c-05-13218101",
+    "c-05-13281152"
+  ],
+  "runtimeInventoryConfirmed": 0,
+  "runtimeInventoryUnknown": 19,
+  "comparison": {
+    "covered": 5,
+    "comparable": 4,
+    "renderedSubsetSupported": 4,
+    "exactSlotSetsEqual": 0,
+    "mismatches": 0
+  },
+  "sourceRequests": 0,
+  "modelCalls": 0,
+  "fullLiveRuns": 0,
+  "rows": [
+    {
+      "id": "c-01-13274777",
+      "runId": "c-01",
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13274777",
+      "request": {
+        "date": "2026-11-03",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-03"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "19:00",
+        "19:30",
+        "20:00"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13274777.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13274777.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792566070894/snapshot-0019.html",
+        "sha256": "8c15b03c0e6e8dce585ebe5310531e416a6bebcbcafe3071af927937ba2883d0",
+        "bytes": 129628
+      }
+    },
+    {
+      "id": "c-01-13275802",
+      "runId": "c-01",
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+      "request": {
+        "date": "2026-11-03",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-03"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "21:00",
+        "21:15",
+        "21:30"
+      ],
+      "postRunComparison": {
+        "status": "SUPPORTED_SUBSET",
+        "exactSlotSetEqual": false,
+        "everyRenderedSlotSupported": true,
+        "postSlots": [
+          "11:30",
+          "11:45",
+          "12:00",
+          "12:15",
+          "12:30",
+          "12:45",
+          "13:00",
+          "16:00",
+          "16:15",
+          "16:30",
+          "16:45",
+          "17:00",
+          "17:15",
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00",
+          "21:15",
+          "21:30"
+        ],
+        "rawPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/post-run/c-01/13275802.body.txt"
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13275802.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13275802.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792566070894/snapshot-0026.html",
+        "sha256": "c15404c7e6beec9cc4b32a53c3ad06278c5f7407b8fdf97db455d82d208616a0",
+        "bytes": 131652
+      }
+    },
+    {
+      "id": "c-01-13225919",
+      "runId": "c-01",
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13225919",
+      "request": {
+        "date": "2026-11-03",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-03"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "11:00",
+        "13:00"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13225919.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13225919.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792566070894/snapshot-0033.html",
+        "sha256": "c45594d33f202ae3adc2d16d95812ec6611ccf243a9472d302ce26433fbd1b7c",
+        "bytes": 128825
+      }
+    },
+    {
+      "id": "c-01-13261619",
+      "runId": "c-01",
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+      "request": {
+        "date": "2026-11-03",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-03"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "20:00",
+        "20:15",
+        "20:30"
+      ],
+      "postRunComparison": {
+        "status": "SUPPORTED_SUBSET",
+        "exactSlotSetEqual": false,
+        "everyRenderedSlotSupported": true,
+        "postSlots": [
+          "11:30",
+          "11:45",
+          "12:00",
+          "12:15",
+          "12:30",
+          "12:45",
+          "13:00",
+          "16:00",
+          "16:15",
+          "16:30",
+          "16:45",
+          "17:00",
+          "17:15",
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00"
+        ],
+        "rawPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/post-run/c-01/13261619.body.txt"
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13261619.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13261619.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792566070894/snapshot-0040.html",
+        "sha256": "efb02629c82d06d0213ba20fda7811406d650387504b3a283061397a399cb23e",
+        "bytes": 133898
+      }
+    },
+    {
+      "id": "c-01-13319616",
+      "runId": "c-01",
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+      "request": {
+        "date": "2026-11-03",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-03"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "19:00",
+        "19:15",
+        "19:30"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13319616.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13319616.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792566070894/snapshot-0047.html",
+        "sha256": "c9cf0988f8213e4ed3b217ae726e4d10f7d02790a054bc5a9003208305263531",
+        "bytes": 126191
+      }
+    },
+    {
+      "id": "c-01-13307953",
+      "runId": "c-01",
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13307953",
+      "request": {
+        "date": "2026-11-03",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-03"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "19:00",
+        "19:15",
+        "19:30"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13307953.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13307953.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792566070894/snapshot-0064.html",
+        "sha256": "9f923b3768d1f3282bec0838997149bd9056508ebf1bef3b81dfdc05f4c91e8e",
+        "bytes": 128204
+      }
+    },
+    {
+      "id": "c-01-13298154",
+      "runId": "c-01",
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13298154",
+      "request": {
+        "date": "2026-11-03",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-03"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "19:30",
+        "20:00",
+        "20:30"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13298154.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13298154.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792566070894/snapshot-0071.html",
+        "sha256": "04123ff329f42337c53f94ee793426225f4e62099bf2ecc5f7be5ca8e29774ae",
+        "bytes": 123130
+      }
+    },
+    {
+      "id": "c-02-13291473",
+      "runId": "c-02",
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+      "request": {
+        "date": "2026-11-07",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-07"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "20:00",
+        "20:30",
+        "21:00"
+      ],
+      "postRunComparison": {
+        "status": "SUPPORTED_SUBSET",
+        "exactSlotSetEqual": false,
+        "everyRenderedSlotSupported": true,
+        "postSlots": [
+          "17:00",
+          "17:30",
+          "18:00",
+          "18:30",
+          "19:00",
+          "19:30",
+          "20:00",
+          "20:30",
+          "21:00"
+        ],
+        "rawPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/post-run/c-02/13291473.body.txt"
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13291473.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13291473.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/recordings/hybrid-1792566682342/snapshot-0020.html",
+        "sha256": "35cab44bcdcb462c99ffe2efc89ead8c5901ecc03fb535aa3c08eab510c28461",
+        "bytes": 131735
+      }
+    },
+    {
+      "id": "c-02-13295658",
+      "runId": "c-02",
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+      "request": {
+        "date": "2026-11-07",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-07"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "19:00",
+        "19:15",
+        "19:30"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13295658.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13295658.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/recordings/hybrid-1792566682342/snapshot-0027.html",
+        "sha256": "b790be4325a8ff1ea93ad453dfe088159970f87d8c3c98173eb4dc1254c04f2d",
+        "bytes": 131300
+      }
+    },
+    {
+      "id": "c-02-13189458",
+      "runId": "c-02",
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13189458",
+      "request": {
+        "date": "2026-11-07",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-07"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "20:00",
+        "20:30",
+        "21:00"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13189458.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13189458.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/recordings/hybrid-1792566682342/snapshot-0034.html",
+        "sha256": "846dfd3cac7ed88013bd71524519dad7d47704665f928432fc515453019c96da",
+        "bytes": 133408
+      }
+    },
+    {
+      "id": "c-02-13292459",
+      "runId": "c-02",
+      "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+      "request": {
+        "date": "2026-11-07",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-07"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "19:00",
+        "19:15",
+        "19:30"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13292459.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13292459.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/recordings/hybrid-1792566682342/snapshot-0041.html",
+        "sha256": "7b9d6bf78c326eb6a42d40736b867d78e8aa5fb67b950aaf81d6e03e5a48aa04",
+        "bytes": 142480
+      }
+    },
+    {
+      "id": "c-02-13323643",
+      "runId": "c-02",
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13323643",
+      "request": {
+        "date": "2026-11-07",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-07"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "19:00",
+        "19:15",
+        "19:30"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13323643.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13323643.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/recordings/hybrid-1792566682342/snapshot-0048.html",
+        "sha256": "16afe5ef56bdf07927fafa1b5a9960c1f800f77aaa018fe2c0a69f22f192b066",
+        "bytes": 137057
+      }
+    },
+    {
+      "id": "c-02-13280412",
+      "runId": "c-02",
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13280412",
+      "request": {
+        "date": "2026-11-07",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-07"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "18:00",
+        "20:00"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13280412.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13280412.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/recordings/hybrid-1792566682342/snapshot-0065.html",
+        "sha256": "151c948ef0b42b7025dc1b393afa8bb4da23b1dcb1d694475032fd5597918df2",
+        "bytes": 96714
+      }
+    },
+    {
+      "id": "c-02-13228975",
+      "runId": "c-02",
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13228975",
+      "request": {
+        "date": "2026-11-07",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "partySize": 2
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-07"
+      ],
+      "independentSelectedGuests": [
+        2
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "19:00",
+        "19:15",
+        "19:30"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13228975.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13228975.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/recordings/hybrid-1792566682342/snapshot-0072.html",
+        "sha256": "f564fa9f355dabd05b1208d2c282bbcd892849c9e3c11aadaa12399c7e391c63",
+        "bytes": 131236
+      }
+    },
+    {
+      "id": "c-05-13300814",
+      "runId": "c-05",
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+      "request": {
+        "date": "2026-11-05",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "partySize": 3
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-05"
+      ],
+      "independentSelectedGuests": [
+        3
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "19:00",
+        "19:30",
+        "20:00"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13300814.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13300814.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792567292438/snapshot-0019.html",
+        "sha256": "82fa3239b0096958cb69ffa324b9e0810bed9efaa972627bc20f62073481f663",
+        "bytes": 128542
+      }
+    },
+    {
+      "id": "c-05-13180712",
+      "runId": "c-05",
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13180712",
+      "request": {
+        "date": "2026-11-05",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "partySize": 3
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-05"
+      ],
+      "independentSelectedGuests": [
+        3
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "12:15",
+        "12:30"
+      ],
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13180712.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13180712.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792567292438/snapshot-0027.html",
+        "sha256": "b58191f3359e694cc2a5e9214722c63b305b12e2c57364113cb8236b54a8ce4f",
+        "bytes": 130288
+      }
+    },
+    {
+      "id": "c-05-13218101",
+      "runId": "c-05",
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13218101",
+      "request": {
+        "date": "2026-11-05",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "partySize": 3
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": false,
+      "independentSelectedDates": [],
+      "independentSelectedGuests": [],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": null,
+      "postRunComparison": {
+        "status": "NOT_COMPARABLE_SELECTION_UNCONFIRMED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": [],
+        "rawPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/post-run/c-05/13218101.body.txt"
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13218101.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13218101.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792567292438/snapshot-0034.html",
+        "sha256": "730bd0d6f6ab9d37e67db48c9aa91d3c9a9b94bb2d264489bd50132ae77b56de",
+        "bytes": 126012
+      }
+    },
+    {
+      "id": "c-05-13048623",
+      "runId": "c-05",
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+      "request": {
+        "date": "2026-11-05",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "partySize": 3
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": true,
+      "independentSelectedDates": [
+        "2026-11-05"
+      ],
+      "independentSelectedGuests": [
+        3
+      ],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": [
+        "19:00",
+        "19:15",
+        "19:30"
+      ],
+      "postRunComparison": {
+        "status": "SUPPORTED_SUBSET",
+        "exactSlotSetEqual": false,
+        "everyRenderedSlotSupported": true,
+        "postSlots": [
+          "11:30",
+          "11:45",
+          "12:00",
+          "12:15",
+          "12:30",
+          "12:45",
+          "13:00",
+          "17:00",
+          "17:15",
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30"
+        ],
+        "rawPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/post-run/c-05/13048623.body.txt"
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13048623.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13048623.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792567292438/snapshot-0042.html",
+        "sha256": "e1fedc1304da6e74f0172a3b5f61f449a54ae9d0d044f062e8c6d4ff7d58f543",
+        "bytes": 109680
+      }
+    },
+    {
+      "id": "c-05-13281152",
+      "runId": "c-05",
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13281152",
+      "request": {
+        "date": "2026-11-05",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "partySize": 3
+      },
+      "originalReason": "REQUEST_SELECTION_UNCONFIRMED",
+      "selectedQueryConfirmed": false,
+      "independentSelectedDates": [],
+      "independentSelectedGuests": [],
+      "productionRuntimeSlots": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "inventoryStatus": "UNKNOWN",
+      "missingEvidence": "NO_CAPTURED_RUNTIME_RESPONSE",
+      "independentlyParsedRenderedSlots": null,
+      "postRunComparison": {
+        "status": "NOT_COVERED",
+        "exactSlotSetEqual": null,
+        "everyRenderedSlotSupported": null,
+        "postSlots": null,
+        "rawPath": null
+      },
+      "snapshotPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13281152.snapshot.json",
+      "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13281152.html",
+      "originalSource": {
+        "commit": "e95de8cd053b85f659f6a17a30e299eb59d5352d",
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792567292438/snapshot-0048.html",
+        "sha256": "b72fb6fc5c84786c816ea4999ce5411e2a0c2e60c3cff4f00eeb9b9c1fa08ebe",
+        "bytes": 73873
+      }
+    }
+  ],
+  "limits": "Missing runtime JSON remains missing. Rendered UI subsets and later GETs are separate observations, not reconstructed runtime responses or rerated Live deliveries."
+}

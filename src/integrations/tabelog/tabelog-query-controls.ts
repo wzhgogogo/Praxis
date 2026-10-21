@@ -1,5 +1,5 @@
 import type { BrowserControlHint, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
-
+import { hasSelectedControlState } from "../../infrastructure/browser/control-selected-state.js";
 
 /** The page may render future calendars in hidden DOM while its current query is restricted. */
 export function tabelogQueryControlsRestricted(snapshot: BrowserSnapshot, controls: readonly { label: string; disabled: boolean }[], partySize: number): boolean {
@@ -9,18 +9,18 @@ export function tabelogQueryControlsRestricted(snapshot: BrowserSnapshot, contro
   return dates.length === 0 && guests.length > 0 && guests.every(control => control.disabled);
 }
 
-/** Live-observed English outlet calendar, 2026-09-16. No booking-form controls. */
+/** Public English outlet calendar attributes, including the October 2026 markup. */
 export function tabelogQueryControlHints(snapshot: Readonly<BrowserSnapshot>): readonly BrowserControlHint[] {
   if (!/^https:\/\/tabelog\.com\/en\/[^/?]+\/A\d+\/A\d+\/\d+\/(?:[?#]|$)/.test(snapshot.url)) return [];
   return [
-    { selector: ".p-booking-calendar p.js-calendar-day-target.is-selectable[data-year][data-month][data-day]", labelPrefix: "Date", value: "DATE_PARTS", selectedClass: "is-current" },
-    { selector: ".p-booking-calendar button.js-people-button", labelPrefix: "Guests", value: "TEXT", selectedClass: "is-active" },
-    { selector: ".p-booking-calendar button.js-time-button", labelPrefix: "Booking time", value: "TEXT", selectedClass: "is-active", observationOnly: true },
+    { selector: ".p-booking-calendar [data-year][data-month][data-day]", labelPrefix: "Date", value: "DATE_PARTS" },
+    { selector: '.p-booking-calendar button.p-booking-calendar__people-button, .p-booking-calendar :is(.p-booking-calendar__people-button-box, [aria-label="Guests"], [aria-label="People"], [aria-label="Party size"]) button', labelPrefix: "Guests", value: "TEXT" },
+    { selector: ".p-booking-calendar button.p-booking-calendar__time-button[data-time]", labelPrefix: "Booking time", value: "TEXT", observationOnly: true },
   ];
 }
 
 function attribute(tag: string, name: string): string | undefined {
-  return tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, "i"))?.[1];
+  return tag.match(new RegExp(`\\s${name}\\s*=["']([^"']*)["']`, "i"))?.[1];
 }
 function hasClass(tag: string, name: string): boolean {
   return (attribute(tag, "class") ?? "").split(/\s+/).includes(name);
@@ -69,8 +69,8 @@ export function tabelogRequestedDateState(snapshot: BrowserSnapshot, date: strin
       const content = cell[1]!;
       const dayLabel = content.match(/<span\b([^>]*)>\s*(\d{1,2})\s*<\/span>/i);
       if (!dayLabel || !hasClass(`<span ${dayLabel[1]}>`, "p-booking-calendar__day-num") || Number(dayLabel[2]) !== day) continue;
-      const selected = content.match(/<p\b[^>]*>/i)?.[0] ?? "";
-      if (hasClass(selected, "js-calendar-day-target") && hasClass(selected, "is-selectable")
+      const selected = content.match(/<(?:p|button)\b[^>]*\bdata-year=["'][^>]*>/i)?.[0] ?? "";
+      if ((hasClass(selected, "is-selectable") || hasSelectedControlState(attributes(selected)))
         && Number(attribute(selected, "data-year")) === year && Number(attribute(selected, "data-month")) === month
         && Number(attribute(selected, "data-day")) === day) states.push("SELECTABLE");
       else if (hasClass(`<span ${dayLabel[1]}>`, "p-booking-calendar__day-num--closed")) states.push("CLOSED");
@@ -82,38 +82,95 @@ export function tabelogRequestedDateState(snapshot: BrowserSnapshot, date: strin
   return states.length === 1 ? states[0]! : "UNOBSERVED";
 }
 
+function attributes(tag: string): Record<string, string> {
+  return Object.fromEntries([...tag.matchAll(/(?:^|\s)([\w:-]+)\s*=\s*["']([^"']*)["']/g)].map(match => [match[1]!.toLowerCase(), match[2]!]));
+}
+
+interface QueryElement { name: string; tag: string; content: string; hidden: boolean; booking: boolean; parent: QueryElement | undefined }
+
+/** Keep DOM ownership and explicit hidden ancestors; unrelated selected buttons are not people. */
+function queryElements(html: string): QueryElement[] {
+  const stack: Array<QueryElement & { start: number }> = [];
+  const result: QueryElement[] = [];
+  for (const token of html.matchAll(/<!--[\s\S]*?-->|<(?:script|style)\b[^>]*>[\s\S]*?<\/(?:script|style)\s*>|<\/?[a-z][^>]*>/gi)) {
+    const tag = token[0];
+    if (/^<!--|^<(?:script|style)\b/i.test(tag)) continue;
+    const closing = tag.match(/^<\/([\w-]+)/i);
+    if (closing) {
+      const index = stack.map(item => item.name).lastIndexOf(closing[1]!.toLowerCase());
+      if (index >= 0) {
+        const element = stack[index]!;
+        element.content = html.slice(element.start, token.index);
+        stack.length = index;
+      }
+      continue;
+    }
+    const name = tag.match(/^<([\w-]+)/i)?.[1]?.toLowerCase();
+    if (!name) continue;
+    const parent = stack.at(-1);
+    const element = { name, tag, content: "", parent, start: token.index + tag.length,
+      hidden: Boolean(parent?.hidden) || hasClass(tag, "is-hidden") || /\shidden(?:\s|=|>)/i.test(tag)
+        || attribute(tag, "aria-hidden") === "true" || /(?:^|;)\s*(?:display\s*:\s*none|visibility\s*:\s*hidden)\s*(?:;|$)/i.test(attribute(tag, "style") ?? ""),
+      booking: Boolean(parent?.booking) || hasClass(tag, "p-booking-calendar") };
+    if (element.booking) result.push(element);
+    if (!new Set(["input", "br", "hr", "img", "meta", "link", "source", "wbr", "area", "embed", "param", "col", "base"]).has(name) && !tag.endsWith("/>")) stack.push(element);
+  }
+  return result;
+}
+
+function inPeopleGroup(element: QueryElement): boolean {
+  if (element.name === "button" && hasClass(element.tag, "p-booking-calendar__people-button")) return true;
+  for (let current: QueryElement | undefined = element.parent; current?.booking; current = current.parent) {
+    if (hasClass(current.tag, "p-booking-calendar__people-button-box")) return true;
+    const label = attribute(current.tag, "aria-label") ?? (current.name === "fieldset"
+      ? current.content.match(/<legend\b[^>]*>([\s\S]*?)<\/legend>/i)?.[1]
+      : hasClass(current.tag, "p-booking-calendar__select") ? current.content.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] : undefined);
+    if (label && /^(?:guests?|people|party size|members?|人数)$/i.test(label.replace(/<[^>]*>/g, "").trim())) return true;
+  }
+  return false;
+}
+
 /** Selected query state is not inventory. A time option or hidden Reserve link is not a slot. */
 export function hasTabelogSelectedQuery(snapshot: BrowserSnapshot, date: string, partySize: number): boolean {
   if (!tabelogQueryControlHints(snapshot).length) return false;
-  const selectedDates = [...snapshot.html.matchAll(/<p\b[^>]*>/gi)].map(match => match[0])
-    .filter(tag => hasClass(tag, "js-calendar-day-target") && hasClass(tag, "is-current"))
-    .map(tag => [attribute(tag, "data-year"), attribute(tag, "data-month"), attribute(tag, "data-day")])
-    .filter(parts => parts.every(part => part && /^\d+$/.test(part)))
-    .map(parts => `${parts[0]}-${parts[1]!.padStart(2, "0")}-${parts[2]!.padStart(2, "0")}`);
-  const selectedPeople = [...snapshot.html.matchAll(/<button\b[^>]*>\s*(\d+)\s*<\/button>/gi)]
-    .filter(match => hasClass(match[0], "js-people-button") && hasClass(match[0], "is-active"))
-    .map(match => Number(match[1]));
-  const hiddenPeople = [...snapshot.html.matchAll(/<input\b[^>]*>/gi)].map(match => match[0])
-    .filter(tag => hasClass(tag, "js-people-hidden-value"))
-    .map(tag => Number(attribute(tag, "value")));
+  const elements = queryElements(snapshot.html);
+  const selected = elements.filter(element => !element.hidden && hasSelectedControlState(attributes(element.tag)));
+  const selectedDates = selected.filter(element => ["data-year", "data-month", "data-day"].every(name => attribute(element.tag, name) !== undefined))
+    .map(element => ["data-year", "data-month", "data-day"].map(name => attribute(element.tag, name)))
+    .map(parts => parts.every(part => part && /^\d+$/.test(part)) ? `${parts[0]}-${parts[1]!.padStart(2, "0")}-${parts[2]!.padStart(2, "0")}` : undefined);
+  const selectedPeople = selected.filter(element => element.name === "button" && inPeopleGroup(element))
+    .map(element => {
+      const value = attribute(element.tag, "data-value");
+      const text = element.content.replace(/<[^>]*>/g, " ").trim().match(/^(\d+)(?:\s*(?:guests?|people|persons?|名|人))?$/i)?.[1];
+      if (value !== undefined && (!/^\d+$/.test(value) || text !== undefined && Number(text) !== Number(value))) return undefined;
+      return value !== undefined ? Number(value) : text !== undefined ? Number(text) : undefined;
+    });
+  const hiddenPeople = elements.filter(element => element.name === "input" && attribute(element.tag, "type") === "hidden" && inPeopleGroup(element))
+    .map(element => attribute(element.tag, "value"))
+    .map(value => value && /^\d+$/.test(value) ? Number(value) : undefined);
   return selectedDates.length > 0 && selectedDates.every(value => value === date)
     && selectedPeople.length > 0 && selectedPeople.every(value => value === partySize)
-    && hiddenPeople.length > 0 && hiddenPeople.every(value => value === partySize);
+    && hiddenPeople.every(value => value === partySize);
 }
 
-export const TABELOG_VACANCY_RESPONSES = [{ origin: "https://tabelog.com", pathname: "/en/booking/calendar/find_vacancy/" }] as const;
+export const TABELOG_VACANCY_RESPONSES = [
+  { origin: "https://tabelog.com", pathname: "/en/booking/calendar/find_vacancy/" },
+  { origin: "https://tabelog.com", pathname: "/en/booking/calendar/find_vacancy" },
+] as const;
 
 /** Exact source-response binding: another merchant, date, party or stale selection is not stock. */
 export function tabelogCapturedSlots(snapshot: BrowserSnapshot, date: string, partySize: number): { availableSlots: string[]; hasExplicitSlotUi: boolean } | undefined {
   if (!hasTabelogSelectedQuery(snapshot, date, partySize)) return undefined;
   const outletId = new URL(snapshot.url).pathname.match(/\/(\d+)\/$/)?.[1];
   for (const response of [...snapshot.responses ?? []].sort((a,b)=>b.sequence-a.sequence)) {
-    const responseUrl = new URL(response.url);
-    if (response.status !== 200 || responseUrl.origin !== TABELOG_VACANCY_RESPONSES[0].origin || responseUrl.pathname !== TABELOG_VACANCY_RESPONSES[0].pathname) continue;
+    let responseUrl: URL;
+    try { responseUrl = new URL(response.url); } catch { continue; }
+    if (!TABELOG_VACANCY_RESPONSES.some(rule => responseUrl.origin === rule.origin && responseUrl.pathname === rule.pathname)) continue;
+    if (response.status !== 200) return undefined;
     const body = response.body as { base_date?: {year?:number;month?:number;day?:number}; members?:number; selection?:unknown } | null;
-    if (!body || !body.base_date || body.members !== partySize) continue;
+    if (!body || !body.base_date || body.members !== partySize) return undefined;
     const d=body.base_date;
-    if (`${d.year}-${String(d.month).padStart(2,"0")}-${String(d.day).padStart(2,"0")}` !== date) continue;
+    if (`${d.year}-${String(d.month).padStart(2,"0")}-${String(d.day).padStart(2,"0")}` !== date) return undefined;
     if (!body.selection || typeof body.selection !== "object") return undefined;
     const rows=Object.values(body.selection);
     // Empty responses need an independent merchant binding; never infer it from the current URL alone.
