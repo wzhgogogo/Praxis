@@ -1,0 +1,27 @@
+{
+  "status": "RUNTIME_CONFIGURATION_ONLY_NO_SOURCE_FILE_CHANGE",
+  "originalPolicySha256": "32b247e93c17a80f316418109870378cb7688c8d2eef2b3454e4f8d8becbcf4c",
+  "effectivePolicySha256": "deea94b501e2ee5fd460e40320599506c3ff6e71e3b7d745e0b5da4a164acd2b",
+  "removeRule": {
+    "origin": "https://www.tablecheck.com",
+    "pathnamePattern": "^/en/shops/(?!login/|signin/|sign-in/|account/|checkout/|payment/|purchase/|cancel/|delete/|confirm/)[a-z0-9]+(?:-[a-z0-9]+)*/reserve$",
+    "resourceTypes": [
+      "document"
+    ],
+    "methods": [
+      "GET"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "start_date",
+        "pax"
+      ]
+    }
+  },
+  "forbiddenExamples": [
+    "https://www.tablecheck.com/en/shops/tounai/reserve?start_date=2026-11-06&pax=10",
+    "https://www.tablecheck.com/en/shops/m3-felice/reserve?start_date=2026-11-06&pax=10"
+  ],
+  "attestationDirectory": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/policy-attestations",
+  "retained": "Public business/search pages and reviewed four-field inventory requests retained; no form navigation, slot clicking or submission."
+}
