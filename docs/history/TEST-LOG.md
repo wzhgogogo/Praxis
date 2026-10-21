@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.206
+- Document revision: 4.219
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,13 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-TABELOG-QUERY-BINDING
+
+- 已知反例：旧代码对相同19快照确认0/19；独立HTMLParser基于公开状态得到17/19。真实Chromium隔离旧版本时旧标记2/2正常、新标记2/2在目标AVAILABLE断言红灯；修复后两种运行时/两种标记4/4绿灯。首次隔离副本漏web-skills的环境失败不计为有效红灯，保留日志。
+- 补强既有来源Fixture：选中状态与独立JSON响应均须完整；错误日期、人数、门店、过期/冲突响应和缺响应均拒绝，不使用可见时段补库存。原简化Fixture缺来源绑定时补齐原始来源形状，未放宽产品断言；完整Runner组合保留正常与隔离控制。
+- 19条逐项离线重算：17条页面选择确认、2条未确认；当时监听遗漏无尾斜杠find_vacancy，19条均没有捕获JSON，因此库存全保留UNKNOWN。4条可比较来源的页面时段是事后四参数GET的受支持子集；全集相等0/4、未支持时段0，不回填历史响应或重新判为合格交付。
+- 五门禁、同69点模型回放、相同5条选店输出重评与22次校准以本轮冻结后产物为准，见`.eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/`。0外站/Google/完整Live；新增模型仅限已变化的69条、每条一次、无自动重试。未运行当前网站或完整Live，不关闭外部验收缺口。
 
 
 ## TEST-2026-10-08-PLAYBOOK-PHASE3-RENEWAL

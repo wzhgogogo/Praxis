@@ -2,6 +2,7 @@ import type { ElementHandle, Page } from "playwright-core";
 
 import type { BrowserControlHint, BrowserPageControl, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
+import { hasSelectedControlState } from "./control-selected-state.js";
 
 const CONTROL_GROUPS: Array<{ selector: string; kind: BrowserPageControl["kind"]; defaultRole: string }> = [
   { selector: "a[href],[role=link]", kind: "LINK", defaultRole: "link" },
@@ -92,7 +93,7 @@ export class PlaywrightControlRegistry {
    * target before its one permitted action.
    */
   private async snapshot(element: ElementHandle<SVGElement | HTMLElement>, selectedClass?: string): Promise<string | undefined> {
-    return element.evaluate((node, hintClass) => {
+    const snapshot = await element.evaluate((node) => {
       if (!node.isConnected) return undefined;
       // Native controls may belong to a form through the `form` attribute,
       // rather than DOM ancestry. Use the browser's owner resolution for both
@@ -208,10 +209,7 @@ export class PlaywrightControlRegistry {
         formOwner: form ? `${form.id || formIndex}` : "", radioGroupKey,
         formMethodOverride: node.getAttribute("formmethod"), formTarget: node.getAttribute("formtarget"),
         disabled: (node as HTMLElement).matches(":disabled") || node.getAttribute("aria-disabled") === "true" || node.getAttribute("data-state") === "disabled",
-        selected: ["aria-selected", "aria-pressed", "aria-checked"].some(attribute => node.getAttribute(attribute) === "true")
-          || ["true", "page", "step", "location", "date", "time"].includes(node.getAttribute("aria-current") ?? "")
-          || [...node.classList].some(name => /^(?:is-)?(?:active|selected|current|checked)$/.test(name))
-          || (hintClass ? node.classList.contains(hintClass) : false),
+        selectionAttributes: Object.fromEntries(["aria-selected", "aria-pressed", "aria-checked", "aria-current", "class"].map(name => [name, node.getAttribute(name)])),
         expanded: node.getAttribute("aria-expanded"), controls: node.getAttribute("aria-controls"),
         calendarDate, dataDate: node.getAttribute("data-date"), dataValue: node.getAttribute("data-value"),
         dateParts: [node.getAttribute("data-year"), node.getAttribute("data-month"), node.getAttribute("data-day")],
@@ -239,8 +237,13 @@ export class PlaywrightControlRegistry {
         controlGroupKey: _groupKey,
         ...signature
       } = projection;
-      return JSON.stringify({ projection, signature });
-    }, selectedClass);
+      return { projection, signature };
+    });
+    if (!snapshot) return undefined;
+    const { selectionAttributes, ...projection } = snapshot.projection;
+    const { selectionAttributes: _selectionAttributes, ...signature } = snapshot.signature;
+    const selected = hasSelectedControlState(selectionAttributes, selectedClass);
+    return JSON.stringify({ projection: { ...projection, selected }, signature: { ...signature, selected } });
   }
 
   private decodeSnapshot(snapshot: string): { signature: string; projection: {
@@ -454,15 +457,13 @@ export class PlaywrightControlRegistry {
         if (!number || number>new Date(Date.UTC(year,month,0)).getUTCDate()) return [];
         const date=`${year}-${String(month).padStart(2,'0')}-${String(number).padStart(2,'0')}`;
         const day = cell.querySelector(':scope > p') ?? cell;
-        const selected = ["aria-selected", "aria-pressed", "aria-checked"].some(attribute => day.getAttribute(attribute) === "true")
-          || ["true", "page", "step", "location", "date", "time"].includes(day.getAttribute("aria-current") ?? "")
-          || [...day.classList].some(name => /^(?:is-)?(?:active|selected|current|checked)$/.test(name));
-        return [{date,key:`calendar:${calendarIndex}:day:${index}`,selected,controlGroupKey,calendarMonth:{year,month,caption:caption.replace(/\s+/g,' ').trim(),source:calendar.querySelector('caption')?'DOM caption' as const:'ARIA label' as const}}];
+        const selectionAttributes = Object.fromEntries(["aria-selected", "aria-pressed", "aria-checked", "aria-current", "class"].map(name => [name, day.getAttribute(name)]));
+        return [{date,key:`calendar:${calendarIndex}:day:${index}`,selectionAttributes,controlGroupKey,calendarMonth:{year,month,caption:caption.replace(/\s+/g,' ').trim(),source:calendar.querySelector('caption')?'DOM caption' as const:'ARIA label' as const}}];
       });
     }));
     for (const day of days) {
       if (controls.some(control => control.value===day.date || control.label===`Date ${day.date}`)) continue;
-      controls.push({id:`dom:${this.revision}:calendar:${controls.length+1}`,stableKey:day.key,kind:'BUTTON',role:'gridcell',label:`Calendar date ${day.date}`,controlGroupLabel:'Calendar',controlGroupKey:day.controlGroupKey,calendarMonth:day.calendarMonth,value:day.date,calendarDate:day.date,...(day.selected?{selected:true}:{}),disabled:true,visible:true,observationOnly:true,structure:{tag:'TD',name:'',classes:[],dialogLabel:'',formClass:'',sliderCount:0}});
+      controls.push({id:`dom:${this.revision}:calendar:${controls.length+1}`,stableKey:day.key,kind:'BUTTON',role:'gridcell',label:`Calendar date ${day.date}`,controlGroupLabel:'Calendar',controlGroupKey:day.controlGroupKey,calendarMonth:day.calendarMonth,value:day.date,calendarDate:day.date,...(hasSelectedControlState(day.selectionAttributes)?{selected:true}:{}),disabled:true,visible:true,observationOnly:true,structure:{tag:'TD',name:'',classes:[],dialogLabel:'',formClass:'',sliderCount:0}});
     }
     const expanded = controls.filter(item => item.role === "combobox" && item.expanded === true);
     for (const control of controls.filter(item => item.role === "option")) {

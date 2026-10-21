@@ -12,7 +12,7 @@ const request = { date: "2026-10-21", partySize: 4, timeWindow: { earliest: "18:
 const cases: Array<{ name: string; source: "TABELOG" | "TABLECHECK"; url: string; html: string; scope: string; unrelated: string; change: [string,string]; completion(page: BrowserSnapshot): BrowserCompletionAssessment }> = [
   { name: "Tabelog name search", source: "TABELOG", url: "https://tabelog.com/en/tokyo/rstLst/?sw=Sen", scope: "result-list", html: '<a class="list-rst__rst-name-target" href="/en/tokyo/A1303/A130301/13275802/">Sen</a>', unrelated: '<div class="list-rst__calendar-loader"></div><div class="list-rst__image skeleton"></div>', change: ["13275802","13305528"], completion: tabelogNameSearchCompletion },
   { name: "TableCheck name search", source: "TABLECHECK", url: "https://www.tablecheck.com/en/japan/search?search_text=Sen", scope: "search-results", html: '<a href="/en/sen">Sen</a>', unrelated: '<div class="ExploreSidePicSkeletonImage skeleton"></div><div class="AvailabilitySkeleton skeleton"></div>', change: ["/en/sen","/en/teppen"], completion: page => tableCheckNameSearchCompletion(page, "Sen") },
-  { name: "Tabelog availability", source: "TABELOG", url: "https://tabelog.com/en/tokyo/A1303/A130301/13275802/", scope: "p-booking-calendar", html: '<p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="10" data-day="21">21</p><button class="js-people-button is-active">4</button><input class="js-people-hidden-value" value="4"><button class="slot is-available" data-time="18:00">18:00</button>', unrelated: '<div class="p-booking-calendar__calendar skeleton"></div><div class="recommendation skeleton"></div>', change: ["18:00","19:00"], completion: page => tabelogAvailabilityCompletion(page, request) },
+  { name: "Tabelog availability", source: "TABELOG", url: "https://tabelog.com/en/tokyo/A1303/A130301/13275802/", scope: "p-booking-calendar", html: '<button class="is-selected" data-year="2026" data-month="10" data-day="21">21</button><fieldset><legend>Guests</legend><button aria-pressed="true" data-value="4">4</button></fieldset><button class="p-booking-calendar__time-button" data-time="18:00">18:00</button>', unrelated: '<div class="p-booking-calendar__calendar skeleton"></div><div class="recommendation skeleton"></div>', change: ["18:00","19:00"], completion: page => tabelogAvailabilityCompletion(page, request) },
 ];
 
 for (const item of cases.slice(0, 2)) cases.push({ ...item, name: item.source + " native listing", completion: page => sourceListingCompletion(item.source === "TABELOG" ? tabelogDiscoveryPack : tableCheckDiscoveryPack, page, [], "") });
@@ -29,7 +29,13 @@ async function read(item: typeof cases[number], pages: BrowserSnapshot[]) {
   finally { await executor.close(); }
 }
 for (const item of cases) {
-  const page = (html: string): BrowserSnapshot => ({ url: item.url, html, title: item.name, text: "Sen 18:00", settlement: "PENDING", settlementDiagnostics: { url: item.url, pendingByType: {}, oldestPendingMs: 0, blockingDataRequests: 0, busySelectors: [".unrelated.skeleton"], visibleTextChanging: true } });
+  const page = (html: string): BrowserSnapshot => {
+    // Source responses vary independently with the fixture's displayed result;
+    // no production parser precomputes completion for the executor.
+    const time=html.includes('data-time="19:00"')?'19:00':'18:00';
+    return { url: item.url, html, title: item.name, text: "Sen 18:00", settlement: "PENDING", settlementDiagnostics: { url: item.url, pendingByType: {}, oldestPendingMs: 0, blockingDataRequests: 0, busySelectors: [".unrelated.skeleton"], visibleTextChanging: true },
+      ...(item.name==='Tabelog availability'?{responses:[{url:'https://tabelog.com/en/booking/calendar/find_vacancy',status:200,sequence:1,observedAt:'2026-10-21T00:00:00Z',body:{base_date:{year:2026,month:10,day:21},members:4,selection:{0:{time,url:`/en/booking/form_course/new?rcd=13275802&member=4&visit_date=20261021&visit_time=${time.replace(':','')}`}}}}]}:{}) };
+  };
   const ready = `<div class="${item.scope}">${item.html}${item.unrelated}</div>`;
   test(`${item.name}: displayed bound result completes despite unrelated calendar/image loaders`, async () => {
     assert.equal(item.completion({ ...page(ready), settlement: "SETTLED" }).resultBusy, false);

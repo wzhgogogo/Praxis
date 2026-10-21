@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.199
+- Document revision: 4.212
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-21-TABELOG-QUERY-BINDING
+
+- Evidence status: draft / not integrated；用户指定3d14788复核后的离线来源改版修复，不重写快速验证0/3或H003历史S0，不恢复Live。
+- Tabelog日期/人数/时段控件撤去已消失的js-钩子；通用Browser与来源确认共用明确ARIA/精确状态class函数。日期读取data-year/month/day，人数组按data-value/文字确认；隐藏人数字段存在则必须一致，缺失不拒绝。
+- 库存主要绑定最新find_vacancy的日期、人数和时段链接门店，页面选择也必须一致。冲突/缺响应保持UNKNOWN，不以时间模板兜底。补监听今天实际出现的无尾斜杠路径；Guard权限、TableCheck reserve禁令、URL参数捷径、外层、计划与评测器@30/rubric@26不改。
+- 保存19个失败候选查位阶段末次原始快照及SHA，独立HTMLParser/JSON核查17个页面选择可确认。历史录制响应全空，库存仍19个UNKNOWN。18处私有class逐项审计，11处仍存在仅报告，7处消失位于本轮关键路径并修复；未覆盖TableCheck旧菜单结构不宣称消失。
+- Browser Prompt19/Context2与wire11、Restaurant Context15/Prompt27未改文本或schema；本次改变来源提取和控件提示。69点必须对新输入回放；完全相同的5个选店请求复用原始真实模型输出重新评分，避免新增等价调用。验证见[本轮Test](TEST-LOG.md#test-2026-10-21-tabelog-query-binding)。
 
 
 ## DEV-2026-10-08-PLAYBOOK-PHASE3-RENEWAL

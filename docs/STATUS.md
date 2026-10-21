@@ -1,13 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.303
+- Document revision: 4.315
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
 - **2026-10-21 Checkpoint C continuous validation, step 1 PASS:** accepted review 481b893; unchanged frozen code/input verified (628 files); calendar69/69, selection5/5, calibration22/22, five gates977/129. No new model/network/Live; cumulative2143/4000 models,7/100 full Live,0/10 environment reruns. Next: authorized integration/prep merge and freeze. Evidence: `.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-1.json`.
 
 ## 当前门槛
+
+- **2026-10-21 Tabelog 改版补修（draft / not integrated）：** 依据复核3d14788，通用选中状态复用、公开日期/人数组与精确find_vacancy绑定已修；新旧标记的真实Chromium控制通过。19个历史失败快照中17个页面选择可确认，2个仍未确认；旧运行未捕获JSON，19个库存结论全部保持UNKNOWN。4家可比较门店的页面时段均为事后GET的受支持子集，不能当作库存全集相等。私有class审计18处，7处已消失并修复、11处仍存在仅报告。69点重建请求有变，须冻结后重新模型回放；5个选店请求逐字相同，复用已有模型输出重评；五门禁全绿（默认979/979、Chromium131/131及type/arch/build）；22校准结果待冻结后单列。0网站/Live；此前快速验证0/3与H003历史S0保留，后续Live步骤暂停等本修复复核。[切片与证据](../.eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/plan.md)。
 
 - **2026-10-21 通用选中状态与人数确认离线门槛通过（draft / not integrated）：** 54ac940复核后补ARIA/精确状态class、真实DOM组当前选中值，保留已选控件证据并禁止重复动作；人数点击必须回读同组唯一值等于请求，未确认不能完成。Browser Prompt19/Context2，wire11及Restaurant Context15/Prompt27、skills/thinking、reserve禁令不变。引用/观察编号逐点一致；同69点69/69（要求≥68），原15问题点15/15；选店5/5、直接页13/13；校准22/22（S0声明20/20、越界13份缺口保留）；五门禁默认977/977、Chromium129/129及type/arch/build全绿。冻结8e47ddf/628项SHA不变；74模型、0重试，阶段2143/4000，剩1857；0网站/Google/Live。原54/69与历史H003 S0保留，URL捷径未实现。推独立修复分支后停止等复核。[四层报告](../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/four-layer-report.md)、[result.json](../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/result.json)。
 
