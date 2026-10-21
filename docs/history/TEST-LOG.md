@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.225
+- Document revision: 4.226
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,11 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-EVALUATOR32-HARD-COURSE-EVIDENCE
+
+- Valid old-code red uses complete independent post-delivery inputs and fails only course HARD status. Focused140/140, default988/988, local Chromium131/131, typecheck/arch/build green. New tests reject name/review/neighbor/hidden/superseded/wrong-source/hash/request/late evidence and preserve lunch scope. Calibration22 and quick3 are pending committed freeze; no model/websites/Live.
+- [Report](../../.eval-artifacts/evaluator-hard-course-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
 
 ## TEST-2026-10-21-CRITERION-PRESENTATION-REPAIR
 

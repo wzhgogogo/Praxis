@@ -1,3 +1,4 @@
+import { assessIndependentHard, type HardCriterionEvidence, type IndependentHardSupport } from "./diagnostic-evaluator-hard.js";
 import { independentPriceCondition } from "./diagnostic-evaluator-prices.js";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -15,6 +16,7 @@ export interface SoftPreferenceObservations {
 export interface UserConditionState {
   goldIndex: number; text: string; polarity: string; strength: string; status: "MET" | "NOT_MET" | "NOT_CHECKED";
   basis: string[]; evidenceRefs: string[];
+  supportDiagnostics?: IndependentHardSupport["supportDiagnostics"]; sourceScope?: IndependentHardSupport["sourceScope"];
 }
 export interface CandidateConditionStates { candidateId: string; criteria: UserConditionState[]; }
 
@@ -70,7 +72,7 @@ function matchesRestaurant(restaurant: { outletName?: string; sourceIds?: Record
  */
 export function assessUserConditions(root: RunRecord, gold: SoftPreferenceObservations | undefined,
   frozenRun: { runId: string; artifactSha256: string } | undefined, artifactSha256: string,
-  applicableEvidence: (candidateId: string) => EvidenceRecord[]): CandidateConditionStates[] {
+  applicableEvidence: (candidateId: string) => EvidenceRecord[], hardEvidence?: HardCriterionEvidence): CandidateConditionStates[] {
   const domain = root.finalSnapshot?.domainState;
   return (domain?.presentedResults?.candidateIds ?? []).map(candidateId => {
     const restaurant = domain?.candidates?.find(candidate => candidate.restaurant?.id === candidateId)?.restaurant;
@@ -94,6 +96,7 @@ export function assessUserConditions(root: RunRecord, gold: SoftPreferenceObserv
       }
       if (/(?:yen|jpy|budget|price|cost|¥|円)/i.test(criterionText)) return { ...base, status: "NOT_CHECKED",
         basis: ["No applicable independently recorded budget Gold; no independently retained applicable raw meal-price region. Do not infer price from names or normalized commercial claims."] };
+      if (strength === "HARD") return { ...base, ...assessIndependentHard(root, candidateId, criterionText, polarity, artifactSha256, sourceFacts, hardEvidence) };
       // Only an explicit source type statement equal to the condition can be
       // read literally here. A model-derived verified* label is not this oracle.
       const explicit = sourceFacts.filter(item => item.claims?.restaurantTypeFacts?.some(value => normalizeCriterion(criterionText) === normalizeCriterion(value)));

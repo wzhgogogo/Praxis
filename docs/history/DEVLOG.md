@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.218
+- Document revision: 4.219
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,11 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-21-EVALUATOR32-HARD-COURSE-EVIDENCE
+
+- Evaluator32/rubric28 independently consumes artifact-bound recorded merchant course/category HTML and reviewer-bound witness HARD quotes. Source roles, current citations, recording ordinal/runtime hash and meal limits are checked without production parser imports. Kaga manual witness remains outlet/request/certification/result-SHA bound; product name/review alone is not accepted. No product/Prompt/input/original-result changes; separate branch only.
+- [Report](../../.eval-artifacts/evaluator-hard-course-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
 
 ## DEV-2026-10-21-CRITERION-PRESENTATION-REPAIR
 

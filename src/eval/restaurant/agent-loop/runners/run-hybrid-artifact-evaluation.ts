@@ -1,4 +1,7 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { gunzipSync } from "node:zlib";
+import { loadHardCriterionEvidence } from "../diagnostic-evaluator-hard.js";
+import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { randomUUID } from "node:crypto";
@@ -25,6 +28,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   if (!inputPath) throw Error("Pass an existing result.json[.gz], or --manifest <path> --run <id> --out-dir <directory>");
   const { evaluation, outputPath } = inputPath === "--manifest"
     ? await evaluateFrozenCalibrationArtifact(argument("--manifest"), argument("--run"), argument("--out-dir"), process.argv.includes("--witness-context") ? argument("--witness-context") : undefined, process.argv.includes("--source-context") ? argument("--source-context") : undefined, process.argv.includes("--gold-corrections") ? argument("--gold-corrections") : undefined)
-    : await evaluateArtifactFile(inputPath);
+    : await evaluateArtifactFile(inputPath, process.argv.includes("--hard-evidence") ? { hardEvidence: loadHardCriterionEvidence(argument("--hard-evidence"), createHash("sha256").update(inputPath.endsWith(".gz") ? gunzipSync(await readFile(inputPath)) : await readFile(inputPath)).digest("hex")) } : {});
   console.log(JSON.stringify({ outputPath, execution: evaluation.execution, outcome: evaluation.outcome, severity: evaluation.severity, evaluatorVersion: evaluation.evaluatorVersion }, null, 2));
 }
