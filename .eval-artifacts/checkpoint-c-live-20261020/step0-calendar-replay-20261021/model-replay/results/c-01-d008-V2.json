@@ -1,0 +1,45 @@
+{
+  "id": "c-01-d008-V2",
+  "seedId": "c-01-d008",
+  "variant": "V2",
+  "runId": "c-01",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "87cbb0a7f3bde169c96cdd9ad707de45f30bbfb5763c6ec40569fb72a4b6ba10",
+  "startedAt": "2026-10-21T03:36:49.359Z",
+  "finishedAt": "2026-10-21T03:36:50.035Z",
+  "elapsedMs": 675.8597500000005,
+  "fetches": 1,
+  "outcome": "FAILED",
+  "response": null,
+  "error": {
+    "code": "PROVIDER_REJECTED",
+    "providerStatus": 400,
+    "transportCode": null
+  },
+  "invocation": {
+    "invocationId": "f1040dfc-c203-49aa-b1fa-bb021e78407c",
+    "taskId": "checkpoint-c-calendar:c-01-d008:V2",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-v4-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "FAILED",
+    "latencyMs": 675,
+    "errorCode": "PROVIDER_REJECTED",
+    "providerStatus": 400,
+    "providerError": {
+      "code": "invalid_request_error",
+      "type": "invalid_request_error",
+      "message": "Thinking mode does not support this tool_choice (request_id: 03ae9c12-dfc9-4434-89ae-078804d8b180)"
+    }
+  },
+  "providerUsage": null,
+  "providerStatus": 400,
+  "providerModel": null
+}
