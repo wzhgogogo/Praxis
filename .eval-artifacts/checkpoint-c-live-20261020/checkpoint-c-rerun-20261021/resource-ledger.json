@@ -1,0 +1,266 @@
+{
+  "mode": "LIVE_READ_ONLY",
+  "models": 178,
+  "fullLiveRuns": 8,
+  "environmentReruns": 0,
+  "sourceOnlyReruns": 1,
+  "googleRequests": 28,
+  "rows": [
+    {
+      "attempt": "c-01-attempt-1",
+      "formalRunStarted": true,
+      "modelCalls": 14,
+      "modelPurposeCounts": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 6,
+        "browser_read_decide": 3,
+        "restaurant_discovery_retrieval": 2,
+        "restaurant_fact_judgment": 2
+      },
+      "modelOutcomeCounts": {
+        "SUCCEEDED": 14
+      },
+      "googleRequests": {
+        "runner": 1,
+        "sourcePreflight": 1,
+        "networkPreflight": 1,
+        "total": 3
+      },
+      "sourceArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/runner/2026-10-21T12-47-47-598Z-40c9b8e2-b564-4617-a3cd-735bbdd3411e.result.json",
+      "sourceArtifactSha256": "f1b820390fbe9ab4c6083895343534e68a666589b46292761642d14f9612bc4c",
+      "decisions": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/runner/2026-10-21T12-47-47-598Z-40c9b8e2-b564-4617-a3cd-735bbdd3411e.decisions.jsonl",
+      "decisionsSha256": "0dc56cf0cb91e18f9d3f4d61476d305112a7d5d29f2610ecf0243e16daaa3ae4",
+      "runReport": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/run-report.json",
+      "runReportSha256": "b922b478ca7e244efe4602968d65eff9e478b3cb490feef041ff55290dc1bf84"
+    },
+    {
+      "attempt": "c-02-attempt-1",
+      "formalRunStarted": true,
+      "modelCalls": 35,
+      "modelPurposeCounts": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_party_size_supplement": 1,
+        "restaurant_agent_decide": 14,
+        "browser_read_decide": 8,
+        "restaurant_discovery_retrieval": 1,
+        "restaurant_fact_judgment": 10
+      },
+      "modelOutcomeCounts": {
+        "SUCCEEDED": 34,
+        "FAILED": 1
+      },
+      "googleRequests": {
+        "runner": 2,
+        "sourcePreflight": 1,
+        "networkPreflight": 1,
+        "total": 4
+      },
+      "sourceArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-02-attempt-1/runner/2026-10-21T12-57-13-534Z-14de2d12-6432-4b5e-a6a6-1a25ec212133.result.json",
+      "sourceArtifactSha256": "18438d5e7d8a715633bcd1ceed4eb6871730fc2d8cd9e3c5da3d52641f041fa7",
+      "decisions": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-02-attempt-1/runner/2026-10-21T12-57-13-534Z-14de2d12-6432-4b5e-a6a6-1a25ec212133.decisions.jsonl",
+      "decisionsSha256": "929c5d207c06560ac1fbd49aec3f57f98cd4b646cae031c3211ea75fd8b09a1d",
+      "runReport": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-02-attempt-1/run-report.json",
+      "runReportSha256": "f681fd9e213cdcbff195c806b5fbeb57dbb31f346a2477d7995a28d0fdfc2db9"
+    },
+    {
+      "attempt": "c-03-attempt-1",
+      "formalRunStarted": true,
+      "modelCalls": 22,
+      "modelPurposeCounts": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 10,
+        "browser_read_decide": 3,
+        "restaurant_discovery_retrieval": 2,
+        "restaurant_fact_judgment": 6
+      },
+      "modelOutcomeCounts": {
+        "SUCCEEDED": 21,
+        "FAILED": 1
+      },
+      "googleRequests": {
+        "runner": 1,
+        "sourcePreflight": 1,
+        "networkPreflight": 1,
+        "total": 3
+      },
+      "sourceArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-03-attempt-1/runner/2026-10-21T13-11-19-020Z-b2899a23-d1a9-4df0-ab03-25cde45fb695.result.json",
+      "sourceArtifactSha256": "7548dd61467f04353406537abb1b4f89877434b9448d40ee4b8f537461d51896",
+      "decisions": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-03-attempt-1/runner/2026-10-21T13-11-19-020Z-b2899a23-d1a9-4df0-ab03-25cde45fb695.decisions.jsonl",
+      "decisionsSha256": "03626fa1f208c8d35e4b3ff08f902da543fa24bbbd5b4a69d8ac9e03c7c352cd",
+      "runReport": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-03-attempt-1/run-report.json",
+      "runReportSha256": "a29773f0bf46fd703b2b357beb6dec40780402ad69cf09b4c367d92d21bc8e8e"
+    },
+    {
+      "attempt": "c-04-attempt-1",
+      "formalRunStarted": true,
+      "modelCalls": 19,
+      "modelPurposeCounts": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 8,
+        "browser_read_decide": 10
+      },
+      "modelOutcomeCounts": {
+        "SUCCEEDED": 17,
+        "FAILED": 2
+      },
+      "googleRequests": {
+        "runner": 1,
+        "sourcePreflight": 1,
+        "networkPreflight": 1,
+        "total": 3
+      },
+      "sourceArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/runner/2026-10-21T13-22-13-597Z-fe19189c-0a9c-4609-9ed5-18c8026a36bf.result.json",
+      "sourceArtifactSha256": "9d9eb5f335aee6a1946f15282797c764d0b434aaec426ebcefb35985187a25f4",
+      "decisions": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/runner/2026-10-21T13-22-13-597Z-fe19189c-0a9c-4609-9ed5-18c8026a36bf.decisions.jsonl",
+      "decisionsSha256": "5a25694d28fe1f810699e1f7fb53deea9466f02695161fc9597256067d6213b7",
+      "runReport": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/run-report.json",
+      "runReportSha256": "073e49aec7d3bef7433a80803e9660297062d5fbf15cff0bc2313a181b3a3257"
+    },
+    {
+      "attempt": "c-05-attempt-1",
+      "formalRunStarted": false,
+      "modelCalls": 0,
+      "modelPurposeCounts": {},
+      "modelOutcomeCounts": {},
+      "googleRequests": {
+        "runner": 0,
+        "sourcePreflight": 0,
+        "networkPreflight": 1,
+        "total": 1
+      },
+      "sourceArtifact": null,
+      "sourceArtifactSha256": null,
+      "decisions": null,
+      "decisionsSha256": null,
+      "runReport": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-1/run-report.json",
+      "runReportSha256": "78ee4b6521d5f5a2de515b3e6c85850f0ab9921cda11572935f502cdfa0bb6c8"
+    },
+    {
+      "attempt": "c-05-attempt-2",
+      "formalRunStarted": true,
+      "modelCalls": 30,
+      "modelPurposeCounts": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 6,
+        "restaurant_discovery_retrieval": 2,
+        "browser_read_decide": 16,
+        "restaurant_fact_judgment": 5
+      },
+      "modelOutcomeCounts": {
+        "SUCCEEDED": 29,
+        "FAILED": 1
+      },
+      "googleRequests": {
+        "runner": 3,
+        "sourcePreflight": 1,
+        "networkPreflight": 1,
+        "total": 5
+      },
+      "sourceArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/runner/2026-10-21T13-37-08-280Z-2c2fb95a-15fc-4e30-9fd3-7783cb7bc448.result.json",
+      "sourceArtifactSha256": "cbf077d27fcc65d99ae5586019e155961e96211f35b13724b3ee4ae31f7c807c",
+      "decisions": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/runner/2026-10-21T13-37-08-280Z-2c2fb95a-15fc-4e30-9fd3-7783cb7bc448.decisions.jsonl",
+      "decisionsSha256": "3bef4cb9c322ccda2f8b7ccf9fe770b51e18670c4cc364adffc9a08ddba939dd",
+      "runReport": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/run-report.json",
+      "runReportSha256": "f6ee474c0ae8a60b6095b3feff7388b28ec3782385b99dd4eed7ee3ab982605f"
+    },
+    {
+      "attempt": "c-06-attempt-1",
+      "formalRunStarted": true,
+      "modelCalls": 21,
+      "modelPurposeCounts": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 5,
+        "browser_read_decide": 11,
+        "restaurant_discovery_retrieval": 1,
+        "restaurant_fact_judgment": 3
+      },
+      "modelOutcomeCounts": {
+        "SUCCEEDED": 21
+      },
+      "googleRequests": {
+        "runner": 1,
+        "sourcePreflight": 1,
+        "networkPreflight": 1,
+        "total": 3
+      },
+      "sourceArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/runner/2026-10-21T13-48-10-020Z-f752f89d-0914-4aeb-a554-1f3059a7de8c.result.json",
+      "sourceArtifactSha256": "dc55446db4493821154906b98b7e7b267bbf15a78f0f292abc1a82f46f12f154",
+      "decisions": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/runner/2026-10-21T13-48-10-020Z-f752f89d-0914-4aeb-a554-1f3059a7de8c.decisions.jsonl",
+      "decisionsSha256": "2ec3829b33954ab2f237fabd3be52bb5d4cf6984ff00492ae4bc0b310f943720",
+      "runReport": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/run-report.json",
+      "runReportSha256": "79d2e44f097d7dc408471b72098d4dc234ec042120461dfe8dd7b2dbdeac2cc3"
+    },
+    {
+      "attempt": "c-07-attempt-1",
+      "formalRunStarted": true,
+      "modelCalls": 21,
+      "modelPurposeCounts": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 4,
+        "browser_read_decide": 12,
+        "restaurant_discovery_retrieval": 1,
+        "restaurant_fact_judgment": 3
+      },
+      "modelOutcomeCounts": {
+        "SUCCEEDED": 21
+      },
+      "googleRequests": {
+        "runner": 1,
+        "sourcePreflight": 1,
+        "networkPreflight": 1,
+        "total": 3
+      },
+      "sourceArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-07-attempt-1/runner/2026-10-21T13-57-40-634Z-6e36c4e3-20fa-47a8-b876-bb2686395420.result.json",
+      "sourceArtifactSha256": "f493b40f2aa002026b43f97173eed59eea7145bb2f13b4b58f94f884d96cf371",
+      "decisions": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-07-attempt-1/runner/2026-10-21T13-57-40-634Z-6e36c4e3-20fa-47a8-b876-bb2686395420.decisions.jsonl",
+      "decisionsSha256": "766c98b2ca07130af50f23da8f062dbdc116b8f890e28946d4430c960f1c69fe",
+      "runReport": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-07-attempt-1/run-report.json",
+      "runReportSha256": "7816ee2c126c5f7e58cb569fba24205425f5bab282e7c03cbb7e0478f13389f8"
+    },
+    {
+      "attempt": "c-08-attempt-1",
+      "formalRunStarted": true,
+      "modelCalls": 16,
+      "modelPurposeCounts": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 6,
+        "browser_read_decide": 9
+      },
+      "modelOutcomeCounts": {
+        "SUCCEEDED": 13,
+        "FAILED": 3
+      },
+      "googleRequests": {
+        "runner": 1,
+        "sourcePreflight": 1,
+        "networkPreflight": 1,
+        "total": 3
+      },
+      "sourceArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/runner/2026-10-21T14-08-00-597Z-3bea8ed5-8aa6-4539-9207-9cc9ba56fd4f.result.json",
+      "sourceArtifactSha256": "e840313d573d4ebc20d40c54625a6b84d4878b13996c2849c53fe3787f372557",
+      "decisions": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/runner/2026-10-21T14-08-00-597Z-3bea8ed5-8aa6-4539-9207-9cc9ba56fd4f.decisions.jsonl",
+      "decisionsSha256": "aff0d146ee78c0a2c4eddd296528c1ef99be506ef9325466142180aa61cbf1fd",
+      "runReport": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/run-report.json",
+      "runReportSha256": "9eb5e341e08d06e7e52a32f91754aef1c21a71b98158763f56572564d8f4a421"
+    },
+    {
+      "attempt": "c-09-attempt-1",
+      "formalRunStarted": false,
+      "modelCalls": 0,
+      "modelPurposeCounts": {},
+      "modelOutcomeCounts": {},
+      "googleRequests": {
+        "runner": 0,
+        "sourcePreflight": 0,
+        "networkPreflight": 0,
+        "total": 0
+      },
+      "sourceArtifact": null,
+      "sourceArtifactSha256": null,
+      "decisions": null,
+      "decisionsSha256": null,
+      "runReport": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-09-attempt-1/run-report.json",
+      "runReportSha256": "841c093742618422d52ad0af17087b6a0e8e92bf2154c034c99c402a4b870591"
+    }
+  ]
+}

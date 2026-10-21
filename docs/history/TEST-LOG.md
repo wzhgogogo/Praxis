@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.227
+- Document revision: 4.228
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-CHECKPOINT-C-LIVE-STOPPED
+
+Live冻结598585fd（507文件）保持不变，评测器@31/rubric@27。见证重新认证6/6通过（15/16家有匹配库存）。C18于c-09预检失败后按同一用例重试已耗尽停批；8次完整Live：QD2、CAPABILITY_MISS1、NOT_EVALUATED5，另2次来源预检失败；c-10至c-18 NOT_REACHED。声明6 ABSENT/2未评、越界8 ABSENT（正式运行），不作零S0签收。模型178含8次TIMEOUT、Google28；累计2596/4000模型、21/100完整Live、0/10正式环境重跑，来源重试1单列。退出1/3/4未验收；四层报告与原始result/decisions保留，停止等待复核。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/plan.md).
 
 ## TEST-2026-10-21-CHECKPOINT-C-RECERTIFIED
 

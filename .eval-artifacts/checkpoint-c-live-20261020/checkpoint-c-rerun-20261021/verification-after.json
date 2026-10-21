@@ -1,0 +1,68 @@
+{
+  "status": "PASS_WITH_RECORDED_LIVE_LIMITATIONS",
+  "mode": "OFFLINE_POST_RUN_AUDIT",
+  "checkedAt": "2026-10-21T14:24:23.795526+00:00",
+  "sourceRequests": 0,
+  "modelRequests": 0,
+  "gitRemoteOperationsAreSeparate": true,
+  "freezeSha256": "598585fd34b9b5877ba644cdfb5b6a20d4cf83a796de1219ae4f70a53dedeb7d",
+  "frozenFilesUnchanged": 507,
+  "rawResultFilesShaVerified": 1044,
+  "independentPostReadBodiesShaVerified": 19,
+  "phaseLedgerSourcesShaVerified": 47,
+  "credentials": {
+    "configuredSecretValuesChecked": 3,
+    "matches": 0
+  },
+  "approvalReceipt": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/authorization-receipts/b6e5b2544c2a13fcfb06903fe43794f372ae4d261fdb55278654444e0343aa96.json",
+    "sha256": "d6154700059e7c72acb7c4354336e4ae6bb61e7d09b13bd847437f04c8f97a37"
+  },
+  "reusedAcceptedSourceVerification": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/merge-readiness.json",
+    "sha256": "2317667287ed1f168bd32eb8813c9e46eeb1c825955b3322c1184f10bb7e170c",
+    "reviewCommit": "27b3884a",
+    "sourceHashesVerified": 315,
+    "fiveGates": {
+      "default": 982,
+      "chromium": 131,
+      "typecheck": "PASS",
+      "arch": "PASS",
+      "build": "PASS"
+    },
+    "calendar": {
+      "passed": 69,
+      "mode": "EXACT_REQUEST_CACHED_RESPONSE"
+    },
+    "selection": 5,
+    "calibration": 22,
+    "newModels": 0
+  },
+  "newConfigurationChecks": {
+    "outerControls": {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/outer-controls.log",
+      "sha256": "6745ec739c3d2633e7fa310976015556d3461b524b12f283cb7a695ce9fe1c3c",
+      "passed": 22
+    },
+    "resumeAndChromiumRecording": {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/additional-outer-controls.log",
+      "sha256": "d07130797d41d99ced75ddc73bdc38c7abb5524f8cf6a0db4b21b9a6edfa9aee",
+      "passed": 4
+    },
+    "offlinePipelineFinish": {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/offline-rehearsal/finish.json",
+      "sha256": "cb5bbfd34513f4d627273f432f280200989d8d05e57d2162a27f54cb42e5a37e",
+      "sourceRequests": 0,
+      "realModels": 0
+    }
+  },
+  "pacing": "PASS",
+  "largestRawFileBytes": 28983273,
+  "liveLimitations": [
+    "Stopped at c09 preflight; c10-c18 NOT_REACHED",
+    "S0 declaration NE for c05/c06; two resultless preflights also unassessed",
+    "Criterion/display gaps preserved at frozen evaluator31/rubric27",
+    "c02 measured500078ms; 78ms past nominal500s retained",
+    "No new full five-gate rerun: accepted production source unchanged; configuration controls and offline pipeline separately verified"
+  ]
+}

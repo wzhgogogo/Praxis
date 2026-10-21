@@ -1,0 +1,96 @@
+{
+  "source": "Immutable modelInvocations and decisions.jsonl; no new requests",
+  "requests": [
+    {
+      "attempt": "c-02-attempt-1",
+      "purpose": "browser_read_decide",
+      "errorCode": "TIMEOUT",
+      "latencyMs": 10001,
+      "providerStatus": null,
+      "usage": null,
+      "evidence": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-02-attempt-1/runner/2026-10-21T12-57-13-534Z-14de2d12-6432-4b5e-a6a6-1a25ec212133.result.json#modelInvocations[30]",
+      "terminalAgentFailure": false
+    },
+    {
+      "attempt": "c-03-attempt-1",
+      "purpose": "restaurant_agent_decide",
+      "errorCode": "TIMEOUT",
+      "latencyMs": 10003,
+      "providerStatus": null,
+      "usage": null,
+      "evidence": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-03-attempt-1/runner/2026-10-21T13-11-19-020Z-b2899a23-d1a9-4df0-ab03-25cde45fb695.result.json#modelInvocations[21]",
+      "terminalAgentFailure": true
+    },
+    {
+      "attempt": "c-04-attempt-1",
+      "purpose": "browser_read_decide",
+      "errorCode": "TIMEOUT",
+      "latencyMs": 10004,
+      "providerStatus": null,
+      "usage": null,
+      "evidence": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/runner/2026-10-21T13-22-13-597Z-fe19189c-0a9c-4609-9ed5-18c8026a36bf.result.json#modelInvocations[13]",
+      "terminalAgentFailure": false
+    },
+    {
+      "attempt": "c-04-attempt-1",
+      "purpose": "restaurant_agent_decide",
+      "errorCode": "TIMEOUT",
+      "latencyMs": 10006,
+      "providerStatus": null,
+      "usage": null,
+      "evidence": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/runner/2026-10-21T13-22-13-597Z-fe19189c-0a9c-4609-9ed5-18c8026a36bf.result.json#modelInvocations[18]",
+      "terminalAgentFailure": true
+    },
+    {
+      "attempt": "c-05-attempt-2",
+      "purpose": "browser_read_decide",
+      "errorCode": "TIMEOUT",
+      "latencyMs": 10004,
+      "providerStatus": null,
+      "usage": null,
+      "evidence": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/runner/2026-10-21T13-37-08-280Z-2c2fb95a-15fc-4e30-9fd3-7783cb7bc448.result.json#modelInvocations[12]",
+      "terminalAgentFailure": false
+    },
+    {
+      "attempt": "c-08-attempt-1",
+      "purpose": "browser_read_decide",
+      "errorCode": "TIMEOUT",
+      "latencyMs": 10005,
+      "providerStatus": null,
+      "usage": null,
+      "evidence": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/runner/2026-10-21T14-08-00-597Z-3bea8ed5-8aa6-4539-9207-9cc9ba56fd4f.result.json#modelInvocations[4]",
+      "terminalAgentFailure": false
+    },
+    {
+      "attempt": "c-08-attempt-1",
+      "purpose": "browser_read_decide",
+      "errorCode": "TIMEOUT",
+      "latencyMs": 10002,
+      "providerStatus": null,
+      "usage": null,
+      "evidence": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/runner/2026-10-21T14-08-00-597Z-3bea8ed5-8aa6-4539-9207-9cc9ba56fd4f.result.json#modelInvocations[12]",
+      "terminalAgentFailure": false
+    },
+    {
+      "attempt": "c-08-attempt-1",
+      "purpose": "restaurant_agent_decide",
+      "errorCode": "TIMEOUT",
+      "latencyMs": 10002,
+      "providerStatus": null,
+      "usage": null,
+      "evidence": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/runner/2026-10-21T14-08-00-597Z-3bea8ed5-8aa6-4539-9207-9cc9ba56fd4f.result.json#modelInvocations[15]",
+      "terminalAgentFailure": true
+    }
+  ],
+  "terminalRuns": [
+    "c-03-attempt-1",
+    "c-04-attempt-1",
+    "c-08-attempt-1"
+  ],
+  "successAgentLatencyMs": {
+    "count": 56,
+    "median": 3782.0,
+    "max": 7801
+  },
+  "causeBeyondObservedTimeout": "NOT_EVALUATED"
+}
