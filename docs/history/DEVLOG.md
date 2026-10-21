@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.212
+- Document revision: 4.213
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -18,6 +18,7 @@
 - 库存主要绑定最新find_vacancy的日期、人数和时段链接门店，页面选择也必须一致。冲突/缺响应保持UNKNOWN，不以时间模板兜底。补监听今天实际出现的无尾斜杠路径；Guard权限、TableCheck reserve禁令、URL参数捷径、外层、计划与评测器@30/rubric@26不改。
 - 保存19个失败候选查位阶段末次原始快照及SHA，独立HTMLParser/JSON核查17个页面选择可确认。历史录制响应全空，库存仍19个UNKNOWN。18处私有class逐项审计，11处仍存在仅报告，7处消失位于本轮关键路径并修复；未覆盖TableCheck旧菜单结构不宣称消失。
 - Browser Prompt19/Context2与wire11、Restaurant Context15/Prompt27未改文本或schema；本次改变来源提取和控件提示。69点必须对新输入回放；完全相同的5个选店请求复用原始真实模型输出重新评分，避免新增等价调用。验证见[本轮Test](TEST-LOG.md#test-2026-10-21-tabelog-query-binding)。
+- 冻结后完成：真实模型69/69、选店缓存重评5/5、校准22/22、五门禁979/131全绿；690项运行后无变，新增69模型、累计2353/4000、0网站/Live。修复仅在独立分支，提交报告/账本并推送后停止等复核。
 
 
 ## DEV-2026-10-08-PLAYBOOK-PHASE3-RENEWAL

@@ -1,0 +1,53 @@
+{
+  "id": "c-02-d031",
+  "kind": "CALENDAR",
+  "codeCommit": "ca88fa6537a8c16a3ea41f565c4eb43aa36915b4",
+  "freezeSha256": "7f0c3026058901326a32f589fcf884d72ea6bad7c5050a1243430dbc89de5c7a",
+  "call": {
+    "id": "c-02-d031",
+    "startedAt": "2026-10-21T08:47:43.921Z",
+    "requestSha256": "dbaf56553a21b4c27deb2190f13f1ac9d384ceee0c0f5d4d7e9a5c8792237492",
+    "status": "SUCCEEDED",
+    "finishedAt": "2026-10-21T08:47:45.539Z",
+    "wallMs": 1617.1708749999962,
+    "latencyMs": 1617,
+    "model": "deepseek-flash",
+    "usage": {
+      "inputTokens": 13677,
+      "outputTokens": 126,
+      "totalTokens": 13803
+    },
+    "error": null
+  },
+  "action": {
+    "type": "CLICK",
+    "targetRef": "observation:5:target:78",
+    "reason": "Advance calendar from Oct 2026 toward requested November 2026 date."
+  },
+  "rawResponse": {
+    "invocationId": "caf57916-07d2-4980-93a7-e09e3a852cd0",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:78\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar from Oct 2026 toward requested November 2026 date.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1617,
+    "providerRequestId": "5086f125-db81-44a2-b077-9a3955176427",
+    "usage": {
+      "inputTokens": 13677,
+      "outputTokens": 126,
+      "totalTokens": 13803
+    }
+  },
+  "expected": {
+    "action": "CLICK",
+    "targetRef": "observation:5:target:78",
+    "originalRef": "observation:4:target:87",
+    "rule": "Original DOM node a containing Next month in calendar navigation, bound through captured stableKey and exact original targetRef; never target order",
+    "binding": {
+      "controlId": "dom:1:81",
+      "stableKey": "a[href],[role=link]|link||Next month||111",
+      "outerHTML": "<a href=\"https://tabelog.com/en/tokyo/A1301/A130101/13323643/#\" class=\"p-booking-calendar__calendar-navi-target p-booking-calendar__calendar-navi-target--next\"><i>Next month</i></a>"
+    }
+  },
+  "acceptable": true
+}

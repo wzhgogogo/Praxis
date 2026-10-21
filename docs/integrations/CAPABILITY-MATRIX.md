@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.74
+- Document revision: 1.75
 - Last updated: 2026-10-21
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -9,7 +9,7 @@
 
 状态：`verified`表示官方文档确认；`assumed`表示设计假设待实测；`requires partnership`表示存在能力但访问条件未取得；`unsupported`表示当前不纳入。
 
-2026-10-21 Tabelog 改版请求绑定补修（离线，draft / not integrated）：日期按公开 data-year/month/day 与通用选中状态确认，人数按人数组内的 data-value／文字与通用状态确认；已存在的隐藏人数字段必须一致，缺失不拒绝。复用通用 Browser 选中状态函数；控件提示撤去已消失的 js- 钩子，时段按钮仅观察。库存须同日期、人数和门店的 find_vacancy 响应与页面选择一致，缺失或冲突不由时间按钮补成库存。监听带／不带尾斜杠的两个已允许 GET 路径，不扩展 Guard 权限。19 个原始失败快照有17个选中状态可确认；因旧监听未捕获运行时 JSON，19个历史库存结论均保持 UNKNOWN。4家可比来源的页面时段是事后四参数GET的受支持子集，不是完整集合相等。来源私有标记18处逐项审计，7处消失均属本轮关键路径；其余11处仍存在仅报告。新旧标记真实本地Chromium控制独立于历史Live。见[修复证据](../../.eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/plan.md)；不代表实时库存、完整交付或继续Live的许可。
+2026-10-21 Tabelog 改版请求绑定补修（离线，draft / not integrated）：日期按公开 data-year/month/day 与通用选中状态确认，人数按人数组内的 data-value／文字与通用状态确认；已存在的隐藏人数字段必须一致，缺失不拒绝。复用通用 Browser 选中状态函数；控件提示撤去已消失的 js- 钩子，时段按钮仅观察。库存须同日期、人数和门店的 find_vacancy 响应与页面选择一致，缺失或冲突不由时间按钮补成库存。监听带／不带尾斜杠的两个已允许 GET 路径，不扩展 Guard 权限。19 个原始失败快照有17个选中状态可确认；因旧监听未捕获运行时 JSON，19个历史库存结论均保持 UNKNOWN。4家可比来源的页面时段是事后四参数GET的受支持子集，不是完整集合相等。来源私有标记18处逐项审计，7处消失均属本轮关键路径；其余11处仍存在仅报告。新旧标记真实本地Chromium控制独立于历史Live。冻结后真实模型69/69、选店缓存重评5/5、校准22/22、五门禁979+131通过，690项SHA原样验证，新增69模型、0网站/Live。见[修复证据](../../.eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/plan.md)；不代表实时库存、完整交付或继续Live的许可。
 
 2026-10-21 选中状态补修（离线，draft / not integrated）：通用Browser从明确ARIA或精确状态class读取selected，DOM组无唯一归属/当前选中值时保持未知。人数点击后必须在同组回读请求人数，才允许完成读取；已选控件作为证据保留，不能重复人数操作。真实Chromium反例证明可见文案改变不能替代确认，同名不同DOM组不合并。旧TableCheck reserve路径撤销不变；Tabelog日期/人数URL参数仍仅为历史核查报告，本次未实现或访问。最终模型与校准结果单列，不由本地Fixture推导来源兼容性。 最终离线回放69/69、选店5/5、校准22/22、五门禁977+129通过，0网站/Live；仍待复核，不代表实时库存或完整交付。
 
