@@ -1,0 +1,71 @@
+{
+  "kind": "CALENDAR",
+  "id": "c-02-d010",
+  "codeCommit": "b7f56b660c9a1fc017b792a01eb405ff83349383",
+  "freezeSha256": "d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d",
+  "call": {
+    "kind": "CALENDAR",
+    "id": "c-02-d010",
+    "startedAt": "2026-10-21T04:30:31.562Z",
+    "requestSha256": "f3e5310f310f48773ce2a596aba31df31a3a1326990d8c0890dd0968530d618d",
+    "status": "SUCCEEDED",
+    "finishedAt": "2026-10-21T04:30:34.480Z",
+    "wallMs": 2916.0070419999975,
+    "latencyMs": 2916,
+    "model": "deepseek-flash",
+    "usage": {
+      "inputTokens": 12901,
+      "outputTokens": 131,
+      "totalTokens": 13032
+    },
+    "error": null
+  },
+  "action": {
+    "type": "CLICK_AUTHORITATIVE",
+    "targetRef": "observation:1:target:97",
+    "field": "PARTY_SIZE",
+    "reason": "Select guests=2 on the current calendar; prior attempt used a stale target."
+  },
+  "rawResponse": {
+    "invocationId": "26700a46-99ed-4906-80ce-4f4f0b989782",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:1:target:97\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select guests=2 on the current calendar; prior attempt used a stale target.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2916,
+    "providerRequestId": "0bbb97e3-ab0b-4f20-9ba6-9d6834c96ce8",
+    "usage": {
+      "inputTokens": 12901,
+      "outputTokens": 131,
+      "totalTokens": 13032
+    }
+  },
+  "verdict": {
+    "acceptable": false,
+    "expected": {
+      "action": "CLICK",
+      "targetRef": "observation:1:target:64",
+      "originalRef": "observation:4:target:88",
+      "rule": "Original DOM node a containing Next month in calendar navigation, bound through captured stableKey and exact original targetRef; never target order",
+      "binding": {
+        "controlId": "dom:1:64",
+        "stableKey": "a[href],[role=link]|link||Next month||110",
+        "outerHTML": "<a href=\"https://tabelog.com/en/tokyo/A1301/A130101/13291473/#\" class=\"p-booking-calendar__calendar-navi-target p-booking-calendar__calendar-navi-target--next\"><i>Next month</i></a>"
+      }
+    },
+    "actualTarget": {
+      "ref": "observation:1:target:97",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "2",
+      "controlGroupLabel": "Guests",
+      "value": "2",
+      "type": "button",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:PARTY_SIZE"
+      ]
+    }
+  },
+  "acceptable": false
+}

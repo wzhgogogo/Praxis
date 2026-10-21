@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.70
+- Document revision: 1.71
 - Last updated: 2026-10-21
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -21,7 +21,7 @@ P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、�
 
 2026-10-19 P2-3（离线）：现有Tabelog／TableCheck已打开页面的菜单读取保留数值、税、餐段、附加项及引用；介绍页价格不因独立查位UNKNOWN丢失。五份真实页面价格片段及受控Adapter/Web链证明接线，不能证明当前库存或完整Live。Aloft完整菜单文本另确认3300为BBQ附加项；生产Guard直接reserve导航仍拒绝，不作为浏览器成功样本。见[P2-3报告](../../.eval-artifacts/p2-3-conditions-20261019/report.md)。
 
-2026-10-21 日历与只读边界修复（离线，待复核）：生产V3补充公开DOM控件组、实际月标题和空标签链接替代文本；翻月后独立回读月份，不变即NO_CHANGE。TableCheck来源永久撤销`/reserve`及子路径读取许可，旧G1的start_date/pax例外删除；prepared/observed navigation、CDP与重定向均由同一Guard先拒绝。H003本地独立接收器证明零到达，旧两条reserve菜单交付测试退役为拒绝交付合同。公开guide、搜索及已审核四参数空位请求不因该路径撤销而开放或关闭。历史H001 slot和菜单记录保留为历史证据，不代表当前可进入预约页。[本轮证据](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/plan.md)。
+2026-10-21 日历与只读边界修复（离线，draft / not integrated，翻月54/69未通过门槛）：生产V3补充公开DOM控件组、实际月标题和空标签链接替代文本；翻月后独立回读月份，不变即NO_CHANGE。TableCheck来源永久撤销`/reserve`及子路径读取许可，旧G1的start_date/pax例外删除；prepared/observed navigation、CDP与重定向均由同一Guard先拒绝。H003本地独立接收器证明零到达，旧两条reserve菜单交付测试退役为拒绝交付合同。公开guide、搜索及已审核四参数空位请求不因该路径撤销而开放或关闭。历史H001 slot和菜单记录保留为历史证据，不代表当前可进入预约页。[本轮证据](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)。
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|

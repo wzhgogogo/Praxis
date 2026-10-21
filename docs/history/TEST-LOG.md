@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.202
+- Document revision: 4.203
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4809,3 +4809,7 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 69点生产观察预检69/69：真实Next month anchor对应公开DOM节点、Calendar组、Oct2026与CLICK许可；同一批69原种子/oracle不改。重建有CSS，本地履行所有文档/样式，其他资源拒绝；脚本不执行，未打开表单或点击时段。准备保留原progress/history；两日历锚点href按原始观察恢复脱敏丢失#，记录输入SHA。
 - 冻结后计划：原22自动产物先保存SHA再独立比较；69浏览器点≥68，5选店5/5；最多74模型含失败且无付费重试。阶段账本1995/4000为唯一基线。单点回放不代表完整任务、实时库存或泛化能力；旧Live S0不撤销。
 - 记录：[`gates.json`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/gates.json)、[`原始反例`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/red-fixtures.log)、[`Tabelog参数核查`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/url-parameter-audit/audit.json)。
+
+- 本轮冻结后结果（同一切片）：b7f56b660c9a1fc017b792a01eb405ff83349383 / freeze SHA256 d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d，625项运行后无变。原22校准22/22（S0声明20/20、8交付子类8/8、0误判合格；越界9无/13缺口），P2-2五选店5/5、直接页13/13；翻月仅54/69，15点为PARTY_SIZE，未达≥68/69，整体NOT_ACCEPTED。全部74请求成功、无重试，984912输入/9975输出token、0 reasoning；模型请求墙钟翻月均1.890s、选店2.132s，批次141.296s。阶段账本2069/4000、完整Live7/100、环境重跑0/10；0新网站/Google/Live。
+- 偏离与限制：真实静态生产重建的69份target集合、64份visibleText与第0步不同，history/progress/skills未变；不能把原68/69与新54/69当作严格单变量比较，门槛仍失败，不改标签/不付费补跑。独立Fixture证明字段与月份后置条件，不能代替真实任务或下游反事实。Guard旧S0不撤销。
+- 浏览器门禁原有测试会覆盖旧region-composition-results.json，已将本轮产物另存本批次并恢复旧文件逐字原样；受保护Gold/变体/种子与所有冻结代码/输入/脚本均未变化。机器输出[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/result.json)、[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/decision-matrix.json)与[运行后校验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/post-verification.json)。推送独立修复分支后停止，等待复核，不合入集成、不跑Live。

@@ -1,0 +1,59 @@
+{
+  "kind": "SELECTION",
+  "id": "p22-selection-003",
+  "codeCommit": "b7f56b660c9a1fc017b792a01eb405ff83349383",
+  "freezeSha256": "d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d",
+  "call": {
+    "kind": "SELECTION",
+    "id": "p22-selection-003",
+    "startedAt": "2026-10-21T04:32:14.189Z",
+    "requestSha256": "acd95fcc933035b934d02d18d4a0e501151363d668ce8c3ae257d9e0a02484a7",
+    "status": "SUCCEEDED",
+    "finishedAt": "2026-10-21T04:32:16.324Z",
+    "wallMs": 2133.7736250000016,
+    "latencyMs": 2134,
+    "model": "deepseek-flash",
+    "usage": {
+      "inputTokens": 22498,
+      "outputTokens": 287,
+      "totalTokens": 22785
+    },
+    "error": null
+  },
+  "action": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:6343d9d19c9b69881948e082",
+      "praxis:restaurant:c510b28f298c4785d5fff548",
+      "praxis:restaurant:5f4fbd6b462f17e62da5bb43"
+    ],
+    "decisionSummary": "AVAILABILITY goal for 2 at 19:00 tonight; no eligible candidates yet. Check request-bound availability on the nearest checkable sushi outlets (Sumi Sushi Shibuya 189m, Shibuya Sushi Jinnan 328m, Sushi kazumasa 451m) to obtain slots plus source facts."
+  },
+  "rawResponse": {
+    "invocationId": "6f1cd7ab-e978-4a88-8535-7bd0b0467cfc",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:6343d9d19c9b69881948e082\", \"praxis:restaurant:c510b28f298c4785d5fff548\", \"praxis:restaurant:5f4fbd6b462f17e62da5bb43\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"AVAILABILITY goal for 2 at 19:00 tonight; no eligible candidates yet. Check request-bound availability on the nearest checkable sushi outlets (Sumi Sushi Shibuya 189m, Shibuya Sushi Jinnan 328m, Sushi kazumasa 451m) to obtain slots plus source facts.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2134,
+    "providerRequestId": "151a31ae-73ec-4861-9c6f-627b148d3ace",
+    "usage": {
+      "inputTokens": 22498,
+      "outputTokens": 287,
+      "totalTokens": 22785
+    }
+  },
+  "verdict": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 3,
+      "directInRadiusCheckable": 9,
+      "directSelectionRatio": 1
+    }
+  },
+  "acceptable": true
+}

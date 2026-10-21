@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.195
+- Document revision: 4.196
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4099,3 +4099,7 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 69点用原保存HTML/CSS通过生产Registry/Executor重建，精确节点独立绑定，未注入实验V3标签。历史HTML脱敏器删去的两个日历href末尾#仅按原始观察恢复，保留SHA/明细；请求里不含oracle。5选店payload与当前生产system prompt逐字核对。原22校准、Gold和种子不改，冻结后才跑评测和最多74次真实模型离线回放，不自动重试。
 - 仅保存材料核查发现Tabelog历史门店URL svd=20261021&svps=4可在无交互下初始化日期/人数，独立DOM有is-current日期及4人active/hidden值；未实现快捷导航，不推广至所有门店或11月。
 - 计划与证据：[`calendar-next-month-20261021`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/plan.md)；五门禁已通过，模型与22校准待冻结。无新网站、Google、Live、预约表单或时段操作；不推集成分支。
+
+- 本轮冻结后结果（同一切片）：b7f56b660c9a1fc017b792a01eb405ff83349383 / freeze SHA256 d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d，625项运行后无变。原22校准22/22（S0声明20/20、8交付子类8/8、0误判合格；越界9无/13缺口），P2-2五选店5/5、直接页13/13；翻月仅54/69，15点为PARTY_SIZE，未达≥68/69，整体NOT_ACCEPTED。全部74请求成功、无重试，984912输入/9975输出token、0 reasoning；模型请求墙钟翻月均1.890s、选店2.132s，批次141.296s。阶段账本2069/4000、完整Live7/100、环境重跑0/10；0新网站/Google/Live。
+- 偏离与限制：真实静态生产重建的69份target集合、64份visibleText与第0步不同，history/progress/skills未变；不能把原68/69与新54/69当作严格单变量比较，门槛仍失败，不改标签/不付费补跑。独立Fixture证明字段与月份后置条件，不能代替真实任务或下游反事实。Guard旧S0不撤销。
+- 浏览器门禁原有测试会覆盖旧region-composition-results.json，已将本轮产物另存本批次并恢复旧文件逐字原样；受保护Gold/变体/种子与所有冻结代码/输入/脚本均未变化。机器输出[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/result.json)、[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/decision-matrix.json)与[运行后校验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/post-verification.json)。推送独立修复分支后停止，等待复核，不合入集成、不跑Live。

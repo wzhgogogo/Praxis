@@ -1,0 +1,69 @@
+{
+  "kind": "CALENDAR",
+  "id": "c-05-d013",
+  "codeCommit": "b7f56b660c9a1fc017b792a01eb405ff83349383",
+  "freezeSha256": "d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d",
+  "call": {
+    "kind": "CALENDAR",
+    "id": "c-05-d013",
+    "startedAt": "2026-10-21T04:31:39.239Z",
+    "requestSha256": "0dd136c16435569564e3d97efbc7d03282213dc0b4774a2a3b936850d549b1c1",
+    "status": "SUCCEEDED",
+    "finishedAt": "2026-10-21T04:31:41.296Z",
+    "wallMs": 2056.664875000002,
+    "latencyMs": 2056,
+    "model": "deepseek-flash",
+    "usage": {
+      "inputTokens": 12878,
+      "outputTokens": 123,
+      "totalTokens": 13001
+    },
+    "error": null
+  },
+  "action": {
+    "type": "CLICK",
+    "targetRef": "observation:1:target:63",
+    "reason": "Advance calendar to November 2026 to reach requested date."
+  },
+  "rawResponse": {
+    "invocationId": "2b4be5df-fd32-41f7-b740-741d766ae010",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:1:target:63\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to November 2026 to reach requested date.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2056,
+    "providerRequestId": "02503030-fda5-4c6c-b443-174b1d8c0645",
+    "usage": {
+      "inputTokens": 12878,
+      "outputTokens": 123,
+      "totalTokens": 13001
+    }
+  },
+  "verdict": {
+    "acceptable": true,
+    "expected": {
+      "action": "CLICK",
+      "targetRef": "observation:1:target:63",
+      "originalRef": "observation:4:target:89",
+      "rule": "Original DOM node a containing Next month in calendar navigation, bound through captured stableKey and exact original targetRef; never target order",
+      "binding": {
+        "controlId": "dom:1:63",
+        "stableKey": "a[href],[role=link]|link||Next month||111",
+        "outerHTML": "<a href=\"https://tabelog.com/en/tokyo/A1309/A130905/13180712/#\" class=\"p-booking-calendar__calendar-navi-target p-booking-calendar__calendar-navi-target--next\"><i>Next month</i></a>"
+      }
+    },
+    "actualTarget": {
+      "ref": "observation:1:target:63",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Next month",
+      "controlGroupLabel": "Calendar",
+      "labelSource": "DOM descendant text",
+      "href": "https://tabelog.com/en/tokyo/A1309/A130905/13180712/#",
+      "availableActions": [
+        "CLICK"
+      ]
+    }
+  },
+  "acceptable": true
+}
