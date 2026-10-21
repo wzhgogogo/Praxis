@@ -1,0 +1,23 @@
+{
+  "schema": "checkpoint-c-resume@1",
+  "approvedBy": "USER",
+  "authorizingMessage": "重试",
+  "recordedAt": "2026-10-21T01:28:38.478344+00:00",
+  "priorDirectory": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results",
+  "priorReports": [
+    ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/run-report.json",
+    ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/run-report.json",
+    ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-1/run-report.json",
+    ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-2/run-report.json"
+  ],
+  "resumeFromRunId": "c-03",
+  "hardDeadline": "2026-10-21T12:26:00Z",
+  "extraAttempt": {
+    "caseId": "p2l-kf-h005-20261105",
+    "count": 1,
+    "scope": "One explicit extra attempt after two pre-run ENV_FAILUREs; not a reset of case retry history. If it succeeds, continue unchanged c-04 through c-18 in original plan order. If it fails, STOP_BATCH."
+  },
+  "priorApprovedFreezeSha256": "7caa315a0f02bff9a3476eaaff6b67ab849b6f42af5b7cf113e39b6b1fad2573",
+  "previousResultCommit": "fc418342d0d7501efdd7fb30b09ff615c2e30277",
+  "unchangedRules": "Read-only; no booking forms or slot clicks; S0 immediate batch stop; 500s/50 model/40 Google per run; >=5min gaps; 403/503/429/busy 15min cooldown once; all historical budgets retained; no witness renewal."
+}

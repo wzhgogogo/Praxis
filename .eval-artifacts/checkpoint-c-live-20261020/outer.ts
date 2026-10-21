@@ -6,13 +6,16 @@ import {base,verifyFreeze,sha} from './freeze.mjs';
 import {gateWitness,nextAction,consumeAuthorization,checkStageBudget} from './policy.mjs';
 import {evaluateAttempt,writeBatchReport} from './evaluate-report.ts';
 import {postCheck} from './post-check.mjs';
-const {values}=parseArgs({options:{mode:{type:'string'},freeze:{type:'string'},output:{type:'string'},approval:{type:'string'},registry:{type:'string'},ledger:{type:'string'}}});
+import {loadResume} from './resume.mjs';
+const {values}=parseArgs({options:{mode:{type:'string'},freeze:{type:'string'},output:{type:'string'},approval:{type:'string'},registry:{type:'string'},ledger:{type:'string'},resume:{type:'string'}}});
 if(!['OFFLINE_REHEARSAL','LIVE_READ_ONLY'].includes(values.mode??''))throw Error('--mode OFFLINE_REHEARSAL|LIVE_READ_ONLY required');
 if(!values.freeze||!values.output)throw Error('--freeze --output required');
 const mode=values.mode!,directory=resolve(values.output),inside=relative(resolve(base),directory);
 if(!inside||inside.startsWith('..'))throw Error('OUTPUT_OUTSIDE_BATCH');
 const frozen=verifyFreeze(values.freeze),plan=JSON.parse(readFileSync(resolve(base,'plan.json'),'utf8'));
 const offline=mode==='OFFLINE_REHEARSAL';
+if(offline&&values.resume)throw Error('LIVE_RESUME_ONLY');
+const resume=values.resume?loadResume(values.resume,frozen,plan):undefined;
 const ledgerPath=values.ledger??base+'/phase2-ledger.json';
 const ledger=JSON.parse(readFileSync(ledgerPath,'utf8'));
 const budget=checkStageBudget(ledger,plan);
@@ -20,22 +23,23 @@ for(const source of ledger.sources)if(frozen.files[source.path]!==source.sha256|
 if(!offline){
  if(!values.approval||!values.registry)throw Error('EXPLICIT_USER_APPROVAL_CERTIFIED_REGISTRY_AND_GLOBAL_BUDGET_LEDGER_REQUIRED');
  const approval=JSON.parse(readFileSync(values.approval,'utf8'));
- if(approval.action!=='CHECKPOINT_C_LIVE_18'||approval.approvedBy!=='USER'||approval.freezeSha256!==frozen.manifestSha256||approval.registrySha256!==sha(readFileSync(values.registry))||!Number.isFinite(Date.parse(approval.validUntil))||Date.parse(approval.validUntil)<=Date.now())throw Error('INVALID_LIVE_APPROVAL');
+ if(approval.action!==(resume?'CHECKPOINT_C_RESUME':'CHECKPOINT_C_LIVE_18')||approval.approvedBy!=='USER'||approval.freezeSha256!==frozen.manifestSha256||approval.registrySha256!==sha(readFileSync(values.registry))||!Number.isFinite(Date.parse(approval.validUntil))||Date.parse(approval.validUntil)<=Date.now()||resume&&approval.resumeSha256!==resume.sha256)throw Error('INVALID_LIVE_APPROVAL');
  for(const p of [values.registry,ledgerPath])if(frozen.files[relative(process.cwd(),resolve(p))]!==sha(readFileSync(p)))throw Error('RUNTIME_INPUT_NOT_COMMITTED_AND_FROZEN:'+p);
  for(const ref of ledger.priorStageSafety?.refs??[])if(frozen.files[ref.path]!==ref.sha256||sha(readFileSync(ref.path))!==ref.sha256)throw Error('PRIOR_STAGE_SAFETY_EVIDENCE_NOT_FROZEN');
- plan.maxTotalReruns=budget.reservedRetries;
+ plan.maxTotalReruns=resume?Math.min(plan.maxTotalReruns,resume.totalReruns+budget.reservedRetries):budget.reservedRetries;
 }
-if(!offline)await consumeAuthorization(base,sha(readFileSync(values.approval!)),{action:'CHECKPOINT_C_LIVE_18',freezeSha256:frozen.manifestSha256,directory});
+if(!offline)await consumeAuthorization(base,sha(readFileSync(values.approval!)),{action:resume?'CHECKPOINT_C_RESUME':'CHECKPOINT_C_LIVE_18',freezeSha256:frozen.manifestSha256,...(resume?{resumeSha256:resume.sha256,priorDirectory:resume.config.priorDirectory}:{}),directory});
 mkdirSync(directory,{recursive:false});
 const write=(p:string,v:any)=>writeFileSync(resolve(directory,p),JSON.stringify(v,null,2)+'\n',{flag:'wx'});
-write('started.json',{mode,at:new Date().toISOString(),freezeSha256:frozen.manifestSha256,commit:frozen.commit,ledgerPath,ledgerSha256:sha(readFileSync(ledgerPath)),budget,planned:offline?1:18,network:offline?0:'AUTHORIZED_LIVE',models:offline?0:'AUTHORIZED_LIVE'});
-const rows:any[]=[],caseRetries=new Map<string,number>();let totalReruns=0,lastFinish=0,stop:any=null;
+write('started.json',{mode,at:new Date().toISOString(),freezeSha256:frozen.manifestSha256,commit:frozen.commit,ledgerPath,ledgerSha256:sha(readFileSync(ledgerPath)),budget,planned:offline?1:resume?resume.runs.length:18,carriedAttempts:resume?.rows.length??0,...(resume?{resumeSha256:resume.sha256,priorDirectory:resume.config.priorDirectory,extraUserAuthorizedAttempt:resume.config.extraAttempt}:{}),network:offline?0:'AUTHORIZED_LIVE',models:offline?0:'AUTHORIZED_LIVE'});
+const rows:any[]=resume?[...resume.rows]:[],caseRetries:Map<string,number>=resume?resume.caseRetries:new Map();let totalReruns=resume?.totalReruns??0,lastFinish=resume?.lastFinish??0,stop:any=null;
 async function waitUntil(time:number){while(Date.now()<time)await new Promise(r=>setTimeout(r,Math.min(1000,time-Date.now())));}
 const registry=values.registry?JSON.parse(readFileSync(values.registry,'utf8')):undefined;
-for(const run of offline?plan.runs.slice(0,1):plan.runs){
- let attempt=0;
+for(const run of offline?plan.runs.slice(0,1):resume?resume.runs:plan.runs){
+ let attempt=(resume?.attemptCounts as Record<string,number>|undefined)?.[run.runId]??0;
  while(true){
   if(!offline)await waitUntil(lastFinish+plan.minGapMs);
+  if(resume&&Date.now()+plan.ceilings.timeoutMs>=resume.hardDeadline){stop={action:'STOP_BATCH',reason:'HARD_DEADLINE_NOT_ENOUGH_TIME'};break;}
   verifyFreeze(values.freeze!);
   if(!offline)gateWitness(registry,run.caseId,Date.now(),plan.ceilings.timeoutMs); // must remain valid throughout run
   attempt++;const attemptDir=resolve(directory,run.runId+`-attempt-${attempt}`);mkdirSync(attemptDir);
