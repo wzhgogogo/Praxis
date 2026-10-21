@@ -1,0 +1,31 @@
+{
+  "schema": "checkpoint-c-continuous-result@1",
+  "at": "2026-10-21T06:50:42.282022+00:00",
+  "status": "STOPPED_BEFORE_QUICK_LIVE_REQUIRES_SCOPE_CLARIFICATION",
+  "steps": {
+    "1": "PASS",
+    "2": "PASS",
+    "3": "NOT_REACHED_ENTRYPOINT_CONSTRAINT_CONFLICT",
+    "4": "NOT_REACHED",
+    "5": "NOT_REACHED"
+  },
+  "freezeSha256": "b1175e307a68e021e0e7744eda750b488d36f72f84038cbfb3ed04224c8b2273",
+  "freezeFiles": 553,
+  "freezeReverified": true,
+  "existingOuterAndPlanChanged": false,
+  "newModelCalls": 0,
+  "newWebsiteRequests": 0,
+  "newFullLiveRuns": 0,
+  "newEnvironmentReruns": 0,
+  "ledgerPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/phase2-ledger-step-2.json",
+  "ledgerSha256": "6a42dc887b1342e395a79c711898f076f6bd63f782a8d7cd812b8348ebaa56ef",
+  "totals": {
+    "models": 2143,
+    "fullLiveRuns": 7,
+    "environmentReruns": 0
+  },
+  "historicalH003S0": "PRESENT_UNCHANGED",
+  "quickLiveGate": "NOT_EVALUATED_NO_RUNS",
+  "report": "four-layer-report.md",
+  "requestedClarification": "Allow minimal explicit --run-ids selection for c-01,c-02,c-05; original plan/Runner/evaluator and control rules unchanged."
+}

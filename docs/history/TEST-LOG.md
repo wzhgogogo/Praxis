@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.217
+- Document revision: 4.218
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4938,3 +4938,11 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - Quick entry final verification PASS: original outer executed exactly c-01/c-02/c-05 in0-network/0-model mode, default rehearsal retained1 run and defaultLive18 unchanged;20 controls PASS. Final quick freeze5c4dd01e4d21afcc8a687066dbb1e2bd2cd8e8cfd683e404b26e9d292fbdd8f4,558 files verified. Cumulative2143 models/7 Live/0 env reruns;1857 model calls remain. Old witness window sufficient for quick3 before2026-10-21T12:26Z; user preapproval permits launch after push.
 
 - Quick launch pre-run freeze check rejected changed documentation before authorization consumption, output directory or Runner start;0 models/sites/formalLive/env reruns. Rejection retained; refreeze final committed snapshot and verify all files before launch. Freeze record lives in continuous-validation-20261021/quick-final-freeze-receipt.json; do not mutate frozen documentation during quick batch.
+
+
+## TEST-2026-10-21-CHECKPOINT-C-QUICK-VALIDATION-STOP
+
+- Evidence status: exposed development Live Read-only, one diagnostic per case; not Clean Baseline. 快速验证未通过，按门槛停止：H001/神乐坂 CAPABILITY_MISS，H002 HONEST_NO_RESULT；QUALIFIED_DELIVERY 0/3（要求≥2/3），交付均为0，两项S0各3/3 ABSENT。三次47模型共141，Google含预检12，累计2284/4000模型、10/100完整Live、0/10正式环境重跑。快速三次不计检查点C18，原五次及H003 S0保留；第4步认证与新18次均NOT_REACHED。
+- Original production/skills/plan/Runner/evaluator30/rubric26 unchanged; user-approved run selection20 controls and actual offline3+default1 passed. Existing production acceptance69/69,5/5,22/22 and five gates977/129 reused unchanged. Freeze225ca8b994308b999ab0a7156b0cbf3ff1b57466cb707a0c2e7d1669b8faac0d/559 files verified before and after runs, before documentation updates.
+- Runner times278.382/280.614/482.445s; outer wall298.662/307.277/504.686s. c05 retains OUTER_DEADLINE plus exit0 and full result; @30 CAPABILITY_MISS not reclassified/retried. Independent post-reads8/8 HTTP200; gaps306.422/307.224s. Source-observed selection versus query-acceptance mismatch is a hypothesis, no new fix or extra calls.
+- [Four-layer report](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-four-layer-report.md), [raw result index](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-result-manifest.json), [ledger](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/phase2-ledger-after-quick.json). Stop after push pending independent review.

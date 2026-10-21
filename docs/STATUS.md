@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.313
+- Document revision: 4.314
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -16,6 +16,8 @@
 - **2026-10-21 Quick3 frozen and ready:** Quick entry final verification PASS: original outer executed exactly c-01/c-02/c-05 in0-network/0-model mode, default rehearsal retained1 run and defaultLive18 unchanged;20 controls PASS. Final quick freeze5c4dd01e4d21afcc8a687066dbb1e2bd2cd8e8cfd683e404b26e9d292fbdd8f4,558 files verified. Cumulative2143 models/7 Live/0 env reruns;1857 model calls remain. Old witness window sufficient for quick3 before2026-10-21T12:26Z; user preapproval permits launch after push.
 
 - **2026-10-21 Quick startup alignment:** Quick launch pre-run freeze check rejected changed documentation before authorization consumption, output directory or Runner start;0 models/sites/formalLive/env reruns. Rejection retained; refreeze final committed snapshot and verify all files before launch. Freeze record lives in continuous-validation-20261021/quick-final-freeze-receipt.json; do not mutate frozen documentation during quick batch.
+
+- **2026-10-21 检查点C快速验证停止待复核：** 快速验证未通过，按门槛停止：H001/神乐坂 CAPABILITY_MISS，H002 HONEST_NO_RESULT；QUALIFIED_DELIVERY 0/3（要求≥2/3），交付均为0，两项S0各3/3 ABSENT。三次47模型共141，Google含预检12，累计2284/4000模型、10/100完整Live、0/10正式环境重跑。快速三次不计检查点C18，原五次及H003 S0保留；第4步认证与新18次均NOT_REACHED。 冻结225ca8b9…共559项运行前后一致，仅用户批准run-ids选择例外；原生产/计划/Runner/@30/@26不变。神乐坂Runner482.445秒、外层墙钟504.686秒及OUTER_DEADLINE标记明示，最终exit0/完整result，未改类重跑。三份原始result、决策/录制/独立复查、四层报告与账本提交推送后停下。[报告](../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-four-layer-report.md)、[结果JSON](../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-result.json)。
 
 ## 当前门槛
 

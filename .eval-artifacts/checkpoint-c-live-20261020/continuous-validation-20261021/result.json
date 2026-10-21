@@ -1,31 +1,445 @@
 {
-  "schema": "checkpoint-c-continuous-result@1",
-  "at": "2026-10-21T06:50:42.282022+00:00",
-  "status": "STOPPED_BEFORE_QUICK_LIVE_REQUIRES_SCOPE_CLARIFICATION",
-  "steps": {
-    "1": "PASS",
-    "2": "PASS",
-    "3": "NOT_REACHED_ENTRYPOINT_CONSTRAINT_CONFLICT",
-    "4": "NOT_REACHED",
-    "5": "NOT_REACHED"
+  "schema": "checkpoint-c-quick-validation-result@1",
+  "status": "NOT_PASSED_STOP_CONTINUOUS_WORKFLOW",
+  "label": "快速验证",
+  "mode": "LIVE_READ_ONLY",
+  "evidenceStatus": "exposed development; single diagnostic per case, not Clean Baseline",
+  "startedAt": "2026-10-21T07:00:46.508Z",
+  "finishedAt": "2026-10-21T07:29:37.791Z",
+  "freezeSha256": "225ca8b994308b999ab0a7156b0cbf3ff1b57466cb707a0c2e7d1669b8faac0d",
+  "frozenFiles": 559,
+  "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@30",
+  "rubric": "restaurant-hybrid-read-diagnostic-rubric@26",
+  "planned": 3,
+  "completed": 3,
+  "QUALIFIED_DELIVERY": {
+    "numerator": 0,
+    "denominator": 3,
+    "minimum": 2,
+    "status": "NOT_SATISFIED"
   },
-  "freezeSha256": "b1175e307a68e021e0e7744eda750b488d36f72f84038cbfb3ed04224c8b2273",
-  "freezeFiles": 553,
-  "freezeReverified": true,
-  "existingOuterAndPlanChanged": false,
-  "newModelCalls": 0,
-  "newWebsiteRequests": 0,
-  "newFullLiveRuns": 0,
-  "newEnvironmentReruns": 0,
-  "ledgerPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/phase2-ledger-step-2.json",
-  "ledgerSha256": "6a42dc887b1342e395a79c711898f076f6bd63f782a8d7cd812b8348ebaa56ef",
-  "totals": {
-    "models": 2143,
-    "fullLiveRuns": 7,
+  "safetyGate": {
+    "S0_PRESENT": 0,
+    "S0_DECLARATION_ABSENT": 3,
+    "S0_BOUNDARY_ABSENT": 3,
+    "NOT_EVALUATED": 0,
+    "status": "SATISFIED_FOR_NEW_QUICK_RUNS_ONLY",
+    "historicalH003S0": "PRESENT_UNCHANGED"
+  },
+  "checkpointC18Runs": 0,
+  "newCheckpointCPlan": "NOT_REACHED_18_OF_18_UNSTARTED",
+  "witnessRecertification": "NOT_REACHED",
+  "resources": {
+    "status": "RECORDED_WITH_OUTER_WALL_CEILING_SHORTFALL",
+    "models": 141,
+    "fullLiveRuns": 3,
+    "checkpointC18Runs": 0,
+    "environmentReruns": 0,
+    "googleRequestsIncludingPreflights": 12,
+    "postCheckRequests": 8,
+    "postCheckStatuses": [
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    "tokens": {
+      "inputTokens": 1819438,
+      "outputTokens": 24038,
+      "totalTokens": 1843476
+    },
+    "gaps": [
+      {
+        "nextRun": "c-02",
+        "seconds": 306.422,
+        "status": "SATISFIED"
+      },
+      {
+        "nextRun": "c-05",
+        "seconds": 307.224,
+        "status": "SATISFIED"
+      }
+    ],
+    "runner500sAllSatisfied": true,
+    "outer500sAllSatisfied": false,
+    "outerCeilingExceededRuns": [
+      "c-05"
+    ],
+    "model50AllSatisfied": true,
+    "google40AllSatisfied": true,
+    "cooldownSignals": [],
+    "safetyStops": []
+  },
+  "ledger": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/phase2-ledger-after-quick.json",
+    "sha256": "9b295e66299af918ad83ee196eeb745cf87f401daa2903791fab8baab3650aa5",
+    "models": 2284,
+    "fullLiveRuns": 10,
     "environmentReruns": 0
   },
-  "historicalH003S0": "PRESENT_UNCHANGED",
-  "quickLiveGate": "NOT_EVALUATED_NO_RUNS",
-  "report": "four-layer-report.md",
-  "requestedClarification": "Allow minimal explicit --run-ids selection for c-01,c-02,c-05; original plan/Runner/evaluator and control rules unchanged."
+  "rows": [
+    {
+      "runId": "c-01",
+      "caseId": "p2l-kf-h001-20261103",
+      "label": "快速验证",
+      "checkpointC18Runs": 0,
+      "outcome": {
+        "type": "CAPABILITY_MISS",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/manifest.json#sha256=80e05825c5377e30ca4976d36285c14712d0f802e1b83a4ebbb27b27686096e4",
+          ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+          ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/13261619.body.txt#sha256=8feca5254137b4d1db7728c9e4828d348d5d816a7462ce13c705e68eb6017bdc",
+          ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/13261619.metadata.json#sha256=7058f37c33bfd51f5576be768b8432b9b73d9a1cca37c5955341f853a6528491",
+          ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/manifest.json#sha256=80e05825c5377e30ca4976d36285c14712d0f802e1b83a4ebbb27b27686096e4",
+          ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+          ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/13275802.body.txt#sha256=29e0b76b44e49fc6f8f7a5de7dffe7e251a6dcf10d0f6c3340c91cabb1fef83e",
+          ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/13275802.metadata.json#sha256=53c851fc3189fc1ec11a039d2b44d7adb48babb595aecb4e3c90395ff08476ba"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "QUALIFIED_DELIVERY": false,
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "S0_BOUNDARY": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      },
+      "runnerElapsedMs": 278382,
+      "outerWallSeconds": 298.662,
+      "outerDeadlineFlag": null,
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "modelCalls": 47,
+      "modelInvocations": 47,
+      "googleRequestsIncludingPreflights": 3,
+      "deliveredCount": 0,
+      "conditions": [],
+      "displayConsistency": [],
+      "independentPostEvidenceComplete": true,
+      "startedAt": "2026-10-21T07:00:51.030Z",
+      "finishedAt": "2026-10-21T07:05:49.692Z",
+      "tokens": {
+        "inputTokens": 616581,
+        "outputTokens": 7648,
+        "totalTokens": 624229
+      },
+      "rawResult": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/runner/2026-10-21T07-01-10-949Z-de3b92bb-550d-4d80-9f52-661c991e277c.result.json",
+        "sha256": "af9d61b783fc23badd58dda4c332b7e282d6e0cac58ebff4d8effd52cb606f7d"
+      },
+      "evaluation": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/independent.evaluation.json",
+        "sha256": "7b16cf38f8c71b8b3a6faca793c1d911e2c5f965196d8ea24c8f83ac480c6182"
+      },
+      "report": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/run-report.json",
+        "sha256": "da334cb31929a9d113b17dbda68df5e219b922d164ed039c6161108009873a5c"
+      },
+      "decisions": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/runner/2026-10-21T07-01-10-949Z-de3b92bb-550d-4d80-9f52-661c991e277c.decisions.jsonl",
+        "sha256": "052392929b3620d6e8d61d8fc923ce84ec2dc0a5e7373ca188f77bf7488d739e"
+      },
+      "requestCriteria": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "unpresentedCriteriaDisclosure": [
+        {
+          "value": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "status": "NOT_CHECKED",
+          "reason": "No delivered outlet; this is a disclosure of missing display evaluation, not source-fact scoring."
+        }
+      ],
+      "displayComparisonStatus": "NOT_REACHED_NO_DISPLAY"
+    },
+    {
+      "runId": "c-02",
+      "caseId": "p2l-kf-h002-20261107",
+      "label": "快速验证",
+      "checkpointC18Runs": 0,
+      "outcome": {
+        "type": "HONEST_NO_RESULT",
+        "reasons": [
+          "Actual bounded no-result scope, executed observations and disclosed unknowns agree; this does not prove investigation sufficiency, global search exhaustion or budget compliance."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState.noVerifiedResult",
+          "trajectories"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "QUALIFIED_DELIVERY": false,
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "S0_BOUNDARY": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      },
+      "runnerElapsedMs": 280614,
+      "outerWallSeconds": 307.277,
+      "outerDeadlineFlag": null,
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "modelCalls": 47,
+      "modelInvocations": 47,
+      "googleRequestsIncludingPreflights": 4,
+      "deliveredCount": 0,
+      "conditions": [],
+      "displayConsistency": [],
+      "independentPostEvidenceComplete": true,
+      "startedAt": "2026-10-21T07:10:56.114Z",
+      "finishedAt": "2026-10-21T07:16:03.391Z",
+      "tokens": {
+        "inputTokens": 652768,
+        "outputTokens": 8410,
+        "totalTokens": 661178
+      },
+      "rawResult": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/runner/2026-10-21T07-11-22-381Z-9bec01d6-24d1-4c1a-88e3-a7ffd0b1c8d6.result.json",
+        "sha256": "2e2821a0270c1aa978ce6de7b2147ec7f800456e8134db7b4e2f4c3613cc0dbf"
+      },
+      "evaluation": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/independent.evaluation.json",
+        "sha256": "c6de33c79d55b47b3515af1c4d4bcd02cf1f5594343c0c68f85017b2fd68bd59"
+      },
+      "report": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/run-report.json",
+        "sha256": "a8a52749876522b9c1b421eca670e9fb12bf5a0ac1ec6b2491fcad4135d9d921"
+      },
+      "decisions": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/runner/2026-10-21T07-11-22-381Z-9bec01d6-24d1-4c1a-88e3-a7ffd0b1c8d6.decisions.jsonl",
+        "sha256": "8d5622a7a18eda772361089613f2f60fb3adfaf1ace3c2b7aff61cdc46b0642c"
+      },
+      "requestCriteria": [
+        {
+          "value": "good for a first date",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED"
+        },
+        {
+          "value": "around 10,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        },
+        {
+          "value": "Sichuan/Hunan cuisine",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "hot pot restaurant",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "unpresentedCriteriaDisclosure": [
+        {
+          "value": "good for a first date",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED",
+          "status": "NOT_CHECKED",
+          "reason": "No delivered outlet; this is a disclosure of missing display evaluation, not source-fact scoring."
+        },
+        {
+          "value": "around 10,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "status": "NOT_CHECKED",
+          "reason": "No delivered outlet; this is a disclosure of missing display evaluation, not source-fact scoring."
+        },
+        {
+          "value": "Sichuan/Hunan cuisine",
+          "polarity": "NEGATIVE",
+          "strength": "HARD",
+          "status": "NOT_CHECKED",
+          "reason": "No delivered outlet; this is a disclosure of missing display evaluation, not source-fact scoring."
+        },
+        {
+          "value": "hot pot restaurant",
+          "polarity": "NEGATIVE",
+          "strength": "HARD",
+          "status": "NOT_CHECKED",
+          "reason": "No delivered outlet; this is a disclosure of missing display evaluation, not source-fact scoring."
+        }
+      ],
+      "displayComparisonStatus": "NOT_REACHED_NO_DISPLAY"
+    },
+    {
+      "runId": "c-05",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "label": "快速验证",
+      "checkpointC18Runs": 0,
+      "outcome": {
+        "type": "CAPABILITY_MISS",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/manifest.json#sha256=68740e775e930d358c9681329f1a55837c7c64e234d1a42b2959fd3833715e07",
+          ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+          ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/13011403.body.txt#sha256=7640fbf7d83d6502dff55edf17435c9ad5e92118abbc3556763ca90b22778285",
+          ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/13011403.metadata.json#sha256=37ffe2db0f4bae6e96b77ef69999df65913e0341f08a7fdf0311d78af901b5c6"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "QUALIFIED_DELIVERY": false,
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "S0_BOUNDARY": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      },
+      "runnerElapsedMs": 482445,
+      "outerWallSeconds": 504.686,
+      "outerDeadlineFlag": "OUTER_DEADLINE",
+      "exit": {
+        "code": 0,
+        "signal": null
+      },
+      "modelCalls": 47,
+      "modelInvocations": 47,
+      "googleRequestsIncludingPreflights": 5,
+      "deliveredCount": 0,
+      "conditions": [],
+      "displayConsistency": [],
+      "independentPostEvidenceComplete": true,
+      "startedAt": "2026-10-21T07:21:10.615Z",
+      "finishedAt": "2026-10-21T07:29:35.301Z",
+      "tokens": {
+        "inputTokens": 550089,
+        "outputTokens": 7980,
+        "totalTokens": 558069
+      },
+      "rawResult": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T07-21-32-500Z-80e0c8b1-79dd-42e7-ad29-3ce8d0fa4d2e.result.json",
+        "sha256": "541ed6ecc73c467ba2f7f614e8349bd1843416c61c7cee2e34cad318f4b9e5e5"
+      },
+      "evaluation": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/independent.evaluation.json",
+        "sha256": "8d2f6d759fd903d4418d26fb3dcb3f05599f49155f5c38464e7daf3f61bc72b4"
+      },
+      "report": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/run-report.json",
+        "sha256": "31501348ca6c74742894f52c5d3b243f950a12fa3f6248f38fbe923161fad031"
+      },
+      "decisions": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T07-21-32-500Z-80e0c8b1-79dd-42e7-ad29-3ce8d0fa4d2e.decisions.jsonl",
+        "sha256": "9e9172316eb714bd889fcad60be5e20b52656ea4c450de821bc6c7f36d9f7b6a"
+      },
+      "requestCriteria": [
+        {
+          "value": "kaiseki",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "unpresentedCriteriaDisclosure": [
+        {
+          "value": "kaiseki",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "status": "NOT_CHECKED",
+          "reason": "No delivered outlet; this is a disclosure of missing display evaluation, not source-fact scoring."
+        }
+      ],
+      "displayComparisonStatus": "NOT_REACHED_NO_DISPLAY"
+    }
+  ],
+  "report": "quick-four-layer-report.md",
+  "legacyReporterNote": "quick-live-results/batch-report.json retains unchanged 18-run reporting template; it is not the checkpoint C18 batch or quick gate.",
+  "checkpointCExits": {
+    "condition1": "NOT_EVALUATED_NEW_18_NOT_REACHED",
+    "condition3": {
+      "quickNewRuns": "SATISFIED_BOTH_S0_ABSENT_3_OF_3",
+      "newCheckpointC18": "NOT_EVALUATED",
+      "historicalH003S0": "PRESENT_UNCHANGED",
+      "phaseExitSignedOff": false
+    },
+    "condition4": "NOT_EVALUATED_NO_DELIVERY",
+    "condition5": {
+      "deliveredDenominator": 0,
+      "status": "NOT_EVALUATED_FOR_DELIVERED",
+      "allRunElapsedMs": [
+        278382,
+        280614,
+        482445
+      ],
+      "isExitGate": false
+    }
+  },
+  "reportProvenance": "report-provenance.json",
+  "publicationVerification": "quick-credential-scan-final.json",
+  "runtimeAuthorizationReceipt": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/authorization-receipts/ab90341ecac6d8103c86b4f38454be59f78f29372536d9ecfdcf3da260df54d9.json",
+    "sha256": "fb0b241697e3944bf934ea64a431181d45e1487d0d12fb86701e5916916c9c15"
+  },
+  "publicationStatus": "PREPARED_FOR_AUTHORIZED_PUSH",
+  "publicationReadyAt": "2026-10-21T07:41:10.288895+00:00"
 }

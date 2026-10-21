@@ -1,0 +1,74 @@
+{
+  "mode": "LIVE_NETWORK_PREFLIGHT",
+  "preflightVersion": "live-network-preflight@1",
+  "runner": "HYBRID_LIVE_READ",
+  "plannedTargets": [
+    "DEEPSEEK",
+    "GOOGLE",
+    "TABELOG"
+  ],
+  "timeoutMs": 10000,
+  "generationModelCalls": 0,
+  "restaurantDiscoveryRequests": 0,
+  "evaluator": {
+    "applicability": "NOT_APPLICABLE",
+    "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+  },
+  "network": {
+    "proxyMode": "ENVIRONMENT"
+  },
+  "status": "SUCCEEDED",
+  "stage": "NETWORK_READINESS",
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/network-preflight/2026-10-21T07-10-56-522Z-f9c7bada-9110-48c9-80a0-a4d9868952b3.result.json",
+  "attempts": [
+    {
+      "target": "DEEPSEEK",
+      "request": {
+        "method": "GET",
+        "url": "https://api.deepseek.com/models",
+        "range": "NONE",
+        "authorization": "PRESENT"
+      },
+      "elapsedMs": 2507,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "GOOGLE",
+      "request": {
+        "method": "GET",
+        "url": "https://places.googleapis.com/",
+        "range": "NONE",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 1597,
+      "outcome": "REACHABLE",
+      "status": 404,
+      "tls": "ESTABLISHED"
+    },
+    {
+      "target": "TABELOG",
+      "request": {
+        "method": "GET",
+        "url": "https://tabelog.com/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 1328,
+      "outcome": "REACHABLE",
+      "status": 200,
+      "tls": "ESTABLISHED"
+    }
+  ],
+  "elapsedMs": 5434,
+  "configuration": {
+    "proxyMode": "ENVIRONMENT",
+    "googleProxyConfigured": false,
+    "browserProxyConfigured": false
+  },
+  "schemaVersion": "1",
+  "runId": "f9c7bada-9110-48c9-80a0-a4d9868952b3",
+  "startedAt": "2026-10-21T07:10:56.522Z",
+  "finishedAt": "2026-10-21T07:11:01.957Z"
+}

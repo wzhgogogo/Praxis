@@ -1,0 +1,1953 @@
+{
+  "status": "RECORDED",
+  "rows": [
+    {
+      "runId": "c-01",
+      "P2_1": {
+        "firstBatchFound": 2,
+        "registeredDenominator": 2,
+        "rows": {
+          "status": "OBSERVED",
+          "value": [
+            {
+              "outletName": "Shibuya Sushi Matsumoto",
+              "found": true
+            },
+            {
+              "outletName": "Shibuya Sushi Sen",
+              "found": true
+            }
+          ]
+        },
+        "funnel": [
+          {
+            "outletName": "Shibuya Sushi Matsumoto",
+            "sourceId": "13261619",
+            "discovery": {
+              "status": "FOUND",
+              "candidateIds": [
+                "tabelog:en/tokyo/A1303/A130301/13261619"
+              ],
+              "possibleCandidateIds": [],
+              "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+            },
+            "identity": {
+              "status": "OBSERVED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:996fa6e0cd58b4c3964d2b3e",
+                "evidence:restaurant:native-fact-identity:ea9cfe3fbf50e997576507b3"
+              ]
+            },
+            "facts": {
+              "status": "OBSERVED",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1303/A130301/13261619:document:56b8e74c2e7163b7"
+              ]
+            },
+            "availability": {
+              "recorded": [
+                {
+                  "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+                  "status": "UNKNOWN",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "witness": "AVAILABLE",
+              "observedAt": "2026-10-21T07:05:51.031Z",
+              "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+            },
+            "presented": "NO",
+            "feasible": "SUPPORTED",
+            "blocker": {
+              "stage": "AVAILABILITY",
+              "certainty": "HYPOTHESIS",
+              "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/manifest.json#sha256=80e05825c5377e30ca4976d36285c14712d0f802e1b83a4ebbb27b27686096e4",
+              ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/13261619.body.txt#sha256=8feca5254137b4d1db7728c9e4828d348d5d816a7462ce13c705e68eb6017bdc",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/13261619.metadata.json#sha256=7058f37c33bfd51f5576be768b8432b9b73d9a1cca37c5955341f853a6528491"
+            ]
+          },
+          {
+            "outletName": "Shibuya Sushi Sen",
+            "sourceId": "13275802",
+            "discovery": {
+              "status": "FOUND",
+              "candidateIds": [
+                "tabelog:en/tokyo/A1303/A130301/13275802"
+              ],
+              "possibleCandidateIds": [],
+              "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+            },
+            "identity": {
+              "status": "OBSERVED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:4d2639b9bd66e159d8dc1ad9",
+                "evidence:restaurant:native-fact-identity:8efde8ea6be2bad2821fa86c"
+              ]
+            },
+            "facts": {
+              "status": "OBSERVED",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1303/A130301/13275802:document:982f0852d0553127"
+              ]
+            },
+            "availability": {
+              "recorded": [
+                {
+                  "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+                  "status": "UNKNOWN",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "witness": "AVAILABLE",
+              "observedAt": "2026-10-21T07:05:51.419Z",
+              "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+            },
+            "presented": "NO",
+            "feasible": "SUPPORTED",
+            "blocker": {
+              "stage": "AVAILABILITY",
+              "certainty": "HYPOTHESIS",
+              "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/manifest.json#sha256=80e05825c5377e30ca4976d36285c14712d0f802e1b83a4ebbb27b27686096e4",
+              ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/13275802.body.txt#sha256=29e0b76b44e49fc6f8f7a5de7dffe7e251a6dcf10d0f6c3340c91cabb1fef83e",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/post-run/13275802.metadata.json#sha256=53c851fc3189fc1ec11a039d2b44d7adb48babb595aecb4e3c90395ff08476ba"
+            ]
+          }
+        ]
+      },
+      "P2_2": {
+        "selectedDirectPageCount": {
+          "status": "OBSERVED",
+          "value": 8
+        },
+        "selectedCandidateRows": 8,
+        "uniqueSelectedCandidates": 8,
+        "stageTimings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "MEASURED_WITH_EXPLICIT_GAPS",
+          "elapsedMs": 278549,
+          "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+          "criticalPath": [
+            {
+              "stage": "MODEL_DECISION:browser_read_decide",
+              "elapsedMs": 102748,
+              "percent": 36.886867301623774
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:DETAIL",
+              "elapsedMs": 28853,
+              "percent": 10.358321157139319
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_agent_decide",
+              "elapsedMs": 24191,
+              "percent": 8.684647943449805
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:SEARCH",
+              "elapsedMs": 11863,
+              "percent": 4.2588557129984315
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+              "elapsedMs": 11392,
+              "percent": 4.089765175965449
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_fact_judgment",
+              "elapsedMs": 10994,
+              "percent": 3.9468818771562635
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13275802:REQUEST_AND_RESULT",
+              "elapsedMs": 5542,
+              "percent": 1.9895960854284165
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13274777:REQUEST_AND_RESULT",
+              "elapsedMs": 5451,
+              "percent": 1.956926788464507
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13261619:REQUEST_AND_RESULT",
+              "elapsedMs": 5407,
+              "percent": 1.941130644877562
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13307953:REQUEST_AND_RESULT",
+              "elapsedMs": 5317,
+              "percent": 1.9088203511769923
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13225919:REQUEST_AND_RESULT",
+              "elapsedMs": 5220,
+              "percent": 1.8739970346330448
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13319616:REQUEST_AND_RESULT",
+              "elapsedMs": 5203,
+              "percent": 1.8678939791562705
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13298154:REQUEST_AND_RESULT",
+              "elapsedMs": 5159,
+              "percent": 1.8520978355693254
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+              "elapsedMs": 3730,
+              "percent": 1.3390821722569457
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1303/A130301/13275802",
+              "elapsedMs": 3634,
+              "percent": 1.304617858976338
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13275479:REQUEST_AND_RESULT",
+              "elapsedMs": 3458,
+              "percent": 1.2414332846285574
+            },
+            {
+              "stage": "SEMANTIC",
+              "elapsedMs": 3402,
+              "percent": 1.2213291018815362
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13275802:RESOLUTION",
+              "elapsedMs": 3341,
+              "percent": 1.1994299028178166
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13261619:RESOLUTION",
+              "elapsedMs": 3309,
+              "percent": 1.1879417983909475
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1303/A130301/13225919",
+              "elapsedMs": 3220,
+              "percent": 1.1559905079537172
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1303/A130301/13261619",
+              "elapsedMs": 3012,
+              "percent": 1.0813178291790673
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1303/A130301/13274777",
+              "elapsedMs": 3006,
+              "percent": 1.0791638095990292
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13319616:RESOLUTION",
+              "elapsedMs": 2971,
+              "percent": 1.066598695382141
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13307953:RESOLUTION",
+              "elapsedMs": 2913,
+              "percent": 1.0457765061084405
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13274777:RESOLUTION",
+              "elapsedMs": 2830,
+              "percent": 1.0159792352512484
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1303/A130301/13319616",
+              "elapsedMs": 2795,
+              "percent": 1.0034141210343601
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13225919:RESOLUTION",
+              "elapsedMs": 2774,
+              "percent": 0.9958750525042273
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13298154:RESOLUTION",
+              "elapsedMs": 2419,
+              "percent": 0.8684288940186466
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13275479:RESOLUTION",
+              "elapsedMs": 2185,
+              "percent": 0.7844221303971654
+            },
+            {
+              "stage": "SEARCH_RESTAURANTS",
+              "elapsedMs": 1133,
+              "percent": 0.40675069736383906
+            },
+            {
+              "stage": "CHECK_AVAILABILITY",
+              "elapsedMs": 328,
+              "percent": 0.1177530703754097
+            },
+            {
+              "stage": "UNATTRIBUTED",
+              "elapsedMs": 274,
+              "percent": 0.09836689415506786
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+              "elapsedMs": 239,
+              "percent": 0.08580177993817964
+            },
+            {
+              "stage": "FACTS",
+              "elapsedMs": 230,
+              "percent": 0.08257075056812267
+            },
+            {
+              "stage": "END_READ",
+              "elapsedMs": 6,
+              "percent": 0.0021540195800379826
+            }
+          ],
+          "modelSteps": [
+            {
+              "purpose": "restaurant_semantic_interpret",
+              "sequence": 1,
+              "latencyMs": 3402,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 2,
+              "latencyMs": 2226,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 3,
+              "latencyMs": 6670,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 4,
+              "latencyMs": 2312,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 5,
+              "latencyMs": 1418,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 6,
+              "latencyMs": 3700,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 7,
+              "latencyMs": 3761,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 8,
+              "latencyMs": 3840,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 9,
+              "latencyMs": 2995,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 10,
+              "latencyMs": 4342,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 11,
+              "latencyMs": 4097,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 12,
+              "latencyMs": 3496,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 13,
+              "latencyMs": 3807,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 14,
+              "latencyMs": 3620,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 15,
+              "latencyMs": 3405,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 16,
+              "latencyMs": 1694,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 17,
+              "latencyMs": 2306,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 18,
+              "latencyMs": 2318,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 19,
+              "latencyMs": 2030,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 20,
+              "latencyMs": 3976,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 21,
+              "latencyMs": 3943,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 22,
+              "latencyMs": 4614,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 23,
+              "latencyMs": 4264,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 24,
+              "latencyMs": 4161,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 25,
+              "latencyMs": 3536,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 26,
+              "latencyMs": 4878,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 27,
+              "latencyMs": 3987,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 28,
+              "latencyMs": 3241,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 29,
+              "latencyMs": 1667,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 30,
+              "latencyMs": 2117,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 31,
+              "latencyMs": 2721,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 32,
+              "latencyMs": 2505,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 33,
+              "latencyMs": 2177,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 34,
+              "latencyMs": 2312,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 35,
+              "latencyMs": 2489,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 36,
+              "latencyMs": 2756,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 37,
+              "latencyMs": 3078,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 38,
+              "latencyMs": 3973,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 39,
+              "latencyMs": 2331,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 40,
+              "latencyMs": 1903,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 41,
+              "latencyMs": 1853,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 42,
+              "latencyMs": 3317,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 43,
+              "latencyMs": 1974,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 44,
+              "latencyMs": 2181,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 45,
+              "latencyMs": 2020,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 46,
+              "latencyMs": 3486,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 47,
+              "latencyMs": 2166,
+              "placed": true
+            }
+          ],
+          "gaps": [
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      },
+      "P2_3": {
+        "sourcePriceTextEvidenceRecords": 7,
+        "priceTextEvidenceRefs": [
+          "evidence:restaurant:tabelog-hard-criteria:b760507cb9f6a6f6495324fa",
+          "evidence:restaurant:tabelog-hard-criteria:1629169f253d5515cdb6ee4a",
+          "evidence:restaurant:tabelog-hard-criteria:64486e76a03d42b5762b4670",
+          "evidence:restaurant:tabelog-hard-criteria:67167471577c846f99b7fcdf",
+          "evidence:restaurant:tabelog-hard-criteria:68c8a36923437c65763ac9e2",
+          "evidence:restaurant:tabelog-hard-criteria:5a109e16d7d5bd1bfea6dd7f",
+          "evidence:restaurant:tabelog-hard-criteria:0828b82f088e0325f5f3cd54"
+        ],
+        "priceTextStatus": "RECORDED_ONLY_NOT_INDEPENDENT_PRICE_VERIFICATION",
+        "independentDisplayedPriceConditionRows": 0,
+        "displayedConditionRows": 0,
+        "assessment": "NOT_REACHED_NO_DELIVERY"
+      }
+    },
+    {
+      "runId": "c-02",
+      "P2_1": {
+        "firstBatchFound": 1,
+        "registeredDenominator": 3,
+        "rows": {
+          "status": "OBSERVED",
+          "value": [
+            {
+              "outletName": "Ginza Sushi Tempura Iwai",
+              "found": false
+            },
+            {
+              "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+              "found": false
+            },
+            {
+              "outletName": "Ginza Sushi Den",
+              "found": true
+            }
+          ]
+        },
+        "funnel": [
+          {
+            "outletName": "Ginza Sushi Tempura Iwai",
+            "sourceId": "13305528",
+            "discovery": {
+              "status": "FOUND",
+              "candidateIds": [
+                "tabelog:en/tokyo/A1301/A130101/13305528"
+              ],
+              "possibleCandidateIds": [],
+              "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+            },
+            "identity": {
+              "status": "NOT_READ",
+              "evidenceIds": []
+            },
+            "facts": {
+              "status": "NOT_READ",
+              "evidenceIds": []
+            },
+            "availability": {
+              "recorded": [
+                {
+                  "candidateId": "tabelog:en/tokyo/A1301/A130101/13305528",
+                  "status": "UNKNOWN",
+                  "reasonCode": "RESERVE_REACHED"
+                }
+              ],
+              "witness": "AVAILABLE",
+              "observedAt": "2026-10-21T07:16:04.991Z",
+              "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+            },
+            "presented": "NO",
+            "feasible": "NOT_EVALUATED",
+            "blocker": {
+              "stage": "IDENTITY",
+              "certainty": "HYPOTHESIS",
+              "reason": "Candidate bottleneck at IDENTITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/post-run/manifest.json#sha256=dd5573b3a5da50f9dde266d74b8f13b8e732611705c03aba0c522d34113131dd",
+              ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/post-run/13305528.body.txt#sha256=32fb879b847b46fef14251bc82913a706d379173d587c5959207eb47c18c0604",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/post-run/13305528.metadata.json#sha256=0ed111e51c2dd8fdd651b95d9346d473b4d39cdfd4815e55033ac658e59f360a"
+            ]
+          },
+          {
+            "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+            "sourceId": "13296659",
+            "discovery": {
+              "status": "NOT_FOUND",
+              "candidateIds": [],
+              "possibleCandidateIds": [],
+              "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+            },
+            "identity": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "facts": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "availability": {
+              "recorded": [],
+              "witness": "AVAILABLE",
+              "observedAt": "2026-10-21T07:16:05.420Z",
+              "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+            },
+            "presented": "NO",
+            "feasible": "NOT_EVALUATED",
+            "blocker": {
+              "stage": "DISCOVERY",
+              "certainty": "HYPOTHESIS",
+              "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/post-run/manifest.json#sha256=dd5573b3a5da50f9dde266d74b8f13b8e732611705c03aba0c522d34113131dd",
+              ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/post-run/13296659.body.txt#sha256=8e2b52f88dce2efc9e2eff9bd6e9b8e92ad93181f939d5d2bfe2dbd96453bbf2",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/post-run/13296659.metadata.json#sha256=71271297968a3abf031ff16b0485e56f168b12cf2508b5f34a409553f2058270"
+            ]
+          },
+          {
+            "outletName": "Ginza Sushi Den",
+            "sourceId": "13291473",
+            "discovery": {
+              "status": "FOUND",
+              "candidateIds": [
+                "tabelog:en/tokyo/A1301/A130101/13291473"
+              ],
+              "possibleCandidateIds": [],
+              "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+            },
+            "identity": {
+              "status": "OBSERVED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:36e00c7118256b9e3afb29fe",
+                "evidence:restaurant:native-fact-identity:3a90ff3c5c0517b0be01fd68"
+              ]
+            },
+            "facts": {
+              "status": "OBSERVED",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1301/A130101/13291473:document:35b534243107cb8c"
+              ]
+            },
+            "availability": {
+              "recorded": [
+                {
+                  "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+                  "status": "UNKNOWN",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "witness": "AVAILABLE",
+              "observedAt": "2026-10-21T07:16:05.828Z",
+              "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+            },
+            "presented": "NO",
+            "feasible": "NOT_EVALUATED",
+            "blocker": {
+              "stage": "AVAILABILITY",
+              "certainty": "HYPOTHESIS",
+              "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/post-run/manifest.json#sha256=dd5573b3a5da50f9dde266d74b8f13b8e732611705c03aba0c522d34113131dd",
+              ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/post-run/13291473.body.txt#sha256=28d4c83b51323585ded6933571b8d663a3220c8c5c4d42015745ca85de17be28",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/post-run/13291473.metadata.json#sha256=bf49ebe576c1b682a7f771dca64f74da4b786380261ab64f1ccce0a78e693db8"
+            ]
+          }
+        ]
+      },
+      "P2_2": {
+        "selectedDirectPageCount": {
+          "status": "OBSERVED",
+          "value": 8
+        },
+        "selectedCandidateRows": 8,
+        "uniqueSelectedCandidates": 8,
+        "stageTimings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "MEASURED_WITH_EXPLICIT_GAPS",
+          "elapsedMs": 280798,
+          "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+          "criticalPath": [
+            {
+              "stage": "MODEL_DECISION:browser_read_decide",
+              "elapsedMs": 93630,
+              "percent": 33.3442545887079
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:DETAIL",
+              "elapsedMs": 27405,
+              "percent": 9.759684898040584
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_agent_decide",
+              "elapsedMs": 20452,
+              "percent": 7.283527660453422
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+              "elapsedMs": 19015,
+              "percent": 6.771771878717085
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:SEARCH",
+              "elapsedMs": 13767,
+              "percent": 4.90281269809614
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_fact_judgment",
+              "elapsedMs": 11875,
+              "percent": 4.229018725204595
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13291473:REQUEST_AND_RESULT",
+              "elapsedMs": 6821,
+              "percent": 2.4291483557575195
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13189458:REQUEST_AND_RESULT",
+              "elapsedMs": 5529,
+              "percent": 1.9690311184552598
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13323643:REQUEST_AND_RESULT",
+              "elapsedMs": 5490,
+              "percent": 1.9551421306419563
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130103/13292459:REQUEST_AND_RESULT",
+              "elapsedMs": 5483,
+              "percent": 1.9526492353934146
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13295658:REQUEST_AND_RESULT",
+              "elapsedMs": 5433,
+              "percent": 1.9348428407609741
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13228975:REQUEST_AND_RESULT",
+              "elapsedMs": 5421,
+              "percent": 1.9305693060491884
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13280412:REQUEST_AND_RESULT",
+              "elapsedMs": 4700,
+              "percent": 1.6738010954493978
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13323643",
+              "elapsedMs": 4380,
+              "percent": 1.5598401698017792
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13291473",
+              "elapsedMs": 4017,
+              "percent": 1.430565744770262
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130103/13292459:RESOLUTION",
+              "elapsedMs": 3769,
+              "percent": 1.3422460273933574
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13291473:RESOLUTION",
+              "elapsedMs": 3504,
+              "percent": 1.2478721358414233
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13189458",
+              "elapsedMs": 3500,
+              "percent": 1.246447624270828
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13280412:RESOLUTION",
+              "elapsedMs": 3456,
+              "percent": 1.2307779969942807
+            },
+            {
+              "stage": "SEMANTIC",
+              "elapsedMs": 3395,
+              "percent": 1.2090541955427032
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13189458:RESOLUTION",
+              "elapsedMs": 3346,
+              "percent": 1.1916039288029117
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13305528:RESOLUTION",
+              "elapsedMs": 3339,
+              "percent": 1.18911103355437
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13228975:RESOLUTION",
+              "elapsedMs": 3233,
+              "percent": 1.1513614769335963
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130103/13292459",
+              "elapsedMs": 3203,
+              "percent": 1.140677640154132
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13295658",
+              "elapsedMs": 3083,
+              "percent": 1.0979422930362752
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13295658:RESOLUTION",
+              "elapsedMs": 2916,
+              "percent": 1.0384689349639242
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13305528:REQUEST_AND_RESULT",
+              "elapsedMs": 2821,
+              "percent": 1.0046367851622875
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+              "elapsedMs": 2819,
+              "percent": 1.0039245293769898
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13323643:RESOLUTION",
+              "elapsedMs": 2650,
+              "percent": 0.9437389155193413
+            },
+            {
+              "stage": "SEARCH_RESTAURANTS",
+              "elapsedMs": 1235,
+              "percent": 0.43981794742127794
+            },
+            {
+              "stage": "CHECK_AVAILABILITY",
+              "elapsedMs": 325,
+              "percent": 0.11574156511086262
+            },
+            {
+              "stage": "UNATTRIBUTED",
+              "elapsedMs": 303,
+              "percent": 0.10790675147258884
+            },
+            {
+              "stage": "FACTS",
+              "elapsedMs": 243,
+              "percent": 0.08653907791366035
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+              "elapsedMs": 240,
+              "percent": 0.08547069423571392
+            }
+          ],
+          "modelSteps": [
+            {
+              "purpose": "restaurant_semantic_interpret",
+              "sequence": 1,
+              "latencyMs": 3395,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 2,
+              "latencyMs": 1517,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 3,
+              "latencyMs": 3378,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 4,
+              "latencyMs": 3350,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 5,
+              "latencyMs": 3429,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 6,
+              "latencyMs": 2819,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 7,
+              "latencyMs": 3473,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 8,
+              "latencyMs": 3183,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 9,
+              "latencyMs": 4078,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 10,
+              "latencyMs": 6890,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 11,
+              "latencyMs": 5553,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 12,
+              "latencyMs": 3125,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 13,
+              "latencyMs": 2071,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 14,
+              "latencyMs": 2112,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 15,
+              "latencyMs": 1789,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 16,
+              "latencyMs": 3466,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 17,
+              "latencyMs": 1566,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 18,
+              "latencyMs": 1770,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 19,
+              "latencyMs": 2520,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 20,
+              "latencyMs": 2399,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 21,
+              "latencyMs": 3707,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 22,
+              "latencyMs": 2447,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 23,
+              "latencyMs": 1820,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 24,
+              "latencyMs": 2119,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 25,
+              "latencyMs": 2946,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 26,
+              "latencyMs": 1656,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 27,
+              "latencyMs": 1586,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 28,
+              "latencyMs": 1943,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 29,
+              "latencyMs": 2698,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 30,
+              "latencyMs": 2803,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 31,
+              "latencyMs": 2033,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 32,
+              "latencyMs": 2049,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 33,
+              "latencyMs": 1524,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 34,
+              "latencyMs": 1999,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 35,
+              "latencyMs": 2991,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 36,
+              "latencyMs": 2179,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 37,
+              "latencyMs": 3835,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 38,
+              "latencyMs": 3901,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 39,
+              "latencyMs": 1957,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 40,
+              "latencyMs": 1917,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 41,
+              "latencyMs": 2006,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 42,
+              "latencyMs": 3271,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 43,
+              "latencyMs": 2338,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 44,
+              "latencyMs": 3422,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 45,
+              "latencyMs": 4016,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 46,
+              "latencyMs": 4298,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 47,
+              "latencyMs": 2827,
+              "placed": true
+            }
+          ],
+          "gaps": [
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      },
+      "P2_3": {
+        "sourcePriceTextEvidenceRecords": 6,
+        "priceTextEvidenceRefs": [
+          "evidence:restaurant:tabelog-hard-criteria:d97ed450bd1328b9ae79e561",
+          "evidence:restaurant:tabelog-hard-criteria:7c412fd5400a04e4520ea77f",
+          "evidence:restaurant:tabelog-hard-criteria:c54b3435cf5724f50ba5dcc6",
+          "evidence:restaurant:tabelog-hard-criteria:0664d50bdb4d2b2dabd9e11f",
+          "evidence:restaurant:tabelog-hard-criteria:b5f494b5e719e98f24434c90",
+          "evidence:restaurant:tabelog-hard-criteria:6a19db0fcc34cde9ef58f5fc"
+        ],
+        "priceTextStatus": "RECORDED_ONLY_NOT_INDEPENDENT_PRICE_VERIFICATION",
+        "independentDisplayedPriceConditionRows": 0,
+        "displayedConditionRows": 0,
+        "assessment": "NOT_REACHED_NO_DELIVERY"
+      }
+    },
+    {
+      "runId": "c-05",
+      "P2_1": {
+        "firstBatchFound": 2,
+        "registeredDenominator": 3,
+        "rows": {
+          "status": "OBSERVED",
+          "value": [
+            {
+              "outletName": "Kaiseki Komuro",
+              "found": true
+            },
+            {
+              "outletName": "Kagurazaka Kappou Kaga",
+              "found": true
+            },
+            {
+              "outletName": "Chisou Konya",
+              "found": false
+            }
+          ]
+        },
+        "funnel": [
+          {
+            "outletName": "Kaiseki Komuro",
+            "sourceId": "13218101",
+            "discovery": {
+              "status": "FOUND",
+              "candidateIds": [
+                "tabelog:en/tokyo/A1309/A130905/13218101"
+              ],
+              "possibleCandidateIds": [],
+              "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+            },
+            "identity": {
+              "status": "OBSERVED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:bc173c38faf84fdd34300ed8",
+                "evidence:restaurant:native-fact-identity:07993d2c9a0540485445e2f5"
+              ]
+            },
+            "facts": {
+              "status": "OBSERVED",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1309/A130905/13218101:document:fcd8f467b8aae0fd"
+              ]
+            },
+            "availability": {
+              "recorded": [
+                {
+                  "candidateId": "tabelog:en/tokyo/A1309/A130905/13218101",
+                  "status": "UNKNOWN",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "witness": "NO_MATCHING_SLOT",
+              "observedAt": "2026-10-21T07:29:36.863Z",
+              "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+            },
+            "presented": "NO",
+            "feasible": "NOT_SUPPORTED",
+            "blocker": {
+              "stage": "NONE",
+              "certainty": "HYPOTHESIS",
+              "reason": "No supported slot/presentation obligation or no missing stage; no counterfactual causal claim"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/manifest.json#sha256=68740e775e930d358c9681329f1a55837c7c64e234d1a42b2959fd3833715e07",
+              ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/13218101.body.txt#sha256=b8ed034ec2772dcb5cea30cedb9ba9cb300b18e08bfc322ad7fe4de973d492c3",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/13218101.metadata.json#sha256=42817f0ef8f60d1d21bc0ddb898264660e4425b9a10a4c64ce2c632ed05d74e8"
+            ]
+          },
+          {
+            "outletName": "Kagurazaka Kappou Kaga",
+            "sourceId": "13048623",
+            "discovery": {
+              "status": "NOT_FOUND",
+              "candidateIds": [],
+              "possibleCandidateIds": [],
+              "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+            },
+            "identity": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "facts": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "availability": {
+              "recorded": [],
+              "witness": "AVAILABLE",
+              "observedAt": "2026-10-21T07:29:37.254Z",
+              "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+            },
+            "presented": "NO",
+            "feasible": "NOT_EVALUATED",
+            "blocker": {
+              "stage": "DISCOVERY",
+              "certainty": "HYPOTHESIS",
+              "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/manifest.json#sha256=68740e775e930d358c9681329f1a55837c7c64e234d1a42b2959fd3833715e07",
+              ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/13048623.body.txt#sha256=3953a2b7306da9fe47b46f46392bf896a7ddaa52db6c2c371ff2639e91a6ba89",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/13048623.metadata.json#sha256=29285192a1c3c0e48d1c2700698b5062ecd11f4f55a878db1af43a8fb739ecf2"
+            ]
+          },
+          {
+            "outletName": "Chisou Konya",
+            "sourceId": "13011403",
+            "discovery": {
+              "status": "NOT_FOUND",
+              "candidateIds": [],
+              "possibleCandidateIds": [],
+              "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+            },
+            "identity": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "facts": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "availability": {
+              "recorded": [],
+              "witness": "AVAILABLE",
+              "observedAt": "2026-10-21T07:29:37.637Z",
+              "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+            },
+            "presented": "NO",
+            "feasible": "SUPPORTED",
+            "blocker": {
+              "stage": "DISCOVERY",
+              "certainty": "HYPOTHESIS",
+              "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/manifest.json#sha256=68740e775e930d358c9681329f1a55837c7c64e234d1a42b2959fd3833715e07",
+              ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json#sha256=55b558d08e2e03b4e3daa1dcefb6e27810f6c0ff42fa60a1ec10c9427e33024d",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/13011403.body.txt#sha256=7640fbf7d83d6502dff55edf17435c9ad5e92118abbc3556763ca90b22778285",
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/post-run/13011403.metadata.json#sha256=37ffe2db0f4bae6e96b77ef69999df65913e0341f08a7fdf0311d78af901b5c6"
+            ]
+          }
+        ]
+      },
+      "P2_2": {
+        "selectedDirectPageCount": {
+          "status": "OBSERVED",
+          "value": 10
+        },
+        "selectedCandidateRows": 10,
+        "uniqueSelectedCandidates": 10,
+        "stageTimings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "MEASURED_WITH_EXPLICIT_GAPS",
+          "elapsedMs": 482612,
+          "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+          "criticalPath": [
+            {
+              "stage": "MODEL_DECISION:browser_read_decide",
+              "elapsedMs": 88179,
+              "percent": 18.271199224221526
+            },
+            {
+              "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+              "elapsedMs": 62366,
+              "percent": 12.922596205647602
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_agent_decide",
+              "elapsedMs": 30447,
+              "percent": 6.308794642487133
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:ragusa-kagurazaka",
+              "elapsedMs": 22277,
+              "percent": 4.615923350434717
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+              "elapsedMs": 18606,
+              "percent": 3.855270900847886
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_fact_judgment",
+              "elapsedMs": 18061,
+              "percent": 3.7423437461148916
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:uoida-kagurazaka:REQUEST_AND_RESULT",
+              "elapsedMs": 15944,
+              "percent": 3.30368909185847
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:sushiyahajime:REQUEST_AND_RESULT",
+              "elapsedMs": 15874,
+              "percent": 3.2891846866634067
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:nose-to-tail:RESOLUTION",
+              "elapsedMs": 14611,
+              "percent": 3.0274837757867603
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:ragusa-kagurazaka:REQUEST_AND_RESULT",
+              "elapsedMs": 14535,
+              "percent": 3.0117361358606916
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:DETAIL",
+              "elapsedMs": 14492,
+              "percent": 3.0028262869551523
+            },
+            {
+              "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+              "elapsedMs": 13996,
+              "percent": 2.900052215858702
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:sushiyahajime:RESOLUTION",
+              "elapsedMs": 12896,
+              "percent": 2.672125848507704
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:konbuya-kagurazaka:REQUEST_AND_RESULT",
+              "elapsedMs": 12794,
+              "percent": 2.650990858080611
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:ragusa-kagurazaka:RESOLUTION",
+              "elapsedMs": 12446,
+              "percent": 2.5788832436822955
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:sushiyahajime",
+              "elapsedMs": 11578,
+              "percent": 2.399028619263508
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:konbuya-kagurazaka:RESOLUTION",
+              "elapsedMs": 10993,
+              "percent": 2.2778132329904768
+            },
+            {
+              "stage": "FACTS:TABLECHECK:tablecheck:nose-to-tail",
+              "elapsedMs": 10643,
+              "percent": 2.205291207015159
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:uoida-kagurazaka:RESOLUTION",
+              "elapsedMs": 8951,
+              "percent": 1.8546990128716234
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13180712:REQUEST_AND_RESULT",
+              "elapsedMs": 6988,
+              "percent": 1.447954050044342
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13300814:REQUEST_AND_RESULT",
+              "elapsedMs": 6722,
+              "percent": 1.3928373103031007
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13048623:REQUEST_AND_RESULT",
+              "elapsedMs": 6420,
+              "percent": 1.3302611621758265
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+              "elapsedMs": 5049,
+              "percent": 1.0461820261410821
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:SEARCH",
+              "elapsedMs": 4431,
+              "percent": 0.9181288488475214
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13218101:REQUEST_AND_RESULT",
+              "elapsedMs": 4303,
+              "percent": 0.8916065079194053
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1309/A130905/13218101",
+              "elapsedMs": 3619,
+              "percent": 0.7498777485847844
+            },
+            {
+              "stage": "SEMANTIC",
+              "elapsedMs": 3491,
+              "percent": 0.7233554076566683
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1309/A130905/13048623",
+              "elapsedMs": 3343,
+              "percent": 0.692688950958534
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13300814:RESOLUTION",
+              "elapsedMs": 3210,
+              "percent": 0.6651305810879132
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1309/A130905/13281152",
+              "elapsedMs": 3155,
+              "percent": 0.6537342627203634
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13048623:RESOLUTION",
+              "elapsedMs": 3018,
+              "percent": 0.6253470696957389
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13281152:REQUEST_AND_RESULT",
+              "elapsedMs": 3008,
+              "percent": 0.62327501181073
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1309/A130905/13300814",
+              "elapsedMs": 2976,
+              "percent": 0.6166444265787009
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13281152:RESOLUTION",
+              "elapsedMs": 2818,
+              "percent": 0.5839059119955575
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1309/A130905/13180712",
+              "elapsedMs": 2791,
+              "percent": 0.578311355706033
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13218101:RESOLUTION",
+              "elapsedMs": 2759,
+              "percent": 0.571680770474004
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13180712:RESOLUTION",
+              "elapsedMs": 2442,
+              "percent": 0.5059965355192163
+            },
+            {
+              "stage": "SEARCH_RESTAURANTS",
+              "elapsedMs": 1195,
+              "percent": 0.24761091725858456
+            },
+            {
+              "stage": "CHECK_AVAILABILITY",
+              "elapsedMs": 339,
+              "percent": 0.07024276230180766
+            },
+            {
+              "stage": "FACTS",
+              "elapsedMs": 314,
+              "percent": 0.06506261758928497
+            },
+            {
+              "stage": "UNATTRIBUTED",
+              "elapsedMs": 311,
+              "percent": 0.06444100022378225
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+              "elapsedMs": 110,
+              "percent": 0.022792636735099833
+            },
+            {
+              "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+              "elapsedMs": 110,
+              "percent": 0.022792636735099833
+            },
+            {
+              "stage": "AVAILABILITY:TABLECHECK:tablecheck:nose-to-tail:REQUEST_AND_RESULT",
+              "elapsedMs": 1,
+              "percent": 0.00020720578850090754
+            }
+          ],
+          "modelSteps": [
+            {
+              "purpose": "restaurant_semantic_interpret",
+              "sequence": 1,
+              "latencyMs": 3491,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 2,
+              "latencyMs": 1507,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 3,
+              "latencyMs": 2397,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 4,
+              "latencyMs": 4118,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 5,
+              "latencyMs": 4153,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 6,
+              "latencyMs": 2652,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 7,
+              "latencyMs": 3032,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 8,
+              "latencyMs": 3673,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 9,
+              "latencyMs": 2769,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 10,
+              "latencyMs": 4128,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 11,
+              "latencyMs": 2793,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 12,
+              "latencyMs": 4263,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 13,
+              "latencyMs": 3332,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 14,
+              "latencyMs": 1841,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 15,
+              "latencyMs": 2041,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 16,
+              "latencyMs": 1636,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 17,
+              "latencyMs": 2179,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 18,
+              "latencyMs": 4799,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 19,
+              "latencyMs": 4804,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 20,
+              "latencyMs": 4512,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 21,
+              "latencyMs": 5578,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 22,
+              "latencyMs": 3053,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 23,
+              "latencyMs": 4040,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 24,
+              "latencyMs": 4894,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 25,
+              "latencyMs": 3988,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 26,
+              "latencyMs": 2895,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 27,
+              "latencyMs": 3008,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 28,
+              "latencyMs": 3239,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 29,
+              "latencyMs": 1594,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 30,
+              "latencyMs": 2028,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 31,
+              "latencyMs": 2041,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 32,
+              "latencyMs": 1832,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 33,
+              "latencyMs": 1718,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 34,
+              "latencyMs": 1580,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 35,
+              "latencyMs": 1805,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 36,
+              "latencyMs": 2012,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 37,
+              "latencyMs": 1885,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 38,
+              "latencyMs": 2669,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 39,
+              "latencyMs": 4136,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 40,
+              "latencyMs": 4743,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 41,
+              "latencyMs": 3387,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 42,
+              "latencyMs": 4668,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 43,
+              "latencyMs": 2586,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 44,
+              "latencyMs": 1780,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 45,
+              "latencyMs": 2657,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 46,
+              "latencyMs": 3217,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 47,
+              "latencyMs": 4074,
+              "placed": true
+            }
+          ],
+          "gaps": [
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      },
+      "P2_3": {
+        "sourcePriceTextEvidenceRecords": 3,
+        "priceTextEvidenceRefs": [
+          "evidence:restaurant:tabelog-hard-criteria:fd34016e83bf7d857bf84965",
+          "evidence:restaurant:tabelog-hard-criteria:e09d53eca8aeefc408dd1feb",
+          "evidence:restaurant:tabelog-hard-criteria:8dc4a2198fbb021194d4348a"
+        ],
+        "priceTextStatus": "RECORDED_ONLY_NOT_INDEPENDENT_PRICE_VERIFICATION",
+        "independentDisplayedPriceConditionRows": 0,
+        "displayedConditionRows": 0,
+        "assessment": "NOT_REACHED_NO_DELIVERY"
+      }
+    }
+  ],
+  "notSeparateCausalEffects": true
+}
