@@ -1,0 +1,45 @@
+{
+  "schema": "checkpoint-c-run-selection-acceptance@1",
+  "status": "PASS",
+  "at": "2026-10-21T06:56:16.696443+00:00",
+  "codeCommit": "e0c57390f0a8ebddbd7c7d5b822ca012d68bd599",
+  "freezeSha256": "48d4f123f2149ec4d0220a1fe7f5e91ca75fcc615a9ebc5ab399f97b4fd11412",
+  "frozenFilesVerified": 557,
+  "controls": {
+    "passed": 20,
+    "total": 20
+  },
+  "actualOriginalOuterExecutions": {
+    "quick-selection-rehearsal": {
+      "runIds": [
+        "c-01",
+        "c-02",
+        "c-05"
+      ],
+      "planned": 3,
+      "attempts": 3,
+      "models": 0,
+      "network": 0,
+      "status": "PASS"
+    },
+    "default-after-selection-rehearsal": {
+      "runIds": [
+        "c-01"
+      ],
+      "planned": 1,
+      "attempts": 1,
+      "models": 0,
+      "network": 0,
+      "status": "PASS"
+    }
+  },
+  "liveDefault": {
+    "runs": 18,
+    "sameOriginalObjects": true,
+    "orderUnchanged": true,
+    "budgetsStopsSpacingEvaluationUnchanged": true
+  },
+  "newRealModelCalls": 0,
+  "newWebsiteRequests": 0,
+  "newFullLiveRuns": 0
+}
