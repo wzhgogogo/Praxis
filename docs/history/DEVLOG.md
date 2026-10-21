@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.208
+- Document revision: 4.209
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4219,3 +4219,5 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 
 - Evidence status: current executable preparation, exposed development. User explicitly approved minimal --run-ids entry for c-01/c-02/c-05 only. Select original run objects in plan order; reject unknown/duplicate/empty IDs and resume combination. Default18 Live/default1 rehearsal/historical resume unchanged; no changes to Runner, plan, policies, evaluator or run budgets.
 - Twenty offline controls PASS; full original outer scripted three-run/default verification follows committed freeze. New models/sites/Live0; cumulative2143/7/0 unchanged. Scope label and separate results keep quick samples outside checkpointC18. [Authorization](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/run-selection-approval.md).
+
+- Quick entry final verification PASS: original outer executed exactly c-01/c-02/c-05 in0-network/0-model mode, default rehearsal retained1 run and defaultLive18 unchanged;20 controls PASS. Final quick freeze5c4dd01e4d21afcc8a687066dbb1e2bd2cd8e8cfd683e404b26e9d292fbdd8f4,558 files verified. Cumulative2143 models/7 Live/0 env reruns;1857 model calls remain. Old witness window sufficient for quick3 before2026-10-21T12:26Z; user preapproval permits launch after push.

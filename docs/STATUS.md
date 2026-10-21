@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.311
+- Document revision: 4.312
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -12,6 +12,8 @@
 - **2026-10-21 Continuous checkpoint C at quick-Live entry:** step1/2 PASS and pushed; unchanged outer rehearsal complete,0 real models/network. Freeze b1175e307a68e021e0e7744eda750b488d36f72f84038cbfb3ed04224c8b2273. Existing outer cannot select H001/H002/Kagurazaka without changing outer or18-plan; user clarification requested, no Live started, steps3–5 NOT_REACHED. Ledger2143 models/7 Live/0 env reruns unchanged; historical H003 S0 remains PRESENT. [Four-layer report](../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/four-layer-report.md).
 
 - **2026-10-21 Quick validation entry explicitly approved:** add --run-ids only for c-01/c-02/c-05, retain original plan/order/each-run behavior/spacing/stop/budget/evaluation. Twenty offline controls PASS; no production changes, existing five gates reused. Separate quick label and directory exclude these runs from checkpointC18. Commit/freeze then actual0-network three-run/default rehearsal before authorized quick Live. Model/Live ledger2143/7 unchanged.
+
+- **2026-10-21 Quick3 frozen and ready:** Quick entry final verification PASS: original outer executed exactly c-01/c-02/c-05 in0-network/0-model mode, default rehearsal retained1 run and defaultLive18 unchanged;20 controls PASS. Final quick freeze5c4dd01e4d21afcc8a687066dbb1e2bd2cd8e8cfd683e404b26e9d292fbdd8f4,558 files verified. Cumulative2143 models/7 Live/0 env reruns;1857 model calls remain. Old witness window sufficient for quick3 before2026-10-21T12:26Z; user preapproval permits launch after push.
 
 ## 当前门槛
 
