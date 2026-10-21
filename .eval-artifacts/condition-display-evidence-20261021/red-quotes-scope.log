@@ -1,0 +1,77 @@
+✖ condition display shows actual source field/quote and preserves lunch offering scope (1.202209ms)
+✖ condition display does not let names or customer reviews discharge HARD even with model labels (0.14925ms)
+✖ condition display requires current same-source field quotes and does not invent quotes from criterion text (0.085542ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 166.585875
+
+✖ failing tests:
+
+test at src/domains/restaurant/condition-states.test.ts:1:825
+✖ condition display shows actual source field/quote and preserves lunch offering scope (1.202209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'omakase'
+  - 'Lunch Omakase Course'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/condition-display-evidence/Praxis-Zhixing/src/domains/restaurant/condition-states.test.ts:14:43)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'omakase',
+    expected: 'Lunch Omakase Course',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/condition-states.test.ts:1:1535
+✖ condition display does not let names or customer reviews discharge HARD even with model labels (0.14925ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MET'
+  - 'NOT_CHECKED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/condition-display-evidence/Praxis-Zhixing/src/domains/restaurant/condition-states.test.ts:22:72)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MET',
+    expected: 'NOT_CHECKED',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/condition-states.test.ts:1:2096
+✖ condition display requires current same-source field quotes and does not invent quotes from criterion text (0.085542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'omakase'
+  - 'Omakase, Sushi'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/condition-display-evidence/Praxis-Zhixing/src/domains/restaurant/condition-states.test.ts:28:43)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'omakase',
+    expected: 'Omakase, Sushi',
+    operator: 'strictEqual'
+  }

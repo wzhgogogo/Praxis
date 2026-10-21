@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.225
+- Document revision: 4.226
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,11 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-CONDITION-DISPLAY-EVIDENCE
+
+- Valid original Kaga Router->Reducer red plus quote/meal/name/review controls saved. Focused57/57, default986/986, local Chromium131/131 and type/arch/build pass. Chromium verifies real source field labels in Web. Source parsing rejects nested reviews/neighbors and preserves lunch. Frozen quick3 display replay pending; zero real model/site calls.
+- [Report](../../.eval-artifacts/condition-display-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
 
 ## TEST-2026-10-21-CRITERION-PRESENTATION-REPAIR
 

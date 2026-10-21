@@ -1,4 +1,4 @@
-import { parseTabelogPriceFacts } from "./tabelog-page-parser.js";
+import { parseTabelogPriceFacts, parseTabelogSourceFieldQuotes } from "./tabelog-page-parser.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
@@ -644,6 +644,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         visibleSlots: slots,
         priceFacts: parseTabelogPriceFacts(page),
         listedCourseDetails: parseTabelogListedCourses(page),
+        sourceFieldQuotes: parseTabelogSourceFieldQuotes(page).filter(q => q.field !== "NAME" && q.field !== "CUSTOMER_REVIEW"),
         verifiedHardCriteria: parseTabelogVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: pageExcerpt(page),
       }, browser);
@@ -693,6 +694,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       ...(observation.visibleSlots ? { visibleSlots: observation.visibleSlots } : {}),
       ...(observation.priceFacts ? { priceFacts: observation.priceFacts } : {}),
       ...(observation.listedCourseDetails ? { listedCourseDetails: observation.listedCourseDetails } : {}),
+      ...(observation.sourceFieldQuotes ? { sourceFieldQuotes: observation.sourceFieldQuotes } : {}),
       ...(observation.verifiedHardCriteria ? { verifiedHardCriteria: observation.verifiedHardCriteria } : {}),
       ...(observation.excerpt ? { excerpt: observation.excerpt } : {}),
       ...(observation.failureCode ? { failureCode: observation.failureCode } : {}),

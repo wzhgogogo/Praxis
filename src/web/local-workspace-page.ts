@@ -104,7 +104,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
           (view.restaurant.conditionStates?.[id] || []).forEach(condition => {
             const label = condition.status === 'MET' ? 'met' : condition.status === 'NOT_MET' ? 'not met' : 'not checked';
             card.append(node('p', condition.text + ' — ' + label + ': ' + condition.explanation));
-            condition.sources.forEach(source => { const link = node('a', source.quote, 'muted'); link.href = source.sourceUrl; link.target = '_blank'; link.rel = 'noreferrer'; card.append(link); });
+            condition.sources.forEach(source => { const fieldLabel = { CATEGORY: 'Source category', COURSE_TITLE: 'Course title', COURSE_DESCRIPTION: 'Course description', GOOGLE_TYPE: 'Observed type', NAME: 'Source name', CUSTOMER_REVIEW: 'Customer review', SOURCE_TEXT: 'Unclassified source text', PRICE: 'Observed price' }[source.field]; const link = node('a', fieldLabel + (source.meal && source.meal !== 'UNSPECIFIED' ? ' (' + source.meal.toLowerCase() + ')' : '') + ': ' + source.quote, 'muted'); link.href = source.sourceUrl; link.target = '_blank'; link.rel = 'noreferrer'; card.append(link); });
           });
           let hasPrice = false, hasCancellation = false;
           facts.forEach(fact => {
