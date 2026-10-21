@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.302
+- Document revision: 4.303
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-21 Checkpoint C continuous validation, step 1 PASS:** accepted review 481b893; unchanged frozen code/input verified (628 files); calendar69/69, selection5/5, calibration22/22, five gates977/129. No new model/network/Live; cumulative2143/4000 models,7/100 full Live,0/10 environment reruns. Next: authorized integration/prep merge and freeze. Evidence: `.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-1.json`.
 
 ## 当前门槛
 

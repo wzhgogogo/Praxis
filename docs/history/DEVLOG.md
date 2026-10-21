@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.198
+- Document revision: 4.199
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4117,3 +4117,9 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 全部74次API成功、0重试；翻月平均1.877s、961320输入/8535输出token，选店平均2.053s、95435输入/1361输出；reasoning0，批次墙钟140.104s。阶段账本2069→2143/4000、剩1857，完整Live7/100、环境重跑0/10不变。0网站/Google/Live，不实现URL路径。
 - 37点正选中（34与请求一致、3不同），32点未观察到；独立来源核查69/69一致，未知不编造。69点历史/观察编号逐点一致，history/progress无改、显式历史targetRef0。选中状态/组投影/引用修正共同变化，非严格单字段因果试验，也不代表完整交付或泛化；历史H003 S0与上一轮54/69保持。
 - [四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/four-layer-report.md)、[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/result.json)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/decision-matrix.json)、[引用审计](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/reference-audit.json)和[冻结复验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/post-verification.json)。既有门禁生成的区域输出另存本批次后原文件恢复，代码/输入/外层运行中无改。离线门槛通过、待复核，推本修复分支后停止。
+
+
+## DEV-2026-10-21-CHECKPOINT-C-CONTINUOUS-STEP-1
+
+- Evidence status: frozen regression, exposed development. Accepted review481b893 and 628 frozen-file SHAs independently rechecked; production/skills unchanged since8e47ddf. Calendar69/69, selection5/5, calibration22/22, all five gates PASS (977 default/129 Chromium). Reused existing unchanged evidence; new model/network/Live0.
+- Freeze040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b; cumulative models2143/4000, fullLive7/100, environment reruns0/10. Historical H003 S0 retained. [Four-layer report](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-1-report.md).
