@@ -1,0 +1,1175 @@
+{
+  "referenceOnly": true,
+  "originalQuickGate": "1/3 remains unchanged; reference-only offline reevaluation",
+  "newModels": 0,
+  "newWebsites": 0,
+  "rows": [
+    {
+      "runId": "c-01",
+      "originalArtifact": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/runner/2026-10-21T11-00-16-745Z-04d5a0a4-85d5-4fb6-9c46-f81494df90ee.result.json",
+        "sha256": "2bc63774a6b244a7202c2d1193a95a00c543e8965170a9015c995ccd65129358"
+      },
+      "previous": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/quick-reevaluations/c-01.evaluation.31.json",
+        "sha256": "50bddbd0d796d5206e059505ce7e5006ae3711731a7db664647493a4e5aa212e",
+        "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@31",
+        "outcome": "QUALIFIED_DELIVERY",
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[0]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[0]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[0]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              }
+            ]
+          }
+        ],
+        "comparisons": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+            "text": "omakase",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "NOT_CHECKED",
+            "assessment": "S1_UNSUPPORTED"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+            "text": "omakase",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "NOT_CHECKED",
+            "assessment": "S1_UNSUPPORTED"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+            "text": "omakase",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "NOT_CHECKED",
+            "assessment": "S1_UNSUPPORTED"
+          }
+        ]
+      },
+      "current": {
+        "path": ".eval-artifacts/evaluator-hard-course-evidence-20261021/quick-reevaluations/c-01.evaluation.32.json",
+        "sha256": "bde60563665e88fbcc4c638429f358609dc598afafc02ae52fbcc49ad899786e",
+        "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+        "outcome": "QUALIFIED_DELIVERY",
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html#sha256=84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html#sha256=84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html#sha256=84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_TITLE: Lunch Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_TITLE: Lunch Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_TITLE: Lunch Special Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html#sha256=84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html#sha256=84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html#sha256=84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [
+                    "LUNCH"
+                  ],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_TITLE: Omakase Nigiri Course; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_TITLE: Premium Omakase Nigiri Course; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Awarded one Michelin star in the Tokyo Guide 2019 and 2020, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_TITLE: Special Omakase Nigiri Course; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "omakase",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_DESCRIPTION: The Omakase Nigiri 8-Piece Course features fresh seafood carefully selected by our skilled chefs, delivering the ultimate sushi experience.; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_TITLE: Lunch Omakase Nigiri 10 Pieces Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Our Omakase Nigiri Course featuring 10 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that you won't find anywhere else. *Menu items may vary based on availability.; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_TITLE: Lunch Omakase 13 Nigiri Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Our Omakase Nigiri Course featuring 13 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that cannot be found elsewhere. *Menu items may vary based on availability.; LUNCH. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [
+                    "LUNCH"
+                  ],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          }
+        ],
+        "comparisons": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+            "text": "omakase",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+            "text": "omakase",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+            "text": "omakase",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "findings": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+            "criterion": "omakase",
+            "code": "SOURCE_TEXT_ACCEPTED",
+            "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+            "refs": [
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html#sha256=84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html#sha256=84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html#sha256=84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b"
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+            "criterion": "omakase",
+            "code": "SOURCE_TEXT_ACCEPTED",
+            "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+            "refs": [
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html#sha256=578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a"
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+            "criterion": "omakase",
+            "code": "SOURCE_TEXT_ACCEPTED",
+            "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+            "refs": [
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html#sha256=5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d"
+            ]
+          }
+        ],
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence",
+              ".eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        }
+      }
+    },
+    {
+      "runId": "c-02",
+      "originalArtifact": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-02-attempt-1/runner/2026-10-21T11-08-45-696Z-53ba31bd-c5b8-4bb9-8e0f-65286ec6ab98.result.json",
+        "sha256": "9efa8b5d1b7a68e8b3986bcb146700b5b51a278bf6370f3a94d3ffac9f26cdf3"
+      },
+      "previous": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/quick-reevaluations/c-02.evaluation.31.json",
+        "sha256": "0df878a6aad579b2f74711193bddce39ffbe94aa0117702ed71fbe425cad0295",
+        "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@31",
+        "outcome": "QUALIFIED_DELIVERY",
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "good for a first date",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[0]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              },
+              {
+                "goldIndex": 1,
+                "text": "around 10,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "evidenceRefs": [
+                  "rawSnapshot[381].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 8,000 - JPY 9,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "Sichuan/Hunan cuisine",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[2]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              },
+              {
+                "goldIndex": 3,
+                "text": "hot pot restaurant",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[3]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "good for a first date",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[0]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              },
+              {
+                "goldIndex": 1,
+                "text": "around 10,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "evidenceRefs": [
+                  "rawSnapshot[359].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 8,000 - JPY 9,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "Sichuan/Hunan cuisine",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[2]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              },
+              {
+                "goldIndex": 3,
+                "text": "hot pot restaurant",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[3]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              }
+            ]
+          }
+        ],
+        "comparisons": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "text": "good for a first date",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "text": "around 10,000 yen per person",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "MET",
+            "assessment": "MISSED_KNOWN_CONDITION"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "text": "Sichuan/Hunan cuisine",
+            "criterionRef": "criterion:3",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "text": "hot pot restaurant",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "text": "good for a first date",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "text": "around 10,000 yen per person",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "MET",
+            "assessment": "MISSED_KNOWN_CONDITION"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "text": "Sichuan/Hunan cuisine",
+            "criterionRef": "criterion:3",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "text": "hot pot restaurant",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          }
+        ]
+      },
+      "current": {
+        "path": ".eval-artifacts/evaluator-hard-course-evidence-20261021/quick-reevaluations/c-02.evaluation.32.json",
+        "sha256": "b0b042b449345e6109d763940951d26ed582390239c9087e3b2dec30722aa558",
+        "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+        "outcome": "QUALIFIED_DELIVERY",
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "good for a first date",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[0]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              },
+              {
+                "goldIndex": 1,
+                "text": "around 10,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "evidenceRefs": [
+                  "rawSnapshot[381].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 8,000 - JPY 9,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "Sichuan/Hunan cuisine",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              },
+              {
+                "goldIndex": 3,
+                "text": "hot pot restaurant",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "good for a first date",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[0]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              },
+              {
+                "goldIndex": 1,
+                "text": "around 10,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "evidenceRefs": [
+                  "rawSnapshot[359].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 8,000 - JPY 9,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "Sichuan/Hunan cuisine",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              },
+              {
+                "goldIndex": 3,
+                "text": "hot pot restaurant",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "comparisons": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "text": "good for a first date",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "text": "around 10,000 yen per person",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "MET",
+            "assessment": "MISSED_KNOWN_CONDITION"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "text": "Sichuan/Hunan cuisine",
+            "criterionRef": "criterion:3",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "text": "hot pot restaurant",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "text": "good for a first date",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "text": "around 10,000 yen per person",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "MET",
+            "assessment": "MISSED_KNOWN_CONDITION"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "text": "Sichuan/Hunan cuisine",
+            "criterionRef": "criterion:3",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "text": "hot pot restaurant",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "findings": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "criterion": "Sichuan/Hunan cuisine",
+            "code": "CANNOT_INDEPENDENTLY_PROVE",
+            "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+            "refs": []
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "criterion": "hot pot restaurant",
+            "code": "CANNOT_INDEPENDENTLY_PROVE",
+            "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+            "refs": []
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "criterion": "Sichuan/Hunan cuisine",
+            "code": "CANNOT_INDEPENDENTLY_PROVE",
+            "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+            "refs": []
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "criterion": "hot pot restaurant",
+            "code": "CANNOT_INDEPENDENTLY_PROVE",
+            "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+            "refs": []
+          }
+        ],
+        "severity": {
+          "S0": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence",
+              ".eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "ABSENT",
+            "reasons": [
+              "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+            ],
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ]
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        }
+      }
+    },
+    {
+      "runId": "c-05",
+      "originalArtifact": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json",
+        "sha256": "99a9e3e8139b0ebdc73e3cd404065ed2f08ddb250812716d1893d88deba6f931"
+      },
+      "previous": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/quick-reevaluations/c-05.evaluation.31.json",
+        "sha256": "ab1da0eb737a0024f3e3ee6515533f84147b6b9c8ca09974e6cd06eaa257514e",
+        "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@31",
+        "outcome": "DELIVERED_UNQUALIFIED",
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "kaiseki",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[0]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "kaiseki",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "materializedCase.semantic.criteria[0]"
+                ],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+                ]
+              }
+            ]
+          }
+        ],
+        "comparisons": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+            "text": "kaiseki",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "NOT_CHECKED",
+            "assessment": "S1_UNSUPPORTED"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+            "text": "kaiseki",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "NOT_CHECKED",
+            "assessment": "S1_UNSUPPORTED"
+          }
+        ]
+      },
+      "current": {
+        "path": ".eval-artifacts/evaluator-hard-course-evidence-20261021/quick-reevaluations/c-05.evaluation.32.json",
+        "sha256": "15061cab4b4aa9defcb99838da1d912ed1b3f977f49786e0ef206c92e268fa98",
+        "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+        "outcome": "DELIVERED_UNQUALIFIED",
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "kaiseki",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/snapshot-0033.html#sha256=ea18f66713d89beca3aa62e0ec162e7885721547047704476c2fcd640a29a1c6"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_TITLE: Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/snapshot-0033.html#sha256=ea18f66713d89beca3aa62e0ec162e7885721547047704476c2fcd640a29a1c6"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "kaiseki",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceRefs": [
+                  "../checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json#sha256=c99855f6461844fd595f4aa7d3d803b991e20aee3305a5be389523ac22594fb7",
+                  "independent-review.input.md#sha256=a171848191ef273aaba274a7f70c1b50523091b41719967eda1e16057b93d0ae"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent reviewer witness: Private rooms to Kaiseki Settai no Enkai Dokoro. Not inferred from the product's model label; no requested-course availability claim."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  },
+                  {
+                    "code": "REVIEWED_WITNESS_ACCEPTED",
+                    "reason": "Independent manual HARD interpretation applies only to this outlet, request and artifact SHA; it is not a product name-matching rule.",
+                    "refs": [
+                      "../checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json",
+                      "independent-review.input.md"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "comparisons": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+            "text": "kaiseki",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+            "text": "kaiseki",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "findings": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+            "criterion": "kaiseki",
+            "code": "SOURCE_TEXT_ACCEPTED",
+            "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+            "refs": [
+              "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/snapshot-0033.html#sha256=ea18f66713d89beca3aa62e0ec162e7885721547047704476c2fcd640a29a1c6"
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+            "criterion": "kaiseki",
+            "code": "CANNOT_INDEPENDENTLY_PROVE",
+            "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+            "refs": []
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+            "criterion": "kaiseki",
+            "code": "REVIEWED_WITNESS_ACCEPTED",
+            "reason": "Independent manual HARD interpretation applies only to this outlet, request and artifact SHA; it is not a product name-matching rule.",
+            "refs": [
+              "../checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json",
+              "independent-review.input.md"
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+            "criterion": "PRESENTATION",
+            "code": "PRESENTATION_CITATION_MISSING",
+            "reason": "conflict=check evidence evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e8fa1f was not cited by presentation",
+            "refs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/post-run/13048623.body.txt#sha256=3953a2b7306da9fe47b46f46392bf896a7ddaa52db6c2c371ff2639e91a6ba89",
+              "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:868d6d701a1bee1f50959160]",
+              "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:e67e8e03c8e99d35631be13f]",
+              "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab]",
+              "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab]",
+              "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:e33cac038a64260750395638]",
+              "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:90c44a954c15314812a85f35]",
+              "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1309/A130905/13048623][id=offer:tabelog:tabelog:en/tokyo/A1309/A130905/13048623:2026-11-05:19:30:3]"
+            ]
+          }
+        ],
+        "severity": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Displayed claim lacks complete independent request/source/execution support.",
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S1": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No independently established unmet user-need conclusion."
+            ],
+            "evidenceRefs": []
+          },
+          "S2": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "No valid independent feasible witness supplied."
+            ],
+            "evidenceRefs": []
+          },
+          "S3": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Experience/latency thresholds belong to E2; not scored here."
+            ],
+            "evidenceRefs": []
+          },
+          "S4": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "User-invisible retry effects are not independently established."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_DECLARATION": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "Displayed claim lacks complete independent request/source/execution support."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_BOUNDARY": {
+            "status": "ABSENT",
+            "reasons": [
+              "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+            ],
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": []
+          }
+        }
+      }
+    }
+  ]
+}
