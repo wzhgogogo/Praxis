@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.222
+- Document revision: 4.223
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-CHECKPOINT-C-NETWORK-RESTORED-RESUME
+
+- User reports network repaired and explicitly resumes c01. Prior two source failures and consumed retry remain; one additional c01 entry is granted, then original c02/c05 and conditional recertification/C18. Code and inputs match a6fa26c;690 accepted hashes and32 ledger sources verified. Existing gates979/131,calendar69/69,selection5/5,calibration22/22 reused;0 new models/network at preparation. Cumulative2353 models/10 fullLive/0 formal env reruns. See continuous-retry-20261021/plan.md.
 
 ## TEST-2026-10-21-CHECKPOINT-C-QUICK-PREFLIGHT-STOP
 
