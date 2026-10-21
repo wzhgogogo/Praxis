@@ -1,0 +1,41 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2l-kagurazaka-kaiseki-20261105","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/network-preflight/2026-10-21T11-16-52-424Z-b0f1bdca-1644-49f6-ac83-0375aa6b37d0.result.json","elapsedMs":5472,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2l-kagurazaka-kaiseki-20261105",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 7
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 5,
+    "candidatesChecked": 5,
+    "agentDecisions": 7,
+    "browserModelCalls": 16,
+    "modelCallsStarted": 31,
+    "browserRuntimeCalls": 133,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 27,
+      "tabelog:en/tokyo/A1309/A130905/13300814": 24,
+      "tabelog:en/tokyo/A1309/A130905/13180712": 24,
+      "tabelog:en/tokyo/A1309/A130905/13218101": 15,
+      "tabelog:en/tokyo/A1309/A130905/13048623": 24,
+      "tabelog:en/tokyo/A1309/A130905/13281152": 19
+    },
+    "pageStillLoadingWithinBound": 17,
+    "postActionWaitTotalMs": 26173,
+    "browserModelActions": 14,
+    "googleRequests": {
+      "limit": 38,
+      "total": 3,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 259302
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json",
+  "evaluationPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.evaluation.30-1792581692533.json",
+  "latencyMs": 259302,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
