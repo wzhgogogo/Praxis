@@ -1,0 +1,21 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {RestaurantExecutionRouter} from '../../../src/application/restaurant-execution-router.ts';
+import {restaurantBookingTaskDefinition as definition} from '../../../src/domains/restaurant/task-definition.ts';
+import {restaurantCurrentFactEvidence} from '../../../src/domains/restaurant/read-assessment.ts';
+const dir='.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021',root='.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner';
+const sha=b=>createHash('sha256').update(b).digest('hex'),freezeBytes=await fs.readFile(`${dir}/freeze.json`),freeze=JSON.parse(freezeBytes);for(const[p,h]of Object.entries(freeze.files))assert.equal(sha(await fs.readFile(p)),h);
+globalThis.fetch=()=>{throw Error('SAVED_EVENT_REPLAY_NO_NETWORK');};
+const p=`${root}/${(await fs.readdir(root)).find(p=>p.endsWith('.result.json'))}`,bytes=await fs.readFile(p),artifact=JSON.parse(bytes),last=artifact.events.at(-1),now=last.occurredAt;
+const context=at=>({taskId:artifact.runId,runId:artifact.runId,now:at,createId:p=>p});
+let state=definition.create({},context(artifact.startedAt));const events=[];
+for(const envelope of artifact.events){if(envelope.event.type==='RESULTS_PRESENTED')break;state=definition.transition(state,envelope.event,context(envelope.occurredAt)).state;events.push({type:envelope.event.type,occurredAt:envelope.occurredAt});}
+let sourceCalls=0;const noRead=async()=>{sourceCalls++;throw Error('NO_EXTERNAL_READS');};
+const router=new RestaurantExecutionRouter({executionRoute:'STRUCTURED_ADAPTER',search:noRead},{executionRoute:'STRUCTURED_ADAPTER',check:noRead},{structuredReadTimeoutMs:1000,browserReadTimeoutMs:1000});
+const result=await router.execute({type:'PRESENT_RESULTS',candidateIds:last.event.candidateIds},state,now);assert.equal(result.event.type,'RESULTS_PRESENTED');
+const shown=definition.transition(state,result.event,context(now)).state;
+const id='tabelog:en/tokyo/A1309/A130905/13048623',fact='evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e8fa1f';
+assert.ok(!last.event.evidenceIds.includes(fact));assert.ok(shown.presentedResults.evidenceIds.includes(fact));assert.equal(sourceCalls,0);
+await fs.writeFile(`${dir}/product-replay.json`,JSON.stringify({mode:'SAVED_EVENTS_CURRENT_REDUCER_ROUTER_REPLAY',source:{path:p,sha256:sha(bytes)},freezeSha256:sha(freezeBytes),eventsReplayed:events,originalPresentation:last.event,currentPresentation:shown.presentedResults,kagaCurrentFactEvidenceIds:restaurantCurrentFactEvidence(state,id).map(e=>e.evidenceId),beforeCitesLaterFact:false,afterCitesLaterFact:true,modelCalls:0,sourceCalls,fullLiveRuns:0,limitation:'Counterfactual local event replay; original result and its independent reevaluation remain unchanged. Not a new Live delivery.'},null,2),{flag:'wx'});
+console.log(JSON.stringify({productReplay:'PASS',events:events.length,kagaCitation:true,modelCalls:0,sourceCalls}));

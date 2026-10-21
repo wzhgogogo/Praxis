@@ -23,7 +23,7 @@ import type {
 import { restaurantAvailabilityRequestFingerprint, restaurantSearchIntentFingerprint } from "./contracts.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
-import { assessRestaurantRead, restaurantCurrentFactEvidence } from "./read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "./action-validator.js";
 import { restaurantReadStopIsSystem, restaurantUnverifiedReadSummary } from "./read-loop-termination.js";
 
@@ -621,6 +621,10 @@ function transition(
       const availableEvidence = new Set(state.readEvidence.map((item) => item.evidenceId));
       if (event.evidenceIds.length === 0 || !event.evidenceIds.every((id) => availableEvidence.has(id))) {
         throw new Error("Results presentation must reference current authoritative evidence");
+      }
+      const citedEvidence = new Set(event.evidenceIds);
+      if (event.candidateIds.some(id => restaurantPresentationEvidenceIds(state, id, context.now)?.some(required => !citedEvidence.has(required)))) {
+        throw new Error("Results presentation omitted current required evidence citations");
       }
       const { pendingResultBatchTarget: _pendingResultBatchTarget, defaultBatchDeliveryWindow: _defaultBatchDeliveryWindow, ...remaining } = state;
       const resultBatchTarget = state.pendingResultBatchTarget === undefined

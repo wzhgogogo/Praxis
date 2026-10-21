@@ -4,6 +4,7 @@ import type { RestaurantQuotedCoursePrice } from "./price-facts.js";
 
 export type RestaurantConditionStatus = "MET" | "NOT_MET" | "NOT_CHECKED";
 export interface RestaurantConditionState {
+  criterionRef: string;
   text: string;
   polarity: "POSITIVE" | "NEGATIVE";
   strength: "HARD" | "SOFT" | "UNSPECIFIED";
@@ -12,7 +13,7 @@ export interface RestaurantConditionState {
   evidenceIds: string[];
   sources: Array<{ sourceUrl: string; quote: string }>;
 }
-export const RESTAURANT_CONDITION_STATES_SCHEMA = "restaurant-condition-states@1";
+export const RESTAURANT_CONDITION_STATES_SCHEMA = "restaurant-condition-states@2";
 const normalize = (value: string) => value.normalize("NFKC").toLowerCase().replace(/\s+/g, " ").trim();
 
 /** No semantic strength inference: compare only a recognized numeric price condition. */
@@ -31,8 +32,8 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
   if (policy.status !== "USER_APPROVED" || !(policy.aroundPriceTolerance >= 0 && policy.aroundPriceTolerance < 1)) throw Error("Unapproved restaurant price policy");
   const meal = intent.timeWindow?.earliest && intent.timeWindow.earliest >= "17:00" ? "DINNER"
     : intent.timeWindow?.latest && intent.timeWindow.latest <= "15:00" ? "LUNCH" : undefined;
-  return intent.criteria.map(criterion => {
-    const base = { ...criterion, status: "NOT_CHECKED" as RestaurantConditionStatus,
+  return intent.criteria.map((criterion, index) => {
+    const base = { ...criterion, criterionRef: `criterion:${index}`, status: "NOT_CHECKED" as RestaurantConditionStatus,
       explanation: "No current source evidence establishes this condition.", evidenceIds: [] as string[], sources: [] as Array<{ sourceUrl: string; quote: string }> };
     const price = priceCondition(criterion.text, intent.budgetPerPerson);
     if (price) {

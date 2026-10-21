@@ -43,7 +43,7 @@ import { validateRestaurantSemanticProposal } from "../../../domains/restaurant/
 import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { snapshotRecord } from "./runners/browser-case-slice-evidence.js";
 import { readDiagnosticRun } from "./diagnostic-evaluator-record.js";
-import { loadCriterionEquivalences, parseCriterionEquivalences } from "./criterion-equivalences.js";
+import { loadCriterionCorrespondences, parseCriterionCorrespondences, matchCriteria, normalizeCriterion } from "./criterion-correspondence.js";
 import { evaluateSourceOpeningHours, loadPostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 import { evaluatorImportViolation } from "../../shared/evaluator-import-rule.js";
 import { loadFrozenCalibrationInput, loadCalibrationObservations, loadApprovedGoldCorrection } from "./calibration-inputs.js";
@@ -57,9 +57,7 @@ import { auditReadOnlyTrace, parseReviewedReads } from "./diagnostic-evaluator-n
 async function calibrationArtifact(runId: string): Promise<any> {
   return JSON.parse(gunzipSync(await readFile(new URL(`../../../../.eval-artifacts/calibration-phase1-20261015/inputs/${runId}.result.json.gz`, import.meta.url))).toString("utf8"));
 }
-function testEquivalences(entries: unknown[] = []) {
-  return parseCriterionEquivalences(JSON.stringify({ schema: "criterion-equivalences@1", revision: 1, status: "TEST_ONLY", rule: "Only listed pairs", entries }), "TEST_ONLY");
-}
+
 
 test("E1 review approved rev2 Gold repairs every rev1 Part A result without changing its bytes", async () => {
   const manifest = ".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json";
@@ -124,20 +122,12 @@ test("E1 review Gold correction binds all affected originals and both source SHA
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
 
-test("E1 supplement loads the actual reviewer schema without rewriting its decisions", () => {
-  const table = loadCriterionEquivalences();
-  assert.equal(table.entries.length, 8);
-  assert.equal(table.sha256, "9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440");
-  assert.deepEqual(table.entries.map(entry => [entry.goldText, entry.systemText, entry.polarity, entry.conclusion]), [
-    ["good for a first date", "first-date restaurant", "POSITIVE", "SAME"],
-    ["good for a first date", "suitable for a first date", "POSITIVE", "SAME"],
-    ["hot pot restaurant", "hot-pot restaurants", "NEGATIVE", "SAME"],
-    ["kaiseki", "kaiseki restaurant", "POSITIVE", "SAME"],
-    ["good for meeting a friend", "suitable for meeting up with a friend", "POSITIVE", "SAME"],
-    ["sichuan/hunan cuisine", "sichuan/hunan-style cuisine where spicy food is the main focus", "NEGATIVE", "SAME"],
-    ["team dinner", "suitable for a team dinner", "POSITIVE", "SAME"],
-    ["tempura", "tempura restaurant", "POSITIVE", "SAME"],
-  ]);
+test("historical criterion identity registry is exact-artifact scoped, not a synonym table", () => {
+  const registry = loadCriterionCorrespondences();
+  assert.equal(registry.entries.length, 13);
+  assert.equal(registry.entries.reduce((n, row) => n + row.pairs.length, 0), 20);
+  assert.ok(registry.entries.every(row => /^[a-f0-9]{64}$/.test(row.artifactSha256) && row.pairs.every(pair => pair.refs.length)));
+  assert.equal(matchCriteria([{ value: "good for a first date" }], [{ text: "first-date restaurant" }]).length, 0, "no general synonym recognition remains");
 });
 
 test("E1 R2 actual h003 deliveries report every preference and reject independently unmet budgets", async () => {
@@ -199,8 +189,10 @@ test("E1 R2 source observation table is strict independent Gold, not a hidden ou
 });
 
 test("E1 R1 supported recommendation delivery remains qualified despite an availability-goal process drift", async () => {
-  const artifact = await calibrationArtifact("p1fA-kf-h004-a1");
-  const result = evaluateRestaurantHybridLiveArtifact(artifact, source);
+  const bytes = gunzipSync(await readFile(new URL("../../../../.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h004-a1.result.json.gz", import.meta.url)));
+  const artifact = JSON.parse(bytes.toString());
+  const originalSource = { path: "p1fA-kf-h004-a1.result.json", sha256: createHash("sha256").update(bytes).digest("hex") };
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, originalSource);
   assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED", "do not erase the process defect");
   assert.equal(result.outcome.type, "QUALIFIED_DELIVERY", "actual supported cafe delivery fulfills the frozen recommendation request (R1)");
   assert.equal(result.severity.S3.status, "PRESENT");
@@ -386,38 +378,38 @@ test("E1 typed projection preserves absence and rejects invalid consumed fields 
   assert.equal(finding(result, "RESOURCES").status, "NOT_EVALUATED");
 });
 
-test("E1 reviewed wording equivalence is usable without relaxing polarity or strength", () => {
+test("criterion references associate changed labels without relaxing polarity or HARD strength", () => {
   const artifact: any = completeArtifact();
-  artifact.materializedCase.semantic.criteria[0].value = "chef-led tasting";
-  const table = parseCriterionEquivalences(JSON.stringify({ schema: "criterion-equivalences@1", revision: 1, status: "TEST_ONLY", rule: "Only listed pairs", entries: [
-    { id: "test", gold: "chef-led tasting", system: "omakase", polarity: "POSITIVE", verdict: "SAME", decidedBy: "TEST_ONLY", decidedOn: "2026-10-16", sourceRuns: ["synthetic-control"] },
-  ] }), "TEST_ONLY");
-  const evaluate = (value: unknown) => evaluateRestaurantHybridLiveArtifact(value, source, { criterionEquivalences: table });
-  assert.equal(finding(evaluate(artifact), "AUTHORITATIVE_CONDITIONS").status, "SATISFIED");
+  artifact.materializedCase.semantic.criteria[0] = { ...artifact.materializedCase.semantic.criteria[0], value: "chef-led tasting", semanticId: "request-condition:7" };
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].semanticId = "request-condition:7";
+  const evaluate = () => evaluateRestaurantHybridLiveArtifact(artifact, source);
+  assert.equal(finding(evaluate(), "AUTHORITATIVE_CONDITIONS").status, "SATISFIED");
   artifact.finalSnapshot.domainState.intentDraft.criteria[0].polarity = "NEGATIVE";
-  assert.equal(finding(evaluate(artifact), "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
+  assert.equal(finding(evaluate(), "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
   artifact.finalSnapshot.domainState.intentDraft.criteria[0].polarity = "POSITIVE";
   artifact.finalSnapshot.domainState.intentDraft.criteria[0].strength = "SOFT";
-  assert.equal(finding(evaluate(artifact), "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
+  assert.equal(finding(evaluate(), "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].strength = "HARD";
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].semanticId = "another-condition";
+  assert.notEqual(finding(evaluate(), "AUTHORITATIVE_CONDITIONS").status, "SATISFIED");
 });
 
-test("E1 strict versioned wording table rejects unknown keys, null, duplicates and records raw SHA", () => {
-  const empty = 'schema: criterion-equivalences@1\nrevision: 1\nstatus: TEST_ONLY\nrule: Only listed pairs\nentries: []\n';
-  assert.equal(parseCriterionEquivalences(empty, "TEST_ONLY").sha256, createHash("sha256").update(empty).digest("hex"));
-  for (const invalid of [empty + 'extra: true\n', empty.replace('[]', 'null'), empty.replace('revision: 1', 'revision: null'), empty.replace('entries: []', 'entries: []\nentries: []')])
-    assert.throws(() => parseCriterionEquivalences(invalid, "TEST_ONLY"));
-  const entry = { id: "test", gold: "test source", system: "test paraphrase", polarity: "POSITIVE", verdict: "DIFFERENT", decidedBy: "TEST_ONLY", decidedOn: "2026-10-16", sourceRuns: ["synthetic"] };
-  const tableText = (entries: unknown[]) => JSON.stringify({ schema: "criterion-equivalences@1", revision: 1, status: "TEST_ONLY", rule: "Only listed pairs", entries });
-  for (const invalid of [{ ...entry, extra: true }, { ...entry, verdict: null }, { ...entry, sourceRuns: [null] }]) assert.throws(() => parseCriterionEquivalences(tableText([invalid]), "TEST_ONLY"));
-  assert.throws(() => parseCriterionEquivalences(tableText([entry, entry]), "TEST_ONLY"), /duplicate/);
+test("criterion registry rejects unknown fields, null, duplicate identities and unbound text", () => {
+  const root = { schema: "artifact-criterion-correspondence@1", status: "TEST_ONLY", rule: "Explicit indices", entries: [] as unknown[] };
+  const parse = (value: unknown) => parseCriterionCorrespondences(JSON.stringify(value), "TEST_ONLY");
+  assert.equal(parse(root).sha256, createHash("sha256").update(JSON.stringify(root)).digest("hex"));
+  for (const value of [{ ...root, extra: true }, { ...root, entries: null }, { ...root, schema: null }]) assert.throws(() => parse(value));
+  const pair = { goldIndex: 0, actualIndex: 0, semanticId: "condition:0", goldTextSha256: createHash("sha256").update("original").digest("hex"), actualTextSha256: createHash("sha256").update("recorded").digest("hex"), refs: ["independent-review"] };
+  const row = { runId: "test", artifactSha256: "a".repeat(64), pairs: [pair] };
+  for (const value of [{ ...root, entries: [row, row] }, { ...root, entries: [{ ...row, pairs: [pair, pair] }] }, { ...root, entries: [{ ...row, pairs: [{ ...pair, refs: [] }] }] }]) assert.throws(() => parse(value));
+  assert.equal(matchCriteria([{ text: "original" }], [{ text: "recorded" }], [pair]).length, 1);
+  assert.equal(matchCriteria([{ text: "changed" }], [{ text: "recorded" }], [pair]).length, 0);
+  assert.equal(matchCriteria([{ criterionRef: "criterion:0" }, { criterionRef: "criterion:0" }], [{ criterionRef: "criterion:0" }]).length, 0);
   const artifact: any = completeArtifact(); artifact.materializedCase.semantic.criteria[0].value = "test source"; artifact.finalSnapshot.domainState.intentDraft.criteria[0].text = "test paraphrase";
   const unknown = evaluateRestaurantHybridLiveArtifact(artifact, source);
   assert.equal(finding(unknown, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
   assert.deepEqual(unknown.pendingCriterionWordings, [{ goldText: "test source", systemText: "test paraphrase", goldPolarity: "POSITIVE", systemPolarity: "POSITIVE" }]);
-  const different = evaluateRestaurantHybridLiveArtifact(artifact, source, { criterionEquivalences: parseCriterionEquivalences(tableText([entry]), "TEST_ONLY") });
-  assert.equal(finding(different, "AUTHORITATIVE_CONDITIONS").status, "NOT_SATISFIED");
-  assert.deepEqual(different.pendingCriterionWordings, []);
-  assert.match(loadCriterionEquivalences().sha256, /^[a-f0-9]{64}$/);
+  assert.equal(normalizeCriterion("  HOT-POT, Restaurant! "), "hot pot restaurant");
 });
 
 test("E1 Tabelog independently rejects a raw observation on a different date despite copied claims", async () => {
@@ -1742,7 +1734,7 @@ test("H004 fact-only presentation requires applicable opening hours, not an avai
   assert.equal(finding(accepted, "REQUIRED_EVIDENCE").status, "SATISFIED", JSON.stringify(finding(accepted, "REQUIRED_EVIDENCE").observations));
   assert.equal(finding(accepted, "FINAL_CLAIM").status, "SATISFIED");
   domain.intentDraft.criteria[1].text = "suitable for meeting up with a friend";
-  const softRewrite = evaluateRestaurantHybridLiveArtifact(artifact, source, { criterionEquivalences: testEquivalences() });
+  const softRewrite = evaluateRestaurantHybridLiveArtifact(artifact, source, {});
   assert.equal(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
   assert.match(finding(softRewrite, "AUTHORITATIVE_CONDITIONS").directCause, /independent semantic review/);
   assert.ok(softRewrite.unassessedDimensions.some((item) => item.includes("Criterion text differs")));
@@ -1819,7 +1811,7 @@ test("grounding follows the actual authoritative criterion while textual Gold di
   artifact.finalSnapshot.domainState.readEvidence.find((item: any) => item.evidenceId === "hard-a").claims = {
     verifiedNegativeCriteria: ["hot-pot restaurants"],
   };
-  const result = evaluateRestaurantHybridLiveArtifact(artifact, source, { criterionEquivalences: testEquivalences() });
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, source, {});
   assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "NOT_EVALUATED");
   assert.match(finding(result, "AUTHORITATIVE_CONDITIONS").directCause, /independent semantic review/);
   assert.equal(finding(result, "REQUIRED_EVIDENCE").status, "SATISFIED");
@@ -2097,4 +2089,31 @@ test("independent price oracle reads raw menus, detects false MET, and does not 
   artifact.diagnostics.browserTrace[1].detail.priceRegions = regions;
   assert.equal(evaluateRestaurantHybridLiveArtifact(artifact, source).conditionStateComparisons.find(row => row.text === condition.value)?.assessment, "MISSED_KNOWN_CONDITION");
   for (const target of ["domains/restaurant/condition-states.ts", "integrations/tabelog/tabelog-page-parser.ts", "integrations/restaurant-availability/source-price-facts.ts"]) assert.ok(evaluatorImportViolation("eval/restaurant/agent-loop/diagnostic-evaluator-prices.ts", target, 'import { parse } from "x"'));
+});
+
+test("current quick3 matches all eight recorded display rows by condition correspondence", async () => {
+  const root = new URL("../../../../.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/", import.meta.url);
+  const paths = [
+    "c-02-attempt-1/runner/2026-10-21T11-08-45-696Z-53ba31bd-c5b8-4bb9-8e0f-65286ec6ab98.result.json",
+    "c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json",
+  ];
+  for (const path of paths) {
+    const bytes = await readFile(new URL(path, root));
+    const result = evaluateRestaurantHybridLiveArtifact(JSON.parse(bytes.toString()), { path, sha256: createHash("sha256").update(bytes).digest("hex") });
+    assert.ok(result.conditionStateComparisons.every(row => row.displayed !== "NOT_RECORDED"), `${path}: existing display rows must not be reported missing`);
+    assert.equal(finding(result, "AUTHORITATIVE_CONDITIONS").status, "SATISFIED");
+  }
+});
+
+test("criterion punctuation normalization cannot erase polarity or HARD-strength conflicts", () => {
+  const artifact: any = completeArtifact();
+  artifact.materializedCase.semantic.criteria[0].value = "HOT POT restaurant!";
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].text = "hot-pot  restaurant";
+  const evaluate = () => finding(evaluateRestaurantHybridLiveArtifact(artifact, source), "AUTHORITATIVE_CONDITIONS").status;
+  assert.equal(evaluate(), "SATISFIED");
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].polarity = "NEGATIVE";
+  assert.equal(evaluate(), "NOT_SATISFIED");
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].polarity = "POSITIVE";
+  artifact.finalSnapshot.domainState.intentDraft.criteria[0].strength = "SOFT";
+  assert.equal(evaluate(), "NOT_SATISFIED");
 });

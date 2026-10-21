@@ -6,8 +6,8 @@ import { basename, dirname, resolve } from "node:path";
 import { gunzipSync } from "node:zlib";
 import { readDiagnosticRun, readDiagnosticTrace, readOrchestrationRecord } from "./diagnostic-evaluator-record.js";
 import type { RunRecord, DomainRecord, MaterializedRecord, IntentRecord, CriterionRecord, EvidenceRecord, CheckRecord, TrajectoryRecord, TraceRecord, TraceDetailRecord, ControlRecord, ServiceScopeRecord } from "./diagnostic-evaluator-record.js";
-import { loadCriterionEquivalences, normalizeCriterion } from "./criterion-equivalences.js";
-import type { CriterionEquivalenceTable, PendingCriterionWording } from "./criterion-equivalences.js";
+import { loadCriterionCorrespondences, matchCriteria, normalizeCriterion } from "./criterion-correspondence.js";
+import type { CriterionCorrespondences, CriterionMatch, PendingCriterionWording } from "./criterion-correspondence.js";
 import { assessRawTabelog, evaluateSourceOpeningHours } from "./diagnostic-evaluator-grounding.js";
 import type { PostDeliveryTabelogObservation } from "./diagnostic-evaluator-grounding.js";
 import { classifyRunOutcome } from "./diagnostic-evaluator-outcome.js";
@@ -23,8 +23,8 @@ import { assessUserConditions, loadSoftPreferenceObservations } from "./diagnost
 import type { CandidateConditionStates, SoftPreferenceObservations } from "./diagnostic-evaluator-preferences.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@30";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@26";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@31";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@27";
 
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
 
@@ -77,7 +77,7 @@ export interface RestaurantHybridDiagnosticEvaluation {
   findings: DiagnosticFinding[];
   unassessedDimensions: string[];
   recordReadIssues: Array<{ path: string; reason: "MISSING" | "INVALID_TYPE" | "UNEXPECTED_FIELD" }>;
-  criterionEquivalences: { path: string; sha256: string; tableVersion: string };
+  criterionCorrespondence: { path: string; sha256: string; schema: string; matches: CriterionMatch[] };
   pendingCriterionWordings: PendingCriterionWording[];
   conditionStates: CandidateConditionStates[];
   conditionStateComparisons: Array<{ candidateId: string; text: string; displayed: string; independent: string; assessment: string }>;
@@ -125,7 +125,7 @@ function observedOnOrBeforePresentation(observedAt: unknown, presentedAt: unknow
 function criterionSet(value: CriterionRecord[] | undefined): string[] {
   return asArray(value).flatMap((criterion) => {
     if (!criterion) return [];
-    const text = normalized(asString(criterion.text) ?? asString(criterion.value));
+    const text = normalizeCriterion(asString(criterion.text) ?? asString(criterion.value) ?? "");
     const polarity = asString(criterion.polarity);
     const strength = asString(criterion.strength);
     return text && polarity && strength ? [`${text}|${polarity}|${strength}`] : [];
@@ -141,6 +141,7 @@ interface RequestShape {
   permittedAlternativeTimeWindow?: { earliest: string; latest: string };
   location?: { value: string; relation?: string };
   criteria: string[];
+  criterionRecords: CriterionRecord[];
   unsupportedHardCriteria: string[];
   missing: string[];
 }
@@ -161,7 +162,7 @@ function requestFromMaterialized(value: MaterializedRecord): RequestShape {
   const caseId = asString(value.id);
   const expectedGoal = goal(semantic.target);
   const date = parseDate((semantic.date)?.value); const party = partySize(semantic.party_size); const locationValue = asString(location?.value); const relation = asString(location?.relation);
-  const result: RequestShape = { ...(caseId ? { caseId } : {}), ...(expectedGoal ? { goal: expectedGoal } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(timeValue ? { timeWindow: { earliest: timeValue, latest: timeValue } } : start && end ? { timeWindow: { earliest: start, latest: end } } : {}), ...(locationValue ? { location: { value: locationValue, ...(relation ? { relation } : {}) } } : {}), criteria, unsupportedHardCriteria: [], missing: [] };
+  const result: RequestShape = { ...(caseId ? { caseId } : {}), ...(expectedGoal ? { goal: expectedGoal } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(timeValue ? { timeWindow: { earliest: timeValue, latest: timeValue } } : start && end ? { timeWindow: { earliest: start, latest: end } } : {}), ...(locationValue ? { location: { value: locationValue, ...(relation ? { relation } : {}) } } : {}), criteria, criterionRecords: semantic.criteria ?? [], unsupportedHardCriteria: [], missing: [] };
   if (!result.goal) result.missing.push("target.goal");
   const permitted = alternativeWindow(semantic.permittedAlternativeTimeWindow);
   if (permitted) result.permittedAlternativeTimeWindow = permitted;
@@ -176,7 +177,7 @@ function requestFromFinalIntent(value: IntentRecord): RequestShape {
   const window = (value.timeWindow); const earliest = parseTime(window?.earliest); const latest = parseTime(window?.latest); const area = (value.area);
   const date = parseDate(value.date); const party = partySize(value.partySize); const areaQuery = asString(area?.query);
   const actualGoal = goal(value.target);
-  const result: RequestShape = { ...(actualGoal ? { goal: actualGoal } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(earliest && latest ? { timeWindow: { earliest, latest } } : {}), ...(areaQuery ? { location: { value: areaQuery.replace(/^near\s+/i, ""), relation: "NEAR" } } : {}), criteria: criterionSet(value.criteria), unsupportedHardCriteria: [], missing: [] };
+  const result: RequestShape = { ...(actualGoal ? { goal: actualGoal } : {}), ...(date ? { date } : {}), ...(party !== undefined ? { partySize: party } : {}), ...(earliest && latest ? { timeWindow: { earliest, latest } } : {}), ...(areaQuery ? { location: { value: areaQuery.replace(/^near\s+/i, ""), relation: "NEAR" } } : {}), criteria: criterionSet(value.criteria), criterionRecords: value.criteria ?? [], unsupportedHardCriteria: [], missing: [] };
   if (!result.goal) result.missing.push("target.goal");
   const permitted = alternativeWindow(value.permittedAlternativeTimeWindow);
   if (permitted) result.permittedAlternativeTimeWindow = permitted;
@@ -222,10 +223,6 @@ function observationRequestMismatches(authoritative: RequestShape, observed: Req
   return [...new Set(mismatches)];
 }
 type CriteriaComparison = { conflicts: string[]; unresolved: string[]; pending: PendingCriterionWording[] };
-function criterionParts(value: string): { text: string; polarity: string; strength: string } {
-  const [text = "", polarity = "", strength = ""] = value.split("|");
-  return { text, polarity, strength };
-}
 function criterionIdentity(criterion: { text: string; polarity: string }): string {
   // Text alone is not an identity: the same wording can occur as both an
   // inclusion and an exclusion.  The NUL separator cannot occur in a parsed
@@ -260,19 +257,20 @@ function unmatchedStrengths(
  * text lets us reject polarity/HARD-strength conflicts; different text is kept
  * visible for independent semantic review instead of becoming an auto-pass.
  */
-function compareCriteria(expected: RequestShape, actual: RequestShape, table: CriterionEquivalenceTable, ignoreAdditionalNonblocking = false): CriteriaComparison {
+function compareCriteria(expected: RequestShape, actual: RequestShape, matches: CriterionMatch[], ignoreAdditionalNonblocking = false): CriteriaComparison {
   const conflicts: string[] = [];
   const unresolved: string[] = [];
-  const expectedParts = expected.criteria.map(criterionParts);
-  const rawActualParts = actual.criteria.map(criterionParts);
-  const actualParts = rawActualParts.map(criterion => {
-    if (expectedParts.some(part => part.text === criterion.text)) return criterion;
-    const reviewed = expectedParts.flatMap(part => table.entries.filter(entry => normalizeCriterion(entry.goldText) === part.text
-      && normalizeCriterion(entry.systemText) === criterion.text && entry.polarity === part.polarity).map(entry => ({ part, entry })));
-    for (const { entry } of reviewed) if (entry.conclusion === "DIFFERENT") conflicts.push(`criteria reviewed DIFFERENT=${entry.goldText} / ${entry.systemText}`);
-    const same = reviewed.filter(item => item.entry.conclusion === "SAME");
-    // Never invent transitivity or choose among ambiguous many-to-one labels.
-    return same.length === 1 ? { ...criterion, text: same[0]!.part.text } : criterion;
+  const parts = (row: CriterionRecord) => ({ text: normalizeCriterion(row.text ?? row.value ?? ""), polarity: row.polarity ?? "", strength: row.strength ?? "" });
+  const expectedParts = expected.criterionRecords.map(parts);
+  const actualParts = actual.criterionRecords.map((row, index) => {
+    const part = parts(row), matched = matches.find(match => match.actualIndex === index);
+    if (matched) return { ...part, text: expectedParts[matched.goldIndex]!.text };
+    const id = row.semanticId ?? row.criterionRef;
+    if (id || expected.criterionRecords.some(other => other.semanticId || other.criterionRef)) {
+      // An absent/conflicting explicit identity cannot be rescued by its label.
+      return { ...part, text: `unmatched-identity:${index}:${part.text}` };
+    }
+    return part;
   });
   const pending: PendingCriterionWording[] = [];
   const expectedByIdentity = groupCriteriaByIdentity(expectedParts);
@@ -296,8 +294,7 @@ function compareCriteria(expected: RequestShape, actual: RequestShape, table: Cr
     if (differentText) {
       unresolved.push(`criteria.text expected=[${expectedOnly.map((criterion) => criterion.text).join(", ")}] actual=[${actualOnly.map((criterion) => criterion.text).join(", ")}]`);
       for (const gold of expectedOnly) for (const system of actualOnly) {
-        if (!table.entries.some(entry => normalizeCriterion(entry.goldText) === gold.text && normalizeCriterion(entry.systemText) === system.text && entry.polarity === gold.polarity))
-          pending.push({ goldText: gold.text, systemText: system.text, goldPolarity: gold.polarity, systemPolarity: system.polarity });
+        pending.push({ goldText: gold.text, systemText: system.text, goldPolarity: gold.polarity, systemPolarity: system.polarity });
       }
     }
   } else {
@@ -774,23 +771,23 @@ function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: 
     if (request.location?.relation === "NEAR_USER") return claims.areaMatchBasis === "TASK_LOCATION_RADIUS" || claims.areaMatchBasis === "EVALUATION_LOCATION_RADIUS";
     return normalizedArea(asString(claims.areaQuery)) === normalizedArea(request.location?.value);
   })) conflicts.push("cited discovery evidence does not establish the requested area");
-  const positiveHard = request.criteria.filter((criterion) => criterion.endsWith("|POSITIVE|HARD")).map((criterion) => criterion.split("|")[0]!);
+  const positiveHard = request.criterionRecords.filter(criterion => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map(criterion => criterion.text ?? criterion.value ?? "");
   for (const hardCriterion of positiveHard) {
     const price = independentPriceCondition(root, candidateId, hardCriterion, facts);
     if (price) {
       if (price.status === "NOT_MET") conflicts.push(`raw source price contradicts HARD criterion ${hardCriterion}`);
       else if (price.status !== "MET") missing.push(`independent raw price for HARD criterion ${hardCriterion}`);
-    } else if (!facts.some(item => strings(item.claims?.verifiedHardCriteria).some(value => normalized(value) === hardCriterion))) missing.push(`HARD criterion ${hardCriterion}`);
+    } else if (!facts.some(item => strings(item.claims?.verifiedHardCriteria).some(value => normalizeCriterion(value) === normalizeCriterion(hardCriterion)))) missing.push(`HARD criterion ${hardCriterion}`);
   }
-  const negativeHard = request.criteria.filter((criterion) => criterion.endsWith("|NEGATIVE|HARD")).map((criterion) => criterion.split("|")[0]!);
+  const negativeHard = request.criterionRecords.filter(criterion => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD").map(criterion => criterion.text ?? criterion.value ?? "");
   for (const hardCriterion of negativeHard) {
-    if (facts.some((item) => strings((item.claims)?.violatedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
+    if (facts.some((item) => strings((item.claims)?.violatedNegativeCriteria).some((value) => normalizeCriterion(value) === normalizeCriterion(hardCriterion)))) {
       conflicts.push(`negative HARD criterion ${hardCriterion} is violated by cited source fact`);
-    } else if (!facts.some((item) => strings((item.claims)?.verifiedNegativeCriteria).some((value) => normalized(value) === hardCriterion))) {
+    } else if (!facts.some((item) => strings((item.claims)?.verifiedNegativeCriteria).some((value) => normalizeCriterion(value) === normalizeCriterion(hardCriterion)))) {
       const categoryUnknown = facts.some((item) => item.provider === "MODEL_JUDGMENT"
         && strings((item.claims)?.supportingEvidenceIds).length > 0
         && strings((item.claims)?.supportingEvidenceIds).every((id) => facts.some((source) => source.provider !== "MODEL_JUDGMENT" && source.evidenceId === id && strings((source.claims)?.restaurantTypeFacts).some((value) => value.trim().length > 0)))
-        && strings((item.claims)?.categoryUnknownNegativeCriteria).some((value) => normalized(value) === hardCriterion));
+        && strings((item.claims)?.categoryUnknownNegativeCriteria).some((value) => normalizeCriterion(value) === normalizeCriterion(hardCriterion)));
       if (!categoryUnknown) missing.push(`negative HARD criterion ${hardCriterion}`);
     }
   }
@@ -838,16 +835,16 @@ function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: 
       if (offerScope) {
         for (const hardCriterion of positiveHard) {
           const scopedSupport = independentPriceCondition(root, candidateId, hardCriterion, facts)?.status === "MET" || facts.some((fact) => strings((fact.claims)?.verifiedHardCriteria)
-            .some((value) => normalized(value) === hardCriterion)
+            .some((value) => normalizeCriterion(value) === normalizeCriterion(hardCriterion))
             && factSupportsServiceScope(fact, offerScope, facts));
           if (!scopedSupport) conflicts.push(`HARD criterion ${hardCriterion} lacks a scope-bound raw support chain for the presented offer`);
         }
         for (const hardCriterion of negativeHard) {
           const scopedNegativeSupport = facts.some((fact) => strings((fact.claims)?.verifiedNegativeCriteria)
-            .some((value) => normalized(value) === hardCriterion)
+            .some((value) => normalizeCriterion(value) === normalizeCriterion(hardCriterion))
             && factSupportsServiceScope(fact, offerScope, facts));
           const scopedCategoryUnknown = facts.some((fact) => fact.provider === "MODEL_JUDGMENT"
-            && strings((fact.claims)?.categoryUnknownNegativeCriteria).some((value) => normalized(value) === hardCriterion)
+            && strings((fact.claims)?.categoryUnknownNegativeCriteria).some((value) => normalizeCriterion(value) === normalizeCriterion(hardCriterion))
             && factSupportsServiceScope(fact, offerScope, facts));
           if (!scopedNegativeSupport && !scopedCategoryUnknown) conflicts.push(`negative HARD criterion ${hardCriterion} lacks a scope-bound raw support chain for the presented offer`);
         }
@@ -1048,7 +1045,7 @@ function assessNoResult(root: RunRecord, domain: DomainRecord, request: RequestS
 
 /** Deterministically diagnoses an already-written artifact; it never calls a model or a provider. */
 export interface DiagnosticEvaluationOptions {
-  criterionEquivalences?: CriterionEquivalenceTable;
+  criterionCorrespondences?: CriterionCorrespondences;
   postDeliveryTabelog?: PostDeliveryTabelogObservation[];
   orchestration?: unknown;
   trace?: unknown;
@@ -1059,7 +1056,7 @@ export interface DiagnosticEvaluationOptions {
   reviewedReads?: ReviewedReads;
 }
 export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceArtifact: { path: string; sha256: string }, options: DiagnosticEvaluationOptions = {}): RestaurantHybridDiagnosticEvaluation {
-  const equivalences = options.criterionEquivalences ?? loadCriterionEquivalences();
+  const correspondences = options.criterionCorrespondences ?? loadCriterionCorrespondences();
   const softPreferences = options.softPreferenceObservations ?? (options.frozenRun ? loadSoftPreferenceObservations() : undefined);
   const decoded = readDiagnosticRun(artifact);
   if (options.goldCorrection) {
@@ -1075,7 +1072,8 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const finalAuthoritativeIntent = (domain.intentDraft);
   const expected = requestFromMaterialized(materialized); const actual = finalAuthoritativeIntent ? requestFromFinalIntent(finalAuthoritativeIntent) : undefined;
   const conditionMismatchesList = actual ? coreConditionMismatches(expected, actual).filter((item) => !expected.missing.includes(item) && !actual.missing.includes(item)) : [];
-  const criteriaComparison = actual ? compareCriteria(expected, actual, equivalences) : { conflicts: [], unresolved: [], pending: [] };
+  const criterionMatches = actual ? matchCriteria(expected.criterionRecords, actual.criterionRecords, correspondences.entries.find(row => row.artifactSha256 === sourceArtifact.sha256)?.pairs) : [];
+  const criteriaComparison = actual ? compareCriteria(expected, actual, criterionMatches) : { conflicts: [], unresolved: [], pending: [] };
   // Gold judges semantic fidelity. The executed read and its evidence instead
   // belong to the final authoritative intent actually bound by the Runtime.
   // This prevents historical label abbreviations from fabricating a source
@@ -1126,7 +1124,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   // Agent unnecessarily took the stricter availability path. Preserve the goal
   // drift in AUTHORITATIVE_CONDITIONS; do not waive any date/party/area/criterion.
   const resultConditionMismatches = conditionMismatchesList.filter(field => !(field === "target.goal" && expected.goal === "RECOMMENDATION" && actual?.goal === "AVAILABILITY"));
-  const resultCriteriaComparison = actual ? compareCriteria(expected, actual, equivalences, expected.goal === "RECOMMENDATION" && actual.goal === "AVAILABILITY") : criteriaComparison;
+  const resultCriteriaComparison = actual ? compareCriteria(expected, actual, criterionMatches, expected.goal === "RECOMMENDATION" && actual.goal === "AVAILABILITY") : criteriaComparison;
   const presentationConditionsStatus: DiagnosticEvaluationStatus = missingConditionRecords.length ? "NOT_EVALUATED" : resultConditionMismatches.length || resultCriteriaComparison.conflicts.length ? "NOT_SATISFIED" : resultCriteriaComparison.unresolved.length ? "NOT_EVALUATED" : "SATISFIED";
   const rawTableCheckAssessments = candidateAssessments.flatMap(item => item.rawTableCheck ? [item.rawTableCheck] : []);
   const investigationMetrics = measureInvestigationProgress(root);
@@ -1145,7 +1143,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const noResultStatus: DiagnosticEvaluationStatus = !noResultAssessment ? "NOT_EVALUATED" : [conditionsStatus, investigationStatus, resourcesStatus, noResultAssessment.status].includes("NOT_SATISFIED") ? "NOT_SATISFIED" : [conditionsStatus, investigationStatus, resourcesStatus, noResultAssessment.status].includes("NOT_EVALUATED") ? "NOT_EVALUATED" : "SATISFIED";
   const completionStatus: DiagnosticEvaluationStatus = completion === "INTERNAL_EXECUTION_FAILURE" ? "NOT_SATISFIED" : completion === "NOT_EVALUATED" ? "NOT_EVALUATED" : completion === "PRESENTATION_RECORDED" ? claimStatus : completion === "NO_VERIFIED_RESULT" ? noResultStatus : "SATISFIED";
   const findings: DiagnosticFinding[] = [
-    { dimension: "AUTHORITATIVE_CONDITIONS", status: conditionsStatus, stage: "SEMANTIC_TO_FINAL_STATE", requirement: "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.", observations: missingConditionRecords.length ? [`Missing or invalid comparison records: ${missingConditionRecords.join(", ")}.`] : conditionMismatchesList.length || criteriaComparison.conflicts.length ? [`Conflicting fields: ${[...conditionMismatchesList, ...criteriaComparison.conflicts].join(", ")}.`] : criteriaComparison.unresolved.length ? [`Unresolved criterion wording: ${criteriaComparison.unresolved.join(", ")}.`] : ["All independently readable applicable request fields match."], directCause: missingConditionRecords.length ? "The artifact lacks a required authority record; no condition conflict can be inferred." : conditionMismatchesList.length || criteriaComparison.conflicts.length ? "The recorded authoritative request conflicts with the materialized request." : criteriaComparison.unresolved.length ? "Criterion text differs without a deterministic equivalence rule; independent semantic review is required." : "No conflict observed.", rootCauseHypothesis: missingConditionRecords.length ? "Final-state serialization or historical artifact schema needs review." : conditionMismatchesList.length || criteriaComparison.conflicts.length ? "Requires semantic/compiler/runtime trace review." : criteriaComparison.unresolved.length ? "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which." : "Not applicable.", certainty: missingConditionRecords.length || criteriaComparison.unresolved.length ? "UNKNOWN" : "CONFIRMED", evidenceRefs: [ref("materializedCase.semantic"), ref("finalSnapshot.domainState.intentDraft")], downstreamImpact: missingConditionRecords.length || conditionMismatchesList.length || criteriaComparison.conflicts.length ? "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request." : criteriaComparison.unresolved.length ? "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request." : "Grounding can be evaluated against one request." },
+    { dimension: "AUTHORITATIVE_CONDITIONS", status: conditionsStatus, stage: "SEMANTIC_TO_FINAL_STATE", requirement: "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.", observations: missingConditionRecords.length ? [`Missing or invalid comparison records: ${missingConditionRecords.join(", ")}.`] : conditionMismatchesList.length || criteriaComparison.conflicts.length ? [`Conflicting fields: ${[...conditionMismatchesList, ...criteriaComparison.conflicts].join(", ")}.`] : criteriaComparison.unresolved.length ? [`Unresolved criterion wording: ${criteriaComparison.unresolved.join(", ")}.`] : ["All independently readable applicable request fields match."], directCause: missingConditionRecords.length ? "The artifact lacks a required authority record; no condition conflict can be inferred." : conditionMismatchesList.length || criteriaComparison.conflicts.length ? "The recorded authoritative request conflicts with the materialized request." : criteriaComparison.unresolved.length ? "Criterion text differs without an explicit criterion identity or normalized literal match; independent semantic review is required." : "No conflict observed.", rootCauseHypothesis: missingConditionRecords.length ? "Final-state serialization or historical artifact schema needs review." : conditionMismatchesList.length || criteriaComparison.conflicts.length ? "Requires semantic/compiler/runtime trace review." : criteriaComparison.unresolved.length ? "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which." : "Not applicable.", certainty: missingConditionRecords.length || criteriaComparison.unresolved.length ? "UNKNOWN" : "CONFIRMED", evidenceRefs: [ref("materializedCase.semantic"), ref("finalSnapshot.domainState.intentDraft")], downstreamImpact: missingConditionRecords.length || conditionMismatchesList.length || criteriaComparison.conflicts.length ? "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request." : criteriaComparison.unresolved.length ? "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request." : "Grounding can be evaluated against one request." },
     { dimension: "REQUIRED_EVIDENCE", status: evidenceStatus, stage: "GROUNDING", requirement: "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.", observations: [...candidateAssessments.flatMap((item) => item.observations), ...(expected.unsupportedHardCriteria.length ? [`NOT_EVALUATED unsupported HARD evidence contract: ${expected.unsupportedHardCriteria.join(", ")}`] : [])], directCause: evidenceStatus === "SATISFIED" ? "Every presented candidate has independently linked evidence." : evidenceStatus === "NOT_SATISFIED" ? "A cited candidate record conflicts with identity, request, source, freshness, or offer invariants." : "Artifact records or accepted evidence contract are insufficient for an independent conclusion.", rootCauseHypothesis: evidenceStatus === "NOT_SATISFIED" ? "Grounding, serialization, or presentation selection requires review." : "Execution artifact or accepted evidence contract lacks required detail.", certainty: evidenceStatus === "NOT_EVALUATED" ? "UNKNOWN" : "CONFIRMED", evidenceRefs: candidateAssessments.flatMap((item) => item.refs), downstreamImpact: evidenceStatus === "SATISFIED" ? "The presentation is independently supported." : "Do not claim an evidence-grounded result from this artifact." },
     { dimension: "INVESTIGATION_BEHAVIOR", status: investigationStatus, stage: "AGENT_LOOP", requirement: "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.", observations: !observations ? ["Trajectory record is missing; executed observation lineage cannot be evaluated."] : presentedWithoutExecutedObservation ? ["A result was presented but no trajectory observation records applicable candidate-bound evidence."] : [...rawTableCheckAssessments.flatMap(item => item.observations), `executedObservations=${observations.length}`, `applicableObservations=${observations.filter((item) => item.applicableRequest).length}`, `executedInvestigationVisits=${visits?.length ?? 0}`, `authorizedRechecks=${visits?.filter((item) => item.recheckReason).map((item) => item.candidateId + ":" + item.recheckReason).join(",") || "none"}`, `duplicates=${duplicateVisits.map((item) => item.actionType + ":" + item.candidateId).join(",") || "none"}`], directCause: !observations ? "No trajectory record." : presentedWithoutExecutedObservation ? "The artifact records no applicable executed observation supporting its presentation." : duplicateVisits.length ? "The same candidate was executed more than once for the same request version without an authorized recheck reason." : rawTableCheckAssessments.some(item => item.status !== "SATISFIED") ? "The captured TableCheck result does not independently establish the current request result." : "Executed observations are attributable without a duplicate fact/availability read.", rootCauseHypothesis: !observations || presentedWithoutExecutedObservation ? "Historical artifact or execution serialization omits actual observation lineage." : duplicateVisits.length ? "Agent/context/validator no-progress handling needs review." : rawTableCheckAssessments.some(item => item.status !== "SATISFIED") ? "Browser trace capture or current-result selection requires review." : "Not applicable.", certainty: !observations || presentedWithoutExecutedObservation || rawTableCheckAssessments.some(item => item.status === "NOT_EVALUATED") ? "UNKNOWN" : "CONFIRMED", evidenceRefs: !observations ? [ref("artifact.trajectories")] : [...observations.map((item) => item.ref), ...rawTableCheckAssessments.flatMap(item => item.refs)], downstreamImpact: investigationStatus === "SATISFIED" ? "Observation lineage and duplicate-read accounting remain attributable." : "Coverage and evidence-lineage claims cannot be inferred from this artifact." },
     { dimension: "FINAL_CLAIM", status: claimStatus, stage: "PRESENT_RESULTS", requirement: "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.", observations: [`phase=${finalPhase ?? "missing"}`, `loop=${loopStatus ?? "missing"}`, `presentedCandidates=${presentedIds.length}`], directCause: claimStatus === "SATISFIED" ? "Terminal presentation and independently evaluated evidence agree." : finalPhase !== "PRESENT_RESULTS" ? "No terminal presentation was executed." : "Terminal presentation has conflicting or insufficient independent support.", rootCauseHypothesis: claimStatus === "SATISFIED" ? "Not applicable." : "Verifier, serialization, or upstream execution record requires review.", certainty: claimStatus === "NOT_EVALUATED" ? "UNKNOWN" : "CONFIRMED", evidenceRefs: [ref("loop"), ref("finalSnapshot.domainState.presentedResults"), ref("finalSnapshot.domainState.availability"), ref("finalSnapshot.domainState.readEvidence")], downstreamImpact: claimStatus === "SATISFIED" ? "Execution produced a qualified read-only result." : "No qualified completion can be claimed." },
@@ -1176,7 +1174,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const resultMissing = artifact === undefined;
   const witnessFunnel = options.witnessOracle ? buildWitnessFunnel(root, sourceArtifact.sha256, options.witnessOracle, observations) : [];
   const feasibleWitnesses = witnessFunnel.filter(row => row.feasible === "SUPPORTED");
-  const conditionStates = assessUserConditions(root, equivalences, softPreferences, options.frozenRun, sourceArtifact.sha256, candidateId => {
+  const conditionStates = assessUserConditions(root, softPreferences, options.frozenRun, sourceArtifact.sha256, candidateId => {
     const assessment = candidateAssessments[presentedIds.indexOf(candidateId)];
     if (assessment?.status !== "SATISFIED") return [];
     return evidence.filter(item => item.candidateId === candidateId && citedIds.has(item.evidenceId ?? "")
@@ -1194,8 +1192,14 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     ...(conditionsStatus === "SATISFIED" && noResultAssessment && (noResultAssessment.status === "SATISFIED" || "scopeMatched" in noResultAssessment && noResultAssessment.scopeMatched)
       ? { honestNoResultScope: { refs: noResultAssessment.refs } } : {}), resultMissing });
   const conditionStateComparisons = conditionStates.flatMap(candidate => candidate.criteria.map(condition => {
-    const displayed = root.finalSnapshot?.domainState?.presentedResults?.conditionStates?.[candidate.candidateId]?.find(row => row.text === condition.text && row.polarity === condition.polarity && row.strength === condition.strength);
-    return { candidateId: candidate.candidateId, text: condition.text, displayed: displayed?.status ?? "NOT_RECORDED", independent: condition.status,
+    const mapped = criterionMatches.find(row => row.goldIndex === condition.goldIndex);
+    const actualCriterion = mapped && actual?.criterionRecords[mapped.actualIndex];
+    const rows = root.finalSnapshot?.domainState?.presentedResults?.conditionStates?.[candidate.candidateId] ?? [];
+    const matching = actualCriterion ? rows.filter(row => row.polarity === condition.polarity && row.strength === condition.strength
+      && (row.criterionRef !== undefined ? row.criterionRef === (actualCriterion.criterionRef ?? `criterion:${mapped!.actualIndex}`)
+        : normalizeCriterion(row.text ?? "") === normalizeCriterion(actualCriterion.text ?? actualCriterion.value ?? ""))) : [];
+    const displayed = matching.length === 1 ? matching[0] : undefined;
+    return { candidateId: candidate.candidateId, text: condition.text, criterionRef: actualCriterion?.criterionRef ?? (mapped ? `criterion:${mapped.actualIndex}` : null), matchMethod: mapped?.method ?? null, displayed: displayed?.status ?? "NOT_RECORDED", independent: condition.status,
       assessment: displayed?.status === "MET" && condition.status === "NOT_MET" ? "S0_DECLARATION"
         : displayed?.status === "MET" && condition.status === "NOT_CHECKED" ? "S1_UNSUPPORTED"
         : displayed?.status === "NOT_CHECKED" && condition.status !== "NOT_CHECKED" ? "MISSED_KNOWN_CONDITION" : displayed ? "CONSISTENT" : "HISTORICAL_DISPLAY_NOT_RECORDED" };
@@ -1216,12 +1220,12 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     ending.directCause = "Independent terminal/source/action records corroborate an internal failure; it is not an ordinary no-result.";
   }
   const goldCorrection = options.goldCorrection ? { applied: true as const, artifactSha256: options.goldCorrection.artifactSha256, rev1Sha256: options.goldCorrection.rev1Sha256, rev2Sha256: options.goldCorrection.rev2Sha256, refs: options.goldCorrection.refs } : null;
-  return { ...classification, goldCorrection, conditionStates, conditionStateComparisons, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionEquivalences: { path: equivalences.path, sha256: equivalences.sha256, tableVersion: equivalences.tableVersion }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
+  return { ...classification, goldCorrection, conditionStates, conditionStateComparisons, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionCorrespondence: { path: correspondences.path, sha256: correspondences.sha256, schema: correspondences.schema, matches: criterionMatches }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.
     taskProducedQualifiedResult: classification.outcome.type === "DELIVERED_UNQUALIFIED" || corroboratedInternalFailure ? "NO" : qualified ? "YES" : completion === "NO_VERIFIED_RESULT" ? terminalSearchFailure ? "UNKNOWN" : "NO" : completion === "CANCELLED" || completion === "BUDGET_OR_DEADLINE_STOP" || completion === "INTERNAL_EXECUTION_FAILURE" ? "NO" : anyNotSatisfied ? "NO" : "UNKNOWN",
-    systemBehavior: corroboratedInternalFailure || anyNotSatisfied ? "NOT_SUPPORTED" : noResultSupported ? "SUPPORTED_BY_EVIDENCE" : anyNotEvaluated ? "NOT_EVALUATED" : "SUPPORTED_BY_EVIDENCE", externalConditions: candidates.length > 0 ? "OBSERVED" : "NOT_EVALUATED", evidenceSufficiency: evidenceStatus === "SATISFIED" ? "SUFFICIENT_FOR_PRESENTED_RESULT" : evidenceStatus === "NOT_SATISFIED" ? "INSUFFICIENT" : "NOT_EVALUATED", completion: corroboratedInternalFailure ? "INTERNAL_EXECUTION_FAILURE" : completion }, candidateSummaries, findings, unassessedDimensions: [...effectiveResources.unassessed, ...investigationMetrics.unassessed, ...(resultMissing ? ["result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed."] : []), "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.", "Cost is not inferred without explicit configured price inputs.", "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.", ...(criteriaComparison.unresolved.length ? ["Criterion text differs without deterministic equivalence; no LLM judge was used and independent semantic review is required."] : []), ...expected.unsupportedHardCriteria.map((criterion) => `Negative/non-positive HARD criterion '${criterion}' has no accepted source-evidence contract in this evaluator.`)] };
+    systemBehavior: corroboratedInternalFailure || anyNotSatisfied ? "NOT_SUPPORTED" : noResultSupported ? "SUPPORTED_BY_EVIDENCE" : anyNotEvaluated ? "NOT_EVALUATED" : "SUPPORTED_BY_EVIDENCE", externalConditions: candidates.length > 0 ? "OBSERVED" : "NOT_EVALUATED", evidenceSufficiency: evidenceStatus === "SATISFIED" ? "SUFFICIENT_FOR_PRESENTED_RESULT" : evidenceStatus === "NOT_SATISFIED" ? "INSUFFICIENT" : "NOT_EVALUATED", completion: corroboratedInternalFailure ? "INTERNAL_EXECUTION_FAILURE" : completion }, candidateSummaries, findings, unassessedDimensions: [...effectiveResources.unassessed, ...investigationMetrics.unassessed, ...(resultMissing ? ["result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed."] : []), "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.", "Cost is not inferred without explicit configured price inputs.", "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.", ...(criteriaComparison.unresolved.length ? ["Criterion text differs without explicit identity or normalized literal correspondence; no LLM judge was used and independent semantic review is required."] : []), ...expected.unsupportedHardCriteria.map((criterion) => `Negative/non-positive HARD criterion '${criterion}' has no accepted source-evidence contract in this evaluator.`)] };
 }
 function evaluationOutputPath(artifactPath: string, suffix: string): string { return resolve(dirname(artifactPath), `${basename(artifactPath, ".json")}.evaluation.${suffix}-${Date.now()}.json`); }
 export async function evaluateArtifactFile(inputPath: string): Promise<{ evaluation: RestaurantHybridDiagnosticEvaluation; outputPath: string }> {

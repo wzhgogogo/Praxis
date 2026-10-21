@@ -64,11 +64,11 @@ function numericFields(fields: string[]): Decoder<Record<string, number>> {
 }
 const window = object({ earliest: text, latest: text });
 const target = object({ goal: text });
-const criterionFields = object({ text, value: text, polarity: text, strength: text });
+const criterionFields = object({ text, value: text, polarity: text, strength: text, criterionRef: text, semanticId: text });
 const criterion: typeof criterionFields = (value, path, issues) => {
   const parsed = criterionFields(value, path, issues);
   if (parsed) for (const key of Object.keys(value as Record<string, unknown>)) {
-    if (!["text", "value", "polarity", "strength"].includes(key)) issues.push({ path: `${path}.${key}`, reason: "UNEXPECTED_FIELD" });
+    if (!["text", "value", "polarity", "strength", "criterionRef", "semanticId"].includes(key)) issues.push({ path: `${path}.${key}`, reason: "UNEXPECTED_FIELD" });
   }
   return parsed;
 };
@@ -132,7 +132,7 @@ const trace: Decoder<ParsedTrace> = (value, path, issues) => {
 };
 const domain = object({ intentDraft: intent, phase: text, availabilityChecks: dictionary(check), factChecks: dictionary(check),
   availability: dictionary(array(offer)), readEvidence: array(evidence), candidates: array(candidate),
-  presentedResults: object({ candidateIds: texts, evidenceIds: texts, presentedAt: text, conditionStates: dictionary(array(object({ text, polarity: text, strength: text, status: text, explanation: text, evidenceIds: texts, sources: array(object({ sourceUrl: text, quote: text })) }))) }),
+  presentedResults: object({ candidateIds: texts, evidenceIds: texts, presentedAt: text, conditionStates: dictionary(array(object({ text, criterionRef: text, polarity: text, strength: text, status: text, explanation: text, evidenceIds: texts, sources: array(object({ sourceUrl: text, quote: text })) }))) }),
   noVerifiedResult: object({ endedAt: text, investigatedCandidateIds: texts, unresolvedCandidateIds: texts, remainingGaps: texts, termination }),
   failure: object({ code: text }), searchContinuation: object({ lastFailureCode: text }) });
 const run = object({ runId: text, caseId: text, status: text, stage: text, failureCode: optionalFailure, startedAt: text, finishedAt: text,

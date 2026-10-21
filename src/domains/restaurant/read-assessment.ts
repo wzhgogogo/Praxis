@@ -55,8 +55,14 @@ export function restaurantCurrentFactEvidence(state: Readonly<RestaurantTaskStat
       const evidence = candidateEvidence.find(item => item.evidenceId === id);
       return evidence?.kind === "RESTAURANT_FACT" && evidence.provider !== "MODEL_JUDGMENT" ? [evidence.provider] : [];
     })));
+  // A completed fact read supersedes older facts from that source, not facts
+  // returned by a later authoritative availability observation. Keep the
+  // latter only while the current check actually references them; explicit
+  // supersession and a subsequent fact read still take precedence.
+  const availabilityFactIds = new Set(state.availabilityChecks[candidateId]?.evidenceIds ?? []);
   const facts = candidateEvidence.filter(evidence => evidence.kind === "RESTAURANT_FACT" && !superseded.has(evidence.evidenceId)
-    && (!check || (evidence.provider !== "MODEL_JUDGMENT" && sources.size > 0 && !sources.has(evidence.provider)) || check.evidenceIds.includes(evidence.evidenceId)));
+    && (!check || (evidence.provider !== "MODEL_JUDGMENT" && sources.size > 0 && !sources.has(evidence.provider)) || check.evidenceIds.includes(evidence.evidenceId)
+      || availabilityFactIds.has(evidence.evidenceId) && Date.parse(evidence.observedAt) > Date.parse(check.checkedAt)));
   const hasIdentity = (fact: RestaurantTaskState["readEvidence"][number]) => candidateEvidence.some(entity => entity.kind === "ENTITY_MATCH"
     && entity.entityMatch?.confidence === "HIGH" && entity.provider === fact.provider && entity.sourceEntityId === fact.sourceEntityId);
   const rawFacts = facts.filter(fact => fact.provider !== "MODEL_JUDGMENT" && hasIdentity(fact));
