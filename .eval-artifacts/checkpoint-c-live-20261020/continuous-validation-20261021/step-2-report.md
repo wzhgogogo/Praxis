@@ -11,3 +11,7 @@ Evidence status: current executable; exposed development, not Clean Baseline.
 严重程度：原 H003 S0 PRESENT 永久保留；生产 /reserve 永久禁令已合入，新 Live 的 S0 尚未评价。合并不把历史阳性改写成安全通过。
 
 归因：该步只完成已验收实现的接线与冻结，不产生新的真实模型或网站能力结论。完整原始验收、合并不变项与账本来源见 step-1.json、step-2-merge-verification.json 和 phase2-ledger-step-2.json。
+
+冻结 SHA-256：`b1175e307a68e021e0e7744eda750b488d36f72f84038cbfb3ed04224c8b2273`（553 个文件，冻结提交 ee800b9bf199802df55d4f91fd6f3761246d67ad）。原样外层完整离线演练 1 次已完成：外层→Runner→独立评价→四层报告，0 网站、0 真实模型；演练后冻结全部一致。第 2 步 PASS。
+
+第 3 步启动入口待明确：现有 outer.ts 未提供用例子集参数，resume.mjs 只接受历史 c-03 特定续跑；不能在保持外层与原 18 次计划不变的同时选择 c-01/c-02/c-05。未替换运行时文件读取、未修改计划或冒用旧续跑授权；用户澄清前不启动 Live。
