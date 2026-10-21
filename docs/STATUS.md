@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.317
+- Document revision: 4.318
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-21 已复核修复后的快速验证来源预检停批：** 快速验证在来源预检停止：c01两次TableCheck搜索GET无HTTP响应，唯一来源重试后18:41:01北京RETRY_EXHAUSTED；0正式Live/0模型，c02/c05及重新认证、新C18全部未到达。@30两次ENV_FAILURE/EXCLUDED，S0两项均未评（不写0 S0），旧H003 PRESENT保留。Google含预检4，间隔306.567秒；累计2353模型/10完整Live/0正式环境重跑，来源级重试1另列。运行前后576冻结SHA一致（9513895b…）；合并后五门禁979+131与20控制全绿，离线3例演练另报。用户要求的只读诊断确认固定CIDR漏当前DNS 52.68.109.188：TUN路径TLS失败，另一个当前DNS54.178.173.154走en0同URL返回200，应用浏览器显示653条；失败IP的en0作用域缺路由，同IP直连控制未派发，不夸大因果。生产/网络配置未改，结果、8个计划见证未到达表、四层报告和账本推送后停。 [四层报告](../.eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/four-layer-report.md)、[result.json](../.eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/result.json)。
 
 - **2026-10-21 已批准 a6fa26c，检查点C连续验收恢复到合并冻结：** 修复快进集成a6fa26c，准备fd745b5保留双方历史；生产与复核代码完全一致，690项冻结全部核对不变。合并后五门禁979默认/131真实Chromium及type/arch/build全绿，外层20控制通过；复用已审核翻月69/69、选店5/5、校准22/22，无新增模型/网站/Live。当前累计2353模型/10完整Live/0环境重跑。按预先批准原外层选择c-01/c-02/c-05重新快速验证，逐家列查询确认/响应/时段/独立GET；门槛0S0且≥2合格。旧H003 S0和旧快速0/3保留；通过后才认证与C18。[阶段材料](../.eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/plan.md)。
 

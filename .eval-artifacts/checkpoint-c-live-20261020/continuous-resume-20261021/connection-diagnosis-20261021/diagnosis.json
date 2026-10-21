@@ -1,0 +1,51 @@
+{
+  "status": "ROUTING_COVERAGE_GAP_CONFIRMED",
+  "mode": "READ_ONLY_SOURCE_CONNECTION_DIAGNOSIS_NOT_LIVE",
+  "models": 0,
+  "fullLiveRuns": 0,
+  "configurationModified": false,
+  "confirmed": [
+    "Current configured TUN exclusion CIDRs omit current DNS address 52.68.109.188.",
+    "That address resolves through utun84 with local 172.18.0.2; curl fails TLS before HTTP.",
+    "Current alternate DNS address 54.178.173.154 is covered by 54.178.0.0/16, resolves through en0, same curl/search URL returns HTTP200.",
+    "Fresh native Playwright also fails ERR_CONNECTION_CLOSED.",
+    "IAB independently displayed Showing 1–20 of 653 on the identical search URL.",
+    "en0-scoped lookup for 52.68.109.188 says not in table; same-address en0 HTTP control was not dispatched."
+  ],
+  "interpretation": "Current active fixed CIDR coverage does not automatically cover new DNS ranges. This is a concrete routing gap; no evidence of an expired TUN virtual address. Browser choosing a different/cached address is consistent with observations but its remote IP was not captured.",
+  "limits": [
+    "The same 52.68.109.188 address was not successfully tested through en0, so IP-specific server behavior is not independently excluded.",
+    "No production/Runner/freeze/network settings changed; no retry of the stopped Live batch.",
+    "No DNS updater or persistent route manager was modified or installed."
+  ],
+  "artifacts": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/connection-diagnosis-20261021/chromium-native.json",
+      "sha256": "0b21a683ac196ef018145e0754d822818ce844d18450a04eb3e1e53dd892fa89"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/connection-diagnosis-20261021/curl-direct.json",
+      "sha256": "adc1bb3e556c3ed90000226f7ddb2740f2ff6a463c2878bf34ccf83b2c4ac214"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/connection-diagnosis-20261021/curl-known-en0-address.json",
+      "sha256": "ca0f418868b834d853ab4583e66badab38c4701fd5e7097ebf4ab836312ae965"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/connection-diagnosis-20261021/curl-same-address-en0.json",
+      "sha256": "ed43273b2e33c34c6900ad3f311d26890fb69fff8ead79d6e1b520dddd9ac347"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/connection-diagnosis-20261021/current-routing.json",
+      "sha256": "1ffadc1c568c215aa3084c4bb44142ee4eef05c1a57e513ed2f5123b73b664ca"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/connection-diagnosis-20261021/dns-coverage.json",
+      "sha256": "9b78b4d9a5f0acf5843b0df5fd1cca52280ebe23ff61cf1d31b665cfdfaaa71d"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/connection-diagnosis-20261021/iab-observation.json",
+      "sha256": "019c43c596134cd47ea940aefdc08497ea967659348f948cbd11fecc0010c563"
+    }
+  ]
+}

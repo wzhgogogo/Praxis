@@ -1,0 +1,252 @@
+{
+  "schema": "checkpoint-c-continuous-reviewed-resume@1",
+  "status": "STOPPED_ENV_FAILURE_RETRY_EXHAUSTED",
+  "evidenceStatus": "exposed development; current recorded run, not Clean Baseline",
+  "reviewCommit": "a6fa26c",
+  "integrationCommit": "a6fa26cb5d1247368c55d140a704a624b21edf15",
+  "mergedPrepCommit": "fd745b543187a2414986de964f3c975d253cd6d6",
+  "freezeSha256": "9513895bb1d3e642e324b64d2379e5fd868a17730d2d81510470832aeaa25797",
+  "frozenFiles": 576,
+  "label": "快速验证",
+  "quickPlannedRunIds": [
+    "c-01",
+    "c-02",
+    "c-05"
+  ],
+  "quickFormalRunsCompleted": 0,
+  "quickNotReached": [
+    "c-01",
+    "c-02",
+    "c-05"
+  ],
+  "fullLiveRunsAdded": 0,
+  "modelsAdded": 0,
+  "sourcePreflightAttempts": 2,
+  "sourcePreflightReruns": 1,
+  "formalEnvironmentReruns": 0,
+  "retryGapSeconds": 306.567,
+  "googleRequestsIncludingPreflights": 4,
+  "qualifiedDelivery": {
+    "count": 0,
+    "validCapabilityDenominator": 0,
+    "gate": "NOT_PASSED_INCOMPLETE; required >=2/3 formal quick runs"
+  },
+  "safety": {
+    "S0_DECLARATION": "NOT_EVALUATED (no formal result)",
+    "S0_BOUNDARY": "NOT_EVALUATED (no complete formal trace)",
+    "historicalH003": "PRESENT retained"
+  },
+  "steps": {
+    "2_merge_freeze": "PASS",
+    "3_quick_validation": "STOPPED_ENV_FAILURE_RETRY_EXHAUSTED",
+    "4_recertification": "NOT_REACHED",
+    "5_checkpoint_c_fresh18": "NOT_REACHED"
+  },
+  "fiveGates": {
+    "mode": "OFFLINE_FIXTURE",
+    "results": {
+      "typecheck": {
+        "command": [
+          "npm",
+          "run",
+          "typecheck"
+        ],
+        "exitCode": 0,
+        "elapsedSeconds": 0.939
+      },
+      "architecture": {
+        "command": [
+          "npm",
+          "run",
+          "arch:check"
+        ],
+        "exitCode": 0,
+        "elapsedSeconds": 1.216
+      },
+      "unit": {
+        "command": [
+          "npm",
+          "test"
+        ],
+        "exitCode": 0,
+        "elapsedSeconds": 25.135
+      },
+      "build": {
+        "command": [
+          "npm",
+          "run",
+          "build"
+        ],
+        "exitCode": 0,
+        "elapsedSeconds": 0.963
+      },
+      "browser": {
+        "command": [
+          "npm",
+          "run",
+          "test:browser:fixture"
+        ],
+        "exitCode": 0,
+        "elapsedSeconds": 310.956
+      }
+    },
+    "pass": true
+  },
+  "acceptedRegressionReuse": {
+    "calendar": "69/69",
+    "selection": "5/5",
+    "calibration": "22/22",
+    "all690SourceHashesUnchangedAtMerge": true
+  },
+  "attempts": [
+    {
+      "attempt": "c-01-attempt-1",
+      "startedAt": "2026-10-21T10:35:22.355Z",
+      "finishedAt": "2026-10-21T10:35:38.460Z",
+      "classification": "ENV_FAILURE",
+      "capabilityDenominator": "EXCLUDED",
+      "formalRunStarted": false,
+      "realModelCalls": 0,
+      "fullLiveRuns": 0,
+      "googleRequestsIncludingPreflights": 2,
+      "tablecheck": {
+        "sourceId": "tablecheck",
+        "check": {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+        },
+        "count": null,
+        "responseStatus": null,
+        "reason": "NO_RESPONSE",
+        "detail": "BROWSER_READ_FAILED",
+        "networkDiagnostics": [
+          {
+            "code": "READ_REQUEST_FAILED",
+            "origin": "https://www.tablecheck.com",
+            "pathname": "/en/japan/search",
+            "method": "GET",
+            "resourceType": "document",
+            "queryKeys": [
+              "auto_geolocate",
+              "geo_distance",
+              "geo_latitude",
+              "geo_longitude",
+              "search_text",
+              "service_mode",
+              "sort_by",
+              "venue_type"
+            ]
+          }
+        ],
+        "elapsedMs": 1417,
+        "outcome": "FAILED",
+        "countsTowardStop": false
+      },
+      "tabelog": {
+        "sourceId": "tabelog",
+        "check": {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+        },
+        "count": 20,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 7210,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      "s0Declaration": "NOT_EVALUATED",
+      "s0Boundary": "NOT_EVALUATED",
+      "reportPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/quick-live-results/c-01-attempt-1/run-report.json",
+      "reportSha256": "d79134c54b4745e658d320374f0d08b7940be8220c70d814b1c14ae23235d308"
+    },
+    {
+      "attempt": "c-01-attempt-2",
+      "startedAt": "2026-10-21T10:40:45.027Z",
+      "finishedAt": "2026-10-21T10:41:01.022Z",
+      "classification": "ENV_FAILURE",
+      "capabilityDenominator": "EXCLUDED",
+      "formalRunStarted": false,
+      "realModelCalls": 0,
+      "fullLiveRuns": 0,
+      "googleRequestsIncludingPreflights": 2,
+      "tablecheck": {
+        "sourceId": "tablecheck",
+        "check": {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+        },
+        "count": null,
+        "responseStatus": null,
+        "reason": "NO_RESPONSE",
+        "detail": "BROWSER_READ_FAILED",
+        "networkDiagnostics": [
+          {
+            "code": "READ_REQUEST_FAILED",
+            "origin": "https://www.tablecheck.com",
+            "pathname": "/en/japan/search",
+            "method": "GET",
+            "resourceType": "document",
+            "queryKeys": [
+              "auto_geolocate",
+              "geo_distance",
+              "geo_latitude",
+              "geo_longitude",
+              "search_text",
+              "service_mode",
+              "sort_by",
+              "venue_type"
+            ]
+          }
+        ],
+        "elapsedMs": 1420,
+        "outcome": "FAILED",
+        "countsTowardStop": false
+      },
+      "tabelog": {
+        "sourceId": "tabelog",
+        "check": {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+        },
+        "count": 20,
+        "responseStatus": 200,
+        "reason": null,
+        "elapsedMs": 7830,
+        "outcome": "NONEMPTY",
+        "countsTowardStop": false
+      },
+      "s0Declaration": "NOT_EVALUATED",
+      "s0Boundary": "NOT_EVALUATED",
+      "reportPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/quick-live-results/c-01-attempt-2/run-report.json",
+      "reportSha256": "86d6d5c95328c13b4f0096ad8b2bfb3031549d5d81d552ca298f370f90f9a382"
+    }
+  ],
+  "outletAuditPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/quick-outlet-audit.json",
+  "plannedWitnessStatusPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/quick-planned-witness-status.json",
+  "phase2LedgerPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/phase2-ledger-after-quick.json",
+  "remaining": {
+    "fullLiveRuns": 90,
+    "modelCalls": 1647,
+    "environmentReruns": 10
+  },
+  "resourceTotals": {
+    "models": 2353,
+    "phase2FullLive": 10,
+    "formalEnvironmentReruns": 0
+  },
+  "checkpointC18": {
+    "executed": 0,
+    "notReached": 18,
+    "oldFirstAttemptFiveRetained": true
+  },
+  "connectionDiagnosis": "connection-diagnosis-20261021/report.md",
+  "productionChangesAfterFreeze": 0,
+  "networkConfigurationChanges": 0,
+  "exitConditions": {
+    "1": "NOT_EVALUATED; zero valid formal samples",
+    "3": "NOT_EVALUATED for current attempts; historical H003 boundary S0 PRESENT retained",
+    "4": "NOT_EVALUATED; no delivered result/condition rows",
+    "5": "NOT_EVALUATED; no formal run latency"
+  }
+}
