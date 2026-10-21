@@ -131,6 +131,8 @@ export interface BrowserPageControl {
   label: string;
   /** Public DOM ownership; an unknown or ambiguous owner is never inferred. */
   controlGroupLabel?: string;
+  /** Registry-observed DOM owner identity; never inferred from a repeated label. */
+  controlGroupKey?: string;
   labelSource?: "DOM descendant text";
   calendarMonth?: BrowserCalendarMonth;
   value?: string;

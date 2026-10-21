@@ -5,8 +5,8 @@ import { ModelGatewayError } from "../../core/model/errors.js";
 import type { BrowserCalendarMonth } from "./browser-runtime.js";
 
 /** The Browser observation context was previously unversioned; action wire stays @11. */
-export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "1" } as const;
-export const BROWSER_READ_DECISION_PROMPT_VERSION = "18";
+export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "2" } as const;
+export const BROWSER_READ_DECISION_PROMPT_VERSION = "19";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
@@ -65,6 +65,7 @@ export interface BrowserReadActionTarget {
   role: string;
   label: string;
   controlGroupLabel?: string;
+  controlGroupRef?: string;
   labelSource?: "DOM descendant text";
   value?: string;
   href?: string;
@@ -115,6 +116,8 @@ export interface BrowserReadDecisionInput {
     title: string;
     visibleText: string;
     displayedCalendarMonth?: BrowserCalendarMonth;
+    /** Positive selected values from uniquely bound, visible DOM owners only. */
+    controlGroups?: Array<{ ref: string; label: string; selectedValues: string[] }>;
     targets: BrowserReadActionTarget[];
     /** Page actions have no targetRef and are never inherited by a control. */
     pageActions?: string[];
@@ -315,7 +318,7 @@ export function buildBrowserReadDecisionSystemPrompt(): string {
 
 ${BROWSER_READ_HISTORY_INSTRUCTION}
 
-Observation context ${BROWSER_READ_CONTEXT_SCHEMA.name}@${BROWSER_READ_CONTEXT_SCHEMA.version}: controlGroupLabel identifies a source-observed widget owner; Unlabelled group means ownership could not be established. displayedCalendarMonth is the observed month, never the requested date. A labelSource of DOM descendant text is public alternative text on an otherwise unlabelled link. These descriptions never grant an action. CALENDAR_MONTH_UNCHANGED means the executor saw no month change, even if unrelated page content changed.
+Observation context ${BROWSER_READ_CONTEXT_SCHEMA.name}@${BROWSER_READ_CONTEXT_SCHEMA.version}: controlGroupLabel identifies a source-observed widget owner; Unlabelled group means ownership could not be established. controlGroupRef binds a target to its actual DOM group, including distinct groups with the same label. controlGroups.selectedValues reports positively observed selections; an empty list means no selected value was observed, never a guessed default. selected:true comes from public DOM selection state. displayedCalendarMonth is the observed month, never the requested date. A labelSource of DOM descendant text is public alternative text on an otherwise unlabelled link. These descriptions never grant an action. CALENDAR_MONTH_UNCHANGED and PARTY_SIZE_NOT_CONFIRMED are executor feedback: unrelated page changes did not confirm the requested setting.
 
 Choose one action only from the observed target references and their availableActions, except a listed pageActions action. A target's rejectionReason explains why another action is unavailable; do not override it. Never invent a target reference, selector, URL, JavaScript, shell command, credential, cookie, login step, booking submission, payment, cancellation, or personal information. The outlet identity, date, party size, time window, and HARD criteria in the goal are immutable. When selecting or filling a date or party size, select the named authoritative field and no other value. FILL_AUTHORITATIVE with RETRIEVAL is allowed only for an observed public search input and fills exactly goal.retrievalExpression; it cannot change area, HARD criteria, date, party size, or time.
 

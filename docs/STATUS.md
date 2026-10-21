@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.300
+- Document revision: 4.301
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-21 通用选中状态与人数确认补修（draft / not integrated）：** 在54ac940复核后保留上一轮54/69失败证据；新增ARIA及精确状态class的selected、DOM控件组当前值，已选控件保留证据且拒绝重复操作；人数点击必须回读同组唯一选中值与请求一致，未确认不能以文案或无关DOM变化收尾。Browser Prompt19 / Context2，wire11与Restaurant Context15/Prompt27、skills/thinking、reserve永久禁令不变。69原点重建引用与历史时序逐点审计；原15未命中点均能看到正确已选人数。0模型准备，五门禁与冻结后69+5回放、22校准待最终结果；阶段账本2069/4000，不跑Live，不实现URL捷径。[计划](../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/plan.md)。
 
 - **2026-10-21 日历V3生产修复未通过验收（draft / not integrated）：** 独立`codex/fix-calendar-next-month`基于远端a3f6b84，仅采用复核6d92882的V3；Browser Prompt18／首次Browser Context1，Restaurant Context15/Prompt27与action wire11不变。公开DOM控件组/月标题/空链接文字补齐，翻月未变反馈NO_CHANGE；TableCheck reserve及子路径永久拒绝，H003接收器零到达。五门禁默认977/977、Chromium126/126及type/arch/build全绿；22校准22/22、选店5/5（直接页13/13），但翻月54/69低于≥68，15点改选人数，**总体NOT_ACCEPTED**。静态重建69个目标集合、64份可见文本与第0步不同，不作严格单变量因果比较，不改评分。冻结b7f56b6、625项SHA运行后原样验证；74模型/0重试，阶段2069/4000，剩1931；0网站/Google/Live。Tabelog历史URL初始化日期/人数仅报告未实现；旧H003 S0保留。推独立分支后停止等复核。[四层报告](../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)、[result.json](../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/result.json)。
 

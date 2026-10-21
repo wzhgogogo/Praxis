@@ -1019,14 +1019,14 @@ function localFixture(html: string | Record<string, string>, runtimeKind: "LOCAL
 // Controlled widget transcribed from c-01 Matsumoto snapshot47: the real month
 // anchors contain hidden icon text; the two visible Next buttons page guests
 // and times. Scripted source behavior is a Fixture, not current Tabelog stock.
-test("Matsumoto month navigation escapes the guest Next loop through production observation", async () => {
+for (const initialParty of [1, 2]) test(`Matsumoto selected-party ${initialParty} escapes the guest Next loop through production observation`, async () => {
   const venue = "https://tabelog.com/en/tokyo/A1303/A130301/13261619/";
   const runtime = localFixture({ [venue]: `<title>Matsumoto calendar fixture</title>
     <style>.calendar-icon{display:none}.calendar-navi a{display:inline-block;padding:12px}</style>
     <div class="calendar-widget"><div class="calendar-wrap"><div class="calendar-navi">
       <a href="#" onclick="event.preventDefault();setMonth()"><i class="calendar-icon">Next month</i></a></div>
       <table><caption>Oct 2026</caption><tbody><tr><td><button type="button" data-year="2026" data-month="10" data-day="21" onclick="selectDate()">21</button></td></tr></tbody></table></div>
-      <div class="guest-select"><span class="select-title">Guests</span><button type="button" aria-label="Previous">Previous</button><button type="button">2</button>
+      <div class="guest-select"><span class="select-title">Guests</span><button type="button" aria-label="Previous">Previous</button><button type="button" value="1" class="${initialParty === 1 ? 'is-active' : ''}">1</button><button type="button" value="2" class="${initialParty === 2 ? 'is-active' : ''}" onclick="document.querySelectorAll('.guest-select button').forEach(b=>b.classList.remove('is-active'));this.classList.add('is-active');document.querySelector('tbody').insertAdjacentHTML('beforeend','<tr><td>Updated other content</td></tr>')">2</button>
       <button type="button" aria-label="Next" onclick="guestPages++;document.querySelector('#guest-page').textContent=guestPages">Next</button><output id="guest-page">0</output></div>
       <div class="time-select"><span class="select-title">Time</span><button type="button">7:00 PM</button><button type="button" aria-label="Next">Next</button></div></div>
     <output id="selected">No date selected</output><script>let guestPages=0;
@@ -1037,6 +1037,16 @@ test("Matsumoto month navigation escapes the guest Next loop through production 
   const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 6,
     maxModelCallsTotal: 6, maxOperationsPerCandidate: 60, modelDecision: { async decide(input) {
       observed.push({ month: input.observation.displayedCalendarMonth, controls: input.observation.targets.filter(t => /Next|month/.test(t.label)), progress: input.progress, history: input.history });
+      const partyConfirmed = input.observation.controlGroups?.some(group => group.label === "Guests" && group.selectedValues.length === 1 && group.selectedValues[0] === "2");
+      if (!partyConfirmed) {
+        const party = input.observation.targets.find(t => t.value === "2" && t.availableActions?.includes("CLICK_AUTHORITATIVE:PARTY_SIZE"));
+        if (party) { choices.push("PARTY"); return { type: "CLICK_AUTHORITATIVE", targetRef: party.ref, field: "PARTY_SIZE", reason: "Confirm requested guest count." }; }
+        const wrongNext = input.observation.targets.find(t => t.label === "Next" && t.controlGroupLabel === "Guests")!;
+        choices.push("GUEST_NEXT"); return { type: "CLICK", targetRef: wrongNext.ref, reason: "Try another guest control after an unconfirmed choice." };
+      }
+      const selectedParty = input.observation.targets.find(t => t.value === "2" && t.controlGroupLabel === "Guests");
+      assert.equal(selectedParty?.selected, true, "keep the selected button as observation evidence");
+      assert.deepEqual(selectedParty.availableActions, [], "confirmed party cannot be clicked again");
       const next = input.observation.targets.find(t => t.label === "Next month" && t.controlGroupLabel === "Calendar");
       const date = input.observation.targets.find(t => t.calendarDate === "2026-11-03");
       if (date) { choices.push("DATE"); return { type: "CLICK_AUTHORITATIVE", targetRef: date.ref, field: "DATE", reason: "Select the requested date." }; }
@@ -1059,9 +1069,69 @@ test("Matsumoto month navigation escapes the guest Next loop through production 
       objective: "Reach the requested November date", methodReason: "Calendar initially shows October",
       completion: snapshot => snapshot.text.includes("Selected 2026-11-03") ? { complete: true, reason: "Requested date selected", resultKey: "2026-11-03", resultBusy: false } : { complete: false, reason: "Requested date not yet selected" } });
     assert.equal(result.status, "COMPLETED", JSON.stringify({ status: result.status, choices, observed }));
-    assert.deepEqual(choices, ["MONTH", "DATE"]);
+    assert.deepEqual(choices, initialParty === 1 ? ["PARTY", "MONTH", "DATE"] : ["MONTH", "DATE"]);
     assert.match(result.snapshot!.text, /Nov 2026/);
     assert.match(result.snapshot!.html, /id="guest-page">0</);
+  } finally { await executor.close(); }
+});
+
+test("generic selected state comes from ARIA and exact state classes, with independent same-label groups", async () => {
+  const runtime = localFixture(`<fieldset><legend>States</legend>
+    ${["active", "selected", "current", "checked", "is-active", "is-selected", "is-current", "is-checked"].map((name, i) => `<button type="button" class="${name}" value="${i}">${name}</button>`).join("")}
+    <button type="button" aria-pressed="true">Pressed</button><button type="button" aria-selected="true">Selected</button>
+    <button type="button" aria-checked="true">Checked</button><a href="#" aria-current="page">Current</a>
+    <button type="button" class="inactive not-selected current-price" aria-current="false" aria-checked="mixed">Unknown</button></fieldset>
+    <fieldset><legend>Guests</legend><button type="button" value="2" class="active">2</button></fieldset>
+    <fieldset><legend>Guests</legend><button type="button" value="4" class="selected">4</button></fieldset>
+    <div><button type="button" class="is-active">Unowned</button></div>`);
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 1,
+    maxModelCallsTotal: 1, maxOperationsPerCandidate: 20, modelDecision: { async decide(input) {
+      const states = input.observation.targets.filter(t => t.controlGroupLabel === "States");
+      assert.equal(states.filter(t => t.selected).length, 12);
+      assert.equal(states.find(t => t.label === "Unknown")?.selected, undefined);
+      const guests = input.observation.controlGroups!.filter(group => group.label === "Guests");
+      assert.equal(guests.length, 2, "same label must not merge distinct DOM owners");
+      assert.notEqual(guests[0]!.ref, guests[1]!.ref);
+      assert.deepEqual(guests.map(group => group.selectedValues), [["2"], ["4"]]);
+      const unowned = input.observation.targets.find(t => t.label === "Unowned")!;
+      assert.equal(unowned.selected, true);
+      assert.equal(unowned.controlGroupLabel, "Unlabelled group");
+      assert.equal(unowned.controlGroupRef, undefined);
+      return { type: "REQUEST_HUMAN_HELP", reason: "Observation assertions complete." };
+    } } });
+  const signal = new AbortController().signal;
+  try {
+    const session = await executor.acquire(signal, "FIXTURE", "FACTS");
+    await executor.navigate({ session, source: "FIXTURE", stage: "FACTS", signal, allowedOrigins: [new URL(url).origin], url });
+    const result = await executor.runSkill({ taskId: "generic-selected-fixture", source: "FIXTURE", stage: "FACTS", session, signal,
+      allowedOrigins: [new URL(url).origin], goal: { outlet: { name: "Fixture" }, hardCriteria: [] }, objective: "Read public selection state",
+      completion: () => ({ complete: false, reason: "Read selected states" }) });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP");
+  } finally { await executor.close(); }
+});
+
+test("party click does not confirm from unrelated page changes or an unchanged group value", async () => {
+  const runtime = localFixture(`<fieldset><legend>Guests</legend><button type="button" value="1" class="is-active">1</button>
+    <button type="button" value="2" onclick="document.querySelector('#noise').textContent='Unrelated update'">2</button></fieldset><output id="noise">Initial</output>`);
+  let decisions = 0;
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 3,
+    maxModelCallsTotal: 3, maxOperationsPerCandidate: 36, modelDecision: { async decide(input) {
+      if (++decisions === 1) return { type: "CLICK_AUTHORITATIVE", field: "PARTY_SIZE", targetRef: input.observation.targets.find(t => t.value === "2")!.ref, reason: "Set two guests." };
+      assert.match(input.progress, /PARTY_SIZE_NOT_CONFIRMED/);
+      assert.equal(input.history.at(-1)?.outcome, "NO_CHANGE");
+      assert.equal(input.history.at(-1)?.reason, "PARTY_SIZE_NOT_CONFIRMED");
+      assert.deepEqual(input.observation.controlGroups!.find(group => group.label === "Guests")?.selectedValues, ["1"]);
+      return { type: "REQUEST_HUMAN_HELP", reason: "The source still shows one guest." };
+    } } });
+  const signal = new AbortController().signal;
+  try {
+    const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
+    await executor.navigate({ session, source: "FIXTURE", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(url).origin], url });
+    const result = await executor.runSkill({ taskId: "party-unconfirmed-fixture", session, source: "FIXTURE", stage: "AVAILABILITY", signal,
+      allowedOrigins: [new URL(url).origin], goal: { outlet: { name: "Fixture" }, partySize: 2, hardCriteria: [] }, objective: "Confirm two guests",
+      completion: snapshot => snapshot.text.includes("Unrelated update") ? { complete: true, reason: "Unrelated UI changed", resultKey: "noise", resultBusy: false } : { complete: false, reason: "Two guests not selected" } });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP", "source completion cannot bypass party postcondition");
+    assert.equal(decisions, 2);
   } finally { await executor.close(); }
 });
 
@@ -2145,7 +2215,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
   let calls=0;const diagnostics:string[]=[];
   const executor = new BrowserTaskExecutor(localFixture({[tableCheckDiscoveryUrl(candidate)]:`<a href="${sourceUrl}">Restaurant 1</a>`,[sourceUrl]:html},runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate:80,onDiagnostic:d=>{if(d.event==="REJECTED"||d.event==="MODEL_ACTION"||d.event==="METHOD_INCOMPLETE"||d.event==="POST_ACTION_VERIFIED")diagnostics.push(`${d.event}: ${d.detail??""}`)},modelDecision:{async decide(input){
     calls++;
-    assert.ok(!input.observation.targets.some(t=>t.label==='Sep 19th'),"selected disabled calendar day must prevent repeated date trigger clicks");
+    assert.deepEqual(input.observation.targets.find(t=>t.label==='Sep 19th')?.availableActions,[],"selected disabled calendar day retains state evidence but cannot repeat the date trigger");
     if(calls===2 || calls>=4) assert.ok(!input.observation.targets.some(t=>t.role==='combobox'&&t.label===(calls===2?'Any party size':'Time')), 'an already open list must not invite another open action');
     const label=calls===1?'Any party size':calls===2?'4 guests':calls===3?'Time':calls===6?'19:00':'20:00';
     const target=input.observation.targets.find(t=>t.label===label&&t.role===(calls===1||calls===3?'combobox':'option'));
@@ -2181,15 +2251,15 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       <div class="p-booking-calendar">
       <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17">17</p>
       <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20">20</p>
-      <button type="button" class="js-people-button is-active">2</button><button type="button" class="js-people-button">4</button>
-      <input type="hidden" class="js-people-hidden-value" value="2"></div>
+      <fieldset><legend>Guests</legend><button type="button" class="js-people-button is-active">2</button><button type="button" class="js-people-button">4</button>
+      <input type="hidden" class="js-people-hidden-value" value="2"></fieldset></div>
       <script>function query(){fetch('/en/booking/calendar/find_vacancy/?member='+document.querySelector('input').value);fetch('/unrelated.json')}
       document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{document.querySelector('.is-current').classList.remove('is-current');el.classList.add('is-current');query()});
       document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');document.querySelector('input').value=el.textContent;query()});</script>`;
     const payload=(members:number,time:string)=>JSON.stringify({base_date:{year:2026,month:9,day:20},members,selection:{0:{time,url:`/en/booking/form_course/new?rcd=13292459&member=${members}&visit_date=20260920&visit_time=${time.replace(':','')}`}}});
     const pages={ [sourceUrl]:html,"https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201":`<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,[endpoint+"?member=2"]:payload(2,"19:00"),[endpoint+"?member=4"]:payload(4,"18:45"),"https://tabelog.com/unrelated.json":JSON.stringify({private:"must not capture"}) };
     let calls=0;
-    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.ok(!input.observation.targets.some(t=>t.label==="Date 2026-09-20"), "selected date is evidence, not a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
+    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.deepEqual(input.observation.targets.find(t=>t.label==="Date 2026-09-20")?.availableActions, [], "selected date remains evidence without a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
     const signal=new AbortController().signal;
     try{
       const result=await new TabelogBrowserAvailability(executor).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-20",partySize:4,timeWindow:{earliest:"18:30",latest:"19:30"},hardCriteria:[]},signal);
@@ -2291,7 +2361,7 @@ test("C3 settles delayed date results before asking the model and never complete
     const origin="https://settle.example", target=origin+"/calendar";
     const html=`<title>Fixture</title><button id="date">Date 2026-10-23</button><div id="result"></div><script>
       date.onclick=()=>{result.innerHTML='<div class="loader" aria-busy="true">Loading</div><p>OLD_AVAILABLE</p>';
-      ${timeout ? "" : "setTimeout(()=>{result.innerHTML='<button id=guests>Guests 10</button>';document.querySelector('#guests').onclick=()=>result.textContent='CURRENT_AVAILABLE';},650);"}}
+      ${timeout ? "" : "setTimeout(()=>{result.innerHTML='<fieldset><legend>Guests</legend><button id=guests>Guests 10</button></fieldset>';document.querySelector('#guests').onclick=()=>{document.querySelector('#guests').setAttribute('aria-pressed','true');result.insertAdjacentHTML('beforeend','<p>CURRENT_AVAILABLE</p>')};},650);"}}
     </script>`;
     const har=join(directory,"source.har");await writeFile(har,replayHar(target,html));
     const raw=new LocalPlaywrightChromium();const runtime:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:input=>raw.openSession({...input,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]},replayHarPath:har})};

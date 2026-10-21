@@ -821,8 +821,14 @@ test("BrowserTaskExecutor reuses post-action controls to confirm two selections 
   const session = new FixtureSession([
     { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Choose date", html: '<button type="button" data-date="2026-9-10">Thursday 10</button>' },
     { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Choose guests", html: '<button type="button" data-value="2">2 guests</button>' },
-    { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Date and guests confirmed", html: '<p>Selected request</p>' },
+    { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Date and guests confirmed", html: '<button type="button" data-value="2" aria-pressed="true">2 guests</button>' },
   ]);
+  const observe = session.observeControls.bind(session);
+  session.observeControls = async () => {
+    const controls = await observe();
+    const selected = /aria-pressed="true"/.test((await session.snapshot()).html);
+    return controls.map(control => control.value === "2" ? { ...control, controlGroupKey: "fixture:guests", controlGroupLabel: "Guests", selected } : control);
+  };
   const events: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
     maxOperationsPerCandidate: 10,

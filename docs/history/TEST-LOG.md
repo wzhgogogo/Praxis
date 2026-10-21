@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.203
+- Document revision: 4.204
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4813,3 +4813,11 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 本轮冻结后结果（同一切片）：b7f56b660c9a1fc017b792a01eb405ff83349383 / freeze SHA256 d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d，625项运行后无变。原22校准22/22（S0声明20/20、8交付子类8/8、0误判合格；越界9无/13缺口），P2-2五选店5/5、直接页13/13；翻月仅54/69，15点为PARTY_SIZE，未达≥68/69，整体NOT_ACCEPTED。全部74请求成功、无重试，984912输入/9975输出token、0 reasoning；模型请求墙钟翻月均1.890s、选店2.132s，批次141.296s。阶段账本2069/4000、完整Live7/100、环境重跑0/10；0新网站/Google/Live。
 - 偏离与限制：真实静态生产重建的69份target集合、64份visibleText与第0步不同，history/progress/skills未变；不能把原68/69与新54/69当作严格单变量比较，门槛仍失败，不改标签/不付费补跑。独立Fixture证明字段与月份后置条件，不能代替真实任务或下游反事实。Guard旧S0不撤销。
 - 浏览器门禁原有测试会覆盖旧region-composition-results.json，已将本轮产物另存本批次并恢复旧文件逐字原样；受保护Gold/变体/种子与所有冻结代码/输入/脚本均未变化。机器输出[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/result.json)、[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/decision-matrix.json)与[运行后校验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/post-verification.json)。推送独立修复分支后停止，等待复核，不合入集成、不跑Live。
+
+## TEST-2026-10-21-CALENDAR-SELECTED-STATE
+
+- Evidence status: draft / not integrated；真实本地Chromium与固定开发输入，非Clean Baseline。
+- 有效红灯4/4：已有2人仍重复点击/1人点击后循环、通用选中状态缺失、人数未变但无关文案改变却COMPLETED。修后4/4绿；涵盖8种精确class及4种ARIA正状态、负状态不猜、同名不同组隔离、无人数组不编造、已选控件作为证据保留、人数未确认不能收尾。Matsumoto Fixture包含其他区域DOM内容更新，组确认仍绑定真实owner。
+- 默认回归旧单元Fixture仅改变“confirmed”文案，现补选中控件与组；浏览器旧断言要求隐藏选中日期，现改为保留证据且无可执行动作。Tabelog组合与C3成功Fixture补真实标记与组归属，失败场景不改。测试证明当前行为合同，不改69点评分和原输入。
+- 准备69原点全部独立DOM绑定真正Next month，当前引用均一致；历史引用时序逐点审计，0模型/网站。原15问题点selected=请求人数且不再给PARTY_SIZE权威点击；32未观察选择、3不同请求均如实保留。旧54/69与74调用原样保留。
+- 最终五门禁、原22校准与69+5回放待提交冻结后记录；最多74真实模型请求，不重试，0网站/Google/Live。文件均在[本批次](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/plan.md)。

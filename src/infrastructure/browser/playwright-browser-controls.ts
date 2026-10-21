@@ -140,6 +140,14 @@ export class PlaywrightControlRegistry {
       // callback; named local arrows can capture the transpiler's __name helper.
       const monthReader = {
         clean(value: string | null | undefined) { return value?.replace(/\s+/g, " ").trim() ?? ""; },
+        ownerKey(owner: Element | undefined) {
+          if (!owner) return undefined;
+          const path: string[] = [];
+          for (let current: Element | null = owner; current?.parentElement; current = current.parentElement) {
+            path.unshift(`${current.tagName}:${[...current.parentElement.children].indexOf(current)}`);
+          }
+          return `dom-group:${path.join("/")}`;
+        },
         read(calendar: Element | null) {
           if (!calendar) return undefined;
           const captionNode = calendar.querySelector("caption");
@@ -152,24 +160,31 @@ export class PlaywrightControlRegistry {
         },
       };
       let controlGroupLabel = "Unlabelled group";
+      let groupOwner: Element | undefined;
       let calendarMonth: ReturnType<typeof monthReader.read>;
       // Stay inside a nearby widget. Never assign a page's one calendar to
       // an unrelated header/footer control or choose among multiple calendars.
       let container = node.parentElement;
       for (let depth = 0; container && depth < 6 && !container.matches("body,html,main,header,footer"); depth++, container = container.parentElement) {
         const ownMonth = container.matches('table,[role="grid"]') ? monthReader.read(container) : undefined;
-        if (ownMonth) { controlGroupLabel = "Calendar"; calendarMonth = ownMonth; break; }
+        if (ownMonth) { controlGroupLabel = "Calendar"; calendarMonth = ownMonth; groupOwner = container; break; }
         const labelledBy = (container.getAttribute("aria-labelledby") ?? "").split(/\s+/).filter(Boolean);
         const explicit = monthReader.clean(container.getAttribute("aria-label") || labelledBy.map(id => document.getElementById(id)?.textContent ?? "").join(" "));
         const labels = [...new Set([...container.children].filter(child => /^(?:LABEL|LEGEND|H[1-6])$/.test(child.tagName)
           || [...child.classList].some(name => /(?:__|-)(?:label|title)$/.test(name)))
           .map(child => monthReader.clean(child.textContent)).filter(value => value && value.length <= 100))];
-        if (explicit || labels.length === 1) { controlGroupLabel = (explicit || labels[0]!).slice(0, 160); break; }
+        if (explicit || labels.length === 1) { controlGroupLabel = (explicit || labels[0]!).slice(0, 160); groupOwner = container; break; }
         if (labels.length > 1) break;
         const calendars = [...container.querySelectorAll('table,[role="grid"]')].filter(table => table.getClientRects().length > 0).map(table => monthReader.read(table)).filter(month => month !== undefined);
-        if (calendars.length === 1) { controlGroupLabel = "Calendar"; calendarMonth = calendars[0]; break; }
+        if (calendars.length === 1) { controlGroupLabel = "Calendar"; calendarMonth = calendars[0]; groupOwner = container; break; }
         if (calendars.length > 1 || container.matches("section,article,aside,form")) break;
       }
+      // A native select / custom combobox may itself be the labelled owner.
+      if (!groupOwner && (node instanceof HTMLSelectElement || node.getAttribute("role") === "combobox")) {
+        const ownLabel = monthReader.clean(node.getAttribute("aria-label") || [...((node as HTMLInputElement).labels ?? [])].map(label => label.textContent).join(" "));
+        if (ownLabel) { groupOwner = node; controlGroupLabel = ownLabel.slice(0, 160); }
+      }
+      const controlGroupKey = monthReader.ownerKey(groupOwner);
       const alternatives = node.matches('a,[role="link"]') ? [...new Set([...node.querySelectorAll('i,svg title,img[alt],[aria-label],[title]')]
         .map(child => monthReader.clean(child.getAttribute("aria-label") || child.getAttribute("title") || child.getAttribute("alt") || child.textContent))
         .filter(value => value && value.length <= 240))] : [];
@@ -187,13 +202,16 @@ export class PlaywrightControlRegistry {
         tag: node.tagName, classes: [...node.classList], role: node.getAttribute("role"), type: node.getAttribute("type"),
         label: node.getAttribute("aria-label"), title: node.getAttribute("title"),
         text: (node as HTMLElement).innerText?.replace(/\s+/g, " ").trim().slice(0, 240) ?? "",
-        controlGroupLabel, calendarMonth, linkAlternativeText,
+        controlGroupLabel, controlGroupKey, calendarMonth, linkAlternativeText,
         associatedLabel: [...((node as HTMLInputElement).labels ?? [])].map(label => label.innerText.replace(/\s+/g, " ").trim()).join(" "),
         value, href: node.getAttribute("href"), name: node.getAttribute("name"), placeholder: node.getAttribute("placeholder"),
         formOwner: form ? `${form.id || formIndex}` : "", radioGroupKey,
         formMethodOverride: node.getAttribute("formmethod"), formTarget: node.getAttribute("formtarget"),
         disabled: (node as HTMLElement).matches(":disabled") || node.getAttribute("aria-disabled") === "true" || node.getAttribute("data-state") === "disabled",
-        selected: node.getAttribute("aria-selected") === "true" || node.getAttribute("aria-pressed") === "true" || (hintClass ? node.classList.contains(hintClass) : false),
+        selected: ["aria-selected", "aria-pressed", "aria-checked"].some(attribute => node.getAttribute(attribute) === "true")
+          || ["true", "page", "step", "location", "date", "time"].includes(node.getAttribute("aria-current") ?? "")
+          || [...node.classList].some(name => /^(?:is-)?(?:active|selected|current|checked)$/.test(name))
+          || (hintClass ? node.classList.contains(hintClass) : false),
         expanded: node.getAttribute("aria-expanded"), controls: node.getAttribute("aria-controls"),
         calendarDate, dataDate: node.getAttribute("data-date"), dataValue: node.getAttribute("data-value"),
         dateParts: [node.getAttribute("data-year"), node.getAttribute("data-month"), node.getAttribute("data-day")],
@@ -218,6 +236,7 @@ export class PlaywrightControlRegistry {
         scrollTop: _scrollTop,
         formClass: _formClass,
         controlGroupLabel: _groupLabel,
+        controlGroupKey: _groupKey,
         ...signature
       } = projection;
       return JSON.stringify({ projection, signature });
@@ -227,7 +246,7 @@ export class PlaywrightControlRegistry {
   private decodeSnapshot(snapshot: string): { signature: string; projection: {
     tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
     associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
-    controlGroupLabel?: string; calendarMonth?: import("./browser-runtime.js").BrowserCalendarMonth; linkAlternativeText?: string;
+    controlGroupLabel?: string; controlGroupKey?: string; calendarMonth?: import("./browser-runtime.js").BrowserCalendarMonth; linkAlternativeText?: string;
     disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
     calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
     rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
@@ -237,7 +256,7 @@ export class PlaywrightControlRegistry {
     const parsed = JSON.parse(snapshot) as { signature: object; projection: {
       tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
       associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
-      controlGroupLabel?: string; calendarMonth?: import("./browser-runtime.js").BrowserCalendarMonth; linkAlternativeText?: string;
+      controlGroupLabel?: string; controlGroupKey?: string; calendarMonth?: import("./browser-runtime.js").BrowserCalendarMonth; linkAlternativeText?: string;
       disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
       calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
       rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
@@ -385,6 +404,7 @@ export class PlaywrightControlRegistry {
           role,
           label,
           controlGroupLabel: projection.controlGroupLabel ?? "Unlabelled group",
+          ...(projection.controlGroupKey ? { controlGroupKey: projection.controlGroupKey } : {}),
           ...(alternativeLabel ? { labelSource: "DOM descendant text" as const } : {}),
           ...(projection.calendarMonth ? { calendarMonth: projection.calendarMonth } : {}),
           // An observed native input's empty property is meaningful current
@@ -424,18 +444,25 @@ export class PlaywrightControlRegistry {
       const year = Number(english?.[2] ?? numeric?.[1]);
       const month = english ? ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(english[1]!.slice(0,3).toLowerCase())+1 : Number(numeric?.[2]);
       if (!year || month < 1 || month > 12) return [];
+      const ownerPath: string[] = [];
+      for (let current: Element | null = calendar; current?.parentElement; current = current.parentElement) ownerPath.unshift(`${current.tagName}:${[...current.parentElement.children].indexOf(current)}`);
+      const controlGroupKey = `dom-group:${ownerPath.join('/')}`;
       return [...calendar.querySelectorAll('td,[role="gridcell"]')].flatMap((cell, index) => {
         const style=getComputedStyle(cell);
         if (!cell.getClientRects().length || style.display==='none' || style.visibility==='hidden') return [];
         const number=Number(cell.textContent?.trim().match(/^(\d{1,2})(?:\D|$)/)?.[1]);
         if (!number || number>new Date(Date.UTC(year,month,0)).getUTCDate()) return [];
         const date=`${year}-${String(month).padStart(2,'0')}-${String(number).padStart(2,'0')}`;
-        return [{date,key:`calendar:${calendarIndex}:day:${index}`,calendarMonth:{year,month,caption:caption.replace(/\s+/g,' ').trim(),source:calendar.querySelector('caption')?'DOM caption' as const:'ARIA label' as const}}];
+        const day = cell.querySelector(':scope > p') ?? cell;
+        const selected = ["aria-selected", "aria-pressed", "aria-checked"].some(attribute => day.getAttribute(attribute) === "true")
+          || ["true", "page", "step", "location", "date", "time"].includes(day.getAttribute("aria-current") ?? "")
+          || [...day.classList].some(name => /^(?:is-)?(?:active|selected|current|checked)$/.test(name));
+        return [{date,key:`calendar:${calendarIndex}:day:${index}`,selected,controlGroupKey,calendarMonth:{year,month,caption:caption.replace(/\s+/g,' ').trim(),source:calendar.querySelector('caption')?'DOM caption' as const:'ARIA label' as const}}];
       });
     }));
     for (const day of days) {
       if (controls.some(control => control.value===day.date || control.label===`Date ${day.date}`)) continue;
-      controls.push({id:`dom:${this.revision}:calendar:${controls.length+1}`,stableKey:day.key,kind:'BUTTON',role:'gridcell',label:`Calendar date ${day.date}`,controlGroupLabel:'Calendar',calendarMonth:day.calendarMonth,value:day.date,calendarDate:day.date,disabled:true,visible:true,observationOnly:true,structure:{tag:'TD',name:'',classes:[],dialogLabel:'',formClass:'',sliderCount:0}});
+      controls.push({id:`dom:${this.revision}:calendar:${controls.length+1}`,stableKey:day.key,kind:'BUTTON',role:'gridcell',label:`Calendar date ${day.date}`,controlGroupLabel:'Calendar',controlGroupKey:day.controlGroupKey,calendarMonth:day.calendarMonth,value:day.date,calendarDate:day.date,...(day.selected?{selected:true}:{}),disabled:true,visible:true,observationOnly:true,structure:{tag:'TD',name:'',classes:[],dialogLabel:'',formClass:'',sliderCount:0}});
     }
     const expanded = controls.filter(item => item.role === "combobox" && item.expanded === true);
     for (const control of controls.filter(item => item.role === "option")) {
