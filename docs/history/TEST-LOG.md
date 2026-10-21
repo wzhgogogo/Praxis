@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.220
+- Document revision: 4.221
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-CHECKPOINT-C-REVIEWED-RESUME
+
+- Mode: OFFLINE_FIXTURE + accepted frozen regression reuse；0新模型/外站/Live。生产与a6fa26c完全一致，690冻结SHA全匹配；已审核69/69、选店5/5、校准22/22复用。合并后typecheck/arch/build PASS，默认979/979、Chromium131/131，外层20/20控制PASS。真实浏览器区域结果另存本批，旧冻结输出恢复原字节。待最终冻结与原外层完整0网络演练通过后启动授权快速3次；原Guard禁/reserve、不点时段规则及@30/@26不变。
 
 ## TEST-2026-10-21-TABELOG-QUERY-BINDING
 

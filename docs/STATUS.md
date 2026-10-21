@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.316
+- Document revision: 4.317
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-21 已批准 a6fa26c，检查点C连续验收恢复到合并冻结：** 修复快进集成a6fa26c，准备fd745b5保留双方历史；生产与复核代码完全一致，690项冻结全部核对不变。合并后五门禁979默认/131真实Chromium及type/arch/build全绿，外层20控制通过；复用已审核翻月69/69、选店5/5、校准22/22，无新增模型/网站/Live。当前累计2353模型/10完整Live/0环境重跑。按预先批准原外层选择c-01/c-02/c-05重新快速验证，逐家列查询确认/响应/时段/独立GET；门槛0S0且≥2合格。旧H003 S0和旧快速0/3保留；通过后才认证与C18。[阶段材料](../.eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/plan.md)。
 
 - **历史阶段记录：2026-10-21 continuous validation step 1 PASS:** accepted review 481b893; unchanged frozen code/input verified (628 files); calendar69/69, selection5/5, calibration22/22, five gates977/129. No new model/network/Live; cumulative2143/4000 models,7/100 full Live,0/10 environment reruns. That historical merge/freeze step completed in prep; quick validation then stopped at 0/3. Current next gate is the Tabelog repair review below. Evidence: `.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-1.json`.
 

@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.213
+- Document revision: 4.214
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-21-CHECKPOINT-C-REVIEWED-RESUME
+
+- Evidence status: current executable / exposed development。用户批准a6fa26c及连续步骤，修复合入集成和准备分支，五份文档冲突保留双方历史。生产/skills/依赖与复核版一致，原690冻结SHA不变；合并后五门禁979+131通过，外层20控制绿。账本30来源SHA一致，累计2353模型/10Live/0环境重跑，余额1647/90/10。新增逐家离线诊断脚本只读保存DOM/JSON，旧25店17确认/0捕获与复核一致；不回填历史库存。提交冻结后快速c01/c02/c05，0S0且≥2合格才继续认证和新18次，原S0与失败记录保留。
 
 ## DEV-2026-10-21-TABELOG-QUERY-BINDING
 
