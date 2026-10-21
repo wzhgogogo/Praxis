@@ -1,0 +1,33 @@
+{
+  "status": "PRE_RUN_FREEZE_CHECK_REJECTED",
+  "at": "2026-10-21T06:59:25.601298+00:00",
+  "error": "FROZEN_FILE_CHANGED:docs/STATUS.md",
+  "processExitCode": 1,
+  "freezeSha256": "5c4dd01e4d21afcc8a687066dbb1e2bd2cd8e8cfd683e404b26e9d292fbdd8f4",
+  "mismatches": [
+    {
+      "path": "docs/STATUS.md",
+      "frozenSha256": "3502e077d08de2bab82b2428bf2e73e1465b229256fef8336b84ca23812817ab",
+      "currentSha256": "3566fdda01b91f814ee85b663635a865e79a1699f0b0049abde3e86c26133fbc"
+    },
+    {
+      "path": "docs/history/DEVLOG.md",
+      "frozenSha256": "84502a2f053ae6cf0ebf6b42f8919cbd07b8b40a2e88a41907c83a4b1c511890",
+      "currentSha256": "e788d9dd98ce30d9d4eb8db95319469102dc5782a5826045115799a59a0b9bf0"
+    },
+    {
+      "path": "docs/history/TEST-LOG.md",
+      "frozenSha256": "dccb6eee76396f9badf66681d549b4e31315aec405ec4014cc14ff50b6903c14",
+      "currentSha256": "30f920ccdf2f163d68e9cc3fa7bfdca2df55e7be0c33c00c9a223b5c10c6b67e"
+    }
+  ],
+  "outputDirectoryCreated": false,
+  "authorizationConsumed": false,
+  "formalRunStarted": false,
+  "modelCalls": 0,
+  "websiteRequests": 0,
+  "fullLiveRuns": 0,
+  "environmentReruns": 0,
+  "cause": "STATUS/DEVLOG/TEST-LOG were synchronized after freeze creation; final committed documentation must be refrozen before first formal quick run.",
+  "action": "Retain this rejection; align final committed snapshot and reverify every frozen SHA before launch. No code/rule/input relaxation."
+}

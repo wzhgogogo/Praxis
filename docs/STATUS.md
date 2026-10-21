@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.312
+- Document revision: 4.313
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -14,6 +14,8 @@
 - **2026-10-21 Quick validation entry explicitly approved:** add --run-ids only for c-01/c-02/c-05, retain original plan/order/each-run behavior/spacing/stop/budget/evaluation. Twenty offline controls PASS; no production changes, existing five gates reused. Separate quick label and directory exclude these runs from checkpointC18. Commit/freeze then actual0-network three-run/default rehearsal before authorized quick Live. Model/Live ledger2143/7 unchanged.
 
 - **2026-10-21 Quick3 frozen and ready:** Quick entry final verification PASS: original outer executed exactly c-01/c-02/c-05 in0-network/0-model mode, default rehearsal retained1 run and defaultLive18 unchanged;20 controls PASS. Final quick freeze5c4dd01e4d21afcc8a687066dbb1e2bd2cd8e8cfd683e404b26e9d292fbdd8f4,558 files verified. Cumulative2143 models/7 Live/0 env reruns;1857 model calls remain. Old witness window sufficient for quick3 before2026-10-21T12:26Z; user preapproval permits launch after push.
+
+- **2026-10-21 Quick startup alignment:** Quick launch pre-run freeze check rejected changed documentation before authorization consumption, output directory or Runner start;0 models/sites/formalLive/env reruns. Rejection retained; refreeze final committed snapshot and verify all files before launch. Freeze record lives in continuous-validation-20261021/quick-final-freeze-receipt.json; do not mutate frozen documentation during quick batch.
 
 ## 当前门槛
 
