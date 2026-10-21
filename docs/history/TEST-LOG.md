@@ -13,7 +13,7 @@
 
 ## TEST-2026-10-21-EVALUATOR32-HARD-COURSE-EVIDENCE
 
-- Valid old-code red uses complete independent post-delivery inputs and fails only course HARD status. Focused140/140, default988/988, local Chromium131/131, typecheck/arch/build green. New tests reject name/review/neighbor/hidden/superseded/wrong-source/hash/request/late evidence and preserve lunch scope. Calibration22 and quick3 are pending committed freeze; no model/websites/Live.
+- Valid old-code red uses complete independent post-delivery inputs and fails only course HARD status. Focused140/140, default988/988, local Chromium131/131, typecheck/arch/build green. New tests reject name/review/neighbor/hidden/superseded/wrong-source/hash/request/late evidence and preserve lunch scope. Calibration22/22 and S0 declaration20/20; quick3 QD/QD/DU preserved, five HARD statuses independently supported with offering scope/manual restrictions and Kaga missing citation kept separate. Freeze1354 verified; no model/websites/Live.
 - [Report](../../.eval-artifacts/evaluator-hard-course-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
 
 ## TEST-2026-10-21-CRITERION-PRESENTATION-REPAIR
