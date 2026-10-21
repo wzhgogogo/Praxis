@@ -799,3 +799,24 @@ test("Tabelog field quotations retain merchant courses separately from names/rev
     if(!hasCourse)assert.ok(actual.some(q=>q.field==="CUSTOMER_REVIEW"&&q.quote==="A Flaw in the Spring Kaiseki Experience"));
   }
 });
+
+
+test("Tabelog field quotations match class tokens with reordered and extra classes without JS hooks", () => {
+  const url = "https://tabelog.com/en/tokyo/A0000/A000000/11111111/";
+  const expected = [
+    { field: "NAME", quote: "Source Restaurant", sourceUrl: url, meal: "UNSPECIFIED" },
+    { field: "CUSTOMER_REVIEW", quote: "Customer opinion", sourceUrl: url, meal: "UNSPECIFIED" },
+    { field: "COURSE_TITLE", quote: "Lunch Omakase Course", sourceUrl: url, meal: "LUNCH" },
+    { field: "COURSE_DESCRIPTION", quote: "Lunch course details", sourceUrl: url, meal: "LUNCH" },
+  ];
+  for (const classes of [
+    { card: "js-rstdtl-course-list rstdtl-course-list", title: "emphasis rstdtl-course-list__course-title-text", description: "rstdtl-course-list__desc expanded", review: "highlight rstdtl-rvw__title-target", name: "display-name prominent" },
+    { card: "extra rstdtl-course-list another", title: "rstdtl-course-list__course-title-text emphasis", description: "expanded rstdtl-course-list__desc", review: "rstdtl-rvw__title-target highlight", name: "prominent display-name" },
+  ]) {
+    const html = `<h2 class="${classes.name}">Source Restaurant</h2>
+      <h2 class="display-name-suffix">Not a name field</h2>
+      <a class="${classes.review}">Customer opinion</a>
+      <div class="${classes.card}"><a href="${url}party/1/"><span class="${classes.title}">Lunch Omakase Course</span></a><p class="${classes.description}">Lunch course details</p></div>`;
+    assert.deepEqual(parseTabelogSourceFieldQuotes({ url, title: "Source", text: "", html }), expected);
+  }
+});

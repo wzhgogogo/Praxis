@@ -60,3 +60,8 @@ Kaga 的人工见证例外属于评测器输入，未接入产品显示；因此
 - 新增真实模型、网站、Google、Live 和环境重跑全部为 0。没有重新评价正在运行的 C，也没有合并本分支或执行任何预约操作。
 
 推送本独立分支后停止，等待复核决定是否集成；外部表现和整单签收仍需各自证据。
+
+
+## class-token followup after review5110f6aa
+
+The original implementation passed independent review with a class-token followup. That small fix is complete; [followup report, red/green and five gates](class-token-followup/report.md). Default987/987, Chromium131/131; no Prompt/Schema/State change. Original frozen replay remains historical evidence for its code commit; no new replay/calibration. Both branches stay separate until checkpoint C ends.

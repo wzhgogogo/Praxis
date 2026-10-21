@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.323
+- Document revision: 4.324
 - Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-21 Class-token review followup PASS on isolated display branch; reviewed base5110f6aa, full tokens for course cards/title/description/review/name, no JS dependency. Fixture covers reorder/extra/no-JS/prefix exclusion; related39/39, default987/987, local Chromium131/131, type/arch/build PASS. Prompt/Schema/State and qualification unchanged. Zero models/sites/Live; both accepted fixes await checkpoint-C completion before integration.** [Report](../.eval-artifacts/condition-display-evidence-20261021/class-token-followup/report.md).
 
 - **2026-10-21 Condition display offline PASS, separate branch awaiting review. Five gates986/131; source replay3/3 retains four merchant-supported HARD MET states and makes Kaga NOT_CHECKED with actual NAME/REVIEW quotes. Lunch restrictions and requested-course-availability unknown retained. Codef097ab15, freeze740cdc8a (1352 files); State19/TaskDefinition17/condition-states3. Zero models/websites/Live; no evaluator merge or active C change.** [Report](../.eval-artifacts/condition-display-evidence-20261021/report.md).
 
