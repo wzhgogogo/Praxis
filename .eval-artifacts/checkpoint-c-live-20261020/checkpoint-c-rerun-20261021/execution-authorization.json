@@ -1,0 +1,20 @@
+{
+  "approvedBy": "USER",
+  "recordedAt": "2026-10-21T12:22:04.749Z",
+  "reviewCommit": "27b3884a",
+  "steps": [
+    "merge into prep and bind evaluator31/rubric27; commit freeze",
+    "recertify6 cases,0models,original read/retry/pacing rules; at least1 per case",
+    "run original18 without --run-ids; original thresholds and stopping rules"
+  ],
+  "source": "Current direct user message explicitly preapproves all3 continuous steps. Push four-layer report and stop on completion or any step stop.",
+  "preserveAllHistoricalResults": true,
+  "noThirdQuickValidation": true,
+  "prohibited": [
+    "booking forms",
+    "/reserve",
+    "time clicks",
+    "date change on Nov3 failure",
+    "mid-run code/input/script changes"
+  ]
+}

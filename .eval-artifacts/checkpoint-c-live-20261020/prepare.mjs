@@ -14,7 +14,7 @@ const ids=['p2l-kf-h001-20261103','p2l-kf-h002-20261107','p2l-kf-h005-20261105',
 if(cases.length!==6||ids.some(id=>!cases.some(c=>c.id===id)))throw Error('ROSTER_MISMATCH');
 const sequence=[...ids,...ids.slice(2),...ids.slice(0,2),...ids.slice(4),...ids.slice(0,4)];
 const runs=sequence.map((id,i)=>({runId:`c-${String(i+1).padStart(2,'0')}`,caseId:id,repeat:sequence.slice(0,i+1).filter(v=>v===id).length,role:cases.find(c=>c.id===id).role}));
-writeFileSync(`${base}/plan.json`,JSON.stringify({status:'current executable; exposed development, not Clean Baseline',source,sourceSha256:sha(bytes),runnerInput:base+'/runner-input.yaml',baseCommit:'a3f6b84',evaluator:'restaurant-hybrid-read-diagnostic-evaluator@30',rubric:'restaurant-hybrid-read-diagnostic-rubric@26',ceilings:{timeoutMs:500000,maxModelCalls:50,maxGoogleRequests:40},minGapMs:300000,cooldownMs:900000,maxRerunsPerCase:1,maxTotalReruns:10,runs},null,2)+'\n');
+writeFileSync(`${base}/plan.json`,JSON.stringify({status:'current executable; exposed development, not Clean Baseline',source,sourceSha256:sha(bytes),runnerInput:base+'/runner-input.yaml',baseCommit:'a3f6b84',evaluator:'restaurant-hybrid-read-diagnostic-evaluator@31',rubric:'restaurant-hybrid-read-diagnostic-rubric@27',ceilings:{timeoutMs:500000,maxModelCalls:50,maxGoogleRequests:40},minGapMs:300000,cooldownMs:900000,maxRerunsPerCase:1,maxTotalReruns:10,runs},null,2)+'\n');
 const priorPlan=JSON.parse(readFileSync('.eval-artifacts/p2-1-discovery-20261016/witness-certification-plan.json'));
 const old=JSON.parse(readFileSync('.eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json'));
 const registrations=cases.map(c=>{

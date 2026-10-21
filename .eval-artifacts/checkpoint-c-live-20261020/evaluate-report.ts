@@ -26,7 +26,7 @@ export function evaluateAttempt({resultPath,directory,run,mode,registryPath,post
  const rawEvaluation=evaluateRestaurantHybridLiveArtifact(artifact,{path:resultPath??resolve(directory,'missing-result.json'),sha256:rawSha},{reviewedReads:parseReviewedReads(reviewedBytes,reviewedPath),...(witnessOracle?{witnessOracle}:{}),postDeliveryTabelog:postDelivery,trace:[...(artifact?.diagnostics?.browserTrace??[]),...outerTrace],...(interruption?{orchestration:interruption}:{})});
  write(resolve(directory,outputStem+'.raw-evaluator.json'),rawEvaluation);
  const evaluation=applyTableCheckReview(rawEvaluation,post.rows);
- if(!evaluation.evaluatorVersion.endsWith('@30')||!evaluation.rubricVersion.endsWith('@26'))throw Error('EVALUATOR_VERSION_DRIFT');
+ if(!evaluation.evaluatorVersion.endsWith('@31')||!evaluation.rubricVersion.endsWith('@27'))throw Error('EVALUATOR_VERSION_DRIFT');
  write(resolve(directory,outputStem+'.evaluation.json'),evaluation);
  const domain=artifact?.finalSnapshot?.domainState,ids=domain?.presentedResults?.candidateIds??[];
  const decisions=artifact?.decisionCapture?.path&&existsSync(artifact.decisionCapture.path)?readFileSync(artifact.decisionCapture.path,'utf8').trim().split('\n').filter(Boolean).map(l=>JSON.parse(l)):[];
