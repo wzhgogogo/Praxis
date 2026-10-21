@@ -17,30 +17,6 @@
   "maxTotalReruns": 10,
   "runs": [
     {
-      "runId": "c-01",
-      "caseId": "p2l-kf-h001-20261103",
-      "repeat": 1,
-      "role": "TARGET"
-    },
-    {
-      "runId": "c-02",
-      "caseId": "p2l-kf-h002-20261107",
-      "repeat": 1,
-      "role": "BUDGET"
-    },
-    {
-      "runId": "c-03",
-      "caseId": "p2l-kf-h005-20261105",
-      "repeat": 1,
-      "role": "TARGET"
-    },
-    {
-      "runId": "c-04",
-      "caseId": "p2l-kf-h003-20261106",
-      "repeat": 1,
-      "role": "BUDGET"
-    },
-    {
       "runId": "c-05",
       "caseId": "p2l-kagurazaka-kaiseki-20261105",
       "repeat": 1,
@@ -124,5 +100,18 @@
       "repeat": 3,
       "role": "BUDGET"
     }
-  ]
+  ],
+  "continuation": {
+    "status": "USER_DIRECTED_CONTINUATION_WITH_KNOWN_S0_RETAINED",
+    "originalPlanPath": ".eval-artifacts/checkpoint-c-live-20261020/continuation-20261021/original-plan.json",
+    "originalPlanSha256": "c9c0004d812aeb930c2dba7ff0fdce2d820f766dc83abb9a3076036f390e7704",
+    "priorCompletedRunIds": [
+      "c-01",
+      "c-02",
+      "c-03",
+      "c-04"
+    ],
+    "authorizationPath": ".eval-artifacts/checkpoint-c-live-20261020/continuation-20261021/user-direction.json",
+    "notSafetyAcceptance": true
+  }
 }
