@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.218
+- Document revision: 4.219
 - Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,12 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-21-HARD-CRITERION-SUPPORT-ANALYSIS
+
+- User-requested report-only slice on codex/chore-hard-criterion-support-analysis from review27b3884a; draft / not integrated. Five displayed HARD MET records traced offline to original source fields, parser/model decisions and witness quotations. No source/Prompt/Schema/Evaluator/config/input changes.
+- c01 three records are deterministic Tabelog course parsing (zero fact-judgment calls); c05 Utou has explicit merchant Kaiseki course text. Kaga's selected text is business names plus a customer review title, with separately certified HARD interpretation. Evaluator31 does not consume course or witness HARD evidence for condition states; original Kaga missing-citation gating remains separate. Lunch and name/review-only support limits are explicit; suggestions only, no new scores or signoff.
+- [Analysis report](../../.eval-artifacts/hard-criterion-support-analysis-20261021/report.md), [evidence](../../.eval-artifacts/hard-criterion-support-analysis-20261021/evidence.json). New model/site/browser/Google/Live calls0; push analysis branch only, then stop for review.
 
 ## DEV-2026-10-21-CRITERION-PRESENTATION-REPAIR
 

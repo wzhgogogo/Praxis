@@ -1,0 +1,197 @@
+{
+  "status": "PASS",
+  "mode": "OFFLINE_DOCUMENT_ANALYSIS_ONLY",
+  "analysisBase": "27b3884aad4f6dfff1b8d139d164b1c6fdf94352",
+  "checks": [
+    {
+      "check": "Exactly five distinct candidate/condition rows",
+      "status": "PASS"
+    },
+    {
+      "check": "All five original display comparisons are MET/NOT_CHECKED/S1_UNSUPPORTED",
+      "status": "PASS"
+    },
+    {
+      "check": "c01 parser provenance; no fact model invocation in its saved decisions",
+      "status": "PASS"
+    },
+    {
+      "check": "c05 exact saved model decisions17/18 selected source statement IDs",
+      "status": "PASS"
+    },
+    {
+      "check": "Shibuya Sushi Sen: display and product evidence pointers unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "Shibuya Sushi Sen: recorder ordinal, URL and saved HTML SHA",
+      "status": "PASS"
+    },
+    {
+      "check": "Shibuya Sushi Sen: merchant category/course text exists in original saved HTML",
+      "status": "PASS"
+    },
+    {
+      "check": "Shibuya Sushi Sen: retained witness raw bytes and original time",
+      "status": "PASS"
+    },
+    {
+      "check": "Shibuya Sushi Matsumoto: display and product evidence pointers unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "Shibuya Sushi Matsumoto: recorder ordinal, URL and saved HTML SHA",
+      "status": "PASS"
+    },
+    {
+      "check": "Shibuya Sushi Matsumoto: merchant category/course text exists in original saved HTML",
+      "status": "PASS"
+    },
+    {
+      "check": "Shibuya Sushi Matsumoto: retained witness raw bytes and original time",
+      "status": "PASS"
+    },
+    {
+      "check": "Sushi Sho Issekisanchou: display and product evidence pointers unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "Sushi Sho Issekisanchou: recorder ordinal, URL and saved HTML SHA",
+      "status": "PASS"
+    },
+    {
+      "check": "Sushi Sho Issekisanchou: merchant category/course text exists in original saved HTML",
+      "status": "PASS"
+    },
+    {
+      "check": "Kaiseki Utou: display and product evidence pointers unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "Kaiseki Utou: recorder ordinal, URL and saved HTML SHA",
+      "status": "PASS"
+    },
+    {
+      "check": "Kaiseki Utou: merchant category/course text exists in original saved HTML",
+      "status": "PASS"
+    },
+    {
+      "check": "Kaiseki Utou: no rewritten model quotation",
+      "status": "PASS"
+    },
+    {
+      "check": "Kaga: display and product evidence pointers unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "Kaga: recorder ordinal, URL and saved HTML SHA",
+      "status": "PASS"
+    },
+    {
+      "check": "Kaga: merchant category/course text exists in original saved HTML",
+      "status": "PASS"
+    },
+    {
+      "check": "Kaga: no rewritten model quotation",
+      "status": "PASS"
+    },
+    {
+      "check": "Kaga: retained witness raw bytes and original time",
+      "status": "PASS"
+    },
+    {
+      "check": "Four merchant course-title observations; Kaga no course cards",
+      "status": "PASS"
+    },
+    {
+      "check": "Kaga customer review role explicitly distinguished",
+      "status": "PASS"
+    },
+    {
+      "check": "All input files identical to analysis base Git blobs",
+      "status": "PASS"
+    },
+    {
+      "check": "All new documentation links resolve locally",
+      "status": "PASS"
+    },
+    {
+      "check": "开发记录 new index entry/anchor and incremental counters",
+      "status": "PASS"
+    },
+    {
+      "check": "验证记录 new index entry/anchor and incremental counters",
+      "status": "PASS"
+    },
+    {
+      "check": "Only the five expected existing documents modified; new files limited to analysis directory",
+      "status": "PASS"
+    },
+    {
+      "check": "Whitespace/diff check on all modified/new text",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "candidateConditions": 5,
+    "sourceInputFiles": 34,
+    "newLinksChecked": 42,
+    "merchantCourseSupportedPages": 4,
+    "nameAndReviewPlusWitnessPage": 1
+  },
+  "newUsage": {
+    "models": 0,
+    "websites": 0,
+    "google": 0,
+    "browser": 0,
+    "live": 0,
+    "evaluatorExecutions": 0
+  },
+  "preExistingDocumentationLimitations": [
+    {
+      "section": "开发记录",
+      "baselineDeclared": 204,
+      "baselineRows": 192,
+      "currentDeclared": 205,
+      "currentRows": 193,
+      "scope": "Inherited discrepancy retained; this task adds exactly one log entry, index row and counter increment. No unrelated historical-index cleanup."
+    },
+    {
+      "section": "验证记录",
+      "baselineDeclared": 234,
+      "baselineRows": 199,
+      "currentDeclared": 235,
+      "currentRows": 200,
+      "scope": "Inherited discrepancy retained; this task adds exactly one log entry, index row and counter increment. No unrelated historical-index cleanup."
+    }
+  ],
+  "notRun": [
+    "typecheck",
+    "arch:check",
+    "npm test",
+    "build",
+    "test:browser:fixture",
+    "model replay",
+    "calibration",
+    "diagnostic reevaluation"
+  ],
+  "notRunReason": "No implementation/configuration/input change; repository Test Skill pure-document matrix applies.",
+  "limitations": [
+    "Manual source-support analysis is pending independent review; no new automatic scores or signoff.",
+    "Merchant course text does not independently bind a specific course to the requested sitting.",
+    "Saved HTML is Recorder-sanitized; its byte hash is distinct from the runtime original HTML hash.",
+    "Kaga name/review-only product support and separately certified manual HARD interpretation are distinguished."
+  ],
+  "report": {
+    "path": ".eval-artifacts/hard-criterion-support-analysis-20261021/report.md",
+    "sha256": "12aa2a1ef86b1afd948c63a47093421c137b64be709e34dd925c2c7429c612c0"
+  },
+  "evidence": {
+    "path": ".eval-artifacts/hard-criterion-support-analysis-20261021/evidence.json",
+    "sha256": "dac3f185e0b05827972555f38f8eed6004ff9eb9536c6a498a81741cd4166294"
+  },
+  "sourceManifest": {
+    "path": ".eval-artifacts/hard-criterion-support-analysis-20261021/source-manifest.json",
+    "sha256": "d86fe220e3e6f55b54e402db833cd78b889540fa9d5a2d189912e9dfd547d6e3"
+  }
+}

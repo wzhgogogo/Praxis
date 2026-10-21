@@ -1,0 +1,996 @@
+{
+  "analysisBase": "27b3884aad4f6dfff1b8d139d164b1c6fdf94352",
+  "status": "MANUAL_OFFLINE_ANALYSIS_PENDING_REVIEW",
+  "automaticReevaluation": false,
+  "additionalModelCalls": 0,
+  "additionalWebRequests": 0,
+  "newBrowserRuns": 0,
+  "oldRunCodeBindings": [
+    {
+      "path": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "frozenSha256": "610db10792042be9dea295cbed9fbce242ebcd7520e392442eaa7b81dedc0cfd",
+      "analysisSha256": "610db10792042be9dea295cbed9fbce242ebcd7520e392442eaa7b81dedc0cfd",
+      "sameAsRunFreeze": true
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "frozenSha256": "70528c7c1856b33409005b66afb447ef639301e3c75ad58349d87a239b36875a",
+      "analysisSha256": "70528c7c1856b33409005b66afb447ef639301e3c75ad58349d87a239b36875a",
+      "sameAsRunFreeze": true
+    },
+    {
+      "path": "src/integrations/restaurant-facts/model-fact-judgment.ts",
+      "frozenSha256": "0157e31ad596d1dd2ff7e470f643c8ffaec8242e714d21b49e134ed1a6b77af1",
+      "analysisSha256": "0157e31ad596d1dd2ff7e470f643c8ffaec8242e714d21b49e134ed1a6b77af1",
+      "sameAsRunFreeze": true
+    },
+    {
+      "path": "src/integrations/restaurant-facts/native-source-facts.ts",
+      "frozenSha256": "8264462eb4f8ca639da2187857f95857acf883076433ba9770197658e1c1135d",
+      "analysisSha256": "8264462eb4f8ca639da2187857f95857acf883076433ba9770197658e1c1135d",
+      "sameAsRunFreeze": true
+    },
+    {
+      "path": "src/domains/restaurant/condition-states.ts",
+      "frozenSha256": "e41da2017a98dcc447f641c83e0469486bfbe9a5d19d74efd4a9e935881fd640",
+      "analysisSha256": "eaccc5aae5e43950f84100efb1318099fcf89da6fc240de90551c9968beb4fe3",
+      "sameAsRunFreeze": false
+    }
+  ],
+  "rows": [
+    {
+      "case": "c-01",
+      "caseId": "p2l-kf-h001-20261103",
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+      "nativeId": "13275802",
+      "name": "Shibuya Sushi Sen",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+      "resultPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/runner/2026-10-21T11-00-16-745Z-04d5a0a4-85d5-4fb6-9c46-f81494df90ee.result.json",
+      "displayPath": "finalSnapshot.domainState.presentedResults.conditionStates[tabelog:en/tokyo/A1303/A130301/13275802][0]",
+      "display": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31"
+        ],
+        "sources": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "quote": "omakase"
+          }
+        ]
+      },
+      "selectedProductEvidence": [
+        {
+          "index": 10,
+          "record": {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+            "sourceEntityId": "en/tokyo/A1303/A130301/13275802",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "observedAt": "2026-10-21T11:02:03.371Z",
+            "requestFingerprint": "28457eba6a2a26fa8e78d11cf45e837f543db550e424396fd4bf46e78f5b22c9",
+            "claims": {
+              "verifiedHardCriteria": [
+                "omakase"
+              ],
+              "listedCourseDetails": [
+                "Lunch Omakase Course — JPY 6,980 （Price including tax）per person; Number of people 1 - 4. We will serve you the freshest seasonal nigiri of the day.",
+                "Lunch Omakase Course — JPY 8,980 （Price including tax）per person. We will serve you the freshest seasonal nigiri of the day.",
+                "Lunch Special Omakase Course — JPY 10,980 （Price including tax）per person. We will serve you the freshest seasonal nigiri of the day."
+              ]
+            },
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "listedCoursePricesYen": [
+                {
+                  "amount": 6980,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+                  "quote": "Lunch Omakase Course 19 items We will serve you the freshest seasonal nigiri of the day. Reserve Set menu details JPY 6,980 （Price including tax）per person Number of people 1 - 4",
+                  "tax": "INCLUDED",
+                  "meal": "LUNCH",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 8980,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+                  "quote": "Lunch Omakase Course 23 items We will serve you the freshest seasonal nigiri of the day. Reserve Set menu details JPY 8,980 （Price including tax）per person",
+                  "tax": "INCLUDED",
+                  "meal": "LUNCH",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 10980,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+                  "quote": "Lunch Special Omakase Course 25 items We will serve you the freshest seasonal nigiri of the day. Reserve Set menu details JPY 10,980 （Price including tax）per person",
+                  "tax": "INCLUDED",
+                  "meal": "LUNCH",
+                  "kind": "MEAL"
+                }
+              ],
+              "dinnerBudgetRangeYen": {
+                "min": 6000,
+                "max": 7999,
+                "quote": "JPY 6,000 - JPY 7,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+              },
+              "lunchBudgetRangeYen": {
+                "min": 3000,
+                "max": 3999,
+                "quote": "JPY 3,000 - JPY 3,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+              }
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          }
+        }
+      ],
+      "supportingProductEvidence": [],
+      "decisionsPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/runner/2026-10-21T11-00-16-745Z-04d5a0a4-85d5-4fb6-9c46-f81494df90ee.decisions.jsonl",
+      "factModelDecision": null,
+      "originalRunFactModelCallCount": 0,
+      "rawSnapshot": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html",
+        "sha256": "84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b",
+        "snapshot": 26,
+        "recordingPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/recording.json",
+        "recordingEntrySequence": 357,
+        "runtimeHtmlSha256": "bf297a0c9e478a90a33a446d8ffd234ae74013b60091e4d20388d4d13a44f7b4",
+        "hashNote": "Saved sanitized HTML SHA differs from the pre-sanitization runtime HTML SHA; snapshot number, URL and recorder ordinal bind the saved document."
+      },
+      "rawFields": {
+        "categories": "Sushi, Seafood, Izakaya (Japanese style tavern)",
+        "courseTitles": [
+          "Lunch Omakase Course",
+          "Lunch Omakase Course",
+          "Lunch Special Omakase Course"
+        ],
+        "omakaseParserMatches": [
+          {
+            "htmlCharacterOffset": 42672,
+            "openingTag": "<div class=\"rstdtl-course-list__data\">",
+            "decodedText": "Lunch Omakase Course"
+          },
+          {
+            "htmlCharacterOffset": 45521,
+            "openingTag": "<div class=\"rstdtl-course-list__data\">",
+            "decodedText": "Lunch Omakase Course"
+          },
+          {
+            "htmlCharacterOffset": 48053,
+            "openingTag": "<div class=\"rstdtl-course-list__data\">",
+            "decodedText": "Lunch Special Omakase Course"
+          }
+        ]
+      },
+      "witness": {
+        "registryPath": ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json",
+        "caseId": "p2l-kf-h001-20261103",
+        "classification": "KNOWN_FEASIBLE_SUPPORTED",
+        "hardEvidence": [
+          {
+            "criterion": "omakase",
+            "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/party/",
+            "quote": "Omakase Course"
+          }
+        ],
+        "hardReview": [
+          {
+            "value": "omakase",
+            "polarity": "POSITIVE",
+            "status": "SUPPORTED",
+            "rationale": "Current raw business excerpt explicitly identifies the omakase course; HTML entities decoded only for independent comparison.",
+            "evidenceRefs": [
+              "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13275802-party.attempt-1.source.json"
+            ],
+            "rawQuoteBytesRetained": true
+          }
+        ],
+        "sourceReviewActor": "CODEX_EVALUATION_SIDE",
+        "sourceReviewExternalApproval": "PENDING",
+        "registryValidUntil": "2026-10-21T12:26:41.866Z",
+        "sourceQuotes": [
+          {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/capture/p2l-kf-h001-20261103/13275802-party.attempt-1.source.json",
+            "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/party/",
+            "requestedAt": "2026-10-20T12:27:52.108Z",
+            "status": 200,
+            "responseSha256": "2d0337dd391e4ac612eef4892ff0fc94499913182ad5c4112ae696b9a25dc08a",
+            "rawQuotes": [
+              {
+                "criterion": "omakase",
+                "htmlCharacterOffset": 36391,
+                "raw": "Omakase Course"
+              }
+            ]
+          }
+        ]
+      },
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/quick-reevaluations/c-01.evaluation.31.json",
+      "evaluationComparison": {
+        "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+        "text": "omakase",
+        "criterionRef": "criterion:0",
+        "matchMethod": "NORMALIZED_TEXT",
+        "displayed": "MET",
+        "independent": "NOT_CHECKED",
+        "assessment": "S1_UNSUPPORTED"
+      }
+    },
+    {
+      "case": "c-01",
+      "caseId": "p2l-kf-h001-20261103",
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+      "nativeId": "13261619",
+      "name": "Shibuya Sushi Matsumoto",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "resultPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/runner/2026-10-21T11-00-16-745Z-04d5a0a4-85d5-4fb6-9c46-f81494df90ee.result.json",
+      "displayPath": "finalSnapshot.domainState.presentedResults.conditionStates[tabelog:en/tokyo/A1303/A130301/13261619][0]",
+      "display": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519"
+        ],
+        "sources": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "quote": "omakase"
+          }
+        ]
+      },
+      "selectedProductEvidence": [
+        {
+          "index": 16,
+          "record": {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+            "sourceEntityId": "en/tokyo/A1303/A130301/13261619",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "observedAt": "2026-10-21T11:02:45.421Z",
+            "requestFingerprint": "21ef18ab79c1ac55a0d227f2237298afe87d4f20936704247856a65ab8b9bbf4",
+            "claims": {
+              "verifiedHardCriteria": [
+                "omakase"
+              ],
+              "listedCourseDetails": [
+                "Omakase Nigiri Course — JPY 11,000 （Price including tax）per person. Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+                "Premium Omakase Nigiri Course — JPY 16,000 （Price including tax）per person. Awarded one Michelin star in the Tokyo Guide 2019 and 2020, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+                "Special Omakase Nigiri Course — JPY 21,000 （Price including tax）per person. Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course."
+              ]
+            },
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "listedCoursePricesYen": [
+                {
+                  "amount": 11000,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                  "quote": "Omakase Nigiri Course 15 items Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course. Reserve Set menu details JPY 11,000 （Price including tax）per person",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 16000,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                  "quote": "Most popular Premium Omakase Nigiri Course 17 items Awarded one Michelin star in the Tokyo Guide 2019 and 2020, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course. Reserve Set menu details JPY 16,000 （Price including tax）per person",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 21000,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                  "quote": "Special Omakase Nigiri Course 21 items Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course. Reserve Set menu details JPY 21,000 （Price including tax）per person",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                }
+              ],
+              "dinnerBudgetRangeYen": {
+                "min": 10000,
+                "max": 14999,
+                "quote": "JPY 10,000 - JPY 14,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/"
+              },
+              "lunchBudgetRangeYen": {
+                "min": 5000,
+                "max": 5999,
+                "quote": "JPY 5,000 - JPY 5,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/"
+              }
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          }
+        }
+      ],
+      "supportingProductEvidence": [],
+      "decisionsPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/runner/2026-10-21T11-00-16-745Z-04d5a0a4-85d5-4fb6-9c46-f81494df90ee.decisions.jsonl",
+      "factModelDecision": null,
+      "originalRunFactModelCallCount": 0,
+      "rawSnapshot": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html",
+        "sha256": "578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+        "snapshot": 40,
+        "recordingPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/recording.json",
+        "recordingEntrySequence": 557,
+        "runtimeHtmlSha256": "71c9f252316cf5871eda531b2e259d6d190298772bce978af5b6d56517cd66bb",
+        "hashNote": "Saved sanitized HTML SHA differs from the pre-sanitization runtime HTML SHA; snapshot number, URL and recorder ordinal bind the saved document."
+      },
+      "rawFields": {
+        "categories": "Sushi, Seafood, Japanese Cuisine",
+        "courseTitles": [
+          "Omakase Nigiri Course",
+          "Premium Omakase Nigiri Course",
+          "Special Omakase Nigiri Course"
+        ],
+        "omakaseParserMatches": [
+          {
+            "htmlCharacterOffset": 42981,
+            "openingTag": "<div class=\"rstdtl-course-list__data\">",
+            "decodedText": "Omakase Nigiri Course"
+          },
+          {
+            "htmlCharacterOffset": 43590,
+            "openingTag": "<p class=\"rstdtl-course-list__desc\">",
+            "decodedText": "Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course."
+          },
+          {
+            "htmlCharacterOffset": 45992,
+            "openingTag": "<div class=\"rstdtl-course-list__data-header\">",
+            "decodedText": "Premium Omakase Nigiri Course"
+          },
+          {
+            "htmlCharacterOffset": 46550,
+            "openingTag": "<p class=\"rstdtl-course-list__desc\">",
+            "decodedText": "Awarded one Michelin star in the Tokyo Guide 2019 and 2020, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course."
+          },
+          {
+            "htmlCharacterOffset": 48654,
+            "openingTag": "<div class=\"rstdtl-course-list__data\">",
+            "decodedText": "Special Omakase Nigiri Course"
+          },
+          {
+            "htmlCharacterOffset": 49271,
+            "openingTag": "<p class=\"rstdtl-course-list__desc\">",
+            "decodedText": "Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course."
+          }
+        ]
+      },
+      "witness": {
+        "registryPath": ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json",
+        "caseId": "p2l-kf-h001-20261103",
+        "classification": "KNOWN_FEASIBLE_SUPPORTED",
+        "hardEvidence": [
+          {
+            "criterion": "omakase",
+            "quote": "We offer only the \"Omakase Course.\""
+          }
+        ],
+        "hardReview": [
+          {
+            "value": "omakase",
+            "polarity": "POSITIVE",
+            "status": "SUPPORTED",
+            "rationale": "Current raw business excerpt explicitly identifies the omakase course; HTML entities decoded only for independent comparison.",
+            "evidenceRefs": [
+              "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h001-20261103/13261619.attempt-1.source.json"
+            ],
+            "rawQuoteBytesRetained": true
+          }
+        ],
+        "sourceReviewActor": "CODEX_EVALUATION_SIDE",
+        "sourceReviewExternalApproval": "PENDING",
+        "registryValidUntil": "2026-10-21T12:26:41.866Z",
+        "sourceQuotes": [
+          {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h001-20261103/13261619.attempt-1.source.json",
+            "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "requestedAt": "2026-10-20T13:18:41.925Z",
+            "status": 200,
+            "responseSha256": "13f6880768a5217f7243d40996a0fdcd7b6794e58fe7ebf74d93466c0d7acac0",
+            "rawQuotes": [
+              {
+                "criterion": "omakase",
+                "htmlCharacterOffset": 44992,
+                "raw": "We offer only the &quot;Omakase Course.&quot;"
+              }
+            ]
+          }
+        ]
+      },
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/quick-reevaluations/c-01.evaluation.31.json",
+      "evaluationComparison": {
+        "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+        "text": "omakase",
+        "criterionRef": "criterion:0",
+        "matchMethod": "NORMALIZED_TEXT",
+        "displayed": "MET",
+        "independent": "NOT_CHECKED",
+        "assessment": "S1_UNSUPPORTED"
+      }
+    },
+    {
+      "case": "c-01",
+      "caseId": "p2l-kf-h001-20261103",
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+      "nativeId": "13319616",
+      "name": "Sushi Sho Issekisanchou",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+      "resultPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/runner/2026-10-21T11-00-16-745Z-04d5a0a4-85d5-4fb6-9c46-f81494df90ee.result.json",
+      "displayPath": "finalSnapshot.domainState.presentedResults.conditionStates[tabelog:en/tokyo/A1303/A130301/13319616][0]",
+      "display": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f"
+        ],
+        "sources": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+            "quote": "omakase"
+          }
+        ]
+      },
+      "selectedProductEvidence": [
+        {
+          "index": 19,
+          "record": {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+            "sourceEntityId": "en/tokyo/A1303/A130301/13319616",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+            "observedAt": "2026-10-21T11:03:02.121Z",
+            "requestFingerprint": "277bb0f8a51bd2d28109c529c05f00792dae21c464eb38279e829879c239af40",
+            "claims": {
+              "verifiedHardCriteria": [
+                "omakase"
+              ],
+              "listedCourseDetails": [
+                "Lunch 8 Nigiri Course — JPY 7,800 （Price including tax）per person. The Omakase Nigiri 8-Piece Course features fresh seafood carefully selected by our skilled chefs, delivering the ultimate sushi experience.",
+                "Lunch Omakase Nigiri 10 Pieces Course — JPY 9,800 （Price including tax）per person; Number of people 1 - 8. Our Omakase Nigiri Course featuring 10 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that you won't find anywhere else. *Menu items may vary based on availability.",
+                "Lunch Omakase 13 Nigiri Course — JPY 13,500 （Price including tax）per person. Our Omakase Nigiri Course featuring 13 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that cannot be found elsewhere. *Menu items may vary based on availability."
+              ]
+            },
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "listedCoursePricesYen": [
+                {
+                  "amount": 7800,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                  "quote": "Lunch 8 Nigiri Course The Omakase Nigiri 8-Piece Course features fresh seafood carefully selected by our skilled chefs, delivering the ultimate sushi experience. Reserve Set menu details JPY 7,800 （Price including tax）per person",
+                  "tax": "INCLUDED",
+                  "meal": "LUNCH",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 9800,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                  "quote": "Lunch Omakase Nigiri 10 Pieces Course 13 items Our Omakase Nigiri Course featuring 10 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that you won't find anywhere else. *Menu items may vary based on availability. Reserve Set menu details JPY 9,800 （Price including tax）per person Number of people 1 - 8",
+                  "tax": "INCLUDED",
+                  "meal": "LUNCH",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 13500,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                  "quote": "Lunch Omakase 13 Nigiri Course 16 items Our Omakase Nigiri Course featuring 13 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that cannot be found elsewhere. *Menu items may vary based on availability. Reserve Set menu details JPY 13,500 （Price including tax）per person",
+                  "tax": "INCLUDED",
+                  "meal": "LUNCH",
+                  "kind": "MEAL"
+                }
+              ],
+              "dinnerBudgetRangeYen": {
+                "min": 10000,
+                "max": 14999,
+                "quote": "JPY 10,000 - JPY 14,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/"
+              },
+              "lunchBudgetRangeYen": {
+                "min": 10000,
+                "max": 14999,
+                "quote": "JPY 10,000 - JPY 14,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/"
+              }
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          }
+        }
+      ],
+      "supportingProductEvidence": [],
+      "decisionsPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/runner/2026-10-21T11-00-16-745Z-04d5a0a4-85d5-4fb6-9c46-f81494df90ee.decisions.jsonl",
+      "factModelDecision": null,
+      "originalRunFactModelCallCount": 0,
+      "rawSnapshot": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html",
+        "sha256": "5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+        "snapshot": 47,
+        "recordingPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/recording.json",
+        "recordingEntrySequence": 657,
+        "runtimeHtmlSha256": "b521b722c9fee038e3f0a0b0a6be2c94645d4f5edab37c8c2d5f3383c5de3b3c",
+        "hashNote": "Saved sanitized HTML SHA differs from the pre-sanitization runtime HTML SHA; snapshot number, URL and recorder ordinal bind the saved document."
+      },
+      "rawFields": {
+        "categories": "Sushi",
+        "courseTitles": [
+          "Lunch 8 Nigiri Course",
+          "Lunch Omakase Nigiri 10 Pieces Course",
+          "Lunch Omakase 13 Nigiri Course"
+        ],
+        "omakaseParserMatches": [
+          {
+            "htmlCharacterOffset": 39968,
+            "openingTag": "<p class=\"rstdtl-course-list__desc\">",
+            "decodedText": "The Omakase Nigiri 8-Piece Course features fresh seafood carefully selected by our skilled chefs, delivering the ultimate sushi experience."
+          },
+          {
+            "htmlCharacterOffset": 41974,
+            "openingTag": "<div class=\"rstdtl-course-list__data\">",
+            "decodedText": "Lunch Omakase Nigiri 10 Pieces Course"
+          },
+          {
+            "htmlCharacterOffset": 42599,
+            "openingTag": "<p class=\"rstdtl-course-list__desc\">",
+            "decodedText": "Our Omakase Nigiri Course featuring 10 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that you won't find anywhere else. *Menu items may vary based on availability."
+          },
+          {
+            "htmlCharacterOffset": 45216,
+            "openingTag": "<div class=\"rstdtl-course-list__data\">",
+            "decodedText": "Lunch Omakase 13 Nigiri Course"
+          },
+          {
+            "htmlCharacterOffset": 45834,
+            "openingTag": "<p class=\"rstdtl-course-list__desc\">",
+            "decodedText": "Our Omakase Nigiri Course featuring 13 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that cannot be found elsewhere. *Menu items may vary based on availability."
+          }
+        ],
+        "additionalText": [
+          {
+            "selector": ".rstdtl-top-kodawari__title",
+            "quote": "Omakase Course to Experience the Essence of Dashi with All Five Senses",
+            "role": "MERCHANT_FEATURE_HEADING"
+          },
+          {
+            "selector": ".pr-comment__over",
+            "quote": "The Omakase course is available for reservation at four time slots: 5 PM, 6 PM, 7:30 PM, and 8:30 PM.",
+            "role": "MERCHANT_DESCRIPTION_HIDDEN_CONTINUATION"
+          }
+        ]
+      },
+      "witness": null,
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/quick-reevaluations/c-01.evaluation.31.json",
+      "evaluationComparison": {
+        "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+        "text": "omakase",
+        "criterionRef": "criterion:0",
+        "matchMethod": "NORMALIZED_TEXT",
+        "displayed": "MET",
+        "independent": "NOT_CHECKED",
+        "assessment": "S1_UNSUPPORTED"
+      }
+    },
+    {
+      "case": "c-05",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+      "nativeId": "13300814",
+      "name": "Kaiseki Utou",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+      "resultPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json",
+      "displayPath": "finalSnapshot.domainState.presentedResults.conditionStates[tabelog:en/tokyo/A1309/A130905/13300814][0]",
+      "display": {
+        "text": "kaiseki restaurant",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+        ],
+        "sources": []
+      },
+      "selectedProductEvidence": [
+        {
+          "index": 16,
+          "record": {
+            "evidenceId": "fact-judgment:tabelog:en/tokyo/A1309/A130905/13300814:2026-10-21T11:19:40.462Z:tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+            "kind": "RESTAURANT_FACT",
+            "provider": "MODEL_JUDGMENT",
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+            "observedAt": "2026-10-21T11:19:40.462Z",
+            "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1309/A130905/13300814\",\"criteria\":[\"kaiseki restaurant\"],\"cited\":[\"tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a\"]}",
+            "claims": {
+              "verifiedHardCriteria": [
+                "kaiseki restaurant"
+              ],
+              "supportingEvidenceIds": [
+                "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+              ]
+            }
+          }
+        }
+      ],
+      "supportingProductEvidence": [
+        {
+          "index": 15,
+          "record": {
+            "evidenceId": "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+            "sourceEntityId": "en/tokyo/A1309/A130905/13300814",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+            "observedAt": "2026-10-21T11:19:30.402Z",
+            "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a\",\"statementIds\":[\"tabelog:en/tokyo/A1309/A130905/13300814:statement:12\",\"tabelog:en/tokyo/A1309/A130905/13300814:statement:46\",\"tabelog:en/tokyo/A1309/A130905/13300814:statement:1\"]}",
+            "claims": {
+              "restaurantTypeFacts": [
+                "Kaiseki Utou (懐石 うとう)",
+                "Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day8 items",
+                "Kaiseki Utou - Iidabashi(Japanese Cuisine)"
+              ],
+              "sourceStatementIds": [
+                "tabelog:en/tokyo/A1309/A130905/13300814:statement:12",
+                "tabelog:en/tokyo/A1309/A130905/13300814:statement:46",
+                "tabelog:en/tokyo/A1309/A130905/13300814:statement:1"
+              ]
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            },
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+            }
+          }
+        }
+      ],
+      "decisionsPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.decisions.jsonl",
+      "factModelDecision": {
+        "sequence": 17,
+        "jsonlLine": 17,
+        "purpose": "restaurant_fact_judgment",
+        "promptVersion": "14",
+        "schema": {
+          "name": "restaurant_fact_judgment",
+          "version": "4"
+        },
+        "startedAt": "2026-10-21T11:19:38.093Z",
+        "output": {
+          "sourceSelections": [
+            {
+              "documentId": "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a",
+              "statementIds": [
+                "tabelog:en/tokyo/A1309/A130905/13300814:statement:12",
+                "tabelog:en/tokyo/A1309/A130905/13300814:statement:46",
+                "tabelog:en/tokyo/A1309/A130905/13300814:statement:1"
+              ]
+            }
+          ],
+          "judgments": [
+            {
+              "criterion": "kaiseki restaurant",
+              "outcome": "SUPPORTED",
+              "scope": "RESTAURANT_CATEGORY_TYPE",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1309/A130905/13300814:document:7d166c589eee3a6a"
+              ]
+            }
+          ]
+        },
+        "selectedStatements": [
+          {
+            "id": "tabelog:en/tokyo/A1309/A130905/13300814:statement:12",
+            "text": "Kaiseki Utou (懐石 うとう)"
+          },
+          {
+            "id": "tabelog:en/tokyo/A1309/A130905/13300814:statement:46",
+            "text": "Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day8 items"
+          },
+          {
+            "id": "tabelog:en/tokyo/A1309/A130905/13300814:statement:1",
+            "text": "Kaiseki Utou - Iidabashi(Japanese Cuisine)"
+          }
+        ]
+      },
+      "originalRunFactModelCallCount": 5,
+      "rawSnapshot": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/snapshot-0033.html",
+        "sha256": "ea18f66713d89beca3aa62e0ec162e7885721547047704476c2fcd640a29a1c6",
+        "snapshot": 33,
+        "recordingPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/recording.json",
+        "recordingEntrySequence": 498,
+        "runtimeHtmlSha256": "b9177ce12c2733bb462d3a4ae0e01a4ad3c377d1ddeb59f7e464a2bdc2f14a12",
+        "hashNote": "Saved sanitized HTML SHA differs from the pre-sanitization runtime HTML SHA; snapshot number, URL and recorder ordinal bind the saved document."
+      },
+      "rawFields": {
+        "categories": "Japanese Cuisine",
+        "courseTitles": [
+          "Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day",
+          "Seasonal Omakase Course \"Utou\" ◆ Enjoy exquisite dishes featuring seasonal ingredients at a leisurely pace",
+          "Seasonal Omakase Course \"Yanagi\" Simple and Delicious Seasonal Ingredients"
+        ],
+        "omakaseParserMatches": [
+          {
+            "htmlCharacterOffset": 40177,
+            "openingTag": "<div class=\"rstdtl-course-list__data\">",
+            "decodedText": "Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day"
+          },
+          {
+            "htmlCharacterOffset": 40845,
+            "openingTag": "<p class=\"rstdtl-course-list__desc\">",
+            "decodedText": "We offer an omakase course featuring approximately 8 to 9 dishes. We source exceptional seasonal ingredients from Japan, including vegetables, fish, and meat, from trusted producers across the country. Our menu is tailored daily to suit our guests. At the counter, you will find a tempura pot and a charcoal grill, where we prepare dishes right before your eyes. We take pride in highlighting the unique flavors of each ingredient, presenting beautifully crafted dishes that embody a sense of wabi-sabi."
+          },
+          {
+            "htmlCharacterOffset": 43573,
+            "openingTag": "<div class=\"rstdtl-course-list__data-header\">",
+            "decodedText": "Seasonal Omakase Course \"Utou\" ◆ Enjoy exquisite dishes featuring seasonal ingredients at a leisurely pace"
+          },
+          {
+            "htmlCharacterOffset": 44207,
+            "openingTag": "<p class=\"rstdtl-course-list__desc\">",
+            "decodedText": "We offer an omakase course featuring approximately 8 to 9 dishes. We source wonderful seasonal ingredients from Japan, including vegetables, fish, and meat, from connected producers across the country. Our menu is tailored daily to suit our guests. At the counter, you will find a tempura pot and a charcoal grill, where we prepare dishes fresh right before your eyes. Each ingredient is carefully selected to bring out its unique flavors, and we present beautifully crafted dishes that embody a sense of wabi-sabi."
+          },
+          {
+            "htmlCharacterOffset": 46639,
+            "openingTag": "<div class=\"rstdtl-course-list__data\">",
+            "decodedText": "Seasonal Omakase Course \"Yanagi\" Simple and Delicious Seasonal Ingredients"
+          }
+        ]
+      },
+      "witness": null,
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/quick-reevaluations/c-05.evaluation.31.json",
+      "evaluationComparison": {
+        "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+        "text": "kaiseki",
+        "criterionRef": "criterion:0",
+        "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+        "displayed": "MET",
+        "independent": "NOT_CHECKED",
+        "assessment": "S1_UNSUPPORTED"
+      }
+    },
+    {
+      "case": "c-05",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+      "nativeId": "13048623",
+      "name": "Kaga",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+      "resultPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json",
+      "displayPath": "finalSnapshot.domainState.presentedResults.conditionStates[tabelog:en/tokyo/A1309/A130905/13048623][0]",
+      "display": {
+        "text": "kaiseki restaurant",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+        ],
+        "sources": []
+      },
+      "selectedProductEvidence": [
+        {
+          "index": 19,
+          "record": {
+            "evidenceId": "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+            "kind": "RESTAURANT_FACT",
+            "provider": "MODEL_JUDGMENT",
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+            "observedAt": "2026-10-21T11:19:50.896Z",
+            "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1309/A130905/13048623\",\"criteria\":[\"kaiseki restaurant\"],\"cited\":[\"tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab\"]}",
+            "claims": {
+              "verifiedHardCriteria": [
+                "kaiseki restaurant"
+              ],
+              "supportingEvidenceIds": [
+                "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+              ]
+            }
+          }
+        }
+      ],
+      "supportingProductEvidence": [
+        {
+          "index": 18,
+          "record": {
+            "evidenceId": "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+            "sourceEntityId": "en/tokyo/A1309/A130905/13048623",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+            "observedAt": "2026-10-21T11:19:40.516Z",
+            "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab\",\"statementIds\":[\"tabelog:en/tokyo/A1309/A130905/13048623:statement:1\",\"tabelog:en/tokyo/A1309/A130905/13048623:statement:11\",\"tabelog:en/tokyo/A1309/A130905/13048623:statement:46\"]}",
+            "claims": {
+              "restaurantTypeFacts": [
+                "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro（カッポウ カガ） - Ushigome Kagurazaka(Japanese Cuisine)",
+                "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro (神楽坂 割烹 加賀 個室と会席接待の宴会処)",
+                "A Flaw in the Spring Kaiseki Experience"
+              ],
+              "sourceStatementIds": [
+                "tabelog:en/tokyo/A1309/A130905/13048623:statement:1",
+                "tabelog:en/tokyo/A1309/A130905/13048623:statement:11",
+                "tabelog:en/tokyo/A1309/A130905/13048623:statement:46"
+              ]
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            },
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+            }
+          }
+        }
+      ],
+      "decisionsPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.decisions.jsonl",
+      "factModelDecision": {
+        "sequence": 18,
+        "jsonlLine": 18,
+        "purpose": "restaurant_fact_judgment",
+        "promptVersion": "14",
+        "schema": {
+          "name": "restaurant_fact_judgment",
+          "version": "4"
+        },
+        "startedAt": "2026-10-21T11:19:48.440Z",
+        "output": {
+          "sourceSelections": [
+            {
+              "documentId": "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+              "statementIds": [
+                "tabelog:en/tokyo/A1309/A130905/13048623:statement:1",
+                "tabelog:en/tokyo/A1309/A130905/13048623:statement:11",
+                "tabelog:en/tokyo/A1309/A130905/13048623:statement:46"
+              ]
+            }
+          ],
+          "judgments": [
+            {
+              "criterion": "kaiseki restaurant",
+              "outcome": "SUPPORTED",
+              "scope": "RESTAURANT_CATEGORY_TYPE",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+              ]
+            }
+          ]
+        },
+        "selectedStatements": [
+          {
+            "id": "tabelog:en/tokyo/A1309/A130905/13048623:statement:1",
+            "text": "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro（カッポウ カガ） - Ushigome Kagurazaka(Japanese Cuisine)"
+          },
+          {
+            "id": "tabelog:en/tokyo/A1309/A130905/13048623:statement:11",
+            "text": "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro (神楽坂 割烹 加賀 個室と会席接待の宴会処)"
+          },
+          {
+            "id": "tabelog:en/tokyo/A1309/A130905/13048623:statement:46",
+            "text": "A Flaw in the Spring Kaiseki Experience"
+          }
+        ]
+      },
+      "originalRunFactModelCallCount": 5,
+      "rawSnapshot": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/snapshot-0034.html",
+        "sha256": "cd9c48359d4982b4b1f82e376e777b443ada73c2a73069e06f896da811ba2c72",
+        "snapshot": 34,
+        "recordingPath": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/recording.json",
+        "recordingEntrySequence": 521,
+        "runtimeHtmlSha256": "4d8093d80565cd11da85f8939c42cfa8ccbcdecf63f4ca0fb1e400c4c2ae738f",
+        "hashNote": "Saved sanitized HTML SHA differs from the pre-sanitization runtime HTML SHA; snapshot number, URL and recorder ordinal bind the saved document."
+      },
+      "rawFields": {
+        "categories": "Japanese Cuisine, Creative",
+        "courseTitles": [],
+        "omakaseParserMatches": [],
+        "additionalText": [
+          {
+            "selector": ".rstdtl-rvw__title-target",
+            "quote": "A Flaw in the Spring Kaiseki Experience",
+            "role": "CUSTOMER_REVIEW_TITLE_NOT_MERCHANT_CATEGORY"
+          }
+        ]
+      },
+      "witness": {
+        "registryPath": ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json",
+        "caseId": "p2l-kagurazaka-kaiseki-20261105",
+        "classification": "KNOWN_FEASIBLE_SUPPORTED",
+        "hardEvidence": [
+          {
+            "criterion": "kaiseki",
+            "quote": "Private rooms to Kaiseki Settai no Enkai Dokoro"
+          }
+        ],
+        "hardReview": [
+          {
+            "value": "kaiseki",
+            "polarity": "POSITIVE",
+            "status": "SUPPORTED",
+            "assessmentMethod": "CODEX_EVALUATION_SIDE_MANUAL_SOURCE_INTERPRETATION",
+            "rationale": "Current retained raw quote explicitly identifies kaiseki cuisine/course or the registered venue offering Kaiseki; unchanged HARD criterion.",
+            "evidenceRefs": [
+              "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json"
+            ],
+            "rawQuoteBytesRetained": true,
+            "rawBusinessJsonLdRetained": true
+          }
+        ],
+        "sourceReviewActor": "CODEX_EVALUATION_SIDE",
+        "sourceReviewExternalApproval": "PENDING",
+        "registryValidUntil": "2026-10-21T12:26:41.866Z",
+        "sourceQuotes": [
+          {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json",
+            "url": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+            "requestedAt": "2026-10-20T15:38:10.824Z",
+            "status": 200,
+            "responseSha256": "26d00023a8017161c14ce65f265c8ea504b8a6e2f9c9340f34026cefbe030992",
+            "rawQuotes": [
+              {
+                "criterion": "kaiseki",
+                "htmlCharacterOffset": 105,
+                "raw": "Private rooms to Kaiseki Settai no Enkai Dokoro"
+              }
+            ]
+          }
+        ]
+      },
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/quick-reevaluations/c-05.evaluation.31.json",
+      "evaluationComparison": {
+        "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+        "text": "kaiseki",
+        "criterionRef": "criterion:0",
+        "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+        "displayed": "MET",
+        "independent": "NOT_CHECKED",
+        "assessment": "S1_UNSUPPORTED"
+      },
+      "additionalSnapshot": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/snapshot-0043.html",
+        "sha256": "69e183de819e93ee2309cdade0095e63c3989e51eb8255f07cd016d1dbf564c2",
+        "snapshot": 43,
+        "recordingEntrySequence": 670,
+        "role": "Later availability snapshot, corroboration only; not substituted for the seq18 input."
+      }
+    }
+  ]
+}

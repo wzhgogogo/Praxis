@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.225
+- Document revision: 4.226
 - Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,11 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-21-HARD-CRITERION-SUPPORT-ANALYSIS
+
+- Pure-document verification only: five original MET/NOT_CHECKED comparisons and their evidence pointers, saved source HTML/statement selections, witness raw quotes, input SHA integrity and source provenance checked offline. Recording sanitized-file SHA is kept distinct from pre-sanitization runtime SHA. Existing evaluations/results/recordings remain unchanged.
+- [Validation receipt](../../.eval-artifacts/hard-criterion-support-analysis-20261021/validation.json) records counts, links, new history-index entries, source hashes and diff; inherited index-counter discrepancies are listed explicitly. No evaluator execution, model replay, websites, browser or Live; no new code, therefore five implementation gates are not rerun or claimed. Manual interpretation pending independent review, no new automatic score/S0 declaration.
 
 ## TEST-2026-10-21-CRITERION-PRESENTATION-REPAIR
 
