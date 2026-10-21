@@ -1,0 +1,38 @@
+{
+  "schema": "tabelog-saved-url-parameter-audit@1",
+  "status": "SUPPORTED_FOR_SAVED_MERCHANT_DATE_PARTY",
+  "evidenceStatus": "exposed historical source evidence; not current source compatibility",
+  "sourceRequests": 0,
+  "modelCalls": 0,
+  "url": "https://tabelog.com/en/tokyo/A1301/A130101/13280412/?svd=20261021&svps=4&svt=1800",
+  "recordedFinalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13280412/?svd=20261021&svps=4&svt=1800",
+  "historicalModels": 0,
+  "selectedDateDOM": "<p class=\"js-calendar-day-target p-booking-calendar__day is-selectable is-current\" data-year=\"2026\" data-month=\"10\" data-day=\"21\">",
+  "partyValueDOM": "<input class=\"js-people-hidden-value\" type=\"hidden\" value=\"4\">",
+  "partyActiveDOM": "<button class=\"js-people-button p-booking-calendar__people-button is-active js-active is-disabled\" type=\"button\" disabled=\"\">4</button>",
+  "observedNoSeatsText": "No available seats for 4 guests.",
+  "productionParserUsed": false,
+  "implementationAdded": false,
+  "files": [
+    {
+      "source": ".eval-artifacts/p1-d-batch-20261010/C3b-completion/round2/recordings/probe-20/snapshot-0001.html",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/url-parameter-audit/probe-20.html",
+      "sha256": "79dc81529df8f5189e898a1e26aba556a0307356849459e408be69548360115f"
+    },
+    {
+      "source": ".eval-artifacts/p1-d-batch-20261010/C3b-completion/round2/recordings/probe-20/recording.json",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/url-parameter-audit/probe-20.recording.json",
+      "sha256": "6869e540dc6c13e53f5ef9ecb912bbbec5de6901b20aac70aff310cde676c558"
+    },
+    {
+      "source": ".eval-artifacts/p1-d-batch-20261010/C3b-completion/probe-summary.json",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/url-parameter-audit/historical-probe-summary.json",
+      "sha256": "86ae9a0ad6af5d5fc80a61a3442ff5e96296442e589faa0e8d1add8c2f472151"
+    }
+  ],
+  "limits": [
+    "One historical merchant/date/party only: 2026-10-21 / 4; no new November query tested.",
+    "Initialization is not availability success; historical result was NO_SAFE_ACTION, not a qualified delivery.",
+    "svt=1800 was sent but this audit only certifies date/party; no time or slot click performed."
+  ]
+}

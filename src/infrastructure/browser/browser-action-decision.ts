@@ -2,6 +2,11 @@ import { createHash } from "node:crypto";
 
 import type { ModelGateway, ModelResponse } from "../../core/model/contracts.js";
 import { ModelGatewayError } from "../../core/model/errors.js";
+import type { BrowserCalendarMonth } from "./browser-runtime.js";
+
+/** The Browser observation context was previously unversioned; action wire stays @11. */
+export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "1" } as const;
+export const BROWSER_READ_DECISION_PROMPT_VERSION = "18";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
@@ -59,6 +64,8 @@ export interface BrowserReadActionTarget {
   kind: "LINK" | "BUTTON" | "INPUT" | "SELECT" | "OPTION" | "CHECKBOX" | "RADIO" | "RANGE" | "REGION";
   role: string;
   label: string;
+  controlGroupLabel?: string;
+  labelSource?: "DOM descendant text";
   value?: string;
   href?: string;
   formMethod?: string;
@@ -107,6 +114,7 @@ export interface BrowserReadDecisionInput {
     url: string;
     title: string;
     visibleText: string;
+    displayedCalendarMonth?: BrowserCalendarMonth;
     targets: BrowserReadActionTarget[];
     /** Page actions have no targetRef and are never inherited by a control. */
     pageActions?: string[];
@@ -307,6 +315,8 @@ export function buildBrowserReadDecisionSystemPrompt(): string {
 
 ${BROWSER_READ_HISTORY_INSTRUCTION}
 
+Observation context ${BROWSER_READ_CONTEXT_SCHEMA.name}@${BROWSER_READ_CONTEXT_SCHEMA.version}: controlGroupLabel identifies a source-observed widget owner; Unlabelled group means ownership could not be established. displayedCalendarMonth is the observed month, never the requested date. A labelSource of DOM descendant text is public alternative text on an otherwise unlabelled link. These descriptions never grant an action. CALENDAR_MONTH_UNCHANGED means the executor saw no month change, even if unrelated page content changed.
+
 Choose one action only from the observed target references and their availableActions, except a listed pageActions action. A target's rejectionReason explains why another action is unavailable; do not override it. Never invent a target reference, selector, URL, JavaScript, shell command, credential, cookie, login step, booking submission, payment, cancellation, or personal information. The outlet identity, date, party size, time window, and HARD criteria in the goal are immutable. When selecting or filling a date or party size, select the named authoritative field and no other value. FILL_AUTHORITATIVE with RETRIEVAL is allowed only for an observed public search input and fills exactly goal.retrievalExpression; it cannot change area, HARD criteria, date, party size, or time.
 
 To open a custom BUTTON whose role is combobox, use CLICK with authoritativeField NONE. Re-observe, then use CHOOSE_OPTION on an observed OPTION with the correct ownerRef. A native SELECT already exposes its OPTION targets; choose the option directly. Match the visible label to the authoritative date, party size, or time window; an opaque option value is never a reason to guess. For targeted actions, authoritativeField and requestedState must match the action contract. Page actions ignore targetRef and inert field/state placeholders.
@@ -342,12 +352,13 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
       response = await this.model.complete({
         taskId: input.taskId,
         purpose: "browser_read_decide",
-        promptVersion: "17",
+        promptVersion: BROWSER_READ_DECISION_PROMPT_VERSION,
         messages: [
           { role: "system", content: buildBrowserReadDecisionSystemPrompt() },
           {
             role: "user",
             content: JSON.stringify({
+              contextSchemaVersion: BROWSER_READ_CONTEXT_SCHEMA.version,
               source: input.source,
               stage: input.stage,
               objective: input.objective,

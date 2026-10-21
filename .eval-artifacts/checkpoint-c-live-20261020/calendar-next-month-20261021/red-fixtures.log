@@ -1,0 +1,63 @@
+✖ Matsumoto month navigation escapes the guest Next loop through production observation (2959.400792ms)
+✖ calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back (838.379875ms)
+✖ H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (380.527375ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4227.619042
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:68:3217
+✖ Matsumoto month navigation escapes the guest Next loop through production observation (2959.400792ms)
+  Error [BrowserRuntimeError]: Shared browser-model budget exhausted for this read run
+      at BrowserTaskExecutor.runSkill (/private/tmp/praxis-fix-calendar-next-month/src/infrastructure/browser/browser-task-executor.ts:515:23)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-calendar-next-month/src/harness/browser/browser-read-fixture.test.ts:1055:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED',
+    cause: undefined,
+    scope: undefined
+  }
+
+test at src/harness/browser/browser-read-fixture.test.ts:78:2187
+✖ calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back (838.379875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-calendar-next-month/src/harness/browser/browser-read-fixture.test.ts:1086:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:394
+✖ H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (380.527375ms)
+  AssertionError [ERR_ASSERTION]: ["/en/fixture","/en/shops/fixture/reserve"]
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-calendar-next-month/src/harness/browser/read-network-redirect.test.ts:37:14)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }

@@ -214,6 +214,8 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
     controlRefs.set(control.id, ref);
     targets.set(ref, {
       ref, controlId: control.id, stableKey: control.stableKey, ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}), kind: control.kind, role: control.role, label: control.label,
+      controlGroupLabel: control.controlGroupLabel ?? "Unlabelled group",
+      ...(control.labelSource ? { labelSource: control.labelSource } : {}),
       ...(control.kind === "RADIO" && control.structure?.radioGroupKey ? { radioGroupKey: control.structure.radioGroupKey } : {}),
       ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}),
       ...(control.calendarDate ? { calendarDate: control.calendarDate } : {}),
@@ -225,6 +227,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
         const optionRef = `observation:${revision}:target:${targets.size + 1}`;
         targets.set(optionRef, {
           ref: optionRef, kind: "OPTION", role: "option", label: option.label, value: option.value,
+          controlGroupLabel: control.controlGroupLabel ?? "Unlabelled group",
           selected: option.selected, disabled: option.disabled, ownerRef: ref,
           controlId: control.id, optionOwnerId: control.id, optionNative: true,
           ownerStableKey: control.stableKey,
@@ -588,6 +591,7 @@ export class BrowserTaskExecutor {
         && !(target.role === "combobox" && observation.controls.some(control => control.id === target.controlId && control.expanded === true))
         && !(target.kind === "BUTTON" && selectedFields.some(field => matchesAuthoritativeControl(target, field, input.goal))));
       let action: BrowserReadAction;
+      const month = displayedCalendarMonth(observation.controls);
       try {
         this.modelCalls += 1;
         this.budget.totalModelCalls += 1;
@@ -606,6 +610,7 @@ export class BrowserTaskExecutor {
             url: observation.snapshot.url,
             title: observation.snapshot.title,
             visibleText: safeText(observation.snapshot.text),
+            ...(month ? { displayedCalendarMonth: month } : {}),
             pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? ["WAIT", "PRESS_ESCAPE"] : ["WAIT"],
             targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
               ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined),
@@ -758,6 +763,9 @@ export class BrowserTaskExecutor {
         pendingRadio = target;
       }
       const priorSnapshot = snapshot;
+      const calendarNavigation = action.type === "CLICK" && target?.controlGroupLabel === "Calendar"
+        && /\b(?:next|previous|prev|forward|back)\b/i.test(target.label);
+      const priorMonth = calendarNavigation ? displayedCalendarMonth(observation.controls) : undefined;
       const publicQuerySubmit = action.type === "CLICK" && !!target && this.guardedPublicQuerySubmit(input, target);
       if (action.type !== "WAIT") await this.waitForSettled(input, priorSnapshot);
       snapshot = await this.snapshot(input);
@@ -771,20 +779,32 @@ export class BrowserTaskExecutor {
       // A source that did not show an async page change may still be settling
       // its controls. Reobserve on the next turn in that case.
       verifiedObservation = changed && optionConfirmed ? postActionObservation : undefined;
-      const effectVerified = changed || observedControlChange;
+      const currentMonth = calendarNavigation ? displayedCalendarMonth(postActionObservation.controls) : undefined;
+      const monthChanged = !!priorMonth && !!currentMonth && (priorMonth.year !== currentMonth.year || priorMonth.month !== currentMonth.month);
+      const monthUnconfirmed = calendarNavigation && !monthChanged;
+      const effectVerified = calendarNavigation ? monthChanged : changed || observedControlChange;
       remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
         ...("field" in action ? { field: action.field } : {}), outcome: effectVerified ? "PAGE_CHANGED" : "NO_CHANGE",
+        ...(monthUnconfirmed ? { reason: "CALENDAR_MONTH_UNCHANGED" } : {}),
         urlChanged: priorSnapshot.url !== snapshot.url });
       this.record({
         source: input.source,
         stage: input.stage,
         event: "POST_ACTION_VERIFIED",
         url: snapshot.url,
-        detail: optionConfirmed ? effectVerified ? "OBSERVED_CHANGE_AFTER_MODEL_ACTION" : "ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION" : "OPTION_VALUE_NOT_CONFIRMED",
+        detail: monthUnconfirmed ? "CALENDAR_MONTH_UNCHANGED" : optionConfirmed ? effectVerified ? "OBSERVED_CHANGE_AFTER_MODEL_ACTION" : "ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION" : "OPTION_VALUE_NOT_CONFIRMED",
         observation: this.diagnosticObservation(postActionObservation),
       });
       completion = await assess(snapshot, postActionObservation.controls);
-      if (completion.complete && optionConfirmed) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
+      if (completion.complete && optionConfirmed && !monthUnconfirmed) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
+      if (monthUnconfirmed) {
+        if (target) pendingControlKeys.add(target.stableKey);
+        unchangedPageKey = observationKey(snapshot);
+        progress = `CALENDAR_MONTH_UNCHANGED: the calendar month did not confirm a change (${priorMonth?.caption ?? "unknown"} -> ${currentMonth?.caption ?? "unknown"}). Unrelated page changes are not calendar progress. Inspect another current observed control or request human help.`;
+        this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "CALENDAR_MONTH_UNCHANGED" });
+        postAction = true;
+        continue;
+      }
       if (publicQuerySubmit && !publicQueryWaitChanged) {
         pendingControlKeys.add(target!.stableKey);
         progress = "The public query submit changed only local form state and no result arrived within its bounded wait. Do not repeat that submit; wait for a result or choose another observed safe action.";
@@ -1431,6 +1451,13 @@ function sameObservation(left: BrowserSnapshot, right: BrowserSnapshot): boolean
   // observe. Completion has already inspected the fresh DOM; repeat prevention is based on
   // the user-visible page state only.
   return left.url === right.url && left.title === right.title && left.text === right.text;
+}
+
+/** No requested date participates in observing a displayed calendar month. */
+function displayedCalendarMonth(controls: BrowserPageControl[]) {
+  const months = new Map(controls.filter(control => control.visible && !control.blockedByActiveLayer && control.calendarMonth)
+    .map(control => [`${control.calendarMonth!.year}-${control.calendarMonth!.month}`, control.calendarMonth!]));
+  return months.size === 1 ? [...months.values()][0] : undefined;
 }
 
 function observationKey(snapshot: BrowserSnapshot, controls: BrowserPageControl[] = []): string {

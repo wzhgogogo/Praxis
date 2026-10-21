@@ -136,6 +136,44 @@ export class PlaywrightControlRegistry {
       const labelContainer = node.closest('fieldset,[role="radiogroup"]');
       const legend = labelContainer?.querySelector("legend")?.textContent ?? "";
       const groupLabel = radioGroup?.getAttribute("aria-label") || (radioGroup?.getAttribute("aria-labelledby") ?? "").split(/\s+/).map(id => document.getElementById(id)?.textContent ?? "").join(" ") || legend;
+      // Object methods remain self-contained when Playwright serializes this
+      // callback; named local arrows can capture the transpiler's __name helper.
+      const monthReader = {
+        clean(value: string | null | undefined) { return value?.replace(/\s+/g, " ").trim() ?? ""; },
+        read(calendar: Element | null) {
+          if (!calendar) return undefined;
+          const captionNode = calendar.querySelector("caption");
+          const caption = (captionNode?.textContent || calendar.getAttribute("aria-label") || "").replace(/\s+/g, " ").trim();
+          const english = caption.match(/(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{4})/i);
+          const numeric = caption.match(/(\d{4})\s*[年/-]\s*(\d{1,2})/);
+          const year = Number(english?.[2] ?? numeric?.[1]);
+          const month = english ? ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(english[1]!.slice(0, 3).toLowerCase()) + 1 : Number(numeric?.[2]);
+          return year && month >= 1 && month <= 12 ? { year, month, caption, source: captionNode ? "DOM caption" as const : "ARIA label" as const } : undefined;
+        },
+      };
+      let controlGroupLabel = "Unlabelled group";
+      let calendarMonth: ReturnType<typeof monthReader.read>;
+      // Stay inside a nearby widget. Never assign a page's one calendar to
+      // an unrelated header/footer control or choose among multiple calendars.
+      let container = node.parentElement;
+      for (let depth = 0; container && depth < 6 && !container.matches("body,html,main,header,footer"); depth++, container = container.parentElement) {
+        const ownMonth = container.matches('table,[role="grid"]') ? monthReader.read(container) : undefined;
+        if (ownMonth) { controlGroupLabel = "Calendar"; calendarMonth = ownMonth; break; }
+        const labelledBy = (container.getAttribute("aria-labelledby") ?? "").split(/\s+/).filter(Boolean);
+        const explicit = monthReader.clean(container.getAttribute("aria-label") || labelledBy.map(id => document.getElementById(id)?.textContent ?? "").join(" "));
+        const labels = [...new Set([...container.children].filter(child => /^(?:LABEL|LEGEND|H[1-6])$/.test(child.tagName)
+          || [...child.classList].some(name => /(?:__|-)(?:label|title)$/.test(name)))
+          .map(child => monthReader.clean(child.textContent)).filter(value => value && value.length <= 100))];
+        if (explicit || labels.length === 1) { controlGroupLabel = (explicit || labels[0]!).slice(0, 160); break; }
+        if (labels.length > 1) break;
+        const calendars = [...container.querySelectorAll('table,[role="grid"]')].filter(table => table.getClientRects().length > 0).map(table => monthReader.read(table)).filter(month => month !== undefined);
+        if (calendars.length === 1) { controlGroupLabel = "Calendar"; calendarMonth = calendars[0]; break; }
+        if (calendars.length > 1 || container.matches("section,article,aside,form")) break;
+      }
+      const alternatives = node.matches('a,[role="link"]') ? [...new Set([...node.querySelectorAll('i,svg title,img[alt],[aria-label],[title]')]
+        .map(child => monthReader.clean(child.getAttribute("aria-label") || child.getAttribute("title") || child.getAttribute("alt") || child.textContent))
+        .filter(value => value && value.length <= 240))] : [];
+      const linkAlternativeText = alternatives.length === 1 ? alternatives[0] : undefined;
       const dayCell = node.closest('td,[role="gridcell"]');
       const monthCaption = dayCell?.closest('table,[role="grid"]')?.querySelector('caption')?.textContent ?? '';
       const monthYear = monthCaption.match(/(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{4})/i);
@@ -149,6 +187,7 @@ export class PlaywrightControlRegistry {
         tag: node.tagName, classes: [...node.classList], role: node.getAttribute("role"), type: node.getAttribute("type"),
         label: node.getAttribute("aria-label"), title: node.getAttribute("title"),
         text: (node as HTMLElement).innerText?.replace(/\s+/g, " ").trim().slice(0, 240) ?? "",
+        controlGroupLabel, calendarMonth, linkAlternativeText,
         associatedLabel: [...((node as HTMLInputElement).labels ?? [])].map(label => label.innerText.replace(/\s+/g, " ").trim()).join(" "),
         value, href: node.getAttribute("href"), name: node.getAttribute("name"), placeholder: node.getAttribute("placeholder"),
         formOwner: form ? `${form.id || formIndex}` : "", radioGroupKey,
@@ -178,6 +217,7 @@ export class PlaywrightControlRegistry {
         scrollable: _scrollable,
         scrollTop: _scrollTop,
         formClass: _formClass,
+        controlGroupLabel: _groupLabel,
         ...signature
       } = projection;
       return JSON.stringify({ projection, signature });
@@ -187,6 +227,7 @@ export class PlaywrightControlRegistry {
   private decodeSnapshot(snapshot: string): { signature: string; projection: {
     tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
     associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
+    controlGroupLabel?: string; calendarMonth?: import("./browser-runtime.js").BrowserCalendarMonth; linkAlternativeText?: string;
     disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
     calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
     rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
@@ -196,6 +237,7 @@ export class PlaywrightControlRegistry {
     const parsed = JSON.parse(snapshot) as { signature: object; projection: {
       tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
       associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
+      controlGroupLabel?: string; calendarMonth?: import("./browser-runtime.js").BrowserCalendarMonth; linkAlternativeText?: string;
       disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
       calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
       rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
@@ -256,6 +298,8 @@ export class PlaywrightControlRegistry {
         const selectedDisplay = role === "combobox" && !inputValue ? await this.selectedDisplay(locator).catch(() => undefined) : undefined;
         const inputFallback = group.kind === "INPUT" ? projection.placeholder || projection.name || undefined : undefined;
         let label = (projection.label || projection.title || projection.associatedLabel || inputFallback || text || inputValue).replace(/\s+/g, " ").trim().slice(0, 240);
+        const alternativeLabel = !label && group.kind === "LINK" ? projection.linkAlternativeText : undefined;
+        if (alternativeLabel) label = alternativeLabel;
         const href = projection.href;
         let resolvedHref: string | undefined;
         if (href) {
@@ -340,6 +384,9 @@ export class PlaywrightControlRegistry {
           kind: group.kind,
           role,
           label,
+          controlGroupLabel: projection.controlGroupLabel ?? "Unlabelled group",
+          ...(alternativeLabel ? { labelSource: "DOM descendant text" as const } : {}),
+          ...(projection.calendarMonth ? { calendarMonth: projection.calendarMonth } : {}),
           // An observed native input's empty property is meaningful current
           // state. Do not collapse it into an absent property: discovery
           // needs to distinguish an empty public search from an unobserved
@@ -383,12 +430,12 @@ export class PlaywrightControlRegistry {
         const number=Number(cell.textContent?.trim().match(/^(\d{1,2})(?:\D|$)/)?.[1]);
         if (!number || number>new Date(Date.UTC(year,month,0)).getUTCDate()) return [];
         const date=`${year}-${String(month).padStart(2,'0')}-${String(number).padStart(2,'0')}`;
-        return [{date,key:`calendar:${calendarIndex}:day:${index}`}];
+        return [{date,key:`calendar:${calendarIndex}:day:${index}`,calendarMonth:{year,month,caption:caption.replace(/\s+/g,' ').trim(),source:calendar.querySelector('caption')?'DOM caption' as const:'ARIA label' as const}}];
       });
     }));
     for (const day of days) {
       if (controls.some(control => control.value===day.date || control.label===`Date ${day.date}`)) continue;
-      controls.push({id:`dom:${this.revision}:calendar:${controls.length+1}`,stableKey:day.key,kind:'BUTTON',role:'gridcell',label:`Calendar date ${day.date}`,value:day.date,calendarDate:day.date,disabled:true,visible:true,observationOnly:true,structure:{tag:'TD',name:'',classes:[],dialogLabel:'',formClass:'',sliderCount:0}});
+      controls.push({id:`dom:${this.revision}:calendar:${controls.length+1}`,stableKey:day.key,kind:'BUTTON',role:'gridcell',label:`Calendar date ${day.date}`,controlGroupLabel:'Calendar',calendarMonth:day.calendarMonth,value:day.date,calendarDate:day.date,disabled:true,visible:true,observationOnly:true,structure:{tag:'TD',name:'',classes:[],dialogLabel:'',formClass:'',sliderCount:0}});
     }
     const expanded = controls.filter(item => item.role === "combobox" && item.expanded === true);
     for (const control of controls.filter(item => item.role === "option")) {

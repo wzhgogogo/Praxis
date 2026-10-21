@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.194
-- Last updated: 2026-10-20
+- Document revision: 4.195
+- Last updated: 2026-10-21
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -4090,3 +4090,12 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 产品源码3998076保持，外层机械重绑当前集成，冻结cfcf73f。原输入/见证不变；先完成3例，再按用户明确批准存储60→65MB，96f4bf6重冻余2例，旧配置保留。模型/探测/时间/半径不扩大，未修改ADR或Gold。
 - 五例均无失败码/READ_BUDGET_EXCEEDED，模型20/20成功，Google正式18+预检5；累计347模型/59探测/171Google。全部间隔≥300秒、0环境重试；原见证截止前完成未续期。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT为当前限制，非库存/完整Live验收。
 - [报告](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)与执行/评价/调用账本分列；普通推送集成分支后停下等复核，不追加探测。
+
+## DEV-2026-10-21-CALENDAR-NEXT-MONTH
+
+- Evidence status: draft / not integrated；已暴露开发证据。
+- 用户批准采用第0步复核6d92882的V3，在远端集成a3f6b84独立分支实现；通用web-skills、thinking、生产Gateway不变。Registry提取唯一附近控件组与实际calendar caption、链接公开替代文本；绑定不明仍Unlabelled group。Executor翻月后核对年月，未变化反馈NO_CHANGE并拒绝把无关DOM变化当进展。Browser Prompt17→18，首次给此前无版本的Browser context标@1，action wire11与Restaurant Context15/Prompt27不变。
+- TableCheck来源策略永久禁止reserve路径段及子路径，在prepared/observed、普通路由、CDP、preflight和redirect优先拒绝；移除旧G1 start_date/pax文档例外，合并读取策略携带source-owned撤销，不影响其他来源已审核公开query。两条旧reserve菜单成功测试合并退役为两种顺序都UNKNOWN/无交付合同；历史记录不改。
+- 69点用原保存HTML/CSS通过生产Registry/Executor重建，精确节点独立绑定，未注入实验V3标签。历史HTML脱敏器删去的两个日历href末尾#仅按原始观察恢复，保留SHA/明细；请求里不含oracle。5选店payload与当前生产system prompt逐字核对。原22校准、Gold和种子不改，冻结后才跑评测和最多74次真实模型离线回放，不自动重试。
+- 仅保存材料核查发现Tabelog历史门店URL svd=20261021&svps=4可在无交互下初始化日期/人数，独立DOM有is-current日期及4人active/hidden值；未实现快捷导航，不推广至所有门店或11月。
+- 计划与证据：[`calendar-next-month-20261021`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/plan.md)；五门禁已通过，模型与22校准待冻结。无新网站、Google、Live、预约表单或时段操作；不推集成分支。

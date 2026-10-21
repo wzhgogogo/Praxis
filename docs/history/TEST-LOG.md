@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.201
-- Last updated: 2026-10-20
+- Document revision: 4.202
+- Last updated: 2026-10-21
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -4800,3 +4800,12 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 复用B失败原证据和P2-1c固定录制红绿，外层15核对+3 plan-only均0网络/模型；源码不变，复用前切片五门禁978/122与22份校准。真实五例神乐坂2/2正确A1309、中目黑2/2正确A1317、h001单次保持TL4/TC5及见证首批；原始snapshot/观察引用/几何/预算和只读边界独立核对通过。
 - 五例均无失败码/READ_BUDGET_EXCEEDED，模型20/20成功，Google正式18+预检5；累计347模型/59探测/171Google。全部间隔≥300秒、0环境重试；原见证截止前完成未续期。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT为当前限制，非库存/完整Live验收。
 - [报告](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)与执行/评价/调用账本分列；普通推送集成分支后停下等复核，不追加探测。
+
+## TEST-2026-10-21-CALENDAR-NEXT-MONTH
+
+- Evidence status: draft / not integrated；Fixture/静态生产观察，已暴露开发集。
+- 初始sandbox Chrome/localhost启动失败单列；提权后有效旧实现红灯3/3：Matsumoto重复错误Next耗尽、月份未变无NO_CHANGE反馈、H003接收器收到reserve请求。修复后3/3绿，新增公开aria/title/img/svg文字及多个日历不乱绑Fixture通过。中间序列化__name导致观察缺失已修复并留原日志，不把它混作设计红灯。
+- 五门禁：npm run typecheck PASS；npm run arch:check PASS（0 forbidden）；npm test PASS 977/977；npm run build PASS；npm run test:browser:fixture PASS 126/126（真实本地Chromium）。默认978→977来自两条过期reserve菜单成功测试合并为一条两顺序拒绝合同；Chromium122→126补当前真实失效点。0模型/真实网站。
+- 69点生产观察预检69/69：真实Next month anchor对应公开DOM节点、Calendar组、Oct2026与CLICK许可；同一批69原种子/oracle不改。重建有CSS，本地履行所有文档/样式，其他资源拒绝；脚本不执行，未打开表单或点击时段。准备保留原progress/history；两日历锚点href按原始观察恢复脱敏丢失#，记录输入SHA。
+- 冻结后计划：原22自动产物先保存SHA再独立比较；69浏览器点≥68，5选店5/5；最多74模型含失败且无付费重试。阶段账本1995/4000为唯一基线。单点回放不代表完整任务、实时库存或泛化能力；旧Live S0不撤销。
+- 记录：[`gates.json`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/gates.json)、[`原始反例`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/red-fixtures.log)、[`Tabelog参数核查`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/url-parameter-audit/audit.json)。

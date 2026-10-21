@@ -1016,6 +1016,105 @@ function localFixture(html: string | Record<string, string>, runtimeKind: "LOCAL
   return { openSession: (input: Parameters<BrowserRuntime["openSession"]>[0]) => runtime.openSession(input) };
 }
 
+// Controlled widget transcribed from c-01 Matsumoto snapshot47: the real month
+// anchors contain hidden icon text; the two visible Next buttons page guests
+// and times. Scripted source behavior is a Fixture, not current Tabelog stock.
+test("Matsumoto month navigation escapes the guest Next loop through production observation", async () => {
+  const venue = "https://tabelog.com/en/tokyo/A1303/A130301/13261619/";
+  const runtime = localFixture({ [venue]: `<title>Matsumoto calendar fixture</title>
+    <style>.calendar-icon{display:none}.calendar-navi a{display:inline-block;padding:12px}</style>
+    <div class="calendar-widget"><div class="calendar-wrap"><div class="calendar-navi">
+      <a href="#" onclick="event.preventDefault();setMonth()"><i class="calendar-icon">Next month</i></a></div>
+      <table><caption>Oct 2026</caption><tbody><tr><td><button type="button" data-year="2026" data-month="10" data-day="21" onclick="selectDate()">21</button></td></tr></tbody></table></div>
+      <div class="guest-select"><span class="select-title">Guests</span><button type="button" aria-label="Previous">Previous</button><button type="button">2</button>
+      <button type="button" aria-label="Next" onclick="guestPages++;document.querySelector('#guest-page').textContent=guestPages">Next</button><output id="guest-page">0</output></div>
+      <div class="time-select"><span class="select-title">Time</span><button type="button">7:00 PM</button><button type="button" aria-label="Next">Next</button></div></div>
+    <output id="selected">No date selected</output><script>let guestPages=0;
+    function setMonth(){document.querySelector('caption').textContent='Nov 2026';const day=document.querySelector('td button');day.textContent='3';day.dataset.month='11';day.dataset.day='3'}
+    function selectDate(){document.querySelector('#selected').textContent='Selected 2026-11-03'}</script>` });
+  const choices: string[] = [];
+  const observed: unknown[] = [];
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 6,
+    maxModelCallsTotal: 6, maxOperationsPerCandidate: 60, modelDecision: { async decide(input) {
+      observed.push({ month: input.observation.displayedCalendarMonth, controls: input.observation.targets.filter(t => /Next|month/.test(t.label)), progress: input.progress, history: input.history });
+      const next = input.observation.targets.find(t => t.label === "Next month" && t.controlGroupLabel === "Calendar");
+      const date = input.observation.targets.find(t => t.calendarDate === "2026-11-03");
+      if (date) { choices.push("DATE"); return { type: "CLICK_AUTHORITATIVE", targetRef: date.ref, field: "DATE", reason: "Select the requested date." }; }
+      if (next) {
+        assert.deepEqual(input.observation.displayedCalendarMonth, { year: 2026, month: 10, caption: "Oct 2026", source: "DOM caption" });
+        assert.ok(input.observation.targets.some(t => t.label === "Next" && t.controlGroupLabel === "Guests"));
+        assert.ok(input.observation.targets.some(t => t.label === "Next" && t.controlGroupLabel === "Time"));
+        choices.push("MONTH"); return { type: "CLICK", targetRef: next.ref, reason: "Advance the observed calendar." };
+      }
+      // Reproduces the original baseline's choice when the icon is unlabelled.
+      const wrongNext = input.observation.targets.find(t => t.label === "Next")!;
+      choices.push("GUEST_NEXT"); return { type: "CLICK", targetRef: wrongNext.ref, reason: "Attempt to advance November." };
+    } } });
+  const signal = new AbortController().signal;
+  try {
+    const session = await executor.acquire(signal, "TABELOG", "AVAILABILITY");
+    await executor.navigate({ session, source: "TABELOG", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(venue).origin], url: venue });
+    const result = await executor.runSkill({ taskId: "matsumoto-month-fixture", session, source: "TABELOG", stage: "AVAILABILITY", signal,
+      allowedOrigins: [new URL(venue).origin], goal: { outlet: { name: "Matsumoto" }, date: "2026-11-03", partySize: 2, hardCriteria: [] },
+      objective: "Reach the requested November date", methodReason: "Calendar initially shows October",
+      completion: snapshot => snapshot.text.includes("Selected 2026-11-03") ? { complete: true, reason: "Requested date selected", resultKey: "2026-11-03", resultBusy: false } : { complete: false, reason: "Requested date not yet selected" } });
+    assert.equal(result.status, "COMPLETED", JSON.stringify({ status: result.status, choices, observed }));
+    assert.deepEqual(choices, ["MONTH", "DATE"]);
+    assert.match(result.snapshot!.text, /Nov 2026/);
+    assert.match(result.snapshot!.html, /id="guest-page">0</);
+  } finally { await executor.close(); }
+});
+
+test("Chromium labels public icon alternatives and leaves ambiguous calendar ownership unlabelled", async () => {
+  const browser = await chromium.launch({ headless: true });
+  const registry = new PlaywrightControlRegistry();
+  try {
+    const page = await browser.newPage();
+    await page.route("**/*", route => route.abort());
+    await page.setContent(`<style>a{display:inline-block;padding:10px}</style>
+      <fieldset><legend>Public navigation</legend>
+      <a href="#" aria-label="ARIA alternative"></a><a href="#" title="Title alternative"></a>
+      <a href="#"><img alt="Image alternative" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"></a>
+      <a href="#"><svg width="16" height="16"><title>Icon alternative</title></svg></a></fieldset>
+      <div><a href="#" aria-label="Next month"></a><table><caption>Oct 2026</caption><tr><td>21</td></tr></table>
+      <table><caption>Nov 2026</caption><tr><td>3</td></tr></table></div>`);
+    const controls = await registry.observe(page);
+    for (const label of ["ARIA alternative", "Title alternative", "Image alternative", "Icon alternative"]) {
+      const control = controls.find(c => c.label === label);
+      assert.ok(control, label);
+      assert.equal(control.controlGroupLabel, "Public navigation");
+    }
+    const ambiguous = controls.find(c => c.label === "Next month")!;
+    assert.equal(ambiguous.controlGroupLabel, "Unlabelled group");
+    assert.equal(ambiguous.calendarMonth, undefined);
+  } finally { await registry.dispose(); await browser.close(); }
+});
+
+test("calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back", async () => {
+  const runtime = localFixture(`<div><a href="#" aria-label="Next month" onclick="event.preventDefault();document.querySelector('#noise').textContent='Unrelated update'">Next month</a>
+    <table><caption>Oct 2026</caption><tbody><tr><td>21</td></tr></tbody></table></div><output id="noise">Initial text</output>`);
+  let decisions = 0;
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 3,
+    maxModelCallsTotal: 3, maxOperationsPerCandidate: 36, modelDecision: { async decide(input) {
+      if (++decisions === 1) return { type: "CLICK", targetRef: input.observation.targets.find(t => t.label === "Next month")!.ref, reason: "Advance month." };
+      assert.match(input.progress, /CALENDAR_MONTH_UNCHANGED/);
+      assert.equal(input.history.at(-1)?.outcome, "NO_CHANGE");
+      assert.equal(input.history.at(-1)?.reason, "CALENDAR_MONTH_UNCHANGED");
+      assert.equal(input.observation.displayedCalendarMonth?.month, 10);
+      return { type: "REQUEST_HUMAN_HELP", reason: "The source calendar did not change." };
+    } } });
+  const signal = new AbortController().signal;
+  try {
+    const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+    await executor.navigate({ session, source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(url).origin], url });
+    const result = await executor.runSkill({ taskId: "month-unchanged-fixture", session, source: "TABLECHECK", stage: "AVAILABILITY", signal,
+      allowedOrigins: [new URL(url).origin], goal: { outlet: { name: "Fixture" }, date: "2026-11-03", hardCriteria: [] },
+      objective: "Reach November", methodReason: "Reach requested month", completion: () => ({ complete: false, reason: "November not reached" }) });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP");
+    assert.equal(decisions, 2);
+  } finally { await executor.close(); }
+});
+
 test("Chromium control observation discards only a handle confirmed disconnected between reads", async () => {
   const browser = await chromium.launch({ headless: true });
   try {

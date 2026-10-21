@@ -5,6 +5,50 @@ import { test } from "node:test";
 import { chromium } from "playwright-core";
 import { PlaywrightReadNetworkGuard } from "../../infrastructure/browser/playwright-read-network-guard.js";
 
+test("H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect", async () => {
+  const { tableCheckPublicReadNetworkPolicy } = await import("../../integrations/tablecheck/tablecheck-public-query.js");
+  const arrivals: string[] = [];
+  const server = createServer((request, response) => {
+    const path = new URL(request.url!, `http://${request.headers.host}`).pathname;
+    arrivals.push(path);
+    if (path === "/jump") { response.writeHead(302, { location: "/en/shops/fixture/reserve?start_date=2026-11-05&pax=10" }); response.end(); return; }
+    response.setHeader("content-type", "text/html");
+    response.end(path.includes("reserve")
+      ? '<form id="new_reservation" method="post" action="/reserve/create"><input name="reservation[name]"><input name="reservation[phone]"><input name="reservation[email]"></form>'
+      : '<h1>Public TableCheck guide</h1>');
+  });
+  await new Promise<void>(resolve => server.listen(0, "127.0.0.1", resolve));
+  const address = server.address(); assert.ok(address && typeof address !== "string");
+  const origin = `http://127.0.0.1:${address.port}`;
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const context = await browser.newContext({ serviceWorkers: "block" });
+    const guard = new PlaywrightReadNetworkGuard({ ...tableCheckPublicReadNetworkPolicy, documentOrigins: [origin], genericPublicRead: true,
+      prohibitedPaths: tableCheckPublicReadNetworkPolicy.prohibitedPaths!.map(rule => ({ ...rule, hostname: "127.0.0.1" })),
+      // Challenge the permanent deny with the historical broader GET exception.
+      dynamicReads: [{ origin, pathnamePrefix: "/en/shops/", methods: ["GET", "HEAD"], resourceTypes: ["document", "fetch"],
+        queryKeyRules: { required: [], allowed: ["start_date", "pax"] } }] });
+    await guard.install(context);
+    const page = await context.newPage(); await guard.preparePage(context, page);
+    guard.prepareNavigation(origin + "/en/fixture");
+    await page.goto(origin + "/en/fixture");
+    assert.match(await page.locator("body").innerText(), /Public TableCheck guide/);
+    for (const path of ["/en/shops/fixture/reserve?start_date=2026-11-05&pax=10", "/en/shops/fixture/reserve/next", "/en/shops/fixture/reserve/calendar", "/en/shops/fixture/%72eserve"]) {
+      await page.goto(origin + path, { timeout: 3_000 }).catch(() => {});
+      assert.equal(arrivals.some(p => decodeURIComponent(p).split("/").includes("reserve")), false, JSON.stringify(arrivals));
+      assert.throws(() => guard.prepareNavigation(origin + path), /prohibited|sensitive/);
+      assert.throws(() => guard.prepareObservedNavigation(origin + path), /prohibited|sensitive/);
+    }
+    guard.prepareNavigation(origin + "/jump");
+    await page.goto(origin + "/jump", { timeout: 3_000 }).catch(() => {});
+    assert.equal(arrivals.some(p => decodeURIComponent(p).split("/").includes("reserve")), false, JSON.stringify(arrivals));
+    assert.ok(guard.snapshotRequests().some(r => r.outcome === "REDIRECT_BLOCKED"));
+  } finally {
+    await browser.close(); server.closeAllConnections();
+    await new Promise<void>(resolve => server.close(() => resolve()));
+  }
+});
+
 test('P21 source preflight retains a6.5s result under the production navigation budget', async () => {
   const {LocalPlaywrightChromium}=await import('../../infrastructure/browser/local-playwright-chromium.js');
   const {runSourceDataPreflight}=await import('../../eval/restaurant/agent-loop/source-data-preflight.js');

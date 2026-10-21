@@ -416,17 +416,20 @@ test("guard supplies an admitted response to the in-memory recorder before fulfi
 });
 
 
-test("TableCheck admits only the generated reserve GET document and keeps write and sensitive shapes blocked", async () => {
+test("TableCheck permanently rejects reserve documents and descendants, even with a reviewed rule", async () => {
   const { tableCheckRequestedReservationUrl } = await import("../../integrations/tablecheck/tablecheck-page-parser.js");
   const generated = tableCheckRequestedReservationUrl({ kind: "LINKED_PAGE", url: "https://www.tablecheck.com/en/shops/fixture-shop/reserve" }, "2026-10-22", 10);
-  const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
+  const guard = new PlaywrightReadNetworkGuard({ ...tableCheckPublicReadNetworkPolicy, dynamicReads: [
+    ...tableCheckPublicReadNetworkPolicy.dynamicReads,
+    { origin: "https://www.tablecheck.com", pathnamePrefix: "/en/shops/", resourceTypes: ["document", "fetch"], methods: ["GET", "HEAD"],
+      queryKeyRules: { required: [], allowed: ["start_date", "pax"] } },
+  ] });
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
-  guard.prepareNavigation(generated);
-  const document = fakeRoute({ url: generated, type: "document" });
-  await http(document.route);
-  assert.deepEqual(document.calls, ["fetch:0:5000", "fulfill"]);
+  assert.throws(() => guard.prepareNavigation(generated), /prohibited/);
+  assert.throws(() => guard.prepareObservedNavigation(generated), /prohibited/);
   const rejected = [
+    { url: generated },
     { url: generated, method: "POST" },
     { url: generated, method: "HEAD" },
     { url: generated, type: "fetch" },
@@ -435,7 +438,8 @@ test("TableCheck admits only the generated reserve GET document and keeps write 
     { url: generated.split("?")[0]! },
     { url: generated.replace("/reserve?", "/reserve/next?") },
     { url: generated.replace("/reserve?", "/reserve/confirm?") },
-    { url: generated.replace("/reserve?", "/login?") },
+    { url: generated.replace("/reserve?", "/reserve/calendar?") },
+    { url: generated.replace("/reserve?", "/%72eserve?") },
     { url: generated.replace("fixture-shop", "confirm") },
     { url: generated.replace("fixture-shop", "login") },
     { url: generated.replace("www.tablecheck.com", "other.example") },
@@ -445,14 +449,12 @@ test("TableCheck admits only the generated reserve GET document and keeps write 
     await http(request.route); assert.deepEqual(request.calls, ["abort"], JSON.stringify(shape));
     if (!shape.method && !shape.type) assert.throws(() => guard.prepareNavigation(shape.url));
   }
-  // Prepared GET admission cannot be reused to smuggle HEAD or a write.
-  guard.prepareObservedNavigation(generated);
-  const preparedHead = fakeRoute({ url: generated, method: "HEAD" });
-  await http(preparedHead.route); assert.deepEqual(preparedHead.calls, ["abort"]);
-  guard.prepareNavigation(generated);
-  const preparedPost = fakeRoute({ url: generated, method: "POST" });
-  await http(preparedPost.route); assert.deepEqual(preparedPost.calls, ["abort"]);
-  const redirect = fakeRoute({ url: generated, status: 302, responseHeaders: { location: "/en/shops/fixture-shop/reserve/confirm" } });
+  const publicGuide = "https://www.tablecheck.com/en/fixture-shop";
+  guard.prepareNavigation(publicGuide);
+  const document = fakeRoute({ url: publicGuide, type: "document" });
+  await http(document.route); assert.deepEqual(document.calls, ["fetch:0:5000", "fulfill"]);
+  guard.prepareNavigation(publicGuide);
+  const redirect = fakeRoute({ url: publicGuide, status: 302, responseHeaders: { location: "/en/shops/fixture-shop/reserve?start_date=2026-10-22&pax=10" } });
   await http(redirect.route); assert.deepEqual(redirect.calls, ["fetch:0:5000", "abort"]);
 });
 

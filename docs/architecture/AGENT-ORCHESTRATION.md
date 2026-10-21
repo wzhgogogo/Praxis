@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.19
-- Last updated: 2026-10-01
+- Document revision: 3.20
+- Last updated: 2026-10-21
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -86,6 +86,12 @@ MVP不使用Multi-Agent。Desktop与Mobile Web是同一用户级Agent的不同Su
 ### Browser completion 核验补充（2026-09-16）
 
 通用 Browser Executor 只有来源提供的 completion predicate 通过才返回 COMPLETED。模型提出 COMPLETE 而 predicate 未通过时，Executor 把具体未满足条件带回同一浏览器会话、同一请求和原预算继续调查；同一未变化观察上的重复 COMPLETE 以无进展停止。来源仍拥有结构化核验，任何中间状态都不能单独建立 Offer 或成功 Task State。Web 当前条款使用 currentFactEvidence，历史 readEvidence 保留审计，不能作为当前卡片的首条事实。
+
+### Browser observation and calendar verification (2026-10-21)
+
+Browser Prompt@18 / browser_read_context@1 adds public DOM control-group labels, the uniquely observed displayed calendar month, and alternative text on otherwise empty links (aria-label/title/icon or image text). Ownership without a unique nearby source binding stays `Unlabelled group`; requested dates never supply the displayed month. Browser context was previously unversioned; browser_read_action@11 and Restaurant Context@15/Prompt@27 are unchanged. Generic web skills and thinking are unchanged (the approved V3 only).
+
+For a calendar navigation click, the executor compares observed year/month before and after settlement. An unconfirmed month change yields `NO_CHANGE` / `CALENDAR_MONTH_UNCHANGED`, feeds the concrete gap back to the model and cannot count unrelated content changes as calendar progress or complete the read. It grants no new action or evidence authority. TableCheck's source policy now permanently prohibits `/reserve` and descendants, including previously reviewed query variants, before navigation, routing and redirects; public guide/search and approved read APIs remain separately reviewed.
 
 ### Source-owned nonstandard control observation (2026-09-16)
 

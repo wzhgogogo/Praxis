@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.298
-- Last updated: 2026-10-20
+- Document revision: 4.299
+- Last updated: 2026-10-21
 - Source of truth for: 当前实现、证据与下一道门槛
 
 ## 当前门槛
+
+- **2026-10-21 日历V3生产修复（draft / not integrated）：** 独立分支`codex/fix-calendar-next-month`基于远端a3f6b84，采用复核6d92882的V3，未采用V1/V2。Browser Prompt18／首次显式Browser Context1；Restaurant Context15/Prompt27、action wire11不变。生产补公开DOM控件组、月标题与空链接图标文字；翻月未变反馈NO_CHANGE。TableCheck `/reserve`及子路径永久拒绝，H003接收器零到达。Matsumoto等3项有效红→绿，五门禁默认977/977、本地Chromium126/126及type/arch/build全通过。原69点生产观察与5选店请求已准备，待提交冻结后一次回放（最多74模型，失败计入、不补跑）；22校准待冻结后运行。Tabelog历史URL参数样本可初始化2026-10-21/4人，只报告未实现。0新网站/Live；原Live S0保持。[计划](../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/plan.md)。
 
 - **2026-10-20 Context15选店回放与Tabelog方法A完成：**5条独立标注种子全ACCEPTABLE、13/13直接门店页。Gold30家各认证一次、最终29VERIFIED/1DROPPED；方法A34/34完成，Gold12/29正确、15未找到、2不确定、0找错；对照2待复核/3不确定，不计分。模型35+回放5=40，Google/完整Live/方法B新增0。评测身份停止有效红→绿，五门禁972/972+121/121；321旧/390新SHA及66历史输入不变。网络审计64组仍缺会话/完整请求证据，不作总体S0认证。冻结1b4cfda在原8ecfcfc生产基础运行，平行P2-1c合入前结束。运行后仅为发布保留远端State18/P2-1c并行提交；合并后五门禁978/978+122/122通过，未重跑模型或源站。等待独立复核。[选店报告](../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md)、[名称基准](../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md)。
 

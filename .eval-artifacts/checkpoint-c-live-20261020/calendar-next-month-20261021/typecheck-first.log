@@ -1,0 +1,13 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/harness/browser/browser-read-fixture.test.ts(1058,31): error TS2322: Type '{ complete: boolean; reason: string; }' is not assignable to type 'BrowserCompletionAssessment'.
+  Type '{ complete: boolean; reason: string; }' is not assignable to type '{ complete: false; reason: string; resultKey?: string; resultBusy?: boolean; }'.
+    Types of property 'complete' are incompatible.
+      Type 'boolean' is not assignable to type 'false'.
+src/harness/browser/browser-read-fixture.test.ts(1083,44): error TS2741: Property 'taskId' is missing in type '{ session: BrowserSession; source: string; stage: "AVAILABILITY"; signal: AbortSignal; allowedOrigins: string[]; goal: { outlet: { name: string; }; date: string; hardCriteria: never[]; }; objective: string; methodReason: string; completion: () => { ...; }; }' but required in type 'BrowserSkillReadInput'.
+src/infrastructure/browser/browser-task-executor.ts(606,11): error TS2375: Type '{ revision: number; url: string; title: string; visibleText: string; displayedCalendarMonth?: BrowserCalendarMonth | undefined; pageActions: string[]; targets: { ref: string; ... 25 more ...; retrievalValue?: string; }[]; }' is not assignable to type '{ revision: number; url: string; title: string; visibleText: string; displayedCalendarMonth?: BrowserCalendarMonth; targets: BrowserReadActionTarget[]; pageActions?: string[]; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'displayedCalendarMonth' are incompatible.
+    Type 'BrowserCalendarMonth | undefined' is not assignable to type 'BrowserCalendarMonth'.
+      Type 'undefined' is not assignable to type 'BrowserCalendarMonth'.
