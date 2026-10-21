@@ -1,0 +1,34 @@
+{
+  "mode": "SCRIPTED_OFFLINE",
+  "startedAt": "2026-10-21T03:35:38.393Z",
+  "spec": {
+    "schema": "checkpoint-c-calendar-experiment@1",
+    "evidenceStatus": "EXPOSED_DEVELOPMENT_REPLAY",
+    "model": "deepseek-v4-flash",
+    "variants": [
+      "V0",
+      "V1",
+      "V2",
+      "V3"
+    ],
+    "points": 69,
+    "plannedCalls": 276,
+    "hardCallLimit": 300,
+    "baselineModelCalls": 1718,
+    "phaseModelLimit": 4000,
+    "endpoint": "https://api.deepseek.com/beta/chat/completions",
+    "thinkingTimeoutMs": 120000,
+    "thinkingMaxOutputTokens": 8192,
+    "automaticRetries": 0,
+    "sourceRequestsAllowed": 0,
+    "concurrency": 1,
+    "oracle": "DOM month navigation node + captured binding, user approved; not positional Next"
+  },
+  "planned": 4,
+  "freeze": {
+    "sha256": "OFFLINE_CONTROL_NOT_A_MODEL_BATCH_FREEZE",
+    "files": 0
+  },
+  "committedSha": "NOT_APPLICABLE_SCRIPTED",
+  "sourceRequestsAllowed": 0
+}

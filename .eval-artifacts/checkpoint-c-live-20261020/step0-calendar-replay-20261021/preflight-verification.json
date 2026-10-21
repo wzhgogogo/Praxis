@@ -1,0 +1,23 @@
+{
+  "mode": "SCRIPTED_OFFLINE",
+  "testCommand": "node --import tsx --test .eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/experiment.test.mjs",
+  "controls": {
+    "passed": 7,
+    "failed": 0
+  },
+  "scriptedRequests": 4,
+  "realModelCalls": 0,
+  "websiteRequests": 0,
+  "pipelineReport": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/offline-smoke/report.md",
+  "productionAndWebSkillsByteEqualTo": "a3f6b84",
+  "fiveProductionGates": "REUSED_UNCHANGED_PRODUCTION_978_DEFAULT_122_CHROMIUM_TYPE_ARCH_BUILD_PASS",
+  "oracleLiteralControl": {
+    "id": "c-01-d028",
+    "correct": "observation:4:target:90",
+    "wrongGuest": "observation:4:target:131",
+    "wrongTime": "observation:4:target:136"
+  },
+  "knownV3GroupCoverage": {
+    "unknownGroups": "Original recording redacts some profile bindings. Unresolved non-calendar controls retain explicit Unlabelled group; all month, guest and time pager groups verified by source."
+  }
+}
