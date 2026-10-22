@@ -1,0 +1,1815 @@
+{
+  "rows": [
+    {
+      "runId": "c-01",
+      "caseId": "p2l-kf-h001-20261103",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/recordings/hybrid-1792586867532/snapshot-0017.html#sha256=b9088bf3cdb702e052da072bc35a543ad4e88ab963d45982e662c436407cadc3",
+                "../checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/recordings/hybrid-1792586867532/snapshot-0017.html#sha256=b9088bf3cdb702e052da072bc35a543ad4e88ab963d45982e662c436407cadc3",
+                "../checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/recordings/hybrid-1792586867532/snapshot-0017.html#sha256=b9088bf3cdb702e052da072bc35a543ad4e88ab963d45982e662c436407cadc3"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Lunch Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Lunch Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Lunch Special Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/recordings/hybrid-1792586867532/snapshot-0017.html#sha256=b9088bf3cdb702e052da072bc35a543ad4e88ab963d45982e662c436407cadc3",
+                    "../checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/recordings/hybrid-1792586867532/snapshot-0017.html#sha256=b9088bf3cdb702e052da072bc35a543ad4e88ab963d45982e662c436407cadc3",
+                    "../checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/recordings/hybrid-1792586867532/snapshot-0017.html#sha256=b9088bf3cdb702e052da072bc35a543ad4e88ab963d45982e662c436407cadc3"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [
+                  "LUNCH"
+                ],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+          "text": "omakase",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-02",
+      "caseId": "p2l-kf-h002-20261107",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [],
+      "displayComparisons": []
+    },
+    {
+      "runId": "c-03",
+      "caseId": "p2l-kf-h005-20261105",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [],
+      "displayComparisons": []
+    },
+    {
+      "runId": "c-04",
+      "caseId": "p2l-kf-h003-20261106",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [],
+      "displayComparisons": []
+    },
+    {
+      "runId": "c-05",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "kaiseki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-rerun-20261021/witness-capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json#sha256=93a370b9e09b5d93bd3e3acded030b7496ff8986291a1eaffdff2d29b0469ab0",
+                "../checkpoint-c-continuation-20261021/independent-review.md#sha256=de649548e120947f4dd3e5b347dd0c2b030a201ea8371ace4fc070cb978fdff0"
+              ],
+              "status": "MET",
+              "basis": [
+                "Independent reviewer witness: Private rooms to Kaiseki Settai no Enkai Dokoro. Not inferred from the product's model label; no requested-course availability claim."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                },
+                {
+                  "code": "REVIEWED_WITNESS_ACCEPTED",
+                  "reason": "Independent manual HARD interpretation applies only to this outlet, request and artifact SHA; it is not a product name-matching rule.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/witness-capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json",
+                    "../checkpoint-c-continuation-20261021/independent-review.md"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "kaiseki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/recordings/hybrid-1792589828211/snapshot-0019.html#sha256=652f0aaa6891746e51f16e301f4de60d2bcb983b268500a48a0cb5c0d15ab685"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/recordings/hybrid-1792589828211/snapshot-0019.html#sha256=652f0aaa6891746e51f16e301f4de60d2bcb983b268500a48a0cb5c0d15ab685",
+                    "evidence:restaurant:tabelog-hard-criteria:5eded54c2193fe19b577c5c5"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/recordings/hybrid-1792589828211/snapshot-0019.html#sha256=652f0aaa6891746e51f16e301f4de60d2bcb983b268500a48a0cb5c0d15ab685"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+          "text": "kaiseki",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+          "text": "kaiseki",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-06",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13320287",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "tempura",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0032.html#sha256=48451c73d50faa3712ff34999f020635bf3cf33f8da816711cc2e0d785ba1799"
+              ],
+              "status": "MET",
+              "basis": [
+                "CATEGORY: Udon (Wheat noodles), Tempura, Izakaya (Japanese style tavern); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0032.html#sha256=48451c73d50faa3712ff34999f020635bf3cf33f8da816711cc2e0d785ba1799",
+                    "evidence:restaurant:tabelog-hard-criteria:ff2aad531f7b669fcba281b7"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0032.html#sha256=48451c73d50faa3712ff34999f020635bf3cf33f8da816711cc2e0d785ba1799"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13282321",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "tempura",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0025.html#sha256=324b75ecff2ebd0c8ff2fc36819d5a7e44c241bcab3a56b3b388cc827921c618",
+                "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0025.html#sha256=324b75ecff2ebd0c8ff2fc36819d5a7e44c241bcab3a56b3b388cc827921c618",
+                "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0025.html#sha256=324b75ecff2ebd0c8ff2fc36819d5a7e44c241bcab3a56b3b388cc827921c618",
+                "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0025.html#sha256=324b75ecff2ebd0c8ff2fc36819d5a7e44c241bcab3a56b3b388cc827921c618"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_DESCRIPTION: A standard kaiseki course featuring a selection of seasonal tempura, sushi, and exquisite dishes.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Experience our premium kaiseki course featuring a selection of seasonal tempura, sushi, and exquisite dishes. This is our most popular course, allowing you to fully enjoy Kichijoji Sushi Tempura Iwai, including our signature shrimp hot dog.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Indulge in our Special Kaiseki course, featuring a selection of seasonal tempura, sushi, and exquisite dishes. Experience the true essence of Kichijoji Sushi Tempura Iwai, where we take extra care to ensure you enjoy the finest flavors at their best.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "CATEGORY: Sushi, Tempura, Japanese Cuisine; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0025.html#sha256=324b75ecff2ebd0c8ff2fc36819d5a7e44c241bcab3a56b3b388cc827921c618",
+                    "evidence:restaurant:tabelog-hard-criteria:d2a8d1842879279aa70c9cdc"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0025.html#sha256=324b75ecff2ebd0c8ff2fc36819d5a7e44c241bcab3a56b3b388cc827921c618",
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0025.html#sha256=324b75ecff2ebd0c8ff2fc36819d5a7e44c241bcab3a56b3b388cc827921c618",
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0025.html#sha256=324b75ecff2ebd0c8ff2fc36819d5a7e44c241bcab3a56b3b388cc827921c618",
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0025.html#sha256=324b75ecff2ebd0c8ff2fc36819d5a7e44c241bcab3a56b3b388cc827921c618"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13303321",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "tempura",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: [Lunch] Weekday Limited Course ◆ Enjoy our proud selection of 7 types of Tempura with white rice, miso soup, and pickles, all in a relaxed atmosphere during lunch.; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: [Lunch] Omakase Course ◆ A blissful moment to enjoy 8 types of Tempura, Kakiage, and dessert.; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Dinner: Yukitsubaki Course ◆ A Simple Plan to Fully Enjoy Freshly Fried Tempura as the Main Dish; DINNER. Restaurant offering only; requested-time course availability is not established.",
+                "CATEGORY: Tempura; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "evidence:restaurant:tabelog-hard-criteria:16137b8b3aa87eb4f96cc227"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "../checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [
+                  "LUNCH",
+                  "DINNER"
+                ],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13320287",
+          "text": "tempura",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13282321",
+          "text": "tempura",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13303321",
+          "text": "tempura",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-07",
+      "caseId": "p2l-kf-h005-20261105",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "local food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            },
+            {
+              "goldIndex": 1,
+              "text": "fast food",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "local food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            },
+            {
+              "goldIndex": 1,
+              "text": "fast food",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "local food",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "NOT_CHECKED",
+          "assessment": "S1_UNSUPPORTED"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "fast food",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "local food",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "NOT_CHECKED",
+          "assessment": "S1_UNSUPPORTED"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "fast food",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-08",
+      "caseId": "p2l-kf-h003-20261106",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [],
+      "displayComparisons": []
+    },
+    {
+      "runId": "c-09",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "kaiseki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-09-attempt-2/recordings/hybrid-1792594833872/snapshot-0019.html#sha256=652f0aaa6891746e51f16e301f4de60d2bcb983b268500a48a0cb5c0d15ab685"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-09-attempt-2/recordings/hybrid-1792594833872/snapshot-0019.html#sha256=652f0aaa6891746e51f16e301f4de60d2bcb983b268500a48a0cb5c0d15ab685",
+                    "evidence:restaurant:tabelog-hard-criteria:c5be9e1f95e189174a735563"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-09-attempt-2/recordings/hybrid-1792594833872/snapshot-0019.html#sha256=652f0aaa6891746e51f16e301f4de60d2bcb983b268500a48a0cb5c0d15ab685"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "kaiseki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-rerun-20261021/witness-capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json#sha256=93a370b9e09b5d93bd3e3acded030b7496ff8986291a1eaffdff2d29b0469ab0",
+                "../checkpoint-c-continuation-20261021/independent-review.md#sha256=de649548e120947f4dd3e5b347dd0c2b030a201ea8371ace4fc070cb978fdff0"
+              ],
+              "status": "MET",
+              "basis": [
+                "Independent reviewer witness: Private rooms to Kaiseki Settai no Enkai Dokoro. Not inferred from the product's model label; no requested-course availability claim."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                },
+                {
+                  "code": "REVIEWED_WITNESS_ACCEPTED",
+                  "reason": "Independent manual HARD interpretation applies only to this outlet, request and artifact SHA; it is not a product name-matching rule.",
+                  "refs": [
+                    "../checkpoint-c-rerun-20261021/witness-capture/p2l-kagurazaka-kaiseki-20261105/13048623.attempt-1.source.json",
+                    "../checkpoint-c-continuation-20261021/independent-review.md"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+          "text": "kaiseki",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+          "text": "kaiseki",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-10",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13320287",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "tempura",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0032.html#sha256=e65b5a906dbd4a70f5d8076e797f8f8ea4a6268660451e5327c1e06e91a88540"
+              ],
+              "status": "MET",
+              "basis": [
+                "CATEGORY: Udon (Wheat noodles), Tempura, Izakaya (Japanese style tavern); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0032.html#sha256=e65b5a906dbd4a70f5d8076e797f8f8ea4a6268660451e5327c1e06e91a88540",
+                    "evidence:restaurant:tabelog-hard-criteria:1d157d25228d1531686e9c92"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0032.html#sha256=e65b5a906dbd4a70f5d8076e797f8f8ea4a6268660451e5327c1e06e91a88540"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13282321",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "tempura",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0025.html#sha256=5e0e2906ec6068433199e3dc47ea94c2ad5759819ee78762674fa26b4e6289ab",
+                "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0025.html#sha256=5e0e2906ec6068433199e3dc47ea94c2ad5759819ee78762674fa26b4e6289ab",
+                "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0025.html#sha256=5e0e2906ec6068433199e3dc47ea94c2ad5759819ee78762674fa26b4e6289ab",
+                "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0025.html#sha256=5e0e2906ec6068433199e3dc47ea94c2ad5759819ee78762674fa26b4e6289ab"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_DESCRIPTION: A standard kaiseki course featuring a selection of seasonal tempura, sushi, and exquisite dishes.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Experience our premium kaiseki course featuring a selection of seasonal tempura, sushi, and exquisite dishes. This is our most popular course, allowing you to fully enjoy Kichijoji Sushi Tempura Iwai, including our signature shrimp hot dog.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Indulge in our Special Kaiseki course, featuring a selection of seasonal tempura, sushi, and exquisite dishes. Experience the true essence of Kichijoji Sushi Tempura Iwai, where we take extra care to ensure you enjoy the finest flavors at their best.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "CATEGORY: Sushi, Tempura, Japanese Cuisine; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0025.html#sha256=5e0e2906ec6068433199e3dc47ea94c2ad5759819ee78762674fa26b4e6289ab",
+                    "evidence:restaurant:tabelog-hard-criteria:f48fbcc3bc00574db1c9c652"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0025.html#sha256=5e0e2906ec6068433199e3dc47ea94c2ad5759819ee78762674fa26b4e6289ab",
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0025.html#sha256=5e0e2906ec6068433199e3dc47ea94c2ad5759819ee78762674fa26b4e6289ab",
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0025.html#sha256=5e0e2906ec6068433199e3dc47ea94c2ad5759819ee78762674fa26b4e6289ab",
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0025.html#sha256=5e0e2906ec6068433199e3dc47ea94c2ad5759819ee78762674fa26b4e6289ab"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13303321",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "tempura",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: [Lunch] Weekday Limited Course ◆ Enjoy our proud selection of 7 types of Tempura with white rice, miso soup, and pickles, all in a relaxed atmosphere during lunch.; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: [Lunch] Omakase Course ◆ A blissful moment to enjoy 8 types of Tempura, Kakiage, and dessert.; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Dinner: Yukitsubaki Course ◆ A Simple Plan to Fully Enjoy Freshly Fried Tempura as the Main Dish; DINNER. Restaurant offering only; requested-time course availability is not established.",
+                "CATEGORY: Tempura; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "evidence:restaurant:tabelog-hard-criteria:05224ef52e7b3e026b2fd08c"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "../checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [
+                  "LUNCH",
+                  "DINNER"
+                ],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13320287",
+          "text": "tempura",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13282321",
+          "text": "tempura",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13303321",
+          "text": "tempura",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-11",
+      "caseId": "p2l-kf-h001-20261103",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13274777",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0019.html#sha256=376e3341ceb4f7b36262761bfe542c91a7a2de24c48ca2b83ed3140c0ae5b469",
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0019.html#sha256=376e3341ceb4f7b36262761bfe542c91a7a2de24c48ca2b83ed3140c0ae5b469",
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0019.html#sha256=376e3341ceb4f7b36262761bfe542c91a7a2de24c48ca2b83ed3140c0ae5b469",
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0019.html#sha256=376e3341ceb4f7b36262761bfe542c91a7a2de24c48ca2b83ed3140c0ae5b469"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Lunch Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Enjoy our Omakase course featuring a variety of nigiri as the main attraction. Savor seasonal ingredients at a great lunch price!; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Lunch Omakase Course \"Upper\"; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Enjoy our Lunch Omakase Course, featuring seasonal ingredients in sushi, all at a great lunch price!; LUNCH. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0019.html#sha256=376e3341ceb4f7b36262761bfe542c91a7a2de24c48ca2b83ed3140c0ae5b469",
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0019.html#sha256=376e3341ceb4f7b36262761bfe542c91a7a2de24c48ca2b83ed3140c0ae5b469",
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0019.html#sha256=376e3341ceb4f7b36262761bfe542c91a7a2de24c48ca2b83ed3140c0ae5b469",
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0019.html#sha256=376e3341ceb4f7b36262761bfe542c91a7a2de24c48ca2b83ed3140c0ae5b469"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [
+                  "LUNCH"
+                ],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0026.html#sha256=d5d947d569fbcd43c871388361b0687f84db1624fd7509dc44876159cfb9ab30",
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0026.html#sha256=d5d947d569fbcd43c871388361b0687f84db1624fd7509dc44876159cfb9ab30",
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0026.html#sha256=d5d947d569fbcd43c871388361b0687f84db1624fd7509dc44876159cfb9ab30"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Lunch Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Lunch Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Lunch Special Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0026.html#sha256=d5d947d569fbcd43c871388361b0687f84db1624fd7509dc44876159cfb9ab30",
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0026.html#sha256=d5d947d569fbcd43c871388361b0687f84db1624fd7509dc44876159cfb9ab30",
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0026.html#sha256=d5d947d569fbcd43c871388361b0687f84db1624fd7509dc44876159cfb9ab30"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [
+                  "LUNCH"
+                ],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Omakase Nigiri Course; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Premium Omakase Nigiri Course; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Awarded one Michelin star in the Tokyo Guide 2019 and 2020, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Special Omakase Nigiri Course; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                    "../checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/recordings/hybrid-1792595954054/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13274777",
+          "text": "omakase",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+          "text": "omakase",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+          "text": "omakase",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-12",
+      "caseId": "p2l-kf-h002-20261107",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "good for a first date",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED",
+              "evidenceRefs": [
+                "materializedCase.semantic.criteria[0]"
+              ],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+              ]
+            },
+            {
+              "goldIndex": 1,
+              "text": "around 10,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "evidenceRefs": [
+                "rawSnapshot[256].priceRegions[0]"
+              ],
+              "status": "MET",
+              "basis": [
+                "Independent raw price: JPY 8,000 - JPY 9,999; tax retained without conversion."
+              ]
+            },
+            {
+              "goldIndex": 2,
+              "text": "Sichuan/Hunan cuisine",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            },
+            {
+              "goldIndex": 3,
+              "text": "hot pot restaurant",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "good for a first date",
+          "criterionRef": "criterion:1",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "around 10,000 yen per person",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "MET",
+          "assessment": "MISSED_KNOWN_CONDITION"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "Sichuan/Hunan cuisine",
+          "criterionRef": "criterion:3",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "hot pot restaurant",
+          "criterionRef": "criterion:2",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-13",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "kaiseki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-13-attempt-1/recordings/hybrid-1792596955148/snapshot-0019.html#sha256=652f0aaa6891746e51f16e301f4de60d2bcb983b268500a48a0cb5c0d15ab685"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Seasonal Omakase Course \"Katsura\" ◆ Kaiseki with Exquisite Ingredients of the Day; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-13-attempt-1/recordings/hybrid-1792596955148/snapshot-0019.html#sha256=652f0aaa6891746e51f16e301f4de60d2bcb983b268500a48a0cb5c0d15ab685",
+                    "evidence:restaurant:tabelog-hard-criteria:3e5788a248e2f4837026b1fa"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-13-attempt-1/recordings/hybrid-1792596955148/snapshot-0019.html#sha256=652f0aaa6891746e51f16e301f4de60d2bcb983b268500a48a0cb5c0d15ab685"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+          "text": "kaiseki",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-14",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13192886",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "tempura",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0029.html#sha256=efdaed92f4c85fed7ca66573bbde3b53fb3cae88fabd3004acde77f048f780cb"
+              ],
+              "status": "MET",
+              "basis": [
+                "CATEGORY: Japanese Cuisine, Seafood, Tempura; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0029.html#sha256=efdaed92f4c85fed7ca66573bbde3b53fb3cae88fabd3004acde77f048f780cb",
+                    "evidence:restaurant:tabelog-hard-criteria:5517855d56bd91d140b73798"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0029.html#sha256=efdaed92f4c85fed7ca66573bbde3b53fb3cae88fabd3004acde77f048f780cb"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13303321",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "tempura",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: [Lunch] Weekday Limited Course ◆ Enjoy our proud selection of 7 types of Tempura with white rice, miso soup, and pickles, all in a relaxed atmosphere during lunch.; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: [Lunch] Omakase Course ◆ A blissful moment to enjoy 8 types of Tempura, Kakiage, and dessert.; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Dinner: Yukitsubaki Course ◆ A Simple Plan to Fully Enjoy Freshly Fried Tempura as the Main Dish; DINNER. Restaurant offering only; requested-time course availability is not established.",
+                "CATEGORY: Tempura; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "evidence:restaurant:tabelog-hard-criteria:eb17d7bd07f9a3c664d1d812"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697",
+                    "../checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0018.html#sha256=9ace7b141df414793fb0ca7e0bc514de77e54e7f32ef46fbb6302c9475572697"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [
+                  "LUNCH",
+                  "DINNER"
+                ],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13192886",
+          "text": "tempura",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1320/A132001/13303321",
+          "text": "tempura",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-15",
+      "caseId": "p2l-kf-h001-20261103",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13274777",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0019.html#sha256=e5417a3d6efc3e60f5ca0de77c66ab37af653428ea1b1429cd05b76a0a3f3f3c",
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0019.html#sha256=e5417a3d6efc3e60f5ca0de77c66ab37af653428ea1b1429cd05b76a0a3f3f3c",
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0019.html#sha256=e5417a3d6efc3e60f5ca0de77c66ab37af653428ea1b1429cd05b76a0a3f3f3c",
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0019.html#sha256=e5417a3d6efc3e60f5ca0de77c66ab37af653428ea1b1429cd05b76a0a3f3f3c"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Lunch Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Enjoy our Omakase course featuring a variety of nigiri as the main attraction. Savor seasonal ingredients at a great lunch price!; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Lunch Omakase Course \"Upper\"; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Enjoy our Lunch Omakase Course, featuring seasonal ingredients in sushi, all at a great lunch price!; LUNCH. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0019.html#sha256=e5417a3d6efc3e60f5ca0de77c66ab37af653428ea1b1429cd05b76a0a3f3f3c",
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0019.html#sha256=e5417a3d6efc3e60f5ca0de77c66ab37af653428ea1b1429cd05b76a0a3f3f3c",
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0019.html#sha256=e5417a3d6efc3e60f5ca0de77c66ab37af653428ea1b1429cd05b76a0a3f3f3c",
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0019.html#sha256=e5417a3d6efc3e60f5ca0de77c66ab37af653428ea1b1429cd05b76a0a3f3f3c"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [
+                  "LUNCH"
+                ],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0026.html#sha256=3d65bbcac612701a6a8a5512e977df616d881d9a499fca7c81fda5b915a5b91c",
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0026.html#sha256=3d65bbcac612701a6a8a5512e977df616d881d9a499fca7c81fda5b915a5b91c",
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0026.html#sha256=3d65bbcac612701a6a8a5512e977df616d881d9a499fca7c81fda5b915a5b91c"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Lunch Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Lunch Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Lunch Special Omakase Course; LUNCH. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0026.html#sha256=3d65bbcac612701a6a8a5512e977df616d881d9a499fca7c81fda5b915a5b91c",
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0026.html#sha256=3d65bbcac612701a6a8a5512e977df616d881d9a499fca7c81fda5b915a5b91c",
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0026.html#sha256=3d65bbcac612701a6a8a5512e977df616d881d9a499fca7c81fda5b915a5b91c"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [
+                  "LUNCH"
+                ],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "evidenceRefs": [
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Omakase Nigiri Course; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Premium Omakase Nigiri Course; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Awarded one Michelin star in the Tokyo Guide 2019 and 2020, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Special Omakase Nigiri Course; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b",
+                    "../checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/recordings/hybrid-1792598229133/snapshot-0041.html#sha256=5bc23e90157f819079f2d0dcaa0650ccb29e9da8a0541a9759b85987ab5ee00b"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13274777",
+          "text": "omakase",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+          "text": "omakase",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+          "text": "omakase",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-16",
+      "caseId": "p2l-kf-h002-20261107",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "good for a first date",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED",
+              "evidenceRefs": [
+                "materializedCase.semantic.criteria[0]"
+              ],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+              ]
+            },
+            {
+              "goldIndex": 1,
+              "text": "around 10,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "evidenceRefs": [
+                "rawSnapshot[381].priceRegions[0]"
+              ],
+              "status": "MET",
+              "basis": [
+                "Independent raw price: JPY 8,000 - JPY 9,999; tax retained without conversion."
+              ]
+            },
+            {
+              "goldIndex": 2,
+              "text": "Sichuan/Hunan cuisine",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            },
+            {
+              "goldIndex": 3,
+              "text": "hot pot restaurant",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "good for a first date",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED",
+              "evidenceRefs": [
+                "materializedCase.semantic.criteria[0]"
+              ],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+              ]
+            },
+            {
+              "goldIndex": 1,
+              "text": "around 10,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "evidenceRefs": [
+                "rawSnapshot[359].priceRegions[0]"
+              ],
+              "status": "MET",
+              "basis": [
+                "Independent raw price: JPY 8,000 - JPY 9,999; tax retained without conversion."
+              ]
+            },
+            {
+              "goldIndex": 2,
+              "text": "Sichuan/Hunan cuisine",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            },
+            {
+              "goldIndex": 3,
+              "text": "hot pot restaurant",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "good for a first date",
+          "criterionRef": "criterion:1",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "around 10,000 yen per person",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "MET",
+          "assessment": "MISSED_KNOWN_CONDITION"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "Sichuan/Hunan cuisine",
+          "criterionRef": "criterion:3",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "hot pot restaurant",
+          "criterionRef": "criterion:2",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "good for a first date",
+          "criterionRef": "criterion:1",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "around 10,000 yen per person",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "MET",
+          "assessment": "MISSED_KNOWN_CONDITION"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "Sichuan/Hunan cuisine",
+          "criterionRef": "criterion:3",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "hot pot restaurant",
+          "criterionRef": "criterion:2",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-17",
+      "caseId": "p2l-kf-h005-20261105",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@33",
+      "conditionStates": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "local food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            },
+            {
+              "goldIndex": 1,
+              "text": "fast food",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "local food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            },
+            {
+              "goldIndex": 1,
+              "text": "fast food",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "local food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            },
+            {
+              "goldIndex": 1,
+              "text": "fast food",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "CANNOT_INDEPENDENTLY_PROVE",
+                  "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                  "refs": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "displayComparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+          "text": "local food",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+          "text": "fast food",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "local food",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "fast food",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "local food",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "fast food",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT"
+        }
+      ]
+    },
+    {
+      "runId": "c-18",
+      "caseId": "p2l-kf-h003-20261106",
+      "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32",
+      "conditionStates": [],
+      "displayComparisons": []
+    }
+  ],
+  "counterfactualC18DisplayReview": ".eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/display-evaluation-comparison.json"
+}

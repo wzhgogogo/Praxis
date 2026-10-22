@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.342
+- Document revision: 4.343
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 Checkpoint C c17-timeout-pass:** 用户特批30秒决策补跑通过：c17 attempt3在214.037秒以29模型交付3家，@33 QD，S0声明/越界ABSENT，6条展示均CONSISTENT，3家事后GET200；一次浏览器模型响应15.692秒成功（旧限10秒）。29/29模型成功，旧CAPABILITY_MISS和全部原始未覆盖。H0052/3QD，其余TARGET各3/3；当前用户C门槛PASS。默认998/浏览器131及五门禁全绿，@33校准22/22只复用经SHA验证的不变评价输入。累计2885/4000模型、33/100Live、2/10正式重跑（用户特批额外1次保守计入），随后按原连续授权进入留出准备，当前尚未打开。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/four-layer-report.md).
 
 - **2026-10-22 Checkpoint C c17-timeout-inputs:** 用户额外批准H005一次补跑：Agent及Browser决策超时10→30秒，500秒/50模型/40Google总限额不改；不增加自动重试，不改模型/消息/Prompt/Schema/@33评价。旧29调用含2次TIMEOUT和CAPABILITY_MISS保留。先红绿及五门禁，提交新freeze后只跑c17 attempt3；本次额外正式补跑保守记第2/10环境重跑。留出集仍未打开。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/plan.md).
 

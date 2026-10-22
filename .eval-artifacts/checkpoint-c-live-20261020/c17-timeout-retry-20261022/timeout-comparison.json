@@ -1,0 +1,69 @@
+{
+  "status": "CURRENT_FULL_LIVE_PASSED_NOT_PAIRED_MODEL_REPLAY",
+  "before": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/result.json",
+    "outcome": "CAPABILITY_MISS",
+    "models": 29,
+    "succeeded": 27,
+    "timeouts": 2,
+    "agentTimeoutMs": 10000,
+    "browserTimeoutMs": 10000,
+    "lastFailedLatencyMs": 10004,
+    "delivery": 0,
+    "elapsedMs": 258141
+  },
+  "after": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/result.json",
+    "outcome": "QUALIFIED_DELIVERY",
+    "models": 29,
+    "succeeded": 29,
+    "timeouts": 0,
+    "agentTimeoutMs": 30000,
+    "browserTimeoutMs": 30000,
+    "delivery": 3,
+    "elapsedMs": 214037,
+    "successfulResponsesBeyondOldTimeout": [
+      {
+        "sequence": 7,
+        "purpose": "browser_read_decide",
+        "timeoutMs": 30000,
+        "latencyMs": 15692
+      }
+    ],
+    "displayComparisons": [
+      {
+        "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+        "criterionRef": "criterion:0",
+        "assessment": "CONSISTENT"
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+        "criterionRef": "criterion:1",
+        "assessment": "CONSISTENT"
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+        "criterionRef": "criterion:0",
+        "assessment": "CONSISTENT"
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+        "criterionRef": "criterion:1",
+        "assessment": "CONSISTENT"
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+        "criterionRef": "criterion:0",
+        "assessment": "CONSISTENT"
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+        "criterionRef": "criterion:1",
+        "assessment": "CONSISTENT"
+      }
+    ],
+    "declaration": "ABSENT",
+    "boundary": "ABSENT"
+  },
+  "interpretation": "One successful 15.692-second browser decision exceeded the old timeout. New and old runs independently collected sources and model decisions; no retrospective score or old MISS was overwritten."
+}
