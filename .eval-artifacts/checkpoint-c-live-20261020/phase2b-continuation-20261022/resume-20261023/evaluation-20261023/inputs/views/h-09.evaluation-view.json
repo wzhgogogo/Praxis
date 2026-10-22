@@ -1,0 +1,926 @@
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2b-holdout-03",
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@33",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@29"
+  },
+  "runtimeContext": {
+    "commitSha": "a7c9784bfb00c102341a91123e252b62f528a721",
+    "worktree": "CLEAN",
+    "dataset": {
+      "version": "restaurant-read-novel-variant@1",
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+      "sha256": "276910da0c43b501f4e68327cca7e4ba8514090a8910ad33ab2873f5a4cbaa48",
+      "cohort": "NOVEL_LOCATION_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/network-preflight/2026-10-22T21-17-05-137Z-3c78282d-e0c6-4b24-b2d3-2889d6d17a33.result.json",
+      "elapsedMs": 3746,
+      "targetCount": 3
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    }
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "requestedRunCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "schemaVersion": "1",
+  "limits": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "runCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "requestMetadata": {
+    "sha256": "c5fda10101cbfeaa18981470bb51fdf996c775320e66ef0906e8f5dee5d13ad7",
+    "characterCount": 130
+  },
+  "materializedCase": {
+    "id": "p2b-holdout-03",
+    "dataset": "restaurant-read-novel-variant@1",
+    "reference_time": "2026-10-23T00:00:00+09:00",
+    "semantic": {
+      "target": {
+        "goal": "AVAILABILITY"
+      },
+      "location": {
+        "value": "Ebisu",
+        "relation": "NEAR"
+      },
+      "date": {
+        "expression": "Saturday, October 31",
+        "value": "2026-10-31"
+      },
+      "time": {
+        "value": "19:30"
+      },
+      "party_size": 2,
+      "criteria": [
+        {
+          "value": "French",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "at most 15,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "acceptance": {
+      "required_claims": [
+        "Correct outlet within 1,000 m of the resolved Ebisu point; source-supported French cuisine; a matching current slot on 2026-10-31 at 19:30 for 2.",
+        "Source evidence that a dinner option is available at or below JPY 15,000 per person; the firm limit is shown to the user with its status and source."
+      ]
+    },
+    "materialization": {
+      "sourceReferenceTime": "2026-10-23T00:00:00+09:00",
+      "resolvedReferenceTime": "2026-10-22T21:17:21.318Z"
+    }
+  },
+  "semantic": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "French restaurant near Ebisu",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "value": "2026-10-31",
+            "raw": "Saturday, October 31"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:30",
+            "latest": "19:30",
+            "raw": "7:30 PM"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 2,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near Ebisu"
+          }
+        },
+        {
+          "field": "BUDGET_PER_PERSON",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "BUDGET_PER_PERSON",
+            "max": 15000,
+            "currency": "JPY"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "French cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "40ebf331-1912-427f-84d6-81332db9b9b1",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v21",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "3"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3608,
+        "usage": {
+          "inputTokens": 6001,
+          "outputTokens": 378,
+          "totalTokens": 6379
+        },
+        "providerRequestId": "8098242f-1749-406d-b682-27034605350e"
+      }
+    ]
+  },
+  "modelInvocations": [
+    {
+      "invocationId": "40ebf331-1912-427f-84d6-81332db9b9b1",
+      "taskId": "hybrid-live:p2b-holdout-03:1792703841318",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v21",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3608,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6001,
+        "outputTokens": 378,
+        "totalTokens": 6379
+      },
+      "providerRequestId": "8098242f-1749-406d-b682-27034605350e",
+      "settledAt": "2026-10-22T21:17:24.993Z"
+    },
+    {
+      "invocationId": "fa5b4031-cde3-4c88-af5a-191500eccef3",
+      "taskId": "hybrid-live:p2b-holdout-03:1792703841318",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1642,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 3623,
+        "outputTokens": 188,
+        "totalTokens": 3811
+      },
+      "providerRequestId": "bf033107-45bb-4f9c-b526-f85d0189f7bb",
+      "settledAt": "2026-10-22T21:17:26.644Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "event:hybrid-live:p2b-holdout-03:1792703841318:semantic:1",
+      "taskId": "hybrid-live:p2b-holdout-03:1792703841318",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "French restaurant near Ebisu",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Ebisu"
+          },
+          "budgetPerPerson": {
+            "max": 15000,
+            "currency": "JPY"
+          },
+          "addCriteria": [
+            {
+              "text": "French cuisine",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "date": "2026-10-31",
+          "timeWindow": {
+            "earliest": "19:30",
+            "latest": "19:30"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-22T21:17:21.318Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Saturday, October 31",
+              "resolvedDate": "2026-10-31",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7:30 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:30",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-10-22T21:17:24.996Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2b-holdout-03:1792703841318",
+        "correlationId": "event:hybrid-live:p2b-holdout-03:1792703841318:semantic:1",
+        "actor": "MODEL"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:1",
+      "taskId": "hybrid-live:p2b-holdout-03:1792703841318",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+        "code": "GOOGLE_LOCATION_UNRESOLVED"
+      },
+      "occurredAt": "2026-10-22T21:17:27.779Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2b-holdout-03:1792703841318",
+        "correlationId": "event:restaurant-agent:1",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:2",
+      "taskId": "hybrid-live:p2b-holdout-03:1792703841318",
+      "event": {
+        "type": "AGENT_LOOP_TERMINATED",
+        "termination": "NO_PROGRESS",
+        "reasonCode": "GOOGLE_LOCATION_UNRESOLVED",
+        "reason": "The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance"
+      },
+      "occurredAt": "2026-10-22T21:17:27.780Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2b-holdout-03:1792703841318",
+        "correlationId": "event:restaurant-agent:2",
+        "actor": "SYSTEM"
+      }
+    }
+  ],
+  "trajectories": [
+    {
+      "id": "trajectory:hybrid-live:p2b-holdout-03:1792703841318:1",
+      "taskId": "hybrid-live:p2b-holdout-03:1792703841318",
+      "stepNumber": 1,
+      "occurredAt": "2026-10-22T21:17:26.647Z",
+      "stateVersionBefore": 1,
+      "stateHashBefore": "0822fb349159dcaddf0e7c12eb6b51860610543266decad6ca8de3f2ebe862aa",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:1"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-22T21:17:25.000Z",
+        "phase": "UNDERSTANDING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "French cuisine",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "at most 15000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "French restaurant near Ebisu",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-31",
+          "timeWindow": {
+            "earliest": "19:30",
+            "latest": "19:30"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-22T21:17:21.318Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Saturday, October 31",
+              "resolvedDate": "2026-10-31",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7:30 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:30",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Ebisu"
+          },
+          "budgetPerPerson": {
+            "max": 15000,
+            "currency": "JPY"
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "French restaurants near Ebisu, Tokyo"
+      },
+      "decisionSummary": "No candidates yet; discover French restaurants near Ebisu for 2 on 2026-10-31 at 19:30.",
+      "modelAttempt": {
+        "invocationId": "fa5b4031-cde3-4c88-af5a-191500eccef3",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1642,
+        "usage": {
+          "inputTokens": 3623,
+          "outputTokens": 188,
+          "totalTokens": 3811
+        },
+        "providerRequestId": "bf033107-45bb-4f9c-b526-f85d0189f7bb"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 0,
+        "failureCode": "GOOGLE_LOCATION_UNRESOLVED",
+        "googleRequests": {
+          "limit": 38,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY_FAILED",
+        "detail": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places"
+      },
+      "stateVersionAfter": 2,
+      "stateHashAfter": "a04a8f2da421696528f8bb4da6451aefa7b57652278d3ce5645e065b1dcd6134",
+      "stepOutcome": "EXECUTION_FAILURE"
+    },
+    {
+      "id": "trajectory:hybrid-live:p2b-holdout-03:1792703841318:2",
+      "taskId": "hybrid-live:p2b-holdout-03:1792703841318",
+      "stepNumber": 2,
+      "occurredAt": "2026-10-22T21:17:27.779Z",
+      "stateVersionBefore": 2,
+      "stateHashBefore": "a04a8f2da421696528f8bb4da6451aefa7b57652278d3ce5645e065b1dcd6134",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:2"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "observation": {
+        "type": "READ_ENDED",
+        "detail": "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance",
+        "candidateIds": [],
+        "unresolvedCandidateIds": [],
+        "termination": {
+          "type": "NO_PROGRESS",
+          "reasonCode": "GOOGLE_LOCATION_UNRESOLVED",
+          "isSystemReason": false,
+          "initiator": "SYSTEM"
+        }
+      },
+      "stateVersionAfter": 3,
+      "stateHashAfter": "5aec079d0fae4f9402ed3a27823349968eecc508df2c6a554007786593d58a14",
+      "stepOutcome": "TERMINAL"
+    }
+  ],
+  "diagnostics": {
+    "tablecheckIdentity": [],
+    "tabelogIdentity": [],
+    "tabelogUserInterventions": [],
+    "browserExecution": [],
+    "browserTrace": []
+  },
+  "finalSnapshot": {
+    "id": "hybrid-live:p2b-holdout-03:1792703841318",
+    "runId": "run:hybrid-live:p2b-holdout-03:1792703841318",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "18",
+    "lifecycleState": "SUCCEEDED",
+    "domainState": {
+      "schemaVersion": "20",
+      "phase": "NO_VERIFIED_RESULT",
+      "searchRevision": 0,
+      "investigationRevision": 1,
+      "intentDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "French cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "at most 15000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "French restaurant near Ebisu",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-31",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-22T21:17:21.318Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Saturday, October 31",
+            "resolvedDate": "2026-10-31",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7:30 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:30",
+              "latest": "19:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Ebisu"
+        },
+        "budgetPerPerson": {
+          "max": 15000,
+          "currency": "JPY"
+        }
+      },
+      "candidates": [],
+      "availability": {},
+      "availabilityChecks": {},
+      "factChecks": {},
+      "readEvidence": [],
+      "noVerifiedResult": {
+        "investigatedCandidateIds": [],
+        "unresolvedCandidateIds": [],
+        "remainingGaps": [
+          "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+          "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+        ],
+        "termination": {
+          "type": "NO_PROGRESS",
+          "reasonCode": "GOOGLE_LOCATION_UNRESOLVED",
+          "isSystemReason": false,
+          "initiator": "SYSTEM"
+        },
+        "endedAt": "2026-10-22T21:17:27.780Z"
+      }
+    },
+    "outcome": {
+      "status": "NO_VERIFIED_RESULT",
+      "investigatedCandidateIds": [],
+      "unresolvedCandidateIds": [],
+      "remainingGaps": [
+        "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+        "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+      ]
+    },
+    "version": 3,
+    "createdAt": "2026-10-22T21:17:21.385Z",
+    "updatedAt": "2026-10-22T21:17:27.780Z"
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 1,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 2,
+    "browserRuntimeCalls": 0,
+    "browserOperationsByCandidate": {},
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 0,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 38,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 6463
+  },
+  "searchState": {
+    "candidatesDiscovered": 0,
+    "candidatesInvestigated": 0,
+    "candidatesAvailabilityChecked": 0,
+    "remainingCandidateIds": [],
+    "remainingAvailabilityCandidateIds": [],
+    "continuationExhausted": null,
+    "nextPageTokenPresent": false
+  },
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 1
+  },
+  "latencyMs": 6463,
+  "decisionCapture": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/runner/2026-10-22T21-17-21-383Z-60c026f8-95d7-4d54-902c-dc8c55d6ec43.decisions.jsonl",
+    "sha256": "e2c66618d8bd68471449e3ca70bc4549889b830c46838e33d4367ba9c4ffbb9c",
+    "callsStarted": 2,
+    "rowsWritten": 2,
+    "errors": []
+  },
+  "browserRecording": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/recordings/hybrid-1792703841318",
+    "screenshot": "NOT_CAPTURED_NO_SANITIZER",
+    "replay": {
+      "status": "NOT_REPLAYABLE",
+      "reason": "NO_CAPTURED_PUBLIC_DOCUMENT"
+    }
+  },
+  "stageTimings": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 6465,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "SEMANTIC",
+        "elapsedMs": 3608,
+        "percent": 55.80819798917247
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_agent_decide",
+        "elapsedMs": 1642,
+        "percent": 25.398298530549113
+      },
+      {
+        "stage": "SEARCH_RESTAURANTS",
+        "elapsedMs": 1132,
+        "percent": 17.50966744006187
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 83,
+        "percent": 1.2838360402165505
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 3608,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 1642,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  },
+  "status": "SUCCEEDED",
+  "stage": "AGENT_LOOP",
+  "failureCode": null,
+  "runId": "60c026f8-95d7-4d54-902c-dc8c55d6ec43",
+  "startedAt": "2026-10-22T21:17:21.383Z",
+  "finishedAt": "2026-10-22T21:17:27.784Z"
+}

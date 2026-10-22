@@ -1,0 +1,2078 @@
+{
+  "schema": "phase2b-witness-registry@1",
+  "status": "READY_WITH_BUSINESS_NO_WITNESS_EXCLUSION",
+  "variants": [
+    {
+      "caseId": "p2b-holdout-01",
+      "place": "Asakusa",
+      "date": "2026-11-04",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 2,
+      "merchantRequirements": [
+        {
+          "value": "sukiyaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Asakusa, Tokyo, Japan",
+      "searchQuery": "Asakusa, Tokyo, Japan sukiyaki restaurant",
+      "variantId": "p2b-holdout-01",
+      "center": {
+        "latitude": 35.7185858,
+        "longitude": 139.7958849,
+        "radiusMeters": 800,
+        "sourcePlaceId": "ChIJM1N_BMKOGGARZ0DHgTj9hHw",
+        "sourceName": "Asakusa",
+        "sourceRef": {
+          "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/discovery.json",
+          "sha256": "8f190cb1e44d4b79080703914d7d38124f71b5189bcc64e597d9a7a7165593ad"
+        },
+        "sourceRequestSha256": "c35d03b070f5110e1ba3ae624eeedc8e6d7f93a0c5c9b4513ffa616bdf7a6fcd"
+      },
+      "witnesses": [
+        {
+          "rst_id": "13316569",
+          "outletName": "Edo Niku Kappou Sasaya Asakusa",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.source.json",
+            "sha256": "c34ee3395327db0f561789d32c269f38ca5d5829f6bc00a1a5f4a961c42fa5b2"
+          },
+          "hardCriteria": [
+            {
+              "value": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot), Teppanyaki, Steak",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.source.json",
+                  "sha256": "c34ee3395327db0f561789d32c269f38ca5d5829f6bc00a1a5f4a961c42fa5b2"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 695.990503444289,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:22:08.668Z",
+          "validUntil": "2026-10-23T17:22:08.668Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.source.json",
+              "sha256": "c34ee3395327db0f561789d32c269f38ca5d5829f6bc00a1a5f4a961c42fa5b2"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13316569.attempt-1.body.json",
+              "sha256": "b7cd7e72ddc36f454c6972c36c572d4913ad3b3a8acddb345abe5426f12a7ad4"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13316569.attempt-1.metadata.json",
+              "sha256": "bc9dd1a92bcaad9198635af20fd0bc9f992cf719a785c7344111b5c189a71e5d"
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "sukiyaki",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot), Teppanyaki, Steak"
+            }
+          ]
+        },
+        {
+          "rst_id": "13322725",
+          "outletName": "WAGYU SUKIYAKI Goku Asakusa Rokku Ku Ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13322725/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.source.json",
+            "sha256": "be843e5b22e811a313500c9e36b837a84a25df25b6bb34f39267d31e390a4b6c"
+          },
+          "hardCriteria": [
+            {
+              "value": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.source.json",
+                  "sha256": "be843e5b22e811a313500c9e36b837a84a25df25b6bb34f39267d31e390a4b6c"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 554.1350962622461,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:22:40.740Z",
+          "validUntil": "2026-10-23T17:22:40.740Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.source.json",
+              "sha256": "be843e5b22e811a313500c9e36b837a84a25df25b6bb34f39267d31e390a4b6c"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13322725.attempt-1.body.json",
+              "sha256": "976c4392e3e7a8c132208a931a959a5abbbec41b167cd45a54a3c415ae5f2d0b"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13322725.attempt-1.metadata.json",
+              "sha256": "cd5d3fe24ed386baa31e730a723464176ae43b47eda0612bc743a38a5d84627e"
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "sukiyaki",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot)"
+            }
+          ]
+        },
+        {
+          "rst_id": "13312592",
+          "outletName": "Wagyu Sukiyaki Asakusa Kotaro",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13312592/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.source.json",
+            "sha256": "82236ed19edba3c9ddad8db986c580e0a7ce2353dc7f7f2327867611dcfd4d3d"
+          },
+          "hardCriteria": [
+            {
+              "value": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot), Yakiniku (Japanese BBQ)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.source.json",
+                  "sha256": "82236ed19edba3c9ddad8db986c580e0a7ce2353dc7f7f2327867611dcfd4d3d"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 789.0487695566721,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:23:12.077Z",
+          "validUntil": "2026-10-23T17:23:12.077Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.source.json",
+              "sha256": "82236ed19edba3c9ddad8db986c580e0a7ce2353dc7f7f2327867611dcfd4d3d"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13312592.attempt-1.body.json",
+              "sha256": "c2116a90a92e53fbca911da792694616f06ddfd0ad4350591d80f5102e8f3913"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13312592.attempt-1.metadata.json",
+              "sha256": "30d1ba37ccacb61a03b12db4debb82854b64aa5433244c36523804d752e45d84"
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "sukiyaki",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot), Yakiniku (Japanese BBQ)"
+            }
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "rst_id": "13316569",
+          "outletName": "Edo Niku Kappou Sasaya Asakusa",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.source.json",
+            "sha256": "c34ee3395327db0f561789d32c269f38ca5d5829f6bc00a1a5f4a961c42fa5b2"
+          },
+          "hardCriteria": [
+            {
+              "value": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot), Teppanyaki, Steak",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.source.json",
+                  "sha256": "c34ee3395327db0f561789d32c269f38ca5d5829f6bc00a1a5f4a961c42fa5b2"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 695.990503444289,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:22:08.668Z",
+          "validUntil": "2026-10-23T17:22:08.668Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.source.json",
+              "sha256": "c34ee3395327db0f561789d32c269f38ca5d5829f6bc00a1a5f4a961c42fa5b2"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13316569.attempt-1.body.json",
+              "sha256": "b7cd7e72ddc36f454c6972c36c572d4913ad3b3a8acddb345abe5426f12a7ad4"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13316569.attempt-1.metadata.json",
+              "sha256": "bc9dd1a92bcaad9198635af20fd0bc9f992cf719a785c7344111b5c189a71e5d"
+            }
+          ]
+        },
+        {
+          "rst_id": "13322725",
+          "outletName": "WAGYU SUKIYAKI Goku Asakusa Rokku Ku Ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13322725/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.source.json",
+            "sha256": "be843e5b22e811a313500c9e36b837a84a25df25b6bb34f39267d31e390a4b6c"
+          },
+          "hardCriteria": [
+            {
+              "value": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.source.json",
+                  "sha256": "be843e5b22e811a313500c9e36b837a84a25df25b6bb34f39267d31e390a4b6c"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 554.1350962622461,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:22:40.740Z",
+          "validUntil": "2026-10-23T17:22:40.740Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.source.json",
+              "sha256": "be843e5b22e811a313500c9e36b837a84a25df25b6bb34f39267d31e390a4b6c"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13322725.attempt-1.body.json",
+              "sha256": "976c4392e3e7a8c132208a931a959a5abbbec41b167cd45a54a3c415ae5f2d0b"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13322725.attempt-1.metadata.json",
+              "sha256": "cd5d3fe24ed386baa31e730a723464176ae43b47eda0612bc743a38a5d84627e"
+            }
+          ]
+        },
+        {
+          "rst_id": "13312592",
+          "outletName": "Wagyu Sukiyaki Asakusa Kotaro",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13312592/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.source.json",
+            "sha256": "82236ed19edba3c9ddad8db986c580e0a7ce2353dc7f7f2327867611dcfd4d3d"
+          },
+          "hardCriteria": [
+            {
+              "value": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot), Yakiniku (Japanese BBQ)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.source.json",
+                  "sha256": "82236ed19edba3c9ddad8db986c580e0a7ce2353dc7f7f2327867611dcfd4d3d"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 789.0487695566721,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:23:12.077Z",
+          "validUntil": "2026-10-23T17:23:12.077Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.source.json",
+              "sha256": "82236ed19edba3c9ddad8db986c580e0a7ce2353dc7f7f2327867611dcfd4d3d"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13312592.attempt-1.body.json",
+              "sha256": "c2116a90a92e53fbca911da792694616f06ddfd0ad4350591d80f5102e8f3913"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13312592.attempt-1.metadata.json",
+              "sha256": "30d1ba37ccacb61a03b12db4debb82854b64aa5433244c36523804d752e45d84"
+            }
+          ]
+        }
+      ],
+      "certifiedWitnesses": [
+        {
+          "rst_id": "13316569",
+          "outletName": "Edo Niku Kappou Sasaya Asakusa",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.source.json",
+            "sha256": "c34ee3395327db0f561789d32c269f38ca5d5829f6bc00a1a5f4a961c42fa5b2"
+          },
+          "hardCriteria": [
+            {
+              "value": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot), Teppanyaki, Steak",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.source.json",
+                  "sha256": "c34ee3395327db0f561789d32c269f38ca5d5829f6bc00a1a5f4a961c42fa5b2"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 695.990503444289,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:22:08.668Z",
+          "validUntil": "2026-10-23T17:22:08.668Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.source.json",
+              "sha256": "c34ee3395327db0f561789d32c269f38ca5d5829f6bc00a1a5f4a961c42fa5b2"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13316569.attempt-1.body.json",
+              "sha256": "b7cd7e72ddc36f454c6972c36c572d4913ad3b3a8acddb345abe5426f12a7ad4"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13316569.attempt-1.metadata.json",
+              "sha256": "bc9dd1a92bcaad9198635af20fd0bc9f992cf719a785c7344111b5c189a71e5d"
+            }
+          ]
+        },
+        {
+          "rst_id": "13322725",
+          "outletName": "WAGYU SUKIYAKI Goku Asakusa Rokku Ku Ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13322725/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.source.json",
+            "sha256": "be843e5b22e811a313500c9e36b837a84a25df25b6bb34f39267d31e390a4b6c"
+          },
+          "hardCriteria": [
+            {
+              "value": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.source.json",
+                  "sha256": "be843e5b22e811a313500c9e36b837a84a25df25b6bb34f39267d31e390a4b6c"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 554.1350962622461,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:22:40.740Z",
+          "validUntil": "2026-10-23T17:22:40.740Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.source.json",
+              "sha256": "be843e5b22e811a313500c9e36b837a84a25df25b6bb34f39267d31e390a4b6c"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13322725.attempt-1.body.json",
+              "sha256": "976c4392e3e7a8c132208a931a959a5abbbec41b167cd45a54a3c415ae5f2d0b"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13322725.attempt-1.metadata.json",
+              "sha256": "cd5d3fe24ed386baa31e730a723464176ae43b47eda0612bc743a38a5d84627e"
+            }
+          ]
+        },
+        {
+          "rst_id": "13312592",
+          "outletName": "Wagyu Sukiyaki Asakusa Kotaro",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13312592/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.source.json",
+            "sha256": "82236ed19edba3c9ddad8db986c580e0a7ce2353dc7f7f2327867611dcfd4d3d"
+          },
+          "hardCriteria": [
+            {
+              "value": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Sukiyaki (Japanese sweet soy hotpot), Yakiniku (Japanese BBQ)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.source.json",
+                  "sha256": "82236ed19edba3c9ddad8db986c580e0a7ce2353dc7f7f2327867611dcfd4d3d"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 789.0487695566721,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:23:12.077Z",
+          "validUntil": "2026-10-23T17:23:12.077Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.source.json",
+              "sha256": "82236ed19edba3c9ddad8db986c580e0a7ce2353dc7f7f2327867611dcfd4d3d"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13312592.attempt-1.body.json",
+              "sha256": "c2116a90a92e53fbca911da792694616f06ddfd0ad4350591d80f5102e8f3913"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13312592.attempt-1.metadata.json",
+              "sha256": "30d1ba37ccacb61a03b12db4debb82854b64aa5433244c36523804d752e45d84"
+            }
+          ]
+        }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "certifiedAt": "2026-10-22T17:22:08.668Z",
+      "validUntil": "2026-10-23T17:22:08.668Z",
+      "capabilityDenominator": true,
+      "request": "2026-11-04 19:00 x2"
+    },
+    {
+      "caseId": "p2b-holdout-02",
+      "place": "Kachidoki",
+      "date": "2026-10-30",
+      "earliest": "18:30",
+      "latest": "18:30",
+      "partySize": 4,
+      "merchantRequirements": [
+        {
+          "value": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Kachidoki, Tokyo, Japan",
+      "searchQuery": "Kachidoki, Tokyo, Japan monjayaki restaurant",
+      "variantId": "p2b-holdout-02",
+      "center": {
+        "latitude": 35.658221999999995,
+        "longitude": 139.7741538,
+        "radiusMeters": 800,
+        "sourcePlaceId": "ChIJu2xQxH2JGGARXIA3h98YeCE",
+        "sourceName": "Kachidoki",
+        "sourceRef": {
+          "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/fallback02-discovery/discovery.json",
+          "sha256": "6286c629a74f4afae69be4980fd7c1f3ac834ee30cfd2fc552ac9ddc913d6e6d"
+        },
+        "sourceRequestSha256": "9a064440263c03b640e810a34f48a3cab7f9755587b98730c32cc8398b64e62b"
+      },
+      "witnesses": [],
+      "candidates": [
+        {
+          "rst_id": "13219260",
+          "outletName": "Rojiura Monja Koboreya Yui",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13219260/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-1.source.json",
+            "sha256": "fa93cca4adb4bf699f1f76671fece17440e079846c4ebcab801f060ad96b31ac"
+          },
+          "hardCriteria": [
+            {
+              "value": "monjayaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Monjyayaki, Izakaya (Japanese style tavern), Okonomiyaki (Japanese savory pancake)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-1.source.json",
+                  "sha256": "fa93cca4adb4bf699f1f76671fece17440e079846c4ebcab801f060ad96b31ac"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 698.649338997405,
+          "matchingSlots": [],
+          "classification": "NOT_CERTIFIED_NO_MATCHING_INVENTORY",
+          "certifiedAt": "2026-10-22T19:57:37.826Z",
+          "validUntil": "2026-10-23T19:57:37.826Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-1.source.json",
+              "sha256": "fa93cca4adb4bf699f1f76671fece17440e079846c4ebcab801f060ad96b31ac"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-inventory-13/fallback-inventory-02-13219260.attempt-1.body.json",
+              "sha256": "5a9b748043870d44afc15ff81106bdb181f00448e2e8f868d84481241c142438"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-inventory-13/fallback-inventory-02-13219260.attempt-1.metadata.json",
+              "sha256": "ff75b9b7e610a38f2a01ea52abc5c615f5290891eab95c7ae9ea6f4bb6acd369"
+            }
+          ]
+        },
+        {
+          "rst_id": "13189642",
+          "outletName": "Koboreya Honten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13189642/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-2.source.json",
+            "sha256": "bd126dd64fc544ba95b227aa5894006d0801a1dffb81b82ee0d80db5f4afbade"
+          },
+          "hardCriteria": [
+            {
+              "value": "monjayaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-2.source.json",
+                  "sha256": "bd126dd64fc544ba95b227aa5894006d0801a1dffb81b82ee0d80db5f4afbade"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 716.434871638236,
+          "matchingSlots": [],
+          "classification": "NOT_CERTIFIED_NO_MATCHING_INVENTORY",
+          "certifiedAt": "2026-10-22T19:58:09.564Z",
+          "validUntil": "2026-10-23T19:58:09.564Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-2.source.json",
+              "sha256": "bd126dd64fc544ba95b227aa5894006d0801a1dffb81b82ee0d80db5f4afbade"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-inventory-13/fallback-inventory-02-13189642.attempt-1.body.json",
+              "sha256": "58ef546554c23cd90c4aa355194005b99e26d51689f9ec1fe188d83e5a660eef"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-inventory-13/fallback-inventory-02-13189642.attempt-1.metadata.json",
+              "sha256": "2d256ab2ddd80de98cfbcd09f248d873b4a82f2e2dd09a3a42e915b34e904b21"
+            }
+          ]
+        }
+      ],
+      "certifiedWitnesses": [],
+      "classification": "NO_WITNESS_EXCLUDED_FROM_CAPABILITY_DENOMINATOR",
+      "certifiedAt": null,
+      "validUntil": null,
+      "capabilityDenominator": false,
+      "noWitnessExclusion": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/case02-no-witness-exclusion.json",
+        "sha256": "4598c65789f18019ba6cca179b5e6fd488ef03e7f0396e5eb6adb2b0342c322a"
+      },
+      "request": "2026-10-30 18:30 x4"
+    },
+    {
+      "caseId": "p2b-holdout-03",
+      "place": "Ebisu",
+      "date": "2026-10-31",
+      "earliest": "19:30",
+      "latest": "19:30",
+      "partySize": 2,
+      "merchantRequirements": [
+        {
+          "value": "French",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "at most 15,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Ebisu, Tokyo, Japan",
+      "searchQuery": "Ebisu, Tokyo, Japan French at most 15,000 yen per person restaurant",
+      "variantId": "p2b-holdout-03",
+      "center": {
+        "latitude": 35.6461371,
+        "longitude": 139.7153917,
+        "radiusMeters": 800,
+        "sourcePlaceId": "ChIJWRK3eBSLGGARCdO8OgKkE5w",
+        "sourceName": "Ebisu",
+        "sourceRef": {
+          "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/discovery.json",
+          "sha256": "8f190cb1e44d4b79080703914d7d38124f71b5189bcc64e597d9a7a7165593ad"
+        },
+        "sourceRequestSha256": "a5f88cf5e4cc8ca8db5e33c644ac6d88215d9133104d4f754a87d49e30da55e4"
+      },
+      "witnesses": [
+        {
+          "rst_id": "13014440",
+          "outletName": "Le Puits d’or Kin no Ido",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13014440/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+            "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+          },
+          "hardCriteria": [
+            {
+              "value": "French",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories French",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+                  "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+                }
+              ]
+            },
+            {
+              "value": "at most 15,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "MERCHANT_AVERAGE_PRICE_DINNER",
+              "quote": "JPY 10,000 - JPY 14,999",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+                  "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+                }
+              ],
+              "priceEvidence": {
+                "quote": "JPY 10,000 - JPY 14,999",
+                "rawFragmentSha256": "ece143b4a10129c1d4799d28d65d68ec3fd8952ef64aefc5beaac5a32d7902dc",
+                "meal": "DINNER",
+                "min": 10000,
+                "max": 14999,
+                "requestedMax": 15000,
+                "currency": "JPY"
+              }
+            }
+          ],
+          "distanceMeters": 719.467215391459,
+          "matchingSlots": [
+            "19:30"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:28:44.979Z",
+          "validUntil": "2026-10-23T17:28:44.979Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+              "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13014440.attempt-1.body.json",
+              "sha256": "df37500d99108ea0b8e31f0e01fe04cc1638789126b26749858c68d4e4db5159"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13014440.attempt-1.metadata.json",
+              "sha256": "ef9a0a22993e7428eba16188b8701e41caf704d15e02b9fd0156d8ea0b92574f"
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "French",
+              "quote": "Categories French"
+            },
+            {
+              "criterion": "at most 15,000 yen per person",
+              "quote": "JPY 10,000 - JPY 14,999"
+            }
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "rst_id": "13256140",
+          "outletName": "MAEN Sake pairing restaurant",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13256140/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/maen.source.json",
+            "sha256": "00af798372cf28e1d05cd580918766823e96b9c562db3a2bd604b45806ce5e71"
+          },
+          "hardCriteria": [
+            {
+              "value": "French",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories French, Italian, Japanese sake bar",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/maen.source.json",
+                  "sha256": "00af798372cf28e1d05cd580918766823e96b9c562db3a2bd604b45806ce5e71"
+                }
+              ]
+            },
+            {
+              "value": "at most 15,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "MERCHANT_AVERAGE_PRICE_DINNER",
+              "quote": "JPY 10,000 - JPY 14,999",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/maen.source.json",
+                  "sha256": "00af798372cf28e1d05cd580918766823e96b9c562db3a2bd604b45806ce5e71"
+                }
+              ],
+              "priceEvidence": {
+                "quote": "JPY 10,000 - JPY 14,999",
+                "rawFragmentSha256": "cd63a5599b3f123c99ddfd47473be96a1c0792e6f463baec3b3601fe055590e0",
+                "meal": "DINNER",
+                "min": 10000,
+                "max": 14999,
+                "requestedMax": 15000,
+                "currency": "JPY"
+              }
+            }
+          ],
+          "distanceMeters": 479.66169398828373,
+          "matchingSlots": [],
+          "classification": "NOT_CERTIFIED_NO_MATCHING_INVENTORY",
+          "certifiedAt": "2026-10-22T17:13:28.425Z",
+          "validUntil": "2026-10-23T17:13:28.425Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/maen.source.json",
+              "sha256": "00af798372cf28e1d05cd580918766823e96b9c562db3a2bd604b45806ce5e71"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13256140.attempt-1.body.json",
+              "sha256": "01a0c283ad055d2a4f77456ffe1156223034e64382e6bfa67f6534e51bc5d100"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13256140.attempt-1.metadata.json",
+              "sha256": "c0e5a20fb60289d3b57ef637e406e76e86ca6e55299e73e065308ce6a77b6dbb"
+            }
+          ]
+        },
+        {
+          "rst_id": "13014440",
+          "outletName": "Le Puits d’or Kin no Ido",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13014440/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+            "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+          },
+          "hardCriteria": [
+            {
+              "value": "French",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories French",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+                  "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+                }
+              ]
+            },
+            {
+              "value": "at most 15,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "MERCHANT_AVERAGE_PRICE_DINNER",
+              "quote": "JPY 10,000 - JPY 14,999",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+                  "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+                }
+              ],
+              "priceEvidence": {
+                "quote": "JPY 10,000 - JPY 14,999",
+                "rawFragmentSha256": "ece143b4a10129c1d4799d28d65d68ec3fd8952ef64aefc5beaac5a32d7902dc",
+                "meal": "DINNER",
+                "min": 10000,
+                "max": 14999,
+                "requestedMax": 15000,
+                "currency": "JPY"
+              }
+            }
+          ],
+          "distanceMeters": 719.467215391459,
+          "matchingSlots": [
+            "19:30"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:28:44.979Z",
+          "validUntil": "2026-10-23T17:28:44.979Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+              "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13014440.attempt-1.body.json",
+              "sha256": "df37500d99108ea0b8e31f0e01fe04cc1638789126b26749858c68d4e4db5159"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13014440.attempt-1.metadata.json",
+              "sha256": "ef9a0a22993e7428eba16188b8701e41caf704d15e02b9fd0156d8ea0b92574f"
+            }
+          ]
+        }
+      ],
+      "certifiedWitnesses": [
+        {
+          "rst_id": "13014440",
+          "outletName": "Le Puits d’or Kin no Ido",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13014440/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+            "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+          },
+          "hardCriteria": [
+            {
+              "value": "French",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories French",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+                  "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+                }
+              ]
+            },
+            {
+              "value": "at most 15,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "MERCHANT_AVERAGE_PRICE_DINNER",
+              "quote": "JPY 10,000 - JPY 14,999",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+                  "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+                }
+              ],
+              "priceEvidence": {
+                "quote": "JPY 10,000 - JPY 14,999",
+                "rawFragmentSha256": "ece143b4a10129c1d4799d28d65d68ec3fd8952ef64aefc5beaac5a32d7902dc",
+                "meal": "DINNER",
+                "min": 10000,
+                "max": 14999,
+                "requestedMax": 15000,
+                "currency": "JPY"
+              }
+            }
+          ],
+          "distanceMeters": 719.467215391459,
+          "matchingSlots": [
+            "19:30"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:28:44.979Z",
+          "validUntil": "2026-10-23T17:28:44.979Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+              "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13014440.attempt-1.body.json",
+              "sha256": "df37500d99108ea0b8e31f0e01fe04cc1638789126b26749858c68d4e4db5159"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13014440.attempt-1.metadata.json",
+              "sha256": "ef9a0a22993e7428eba16188b8701e41caf704d15e02b9fd0156d8ea0b92574f"
+            }
+          ]
+        }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "certifiedAt": "2026-10-22T17:28:44.979Z",
+      "validUntil": "2026-10-23T17:28:44.979Z",
+      "capabilityDenominator": true,
+      "request": "2026-10-31 19:30 x2"
+    },
+    {
+      "caseId": "p2b-holdout-04",
+      "place": "Ikebukuro",
+      "date": "2026-11-05",
+      "earliest": "18:00",
+      "latest": "20:00",
+      "partySize": 6,
+      "merchantRequirements": [
+        {
+          "value": "Thai",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Ikebukuro, Tokyo, Japan",
+      "searchQuery": "Ikebukuro, Tokyo, Japan Thai restaurant",
+      "variantId": "p2b-holdout-04",
+      "center": {
+        "latitude": 35.734831400000004,
+        "longitude": 139.7077314,
+        "radiusMeters": 800,
+        "sourcePlaceId": "ChIJJ1xYpaCSGGARumLc8TmsILQ",
+        "sourceName": "Ikebukuro",
+        "sourceRef": {
+          "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/discovery.json",
+          "sha256": "8f190cb1e44d4b79080703914d7d38124f71b5189bcc64e597d9a7a7165593ad"
+        },
+        "sourceRequestSha256": "d1b043716fd4098cd22e0850ae3d16ed9288ae10672df379eba976da6125c194"
+      },
+      "witnesses": [
+        {
+          "rst_id": "13279772",
+          "outletName": "Thai Yatai 999 Ikebukuro higashiguchi ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13279772/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.source.json",
+            "sha256": "5bc0fd587cdf01ae0d3598c411d7076c09fe2267f4629f8f81da2cdf00d99e4e"
+          },
+          "hardCriteria": [
+            {
+              "value": "Thai",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Thai, Izakaya (Japanese style tavern), Asian, Ethnic",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.source.json",
+                  "sha256": "5bc0fd587cdf01ae0d3598c411d7076c09fe2267f4629f8f81da2cdf00d99e4e"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 653.3535773779574,
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:14:00.086Z",
+          "validUntil": "2026-10-23T17:14:00.086Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.source.json",
+              "sha256": "5bc0fd587cdf01ae0d3598c411d7076c09fe2267f4629f8f81da2cdf00d99e4e"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13279772.attempt-1.body.json",
+              "sha256": "ee349152340be284415abf11f64f655d17fda767e3d3c00ec2dce309c40d4eaa"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13279772.attempt-1.metadata.json",
+              "sha256": "002d9358dda85efe70800cc4642b91aa17a3755b4580f3bc2298d056eff5f07c"
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "Thai",
+              "quote": "Categories Thai, Izakaya (Japanese style tavern), Asian, Ethnic"
+            }
+          ]
+        },
+        {
+          "rst_id": "13133693",
+          "outletName": "Thai Sabai Paruko ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13133693/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.source.json",
+            "sha256": "2edaeecb827e1a40acd347b35c4a24a6af1e23c187bdbf0c10bdfbb1809f3e6b"
+          },
+          "hardCriteria": [
+            {
+              "value": "Thai",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Thai, Buffet, Dining bar",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.source.json",
+                  "sha256": "2edaeecb827e1a40acd347b35c4a24a6af1e23c187bdbf0c10bdfbb1809f3e6b"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 630.0300102174518,
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:29:16.739Z",
+          "validUntil": "2026-10-23T17:29:16.739Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.source.json",
+              "sha256": "2edaeecb827e1a40acd347b35c4a24a6af1e23c187bdbf0c10bdfbb1809f3e6b"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13133693.attempt-1.body.json",
+              "sha256": "f277488a5959ed08fc8bbde3e47b13e1add3884128791c0692e215628aca2391"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13133693.attempt-1.metadata.json",
+              "sha256": "1ea248603472a69489cdeb86a84840257a5bd237f192bcbea1d82be829a4309e"
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "Thai",
+              "quote": "Categories Thai, Buffet, Dining bar"
+            }
+          ]
+        },
+        {
+          "rst_id": "13127050",
+          "outletName": "AGALICO",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13127050/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.source.json",
+            "sha256": "300e88d0659428a7248781d420194534189046934c51f47f1a935bb962c8f5e3"
+          },
+          "hardCriteria": [
+            {
+              "value": "Thai",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Thai, Bistro, Izakaya (Japanese style tavern)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.source.json",
+                  "sha256": "300e88d0659428a7248781d420194534189046934c51f47f1a935bb962c8f5e3"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 215.61946959620317,
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:29:48.459Z",
+          "validUntil": "2026-10-23T17:29:48.459Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.source.json",
+              "sha256": "300e88d0659428a7248781d420194534189046934c51f47f1a935bb962c8f5e3"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13127050.attempt-1.body.json",
+              "sha256": "bd20f8e89de23839dcdde1f037613d993ca9079ba94a08babd5b7843dc8f5a8a"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13127050.attempt-1.metadata.json",
+              "sha256": "bf2c19b827d77228694de625625a9e7671e52c927434d2d71aed08808bad8cb4"
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "Thai",
+              "quote": "Categories Thai, Bistro, Izakaya (Japanese style tavern)"
+            }
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "rst_id": "13279772",
+          "outletName": "Thai Yatai 999 Ikebukuro higashiguchi ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13279772/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.source.json",
+            "sha256": "5bc0fd587cdf01ae0d3598c411d7076c09fe2267f4629f8f81da2cdf00d99e4e"
+          },
+          "hardCriteria": [
+            {
+              "value": "Thai",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Thai, Izakaya (Japanese style tavern), Asian, Ethnic",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.source.json",
+                  "sha256": "5bc0fd587cdf01ae0d3598c411d7076c09fe2267f4629f8f81da2cdf00d99e4e"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 653.3535773779574,
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:14:00.086Z",
+          "validUntil": "2026-10-23T17:14:00.086Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.source.json",
+              "sha256": "5bc0fd587cdf01ae0d3598c411d7076c09fe2267f4629f8f81da2cdf00d99e4e"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13279772.attempt-1.body.json",
+              "sha256": "ee349152340be284415abf11f64f655d17fda767e3d3c00ec2dce309c40d4eaa"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13279772.attempt-1.metadata.json",
+              "sha256": "002d9358dda85efe70800cc4642b91aa17a3755b4580f3bc2298d056eff5f07c"
+            }
+          ]
+        },
+        {
+          "rst_id": "13133693",
+          "outletName": "Thai Sabai Paruko ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13133693/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.source.json",
+            "sha256": "2edaeecb827e1a40acd347b35c4a24a6af1e23c187bdbf0c10bdfbb1809f3e6b"
+          },
+          "hardCriteria": [
+            {
+              "value": "Thai",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Thai, Buffet, Dining bar",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.source.json",
+                  "sha256": "2edaeecb827e1a40acd347b35c4a24a6af1e23c187bdbf0c10bdfbb1809f3e6b"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 630.0300102174518,
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:29:16.739Z",
+          "validUntil": "2026-10-23T17:29:16.739Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.source.json",
+              "sha256": "2edaeecb827e1a40acd347b35c4a24a6af1e23c187bdbf0c10bdfbb1809f3e6b"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13133693.attempt-1.body.json",
+              "sha256": "f277488a5959ed08fc8bbde3e47b13e1add3884128791c0692e215628aca2391"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13133693.attempt-1.metadata.json",
+              "sha256": "1ea248603472a69489cdeb86a84840257a5bd237f192bcbea1d82be829a4309e"
+            }
+          ]
+        },
+        {
+          "rst_id": "13127050",
+          "outletName": "AGALICO",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13127050/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.source.json",
+            "sha256": "300e88d0659428a7248781d420194534189046934c51f47f1a935bb962c8f5e3"
+          },
+          "hardCriteria": [
+            {
+              "value": "Thai",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Thai, Bistro, Izakaya (Japanese style tavern)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.source.json",
+                  "sha256": "300e88d0659428a7248781d420194534189046934c51f47f1a935bb962c8f5e3"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 215.61946959620317,
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:29:48.459Z",
+          "validUntil": "2026-10-23T17:29:48.459Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.source.json",
+              "sha256": "300e88d0659428a7248781d420194534189046934c51f47f1a935bb962c8f5e3"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13127050.attempt-1.body.json",
+              "sha256": "bd20f8e89de23839dcdde1f037613d993ca9079ba94a08babd5b7843dc8f5a8a"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13127050.attempt-1.metadata.json",
+              "sha256": "bf2c19b827d77228694de625625a9e7671e52c927434d2d71aed08808bad8cb4"
+            }
+          ]
+        }
+      ],
+      "certifiedWitnesses": [
+        {
+          "rst_id": "13279772",
+          "outletName": "Thai Yatai 999 Ikebukuro higashiguchi ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13279772/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.source.json",
+            "sha256": "5bc0fd587cdf01ae0d3598c411d7076c09fe2267f4629f8f81da2cdf00d99e4e"
+          },
+          "hardCriteria": [
+            {
+              "value": "Thai",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Thai, Izakaya (Japanese style tavern), Asian, Ethnic",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.source.json",
+                  "sha256": "5bc0fd587cdf01ae0d3598c411d7076c09fe2267f4629f8f81da2cdf00d99e4e"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 653.3535773779574,
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:14:00.086Z",
+          "validUntil": "2026-10-23T17:14:00.086Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.source.json",
+              "sha256": "5bc0fd587cdf01ae0d3598c411d7076c09fe2267f4629f8f81da2cdf00d99e4e"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13279772.attempt-1.body.json",
+              "sha256": "ee349152340be284415abf11f64f655d17fda767e3d3c00ec2dce309c40d4eaa"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13279772.attempt-1.metadata.json",
+              "sha256": "002d9358dda85efe70800cc4642b91aa17a3755b4580f3bc2298d056eff5f07c"
+            }
+          ]
+        },
+        {
+          "rst_id": "13133693",
+          "outletName": "Thai Sabai Paruko ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13133693/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.source.json",
+            "sha256": "2edaeecb827e1a40acd347b35c4a24a6af1e23c187bdbf0c10bdfbb1809f3e6b"
+          },
+          "hardCriteria": [
+            {
+              "value": "Thai",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Thai, Buffet, Dining bar",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.source.json",
+                  "sha256": "2edaeecb827e1a40acd347b35c4a24a6af1e23c187bdbf0c10bdfbb1809f3e6b"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 630.0300102174518,
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:29:16.739Z",
+          "validUntil": "2026-10-23T17:29:16.739Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.source.json",
+              "sha256": "2edaeecb827e1a40acd347b35c4a24a6af1e23c187bdbf0c10bdfbb1809f3e6b"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13133693.attempt-1.body.json",
+              "sha256": "f277488a5959ed08fc8bbde3e47b13e1add3884128791c0692e215628aca2391"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13133693.attempt-1.metadata.json",
+              "sha256": "1ea248603472a69489cdeb86a84840257a5bd237f192bcbea1d82be829a4309e"
+            }
+          ]
+        },
+        {
+          "rst_id": "13127050",
+          "outletName": "AGALICO",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13127050/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.source.json",
+            "sha256": "300e88d0659428a7248781d420194534189046934c51f47f1a935bb962c8f5e3"
+          },
+          "hardCriteria": [
+            {
+              "value": "Thai",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Thai, Bistro, Izakaya (Japanese style tavern)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.source.json",
+                  "sha256": "300e88d0659428a7248781d420194534189046934c51f47f1a935bb962c8f5e3"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 215.61946959620317,
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:29:48.459Z",
+          "validUntil": "2026-10-23T17:29:48.459Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.source.json",
+              "sha256": "300e88d0659428a7248781d420194534189046934c51f47f1a935bb962c8f5e3"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13127050.attempt-1.body.json",
+              "sha256": "bd20f8e89de23839dcdde1f037613d993ca9079ba94a08babd5b7843dc8f5a8a"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13127050.attempt-1.metadata.json",
+              "sha256": "bf2c19b827d77228694de625625a9e7671e52c927434d2d71aed08808bad8cb4"
+            }
+          ]
+        }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "certifiedAt": "2026-10-22T17:14:00.086Z",
+      "validUntil": "2026-10-23T17:14:00.086Z",
+      "capabilityDenominator": true,
+      "request": "2026-11-05 18:00 x6"
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "place": "Azabu-Juban",
+      "date": "2026-11-03",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 3,
+      "merchantRequirements": [
+        {
+          "value": "soba",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "standing soba counter",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Azabu-Juban, Tokyo, Japan",
+      "searchQuery": "Azabu-Juban, Tokyo, Japan soba restaurant",
+      "variantId": "p2b-holdout-05",
+      "center": {
+        "latitude": 35.6546541,
+        "longitude": 139.7351855,
+        "radiusMeters": 800,
+        "sourcePlaceId": "ChIJa83EfZ-LGGARHbrRcVb6_8s",
+        "sourceName": "Azabujuban",
+        "sourceRef": {
+          "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/discovery.json",
+          "sha256": "8f190cb1e44d4b79080703914d7d38124f71b5189bcc64e597d9a7a7165593ad"
+        },
+        "sourceRequestSha256": "633351a64a728ef18717a378f59b6ad7551d9b665bd9595a6a8d0f41ec979726"
+      },
+      "witnesses": [
+        {
+          "rst_id": "13320164",
+          "outletName": "Azabu Juban Soba Goya",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13320164/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+            "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+          },
+          "hardCriteria": [
+            {
+              "value": "soba",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+                  "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+                }
+              ]
+            },
+            {
+              "value": "standing soba counter",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "MERCHANT_SEATING",
+              "quote": "Number of seats 40 seats ( Semi-private room, terrace seating, table seating, counter seating)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+                  "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+                }
+              ],
+              "adjudication": {
+                "rule": "EXPLICIT_MERCHANT_TABLE_SEATING",
+                "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witness-hard-source-review.json",
+                "sha256": "4483d86b8c7d8beaee6c154767046da91278c644dc4808bc5361d68071567b9d"
+              }
+            }
+          ],
+          "distanceMeters": 261.3630435382159,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:27:10.114Z",
+          "validUntil": "2026-10-23T17:27:10.114Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+              "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+            },
+            {
+              "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/pending-inventory/1-attempt-1.body.json",
+              "sha256": "d94c043e883919acd8c193e66a571f48eb79052756dd54478f04b6a5432952b3"
+            },
+            {
+              "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/pending-inventory/1-attempt-1.metadata.json",
+              "sha256": "6fc228d0c8dc33f82b3968f756e80dffdaa3713cd8f6b7e1a1830d28dc1656fc"
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "soba",
+              "quote": "Categories Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura"
+            },
+            {
+              "criterion": "standing soba counter",
+              "quote": "Number of seats 40 seats ( Semi-private room, terrace seating, table seating, counter seating)"
+            }
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "rst_id": "13320164",
+          "outletName": "Azabu Juban Soba Goya",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13320164/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+            "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+          },
+          "hardCriteria": [
+            {
+              "value": "soba",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+                  "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+                }
+              ]
+            },
+            {
+              "value": "standing soba counter",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "MERCHANT_SEATING",
+              "quote": "Number of seats 40 seats ( Semi-private room, terrace seating, table seating, counter seating)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+                  "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+                }
+              ],
+              "adjudication": {
+                "rule": "EXPLICIT_MERCHANT_TABLE_SEATING",
+                "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witness-hard-source-review.json",
+                "sha256": "4483d86b8c7d8beaee6c154767046da91278c644dc4808bc5361d68071567b9d"
+              }
+            }
+          ],
+          "distanceMeters": 261.3630435382159,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:27:10.114Z",
+          "validUntil": "2026-10-23T17:27:10.114Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+              "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+            },
+            {
+              "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/pending-inventory/1-attempt-1.body.json",
+              "sha256": "d94c043e883919acd8c193e66a571f48eb79052756dd54478f04b6a5432952b3"
+            },
+            {
+              "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/pending-inventory/1-attempt-1.metadata.json",
+              "sha256": "6fc228d0c8dc33f82b3968f756e80dffdaa3713cd8f6b7e1a1830d28dc1656fc"
+            }
+          ]
+        },
+        {
+          "rst_id": "13015155",
+          "outletName": "Azabu Nagasaka Sarashina Honten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13015155/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-3.source.json",
+            "sha256": "f539f264c6fe37a3020d43588fa7c164bb8e1a4ac3ab166128d16e794ffda92f"
+          },
+          "hardCriteria": [
+            {
+              "value": "soba",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Soba (Buckwheat noodles)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-3.source.json",
+                  "sha256": "f539f264c6fe37a3020d43588fa7c164bb8e1a4ac3ab166128d16e794ffda92f"
+                }
+              ]
+            },
+            {
+              "value": "standing soba counter",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "MERCHANT_SEATING",
+              "quote": "Number of seats 88 seats ( 20 seats at tables, 4 tatami rooms, private rooms available)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-3.source.json",
+                  "sha256": "f539f264c6fe37a3020d43588fa7c164bb8e1a4ac3ab166128d16e794ffda92f"
+                }
+              ],
+              "adjudication": {
+                "rule": "EXPLICIT_MERCHANT_TABLE_SEATING",
+                "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witness-hard-source-review.json",
+                "sha256": "4483d86b8c7d8beaee6c154767046da91278c644dc4808bc5361d68071567b9d"
+              }
+            }
+          ],
+          "classification": "PENDING_INVENTORY"
+        }
+      ],
+      "certifiedWitnesses": [
+        {
+          "rst_id": "13320164",
+          "outletName": "Azabu Juban Soba Goya",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13320164/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+            "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+          },
+          "hardCriteria": [
+            {
+              "value": "soba",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+                  "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+                }
+              ]
+            },
+            {
+              "value": "standing soba counter",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "MERCHANT_SEATING",
+              "quote": "Number of seats 40 seats ( Semi-private room, terrace seating, table seating, counter seating)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+                  "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+                }
+              ],
+              "adjudication": {
+                "rule": "EXPLICIT_MERCHANT_TABLE_SEATING",
+                "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witness-hard-source-review.json",
+                "sha256": "4483d86b8c7d8beaee6c154767046da91278c644dc4808bc5361d68071567b9d"
+              }
+            }
+          ],
+          "distanceMeters": 261.3630435382159,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:27:10.114Z",
+          "validUntil": "2026-10-23T17:27:10.114Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+              "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+            },
+            {
+              "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/pending-inventory/1-attempt-1.body.json",
+              "sha256": "d94c043e883919acd8c193e66a571f48eb79052756dd54478f04b6a5432952b3"
+            },
+            {
+              "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/pending-inventory/1-attempt-1.metadata.json",
+              "sha256": "6fc228d0c8dc33f82b3968f756e80dffdaa3713cd8f6b7e1a1830d28dc1656fc"
+            }
+          ]
+        }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "certifiedAt": "2026-10-22T17:27:10.114Z",
+      "validUntil": "2026-10-23T17:27:10.114Z",
+      "capabilityDenominator": true,
+      "request": "2026-11-03 19:00 x3 no standing soba counter"
+    },
+    {
+      "caseId": "p2b-holdout-06",
+      "place": "Shimbashi",
+      "date": "2026-10-30",
+      "earliest": "19:00",
+      "latest": "21:00",
+      "partySize": 8,
+      "merchantRequirements": [
+        {
+          "value": "oden",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Shimbashi, Tokyo, Japan",
+      "searchQuery": "Shimbashi, Tokyo, Japan oden restaurant",
+      "variantId": "p2b-holdout-06",
+      "center": {
+        "latitude": 35.6648291,
+        "longitude": 139.7562635,
+        "radiusMeters": 800,
+        "sourcePlaceId": "ChIJGx6XGeqLGGARGn6w2QDkxVA",
+        "sourceName": "Shinbashi",
+        "sourceRef": {
+          "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/discovery.json",
+          "sha256": "8f190cb1e44d4b79080703914d7d38124f71b5189bcc64e597d9a7a7165593ad"
+        },
+        "sourceRequestSha256": "d5424b44efd9fdf07442e3f6595a694f0fb1d3afbc2d7657b9d15630a38f97ea"
+      },
+      "witnesses": [
+        {
+          "rst_id": "13243927",
+          "outletName": "Sakaba Futamata Nishishinbashi ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13243927/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.source.json",
+            "sha256": "44b5cb5fa50281560227d66cc8bc2e54095c35d024d0d0d6b5ec576aefaf1354"
+          },
+          "hardCriteria": [
+            {
+              "value": "oden",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Izakaya (Japanese style tavern), Oden, Yakitori (Grilled chicken skewers)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.source.json",
+                  "sha256": "44b5cb5fa50281560227d66cc8bc2e54095c35d024d0d0d6b5ec576aefaf1354"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 505.01395404904184,
+          "matchingSlots": [
+            "20:00",
+            "20:15",
+            "20:30",
+            "20:45",
+            "21:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:30:52.403Z",
+          "validUntil": "2026-10-23T17:30:52.403Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.source.json",
+              "sha256": "44b5cb5fa50281560227d66cc8bc2e54095c35d024d0d0d6b5ec576aefaf1354"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/inventory-06-13243927.attempt-1.body.json",
+              "sha256": "2156569cc3a491961af15fd351aabc315a87a9d46281ffe2f05885f1411f1e70"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/inventory-06-13243927.attempt-1.metadata.json",
+              "sha256": "6bf6b371a4caf8b1df8a0d6e607ead6d11b149b2af5773b03e4808904cefbf07"
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "oden",
+              "quote": "Categories Izakaya (Japanese style tavern), Oden, Yakitori (Grilled chicken skewers)"
+            }
+          ]
+        }
+      ],
+      "candidates": [
+        {
+          "rst_id": "13306055",
+          "outletName": "odembaumami Shimbashi",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13306055/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/odenbar.source.json",
+            "sha256": "f7f066cf6cd17e261e3dcdb80519b5f8ed7c5d666fed999859fbff55232ef661"
+          },
+          "hardCriteria": [
+            {
+              "value": "oden",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Izakaya (Japanese style tavern), Oden, Seafood",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/odenbar.source.json",
+                  "sha256": "f7f066cf6cd17e261e3dcdb80519b5f8ed7c5d666fed999859fbff55232ef661"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 278.3609312881935,
+          "matchingSlots": [],
+          "classification": "NOT_CERTIFIED_NO_MATCHING_INVENTORY",
+          "certifiedAt": "2026-10-22T17:14:31.971Z",
+          "validUntil": "2026-10-23T17:14:31.971Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/odenbar.source.json",
+              "sha256": "f7f066cf6cd17e261e3dcdb80519b5f8ed7c5d666fed999859fbff55232ef661"
+            },
+            {
+              "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/pending-inventory/2-attempt-1.body.json",
+              "sha256": "11c94e8359a1dcca1679d939eee41dc798e938d09df8c29643ac924ce19edd8c"
+            },
+            {
+              "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/pending-inventory/2-attempt-1.metadata.json",
+              "sha256": "3dc39d5d084fa8e547d733ced3bf400cd73b003fca2ed70552a2ae38fcc59a6f"
+            }
+          ]
+        },
+        {
+          "rst_id": "13239145",
+          "outletName": "MUSASHI Shinbashi ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13239145/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-1.source.json",
+            "sha256": "66c55e3faa10292ae1917c6aed2a7401eb9f6c759c8458495e87b60d4df81449"
+          },
+          "hardCriteria": [
+            {
+              "value": "oden",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Oden, Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-1.source.json",
+                  "sha256": "66c55e3faa10292ae1917c6aed2a7401eb9f6c759c8458495e87b60d4df81449"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 295.27025572677155,
+          "matchingSlots": [],
+          "classification": "NOT_CERTIFIED_NO_MATCHING_INVENTORY",
+          "certifiedAt": "2026-10-22T17:30:20.444Z",
+          "validUntil": "2026-10-23T17:30:20.444Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-1.source.json",
+              "sha256": "66c55e3faa10292ae1917c6aed2a7401eb9f6c759c8458495e87b60d4df81449"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-and-fallback-directory-10/inventory-06-13239145.attempt-1.body.json",
+              "sha256": "415d48808ef07b85c476999e09bd5d5f990b4250c54b372bba09e174ea257d98"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-and-fallback-directory-10/inventory-06-13239145.attempt-1.metadata.json",
+              "sha256": "54fa73fe481f8cc8394ab32252c7c72d79443b4bf9e085a04b458c2e683e762c"
+            }
+          ]
+        },
+        {
+          "rst_id": "13243927",
+          "outletName": "Sakaba Futamata Nishishinbashi ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13243927/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.source.json",
+            "sha256": "44b5cb5fa50281560227d66cc8bc2e54095c35d024d0d0d6b5ec576aefaf1354"
+          },
+          "hardCriteria": [
+            {
+              "value": "oden",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Izakaya (Japanese style tavern), Oden, Yakitori (Grilled chicken skewers)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.source.json",
+                  "sha256": "44b5cb5fa50281560227d66cc8bc2e54095c35d024d0d0d6b5ec576aefaf1354"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 505.01395404904184,
+          "matchingSlots": [
+            "20:00",
+            "20:15",
+            "20:30",
+            "20:45",
+            "21:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:30:52.403Z",
+          "validUntil": "2026-10-23T17:30:52.403Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.source.json",
+              "sha256": "44b5cb5fa50281560227d66cc8bc2e54095c35d024d0d0d6b5ec576aefaf1354"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/inventory-06-13243927.attempt-1.body.json",
+              "sha256": "2156569cc3a491961af15fd351aabc315a87a9d46281ffe2f05885f1411f1e70"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/inventory-06-13243927.attempt-1.metadata.json",
+              "sha256": "6bf6b371a4caf8b1df8a0d6e607ead6d11b149b2af5773b03e4808904cefbf07"
+            }
+          ]
+        }
+      ],
+      "certifiedWitnesses": [
+        {
+          "rst_id": "13243927",
+          "outletName": "Sakaba Futamata Nishishinbashi ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13243927/",
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.source.json",
+            "sha256": "44b5cb5fa50281560227d66cc8bc2e54095c35d024d0d0d6b5ec576aefaf1354"
+          },
+          "hardCriteria": [
+            {
+              "value": "oden",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Izakaya (Japanese style tavern), Oden, Yakitori (Grilled chicken skewers)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.source.json",
+                  "sha256": "44b5cb5fa50281560227d66cc8bc2e54095c35d024d0d0d6b5ec576aefaf1354"
+                }
+              ]
+            }
+          ],
+          "distanceMeters": 505.01395404904184,
+          "matchingSlots": [
+            "20:00",
+            "20:15",
+            "20:30",
+            "20:45",
+            "21:00"
+          ],
+          "classification": "KNOWN_FEASIBLE_SUPPORTED",
+          "certifiedAt": "2026-10-22T17:30:52.403Z",
+          "validUntil": "2026-10-23T17:30:52.403Z",
+          "observationRefs": [
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.source.json",
+              "sha256": "44b5cb5fa50281560227d66cc8bc2e54095c35d024d0d0d6b5ec576aefaf1354"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/inventory-06-13243927.attempt-1.body.json",
+              "sha256": "2156569cc3a491961af15fd351aabc315a87a9d46281ffe2f05885f1411f1e70"
+            },
+            {
+              "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/inventory-06-13243927.attempt-1.metadata.json",
+              "sha256": "6bf6b371a4caf8b1df8a0d6e607ead6d11b149b2af5773b03e4808904cefbf07"
+            }
+          ]
+        }
+      ],
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "certifiedAt": "2026-10-22T17:30:52.403Z",
+      "validUntil": "2026-10-23T17:30:52.403Z",
+      "capabilityDenominator": true,
+      "request": "2026-10-30 19:00 x8"
+    }
+  ],
+  "earliestWitnessObservedAt": "2026-10-22T17:14:00.086Z",
+  "validUntil": "2026-10-23T17:14:00.086Z",
+  "network": 0,
+  "models": 0,
+  "certifiedCaseCount": 5,
+  "capabilityCaseCount": 5,
+  "plannedCaseCount": 6,
+  "freeze": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-freezes/final-registry-15.json",
+    "sha256": "8b32135bdcfb8ae173a7ea146c8181f8416b5252ee83c8e408d7975a48d57bda"
+  },
+  "rule": "All 18 run slots retained. An explicit SHA-bound business exclusion is not a witness or a capability failure. Earliest retained witness observation controls the entire batch deadline."
+}
