@@ -1,0 +1,11 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+const previous='.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022',dir=`${previous}/case05-reassessment-20261022`,sha=b=>createHash('sha256').update(b).digest('hex');
+const prior=JSON.parse(await fs.readFile(`${previous}/evaluation-freeze.json`)),files={...prior.files};
+for(const[p,h]of Object.entries(files))assert.equal(sha(await fs.readFile(p)),h,`Historical input changed:${p}`);
+for(const p of execFileSync('git',['ls-files','-z',previous,'.eval-artifacts/phase2-holdout'],{encoding:'utf8'}).split('\0').filter(Boolean))files[p]=sha(await fs.readFile(p));
+assert.equal(execFileSync('git',['status','--porcelain','--untracked-files=no'],{encoding:'utf8'}),'','Commit preparation and scripts before freeze');
+const output=`${dir}/evaluation-freeze.json`,manifest={schema:'holdout-case05-format-recovery-freeze@1',status:'frozen regression; exposed holdout, not new Live',codeCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),evaluator:'restaurant-hybrid-read-diagnostic-evaluator@33',rubric:'restaurant-hybrid-read-diagnostic-rubric@29',previousFreezeSha256:sha(await fs.readFile(`${previous}/evaluation-freeze.json`)),newModels:0,newWebsites:0,newLive:0,files:Object.fromEntries(Object.entries(files).sort(([a],[b])=>a.localeCompare(b)))};
+await fs.writeFile(output,JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({files:Object.keys(files).length,sha256:sha(await fs.readFile(output)),codeCommit:manifest.codeCommit}));

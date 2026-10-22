@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.255
+- Document revision: 4.256
 - Last updated: 2026-10-22
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-CASE05-FORMAT-RECOVERY
+
+按19941c4e和用户批准，只对例05三份原SHA绑定的required_claims[1]单键对象逐字恢复为字符串；三份输入往返还原与唯一字段差异核对已通过。使用Evaluator33/rubric29现有批准更正接口，原始Gold/承诺/运行/旧NE不变，其他15份评价不重跑。准备提交冻结后0网络0模型补评三份，按原阈值与第一卡点条款更新退出，推送后停下。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/plan.md).
 
 ## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-EVALUATION-COMPLETE
 
