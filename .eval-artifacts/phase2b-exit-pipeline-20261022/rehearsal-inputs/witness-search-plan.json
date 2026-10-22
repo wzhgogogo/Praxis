@@ -1,0 +1,127 @@
+{
+  "schema": "phase2b-witness-search@1",
+  "sourceRules": {
+    "radiusMeters": 800,
+    "minGapMs": 30000,
+    "cooldownMs": 900000,
+    "transportRetryMs": 120000,
+    "maxRetries": 1,
+    "validForMs": 86400000,
+    "maxCandidatePagesPerPlace": 6,
+    "targetWitnesses": 3
+  },
+  "variants": [
+    {
+      "caseId": "p2-holdout-01",
+      "place": "Ueno",
+      "date": "2026-11-04",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 3,
+      "merchantRequirements": [
+        {
+          "value": "yakitori",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Ueno, Tokyo, Japan",
+      "searchQuery": "Ueno, Tokyo, Japan yakitori restaurant"
+    },
+    {
+      "caseId": "p2-holdout-02",
+      "place": "Sangenjaya",
+      "date": "2026-10-30",
+      "earliest": "19:30",
+      "latest": "19:30",
+      "partySize": 2,
+      "merchantRequirements": [
+        {
+          "value": "Italian",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "under 8,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Sangenjaya, Tokyo, Japan",
+      "searchQuery": "Sangenjaya, Tokyo, Japan Italian under 8,000 yen per person restaurant"
+    },
+    {
+      "caseId": "p2-holdout-03",
+      "place": "Akasaka",
+      "date": "2026-10-29",
+      "earliest": "18:00",
+      "latest": "20:00",
+      "partySize": 6,
+      "merchantRequirements": [
+        {
+          "value": "shabu-shabu",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Akasaka, Tokyo, Japan",
+      "searchQuery": "Akasaka, Tokyo, Japan shabu-shabu restaurant"
+    },
+    {
+      "caseId": "p2-holdout-04",
+      "place": "Ningyocho",
+      "date": "2026-11-03",
+      "earliest": "18:30",
+      "latest": "18:30",
+      "partySize": 2,
+      "merchantRequirements": [
+        {
+          "value": "unagi",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Ningyocho, Tokyo, Japan",
+      "searchQuery": "Ningyocho, Tokyo, Japan unagi restaurant"
+    },
+    {
+      "caseId": "p2-holdout-05",
+      "place": "Gotanda",
+      "date": "2026-10-31",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 4,
+      "merchantRequirements": [
+        {
+          "value": "Chinese",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "spicy Sichuan food",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Gotanda, Tokyo, Japan",
+      "searchQuery": "Gotanda, Tokyo, Japan Chinese restaurant"
+    },
+    {
+      "caseId": "p2-holdout-06",
+      "place": "Shimokitazawa",
+      "date": "2026-10-30",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 5,
+      "merchantRequirements": [
+        {
+          "value": "izakaya",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Shimokitazawa, Tokyo, Japan",
+      "searchQuery": "Shimokitazawa, Tokyo, Japan izakaya restaurant"
+    }
+  ]
+}
