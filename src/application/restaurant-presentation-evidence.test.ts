@@ -201,3 +201,64 @@ test("C18 four split tempura statements inherit their containing merchant field 
   }
   assert.equal(checked, 4);
 });
+
+// Known unresolved business regression; part of the default suite, never skipped.
+test("C18 selected Utou course titles remain known when the selected statement also contains the item count", async () => {
+  const { createHash } = await import("node:crypto");
+  const { parseTabelogSourceFieldQuotes } = await import("../integrations/tabelog/tabelog-page-parser.js");
+  const { ModelRestaurantFactJudgment } = await import("../integrations/restaurant-facts/model-fact-judgment.js");
+  const root = new URL("../../", import.meta.url);
+  const dir = new URL(".eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/", root);
+  const inputs = JSON.parse(await readFile(new URL("c18-inputs.json", dir), "utf8"));
+  const hard = JSON.parse(await readFile(new URL("hard-evidence.json", dir), "utf8"));
+  const expected: Record<string, string[]> = { "c-05": ["13300814"], "c-09": ["13300814"], "c-13": ["13300814"] };
+  let checked = 0;
+  const statuses: Array<{ runId: string; status: string }> = [];
+  for (const [runId, ids] of Object.entries(expected)) {
+    const row = inputs.runs.find((r: any) => r.runId === runId), bytes = await readFile(new URL(row.artifactPath, root));
+    assert.equal(createHash("sha256").update(bytes).digest("hex"), row.artifactSha256);
+    const artifact = JSON.parse(bytes.toString());
+    const ctx = (now: string) => ({ taskId: artifact.runId, runId: artifact.runId, now, createId: (p: string) => p });
+    let state = restaurantBookingTaskDefinition.create({}, ctx(artifact.startedAt));
+    for (const envelope of artifact.events) {
+      if (envelope.event.type === "RESULTS_PRESENTED") break;
+      state = restaurantBookingTaskDefinition.transition(state, envelope.event, ctx(envelope.occurredAt)).state;
+    }
+    for (const id of ids) {
+      const candidate = state.candidates.find(c => c.restaurant.id.endsWith('/' + id))!, check = state.factChecks![candidate.restaurant.id]!;
+      const fact = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "RESTAURANT_FACT" && e.provider === "TABELOG")!;
+      const identity = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "ENTITY_MATCH" && e.sourceUrl === fact.sourceUrl)!;
+      const binding = hard.runs.find((r: any) => r.artifactSha256 === row.artifactSha256).snapshots.find((s: any) => s.evidenceId === fact.evidenceId);
+      const html = await readFile(new URL(binding.path, dir), "utf8");
+      assert.equal(createHash("sha256").update(html).digest("hex"), binding.sha256);
+      const fields = parseTabelogSourceFieldQuotes({ url: fact.sourceUrl!, title: "", text: "", html });
+      const statements = (fact.claims.restaurantTypeFacts as string[]).map((text, index) => ({ id: `selected:${index}`, text }));
+      assert.ok(statements.some(s => s.text.includes("Kaiseki with Exquisite Ingredients") && s.text.endsWith("8 items")));
+      const document = { id: fact.evidenceId, candidateId: candidate.restaurant.id, identityEvidenceId: identity.evidenceId, sourceFieldQuotes: fields, statements };
+      const judgment = new ModelRestaurantFactJudgment({ async complete() { return {
+        invocationId: "scripted-original-selection", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0,
+        outputText: JSON.stringify({ sourceSelections: [{ documentId: document.id, statementIds: statements.map(s => s.id) }], judgments: [] }),
+      }; } });
+      const read = await judgment.judge({ candidate, intent: state.intent!, evidence: [identity], sourceDocuments: [document] });
+      const fresh = read.evidence.find(e => e.evidenceId === fact.evidenceId)!;
+      state.readEvidence = state.readEvidence.map(e => e.evidenceId === fact.evidenceId ? { ...e, sourceFieldQuotes: fresh.sourceFieldQuotes ?? [] } : e);
+      checked++;
+    }
+    let sourceCalls = 0;
+    const router = new RestaurantExecutionRouter(
+      { executionRoute: "STRUCTURED_ADAPTER", async search() { sourceCalls++; throw Error("NO_SOURCE_READS"); } },
+      { executionRoute: "STRUCTURED_ADAPTER", async check() { sourceCalls++; throw Error("NO_SOURCE_READS"); } },
+      { structuredReadTimeoutMs: 1000, browserReadTimeoutMs: 1000 },
+    );
+    const at = artifact.finalSnapshot.domainState.presentedResults.presentedAt;
+    const execution = await router.execute({ type: "PRESENT_RESULTS", candidateIds: artifact.finalSnapshot.domainState.presentedResults.candidateIds }, state, at);
+    const shown = restaurantBookingTaskDefinition.transition(state, execution.event!, ctx(at)).state.presentedResults!;
+    for (const id of ids) {
+      const candidateId = shown.candidateIds.find(c => c.endsWith('/' + id))!;
+      statuses.push({ runId, status: shown.conditionStates[candidateId]![0]!.status });
+    }
+    assert.equal(sourceCalls, 0);
+  }
+  assert.equal(checked, 3);
+  assert.deepEqual(statuses, Object.keys(expected).map(runId => ({ runId, status: "MET" })), "already selected complete merchant title cannot become an unknown condition");
+});

@@ -1,0 +1,44 @@
+✖ C18 selected Utou course titles remain known when the selected statement also contains the item count (130.578292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 304.6245
+
+✖ failing tests:
+
+test at src/application/restaurant-presentation-evidence.test.ts:1:15440
+✖ C18 selected Utou course titles remain known when the selected statement also contains the item count (130.578292ms)
+  AssertionError [ERR_ASSERTION]: already selected complete merchant title cannot become an unknown condition
+  + actual - expected
+  
+    [
+      {
+        runId: 'c-05',
+  +     status: 'NOT_CHECKED'
+  -     status: 'MET'
+      },
+      {
+        runId: 'c-09',
+  +     status: 'NOT_CHECKED'
+  -     status: 'MET'
+      },
+      {
+        runId: 'c-13',
+  +     status: 'NOT_CHECKED'
+  -     status: 'MET'
+      }
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/application/restaurant-presentation-evidence.test.ts:263:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ { runId: 'c-05', status: 'NOT_CHECKED' }, { runId: 'c-09', status: 'NOT_CHECKED' }, { runId: 'c-13', status: 'NOT_CHECKED' } ],
+    expected: [ { runId: 'c-05', status: 'MET' }, { runId: 'c-09', status: 'MET' }, { runId: 'c-13', status: 'MET' } ],
+    operator: 'deepStrictEqual'
+  }

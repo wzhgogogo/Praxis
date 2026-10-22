@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.79
+- Document revision: 1.80
 - Last updated: 2026-10-22
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -331,3 +331,5 @@ Harness: three prior h001 recordings retain six identical raw HTML snapshots (on
 2026-10-22 same-read Tabelog price retention (offline; checkpoint-C prep): NativeSourceFactRead attaches existing parser-owned restaurant-price-facts@1 to the current source document; ModelRestaurantFactJudgment keeps same-source prices private and forwards them to current source evidence. Source identity/currentness/supersession and condition policy are unchanged. Saved C12/C16 replay tests cover all three H002 missing-price rows via actual native producer, scripted judgment and Router->Reducer; model payload invariance and cross-source rejection are covered. No new navigation, requests, Guard permissions or real model calls. Merchant course availability remains unverified. See ../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md.
 
 2026-10-22 merchant field containment repair (offline): Native fact judgment retains the original selected statement and inherits its containing parser-owned field role (field contains statement). Existing same-candidate/HIGH identity/source binding, review/neighbor/hidden exclusion and meal limits are unchanged. Harness: saved C18 four split-tempura judgment->Router->Reducer controls; field quote parser hidden/review/neighbor controls; model payload/cross-candidate tests. No extra requests, model calls, navigation or Guard permissions. Eval33/rubric29 separately records product-observed versus external-only support.
+
+2026-10-22 acceptance stop (checkpoint-C preparation only; not integrated): strict field-contains-selected-statement passes the four split-tempura cases, but drops three current Utou COURSE_TITLE quotations when the selected line also contains the adjacent “8 items” count. Saved Router->Reducer replay and independent Evaluator33 identify three product-observed MISSED_KNOWN_CONDITION rows. The unresolved business regression is retained as a failing default application test; the five-gate acceptance is NOT passed. No c17 environment rerun, holdout input read, source request or real model call was performed. See [stop report](../../.eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/four-layer-report.md).
