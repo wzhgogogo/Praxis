@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.229
+- Document revision: 4.230
 - Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-22-CHECKPOINT-C-C18-DISPLAY-PRICE-REPAIR
+
+已合入复核展示分支4fcf7702，五文档冲突保留双方历史。H002价格缺失根因为后续事实读取未保留同页结构化价格；现由原生产解析器随当前来源文档传递，模型消息不增加元数据，旧证据不复活。消费者原反例与生产者隔离红灯均为有效断言，当前相关28/28；三条C12/C16价格经Router->Reducer为MET。State19/TaskDefinition17/condition-states3，FactPrompt14/Schema4、Browser19/Context2和Evaluator32/rubric28分别统一，未变的轴不虚增。下一步提交冻结后回放13份已有展示，5份无展示不补造；0模型/网站/Live，账本2827/31/0不变，非Clean。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
 
 ## DEV-2026-10-22-CHECKPOINT-C-C18-REASSESSMENT-RESULTS
 

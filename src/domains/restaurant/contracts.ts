@@ -450,8 +450,9 @@ export interface RestaurantCandidateFactRead {
 }
 
 export interface RestaurantFactSourceDocument {
-  /** Private source-parser metadata; omitted from model messages. */
+  /** Private metadata from this same source read; omitted from model messages. */
   sourceFieldQuotes?: RestaurantSourceFieldQuote[];
+  priceFacts?: RestaurantPriceFacts;
   id: string;
   candidateId: string;
   identityEvidenceId: string;

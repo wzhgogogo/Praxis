@@ -239,6 +239,9 @@ test("website judgments preserve selected source statements and reject invented 
     claims: { outletName: "Cafe A" }, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] },
   };
   const document = { id: "source-document", candidateId: "a", identityEvidenceId: identity.evidenceId,
+    priceFacts: { schemaVersion: "restaurant-price-facts@1" as const, listedCoursePricesYen: [],
+      dinnerBudgetRangeYen: { min: 8000, max: 9999, quote: "JPY 8,000 - JPY 9,999", sourceUrl: identity.sourceUrl! },
+      lunchBudgetRangeYen: { min: 100, max: 200, quote: "JPY 100 - JPY 200", sourceUrl: "https://other-outlet.example/" } },
     sourceFieldQuotes: [{ field: "COURSE_DESCRIPTION" as const, quote: "旬のつまみからはじまるおまかせコースを提供します。", sourceUrl: identity.sourceUrl! }],
     statements: [{ id: "statement-1", text: "旬のつまみからはじまるおまかせコースを提供します。" }] };
   for (const mode of ["valid", "invented", "other-candidate", "statement-as-citation"] as const) {
@@ -266,6 +269,9 @@ test("website judgments preserve selected source statements and reject invented 
     const source = read.evidence.find(e => e.provider === "RESTAURANT_WEBSITE");
     assert.deepEqual(source?.claims.restaurantTypeFacts, [document.statements[0]!.text]);
     assert.deepEqual(source?.sourceFieldQuotes, document.sourceFieldQuotes);
+    assert.deepEqual(source?.priceFacts?.dinnerBudgetRangeYen, document.priceFacts.dinnerBudgetRangeYen);
+    assert.equal(source?.priceFacts?.lunchBudgetRangeYen, undefined, "cross-source prices cannot enter this source fact");
+    assert.equal(JSON.parse(wire!.messages.find(m => m.role === "user")!.content).sourceDocuments[0].priceFacts, undefined, "price metadata stays private");
     assert.equal(JSON.parse(wire!.messages.find(m => m.role === "user")!.content).sourceDocuments[0].sourceFieldQuotes, undefined, "source role metadata stays private; original model message shape unchanged");
     assert.equal(source?.sourceEntityId, identity.sourceEntityId);
     assert.equal(source?.claims.verifiedHardCriteria, undefined);

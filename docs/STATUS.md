@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.332
+- Document revision: 4.333
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 Checkpoint C c18-display-price-repair:** 已合入复核展示分支4fcf7702，五文档冲突保留双方历史。H002价格缺失根因为后续事实读取未保留同页结构化价格；现由原生产解析器随当前来源文档传递，模型消息不增加元数据，旧证据不复活。消费者原反例与生产者隔离红灯均为有效断言，当前相关28/28；三条C12/C16价格经Router->Reducer为MET。State19/TaskDefinition17/condition-states3，FactPrompt14/Schema4、Browser19/Context2和Evaluator32/rubric28分别统一，未变的轴不虚增。下一步提交冻结后回放13份已有展示，5份无展示不补造；0模型/网站/Live，账本2827/31/0不变，非Clean。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
 
 - **2026-10-22 Checkpoint C c18-reassessment-results:** C18两套离线补评18+18完成，2678冻结项运行后未变、外部调用0。原31为4QD/12NE/1MISS/1HONEST；31+对应和32+对应+当前HARD均12QD/4NE/1MISS/1HONEST，三者新文件并列，原评价不改。展示对照S1_UNSUPPORTED：原11→31对应16→32为4；MISSED_KNOWN_CONDITION仍3。剩余未知保留c02/c04/c08/c17，不补抓网络或重跑模型；下一步合入4fcf7702进行展示反事实回放。累计模型2827/正式Live31/正式环境重跑0不变，非Clean Baseline。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
 

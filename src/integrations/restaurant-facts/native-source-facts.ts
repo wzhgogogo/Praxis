@@ -8,7 +8,7 @@ import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSnapshot, Browser
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { inspectNativeOutletContinuity, sameNativeOutletUrl } from "../restaurant-availability/native-outlet-continuity.js";
-import { parseTabelogOutletIdentityWithEvidence, parseTabelogSourceFieldQuotes } from "../tabelog/tabelog-page-parser.js";
+import { parseTabelogOutletIdentityWithEvidence, parseTabelogSourceFieldQuotes, parseTabelogPriceFacts } from "../tabelog/tabelog-page-parser.js";
 import { hasTableCheckBotChallenge, hasTableCheckPageUnavailable, parseTableCheckOutletIdentityWithEvidence, parseTableCheckScopedMenuSourcePartition, resolveTableCheckReservationTarget, sameReservationOutlet, type TableCheckReservationTarget } from "../tablecheck/tablecheck-page-parser.js";
 import { candidateStructuredObservation, candidateVisibleObservation } from "./google-listed-website-facts.js";
 import type { RestaurantFactJudgmentPort } from "./model-fact-judgment.js";
@@ -20,7 +20,7 @@ function key(value: string): string | undefined {
   } catch { return undefined; }
 }
 
-function sourceDocument(candidateId: string, identityEvidenceId: string, text: string, serviceScope?: RestaurantServiceScope, sourceFieldQuotes?: RestaurantFactSourceDocument["sourceFieldQuotes"]): RestaurantFactSourceDocument {
+function sourceDocument(candidateId: string, identityEvidenceId: string, text: string, serviceScope?: RestaurantServiceScope, sourceFieldQuotes?: RestaurantFactSourceDocument["sourceFieldQuotes"], priceFacts?: RestaurantFactSourceDocument["priceFacts"]): RestaurantFactSourceDocument {
   const statements: RestaurantFactSourceDocument["statements"] = [];
   let total = 0;
   for (const line of text.split(/\r?\n/).map((item) => item.trim()).filter(Boolean)) {
@@ -30,7 +30,7 @@ function sourceDocument(candidateId: string, identityEvidenceId: string, text: s
   }
   const scopeKey = serviceScope ? `${serviceScope.field}\u0000${serviceScope.group}\u0000${serviceScope.value}` : "unscoped";
   return { id: `${candidateId}:document:${createHash("sha256").update(`${scopeKey}\u0000${text}`).digest("hex").slice(0, 16)}`, candidateId, identityEvidenceId,
-    ...(serviceScope ? { serviceScope } : {}), ...(sourceFieldQuotes?.length ? { sourceFieldQuotes } : {}), statements };
+    ...(serviceScope ? { serviceScope } : {}), ...(sourceFieldQuotes?.length ? { sourceFieldQuotes } : {}), ...(priceFacts ? { priceFacts } : {}), statements };
 }
 
 /** A menu/course page may be one child path below the observed native outlet. */
@@ -144,7 +144,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
               ...scopedMenu.scoped.map((item) => sourceDocument(candidate.restaurant.id, identity.evidenceId, item.text, item.serviceScope)),
               ...(scopedMenu.unscopedText ? [sourceDocument(candidate.restaurant.id, identity.evidenceId, scopedMenu.unscopedText)] : []),
             ]
-            : [sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text, undefined, provider === "TABELOG" ? parseTabelogSourceFieldQuotes(page) : undefined)];
+            : [sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text, undefined, provider === "TABELOG" ? parseTabelogSourceFieldQuotes(page) : undefined, provider === "TABELOG" ? parseTabelogPriceFacts(page) : undefined)];
           const additions = nextDocuments.filter((document) => !documents.some((item) => item.id === document.id));
           documents.push(...additions);
           return additions.length > 0;
