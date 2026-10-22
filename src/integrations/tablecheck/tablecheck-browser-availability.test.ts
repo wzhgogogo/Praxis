@@ -1506,3 +1506,11 @@ test("group-window: point empty continues to the next observed legal time", asyn
  assert.equal(result.offers[0]!.dateTime,`${date}T19:30:00+09:00`);
  }finally{await executor.close();}
 });
+
+test("group-window: an already prohibited candidate entrance is rejected before a browser session",async()=>{
+ let opened=0;
+ const blocked={...candidate,restaurant:{...candidate.restaurant,sourceIds:{tablecheck:"restaurant1",tablecheckNativeGuideUri:"https://www.tablecheck.com/en/shops/restaurant1/reserve"}}};
+ const policy={documentOrigins:["https://www.tablecheck.com"],staticResources:[],dynamicReads:[],prohibitedPaths:[{hostname:"tablecheck.com",pathSegment:"reserve"}]};
+ const result=await new TableCheckBrowserAvailability({async openSession(){opened++;throw Error("Prohibited entrance must never acquire browser");}},undefined,{networkPolicy:policy}).check({...request,candidates:[blocked]},new AbortController().signal);
+ assert.equal(opened,0);assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"SOURCE_UNSUPPORTED");assert.equal(result.offers.length,0);assert.equal(result.evidence.some(e=>e.entityMatch?.confidence==="HIGH"),false);
+});

@@ -13,7 +13,7 @@ import {BrowserRuntimeError} from '../../src/infrastructure/browser/browser-runt
 import {isBrowserReadPathProhibited} from '../../src/infrastructure/browser/browser-read-policy.ts';
 const dir='.eval-artifacts/group-window-fix-20261022',sha=b=>createHash('sha256').update(b).digest('hex'),read=async p=>JSON.parse(await fs.readFile(p));
 let external=0;globalThis.fetch=()=>{external++;throw Error('OFFLINE_ONLY');};
-const freeze=await read(`${dir}/final-freeze.json`);const verify=async()=>{for(const [p,h]of Object.entries(freeze.files))assert.equal(sha(await fs.readFile(p)),h,`FROZEN_CHANGED:${p}`);};await verify();
+const freeze=await read(`${dir}/delivery-freeze.json`);const verify=async()=>{for(const [p,h]of Object.entries(freeze.files))assert.equal(sha(await fs.readFile(p)),h,`FROZEN_CHANGED:${p}`);};await verify();
 const input=await read(`${dir}/replay-inputs.json`),rows=[];
 function mock(page,controls){
  const navigations=[],attempts=[];let followupActions=0;
@@ -81,4 +81,4 @@ for(const run of input.runs){
  console.log(JSON.stringify({id:run.id,newFirstSource:'tabelog',restricted:restricted.length,time:timeReplay.status,party:partyReplay.status}));
 }
 await verify();assert.equal(external,0);
-await fs.writeFile(`${dir}/saved-replay-final-results.json`,JSON.stringify({schema:'group-window-saved-replay@1',mode:'OFFLINE_COMPONENT_SAVED_HTML_CONTROLS_AND_BATCH_BOUNDARIES',rows,newModels:0,externalRequests:external,newLive:0,fullTaskOutcome:'NOT_EVALUATED',safety:'No external dispatch in replay; production network permission is independently covered by local Chromium controls, not proven by this mock metadata.'},null,2)+'\n',{flag:'wx'});
+await fs.writeFile(`${dir}/saved-replay-delivery-results.json`,JSON.stringify({schema:'group-window-saved-replay@1',mode:'OFFLINE_COMPONENT_SAVED_HTML_CONTROLS_AND_BATCH_BOUNDARIES',rows,newModels:0,externalRequests:external,newLive:0,fullTaskOutcome:'NOT_EVALUATED',safety:'No external dispatch in replay; production network permission is independently covered by local Chromium controls, not proven by this mock metadata.'},null,2)+'\n',{flag:'wx'});

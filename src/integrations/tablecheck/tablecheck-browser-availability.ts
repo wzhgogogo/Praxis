@@ -381,6 +381,17 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     browser?: BrowserSessionMetadata;
   }> {
     const observedAt = this.now();
+    const listedOutletUrl = firstListedTableCheckOutletUrl(
+      candidate.restaurant.sourceIds.tablecheckNativeGuideUri,
+      candidate.restaurant.sourceIds.googleListedTableCheckUri,
+      candidate.restaurant.sourceIds.googleWebsiteUri,
+      candidate.restaurant.sourceIds.googleMapsUri,
+    );
+    if (listedOutletUrl && isBrowserReadPathProhibited(this.options.networkPolicy, listedOutletUrl)) {
+      return this.ground(candidate, request, {candidate, observedAt, sourceUrl: listedOutletUrl,
+        entityMatch: {confidence: "LOW", matchedBy: []}, pageState: "SOURCE_UNSUPPORTED", failureCode: "SOURCE_UNSUPPORTED",
+        excerpt: "This observed entrance is prohibited by the current source policy; neither identity nor inventory was read."});
+    }
     let retainedIdentity: { extraction: TableCheckOutletIdentityExtraction; inspection: ReturnType<typeof inspectTableCheckEntity> } | undefined;
     if (this.sessionsOpened >= (this.options.maxBrowserSessions ?? Number.POSITIVE_INFINITY)) {
       return this.ground(candidate, request, {
@@ -396,12 +407,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       session = await this.executor.acquire(signal, "TABLECHECK", "DISCOVERY", this.options.networkPolicy);
       const browser = { ...session.metadata };
       const discoveryUrl = tableCheckDiscoveryUrl(candidate);
-      const listedOutletUrl = firstListedTableCheckOutletUrl(
-        candidate.restaurant.sourceIds.tablecheckNativeGuideUri,
-        candidate.restaurant.sourceIds.googleListedTableCheckUri,
-        candidate.restaurant.sourceIds.googleWebsiteUri,
-        candidate.restaurant.sourceIds.googleMapsUri,
-      );
+
       // A Google-listed TableCheck URL is an observed entrance, not identity
       // proof. Keep it for later candidates only as a lead; every use below
       // still passes inspectTableCheckEntity before inventory is accepted.

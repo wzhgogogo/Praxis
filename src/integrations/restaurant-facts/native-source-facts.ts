@@ -105,6 +105,10 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "NATIVE_SOURCE_ID_MISSING" };
         continue;
       }
+      if (isBrowserReadPathProhibited(this.networkPolicy, sourceUrl)) {
+        factChecks[candidate.restaurant.id] = {status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "SOURCE_UNSUPPORTED"};
+        continue;
+      }
       const executor = new BrowserTaskExecutor(this.runtime, {
         ...this.limits,
         ...(this.modelDecision ? { modelDecision: this.modelDecision } : {}),
