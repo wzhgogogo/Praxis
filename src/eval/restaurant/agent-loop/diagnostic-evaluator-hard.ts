@@ -21,6 +21,7 @@ export interface HardCriterionEvidence {
 }
 export type HardSupportCode = "SOURCE_TEXT_ACCEPTED" | "REVIEWED_WITNESS_ACCEPTED" | "SOURCE_TEXT_PRESENT_NOT_ACCEPTED" | "CANNOT_INDEPENDENTLY_PROVE" | "PRESENTATION_CITATION_MISSING";
 export interface IndependentHardSupport {
+  supportObservation: "PRODUCT_OBSERVED" | "EXTERNAL_ONLY" | "NOT_ESTABLISHED";
   status: "MET" | "NOT_MET" | "NOT_CHECKED"; basis: string[]; evidenceRefs: string[];
   supportDiagnostics: Array<{ code: HardSupportCode; reason: string; refs: string[] }>;
   sourceScope?: { kind: "RESTAURANT_OFFERING"; meals: string[]; requestedCourseAvailability: "NOT_VERIFIED" };
@@ -83,6 +84,8 @@ export function assessIndependentHard(root: RunRecord, candidateId: string, crit
   artifactSha256: string, facts: EvidenceRecord[], context?: HardCriterionEvidence): IndependentHardSupport {
   const domain=root.finalSnapshot?.domainState, shown=domain?.presentedResults, diagnostics: IndependentHardSupport["supportDiagnostics"]=[];
   const result=(status: IndependentHardSupport["status"],basis:string[],refs:string[],meals?:string[]):IndependentHardSupport=>({status,basis,evidenceRefs:refs,supportDiagnostics:diagnostics,
+    supportObservation: status === "NOT_CHECKED" ? "NOT_ESTABLISHED" : diagnostics.some(d => d.code === "SOURCE_TEXT_ACCEPTED") ? "PRODUCT_OBSERVED"
+      : diagnostics.some(d => d.code === "REVIEWED_WITNESS_ACCEPTED") ? "EXTERNAL_ONLY" : "NOT_ESTABLISHED",
     ...(meals?{sourceScope:{kind:"RESTAURANT_OFFERING",meals,requestedCourseAvailability:"NOT_VERIFIED" as const}}:{})});
   if(!context||context.artifactSha256!==artifactSha256)return result("NOT_CHECKED",["No artifact-bound independent HARD HTML/witness input."],[]);
   const superseded=new Set([...(domain?.factChecks?.[candidateId]?.supersededEvidenceIds??[]),...(domain?.readEvidence??[]).flatMap(e=>e.supersedesEvidenceIds??[])]);

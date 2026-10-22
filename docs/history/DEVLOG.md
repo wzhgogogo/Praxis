@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.232
+- Document revision: 4.233
 - Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-22-CHECKPOINT-C-C18-FIELD-ROLE-EVALUATOR33-PREP
+
+依据复核fbb200ec开始用户批准连续步骤，当前仅离线第一步：字段⊇所选完整语句继承角色并保留所选原句；不扩成未选整字段。Evaluator33/rubric29分离产品已观察支持与外部支持，Kaga未知不再误记missed，S0和unsupported不放宽。两条有效红灯保留，初步相关159/159，准备提交冻结、重做C18展示回放/校准/五门禁。留出分支未打开；H005补跑尚未开始，必须先过第一步并在20:23前完成。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/plan.md).
 
 ## DEV-2026-10-22-CHECKPOINT-C-C18-OFFLINE-COMPLETE
 

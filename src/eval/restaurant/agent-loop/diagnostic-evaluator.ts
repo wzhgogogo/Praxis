@@ -24,8 +24,8 @@ import { assessUserConditions, loadSoftPreferenceObservations } from "./diagnost
 import type { CandidateConditionStates, SoftPreferenceObservations } from "./diagnostic-evaluator-preferences.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@32";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@28";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@33";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@29";
 
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
 
@@ -82,7 +82,7 @@ export interface RestaurantHybridDiagnosticEvaluation {
   pendingCriterionWordings: PendingCriterionWording[];
   conditionStates: CandidateConditionStates[];
   conditionEvidenceFindings: Array<{ candidateId: string; criterion: string; code: string; reason: string; refs: string[] }>;
-  conditionStateComparisons: Array<{ candidateId: string; text: string; displayed: string; independent: string; assessment: string }>;
+  conditionStateComparisons: Array<{ candidateId: string; text: string; displayed: string; independent: string; supportObservation: string; assessment: string }>;
   softPreferenceObservations: { path: string; sha256: string } | null;
   outcome: RunOutcome;
   severity: RunSeverity;
@@ -1204,12 +1204,20 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
       && (row.criterionRef !== undefined ? row.criterionRef === (actualCriterion.criterionRef ?? `criterion:${mapped!.actualIndex}`)
         : normalizeCriterion(row.text ?? "") === normalizeCriterion(actualCriterion.text ?? actualCriterion.value ?? ""))) : [];
     const displayed = matching.length === 1 ? matching[0] : undefined;
-    return { candidateId: candidate.candidateId, text: condition.text, criterionRef: actualCriterion?.criterionRef ?? (mapped ? `criterion:${mapped.actualIndex}` : null), matchMethod: mapped?.method ?? null, displayed: displayed?.status ?? "NOT_RECORDED", independent: condition.status,
+    return { candidateId: candidate.candidateId, text: condition.text, criterionRef: actualCriterion?.criterionRef ?? (mapped ? `criterion:${mapped.actualIndex}` : null), matchMethod: mapped?.method ?? null, displayed: displayed?.status ?? "NOT_RECORDED", independent: condition.status, supportObservation: condition.supportObservation,
       assessment: displayed?.status === "MET" && condition.status === "NOT_MET" ? "S0_DECLARATION"
         : displayed?.status === "MET" && condition.status === "NOT_CHECKED" ? "S1_UNSUPPORTED"
-        : displayed?.status === "NOT_CHECKED" && condition.status !== "NOT_CHECKED" ? "MISSED_KNOWN_CONDITION" : displayed ? "CONSISTENT" : "HISTORICAL_DISPLAY_NOT_RECORDED" };
+        : displayed?.status === "NOT_CHECKED" && condition.status !== "NOT_CHECKED"
+          ? condition.supportObservation === "PRODUCT_OBSERVED" ? "MISSED_KNOWN_CONDITION"
+            : condition.supportObservation === "EXTERNAL_ONLY" ? "PRODUCT_UNKNOWN_EXTERNAL_SUPPORT" : "SUPPORT_OBSERVATION_NOT_EVALUATED"
+          : displayed ? "CONSISTENT" : "HISTORICAL_DISPLAY_NOT_RECORDED" };
   }));
-  const conditionEvidenceFindings = conditionStates.flatMap(candidate => candidate.criteria.flatMap(condition => (condition.supportDiagnostics ?? []).map(diagnostic => ({ candidateId: candidate.candidateId, criterion: condition.text, ...diagnostic }))));
+  const conditionEvidenceFindings: RestaurantHybridDiagnosticEvaluation["conditionEvidenceFindings"] = conditionStates.flatMap(candidate => candidate.criteria.flatMap(condition => (condition.supportDiagnostics ?? []).map(diagnostic => ({ candidateId: candidate.candidateId, criterion: condition.text, ...diagnostic }))));
+  conditionEvidenceFindings.push(...conditionStateComparisons.filter(row => row.assessment === "PRODUCT_UNKNOWN_EXTERNAL_SUPPORT").map(row => ({
+    candidateId: row.candidateId, criterion: row.text, code: "PRODUCT_UNKNOWN_EXTERNAL_SUPPORT",
+    reason: "Independent truth relies only on external/reviewer support, not accepted product-observed supporting evidence. Honest NOT_CHECKED is not a display inconsistency.",
+    refs: conditionStates.find(c => c.candidateId === row.candidateId)?.criteria.find(c => c.text === row.text)?.evidenceRefs ?? [],
+  })));
   const missingCitations = candidateAssessments.flatMap((assessment, index) => assessment.observations.filter(value => /check evidence .* was not cited by presentation/.test(value)).map(reason => ({ candidateId: presentedIds[index]!, criterion: "PRESENTATION", code: "PRESENTATION_CITATION_MISSING", reason, refs: assessment.refs })));
   conditionEvidenceFindings.push(...missingCitations as typeof conditionEvidenceFindings);
   const falseStatuses = conditionStateComparisons.filter(row => row.assessment === "S0_DECLARATION");

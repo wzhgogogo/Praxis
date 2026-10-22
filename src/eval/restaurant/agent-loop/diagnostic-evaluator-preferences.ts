@@ -16,6 +16,7 @@ export interface SoftPreferenceObservations {
 export interface UserConditionState {
   goldIndex: number; text: string; polarity: string; strength: string; status: "MET" | "NOT_MET" | "NOT_CHECKED";
   basis: string[]; evidenceRefs: string[];
+  supportObservation: "PRODUCT_OBSERVED" | "EXTERNAL_ONLY" | "NOT_ESTABLISHED";
   supportDiagnostics?: IndependentHardSupport["supportDiagnostics"]; sourceScope?: IndependentHardSupport["sourceScope"];
 }
 export interface CandidateConditionStates { candidateId: string; criteria: UserConditionState[]; }
@@ -79,11 +80,11 @@ export function assessUserConditions(root: RunRecord, gold: SoftPreferenceObserv
     const sourceFacts = applicableEvidence(candidateId).filter(item => item.kind === "RESTAURANT_FACT" && item.provider !== "MODEL_JUDGMENT");
     return { candidateId, criteria: (root.materializedCase?.semantic?.criteria ?? []).map((criterion, index): UserConditionState => {
       const criterionText = criterion.value ?? criterion.text ?? "MISSING_CRITERION_TEXT", polarity = criterion.polarity ?? "MISSING", strength = criterion.strength ?? "MISSING";
-      const base = { goldIndex: index, text: criterionText, polarity, strength, evidenceRefs: [`materializedCase.semantic.criteria[${index}]`] };
+      const base = { goldIndex: index, text: criterionText, polarity, strength, supportObservation: "NOT_ESTABLISHED" as const, evidenceRefs: [`materializedCase.semantic.criteria[${index}]`] };
       if (!["POSITIVE", "NEGATIVE"].includes(polarity) || !["HARD", "SOFT", "UNSPECIFIED"].includes(strength) || criterionText === "MISSING_CRITERION_TEXT")
         return { ...base, status: "NOT_CHECKED", basis: ["The original criterion record lacks a valid text, polarity or strength."] };
       const rawPrice = independentPriceCondition(root, candidateId, criterionText, sourceFacts);
-      if (rawPrice && rawPrice.status !== "NOT_CHECKED") return { ...base, ...rawPrice,
+      if (rawPrice && rawPrice.status !== "NOT_CHECKED") return { ...base, ...rawPrice, supportObservation: "PRODUCT_OBSERVED",
         status: polarity === "NEGATIVE" ? rawPrice.status === "MET" ? "NOT_MET" : "MET" : rawPrice.status };
       const applicableGold = gold && strength === "SOFT" && polarity === "POSITIVE" && restaurant && frozenRun?.artifactSha256 === artifactSha256
         ? gold.observations.flatMap((row, observationIndex) => row.runIds.includes(frozenRun.runId) && matchesRestaurant(restaurant, row.restaurant)
@@ -91,6 +92,7 @@ export function assessUserConditions(root: RunRecord, gold: SoftPreferenceObserv
       if (applicableGold.length && gold) {
         const statuses = new Set(applicableGold.map(item => item.row.status));
         return { ...base, status: statuses.size === 1 ? applicableGold[0]!.row.status : "NOT_CHECKED",
+          supportObservation: statuses.size === 1 ? "EXTERNAL_ONLY" : "NOT_ESTABLISHED",
           basis: statuses.size === 1 ? applicableGold.map(item => `External observation by ${gold.observedBy} on ${gold.observedOn}: ${item.row.evidence}`) : ["Conflicting external observations; no status selected."],
           evidenceRefs: [...base.evidenceRefs, ...applicableGold.map(item => `${gold.path}#sha256=${gold.sha256}:observations[${item.observationIndex}]`)] };
       }
@@ -100,7 +102,7 @@ export function assessUserConditions(root: RunRecord, gold: SoftPreferenceObserv
       // Only an explicit source type statement equal to the condition can be
       // read literally here. A model-derived verified* label is not this oracle.
       const explicit = sourceFacts.filter(item => item.claims?.restaurantTypeFacts?.some(value => normalizeCriterion(criterionText) === normalizeCriterion(value)));
-      if (explicit.length) return { ...base, status: polarity === "POSITIVE" ? "MET" : "NOT_MET",
+      if (explicit.length) return { ...base, status: polarity === "POSITIVE" ? "MET" : "NOT_MET", supportObservation: "PRODUCT_OBSERVED",
         basis: explicit.flatMap(item => item.claims!.restaurantTypeFacts!.map(value => `Recorded source statement: ${value}`)),
         evidenceRefs: [...base.evidenceRefs, ...explicit.map(item => `finalSnapshot.domainState.readEvidence[evidenceId=${item.evidenceId}]`)] };
       return { ...base, status: "NOT_CHECKED", basis: ["No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."] };

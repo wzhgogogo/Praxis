@@ -124,7 +124,10 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       const documentScope = document.serviceScope;
       const quotes = statements.map(s => s!.text);
       const compact = (text: string) => text.normalize("NFKC").replace(/\s+/g, "");
-      const sourceFieldQuotes = (document.sourceFieldQuotes ?? []).filter(q => q.sourceUrl === identity.sourceUrl && quotes.some(text => compact(text).includes(compact(q.quote))));
+      // A selected line may be one part of a merchant category/description.
+      // Keep the selected words, borrowing only their containing field role.
+      const sourceFieldQuotes = (document.sourceFieldQuotes ?? []).flatMap(q => q.sourceUrl !== identity.sourceUrl ? []
+        : quotes.filter(text => compact(text) && compact(q.quote).includes(compact(text))).map(quote => ({ ...q, quote })));
       // Structured prices belong to the newly observed source document, not
       // to the model's selected type quotation or a superseded prior read.
       const prices = document.priceFacts;

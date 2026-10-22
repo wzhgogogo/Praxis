@@ -5,7 +5,7 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.9
+- Document revision: 2.10
 - Last updated: 2026-10-22
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
@@ -245,3 +245,7 @@ R6对无结果记录同时要求：终态failure、search failure或remainingGap
 缺口的实施顺序与验收在当期Playbook中规划；本表在缺口关闭时更新。
 
 真实模型、私有Holdout、Live和Controlled Live-write遵循当前合同、开关、用户授权和预算；开关不是授权。任何实际运行保留开始记录和结束/失败/取消记录，不覆盖已有artifact，不记录Secret、Cookie、挑战token、接管输入或原始Provider错误。
+
+## 条件支持与产品可知性
+
+Evaluator@33 / rubric@29将独立条件真值与产品可知性分开记录。MISSED_KNOWN_CONDITION仅用于产品已观察到的、可适用的原始来源支持：如同店同请求保存的价格区域、商家类别/课程原文或明确的当前来源语句。仅见证、复核者解释或外部标注支持而产品显示未核对，单列PRODUCT_UNKNOWN_EXTERNAL_SUPPORT，不作为展示不一致。来源原文与外部解释同时存在时，已接纳的产品来源支持优先，不能被外部依据掩盖。缺证仍未知；展示MET且独立NOT_MET仍为S0，展示MET无独立支持仍为S1_UNSUPPORTED；既有餐段、引用、身份、当前性与原始SHA约束不变。独立支持的真值不因产品不可知而改写。

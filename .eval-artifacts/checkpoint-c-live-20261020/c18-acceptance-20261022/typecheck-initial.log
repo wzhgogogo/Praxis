@@ -1,0 +1,9 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/diagnostic-evaluator.ts(1216,34): error TS2345: Argument of type '{ candidateId: string; criterion: string; code: string; reason: string; refs: string[]; }' is not assignable to parameter of type '{ code: HardSupportCode; reason: string; refs: string[]; candidateId: string; criterion: string; }'.
+  Types of property 'code' are incompatible.
+    Type 'string' is not assignable to type 'HardSupportCode'.
+src/eval/restaurant/agent-loop/fixed-source-acceptance.test.ts(23,25): error TS2322: Type '"restaurant-hybrid-read-diagnostic-evaluator@32"' is not assignable to type '"restaurant-hybrid-read-diagnostic-evaluator@33"'.
+src/eval/restaurant/agent-loop/fixed-source-acceptance.test.ts(23,93): error TS2322: Type '"restaurant-hybrid-read-diagnostic-rubric@28"' is not assignable to type '"restaurant-hybrid-read-diagnostic-rubric@29"'.

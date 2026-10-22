@@ -18,7 +18,7 @@ const card=(title:string,description="",href=url+"party/1/")=>`<div class="rstdt
 
 test("HARD32 merchant course/category literals have independent source and offering scope",()=>{
   for(const body of [card("Chef's Omakase Course"),card("Seasonal Course","An omakase meal using seasonal ingredients"),'<table><tr><th>Categories</th><td>Omakase, Sushi</td></tr></table>']) {
-    const f=fixture(body);assert.equal(f.assess().status,"MET");assert.equal(f.assess().sourceScope?.requestedCourseAvailability,"NOT_VERIFIED");
+    const f=fixture(body);assert.equal(f.assess().status,"MET");assert.equal(f.assess().supportObservation,"PRODUCT_OBSERVED");assert.equal(f.assess().sourceScope?.requestedCourseAvailability,"NOT_VERIFIED");
     assert.equal(f.assess("omakase","NEGATIVE").status,"NOT_MET");
   }
 });
@@ -54,6 +54,9 @@ test("HARD32 manually reviewed witness is bounded to outlet, request, original r
   const certificationText=JSON.stringify({validUntil:"2026-10-22T10:00:00Z",variants:[{caseId:"fixture",date:"2026-11-03",earliest:"19:00",partySize:2,witnesses:[{rst_id:"11111111",classification:"KNOWN_FEASIBLE_SUPPORTED",hardEvidence:[{criterion:"kaiseki",quote:"Private rooms to Kaiseki"}]}]}]});
   f.context.witnesses=[{candidateId:"candidate-a",sourceUrl:url,criterion:"kaiseki",quote:"Private rooms to Kaiseki",caseId:"fixture",date:"2026-11-03",time:"19:00",partySize:2,artifactSha256:artifactSha,path:"witness.json",sha256:sha(sourceText),sourceText,reviewedBy:"INDEPENDENT_REVIEWER",reviewPath:"review.md",reviewSha256:sha(reviewText),reviewText,certificationPath:"certified.json",certificationSha256:sha(certificationText),certificationText}];
   assert.equal(f.assess("kaiseki").status,"MET");assert.ok(f.assess("kaiseki").supportDiagnostics.some(x=>x.code==="REVIEWED_WITNESS_ACCEPTED"));
+  assert.equal(f.assess("kaiseki").supportObservation,"EXTERNAL_ONLY");
   for(const field of ["candidateId","caseId","date","time","partySize","artifactSha256","quote","sha256","reviewSha256","certificationSha256"] as const){const original=f.context.witnesses[0]![field];(f.context.witnesses[0] as any)[field]=field==="partySize"?3:"wrong";assert.equal(f.assess("kaiseki").status,"NOT_CHECKED",field);(f.context.witnesses[0] as any)[field]=original;}
+  const observed=fixture(card("Kaiseki Course"));observed.context.witnesses=structuredClone(f.context.witnesses);
+  assert.equal(observed.assess("kaiseki").supportObservation,"PRODUCT_OBSERVED","an additional witness cannot hide supporting merchant fields that the product actually observed");
   f.context.witnesses=[];assert.equal(f.assess("kaiseki").status,"NOT_CHECKED","name-only product input remains unproven without explicit reviewer oracle");
 });

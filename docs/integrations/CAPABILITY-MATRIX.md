@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.78
+- Document revision: 1.79
 - Last updated: 2026-10-22
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -329,3 +329,5 @@ Harness: three prior h001 recordings retain six identical raw HTML snapshots (on
 2026-10-20 P2-1c真实发现诊断：当前集成源码不变，神乐坂两次A1309/A130905（TL5/TC5）、中目黑两次A1317/A131701（TL4/TC5）、h001一次A1303（TL4/TC5，原见证首批保留）；79–113秒/例、每例4模型，无失败码或READ_BUDGET_EXCEEDED。五次真实只读boundary审计ABSENT，0完整Live/库存/外写。本轮已暴露开发诊断，不作整体成功率；Recorder仍NOT_REPLAYABLE/UNSAFE_DOCUMENT，跨来源缓存消费不由这个按源Runner评价。20模型/23Google，仅存储上限经用户批准65MB；[原始报告/评价](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)。
 
 2026-10-22 same-read Tabelog price retention (offline; checkpoint-C prep): NativeSourceFactRead attaches existing parser-owned restaurant-price-facts@1 to the current source document; ModelRestaurantFactJudgment keeps same-source prices private and forwards them to current source evidence. Source identity/currentness/supersession and condition policy are unchanged. Saved C12/C16 replay tests cover all three H002 missing-price rows via actual native producer, scripted judgment and Router->Reducer; model payload invariance and cross-source rejection are covered. No new navigation, requests, Guard permissions or real model calls. Merchant course availability remains unverified. See ../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md.
+
+2026-10-22 merchant field containment repair (offline): Native fact judgment retains the original selected statement and inherits its containing parser-owned field role (field contains statement). Existing same-candidate/HIGH identity/source binding, review/neighbor/hidden exclusion and meal limits are unchanged. Harness: saved C18 four split-tempura judgment->Router->Reducer controls; field quote parser hidden/review/neighbor controls; model payload/cross-candidate tests. No extra requests, model calls, navigation or Guard permissions. Eval33/rubric29 separately records product-observed versus external-only support.

@@ -2138,3 +2138,29 @@ test("HARD32 retained merchant course title independently establishes omakase", 
   assert.equal(result.findings.find(f => f.dimension === "REQUIRED_EVIDENCE")?.status, "SATISFIED", "independent inventory and existing source lineage must be complete before testing HARD32");
   assert.equal(result.conditionStates.find(c => c.candidateId === candidateId)?.criteria[0]?.status, "MET", "original merchant course card, not normalized verifiedHardCriteria, supports omakase");
 });
+
+test("C18 Kaga external witness support is separate from product-known display evidence", async () => {
+  const { loadHardCriterionEvidence } = await import("./diagnostic-evaluator-hard.js");
+  const base = ".eval-artifacts/checkpoint-c-live-20261020", dir = `${base}/c18-offline-reassessment-20261022`;
+  const lineage = JSON.parse(await readFile(`${dir}/display-replay-lineage.json`, "utf8"));
+  const row = lineage.rows.find((r: any) => r.runId === "c-05"), bytes = await readFile(row.derivedArtifactPath), artifact = JSON.parse(bytes.toString());
+  assert.equal(createHash("sha256").update(bytes).digest("hex"), row.derivedArtifactSha256);
+  const post = JSON.parse(await readFile(`${row.attempt}/post-run/post-check.json`, "utf8"));
+  const options = {
+    criterionCorrespondences: loadCriterionCorrespondences(resolve(`${dir}/display-derived-correspondences.json`)),
+    hardEvidence: loadHardCriterionEvidence(`${dir}/display-derived-hard-evidence.json`, row.derivedArtifactSha256),
+    postDeliveryTabelog: post.rows.filter((r: any) => r.raw?.status === 200).map((r: any) => loadPostDeliveryTabelogObservation(r.raw.metadataPath, r.raw.bodyPath)),
+  };
+  const evaluate = () => evaluateRestaurantHybridLiveArtifact(artifact, { path: row.derivedArtifactPath, sha256: row.derivedArtifactSha256 }, options);
+  const kaga = "tabelog:en/tokyo/A1309/A130905/13048623";
+  const external = evaluate();
+  const comparison = external.conditionStateComparisons.find(c => c.candidateId === kaga && c.text === "kaiseki")!;
+  assert.equal(comparison.independent, "MET", "reviewed external truth remains supported");
+  assert.equal(comparison.displayed, "NOT_CHECKED", "honest product uncertainty is retained");
+  assert.equal(comparison.assessment, "PRODUCT_UNKNOWN_EXTERNAL_SUPPORT", "external-only support must not be called a missed product observation");
+  // A displayed unsupported assertion is still flagged even though unknown
+  // external support is no longer called a display mismatch.
+  options.hardEvidence.witnesses = [];
+  artifact.finalSnapshot.domainState.presentedResults.conditionStates[kaga][0].status = "MET";
+  assert.equal(evaluate().conditionStateComparisons.find(c => c.candidateId === kaga && c.text === "kaiseki")!.assessment, "S1_UNSUPPORTED");
+});

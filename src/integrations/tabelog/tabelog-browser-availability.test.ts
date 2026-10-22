@@ -785,13 +785,13 @@ test("Tabelog existing read grounds recorded course prices even when inventory i
 test("Tabelog field quotations retain merchant courses separately from names/reviews and reject neighboring courses", async () => {
   const url="https://tabelog.com/en/tokyo/A0000/A000000/11111111/";
   const card=(title:string,href=url+"party/1/")=>`<div class="rstdtl-course-list js-rstdtl-course-list"><a href="${href}"><span class="rstdtl-course-list__course-title-text">${title}</span></a><p class="rstdtl-course-list__desc">Dinner bookings handled separately</p></div>`;
-  const html=`<h2 class="display-name">Omakase House</h2><div class="rstdtl-rvw"><a class="rstdtl-rvw__title-target">Wonderful Kaiseki</a>${card("Review Omakase Course")}</div><aside>${card("Neighbor Omakase")}</aside>${card("Lunch Omakase Course")}${card("Foreign Omakase",url.replace("11111111","22222222")+"party/1/")}<table class="rstinfo-table__table"><tr><th>Categories</th><td>Sushi, Japanese Cuisine</td></tr></table>`;
+  const html=`<h2 class="display-name">Omakase House</h2><div class="rstdtl-rvw"><a class="rstdtl-rvw__title-target">Wonderful Kaiseki</a>${card("Review Omakase Course")}</div><aside>${card("Neighbor Omakase")}</aside>${card("Lunch Omakase Course")}<div hidden>${card("Hidden Omakase")}</div><div aria-hidden="true">${card("Aria Hidden Omakase")}</div><div class="is-hidden">${card("Class Hidden Omakase")}</div>${card("Foreign Omakase",url.replace("11111111","22222222")+"party/1/")}<table class="rstinfo-table__table"><tr><th>Categories</th><td>Sushi, Japanese Cuisine</td></tr></table>`;
   const q=parseTabelogSourceFieldQuotes({url,title:"Source",text:"",html});
   assert.ok(q.some(q=>q.field==="NAME"&&q.quote==="Omakase House"));
   assert.ok(q.some(q=>q.field==="CUSTOMER_REVIEW"&&q.quote==="Wonderful Kaiseki"));
   assert.ok(q.some(q=>q.field==="COURSE_TITLE"&&q.quote==="Lunch Omakase Course"&&q.meal==="LUNCH"));
   assert.ok(q.some(q=>q.field==="CATEGORY"&&q.quote==="Sushi, Japanese Cuisine"));
-  assert.ok(!q.some(q=>/Review Omakase|Neighbor Omakase|Foreign Omakase/.test(q.quote)));
+  assert.ok(!q.some(q=>/Review Omakase|Neighbor Omakase|Foreign Omakase|Hidden Omakase/.test(q.quote)));
   const root=new URL("../../../.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/",import.meta.url);
   for(const [file,id,hasCourse] of [["snapshot-0033.html","13300814",true],["snapshot-0034.html","13048623",false]] as const){
     const actual=parseTabelogSourceFieldQuotes({url:`https://tabelog.com/en/tokyo/A1309/A130905/${id}/`,title:"Saved source",text:"",html:await readFile(new URL(file,root),"utf8")});
