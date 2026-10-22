@@ -1,0 +1,90 @@
+{
+  "schema": "phase2b-source-capability-diagnosis@1",
+  "status": "USER_CONFIRMED_SKIP_ONE_MERCHANT",
+  "finding": "The evaluated English merchant page does not expose booking parameters/find_vacancy, but the witness-preparation script generated the endpoint from every restaurant ID without an online capability check. Same-network/same-date-party-time comparison merchant exposes booking-enabled=1 and returns HTTP200 JSON. Browser/AJAX headers do not make the affected endpoint work (HTTP400 JSON {}).",
+  "scope": "Evidence supports the specific English merchant entry limitation; no assertion about all Tabelog, all online reservation channels, or Tabelog internal server rules.",
+  "rows": [
+    {
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/kawakami-browser-headers.attempt-1.metadata.json",
+      "metadataSha256": "08b8f6ce13ab77bd0b456c2adc70f42a76b9c067f687f481c8da1922097ed218",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13004546&svd=20261103&svps=3&svt=1900",
+      "status": 400,
+      "responseSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "requestedAt": "2026-10-22T19:25:16.962Z",
+      "finishedAt": "2026-10-22T19:25:18.010Z",
+      "classification": "READ_ONLY_DIAGNOSIS_NOT_CERTIFICATION",
+      "bodyPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/kawakami-browser-headers.attempt-1.body"
+    },
+    {
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/kawakami-ja-page.attempt-1.metadata.json",
+      "metadataSha256": "cd7b6e90d6e1d510bac4eb52f1aa2fb59831e5532dbbdffe7565502f174c3a10",
+      "url": "https://tabelog.com/tokyo/A1307/A130702/13004546/",
+      "status": 403,
+      "responseSha256": "5ea32001cdd24ff62543970a0eac894e7f8a2710604c037424f0e55c9d510de0",
+      "requestedAt": "2026-10-22T19:27:56.973Z",
+      "finishedAt": "2026-10-22T19:27:58.074Z",
+      "classification": "READ_ONLY_DIAGNOSIS_NOT_CERTIFICATION",
+      "statusDetail": "Japanese alternate page returned 403 busy HTML. Optional diagnostic stopped on user instruction; no second request, not evidence about merchant booking capability."
+    },
+    {
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/kawakami-page.attempt-1.metadata.json",
+      "metadataSha256": "195fdf06ca7a2289d94226d74f3d6bea288189ca6a9771a5cbb872d26645828a",
+      "url": "https://tabelog.com/en/tokyo/A1307/A130702/13004546/",
+      "status": 200,
+      "responseSha256": "f6ffdfbd9bfac3645a9479e8e8f8064d5d7f5a3841a1b78e27a29a8027ba444b",
+      "requestedAt": "2026-10-22T19:22:30.366Z",
+      "finishedAt": "2026-10-22T19:22:33.098Z",
+      "classification": "READ_ONLY_DIAGNOSIS_NOT_CERTIFICATION",
+      "businessBookingEvidence": {
+        "bookingParametersTag": null,
+        "bookingParametersTagSha256": null,
+        "findVacancyMentions": 0,
+        "onlineReservationHeadings": 0,
+        "reservationAvailabilityRow": "<tr>\n                    <th>\n                      Reservation availability\n                    </th>\n                    <td>\n                      <p class=\"rstinfo-table__reserve-status\">Reservations available\n                      </p>\n                    </td>\n                  </tr>",
+        "reservationAvailabilityRowSha256": "39fe27e391166e95422af86349b7899a05c69f733239a64beb72a9e81606fc44",
+        "fullHtmlPrivacy": "Full public HTML retained only in private temporary diagnostic files; unrelated user review text not copied into repository."
+      }
+    },
+    {
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/sasaya-page.attempt-1.metadata.json",
+      "metadataSha256": "2107be727244f4bb37ac2722b04257c3c39ac590993f8131c1c1e0ce655366fd",
+      "url": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+      "status": 200,
+      "responseSha256": "cb1483704636ec8f7a274b23483096138eba380bf8646a1e13709fe83b3160f1",
+      "requestedAt": "2026-10-22T19:23:03.099Z",
+      "finishedAt": "2026-10-22T19:23:04.774Z",
+      "classification": "READ_ONLY_DIAGNOSIS_NOT_CERTIFICATION",
+      "businessBookingEvidence": {
+        "bookingParametersTag": "<div id=\"js-booking-params\" class=\"u-hidden\" data-rst-id=\"13316569\" data-booking-enabled=\"1\" data-fetch-url=\"https://tabelog.com/en/booking/calendar/find_vacancy/\" data-fetch-url-date=\"https://tabelog.com/en/booking/calendar/find_vacancy_date_with_status/\" data-fetch-url-member=\"https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date/\" data-fetch-url-initial-vacancy=\"https://tabelog.com/en/booking/calendar/initial_vacancy\">",
+        "bookingParametersTagSha256": "3f11f8c1a3a6f17c81dbc9895cefcb1c8bfe82a76d1a81b8bd4fd97447cda90a",
+        "findVacancyMentions": 3,
+        "onlineReservationHeadings": 1,
+        "reservationAvailabilityRow": "<tr>\n                    <th>\n                      Reservation availability\n                    </th>\n                    <td>\n                      <p class=\"rstinfo-table__reserve-status\">Reservations available\n                      </p>\n                    </td>\n                  </tr>",
+        "reservationAvailabilityRowSha256": "39fe27e391166e95422af86349b7899a05c69f733239a64beb72a9e81606fc44",
+        "fullHtmlPrivacy": "Full public HTML retained only in private temporary diagnostic files; unrelated user review text not copied into repository."
+      }
+    },
+    {
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/sasaya-same-query-control.attempt-1.metadata.json",
+      "metadataSha256": "abfd0e0ec444d33e375984341a3ed3ec3456bf88a76eccadd805beb5c63bb300",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13316569&svd=20261103&svps=3&svt=1900",
+      "status": 200,
+      "responseSha256": "83380a27445b923bd503b5bc49af6de0114571cba43714d1b88d257120ea109e",
+      "requestedAt": "2026-10-22T19:23:34.776Z",
+      "finishedAt": "2026-10-22T19:23:35.882Z",
+      "classification": "READ_ONLY_DIAGNOSIS_NOT_CERTIFICATION",
+      "bodyPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/sasaya-same-query-control.attempt-1.body"
+    }
+  ],
+  "newSourceRequests": 5,
+  "models": 0,
+  "fullLiveRuns": 0,
+  "environmentReruns": 0,
+  "userSkipRecord": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/user-skip-kawakami.json",
+  "japaneseOptionalProbe": {
+    "status": "STOPPED_BY_USER",
+    "attempts": 1,
+    "cooldownUntil": "2026-10-22T19:42:58.074Z",
+    "noFurtherRequestsBeforeCooldown": true
+  }
+}
