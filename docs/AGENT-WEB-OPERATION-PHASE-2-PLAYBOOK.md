@@ -1,8 +1,8 @@
 # Agent 网站操作第二阶段 Playbook
 
 - Status: Approved（用户 2026-10-16 22:29 批准，第 9 节四项均按建议）
-- Document revision: 0.3
-- Last updated: 2026-10-19
+- Document revision: 0.4
+- Last updated: 2026-10-22
 - Evidence status: draft / not integrated；开发集已暴露，非 Clean Baseline
 - Source of truth for: 第二阶段的目标、工作包顺序、用例集、退出条件、预算与停止规则；不替代 Accepted ADR、Gold 或 Eval Skill
 - Related documents:
@@ -161,3 +161,7 @@ E1 之后，第二阶段的每次改动都可以用可信的离线测试和评�
 - **2026-10-20 用户决定：取消 P2-1 单独的 12 次完整 Live。** P2-1 以检查点 B（10 次找店探测）收尾，完整 Live 直接在检查点 C 进行（P2-1、P2-2、P2-3 合并，18 次）。理由：节省时间；P2-1 的找店效果已由检查点 A、B 的探测单独测量，检查点 C 的完整运行同时覆盖它。代价：P2-1 对完整结果的单独贡献不再有 Live 数据，只能靠探测和离线测试归因。Live 预算估算相应改为：检查点 C 18 次 + 留出集 18 次 = 36 次。
 - **2026-10-20 用户批准留出集**（6 例）。原文只在 Claude 项目中；仓库只保存 SHA 承诺：`.eval-artifacts/phase2-holdout/commitment.json`（文件 SHA `cb0efa94…`）。退出检查时按承诺核对原文。
 - **2026-10-20 用户批准：P2-1 探测上限 55 → 60 次**，用于 P2-1c 地区入口验证（神乐坂 ×2、中目黑 ×2、h001 对照 ×1，在集成分支上运行）。模型调用仍在 P2-1 的 450 次以内（预计约 400 次）。见 P2-1c 复核 `ddfdedd`。
+
+### 2026-10-22 用户明确的 c17 额外补跑
+
+用户在一次已批准c17补跑因两次10秒模型TIMEOUT且零交付后，明确要求“再试一次，把模型时间留多点”。据此只额外批准c17一次，Agent/Browser决策请求上限10→30秒；整次500秒/50模型/40Google、S0停止与只读边界不变，不新增自动重试。原CAPABILITY_MISS保留，这次用户特批不追溯归类为ENV_FAILURE；预算保守再计1次正式重跑，累计仍受全阶段10次限制。新运行@33 QD、3家交付、6条件一致，H005达到2/3，其余TARGET各3/3。原C18与新配置分开冻结，见准备分支c17-timeout-retry-20261022报告。留出阶段仍按既有连续授权与机械门槛执行。

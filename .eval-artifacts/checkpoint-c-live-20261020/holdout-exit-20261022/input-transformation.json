@@ -1,0 +1,94 @@
+{
+  "status": "PASS",
+  "originalFileSha256": "cb0efa949f21fc0c19c7a6fd48e6a51c1848bb722c795b0ccd51213c43ecb98e",
+  "commitmentSha256": "3eecc57e2366fc5cd6e9e989f54387b7134a43b8c5dfe5aa7ccd4ee39b9bff28",
+  "exitDatesSha256": "0a64122da48f36128399f44cf86ae3225941b7f633c801b68b53721392e4467c",
+  "runnerInputSha256": "79d899407c464daea2541733685e65084b5d1d045e56223e070d3dd345cb5a16",
+  "changes": [
+    {
+      "id": "p2-holdout-01",
+      "originalCaseSha256": "60e8905ebdfeeae8440d85016b4a49b7ee2b4880e8e05e60d08ea102cb0a2f98",
+      "date": "2026-11-04",
+      "weekday": "Wednesday",
+      "changes": [
+        "content {DATE} -> approved display date",
+        "semantic.date placeholder -> approved explicit date",
+        "acceptance date placeholder -> approved ISO date",
+        "Runner metadata only: dataset/reference_time; weekday/fallback retained in source manifest"
+      ],
+      "otherSemanticAndAcceptanceWordingUnchanged": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "p2-holdout-02",
+      "originalCaseSha256": "d28422c5074abd9dc0f0fcc271304380caa75ecb722435262ae910ef6c1b0d81",
+      "date": "2026-10-30",
+      "weekday": "Friday",
+      "changes": [
+        "content {DATE} -> approved display date",
+        "semantic.date placeholder -> approved explicit date",
+        "acceptance date placeholder -> approved ISO date",
+        "Runner metadata only: dataset/reference_time; weekday/fallback retained in source manifest"
+      ],
+      "otherSemanticAndAcceptanceWordingUnchanged": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "p2-holdout-03",
+      "originalCaseSha256": "fe51ada02be9f5391ec57bf402a7be44cbc590171ac94e917b3c3d0aa095cbb3",
+      "date": "2026-10-29",
+      "weekday": "Thursday",
+      "changes": [
+        "content {DATE} -> approved display date",
+        "semantic.date placeholder -> approved explicit date",
+        "acceptance date placeholder -> approved ISO date",
+        "Runner metadata only: dataset/reference_time; weekday/fallback retained in source manifest"
+      ],
+      "otherSemanticAndAcceptanceWordingUnchanged": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "p2-holdout-04",
+      "originalCaseSha256": "10588c5ea665ed2d1c0bb2f9b14016ed908d14459d257fb18021bc29d0cf075e",
+      "date": "2026-11-03",
+      "weekday": "Tuesday",
+      "changes": [
+        "content {DATE} -> approved display date",
+        "semantic.date placeholder -> approved explicit date",
+        "acceptance date placeholder -> approved ISO date",
+        "Runner metadata only: dataset/reference_time; weekday/fallback retained in source manifest"
+      ],
+      "otherSemanticAndAcceptanceWordingUnchanged": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "p2-holdout-05",
+      "originalCaseSha256": "8881b32353350166a40cda8aaecf3aa9020fd189e018dea6b76ab1972872c81e",
+      "date": "2026-10-31",
+      "weekday": "Saturday",
+      "changes": [
+        "content {DATE} -> approved display date",
+        "semantic.date placeholder -> approved explicit date",
+        "acceptance date placeholder -> approved ISO date",
+        "Runner metadata only: dataset/reference_time; weekday/fallback retained in source manifest"
+      ],
+      "otherSemanticAndAcceptanceWordingUnchanged": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "p2-holdout-06",
+      "originalCaseSha256": "8c4c9c3b8bdd44b5946f8c18514a7d05c1928efd2ffc12f4044ba7030415aa75",
+      "date": "2026-10-30",
+      "weekday": "Friday",
+      "changes": [
+        "content {DATE} -> approved display date",
+        "semantic.date placeholder -> approved explicit date",
+        "acceptance date placeholder -> approved ISO date",
+        "Runner metadata only: dataset/reference_time; weekday/fallback retained in source manifest"
+      ],
+      "otherSemanticAndAcceptanceWordingUnchanged": true,
+      "fallbackUsed": false
+    }
+  ],
+  "rule": "Only approved dates materialized. Runtime envelope metadata and date.value are necessary Runner format, not changed user conditions. No production code or prompts edited after opening."
+}
