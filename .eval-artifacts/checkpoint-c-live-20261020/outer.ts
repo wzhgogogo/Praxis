@@ -21,7 +21,8 @@ const quick=values['run-ids']!==undefined,runs=executionRuns(plan,{runIds:values
 const authorizationAction=quick?'CHECKPOINT_C_QUICK_VALIDATION':resume?'CHECKPOINT_C_RESUME':'CHECKPOINT_C_LIVE_18';
 const ledgerPath=values.ledger??base+'/phase2-ledger.json';
 const ledger=JSON.parse(readFileSync(ledgerPath,'utf8'));
-const budget=checkStageBudget(ledger,plan);
+const budget=checkStageBudget(ledger,resume||offline?{...plan,runs,maxTotalReruns:0}:plan);
+if(resume&&budget.remaining.environmentReruns<1)throw Error("GLOBAL_ENVIRONMENT_RETRY_BUDGET_NOT_AVAILABLE");
 for(const source of ledger.sources)if(frozen.files[source.path]!==source.sha256||sha(readFileSync(source.path))!==source.sha256)throw Error('FROZEN_LEDGER_EVIDENCE_MISMATCH');
 if(!offline){
  if(!values.approval||!values.registry)throw Error('EXPLICIT_USER_APPROVAL_CERTIFIED_REGISTRY_AND_GLOBAL_BUDGET_LEDGER_REQUIRED');

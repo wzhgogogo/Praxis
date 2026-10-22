@@ -61,6 +61,6 @@ test('failed independent post-run read preserves evaluation and reports an evide
  const dir=mkdtempSync(base+'/post-read-control-');const registry={variants:[{variantId:artifact.materializedCase.id,date:'2026-11-03',partySize:2,earliest:'19:00',witnesses:[{outletName:'Scripted witness',sourceUrl:'https://tabelog.com/en/tokyo/A1303/A130301/13261619/',hardEvidence:[]}]}]};
  try{const registryPath=resolve(dir,'registry.json');writeFileSync(registryPath,JSON.stringify(registry));const post=resolve(dir,'post');await postCheck(artifact,registry,post,async()=>{throw Error('SCRIPTED_TRANSPORT_FAILURE');});
  const evaluated=evaluateAttempt({resultPath,directory:dir,run:plan.runs[0],mode:'LIVE_READ_ONLY',registryPath,postPath:resolve(post,'post-check.json'),freezeSha256:'0'.repeat(64)});
- assert.equal(evaluated.summary.independentPostDeliveryEvidenceComplete,false);assert.ok(evaluated.summary.postEvidenceGaps.length);assert.ok(evaluated.evaluation.evaluatorVersion.endsWith('@31'));
+ assert.equal(evaluated.summary.independentPostDeliveryEvidenceComplete,false);assert.ok(evaluated.summary.postEvidenceGaps.length);assert.ok(evaluated.evaluation.evaluatorVersion.endsWith('@33'));
  }finally{rmSync(dir,{recursive:true});}
 });

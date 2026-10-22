@@ -1,4 +1,8 @@
 // The only subset authorized here is the separate three-run quick validation.
+/** @param {{runs: any[]}} plan
+ * @param {{runIds?: string, offline?: boolean, resume?: any}} options
+ * @returns {any[]}
+ */
 export function executionRuns(plan,{runIds,offline=false,resume}={}){
  if(runIds===undefined)return offline?plan.runs.slice(0,1):resume?resume.runs:plan.runs;
  if(resume)throw Error('RUN_IDS_CANNOT_COMBINE_WITH_RESUME');

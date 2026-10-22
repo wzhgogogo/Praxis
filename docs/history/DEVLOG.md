@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.236
+- Document revision: 4.237
 - Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-22-CHECKPOINT-C-C17-RETRY-INPUTS
+
+离线补修通过后按用户连续授权准备c17唯一环境重跑：resume@3验证原18份、TypeError独立复查失败、复核SHA和第一步五门禁/七条展示门槛。外层绑定@33/rubric29并按1次预留50模型，原18顺序/预算/停止规则不变；HARD仅绑定运行自身原始快照与当前已复核见证。留出集仍未打开。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/plan.md).
 
 ## DEV-2026-10-22-CHECKPOINT-C-BIDIRECTIONAL-PASS
 

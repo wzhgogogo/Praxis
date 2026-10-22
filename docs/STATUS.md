@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.339
+- Document revision: 4.340
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 Checkpoint C c17-retry-inputs:** 离线补修通过后按用户连续授权准备c17唯一环境重跑：resume@3验证原18份、TypeError独立复查失败、复核SHA和第一步五门禁/七条展示门槛。外层绑定@33/rubric29并按1次预留50模型，原18顺序/预算/停止规则不变；HARD仅绑定运行自身原始快照与当前已复核见证。留出集仍未打开。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/plan.md).
 
 - **2026-10-22 Checkpoint C bidirectional-pass:** 第一步双向字段引文补修通过：同一C18的40条展示对照38 CONSISTENT、2 PRODUCT_UNKNOWN_EXTERNAL_SUPPORT，天妇罗4/4、Utou3/3均一致，0 unsupported/missed；校准22/22，五门禁998+131全绿。网站、模型、Live均0；旧原始及评价SHA保持。连续授权下一步为c17唯一环境补跑，留出集尚未打开。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/four-layer-report.md).
 
