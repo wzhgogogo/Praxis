@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.246
+- Document revision: 4.247
 - Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-22-CHECKPOINT-C-HOLDOUT-EVALUATION-INPUTS
+
+离线评价前已同步dfdb175b：9原产物9等价对应，6对拒绝（含1个SOFT偏差、5交叉配对）。例02三次的语义事实与最终意图均保留结构预算8000JPY；单独登记原SHA与字段路径，未补造价格核对或展示。为不改Evaluator33建立3个仅预算表示投影的评价视图，原始字节与原始33评价保留。阶段起点025940c5审计站点目录3591→3809行、含混合文件5638→6279行，退出6不满足；共享生产层新增常量候选0。准备提交冻结后用网络阻断器评价全部18份，不改产品、不跑模型或Live。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/plan.md).
 
 ## DEV-2026-10-22-CHECKPOINT-C-HOLDOUT-AWAITING-WORDINGS
 

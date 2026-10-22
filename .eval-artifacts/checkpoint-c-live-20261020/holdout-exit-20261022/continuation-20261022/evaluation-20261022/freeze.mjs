@@ -1,0 +1,12 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+const base='.eval-artifacts/checkpoint-c-live-20261020',source=`${base}/holdout-exit-20261022/continuation-20261022`,dir=`${source}/evaluation-20261022`;
+const sha=b=>createHash('sha256').update(b).digest('hex'),files={};
+const names=execFileSync('git',['ls-files','-z','src','scripts','web-skills','package.json','package-lock.json','tsconfig.json','tsconfig.build.json',`${base}/offline-deny.mjs`,`${base}/reviewed-reads.json`,`${base}/tablecheck-post-review.mjs`,`${base}/holdout-exit-20261022`,`${base}/c17-timeout-retry-20261022/gates.json`,`${base}/c17-timeout-retry-20261022/delivery-freeze.json`,`${base}/c18-bidirectional-acceptance-20261022/display-evaluation-freeze.json`,`${base}/c18-bidirectional-acceptance-20261022/calibration/comparison.json`],{encoding:'utf8',maxBuffer:32*1024*1024}).split('\0').filter(Boolean);
+for(const p of names)files[p]=sha(await fs.readFile(p));
+const dirty=execFileSync('git',['status','--porcelain','--untracked-files=no'],{encoding:'utf8'});assert.equal(dirty,'','Commit all evaluation inputs and scripts before freezing');
+const freeze={schema:'holdout-offline-evaluation-freeze@1',status:'frozen regression; exposed once-only holdout, no future Clean claims',codeCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),evaluator:'restaurant-hybrid-read-diagnostic-evaluator@33',rubric:'restaurant-hybrid-read-diagnostic-rubric@29',newModels:0,newWebsites:0,newLive:0,sourceLiveFreezeSha256:sha(await fs.readFile(`${source}/live-freeze.json`)),files:Object.fromEntries(Object.entries(files).sort(([a],[b])=>a.localeCompare(b)))};
+const output=path.join(dir,'evaluation-freeze.json');await fs.writeFile(output,JSON.stringify(freeze,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({path:output,files:names.length,sha256:sha(await fs.readFile(output)),codeCommit:freeze.codeCommit}));

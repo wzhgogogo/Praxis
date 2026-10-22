@@ -1,0 +1,334 @@
+{
+  "schema": "phase2-generality-audit@1",
+  "status": "NOT_SATISFIED",
+  "baseline": {
+    "commit": "025940c5e7c0b51d7cba56061bfae827b9c6ac5e",
+    "authority": "Phase 2 Playbook §1 starts after signed E1; 025940c5 approved Phase 2 before P2-1 implementation. The immediately prior E1 signoff d6031c48 has the same relevant production files.",
+    "priorSignoff": "d6031c48"
+  },
+  "currentCommit": "dfdb175bf4e166be4a4efb0a9a57d799ff77a2fc",
+  "countingRule": "Production TypeScript only, no tests, fixtures, eval, harness or generated dependencies. Primary narrow scope is complete Tabelog/TableCheck directories. Expanded scope adds whole integration files containing either provider plus native restaurant search/source packs; mixed whole files are conservative, not credited as exclusively site-specific. Physical total includes blank/comment lines; nonblank is also shown. These are reproducible source-file lines, not parser-dependent statements. Both scopes must not increase to certify the requirement.",
+  "scopes": [
+    {
+      "scope": "provider-directories",
+      "files": 12,
+      "before": {
+        "physical": 3591,
+        "nonblank": 3399
+      },
+      "after": {
+        "physical": 3809,
+        "nonblank": 3605
+      },
+      "delta": {
+        "physical": 218,
+        "nonblank": 206
+      }
+    },
+    {
+      "scope": "provider-and-mixed-files",
+      "files": 20,
+      "before": {
+        "physical": 5638,
+        "nonblank": 5375
+      },
+      "after": {
+        "physical": 6279,
+        "nonblank": 5995
+      },
+      "delta": {
+        "physical": 641,
+        "nonblank": 620
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "src/integrations/restaurant-availability/contracts.ts",
+      "scope": "mixed-provider-containing-production-file",
+      "before": {
+        "physical": 12,
+        "nonblank": 11
+      },
+      "after": {
+        "physical": 12,
+        "nonblank": 11
+      },
+      "beforeSha256": "aab1b94d5fa78f6985f86266c74b953f88dd395911afef1f8f658ed7925077bb",
+      "afterSha256": "aab1b94d5fa78f6985f86266c74b953f88dd395911afef1f8f658ed7925077bb"
+    },
+    {
+      "path": "src/integrations/restaurant-availability/live-browser-availability.ts",
+      "scope": "mixed-provider-containing-production-file",
+      "before": {
+        "physical": 104,
+        "nonblank": 96
+      },
+      "after": {
+        "physical": 104,
+        "nonblank": 96
+      },
+      "beforeSha256": "eab431cceaed91ec556f78edb2296fb2b1254ed9ee929b86dac217f9c359f0cb",
+      "afterSha256": "eab431cceaed91ec556f78edb2296fb2b1254ed9ee929b86dac217f9c359f0cb"
+    },
+    {
+      "path": "src/integrations/restaurant-availability/native-outlet-continuity.ts",
+      "scope": "mixed-provider-containing-production-file",
+      "before": {
+        "physical": 76,
+        "nonblank": 71
+      },
+      "after": {
+        "physical": 76,
+        "nonblank": 71
+      },
+      "beforeSha256": "d809804ab3d18a7fa61aa6c14b3c53023aa21164bd266d06409ee7d7edf584ed",
+      "afterSha256": "d809804ab3d18a7fa61aa6c14b3c53023aa21164bd266d06409ee7d7edf584ed"
+    },
+    {
+      "path": "src/integrations/restaurant-availability/public-browser-read-network-policy.ts",
+      "scope": "mixed-provider-containing-production-file",
+      "before": {
+        "physical": 11,
+        "nonblank": 10
+      },
+      "after": {
+        "physical": 12,
+        "nonblank": 11
+      },
+      "beforeSha256": "63d417bd72ca4eedbd0af3a7b6d6fa62ae93e7dbec820ac12f036951b87138f9",
+      "afterSha256": "019728b31a85da0de43721ab67face013fe8a720bcd8373b8ffe7e4f1f6c9284"
+    },
+    {
+      "path": "src/integrations/restaurant-facts/native-source-facts.ts",
+      "scope": "mixed-provider-containing-production-file",
+      "before": {
+        "physical": 397,
+        "nonblank": 387
+      },
+      "after": {
+        "physical": 397,
+        "nonblank": 387
+      },
+      "beforeSha256": "8264462eb4f8ca639da2187857f95857acf883076433ba9770197658e1c1135d",
+      "afterSha256": "2dac49ce5bc885f7f0a754f3e99f468bfad6018d42f25e3866d1b3fc2f010e89"
+    },
+    {
+      "path": "src/integrations/restaurant-search/live-read-assembly.ts",
+      "scope": "mixed-provider-containing-production-file",
+      "before": {
+        "physical": 84,
+        "nonblank": 81
+      },
+      "after": {
+        "physical": 112,
+        "nonblank": 109
+      },
+      "beforeSha256": "206f08dd751c5692f3552c13bb5bc50f01b2b0cff5e15bbeab2c09317e4f8d10",
+      "afterSha256": "e203a4af8889648b3228039e1d2f5c53aefbe64ea9e866954c46c7dd7a36886e"
+    },
+    {
+      "path": "src/integrations/restaurant-search/native-restaurant-search.ts",
+      "scope": "mixed-provider-containing-production-file",
+      "before": {
+        "physical": 963,
+        "nonblank": 940
+      },
+      "after": {
+        "physical": 1284,
+        "nonblank": 1257
+      },
+      "beforeSha256": "99a2be52b147a898da1d9920ac24812b943d34c701181e8fccba166dee17b800",
+      "afterSha256": "f7935068d91b3a04788901ab47a748145b4b359607330c10d937a8173433f520"
+    },
+    {
+      "path": "src/integrations/restaurant-search/source-packs.ts",
+      "scope": "mixed-provider-containing-production-file",
+      "before": {
+        "physical": 400,
+        "nonblank": 380
+      },
+      "after": {
+        "physical": 473,
+        "nonblank": 448
+      },
+      "beforeSha256": "21541937c21bdde0b837d1fff6a04d9d8ae5462658cc03db2fc01126bb506462",
+      "afterSha256": "ee9ee42b04447b617161d6cd6f7b2caed6376135763d89463790ef1bdd0e749b"
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "scope": "tabelog",
+      "before": {
+        "physical": 669,
+        "nonblank": 648
+      },
+      "after": {
+        "physical": 704,
+        "nonblank": 681
+      },
+      "beforeSha256": "4e530b08292ff7ca4c512500afba6db6847aee2d9e0435ed63c974ce46ff39bb",
+      "afterSha256": "1805a2bdfc44ff01765ec7f79cdfa6568a872f5ef6fcaf63d613c38825a01caa"
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-contracts.ts",
+      "scope": "tabelog",
+      "before": {
+        "physical": 152,
+        "nonblank": 140
+      },
+      "after": {
+        "physical": 155,
+        "nonblank": 143
+      },
+      "beforeSha256": "114cb3c5eac9d73b4d197f958c2e532a5df051bc8f2a6f6915ba4d94d243a4ac",
+      "afterSha256": "466540c0e98e9a2ca2503c989fd752c9618e2b77d968e4cb92f201df540f2a3c"
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-entity-resolver.ts",
+      "scope": "tabelog",
+      "before": {
+        "physical": 146,
+        "nonblank": 138
+      },
+      "after": {
+        "physical": 146,
+        "nonblank": 138
+      },
+      "beforeSha256": "3a411d34a8ea6808faf56607d1faed28b00134d409d0e896308b2578b7b9bd8f",
+      "afterSha256": "3a411d34a8ea6808faf56607d1faed28b00134d409d0e896308b2578b7b9bd8f"
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "scope": "tabelog",
+      "before": {
+        "physical": 254,
+        "nonblank": 226
+      },
+      "after": {
+        "physical": 319,
+        "nonblank": 287
+      },
+      "beforeSha256": "10d7e50363427b9f4387311d8647a48ec5865654f76b9cc6450658e303bcf23b",
+      "afterSha256": "1e18b516fa4ec9c0c3211dfee414e92fa643bef497d9e044c8f6632237aacc0e"
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-public-query.ts",
+      "scope": "tabelog",
+      "before": {
+        "physical": 80,
+        "nonblank": 79
+      },
+      "after": {
+        "physical": 81,
+        "nonblank": 80
+      },
+      "beforeSha256": "17bfc45c011130507b1f6fbd651689bda0baf382d6907ad2d56d23f797fc4235",
+      "afterSha256": "c58af8646647b7e363dbec46fd820d12e7a74e22a34ff672914756184f87ae9b"
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "scope": "tabelog",
+      "before": {
+        "physical": 137,
+        "nonblank": 128
+      },
+      "after": {
+        "physical": 194,
+        "nonblank": 182
+      },
+      "beforeSha256": "d306beaf6cd1da1e9b5892bea8c003a16c92d63a17cf3f1c969fdb668f0e8bbe",
+      "afterSha256": "07e11933dc4e033fddbacb729979475e8894f18d3befb0a90a46f1aa9c0c185d"
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-availability-response.ts",
+      "scope": "tablecheck",
+      "before": {
+        "physical": 76,
+        "nonblank": 71
+      },
+      "after": {
+        "physical": 76,
+        "nonblank": 71
+      },
+      "beforeSha256": "8638c223266af36200d48a8dae90e3ef9f25cbf2ff6541000ef3e768cdaa416b",
+      "afterSha256": "8638c223266af36200d48a8dae90e3ef9f25cbf2ff6541000ef3e768cdaa416b"
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "scope": "tablecheck",
+      "before": {
+        "physical": 933,
+        "nonblank": 906
+      },
+      "after": {
+        "physical": 955,
+        "nonblank": 928
+      },
+      "beforeSha256": "fd81049f92f765e7b6e7b1726dee5733119ea5ceb93f83c295db01ff885c1001",
+      "afterSha256": "d0bf609217f5d141813b19392065d8e7a2cb4871229aef433e93be72347f54b9"
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-contracts.ts",
+      "scope": "tablecheck",
+      "before": {
+        "physical": 103,
+        "nonblank": 94
+      },
+      "after": {
+        "physical": 104,
+        "nonblank": 95
+      },
+      "beforeSha256": "2685d6a544238d3d3eb0d20949bad76d10c77c501e5086fb1ad5f34d37edea8e",
+      "afterSha256": "cfaab2cb50592980ef216a2f6b5ca6c41749cbd3bf9a614b82536c4ccff9b0b1"
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-entity-resolver.ts",
+      "scope": "tablecheck",
+      "before": {
+        "physical": 64,
+        "nonblank": 60
+      },
+      "after": {
+        "physical": 64,
+        "nonblank": 60
+      },
+      "beforeSha256": "ca269e851e9258001ab040a362c895f4db1ce8b49a0fdea5558d22354fc21299",
+      "afterSha256": "ca269e851e9258001ab040a362c895f4db1ce8b49a0fdea5558d22354fc21299"
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "scope": "tablecheck",
+      "before": {
+        "physical": 888,
+        "nonblank": 821
+      },
+      "after": {
+        "physical": 901,
+        "nonblank": 833
+      },
+      "beforeSha256": "85e00163d5bce6935bddf3d8edfca8745ed6e4ba473d17c371b5b5caba0e0840",
+      "afterSha256": "101a31042b32fc97e1f822b0a72864bc28c30f7ad6e4f0737a7cdaf6279053d6"
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-public-query.ts",
+      "scope": "tablecheck",
+      "before": {
+        "physical": 89,
+        "nonblank": 88
+      },
+      "after": {
+        "physical": 110,
+        "nonblank": 107
+      },
+      "beforeSha256": "5053fdbae20a0a3847649de94a39354f01b273b3542a0d13afdc3efd6aea8e48",
+      "afterSha256": "b034338b52687d8843eaeb1e9a71b556d5f34d8fabc7e878094b4d9920f997e8"
+    }
+  ],
+  "sharedLayer": {
+    "status": "SATISFIED_WITH_REVIEWABLE_SCOPE",
+    "scope": "all non-test production core/application/domain/infrastructure TypeScript and generic web-skills",
+    "checkedFiles": 77,
+    "candidateAddedConstants": [],
+    "method": "Review additions against site/place/cuisine/evaluation-coordinate patterns; unchanged provider enum contracts and integration source packs are separate. This bounded static audit is not a proof about arbitrary dynamically constructed constants."
+  }
+}
