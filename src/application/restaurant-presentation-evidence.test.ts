@@ -6,6 +6,32 @@ import { restaurantCurrentFactEvidence } from "../domains/restaurant/read-assess
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
 import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 
+test("saved holdout case02 events expose five structured HARD budgets through Router to Reducer with independent price agreement", async()=>{
+  const {createHash}=await import("node:crypto");
+  const root=new URL("../../",import.meta.url),dir=".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022";
+  const inputs=JSON.parse(await readFile(new URL(`${dir}/inputs.json`,root),"utf8"));let checked=0,reads=0;
+  const noRead=async()=>{reads++;throw Error("OFFLINE_PRESENTATION_MUST_NOT_READ_SOURCE");};
+  const router=new RestaurantExecutionRouter({executionRoute:"STRUCTURED_ADAPTER",search:noRead},{executionRoute:"STRUCTURED_ADAPTER",check:noRead},{structuredReadTimeoutMs:1000,browserReadTimeoutMs:1000});
+  for(const runId of ["h-02","h-08","h-14"]){
+    const row=inputs.runs.find((r:any)=>r.run.runId===runId),bytes=await readFile(new URL(row.originalArtifactPath,root));
+    assert.equal(createHash("sha256").update(bytes).digest("hex"),row.originalArtifactSha256);const artifact=JSON.parse(bytes.toString());
+    const ctx=(at:string)=>({taskId:artifact.runId,runId:artifact.runId,now:at,createId:(p:string)=>p});let state=restaurantBookingTaskDefinition.create({},ctx(artifact.startedAt));
+    for(const envelope of artifact.events){if(envelope.event.type==="RESULTS_PRESENTED")break;state=restaurantBookingTaskDefinition.transition(state,envelope.event,ctx(envelope.occurredAt)).state;}
+    assert.deepEqual(state.intentDraft?.budgetPerPerson,{max:8000,currency:"JPY"});assert.equal(state.intentDraft?.criteria.length,1);
+    const actual=artifact.finalSnapshot.domainState.presentedResults,oracle=JSON.parse(await readFile(new URL(`${dir}/evaluations-33/${runId}.evaluation.json`,root),"utf8"));
+    const execution=await router.execute({type:"PRESENT_RESULTS",candidateIds:actual.candidateIds},state,actual.presentedAt);assert.equal(execution.event?.type,"RESULTS_PRESENTED");
+    const shown=restaurantBookingTaskDefinition.transition(state,execution.event!,ctx(actual.presentedAt)).state.presentedResults!;
+    for(const id of actual.candidateIds){
+      const budget=shown.conditionStates[id]!.find(c=>c.criterionRef==="criterion:1");assert.ok(budget,`${runId}:${id}: structured budget must reach actual presentation`);
+      const expected=oracle.conditionStates.find((c:any)=>c.candidateId===id).criteria.find((c:any)=>c.goldIndex===1);assert.equal(expected.status,"MET");assert.equal(budget.status,expected.status);assert.equal(budget.strength,"HARD");assert.ok(budget.sources.length);
+      const facts=restaurantCurrentFactEvidence(state,id);
+      for(const source of budget.sources)assert.ok(facts.some(f=>f.sourceUrl===source.sourceUrl&&[f.priceFacts?.dinnerBudgetRangeYen?.quote,...(f.priceFacts?.listedCoursePricesYen.map(p=>p.quote)??[])].includes(source.quote)),"every displayed quote is retained current merchant price text");
+      assert.ok(!actual.conditionStates[id].some((c:any)=>c.criterionRef==="criterion:1"),"the original missing budget row remains an immutable red observation");checked++;
+    }
+  }
+  assert.equal(checked,5);assert.equal(reads,0);
+});
+
 const raw = new URL("../../.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json", import.meta.url);
 const candidateId = "tabelog:en/tokyo/A1309/A130905/13048623";
 const laterFact = "evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e8fa1f";

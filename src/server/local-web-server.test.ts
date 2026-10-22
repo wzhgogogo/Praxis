@@ -162,15 +162,22 @@ class MeteredGoogleFixtureRestaurantSearch implements RestaurantSearchPort, Rest
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal) {
     const read = await this.fixture.check(request, signal);
-    const evidence: RestaurantReadEvidence[] = request.candidateIds.flatMap((candidateId) => [
+    const evidence: RestaurantReadEvidence[] = request.candidateIds.flatMap((candidateId) => {
+      const price = read.offers.find(offer => offer.restaurantId === candidateId)?.price;
+      assert.ok(price, "metered fixture must preserve the source offer's quoted price");
+      const amount = price.amount;
+      const sourceUrl = `https://fixture.invalid/${candidateId}`;
+      return [
       { evidenceId: `metered-identity:${candidateId}`, kind: "ENTITY_MATCH" as const, provider: "TABLECHECK" as const, candidateId, sourceEntityId: candidateId,
         observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "metered-availability", claims: {}, entityMatch: { confidence: "HIGH" as const, matchedBy: ["FIXTURE_SOURCE"] } },
       { evidenceId: `metered-hours:${candidateId}`, kind: "RESTAURANT_FACT" as const, provider: "TABLECHECK" as const, candidateId, sourceEntityId: candidateId,
+        sourceUrl, priceFacts: { schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [{ amount, quote: `Fixture dinner course ¥${amount}`, sourceUrl, kind: "MEAL", meal: "DINNER", tax: "UNSPECIFIED" }] },
         observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "metered-availability", claims: { openingHoursMatch: true, restaurantTypeFacts: ["fixture restaurant"] }, entityMatch: { confidence: "HIGH" as const, matchedBy: ["FIXTURE_SOURCE"] } },
       { evidenceId: `metered-availability:${candidateId}`, kind: "AVAILABILITY" as const, provider: "TABLECHECK" as const, candidateId, sourceEntityId: candidateId,
         observedAt: "2026-08-08T09:00:00.000Z", expiresAt: "2026-12-31T23:59:00.000Z", displayExpiresAt: "2026-12-31T23:59:00.000Z", requestFingerprint: "metered-availability",
         claims: { date: request.date, partySize: request.partySize, visibleSlots: read.offers.filter(offer => offer.restaurantId === candidateId).map(offer => offer.dateTime.slice(11, 16)) }, entityMatch: { confidence: "HIGH" as const, matchedBy: ["FIXTURE_SOURCE"] } },
-    ]);
+    ];
+    });
     return { ...read, evidence, availabilityChecks: Object.fromEntries(Object.entries(read.availabilityChecks).map(([candidateId, check]) => [candidateId, { ...check, evidenceIds: [`metered-identity:${candidateId}`, `metered-hours:${candidateId}`, `metered-availability:${candidateId}`] }])) };
   }
 

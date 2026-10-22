@@ -23,7 +23,7 @@ export function priceCondition(text: string, budget?: RestaurantSearchIntent["bu
   const raw = value.match(/(?:¥|jpy)\s*([\d,]+)|([\d,]+)\s*(?:yen|jpy|円)/)?.slice(1).find(Boolean);
   const amount = raw ? Number(raw.replaceAll(",", "")) : budget?.max;
   if (!amount || !Number.isSafeInteger(amount)) return undefined;
-  if (!/around|about|approximately|approx\.?|under|no more than|at most|up to|less than|以下|以内|約/.test(value)) return undefined;
+  if (!/around|about|approximately|approx\.?|under|no more than|at most|up to|less than|\bmax(?:imum)?\b|以下|以内|約/.test(value)) return undefined;
   return { amount, around: /around|about|approximately|approx\.?|約/.test(value) };
 }
 
@@ -32,7 +32,14 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
   if (policy.status !== "USER_APPROVED" || !(policy.aroundPriceTolerance >= 0 && policy.aroundPriceTolerance < 1)) throw Error("Unapproved restaurant price policy");
   const meal = intent.timeWindow?.earliest && intent.timeWindow.earliest >= "17:00" ? "DINNER"
     : intent.timeWindow?.latest && intent.timeWindow.latest <= "15:00" ? "LUNCH" : undefined;
-  return intent.criteria.map((criterion, index) => {
+  // BUDGET_PER_PERSON is the semantic contract's explicit firm cap. Append its
+  // condition so existing criterion references remain stable; soft targets stay
+  // separate criteria and retain their approved comparison policy.
+  const criteria = [...intent.criteria, ...(intent.budgetPerPerson ? [{
+    text: `at most ${intent.budgetPerPerson.max} yen per person`,
+    polarity: "POSITIVE" as const, strength: "HARD" as const,
+  }] : [])];
+  return criteria.map((criterion, index) => {
     const base = { ...criterion, criterionRef: `criterion:${index}`, status: "NOT_CHECKED" as RestaurantConditionStatus,
       explanation: "No current source evidence establishes this condition.", evidenceIds: [] as string[], sources: [] as RestaurantSourceFieldQuote[] };
     const price = priceCondition(criterion.text, intent.budgetPerPerson);
