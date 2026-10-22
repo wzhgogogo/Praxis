@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.351
+- Document revision: 4.352
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 Group/window read-only diagnosis complete; isolated branch, no implementation:** Six saved group/window runs diagnosed offline from prep19941c4e. No confirmed witness candidates in15 witness/run pairs; group capability ranking and batch obligations delay the witnessed source. c04/c08 terminate on old10s Agent deadlines, c18/h03/h15 end with47/50 calls in the reserve window, h09 reaches500.080s. TableCheck exposes exact6/10 and10+; one-point EMPTY does not cover the window. c18 reaches disabled10 guests and captures only members2 stock. Observed mechanisms are separated from HYPOTHESIS delivery attribution; no fixes or fresh execution. New model/site/Google/Live calls0; existing evidence only, no signoff or counterfactual claim. [Report](../.eval-artifacts/group-window-diagnosis-20261022/report.md).
 
 - **2026-10-22 Checkpoint C holdout-evaluation-complete:** 已按dfdb175b完成18份保存产物的Evaluator33/rubric29离线评价；原始对应后5QD/3未合格/7MISS/3未评，结构预算对应的3份表示视图后为8QD/7MISS/3未评，原始和派生SHA并列。例02预算8000JPY保留，5条预算展示缺失；h-11 SOFT不等价未登记，另3条无等价展示。仅3/6例达2/3，退出2/4/6不满足、3未完整评价；52条件44一致、8未对应，0unsupported/missed。例05三份冻结required_claims字段object导致未评，未改Gold或排除本例。站点目录3591→3809行（+218），含混合文件5638→6279（+641）；共享层新增站点等常量候选0。有展示11次中位193.250秒/最大286.209秒仅指标；历史H005两口径和H003 S0保留。779 Live/2891评价冻结项、18原始SHA、326生产/评测文件及483校准输入均核对，复用五门禁998/131和22/22。新增模型/网站/Live0，累计3280/51/3不变；推送报告后停下等签收，不报告阶段通过。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/four-layer-report.md).
 

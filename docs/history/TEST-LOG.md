@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.255
+- Document revision: 4.256
 - Last updated: 2026-10-22
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,11 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-22-GROUP-WINDOW-DIAGNOSIS
+
+- Read-only saved-artifact audit:6 result/decisions pairs,219 original model calls,487 input SHA checks,5 independent raw witness inventories with date/party/outlet binding; snapshot URL/runtime HTML SHA aligned with recording manifests. Pure-document checks only: local links,JSON,diff and no code/input modifications. No counterfactual/production replay, models, website, Google or Live requests. Causal delivery claims remain HYPOTHESIS.
+- [Report](../../.eval-artifacts/group-window-diagnosis-20261022/report.md), [structured evidence](../../.eval-artifacts/group-window-diagnosis-20261022/evidence.json).
 
 ## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-EVALUATION-COMPLETE
 

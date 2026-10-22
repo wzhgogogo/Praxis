@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.248
+- Document revision: 4.249
 - Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,11 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-22-GROUP-WINDOW-DIAGNOSIS
+
+- Six saved group/window runs diagnosed offline from prep19941c4e. No confirmed witness candidates in15 witness/run pairs; group capability ranking and batch obligations delay the witnessed source. c04/c08 terminate on old10s Agent deadlines, c18/h03/h15 end with47/50 calls in the reserve window, h09 reaches500.080s. TableCheck exposes exact6/10 and10+; one-point EMPTY does not cover the window. c18 reaches disabled10 guests and captures only members2 stock. Observed mechanisms are separated from HYPOTHESIS delivery attribution; no fixes or fresh execution.
+- [Report](../../.eval-artifacts/group-window-diagnosis-20261022/report.md), [structured evidence](../../.eval-artifacts/group-window-diagnosis-20261022/evidence.json).
 
 ## DEV-2026-10-22-CHECKPOINT-C-HOLDOUT-EVALUATION-COMPLETE
 
