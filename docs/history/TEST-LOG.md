@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.244
+- Document revision: 4.245
 - Last updated: 2026-10-22
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-22-CHECKPOINT-C-C17-STOPPED
+
+第一步双向引文修复已通过（38一致+2外部支持，0 unsupported/missed，校准22/22，五门禁全绿）。c17唯一补跑258.141秒/29模型/0交付：最后Agent调用10.004秒TIMEOUT，@33独立判CAPABILITY_MISS；本次声明/越界S0均ABSENT。H005仍1/3QD，其余TARGET各3/3，C门槛FAIL，按用户机械停止规则未打开留出集。新增1Live/1环境重跑，累计2856/4000模型、32/100Live、1/10环境重跑。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/four-layer-report.md).
 
 ## TEST-2026-10-22-CHECKPOINT-C-C17-RETRY-INPUTS
 

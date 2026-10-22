@@ -1,0 +1,58 @@
+{
+  "status": "STOPPED_MECHANICAL_GATE",
+  "firstStep": "PASS",
+  "c17": "CAPABILITY_MISS",
+  "c17RunElapsedMs": 258141,
+  "outerAttemptIncludingPreflightAndPostMs": 280867,
+  "lastAgentTimeoutMs": 10004,
+  "successfulModelCalls": 27,
+  "failedModelCalls": 2,
+  "newModelCalls": 29,
+  "newFullLiveRuns": 1,
+  "newEnvironmentReruns": 1,
+  "perTargetQualified": [
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "qualified": 3,
+      "planned": 3
+    },
+    {
+      "caseId": "p2l-kf-h005-20261105",
+      "qualified": 1,
+      "planned": 3
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "qualified": 3,
+      "planned": 3
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "qualified": 3,
+      "planned": 3
+    }
+  ],
+  "currentRunS0Declaration": "ABSENT",
+  "currentRunS0Boundary": "ABSENT",
+  "holdout": "NOT_OPENED",
+  "liveFreezeSha256": "a3687a672b24d4bec52796aae95d5ef68301e5cb5973f435e879049007afd675",
+  "ledger": {
+    "models": 2856,
+    "fullLiveRuns": 32,
+    "environmentReruns": 1
+  },
+  "requestConditionsForNoDelivery": [
+    {
+      "text": "local food",
+      "strength": "HARD",
+      "polarity": "POSITIVE",
+      "deliveryAssessment": "NOT_EVALUATED_NO_DELIVERY"
+    },
+    {
+      "text": "fast food",
+      "strength": "HARD",
+      "polarity": "NEGATIVE",
+      "deliveryAssessment": "NOT_EVALUATED_NO_DELIVERY"
+    }
+  ]
+}
