@@ -1,0 +1,57 @@
+{
+  "schema": "phase2b-step3-resources@1",
+  "status": "STOPPED_CERTIFICATION_HTTP400",
+  "modelCalls": 0,
+  "fullLiveRuns": 0,
+  "environmentReruns": 0,
+  "sourceRequests": 58,
+  "sources": [
+    {
+      "origin": "tabelog.com",
+      "requests": 46,
+      "statusCounts": {
+        "200": 45,
+        "400": 1
+      },
+      "minimumGapMs": 30001.0,
+      "firstRequestedAt": "2026-10-22T17:11:21.667Z",
+      "lastFinishedAt": "2026-10-22T17:40:39.942Z",
+      "retries": 0
+    },
+    {
+      "origin": "places.googleapis.com",
+      "requests": 12,
+      "statusCounts": {
+        "200": 12
+      },
+      "minimumGapMs": 30000.0,
+      "firstRequestedAt": "2026-10-22T16:55:13.915Z",
+      "lastFinishedAt": "2026-10-22T17:01:04.244Z",
+      "retries": 0
+    }
+  ],
+  "evidence": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/observations.jsonl",
+      "sha256": "a971cd4b34baab89b14e29cdc7c8d8ec3480d28de57604f08b1b4a8c18211318"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/discovery.json",
+      "sha256": "8f190cb1e44d4b79080703914d7d38124f71b5189bcc64e597d9a7a7165593ad"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/stopped.json",
+      "sha256": "2ef412b701d5e417f9615b7822be5a18cdc88cf0862788fd920db530adfb9792"
+    }
+  ],
+  "rules": {
+    "sameOriginMinimumGapMs": 30000,
+    "transportNoStatusWaitMs": 120000,
+    "transportRetries": 1,
+    "http403429503BusyWaitMs": 900000,
+    "cooldownRetries": 1,
+    "http400": "STOPPED_BY_FROZEN_CAPTURE; not retried, not classified as no inventory"
+  },
+  "phase2bExitLiveStarted": 0,
+  "newHoldoutModelCalls": 0
+}
