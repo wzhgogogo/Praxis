@@ -26,7 +26,7 @@ export function sourceFragments(html){
   if(cls.includes('pr-comment__body'))role='MERCHANT_INTRO_BODY';
   if(cls.includes('rstdtl-course-list__course-title-text'))role='COURSE_TITLE';
   if(cls.includes('rstdtl-course-list__desc'))role='COURSE_DESCRIPTION';
-  if(cls.some(c=>/^rstdtl-menu-lst__(?:menu-title|menu-description|menu-name|menu-item)$/.test(c)))role='MERCHANT_MENU_ITEM';
+  if(/^(?:p|h3|h4|dt|dd|span)$/.test(n.tag)&&cls.some(c=>c.startsWith('rstdtl-menu-lst__')))role='MERCHANT_MENU_ITEM';
   if(!role)continue;
   const raw=html.slice(n.start,n.end),text=plain(raw);if(!text||raw.length>12000)continue;
   rows.push({role,text,raw,sha256:createHash('sha256').update(raw).digest('hex'),htmlCharacterOffset:n.start});

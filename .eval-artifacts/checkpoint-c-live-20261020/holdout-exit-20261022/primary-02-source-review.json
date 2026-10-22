@@ -1,0 +1,49 @@
+{
+  "status": "NOT_CERTIFIED_IN_BOUNDED_SOURCE_CAPTURE",
+  "reason": "ALL_THREE_PREREGISTERED_MERCHANTS_LACK_EXACT_REQUESTED_DINNER_INVENTORY",
+  "caseId": "p2-holdout-02",
+  "reviewedBy": "CODEX_EVALUATION_SIDE",
+  "independentOfProduction": true,
+  "rows": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-02-13277826.source.json",
+      "sha256": "575349942289de37d577eb932845a4d79abf15ae53976cd47c9480a08c6368b0",
+      "responseSha256": "35c0225fd5f418dd8fc938ce3ffc059fed11245d1e585c553f74e6a598b99bcd",
+      "bodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-02-13277826.attempt-2.body.json",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13277826&svd=20261030&svps=2&svt=1930",
+      "status": 200,
+      "matchingTimes": []
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-02-13133431.source.json",
+      "sha256": "f900677212ec972cc316bb6ba0d17e86f13b8a696c81492109d9d7687848dabc",
+      "responseSha256": "21408597f509b51d23d808184f7da9e7ae1d8d941cfab6bbe33f66c940eb6891",
+      "bodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-02-13133431.attempt-1.body.json",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13133431&svd=20261030&svps=2&svt=1930",
+      "status": 200,
+      "matchingTimes": []
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-05/p2-holdout-02-13254250.source.json",
+      "sha256": "8f607311ee553a805c874a0b0af2fcce701ff684ad1f98e46ec10c47022898a4",
+      "responseSha256": "4d073570567b470bed77721695b72f12c38b39b88be3a028a055006fae670ece",
+      "bodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-05/p2-holdout-02-13254250.attempt-1.body.json",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13254250&svd=20261030&svps=2&svt=1930",
+      "status": 200,
+      "matchingTimes": []
+    }
+  ],
+  "scope": "Three preregistered restaurants only; no global no-seat claim.",
+  "fallback": {
+    "place": "Sangenjaya",
+    "authorizedBy": "USER_CONSECUTIVE_STEP_3",
+    "ordinal": 1,
+    "max": 1,
+    "date": "2026-10-30",
+    "partySize": 2,
+    "earliest": "19:30",
+    "latest": "19:30",
+    "criteriaChanged": false
+  },
+  "models": 0
+}
