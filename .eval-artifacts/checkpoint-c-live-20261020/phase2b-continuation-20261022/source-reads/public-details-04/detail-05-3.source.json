@@ -1,0 +1,126 @@
+{
+  "id": "detail-05-3",
+  "caseId": "p2b-holdout-05",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1307/A130702/13001692/",
+  "observedAt": "2026-10-22T17:24:48.937Z",
+  "responseSha256": "03b53577b01347fcc8037aa46ad11f37332c1097315a8a61ee3f1c6abcf14316",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-05-3.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Matsugen Azabujuuban",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Azabujuban Minato Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1060045",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.65267953872417,
+          "longitude": 139.735071254118
+        },
+        "servesCuisine": "Soba (Buckwheat noodles),Japanese Cuisine,Izakaya (Japanese style tavern)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1307/A130702/13001692/\",\"name\":\"Matsugen Azabujuuban\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/310327/320x320_rect_2eedf8a5b7f9f9c20fb56eb14e00fb40.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Azabujuban Minato Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1060045\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.65267953872417,\"longitude\":139.735071254118},\"priceRange\":\"JPY 5,000～JPY 5,999\",\"servesCuisine\":\"Soba (Buckwheat noodles),Japanese Cuisine,Izakaya (Japanese style tavern)\",\"telephone\":\"+81-3-3457-5690\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"368\",\"ratingValue\":\"3.43\"}}\n    ",
+        "sha256": "2146d8ccd009ff6269638b41a605d66439349bbd86cdf3c51ef7473819800b13",
+        "htmlCharacterOffset": 6230
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 57960,
+        "raw": "Soba (Buckwheat noodles), Japanese Cuisine, Izakaya (Japanese style tavern)"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Soba (Buckwheat noodles), Japanese Cuisine, Izakaya (Japanese style tavern)",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Soba (Buckwheat noodles), Japanese Cuisine, Izakaya (Japanese style tavern)",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "CATEGORY",
+      "text": "Categories Soba (Buckwheat noodles), Japanese Cuisine, Izakaya (Japanese style tavern)",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Soba (Buckwheat noodles), Japanese Cuisine, Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "eaace312d0072bd5decd2ad5c988d2b93abe71d486eb83c086c6e1640e2c22a3",
+      "htmlCharacterOffset": 57840
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 5,000 - JPY 5,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 5,000 - JPY 5,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "724411b8a5f306d13b15b90ea97b71e859f89a705eb743f7160dc368a86fbcbb",
+      "htmlCharacterOffset": 64282
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 28 seats",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      28 seats\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "8d0598c12d93ff3312fd5c493a6bf5935094732412712f651c3ab9a65545a01d",
+      "htmlCharacterOffset": 68884
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 69137
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome(Preschoolers welcome, School-age children welcome) *Please contact restaurant for details.",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome(Preschoolers welcome, School-age children welcome)\n                  </p>\n                  <p class=\"rstinfo-table__each-info\">\n                    *Please contact restaurant for details.<br />\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "2d1623ead603b28abd24b51ef3c04c72544a719896a2902a6890e4288b036aaf",
+      "htmlCharacterOffset": 73044
+    },
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "Enjoy handmade 2:8 soba and seasonal dishes in a cozy atmosphere.",
+      "raw": "<p class=\"pr-comment-title\">\n                      Enjoy handmade 2:8 soba and seasonal dishes in a cozy atmosphere.\n                    </p>",
+      "sha256": "3a748967cb8d79c593716c093beda9cc3b87d63b1f2d9ad011e9c7f935f6616a",
+      "htmlCharacterOffset": 74509
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Soba (Buckwheat noodles), Japanese Cuisine, Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "eaace312d0072bd5decd2ad5c988d2b93abe71d486eb83c086c6e1640e2c22a3",
+      "text": "Categories Soba (Buckwheat noodles), Japanese Cuisine, Izakaya (Japanese style tavern)",
+      "htmlCharacterOffset": 57840
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1307/A130702/13001692/dtlratings/#price-range\">JPY 5,000 - JPY 5,999</a></span>\n                            </p>",
+      "sha256": "f5b51cd7a5a0fe0d2f5ec7cf2a66b5ee1fb656f7d2be2a56984a5265b84605e7",
+      "text": "JPY 5,000 - JPY 5,999",
+      "htmlCharacterOffset": 25915
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1307/A130702/13001692/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "7faa46e32502e31a65224e2b3c686e51080fb82e4a13044e412f5d9a0e35bebb",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26345
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1307/A130702/13001692/"
+}

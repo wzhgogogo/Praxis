@@ -1,0 +1,112 @@
+{
+  "id": "detail-01-2",
+  "caseId": "p2b-holdout-01",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1311/A131102/13322725/",
+  "observedAt": "2026-10-22T17:22:42.075Z",
+  "responseSha256": "b1e570e67e6ace592605ec4641618d037f3d267243ea12a3459e9a1308ded275",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "WAGYU SUKIYAKI Goku Asakusa Rokku Ku Ten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Asakusa Taito Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1110032",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.71426756870344,
+          "longitude": 139.79282114469962
+        },
+        "servesCuisine": "Sukiyaki (Japanese sweet soy hotpot)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1311/A131102/13322725/\",\"name\":\"WAGYU SUKIYAKI Goku Asakusa Rokku Ku Ten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/370575/640x640_rect_e33a80c49123c206a6c2c976d0befefa.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Asakusa Taito Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1110032\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.71426756870344,\"longitude\":139.79282114469962},\"priceRange\":\"JPY 5,000～JPY 5,999\",\"servesCuisine\":\"Sukiyaki (Japanese sweet soy hotpot)\",\"telephone\":\"+81-3-6822-0729\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"4\",\"ratingValue\":\"3.01\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1311/A131102/13322725/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "be5d8ea4de287904ae08b4ac865d2ad8602290320a88721ce9227c55497d1978",
+        "htmlCharacterOffset": 6200
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 145,
+        "raw": "Sukiyaki (Japanese sweet soy hotpot)"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Sukiyaki (Japanese sweet soy hotpot)",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Sukiyaki (Japanese sweet soy hotpot)",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "CATEGORY",
+      "text": "Categories Sukiyaki (Japanese sweet soy hotpot)",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Sukiyaki (Japanese sweet soy hotpot)</span>\n                    </td>\n                  </tr>",
+      "sha256": "66ed79424a7a624676b4b307b3204326e1c9707f5a589f7c904c3eb2d74ed0f9",
+      "htmlCharacterOffset": 50327
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 5,000 - JPY 5,999 JPY 5,000 - JPY 5,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 5,000 - JPY 5,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 5,000 - JPY 5,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "228147cbcb9b7ffa103373b892ae80b931498514088275b9fbf221232e9ccec9",
+      "htmlCharacterOffset": 54915
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 13 seats",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      13 seats\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "81e476b6ac3cd0875fd3d57d576a04cc6faa9ddc1e50567069de559e0ade918f",
+      "htmlCharacterOffset": 57517
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 57770
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Sukiyaki (Japanese sweet soy hotpot)</span>\n                    </td>\n                  </tr>",
+      "sha256": "66ed79424a7a624676b4b307b3204326e1c9707f5a589f7c904c3eb2d74ed0f9",
+      "text": "Categories Sukiyaki (Japanese sweet soy hotpot)",
+      "htmlCharacterOffset": 50327
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1311/A131102/13322725/dtlratings/#price-range\">JPY 5,000 - JPY 5,999</a></span>\n                            </p>",
+      "sha256": "56612f6b39631cfd872cef113d020843528022c8cedd064c769c16eabf4fdb43",
+      "text": "JPY 5,000 - JPY 5,999",
+      "htmlCharacterOffset": 22406
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1311/A131102/13322725/dtlratings/#price-range\">JPY 5,000 - JPY 5,999</a></span>\n                            </p>",
+      "sha256": "810cf5354d4f037542674d0ffa28a0d0e80d71847500893add09488692d0b1a4",
+      "text": "JPY 5,000 - JPY 5,999",
+      "htmlCharacterOffset": 22836
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1311/A131102/13322725/"
+}
