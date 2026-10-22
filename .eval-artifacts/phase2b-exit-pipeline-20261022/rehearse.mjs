@@ -13,7 +13,7 @@ import {discoverWitnesses,captureWitnessJobs,sourceReader} from './witnesses.mjs
 const freezePath=process.argv[2];assert.ok(freezePath,'FROZEN_CONFIG_REQUIRED');const frozen=verifyFreeze(freezePath);
 assert.equal(process.env.CHECKPOINT_C_ATTEMPT,resolve(base),'OFFLINE_DENY_LOG_MUST_BIND_OWN_DIRECTORY');assert.ok(!existsSync(base+'/network-denied.jsonl'));
 const sources=readJson(base+'/rehearsal-sources.json'),plan=readJson(base+'/rehearsal-inputs/plan.json'),registry=readJson(base+'/rehearsal-registry.json');
-let time=Date.parse('2026-10-22T08:25:00Z');const sleeps=[];const directory=resolve(base,'offline-rehearsal');
+let time=Date.parse('2026-10-22T08:25:00Z');const sleeps=[];const directory=resolve(base,process.argv[3]??'offline-rehearsal');assert.ok(directory.startsWith(resolve(base)+'/'),'OUTPUT_OUTSIDE_BATCH');
 const manifest=await executePlan({plan:{...plan,mode:'OFFLINE_SAVED_REPLAY'},registry,directory,now:()=>time,sleep:async(ms)=>{sleeps.push(ms);time+=ms;},verify:()=>verifyFreeze(freezePath),attempt:async(run)=>{
  const r=sources.runs.find(r=>r.run.runId===run.runId);assert.equal(r.run.caseId,run.caseId);const bytes=readFileSync(r.artifactPath);assert.equal(sha(bytes),r.artifactSha256);const a=JSON.parse(bytes);time+=1;
  return {artifactPath:r.artifactPath,artifactSha256:r.artifactSha256,historicalElapsedMs:a.resourceUsage.elapsedMs,historicalModelCalls:a.resourceUsage.modelCallsStarted,classification:'DEFERRED',modelCallsCharged:0,formalRunStarted:false};

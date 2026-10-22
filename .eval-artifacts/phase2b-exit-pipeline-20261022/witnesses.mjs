@@ -21,8 +21,8 @@ export function sourceReadBoundary(url,options){
  throw Error('READ_ONLY_SOURCE_REQUIRED');
 }
 // Same source clock for merchant pages and inventory; no redirects or cookies.
-export function sourceReader({transport,now=Date.now,sleep=ms=>new Promise(r=>setTimeout(r,ms)),record=()=>{}}){
- assert.equal(typeof transport,'function','EXPLICIT_TRANSPORT_REQUIRED');const finished=new Map();let count=0;
+export function sourceReader({transport,now=Date.now,sleep=ms=>new Promise(r=>setTimeout(r,ms)),record=()=>{},initialFinishedByOrigin={}}){
+ assert.equal(typeof transport,'function','EXPLICIT_TRANSPORT_REQUIRED');const finished=new Map(Object.entries(initialFinishedByOrigin));for(const t of finished.values())assert.ok(Number.isFinite(t),'SOURCE_CLOCK_INVALID');let count=0;
  async function wait(until){while(now()<until)await sleep(Math.min(30000,until-now()));}
  return async(url,options={method:'GET'})=>{
   sourceReadBoundary(url,options);const origin=new URL(url).origin;

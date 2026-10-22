@@ -53,6 +53,7 @@ test('Phase2b source reads share origin clock; 403/busy wait 15 minutes once, tr
  await assert.rejects(()=>read('https://tabelog.com/en/booking/confirm',{method:'POST'}),/READ_ONLY_SOURCE_REQUIRED/);assert.equal(calls,3);
  let failures=0;const fail=witnesses.sourceReader({now:()=>time,sleep:async(ms:number)=>{time+=ms;},transport:async()=>{failures++;return new Response('busy',{status:503});}});const start=time;await assert.rejects(()=>fail(page),/SOURCE_COOLDOWN_RETRY_EXHAUSTED/);assert.equal(failures,2);assert.equal(time-start,900000);
  let tries=0;const retry=witnesses.sourceReader({now:()=>time,sleep:async(ms:number)=>{time+=ms;},transport:async()=>{if(++tries===1)throw Error('fixture connection error');return new Response('{}');}});const before=time;await retry(page);assert.equal(tries,2);assert.equal(time-before,120000);
+ const prior=time,continued=witnesses.sourceReader({initialFinishedByOrigin:{'https://tabelog.com':time},now:()=>time,sleep:async(ms:number)=>{time+=ms;},transport:async()=>new Response('{}')});await continued(page);assert.equal(time-prior,30000,'next capture command inherits the source clock');
 });
 test('Phase2b 18 slots preserve order/budgets; S0 and witness expiry stop the remaining batch',async()=>{
  const plan=get(dir+'/rehearsal-inputs/plan.json'),registry=get(dir+'/rehearsal-registry.json');pipeline.verifyPlan(plan);assert.equal(plan.runs.length,18);assert.equal(plan.ceilings.decisionTimeoutMs,30000);

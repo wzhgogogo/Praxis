@@ -1,6 +1,6 @@
 // All commands are explicit. Importing this module never opens input or a provider.
 import assert from 'node:assert/strict';
-import {readFileSync,writeFileSync,mkdirSync,readdirSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,readdirSync,existsSync} from 'node:fs';
 import {resolve,relative} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {parseArgs} from 'node:util';
@@ -20,12 +20,13 @@ export function prepare({source,commitmentPath,exitStart,directory,fallbacks=[]}
 }
 async function certificationTransport({approvalPath,freezePath,inputPath,directory}){
  const frozen=verifyFreeze(freezePath),a=readJson(approvalPath);assert.equal(a.action,'CERTIFY_PHASE2B_WITNESSES');assert.equal(a.approvedBy,'USER');assert.equal(a.freezeSha256,frozen.manifestSha256);assert.equal(a.inputSha256,sha(readFileSync(inputPath)));assert.equal(frozen.files[relative(process.cwd(),resolve(inputPath))],a.inputSha256);assert.ok(Date.parse(a.validUntil)>Date.now());assert.ok(Number.isSafeInteger(a.maxSourceRequests)&&a.maxSourceRequests>0);
- await consumeAuthorization(base,sha(readFileSync(approvalPath)),{action:a.action,inputPath,directory});mkdirSync(directory,{recursive:false});let count=0;
- return sourceReader({transport:async(url,options)=>{verifyFreeze(freezePath);assert.ok(Date.parse(a.validUntil)>Date.now(),'CERTIFICATION_AUTHORIZATION_EXPIRED');assert.ok(++count<=a.maxSourceRequests,'CERTIFICATION_REQUEST_BUDGET');return fetch(url,options);},record:(item,bytes)=>{
+ const clockPath=resolve(base,'source-clock.json'),clock=existsSync(clockPath)?readJson(clockPath):{};
+ await consumeAuthorization(base,sha(readFileSync(approvalPath)),{action:a.action,inputPath,directory,sourceClockBefore:clock});mkdirSync(directory,{recursive:false});let count=0;
+ return sourceReader({initialFinishedByOrigin:clock,transport:async(url,options)=>{verifyFreeze(freezePath);assert.ok(Date.parse(a.validUntil)>Date.now(),'CERTIFICATION_AUTHORIZATION_EXPIRED');assert.ok(++count<=a.maxSourceRequests,'CERTIFICATION_REQUEST_BUDGET');return fetch(url,options);},record:(item,bytes)=>{
   const stem=resolve(directory,`${item.requestNumber}-attempt-${item.attempt}`),metadataPath=stem+'.metadata.json';item.metadataPath=metadataPath;
   // Merchant page: retain only raw business JSON-LD/merchant fragments below, not unrelated customer HTML.
   if(bytes&&new URL(item.url).pathname.endsWith('find_vacancy/')){item.bodyPath=stem+'.body.json';writeFileSync(item.bodyPath,bytes,{flag:'wx'});}
-  writeJson(metadataPath,item);
+  writeJson(metadataPath,item);clock[new URL(item.url).origin]=Date.parse(item.finishedAt);writeFileSync(clockPath,JSON.stringify(clock,null,2)+'\n');
  }});
 }
 async function main(){

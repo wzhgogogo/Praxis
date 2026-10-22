@@ -12,7 +12,7 @@ Status: **准备代码；新留出未打开、未运行**。入口基线 `17415d
 | `cli.mjs certify --input REVIEWED_WITNESS_PLAN --inventory INDEX --output REGISTRY` | 零网络认证：商家身份原始JSON-LD、800米、每条HARD明文、负向HARD独立复核文件、同店/日期/人数/时段原始库存。任一例无见证，停止。 |
 | `cli.mjs run --plan PLAN --registry REGISTRY --ledger LEDGER --runner-input YAML --freeze FREEZE --approval APPROVAL --output NEW_DIR [--budgets BINDINGS]` | **未来授权且预算足额后**使用现有 `child-entry.ts`/Runner、Guard、独立安全检查、事后读取。每例3次，共18槽位，不相邻。自动延后能力评价，仅另存未对应措辞和结构预算字段。 |
 | `cli.mjs extract --manifest MANIFEST --output FILE [--budgets BINDINGS]` | 仅未对应条件文字/编号/原始artifactSHA/文字SHA；无运行结果、展示、条件状态、见证结论。结构预算另存，不做同义判断。 |
-| `cli.mjs review-gate --pending WORDINGS --review REVIEW --output FILE` | 要求独立复核状态、整包SHA、复核原文SHA、逐artifact/索引/文字SHA的完整判词；未完成不调用Evaluator。 |
+| `cli.mjs review-gate --pending WORDINGS --review REVIEW --output FILE` | 要求独立复核状态、整包SHA（SHA256(JSON.stringify(parsedPending))）、复核原文SHA、逐artifact/索引/文字SHA的完整判词；未完成不调用Evaluator。 |
 | `cli.mjs evaluate --pending WORDINGS --review REVIEW --manifest MANIFEST --freeze FREEZE --output NEW_DIR [--evaluation-options JSON]` | 复核后调用现有Evaluator@33/rubric29；评价单独保存。冻结的可选逐原始SHA options 提供独立来源/见证支持；缺证保留未评，不能宣布通过。 |
 
 以上文件均在当前目录。未来认证配置必须包含明示USER授权、冻结SHA、输入SHA、截止时间和来源请求额度；Live配置必须再绑定计划/见证SHA、有效全局账本及原始Runner输入。授权回执只消费一次，不自行续期。`freeze.mjs`复用既有冻结引擎。执行与评价分别冻结；评价开始前，原始运行、待判词、独立判词和options也须纳入新的冻结。
@@ -22,7 +22,7 @@ Status: **准备代码；新留出未打开、未运行**。入口基线 `17415d
 - 日期来源为带时区的退出开始时间，按东京日期计算；content 使用星期/月/日，结构date.value和acceptance用ISO日期。只允许承诺中的日期填充及已有后备地点。后备需原地点业务见证认证失败的已保存审核，不因网络错误切换地点；记录原地点/后备/审核SHA。
 - 中心必须由独立复核者根据保存的Google地理候选选定；不是按对餐厅最有利的距离挑选。见证800米，生产命名地点1000米合同未改。
 - HARD须绑定同商家的原始商家片段。负向HARD按复核者明确的“商家地域/业态等正面明文支持”的本周口径，须有对应独立审核SHA；缺词、店名、评论和可调口味均不自动成立。
-- 每来源最小间隔30秒；403/429/503/繁忙页等15分钟重试1次；纯传输失败等2分钟重试1次；仍失败停下。读取无表单/登录/预约/支付，不跟随重定向。
+- 每来源最小间隔30秒；认证CLI持久保存source-clock.json，并在后续discover/capture命令继承，跨命令不重置；403/429/503/繁忙页等15分钟重试1次；纯传输失败等2分钟重试1次；仍失败停下。读取无表单/登录/预约/支付，不跟随重定向。
 - 完整运行间隔5分钟；决策30秒为现有Agent/Browser实现，Runner总限时500秒/50模型，预检及正式Google合计40（正式Runner38，保留既有预检预留）；500秒发终止信号，2秒仅为强制清理，不增加验收预算。重跑上限每例1、总4，并进一步受全局账本实际预留约束。
 - 结构预算绑定由独立复核配置给出 `caseId/goldIndex/goldTextSha256/polarity/strength/expected/reviewPath/reviewSha256`。通过比较 `budgetPerPerson` 数字与币种，不因文案变化当作同义问题。缺失/不同如实记录字段失败；匹配**只表示对应**，不证明商家价格、HARD满足或条件披露。旧例02的8000JPY绑定复用已批准独立审核。
 - 运行结束只生成措辞包，Evaluator仅在独立判词后调用。单独保留结构预算核验、资源账本、原始引用和评价，结果不得附在发给措辞复核者的包内。
