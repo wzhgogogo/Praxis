@@ -1,0 +1,38 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2b-holdout-05","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-17-attempt-1/network-preflight/2026-10-22T22-14-33-480Z-6f02a540-0d1d-4f3d-80be-1ee4f8210af9.result.json","elapsedMs":7105,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2b-holdout-05",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 4
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 3,
+    "candidatesChecked": 3,
+    "agentDecisions": 4,
+    "browserModelCalls": 13,
+    "modelCallsStarted": 25,
+    "browserRuntimeCalls": 112,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 25,
+      "tabelog:en/tokyo/A1307/A130702/13158345": 30,
+      "tabelog:en/tokyo/A1307/A130702/13320164": 27,
+      "tabelog:en/tokyo/A1307/A130702/13278227": 30
+    },
+    "pageStillLoadingWithinBound": 11,
+    "postActionWaitTotalMs": 20943,
+    "browserModelActions": 11,
+    "googleRequests": {
+      "limit": 38,
+      "total": 2,
+      "namedPlaceResolution": 1,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 193590
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-17-attempt-1/runner/2026-10-22T22-14-57-225Z-c8dcfdd4-7041-44a0-b3ac-3572bd4484b2.result.json",
+  "latencyMs": 193590,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
