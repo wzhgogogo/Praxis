@@ -1,0 +1,229 @@
+{
+  "id": "fallback-02-13230173",
+  "caseId": "p2-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1317/A131706/13230173/",
+  "observedAt": "2026-10-22T07:23:38.016Z",
+  "responseSha256": "7140e95f6186deddc0b4d3ada3f87cc23d79dc9e0496a1d94df5e6fe491217ec",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "ilco",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Taishido Setagaya Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1540004",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.646333737901884,
+          "longitude": 139.66927678293825
+        },
+        "servesCuisine": "Italian,Wine bar,Pasta"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1317/A131706/13230173/\",\"name\":\"ilco\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/354591/640x640_rect_f6f304669d5a7120fb8a4498e70bafd3.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Taishido Setagaya Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1540004\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.646333737901884,\"longitude\":139.66927678293825},\"priceRange\":\"JPY 6,000～JPY 7,999\",\"servesCuisine\":\"Italian,Wine bar,Pasta\",\"telephone\":\"+81-3-3410-8866\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"80\",\"ratingValue\":\"3.23\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1317/A131706/13230173/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "745ffe09f7b8ee1020d205bf0dbbc978314ea5c4bd1b2ed233b1cca80a554120",
+        "htmlCharacterOffset": 6250
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 82767,
+        "raw": "Italian, Wine bar, Pasta"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 50278,
+        "raw": "Anniversary T-Bone Steak with Sparkling Toast All-You-Can-Drink Course (6 Dishes)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 54261,
+        "raw": "[For Welcome and Farewell Parties, Drinking Parties, etc.!] ilco 2-Hour All-You-Can-Drink Course!"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 58201,
+        "raw": "JPY 5500, tax Included 2-Hour All-You-Can-Drink Course!"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Italian, Wine bar, Pasta",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Anniversary T-Bone Steak with Sparkling Toast All-You-Can-Drink Course (6 Dishes)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Celebrate with a special T-bone steak course, starting with a sparkling toast. Enjoy a satisfying six-course meal featuring two appetizers, pasta, our signature T-bone steak, and seasonal sorbet. This package includes a two-hour all-you-can-drink option, making it perfect for birthdays, anniversaries, or special meals with loved ones. *Price: JPY 10,000 (tax included) per person.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[For Welcome and Farewell Parties, Drinking Parties, etc.!] ilco 2-Hour All-You-Can-Drink Course!",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "The course features a generous selection of seven dishes, making it perfect for welcome and farewell parties, girls' nights out, and various other banquets! Available for groups starting from just three people! For an additional JPY 1,100 per person, you can extend the all-you-can-drink option by 30 minutes! We can accommodate private reservations for parties of around 40 guests. Wine tasting events with your own wine are also warmly welcomed! Please feel free to consult us regarding your budget and any other inquiries.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "JPY 5500, tax Included 2-Hour All-You-Can-Drink Course!",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "The course includes a total of six dishes and is available for groups of four or more! It's perfect for various banquets such as welcome and farewell parties or girls' nights out! The all-you-can-drink option is available for 90 minutes.",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Italian, Wine bar, Pasta",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Anniversary T-Bone Steak with Sparkling Toast All-You-Can-Drink Course (6 Dishes)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Celebrate with a special T-bone steak course, starting with a sparkling toast. Enjoy a satisfying six-course meal featuring two appetizers, pasta, our signature T-bone steak, and seasonal sorbet. This package includes a two-hour all-you-can-drink option, making it perfect for birthdays, anniversaries, or special meals with loved ones. *Price: JPY 10,000 (tax included) per person.",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[For Welcome and Farewell Parties, Drinking Parties, etc.!] ilco 2-Hour All-You-Can-Drink Course!",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "The course features a generous selection of seven dishes, making it perfect for welcome and farewell parties, girls' nights out, and various other banquets! Available for groups starting from just three people! For an additional JPY 1,100 per person, you can extend the all-you-can-drink option by 30 minutes! We can accommodate private reservations for parties of around 40 guests. Wine tasting events with your own wine are also warmly welcomed! Please feel free to consult us regarding your budget and any other inquiries.",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "JPY 5500, tax Included 2-Hour All-You-Can-Drink Course!",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "The course includes a total of six dishes and is available for groups of four or more! It's perfect for various banquets such as welcome and farewell parties or girls' nights out! The all-you-can-drink option is available for 90 minutes.",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "A cozy brick hideaway where you'll fall more in love with wine. A wine bar that perfectly complements your relaxed daily life.",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                A cozy brick hideaway where you&#39;ll fall more in love with wine. A wine bar that perfectly complements your relaxed daily life.\n              </h3>",
+      "sha256": "cbfb61ac1de640dda9491ec70e5de4dc172f50ebbb6af16cb2f448e9f797b06b",
+      "htmlCharacterOffset": 44257
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Anniversary T-Bone Steak with Sparkling Toast All-You-Can-Drink Course (6 Dishes)",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Anniversary T-Bone Steak with Sparkling Toast All-You-Can-Drink Course (6 Dishes)</span>",
+      "sha256": "bc12e97f101c23cd5961dd6f8821c8b8adf0f91da92f665e89ece88043751d42",
+      "htmlCharacterOffset": 50226
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Celebrate with a special T-bone steak course, starting with a sparkling toast. Enjoy a satisfying six-course meal featuring two appetizers, pasta, our signature T-bone steak, and seasonal sorbet. This package includes a two-hour all-you-can-drink option, making it perfect for birthdays, anniversaries, or special meals with loved ones. *Price: JPY 10,000 (tax included) per person.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Celebrate with a special T-bone steak course, starting with a sparkling toast. \n                          Enjoy a satisfying six-course meal featuring two appetizers, pasta, our signature T-bone steak, and seasonal sorbet. \n                          This package includes a two-hour all-you-can-drink option, making it perfect for birthdays, anniversaries, or special meals with loved ones. \n                          *Price: JPY 10,000 (tax included) per person.\n                        </p>",
+      "sha256": "2b503405c3b2710c6ae98f1a9a463dce6d8aeafbf1317bcdb64b11f988a14a38",
+      "htmlCharacterOffset": 50497
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[For Welcome and Farewell Parties, Drinking Parties, etc.!] ilco 2-Hour All-You-Can-Drink Course!",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[For Welcome and Farewell Parties, Drinking Parties, etc.!] ilco 2-Hour All-You-Can-Drink Course!</span>",
+      "sha256": "ec67102a133b4014ff3789e8599bb2038040dbe66fe1d944af0d2b1da1672501",
+      "htmlCharacterOffset": 54209
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "The course features a generous selection of seven dishes, making it perfect for welcome and farewell parties, girls' nights out, and various other banquets! Available for groups starting from just three people! For an additional JPY 1,100 per person, you can extend the all-you-can-drink option by 30 minutes! We can accommodate private reservations for parties of around 40 guests. Wine tasting events with your own wine are also warmly welcomed! Please feel free to consult us regarding your budget and any other inquiries.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          The course features a generous selection of seven dishes, making it perfect for welcome and farewell parties, girls&#39; nights out, and various other banquets! \n                          Available for groups starting from just three people! \n                          For an additional JPY 1,100 per person, you can extend the all-you-can-drink option by 30 minutes! \n                          We can accommodate private reservations for parties of around 40 guests. \n                          Wine tasting events with your own wine are also warmly welcomed! \n                          Please feel free to consult us regarding your budget and any other inquiries.\n                        </p>",
+      "sha256": "a49c93699ac7fed3ae85c7efb69cd62eb973a3236981f8cc93eaedc6ff3deaf5",
+      "htmlCharacterOffset": 54496
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "JPY 5500, tax Included 2-Hour All-You-Can-Drink Course!",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">JPY 5500, tax Included 2-Hour All-You-Can-Drink Course!</span>",
+      "sha256": "1c1057d5faad1ad9be43834234b2944fbfecd7cbb49d590c6f08a5bf5c07d6d0",
+      "htmlCharacterOffset": 58149
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "The course includes a total of six dishes and is available for groups of four or more! It's perfect for various banquets such as welcome and farewell parties or girls' nights out! The all-you-can-drink option is available for 90 minutes.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          The course includes a total of six dishes and is available for groups of four or more! \n                          It&#39;s perfect for various banquets such as welcome and farewell parties or girls&#39; nights out! \n                          The all-you-can-drink option is available for 90 minutes.\n                        </p>",
+      "sha256": "60bb49a19c94856689431944f6ca60174a9e625ad05b40656f86ccfa1305798c",
+      "htmlCharacterOffset": 58394
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Italian, Wine bar, Pasta",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Wine bar, Pasta</span>\n                    </td>\n                  </tr>",
+      "sha256": "52037af986c577564b7a9ac429ccf46b49ea65b1e70f0a2f6faa4d2a400b24cf",
+      "htmlCharacterOffset": 82647
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 6,000 - JPY 7,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 6,000 - JPY 7,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "b4c528f91b9f6ab485d749f6e839d8b8926714cfe01f3f786a36535697805244",
+      "htmlCharacterOffset": 88789
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome), Strollers welcome",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome), Strollers welcome\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "a2985ef61baea50da85331e64108c930e853ed9d385e9366ff97d15a61c78bae",
+      "htmlCharacterOffset": 97843
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Wine bar, Pasta</span>\n                    </td>\n                  </tr>",
+      "sha256": "52037af986c577564b7a9ac429ccf46b49ea65b1e70f0a2f6faa4d2a400b24cf",
+      "text": "Categories Italian, Wine bar, Pasta",
+      "htmlCharacterOffset": 82647
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131706/13230173/dtlratings/#price-range\">JPY 6,000 - JPY 7,999</a></span>\n                            </p>",
+      "sha256": "91235a2db94609004082ffcd3d9fb717a710ebf0a90c2f6eb40cb6eefc51512a",
+      "text": "JPY 6,000 - JPY 7,999",
+      "htmlCharacterOffset": 26037
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131706/13230173/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "e5238d4f502e93b0e80c4660393251112efea7e7d548434c22b4ab3476a9626c",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26467
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1317/A131706/13230173/"
+}

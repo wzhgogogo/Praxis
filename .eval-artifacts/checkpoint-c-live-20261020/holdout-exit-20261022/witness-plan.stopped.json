@@ -1,0 +1,1108 @@
+{
+  "status": "STOPPED_WITNESS_GATE_FAILED_NOT_LIVE_READY",
+  "reviewedBy": "CODEX_EVALUATION_SIDE",
+  "independentOfProduction": true,
+  "sourcePlanSha256": "e382d9c82a91fcc21043af1c7d37ae8da274a27ac04c624fb0f79237ce15188c",
+  "modelCalls": 0,
+  "variants": [
+    {
+      "caseId": "p2-holdout-01",
+      "place": "Ueno",
+      "fallbackPlace": "Asakusabashi",
+      "date": "2026-11-04",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 3,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "yakitori",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Ueno yakitori restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6,
+      "variantId": "p2-holdout-01",
+      "center": {
+        "latitude": 35.7087296,
+        "longitude": 139.7741538,
+        "radiusMeters": 800
+      },
+      "witnesses": [
+        {
+          "rst_id": "13128870",
+          "outletName": "Torie Ueno hirokoji ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 192.19107197592504,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Yushima Bunkyo Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1130034",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13128870.source.json",
+            "sha256": "5f38cd224ceca3d517753cbc1dd241f62c95328fe5baae084356ac31fbdae935",
+            "responseSha256": "ded42b89afae0d1f53f5249b14e8725d01babd71fcdd396c7ac77e3d7bdcfe4e",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13128870.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "yakitori",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Yakitori (Grilled chicken skewers)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13128870.source.json",
+                  "sha256": "5f38cd224ceca3d517753cbc1dd241f62c95328fe5baae084356ac31fbdae935",
+                  "responseSha256": "ded42b89afae0d1f53f5249b14e8725d01babd71fcdd396c7ac77e3d7bdcfe4e",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13128870.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "yakitori",
+              "quote": "Yakitori (Grilled chicken skewers)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13128870.source.json",
+                  "sha256": "5f38cd224ceca3d517753cbc1dd241f62c95328fe5baae084356ac31fbdae935",
+                  "responseSha256": "ded42b89afae0d1f53f5249b14e8725d01babd71fcdd396c7ac77e3d7bdcfe4e",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13128870.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        },
+        {
+          "rst_id": "13191933",
+          "outletName": "Ueno Kuromon Torie",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 343.70251186946575,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Ueno Taito Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1100005",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13191933.source.json",
+            "sha256": "a68e1accbb85e9b5054abb730757bd588d236d3d05be689e93e9c3cc6e294e84",
+            "responseSha256": "a868c4f8f94a82ad320f3c953aaf7e939a367a3d2043d6e408c799cd6bebbc0d",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13191933.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "yakitori",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Yakitori (Grilled chicken skewers)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13191933.source.json",
+                  "sha256": "a68e1accbb85e9b5054abb730757bd588d236d3d05be689e93e9c3cc6e294e84",
+                  "responseSha256": "a868c4f8f94a82ad320f3c953aaf7e939a367a3d2043d6e408c799cd6bebbc0d",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13191933.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "yakitori",
+              "quote": "Yakitori (Grilled chicken skewers)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13191933.source.json",
+                  "sha256": "a68e1accbb85e9b5054abb730757bd588d236d3d05be689e93e9c3cc6e294e84",
+                  "responseSha256": "a868c4f8f94a82ad320f3c953aaf7e939a367a3d2043d6e408c799cd6bebbc0d",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13191933.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        },
+        {
+          "rst_id": "13290563",
+          "outletName": "Tori no Ichi Ueno honten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 322.7399193186088,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Higashiueno Taito Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1100015",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13290563.source.json",
+            "sha256": "b5072ae5cb49b8c79c2352823decf709e3bdcd4be32c6348825a35bdfdc370c9",
+            "responseSha256": "6c5e65b30e1d86256d107f094d9f19a5f5aad80f8a0a8df905042b6add53eafd",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13290563.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "yakitori",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Yakitori (Grilled chicken skewers)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13290563.source.json",
+                  "sha256": "b5072ae5cb49b8c79c2352823decf709e3bdcd4be32c6348825a35bdfdc370c9",
+                  "responseSha256": "6c5e65b30e1d86256d107f094d9f19a5f5aad80f8a0a8df905042b6add53eafd",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13290563.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "yakitori",
+              "quote": "Yakitori (Grilled chicken skewers)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13290563.source.json",
+                  "sha256": "b5072ae5cb49b8c79c2352823decf709e3bdcd4be32c6348825a35bdfdc370c9",
+                  "responseSha256": "6c5e65b30e1d86256d107f094d9f19a5f5aad80f8a0a8df905042b6add53eafd",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13290563.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        }
+      ],
+      "status": "PENDING_INVENTORY"
+    },
+    {
+      "caseId": "p2-holdout-02",
+      "place": "Sangenjaya",
+      "fallbackPlace": "Sangenjaya",
+      "date": "2026-10-30",
+      "earliest": "19:30",
+      "latest": "19:30",
+      "partySize": 2,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "Italian",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "under 8,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Jiyugaoka Italian restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6,
+      "variantId": "p2-holdout-02",
+      "center": {
+        "latitude": 35.641253899999995,
+        "longitude": 139.667531,
+        "radiusMeters": 800
+      },
+      "witnesses": [
+        {
+          "rst_id": "13013080",
+          "outletName": "SALVATORE CUOMO &amp; BAR Sangenjaya",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13013080/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 614.2935954954295,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Nozawa Setagaya Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1540003",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.source.json",
+            "sha256": "4410e3fd5a43be55d824969e4d607ec6607c9fffaf37fbf6e90a1914e6080336",
+            "responseSha256": "f79552910954fbb1037cd1eb31f61eb125b485134fa0304655a0662eb256646a",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "Italian",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Italian",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.source.json",
+                  "sha256": "4410e3fd5a43be55d824969e4d607ec6607c9fffaf37fbf6e90a1914e6080336",
+                  "responseSha256": "f79552910954fbb1037cd1eb31f61eb125b485134fa0304655a0662eb256646a",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.attempt-1.metadata.json"
+                }
+              ]
+            },
+            {
+              "value": "under 8,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "JPY 4,000 - JPY 4,999",
+              "role": "MERCHANT_AVERAGE_PRICE_DINNER",
+              "sourceFragmentSha256": "1494c19ee03cd5fa5807c66d2d027b0f504e3fb215e8d95d231420f173651892",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.source.json",
+                  "sha256": "4410e3fd5a43be55d824969e4d607ec6607c9fffaf37fbf6e90a1914e6080336",
+                  "responseSha256": "f79552910954fbb1037cd1eb31f61eb125b485134fa0304655a0662eb256646a",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.attempt-1.metadata.json"
+                }
+              ],
+              "interpretation": "Published merchant dinner budget upper bound is below the unchanged per-person limit; not a customer review or lunch price."
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "Italian",
+              "quote": "Italian",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.source.json",
+                  "sha256": "4410e3fd5a43be55d824969e4d607ec6607c9fffaf37fbf6e90a1914e6080336",
+                  "responseSha256": "f79552910954fbb1037cd1eb31f61eb125b485134fa0304655a0662eb256646a",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.attempt-1.metadata.json"
+                }
+              ]
+            },
+            {
+              "criterion": "under 8,000 yen per person",
+              "quote": "JPY 4,000 - JPY 4,999",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.source.json",
+                  "sha256": "4410e3fd5a43be55d824969e4d607ec6607c9fffaf37fbf6e90a1914e6080336",
+                  "responseSha256": "f79552910954fbb1037cd1eb31f61eb125b485134fa0304655a0662eb256646a",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        },
+        {
+          "rst_id": "13230173",
+          "outletName": "ilco",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13230173/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 586.4678092854484,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Taishido Setagaya Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1540004",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.source.json",
+            "sha256": "0d42563686bd2f5b8e6d95d3c4cadec27b2b2d772a55d5b2835356bf004105a1",
+            "responseSha256": "7140e95f6186deddc0b4d3ada3f87cc23d79dc9e0496a1d94df5e6fe491217ec",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "Italian",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Italian",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.source.json",
+                  "sha256": "0d42563686bd2f5b8e6d95d3c4cadec27b2b2d772a55d5b2835356bf004105a1",
+                  "responseSha256": "7140e95f6186deddc0b4d3ada3f87cc23d79dc9e0496a1d94df5e6fe491217ec",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.attempt-1.metadata.json"
+                }
+              ]
+            },
+            {
+              "value": "under 8,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "JPY 6,000 - JPY 7,999",
+              "role": "MERCHANT_AVERAGE_PRICE_DINNER",
+              "sourceFragmentSha256": "b4c528f91b9f6ab485d749f6e839d8b8926714cfe01f3f786a36535697805244",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.source.json",
+                  "sha256": "0d42563686bd2f5b8e6d95d3c4cadec27b2b2d772a55d5b2835356bf004105a1",
+                  "responseSha256": "7140e95f6186deddc0b4d3ada3f87cc23d79dc9e0496a1d94df5e6fe491217ec",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.attempt-1.metadata.json"
+                }
+              ],
+              "interpretation": "Published merchant dinner budget upper bound is below the unchanged per-person limit; not a customer review or lunch price."
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "Italian",
+              "quote": "Italian",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.source.json",
+                  "sha256": "0d42563686bd2f5b8e6d95d3c4cadec27b2b2d772a55d5b2835356bf004105a1",
+                  "responseSha256": "7140e95f6186deddc0b4d3ada3f87cc23d79dc9e0496a1d94df5e6fe491217ec",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.attempt-1.metadata.json"
+                }
+              ]
+            },
+            {
+              "criterion": "under 8,000 yen per person",
+              "quote": "JPY 6,000 - JPY 7,999",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.source.json",
+                  "sha256": "0d42563686bd2f5b8e6d95d3c4cadec27b2b2d772a55d5b2835356bf004105a1",
+                  "responseSha256": "7140e95f6186deddc0b4d3ada3f87cc23d79dc9e0496a1d94df5e6fe491217ec",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        },
+        {
+          "rst_id": "13169776",
+          "outletName": "The Kentarone",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13169776/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 462.43637149404543,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Sangenjaya Setagaya Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1540024",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.source.json",
+            "sha256": "90a5271add374c2bbdd5bb6227f8a41fdde41333df21de95227a0c9e99f41a72",
+            "responseSha256": "da6797ceae8240ce8136034aab295a515b0ef7974bb805547553878712bbf8b9",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "Italian",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Italian",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.source.json",
+                  "sha256": "90a5271add374c2bbdd5bb6227f8a41fdde41333df21de95227a0c9e99f41a72",
+                  "responseSha256": "da6797ceae8240ce8136034aab295a515b0ef7974bb805547553878712bbf8b9",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.attempt-1.metadata.json"
+                }
+              ]
+            },
+            {
+              "value": "under 8,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "JPY 6,000 - JPY 7,999",
+              "role": "MERCHANT_AVERAGE_PRICE_DINNER",
+              "sourceFragmentSha256": "b7cb2149d403069827469c88a0bb25694fead5cab074dec0b30fc8da727109a4",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.source.json",
+                  "sha256": "90a5271add374c2bbdd5bb6227f8a41fdde41333df21de95227a0c9e99f41a72",
+                  "responseSha256": "da6797ceae8240ce8136034aab295a515b0ef7974bb805547553878712bbf8b9",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.attempt-1.metadata.json"
+                }
+              ],
+              "interpretation": "Published merchant dinner budget upper bound is below the unchanged per-person limit; not a customer review or lunch price."
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "Italian",
+              "quote": "Italian",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.source.json",
+                  "sha256": "90a5271add374c2bbdd5bb6227f8a41fdde41333df21de95227a0c9e99f41a72",
+                  "responseSha256": "da6797ceae8240ce8136034aab295a515b0ef7974bb805547553878712bbf8b9",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.attempt-1.metadata.json"
+                }
+              ]
+            },
+            {
+              "criterion": "under 8,000 yen per person",
+              "quote": "JPY 6,000 - JPY 7,999",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.source.json",
+                  "sha256": "90a5271add374c2bbdd5bb6227f8a41fdde41333df21de95227a0c9e99f41a72",
+                  "responseSha256": "da6797ceae8240ce8136034aab295a515b0ef7974bb805547553878712bbf8b9",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        }
+      ],
+      "status": "PENDING_INVENTORY",
+      "originalPlace": "Jiyugaoka",
+      "fallbackOrdinal": 1,
+      "fallbackCenterRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/fallback-center-02/center.json",
+        "sha256": "e9d6d35d99a1ed49c099f8c6124942a533a74a90ec5b5e9f8fd10266639805b9"
+      }
+    },
+    {
+      "caseId": "p2-holdout-03",
+      "place": "Akasaka",
+      "fallbackPlace": "Toranomon",
+      "date": "2026-10-29",
+      "earliest": "18:00",
+      "latest": "20:00",
+      "partySize": 6,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "shabu-shabu",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Akasaka shabu-shabu restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6,
+      "variantId": "p2-holdout-03",
+      "center": {
+        "latitude": 35.6710403,
+        "longitude": 139.7345469,
+        "radiusMeters": 800
+      },
+      "witnesses": [
+        {
+          "rst_id": "13126018",
+          "outletName": "Hyoki Akasaka ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 422.99374632394466,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Akasaka Minato Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1070052",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13126018.source.json",
+            "sha256": "d6a53f8410a48d2a226bcda3067b2f964dafdd102793786b3d40d274191797c7",
+            "responseSha256": "1e7d521cea6e858b658174ecedc11ce0ddab99639542b0f4a4c2e4ec5c5c74db",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13126018.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "shabu-shabu",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Shabu shabu (Japanese hotpot)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13126018.source.json",
+                  "sha256": "d6a53f8410a48d2a226bcda3067b2f964dafdd102793786b3d40d274191797c7",
+                  "responseSha256": "1e7d521cea6e858b658174ecedc11ce0ddab99639542b0f4a4c2e4ec5c5c74db",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13126018.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "shabu-shabu",
+              "quote": "Shabu shabu (Japanese hotpot)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13126018.source.json",
+                  "sha256": "d6a53f8410a48d2a226bcda3067b2f964dafdd102793786b3d40d274191797c7",
+                  "responseSha256": "1e7d521cea6e858b658174ecedc11ce0ddab99639542b0f4a4c2e4ec5c5c74db",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13126018.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        },
+        {
+          "rst_id": "13015193",
+          "outletName": "Shabu Gen",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 644.667414290496,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Akasaka Minato Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1070052",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13015193.source.json",
+            "sha256": "13c45f08e47eea656f4975ee38d08e703e7a5f3580de381e292c9c158f9887db",
+            "responseSha256": "0bda9ceb62f4f22bbb7a55d4cb857670a549096bf8e75080df7f2c6b34e962ff",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13015193.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "shabu-shabu",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Shabu shabu (Japanese hotpot)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13015193.source.json",
+                  "sha256": "13c45f08e47eea656f4975ee38d08e703e7a5f3580de381e292c9c158f9887db",
+                  "responseSha256": "0bda9ceb62f4f22bbb7a55d4cb857670a549096bf8e75080df7f2c6b34e962ff",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13015193.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "shabu-shabu",
+              "quote": "Shabu shabu (Japanese hotpot)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13015193.source.json",
+                  "sha256": "13c45f08e47eea656f4975ee38d08e703e7a5f3580de381e292c9c158f9887db",
+                  "responseSha256": "0bda9ceb62f4f22bbb7a55d4cb857670a549096bf8e75080df7f2c6b34e962ff",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13015193.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        },
+        {
+          "rst_id": "13169764",
+          "outletName": "Kappo Kukita",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13169764/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 413.7227983928927,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Akasaka Minato Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1070052",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13169764.source.json",
+            "sha256": "103697c8a7ce7214a17071cfbe24f500a12125054444edacafc8b211aa908096",
+            "responseSha256": "317402d91dbe65486a00a831c41c84ecf26cea6213a7bed5eab8271e1ee91e2b",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13169764.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "shabu-shabu",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Shabu shabu (Japanese hotpot)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13169764.source.json",
+                  "sha256": "103697c8a7ce7214a17071cfbe24f500a12125054444edacafc8b211aa908096",
+                  "responseSha256": "317402d91dbe65486a00a831c41c84ecf26cea6213a7bed5eab8271e1ee91e2b",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13169764.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "shabu-shabu",
+              "quote": "Shabu shabu (Japanese hotpot)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13169764.source.json",
+                  "sha256": "103697c8a7ce7214a17071cfbe24f500a12125054444edacafc8b211aa908096",
+                  "responseSha256": "317402d91dbe65486a00a831c41c84ecf26cea6213a7bed5eab8271e1ee91e2b",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13169764.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        }
+      ],
+      "status": "PENDING_INVENTORY"
+    },
+    {
+      "caseId": "p2-holdout-04",
+      "place": "Ningyocho",
+      "fallbackPlace": "Kanda",
+      "date": "2026-11-03",
+      "earliest": "18:30",
+      "latest": "18:30",
+      "partySize": 2,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "unagi",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Ningyocho unagi restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6,
+      "variantId": "p2-holdout-04",
+      "center": {
+        "latitude": 35.6852807,
+        "longitude": 139.7843792,
+        "radiusMeters": 800
+      },
+      "witnesses": [
+        {
+          "rst_id": "13022072",
+          "outletName": "Miyoshi",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130204/13022072/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 234.93966909541248,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Nihonbashiningyocho Chuo Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1030013",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/ningyocho-13022072.source.json",
+            "sha256": "af4fb8c6b775e259119aa84ff303ff61dd9aaf5c813b1186bd82c913989c9083",
+            "responseSha256": "0e561c58229d8fde02c6a8363dc9fdad04e99d23d7a8f57cbb8e4d260b39204b",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/ningyocho-13022072.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "unagi",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Unagi (Eel)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/ningyocho-13022072.source.json",
+                  "sha256": "af4fb8c6b775e259119aa84ff303ff61dd9aaf5c813b1186bd82c913989c9083",
+                  "responseSha256": "0e561c58229d8fde02c6a8363dc9fdad04e99d23d7a8f57cbb8e4d260b39204b",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/ningyocho-13022072.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "unagi",
+              "quote": "Unagi (Eel)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/ningyocho-13022072.source.json",
+                  "sha256": "af4fb8c6b775e259119aa84ff303ff61dd9aaf5c813b1186bd82c913989c9083",
+                  "responseSha256": "0e561c58229d8fde02c6a8363dc9fdad04e99d23d7a8f57cbb8e4d260b39204b",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/ningyocho-13022072.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        },
+        {
+          "rst_id": "13291679",
+          "outletName": "Utsuke",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130204/13291679/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 705.1196627285638,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Nihonbashiyokoyamacho Chuo Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1030003",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13291679.source.json",
+            "sha256": "6c914f3b25385b95875794dbe8a1a194f9fd5babc3b05c57e6bdcdb9ecd36e2d",
+            "responseSha256": "f05795aa81d9ffdfe27290b4dc946263d134c1be5f76642c2356193bd0b10275",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13291679.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "unagi",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Unagi (Eel)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13291679.source.json",
+                  "sha256": "6c914f3b25385b95875794dbe8a1a194f9fd5babc3b05c57e6bdcdb9ecd36e2d",
+                  "responseSha256": "f05795aa81d9ffdfe27290b4dc946263d134c1be5f76642c2356193bd0b10275",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13291679.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "unagi",
+              "quote": "Unagi (Eel)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13291679.source.json",
+                  "sha256": "6c914f3b25385b95875794dbe8a1a194f9fd5babc3b05c57e6bdcdb9ecd36e2d",
+                  "responseSha256": "f05795aa81d9ffdfe27290b4dc946263d134c1be5f76642c2356193bd0b10275",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13291679.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        },
+        {
+          "rst_id": "13003026",
+          "outletName": "Ningyocho Umeda",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130204/13003026/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 328.40250384044907,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Nihonbashiningyocho Chuo Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1030013",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13003026.source.json",
+            "sha256": "34c4b6fc785256c21a94694a3b0ae0a9a12388e18b2528f864001422ce07dbb3",
+            "responseSha256": "6451e9ea86ea3b201eecde134afdd5912319a2cdbd69c47fd0565634fa6a184d",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13003026.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "unagi",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Unagi (Eel)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13003026.source.json",
+                  "sha256": "34c4b6fc785256c21a94694a3b0ae0a9a12388e18b2528f864001422ce07dbb3",
+                  "responseSha256": "6451e9ea86ea3b201eecde134afdd5912319a2cdbd69c47fd0565634fa6a184d",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13003026.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "unagi",
+              "quote": "Unagi (Eel)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13003026.source.json",
+                  "sha256": "34c4b6fc785256c21a94694a3b0ae0a9a12388e18b2528f864001422ce07dbb3",
+                  "responseSha256": "6451e9ea86ea3b201eecde134afdd5912319a2cdbd69c47fd0565634fa6a184d",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13003026.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        }
+      ],
+      "status": "PENDING_INVENTORY"
+    },
+    {
+      "caseId": "p2-holdout-05",
+      "place": "Shinagawa",
+      "fallbackPlace": "Shinagawa",
+      "date": "2026-10-31",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 4,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "Chinese",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "spicy Sichuan food",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Gotanda Chinese restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6,
+      "variantId": "p2-holdout-05",
+      "center": {
+        "latitude": 35.6096296,
+        "longitude": 139.72986609999998,
+        "radiusMeters": 800
+      },
+      "witnesses": [],
+      "status": "NOT_CERTIFIED_AFTER_FALLBACK",
+      "originalPlace": "Gotanda",
+      "fallbackOrdinal": 1,
+      "fallbackCenterRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/fallback-center-05/center.json",
+        "sha256": "1c5d0d83c8bbca9cf874fd0d464d4edce67eecd9e11c3408e44a6bd3f1ff3d86"
+      },
+      "failureReview": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/fallback-05-source-review.json",
+        "sha256": "3262bd55c3e05791ca2cdc7a8f79cb11e73203db44fa5bb3e80b1a57edee269d"
+      }
+    },
+    {
+      "caseId": "p2-holdout-06",
+      "place": "Shimokitazawa",
+      "fallbackPlace": "Koenji",
+      "date": "2026-10-30",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 5,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "izakaya",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Shimokitazawa izakaya restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6,
+      "variantId": "p2-holdout-06",
+      "center": {
+        "latitude": 35.665786,
+        "longitude": 139.66986269999998,
+        "radiusMeters": 800
+      },
+      "witnesses": [
+        {
+          "rst_id": "13037445",
+          "outletName": "Nanban Tei Shimokitazawa ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13037445/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 586.2833219637799,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Kitazawa Setagaya Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1550031",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13037445.source.json",
+            "sha256": "c2e84c8fbcadf4f30f52bb55bec5577c1672533f28d2dc0bf3c0f56e54eda4f4",
+            "responseSha256": "65cb540211fac46e1c404e7d29b1b2ebd6948d5c4ede54bc43d575c8a05fac2c",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13037445.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "izakaya",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Izakaya (Japanese style tavern)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13037445.source.json",
+                  "sha256": "c2e84c8fbcadf4f30f52bb55bec5577c1672533f28d2dc0bf3c0f56e54eda4f4",
+                  "responseSha256": "65cb540211fac46e1c404e7d29b1b2ebd6948d5c4ede54bc43d575c8a05fac2c",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13037445.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "izakaya",
+              "quote": "Izakaya (Japanese style tavern)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13037445.source.json",
+                  "sha256": "c2e84c8fbcadf4f30f52bb55bec5577c1672533f28d2dc0bf3c0f56e54eda4f4",
+                  "responseSha256": "65cb540211fac46e1c404e7d29b1b2ebd6948d5c4ede54bc43d575c8a05fac2c",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13037445.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        },
+        {
+          "rst_id": "13270698",
+          "outletName": "Kushiyaki to Niyasai Shimokitazawa no Zeroya",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13270698/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 283.766442089232,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Kitazawa Setagaya Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1550031",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13270698.source.json",
+            "sha256": "a1252332407903d9c03fc3412f7dd7e74a35f5776fdad07e6483b4328c296bad",
+            "responseSha256": "4ad5db2fa68f2b7c0bd6f4452b577104d144534d1259a027cdd948f9e7ad0053",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13270698.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "izakaya",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Izakaya (Japanese style tavern)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13270698.source.json",
+                  "sha256": "a1252332407903d9c03fc3412f7dd7e74a35f5776fdad07e6483b4328c296bad",
+                  "responseSha256": "4ad5db2fa68f2b7c0bd6f4452b577104d144534d1259a027cdd948f9e7ad0053",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13270698.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "izakaya",
+              "quote": "Izakaya (Japanese style tavern)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13270698.source.json",
+                  "sha256": "a1252332407903d9c03fc3412f7dd7e74a35f5776fdad07e6483b4328c296bad",
+                  "responseSha256": "4ad5db2fa68f2b7c0bd6f4452b577104d144534d1259a027cdd948f9e7ad0053",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13270698.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        },
+        {
+          "rst_id": "13289461",
+          "outletName": "Yaki Yasai Ginga Dan",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13289461/",
+          "bookingSource": "TABELOG",
+          "distanceMeters": 480.78055819870116,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "",
+            "addressLocality": "Kitazawa Setagaya Tokyo",
+            "addressRegion": "Tokyo",
+            "postalCode": "1550031",
+            "addressCountry": "JP"
+          },
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13289461.source.json",
+            "sha256": "e947219beb1d19e7e23ef946dfef7c107e763da6cd5b36a3dbf024698ea2e65b",
+            "responseSha256": "19af6b7dae840764c98b4f838eadd13f7896bee0d2b6a0a56ff0c58167b163cf",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13289461.attempt-1.metadata.json"
+          },
+          "hardCriteria": [
+            {
+              "value": "izakaya",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "status": "SUPPORTED",
+              "quote": "Izakaya (Japanese style tavern)",
+              "role": "CATEGORY",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13289461.source.json",
+                  "sha256": "e947219beb1d19e7e23ef946dfef7c107e763da6cd5b36a3dbf024698ea2e65b",
+                  "responseSha256": "19af6b7dae840764c98b4f838eadd13f7896bee0d2b6a0a56ff0c58167b163cf",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13289461.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "hardEvidence": [
+            {
+              "criterion": "izakaya",
+              "quote": "Izakaya (Japanese style tavern)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13289461.source.json",
+                  "sha256": "e947219beb1d19e7e23ef946dfef7c107e763da6cd5b36a3dbf024698ea2e65b",
+                  "responseSha256": "19af6b7dae840764c98b4f838eadd13f7896bee0d2b6a0a56ff0c58167b163cf",
+                  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13289461.attempt-1.metadata.json"
+                }
+              ]
+            }
+          ],
+          "classification": "PENDING_CURRENT_INVENTORY"
+        }
+      ],
+      "status": "PENDING_INVENTORY"
+    }
+  ]
+}
