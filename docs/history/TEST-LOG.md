@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.249
+- Document revision: 4.250
 - Last updated: 2026-10-22
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-CONTINUATION
+
+依据044f7de7及用户续行批准，补充第05例非川菜细分类别见证；无见证仍完整运行18次且排除该例能力分母。沿用其余有效登记，30秒决策不变，准备冻结延后评价编排；运行后仅提交未对应措辞，不生成评分。当前仅离线准备，原停止材料保持。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/plan.md).
 
 ## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-WITNESS-STOP
 

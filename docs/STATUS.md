@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.345
+- Document revision: 4.346
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 Checkpoint C holdout-continuation:** 依据044f7de7及用户续行批准，补充第05例非川菜细分类别见证；无见证仍完整运行18次且排除该例能力分母。沿用其余有效登记，30秒决策不变，准备冻结延后评价编排；运行后仅提交未对应措辞，不生成评分。当前仅离线准备，原停止材料保持。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/plan.md).
 
 - **2026-10-22 Checkpoint C holdout-witness-stop:** C17用户特批30秒重跑已QUALIFIED_DELIVERY（3家、29/29模型成功），C机械门槛PASS；随后按批准步骤解封并核对原文件/6例SHA，0模型认证登记为3/3/2/3/0/2家，两个唯一备用地点均留证。第05例备用地点仍缺负向HARD明文，见证门槛5/6而停；留出18次和措辞对提取均NOT_REACHED，不生成产品评分或最终Live启动冻结。生产/Prompt/评测器与C17通过时逐字节相同，复用五门禁998+131和校准22/22；累计Live33、模型2885、完整Live环境重跑2，认证传输重试单列。等待复核，不继续来源请求或Live。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/four-layer-report.md).
 
