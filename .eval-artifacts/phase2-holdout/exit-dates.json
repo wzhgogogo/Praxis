@@ -1,0 +1,39 @@
+{
+  "exitCheckStart": "2026-10-22",
+  "rule": "At exit, {DATE} is replaced by the case's listed weekday falling 7-14 days after the exit check starts. Filling the date (and switching to the listed fallback place if witness certification fails) are the only permitted changes; both must be recorded.",
+  "cases": {
+    "p2-holdout-01": {
+      "weekday": "Wednesday",
+      "date": "2026-11-04",
+      "content": "Wednesday, November 4"
+    },
+    "p2-holdout-02": {
+      "weekday": "Friday",
+      "date": "2026-10-30",
+      "content": "Friday, October 30"
+    },
+    "p2-holdout-03": {
+      "weekday": "Thursday",
+      "date": "2026-10-29",
+      "content": "Thursday, October 29"
+    },
+    "p2-holdout-04": {
+      "weekday": "Tuesday",
+      "date": "2026-11-03",
+      "content": "Tuesday, November 3",
+      "note": "Culture Day (public holiday); fallback place Kanda only if witness certification fails"
+    },
+    "p2-holdout-05": {
+      "weekday": "Saturday",
+      "date": "2026-10-31",
+      "content": "Saturday, October 31"
+    },
+    "p2-holdout-06": {
+      "weekday": "Friday",
+      "date": "2026-10-30",
+      "content": "Friday, October 30"
+    }
+  },
+  "verifiedAgainstCommitment": true,
+  "fileSha256": "cb0efa949f21fc0c19c7a6fd48e6a51c1848bb722c795b0ccd51213c43ecb98e"
+}
