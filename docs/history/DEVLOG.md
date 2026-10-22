@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.254
+- Document revision: 4.255
 - Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-22-CHECKPOINT-C-PHASE2B-STEP1-COMPLETE
+
+第一步合并验收全部满足：预算/团体/流水线已按序进入准备分支，模型累计上限5000。实际五门禁1024/136、缓存真实响应69/69与选店5/5、独立校准22/22及旧例02五条预算均CONSISTENT。69与5请求经当前生产重建后逐项内容相同；无新模型/网站/Live。冻结f648d2df/4173项前后核对，当前3280/51/3、剩1720/49/7；旧原始/评价/Gold保持。新留出未打开，进入已批准三次旧暴露Live检查，必须在旧见证北京时间10月23日14:41:36前完成；不过门槛即停，不续期。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/four-layer-report.md).
 
 ## DEV-2026-10-22-CHECKPOINT-C-PHASE2B-MERGED-INPUTS
 
