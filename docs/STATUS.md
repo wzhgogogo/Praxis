@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.347
+- Document revision: 4.348
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 Checkpoint C holdout-live-ready:** 六例见证全部有效（3/3/2/3/1/2），截止不重置为最早观察后24小时。0网络0模型完整演练已走通外层、完整Runner、独立S0安全检查、延后执行清单和措辞提取，未生成能力评价文件；13项新增/核心控制全绿，其他既有控制另留日志。326生产/Prompt/评测文件未变，五门禁按SHA复用。即将冻结18次完整留出运行，不带run-ids；完成后仅提交待复核措辞和原始记录，不报告评分。C签收H005严格原规则与用户特批30秒两口径并列。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/plan.md).
 
 - **2026-10-22 Checkpoint C holdout-live-inputs:** 第05例按复核许可的商家地域/业态字段及四参数原始库存补证，六例3/3/2/3/1/2家均认证；其余完整来源不重采。仅Runner机械投影落实已批准备用地点。外层新增冻结留出计划与延后评分：Runner不自动评价、仅保留独立S0及环境重跑白名单；12项离线控制通过，326生产配置文件与通过基线SHA相同。准备0网络0模型接线演练再冻结18次，尚未运行留出Live。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/plan.md).
 
