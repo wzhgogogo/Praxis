@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.227
+- Document revision: 4.228
 - Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-22-CHECKPOINT-C-C18-REASSESSMENT-RESULTS
+
+C18两套离线补评18+18完成，2678冻结项运行后未变、外部调用0。原31为4QD/12NE/1MISS/1HONEST；31+对应和32+对应+当前HARD均12QD/4NE/1MISS/1HONEST，三者新文件并列，原评价不改。展示对照S1_UNSUPPORTED：原11→31对应16→32为4；MISSED_KNOWN_CONDITION仍3。剩余未知保留c02/c04/c08/c17，不补抓网络或重跑模型；下一步合入4fcf7702进行展示反事实回放。累计模型2827/正式Live31/正式环境重跑0不变，非Clean Baseline。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
 
 ## DEV-2026-10-22-CHECKPOINT-C-C18-REASSESSMENT-FROZEN
 
