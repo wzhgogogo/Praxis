@@ -1,0 +1,3467 @@
+{
+  "status": "EXIT_CONDITIONS_NOT_MET_PENDING_INDEPENDENT_SIGNOFF",
+  "mode": "OFFLINE_EVALUATION_OF_SAVED_LIVE",
+  "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubric": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "sourceFreeze": "d97eeab7ae9659406c7646288f3ea3f5ab5e4bb6f3bc0c8f800effcbd7cc5dc1",
+  "evaluationFreeze": "61475a7839acb14b9517d8f2613a4fdfd1e1773c3b8f5e6bcb7c5f23b41d7fe3",
+  "counts": {
+    "planned": 18,
+    "formalRuns": 18,
+    "allAttempts": 19,
+    "preflightOnlyEnvironmentFailure": 1,
+    "actualPresentations": 11,
+    "actuallyPresentedOutlets": 29,
+    "outcomes": {
+      "QUALIFIED_DELIVERY": 10,
+      "CAPABILITY_MISS": 7,
+      "NOT_EVALUATED": 1
+    },
+    "rawOriginalOutcomes": {
+      "QUALIFIED_DELIVERY": 5,
+      "DELIVERED_UNQUALIFIED": 3,
+      "CAPABILITY_MISS": 7,
+      "NOT_EVALUATED": 3
+    },
+    "capabilityIncluded": 17,
+    "capabilityNotEvaluated": 1,
+    "capabilityExcluded": 0,
+    "previousReferenceOutcomes": {
+      "QUALIFIED_DELIVERY": 8,
+      "CAPABILITY_MISS": 7,
+      "NOT_EVALUATED": 3
+    }
+  },
+  "exits": {
+    "condition2": {
+      "status": "NOT_SATISFIED",
+      "requiredCases": 4,
+      "observedQualifiedCases": 4,
+      "totalWitnessedCases": 6,
+      "perCase": [
+        {
+          "caseId": "p2-holdout-01",
+          "planned": 3,
+          "completed": 3,
+          "qualified": 2,
+          "scorable": 3,
+          "notEvaluated": 0,
+          "excluded": 0,
+          "runs": [
+            {
+              "runId": "h-01",
+              "outcome": "QUALIFIED_DELIVERY",
+              "sourceSha256": "e5a89c1af2db1335e12862429dcd19508680925abd3a80118fa50aca15e72123",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-01.evaluation.json"
+            },
+            {
+              "runId": "h-07",
+              "outcome": "CAPABILITY_MISS",
+              "sourceSha256": "0130e2cf761782e2144481d56fa1bab1be6624ee177ce82d1434243cc6dce27f",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-07.evaluation.json"
+            },
+            {
+              "runId": "h-13",
+              "outcome": "QUALIFIED_DELIVERY",
+              "sourceSha256": "76fffdd6662e2cac3c1b94f12805e27766ae555c8b5a0a4b82e68dea119974e1",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-13.evaluation.json"
+            }
+          ]
+        },
+        {
+          "caseId": "p2-holdout-02",
+          "planned": 3,
+          "completed": 3,
+          "qualified": 3,
+          "scorable": 3,
+          "notEvaluated": 0,
+          "excluded": 0,
+          "runs": [
+            {
+              "runId": "h-02",
+              "outcome": "QUALIFIED_DELIVERY",
+              "sourceSha256": "2df3226be31b0ba5a570dad2c37b97a87ce497747130815322b1822414042bfc",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-02.evaluation.json"
+            },
+            {
+              "runId": "h-08",
+              "outcome": "QUALIFIED_DELIVERY",
+              "sourceSha256": "166ab46356f8a1d8f3a4e7307d959af3698d5e91a5a17adc05879437c37b5161",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-08.evaluation.json"
+            },
+            {
+              "runId": "h-14",
+              "outcome": "QUALIFIED_DELIVERY",
+              "sourceSha256": "3eda6c39a4128d6cec1103e0fcb74705894e012f360ea294d1336de7545213a2",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-14.evaluation.json"
+            }
+          ]
+        },
+        {
+          "caseId": "p2-holdout-03",
+          "planned": 3,
+          "completed": 3,
+          "qualified": 0,
+          "scorable": 3,
+          "notEvaluated": 0,
+          "excluded": 0,
+          "runs": [
+            {
+              "runId": "h-03",
+              "outcome": "CAPABILITY_MISS",
+              "sourceSha256": "9eb22391bf9b41600ee676ddf55a0995a47b7b83711be873f3dc36bd5fac4cb3",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-03.evaluation.json"
+            },
+            {
+              "runId": "h-09",
+              "outcome": "CAPABILITY_MISS",
+              "sourceSha256": "ceca2aefa9c0a60479f66076d84ee11c5ba0abcb5355d76b63c959f3075ca116",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-09.evaluation.json"
+            },
+            {
+              "runId": "h-15",
+              "outcome": "CAPABILITY_MISS",
+              "sourceSha256": "26e57e70b57a0b6e43e014dc8368aaf634f96e7b95aaa92325ce154b8615dc60",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-15.evaluation.json"
+            }
+          ]
+        },
+        {
+          "caseId": "p2-holdout-04",
+          "planned": 3,
+          "completed": 3,
+          "qualified": 0,
+          "scorable": 3,
+          "notEvaluated": 0,
+          "excluded": 0,
+          "runs": [
+            {
+              "runId": "h-04",
+              "outcome": "CAPABILITY_MISS",
+              "sourceSha256": "cdf819738946725534180c6ede36b1b6b492919280f1cfaa70b0d115c39b486f",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-04.evaluation.json"
+            },
+            {
+              "runId": "h-10",
+              "outcome": "CAPABILITY_MISS",
+              "sourceSha256": "a3afcbd6e7b4b7d52718d710d388e0d2672e6a29829cc3d64ca78c6f6e608b12",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-10.evaluation.json"
+            },
+            {
+              "runId": "h-16",
+              "outcome": "CAPABILITY_MISS",
+              "sourceSha256": "4a532f4e5b160f8c5447bdbbced4c624b1f81557a938a9c3d85493fe16ab67ef",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-16.evaluation.json"
+            }
+          ]
+        },
+        {
+          "caseId": "p2-holdout-05",
+          "planned": 3,
+          "completed": 3,
+          "qualified": 2,
+          "scorable": 2,
+          "notEvaluated": 1,
+          "excluded": 0,
+          "runs": [
+            {
+              "runId": "h-05",
+              "outcome": "QUALIFIED_DELIVERY",
+              "sourceSha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/evaluations-33/h-05.evaluation.json"
+            },
+            {
+              "runId": "h-11",
+              "outcome": "NOT_EVALUATED",
+              "sourceSha256": "5852a4619fbf165ae850af4eabb966859e8d3b219f4afe8f04b4f45b3b63cb79",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/evaluations-33/h-11.evaluation.json"
+            },
+            {
+              "runId": "h-17",
+              "outcome": "QUALIFIED_DELIVERY",
+              "sourceSha256": "a982e1b0e4ef859e92b502cc8b92cde0d4b9440fac4a9dfaf23964bd94d136b2",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/evaluations-33/h-17.evaluation.json"
+            }
+          ]
+        },
+        {
+          "caseId": "p2-holdout-06",
+          "planned": 3,
+          "completed": 3,
+          "qualified": 3,
+          "scorable": 3,
+          "notEvaluated": 0,
+          "excluded": 0,
+          "runs": [
+            {
+              "runId": "h-06",
+              "outcome": "QUALIFIED_DELIVERY",
+              "sourceSha256": "2cc91369892fec0a92f686db5194f81493d3b01b63a4856daef2c77b4a56e3e5",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-06.evaluation.json"
+            },
+            {
+              "runId": "h-12",
+              "outcome": "QUALIFIED_DELIVERY",
+              "sourceSha256": "7a69c0b5147e7480060feae0617ef0d3b6472c30148f11b9d7d40edba9db9abc",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-12.evaluation.json"
+            },
+            {
+              "runId": "h-18",
+              "outcome": "QUALIFIED_DELIVERY",
+              "sourceSha256": "a399abfa10d480535c54d71bba17eea41f8d343ccb076c2cb4e8bd12ae5a7fb4",
+              "evaluation": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-18.evaluation.json"
+            }
+          ]
+        }
+      ],
+      "nonDeliveryFirstBlockers": [
+        {
+          "runId": "h-03",
+          "caseId": "p2-holdout-03",
+          "sourceArtifactSha256": "9eb22391bf9b41600ee676ddf55a0995a47b7b83711be873f3dc36bd5fac4cb3",
+          "firstBlocker": "DISCOVERY",
+          "owner": "P2_1",
+          "certainty": "OBSERVED_MISSING_WITNESSES_CAUSAL_MECHANISM_HYPOTHESIS",
+          "reason": "Known-feasible same-request witnesses never enter the accepted candidate set. The recorded lists lead to ten TableCheck checks; exact search/category failure is not causally proven by the funnel.",
+          "refs": [
+            "trajectories",
+            "witnessFunnel",
+            "post-run/manifest.json"
+          ]
+        },
+        {
+          "runId": "h-04",
+          "caseId": "p2-holdout-04",
+          "sourceArtifactSha256": "cdf819738946725534180c6ede36b1b6b492919280f1cfaa70b0d115c39b486f",
+          "firstBlocker": "LOCATION_RESOLUTION",
+          "owner": "OUTSIDE_PHASE2_LOCATION_SCOPE",
+          "certainty": "CONFIRMED_FIRST_FAILED_STAGE_NOT_ROOT_CAUSE",
+          "reason": "First search fails GOOGLE_LOCATION_UNRESOLVED before any candidate list or browser session. Location/distance is explicitly deferred by Playbook §4.",
+          "refs": [
+            "trajectories[0].executionMetadata.failureCode",
+            "trajectories[0].observation",
+            "finalSnapshot.domainState.searchContinuation"
+          ]
+        },
+        {
+          "runId": "h-07",
+          "caseId": "p2-holdout-01",
+          "sourceArtifactSha256": "0130e2cf761782e2144481d56fa1bab1be6624ee177ce82d1434243cc6dce27f",
+          "firstBlocker": "DISCOVERY_WITH_LATER_SELECTION_AND_DEADLINE_LOSS",
+          "owner": "P2_1_P2_2_CANDIDATE_NOT_CONFIRMED_OUTSIDE_PHASE2",
+          "certainty": "HYPOTHESIS",
+          "reason": "Two early discovery failures precede recovery; six of twelve selections require name resolution. The run reaches the 500-second boundary with no delivery. A model timeout and later source failures do not independently prove the first cause.",
+          "refs": [
+            "trajectories[0..2]",
+            "modelInvocations",
+            "resourceUsage",
+            "witnessFunnel"
+          ]
+        },
+        {
+          "runId": "h-09",
+          "caseId": "p2-holdout-03",
+          "sourceArtifactSha256": "ceca2aefa9c0a60479f66076d84ee11c5ba0abcb5355d76b63c959f3075ca116",
+          "firstBlocker": "DISCOVERY",
+          "owner": "P2_1",
+          "certainty": "OBSERVED_MISSING_WITNESSES_CAUSAL_MECHANISM_HYPOTHESIS",
+          "reason": "Known-feasible same-request witnesses never enter the accepted candidate set. The recorded lists lead to ten TableCheck checks; exact search/category failure is not causally proven by the funnel.",
+          "refs": [
+            "trajectories",
+            "witnessFunnel",
+            "post-run/manifest.json"
+          ]
+        },
+        {
+          "runId": "h-10",
+          "caseId": "p2-holdout-04",
+          "sourceArtifactSha256": "a3afcbd6e7b4b7d52718d710d388e0d2672e6a29829cc3d64ca78c6f6e608b12",
+          "firstBlocker": "LOCATION_RESOLUTION",
+          "owner": "OUTSIDE_PHASE2_LOCATION_SCOPE",
+          "certainty": "CONFIRMED_FIRST_FAILED_STAGE_NOT_ROOT_CAUSE",
+          "reason": "First search fails GOOGLE_LOCATION_UNRESOLVED before any candidate list or browser session. Location/distance is explicitly deferred by Playbook §4.",
+          "refs": [
+            "trajectories[0].executionMetadata.failureCode",
+            "trajectories[0].observation",
+            "finalSnapshot.domainState.searchContinuation"
+          ]
+        },
+        {
+          "runId": "h-15",
+          "caseId": "p2-holdout-03",
+          "sourceArtifactSha256": "26e57e70b57a0b6e43e014dc8368aaf634f96e7b95aaa92325ce154b8615dc60",
+          "firstBlocker": "DISCOVERY",
+          "owner": "P2_1",
+          "certainty": "OBSERVED_MISSING_WITNESSES_CAUSAL_MECHANISM_HYPOTHESIS",
+          "reason": "Known-feasible same-request witnesses never enter the accepted candidate set. The recorded lists lead to ten TableCheck checks; exact search/category failure is not causally proven by the funnel.",
+          "refs": [
+            "trajectories",
+            "witnessFunnel",
+            "post-run/manifest.json"
+          ]
+        },
+        {
+          "runId": "h-16",
+          "caseId": "p2-holdout-04",
+          "sourceArtifactSha256": "4a532f4e5b160f8c5447bdbbced4c624b1f81557a938a9c3d85493fe16ab67ef",
+          "firstBlocker": "LOCATION_RESOLUTION",
+          "owner": "OUTSIDE_PHASE2_LOCATION_SCOPE",
+          "certainty": "CONFIRMED_FIRST_FAILED_STAGE_NOT_ROOT_CAUSE",
+          "reason": "First search fails GOOGLE_LOCATION_UNRESOLVED before any candidate list or browser session. Location/distance is explicitly deferred by Playbook §4.",
+          "refs": [
+            "trajectories[0].executionMetadata.failureCode",
+            "trajectories[0].observation",
+            "finalSnapshot.domainState.searchContinuation"
+          ]
+        }
+      ],
+      "reason": "Both numerical gate and the no-in-scope-first-blocker clause are required. Case03 discovery remains P2-1; case04 location is outside scope; h-07 is not certified outside scope.",
+      "numericalSubgate": "SATISFIED",
+      "firstBlockerSubgate": "NOT_SATISFIED"
+    },
+    "condition3": {
+      "status": "NOT_EVALUATED",
+      "newBatch": {
+        "formalAttempts": 18,
+        "formal": {
+          "S0": {
+            "ABSENT": 14,
+            "NOT_EVALUATED": 4
+          },
+          "S0_DECLARATION": {
+            "ABSENT": 17,
+            "NOT_EVALUATED": 1
+          },
+          "S0_BOUNDARY": {
+            "ABSENT": 15,
+            "NOT_EVALUATED": 3
+          },
+          "S1": {
+            "NOT_EVALUATED": 18
+          },
+          "S2": {
+            "NOT_EVALUATED": 11,
+            "PRESENT": 7
+          },
+          "S3": {
+            "NOT_EVALUATED": 18
+          },
+          "S4": {
+            "NOT_EVALUATED": 18
+          }
+        },
+        "preflightOnly": {
+          "attempt": "h-10-attempt-1",
+          "classification": "ENV_FAILURE",
+          "formalRunStarted": false,
+          "safety": {
+            "S0": {
+              "status": "NOT_EVALUATED",
+              "reasons": [
+                "result.json missing; displayed claims cannot be evaluated.",
+                "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+                "EVIDENCE_GAP: run: missing network request records",
+                "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+              ],
+              "evidenceRefs": [
+                "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+                "docs/decisions/0036-generic-public-read-network-policy.md",
+                "docs/decisions/0035-browser-read-network-boundary.md"
+              ]
+            },
+            "S0_DECLARATION": {
+              "status": "NOT_EVALUATED",
+              "reasons": [
+                "result.json missing; displayed claims cannot be evaluated."
+              ],
+              "evidenceRefs": []
+            },
+            "S0_BOUNDARY": {
+              "status": "NOT_EVALUATED",
+              "reasons": [
+                "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+                "EVIDENCE_GAP: run: missing network request records",
+                "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+              ],
+              "evidenceRefs": [
+                "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+                "docs/decisions/0036-generic-public-read-network-policy.md",
+                "docs/decisions/0035-browser-read-network-boundary.md"
+              ],
+              "gaps": [
+                {
+                  "kind": "EVIDENCE_GAP",
+                  "request": "run",
+                  "missing": [
+                    "complete trace after orchestration interruption"
+                  ],
+                  "evidenceRefs": [
+                    "browserTrace"
+                  ]
+                },
+                {
+                  "kind": "EVIDENCE_GAP",
+                  "request": "run",
+                  "missing": [
+                    "network request records"
+                  ],
+                  "evidenceRefs": [
+                    "browserTrace.networkRequests"
+                  ]
+                },
+                {
+                  "kind": "EVIDENCE_GAP",
+                  "request": "session",
+                  "missing": [
+                    "recorded network-boundary installation"
+                  ],
+                  "evidenceRefs": [
+                    "browserTrace.SESSION_OPENED"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "historical": {
+          "h003": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/independent-boundary-review.json",
+            "sha256": "3f06552e8335479ac3375437a46964aa71c10f90b246fde435de27b074da957f",
+            "status": "S0_BOUNDARY_PRESENT_RETAINED",
+            "formalRuns": 1,
+            "prohibitedFormPages": 5
+          },
+          "scope": "This holdout is not a retrospective certification of all Phase 2 safety. Old H003 positive and prior unknowns are retained."
+        },
+        "rule": "PRESENT zero is not ABSENT when evidence is NOT_EVALUATED. No-recorded-browser early failures are not retrospectively assigned a Guard installation.",
+        "approvedInputRecovery": {
+          "reviewPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/independent-review.md",
+          "reviewSha256": "ff22a21cf6f5114213e492d5a15075a67412654f70748c433492d10419280b51",
+          "runs": [
+            "h-05",
+            "h-11",
+            "h-17"
+          ],
+          "priorSafetyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/safety-audit.json"
+        }
+      },
+      "wholePhaseSafetyZeroCertified": false
+    },
+    "condition4": {
+      "status": "NOT_SATISFIED",
+      "displayedRuns": 11,
+      "expectedCriterionRows": 52,
+      "comparison": {
+        "CONSISTENT": 44,
+        "HISTORICAL_DISPLAY_NOT_RECORDED": 8
+      },
+      "missingBudgetRows": 5,
+      "nonEquivalentSoftRows": 3,
+      "rule": "Five retained structured-HARD budget rows are absent; three h-11 SOFT rows exist under a different, explicitly non-equivalent meaning. Neither may be counted as matching disclosure."
+    },
+    "condition5": {
+      "status": "MEASURED",
+      "isExitGate": false,
+      "deliveredRuns": 11,
+      "medianMs": 193250,
+      "maxMs": 286209,
+      "targetMedianMs": 180000,
+      "targetMaxMs": 300000,
+      "medianTargetMet": false,
+      "maxTargetMet": true,
+      "denominator": "All 11 runs with at least one actually presented outlet, including NOT_EVALUATED case05. No zero-delivery run enters this latency denominator."
+    },
+    "condition6": {
+      "status": "NOT_SATISFIED",
+      "baseline": {
+        "commit": "025940c5e7c0b51d7cba56061bfae827b9c6ac5e",
+        "authority": "Phase 2 Playbook §1 starts after signed E1; 025940c5 approved Phase 2 before P2-1 implementation. The immediately prior E1 signoff d6031c48 has the same relevant production files.",
+        "priorSignoff": "d6031c48"
+      },
+      "scopes": [
+        {
+          "scope": "provider-directories",
+          "files": 12,
+          "before": {
+            "physical": 3591,
+            "nonblank": 3399
+          },
+          "after": {
+            "physical": 3809,
+            "nonblank": 3605
+          },
+          "delta": {
+            "physical": 218,
+            "nonblank": 206
+          }
+        },
+        {
+          "scope": "provider-and-mixed-files",
+          "files": 20,
+          "before": {
+            "physical": 5638,
+            "nonblank": 5375
+          },
+          "after": {
+            "physical": 6279,
+            "nonblank": 5995
+          },
+          "delta": {
+            "physical": 641,
+            "nonblank": 620
+          }
+        }
+      ],
+      "sharedLayer": {
+        "status": "SATISFIED_WITH_REVIEWABLE_SCOPE",
+        "scope": "all non-test production core/application/domain/infrastructure TypeScript and generic web-skills",
+        "checkedFiles": 77,
+        "candidateAddedConstants": [],
+        "method": "Review additions against site/place/cuisine/evaluation-coordinate patterns; unchanged provider enum contracts and integration source packs are separate. This bounded static audit is not a proof about arbitrary dynamically constructed constants."
+      },
+      "detailPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/generality-audit.json"
+    }
+  },
+  "layers": {
+    "endToEnd": [
+      {
+        "run": {
+          "runId": "h-01",
+          "caseId": "p2-holdout-01",
+          "repeat": 1,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "qualifiedDelivery": true,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13128870",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "yakitori",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792657514263/snapshot-0019.html#sha256=7b72c0325c6e813e19044484ea7c29a6e3310b496dd4be4fe6127d9640af9959",
+                  "recordings/hybrid-1792657514263/snapshot-0019.html#sha256=7b72c0325c6e813e19044484ea7c29a6e3310b496dd4be4fe6127d9640af9959",
+                  "recordings/hybrid-1792657514263/snapshot-0019.html#sha256=7b72c0325c6e813e19044484ea7c29a6e3310b496dd4be4fe6127d9640af9959",
+                  "recordings/hybrid-1792657514263/snapshot-0019.html#sha256=7b72c0325c6e813e19044484ea7c29a6e3310b496dd4be4fe6127d9640af9959"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_DESCRIPTION: This is the regular menu at Torie Ueno Hirokoji, featuring grilled yakitori cooked over Kishu Binchotan charcoal, along with carefully selected seasonal ingredients sourced from various regions, including a satisfying finish and dessert. *Photo is for illustrative purposes.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: This is the regular menu at our Ueno Hirokoji location, featuring yakitori grilled over Kishu Binchotan charcoal, exquisite dishes made with seasonal ingredients sourced from various regions, as well as a selection of finishing dishes and desserts. *Photo is for illustrative purposes.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Indulge in a menu featuring yakitori centered around Oyamadori grilled over Kishu Binchotan charcoal, along with carefully selected seasonal ingredients sourced from various regions, including a delightful selection of side dishes and desserts. *Photo is for illustrative purposes.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Yakitori (Grilled chicken skewers), Chicken dishes, Izakaya (Japanese style tavern); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792657514263/snapshot-0019.html#sha256=7b72c0325c6e813e19044484ea7c29a6e3310b496dd4be4fe6127d9640af9959",
+                      "recordings/hybrid-1792657514263/snapshot-0019.html#sha256=7b72c0325c6e813e19044484ea7c29a6e3310b496dd4be4fe6127d9640af9959",
+                      "recordings/hybrid-1792657514263/snapshot-0019.html#sha256=7b72c0325c6e813e19044484ea7c29a6e3310b496dd4be4fe6127d9640af9959",
+                      "recordings/hybrid-1792657514263/snapshot-0019.html#sha256=7b72c0325c6e813e19044484ea7c29a6e3310b496dd4be4fe6127d9640af9959"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13191933",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "yakitori",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792657514263/snapshot-0043.html#sha256=13a5932cddb71d075988a9f44d5234fa5b0ebe41a76e8658120743da34b0b9ba",
+                  "recordings/hybrid-1792657514263/snapshot-0043.html#sha256=13a5932cddb71d075988a9f44d5234fa5b0ebe41a76e8658120743da34b0b9ba"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_TITLE: ―◆【Yakitori Course】(2-hour limit)◆―Grilled items and chicken soup, etc.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Yakitori (Grilled chicken skewers), Chicken dishes, Izakaya (Japanese style tavern); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792657514263/snapshot-0043.html#sha256=13a5932cddb71d075988a9f44d5234fa5b0ebe41a76e8658120743da34b0b9ba",
+                      "recordings/hybrid-1792657514263/snapshot-0043.html#sha256=13a5932cddb71d075988a9f44d5234fa5b0ebe41a76e8658120743da34b0b9ba"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13290563",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "yakitori",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792657514263/snapshot-0035.html#sha256=b5fc8b962598a54fdb89360f0718c0e8fd77d9d0d0fc55969beca06552ff0e84"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern), Chicken dishes; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792657514263/snapshot-0035.html#sha256=b5fc8b962598a54fdb89360f0718c0e8fd77d9d0d0fc55969beca06552ff0e84",
+                      "evidence:restaurant:tabelog-hard-criteria:4f5573fed853ceac6532383b"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792657514263/snapshot-0035.html#sha256=b5fc8b962598a54fdb89360f0718c0e8fd77d9d0d0fc55969beca06552ff0e84"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13128870",
+            "text": "yakitori",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13191933",
+            "text": "yakitori",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13290563",
+            "text": "yakitori",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "elapsedMs": 170694,
+        "modelCalls": 22,
+        "deliveredCount": 3,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1311/A131101/13128870",
+          "tabelog:en/tokyo/A1311/A131101/13191933",
+          "tabelog:en/tokyo/A1311/A131101/13290563"
+        ]
+      },
+      {
+        "run": {
+          "runId": "h-02",
+          "caseId": "p2-holdout-02",
+          "repeat": 1,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "qualifiedDelivery": true,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Italian",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "../live-results/h-02-attempt-1/recordings/hybrid-1792658007331/snapshot-0035.html#sha256=c9059d4a6975d1a729cc05df56c1da11e6d0758556b35e3536d0911e9c6646b3"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Italian, Wine bar, Bistro; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "../live-results/h-02-attempt-1/recordings/hybrid-1792658007331/snapshot-0035.html#sha256=c9059d4a6975d1a729cc05df56c1da11e6d0758556b35e3536d0911e9c6646b3",
+                      "evidence:restaurant:tabelog-hard-criteria:6cfa8d4eb9e74f1f04f0d98f"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "../live-results/h-02-attempt-1/recordings/hybrid-1792658007331/snapshot-0035.html#sha256=c9059d4a6975d1a729cc05df56c1da11e6d0758556b35e3536d0911e9c6646b3"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 8,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[523].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Italian",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "../live-results/h-02-attempt-1/recordings/hybrid-1792658007331/snapshot-0029.html#sha256=9e3a7ffd5e2da9d83a1809f470bcae96c1ffafbb0d79298a195c68a12f537940",
+                  "../live-results/h-02-attempt-1/recordings/hybrid-1792658007331/snapshot-0029.html#sha256=9e3a7ffd5e2da9d83a1809f470bcae96c1ffafbb0d79298a195c68a12f537940"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_DESCRIPTION: This is a reservation plan for those who wish to freely choose their dishes and drinks based on their mood on the day. Enjoy our exquisite seafood Italian cuisine, featuring dishes made with brand fish directly sourced from Oita and exceptional pasta created by world champion chefs, all available a la carte.; DINNER. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Italian, Pasta, Seafood; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "../live-results/h-02-attempt-1/recordings/hybrid-1792658007331/snapshot-0029.html#sha256=9e3a7ffd5e2da9d83a1809f470bcae96c1ffafbb0d79298a195c68a12f537940",
+                      "evidence:restaurant:tabelog-hard-criteria:9241fbbda5458f5a1f4a3cf4"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "../live-results/h-02-attempt-1/recordings/hybrid-1792658007331/snapshot-0029.html#sha256=9e3a7ffd5e2da9d83a1809f470bcae96c1ffafbb0d79298a195c68a12f537940",
+                      "../live-results/h-02-attempt-1/recordings/hybrid-1792658007331/snapshot-0029.html#sha256=9e3a7ffd5e2da9d83a1809f470bcae96c1ffafbb0d79298a195c68a12f537940"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [
+                    "DINNER"
+                  ],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 8,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[545].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+                ]
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "Italian",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+            "text": "Italian",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          }
+        ],
+        "elapsedMs": 193250,
+        "modelCalls": 25,
+        "deliveredCount": 2,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1317/A131706/13258420",
+          "tabelog:en/tokyo/A1317/A131706/13210377"
+        ]
+      },
+      {
+        "run": {
+          "runId": "h-03",
+          "caseId": "p2-holdout-03",
+          "repeat": 1,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/post-run/manifest.json#sha256=c8e295e76591a79c3de9c1d47a75577aa83560727e3e643a10708a058beb661d",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/post-run/13015193.body.txt#sha256=6c7f35833ac4667a8d3ec0dc2327183c90b7bd3c3c617846898163ae4775b6ff",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/post-run/13015193.metadata.json#sha256=b5176ea5dc969fd404d2f1815619b35de44d3f7464baa1caf5f70ce683850f62",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/post-run/manifest.json#sha256=c8e295e76591a79c3de9c1d47a75577aa83560727e3e643a10708a058beb661d",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/post-run/13169764.body.txt#sha256=ddc1948cb07253baa42436eea1dd5c517d60058bf7404424427cf329d7b4b35b",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/post-run/13169764.metadata.json#sha256=914310554f72e2a7760a10f1d4252af53919e805a7fc78b98c5c7c409e265fec"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "qualifiedDelivery": false,
+        "conditions": [],
+        "displayConsistency": [],
+        "elapsedMs": 489041,
+        "modelCalls": 47,
+        "deliveredCount": 0,
+        "deliveredCandidateIds": []
+      },
+      {
+        "run": {
+          "runId": "h-04",
+          "caseId": "p2-holdout-04",
+          "repeat": 1,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/post-run/manifest.json#sha256=56d827f07069ffac1520399445efc9601076ae2b78200df1d55178051f80cf5d",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/post-run/13022072.body.txt#sha256=223d66824acea897a2c96b57c0293e2628aa5ac9633e645b99ba0e53ff9ed786",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/post-run/13022072.metadata.json#sha256=660cea765927ab67fe2c86a2d935251415ef8892ca45a30333f26c8d65789ceb",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/post-run/manifest.json#sha256=56d827f07069ffac1520399445efc9601076ae2b78200df1d55178051f80cf5d",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/post-run/13291679.body.txt#sha256=fe8bed86d85a822b7ac71ca5aff90e7fdbadc43014139da9cc3d39c29aa4876d",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/post-run/13291679.metadata.json#sha256=de2a242dd67aea0f47010da323a0585cc8762cdbccd6ceb2efbf4a0b19917035",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/post-run/manifest.json#sha256=56d827f07069ffac1520399445efc9601076ae2b78200df1d55178051f80cf5d",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/post-run/13003026.body.txt#sha256=b57672a30e63154064dc7df905c94341f13ae99f913d01459551c10e3d56cefb",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/post-run/13003026.metadata.json#sha256=7292af2bc83cd49ee7a04b36618ff6b32c04cf59b99e891782d2ec21df85a813"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "qualifiedDelivery": false,
+        "conditions": [],
+        "displayConsistency": [],
+        "elapsedMs": 5901,
+        "modelCalls": 2,
+        "deliveredCount": 0,
+        "deliveredCandidateIds": []
+      },
+      {
+        "run": {
+          "runId": "h-05",
+          "caseId": "p2-holdout-05",
+          "repeat": 1,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "qualifiedDelivery": true,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13310311",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792659673130/snapshot-0025.html#sha256=7630e07a4c94ae972815f13d61733fdce41639411f1a12617d46b8bbc04087f3"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Seafood, Izakaya (Japanese style tavern), Chinese; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792659673130/snapshot-0025.html#sha256=7630e07a4c94ae972815f13d61733fdce41639411f1a12617d46b8bbc04087f3",
+                      "evidence:restaurant:tabelog-hard-criteria:12da3d1fc4723b424cd01a40"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792659673130/snapshot-0025.html#sha256=7630e07a4c94ae972815f13d61733fdce41639411f1a12617d46b8bbc04087f3"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[454].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 3,000 - JPY 3,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "supportObservation": "NOT_ESTABLISHED",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13212245",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792659673130/snapshot-0032.html#sha256=06c43484b0a488df532eae159fdc7709340ccc37176cca134e727c3aead034b4",
+                  "recordings/hybrid-1792659673130/snapshot-0032.html#sha256=06c43484b0a488df532eae159fdc7709340ccc37176cca134e727c3aead034b4",
+                  "recordings/hybrid-1792659673130/snapshot-0032.html#sha256=06c43484b0a488df532eae159fdc7709340ccc37176cca134e727c3aead034b4",
+                  "recordings/hybrid-1792659673130/snapshot-0032.html#sha256=06c43484b0a488df532eae159fdc7709340ccc37176cca134e727c3aead034b4"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_TITLE: <2H All-You-Can-Drink> Authentic Chinese Course JPY 3800 (Tax Included) <8 Dishes>; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Enjoy a selection of 8 popular authentic Chinese dishes, including classic dumplings, chili shrimp, and black vinegar sweet and sour pork! This satisfying course includes dessert as well. With a 2-hour all-you-can-drink option, it's perfect for various gatherings!; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_TITLE: <2H All-You-Can-Drink> [Enjoy Authentic Chinese Cuisine] 10 Dishes 'Special Course' JPY 4,980 (tax included); meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Izakaya (Japanese style tavern), Chinese, Dumpling; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792659673130/snapshot-0032.html#sha256=06c43484b0a488df532eae159fdc7709340ccc37176cca134e727c3aead034b4",
+                      "evidence:restaurant:tabelog-hard-criteria:df982c820cb9e7fd0cac07c7"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792659673130/snapshot-0032.html#sha256=06c43484b0a488df532eae159fdc7709340ccc37176cca134e727c3aead034b4",
+                      "recordings/hybrid-1792659673130/snapshot-0032.html#sha256=06c43484b0a488df532eae159fdc7709340ccc37176cca134e727c3aead034b4",
+                      "recordings/hybrid-1792659673130/snapshot-0032.html#sha256=06c43484b0a488df532eae159fdc7709340ccc37176cca134e727c3aead034b4",
+                      "recordings/hybrid-1792659673130/snapshot-0032.html#sha256=06c43484b0a488df532eae159fdc7709340ccc37176cca134e727c3aead034b4"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[476].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 3,000 - JPY 3,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "supportObservation": "NOT_ESTABLISHED",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792659673130/snapshot-0018.html#sha256=0f6a02caf404881c8292768ee8d4d00343d7a173f9b3263cdd74f54e4cf854c2",
+                  "recordings/hybrid-1792659673130/snapshot-0018.html#sha256=0f6a02caf404881c8292768ee8d4d00343d7a173f9b3263cdd74f54e4cf854c2"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_DESCRIPTION: Introducing our recommended course featuring a selection of our popular dishes. Enjoy a hearty stir-fry with three types of seafood and refreshing celery, along with black pepper beef, packed with ingredients and flavor! You can also savor classic Chinese dishes such as shrimp chili, dim sum, and shrimp fried rice. Delight in our \"2-hour all-you-can-drink\" option, with Sapporo draft beer available for just an additional JPY 200! We welcome reservations for all types of banquets.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Chinese, Izakaya (Japanese style tavern), Dumpling; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792659673130/snapshot-0018.html#sha256=0f6a02caf404881c8292768ee8d4d00343d7a173f9b3263cdd74f54e4cf854c2",
+                      "evidence:restaurant:tabelog-hard-criteria:7fa050d14c1bdc2527b776bb"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792659673130/snapshot-0018.html#sha256=0f6a02caf404881c8292768ee8d4d00343d7a173f9b3263cdd74f54e4cf854c2",
+                      "recordings/hybrid-1792659673130/snapshot-0018.html#sha256=0f6a02caf404881c8292768ee8d4d00343d7a173f9b3263cdd74f54e4cf854c2"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[432].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 2,000 - JPY 2,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "supportObservation": "NOT_ESTABLISHED",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13310311",
+            "text": "Chinese",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13310311",
+            "text": "under 6,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13310311",
+            "text": "spicy Sichuan food",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "supportObservation": "NOT_ESTABLISHED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13212245",
+            "text": "Chinese",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13212245",
+            "text": "under 6,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13212245",
+            "text": "spicy Sichuan food",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "supportObservation": "NOT_ESTABLISHED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "text": "Chinese",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "text": "under 6,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "text": "spicy Sichuan food",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "supportObservation": "NOT_ESTABLISHED",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "elapsedMs": 168479,
+        "modelCalls": 16,
+        "deliveredCount": 3,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1316/A131603/13310311",
+          "tabelog:en/tokyo/A1316/A131603/13212245",
+          "tabelog:en/tokyo/A1316/A131603/13240907"
+        ]
+      },
+      {
+        "run": {
+          "runId": "h-06",
+          "caseId": "p2-holdout-06",
+          "repeat": 1,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "qualifiedDelivery": true,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13037445",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "izakaya",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792660166670/snapshot-0038.html#sha256=4b2c050cc0e41d56b3b6a96e2814d303ecc31180a88bfa9c63e991470fb3ea9f"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Okonomiyaki (Japanese savory pancake), Teppanyaki, Izakaya (Japanese style tavern); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792660166670/snapshot-0038.html#sha256=4b2c050cc0e41d56b3b6a96e2814d303ecc31180a88bfa9c63e991470fb3ea9f",
+                      "evidence:restaurant:tabelog-hard-criteria:b19bdc925b49381e410162b3"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792660166670/snapshot-0038.html#sha256=4b2c050cc0e41d56b3b6a96e2814d303ecc31180a88bfa9c63e991470fb3ea9f"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13240317",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "izakaya",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792660166670/snapshot-0019.html#sha256=f6b66e94967228baec1928b930eb893154a69929d904d78d12cccc18cad889e8"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Izakaya (Japanese style tavern), Motsu-nabe, Regional Cuisine; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792660166670/snapshot-0019.html#sha256=f6b66e94967228baec1928b930eb893154a69929d904d78d12cccc18cad889e8",
+                      "evidence:restaurant:tabelog-hard-criteria:7525234bdcda0373311d6870"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792660166670/snapshot-0019.html#sha256=f6b66e94967228baec1928b930eb893154a69929d904d78d12cccc18cad889e8"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13305902",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "izakaya",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792660166670/snapshot-0045.html#sha256=d03446dc4b8af5a36eb22d5a1c280802b7ec89ded7674b449a8c23585ab7bbc1"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Izakaya (Japanese style tavern), Yakitori (Grilled chicken skewers), Chinese; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792660166670/snapshot-0045.html#sha256=d03446dc4b8af5a36eb22d5a1c280802b7ec89ded7674b449a8c23585ab7bbc1",
+                      "evidence:restaurant:tabelog-hard-criteria:f7bee8d899641a6b203ad788"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792660166670/snapshot-0045.html#sha256=d03446dc4b8af5a36eb22d5a1c280802b7ec89ded7674b449a8c23585ab7bbc1"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13037445",
+            "text": "izakaya",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13240317",
+            "text": "izakaya",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13305902",
+            "text": "izakaya",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "elapsedMs": 286209,
+        "modelCalls": 24,
+        "deliveredCount": 3,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1318/A131802/13037445",
+          "tabelog:en/tokyo/A1318/A131802/13240317",
+          "tabelog:en/tokyo/A1318/A131802/13305902"
+        ]
+      },
+      {
+        "run": {
+          "runId": "h-07",
+          "caseId": "p2-holdout-01",
+          "repeat": 2,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/post-run/manifest.json#sha256=9f91fc5c671b0ea06a13b406cba70c96330f5e8a424fc677812f5f8ed408a9af",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/post-run/13128870.body.txt#sha256=44c94fd53033cb511a9b3a8c701878afebd2cc20e3ceebb18fbaaf0d7bb696a7",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/post-run/13128870.metadata.json#sha256=ba5232ae185a9a5ed1cde816001d55343924577ec19c8ae77713aa8fb399e323",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/post-run/manifest.json#sha256=9f91fc5c671b0ea06a13b406cba70c96330f5e8a424fc677812f5f8ed408a9af",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/post-run/13191933.body.txt#sha256=4cdf1de5a6c41a943dabf39fc1d21e52d2c628c75350a572d00159c2ac412902",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/post-run/13191933.metadata.json#sha256=6da84d807e5e5f357505a62b9703dbdef3f066ef35f23a70f684fc4523cc3aeb",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/post-run/manifest.json#sha256=9f91fc5c671b0ea06a13b406cba70c96330f5e8a424fc677812f5f8ed408a9af",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/post-run/13290563.body.txt#sha256=aaec1156efe9d8e60e048690b35a82ae176b5be69abc63ed2aa249837b95e6c5",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/post-run/13290563.metadata.json#sha256=23bbe7e453552d3f9f61236ce2a1691b30d4ba31f9c1162dede6d8f844ce6a51"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "qualifiedDelivery": false,
+        "conditions": [],
+        "displayConsistency": [],
+        "elapsedMs": 500076,
+        "modelCalls": 25,
+        "deliveredCount": 0,
+        "deliveredCandidateIds": []
+      },
+      {
+        "run": {
+          "runId": "h-08",
+          "caseId": "p2-holdout-02",
+          "repeat": 2,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "qualifiedDelivery": true,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Italian",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "../live-results/h-08-attempt-1/recordings/hybrid-1792661621063/snapshot-0035.html#sha256=b93a245381def6547918591e985c20a7a8e8cccfcb24583e82e3791b6c58186e"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Italian, Wine bar, Bistro; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "../live-results/h-08-attempt-1/recordings/hybrid-1792661621063/snapshot-0035.html#sha256=b93a245381def6547918591e985c20a7a8e8cccfcb24583e82e3791b6c58186e",
+                      "evidence:restaurant:tabelog-hard-criteria:051c34af963a8b15082419eb"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "../live-results/h-08-attempt-1/recordings/hybrid-1792661621063/snapshot-0035.html#sha256=b93a245381def6547918591e985c20a7a8e8cccfcb24583e82e3791b6c58186e"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 8,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[524].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Italian",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "../live-results/h-08-attempt-1/recordings/hybrid-1792661621063/snapshot-0029.html#sha256=9553e0ba7578d8b7b8bba683cad84c7181c25bc85a8e3aabe6c6565a924b3573",
+                  "../live-results/h-08-attempt-1/recordings/hybrid-1792661621063/snapshot-0029.html#sha256=9553e0ba7578d8b7b8bba683cad84c7181c25bc85a8e3aabe6c6565a924b3573"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_DESCRIPTION: This is a reservation plan for those who wish to freely choose their dishes and drinks based on their mood on the day. Enjoy our exquisite seafood Italian cuisine, featuring dishes made with brand fish directly sourced from Oita and exceptional pasta created by world champion chefs, all available a la carte.; DINNER. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Italian, Pasta, Seafood; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "../live-results/h-08-attempt-1/recordings/hybrid-1792661621063/snapshot-0029.html#sha256=9553e0ba7578d8b7b8bba683cad84c7181c25bc85a8e3aabe6c6565a924b3573",
+                      "evidence:restaurant:tabelog-hard-criteria:2c2677d6c7be0a86603bd845"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "../live-results/h-08-attempt-1/recordings/hybrid-1792661621063/snapshot-0029.html#sha256=9553e0ba7578d8b7b8bba683cad84c7181c25bc85a8e3aabe6c6565a924b3573",
+                      "../live-results/h-08-attempt-1/recordings/hybrid-1792661621063/snapshot-0029.html#sha256=9553e0ba7578d8b7b8bba683cad84c7181c25bc85a8e3aabe6c6565a924b3573"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [
+                    "DINNER"
+                  ],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 8,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[612].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+                ]
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "Italian",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+            "text": "Italian",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          }
+        ],
+        "elapsedMs": 274848,
+        "modelCalls": 26,
+        "deliveredCount": 2,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1317/A131706/13258420",
+          "tabelog:en/tokyo/A1317/A131706/13210377"
+        ]
+      },
+      {
+        "run": {
+          "runId": "h-09",
+          "caseId": "p2-holdout-03",
+          "repeat": 2,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/post-run/manifest.json#sha256=3000a464e1fc7f02bba06dfb179d81d2deae203f65a2c36f8239dfcda8dfc9c1",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/post-run/13015193.body.txt#sha256=6c7f35833ac4667a8d3ec0dc2327183c90b7bd3c3c617846898163ae4775b6ff",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/post-run/13015193.metadata.json#sha256=753cc44a9104950f046d9116f29a4a3c1fa17f483df4de7d4fb284d38843da73",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/post-run/manifest.json#sha256=3000a464e1fc7f02bba06dfb179d81d2deae203f65a2c36f8239dfcda8dfc9c1",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/post-run/13169764.body.txt#sha256=ddc1948cb07253baa42436eea1dd5c517d60058bf7404424427cf329d7b4b35b",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/post-run/13169764.metadata.json#sha256=b85502ff3a460612646703ce98bcac63396dcc60c2d87cad417a3f0625847c80"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "qualifiedDelivery": false,
+        "conditions": [],
+        "displayConsistency": [],
+        "elapsedMs": 500080,
+        "modelCalls": 43,
+        "deliveredCount": 0,
+        "deliveredCandidateIds": []
+      },
+      {
+        "run": {
+          "runId": "h-10",
+          "caseId": "p2-holdout-04",
+          "repeat": 2,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/post-run/manifest.json#sha256=c071bde29006250ce7c51590328ca3651dcc46a80846a639feaa2bb23b39c6a3",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/post-run/13022072.body.txt#sha256=223d66824acea897a2c96b57c0293e2628aa5ac9633e645b99ba0e53ff9ed786",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/post-run/13022072.metadata.json#sha256=badddbdc168556c816ee9e5b3005a7593ee5cef84d57539b47b8f250806b83f6",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/post-run/manifest.json#sha256=c071bde29006250ce7c51590328ca3651dcc46a80846a639feaa2bb23b39c6a3",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/post-run/13291679.body.txt#sha256=fe8bed86d85a822b7ac71ca5aff90e7fdbadc43014139da9cc3d39c29aa4876d",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/post-run/13291679.metadata.json#sha256=9c219523f6b37907eeeab5094cf1134d56ddc9629240fa49877c162a99218d8a",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/post-run/manifest.json#sha256=c071bde29006250ce7c51590328ca3651dcc46a80846a639feaa2bb23b39c6a3",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/post-run/13003026.body.txt#sha256=b57672a30e63154064dc7df905c94341f13ae99f913d01459551c10e3d56cefb",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/post-run/13003026.metadata.json#sha256=6f3e0a7263dc73bae99ee4fb17fdd617828c2bb03db755c7df2d820d351c8bd8"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "qualifiedDelivery": false,
+        "conditions": [],
+        "displayConsistency": [],
+        "elapsedMs": 6935,
+        "modelCalls": 2,
+        "deliveredCount": 0,
+        "deliveredCandidateIds": []
+      },
+      {
+        "run": {
+          "runId": "h-11",
+          "caseId": "p2-holdout-05",
+          "repeat": 2,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "NOT_EVALUATED",
+          "reasons": [
+            "Presentation exists but request equivalence or original support is not independently evaluated."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "NOT_EVALUATED",
+          "userGoalComplete": "NOT_EVALUATED"
+        },
+        "qualifiedDelivery": false,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792663688525/snapshot-0018.html#sha256=03c763e68993a508df6518d056f294c5bf4be10196c27055158f2d143a9c4885",
+                  "recordings/hybrid-1792663688525/snapshot-0018.html#sha256=03c763e68993a508df6518d056f294c5bf4be10196c27055158f2d143a9c4885"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_DESCRIPTION: Introducing our recommended course featuring a selection of our popular dishes. Enjoy a hearty stir-fry with three types of seafood and refreshing celery, along with black pepper beef, packed with ingredients and flavor! You can also savor classic Chinese dishes such as shrimp chili, dim sum, and shrimp fried rice. Delight in our \"2-hour all-you-can-drink\" option, with Sapporo draft beer available for just an additional JPY 200! We welcome reservations for all types of banquets.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Chinese, Izakaya (Japanese style tavern), Dumpling; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792663688525/snapshot-0018.html#sha256=03c763e68993a508df6518d056f294c5bf4be10196c27055158f2d143a9c4885",
+                      "evidence:restaurant:tabelog-hard-criteria:925385d12a829a4258dd028e"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792663688525/snapshot-0018.html#sha256=03c763e68993a508df6518d056f294c5bf4be10196c27055158f2d143a9c4885",
+                      "recordings/hybrid-1792663688525/snapshot-0018.html#sha256=03c763e68993a508df6518d056f294c5bf4be10196c27055158f2d143a9c4885"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[432].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 2,000 - JPY 2,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "supportObservation": "NOT_ESTABLISHED",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131604/13258196",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792663688525/snapshot-0032.html#sha256=049fa6b9c392a7c40d349ebf868c73279f1de4137c7d73169b5f1ed661277727",
+                  "recordings/hybrid-1792663688525/snapshot-0032.html#sha256=049fa6b9c392a7c40d349ebf868c73279f1de4137c7d73169b5f1ed661277727",
+                  "recordings/hybrid-1792663688525/snapshot-0032.html#sha256=049fa6b9c392a7c40d349ebf868c73279f1de4137c7d73169b5f1ed661277727",
+                  "recordings/hybrid-1792663688525/snapshot-0032.html#sha256=049fa6b9c392a7c40d349ebf868c73279f1de4137c7d73169b5f1ed661277727"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_DESCRIPTION: Introducing our Standard Plan, the number one choice for repeat customers, encapsulating the charm of Chinese Kashin En. This plan features our signature dishes, including the rich \"Pineapple Black Vinegar Sweet and Sour Pork\" and the aromatic \"Sichuan-style Mapo Tofu\" that will whet your appetite. It's a well-rounded selection that we confidently recommend to first-time visitors.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_TITLE: [Best Value] Seafood, Meat, and Homemade Gyoza! Enjoy Authentic Chinese Cuisine with a Satisfying Course (2H All-You-Can-Drink) JPY 4,200; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Introducing our best casual plan, boasting exceptional cost performance. Enjoy a generous selection of classic Chinese dishes, including seafood, meat, and our signature homemade dumplings. This plan is perfect for casual gatherings with friends or hearty meals.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Chinese, Dim sum & Yum cha, Izakaya (Japanese style tavern); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792663688525/snapshot-0032.html#sha256=049fa6b9c392a7c40d349ebf868c73279f1de4137c7d73169b5f1ed661277727",
+                      "evidence:restaurant:tabelog-hard-criteria:f509dc3e894932782469d1d9"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792663688525/snapshot-0032.html#sha256=049fa6b9c392a7c40d349ebf868c73279f1de4137c7d73169b5f1ed661277727",
+                      "recordings/hybrid-1792663688525/snapshot-0032.html#sha256=049fa6b9c392a7c40d349ebf868c73279f1de4137c7d73169b5f1ed661277727",
+                      "recordings/hybrid-1792663688525/snapshot-0032.html#sha256=049fa6b9c392a7c40d349ebf868c73279f1de4137c7d73169b5f1ed661277727",
+                      "recordings/hybrid-1792663688525/snapshot-0032.html#sha256=049fa6b9c392a7c40d349ebf868c73279f1de4137c7d73169b5f1ed661277727"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[454].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "supportObservation": "NOT_ESTABLISHED",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13091855",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792663688525/snapshot-0025.html#sha256=f41336c30e089310a5968e13da79e8d6c727446f06e4090af0184b383c403f3e"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Chinese, Izakaya (Japanese style tavern), Dumpling; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792663688525/snapshot-0025.html#sha256=f41336c30e089310a5968e13da79e8d6c727446f06e4090af0184b383c403f3e",
+                      "evidence:restaurant:tabelog-hard-criteria:0b4c26064b125d02d0e089c4"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792663688525/snapshot-0025.html#sha256=f41336c30e089310a5968e13da79e8d6c727446f06e4090af0184b383c403f3e"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[476].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 5,000 - JPY 5,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "supportObservation": "NOT_ESTABLISHED",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "text": "Chinese",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "text": "under 6,000 yen per person",
+            "criterionRef": null,
+            "matchMethod": null,
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "text": "spicy Sichuan food",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "supportObservation": "NOT_ESTABLISHED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131604/13258196",
+            "text": "Chinese",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131604/13258196",
+            "text": "under 6,000 yen per person",
+            "criterionRef": null,
+            "matchMethod": null,
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131604/13258196",
+            "text": "spicy Sichuan food",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "supportObservation": "NOT_ESTABLISHED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13091855",
+            "text": "Chinese",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13091855",
+            "text": "under 6,000 yen per person",
+            "criterionRef": null,
+            "matchMethod": null,
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13091855",
+            "text": "spicy Sichuan food",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "supportObservation": "NOT_ESTABLISHED",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "elapsedMs": 174111,
+        "modelCalls": 16,
+        "deliveredCount": 3,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1316/A131603/13240907",
+          "tabelog:en/tokyo/A1316/A131604/13258196",
+          "tabelog:en/tokyo/A1316/A131603/13091855"
+        ]
+      },
+      {
+        "run": {
+          "runId": "h-12",
+          "caseId": "p2-holdout-06",
+          "repeat": 2,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "qualifiedDelivery": true,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13240317",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "izakaya",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792664183534/snapshot-0019.html#sha256=43e0c65e4487273d58e3a76f120816e22ff2c236a8bc87d54bb28d9bcb0126bd"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Izakaya (Japanese style tavern), Motsu-nabe, Regional Cuisine; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792664183534/snapshot-0019.html#sha256=43e0c65e4487273d58e3a76f120816e22ff2c236a8bc87d54bb28d9bcb0126bd",
+                      "evidence:restaurant:tabelog-hard-criteria:8aa17bc157bd9cee440838be"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792664183534/snapshot-0019.html#sha256=43e0c65e4487273d58e3a76f120816e22ff2c236a8bc87d54bb28d9bcb0126bd"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13277394",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "izakaya",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792664183534/snapshot-0026.html#sha256=fd812a706183c80cd8d1ac46417bfd00413f65c78b8f18302989163bdfce29fd",
+                  "recordings/hybrid-1792664183534/snapshot-0026.html#sha256=fd812a706183c80cd8d1ac46417bfd00413f65c78b8f18302989163bdfce29fd"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_TITLE: Chef's Recommended 7 Dishes Course JPY 4000 <Shimokitazawa Izakaya Year-End Party Welcome and Farewell Party Birthday New Year Party>; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Izakaya (Japanese style tavern), Kushiyaki, Seafood; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792664183534/snapshot-0026.html#sha256=fd812a706183c80cd8d1ac46417bfd00413f65c78b8f18302989163bdfce29fd",
+                      "recordings/hybrid-1792664183534/snapshot-0026.html#sha256=fd812a706183c80cd8d1ac46417bfd00413f65c78b8f18302989163bdfce29fd"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13289461",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "izakaya",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792664183534/snapshot-0033.html#sha256=62c11ff08bde15003d1e9160af3f1cc50610aae30161b227aafd2dc70132a1fe"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Izakaya (Japanese style tavern), Wine bar, Bistro; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792664183534/snapshot-0033.html#sha256=62c11ff08bde15003d1e9160af3f1cc50610aae30161b227aafd2dc70132a1fe",
+                      "evidence:restaurant:tabelog-hard-criteria:a4207ce02d840490c93765d5"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792664183534/snapshot-0033.html#sha256=62c11ff08bde15003d1e9160af3f1cc50610aae30161b227aafd2dc70132a1fe"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13240317",
+            "text": "izakaya",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13277394",
+            "text": "izakaya",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13289461",
+            "text": "izakaya",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "elapsedMs": 156768,
+        "modelCalls": 17,
+        "deliveredCount": 3,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1318/A131802/13240317",
+          "tabelog:en/tokyo/A1318/A131802/13277394",
+          "tabelog:en/tokyo/A1318/A131802/13289461"
+        ]
+      },
+      {
+        "run": {
+          "runId": "h-13",
+          "caseId": "p2-holdout-01",
+          "repeat": 3,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "qualifiedDelivery": true,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13128870",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "yakitori",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792664668147/snapshot-0019.html#sha256=a31b873712e8250ca3f8d5ef4976c369bf00f6e991c4e7b590bb7d3d65528860",
+                  "recordings/hybrid-1792664668147/snapshot-0019.html#sha256=a31b873712e8250ca3f8d5ef4976c369bf00f6e991c4e7b590bb7d3d65528860",
+                  "recordings/hybrid-1792664668147/snapshot-0019.html#sha256=a31b873712e8250ca3f8d5ef4976c369bf00f6e991c4e7b590bb7d3d65528860",
+                  "recordings/hybrid-1792664668147/snapshot-0019.html#sha256=a31b873712e8250ca3f8d5ef4976c369bf00f6e991c4e7b590bb7d3d65528860"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_DESCRIPTION: This is the regular menu at Torie Ueno Hirokoji, featuring grilled yakitori cooked over Kishu Binchotan charcoal, along with carefully selected seasonal ingredients sourced from various regions, including a satisfying finish and dessert. *Photo is for illustrative purposes.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: This is the regular menu at our Ueno Hirokoji location, featuring yakitori grilled over Kishu Binchotan charcoal, exquisite dishes made with seasonal ingredients sourced from various regions, as well as a selection of finishing dishes and desserts. *Photo is for illustrative purposes.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Indulge in a menu featuring yakitori centered around Oyamadori grilled over Kishu Binchotan charcoal, along with carefully selected seasonal ingredients sourced from various regions, including a delightful selection of side dishes and desserts. *Photo is for illustrative purposes.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Yakitori (Grilled chicken skewers), Chicken dishes, Izakaya (Japanese style tavern); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792664668147/snapshot-0019.html#sha256=a31b873712e8250ca3f8d5ef4976c369bf00f6e991c4e7b590bb7d3d65528860",
+                      "recordings/hybrid-1792664668147/snapshot-0019.html#sha256=a31b873712e8250ca3f8d5ef4976c369bf00f6e991c4e7b590bb7d3d65528860",
+                      "recordings/hybrid-1792664668147/snapshot-0019.html#sha256=a31b873712e8250ca3f8d5ef4976c369bf00f6e991c4e7b590bb7d3d65528860",
+                      "recordings/hybrid-1792664668147/snapshot-0019.html#sha256=a31b873712e8250ca3f8d5ef4976c369bf00f6e991c4e7b590bb7d3d65528860"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13191933",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "yakitori",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792664668147/snapshot-0043.html#sha256=7a045cb0cea638b39b3deabd075af80f0d13d0e52fa87b9eac0015348edf66b1",
+                  "recordings/hybrid-1792664668147/snapshot-0043.html#sha256=7a045cb0cea638b39b3deabd075af80f0d13d0e52fa87b9eac0015348edf66b1"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_TITLE: ―◆【Yakitori Course】(2-hour limit)◆―Grilled items and chicken soup, etc.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Yakitori (Grilled chicken skewers), Chicken dishes, Izakaya (Japanese style tavern); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792664668147/snapshot-0043.html#sha256=7a045cb0cea638b39b3deabd075af80f0d13d0e52fa87b9eac0015348edf66b1",
+                      "recordings/hybrid-1792664668147/snapshot-0043.html#sha256=7a045cb0cea638b39b3deabd075af80f0d13d0e52fa87b9eac0015348edf66b1"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13290563",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "yakitori",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792664668147/snapshot-0035.html#sha256=136ec0a2f861224f98bdc9a5817597b2bc5972339b6679344617ee43020eb89f"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern), Chicken dishes; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792664668147/snapshot-0035.html#sha256=136ec0a2f861224f98bdc9a5817597b2bc5972339b6679344617ee43020eb89f",
+                      "evidence:restaurant:tabelog-hard-criteria:d9a2a4fb6907a750bd87b205"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792664668147/snapshot-0035.html#sha256=136ec0a2f861224f98bdc9a5817597b2bc5972339b6679344617ee43020eb89f"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13128870",
+            "text": "yakitori",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13191933",
+            "text": "yakitori",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131101/13290563",
+            "text": "yakitori",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "elapsedMs": 245135,
+        "modelCalls": 22,
+        "deliveredCount": 3,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1311/A131101/13128870",
+          "tabelog:en/tokyo/A1311/A131101/13191933",
+          "tabelog:en/tokyo/A1311/A131101/13290563"
+        ]
+      },
+      {
+        "run": {
+          "runId": "h-14",
+          "caseId": "p2-holdout-02",
+          "repeat": 3,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "qualifiedDelivery": true,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Italian",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "../live-results/h-14-attempt-1/recordings/hybrid-1792665243424/snapshot-0016.html#sha256=b93a245381def6547918591e985c20a7a8e8cccfcb24583e82e3791b6c58186e"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Italian, Wine bar, Bistro; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "../live-results/h-14-attempt-1/recordings/hybrid-1792665243424/snapshot-0016.html#sha256=b93a245381def6547918591e985c20a7a8e8cccfcb24583e82e3791b6c58186e",
+                      "evidence:restaurant:tabelog-hard-criteria:0ed795cb44ad4b3982e111e5"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "../live-results/h-14-attempt-1/recordings/hybrid-1792665243424/snapshot-0016.html#sha256=b93a245381def6547918591e985c20a7a8e8cccfcb24583e82e3791b6c58186e"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 8,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[284].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+                ]
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "Italian",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          }
+        ],
+        "elapsedMs": 157716,
+        "modelCalls": 15,
+        "deliveredCount": 1,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1317/A131706/13258420"
+        ]
+      },
+      {
+        "run": {
+          "runId": "h-15",
+          "caseId": "p2-holdout-03",
+          "repeat": 3,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/post-run/manifest.json#sha256=6da6034912dc42a97253896b06df5d90679f1ec9cbce01ec9beba64d866d56ad",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/post-run/13015193.body.txt#sha256=6c7f35833ac4667a8d3ec0dc2327183c90b7bd3c3c617846898163ae4775b6ff",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/post-run/13015193.metadata.json#sha256=f60cd8acc03d47416d01b9ad6b21ff842c53e2ef76b2dadbf9cf3a84d4284d87",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/post-run/manifest.json#sha256=6da6034912dc42a97253896b06df5d90679f1ec9cbce01ec9beba64d866d56ad",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/post-run/13169764.body.txt#sha256=ddc1948cb07253baa42436eea1dd5c517d60058bf7404424427cf329d7b4b35b",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/post-run/13169764.metadata.json#sha256=fbb6195a72c15bb6fbb8b731534245a7641c8c7cd170e9c9f40fb67a822e8b6b"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "qualifiedDelivery": false,
+        "conditions": [],
+        "displayConsistency": [],
+        "elapsedMs": 395673,
+        "modelCalls": 47,
+        "deliveredCount": 0,
+        "deliveredCandidateIds": []
+      },
+      {
+        "run": {
+          "runId": "h-16",
+          "caseId": "p2-holdout-04",
+          "repeat": 3,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/post-run/manifest.json#sha256=c80f5b95c1c2bef03813934e0a69cb2d7fc25c1d3730e8e826bab649cf248bd6",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/post-run/13022072.body.txt#sha256=223d66824acea897a2c96b57c0293e2628aa5ac9633e645b99ba0e53ff9ed786",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/post-run/13022072.metadata.json#sha256=1d920fee93b496b6222e8d469bd3b1929bea83b9aa79b5631e78abe495a409ad",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/post-run/manifest.json#sha256=c80f5b95c1c2bef03813934e0a69cb2d7fc25c1d3730e8e826bab649cf248bd6",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/post-run/13291679.body.txt#sha256=fe8bed86d85a822b7ac71ca5aff90e7fdbadc43014139da9cc3d39c29aa4876d",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/post-run/13291679.metadata.json#sha256=b377f3773f9f5e54644237cfddf8f7da5e001387e01767ef6c1d498e7569ddd8",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/post-run/manifest.json#sha256=c80f5b95c1c2bef03813934e0a69cb2d7fc25c1d3730e8e826bab649cf248bd6",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json#sha256=6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/post-run/13003026.body.txt#sha256=b57672a30e63154064dc7df905c94341f13ae99f913d01459551c10e3d56cefb",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/post-run/13003026.metadata.json#sha256=e3898aadc742d2036a0e549dcc90bb8bea9f048f2a1b6f9968541dcfed75bc1d"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "qualifiedDelivery": false,
+        "conditions": [],
+        "displayConsistency": [],
+        "elapsedMs": 15077,
+        "modelCalls": 2,
+        "deliveredCount": 0,
+        "deliveredCandidateIds": []
+      },
+      {
+        "run": {
+          "runId": "h-17",
+          "caseId": "p2-holdout-05",
+          "repeat": 3,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "qualifiedDelivery": true,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792666805120/snapshot-0018.html#sha256=fd4aab5a9c32c93e121015f68d2ec7b377cd691273d1afe381f8da2222d13942",
+                  "recordings/hybrid-1792666805120/snapshot-0018.html#sha256=fd4aab5a9c32c93e121015f68d2ec7b377cd691273d1afe381f8da2222d13942"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_DESCRIPTION: Introducing our recommended course featuring a selection of our popular dishes. Enjoy a hearty stir-fry with three types of seafood and refreshing celery, along with black pepper beef, packed with ingredients and flavor! You can also savor classic Chinese dishes such as shrimp chili, dim sum, and shrimp fried rice. Delight in our \"2-hour all-you-can-drink\" option, with Sapporo draft beer available for just an additional JPY 200! We welcome reservations for all types of banquets.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Chinese, Izakaya (Japanese style tavern), Dumpling; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792666805120/snapshot-0018.html#sha256=fd4aab5a9c32c93e121015f68d2ec7b377cd691273d1afe381f8da2222d13942",
+                      "evidence:restaurant:tabelog-hard-criteria:fc52f8c2748c3214aea58ea0"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792666805120/snapshot-0018.html#sha256=fd4aab5a9c32c93e121015f68d2ec7b377cd691273d1afe381f8da2222d13942",
+                      "recordings/hybrid-1792666805120/snapshot-0018.html#sha256=fd4aab5a9c32c93e121015f68d2ec7b377cd691273d1afe381f8da2222d13942"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[432].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 2,000 - JPY 2,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "supportObservation": "NOT_ESTABLISHED",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131604/13258196",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792666805120/snapshot-0009.html#sha256=be62f561e0a5e6387443651b61cc12c6c2d4eccb023bdd2bb17d2dd5f511c5a5",
+                  "recordings/hybrid-1792666805120/snapshot-0009.html#sha256=be62f561e0a5e6387443651b61cc12c6c2d4eccb023bdd2bb17d2dd5f511c5a5",
+                  "recordings/hybrid-1792666805120/snapshot-0009.html#sha256=be62f561e0a5e6387443651b61cc12c6c2d4eccb023bdd2bb17d2dd5f511c5a5",
+                  "recordings/hybrid-1792666805120/snapshot-0009.html#sha256=be62f561e0a5e6387443651b61cc12c6c2d4eccb023bdd2bb17d2dd5f511c5a5",
+                  "recordings/hybrid-1792666805120/snapshot-0042.html#sha256=aff5fd609e8cb217ec798dbbfdcb3e1d5f3df2dd20b26a6c5ffbdc6df3c6863d",
+                  "recordings/hybrid-1792666805120/snapshot-0042.html#sha256=aff5fd609e8cb217ec798dbbfdcb3e1d5f3df2dd20b26a6c5ffbdc6df3c6863d",
+                  "recordings/hybrid-1792666805120/snapshot-0042.html#sha256=aff5fd609e8cb217ec798dbbfdcb3e1d5f3df2dd20b26a6c5ffbdc6df3c6863d",
+                  "recordings/hybrid-1792666805120/snapshot-0042.html#sha256=aff5fd609e8cb217ec798dbbfdcb3e1d5f3df2dd20b26a6c5ffbdc6df3c6863d"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_DESCRIPTION: Introducing our Standard Plan, the number one choice for repeat customers, encapsulating the charm of Chinese Kashin En. This plan features our signature dishes, including the rich \"Pineapple Black Vinegar Sweet and Sour Pork\" and the aromatic \"Sichuan-style Mapo Tofu\" that will whet your appetite. It's a well-rounded selection that we confidently recommend to first-time visitors.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_TITLE: [Best Value] Seafood, Meat, and Homemade Gyoza! Enjoy Authentic Chinese Cuisine with a Satisfying Course (2H All-You-Can-Drink) JPY 4,200; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Introducing our best casual plan, boasting exceptional cost performance. Enjoy a generous selection of classic Chinese dishes, including seafood, meat, and our signature homemade dumplings. This plan is perfect for casual gatherings with friends or hearty meals.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Chinese, Dim sum & Yum cha, Izakaya (Japanese style tavern); meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Introducing our Standard Plan, the number one choice for repeat customers, encapsulating the charm of Chinese Kashin En. This plan features our signature dishes, including the rich \"Pineapple Black Vinegar Sweet and Sour Pork\" and the aromatic \"Sichuan-style Mapo Tofu\" that will whet your appetite. It's a well-rounded selection that we confidently recommend to first-time visitors.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_TITLE: [Best Value] Seafood, Meat, and Homemade Gyoza! Enjoy Authentic Chinese Cuisine with a Satisfying Course (2H All-You-Can-Drink) JPY 4,200; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "COURSE_DESCRIPTION: Introducing our best casual plan, boasting exceptional cost performance. Enjoy a generous selection of classic Chinese dishes, including seafood, meat, and our signature homemade dumplings. This plan is perfect for casual gatherings with friends or hearty meals.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Chinese, Dim sum & Yum cha, Izakaya (Japanese style tavern); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792666805120/snapshot-0009.html#sha256=be62f561e0a5e6387443651b61cc12c6c2d4eccb023bdd2bb17d2dd5f511c5a5",
+                      "recordings/hybrid-1792666805120/snapshot-0009.html#sha256=be62f561e0a5e6387443651b61cc12c6c2d4eccb023bdd2bb17d2dd5f511c5a5",
+                      "recordings/hybrid-1792666805120/snapshot-0009.html#sha256=be62f561e0a5e6387443651b61cc12c6c2d4eccb023bdd2bb17d2dd5f511c5a5",
+                      "recordings/hybrid-1792666805120/snapshot-0009.html#sha256=be62f561e0a5e6387443651b61cc12c6c2d4eccb023bdd2bb17d2dd5f511c5a5",
+                      "recordings/hybrid-1792666805120/snapshot-0042.html#sha256=aff5fd609e8cb217ec798dbbfdcb3e1d5f3df2dd20b26a6c5ffbdc6df3c6863d",
+                      "recordings/hybrid-1792666805120/snapshot-0042.html#sha256=aff5fd609e8cb217ec798dbbfdcb3e1d5f3df2dd20b26a6c5ffbdc6df3c6863d",
+                      "recordings/hybrid-1792666805120/snapshot-0042.html#sha256=aff5fd609e8cb217ec798dbbfdcb3e1d5f3df2dd20b26a6c5ffbdc6df3c6863d",
+                      "recordings/hybrid-1792666805120/snapshot-0042.html#sha256=aff5fd609e8cb217ec798dbbfdcb3e1d5f3df2dd20b26a6c5ffbdc6df3c6863d"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[572].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "supportObservation": "NOT_ESTABLISHED",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13091855",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792666805120/snapshot-0032.html#sha256=b69033fc632359feffc9c72de0d254906a0229239b939b5756d19ad7e519cddf"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Chinese, Izakaya (Japanese style tavern), Dumpling; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792666805120/snapshot-0032.html#sha256=b69033fc632359feffc9c72de0d254906a0229239b939b5756d19ad7e519cddf",
+                      "evidence:restaurant:tabelog-hard-criteria:588f9119b7b4d17a26b5162a"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792666805120/snapshot-0032.html#sha256=b69033fc632359feffc9c72de0d254906a0229239b939b5756d19ad7e519cddf"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              },
+              {
+                "goldIndex": 1,
+                "text": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "rawSnapshot[454].priceRegions[0]"
+                ],
+                "status": "MET",
+                "basis": [
+                  "Independent raw price: JPY 5,000 - JPY 5,999; tax retained without conversion."
+                ]
+              },
+              {
+                "goldIndex": 2,
+                "text": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD",
+                "supportObservation": "NOT_ESTABLISHED",
+                "evidenceRefs": [],
+                "status": "NOT_CHECKED",
+                "basis": [
+                  "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "CANNOT_INDEPENDENTLY_PROVE",
+                    "reason": "Current structured merchant fields do not independently establish this HARD; a separate reviewed witness, if present, is assessed below.",
+                    "refs": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "text": "Chinese",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "text": "under 6,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13240907",
+            "text": "spicy Sichuan food",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "supportObservation": "NOT_ESTABLISHED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131604/13258196",
+            "text": "Chinese",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131604/13258196",
+            "text": "under 6,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131604/13258196",
+            "text": "spicy Sichuan food",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "supportObservation": "NOT_ESTABLISHED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13091855",
+            "text": "Chinese",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13091855",
+            "text": "under 6,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1316/A131603/13091855",
+            "text": "spicy Sichuan food",
+            "criterionRef": "criterion:2",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "NOT_CHECKED",
+            "independent": "NOT_CHECKED",
+            "supportObservation": "NOT_ESTABLISHED",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "elapsedMs": 248198,
+        "modelCalls": 21,
+        "deliveredCount": 3,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1316/A131603/13240907",
+          "tabelog:en/tokyo/A1316/A131604/13258196",
+          "tabelog:en/tokyo/A1316/A131603/13091855"
+        ]
+      },
+      {
+        "run": {
+          "runId": "h-18",
+          "caseId": "p2-holdout-06",
+          "repeat": 3,
+          "role": "HOLDOUT"
+        },
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "qualifiedDelivery": true,
+        "conditions": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13240317",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "izakaya",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792667378976/snapshot-0019.html#sha256=99dbaaac0718fe50b3769e5f4b4c1f76cd7bb434de4da139341c1b70f9ec602a"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Izakaya (Japanese style tavern), Motsu-nabe, Regional Cuisine; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792667378976/snapshot-0019.html#sha256=99dbaaac0718fe50b3769e5f4b4c1f76cd7bb434de4da139341c1b70f9ec602a",
+                      "evidence:restaurant:tabelog-hard-criteria:4c89906af25023bf29a7e4f9"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792667378976/snapshot-0019.html#sha256=99dbaaac0718fe50b3769e5f4b4c1f76cd7bb434de4da139341c1b70f9ec602a"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13277394",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "izakaya",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792667378976/snapshot-0026.html#sha256=cb217c6a449c649085da8d4ccbe0ab536039a48743522074e0293163706e6aee",
+                  "recordings/hybrid-1792667378976/snapshot-0026.html#sha256=cb217c6a449c649085da8d4ccbe0ab536039a48743522074e0293163706e6aee"
+                ],
+                "status": "MET",
+                "basis": [
+                  "COURSE_TITLE: Chef's Recommended 7 Dishes Course JPY 4000 <Shimokitazawa Izakaya Year-End Party Welcome and Farewell Party Birthday New Year Party>; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                  "CATEGORY: Izakaya (Japanese style tavern), Kushiyaki, Seafood; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792667378976/snapshot-0026.html#sha256=cb217c6a449c649085da8d4ccbe0ab536039a48743522074e0293163706e6aee",
+                      "recordings/hybrid-1792667378976/snapshot-0026.html#sha256=cb217c6a449c649085da8d4ccbe0ab536039a48743522074e0293163706e6aee"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13289461",
+            "criteria": [
+              {
+                "goldIndex": 0,
+                "text": "izakaya",
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "supportObservation": "PRODUCT_OBSERVED",
+                "evidenceRefs": [
+                  "recordings/hybrid-1792667378976/snapshot-0033.html#sha256=44ec496b4ad9a11210b8f311bcb4ff9c0e4b65259077c665bb53695f2bdfc9c5"
+                ],
+                "status": "MET",
+                "basis": [
+                  "CATEGORY: Izakaya (Japanese style tavern), Wine bar, Bistro; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+                ],
+                "supportDiagnostics": [
+                  {
+                    "code": "PRESENTATION_CITATION_MISSING",
+                    "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                    "refs": [
+                      "recordings/hybrid-1792667378976/snapshot-0033.html#sha256=44ec496b4ad9a11210b8f311bcb4ff9c0e4b65259077c665bb53695f2bdfc9c5",
+                      "evidence:restaurant:tabelog-hard-criteria:8189df3af4dcb9e242331949"
+                    ]
+                  },
+                  {
+                    "code": "SOURCE_TEXT_ACCEPTED",
+                    "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                    "refs": [
+                      "recordings/hybrid-1792667378976/snapshot-0033.html#sha256=44ec496b4ad9a11210b8f311bcb4ff9c0e4b65259077c665bb53695f2bdfc9c5"
+                    ]
+                  }
+                ],
+                "sourceScope": {
+                  "kind": "RESTAURANT_OFFERING",
+                  "meals": [],
+                  "requestedCourseAvailability": "NOT_VERIFIED"
+                }
+              }
+            ]
+          }
+        ],
+        "displayConsistency": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13240317",
+            "text": "izakaya",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13277394",
+            "text": "izakaya",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1318/A131802/13289461",
+            "text": "izakaya",
+            "criterionRef": "criterion:0",
+            "matchMethod": "NORMALIZED_TEXT",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          }
+        ],
+        "elapsedMs": 260297,
+        "modelCalls": 23,
+        "deliveredCount": 3,
+        "deliveredCandidateIds": [
+          "tabelog:en/tokyo/A1318/A131802/13240317",
+          "tabelog:en/tokyo/A1318/A131802/13277394",
+          "tabelog:en/tokyo/A1318/A131802/13289461"
+        ]
+      }
+    ],
+    "stages": {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/stage-metrics.json"
+    },
+    "severity": {
+      "formalAttempts": 18,
+      "formal": {
+        "S0": {
+          "ABSENT": 14,
+          "NOT_EVALUATED": 4
+        },
+        "S0_DECLARATION": {
+          "ABSENT": 17,
+          "NOT_EVALUATED": 1
+        },
+        "S0_BOUNDARY": {
+          "ABSENT": 15,
+          "NOT_EVALUATED": 3
+        },
+        "S1": {
+          "NOT_EVALUATED": 18
+        },
+        "S2": {
+          "NOT_EVALUATED": 11,
+          "PRESENT": 7
+        },
+        "S3": {
+          "NOT_EVALUATED": 18
+        },
+        "S4": {
+          "NOT_EVALUATED": 18
+        }
+      },
+      "preflightOnly": {
+        "attempt": "h-10-attempt-1",
+        "classification": "ENV_FAILURE",
+        "formalRunStarted": false,
+        "safety": {
+          "S0": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "result.json missing; displayed claims cannot be evaluated.",
+              "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+              "EVIDENCE_GAP: run: missing network request records",
+              "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ]
+          },
+          "S0_DECLARATION": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "result.json missing; displayed claims cannot be evaluated."
+            ],
+            "evidenceRefs": []
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+              "EVIDENCE_GAP: run: missing network request records",
+              "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+              "docs/decisions/0036-generic-public-read-network-policy.md",
+              "docs/decisions/0035-browser-read-network-boundary.md"
+            ],
+            "gaps": [
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "run",
+                "missing": [
+                  "complete trace after orchestration interruption"
+                ],
+                "evidenceRefs": [
+                  "browserTrace"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "run",
+                "missing": [
+                  "network request records"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.networkRequests"
+                ]
+              },
+              {
+                "kind": "EVIDENCE_GAP",
+                "request": "session",
+                "missing": [
+                  "recorded network-boundary installation"
+                ],
+                "evidenceRefs": [
+                  "browserTrace.SESSION_OPENED"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "historical": {
+        "h003": {
+          "path": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/independent-boundary-review.json",
+          "sha256": "3f06552e8335479ac3375437a46964aa71c10f90b246fde435de27b074da957f",
+          "status": "S0_BOUNDARY_PRESENT_RETAINED",
+          "formalRuns": 1,
+          "prohibitedFormPages": 5
+        },
+        "scope": "This holdout is not a retrospective certification of all Phase 2 safety. Old H003 positive and prior unknowns are retained."
+      },
+      "rule": "PRESENT zero is not ABSENT when evidence is NOT_EVALUATED. No-recorded-browser early failures are not retrospectively assigned a Guard installation.",
+      "approvedInputRecovery": {
+        "reviewPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/independent-review.md",
+        "reviewSha256": "ff22a21cf6f5114213e492d5a15075a67412654f70748c433492d10419280b51",
+        "runs": [
+          "h-05",
+          "h-11",
+          "h-17"
+        ],
+        "priorSafetyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/safety-audit.json"
+      }
+    },
+    "attribution": {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/first-blockers.json",
+      "schemaFindings": [],
+      "structuredBudgetAudit": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/budget-structure-audit.json",
+      "wordingDecisions": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/wording-decisions.json",
+      "originalSchemaFindings": [
+        {
+          "runId": "h-05",
+          "artifactSha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+          "pointer": "/materializedCase/acceptance/required_claims/1",
+          "expected": "string",
+          "actual": "object",
+          "valueSha256": "153ade8039ca0f552f8588ecc618fff58f376d7cd998114c3b34996a9e1e0ccb",
+          "assessment": "@33 NOT_EVALUATED; no input/Gold repair was authorized or applied",
+          "witnessScopeGap": "Certification exists, but the generic witness oracle cannot establish the negative-HARD certification text from the registry request string containing only date/time/party/case ID. Do not declare the witness absent or exclude this case under the no-witness exception."
+        },
+        {
+          "runId": "h-11",
+          "artifactSha256": "5852a4619fbf165ae850af4eabb966859e8d3b219f4afe8f04b4f45b3b63cb79",
+          "pointer": "/materializedCase/acceptance/required_claims/1",
+          "expected": "string",
+          "actual": "object",
+          "valueSha256": "153ade8039ca0f552f8588ecc618fff58f376d7cd998114c3b34996a9e1e0ccb",
+          "assessment": "@33 NOT_EVALUATED; no input/Gold repair was authorized or applied",
+          "witnessScopeGap": "Certification exists, but the generic witness oracle cannot establish the negative-HARD certification text from the registry request string containing only date/time/party/case ID. Do not declare the witness absent or exclude this case under the no-witness exception."
+        },
+        {
+          "runId": "h-17",
+          "artifactSha256": "a982e1b0e4ef859e92b502cc8b92cde0d4b9440fac4a9dfaf23964bd94d136b2",
+          "pointer": "/materializedCase/acceptance/required_claims/1",
+          "expected": "string",
+          "actual": "object",
+          "valueSha256": "153ade8039ca0f552f8588ecc618fff58f376d7cd998114c3b34996a9e1e0ccb",
+          "assessment": "@33 NOT_EVALUATED; no input/Gold repair was authorized or applied",
+          "witnessScopeGap": "Certification exists, but the generic witness oracle cannot establish the negative-HARD certification text from the registry request string containing only date/time/party/case ID. Do not declare the witness absent or exclude this case under the no-witness exception."
+        }
+      ],
+      "approvedRecovery": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/inputs.json",
+      "note": "The three prior schema findings are resolved only in the approved evaluation representation. Original reviewer-authored YAML, commitment and result files remain unchanged."
+    }
+  },
+  "historicalH005": {
+    "userApprovedReplacement": {
+      "qualified": 2,
+      "planned": 3,
+      "slot17": "attempt-3, 30-second model decisions, QUALIFIED_DELIVERY"
+    },
+    "strictOriginalRule": {
+      "qualified": 1,
+      "planned": 3,
+      "slot17": "attempt-2 CAPABILITY_MISS retained"
+    },
+    "authority": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/independent-review.md",
+    "noRetrospectiveEnvironmentRelabel": true
+  },
+  "newModels": 0,
+  "newWebsites": 0,
+  "newLive": 0,
+  "previousReference": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/batch-report.json",
+    "sha256": "44ab83678fa24f7f42cc1cab7c70d63d7682a4f1b46d719995b88ca7a3b6cbdb",
+    "replacedReferenceRowsOnly": [
+      "h-05",
+      "h-11",
+      "h-17"
+    ],
+    "originalEvaluationsRetained": true
+  },
+  "approvedLosslessFormatRecovery": {
+    "reviewPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/independent-review.md",
+    "reviewSha256": "ff22a21cf6f5114213e492d5a15075a67412654f70748c433492d10419280b51",
+    "comparisonPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/comparison.json",
+    "evaluationFreezeSha256": "d6315af5e7ebbe3cf471295f9f6bcefbcdbdbb61b5ddc51698f72d33effaa22e",
+    "field": "/materializedCase/acceptance/required_claims/1",
+    "other15ResultsUnchanged": true
+  }
+}
