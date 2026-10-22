@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.241
+- Document revision: 4.242
 - Last updated: 2026-10-22
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-22-CHECKPOINT-C-BIDIRECTIONAL-INPUTS
+
+按复核者决定修复双向字段引文：完整字段被所选段落包含时仅展示字段原文；分行文字被字段包含时展示所选文字。Utou原三条红灯已复现，修后与天妇罗四条及跨角色评论边界均通过。当前仅离线；待C18回放@33、校准和五门禁后才解锁c17补跑，留出集未读取。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/plan.md).
 
 ## TEST-2026-10-22-CHECKPOINT-C-C18-ACCEPTANCE-STOPPED
 

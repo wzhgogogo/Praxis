@@ -202,7 +202,6 @@ test("C18 four split tempura statements inherit their containing merchant field 
   assert.equal(checked, 4);
 });
 
-// Known unresolved business regression; part of the default suite, never skipped.
 test("C18 selected Utou course titles remain known when the selected statement also contains the item count", async () => {
   const { createHash } = await import("node:crypto");
   const { parseTabelogSourceFieldQuotes } = await import("../integrations/tabelog/tabelog-page-parser.js");
@@ -241,6 +240,10 @@ test("C18 selected Utou course titles remain known when the selected statement a
       }; } });
       const read = await judgment.judge({ candidate, intent: state.intent!, evidence: [identity], sourceDocuments: [document] });
       const fresh = read.evidence.find(e => e.evidenceId === fact.evidenceId)!;
+      const title = fields.find(q => q.field === "COURSE_TITLE" && q.quote.includes("Kaiseki with Exquisite Ingredients"))!;
+      assert.ok(title, "the saved merchant course title is the independent quote boundary");
+      assert.ok(fresh.sourceFieldQuotes?.some(q => q.field === "COURSE_TITLE" && q.quote === title.quote));
+      assert.ok(fresh.sourceFieldQuotes!.filter(q => q.field === "COURSE_TITLE").every(q => !q.quote.includes("8 items")), "adjacent item counts cannot inherit COURSE_TITLE");
       state.readEvidence = state.readEvidence.map(e => e.evidenceId === fact.evidenceId ? { ...e, sourceFieldQuotes: fresh.sourceFieldQuotes ?? [] } : e);
       checked++;
     }
@@ -256,6 +259,7 @@ test("C18 selected Utou course titles remain known when the selected statement a
     for (const id of ids) {
       const candidateId = shown.candidateIds.find(c => c.endsWith('/' + id))!;
       statuses.push({ runId, status: shown.conditionStates[candidateId]![0]!.status });
+      assert.ok(shown.conditionStates[candidateId]![0]!.sources.some(q => q.field === "COURSE_TITLE" && q.quote.includes("Kaiseki with Exquisite Ingredients") && !q.quote.includes("8 items")));
     }
     assert.equal(sourceCalls, 0);
   }

@@ -7,6 +7,7 @@ import type { RestaurantTaskState } from "../../domains/restaurant/contracts.js"
 import { validateRestaurantAction } from "../../domains/restaurant/action-validator.js";
 import { applyRestaurantIntentPatch } from "../../domains/restaurant/intent-state.js";
 import { ModelRestaurantFactJudgment } from "./model-fact-judgment.js";
+import { assessRestaurantConditions } from "../../domains/restaurant/condition-states.js";
 
 const candidate: RestaurantCandidate = {
   restaurant: { id: "a", outletName: "Cafe A", address: "Tokyo", sourceIds: {}, provenance: {} },
@@ -277,6 +278,30 @@ test("website judgments preserve selected source statements and reject invented 
     assert.equal(source?.claims.verifiedHardCriteria, undefined);
     assert.deepEqual(read.evidence.find(e => e.provider === "MODEL_JUDGMENT")?.claims.supportingEvidenceIds, [document.id]);
   }
+});
+
+test("a selection spanning merchant and review fields preserves each complete field's own role", async () => {
+  const url = "https://restaurant.example/menu";
+  const identity: RestaurantReadEvidence = {
+    evidenceId: "identity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE", candidateId: "a",
+    sourceUrl: url, sourceEntityId: "website-a", observedAt: now(), requestFingerprint: "source", claims: { outletName: "Cafe A" },
+    entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] },
+  };
+  const document = { id: "document", candidateId: "a", identityEvidenceId: identity.evidenceId,
+    statements: [{ id: "selected", text: "Japanese dining Customer review: amazing tempura" }],
+    sourceFieldQuotes: [
+      { field: "COURSE_DESCRIPTION" as const, quote: "Japanese dining", sourceUrl: url },
+      { field: "CUSTOMER_REVIEW" as const, quote: "Customer review: amazing tempura", sourceUrl: url },
+      { field: "COURSE_TITLE" as const, quote: "tempura", sourceUrl: "https://other-outlet.example/menu" },
+      { field: "CATEGORY" as const, quote: "Japanese dining and noodles", sourceUrl: url },
+    ],
+  };
+  const read = await new ModelRestaurantFactJudgment(model({ sourceSelections: [{ documentId: document.id, statementIds: ["selected"] }], judgments: [] }))
+    .judge({ candidate, intent: { ...positiveIntent, criteria: [{ text: "tempura", strength: "HARD", polarity: "POSITIVE" }] }, evidence: [identity], sourceDocuments: [document] });
+  const source = read.evidence.find(e => e.evidenceId === document.id)!;
+  assert.deepEqual(source.sourceFieldQuotes, document.sourceFieldQuotes.slice(0, 2), "partial overlaps and other outlets cannot inherit roles; review words stay in their own field");
+  const assessed = assessRestaurantConditions({ criteria: [{ text: "tempura", strength: "HARD", polarity: "POSITIVE" }] }, [source]);
+  assert.equal(assessed[0]!.status, "NOT_CHECKED", "a review cannot become a merchant HARD condition through a flattened paragraph");
 });
 
 test("a model fact judgment keeps one cited service scope and rejects mixed scope citations", async () => {

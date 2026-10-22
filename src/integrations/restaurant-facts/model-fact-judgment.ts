@@ -124,10 +124,16 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       const documentScope = document.serviceScope;
       const quotes = statements.map(s => s!.text);
       const compact = (text: string) => text.normalize("NFKC").replace(/\s+/g, "");
-      // A selected line may be one part of a merchant category/description.
-      // Keep the selected words, borrowing only their containing field role.
+      // Preserve the smaller complete quotation. A flattened selection can
+      // include adjacent fields; their words must not inherit a merchant role.
       const sourceFieldQuotes = (document.sourceFieldQuotes ?? []).flatMap(q => q.sourceUrl !== identity.sourceUrl ? []
-        : quotes.filter(text => compact(text) && compact(q.quote).includes(compact(text))).map(quote => ({ ...q, quote })));
+        : quotes.flatMap(text => {
+          const selected = compact(text), field = compact(q.quote);
+          if (!selected || !field) return [];
+          if (selected.includes(field)) return [{ ...q }];
+          if (field.includes(selected)) return [{ ...q, quote: text }];
+          return [];
+        }));
       // Structured prices belong to the newly observed source document, not
       // to the model's selected type quotation or a superseded prior read.
       const prices = document.priceFacts;

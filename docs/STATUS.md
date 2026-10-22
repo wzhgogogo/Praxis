@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.337
+- Document revision: 4.338
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 Checkpoint C bidirectional-inputs:** 按复核者决定修复双向字段引文：完整字段被所选段落包含时仅展示字段原文；分行文字被字段包含时展示所选文字。Utou原三条红灯已复现，修后与天妇罗四条及跨角色评论边界均通过。当前仅离线；待C18回放@33、校准和五门禁后才解锁c17补跑，留出集未读取。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/plan.md).
 
 - **2026-10-22 Checkpoint C c18-acceptance-stopped:** STOPPED于离线验收：字段⊇语句修复使天妇罗4/4 CONSISTENT，Evaluator33/rubric29使Kaga2条单列PRODUCT_UNKNOWN_EXTERNAL_SUPPORT，unsupported0；但Utou标题含相邻8 items计数时丢失角色，c05/c09/c13新生3条MISSED，C18无MISSED门槛失败。未继续改口径、未消耗c17环境补跑、未读取留出集。已将同一实际判断适配器->Router->Reducer反例纳入默认：最终996/997（1失败），不是五门禁全绿；其余type/arch/build及本地Chromium131/131通过，校准22/22/声明20/20。13份展示回放/@33评价保留，5份N/A，原2299材料/18结果/18旧评价未变。新增模型/网站/Live0，累计2827模型/31Live/0正式环境重跑不变；推送准备分支后停下等复核。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/four-layer-report.md).
 
