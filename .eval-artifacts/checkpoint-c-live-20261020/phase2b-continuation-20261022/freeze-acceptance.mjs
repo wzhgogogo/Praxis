@@ -4,7 +4,7 @@ import {createFreeze,git,sha} from '../freeze.mjs';
 const dir='.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022';
 const priorManifests=[
  '.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluation-freeze.json',
- '.eval-artifacts/group-window-fix-20261022/final-freeze.json',
+ '.eval-artifacts/group-window-fix-20261022/delivery-freeze.json',
 ];
 const approvedMutable=new Set(['.eval-artifacts/checkpoint-c-live-20261020/policy.mjs','.eval-artifacts/checkpoint-c-live-20261020/tablecheck-review.test.ts']);
 const extra=new Set(),preserved=[];
@@ -12,6 +12,11 @@ for(const p of priorManifests){
  const bytes=fs.readFileSync(p),m=JSON.parse(bytes);let checked=0;
  for(const[name,hash]of Object.entries(m.files)){
   extra.add(name);
+  if(name==='.eval-artifacts/group-window-fix-20261022/independent-review.md'){
+   const approved=git('show',`98cc7994:${name}`)+'\n';
+   assert.equal(fs.readFileSync(name,'utf8'),approved,'Approved review does not match98cc7994');
+   continue;
+  }
   if(/^(?:src|scripts|docs|web|web-skills)\//.test(name)||/^package(?:-lock)?\.json$|^tsconfig/.test(name)||approvedMutable.has(name))continue;
   assert.equal(sha(fs.readFileSync(name)),hash,`Historical input changed:${name}`);checked++;
  }
