@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.258
+- Document revision: 4.259
 - Last updated: 2026-10-22
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-22-CHECKPOINT-C-BUDGET-CONDITION-COMPLETE
+
+结构预算漏核对和漏展示已修复：生成稳定criterionRef的HARD行，资格与展示共用来源价格结果，超预算/无价拒绝；SOFT比较含义和既有价格政策保留。h-02/h-08/h-14原事件经当前Router→Reducer，5条预算及全部10条条件与Evaluator33/rubric29独立评价CONSISTENT，原产物/旧评价不覆盖。4个红灯、42项相关测试、实际五门禁（1001/1001、131/131）与校准22/22全通过。代码46d471ff；回放冻结5ff44333（2898项）、校准0452645d（808项）运行前后均一致。h11的around已在原模型Proposal，3495ms成功而非超时，仅报告比较方向修正建议，未改语义Prompt。0新模型/网站/Live，累计3280/51/3不变；仅本修复分支，未集成，推送后停下等复核。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/four-layer-report.md).
 
 ## TEST-2026-10-22-CHECKPOINT-C-BUDGET-CONDITION-INPUTS
 

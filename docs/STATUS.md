@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.354
+- Document revision: 4.355
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 Checkpoint C budget-condition-complete:** 结构预算漏核对和漏展示已修复：生成稳定criterionRef的HARD行，资格与展示共用来源价格结果，超预算/无价拒绝；SOFT比较含义和既有价格政策保留。h-02/h-08/h-14原事件经当前Router→Reducer，5条预算及全部10条条件与Evaluator33/rubric29独立评价CONSISTENT，原产物/旧评价不覆盖。4个红灯、42项相关测试、实际五门禁（1001/1001、131/131）与校准22/22全通过。代码46d471ff；回放冻结5ff44333（2898项）、校准0452645d（808项）运行前后均一致。h11的around已在原模型Proposal，3495ms成功而非超时，仅报告比较方向修正建议，未改语义Prompt。0新模型/网站/Live，累计3280/51/3不变；仅本修复分支，未集成，推送后停下等复核。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/four-layer-report.md).
 
 - **2026-10-22 Checkpoint C budget-condition-inputs:** 在请求分支修复结构预算遗漏：同一条件结果供HARD核对和展示，保留现有SOFT政策及来源约束。已复现4个红灯并通过42项相关回归；完整单测1001/1001、本地浏览器131/131通过，W11测试替身补齐来源报价事实。准备提交当前代码、三份已保存例02输入和离线脚本后冻结，再跑五家Router→Reducer的独立33展示复核与22项校准；h11只报告语义Proposal已改写比较方向，不修改Prompt。无新增模型/网站/Live，不改旧运行和评价，未集成。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/plan.md).
 

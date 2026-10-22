@@ -1,0 +1,33 @@
+{
+  "schema": "budget-condition-offline-resources@1",
+  "mode": "OFFLINE_DISPLAY_REPLAY_AND_EXPOSED_CALIBRATION",
+  "prior": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/ledger-after.json",
+    "sha256": "2b956e11bbb1d28ed7912048cce2ff8fcf292744d985f8835ec8c10865e8c7c5"
+  },
+  "increment": {
+    "realModelCalls": 0,
+    "websiteRequests": 0,
+    "GoogleRequests": 0,
+    "fullLiveRuns": 0,
+    "environmentReruns": 0
+  },
+  "after": {
+    "totalModelCalls": 3280,
+    "phase2ModelCalls": 2266,
+    "totalFullLiveRuns": 51,
+    "environmentReruns": 3,
+    "remaining": {
+      "modelCalls": 720,
+      "fullLiveRuns": 49,
+      "environmentReruns": 7
+    }
+  },
+  "offline": {
+    "savedDisplayReplays": 3,
+    "displayEvaluations": 3,
+    "calibrationEvaluations": 22,
+    "localBrowserFixtures": 131
+  },
+  "rule": "Historical invocations/resources copied into replay artifacts are old observations, never billed a second time. Local loopback Fixture traffic is separate from website traffic."
+}
