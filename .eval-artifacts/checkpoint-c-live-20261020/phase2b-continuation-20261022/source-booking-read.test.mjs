@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {publicBookingRead} from './source-booking-read.mjs';
+const url='https://tabelog.com/en/tokyo/A1000/A100001/12345678/',tag='<div data-rst-id="12345678" data-booking-enabled="1" data-fetch-url="/en/booking/calendar/find_vacancy/">';
+test('only an enabled same-merchant source-published endpoint is retained',()=>{assert.equal(publicBookingRead(tag,url).status,'SOURCE_BOUND_READ_EXPOSED');assert.equal(publicBookingRead(tag,url).url,'https://tabelog.com/en/booking/calendar/find_vacancy/');});
+test('phone reservation text, wrong merchant, disabled flag and unrelated endpoint do not expose the read',()=>{for(const html of ['Reservations available',tag.replace('12345678','87654321'),tag.replace('enabled="1"','enabled="0"'),tag.replace('/find_vacancy/','/reserve/')])assert.equal(publicBookingRead(html,url).status,'NOT_EXPOSED_OR_NOT_UNIQUELY_BOUND');});

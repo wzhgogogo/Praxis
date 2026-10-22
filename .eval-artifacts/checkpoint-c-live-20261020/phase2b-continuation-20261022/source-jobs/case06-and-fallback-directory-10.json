@@ -1,0 +1,22 @@
+{
+  "id": "case06-and-fallback-directory-10",
+  "approvedBy": "USER_EXISTING_CONSECUTIVE_AUTHORIZATION",
+  "witnessPlanPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/witness-plan-after-user-skip.json",
+  "witnessPlanSha256": "051fe6219376420424afa066c2c2a6fff6b76de80d1681cbbae19043a84cc695",
+  "scope": "One next preregistered case06 stock read, then necessary fallback discovery from an already observed public directory. No universal prechecks or extra model calls.",
+  "requests": [
+    {
+      "id": "inventory-06-13239145",
+      "caseId": "p2b-holdout-06",
+      "kind": "INVENTORY",
+      "rst_id": "13239145"
+    },
+    {
+      "id": "fallback-region",
+      "caseId": "p2b-holdout-02",
+      "kind": "LISTING",
+      "url": "https://tabelog.com/en/tokyo/A1313/",
+      "provenance": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/tokyo-directory.source.json"
+    }
+  ]
+}
