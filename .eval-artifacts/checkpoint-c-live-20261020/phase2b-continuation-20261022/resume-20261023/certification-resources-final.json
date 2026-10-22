@@ -1,0 +1,922 @@
+{
+  "schema": "phase2b-step3-source-resources@1",
+  "status": "COMPLETED_WITH_ONE_USER_APPROVED_BUSINESS_NO_WITNESS_EXCLUSION",
+  "modelCalls": 0,
+  "fullLiveRuns": 0,
+  "environmentReruns": 0,
+  "totalSourceRequests": 80,
+  "previouslyLedgeredRequests": 59,
+  "additionalSourceRequests": 21,
+  "origins": [
+    {
+      "origin": "https://places.googleapis.com",
+      "requests": 14,
+      "statusCounts": {
+        "200": 14
+      },
+      "minimumGapMs": 30000,
+      "firstRequestedAt": "2026-10-22T16:55:13.915Z",
+      "lastFinishedAt": "2026-10-22T19:44:15.611Z"
+    },
+    {
+      "origin": "https://tabelog.com",
+      "requests": 66,
+      "statusCounts": {
+        "200": 62,
+        "400": 3,
+        "403": 1
+      },
+      "minimumGapMs": 30000,
+      "firstRequestedAt": "2026-10-22T17:11:21.667Z",
+      "lastFinishedAt": "2026-10-22T20:01:58.472Z"
+    }
+  ],
+  "observations": [
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T16:55:13.915Z",
+      "finishedAt": "2026-10-22T16:55:15.567Z",
+      "status": 200,
+      "sha256": "c35d03b070f5110e1ba3ae624eeedc8e6d7f93a0c5c9b4513ffa616bdf7a6fcd",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/1-attempt-1.metadata.json",
+        "sha256": "d1efef5beca177148153a2744ead319fe94f049fd8608bd8bb002377e0e1dc29"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T16:55:45.568Z",
+      "finishedAt": "2026-10-22T16:55:47.014Z",
+      "status": 200,
+      "sha256": "d4130b27c08488b52975b989bb44cfb63bfc2554918ce745bd0d26385bd04c48",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/2-attempt-1.metadata.json",
+        "sha256": "accb7b60b92751f326a89a8c7799bb69b97d7cf1935439344d27b8d7f53e3704"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T16:56:17.015Z",
+      "finishedAt": "2026-10-22T16:56:19.247Z",
+      "status": 200,
+      "sha256": "3dbe684f03e8bdcd58b245bbdb75c1a294ad5f8e6c31ed9ebee3abea06ed7a97",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/3-attempt-1.metadata.json",
+        "sha256": "d05a0819138eecfcfca58ad0c209c5c18b0e4919d01ba033298e301e7c5eea47"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T16:56:49.248Z",
+      "finishedAt": "2026-10-22T16:56:50.997Z",
+      "status": 200,
+      "sha256": "39f0618d43b620251e3f34d7e89ea4bc0302de8f8bc3decc3b8d4d2f1569589a",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/4-attempt-1.metadata.json",
+        "sha256": "01efa240bec80440fc2c7731bb80ed3f498ffd07643613f23103125e3ff16247"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T16:57:20.998Z",
+      "finishedAt": "2026-10-22T16:57:22.604Z",
+      "status": 200,
+      "sha256": "a5f88cf5e4cc8ca8db5e33c644ac6d88215d9133104d4f754a87d49e30da55e4",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/5-attempt-1.metadata.json",
+        "sha256": "acb671cc7c2189553fe41aa02ea69bf3e3e82dd59ec1c74a86c67b4053ddcb37"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T16:57:52.605Z",
+      "finishedAt": "2026-10-22T16:57:54.411Z",
+      "status": 200,
+      "sha256": "5ef2387630a7422ca1968f406bbde1750c283a96a456c34115d4c11a8b57ff76",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/6-attempt-1.metadata.json",
+        "sha256": "75c466e45ce90fbb376fd2c0289817c1b25d779594f74da7b2b1272733541d0d"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T16:58:24.413Z",
+      "finishedAt": "2026-10-22T16:58:26.046Z",
+      "status": 200,
+      "sha256": "d1b043716fd4098cd22e0850ae3d16ed9288ae10672df379eba976da6125c194",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/7-attempt-1.metadata.json",
+        "sha256": "1b5ef47c8f1a7fc5c8b6d1ca29f051c49806ac970c54774b1407add86a6c156e"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T16:58:56.048Z",
+      "finishedAt": "2026-10-22T16:58:57.346Z",
+      "status": 200,
+      "sha256": "c35a0bf0bc07144a75dcbca71635d9e073f18acea4763baaa703894b88bc4524",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/8-attempt-1.metadata.json",
+        "sha256": "6011ff01ebaeb34b6fd8fc5a62dc9266952deaa9840165ca2931e48dacef8aeb"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T16:59:27.349Z",
+      "finishedAt": "2026-10-22T16:59:28.786Z",
+      "status": 200,
+      "sha256": "633351a64a728ef18717a378f59b6ad7551d9b665bd9595a6a8d0f41ec979726",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/9-attempt-1.metadata.json",
+        "sha256": "8cd2a76b7d06dd8610a218942172bbb9d51ef12ed661030b85860f2984da8354"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T16:59:58.787Z",
+      "finishedAt": "2026-10-22T17:00:00.206Z",
+      "status": 200,
+      "sha256": "dfbaae2c347d5de7ab028ec17547436d11b8752907a89217c17e508f201a0bbd",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/10-attempt-1.metadata.json",
+        "sha256": "a45b1e184b1b53f0a94655cda568d4ef194c712cee9d9c73010bd5ec19537d8d"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T17:00:30.206Z",
+      "finishedAt": "2026-10-22T17:00:32.677Z",
+      "status": 200,
+      "sha256": "d5424b44efd9fdf07442e3f6595a694f0fb1d3afbc2d7657b9d15630a38f97ea",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/11-attempt-1.metadata.json",
+        "sha256": "4dbc602444f95330a771176ad5768b54f9ef17832ca74e270c30de5244bdc6ff"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T17:01:02.680Z",
+      "finishedAt": "2026-10-22T17:01:04.244Z",
+      "status": 200,
+      "sha256": "3f2dedf8633a3a49b36a2f1e905a122b489682303af71d733f80008f164f5305",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/12-attempt-1.metadata.json",
+        "sha256": "d9c25c6df4d1c8406357ae5e13dea66e9bd7300e431c3d82dda5c59cea74f9c4"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/",
+      "requestedAt": "2026-10-22T17:11:21.667Z",
+      "finishedAt": "2026-10-22T17:11:23.913Z",
+      "status": 200,
+      "sha256": "01f47c61a532771133888f820614771245018238cdb0be60a0845e5604322211",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/tokyo-directory.attempt-1.metadata.json",
+        "sha256": "5ca3f7e9944eed328b4b81116eb8429b65fcbd1828270f8630080befed041ae4"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13186205/",
+      "requestedAt": "2026-10-22T17:11:53.915Z",
+      "finishedAt": "2026-10-22T17:11:55.447Z",
+      "status": 200,
+      "sha256": "17edc10a13dfebcc6d12d72542b2906bfd7990bd512b1f95ab6959a53840af3f",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/moheji-hanare.attempt-1.metadata.json",
+        "sha256": "890ebfeaba93d4862d8aca1e06ce33c65d1a2f060db8369d438dd3b69ed334f2"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13243319/",
+      "requestedAt": "2026-10-22T17:12:25.549Z",
+      "finishedAt": "2026-10-22T17:12:26.943Z",
+      "status": 200,
+      "sha256": "23c67fbf0869ed6c9bd54a106c7ceca6b43508a9179a43327b9852e5fc98835d",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/okoge.attempt-1.metadata.json",
+        "sha256": "c6fbf6f15109691c910ffb2657e7f3a8c22f3b284021c072a56eb2cc08c738b9"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13224664/",
+      "requestedAt": "2026-10-22T17:12:56.946Z",
+      "finishedAt": "2026-10-22T17:12:58.424Z",
+      "status": 200,
+      "sha256": "844a65f04b3fce4247c11894104297595bc0a9c4c44997f53237097ab388b921",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/moheji-hanare-no-hanare.attempt-1.metadata.json",
+        "sha256": "49795a857f605f63e859ec9bed21a596bbe5f5001880b0405bb2e296f14f8961"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130302/13256140/",
+      "requestedAt": "2026-10-22T17:13:28.425Z",
+      "finishedAt": "2026-10-22T17:13:30.084Z",
+      "status": 200,
+      "sha256": "53350a55192190df37e385b351be30214421c400a0637e195a5d2fd98d29912b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/maen.attempt-1.metadata.json",
+        "sha256": "41aef5727b9c35c3b61ef55d4e960aa0c90a901134566aa09e1de1294602c034"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1305/A130501/13279772/",
+      "requestedAt": "2026-10-22T17:14:00.086Z",
+      "finishedAt": "2026-10-22T17:14:01.970Z",
+      "status": 200,
+      "sha256": "12e274aabb0ec1c270653db8f6d135fe597370d193e56791adaa352de4a8616f",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.attempt-1.metadata.json",
+        "sha256": "6fbf2f7c930616a4af7df3e7b70ab355558a50851403d7e2487dba8d9413b3db"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130103/13306055/",
+      "requestedAt": "2026-10-22T17:14:31.971Z",
+      "finishedAt": "2026-10-22T17:14:33.880Z",
+      "status": 200,
+      "sha256": "800b2b5f38fd57c4c86a29ff98e834d18a08945d2c484d4014f2fbd7108e1fd1",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/odenbar.attempt-1.metadata.json",
+        "sha256": "e297ba13598a814605c8a3988d7ff47994d2939f046b6593146814eca6838551"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1311/",
+      "requestedAt": "2026-10-22T17:16:15.800Z",
+      "finishedAt": "2026-10-22T17:16:17.757Z",
+      "status": 200,
+      "sha256": "4a4c248d0b1ded837f43e3b4c27e707b29762851ff2f2af4f40a8777b63fb450",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-areas-02/area-01.attempt-1.metadata.json",
+        "sha256": "aebf61954f0c6ed9d28d11c0f7fcccaa8338d9b67f438ac659356b746ff4e426"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/",
+      "requestedAt": "2026-10-22T17:16:47.759Z",
+      "finishedAt": "2026-10-22T17:16:49.608Z",
+      "status": 200,
+      "sha256": "20160bb4e1d31113e8551b7c2c4c3de20283e2c233ea3957ce6146342b1cc32e",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-areas-02/area-05.attempt-1.metadata.json",
+        "sha256": "5ef76614e67a1c1f0e8eb976505b4d7357daf16197bae62b30b90d50179d4a62"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/",
+      "requestedAt": "2026-10-22T17:17:19.609Z",
+      "finishedAt": "2026-10-22T17:17:21.441Z",
+      "status": 200,
+      "sha256": "d97ce58e992484d87bf80caab1369640191886034edf2672c0df90ef95bde91b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-areas-02/area-03.attempt-1.metadata.json",
+        "sha256": "97ea9c4ea135db5aa9aa364adf6a042f24a6216fdc0bd0942eb9bde483c74474"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1305/",
+      "requestedAt": "2026-10-22T17:17:51.443Z",
+      "finishedAt": "2026-10-22T17:17:53.573Z",
+      "status": 200,
+      "sha256": "4d084645cb4d368e32749b3f3900e48b35e99f86c041b977246cefbde0c0f7e4",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-areas-02/area-04.attempt-1.metadata.json",
+        "sha256": "708607b9d3ce186ae50c9f6ec77b5ca3efb31a9529c6fbaa1619fdbc7c94b78c"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/",
+      "requestedAt": "2026-10-22T17:18:23.575Z",
+      "finishedAt": "2026-10-22T17:18:25.759Z",
+      "status": 200,
+      "sha256": "3e47db9a149a8136c3e1854c65d2308def01d3243c79cf542addfc33138570fd",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-areas-02/area-06.attempt-1.metadata.json",
+        "sha256": "731ec2ab8275969d9d1b70229460e6873dd5e7744ca547d4b3154bb12a45cb26"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1311/rstLst/RC0107/",
+      "requestedAt": "2026-10-22T17:19:17.049Z",
+      "finishedAt": "2026-10-22T17:19:19.410Z",
+      "status": 200,
+      "sha256": "3709c5e4c047a2a15da841b4c77dedab8cb697d172a3505efdbb2d22ad9a546d",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-genres-03/genre-01.attempt-1.metadata.json",
+        "sha256": "011a25b10c912f3a3182e400dec71f03fb62a9968685f09cbeb4495077e41751"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/rstLst/soba/",
+      "requestedAt": "2026-10-22T17:19:49.412Z",
+      "finishedAt": "2026-10-22T17:19:51.149Z",
+      "status": 200,
+      "sha256": "5da8c756499e96249dbbda2fedce1c813c192d4c6909b3477308d20805fc849d",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-genres-03/genre-05.attempt-1.metadata.json",
+        "sha256": "9dcb12c90657c91246ad4b3f5a6c1c896c0bad782479779e5a671fec88f6c4bd"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/rstLst/RC02/",
+      "requestedAt": "2026-10-22T17:20:21.151Z",
+      "finishedAt": "2026-10-22T17:20:23.094Z",
+      "status": 200,
+      "sha256": "f44ab79955b15672a214e4380414fc706fa91346ebb7d08c6eeea597f2ad6a95",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-genres-03/genre-03.attempt-1.metadata.json",
+        "sha256": "7b377b2b57dd576d0186a4dfea0c88b520f89d799d02059626bb2e256427b885"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1305/rstLst/RC04/",
+      "requestedAt": "2026-10-22T17:20:53.096Z",
+      "finishedAt": "2026-10-22T17:20:54.956Z",
+      "status": 200,
+      "sha256": "a89ee757f2867b4a2d741aa0fb0b37044e58ef1dd3df3e51025fb2b7e4b17640",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-genres-03/genre-04.attempt-1.metadata.json",
+        "sha256": "05e70d0e53864f891eb93aa132a5adac0d8de0031900c1f883802ff629445e6a"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/rstLst/washoku/",
+      "requestedAt": "2026-10-22T17:21:24.958Z",
+      "finishedAt": "2026-10-22T17:21:26.850Z",
+      "status": 200,
+      "sha256": "6ee4fbf4ac3d643477a5db5fc1c1b32899fb7850938efc8d390f611b6d0d29f6",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-genres-03/genre-06.attempt-1.metadata.json",
+        "sha256": "3e337433270afefb335dbd1b434cd697ce894ae28d72da775dfb8f17e1621502"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+      "requestedAt": "2026-10-22T17:22:08.668Z",
+      "finishedAt": "2026-10-22T17:22:10.738Z",
+      "status": 200,
+      "sha256": "348c9d374dbe0778e14155eb6b52057c26c254d718cf7a70ff8551215135ae01",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.attempt-1.metadata.json",
+        "sha256": "7e820f4e45e0a195d5ba33a4eea3f92bbe53b399e730a58e7b1d4fd48d8fee63"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1311/A131102/13322725/",
+      "requestedAt": "2026-10-22T17:22:40.740Z",
+      "finishedAt": "2026-10-22T17:22:42.075Z",
+      "status": 200,
+      "sha256": "b1e570e67e6ace592605ec4641618d037f3d267243ea12a3459e9a1308ded275",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.attempt-1.metadata.json",
+        "sha256": "0fb2a4eeb85ae0927e15ae004f54494d0871b0dbea4be33b770145a04fec563d"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1311/A131102/13312592/",
+      "requestedAt": "2026-10-22T17:23:12.077Z",
+      "finishedAt": "2026-10-22T17:23:13.907Z",
+      "status": 200,
+      "sha256": "4168cf74eedbaf21300477654ca8267e6837665fa012b1a604ffd0738b3b22e1",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.attempt-1.metadata.json",
+        "sha256": "229a2af975f50bfbb4a3c45100544cb352871130aa561af397bb316d02da4d54"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/A130702/13004546/",
+      "requestedAt": "2026-10-22T17:23:43.909Z",
+      "finishedAt": "2026-10-22T17:23:45.710Z",
+      "status": 200,
+      "sha256": "ba6d2f8d3929ebc29affb73e99fc4d318fde410863ebea7a43a61b66bfa378ff",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-05-1.attempt-1.metadata.json",
+        "sha256": "709e4ad3288a9161d9560bc7d168d1ae2664e9e3d12c82eda47e7deb0900335b"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/A130702/13001226/",
+      "requestedAt": "2026-10-22T17:24:15.712Z",
+      "finishedAt": "2026-10-22T17:24:17.459Z",
+      "status": 200,
+      "sha256": "0016a51e0cc8e07b865fd30d3ef164b36eefa736d48d1cce098acec189d593cb",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-05-2.attempt-1.metadata.json",
+        "sha256": "7cfe52976132b05040ebd862c1c76bd5d5a07fe30e3cc91d17fcaef1e64e67d2"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/A130702/13001692/",
+      "requestedAt": "2026-10-22T17:24:47.460Z",
+      "finishedAt": "2026-10-22T17:24:48.937Z",
+      "status": 200,
+      "sha256": "03b53577b01347fcc8037aa46ad11f37332c1097315a8a61ee3f1c6abcf14316",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-05-3.attempt-1.metadata.json",
+        "sha256": "a74c00546a024461fae4c1ecb09306476cfeabacc803100355c836a40b3fb60f"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/rstLst/french/",
+      "requestedAt": "2026-10-22T17:25:18.939Z",
+      "finishedAt": "2026-10-22T17:25:20.843Z",
+      "status": 200,
+      "sha256": "e33dcc1afccdb87b7c0c88d5ce69e593c7c5c13b1da73e1935db932d7c5eb61a",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-03-1.attempt-1.metadata.json",
+        "sha256": "3e46ee2e017e5963b4e7529aaa14f0b7a15f5aa1ee31aed78a08dc595ea8ba2a"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/rstLst/RC0108/",
+      "requestedAt": "2026-10-22T17:25:50.845Z",
+      "finishedAt": "2026-10-22T17:25:52.788Z",
+      "status": 200,
+      "sha256": "c25f02b801fc9d1bb4d0b643929f5802657d515a916d3d0a934a582a38aa5025",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-06-1.attempt-1.metadata.json",
+        "sha256": "aa6e5d51bc839611047e6e5c48c84c2819324858d8bbe2a94f2a340a19999454"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/A130702/13274939/",
+      "requestedAt": "2026-10-22T17:26:38.560Z",
+      "finishedAt": "2026-10-22T17:26:40.111Z",
+      "status": 200,
+      "sha256": "34adfbc60dd3e145b105eb6f9f366b19f13fb9748ed5b5d57fa3f596033dbf99",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-1.attempt-1.metadata.json",
+        "sha256": "6f82ed4b099986a156d78f410db9d0701ba39fc9fbbc4d29ea53c54e91c8a659"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/A130702/13320164/",
+      "requestedAt": "2026-10-22T17:27:10.114Z",
+      "finishedAt": "2026-10-22T17:27:11.782Z",
+      "status": 200,
+      "sha256": "fd31547cf902f5b0e39e716adc95ce471a34266c2bfe75db860bf606018d39b8",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.attempt-1.metadata.json",
+        "sha256": "c5f3c7ccdf3df749fed6bec7a7d5ab77304049494d6744dd40f4f71f67fb9763"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/A130702/13015155/",
+      "requestedAt": "2026-10-22T17:27:41.783Z",
+      "finishedAt": "2026-10-22T17:27:43.325Z",
+      "status": 200,
+      "sha256": "be1959d05e68914f5d43f0484e0bad10ad526f15d419292fd73a4fbb86e63183",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-3.attempt-1.metadata.json",
+        "sha256": "35b1b8bee55d2b27d708dca33ff975f23b184a053998bfd2009ced9bb11d2f53"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130302/13287947/",
+      "requestedAt": "2026-10-22T17:28:13.332Z",
+      "finishedAt": "2026-10-22T17:28:14.944Z",
+      "status": 200,
+      "sha256": "4053caf92deaa9c4d088ee6fcbbe9fcaa4137702e09bdac945ac0b8cda3dd776",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-1.attempt-1.metadata.json",
+        "sha256": "7d0b5e47164c1a82cf985d737e46f739cd7b69fb4be226bb086b5c6e7b34b539"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130302/13014440/",
+      "requestedAt": "2026-10-22T17:28:44.979Z",
+      "finishedAt": "2026-10-22T17:28:46.732Z",
+      "status": 200,
+      "sha256": "65c47f739cdd1f712010127c221c1b51299ba61d8b2adb44ac791d8635d2a430",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.attempt-1.metadata.json",
+        "sha256": "7cdeb6ba0f90f48499602586ec96b773abef96327ff61052202d6fbdf0f82cd9"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1305/A130501/13133693/",
+      "requestedAt": "2026-10-22T17:29:16.739Z",
+      "finishedAt": "2026-10-22T17:29:18.457Z",
+      "status": 200,
+      "sha256": "180e47927e373098fd7465770487696a1ddbf0d4a42911280392a6e4d3fe2b59",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.attempt-1.metadata.json",
+        "sha256": "c10fab5c6e40e2cc2a6cae18d0691e3fcd3dffa3d24d2c5b39fc5327350cf478"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1305/A130501/13127050/",
+      "requestedAt": "2026-10-22T17:29:48.459Z",
+      "finishedAt": "2026-10-22T17:29:50.442Z",
+      "status": 200,
+      "sha256": "78563b93eb2d7dc35b9d43662ec07890384542a322c33dd838a9027ba071b30b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.attempt-1.metadata.json",
+        "sha256": "f075e49b140f182a91840becd04c40898dbfcf15209ffeb18c669d77db6f52e2"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130103/13239145/",
+      "requestedAt": "2026-10-22T17:30:20.444Z",
+      "finishedAt": "2026-10-22T17:30:22.401Z",
+      "status": 200,
+      "sha256": "5823685870b7a804170ed3b4a338a90ef09f7a83fe82978eccf7b3daee9dfda1",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-1.attempt-1.metadata.json",
+        "sha256": "1eef2ca641e0377ade7d859a7cacb5c06c230eb31aef3439fb0246abd3e577fb"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130103/13243927/",
+      "requestedAt": "2026-10-22T17:30:52.403Z",
+      "finishedAt": "2026-10-22T17:30:53.997Z",
+      "status": 200,
+      "sha256": "61e55452d6b3a9a9d781897293391d5ffff9dd93f2b7b6eab4e1328b4284cf14",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.attempt-1.metadata.json",
+        "sha256": "6594cd6ca41c9482fd39b7fa886265273fffb0fb87983fbf070a80fd19d13d67"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13316569&svd=20261104&svps=2&svt=1900",
+      "requestedAt": "2026-10-22T17:34:56.203Z",
+      "finishedAt": "2026-10-22T17:34:57.552Z",
+      "status": 200,
+      "sha256": "b7cd7e72ddc36f454c6972c36c572d4913ad3b3a8acddb345abe5426f12a7ad4",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13316569.attempt-1.metadata.json",
+        "sha256": "bc9dd1a92bcaad9198635af20fd0bc9f992cf719a785c7344111b5c189a71e5d"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13322725&svd=20261104&svps=2&svt=1900",
+      "requestedAt": "2026-10-22T17:35:27.555Z",
+      "finishedAt": "2026-10-22T17:35:28.690Z",
+      "status": 200,
+      "sha256": "976c4392e3e7a8c132208a931a959a5abbbec41b167cd45a54a3c415ae5f2d0b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13322725.attempt-1.metadata.json",
+        "sha256": "cd5d3fe24ed386baa31e730a723464176ae43b47eda0612bc743a38a5d84627e"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13312592&svd=20261104&svps=2&svt=1900",
+      "requestedAt": "2026-10-22T17:35:58.693Z",
+      "finishedAt": "2026-10-22T17:35:59.791Z",
+      "status": 200,
+      "sha256": "c2116a90a92e53fbca911da792694616f06ddfd0ad4350591d80f5102e8f3913",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13312592.attempt-1.metadata.json",
+        "sha256": "30d1ba37ccacb61a03b12db4debb82854b64aa5433244c36523804d752e45d84"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13186205&svd=20261030&svps=4&svt=1830",
+      "requestedAt": "2026-10-22T17:36:29.792Z",
+      "finishedAt": "2026-10-22T17:36:31.037Z",
+      "status": 200,
+      "sha256": "1322bd15a7700bda26d1c122a3670a79ace66b27bc87a9ebbaea80e68383b41b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-02-13186205.attempt-1.metadata.json",
+        "sha256": "835ee929072ddef1ef3b103c7a99bb22cde4de15405d655f209735a197df30b0"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13243319&svd=20261030&svps=4&svt=1830",
+      "requestedAt": "2026-10-22T17:37:01.038Z",
+      "finishedAt": "2026-10-22T17:37:02.124Z",
+      "status": 200,
+      "sha256": "1322bd15a7700bda26d1c122a3670a79ace66b27bc87a9ebbaea80e68383b41b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-02-13243319.attempt-1.metadata.json",
+        "sha256": "12358c823d559f58d2e9e8739b955f0b8368c7ebedde576a7a24dddf0b3c01b0"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13224664&svd=20261030&svps=4&svt=1830",
+      "requestedAt": "2026-10-22T17:37:32.126Z",
+      "finishedAt": "2026-10-22T17:37:33.217Z",
+      "status": 200,
+      "sha256": "1322bd15a7700bda26d1c122a3670a79ace66b27bc87a9ebbaea80e68383b41b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-02-13224664.attempt-1.metadata.json",
+        "sha256": "697778cc331b12b6bdd96d84d134fd8b3ecf328b4af17ace63900af1d50cf2d1"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13256140&svd=20261031&svps=2&svt=1930",
+      "requestedAt": "2026-10-22T17:38:03.220Z",
+      "finishedAt": "2026-10-22T17:38:04.317Z",
+      "status": 200,
+      "sha256": "01a0c283ad055d2a4f77456ffe1156223034e64382e6bfa67f6534e51bc5d100",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13256140.attempt-1.metadata.json",
+        "sha256": "c0e5a20fb60289d3b57ef637e406e76e86ca6e55299e73e065308ce6a77b6dbb"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13014440&svd=20261031&svps=2&svt=1930",
+      "requestedAt": "2026-10-22T17:38:34.319Z",
+      "finishedAt": "2026-10-22T17:38:35.416Z",
+      "status": 200,
+      "sha256": "df37500d99108ea0b8e31f0e01fe04cc1638789126b26749858c68d4e4db5159",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13014440.attempt-1.metadata.json",
+        "sha256": "ef9a0a22993e7428eba16188b8701e41caf704d15e02b9fd0156d8ea0b92574f"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13279772&svd=20261105&svps=6&svt=1800",
+      "requestedAt": "2026-10-22T17:39:05.418Z",
+      "finishedAt": "2026-10-22T17:39:06.545Z",
+      "status": 200,
+      "sha256": "ee349152340be284415abf11f64f655d17fda767e3d3c00ec2dce309c40d4eaa",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13279772.attempt-1.metadata.json",
+        "sha256": "002d9358dda85efe70800cc4642b91aa17a3755b4580f3bc2298d056eff5f07c"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13133693&svd=20261105&svps=6&svt=1800",
+      "requestedAt": "2026-10-22T17:39:36.547Z",
+      "finishedAt": "2026-10-22T17:39:37.708Z",
+      "status": 200,
+      "sha256": "f277488a5959ed08fc8bbde3e47b13e1add3884128791c0692e215628aca2391",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13133693.attempt-1.metadata.json",
+        "sha256": "1ea248603472a69489cdeb86a84840257a5bd237f192bcbea1d82be829a4309e"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13127050&svd=20261105&svps=6&svt=1800",
+      "requestedAt": "2026-10-22T17:40:07.711Z",
+      "finishedAt": "2026-10-22T17:40:08.823Z",
+      "status": 200,
+      "sha256": "bd20f8e89de23839dcdde1f037613d993ca9079ba94a08babd5b7843dc8f5a8a",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13127050.attempt-1.metadata.json",
+        "sha256": "bf2c19b827d77228694de625625a9e7671e52c927434d2d71aed08808bad8cb4"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13004546&svd=20261103&svps=3&svt=1900",
+      "requestedAt": "2026-10-22T17:40:38.825Z",
+      "finishedAt": "2026-10-22T17:40:39.942Z",
+      "status": 400,
+      "sha256": "6a5c73754b2c1ec21f35bc99f1d2280e74b8e3a423a208c8d5e9cbeb357f81cd",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-05-13004546.attempt-1.metadata.json",
+        "sha256": "e42ea34e278cb890c2a598826cfbe4aeb94340e288e71abdb5cc9f892b3433b5"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13004546&svd=20261103&svps=3&svt=1900",
+      "requestedAt": "2026-10-22T19:18:55.016Z",
+      "finishedAt": "2026-10-22T19:18:56.279Z",
+      "status": 400,
+      "sha256": "6a5c73754b2c1ec21f35bc99f1d2280e74b8e3a423a208c8d5e9cbeb357f81cd",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/http400-retry/1-attempt-1.metadata.json",
+        "sha256": "f6c3e97fb346e781390d26fe617b379a60bd2d6b44e5d4b7f1e9b0d430b38970"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/A130702/13004546/",
+      "requestedAt": "2026-10-22T19:22:30.366Z",
+      "finishedAt": "2026-10-22T19:22:33.098Z",
+      "status": 200,
+      "sha256": "f6ffdfbd9bfac3645a9479e8e8f8064d5d7f5a3841a1b78e27a29a8027ba444b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/kawakami-page.attempt-1.metadata.json",
+        "sha256": "195fdf06ca7a2289d94226d74f3d6bea288189ca6a9771a5cbb872d26645828a"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+      "requestedAt": "2026-10-22T19:23:03.099Z",
+      "finishedAt": "2026-10-22T19:23:04.774Z",
+      "status": 200,
+      "sha256": "cb1483704636ec8f7a274b23483096138eba380bf8646a1e13709fe83b3160f1",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/sasaya-page.attempt-1.metadata.json",
+        "sha256": "2107be727244f4bb37ac2722b04257c3c39ac590993f8131c1c1e0ce655366fd"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13316569&svd=20261103&svps=3&svt=1900",
+      "requestedAt": "2026-10-22T19:23:34.776Z",
+      "finishedAt": "2026-10-22T19:23:35.882Z",
+      "status": 200,
+      "sha256": "83380a27445b923bd503b5bc49af6de0114571cba43714d1b88d257120ea109e",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/sasaya-same-query-control.attempt-1.metadata.json",
+        "sha256": "abfd0e0ec444d33e375984341a3ed3ec3456bf88a76eccadd805beb5c63bb300"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13004546&svd=20261103&svps=3&svt=1900",
+      "requestedAt": "2026-10-22T19:25:16.962Z",
+      "finishedAt": "2026-10-22T19:25:18.010Z",
+      "status": 400,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/kawakami-browser-headers.attempt-1.metadata.json",
+        "sha256": "08b8f6ce13ab77bd0b456c2adc70f42a76b9c067f687f481c8da1922097ed218"
+      }
+    },
+    {
+      "url": "https://tabelog.com/tokyo/A1307/A130702/13004546/",
+      "requestedAt": "2026-10-22T19:27:56.973Z",
+      "finishedAt": "2026-10-22T19:27:58.074Z",
+      "status": 403,
+      "sha256": "5ea32001cdd24ff62543970a0eac894e7f8a2710604c037424f0e55c9d510de0",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/diagnosis/kawakami-ja-page.attempt-1.metadata.json",
+        "sha256": "cd7b6e90d6e1d510bac4eb52f1aa2fb59831e5532dbbdffe7565502f174c3a10"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T19:43:42.902Z",
+      "finishedAt": "2026-10-22T19:43:44.278Z",
+      "status": 200,
+      "sha256": "9a064440263c03b640e810a34f48a3cab7f9755587b98730c32cc8398b64e62b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/fallback02-discovery/1-attempt-1.metadata.json",
+        "sha256": "154d69981d1b610f68957a5cc8ed46d528384463c3ca5b0120582695a8ba0246"
+      }
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "requestedAt": "2026-10-22T19:44:14.280Z",
+      "finishedAt": "2026-10-22T19:44:15.611Z",
+      "status": 200,
+      "sha256": "fd85f572376c7367a46e331ac2826dc21b6a552a825999ad2c8e29e50dea7340",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/fallback02-discovery/2-attempt-1.metadata.json",
+        "sha256": "f0948b4a037fe4b1fdd6e3f31b50cce11f50df8a7ef2e343ab3a412100cb19be"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13320164&svd=20261103&svps=3&svt=1900",
+      "requestedAt": "2026-10-22T19:45:32.363Z",
+      "finishedAt": "2026-10-22T19:45:33.811Z",
+      "status": 200,
+      "sha256": "d94c043e883919acd8c193e66a571f48eb79052756dd54478f04b6a5432952b3",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/pending-inventory/1-attempt-1.metadata.json",
+        "sha256": "6fc228d0c8dc33f82b3968f756e80dffdaa3713cd8f6b7e1a1830d28dc1656fc"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13306055&svd=20261030&svps=8&svt=1900",
+      "requestedAt": "2026-10-22T19:46:03.813Z",
+      "finishedAt": "2026-10-22T19:46:05.036Z",
+      "status": 200,
+      "sha256": "11c94e8359a1dcca1679d939eee41dc798e938d09df8c29643ac924ce19edd8c",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/pending-inventory/2-attempt-1.metadata.json",
+        "sha256": "3dc39d5d084fa8e547d733ced3bf400cd73b003fca2ed70552a2ae38fcc59a6f"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13239145&svd=20261030&svps=8&svt=1900",
+      "requestedAt": "2026-10-22T19:49:57.510Z",
+      "finishedAt": "2026-10-22T19:49:59.795Z",
+      "status": 200,
+      "sha256": "415d48808ef07b85c476999e09bd5d5f990b4250c54b372bba09e174ea257d98",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-and-fallback-directory-10/inventory-06-13239145.attempt-1.metadata.json",
+        "sha256": "54fa73fe481f8cc8394ab32252c7c72d79443b4bf9e085a04b458c2e683e762c"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/",
+      "requestedAt": "2026-10-22T19:50:29.796Z",
+      "finishedAt": "2026-10-22T19:50:31.844Z",
+      "status": 200,
+      "sha256": "cf35bd33990ac6d23d8492ad2224e7abaa3c2f5f5229d8f405fff5124ccd348d",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-and-fallback-directory-10/fallback-region.attempt-1.metadata.json",
+        "sha256": "d9113e99a4846a1810a17b4d96e946f0f76f45c84b968c4a79b441a7977d01cb"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13243927&svd=20261030&svps=8&svt=1900",
+      "requestedAt": "2026-10-22T19:52:43.652Z",
+      "finishedAt": "2026-10-22T19:52:45.018Z",
+      "status": 200,
+      "sha256": "2156569cc3a491961af15fd351aabc315a87a9d46281ffe2f05885f1411f1e70",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/inventory-06-13243927.attempt-1.metadata.json",
+        "sha256": "6bf6b371a4caf8b1df8a0d6e607ead6d11b149b2af5773b03e4808904cefbf07"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/rstLst/monjya/",
+      "requestedAt": "2026-10-22T19:53:15.019Z",
+      "finishedAt": "2026-10-22T19:53:16.863Z",
+      "status": 200,
+      "sha256": "7c9264e0cadc3099162c13e62c4c2165ced9100b3f74e7d07f700bd79c5339d5",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/fallback-monja.attempt-1.metadata.json",
+        "sha256": "4413eb223c84280171e30f7ca2394642e7bdeeb7be705cec12c8e14350b7bfdd"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13219260/",
+      "requestedAt": "2026-10-22T19:57:37.826Z",
+      "finishedAt": "2026-10-22T19:57:39.562Z",
+      "status": 200,
+      "sha256": "8ffe79d1696c29675fccebe7e22fe76773d6998cf1d86328c94fae555c129ac3",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-1.attempt-1.metadata.json",
+        "sha256": "787de5f27833a1a6a48aa0d01e6348cd5b548b32bfb62fa85eee3680f0008633"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13189642/",
+      "requestedAt": "2026-10-22T19:58:09.564Z",
+      "finishedAt": "2026-10-22T19:58:11.382Z",
+      "status": 200,
+      "sha256": "813b42dca67b4f18022e91d7f5784e8af02b451bbcd943006a03f2b1275b45a1",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-2.attempt-1.metadata.json",
+        "sha256": "4f0ea0b8c481416e90c951961ddfba2888d6372c4dfede0c63b7b062a289c629"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13010747/",
+      "requestedAt": "2026-10-22T19:58:41.384Z",
+      "finishedAt": "2026-10-22T19:58:42.900Z",
+      "status": 200,
+      "sha256": "954874ec14b1227a7372d72594911ee3be2a03de021819e379de31a5300f130e",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-3.attempt-1.metadata.json",
+        "sha256": "6eb37a2b46c735cbd37a500a5d02f824f6f0ef85f00048cdc53810d7adad9a73"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13219260&svd=20261030&svps=4&svt=1830",
+      "requestedAt": "2026-10-22T19:59:36.560Z",
+      "finishedAt": "2026-10-22T19:59:38.421Z",
+      "status": 200,
+      "sha256": "5a9b748043870d44afc15ff81106bdb181f00448e2e8f868d84481241c142438",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-inventory-13/fallback-inventory-02-13219260.attempt-1.metadata.json",
+        "sha256": "ff75b9b7e610a38f2a01ea52abc5c615f5290891eab95c7ae9ea6f4bb6acd369"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13189642&svd=20261030&svps=4&svt=1830",
+      "requestedAt": "2026-10-22T20:00:08.421Z",
+      "finishedAt": "2026-10-22T20:00:09.593Z",
+      "status": 200,
+      "sha256": "58ef546554c23cd90c4aa355194005b99e26d51689f9ec1fe188d83e5a660eef",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-inventory-13/fallback-inventory-02-13189642.attempt-1.metadata.json",
+        "sha256": "2d256ab2ddd80de98cfbcd09f248d873b4a82f2e2dd09a3a42e915b34e904b21"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13253131/",
+      "requestedAt": "2026-10-22T20:00:53.330Z",
+      "finishedAt": "2026-10-22T20:00:55.056Z",
+      "status": 200,
+      "sha256": "87186f66b17b8a073e071c2e3a80f3dee1b57cb8b251beb0bea33bd8b4b8212b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-final-merchants-14/fallback-02-4.attempt-1.metadata.json",
+        "sha256": "f8a0e67f2b2cae08c29e8d6652a7e700a65ca17ce2cf45c4a826b30220e163b5"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13182404/",
+      "requestedAt": "2026-10-22T20:01:25.058Z",
+      "finishedAt": "2026-10-22T20:01:26.622Z",
+      "status": 200,
+      "sha256": "de49b096fae45ee05241fef5610dde1b2a7579fb4eb23222031a815b35be060b",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-final-merchants-14/fallback-02-5.attempt-1.metadata.json",
+        "sha256": "d03149475e45c486c6b62f6141f051b0c122c5aeac1870d5a5dd9a0d494a30ca"
+      }
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13130047/",
+      "requestedAt": "2026-10-22T20:01:56.622Z",
+      "finishedAt": "2026-10-22T20:01:58.472Z",
+      "status": 200,
+      "sha256": "301d8ac9e3203e0aa30363bac5d3a2dc85ab9c45bd8aab79fa9118811640f92e",
+      "metadataRef": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-final-merchants-14/fallback-02-6.attempt-1.metadata.json",
+        "sha256": "79802edf908d7e5e03041674bf7bc8ed050a323b347e222757f19e60828cce26"
+      }
+    }
+  ],
+  "notes": [
+    "Original source HTTP400 and explicit same-request retry HTTP400 retained, not reclassified as empty inventory.",
+    "User-authorized diagnosis made five requests, including one optional JP403. That optional diagnosis was stopped on user steering; no retry was sent and the full 15-minute cooldown elapsed before subsequent Tabelog reads.",
+    "User skipped only outlet13004546. Official user-provided reservation URL was recorded without opening; user comparison restaurant was not fetched.",
+    "All six fallback merchant pages count against the bounded search; four are outside800m and two have no requested18:30 inventory. No model, Live or environment rerun charged for certification/diagnostics."
+  ]
+}
