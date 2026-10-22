@@ -13,7 +13,7 @@ import {BrowserRuntimeError} from '../../src/infrastructure/browser/browser-runt
 import {isBrowserReadPathProhibited} from '../../src/infrastructure/browser/browser-read-policy.ts';
 const dir='.eval-artifacts/group-window-fix-20261022',sha=b=>createHash('sha256').update(b).digest('hex'),read=async p=>JSON.parse(await fs.readFile(p));
 let external=0;globalThis.fetch=()=>{external++;throw Error('OFFLINE_ONLY');};
-const freeze=await read(`${dir}/saved-replay-freeze.json`);const verify=async()=>{for(const [p,h]of Object.entries(freeze.files))assert.equal(sha(await fs.readFile(p)),h,`FROZEN_CHANGED:${p}`);};await verify();
+const freeze=await read(`${dir}/saved-replay-trace-freeze.json`);const verify=async()=>{for(const [p,h]of Object.entries(freeze.files))assert.equal(sha(await fs.readFile(p)),h,`FROZEN_CHANGED:${p}`);};await verify();
 const input=await read(`${dir}/replay-inputs.json`),rows=[];
 function mock(page,controls){
  const navigations=[],attempts=[];let followupActions=0;
@@ -29,7 +29,7 @@ for(const run of input.runs){
  const snapshots=recording.entries.filter(e=>e.kind==='SNAPSHOT'),base=path.dirname(run.recording);
  async function observed(doc){
   const meta=snapshots[doc.snapshot-1],bytes=await fs.readFile(path.join(base,doc.file));assert.equal(meta.detail.url,doc.url);
-  const traceSnapshots=raw.browserTrace.filter(e=>e.kind==='SNAPSHOT');
+  const traceSnapshots=raw.diagnostics.browserTrace.filter(e=>e.kind==='SNAPSHOT');
   assert.equal(traceSnapshots[doc.snapshot-1].detail.htmlSha256,meta.detail.htmlSha256,'Recorder ordinal must bind the same original runtime snapshot');
   const identical=new Set(traceSnapshots.filter(s=>s.detail.htmlSha256===meta.detail.htmlSha256&&s.detail.url===doc.url).map(s=>s.sequence));
   const cs=recording.entries.find(e=>e.kind==='CONTROLS'&&identical.has(e.detail.snapshotSequence));
