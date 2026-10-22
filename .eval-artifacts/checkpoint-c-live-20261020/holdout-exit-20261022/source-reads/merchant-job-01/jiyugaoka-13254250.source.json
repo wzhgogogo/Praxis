@@ -1,0 +1,133 @@
+{
+  "id": "jiyugaoka-13254250",
+  "caseId": "p2-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1317/A131703/13254250/",
+  "observedAt": "2026-10-22T06:44:18.051Z",
+  "responseSha256": "339a59300d87ba05a1f50cf78237710623fda755c7563c32ebfcd0aa409e03d3",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/jiyugaoka-13254250.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Trattoria Buca Junta",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Jiyugaoka  Meguro  Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1520035",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.61026706873017,
+          "longitude": 139.66932308373572
+        },
+        "servesCuisine": "Italian,Pasta"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1317/A131703/13254250/\",\"name\":\"Trattoria Buca Junta\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/304251/640x640_rect_ae96185e67ca072f5478fbe6621b24b9.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Jiyugaoka  Meguro  Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1520035\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.61026706873017,\"longitude\":139.66932308373572},\"priceRange\":\"JPY 5,000～JPY 5,999\",\"servesCuisine\":\"Italian,Pasta\",\"telephone\":\"+81-3-6459-5562\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"74\",\"ratingValue\":\"3.22\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1317/A131703/13254250/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "2495ac3abbe8298074f3566ebfa922f575ad9b5466ba075744011c95200bb11d",
+        "htmlCharacterOffset": 6296
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 78383,
+        "raw": "Italian, Pasta"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 48785,
+        "raw": "[Lunch] Reward Lunch to Enjoy Signature Dishes such as Pasta with Bottarga and Tagliata"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 51636,
+        "raw": "Dinner Pasta Set: A Great Plan to Enjoy Your Favorite Pasta Casually"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 54431,
+        "raw": "[Dinner Steak Set] Enjoy a wonderful night with a Strip Loin Steak plan!"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Italian, Pasta",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[Lunch] Reward Lunch to Enjoy Signature Dishes such as Pasta with Bottarga and Tagliata",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Dinner Pasta Set: A Great Plan to Enjoy Your Favorite Pasta Casually",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[Dinner Steak Set] Enjoy a wonderful night with a Strip Loin Steak plan!",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Italian, Pasta",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[Lunch] Reward Lunch to Enjoy Signature Dishes such as Pasta with Bottarga and Tagliata",
+      "meals": [
+        "LUNCH"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Dinner Pasta Set: A Great Plan to Enjoy Your Favorite Pasta Casually",
+      "meals": [
+        "DINNER"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[Dinner Steak Set] Enjoy a wonderful night with a Strip Loin Steak plan!",
+      "meals": [
+        "DINNER"
+      ]
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Pasta</span>\n                    </td>\n                  </tr>",
+      "sha256": "678cc6cbc86adfb34b47aec3a4f386b71ee5b061bf9b349c1a3f62ef8fde61d4",
+      "text": "Categories Italian, Pasta",
+      "htmlCharacterOffset": 78263
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131703/13254250/dtlratings/#price-range\">JPY 5,000 - JPY 5,999</a></span>\n                            </p>",
+      "sha256": "92585bac2d79a96415e15a0e8d3772eee7c21e8fbca024d58788b8cd529780b9",
+      "text": "JPY 5,000 - JPY 5,999",
+      "htmlCharacterOffset": 24188
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131703/13254250/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "72eea048f11db59b92e8b611eb0d17fb628decf47a3221b3d94e3289de58d7fa",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 24618
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1317/A131703/13254250/"
+}

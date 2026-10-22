@@ -1,0 +1,127 @@
+{
+  "id": "ueno-13128870",
+  "caseId": "p2-holdout-01",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+  "observedAt": "2026-10-22T06:41:38.314Z",
+  "responseSha256": "ded42b89afae0d1f53f5249b14e8725d01babd71fcdd396c7ac77e3d7bdcfe4e",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13128870.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Torie Ueno hirokoji ten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Yushima Bunkyo Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1130034",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.70786572870097,
+          "longitude": 139.77231014464937
+        },
+        "servesCuisine": "Yakitori (Grilled chicken skewers),Chicken dishes,Izakaya (Japanese style tavern)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1311/A131101/13128870/\",\"name\":\"Torie Ueno hirokoji ten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/226230/640x640_rect_9315569329a55920eaffe77332aef8eb.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Yushima Bunkyo Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1130034\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.70786572870097,\"longitude\":139.77231014464937},\"priceRange\":\"JPY 10,000～JPY 14,999\",\"servesCuisine\":\"Yakitori (Grilled chicken skewers),Chicken dishes,Izakaya (Japanese style tavern)\",\"telephone\":\"+81-3-3836-0211\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"776\",\"ratingValue\":\"3.69\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1311/A131101/13128870/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "91fe5b3f9cca6e70773119e4533b8b6e8e272e36db69ff21f8bdc73e002727a3",
+        "htmlCharacterOffset": 6373
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 97441,
+        "raw": "Yakitori (Grilled chicken skewers), Chicken dishes, Izakaya (Japanese style tavern)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 52535,
+        "raw": "Omakase Full Course"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 55664,
+        "raw": "Omakase Full Course (Private Room, additional fee for private room)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 47006,
+        "raw": "omakase course"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Yakitori (Grilled chicken skewers), Chicken dishes, Izakaya (Japanese style tavern)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Omakase Full Course",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Omakase Full Course (Private Room, additional fee for private room)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Omakase Course",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Yakitori (Grilled chicken skewers), Chicken dishes, Izakaya (Japanese style tavern)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Omakase Full Course",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Omakase Full Course (Private Room, additional fee for private room)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Omakase Course",
+      "meals": []
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Yakitori (Grilled chicken skewers), Chicken dishes, Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "afe9d6fb842f72b982f7fb53e25f58187068fea7a77adae8d5ba727ab241e331",
+      "text": "Categories Yakitori (Grilled chicken skewers), Chicken dishes, Izakaya (Japanese style tavern)",
+      "htmlCharacterOffset": 97321
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1311/A131101/13128870/dtlratings/#price-range\">JPY 10,000 - JPY 14,999</a></span>\n                            </p>",
+      "sha256": "1d07c08499876897420de26bc9782855932a49661cbbcc40e4b591f5552b15c1",
+      "text": "JPY 10,000 - JPY 14,999",
+      "htmlCharacterOffset": 28243
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1311/A131101/13128870/dtlratings/#price-range\">-</a></span>\n                            </p>",
+      "sha256": "eb822760cc9b78e662c15b211f793300bbd2c2b33721406d51fcbde1c72953d2",
+      "text": "-",
+      "htmlCharacterOffset": 28675
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/"
+}

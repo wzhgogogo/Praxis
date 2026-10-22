@@ -1,0 +1,112 @@
+{
+  "id": "ueno-13290563",
+  "caseId": "p2-holdout-01",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+  "observedAt": "2026-10-22T06:42:41.863Z",
+  "responseSha256": "6c5e65b30e1d86256d107f094d9f19a5f5aad80f8a0a8df905042b6add53eafd",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13290563.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Tori no Ichi Ueno honten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Higashiueno Taito Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1100015",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.709716899726594,
+          "longitude": 139.7775151609956
+        },
+        "servesCuisine": "Yakitori (Grilled chicken skewers),Izakaya (Japanese style tavern),Chicken dishes"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1311/A131101/13290563/\",\"name\":\"Tori no Ichi Ueno honten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/342882/640x640_rect_4a940abcd494dfb9a3a07558d30a5708.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Higashiueno Taito Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1100015\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.709716899726594,\"longitude\":139.7775151609956},\"priceRange\":\"JPY 5,000～JPY 5,999\",\"servesCuisine\":\"Yakitori (Grilled chicken skewers),Izakaya (Japanese style tavern),Chicken dishes\",\"telephone\":\"+81-3-6284-2144\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"318\",\"ratingValue\":\"3.41\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1311/A131101/13290563/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "061d9cf455754ab768306e493ae11c3bd82d8c31513a37eb60a47cce0c5a59c2",
+        "htmlCharacterOffset": 6397
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 80882,
+        "raw": "Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern), Chicken dishes"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 51574,
+        "raw": "Seasonal Special! &quot;2 Types of Brand Chicken Tasting + 2 Omakase Skewers&quot; with 2-Hour All-You-Can-Drink ◆ Tori no Ichi Omakase Course - JPY 7,000"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 55526,
+        "raw": "&quot;Enjoy Rock Salt Grilled and Steamed Dishes&quot; 2-Hour All You Can Drink ◆ Specialty Chicken Rock Salt Grilled and Steamed Course - JPY 5,980"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern), Chicken dishes",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Seasonal Special! \"2 Types of Brand Chicken Tasting + 2 Omakase Skewers\" with 2-Hour All-You-Can-Drink ◆ Tori no Ichi Omakase Course - JPY 7,000",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "\"Enjoy Rock Salt Grilled and Steamed Dishes\" 2-Hour All You Can Drink ◆ Specialty Chicken Rock Salt Grilled and Steamed Course - JPY 5,980",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern), Chicken dishes",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Seasonal Special! \"2 Types of Brand Chicken Tasting + 2 Omakase Skewers\" with 2-Hour All-You-Can-Drink ◆ Tori no Ichi Omakase Course - JPY 7,000",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "\"Enjoy Rock Salt Grilled and Steamed Dishes\" 2-Hour All You Can Drink ◆ Specialty Chicken Rock Salt Grilled and Steamed Course - JPY 5,980",
+      "meals": []
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern), Chicken dishes</span>\n                    </td>\n                  </tr>",
+      "sha256": "ca22be290771b8b652146961067be06c870571e9f5579f5985a4b598cdff8f1d",
+      "text": "Categories Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern), Chicken dishes",
+      "htmlCharacterOffset": 80762
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1311/A131101/13290563/dtlratings/#price-range\">JPY 5,000 - JPY 5,999</a></span>\n                            </p>",
+      "sha256": "b85b33f22b21db30f132393764673d546215757101f168ca1cafe7d3f9af2689",
+      "text": "JPY 5,000 - JPY 5,999",
+      "htmlCharacterOffset": 26999
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1311/A131101/13290563/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "db96f931a0704d2e882de4259413f681c08a086c93c49beeaa584b77c337aae6",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 27429
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/"
+}

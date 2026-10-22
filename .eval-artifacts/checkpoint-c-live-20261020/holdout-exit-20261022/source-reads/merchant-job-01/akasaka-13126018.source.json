@@ -1,0 +1,127 @@
+{
+  "id": "akasaka-13126018",
+  "caseId": "p2-holdout-03",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+  "observedAt": "2026-10-22T06:44:50.013Z",
+  "responseSha256": "1e7d521cea6e858b658174ecedc11ce0ddab99639542b0f4a4c2e4ec5c5c74db",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13126018.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Hyoki Akasaka ten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Akasaka Minato Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1070052",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.673471638711945,
+          "longitude": 139.7381483243259
+        },
+        "servesCuisine": "Shabu shabu (Japanese hotpot),Japanese Cuisine"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1308/A130801/13126018/\",\"name\":\"Hyoki Akasaka ten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/160980/640x640_rect_160980732.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Akasaka Minato Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1070052\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.673471638711945,\"longitude\":139.7381483243259},\"priceRange\":\"JPY 10,000～JPY 14,999\",\"servesCuisine\":\"Shabu shabu (Japanese hotpot),Japanese Cuisine\",\"telephone\":\"+81-3-6277-6270\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"241\",\"ratingValue\":\"3.32\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1308/A130801/13126018/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "713cff7a1db82c1c8e864c026359f389454a4d2f44d372e6395b60ccb97d4a81",
+        "htmlCharacterOffset": 6368
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 80367,
+        "raw": "Shabu shabu (Japanese hotpot), Japanese Cuisine"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 48632,
+        "raw": "Special Pork Dashi Shabu &quot;Yura&quot; JPY 6000"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 51773,
+        "raw": "Special Pork Meat Dashi Shabu Course &quot;Miyamazakura&quot; JPY 8,000"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 55002,
+        "raw": "Wagyu and Special Pork Dashi Shabu Course &quot;Suimei&quot; JPY 10,500"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Shabu shabu (Japanese hotpot), Japanese Cuisine",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Special Pork Dashi Shabu \"Yura\" JPY 6000",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Special Pork Meat Dashi Shabu Course \"Miyamazakura\" JPY 8,000",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Wagyu and Special Pork Dashi Shabu Course \"Suimei\" JPY 10,500",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Shabu shabu (Japanese hotpot), Japanese Cuisine",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Special Pork Dashi Shabu \"Yura\" JPY 6000",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Special Pork Meat Dashi Shabu Course \"Miyamazakura\" JPY 8,000",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Wagyu and Special Pork Dashi Shabu Course \"Suimei\" JPY 10,500",
+      "meals": []
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Shabu shabu (Japanese hotpot), Japanese Cuisine</span>\n                    </td>\n                  </tr>",
+      "sha256": "4750fde6562a96ce558e0ec8689281be7d6dec769be9d9d05217f5a0bbd5c539",
+      "text": "Categories Shabu shabu (Japanese hotpot), Japanese Cuisine",
+      "htmlCharacterOffset": 80247
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1308/A130801/13126018/dtlratings/#price-range\">JPY 10,000 - JPY 14,999</a></span>\n                            </p>",
+      "sha256": "4b9a38e107fbbb1a17589ab347ba3c5aae3fd88cc87e44b4e7936506ed2ccc84",
+      "text": "JPY 10,000 - JPY 14,999",
+      "htmlCharacterOffset": 24683
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1308/A130801/13126018/dtlratings/#price-range\">JPY 5,000 - JPY 5,999</a></span>\n                            </p>",
+      "sha256": "80d386ec998e78353ebd34011399d4430a2f799b1019347c8048c06366657cf9",
+      "text": "JPY 5,000 - JPY 5,999",
+      "htmlCharacterOffset": 25115
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/"
+}
