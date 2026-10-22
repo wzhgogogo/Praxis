@@ -1,0 +1,1657 @@
+{
+  "schema": "phase2b-witness-discovery@1",
+  "variants": [
+    {
+      "caseId": "p2b-holdout-01",
+      "place": "Asakusa",
+      "date": "2026-11-04",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 2,
+      "merchantRequirements": [
+        {
+          "value": "sukiyaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Asakusa, Tokyo, Japan",
+      "searchQuery": "Asakusa, Tokyo, Japan sukiyaki restaurant",
+      "centerObservations": {
+        "places": [
+          {
+            "id": "ChIJM1N_BMKOGGARZ0DHgTj9hHw",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ],
+            "formattedAddress": "Asakusa, Taito City, Tokyo 111-0032, Japan",
+            "location": {
+              "latitude": 35.7185858,
+              "longitude": 139.7958849
+            },
+            "displayName": {
+              "text": "Asakusa",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 1,
+          "requestedAt": "2026-10-22T16:55:13.915Z",
+          "finishedAt": "2026-10-22T16:55:15.567Z",
+          "status": 200,
+          "sha256": "c35d03b070f5110e1ba3ae624eeedc8e6d7f93a0c5c9b4513ffa616bdf7a6fcd",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/1-attempt-1.metadata.json"
+        }
+      },
+      "candidateObservations": {
+        "places": [
+          {
+            "id": "ChIJv1TzmsWPGGAREPlh12snhyg",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒111-0032 Tokyo, Taito City, Asakusa, 1-chōme−18−１２ ＪＳビル 雷門 1F",
+            "location": {
+              "latitude": 35.711492199999995,
+              "longitude": 139.79615239999998
+            },
+            "websiteUri": "https://www.instagram.com/goku_asakusasensojitemple?igsh=N2N3NWxxZHNsaGli&utm_source=qr",
+            "displayName": {
+              "text": "WAGYU SUKIYAKI 極〜GOKU〜 浅草 Asakusa Sensoji temple",
+              "languageCode": "ja"
+            }
+          },
+          {
+            "id": "ChIJX3jD96yPGGARDWQIVu8ki0s",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒111-0032 Tokyo, Taito City, Asakusa, 2-chōme−11−７ 森口ビル １０１",
+            "location": {
+              "latitude": 35.71427,
+              "longitude": 139.7928138
+            },
+            "displayName": {
+              "text": "WAGYU SUKIYAKI 極〜GOKU〜 浅草六区 Asakusa Rokku",
+              "languageCode": "ja"
+            }
+          },
+          {
+            "id": "ChIJbRdbxkqPGGAR1qQ7xjGqwaU",
+            "types": [
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒111-0032 Tokyo, Taito City, Asakusa, 1-chōme−32−１３ 1階 和牛すきやき壱乃屋",
+            "location": {
+              "latitude": 35.7120478,
+              "longitude": 139.7969324
+            },
+            "websiteUri": "https://first-infinity.com/service-en/",
+            "displayName": {
+              "text": "Wagyu Sukiyaki Ichinoya Asakusa",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJR605qQSPGGARw9PRMGgsS6E",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒111-0032 Tokyo, Taito City, Asakusa, 1-chōme−18−１１ Grand Gate Asakusa 4F",
+            "location": {
+              "latitude": 35.7114815,
+              "longitude": 139.7960348
+            },
+            "websiteUri": "https://asakusa-kotaro.com/",
+            "displayName": {
+              "text": "Wagyu Sukiyaki Asakusa Kotaro",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJAynOV4yPGGARdXUvzgDS_h8",
+            "types": [
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "1-chōme-35-3 Asakusa, Taito City, Tokyo 111-0032, Japan",
+            "location": {
+              "latitude": 35.712415299999996,
+              "longitude": 139.797225
+            },
+            "websiteUri": "https://asakusa.niku-kappo.com/",
+            "displayName": {
+              "text": "Sasaya Asakusa",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJoSh0XHSPGGARO2V5OY12t8A",
+            "types": [
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒111-0035 Tokyo, Taito City, Nishiasakusa, 1-chōme−1−１３ カーサ田原町 102",
+            "location": {
+              "latitude": 35.7104381,
+              "longitude": 139.7914556
+            },
+            "websiteUri": "https://www.instagram.com/goku_asakusakokusai?igsh=MWhhMWdlY2I0MTl1aQ%3D%3D&utm_source=qr",
+            "displayName": {
+              "text": "WAGYU SUKIYAKI 極〜GOKU〜 浅草国際通り Asakusa Kokusai-dori",
+              "languageCode": "ja"
+            }
+          },
+          {
+            "id": "ChIJwcQaegCPGGAR8m-LGgaub4c",
+            "types": [
+              "halal_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒111-0034 Tokyo, Taito City, Kaminarimon, 1-chōme−16−９ 前YBC）MGビル 2F",
+            "location": {
+              "latitude": 35.7111891,
+              "longitude": 139.79261879999999
+            },
+            "websiteUri": "https://www.asakusa-kawashina.com/",
+            "displayName": {
+              "text": "Kawashina Asakusa Wagyu",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ3c8QKJKPGGARLncbWf3NpVc",
+            "types": [
+              "halal_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒111-0034 Tokyo, Taito City, Kaminarimon, 2-chōme−1−１３ キヨシゲ雷門ビル 3F",
+            "location": {
+              "latitude": 35.710169199999996,
+              "longitude": 139.79788349999998
+            },
+            "websiteUri": "https://sites.google.com/view/halalwagyusukiyakiasakusapanga/home",
+            "displayName": {
+              "text": "Halal Wagyu Sukiyaki Asakusa PANGA | Tokyo Halal restaurant",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ99yU6b-OGGAR2NfOuMg0JUA",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-1-12 Nishiasakusa, Taito City, Tokyo 111-0035, Japan",
+            "location": {
+              "latitude": 35.7139345,
+              "longitude": 139.7922291
+            },
+            "websiteUri": "http://www.asakusaimahan.co.jp/",
+            "displayName": {
+              "text": "Asakusa Imahan",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJRWqJl2qPGGAR68B1Fn_12co",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "1-chōme-32-1 Asakusa, Taito City, Tokyo 111-0032, Japan",
+            "location": {
+              "latitude": 35.7118302,
+              "longitude": 139.7969625
+            },
+            "websiteUri": "https://www.instagram.com/wagyu.waunn?igsh=MTdhbzh6c2I3ZjdobA==&utm_source=qr",
+            "displayName": {
+              "text": "Wagyu & Rice Waunn",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 2,
+          "requestedAt": "2026-10-22T16:55:45.568Z",
+          "finishedAt": "2026-10-22T16:55:47.014Z",
+          "status": 200,
+          "sha256": "d4130b27c08488b52975b989bb44cfb63bfc2554918ce745bd0d26385bd04c48",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/2-attempt-1.metadata.json"
+        }
+      },
+      "merchantJobs": [],
+      "status": "PENDING_INDEPENDENT_CENTER_AND_HARD_REVIEW"
+    },
+    {
+      "caseId": "p2b-holdout-02",
+      "place": "Tsukishima",
+      "date": "2026-10-30",
+      "earliest": "18:30",
+      "latest": "18:30",
+      "partySize": 4,
+      "merchantRequirements": [
+        {
+          "value": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Tsukishima, Tokyo, Japan",
+      "searchQuery": "Tsukishima, Tokyo, Japan monjayaki restaurant",
+      "centerObservations": {
+        "places": [
+          {
+            "id": "ChIJ1Vq-7XqJGGARTLuHDBUcn8M",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ],
+            "formattedAddress": "Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.6635905,
+              "longitude": 139.7818227
+            },
+            "displayName": {
+              "text": "Tsukishima",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 3,
+          "requestedAt": "2026-10-22T16:56:17.015Z",
+          "finishedAt": "2026-10-22T16:56:19.247Z",
+          "status": 200,
+          "sha256": "3dbe684f03e8bdcd58b245bbdb75c1a294ad5f8e6c31ed9ebee3abea06ed7a97",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/3-attempt-1.metadata.json"
+        }
+      },
+      "candidateObservations": {
+        "places": [
+          {
+            "id": "ChIJAcWODXmJGGARyXHltkbgfoI",
+            "types": [
+              "seafood_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-5-5 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.663165,
+              "longitude": 139.7806944
+            },
+            "websiteUri": "https://www.instagram.com/moheji_tsukishima_monja/",
+            "displayName": {
+              "text": "Tsukishima Monja Moheji Flagship",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJCwTxGnuJGGARMn4j3h6M0fk",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒104-0052 Tokyo, Chuo City, Tsukishima, 3-chōme−16−９ リノスタイル月島 1F",
+            "location": {
+              "latitude": 35.662433199999995,
+              "longitude": 139.7799627
+            },
+            "displayName": {
+              "text": "Tsukishima Monja Moheji Honten",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJBXMS0neJGGAR9RfYGDJ43M0",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒104-0052 Tokyo, Chuo City, Tsukishima, 3-chōme−7−１２ ザ・シティ月島 1F",
+            "location": {
+              "latitude": 35.6630456,
+              "longitude": 139.78083759999998
+            },
+            "websiteUri": "https://tsukishima-monja-koboreya.com/tenpo.html",
+            "displayName": {
+              "text": "Tsukishima Monja Koboreya Sohonten",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJbWT933qJGGARtYVvQJKGicU",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-6-4 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.663058299999996,
+              "longitude": 139.78061399999999
+            },
+            "websiteUri": "https://tabelog.com/tokyo/A1313/A131302/13186205/",
+            "displayName": {
+              "text": "Tsukishima Monja Moheji Hanare",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJMfE41vmJGGARvcZDnrBORj8",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-8-9 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.6631881,
+              "longitude": 139.7810551
+            },
+            "websiteUri": "https://tabelog.com/tokyo/A1313/A131302/13243319/",
+            "displayName": {
+              "text": "Tsukishima Monja Okoge Main Store",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJwfQMaCmJGGARnvCmL9w77Wo",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "seafood_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "1-chōme-22-1-107 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.6639973,
+              "longitude": 139.7821914
+            },
+            "websiteUri": "https://tsukishimamonjamonrou.owst.jp/",
+            "displayName": {
+              "text": "Monrou",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJb7niGnuJGGARMJuR7Qbjh7s",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-16-9 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.6625002,
+              "longitude": 139.7800671
+            },
+            "websiteUri": "https://tsukishima-monja-koboreya.com/tenpo.html",
+            "displayName": {
+              "text": "Koboreya Honten",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJj8zsUgCJGGARnnp1alaNsfM",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-6-4 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.663132,
+              "longitude": 139.7806014
+            },
+            "websiteUri": "https://www.instagram.com/doteya.honten?igsh=dXlhdHdtbHU5eHpp",
+            "displayName": {
+              "text": "月島もんじゃ どてや 月島本店",
+              "languageCode": "ja"
+            }
+          },
+          {
+            "id": "ChIJtT_9YBCJGGAREcT0vZuJD-U",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-7-12 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.6630507,
+              "longitude": 139.7808988
+            },
+            "websiteUri": "https://tabelog.com/tokyo/A1313/A131302/13224664/",
+            "displayName": {
+              "text": "Moheji Hanare-no-hanare",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJm4WUCfCJGGARWnz7HhiN2As",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "seafood_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒104-0052 Tokyo, Chuo City, Tsukishima, 1-chōme−22−１ ミッドタワーグランド 111",
+            "location": {
+              "latitude": 35.6637902,
+              "longitude": 139.7819087
+            },
+            "websiteUri": "https://www.instagram.com/moheji_tsukishima_monja/",
+            "displayName": {
+              "text": "Monja Moheji Hanare-no-Hanare-no-Hanare",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 4,
+          "requestedAt": "2026-10-22T16:56:49.248Z",
+          "finishedAt": "2026-10-22T16:56:50.997Z",
+          "status": 200,
+          "sha256": "39f0618d43b620251e3f34d7e89ea4bc0302de8f8bc3decc3b8d4d2f1569589a",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/4-attempt-1.metadata.json"
+        }
+      },
+      "merchantJobs": [],
+      "status": "PENDING_INDEPENDENT_CENTER_AND_HARD_REVIEW"
+    },
+    {
+      "caseId": "p2b-holdout-03",
+      "place": "Ebisu",
+      "date": "2026-10-31",
+      "earliest": "19:30",
+      "latest": "19:30",
+      "partySize": 2,
+      "merchantRequirements": [
+        {
+          "value": "French",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "at most 15,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Ebisu, Tokyo, Japan",
+      "searchQuery": "Ebisu, Tokyo, Japan French at most 15,000 yen per person restaurant",
+      "centerObservations": {
+        "places": [
+          {
+            "id": "ChIJWRK3eBSLGGARCdO8OgKkE5w",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ],
+            "formattedAddress": "Ebisu, Shibuya, Tokyo 150-0013, Japan",
+            "location": {
+              "latitude": 35.6461371,
+              "longitude": 139.7153917
+            },
+            "displayName": {
+              "text": "Ebisu",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 5,
+          "requestedAt": "2026-10-22T16:57:20.998Z",
+          "finishedAt": "2026-10-22T16:57:22.604Z",
+          "status": 200,
+          "sha256": "a5f88cf5e4cc8ca8db5e33c644ac6d88215d9133104d4f754a87d49e30da55e4",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/5-attempt-1.metadata.json"
+        }
+      },
+      "candidateObservations": {
+        "places": [
+          {
+            "id": "ChIJtxdIhBaLGGARvCnhexq9s74",
+            "types": [
+              "fine_dining_restaurant",
+              "french_restaurant",
+              "european_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒153-0062 Tokyo, Meguro City, Mita, 1-chōme−13−１ 恵比寿ガーデンプレイス内",
+            "location": {
+              "latitude": 35.6419144,
+              "longitude": 139.71453739999998
+            },
+            "websiteUri": "https://www.robuchon.jp/shop-list/latable",
+            "displayName": {
+              "text": "LA TABLE de Joël Robuchon",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJL-_9qBSLGGAR7b6AxCO_m5k",
+            "types": [
+              "french_restaurant",
+              "european_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒150-0013 Tokyo, Shibuya, Ebisu, 1-chōme−26−１２ サンライズヴィラ 1F",
+            "location": {
+              "latitude": 35.6471878,
+              "longitude": 139.7165174
+            },
+            "websiteUri": "https://www.facebook.com/ici.tokyo/?locale=ja_JP",
+            "displayName": {
+              "text": "ici",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJf28cQEGLGGAReKy6F9k4KU0",
+            "types": [
+              "french_restaurant",
+              "european_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒150-0021 Tokyo, Shibuya, Ebisunishi, 1-chōme−14−４ シティー・ホームズ恵比寿 １Ｆ",
+            "location": {
+              "latitude": 35.6476517,
+              "longitude": 139.7075925
+            },
+            "websiteUri": "https://www.monnalisa.co.jp/?utm_source=google&utm_medium=organic&utm_campaign=gbp_02314431587791855879",
+            "displayName": {
+              "text": "Monna Lisa Ebisu",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ2fEGgBOLGGAR5N_POVQ8Xx0",
+            "types": [
+              "french_restaurant",
+              "european_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒150-0013 Tokyo, Shibuya, Ebisu, 3-chōme−1−１ 中尾ビル 2階",
+            "location": {
+              "latitude": 35.6454431,
+              "longitude": 139.7166785
+            },
+            "websiteUri": "http://maison-finistere.com/",
+            "displayName": {
+              "text": "La maison finistère",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJGQRJhBaLGGAR5ZTJp9mQgtQ",
+            "types": [
+              "french_restaurant",
+              "european_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒153-0062 Tokyo, Meguro City, Mita, 1-chōme−13−１ 恵比寿ガーデンプレイス内",
+            "location": {
+              "latitude": 35.6419322,
+              "longitude": 139.7145827
+            },
+            "websiteUri": "https://www.robuchon.jp/",
+            "displayName": {
+              "text": "Gastronomy “Joël Robuchon”",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJV7oGAWWLGGARslO9OGTuG-A",
+            "types": [
+              "french_restaurant",
+              "european_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "2-chōme-26-4 Nishiazabu, Minato City, Tokyo 106-0031, Japan",
+            "location": {
+              "latitude": 35.660213999999996,
+              "longitude": 139.719405
+            },
+            "websiteUri": "http://www.leffervescence.jp/",
+            "displayName": {
+              "text": "L’Effervescence",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJWzMTComLGGARmAJ1Ys2aLNg",
+            "types": [
+              "french_restaurant",
+              "western_restaurant",
+              "european_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒150-0012 Tokyo, Shibuya, Hiroo, 1-chōme−16 EbisuHirooSquare7階",
+            "location": {
+              "latitude": 35.648536899999996,
+              "longitude": 139.7110727
+            },
+            "websiteUri": "https://tabelog.com/tokyo/A1303/A130302/13256140/",
+            "displayName": {
+              "text": "MAEN Sake pairing restaurant",
+              "languageCode": "ja"
+            }
+          },
+          {
+            "id": "ChIJS3hdF6-LGGARGR_d5IukAJQ",
+            "types": [
+              "french_restaurant",
+              "european_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "2-chōme-23-3 Ebisu, Shibuya, Tokyo 150-0013, Japan",
+            "location": {
+              "latitude": 35.647674599999995,
+              "longitude": 139.7202943
+            },
+            "websiteUri": "https://ggp5200.gorp.jp/",
+            "displayName": {
+              "text": "au deco",
+              "languageCode": "ja"
+            }
+          },
+          {
+            "id": "ChIJAQDk7kOLGGARAXGoSRqBdfA",
+            "types": [
+              "french_restaurant",
+              "european_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒150-0021 Tokyo, Shibuya, Ebisunishi, 2-chōme−17−５ サンビレッジ代官山 2F",
+            "location": {
+              "latitude": 35.648923599999996,
+              "longitude": 139.7059578
+            },
+            "websiteUri": "http://www.recte.jp/",
+            "displayName": {
+              "text": "Recte",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJHRbzMEKLGGARjd3oqimfZvk",
+            "types": [
+              "bistro",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-15-8 Higashi, Shibuya, Tokyo 150-0011, Japan",
+            "location": {
+              "latitude": 35.6502517,
+              "longitude": 139.70962939999998
+            },
+            "websiteUri": "http://bistroyebisu.com/",
+            "displayName": {
+              "text": "Bistro YEBISU",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 6,
+          "requestedAt": "2026-10-22T16:57:52.605Z",
+          "finishedAt": "2026-10-22T16:57:54.411Z",
+          "status": 200,
+          "sha256": "5ef2387630a7422ca1968f406bbde1750c283a96a456c34115d4c11a8b57ff76",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/6-attempt-1.metadata.json"
+        }
+      },
+      "merchantJobs": [],
+      "status": "PENDING_INDEPENDENT_CENTER_AND_HARD_REVIEW"
+    },
+    {
+      "caseId": "p2b-holdout-04",
+      "place": "Ikebukuro",
+      "date": "2026-11-05",
+      "earliest": "18:00",
+      "latest": "20:00",
+      "partySize": 6,
+      "merchantRequirements": [
+        {
+          "value": "Thai",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Ikebukuro, Tokyo, Japan",
+      "searchQuery": "Ikebukuro, Tokyo, Japan Thai restaurant",
+      "centerObservations": {
+        "places": [
+          {
+            "id": "ChIJJ1xYpaCSGGARumLc8TmsILQ",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ],
+            "formattedAddress": "Ikebukuro, Toshima City, Tokyo, Japan",
+            "location": {
+              "latitude": 35.734831400000004,
+              "longitude": 139.7077314
+            },
+            "displayName": {
+              "text": "Ikebukuro",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 7,
+          "requestedAt": "2026-10-22T16:58:24.413Z",
+          "finishedAt": "2026-10-22T16:58:26.046Z",
+          "status": 200,
+          "sha256": "d1b043716fd4098cd22e0850ae3d16ed9288ae10672df379eba976da6125c194",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/7-attempt-1.metadata.json"
+        }
+      },
+      "candidateObservations": {
+        "places": [
+          {
+            "id": "ChIJy2axdWeNGGARx0iAA0Fy92A",
+            "types": [
+              "thai_restaurant",
+              "asian_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒171-0022 Tokyo, Toshima City, Minamiikebukuro, 1-chōme−28−２ 池袋パルコ 8F",
+            "location": {
+              "latitude": 35.7306096,
+              "longitude": 139.7123896
+            },
+            "websiteUri": "https://spiceroad.co.jp/",
+            "displayName": {
+              "text": "Thai Sabaai Ikebukuro PARCO",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJO27RHF6NGGAR1Izr9Yqnuek",
+            "types": [
+              "thai_restaurant",
+              "asian_restaurant",
+              "meal_takeaway",
+              "food_store",
+              "store",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "2-chōme-62-3 Ikebukuro, Toshima City, Tokyo 170-0014, Japan",
+            "location": {
+              "latitude": 35.7345756,
+              "longitude": 139.7101839
+            },
+            "websiteUri": "https://pirabkao.com/",
+            "displayName": {
+              "text": "PIRABKAO",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJlxv-M1-NGGAR-Hr4Id0MN10",
+            "types": [
+              "thai_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒170-0013 Tokyo, Toshima City, Ikebukuro, 1-chōme−5−７ ヤマダ電機LABI1 7F 日本総本店 豊島区東池袋",
+            "location": {
+              "latitude": 35.731125999999996,
+              "longitude": 139.7132957
+            },
+            "displayName": {
+              "text": "Lumpini",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJe9TktV-NGGAR9bO8cFAV1J8",
+            "types": [
+              "thai_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒171-0014 Tokyo, Toshima City, Ikebukuro, 2-chōme−62−６ 第三栄寿マンション1f",
+            "location": {
+              "latitude": 35.7349466,
+              "longitude": 139.7101904
+            },
+            "displayName": {
+              "text": "Phrik",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJteJvnl2NGGAR5ffwH6q3ntA",
+            "types": [
+              "thai_restaurant",
+              "brewpub",
+              "japanese_curry_restaurant",
+              "asian_restaurant",
+              "meal_takeaway",
+              "pub",
+              "japanese_restaurant",
+              "bar",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒171-8512 Tokyo, Toshima City, Nishiikebukuro, 1-chōme−1 ダイニング 東武イケチカ 豊島区西池袋1-1-25-B1",
+            "location": {
+              "latitude": 35.7309273,
+              "longitude": 139.7104197
+            },
+            "websiteUri": "https://www.sscy.co.jp/business_restaurant/thaistreetfood/",
+            "displayName": {
+              "text": "THAI STREET FOOD",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ01f76V6NGGAR5UHhfeGp5zU",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "thai_restaurant",
+              "bistro",
+              "banquet_hall",
+              "asian_restaurant",
+              "japanese_restaurant",
+              "event_venue",
+              "store",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒171-0014 Tokyo, Toshima City, Ikebukuro, 2-chōme−10−６ 1F",
+            "location": {
+              "latitude": 35.7328839,
+              "longitude": 139.70776089999998
+            },
+            "websiteUri": "https://agalico-ikebukuro.jp/",
+            "displayName": {
+              "text": "AGALICO Bistro&Bar",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJAUld_k2NGGARqvJ0mM0yyr0",
+            "types": [
+              "thai_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒170-0013 Tokyo, Toshima City, Higashiikebukuro, 3-chōme−1−１ サンシャインシティ 専門店街アルパ 3F",
+            "location": {
+              "latitude": 35.7296544,
+              "longitude": 139.71878279999999
+            },
+            "websiteUri": "https://www.jasmine-thai.co.jp/sp/about/sunshinecity.html",
+            "displayName": {
+              "text": "Jasmine Thai Ikebukuro Sunshine City",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJjVu8MwWNGGAR8kux39UHBe8",
+            "types": [
+              "thai_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "1-chōme-8-24-1102 Minamiikebukuro, Toshima City, Tokyo 171-0022, Japan",
+            "location": {
+              "latitude": 35.724133,
+              "longitude": 139.71133
+            },
+            "websiteUri": "https://www.facebook.com/profile.php?id=100035990096445",
+            "displayName": {
+              "text": "Phuan Thai",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJW92_v2CNGGARQb1xXDtscPk",
+            "types": [
+              "thai_restaurant",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-34-13 Kamiikebukuro, Toshima City, Tokyo 170-0012, Japan",
+            "location": {
+              "latitude": 35.7378444,
+              "longitude": 139.7213837
+            },
+            "websiteUri": "http://www.kruachaophraya.com/",
+            "displayName": {
+              "text": "Krua Chaophraya",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ6WlZeKiNGGAR7TDIyA1ENuc",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "thai_restaurant",
+              "hot_pot_restaurant",
+              "banquet_hall",
+              "seafood_restaurant",
+              "asian_restaurant",
+              "japanese_restaurant",
+              "event_venue",
+              "restaurant",
+              "point_of_interest",
+              "food",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒170-0013 Tokyo, Toshima City, Higashiikebukuro, 1-chōme−39−１５ 1F",
+            "location": {
+              "latitude": 35.732704,
+              "longitude": 139.714474
+            },
+            "websiteUri": "https://tabelog.com/tokyo/A1305/A130501/13279772/",
+            "displayName": {
+              "text": "タイ屋台999 (カオカオカオ) 池袋東口店",
+              "languageCode": "ja"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 8,
+          "requestedAt": "2026-10-22T16:58:56.048Z",
+          "finishedAt": "2026-10-22T16:58:57.346Z",
+          "status": 200,
+          "sha256": "c35a0bf0bc07144a75dcbca71635d9e073f18acea4763baaa703894b88bc4524",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/8-attempt-1.metadata.json"
+        }
+      },
+      "merchantJobs": [],
+      "status": "PENDING_INDEPENDENT_CENTER_AND_HARD_REVIEW"
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "place": "Azabu-Juban",
+      "date": "2026-11-03",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 3,
+      "merchantRequirements": [
+        {
+          "value": "soba",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "standing soba counter",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Azabu-Juban, Tokyo, Japan",
+      "searchQuery": "Azabu-Juban, Tokyo, Japan soba restaurant",
+      "centerObservations": {
+        "places": [
+          {
+            "id": "ChIJa83EfZ-LGGARHbrRcVb6_8s",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ],
+            "formattedAddress": "Azabujuban, Minato City, Tokyo 106-0045, Japan",
+            "location": {
+              "latitude": 35.6546541,
+              "longitude": 139.7351855
+            },
+            "displayName": {
+              "text": "Azabujuban",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 9,
+          "requestedAt": "2026-10-22T16:59:27.349Z",
+          "finishedAt": "2026-10-22T16:59:28.786Z",
+          "status": 200,
+          "sha256": "633351a64a728ef18717a378f59b6ad7551d9b665bd9595a6a8d0f41ec979726",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/9-attempt-1.metadata.json"
+        }
+      },
+      "candidateObservations": {
+        "places": [
+          {
+            "id": "ChIJ50KoCqGLGGARvS1JtZEZZ3k",
+            "types": [
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒106-0045 Tokyo, Minato City, Azabujūban, 3-chōme−5−７ 麻布カジタビル B1F",
+            "location": {
+              "latitude": 35.6531339,
+              "longitude": 139.735948
+            },
+            "websiteUri": "https://www.kawakamian.com/shops/azabu.php",
+            "displayName": {
+              "text": "Azabu Kawakamian",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJOVajM56LGGARz8yztBKxm0I",
+            "types": [
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-11-4 Motoazabu, Minato City, Tokyo 106-0046, Japan",
+            "location": {
+              "latitude": 35.656802,
+              "longitude": 139.7328803
+            },
+            "websiteUri": "https://www.sarashina-horii.com/",
+            "displayName": {
+              "text": "Sarashina Horii",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJW1CEM1WLGGARNomihAe7GU4",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒106-0045 Tokyo, Minato City, Azabujūban, 2-chōme−5−１ Manivia, ３階",
+            "location": {
+              "latitude": 35.6564573,
+              "longitude": 139.7333715
+            },
+            "websiteUri": "https://sobagoya.jp/",
+            "displayName": {
+              "text": "Sobagoya",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJdT-GtaOLGGAR6-mamhbK0Fo",
+            "types": [
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒106-0045 Tokyo, Minato City, Azabujūban, 2-chōme−8−１２ リレント麻布十番 2階",
+            "location": {
+              "latitude": 35.6554634,
+              "longitude": 139.7342076
+            },
+            "websiteUri": "https://soan-mitate.com/",
+            "displayName": {
+              "text": "Mitate Soba",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ4eVoBqGLGGAR7dcMVsTXX-Y",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒106-0045 Tokyo, Minato City, Azabujūban, 3-chōme−11−１２ Sendaizaka Oak Hills, 1F",
+            "location": {
+              "latitude": 35.652671999999995,
+              "longitude": 139.7350622
+            },
+            "websiteUri": "https://www.matsugen.net/azabujuban/",
+            "displayName": {
+              "text": "Matsugen",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJn2mJTp-LGGARFXypO7Kz9Z0",
+            "types": [
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "1-chōme-2-7 Azabujūban, Minato City, Tokyo 106-0045, Japan",
+            "location": {
+              "latitude": 35.6565757,
+              "longitude": 139.7367654
+            },
+            "websiteUri": "http://www.sarashina-honten.com/",
+            "displayName": {
+              "text": "Azabu Nagasaka Sarashina Honten",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJrakWGB6LGGARiF0Sj6XxVNs",
+            "types": [
+              "bistro",
+              "ramen_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-10-6 Motoazabu, Minato City, Tokyo 106-0046, Japan",
+            "location": {
+              "latitude": 35.6568353,
+              "longitude": 139.7325344
+            },
+            "websiteUri": "https://www.instagram.com/azabuozora/",
+            "displayName": {
+              "text": "Ozora Ramen",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJZz5_XZ-LGGARAgtUEa3O7Cg",
+            "types": [
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒106-0045 Tokyo, Minato City, Azabujūban, 1-chōme−8−７ 麻布十番第三小林ビル",
+            "location": {
+              "latitude": 35.6557829,
+              "longitude": 139.735802
+            },
+            "websiteUri": "http://www.nagasakasarasina.co.jp/",
+            "displayName": {
+              "text": "Nagasaka Sarashina Nunoya Tahei Azabu",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ3ZqVzhOLGGARH5lWi7ODS60",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒106-0046 Tokyo, Minato City, Motoazabu, 3-chōme−12−４ sp元麻布 2F",
+            "location": {
+              "latitude": 35.6561036,
+              "longitude": 139.7324949
+            },
+            "websiteUri": "https://sobakappotatsu.skywork.website/",
+            "displayName": {
+              "text": "Soba Kappo Tatsu",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ_e1Wu3qLGGARF91CUEJsa8I",
+            "types": [
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "2-chōme-14-5 Nishiazabu, Minato City, Tokyo 106-0031, Japan",
+            "location": {
+              "latitude": 35.660042499999996,
+              "longitude": 139.7227708
+            },
+            "websiteUri": "http://osobanokouga.com/access/",
+            "displayName": {
+              "text": "Osoba no Kouga",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 10,
+          "requestedAt": "2026-10-22T16:59:58.787Z",
+          "finishedAt": "2026-10-22T17:00:00.206Z",
+          "status": 200,
+          "sha256": "dfbaae2c347d5de7ab028ec17547436d11b8752907a89217c17e508f201a0bbd",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/10-attempt-1.metadata.json"
+        }
+      },
+      "merchantJobs": [],
+      "status": "PENDING_INDEPENDENT_CENTER_AND_HARD_REVIEW"
+    },
+    {
+      "caseId": "p2b-holdout-06",
+      "place": "Shimbashi",
+      "date": "2026-10-30",
+      "earliest": "19:00",
+      "latest": "21:00",
+      "partySize": 8,
+      "merchantRequirements": [
+        {
+          "value": "oden",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Shimbashi, Tokyo, Japan",
+      "searchQuery": "Shimbashi, Tokyo, Japan oden restaurant",
+      "centerObservations": {
+        "places": [
+          {
+            "id": "ChIJGx6XGeqLGGARGn6w2QDkxVA",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ],
+            "formattedAddress": "Shinbashi, Minato City, Tokyo 105-0004, Japan",
+            "location": {
+              "latitude": 35.6648291,
+              "longitude": 139.7562635
+            },
+            "displayName": {
+              "text": "Shinbashi",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 11,
+          "requestedAt": "2026-10-22T17:00:30.206Z",
+          "finishedAt": "2026-10-22T17:00:32.677Z",
+          "status": 200,
+          "sha256": "d5424b44efd9fdf07442e3f6595a694f0fb1d3afbc2d7657b9d15630a38f97ea",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/11-attempt-1.metadata.json"
+        }
+      },
+      "candidateObservations": {
+        "places": [
+          {
+            "id": "ChIJO_GKeQCLGGARZ3TSja0R58Y",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "meal_takeaway",
+              "bar",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒105-0004 Tokyo, Minato City, Shinbashi, 2-chōme−11−８ 小倉ビル 5F",
+            "location": {
+              "latitude": 35.667183699999995,
+              "longitude": 139.7552383
+            },
+            "websiteUri": "https://tabelog.com/tokyo/A1301/A130103/13306055/",
+            "displayName": {
+              "text": "O’denbar うまみ 新橋",
+              "languageCode": "ja"
+            }
+          },
+          {
+            "id": "ChIJJR9eBemLGGAR7DKcCGzEK8Y",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒105-0004 Tokyo, Minato City, Shinbashi, 3-chōme−7−９ 川辺ビル B1F",
+            "location": {
+              "latitude": 35.66541,
+              "longitude": 139.7550234
+            },
+            "websiteUri": "https://www.shinbashi-otakou.com/",
+            "displayName": {
+              "text": "Otakō Shimbashi",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ-wCO2S6LGGARb6nEa1SYVLQ",
+            "types": [
+              "bar",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒105-0004 Tokyo, Minato City, Shinbashi, 2-chōme−11−１ メナー新橋ビル B1F",
+            "location": {
+              "latitude": 35.6673944,
+              "longitude": 139.7554511
+            },
+            "websiteUri": "https://www.dd-holdings.jp/shops/musashi/shinbashi/?utm_source=mybusiness&utm_medium=google",
+            "displayName": {
+              "text": "Sakaba 634 Mu-sa-shi Shimbashi",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJx-H13NiLGGARsbBFBvE8EuY",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "sushi_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒105-0021 Tokyo, Minato City, Higashishinbashi, 1-chōme−2−１４ belle 汐留 1F",
+            "location": {
+              "latitude": 35.6646413,
+              "longitude": 139.75912839999998
+            },
+            "websiteUri": "https://ninoya.kodawarimonikka.com/shinbashishiodome/",
+            "displayName": {
+              "text": "Sushi Tooden Ninoya Shinbashishiodomemise",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ3TpvmeuLGGARCaEdvaDWquA",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "2-chōme-11-5 Shinbashi, Minato City, Tokyo 105-0004, Japan",
+            "location": {
+              "latitude": 35.6670211,
+              "longitude": 139.7554115
+            },
+            "displayName": {
+              "text": "Shinbashi Kamata",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ6QtEpcuLGGAR5ogxV5Itd0o",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-5-1 Shinbashi, Minato City, Tokyo 105-0004, Japan",
+            "location": {
+              "latitude": 35.666638000000006,
+              "longitude": 139.7549544
+            },
+            "websiteUri": "https://shops.alwayssaisei.co.jp/detail/1240015",
+            "displayName": {
+              "text": "Takeshi – Japanese Oden & Yakitori Izakaya, Shimbashi Karasumori Street",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJFxQhYgCLGGARxH6a3ZXAlGQ",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-25-7 Shinbashi, Minato City, Tokyo 105-0004, Japan",
+            "location": {
+              "latitude": 35.665213699999995,
+              "longitude": 139.75864679999998
+            },
+            "websiteUri": "https://nomura-honten.co.jp/",
+            "displayName": {
+              "text": "水炊きおでん ヤマニ 新橋店 yamani",
+              "languageCode": "ja"
+            }
+          },
+          {
+            "id": "ChIJpTgGAMKLGGAR24VSVQLRgdk",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "4-chōme-19-6 Shinbashi, Minato City, Tokyo 105-0004, Japan",
+            "location": {
+              "latitude": 35.6641487,
+              "longitude": 139.7575118
+            },
+            "displayName": {
+              "text": "Denhime Shimbashi",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJU6KAab-LGGARbdOLMF1RRUY",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "sushi_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "1-chōme-15-1 Shibadaimon, Minato City, Tokyo 105-0012, Japan",
+            "location": {
+              "latitude": 35.657513,
+              "longitude": 139.753932
+            },
+            "websiteUri": "https://ninoya.kodawarimonikka.com/daimon/",
+            "displayName": {
+              "text": "Sushi & Oden Izakaya NINOYA ~Daimon~",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJc2pSBNOLGGARYhgOaeWecjk",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "yakitori_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒105-0004 Tokyo, Minato City, Shinbashi, 1-chōme−7−１ 近鉄銀座中央通りビル B1F",
+            "location": {
+              "latitude": 35.6670339,
+              "longitude": 139.76096239999998
+            },
+            "websiteUri": "https://www.dynacjapan.com/brands/haretsubame/shops/shinbashi/?utm_source=google&utm_medium=map&utm_campaign=top",
+            "displayName": {
+              "text": "Yakitori Haretsubame Shinbashi",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 12,
+          "requestedAt": "2026-10-22T17:01:02.680Z",
+          "finishedAt": "2026-10-22T17:01:04.244Z",
+          "status": 200,
+          "sha256": "3f2dedf8633a3a49b36a2f1e905a122b489682303af71d733f80008f164f5305",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witnesses/discovery/12-attempt-1.metadata.json"
+        }
+      },
+      "merchantJobs": [],
+      "status": "PENDING_INDEPENDENT_CENTER_AND_HARD_REVIEW"
+    }
+  ],
+  "modelCalls": 0
+}
