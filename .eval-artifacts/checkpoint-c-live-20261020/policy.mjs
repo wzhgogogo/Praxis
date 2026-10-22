@@ -25,12 +25,14 @@ export async function consumeAuthorization(batchDirectory,approvalSha256,record)
  await writeFile(resolve(directory,approvalSha256+'.json'),JSON.stringify({...record,at:new Date().toISOString()},null,2)+'\n',{flag:'wx'});
 }
 
+// User approval 06703ba1 (2026-10-22): cumulative models, including replays.
+export const PHASE2_MODEL_CALL_LIMIT=5000;
 export function checkStageBudget(ledger,plan){
  const counts=['totalFullLiveRuns','phase2ModelCalls','priorPhaseModelCalls','totalModelCalls','environmentReruns'];
  if(ledger.status!=='RECONCILED'||!counts.every(k=>Number.isSafeInteger(ledger[k])&&ledger[k]>=0)||ledger.totalModelCalls!==ledger.phase2ModelCalls+ledger.priorPhaseModelCalls)throw Error('INVALID_STAGE_LEDGER');
  const models=ledger.sources.filter(s=>s.scope==='PHASE2').reduce((n,s)=>n+s.models,0),carry=ledger.sources.filter(s=>s.scope==='PRIOR_PHASE_MODEL_CARRY').reduce((n,s)=>n+s.models,0),live=ledger.sources.reduce((n,s)=>n+s.fullLiveRuns,0);
  if(models!==ledger.phase2ModelCalls||carry!==ledger.priorPhaseModelCalls||live!==ledger.totalFullLiveRuns)throw Error('STAGE_LEDGER_RECONCILIATION_MISMATCH');
- const remaining={fullLiveRuns:100-live,modelCalls:4000-ledger.totalModelCalls,environmentReruns:10-ledger.environmentReruns};
+ const remaining={fullLiveRuns:100-live,modelCalls:PHASE2_MODEL_CALL_LIMIT-ledger.totalModelCalls,environmentReruns:10-ledger.environmentReruns};
  const reservedRetries=Math.min(new Set(plan.runs.map(r=>r.caseId)).size,remaining.environmentReruns,plan.maxTotalReruns);
  if(reservedRetries<0||remaining.fullLiveRuns<plan.runs.length+reservedRetries||remaining.modelCalls<(plan.runs.length+reservedRetries)*plan.ceilings.maxModelCalls)throw Error('GLOBAL_BUDGET_NOT_AVAILABLE');
  return {remaining,reservedRetries,reservedRuns:plan.runs.length+reservedRetries,reservedModelCalls:(plan.runs.length+reservedRetries)*plan.ceilings.maxModelCalls};

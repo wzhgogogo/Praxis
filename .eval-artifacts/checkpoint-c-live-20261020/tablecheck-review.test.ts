@@ -50,7 +50,7 @@ test('unreviewed inventory makes no request, retains run-time raw refs, and cann
 test('cumulative budget includes historical carry and every replay, and rejects insufficient or inconsistent ledgers',()=>{
  const ledger=JSON.parse(readFileSync(base+'/phase2-ledger.json','utf8')),runPlan=JSON.parse(readFileSync(base+'/plan.json','utf8'));
  assert.deepEqual([ledger.totalFullLiveRuns,ledger.phase2ModelCalls,ledger.priorPhaseModelCalls,ledger.totalModelCalls,ledger.environmentReruns],[2,469,1014,1483,0]);
- assert.deepEqual(checkStageBudget(ledger,runPlan).remaining,{fullLiveRuns:98,modelCalls:2517,environmentReruns:10});
+ assert.deepEqual(checkStageBudget(ledger,runPlan).remaining,{fullLiveRuns:98,modelCalls:3517,environmentReruns:10});
  assert.throws(()=>checkStageBudget({...ledger,totalModelCalls:469},runPlan),/INVALID_STAGE_LEDGER/);
- const expensive=structuredClone(ledger);expensive.sources[0].models+=2000;expensive.phase2ModelCalls+=2000;expensive.totalModelCalls+=2000;assert.throws(()=>checkStageBudget(expensive,runPlan),/GLOBAL_BUDGET_NOT_AVAILABLE/);
+ const expensive=structuredClone(ledger);expensive.sources[0].models+=3000;expensive.phase2ModelCalls+=3000;expensive.totalModelCalls+=3000;assert.throws(()=>checkStageBudget(expensive,runPlan),/GLOBAL_BUDGET_NOT_AVAILABLE/);
 });

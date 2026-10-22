@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
 import {mkdirSync,readFileSync,writeFileSync,readdirSync,existsSync,openSync,closeSync} from 'node:fs';
 import {resolve,relative} from 'node:path';
-import {gateWitness,nextAction,checkStageBudget,consumeAuthorization} from '../checkpoint-c-live-20261020/policy.mjs';
+import {gateWitness,nextAction,checkStageBudget,consumeAuthorization,PHASE2_MODEL_CALL_LIMIT} from '../checkpoint-c-live-20261020/policy.mjs';
 import {verifyFreeze} from '../checkpoint-c-live-20261020/freeze.mjs';
 import {evaluateSafetyOnly} from '../checkpoint-c-live-20261020/evaluate-report.ts';
 import {postCheck} from '../checkpoint-c-live-20261020/post-check.mjs';
@@ -14,11 +14,13 @@ const checkpoint='.eval-artifacts/checkpoint-c-live-20261020';
 export const readJson=p=>JSON.parse(readFileSync(p));
 export const writeJson=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n',{flag:'wx'});
 export function verifyPlan(plan){
+ const checks=plan.kind==='PHASE2B_LIVE_CHECK_3',count=checks?3:18;
  assert.deepEqual(plan.ceilings,{decisionTimeoutMs:30000,timeoutMs:500000,maxModelCalls:50,maxGoogleRequests:40});
- assert.equal(plan.deferEvaluation,true);assert.equal(plan.runs.length,18);assert.equal(plan.minGapMs,300000);assert.equal(plan.cooldownMs,900000);assert.equal(plan.maxRerunsPerCase,1);assert.equal(plan.maxTotalReruns,4);
- assert.equal(new Set(plan.runs.map(r=>r.runId)).size,18);assert.equal(new Set(plan.runs.map(r=>r.caseId)).size,6);
- for(const id of new Set(plan.runs.map(r=>r.caseId)))assert.deepEqual(plan.runs.filter(r=>r.caseId===id).map(r=>r.repeat),[1,2,3]);
- for(let i=1;i<18;i++)assert.notEqual(plan.runs[i].caseId,plan.runs[i-1].caseId,'ADJACENT_SAME_CASE');
+ assert.equal(plan.deferEvaluation,true);assert.equal(plan.runs.length,count);assert.equal(plan.minGapMs,300000);assert.equal(plan.cooldownMs,900000);assert.equal(plan.maxRerunsPerCase,1);assert.equal(plan.maxTotalReruns,checks?2:4);
+ assert.equal(new Set(plan.runs.map(r=>r.runId)).size,count);assert.equal(new Set(plan.runs.map(r=>r.caseId)).size,checks?2:6);
+ if(checks){assert.equal(plan.runs[0].caseId,plan.runs[2].caseId);assert.deepEqual(plan.runs.map(r=>r.repeat),[1,1,2]);}
+ else for(const id of new Set(plan.runs.map(r=>r.caseId)))assert.deepEqual(plan.runs.filter(r=>r.caseId===id).map(r=>r.repeat),[1,2,3]);
+ for(let i=1;i<count;i++)assert.notEqual(plan.runs[i].caseId,plan.runs[i-1].caseId,'ADJACENT_SAME_CASE');
 }
 export async function executePlan({plan,registry,directory,attempt,now=Date.now,sleep=ms=>new Promise(r=>setTimeout(r,ms)),verify=()=>{},retryAllowance=plan.maxTotalReruns}){
  verifyPlan(plan);mkdirSync(directory,{recursive:false});const rows=[],caseRetries=new Map();let retries=0,lastFinish=-Infinity,stop=null;
@@ -37,7 +39,7 @@ export async function executePlan({plan,registry,directory,attempt,now=Date.now,
   }
   if(stop)break;
  }
- const manifest={schema:'phase2b-execution-deferred@1',status:'AWAITING_INDEPENDENT_WORDING_REVIEW',mode:plan.mode,planned:18,recordedSlots:new Set(rows.map(r=>r.run.runId)).size,attempts:rows,totalReruns:retries,stop,evaluation:'DEFERRED',newModelCalls:plan.mode==='OFFLINE_SAVED_REPLAY'?0:rows.reduce((n,r)=>n+(r.modelCallsCharged??50),0),newWebsiteRequests:plan.mode==='OFFLINE_SAVED_REPLAY'?0:'RECORDED_PER_ATTEMPT',liveDenominator:plan.mode==='OFFLINE_SAVED_REPLAY'?0:rows.filter(r=>r.formalRunStarted).length};
+ const manifest={schema:'phase2b-execution-deferred@1',status:'AWAITING_INDEPENDENT_WORDING_REVIEW',mode:plan.mode,planned:plan.runs.length,recordedSlots:new Set(rows.map(r=>r.run.runId)).size,attempts:rows,totalReruns:retries,stop,evaluation:'DEFERRED',newModelCalls:plan.mode==='OFFLINE_SAVED_REPLAY'?0:rows.reduce((n,r)=>n+(r.modelCallsCharged??50),0),newWebsiteRequests:plan.mode==='OFFLINE_SAVED_REPLAY'?0:'RECORDED_PER_ATTEMPT',liveDenominator:plan.mode==='OFFLINE_SAVED_REPLAY'?0:rows.filter(r=>r.formalRunStarted).length};
  writeJson(resolve(directory,'execution-manifest.json'),manifest);return manifest;
 }
 export function extractPending(manifest,budgets=[]){
@@ -97,10 +99,10 @@ export async function liveAttempt(run,number,directory,runnerInput,registry,free
 export async function authorizeLive({freezePath,approvalPath,planPath,ledgerPath,registryPath,runnerInput,directory}){
  const frozen=verifyFreeze(freezePath),approval=readJson(approvalPath),plan=readJson(planPath),registry=readJson(registryPath),ledger=readJson(ledgerPath);verifyPlan(plan);
  for(const p of [planPath,ledgerPath,registryPath,runnerInput,approvalPath])if(p!==approvalPath)assert.equal(frozen.files[relative(process.cwd(),resolve(p))],sha(readFileSync(p)),'LIVE_INPUT_NOT_FROZEN');
- assert.equal(approval.action,'PHASE2B_EXIT_18');assert.equal(approval.approvedBy,'USER');assert.equal(approval.freezeSha256,frozen.manifestSha256);assert.equal(approval.planSha256,sha(readFileSync(planPath)));assert.equal(approval.registrySha256,sha(readFileSync(registryPath)));assert.ok(Date.parse(approval.validUntil)>Date.now());
+ assert.equal(approval.action,plan.kind==='PHASE2B_LIVE_CHECK_3'?'PHASE2B_LIVE_CHECK_3':'PHASE2B_EXIT_18');assert.equal(approval.approvedBy,'USER');assert.equal(approval.freezeSha256,frozen.manifestSha256);assert.equal(approval.planSha256,sha(readFileSync(planPath)));assert.equal(approval.registrySha256,sha(readFileSync(registryPath)));assert.ok(Date.parse(approval.validUntil)>Date.now());
  for(const source of ledger.sources)assert.equal(frozen.files[source.path],sha(readFileSync(source.path)),'LEDGER_SOURCE_NOT_FROZEN');const budget=checkStageBudget(ledger,plan);
  await consumeAuthorization(base,sha(readFileSync(approvalPath)),{action:approval.action,directory,freezeSha256:frozen.manifestSha256});
  const manifest=await executePlan({plan:{...plan,mode:'LIVE_READ_ONLY'},registry,directory,retryAllowance:budget.reservedRetries,verify:()=>{verifyFreeze(freezePath);assert.ok(Date.parse(approval.validUntil)>Date.now(),'LIVE_AUTHORIZATION_EXPIRED');},attempt:(run,n,dir)=>liveAttempt(run,n,dir,runnerInput,registry,frozen.manifestSha256)});
  const models=manifest.newModelCalls,full=manifest.attempts.filter(r=>r.formalRunStarted).length,resourcePath=relative(process.cwd(),resolve(directory,'execution-manifest.json'));
- ledger.phase2ModelCalls+=models;ledger.totalModelCalls+=models;ledger.totalFullLiveRuns+=full;ledger.environmentReruns+=manifest.totalReruns;ledger.sources.push({path:resourcePath,sha256:sha(readFileSync(resourcePath)),scope:'PHASE2',models,fullLiveRuns:full,environmentReruns:manifest.totalReruns});ledger.remaining={modelCalls:4000-ledger.totalModelCalls,fullLiveRuns:100-ledger.totalFullLiveRuns,environmentReruns:10-ledger.environmentReruns};assert.ok(Object.values(ledger.remaining).every(v=>v>=0),'GLOBAL_BUDGET_EXCEEDED');writeJson(resolve(directory,'ledger-after.json'),ledger);return manifest;
+ ledger.phase2ModelCalls+=models;ledger.totalModelCalls+=models;ledger.totalFullLiveRuns+=full;ledger.environmentReruns+=manifest.totalReruns;ledger.sources.push({path:resourcePath,sha256:sha(readFileSync(resourcePath)),scope:'PHASE2',models,fullLiveRuns:full,environmentReruns:manifest.totalReruns});ledger.remaining={modelCalls:PHASE2_MODEL_CALL_LIMIT-ledger.totalModelCalls,fullLiveRuns:100-ledger.totalFullLiveRuns,environmentReruns:10-ledger.environmentReruns};assert.ok(Object.values(ledger.remaining).every(v=>v>=0),'GLOBAL_BUDGET_EXCEEDED');writeJson(resolve(directory,'ledger-after.json'),ledger);return manifest;
 }

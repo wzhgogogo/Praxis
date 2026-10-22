@@ -1,0 +1,43 @@
+{
+  "schema": "phase2b-live-checks@1",
+  "kind": "PHASE2B_LIVE_CHECK_3",
+  "mode": "LIVE_READ_ONLY",
+  "deferEvaluation": true,
+  "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubric": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "label": "合并后3次Live检查；非退出检查",
+  "runnerInput": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+  "registryPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/registry.json",
+  "registrySha256": "6a5dc4155cc79bbb529b12cc0a892fd3548a7e1f368df0cc23c4637df22b82d2",
+  "hardDeadline": "2026-10-23T06:41:36.126Z",
+  "ceilings": {
+    "decisionTimeoutMs": 30000,
+    "timeoutMs": 500000,
+    "maxModelCalls": 50,
+    "maxGoogleRequests": 40
+  },
+  "minGapMs": 300000,
+  "cooldownMs": 900000,
+  "maxRerunsPerCase": 1,
+  "maxTotalReruns": 2,
+  "runs": [
+    {
+      "runId": "q-01",
+      "caseId": "p2-holdout-03",
+      "repeat": 1,
+      "role": "EXPOSED_LIVE_CHECK"
+    },
+    {
+      "runId": "q-02",
+      "caseId": "p2-holdout-01",
+      "repeat": 1,
+      "role": "EXPOSED_LIVE_CHECK"
+    },
+    {
+      "runId": "q-03",
+      "caseId": "p2-holdout-03",
+      "repeat": 2,
+      "role": "EXPOSED_LIVE_CHECK"
+    }
+  ]
+}
