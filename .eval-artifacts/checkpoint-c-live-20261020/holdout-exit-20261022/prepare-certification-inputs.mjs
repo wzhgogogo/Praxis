@@ -7,6 +7,7 @@ const selected=[
  ['p2-holdout-01','merchant-job-01/ueno-13290563','Yakitori (Grilled chicken skewers)'],
  ['p2-holdout-02','source-job-02/jiyugaoka-13277826-detail','Italian'],
  ['p2-holdout-02','source-job-02/jiyugaoka-13133431-detail','Italian'],
+ ['p2-holdout-02','source-job-04/jiyugaoka-13254250-detail','Italian'],
  ['p2-holdout-03','merchant-job-01/akasaka-13126018','Shabu shabu (Japanese hotpot)'],
  ['p2-holdout-03','merchant-job-01/akasaka-13015193','Shabu shabu (Japanese hotpot)'],
  ['p2-holdout-03','merchant-job-01/akasaka-13169764','Shabu shabu (Japanese hotpot)'],
@@ -35,7 +36,7 @@ for(const[caseId,stem,category]of selected){
  });
  variant.witnesses.push({rst_id,outletName:raw.name,sourceUrl:page.url,bookingSource:'TABELOG',distanceMeters:meters,address:raw.address,pageSource:ref,hardCriteria:hard,hardEvidence:hard.map(h=>({criterion:h.value,quote:h.quote,evidenceRefs:h.evidenceRefs})),classification:'PENDING_CURRENT_INVENTORY'});
 }
-const out=dir+'/witness-plan.primary.json';fs.writeFileSync(out,JSON.stringify({status:'FROZEN_MERCHANT_SUPPORT_PENDING_INVENTORY',reviewedBy:'CODEX_EVALUATION_SIDE',independentOfProduction:true,sourcePlanSha256:sha(fs.readFileSync(dir+'/witness-search-plan.json')),modelCalls:0,variants},null,2)+'\n',{flag:'wx'});
-const initial=variants.filter(v=>['p2-holdout-01','p2-holdout-02','p2-holdout-03','p2-holdout-04'].includes(v.caseId));
-fs.writeFileSync(dir+'/inventory-job-01.json',JSON.stringify({id:'inventory-job-01',approvedBy:'USER_EXISTING_CONSECUTIVE_AUTHORIZATION',witnessPlanPath:out,witnessPlanSha256:sha(fs.readFileSync(out)),requests:initial.flatMap(v=>v.witnesses.map(w=>({id:v.caseId+'-'+w.rst_id,caseId:v.caseId,kind:'INVENTORY',rst_id:w.rst_id})))},null,2)+'\n',{flag:'wx'});
-console.log(JSON.stringify({status:'OFFLINE_PREREGISTERED',inventoryRequests:initial.reduce((n,v)=>n+v.witnesses.length,0),modelCalls:0,network:0,pendingCase:'p2-holdout-05'}));
+const out=dir+'/witness-plan.primary-02.json';fs.writeFileSync(out,JSON.stringify({status:'FROZEN_MERCHANT_SUPPORT_PENDING_INVENTORY',reviewedBy:'CODEX_EVALUATION_SIDE',independentOfProduction:true,sourcePlanSha256:sha(fs.readFileSync(dir+'/witness-search-plan.json')),modelCalls:0,variants},null,2)+'\n',{flag:'wx'});
+const requests=variants.flatMap(v=>v.witnesses.filter(w=>v.caseId==='p2-holdout-06'||v.caseId==='p2-holdout-02'&&w.rst_id==='13254250').map(w=>({id:v.caseId+'-'+w.rst_id,caseId:v.caseId,kind:'INVENTORY',rst_id:w.rst_id})));
+fs.writeFileSync(dir+'/inventory-job-02.json',JSON.stringify({id:'inventory-job-02',approvedBy:'USER_EXISTING_CONSECUTIVE_AUTHORIZATION',witnessPlanPath:out,witnessPlanSha256:sha(fs.readFileSync(out)),requests},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({status:'OFFLINE_PREREGISTERED',inventoryRequests:requests.length,modelCalls:0,network:0,pendingCase:'p2-holdout-05'}));
