@@ -1,10 +1,11 @@
+import {isBrowserReadPathProhibited} from "../../infrastructure/browser/browser-read-policy.js";
 import { parseTableCheckPriceFacts } from "./tablecheck-page-parser.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import type { RestaurantAvailabilityRequest, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
 import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
-import { BrowserTaskExecutor, type BrowserCompletionAssessment } from "../../infrastructure/browser/browser-task-executor.js";
+import { BrowserTaskExecutor, type BrowserSkillReadInput, type BrowserCompletionAssessment } from "../../infrastructure/browser/browser-task-executor.js";
 import { inspectNativeOutletContinuity } from "../restaurant-availability/native-outlet-continuity.js";
 import { tableCheckDiscoveryPack } from "../restaurant-search/source-packs.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
@@ -309,7 +310,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     const inspection = inspectCandidateOutlet(candidate, extraction, page);
     if (inspection.resolution.confidence !== "HIGH") return undefined;
     const reservation = resolveTableCheckReservationTarget(page, extraction.outlet);
-    if (!reservation) return undefined;
+    if (!reservation || isBrowserReadPathProhibited(this.options.networkPolicy, reservation.url)) return undefined;
     let availabilityPage = page;
     if (reservation.kind === "LINKED_PAGE") {
       // This is a distinct observed reservation target. Install its source
@@ -730,8 +731,22 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       // Menu observations belong to the confirmed guide, even if a separate
       // request page later has no readable inventory or menu.
       const guidePrices = parseTableCheckPriceFacts(selectedPage);
+      let readWindow = request.timeWindow;
+      const covered: Array<{earliest:string;latest:string;status:"EMPTY"|"AVAILABLE"}> = [];
+      let coverageStop: "RESULT_FOUND"|"OBSERVED_TIMES_EXHAUSTED"|"TIME_QUERY_LIMIT"|"INCOMPLETE_RESULT" = "INCOMPLETE_RESULT";
       const ground = (observation: TableCheckAvailabilityPageObservation) => {
         const result = this.ground(candidate, request, observation, browser);
+        if (covered.length) {
+          const points = [...new Set(covered.map(p => p.earliest))].sort();
+          const uncovered: NonNullable<typeof result.check.timeWindowCoverage>["uncovered"] = [];
+          let earliest = request.timeWindow.earliest, earliestExclusive = false;
+          for (const time of points) {
+            if (time > earliest) uncovered.push({earliest, latest: time, earliestExclusive, latestExclusive: true});
+            earliest = time; earliestExclusive = true;
+          }
+          if (earliest < request.timeWindow.latest) uncovered.push({earliest, latest: request.timeWindow.latest, earliestExclusive, latestExclusive: false});
+          result.check.timeWindowCoverage = {date: request.date, partySize: request.partySize, requestedWindow: {...request.timeWindow}, covered: [...covered], uncovered, stopReason: coverageStop};
+        }
         if (!guidePrices) return result;
         const guideEvidence = this.ground(candidate, request, {
           candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId,
@@ -747,6 +762,11 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         };
         return result;
       };
+      if (isBrowserReadPathProhibited(this.options.networkPolicy, activeSelected.reservation.url)) {
+        return ground({candidate, observedAt: this.now(), sourceEntityId: selected.extraction.outlet.sourceEntityId,
+          sourceUrl: selectedPage.url, entityMatch: selected.inspection.resolution, pageState: "SOURCE_UNSUPPORTED", failureCode: "SOURCE_UNSUPPORTED",
+          excerpt: "The observed linked workflow is prohibited by the current source read policy; this outlet's inventory was not read."});
+      }
       // Configure passive GET capture before any lawful navigation that can
       // itself issue the source-owned availability request.  Capture is never
       // an availability oracle, but late registration loses its chronology.
@@ -790,10 +810,10 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         // than evidence that date or party selection failed.
         const categorySelected = serviceScope !== null;
         const selected = requestSelected && categorySelected;
-        const html = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize, timeWindow: request.timeWindow });
-        const live = parseTableCheckControlAvailability(controls, request.date, request.partySize, current.url, request.timeWindow);
+        const html = parseTableCheckAvailabilitySlots(current, { date: request.date, partySize: request.partySize, timeWindow: readWindow });
+        const live = parseTableCheckControlAvailability(controls, request.date, request.partySize, current.url, readWindow);
         const htmlRejected = hasTableCheckDisabledRequestMarkup(current, request.date, request.partySize, request.timeWindow, live.availableSlots);
-        const liveRejected = hasTableCheckDisabledRequestControl(controls, request.date, request.partySize, current.url, request.timeWindow, html.availableSlots);
+        const liveRejected = hasTableCheckDisabledRequestControl(controls, request.date, request.partySize, current.url, readWindow, html.availableSlots);
         const loading = current.settlement === "PENDING" || hasTableCheckAvailabilityResultLoading(current);
         const hasResultWidget = hasTableCheckAvailabilityWidget(current);
         const htmlCurrent = !loading && selected && html.queryComplete;
@@ -814,7 +834,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         const result = rawResult && scopeBound ? rawResult : undefined;
         return { selected, requestSelected, categorySelected, serviceScope, scopeBound, html, live, loading, htmlRejected, liveRejected, result, complete: result !== undefined };
       };
-      const readAvailability = () => this.executor.runSkill({
+      const availabilityInput: BrowserSkillReadInput = {
         taskId: `browser-read:${candidate.restaurant.id}`,
         source: "TABLECHECK",
         ...(tableCheckDiscoveryPack.skillPath ? { sourceSkillPath: tableCheckDiscoveryPack.skillPath } : {}),
@@ -868,8 +888,32 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
             }
           },
         },
-      });
+      };
+      const readAvailability = () => this.executor.runSkill(availabilityInput);
       let availabilityRead = await readAvailability();
+      for (let queries = 1; queries <= 4; queries++) {
+        const assessed = currentResult(availabilityRead.snapshot, availabilityRead.controls);
+        if (availabilityRead.status !== "COMPLETED" || !assessed.selected || assessed.loading || assessed.serviceScope || !assessed.html.emptyMealtime) break;
+        const time = assessed.html.emptyMealtime.time;
+        if (!covered.some(p => p.earliest === time)) covered.push({earliest:time,latest:time,status:"EMPTY"});
+        if (request.timeWindow.earliest === request.timeWindow.latest && assessed.html.queryComplete) {coverageStop = "OBSERVED_TIMES_EXHAUSTED"; break;}
+        if (queries === 4) {coverageStop = "TIME_QUERY_LIMIT"; break;}
+        try {
+          const next = await this.executor.advanceAvailabilityTime({...availabilityInput, goal: {...availabilityInput.goal, timeWindow: request.timeWindow}}, covered.map(p=>p.earliest));
+          if (!next) {coverageStop = "OBSERVED_TIMES_EXHAUSTED"; break;}
+          readWindow = {earliest: next, latest: next};
+          availabilityInput.goal = {...availabilityInput.goal, timeWindow: readWindow};
+          availabilityRead = await readAvailability();
+        } catch (error) {
+          if (signal.aborted || error instanceof BrowserRuntimeError && ["BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED", "BROWSER_RUNTIME_UNAVAILABLE", "BROWSER_ABORTED"].includes(error.code)
+            || error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED") throw error;
+          coverageStop = "INCOMPLETE_RESULT";
+          return ground({candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId,
+            sourceUrl: availabilityRead.snapshot.url, entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED",
+            failureCode: error instanceof BrowserRuntimeError ? error.code : "BROWSER_RUNTIME_FAILED",
+            excerpt: "A later time query did not complete. Only the recorded empty points are covered; the remaining request window is UNKNOWN."});
+        }
+      }
       page = availabilityRead.snapshot;
       page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
       if (hasTableCheckBotChallenge(page) && !alternateRecoveryUsed) {
@@ -890,7 +934,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       });
       const assessed = currentResult(page, availabilityRead.controls);
       if (availabilityRead.status === "COMPLETED" && assessed.selected && !assessed.loading && !assessed.serviceScope
-        && assessed.html.emptyMealtime && !assessed.html.queryComplete) {
+        && assessed.html.emptyMealtime && request.timeWindow.earliest !== request.timeWindow.latest) {
         return ground({
           candidate, observedAt: this.now(), priceFacts: parseTableCheckPriceFacts(page), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId,
           sourceUrl: page.url, entityMatch: activeSelected.inspection.resolution,
@@ -913,6 +957,10 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         && slots.availableSlots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);
       const immediateSlotNotOffered = request.immediateAvailability !== undefined
         && !qualifying && !slots.explicitlyEmpty && slots.hasExplicitSlotUi;
+      if (qualifying) {
+        coverageStop = "RESULT_FOUND";
+        for (const time of slots.availableSlots.filter(t => t >= request.timeWindow.earliest && t <= request.timeWindow.latest)) covered.push({earliest:time,latest:time,status:"AVAILABLE"});
+      }
       return ground({
         candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: page.url, priceFacts: parseTableCheckPriceFacts(page),
         entityMatch: activeSelected.inspection.resolution, requestedDate: request.date, requestedPartySize: request.partySize,

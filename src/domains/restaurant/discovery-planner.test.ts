@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { planDiscoverySources, type DiscoveryPackMetadata } from "./discovery-planner.js";
+import { advanceDiscoveryPlan, planDiscoverySources, type DiscoveryPackMetadata } from "./discovery-planner.js";
 import type { RestaurantSearchIntent } from "./contracts.js";
 
 const location = { latitude: 35.6697, longitude: 139.7670, radiusMeters: 3_000, label: "Higashi-Ginza", areaMatchBasis: "EVALUATION_LOCATION_RADIUS" as const };
@@ -29,7 +29,7 @@ test("planner keeps negative-only criteria out of discovery text and routes reco
   assert.ok(recommendation.entries.every((entry) => entry.query.category === "cafe"));
 });
 
-test("planner uses declared group capability without a Case identifier or a source-name branch", () => {
+test("planner retains base source priority for a group request", () => {
   const plan = planDiscoverySources(intent({ partySize: 10 }), location, packs);
   assert.equal(plan.entries[0]!.sourceId, "source-reservation-a");
 });
@@ -45,4 +45,17 @@ test("planner evaluates same-day capability in the intent timezone", () => {
     { id: "same-day", capabilities: ["DISCOVERY"], reservationOnly: false, supportsSameDay: true, basePriority: 0 },
   ], "2026-10-07T16:00:00.000Z");
   assert.equal(later.entries[0]!.sourceId, "general");
+});
+
+// Real failure: inaccurate group metadata must not starve a higher-priority source.
+test("group-window: inaccurate group flag cannot outrank source priority", () => {
+  const sources = packs.map(pack => ({...pack, basePriority: pack.id === "source-directory-b" ? 30 : pack.basePriority}));
+  assert.equal(planDiscoverySources(intent({partySize:10}), location, sources).entries[0]!.sourceId,"source-directory-b");
+});
+test("group-window: unfinished source chunk rotates behind every other first batch", () => {
+  let plan = planDiscoverySources(intent(), location, packs);
+  const first = plan.entries[0]!.sourceId;
+  plan = Reflect.apply(advanceDiscoveryPlan, undefined, [plan, false]);
+  assert.equal(plan.entries[plan.cursor]!.sourceId,"source-directory-b");
+  assert.equal(plan.entries.at(-1)!.sourceId,first);
 });

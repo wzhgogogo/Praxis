@@ -195,6 +195,15 @@ export interface RestaurantAvailabilityCheck {
   requestFingerprint?: string;
   /** A scoped no-slot result never excludes inventory in unobserved compatible scopes. */
   serviceScope?: RestaurantServiceScope;
+  /** Observed points only; uncovered intervals are explicitly open at checked endpoints. */
+  timeWindowCoverage?: {
+    date: string;
+    partySize: number;
+    requestedWindow: { earliest: string; latest: string };
+    covered: Array<{ earliest: string; latest: string; status: "EMPTY" | "AVAILABLE" }>;
+    uncovered: Array<{ earliest: string; latest: string; earliestExclusive: boolean; latestExclusive: boolean }>;
+    stopReason: "RESULT_FOUND" | "OBSERVED_TIMES_EXHAUSTED" | "TIME_QUERY_LIMIT" | "INCOMPLETE_RESULT";
+  };
 }
 
 /** Stable request binding for a completed slot/no-slot observation. */
@@ -353,6 +362,14 @@ export interface RestaurantSearchContinuation {
     sourceId: string;
     candidateIds: string[];
   };
+  /** Suspended source chunks. Each source occurs here OR in sourceProgress, never both. */
+  deferredSources?: Array<{
+    progress: NonNullable<RestaurantSearchContinuation["sourceProgress"]>;
+    nextPageToken?: string;
+    usedPageTokens: string[];
+    pagesRead: number;
+    sourceRequestContext?: { textQuery: string };
+  }>;
   sourceProgress?: {
     retrieval?: { selection?: import("./discovery-retrieval.js").DiscoveryRetrievalSelection; rewrites:number; regionPages:number; retrievalPages:number; history:Array<{selection:import("./discovery-retrieval.js").DiscoveryRetrievalSelection;elapsedMs:number;parsedCount:number}> };
     directoryRegion?: {
@@ -509,7 +526,7 @@ export interface RestaurantReadExecutionMetadata {
   providerAttempts?: Array<{
     candidateId: string;
     provider: "TABLECHECK" | "TABELOG";
-    outcome: "AVAILABLE" | "UNAVAILABLE" | "PROVIDER_FAILURE";
+    outcome: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN" | "SOURCE_UNSUPPORTED" | "PROVIDER_FAILURE";
     failureCode?: RestaurantFailureCode;
   }>;
   /** Candidate-scoped native discovery failures; other observed outlets in the batch remain usable. */
@@ -709,7 +726,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "19";
+  schemaVersion: "20";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;

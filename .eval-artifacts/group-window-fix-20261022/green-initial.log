@@ -1,0 +1,33 @@
+✔ group-window: inaccurate group flag cannot outrank source priority (1.074042ms)
+✔ group-window: unfinished source chunk rotates behind every other first batch (0.155417ms)
+✔ group-window: visible disabled requested party ends before another model decision (4.942ms)
+✖ group-window: prohibited linked workflow is unsupported before navigation (13.279625ms)
+✔ group-window: point empty continues to the next observed legal time (35.181791ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 426.408959
+
+✖ failing tests:
+
+test at src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1:105570
+✖ group-window: prohibited linked workflow is unsupported before navigation (13.279625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'SOURCE_UNSUPPORTED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1487:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'SOURCE_UNSUPPORTED',
+    operator: 'strictEqual'
+  }

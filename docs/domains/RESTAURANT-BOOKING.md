@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.17
+- Document revision: 3.18
 - Last updated: 2026-10-22
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
@@ -21,6 +21,12 @@
 复合事实读取的`sourceAttempts`保留失败来源，不能从成功evidence反推本次全部来源范围。Reducer在当前请求的fact check中累计`supersededEvidenceIds`；同来源旧事实和显式刷新前的复合读取事实若未重新证实，不再支持当前展示，但原始历史记录不变。Context与展示共用当前事实视图，MODEL_JUDGMENT的全部原始支持必须仍有效；空位展示引用独立来源事实时同时引用各自HIGH身份。服务范围存在时，正向和类别型已验证负向HARD事实都须有同范围的当前原始支持；整店`violatedNegativeCriteria`继续拒绝所有范围。未观察到范围结果绑定时保持`UNKNOWN`，不把选中的类别或整页菜单文字变成范围事实。上述是现有字段的增量只读审计信息，不建立旧执行器、双写或生产迁移。
 
 负向HARD默认仍须有当前、同候选、来源绑定的`verifiedNegativeCriteria`，任何`violatedNegativeCriteria`都阻止展示。唯一例外是[ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md)：同一Fact Judgment对精确的餐厅/菜系/门店类型排除，基于带引用的type事实返回`UNKNOWN/RESTAURANT_CATEGORY_TYPE`时，记录`categoryUnknownNegativeCriteria`并仅可用于资格。它不是确认“不是该类型”的事实，不显示为已验证负向条件；`OTHER`或`UNKNOWN_SCOPE`（例如过敏、污染、医疗、安全、无障碍）仍失败关闭。名称、缺失关键词、跨候选引用或已被替代的来源事实均不适用。
+
+## 2026-10-22 bounded group/window reads
+
+`restaurant-state@20` / task definition `18` records the active source chunk separately from suspended source cursors. After investigation, a partial chunk rejoins the source queue tail; pending details and candidates are retained. Static group-capability bonuses no longer choose a source. This replaces the pre-Pilot state19 continuation semantics without a legacy reader or automatic database migration; historical result fixtures remain immutable. No database is opened/reset by this repair.
+
+An explicitly policy-prohibited workflow returns `SOURCE_UNSUPPORTED` before navigation and is not retried as FACTS material. A visible disabled exact party, after the requested date is confirmed, yields `UNKNOWN / PARTY_SIZE_NOT_SELECTABLE`; it neither changes the count nor proves the day empty. A point-specific EMPTY may continue at a fresh enabled source-observed in-window time, at most four time observations per outlet and within existing deadlines/operation budgets. `timeWindowCoverage` retains checked EMPTY/AVAILABLE points and uncovered intervals with explicit endpoint inclusivity. Missing, conflicting, failed or unrecorded follow-up results remain unknown; a collection of point-empty messages never becomes whole-window UNAVAILABLE. Qualification, HARD, identity, radius, freshness and booking authority are unchanged.
 
 ## Implementation Status
 

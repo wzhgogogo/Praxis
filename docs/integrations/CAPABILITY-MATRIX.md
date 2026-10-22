@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.81
+- Document revision: 1.82
 - Last updated: 2026-10-22
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -40,7 +40,7 @@ P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、�
 | Hot Pepper Web Service | 餐厅、区域、预算等 | 未见公开库存API | 未见公开Consumer Booking API | 否 | 否 | 否 | `verified` Discovery；预约需网页或合作能力 |
 | Hot Pepper Web | 餐厅页 | 网页可查 | Browser | Browser/管理链接 | 成功页、邮件、订单状态 | 登录/验证/支付 | `assumed`，需逐流程Adapter验证；Request Booking不是即时成功 |
 | TableCheck API | 有集成能力 | 可能 | 可能 | 可能 | 可能 | 取决于流程 | `requires partnership`；不作为MVP无条件依赖 |
-| TableCheck Web | 公开`/en/japan/search`及guide原生发现；既有五详情工作块/来源预算不变 | 公开guide与已审核只读库存接口；进入`/reserve`的查位或菜单路径返回UNKNOWN，不能交付 | 否 | 否 | 否 | 仅允许的公开只读目标 | 当前永久拒绝tablecheck.com及子域所有`reserve`路径段和子路径（GET/HEAD/其他方法、显式allow和重定向均不例外）；不打开预约表单。identity仍须Google exact phone或name+full address达到HIGH；明确库存必须匹配门店、东京日期、人数和时段。公开查询的受控操作不授予个人信息、时段点击或提交权限。H003旧Live越界结论保留；2026-09-08 H001的KINKA完整slot为历史单次记录，不代表当前入口许可或其他门店兼容性。搜索、来源失败、UNKNOWN与UNAVAILABLE原因仍分开；本次只做离线，未重新证明实时库存或完整交付。TableCheck API仍requires partnership |
+| TableCheck Web | 公开`/en/japan/search`及guide原生发现；既有五详情工作块/来源预算不变 | 公开guide与已审核只读库存接口；进入`/reserve`的查位路径在导航前返回SOURCE_UNSUPPORTED、未决菜单事实保留UNKNOWN，不能交付 | 否 | 否 | 否 | 仅允许的公开只读目标 | 当前永久拒绝tablecheck.com及子域所有`reserve`路径段和子路径（GET/HEAD/其他方法、显式allow和重定向均不例外）；不打开预约表单。identity仍须Google exact phone或name+full address达到HIGH；明确库存必须匹配门店、东京日期、人数和时段。公开查询的受控操作不授予个人信息、时段点击或提交权限。H003旧Live越界结论保留；2026-09-08 H001的KINKA完整slot为历史单次记录，不代表当前入口许可或其他门店兼容性。搜索、来源失败、UNKNOWN与UNAVAILABLE原因仍分开；本次只做离线，未重新证明实时库存或完整交付。TableCheck API仍requires partnership |
 | Google-listed Restaurant Website | 仅已发现候选的Google `websiteUri` | 有界只读的JSON-LD、可见字段及引用式原文事实交接 | 否 | 否 | 否 | 否 | 代码实现、尚待本切片Live实测。复用受控Browser Executor及Generic网络档打开HTTP(S)同源网址，移除query/fragment并拒绝凭据、跨源跳转及敏感控件。候选名称加地址包含、同序门牌加可用地域词对应，或唯一公开电话（可见数字/tel链接）精确对应，才可建立HIGH identity；门牌数字本身、同名、缺地址或明确不同城市/街区均为UNKNOWN。JSON-LD是快捷路径，不会遮住同页可见事实；身份确认后才接纳明确标注的公开套餐价/税费、包间低消、取消和no-show字段，裸金额不推断；字段彼此不派生。候选身份确认后可把每候选最多6,000字符的原文按片段ID临时交给既有事实模型；模型每页最多选择3条原文，代码仅按观察到的ID保存短引用及同来源身份，不保存整页原文到Task State。派生`MODEL_JUDGMENT`只保存到原始来源事实的引用链，不伪装为页面来源。交接不证明条件或库存；Agent仍负责后续调查。536项默认测试与生产组合通过，Matsue两页Replay可绑定；不同电话/跨语言地址及共享菜单归属未解决，一次固定来源真实模型已证明Matsue阅读交接，但fact judgment11有引用格式失败；当前12/schema4以当前来源ID枚举约束引用，仅离线门禁通过，尚无修正后的模型或新整单Live验收。Google Maps URL、Google列出的网址或模型结论都不单独证明官网/门店事实；失败为candidate-scoped UNKNOWN，绝不构成无位 |
 | Phone-only Restaurant | 可能 | 电话 | 否 | 否 | 用户/餐厅确认 | 用户 | `unsupported`于MVP |
 
@@ -333,3 +333,7 @@ Harness: three prior h001 recordings retain six identical raw HTML snapshots (on
 2026-10-22 merchant field containment repair (offline): Native fact judgment retains the original selected statement and inherits its containing parser-owned field role (field contains statement). Existing same-candidate/HIGH identity/source binding, review/neighbor/hidden exclusion and meal limits are unchanged. Harness: saved C18 four split-tempura judgment->Router->Reducer controls; field quote parser hidden/review/neighbor controls; model payload/cross-candidate tests. No extra requests, model calls, navigation or Guard permissions. Eval33/rubric29 separately records product-observed versus external-only support.
 
 2026-10-22 acceptance stop (checkpoint-C preparation only; not integrated): strict field-contains-selected-statement passes the four split-tempura cases, but drops three current Utou COURSE_TITLE quotations when the selected line also contains the adjacent “8 items” count. Saved Router->Reducer replay and independent Evaluator33 identify three product-observed MISSED_KNOWN_CONDITION rows. The unresolved business regression is retained as a failing default application test; the five-gate acceptance is NOT passed. No c17 environment rerun, holdout input read, source request or real model call was performed. See [stop report](../../.eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/four-layer-report.md).
+
+## 2026-10-22 group/window repair (offline only)
+
+当前读取组装把同一 source policy 交给计划和 Guard；显式禁止的入口在查位前返回 SOURCE_UNSUPPORTED，FACTS 不再重开该入口。TableCheck 公开 guide 的单餐段 EMPTY 在原日期、人数和窗口不变的前提下，最多读取四个实际观察到的合法时间选项，并保留已覆盖点和未覆盖区间；不推导整窗无位。Tabelog 等来源中，请求日期已选中而精确人数可见且 disabled 时，提前 UNKNOWN，换候选而不强选或改人数。此前菜单/预约入口历史证据不代表当前路径许可。真实本地 Chromium 与六份保存产物分别验证可执行机制和已记录状态；本批不访问来源、不运行模型或 Live，当前库存与完整交付仍未验证。

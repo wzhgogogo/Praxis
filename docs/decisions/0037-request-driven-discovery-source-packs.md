@@ -105,3 +105,7 @@ source diagnostics remain; third-source zero-core-change acceptance is Phase6.
 ## 2026-10-17 ADR-0042 approval
 
 用户批准 ADR-0042，部分替代 Decision 2–3 的检索表达式机械投影，来源顺序不变。前文 Proposed 段落保留作历史；本轮仅实施 P2-1a，搜索级空位筛选留待 P2-1b，资格、半径、身份与全局预算不变。
+
+## 2026-10-22 approved group/window correction
+
+用户依据团体诊断复核 b180f30d 批准本次局部修正，部分替代 Decision 3 的团体加分和 Decision 5 的连续来源读取方式，以上原文保留。`supportsGroups` 静态标记不再参与排序；仍按原 base priority 和同日规则安排第一轮。当前批调查完成后，未结束来源将下一批排至其他已计划来源之后。各来源的待查入口、页游标、累计预算和已发现候选保留，合格短批交付及所有资格条件不变。此处只接受调度规则；离线与真实来源能力分别报告，不声明团体库存或当前网站已验证。
