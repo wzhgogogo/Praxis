@@ -185,7 +185,7 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
           ...RESTAURANT_AGENT_ACTION_SCHEMA,
           jsonSchema: RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA,
         },
-        timeoutMs: 10_000,
+        timeoutMs: 30_000,
         fallback: "FAIL_CLOSED",
         maxOutputTokens: RESTAURANT_AGENT_DECISION_MAX_OUTPUT_TOKENS,
         temperature: 0,

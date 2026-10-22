@@ -36,10 +36,15 @@ test("Restaurant Agent sends a DeepSeek-strict compatible wire schema and restor
     },
   });
 
-  const result = await new RestaurantAgentDecision(gateway).decide({
+  let requestedTimeoutMs = 0;
+  const result = await new RestaurantAgentDecision({ async complete(request) {
+    requestedTimeoutMs = request.timeoutMs;
+    return gateway.complete(request);
+  } }).decide({
     taskId: "task-h001", context, recentExecutionHistory: [], capabilities: RESTAURANT_AGENT_CAPABILITIES,
   });
 
+  assert.equal(requestedTimeoutMs, 30_000, "Agent decision latency allowance; Runner retains its total deadline");
   assert.equal(endpoint, "https://api.deepseek.com/beta/chat/completions");
   const tools = requestBody?.tools as Array<{ function: { strict: boolean; parameters: Record<string, unknown> } }>;
   assert.equal(tools[0]?.function.strict, true);

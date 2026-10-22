@@ -1,0 +1,44 @@
+✖ Restaurant Agent sends a DeepSeek-strict compatible wire schema and restores the canonical action (9.291292ms)
+✖ strict browser wire COMPLETE accepts only a current observed placeholder and restores target-free canonical action (1.815833ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 315.166792
+
+✖ failing tests:
+
+test at src/domains/restaurant/agent-decision.test.ts:1:1077
+✖ Restaurant Agent sends a DeepSeek-strict compatible wire schema and restores the canonical action (9.291292ms)
+  AssertionError [ERR_ASSERTION]: Agent decision latency allowance; Runner retains its total deadline
+  
+  10000 !== 30000
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/domains/restaurant/agent-decision.test.ts:47:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 10000,
+    expected: 30000,
+    operator: 'strictEqual'
+  }
+
+test at src/infrastructure/browser/browser-action-decision.test.ts:1:1131
+✖ strict browser wire COMPLETE accepts only a current observed placeholder and restores target-free canonical action (1.815833ms)
+  AssertionError [ERR_ASSERTION]: Browser decision latency allowance; executor/Runner deadlines remain bounded
+  
+  10000 !== 30000
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/infrastructure/browser/browser-action-decision.test.ts:53:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 10000,
+    expected: 30000,
+    operator: 'strictEqual'
+  }

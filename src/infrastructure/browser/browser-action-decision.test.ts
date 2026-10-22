@@ -37,14 +37,20 @@ function gateway(output: Record<string, string>): ModelGateway {
 }
 
 test("strict browser wire COMPLETE accepts only a current observed placeholder and restores target-free canonical action", async () => {
-  const decision = new ModelBrowserReadActionDecision(gateway({
+  const transport = gateway({
     action: "COMPLETE",
     targetRef: "observation:1:target:1",
     authoritativeField: "NONE",
     requestedState: "NONE",
     reason: "The read-only page is ready.",
-  }));
+  });
+  let requestedTimeoutMs = 0;
+  const decision = new ModelBrowserReadActionDecision({ async complete(request) {
+    requestedTimeoutMs = request.timeoutMs;
+    return transport.complete(request);
+  } });
   assert.deepEqual(await decision.decide(input), { type: "COMPLETE", reason: "The read-only page is ready." });
+  assert.equal(requestedTimeoutMs, 30_000, "Browser decision latency allowance; executor/Runner deadlines remain bounded");
 });
 
 test("runner model-call budget exhaustion remains a task cause, not a browser network failure", async () => {

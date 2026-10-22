@@ -375,7 +375,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
         ],
         responseFormat: "JSON_SCHEMA",
         outputSchema: { ...BROWSER_ACTION_DECISION_SCHEMA, jsonSchema: BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA },
-        timeoutMs: 10_000,
+        timeoutMs: 30_000,
         fallback: "FAIL_CLOSED",
         // DeepSeek may emit a tool-call envelope before the compact action arguments.
         // 180 can truncate that envelope (`finish_reason=length`) even though the

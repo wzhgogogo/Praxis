@@ -1,0 +1,41 @@
+✖ Restaurant Agent sends a DeepSeek-strict compatible wire schema and restores the canonical action (2.057292ms)
+✖ strict browser wire COMPLETE accepts only a current observed placeholder and restores target-free canonical action (2.108708ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 226.044709
+
+✖ failing tests:
+
+test at src/domains/restaurant/agent-decision.test.ts:1:1077
+✖ Restaurant Agent sends a DeepSeek-strict compatible wire schema and restores the canonical action (2.057292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'https://api.deepseek.com/beta/chat/completions'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/domains/restaurant/agent-decision.test.ts:46:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'https://api.deepseek.com/beta/chat/completions',
+    operator: 'strictEqual'
+  }
+
+test at src/infrastructure/browser/browser-action-decision.test.ts:1:1131
+✖ strict browser wire COMPLETE accepts only a current observed placeholder and restores target-free canonical action (2.108708ms)
+  Error [BrowserReadDecisionError]: NETWORK
+      at ModelBrowserReadActionDecision.decide (/private/tmp/praxis-checkpoint-c-prep/src/infrastructure/browser/browser-action-decision.ts:394:13)
+      at async TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/infrastructure/browser/browser-action-decision.test.ts:51:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'MODEL_FAILURE',
+    wireRejection: undefined
+  }

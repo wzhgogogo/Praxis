@@ -1,7 +1,7 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.22
+- Document revision: 3.23
 - Last updated: 2026-10-21
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
@@ -46,6 +46,8 @@ LLM Response / Adjustment可以解释事实、生成澄清问题或提出非权�
 后台Trigger、外部Event或Follow-up使用新的有界Run，从Task Snapshot、Attempt/Authorization引用和最小Domain Context重建。模型失败只能产生明确失败结果或不改变状态，不能扩大授权或把Case标为完成。
 
 ## Model Gateway
+
+Restaurant Agent Decision与Browser Read Decision的单次模型请求上限为30秒；总运行、调用数与执行器截止仍独立约束，Live Runner把请求上限裁到整次剩余时间。此次参数调整不新增Provider自动重试，也不改变Prompt/Context或Schema。
 
 所有模型调用经服务端`ModelGateway`；首个Provider为DeepSeek。每次请求必须声明`taskId`、purpose、promptVersion、outputSchema、timeout和失败行为。Gateway只记录Provider、模型、Prompt/Schema版本、延迟、Token、Provider request ID、状态码和错误码；不记录Prompt或Completion正文。Key只存在服务端Secret。
 

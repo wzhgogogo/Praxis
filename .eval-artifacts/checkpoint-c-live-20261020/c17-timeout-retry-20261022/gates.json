@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "gates": [
+    {
+      "command": "npm run typecheck",
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "command": "npm run arch:check",
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/arch-check.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "command": "npm test",
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/default-test.log",
+      "sha256": "9774b7b156c6c3aa80f21e1bb5687c4592f9970c4a98577994a4a15250a9f17c",
+      "total": 998,
+      "passed": 998,
+      "failed": 0
+    },
+    {
+      "command": "npm run build",
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "command": "npm run test:browser:fixture",
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/browser-fixture.log",
+      "sha256": "5e7d2f8875e729a35eabc8cfc4e508db6e5b68919162610850fc5291a933aafe",
+      "total": 131,
+      "passed": 131,
+      "failed": 0
+    }
+  ],
+  "calibration": {
+    "matched": 22,
+    "total": 22,
+    "mode": "REUSED_UNCHANGED_EVALUATOR_AND_FROZEN_INPUTS",
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/calibration/comparison.json",
+    "sha256": "e8c069cc3531245e73151bed5f9ca6ceb0bc5d2b8ac035b819cbda9e9d5d7233",
+    "evaluatorFilesVerified": 120,
+    "calibrationInputsVerified": 483
+  },
+  "display": {
+    "mode": "REUSED_UNCHANGED_DISPLAY_CODE",
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/display-gate.json",
+    "tempura": 4,
+    "utou": 3,
+    "unsupported": 0,
+    "missed": 0,
+    "externalSupport": 2
+  },
+  "modelTimeouts": {
+    "agentDecisionMs": 30000,
+    "browserDecisionMs": 30000
+  },
+  "modelMessagesSchemasAndPromptsUnchanged": true,
+  "newModels": 0,
+  "newWebsites": 0
+}
