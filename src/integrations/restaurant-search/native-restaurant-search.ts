@@ -1112,7 +1112,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const paused = previous?.deferredSources ?? [];
     const resumed = paused.find(item => item.progress.sourceId === entry.sourceId);
     const deferredSources = paused.filter(item => item.progress.sourceId !== entry.sourceId);
-    if (previous?.sourceProgress && previous.sourceProgress.sourceId !== entry.sourceId && discoveryPlan.entries.slice(discoveryPlan.cursor).some(e => e.sourceId === previous.sourceProgress!.sourceId)) {
+    if (previous?.sourceProgress && previous.sourceProgress.sourceId !== entry.sourceId) {
       deferredSources.push({progress: previous.sourceProgress, usedPageTokens: previous.usedPageTokens, pagesRead: previous.pagesRead,
         ...(previous.nextPageToken ? {nextPageToken: previous.nextPageToken} : {}),
         ...(previous.sourceRequestContext ? {sourceRequestContext: previous.sourceRequestContext} : {})});

@@ -362,7 +362,7 @@ export interface RestaurantSearchContinuation {
     sourceId: string;
     candidateIds: string[];
   };
-  /** Suspended source chunks. Each source occurs here OR in sourceProgress, never both. */
+  /** Retained source checkpoints, including capped sources. Only plan entries allow resumption; a source is stored here OR in sourceProgress, never both. */
   deferredSources?: Array<{
     progress: NonNullable<RestaurantSearchContinuation["sourceProgress"]>;
     nextPageToken?: string;

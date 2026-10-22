@@ -610,6 +610,7 @@ test("native discovery retains category pagination including links revealed by a
   const reads = result.trajectories.filter((step) => step.executionMetadata?.provider === "TABELOG" && step.agentAction?.type === "SEARCH_RESTAURANTS");
   assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [5, 1, 1]);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
+  assert.ok(result.state.searchContinuation?.deferredSources?.some(item => item.progress.sourceId === "tablecheck" && item.progress.pagesRead > 0), "a finished source checkpoint is retained across handoff too; spent budgets and unread entrances are not discarded");
 });
 
 test("H001's named Shibuya entry avoids an unrelated root-list candidate before investigation", async () => {

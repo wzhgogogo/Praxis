@@ -115,7 +115,7 @@ export class AvailabilitySourceResolver {
             attempts.push({
               candidateId,
               provider: provider.provider,
-              outcome: check?.status === "SOURCE_UNSUPPORTED" ? "SOURCE_UNSUPPORTED" : check?.reasonCode === "PARTY_SIZE_NOT_SELECTABLE" ? "UNKNOWN" : "PROVIDER_FAILURE",
+              outcome: check?.status === "SOURCE_UNSUPPORTED" ? "SOURCE_UNSUPPORTED" : (check?.reasonCode === "PARTY_SIZE_NOT_SELECTABLE" || check?.reasonCode === "SELECTED_MEALTIME_EMPTY") ? "UNKNOWN" : "PROVIDER_FAILURE",
               failureCode: restaurantFailureCode(check?.reasonCode ?? read.metadata.failureCode, "PROVIDER_OBSERVATION_MISSING"),
             });
             if (check?.reasonCode === "PARTY_SIZE_NOT_SELECTABLE") break;

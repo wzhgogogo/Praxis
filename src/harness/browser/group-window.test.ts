@@ -1,3 +1,6 @@
+import {createLiveReadAssembly} from "../../integrations/restaurant-search/live-read-assembly.js";
+import {LIVE_READ_DEBUG_INVESTIGATION_BUDGET} from "../../application/live-read-investigation-budget.js";
+import {GooglePlacesClient} from "../../integrations/google/google-places-client.js";
 import assert from "node:assert/strict";
 import {test} from "node:test";
 import {mkdtemp,writeFile,rm} from "node:fs/promises";
@@ -35,9 +38,13 @@ function widget(mode:"available"|"all-empty"|"wrong-party"){
 }
 for(const mode of ["available","all-empty","wrong-party"] as const)test(`group-window Chromium: ${mode} keeps exact request and explicit coverage`,async()=>{
  const f=await fixture(widget(mode));
- const executor=new BrowserTaskExecutor(f.runtime,{maxAutomaticElapsedMs:60000,maxModelCallsPerCandidate:6,maxModelCallsTotal:6,maxOperationsPerCandidate:160});
+ let modelTransportCalls=0,googleCalls=0;
+ const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxGoogleRequests:40},{browser:f.runtime,clock:{now:()=>new Date("2026-10-22T00:00:00Z")},
+  model:{async complete(){modelTransportCalls++;return{invocationId:"group-window-scripted",provider:"FIXTURE",model:"scripted",outputText:JSON.stringify({action:"REQUEST_HUMAN_HELP",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"A different party is selected; no current request result"}),finishReason:"TOOL_CALLS" as const,latencyMs:0};}},
+  google:new GooglePlacesClient({apiKey:"fixture-only",fetchImplementation:async()=>{googleCalls++;throw Error("Native outlet must not issue a Google request");}})});
  try{
- const result=await new TableCheckBrowserAvailability(executor,()=>"2026-10-22T00:00:00Z",{networkPolicy:tableCheckPublicReadNetworkPolicy}).check(request,new AbortController().signal);
+ const result=await assembly.availability.check(request,new AbortController().signal);
+ assert.equal(modelTransportCalls,mode === "wrong-party" ? 1 : 0);assert.equal(googleCalls,0);assert.equal(assembly.browserBudget.totalModelCalls,modelTransportCalls);
  const check=result.availabilityChecks[candidate.restaurant.id]!;
  assert.equal(check.status,mode==='available'?"AVAILABLE":"UNKNOWN",JSON.stringify(result));
  assert.equal(f.navigations.some(url=>url.includes('/reserve')),false);
@@ -45,9 +52,9 @@ for(const mode of ["available","all-empty","wrong-party"] as const)test(`group-w
  assert.equal(coverage.covered[0]!.earliest,"18:00");assert.ok(coverage.uncovered.length);
  assert.equal(coverage.covered.some(p=>p.earliest==='18:17'||p.earliest==='20:05'),false,"disabled/outside-window time cannot be queried");
  if(mode==='available'){assert.equal(result.offers[0]!.dateTime,"2026-11-06T18:43:00+09:00");assert.equal(coverage.stopReason,"RESULT_FOUND");}
- if(mode==='all-empty'){assert.equal(coverage.covered.length,4);assert.equal(coverage.stopReason,"TIME_QUERY_LIMIT");assert.equal(check.reasonCode,"SELECTED_MEALTIME_EMPTY");assert.equal(result.offers.length,0);}
+ if(mode==='all-empty'){assert.equal(result.metadata.failureCode,undefined,"a completed partial source observation is not a provider failure");assert.equal(coverage.covered.length,4);assert.equal(coverage.stopReason,"TIME_QUERY_LIMIT");assert.equal(check.reasonCode,"SELECTED_MEALTIME_EMPTY");assert.equal(result.offers.length,0);}
  if(mode==='wrong-party'){assert.equal(coverage.covered.length,1,"wrong-party new result is never added to covered scope");assert.equal(result.offers.length,0);}
- }finally{await executor.close();await f.close();}
+ }finally{await f.close();}
 });
 
 test("group-window Chromium: forbidden entry is not attempted by availability or repeated FACTS",async()=>{
