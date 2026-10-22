@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.223
-- Last updated: 2026-10-21
+- Document revision: 4.224
+- Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-22-CHECKPOINT-C-C18-CORRESPONDENCE
+
+C18离线重评准备：按独立复核5b470eaa登记9份原始SHA/12个条件配对，原13条登记不变，独立字面审计与加载器控制通过，H002交叉配对0。原18个result及旧评价保留；当前仍为Evaluator31，后续合入32并冻结本次见证/保存HTML输入。0新增模型、网站、Google、Live或环境重跑，累计账本2827模型/31正式Live/0正式环境重跑不变。draft / not integrated，非Clean Baseline。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
 
 ## DEV-2026-10-22-CHECKPOINT-C-CONTINUATION-RESULTS
 
