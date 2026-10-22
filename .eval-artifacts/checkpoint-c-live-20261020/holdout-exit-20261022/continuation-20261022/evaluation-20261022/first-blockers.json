@@ -1,0 +1,104 @@
+{
+  "rows": [
+    {
+      "runId": "h-03",
+      "caseId": "p2-holdout-03",
+      "sourceArtifactSha256": "9eb22391bf9b41600ee676ddf55a0995a47b7b83711be873f3dc36bd5fac4cb3",
+      "firstBlocker": "DISCOVERY",
+      "owner": "P2_1",
+      "certainty": "OBSERVED_MISSING_WITNESSES_CAUSAL_MECHANISM_HYPOTHESIS",
+      "reason": "Known-feasible same-request witnesses never enter the accepted candidate set. The recorded lists lead to ten TableCheck checks; exact search/category failure is not causally proven by the funnel.",
+      "refs": [
+        "trajectories",
+        "witnessFunnel",
+        "post-run/manifest.json"
+      ]
+    },
+    {
+      "runId": "h-04",
+      "caseId": "p2-holdout-04",
+      "sourceArtifactSha256": "cdf819738946725534180c6ede36b1b6b492919280f1cfaa70b0d115c39b486f",
+      "firstBlocker": "LOCATION_RESOLUTION",
+      "owner": "OUTSIDE_PHASE2_LOCATION_SCOPE",
+      "certainty": "CONFIRMED_FIRST_FAILED_STAGE_NOT_ROOT_CAUSE",
+      "reason": "First search fails GOOGLE_LOCATION_UNRESOLVED before any candidate list or browser session. Location/distance is explicitly deferred by Playbook §4.",
+      "refs": [
+        "trajectories[0].executionMetadata.failureCode",
+        "trajectories[0].observation",
+        "finalSnapshot.domainState.searchContinuation"
+      ]
+    },
+    {
+      "runId": "h-07",
+      "caseId": "p2-holdout-01",
+      "sourceArtifactSha256": "0130e2cf761782e2144481d56fa1bab1be6624ee177ce82d1434243cc6dce27f",
+      "firstBlocker": "DISCOVERY_WITH_LATER_SELECTION_AND_DEADLINE_LOSS",
+      "owner": "P2_1_P2_2_CANDIDATE_NOT_CONFIRMED_OUTSIDE_PHASE2",
+      "certainty": "HYPOTHESIS",
+      "reason": "Two early discovery failures precede recovery; six of twelve selections require name resolution. The run reaches the 500-second boundary with no delivery. A model timeout and later source failures do not independently prove the first cause.",
+      "refs": [
+        "trajectories[0..2]",
+        "modelInvocations",
+        "resourceUsage",
+        "witnessFunnel"
+      ]
+    },
+    {
+      "runId": "h-09",
+      "caseId": "p2-holdout-03",
+      "sourceArtifactSha256": "ceca2aefa9c0a60479f66076d84ee11c5ba0abcb5355d76b63c959f3075ca116",
+      "firstBlocker": "DISCOVERY",
+      "owner": "P2_1",
+      "certainty": "OBSERVED_MISSING_WITNESSES_CAUSAL_MECHANISM_HYPOTHESIS",
+      "reason": "Known-feasible same-request witnesses never enter the accepted candidate set. The recorded lists lead to ten TableCheck checks; exact search/category failure is not causally proven by the funnel.",
+      "refs": [
+        "trajectories",
+        "witnessFunnel",
+        "post-run/manifest.json"
+      ]
+    },
+    {
+      "runId": "h-10",
+      "caseId": "p2-holdout-04",
+      "sourceArtifactSha256": "a3afcbd6e7b4b7d52718d710d388e0d2672e6a29829cc3d64ca78c6f6e608b12",
+      "firstBlocker": "LOCATION_RESOLUTION",
+      "owner": "OUTSIDE_PHASE2_LOCATION_SCOPE",
+      "certainty": "CONFIRMED_FIRST_FAILED_STAGE_NOT_ROOT_CAUSE",
+      "reason": "First search fails GOOGLE_LOCATION_UNRESOLVED before any candidate list or browser session. Location/distance is explicitly deferred by Playbook §4.",
+      "refs": [
+        "trajectories[0].executionMetadata.failureCode",
+        "trajectories[0].observation",
+        "finalSnapshot.domainState.searchContinuation"
+      ]
+    },
+    {
+      "runId": "h-15",
+      "caseId": "p2-holdout-03",
+      "sourceArtifactSha256": "26e57e70b57a0b6e43e014dc8368aaf634f96e7b95aaa92325ce154b8615dc60",
+      "firstBlocker": "DISCOVERY",
+      "owner": "P2_1",
+      "certainty": "OBSERVED_MISSING_WITNESSES_CAUSAL_MECHANISM_HYPOTHESIS",
+      "reason": "Known-feasible same-request witnesses never enter the accepted candidate set. The recorded lists lead to ten TableCheck checks; exact search/category failure is not causally proven by the funnel.",
+      "refs": [
+        "trajectories",
+        "witnessFunnel",
+        "post-run/manifest.json"
+      ]
+    },
+    {
+      "runId": "h-16",
+      "caseId": "p2-holdout-04",
+      "sourceArtifactSha256": "4a532f4e5b160f8c5447bdbbced4c624b1f81557a938a9c3d85493fe16ab67ef",
+      "firstBlocker": "LOCATION_RESOLUTION",
+      "owner": "OUTSIDE_PHASE2_LOCATION_SCOPE",
+      "certainty": "CONFIRMED_FIRST_FAILED_STAGE_NOT_ROOT_CAUSE",
+      "reason": "First search fails GOOGLE_LOCATION_UNRESOLVED before any candidate list or browser session. Location/distance is explicitly deferred by Playbook §4.",
+      "refs": [
+        "trajectories[0].executionMetadata.failureCode",
+        "trajectories[0].observation",
+        "finalSnapshot.domainState.searchContinuation"
+      ]
+    }
+  ],
+  "scope": "First observed deviation versus certified witnesses; cause is only as certain as the recorded stage/explicit code, never inferred from terminal labels alone."
+}

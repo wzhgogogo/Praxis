@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.254
+- Document revision: 4.255
 - Last updated: 2026-10-22
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-EVALUATION-COMPLETE
+
+已按dfdb175b完成18份保存产物的Evaluator33/rubric29离线评价；原始对应后5QD/3未合格/7MISS/3未评，结构预算对应的3份表示视图后为8QD/7MISS/3未评，原始和派生SHA并列。例02预算8000JPY保留，5条预算展示缺失；h-11 SOFT不等价未登记，另3条无等价展示。仅3/6例达2/3，退出2/4/6不满足、3未完整评价；52条件44一致、8未对应，0unsupported/missed。例05三份冻结required_claims字段object导致未评，未改Gold或排除本例。站点目录3591→3809行（+218），含混合文件5638→6279（+641）；共享层新增站点等常量候选0。有展示11次中位193.250秒/最大286.209秒仅指标；历史H005两口径和H003 S0保留。779 Live/2891评价冻结项、18原始SHA、326生产/评测文件及483校准输入均核对，复用五门禁998/131和22/22。新增模型/网站/Live0，累计3280/51/3不变；推送报告后停下等签收，不报告阶段通过。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/four-layer-report.md).
 
 ## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-EVALUATION-INPUTS
 
