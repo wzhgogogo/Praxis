@@ -1,0 +1,119 @@
+{
+  "id": "moheji-hanare-no-hanare",
+  "caseId": "p2b-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1313/A131302/13224664/",
+  "observedAt": "2026-10-22T17:12:58.424Z",
+  "responseSha256": "844a65f04b3fce4247c11894104297595bc0a9c4c44997f53237097ab388b921",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/moheji-hanare-no-hanare.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Tsukishima Monja Moheji Hanare no Hanare",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Tsukishima Chuo Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1040052",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.66305975873217,
+          "longitude": 139.78090711419074
+        },
+        "servesCuisine": "Monjyayaki,Okonomiyaki (Japanese savory pancake),Izakaya (Japanese style tavern)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1313/A131302/13224664/\",\"name\":\"Tsukishima Monja Moheji Hanare no Hanare\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/178217/640x640_rect_68dc3b71301105bc47e1aac8e61fa3c6.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Tsukishima Chuo Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1040052\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.66305975873217,\"longitude\":139.78090711419074},\"priceRange\":\"JPY 2,000～JPY 2,999\",\"servesCuisine\":\"Monjyayaki,Okonomiyaki (Japanese savory pancake),Izakaya (Japanese style tavern)\",\"telephone\":\"+81-3-3520-8909\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"312\",\"ratingValue\":\"3.36\"}}\n    ",
+        "sha256": "65d31af9c89273edfb35ff21babbeba449768c9fbf4b32e16cb4f6e1632bd4d2",
+        "htmlCharacterOffset": 6190
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 67253,
+        "raw": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "CATEGORY",
+      "text": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "640577269514633641fd1784baf8cb2f2fa3f40597ebd8232b43330fc22db879",
+      "htmlCharacterOffset": 67133
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 2,000 - JPY 2,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 2,000 - JPY 2,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "4272c9088a5928e2661893f7fc445818868ee461a17c23dbb7ca23c932819b0e",
+      "htmlCharacterOffset": 72281
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 52 seats",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      52 seats\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "c52e8e6c6b2eabf3f510f6cda61b46d628a336d8e89187423548bde808d3fada",
+      "htmlCharacterOffset": 75254
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 75507
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome Very welcome",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome\n                  </p>\n                  <p class=\"rstinfo-table__each-info\">\n                    Very welcome<br />\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "5835bec5e3930fdd3627a6b977df5c72c93eec1f2449cdd6050fb3d765f2893f",
+      "htmlCharacterOffset": 78234
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "640577269514633641fd1784baf8cb2f2fa3f40597ebd8232b43330fc22db879",
+      "text": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "htmlCharacterOffset": 67133
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1313/A131302/13224664/dtlratings/#price-range\">JPY 2,000 - JPY 2,999</a></span>\n                            </p>",
+      "sha256": "651d792b7b49b0c44e0d44bb890ebc9eba0ea23fcb1adafd586e7bfe7c0d609c",
+      "text": "JPY 2,000 - JPY 2,999",
+      "htmlCharacterOffset": 26240
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1313/A131302/13224664/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "49f068223adf98dc0dc53cdfb7c679b299e9556f08ef4688b3383a761c9f85fc",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26670
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1313/A131302/13224664/"
+}

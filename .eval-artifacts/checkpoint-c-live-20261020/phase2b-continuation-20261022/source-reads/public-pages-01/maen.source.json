@@ -1,0 +1,191 @@
+{
+  "id": "maen",
+  "caseId": "p2b-holdout-03",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1303/A130302/13256140/",
+  "observedAt": "2026-10-22T17:13:30.084Z",
+  "responseSha256": "53350a55192190df37e385b351be30214421c400a0637e195a5d2fd98d29912b",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/maen.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "MAEN Sake pairing restaurant",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Hiroo Shibuya Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1500012",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.648645145782055,
+          "longitude": 139.71107274895448
+        },
+        "servesCuisine": "French,Italian,Japanese sake bar"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1303/A130302/13256140/\",\"name\":\"MAEN Sake pairing restaurant\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/173923/640x640_rect_e19e9fa2c05761d700926840674ed624.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Hiroo Shibuya Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1500012\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.648645145782055,\"longitude\":139.71107274895448},\"priceRange\":\"JPY 10,000～JPY 14,999\",\"servesCuisine\":\"French,Italian,Japanese sake bar\",\"telephone\":\"+81-70-8547-7054\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"103\",\"ratingValue\":\"3.60\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1303/A130302/13256140/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "8c5bf5cf95f8a770f2ec21543943d794a743ae37302e4946ed9a60991e67b806",
+        "htmlCharacterOffset": 6320
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 83460,
+        "raw": "French, Italian, Japanese sake bar"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 52027,
+        "raw": "Dinner 8 Dishes 8 Sake Pairing Course"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 54826,
+        "raw": "Dinner 8 Dishes Course (Food Only)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 57642,
+        "raw": "Lunch 8 Dishes 8 Sake Pairing Course"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "French, Italian, Japanese sake bar",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Dinner 8 Dishes 8 Sake Pairing Course",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Dinner 8 Dishes Course (Food Only)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Lunch 8 Dishes 8 Sake Pairing Course",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "French, Italian, Japanese sake bar",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Dinner 8 Dishes 8 Sake Pairing Course",
+      "meals": [
+        "DINNER"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Dinner 8 Dishes Course (Food Only)",
+      "meals": [
+        "DINNER"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Lunch 8 Dishes 8 Sake Pairing Course",
+      "meals": [
+        "LUNCH"
+      ]
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "【Beyond Delicious】Experience a new level of dining with dishes made from carefully selected ingredients from Tokushima and Nagano, paired with premium Japanese sake.",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                【Beyond Delicious】Experience a new level of dining with dishes made from carefully selected ingredients from Tokushima and Nagano, paired with premium Japanese sake.\n              </h3>",
+      "sha256": "6c3ba48a331a0407dde2c347162bd7a624045966d5b1dc2e07cbb6a73fd66383",
+      "htmlCharacterOffset": 45466
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Dinner 8 Dishes 8 Sake Pairing Course",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Dinner 8 Dishes 8 Sake Pairing Course</span>",
+      "sha256": "d11344bfcdc4d161e1b6451b3c96fd376cb2ac1a7a52a1952d1384eb08842911",
+      "htmlCharacterOffset": 51975
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Dinner 8 Dishes Course (Food Only)",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Dinner 8 Dishes Course (Food Only)</span>",
+      "sha256": "78b1d231c99d2460d68571b05aa1ea705e7047bd1db63e6c47b214f1a5767373",
+      "htmlCharacterOffset": 54774
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Lunch 8 Dishes 8 Sake Pairing Course",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Lunch 8 Dishes 8 Sake Pairing Course</span>",
+      "sha256": "7e3c709c807a7175cd2ba85fd63e7078b78834223184772ed69639ab1ff0ca4e",
+      "htmlCharacterOffset": 57590
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories French, Italian, Japanese sake bar",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>French, Italian, Japanese sake bar</span>\n                    </td>\n                  </tr>",
+      "sha256": "89f6530f77cf95f518fe67ff7bf56597ad7da80108c640f7c7b8f6f1fbc2f271",
+      "htmlCharacterOffset": 83340
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 10,000 - JPY 14,999 JPY 10,000 - JPY 14,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 10,000 - JPY 14,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 10,000 - JPY 14,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "24ecd7d73487f38fb850d81b737eaed00b20cd25c38635c2bdc3704d5f271062",
+      "htmlCharacterOffset": 89079
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 11 seats ( 11 counter seats)",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      11 seats\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      ( 11 counter seats)\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "a49220335cb6d13610b887cb0cf00944c827f632bba775383010d91c7ec1a616",
+      "htmlCharacterOffset": 91946
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 92563
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>French, Italian, Japanese sake bar</span>\n                    </td>\n                  </tr>",
+      "sha256": "89f6530f77cf95f518fe67ff7bf56597ad7da80108c640f7c7b8f6f1fbc2f271",
+      "text": "Categories French, Italian, Japanese sake bar",
+      "htmlCharacterOffset": 83340
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1303/A130302/13256140/dtlratings/#price-range\">JPY 10,000 - JPY 14,999</a></span>\n                            </p>",
+      "sha256": "cd63a5599b3f123c99ddfd47473be96a1c0792e6f463baec3b3601fe055590e0",
+      "text": "JPY 10,000 - JPY 14,999",
+      "htmlCharacterOffset": 26716
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1303/A130302/13256140/dtlratings/#price-range\">JPY 10,000 - JPY 14,999</a></span>\n                            </p>",
+      "sha256": "a37e0caee000b79e4b00c1f3717ab711adeb4f6952c243b7a54553ca72e331db",
+      "text": "JPY 10,000 - JPY 14,999",
+      "htmlCharacterOffset": 27148
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1303/A130302/13256140/"
+}
