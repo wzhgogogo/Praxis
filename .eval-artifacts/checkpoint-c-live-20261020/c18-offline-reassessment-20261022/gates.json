@@ -1,0 +1,64 @@
+{
+  "status": "ALL_FIVE_GREEN",
+  "codeCommit": "54b6718eefc27affd6e4d73554925ae1d322b1c6",
+  "gates": [
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/typecheck-final.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/arch-check-final.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/test.log",
+      "sha256": "5cf99a552f46c95becbb5e746bf1d66867d40be8c22e1056ad75e781ee504b95",
+      "passed": 994,
+      "failed": 0
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/build-final.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "command": "npm run test:browser:fixture",
+      "exitCode": 0,
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/browser-fixture.log",
+      "sha256": "bc1a28799942c509b5c54b7789b7fb8ff6720e7998b2b9ad723dc02663c44272",
+      "passed": 131,
+      "failed": 0
+    }
+  ],
+  "calibration": {
+    "status": "PASS",
+    "outcomeMatches": 22,
+    "total": 22,
+    "normalDeclaration": "20/20",
+    "boundary": {
+      "ABSENT": 9,
+      "PRESENT": 0,
+      "NOT_EVALUATED": 13
+    }
+  },
+  "newModels": 0,
+  "newWebsites": 0,
+  "newLiveRuns": 0,
+  "browserScope": "Real local Chromium Fixture and loopback server only; no external website or credential",
+  "initialTestFailure": {
+    "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/test-initial-registry-expectation.log",
+    "reason": "Exact registry expectation predated approved C18 nine-artifact addition. 13/20 -> exact22/32, of which C18 exactly9/12; no semantic threshold relaxed."
+  }
+}

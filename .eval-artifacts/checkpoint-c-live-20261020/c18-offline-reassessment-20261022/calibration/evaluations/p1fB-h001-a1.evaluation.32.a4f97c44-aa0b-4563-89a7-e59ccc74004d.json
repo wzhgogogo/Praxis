@@ -1,0 +1,1026 @@
+{
+  "outcome": {
+    "type": "INTERNAL_FAILURE",
+    "reasons": [
+      "Recorded AGENT_LOOP_REJECTION_LIMIT is corroborated by actual failed/rejected actions, matching terminal trajectory and system event; witness feasibility does not replace the failure cause."
+    ],
+    "evidenceRefs": [
+      "finalSnapshot.domainState.failure",
+      "trajectories",
+      "events.AGENT_LOOP_TERMINATED"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "NO"
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+        "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve: missing original start_date/pax query values"
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories",
+        ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim."
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve: missing original start_date/pax query values"
+      ],
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2026]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/sushi-itsumi-michiyuki/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3325]"
+          ]
+        }
+      ]
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [],
+  "conditionStateComparisons": [],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml",
+    "sha256": "39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce"
+  },
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 2,
+    "maxConsecutiveNoNewObservation": 2,
+    "noNewObservationRuns": [
+      {
+        "key": "8d27ea128000b870",
+        "steps": [
+          12,
+          13
+        ]
+      }
+    ],
+    "sameFailureRuns": [
+      {
+        "key": "8d27ea128000b870:CHECK_AVAILABILITY:UNRECORDED_SOURCE:REJECTED",
+        "steps": [
+          12,
+          13
+        ]
+      }
+    ],
+    "sameTermRuns": [
+      {
+        "key": "8d27ea128000b870:omakase sushi restaurants near shibuya, tokyo",
+        "steps": [
+          4,
+          5,
+          6,
+          7
+        ]
+      }
+    ],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": [
+        {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/washoku/",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "count": 4,
+          "reloads": 3
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shishikura",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushihiro-komaba",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/ebisu-shigeta",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushi-korin",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/ebisu-sushi-kumakura",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushi-ebisu-kourin",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/matsue-ebisu",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushi-kinoshita",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shishie",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushi-itsumi-michiyuki",
+          "count": 4,
+          "reloads": 3
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/sushi-itsumi-michiyuki/reserve",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/tokyo/A1303/A130301/13293469/",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushi-gotoku",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushi-kourin",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushi-aizawa",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushilab-shibuya",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shibuya-sushi-teppen",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushi-soutatsu",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/sushilab-shinjukugyoenmae",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13286592/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13223828/",
+          "count": 1,
+          "reloads": 0
+        }
+      ]
+    },
+    "violations": [],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 0,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@32",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@28",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/calibration-phase1-20261015/inputs/p1fB-h001-a1.result.json.gz",
+    "sha256": "ced9186e2e8714104c02b75ae0275557a727c2315cb648f470efc26fbecceae8",
+    "runId": "2e7d16f6-1c88-438f-ab51-f988c058492c",
+    "caseId": "h001"
+  },
+  "execution": {
+    "status": "FAILED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_SUPPORTED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "INTERNAL_EXECUTION_FAILURE"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+      "outletName": "Sushi Teppen",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "DATE_NOT_SELECTABLE",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "DATE_NOT_SELECTABLE",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:ade73aa573ca074a7996a8d1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:cec106316f6ca1ef2de90dd6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:56ea5b449a8e56b44b8f889b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:66de3327697795ddd1bc27c4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1303/A130301/13308491:document:263e11a2e722e865]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1303/A130301/13308491:2026-10-11T20:52:33.822Z:tabelog:en/tokyo/A1303/A130301/13308491:document:263e11a2e722e865]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:sushi-itsumi-michiyuki",
+      "outletName": "Omotesando Sushi Itsumi Michiyuki",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:11f3f6e903404aa8eb79c1e9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:09dfc2d70473c0d9d3451dc0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:9eefc8a4ee0eec00d13e0f72]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:sushi-itsumi-michiyuki:document:671789297a212190]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:sushi-itsumi-michiyuki:2026-10-11T20:55:08.205Z:tablecheck:sushi-itsumi-michiyuki:document:671789297a212190]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:cda3d78c48f1e2d955db6a0e",
+      "outletName": "Sushi Teppen(Shibuya)",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:2eee453d05fde267b03323cb]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:2eee453d05fde267b03323cb]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:65c2a3ba060074e31da92537]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:8451b9ac593d99691cc63be0",
+      "outletName": "鮨とみなか Sushi Tominaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:ad7e9c71c23fdc2d48399868]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:ad7e9c71c23fdc2d48399868]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:55c6310893bd4e735f7f0994]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:0a3b046584d9cc39994a2f3e",
+      "outletName": "Sushi Hanaoka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:77e7587b51e0c68f1036382f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:77e7587b51e0c68f1036382f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:f847f801d01bbee92c7a3145]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:1befeda24b5f5201e53c9af3",
+      "outletName": "Sushi Suga",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:a460263c2448c11a00b52fea]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:a460263c2448c11a00b52fea]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:10ba99a80a93eb5d4ef5f4dd]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:24adb19f5c7c523a54351787",
+      "outletName": "Sushi Gotoku",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:6f05d84c0b9fec57d0c03bf3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:6f05d84c0b9fec57d0c03bf3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:ffcd7ec7ce3a933ec3222706]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:927ae206af72485bfc7b5e2a",
+      "outletName": "Sushi Yajima",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:087a0fc92f4c69e877fd19a3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:087a0fc92f4c69e877fd19a3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:80c74c84acfbad4b7bb08c8d]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:7077156cb85a5335f73cc50d",
+      "outletName": "SHIZEN",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b805bc2afc2195dc2abb29b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b805bc2afc2195dc2abb29b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2045cf69116e247a804f9dc9]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:6343d9d19c9b69881948e082",
+      "outletName": "Sumi Sushi Shibuya",
+      "providers": [
+        "TABELOG",
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceRef": "trajectories[10].executionMetadata.providerAttempts[0]"
+        },
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT",
+          "evidenceRef": "trajectories[10].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "BUDGET_OR_TIMEOUT",
+      "reasonCode": "BROWSER_TIMEOUT",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:bbbd6f237e083b0735134f58]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:bbbd6f237e083b0735134f58]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e1bf321676dd8fa7ef15f17b]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:553876f58ad15b3904b229a7",
+      "outletName": "かみや",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:517d3babb0187365e4b4abe0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:517d3babb0187365e4b4abe0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:4e8795cc3875d01d98749ce2]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:0620f09395d30e156b85184c",
+      "outletName": "Yamashita",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:9bc6db7f204c51518a3b9736]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:9bc6db7f204c51518a3b9736]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:404f4f3903f261862fdb9305]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:690eacddc99105af5a3a0f53",
+      "outletName": "Shibuya Sushi Labo",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "UNAVAILABLE",
+          "evidenceRef": "trajectories[10].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "UNAVAILABLE",
+      "reasonCode": "NO_MATCHING_SLOT",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:52567d98a23530d0d8e99c3d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:52567d98a23530d0d8e99c3d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:66976617152e8c42939f52dd]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:b35b1c94eeaba2567035a257]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:1533337fd2fdd89daeb6f8a2]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:975873ad166cad31a4c40857",
+      "outletName": "Shibuya Sushiki",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:417126d72e81c1596463dce7]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:417126d72e81c1596463dce7]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2c60246fb284c659e6e3cf8d]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:d80844b604e7b09e9cfad1a9",
+      "outletName": "Shibuya Namikibashi Sushi Hajime",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:f41454c9de4c2c3b054e1a83]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:f41454c9de4c2c3b054e1a83]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:5809f6fc551ec1e5af620ac1]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:3c2b9cc8ef4fa8f7cfaa22d3",
+      "outletName": "OKANOUE",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:21c601a838fc4c30a50a84e4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:21c601a838fc4c30a50a84e4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:05f6edb304958199d9328624]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:5f4fbd6b462f17e62da5bb43",
+      "outletName": "Sushi kazumasa",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b6a8781e2668e6431bb1ed23]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b6a8781e2668e6431bb1ed23]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:f80cce8f88932a35aa4aa317]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:c510b28f298c4785d5fff548",
+      "outletName": "Shibuya Sushi Jinnan",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:5a39e05f0fffd77a8806d456]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:5a39e05f0fffd77a8806d456]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:ba2b25169a7ee0b9c97a63dc]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:5ed3f94e0c6967e9e6c23333",
+      "outletName": "Shibuya Sushi Ajuuta",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:ac20875add40576e5ea2e473]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:ac20875add40576e5ea2e473]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:28e500771f71c5cb85eda14a]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:fb1954c58d61175636105f4e",
+      "outletName": "Sushi Hichou",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:15f94d2bb1399d271124f060]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:15f94d2bb1399d271124f060]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:b00cfb5b8ce5aeb65eff141a]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:e6b248849b549716debbcb5d",
+      "outletName": "Organic Sushi Ouchi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:c1494d0711f2fdc150b6b5ec]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:c1494d0711f2fdc150b6b5ec]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:cbf08d5eba741632e8914e75]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ce01e28b2cd53c2395c62f65",
+      "outletName": "和泉鮨南口店",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:29f30727eb26a1cec3db0bb9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:29f30727eb26a1cec3db0bb9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:8b54cf39c9fc564cdf883a16]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:89002d56aeddf6ef5ab70cb5",
+      "outletName": "雲",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:f3da67b3d00669b4d7791db2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:f3da67b3d00669b4d7791db2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:4c764af888d0e05baf2084b2]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ca068a9542e0d1002a5693d5",
+      "outletName": "Sushi Matsumoto Shibuya",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:d6532ae9184f536847729e07]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:d6532ae9184f536847729e07]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:df9b7f3f0f6525fe5604974a]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:9bbb7e156e017ebee6590f6c",
+      "outletName": "Sushi Inase",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:e6fb8c1126ee264eea466dd3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:e6fb8c1126ee264eea466dd3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:940a78aa9fdd5614cb0dd3e3]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:d7560a4b60970a42216f0c2a",
+      "outletName": "Sushi-Au",
+      "providers": [
+        "TABLECHECK",
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT",
+          "evidenceRef": "trajectories[10].executionMetadata.providerAttempts[3]"
+        },
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT",
+          "evidenceRef": "trajectories[10].executionMetadata.providerAttempts[4]"
+        }
+      ],
+      "result": "BUDGET_OR_TIMEOUT",
+      "reasonCode": "BROWSER_TIMEOUT",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:e3cf7db4cb7ecedf5e3e86b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:e3cf7db4cb7ecedf5e3e86b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:23e2478afecefb033ef51480]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:b7377c59de82cb279cebc477",
+      "outletName": "Sakura Sushiki",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:24e52173bfe012f05ca8f084]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:24e52173bfe012f05ca8f084]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:89756cd30d53b088c3a2f483]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:31792d72b4fc34b0e9371094",
+      "outletName": "Sushizen",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b89d36f2565b3ca8de89e7e8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b89d36f2565b3ca8de89e7e8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:78734aba5a7fea21ecfdddd1]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:2296a8065cfac42c500f32d3",
+      "outletName": "Sushi Komachi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:169de6b20f6ec4a39c9c88ad]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:169de6b20f6ec4a39c9c88ad]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:686e07e5f33e5e83520a7e3e]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:2d786fff5b677765e778c8a9",
+      "outletName": "Matsue Shibuya Scramble Square Store",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:7052185d1233398bf65b0574]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:7052185d1233398bf65b0574]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:8330ae1941c67048cc271f10]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:15e8120a70ec0ca84448e3f6",
+      "outletName": "Sushi Sublime TOKYO Shibuya",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:2f85d998eeacd1534b8a79a8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:2f85d998eeacd1534b8a79a8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:d8f868dfc6152fa370acb80b]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:3f479102f8cb091e55b22704",
+      "outletName": "Sushi Rizaki",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:8fa859c0db9a621768371353]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:8fa859c0db9a621768371353]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:16229030ef0070772620c5b2]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:9096c8e1b60230954c0f6f55",
+      "outletName": "Sushi Nasu",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b9f432b8035537c5b0e48ef8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b9f432b8035537c5b0e48ef8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e4af7553f4bf405592c7bbe9]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ef3480030ea7789b0741709c",
+      "outletName": "Naminoue shibuya",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:c82f28569fe36e8f1171027b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:c82f28569fe36e8f1171027b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:0e58383ddc9ad1c06cd4fd84]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:988ac6a971353784bfee52b6",
+      "outletName": "三宿の寿司 えん はなれ",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:962d29672cb0f9cc5510012c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:962d29672cb0f9cc5510012c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:4e26a1a5cfea4e2dd7f0df4a]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:0fc2dc62fc203dface340281",
+      "outletName": "Shokkan",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:8c54b5e6ca5982aa20a74086]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:8c54b5e6ca5982aa20a74086]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:45da2da9c156df3602e89d84]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:b6f2c34b3ca0b90c65c858d8",
+      "outletName": "Shibuya Kappo Sancho",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:1a4c3c6b0a377ed915e8bb5c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:1a4c3c6b0a377ed915e8bb5c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2c3959a3d2aa94f56fcc2281]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:d5fb8acdee1996273e257431",
+      "outletName": "Sushimanshi Buyase Ibuten",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:ba0553840fecffd47f95d1a8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:ba0553840fecffd47f95d1a8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:98b381a63898ca31ced3afa6]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=11",
+        "applicableObservations=11",
+        "executedInvestigationVisits=7",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=2",
+        "maxConsecutiveNoNewObservation=2",
+        "sameTermSteps=4,5,6,7; 8d27ea128000b870:omakase sushi restaurants near shibuya, tokyo"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation",
+        "trajectories[6].observation",
+        "trajectories[7].observation",
+        "trajectories[8].observation",
+        "trajectories[9].observation",
+        "trajectories[10].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=FAILED",
+        "loop=REJECTION_LIMIT",
+        "presentedCandidates=0"
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NOT_EVALUATED",
+        "phase=FAILED",
+        "loop=REJECTION_LIMIT",
+        "noVerifiedResult=missing",
+        "failureCode=LIVE_CASE_NOT_COMPLETED",
+        "Recorded AGENT_LOOP_REJECTION_LIMIT is corroborated by actual failed/rejected actions, matching terminal trajectory and system event; witness feasibility does not replace the failure cause."
+      ],
+      "directCause": "Independent terminal/source/action records corroborate an internal failure; it is not an ordinary no-result.",
+      "rootCauseHypothesis": "Historical artifact or terminal serialization requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "finalSnapshot.domainState.failure",
+        "trajectories",
+        "events.AGENT_LOOP_TERMINATED"
+      ],
+      "downstreamImpact": "No reliable outcome classification can be claimed."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ],
+  "frozenInput": {
+    "manifestSha256": "68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2",
+    "fileRefs": [
+      "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/calibration-phase1-20261015/inputs/p1fB-h001-a1.result.json.gz#sha256=ced9186e2e8714104c02b75ae0275557a727c2315cb648f470efc26fbecceae8"
+    ],
+    "observationContextSha256": "7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+    "observationRefs": [
+      "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/e1-evaluator-20261016/calibration-observations.rev2.json#sha256=7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+      "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae"
+    ]
+  }
+}

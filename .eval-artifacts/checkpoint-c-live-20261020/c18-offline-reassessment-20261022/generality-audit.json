@@ -1,0 +1,31 @@
+{
+  "status": "MEASURED_RELATIVE_TO_FROZEN_C18_NOT_FULL_PHASE2_EXIT",
+  "baselineCommit": "951994b04a577a50a59c0df8c42cc5833114437c",
+  "currentCodeCommit": "54b6718eefc27affd6e4d73554925ae1d322b1c6",
+  "scope": "Tabelog/TableCheck integration production TypeScript lines; tests excluded; physical line count, not complexity",
+  "baselineLines": 3774,
+  "currentLines": 3809,
+  "delta": 35,
+  "changed": [
+    {
+      "path": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "before": 702,
+      "after": 704,
+      "delta": 2
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-contracts.ts",
+      "before": 154,
+      "after": 155,
+      "delta": 1
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "before": 287,
+      "after": 319,
+      "delta": 32
+    }
+  ],
+  "sharedSiteConstants": "No new source/cuisine/place/eval-coordinate constants added to shared runtime; new behavior stays in existing restaurant-specific source evidence path.",
+  "limitation": "This diff does not establish net site-specific lines for the entire Phase2; do not declare exit6 satisfied."
+}
