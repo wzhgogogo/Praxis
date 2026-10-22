@@ -1,0 +1,1140 @@
+{
+  "outcome": {
+    "type": "DELIVERED_UNQUALIFIED",
+    "reasons": [
+      "At least one displayed outlet independently fails an expressed user condition (R2); NOT_CHECKED alone is not a conflict."
+    ],
+    "evidenceRefs": [
+      "materializedCase.semantic.criteria[1]",
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[2]",
+      "materializedCase.semantic.criteria[1]",
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[1]",
+      "materializedCase.semantic.criteria[1]",
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[2]"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "NO"
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+        "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ageru-karin/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve: missing original start_date/pax query values"
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence",
+        ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "PRESENT",
+      "reasons": [
+        "tablecheck:alaska-asahi: around 3,000 yen per person is independently NOT_MET (SOFT).",
+        "tablecheck:aloft-tokyo-ginza: around 3,000 yen per person is independently NOT_MET (SOFT).",
+        "tablecheck:amajoh: around 3,000 yen per person is independently NOT_MET (SOFT)."
+      ],
+      "evidenceRefs": [
+        "materializedCase.semantic.criteria[1]",
+        "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[2]",
+        "materializedCase.semantic.criteria[1]",
+        "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[1]",
+        "materializedCase.semantic.criteria[1]",
+        "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[2]"
+      ]
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ageru-karin/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve: missing original start_date/pax query values"
+      ],
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[164]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/168tenshin-ginzainz/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1882]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ageru-karin/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2365]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ain-soph-ginza/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3526]"
+          ]
+        }
+      ]
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [
+    {
+      "candidateId": "tablecheck:alaska-asahi",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "team dinner",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[0]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        },
+        {
+          "goldIndex": 1,
+          "text": "around 3,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "EXTERNAL_ONLY",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[1]",
+            "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[2]"
+          ],
+          "status": "NOT_MET",
+          "basis": [
+            "External observation by user (project owner), on the restaurants' own booking pages on 2026-10-16: User's run note states no delivered place had a dinner course around 3,000 yen."
+          ]
+        },
+        {
+          "goldIndex": 2,
+          "text": "good for drinks",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[2]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        },
+        {
+          "goldIndex": 3,
+          "text": "private room",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[3]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        }
+      ]
+    },
+    {
+      "candidateId": "tablecheck:aloft-tokyo-ginza",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "team dinner",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[0]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        },
+        {
+          "goldIndex": 1,
+          "text": "around 3,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "EXTERNAL_ONLY",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[1]",
+            "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[1]"
+          ],
+          "status": "NOT_MET",
+          "basis": [
+            "External observation by user (project owner), on the restaurants' own booking pages on 2026-10-16: The 3,300 yen BBQ Free Flow is an add-on that requires a BBQ course (\"Reservations consisting solely of the optional menu cannot be accepted\"). No dinner course near 3,000 yen; courses are typically 4,000 yen or more. Lunch menus are cheaper but do not apply to an after-work dinner.\n"
+          ]
+        },
+        {
+          "goldIndex": 2,
+          "text": "good for drinks",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[2]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        },
+        {
+          "goldIndex": 3,
+          "text": "private room",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[3]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        }
+      ]
+    },
+    {
+      "candidateId": "tablecheck:amajoh",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "team dinner",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[0]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        },
+        {
+          "goldIndex": 1,
+          "text": "around 3,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "EXTERNAL_ONLY",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[1]",
+            "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml#sha256=39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce:observations[2]"
+          ],
+          "status": "NOT_MET",
+          "basis": [
+            "External observation by user (project owner), on the restaurants' own booking pages on 2026-10-16: User's run note states no delivered place had a dinner course around 3,000 yen."
+          ]
+        },
+        {
+          "goldIndex": 2,
+          "text": "good for drinks",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[2]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        },
+        {
+          "goldIndex": 3,
+          "text": "private room",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[3]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        }
+      ]
+    }
+  ],
+  "conditionStateComparisons": [
+    {
+      "candidateId": "tablecheck:alaska-asahi",
+      "text": "team dinner",
+      "criterionRef": "criterion:3",
+      "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:alaska-asahi",
+      "text": "around 3,000 yen per person",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_MET",
+      "supportObservation": "EXTERNAL_ONLY",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:alaska-asahi",
+      "text": "good for drinks",
+      "criterionRef": "criterion:1",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:alaska-asahi",
+      "text": "private room",
+      "criterionRef": "criterion:2",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:aloft-tokyo-ginza",
+      "text": "team dinner",
+      "criterionRef": "criterion:3",
+      "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:aloft-tokyo-ginza",
+      "text": "around 3,000 yen per person",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_MET",
+      "supportObservation": "EXTERNAL_ONLY",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:aloft-tokyo-ginza",
+      "text": "good for drinks",
+      "criterionRef": "criterion:1",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:aloft-tokyo-ginza",
+      "text": "private room",
+      "criterionRef": "criterion:2",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:amajoh",
+      "text": "team dinner",
+      "criterionRef": "criterion:3",
+      "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:amajoh",
+      "text": "around 3,000 yen per person",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_MET",
+      "supportObservation": "EXTERNAL_ONLY",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:amajoh",
+      "text": "good for drinks",
+      "criterionRef": "criterion:1",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tablecheck:amajoh",
+      "text": "private room",
+      "criterionRef": "criterion:2",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    }
+  ],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": {
+    "path": "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml",
+    "sha256": "39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce"
+  },
+  "witnessFunnel": [
+    {
+      "outletName": "Private rooms Izakaya Ginraku Yurakucho",
+      "sourceId": "13266155",
+      "discovery": {
+        "status": "NOT_FOUND",
+        "candidateIds": [],
+        "possibleCandidateIds": [],
+        "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+      },
+      "identity": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "facts": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [],
+        "witness": "NOT_EVALUATED",
+        "observedAt": null,
+        "reason": "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
+      },
+      "presented": "NO",
+      "feasible": "NOT_EVALUATED",
+      "blocker": {
+        "stage": "NOT_EVALUATED",
+        "certainty": "HYPOTHESIS",
+        "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h003-20261023/attempt-2/finish.json#sha256=1f97c3e74f198b0baa2e338bf83ca739ea2b31114c7a4fa497b5a9a81f47f921",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    },
+    {
+      "outletName": "Meibutsuya Yurakucho",
+      "sourceId": "13281962",
+      "discovery": {
+        "status": "NOT_FOUND",
+        "candidateIds": [],
+        "possibleCandidateIds": [],
+        "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+      },
+      "identity": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "facts": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [],
+        "witness": "NOT_EVALUATED",
+        "observedAt": null,
+        "reason": "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
+      },
+      "presented": "NO",
+      "feasible": "NOT_EVALUATED",
+      "blocker": {
+        "stage": "NOT_EVALUATED",
+        "certainty": "HYPOTHESIS",
+        "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h003-20261023/attempt-2/finish.json#sha256=1f97c3e74f198b0baa2e338bf83ca739ea2b31114c7a4fa497b5a9a81f47f921",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    },
+    {
+      "outletName": "Uotami Tsukiji ekimae",
+      "sourceId": "13318227",
+      "discovery": {
+        "status": "NOT_FOUND",
+        "candidateIds": [],
+        "possibleCandidateIds": [],
+        "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+      },
+      "identity": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "facts": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [],
+        "witness": "NOT_EVALUATED",
+        "observedAt": null,
+        "reason": "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
+      },
+      "presented": "NO",
+      "feasible": "NOT_EVALUATED",
+      "blocker": {
+        "stage": "NOT_EVALUATED",
+        "certainty": "HYPOTHESIS",
+        "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/continuation-20261012-part2/p1f-kf-h003-20261023/attempt-2/finish.json#sha256=1f97c3e74f198b0baa2e338bf83ca739ea2b31114c7a4fa497b5a9a81f47f921",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    }
+  ],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 2,
+    "maxConsecutiveNoNewObservation": 2,
+    "noNewObservationRuns": [
+      {
+        "key": "cc265be67c6135c5",
+        "steps": [
+          6,
+          7
+        ]
+      }
+    ],
+    "sameFailureRuns": [
+      {
+        "key": "cc265be67c6135c5:CHECK_AVAILABILITY:TABLECHECK:AVAILABILITY_SOURCES_EXHAUSTED",
+        "steps": [
+          2,
+          3
+        ]
+      }
+    ],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": [
+        {
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/0711-ginzabistro",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/168tenshin-ginzainz",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/1864-ginza",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/ageru-karin",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/ahill-ginza",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/168tenshin-ginzainz/reserve",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/ageru-karin/reserve",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/ain-soph-ginza",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/aloft-tokyo-ginza",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/amajoh",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/amarantos",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/ain-soph-ginza/reserve",
+          "count": 1,
+          "reloads": 0
+        }
+      ]
+    },
+    "violations": [],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 0,
+        "actualIndex": 3,
+        "method": "REVIEWED_SEMANTIC_INDEX",
+        "refs": [
+          "src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml#sha256=9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440:entry=team-dinner",
+          ".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json:run=p1fA-kf-h003-a2"
+        ]
+      },
+      {
+        "goldIndex": 1,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      },
+      {
+        "goldIndex": 2,
+        "actualIndex": 1,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      },
+      {
+        "goldIndex": 3,
+        "actualIndex": 2,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a2.result.json.gz",
+    "sha256": "ba5c5e8385aa6c7c213310cff9528fe667b5cacf1cbe4dfadccaf4e4a9fb8c2b",
+    "runId": "9207fb44-2bc6-4125-88df-1bf1cc3fc0be",
+    "caseId": "p1f-kf-h003-20261023"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tablecheck:0711-ginzabistro",
+      "outletName": "0711 GiNZA BiSTRO",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "SELECTED_MEALTIME_EMPTY",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "SELECTED_MEALTIME_EMPTY",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:f2bee57eb80162789c2adf0c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:22ace6799e4cd3854d0434d8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:6bd3161daafdb17771fab02f]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:168tenshin-ginzainz",
+      "outletName": "168 Tenshinyamucha & Bar Ginza Inz",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:5ebbb1e96622b05da8ff3c83]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:28cd7fa53f83ee9c2cc8cc71]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:bf41e2c1bab62de4c9572bcf]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:1864-ginza",
+      "outletName": "1864.",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "SELECTED_MEALTIME_EMPTY",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "SELECTED_MEALTIME_EMPTY",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:7a8d27f3a6c335208f325d9b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:7af3d43f8464424a1a373caa]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:11a597b0dc231032c061eb51]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:ageru-karin",
+      "outletName": "Ageru Karin",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:bbbc5ffa2819cd3abd278f90]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:21e12ae5fdd20630073e35df]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:3e40c85b807ace5c025f9846]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:ahill-ginza",
+      "outletName": "ahill ginza",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "SELECTED_MEALTIME_EMPTY",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "SELECTED_MEALTIME_EMPTY",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:1b2a0cb9ca1451688816f5d1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:91e2515162fa013a3ba05c14]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:d8781e73e39045801aaedaac]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:ain-soph-ginza",
+      "outletName": "Ain Soph Ginza",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[8].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:5bf468d0518b06f4216a424e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:e05e0294175e2ab2935ffb35]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:alaska-asahi",
+      "outletName": "Restaurant Alaska Tsukijiten",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[8].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:37c4084b9aba2b148ffd6b6f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:a36923dd5043f19d85c82972]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:89248e6c537af0dbf8e63f21]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:aloft-tokyo-ginza",
+      "outletName": "Aloft by Marriott Tokyo Ginza",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[8].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:4de9080d9cbd18807d52851b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:0035d16053e11d7f1f879627]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:668eb5157c0e229a2b9460cb]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:amajoh",
+      "outletName": "Grilling and Hot Pot Festival! Amajoh",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[9].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:dc90aa3ee94616d4d752bd69]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:b6ce7780363e682b6716a505]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:e78a074e70bcb221f30a33c5]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:amarantos",
+      "outletName": "Amaranto",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "RESERVE_REACHED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:7608d04f58ace5f41dcde002]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "SATISFIED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "candidate=tablecheck:alaska-asahi",
+        "citedEvidence=3",
+        "offers=4",
+        "candidate=tablecheck:aloft-tokyo-ginza",
+        "citedEvidence=3",
+        "offers=8",
+        "candidate=tablecheck:amajoh",
+        "citedEvidence=3",
+        "offers=8"
+      ],
+      "directCause": "Every presented candidate has independently linked evidence.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:37c4084b9aba2b148ffd6b6f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:a36923dd5043f19d85c82972]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:89248e6c537af0dbf8e63f21]",
+        "finalSnapshot.domainState.availability[tablecheck:alaska-asahi][id=offer:tablecheck:tablecheck:alaska-asahi:2026-10-23:17:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:alaska-asahi][id=offer:tablecheck:tablecheck:alaska-asahi:2026-10-23:18:00:10]",
+        "finalSnapshot.domainState.availability[tablecheck:alaska-asahi][id=offer:tablecheck:tablecheck:alaska-asahi:2026-10-23:18:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:alaska-asahi][id=offer:tablecheck:tablecheck:alaska-asahi:2026-10-23:19:00:10]",
+        "browserTrace[sequence=1203]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:4de9080d9cbd18807d52851b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:0035d16053e11d7f1f879627]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:668eb5157c0e229a2b9460cb]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-23:17:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-23:18:00:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-23:18:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-23:19:00:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-23:19:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-23:20:00:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-23:20:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:aloft-tokyo-ginza][id=offer:tablecheck:tablecheck:aloft-tokyo-ginza:2026-10-23:21:00:10]",
+        "browserTrace[sequence=1329]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:dc90aa3ee94616d4d752bd69]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:b6ce7780363e682b6716a505]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:e78a074e70bcb221f30a33c5]",
+        "finalSnapshot.domainState.availability[tablecheck:amajoh][id=offer:tablecheck:tablecheck:amajoh:2026-10-23:17:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:amajoh][id=offer:tablecheck:tablecheck:amajoh:2026-10-23:18:00:10]",
+        "finalSnapshot.domainState.availability[tablecheck:amajoh][id=offer:tablecheck:tablecheck:amajoh:2026-10-23:18:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:amajoh][id=offer:tablecheck:tablecheck:amajoh:2026-10-23:19:00:10]",
+        "finalSnapshot.domainState.availability[tablecheck:amajoh][id=offer:tablecheck:tablecheck:amajoh:2026-10-23:19:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:amajoh][id=offer:tablecheck:tablecheck:amajoh:2026-10-23:20:00:10]",
+        "finalSnapshot.domainState.availability[tablecheck:amajoh][id=offer:tablecheck:tablecheck:amajoh:2026-10-23:20:30:10]",
+        "finalSnapshot.domainState.availability[tablecheck:amajoh][id=offer:tablecheck:tablecheck:amajoh:2026-10-23:21:00:10]",
+        "browserTrace[sequence=1455]"
+      ],
+      "downstreamImpact": "The presentation is independently supported."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "raw TableCheck snapshot sequence 1203 reports AVAILABLE for the requested date, party size, and time.",
+        "raw TableCheck snapshot sequence 1329 reports AVAILABLE for the requested date, party size, and time.",
+        "raw TableCheck snapshot sequence 1455 reports AVAILABLE for the requested date, party size, and time.",
+        "executedObservations=9",
+        "applicableObservations=9",
+        "executedInvestigationVisits=15",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=2",
+        "maxConsecutiveNoNewObservation=2"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[7].observation",
+        "trajectories[8].observation",
+        "trajectories[9].observation",
+        "trajectories[10].observation",
+        "browserTrace[sequence=1203]",
+        "browserTrace[sequence=1329]",
+        "browserTrace[sequence=1455]"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "SATISFIED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "presentedCandidates=3"
+      ],
+      "directCause": "Terminal presentation and independently evaluated evidence agree.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "Execution produced a qualified read-only result."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ],
+  "frozenInput": {
+    "manifestSha256": "68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2",
+    "fileRefs": [
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a2.result.json.gz#sha256=ba5c5e8385aa6c7c213310cff9528fe667b5cacf1cbe4dfadccaf4e4a9fb8c2b"
+    ],
+    "observationContextSha256": "7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+    "observationRefs": [
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/calibration-observations.rev2.json#sha256=7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/p1-f-20261011/prep-20261012/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae"
+    ]
+  }
+}
