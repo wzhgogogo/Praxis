@@ -1,0 +1,204 @@
+{
+  "schema": "phase2b-step3-verification@1",
+  "status": "STOPPED_SOURCE_HTTP_FAILURE",
+  "allSixWitnessesCertified": false,
+  "failedStep": 3,
+  "freezePath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-freezes/partial-registration.json",
+  "freezeSha256": "76cfcfe7729ca1f4fef0a6cf4c953c5de8adc7c6b96309e2288ceab31484b7b9",
+  "registryPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/registry.partial.json",
+  "registrySha256": "c1b38fc8d0635f2db7f3165abb2600882ea69b0afb111555234da5159238c2d4",
+  "counts": [
+    {
+      "caseId": "p2b-holdout-01",
+      "certifiedWitnesses": 3,
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "candidateInventoryStatuses": [
+        {
+          "rst_id": "13316569",
+          "status": "KNOWN_FEASIBLE_SUPPORTED",
+          "matchingSlots": [
+            "19:00"
+          ]
+        },
+        {
+          "rst_id": "13322725",
+          "status": "KNOWN_FEASIBLE_SUPPORTED",
+          "matchingSlots": [
+            "19:00"
+          ]
+        },
+        {
+          "rst_id": "13312592",
+          "status": "KNOWN_FEASIBLE_SUPPORTED",
+          "matchingSlots": [
+            "19:00"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "p2b-holdout-02",
+      "certifiedWitnesses": 0,
+      "classification": "NOT_CERTIFIED_NO_MATCHING_INVENTORY",
+      "candidateInventoryStatuses": [
+        {
+          "rst_id": "13186205",
+          "status": "NOT_CERTIFIED_NO_MATCHING_INVENTORY",
+          "matchingSlots": []
+        },
+        {
+          "rst_id": "13243319",
+          "status": "NOT_CERTIFIED_NO_MATCHING_INVENTORY",
+          "matchingSlots": []
+        },
+        {
+          "rst_id": "13224664",
+          "status": "NOT_CERTIFIED_NO_MATCHING_INVENTORY",
+          "matchingSlots": []
+        }
+      ]
+    },
+    {
+      "caseId": "p2b-holdout-03",
+      "certifiedWitnesses": 1,
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "candidateInventoryStatuses": [
+        {
+          "rst_id": "13256140",
+          "status": "NOT_CERTIFIED_NO_MATCHING_INVENTORY",
+          "matchingSlots": []
+        },
+        {
+          "rst_id": "13014440",
+          "status": "KNOWN_FEASIBLE_SUPPORTED",
+          "matchingSlots": [
+            "19:30"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "p2b-holdout-04",
+      "certifiedWitnesses": 3,
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "candidateInventoryStatuses": [
+        {
+          "rst_id": "13279772",
+          "status": "KNOWN_FEASIBLE_SUPPORTED",
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ]
+        },
+        {
+          "rst_id": "13133693",
+          "status": "KNOWN_FEASIBLE_SUPPORTED",
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ]
+        },
+        {
+          "rst_id": "13127050",
+          "status": "KNOWN_FEASIBLE_SUPPORTED",
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "certifiedWitnesses": 0,
+      "classification": "STOPPED_SOURCE_HTTP_FAILURE",
+      "candidateInventoryStatuses": [
+        {
+          "rst_id": "13004546",
+          "status": "NOT_CERTIFIED_SOURCE_HTTP_FAILURE",
+          "matchingSlots": []
+        },
+        {
+          "rst_id": "13320164",
+          "status": "NOT_REACHED_INVENTORY",
+          "matchingSlots": []
+        },
+        {
+          "rst_id": "13015155",
+          "status": "NOT_REACHED_INVENTORY",
+          "matchingSlots": []
+        }
+      ]
+    },
+    {
+      "caseId": "p2b-holdout-06",
+      "certifiedWitnesses": 0,
+      "classification": "NOT_REACHED_INVENTORY",
+      "candidateInventoryStatuses": [
+        {
+          "rst_id": "13306055",
+          "status": "NOT_REACHED_INVENTORY",
+          "matchingSlots": []
+        },
+        {
+          "rst_id": "13239145",
+          "status": "NOT_REACHED_INVENTORY",
+          "matchingSlots": []
+        },
+        {
+          "rst_id": "13243927",
+          "status": "NOT_REACHED_INVENTORY",
+          "matchingSlots": []
+        }
+      ]
+    }
+  ],
+  "failure": {
+    "classification": "SOURCE_HTTP_FAILURE",
+    "httpStatus": 400,
+    "caseId": "p2b-holdout-05",
+    "rst_id": "13004546",
+    "response": "HTML error page: このページを表示することができません / 不正な操作です。",
+    "inference": "Generic source rejection only; not proof of no inventory, an unsupported platform, anti-bot, or a TUN problem. No unapproved HTTP400 retry or resume.",
+    "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-05-13004546.attempt-1.metadata.json",
+    "bodyPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-05-13004546.attempt-1.body.json",
+    "responseSha256": "6a5c73754b2c1ec21f35bc99f1d2280e74b8e3a423a208c8d5e9cbeb357f81cd"
+  },
+  "completedInventoryRequests": 11,
+  "failedInventoryRequests": 1,
+  "notReachedInventoryRequests": 5,
+  "partialWitnessWindow": {
+    "earliestWitnessObservedAt": "2026-10-22T17:14:00.086Z",
+    "validUntil": "2026-10-23T17:14:00.086Z",
+    "scope": "Only successfully certified witnesses. Global all-six witness gate did not pass; no final Live freeze or authorization."
+  },
+  "phase2bExitLive": {
+    "planned": 18,
+    "started": 0,
+    "status": "NOT_REACHED"
+  },
+  "wordingExtraction": "NOT_REACHED_NO_EXIT_ARTIFACTS",
+  "models": 0,
+  "websiteRequestsDuringOfflineRegistration": 0
+}

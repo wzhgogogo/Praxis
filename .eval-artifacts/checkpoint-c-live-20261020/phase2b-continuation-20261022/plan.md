@@ -1,6 +1,6 @@
 # Phase2b 批准连续任务
 
-Status: draft / not integrated; stage 1 in progress. Existing exposed holdout is a regression input; new Phase2b holdout stays unopened until the three Live checks pass.
+Status: exposed development evidence; steps 1–2 passed; step 3 stopped on SOURCE_HTTP_FAILURE:400; steps 4–5 NOT_REACHED. New holdout opened only after step 2, for evaluation-side preparation; no product/Prompt tuning or new holdout Live.
 
 批准依据：用户本轮连续任务；预算200e13cf、团体98cc7994、流水线47afd2d7；模型总额06703ba1批准5000（包括历史调用与回放），完整Live100、环境重跑10不变。
 
