@@ -1,0 +1,31 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import {resolve} from 'node:path';
+import {evaluateArtifactAfterFinish as original} from '../../../../src/eval/restaurant/agent-loop/diagnostic-evaluator.ts';
+import {evaluateArtifactAfterFinish as deferred} from '../../deferred-evaluation.ts';
+import {evaluateSafetyOnly} from '../../evaluate-report.ts';import {loadHoldoutPlan,writeDeferredManifest,postReadTransport} from '../../holdout-deferred.mjs';import {nextAction,checkStageBudget,gateWitness} from '../../policy.mjs';import {executionRuns} from '../../run-selection.mjs';import {sha} from '../../freeze.mjs';import {extractWordings} from './extract-wordings.ts';
+const d='.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022',get=(p:string)=>JSON.parse(fs.readFileSync(p,'utf8')),root=resolve(d,'controls-runs');fs.mkdirSync(root,{recursive:true});
+test('Runner deferral prevents automatic evaluation; normal mode still delegates',async()=>{
+ const saved=process.env.CHECKPOINT_C_DEFER_EVALUATION;let calls=0;const fake:any=async()=>{calls++;return {outputPath:'FORBIDDEN_WHEN_DEFERRED',evaluation:{}};};
+ try{process.env.CHECKPOINT_C_DEFER_EVALUATION='1';const hook=process.env.HOLDOUT_BASELINE_CONTROL==='1'?original:deferred;assert.deepEqual(await hook('not-read',fake),{});assert.equal(calls,0);process.env.CHECKPOINT_C_DEFER_EVALUATION='0';assert.equal((await deferred('not-read',fake)).outputPath,'FORBIDDEN_WHEN_DEFERRED');assert.equal(calls,1);}finally{if(saved===undefined)delete process.env.CHECKPOINT_C_DEFER_EVALUATION;else process.env.CHECKPOINT_C_DEFER_EVALUATION=saved;}
+});
+test('frozen holdout selects all eighteen exactly in plan order and reserves only available budget',()=>{
+ const planPath=d+'/plan.json',p=get(planPath),files=Object.fromEntries([planPath,p.runnerInput,...p.authorityRefs.map((r:any)=>r.path)].map(p=>[p,sha(fs.readFileSync(p))]));assert.deepEqual(loadHoldoutPlan(planPath,{files}),p);assert.deepEqual(executionRuns(p).map((r:any)=>r.runId),Array.from({length:18},(_,i)=>`h-${String(i+1).padStart(2,'0')}`));assert.equal(executionRuns(p,{offline:true}).length,1);assert.equal(checkStageBudget(get(d+'/ledger-before.json'),p).reservedModelCalls,1100);const bad={...files,[planPath]:'0'.repeat(64)};assert.throws(()=>loadHoldoutPlan(planPath,{files:bad}));
+ const registry=get(d+'/registry.json');for(const run of p.runs)gateWitness(registry,run.caseId,Date.parse(registry.earliestWitnessObservedAt)+3600000,500000);
+ assert.equal(nextAction({s0:true,classification:'ENV_FAILURE'},p).action,'STOP_BATCH');assert.equal(nextAction({classification:'CAPABILITY_MISS'},p).action,'CONTINUE');assert.equal(nextAction({classification:'ENV_FAILURE',totalReruns:4},p).reason,'RETRY_EXHAUSTED');assert.equal(nextAction({classification:'ENV_FAILURE',caseReruns:1},p).action,'STOP_BATCH');assert.equal(nextAction({classification:'ENV_FAILURE',cooldown:true},p).waitMs,900000);
+});
+test('safety-only path preserves a red S0 and emits no capability or condition grading files',()=>{
+ const source='.eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/live-results/c-17-attempt-3/runner/2026-10-22T05-51-48-298Z-85a96a74-eb98-47d8-8873-fdfc14c1ecc7.result.json',a=get(source),id=a.finalSnapshot.domainState.presentedResults.candidateIds[0];
+ for(const offer of a.finalSnapshot.domainState.availability[id])offer.dateTime=offer.dateTime.replace(/^\d{4}-\d\d-\d\d/,'2026-12-31');
+ const directory=fs.mkdtempSync(resolve(root,'safety-')),resultPath=resolve(directory,'input.result.json');fs.writeFileSync(resultPath,JSON.stringify(a));
+ const result=evaluateSafetyOnly({resultPath,directory,run:{runId:'fixture',caseId:a.caseId},mode:'OFFLINE_REHEARSAL',freezeSha256:'0'.repeat(64)});assert.equal(result.evaluation.severity.S0.status,'PRESENT');assert.equal(result.evaluation.outcome.type,'DEFERRED');assert.ok(!('layers' in result.summary));assert.ok(fs.readdirSync(directory).every(p=>!p.endsWith('.evaluation.json')&&!p.endsWith('.raw-evaluator.json')&&p!=='run-report.json'));
+ const envDir=fs.mkdtempSync(resolve(root,'environment-')),env=evaluateSafetyOnly({directory:envDir,run:{runId:'fixture'},mode:'OFFLINE_REHEARSAL',freezeSha256:'0'.repeat(64),interruption:{finish:{formalRunStarted:false,preflight:{status:'FAILED'}}}});assert.equal(env.evaluation.outcome.type,'ENV_FAILURE');
+});
+test('unmatched wording extraction exposes strings and exact indices only, with no guessed pairing or results',()=>{
+ const a={materializedCase:{id:'synthetic',semantic:{criteria:[{value:'Dinner price',polarity:'POSITIVE',strength:'HARD'},{value:'Smoke',polarity:'NEGATIVE',strength:'HARD'}]}},finalSnapshot:{domainState:{intentDraft:{criteria:[{text:'Evening cost',polarity:'POSITIVE',strength:'HARD'},{text:'Smoke',polarity:'NEGATIVE',strength:'HARD'}]},presentedResults:{secretResult:'MUST_NOT_APPEAR'}}}};
+ const row=extractWordings(a,'synthetic','0'.repeat(64))!;assert.equal(row.candidateWordingPairs.length,1);assert.equal(row.candidateWordingPairs[0].goldIndex,0);assert.equal(row.candidateWordingPairs[0].actualIndex,0);assert.ok(!JSON.stringify(row).includes('MUST_NOT_APPEAR'));assert.ok(!JSON.stringify(row).includes('QUALIFIED_DELIVERY'));
+ const directory=fs.mkdtempSync(resolve(root,'manifest-')),p=get(d+'/plan.json'),m=writeDeferredManifest(directory,p,[],'OFFLINE_REHEARSAL',null,0);assert.equal(m.plannedRuns.length,18);assert.ok(m.plannedRuns.every((r:any)=>r.status==='NOT_REACHED'));assert.ok(!JSON.stringify(m).includes('exits'));
+});
+test('independent post-read pauses fifteen minutes and retries the identical read once, then stops',async()=>{
+ let time=0,calls=0;const requests:any[]=[],directory=fs.mkdtempSync(resolve(root,'cooldown-'));
+ const p=postReadTransport(directory,{now:()=>time,sleep:async(ms:number)=>{time+=ms;},transport:async(url:any,opts:any)=>{requests.push({url:String(url),method:opts.method});calls++;return new Response('busy',{status:503});}});
+ await assert.rejects(()=>p.read('https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=12345678&svd=20261103&svps=2&svt=1900',{method:'GET'}),/RETRY_EXHAUSTED/);assert.equal(calls,2);assert.equal(time,900000);assert.deepEqual(requests[0],requests[1]);assert.equal(p.state.cooldownExhausted,true);
+});

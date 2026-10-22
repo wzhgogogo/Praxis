@@ -13,7 +13,7 @@ import {loadHardCriterionEvidence} from '../../src/eval/restaurant/agent-loop/di
 const get=(path:string)=>JSON.parse(readFileSync(path,'utf8'));
 const write=(p:string,v:any)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n',{flag:'wx'});
 function observed(v:any,reason='No raw observation'){return v===undefined?{status:'NOT_EVALUATED',reason}:{status:'OBSERVED',value:v};}
-export function evaluateAttempt({resultPath,directory,run,mode,registryPath,postPath,freezeSha256,interruption,outputStem='independent'}:any){
+export function evaluateAttempt({resultPath,directory,run,mode,registryPath,postPath,freezeSha256,interruption,outputStem='independent',safetyOnly=false}:any){
  const bytes=resultPath?readFileSync(resultPath):undefined,artifact=bytes?JSON.parse(bytes.toString()):undefined;
  const reviewedPath=resolve(base,'reviewed-reads.json'),reviewedBytes=readFileSync(reviewedPath);
  const post=postPath&&existsSync(postPath)?get(postPath):{rows:[]};
@@ -27,9 +27,18 @@ export function evaluateAttempt({resultPath,directory,run,mode,registryPath,post
  const outerTrace=existsSync(tracePath)?readFileSync(tracePath,'utf8').trim().split('\n').filter(Boolean).map(l=>JSON.parse(l)):[];
  const hardPath=artifact?captureHardEvidence({artifact,artifactSha256:rawSha,directory,registryPath,stem:outputStem}):undefined;
  const rawEvaluation=evaluateRestaurantHybridLiveArtifact(artifact,{path:resultPath??resolve(directory,'missing-result.json'),sha256:rawSha},{...(hardPath?{hardEvidence:loadHardCriterionEvidence(hardPath,rawSha)}:{}),reviewedReads:parseReviewedReads(reviewedBytes,reviewedPath),...(witnessOracle?{witnessOracle}:{}),postDeliveryTabelog:postDelivery,trace:[...(artifact?.diagnostics?.browserTrace??[]),...outerTrace],...(interruption?{orchestration:interruption}:{})});
- write(resolve(directory,outputStem+'.raw-evaluator.json'),rawEvaluation);
+ if(!safetyOnly)write(resolve(directory,outputStem+'.raw-evaluator.json'),rawEvaluation);
  const evaluation=applyTableCheckReview(rawEvaluation,post.rows);
  if(!evaluation.evaluatorVersion.endsWith('@33')||!evaluation.rubricVersion.endsWith('@29'))throw Error('EVALUATOR_VERSION_DRIFT');
+ if(safetyOnly){
+  // The unchanged @33 oracle is invoked only to enforce S0 and the environment retry whitelist.
+  // Capability, condition/display assessments and exits never leave this local calculation.
+  const severity={S0:evaluation.severity.S0,S0_DECLARATION:evaluation.severity.S0_DECLARATION,S0_BOUNDARY:evaluation.severity.S0_BOUNDARY};
+  const retryClassification=['ENV_FAILURE','ORCHESTRATION_INTERRUPTED'].includes(evaluation.outcome.type)?evaluation.outcome.type:'DEFERRED';
+  const summary={mode,run,status:'RECORDED_EVALUATION_DEFERRED',freezeSha256,artifact:resultPath??null,artifactSha256:bytes?rawSha:null,safety:severity,retryClassification,resources:artifact?.resourceUsage??null,independentPostDeliveryEvidenceComplete:postEvidenceGaps.length===0&&!post.rows.some((r:any)=>r.status==='NOT_EVALUATED'||r.raw&&r.raw.status!==200),postEvidencePaths:post.rows.flatMap((r:any)=>[r.raw?.metadataPath,r.raw?.bodyPath,r.recheck?.metadataPath,r.recheck?.bodyPath,...(r.rawEvidence??[]).flatMap((x:any)=>[x.metadataPath,x.bodyPath])]).filter(Boolean)};
+  write(resolve(directory,outputStem+'.safety-only.json'),summary);
+  return {summary,evaluation:{severity,outcome:{type:retryClassification}}};
+ }
  write(resolve(directory,outputStem+'.evaluation.json'),evaluation);
  const domain=artifact?.finalSnapshot?.domainState,ids=domain?.presentedResults?.candidateIds??[];
  const decisions=artifact?.decisionCapture?.path&&existsSync(artifact.decisionCapture.path)?readFileSync(artifact.decisionCapture.path,'utf8').trim().split('\n').filter(Boolean).map(l=>JSON.parse(l)):[];
@@ -50,6 +59,7 @@ export function evaluateAttempt({resultPath,directory,run,mode,registryPath,post
   safety:{s0:evaluation.severity.S0,status:'See separate declaration and boundary assessments; UNKNOWN never becomes zero'},network:mode==='OFFLINE_REHEARSAL'?0:'SEE_RAW_RECORDS',limitations:mode==='OFFLINE_REHEARSAL'?['Scripted external responses prove pipeline wiring only; excluded from all Live denominators.']:['P2-1/P2-2/P2-3 combined Live cannot establish separate causal effects.']};
  write(resolve(directory,outputStem==='independent'?'run-report.json':outputStem+'.run-report.json'),summary);return {summary,evaluation};
 }
+export function evaluateSafetyOnly(input:any){return evaluateAttempt({...input,safetyOnly:true});}
 export function writeBatchReport(directory:string,plan:any,rows:any[],mode:string,ledger:any=undefined){
  const live=mode==='LIVE_READ_ONLY';
  const targets=[...new Set<string>(plan.runs.filter((r:any)=>r.role==='TARGET').map((r:any)=>r.caseId))];

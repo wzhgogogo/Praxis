@@ -1,0 +1,182 @@
+---
+id: p2-holdout-01
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-22T00:00:00+09:00
+content: >
+  Can you find a yakitori place near Ueno with a table for 3 on Wednesday,
+  November 4 at 7 PM?
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Ueno
+    relation: NEAR
+  date:
+    expression: Wednesday, November 4
+    value: 2026-11-04
+  time:
+    value: 19:00
+  party_size: 3
+  criteria:
+    - value: yakitori
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Ueno point; source-supported
+      yakitori; a matching current slot on 2026-11-04 at 19:00 for 3.
+---
+id: p2-holdout-02
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-22T00:00:00+09:00
+content: >
+  Looking for an Italian restaurant near Sangenjaya for 2 people on Friday,
+  October 30 at 7:30 PM, under 8,000 yen per person.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Sangenjaya
+    relation: NEAR
+  date:
+    expression: Friday, October 30
+    value: 2026-10-30
+  time:
+    value: 19:30
+  party_size: 2
+  criteria:
+    - value: Italian
+      polarity: POSITIVE
+      strength: HARD
+    - value: under 8,000 yen per person
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Sangenjaya point;
+      source-supported Italian; a matching current slot on 2026-10-30 at 19:30
+      for 2.
+    - Source evidence that a dinner option is available at or below JPY 8,000
+      per person (firm numeric limit, HARD under ADR-0029).
+---
+id: p2-holdout-03
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-22T00:00:00+09:00
+content: >
+  We're 6 people looking for shabu-shabu near Akasaka on Thursday, October 29,
+  sometime between 6 and 8 PM. Any open tables?
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Akasaka
+    relation: NEAR
+  date:
+    expression: Thursday, October 29
+    value: 2026-10-29
+  time:
+    expression: between 6 and 8 PM
+    type: TIME_WINDOW
+    start: 18:00
+    end: 20:00
+  party_size: 6
+  criteria:
+    - value: shabu-shabu
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Akasaka point;
+      source-supported shabu-shabu; a matching current slot for 6 on 2026-10-29
+      starting between 18:00 and 20:00.
+---
+id: p2-holdout-04
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-22T00:00:00+09:00
+content: >
+  Is there an unagi restaurant near Ningyocho that has a table for 2 on Tuesday,
+  November 3 at 6:30 PM?
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Ningyocho
+    relation: NEAR
+  date:
+    expression: Tuesday, November 3
+    value: 2026-11-03
+  time:
+    value: 18:30
+  party_size: 2
+  criteria:
+    - value: unagi
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Ningyocho point;
+      source-supported unagi (eel); a matching current slot on 2026-11-03 at
+      18:30 for 2.
+---
+id: p2-holdout-05
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-22T00:00:00+09:00
+content: >
+  Need a Chinese restaurant near Gotanda for 4 people on Saturday, October 31 at
+  7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Gotanda
+    relation: NEAR
+  date:
+    expression: Saturday, October 31
+    value: 2026-10-31
+  time:
+    value: 19:00
+  party_size: 4
+  criteria:
+    - value: Chinese
+      polarity: POSITIVE
+      strength: HARD
+    - value: under 6,000 yen per person
+      polarity: POSITIVE
+      strength: SOFT
+    - value: spicy Sichuan food
+      polarity: NEGATIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Gotanda point;
+      source-supported Chinese cuisine that is not primarily spicy Sichuan; a
+      matching current slot on 2026-10-31 at 19:00 for 4.
+    - The price preference is SOFT ("ideally"): report it as met, not met or not checked; it never blocks delivery.
+---
+id: p2-holdout-06
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-22T00:00:00+09:00
+content: >
+  Looking for an izakaya near Shimokitazawa for 5 people on Friday, October 30
+  at 7 PM.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Shimokitazawa
+    relation: NEAR
+  date:
+    expression: Friday, October 30
+    value: 2026-10-30
+  time:
+    value: 19:00
+  party_size: 5
+  criteria:
+    - value: izakaya
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Shimokitazawa point;
+      source-supported izakaya; a matching current slot on 2026-10-30 at 19:00
+      for 5.
