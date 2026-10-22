@@ -1,0 +1,2430 @@
+{
+  "schema": "phase2c-saved-location-inputs@1",
+  "runs": [
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/runner/2026-10-21T12-47-47-598Z-40c9b8e2-b564-4617-a3cd-735bbdd3411e.result.json",
+        "sha256": "f1b820390fbe9ab4c6083895343534e68a666589b46292761642d14f9612bc4c",
+        "runId": "40c9b8e2-b564-4617-a3cd-735bbdd3411e",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Shibuya"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "6312edfdf895877f97c76476f2c0ed0a3e252e06596cee81d72c4adae0e1259a",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+          "observedAt": "2026-10-21T12:47:55.671Z",
+          "requestFingerprint": "f14fccfd01bce6c1459f6a7bfd7c5523a0b14421a9ba7e279cd8b7ba2f8d7e0c",
+          "claims": {
+            "locationResolutionQuery": "Shibuya",
+            "resolvedPlaceName": "Shibuya",
+            "resolvedPlaceId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+            "latitude": 35.6619707,
+            "longitude": 139.70379499999999,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "951994b04a577a50a59c0df8c42cc5833114437c",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-02-attempt-1/runner/2026-10-21T12-57-13-534Z-14de2d12-6432-4b5e-a6a6-1a25ec212133.result.json",
+        "sha256": "18438d5e7d8a715633bcd1ceed4eb6871730fc2d8cd9e3c5da3d52641f041fa7",
+        "runId": "14de2d12-6432-4b5e-a6a6-1a25ec212133",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Higashi-Ginza"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "d9f5101d07a87ed4d2fabee2ce2243899cb1359d8d80ae6e6f9ffc05cdd7157e",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJK2bxJueLGGARwHHeH52hGiM",
+          "observedAt": "2026-10-21T12:57:22.913Z",
+          "requestFingerprint": "18ee0499e89125634ad876808835c6b8646ed02ef79d47d70bde58cdb6a5effa",
+          "claims": {
+            "locationResolutionQuery": "Higashi-Ginza",
+            "resolvedPlaceName": "Higashi-ginza Sta.",
+            "resolvedPlaceId": "ChIJK2bxJueLGGARwHHeH52hGiM",
+            "latitude": 35.669700299999995,
+            "longitude": 139.7671399,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "951994b04a577a50a59c0df8c42cc5833114437c",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 2,
+        "namedPlaceResolution": 1,
+        "discovery": 1,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-03-attempt-1/runner/2026-10-21T13-11-19-020Z-b2899a23-d1a9-4df0-ab03-25cde45fb695.result.json",
+        "sha256": "7548dd61467f04353406537abb1b4f89877434b9448d40ee4b8f537461d51896",
+        "runId": "b2899a23-d1a9-4df0-ab03-25cde45fb695",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "nearby",
+        "radiusMeters": 1000,
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767,
+          "observedAt": "2026-10-21T13:11:24.741Z",
+          "source": "EVALUATION"
+        }
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "NOT_OBSERVED",
+      "runtimeCommit": "951994b04a577a50a59c0df8c42cc5833114437c",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 1
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/runner/2026-10-21T13-22-13-597Z-fe19189c-0a9c-4609-9ed5-18c8026a36bf.result.json",
+        "sha256": "9d9eb5f335aee6a1946f15282797c764d0b434aaec426ebcefb35985187a25f4",
+        "runId": "fe19189c-0a9c-4609-9ed5-18c8026a36bf",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "nearby",
+        "radiusMeters": 1000,
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767,
+          "observedAt": "2026-10-21T13:22:18.524Z",
+          "source": "EVALUATION"
+        }
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "NOT_OBSERVED",
+      "runtimeCommit": "951994b04a577a50a59c0df8c42cc5833114437c",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 1
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/runner/2026-10-21T13-37-08-280Z-2c2fb95a-15fc-4e30-9fd3-7783cb7bc448.result.json",
+        "sha256": "cbf077d27fcc65d99ae5586019e155961e96211f35b13724b3ee4ae31f7c807c",
+        "runId": "2c2fb95a-15fc-4e30-9fd3-7783cb7bc448",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Kagurazaka"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "618f7c7c4f3683361449f7bec6d4d98072377ea616057760db741410f6fb83ca",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJIaZLQ1qMGGARYTD1p6NjCuI",
+          "observedAt": "2026-10-21T13:37:28.540Z",
+          "requestFingerprint": "2d1a7402034cbbdb96f0e9095a3e9dee49ba1c562868eb2c001f55502569d345",
+          "claims": {
+            "locationResolutionQuery": "Kagurazaka",
+            "resolvedPlaceName": "Kagurazaka",
+            "resolvedPlaceId": "ChIJIaZLQ1qMGGARYTD1p6NjCuI",
+            "latitude": 35.701459799999995,
+            "longitude": 139.7402946,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "951994b04a577a50a59c0df8c42cc5833114437c",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/runner/2026-10-21T13-48-10-020Z-f752f89d-0914-4aeb-a554-1f3059a7de8c.result.json",
+        "sha256": "dc55446db4493821154906b98b7e7b267bbf15a78f0f292abc1a82f46f12f154",
+        "runId": "f752f89d-0914-4aeb-a554-1f3059a7de8c",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Kichijoji"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "9293c57a2f854a51467898d6f4b48d1f968adf1a7a114af189895a31edda1f87",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJBUM940XuGGAR4dVP7nqzDHc",
+          "observedAt": "2026-10-21T13:48:15.954Z",
+          "requestFingerprint": "234d144bd84ec9043e5d069c80a9090d4400cba8b9485236393f60b854f85dbe",
+          "claims": {
+            "locationResolutionQuery": "Kichijoji",
+            "resolvedPlaceName": "Kichij\u014dji",
+            "resolvedPlaceId": "ChIJBUM940XuGGAR4dVP7nqzDHc",
+            "latitude": 35.704096,
+            "longitude": 139.58020539999998,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "951994b04a577a50a59c0df8c42cc5833114437c",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-07-attempt-1/runner/2026-10-21T13-57-40-634Z-6e36c4e3-20fa-47a8-b876-bb2686395420.result.json",
+        "sha256": "f493b40f2aa002026b43f97173eed59eea7145bb2f13b4b58f94f884d96cf371",
+        "runId": "6e36c4e3-20fa-47a8-b876-bb2686395420",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "nearby",
+        "radiusMeters": 1000,
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767,
+          "observedAt": "2026-10-21T13:57:47.098Z",
+          "source": "EVALUATION"
+        }
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "NOT_OBSERVED",
+      "runtimeCommit": "951994b04a577a50a59c0df8c42cc5833114437c",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 1
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/runner/2026-10-21T14-08-00-597Z-3bea8ed5-8aa6-4539-9207-9cc9ba56fd4f.result.json",
+        "sha256": "e840313d573d4ebc20d40c54625a6b84d4878b13996c2849c53fe3787f372557",
+        "runId": "3bea8ed5-8aa6-4539-9207-9cc9ba56fd4f",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "nearby",
+        "radiusMeters": 1000,
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767,
+          "observedAt": "2026-10-21T14:08:05.802Z",
+          "source": "EVALUATION"
+        }
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "NOT_OBSERVED",
+      "runtimeCommit": "951994b04a577a50a59c0df8c42cc5833114437c",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 1
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-09-attempt-2/runner/2026-10-21T15-00-33-940Z-b06907f5-4bfb-4b4d-8955-6dd0e36bdf84.result.json",
+        "sha256": "6979f02338005e04b095450abcc2af12551ecb549d0c780406e965b4c5ddffe9",
+        "runId": "b06907f5-4bfb-4b4d-8955-6dd0e36bdf84",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Kagurazaka"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "14c0ccb5d5b12058921e3b04e5487dd8026a54f63af4c5286d71d7d70afb64bc",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJIaZLQ1qMGGARYTD1p6NjCuI",
+          "observedAt": "2026-10-21T15:00:41.187Z",
+          "requestFingerprint": "2d1a7402034cbbdb96f0e9095a3e9dee49ba1c562868eb2c001f55502569d345",
+          "claims": {
+            "locationResolutionQuery": "Kagurazaka",
+            "resolvedPlaceName": "Kagurazaka",
+            "resolvedPlaceId": "ChIJIaZLQ1qMGGARYTD1p6NjCuI",
+            "latitude": 35.701459799999995,
+            "longitude": 139.7402946,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "6ceedffb215e8ded28f6bcea6a3c52368f2eedfb",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/runner/2026-10-21T15-10-45-956Z-4defd7fb-f630-4c2e-bae4-25d96b810fd4.result.json",
+        "sha256": "eee39f1823a4c453ab49977acd2bf7359338564d47e0dabc5e50496331ceac1b",
+        "runId": "4defd7fb-f630-4c2e-bae4-25d96b810fd4",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Kichijoji"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "3701161310ada9a91f98cd7367675b55e72272d79059889278d5824ab513d1a6",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJBUM940XuGGAR4dVP7nqzDHc",
+          "observedAt": "2026-10-21T15:10:52.505Z",
+          "requestFingerprint": "234d144bd84ec9043e5d069c80a9090d4400cba8b9485236393f60b854f85dbe",
+          "claims": {
+            "locationResolutionQuery": "Kichijoji",
+            "resolvedPlaceName": "Kichij\u014dji",
+            "resolvedPlaceId": "ChIJBUM940XuGGAR4dVP7nqzDHc",
+            "latitude": 35.704096,
+            "longitude": 139.58020539999998,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "6ceedffb215e8ded28f6bcea6a3c52368f2eedfb",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/runner/2026-10-21T15-19-14-115Z-156996bf-a4f8-4de3-b49c-31c3d1f49ea2.result.json",
+        "sha256": "a4572480305d2936776dbc12f81c33e02de0aeb167a1ca0d0b96bc11aef2569c",
+        "runId": "156996bf-a4f8-4de3-b49c-31c3d1f49ea2",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Shibuya"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "72e68f5503f4d5df11a0461ef84fb9560a5baa4463cd88b08033529c880c0977",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+          "observedAt": "2026-10-21T15:19:20.662Z",
+          "requestFingerprint": "f14fccfd01bce6c1459f6a7bfd7c5523a0b14421a9ba7e279cd8b7ba2f8d7e0c",
+          "claims": {
+            "locationResolutionQuery": "Shibuya",
+            "resolvedPlaceName": "Shibuya",
+            "resolvedPlaceId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+            "latitude": 35.6619707,
+            "longitude": 139.70379499999999,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "6ceedffb215e8ded28f6bcea6a3c52368f2eedfb",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-12-attempt-1/runner/2026-10-21T15-28-02-025Z-eb39a133-af3a-432b-8b6c-bf8f302e1259.result.json",
+        "sha256": "842f6eeeed682a7b86ce2f866b2a6e33d7c730e71dbc589d436c97ccdfb28b96",
+        "runId": "eb39a133-af3a-432b-8b6c-bf8f302e1259",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Higashi-Ginza"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "07060d1b3ae450d416ecf18ce30bc926e68679cd8d6b50f638c3baa37c4957ab",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJK2bxJueLGGARwHHeH52hGiM",
+          "observedAt": "2026-10-21T15:28:14.015Z",
+          "requestFingerprint": "18ee0499e89125634ad876808835c6b8646ed02ef79d47d70bde58cdb6a5effa",
+          "claims": {
+            "locationResolutionQuery": "Higashi-Ginza",
+            "resolvedPlaceName": "Higashi-ginza Sta.",
+            "resolvedPlaceId": "ChIJK2bxJueLGGARwHHeH52hGiM",
+            "latitude": 35.669700299999995,
+            "longitude": 139.7671399,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "6ceedffb215e8ded28f6bcea6a3c52368f2eedfb",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 2,
+        "namedPlaceResolution": 1,
+        "discovery": 1,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-13-attempt-1/runner/2026-10-21T15-35-55-215Z-b2e5a034-fd12-458e-8b14-4aff760fb0cb.result.json",
+        "sha256": "55937c71755753a6a8953debaf4d82688a56755adaf303c0a33ec501ec25f58c",
+        "runId": "b2e5a034-fd12-458e-8b14-4aff760fb0cb",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Kagurazaka"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "a06f305327a3ec1e1526df9bd24732e5ad5c0f1c785bbe0c15ecf9dac39d529b",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJIaZLQ1qMGGARYTD1p6NjCuI",
+          "observedAt": "2026-10-21T15:36:03.421Z",
+          "requestFingerprint": "2d1a7402034cbbdb96f0e9095a3e9dee49ba1c562868eb2c001f55502569d345",
+          "claims": {
+            "locationResolutionQuery": "Kagurazaka",
+            "resolvedPlaceName": "Kagurazaka",
+            "resolvedPlaceId": "ChIJIaZLQ1qMGGARYTD1p6NjCuI",
+            "latitude": 35.701459799999995,
+            "longitude": 139.7402946,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "6ceedffb215e8ded28f6bcea6a3c52368f2eedfb",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/runner/2026-10-21T15-47-10-051Z-cec31da2-fe2f-4736-9989-d1a8ed6c09d6.result.json",
+        "sha256": "f694c05c00be46aa315329822c65701b8656506f035f5799b2423d5c55adbde7",
+        "runId": "cec31da2-fe2f-4736-9989-d1a8ed6c09d6",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Kichijoji"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "b5ec968cd63d3368900ce24e528ce9bd91845aabcdc81fdbfbade66e8077b882",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJBUM940XuGGAR4dVP7nqzDHc",
+          "observedAt": "2026-10-21T15:47:16.515Z",
+          "requestFingerprint": "234d144bd84ec9043e5d069c80a9090d4400cba8b9485236393f60b854f85dbe",
+          "claims": {
+            "locationResolutionQuery": "Kichijoji",
+            "resolvedPlaceName": "Kichij\u014dji",
+            "resolvedPlaceId": "ChIJBUM940XuGGAR4dVP7nqzDHc",
+            "latitude": 35.704096,
+            "longitude": 139.58020539999998,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "6ceedffb215e8ded28f6bcea6a3c52368f2eedfb",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/runner/2026-10-21T15-57-09-191Z-272c5bc7-0d15-4815-b442-a27c9ce9c855.result.json",
+        "sha256": "be7145df10270bb6f08ddd1e6d937e044a6f7fda9060cb8186a03984aad234ca",
+        "runId": "272c5bc7-0d15-4815-b442-a27c9ce9c855",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Shibuya"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "e184a06c5b4914c0b042de12245ce074e15bc4fa326d6befbd28fe436ce7bff9",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+          "observedAt": "2026-10-21T15:57:18.071Z",
+          "requestFingerprint": "f14fccfd01bce6c1459f6a7bfd7c5523a0b14421a9ba7e279cd8b7ba2f8d7e0c",
+          "claims": {
+            "locationResolutionQuery": "Shibuya",
+            "resolvedPlaceName": "Shibuya",
+            "resolvedPlaceId": "ChIJ0Qgx67KMGGARd2ZbObLZHPE",
+            "latitude": 35.6619707,
+            "longitude": 139.70379499999999,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "6ceedffb215e8ded28f6bcea6a3c52368f2eedfb",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-16-attempt-1/runner/2026-10-21T16-06-19-744Z-e6e7993a-8f3c-44fe-ab62-79071727a3e3.result.json",
+        "sha256": "3c3184418a55f485471949f27a293e4d9faad3c693ee56747c93f25c475a009a",
+        "runId": "e6e7993a-8f3c-44fe-ab62-79071727a3e3",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Higashi-Ginza"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "953d6c51e0e406b861729d1a47455ffd2f3a578d2ed931e5821dbf5ca20a555d",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJK2bxJueLGGARwHHeH52hGiM",
+          "observedAt": "2026-10-21T16:06:30.978Z",
+          "requestFingerprint": "18ee0499e89125634ad876808835c6b8646ed02ef79d47d70bde58cdb6a5effa",
+          "claims": {
+            "locationResolutionQuery": "Higashi-Ginza",
+            "resolvedPlaceName": "Higashi-ginza Sta.",
+            "resolvedPlaceId": "ChIJK2bxJueLGGARwHHeH52hGiM",
+            "latitude": 35.669700299999995,
+            "longitude": 139.7671399,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "6ceedffb215e8ded28f6bcea6a3c52368f2eedfb",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 2,
+        "namedPlaceResolution": 1,
+        "discovery": 1,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-17-attempt-1/runner/2026-10-21T16-14-48-371Z-98d62455-7189-4e2b-a6d8-5e94cc81f551.result.json",
+        "sha256": "9a8dd9dc3dd35a886408e109fd5bb8dd207c81c42d323a0db213fe457ddf4a91",
+        "runId": "98d62455-7189-4e2b-a6d8-5e94cc81f551",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "nearby",
+        "radiusMeters": 1000,
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767,
+          "observedAt": "2026-10-21T16:14:51.837Z",
+          "source": "EVALUATION"
+        }
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "NOT_OBSERVED",
+      "runtimeCommit": "6ceedffb215e8ded28f6bcea6a3c52368f2eedfb",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 1
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/runner/2026-10-21T16-23-52-862Z-cb6b94a5-2e3c-4053-aa07-6973db7433e7.result.json",
+        "sha256": "b32e845ae3b8b4a1c693af29ea915d0fe1ab8dc84c14fbdb28d85e320bd2ab44",
+        "runId": "cb6b94a5-2e3c-4053-aa07-6973db7433e7",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "nearby",
+        "radiusMeters": 1000,
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767,
+          "observedAt": "2026-10-21T16:23:57.115Z",
+          "source": "EVALUATION"
+        }
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "NOT_OBSERVED",
+      "runtimeCommit": "6ceedffb215e8ded28f6bcea6a3c52368f2eedfb",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 1
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/live-results/c-17-attempt-3/runner/2026-10-22T05-51-48-298Z-85a96a74-eb98-47d8-8873-fdfc14c1ecc7.result.json",
+        "sha256": "969f4f22993a287fc422aed5b19c198b3639e2576d003f3e2966f9e6dcca2c75",
+        "runId": "85a96a74-eb98-47d8-8873-fdfc14c1ecc7",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "nearby",
+        "radiusMeters": 1000,
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767,
+          "observedAt": "2026-10-22T05:51:51.777Z",
+          "source": "EVALUATION"
+        }
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "NOT_OBSERVED",
+      "runtimeCommit": "78077ed175294cc481ae703ec98733987037f268",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 1
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/offline-rehearsal/c-01-attempt-1/runner/2026-10-22T05-48-54-198Z-3a5d6968-3c0e-4513-8361-ee26b5c92fa4.result.json",
+        "sha256": "947a0b1aff601e6287e1679c301a68052919d1dc6404c081dc2bf6fdf45daf9e",
+        "runId": "3a5d6968-3c0e-4513-8361-ee26b5c92fa4",
+        "cohort": "DEVELOPMENT"
+      },
+      "area": {
+        "query": "near Shibuya"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "e3571dd00eef36c1b9cee6a405fee27985ba748e36109ef1ad4f486ceb9f5b83",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "shibuya-landmark",
+          "observedAt": "2026-10-22T05:48:54.205Z",
+          "requestFingerprint": "dabe8b558333bee830c4693104b33cb5bbf74a9a2317df55a63ff42de3a43b1d",
+          "claims": {
+            "locationResolutionQuery": "Shibuya",
+            "resolvedPlaceName": "Shibuya",
+            "resolvedPlaceId": "shibuya-landmark",
+            "latitude": 35.6619707,
+            "longitude": 139.703795,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "d03c8bfcd3e6e51ab9fa56c475aad6db45be15b9",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 2,
+        "namedPlaceResolution": 1,
+        "discovery": 1,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-01-attempt-1/runner/2026-10-22T08-25-14-355Z-73b46e0c-e5e4-4fdb-a5d0-92e96ea8dd7b.result.json",
+        "sha256": "e5a89c1af2db1335e12862429dcd19508680925abd3a80118fa50aca15e72123",
+        "runId": "73b46e0c-e5e4-4fdb-a5d0-92e96ea8dd7b",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Ueno"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "b68da0098362cd69995f3de42edfcde6047b19763dce17346addc41472cda080",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJs-soi56OGGARvvSyPcqIups",
+          "observedAt": "2026-10-22T08:25:20.517Z",
+          "requestFingerprint": "4344f076e204f06631aa9980308c8f6f8aad734cb838f0f1f59bb7d88041ba6d",
+          "claims": {
+            "locationResolutionQuery": "Ueno",
+            "resolvedPlaceName": "Ueno",
+            "resolvedPlaceId": "ChIJs-soi56OGGARvvSyPcqIups",
+            "latitude": 35.7087296,
+            "longitude": 139.7741538,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-02-attempt-1/runner/2026-10-22T08-33-27-412Z-91a9440a-8622-41cd-96f2-526be579345b.result.json",
+        "sha256": "2df3226be31b0ba5a570dad2c37b97a87ce497747130815322b1822414042bfc",
+        "runId": "91a9440a-8622-41cd-96f2-526be579345b",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Sangenjaya"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "c75d9b0be5cbc44ab813c45476e212250e84fc6bdd252a289d36eb4c11f8d97c",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJ-R4jJ5n0GGAR5j_HSqAxKcw",
+          "observedAt": "2026-10-22T08:33:34.261Z",
+          "requestFingerprint": "40d2967d1c9b3e41d60796eb00eaf7e3ff1df175431887153d32040ff14d195b",
+          "claims": {
+            "locationResolutionQuery": "Sangenjaya",
+            "resolvedPlaceName": "Sangenjaya",
+            "resolvedPlaceId": "ChIJ-R4jJ5n0GGAR5j_HSqAxKcw",
+            "latitude": 35.641253899999995,
+            "longitude": 139.667531,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/runner/2026-10-22T08-42-01-645Z-8a1e9abe-a8ba-4eed-9d7d-4e9388d374c0.result.json",
+        "sha256": "9eb22391bf9b41600ee676ddf55a0995a47b7b83711be873f3dc36bd5fac4cb3",
+        "runId": "8a1e9abe-a8ba-4eed-9d7d-4e9388d374c0",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Akasaka"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "d07ac3c438f155d7bdb4574c2cbbd759c15f57b0bd8f327bf3d280026c2f7aee",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJlfFXH4GLGGARQUcHxUyjphE",
+          "observedAt": "2026-10-22T08:42:09.046Z",
+          "requestFingerprint": "7b4fb7c94ad4a68c40a584802943142e9136364e1f599ef03d27c58a692c1e29",
+          "claims": {
+            "locationResolutionQuery": "Akasaka",
+            "resolvedPlaceName": "Akasaka",
+            "resolvedPlaceId": "ChIJlfFXH4GLGGARQUcHxUyjphE",
+            "latitude": 35.6710403,
+            "longitude": 139.7345469,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/runner/2026-10-22T08-55-33-055Z-52866809-a474-4ee5-a11a-bdeecf2fc251.result.json",
+        "sha256": "cdf819738946725534180c6ede36b1b6b492919280f1cfaa70b0d115c39b486f",
+        "runId": "52866809-a474-4ee5-a11a-bdeecf2fc251",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Ningyocho"
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [
+        {
+          "id": "event:restaurant-agent:1",
+          "taskId": "hybrid-live:p2-holdout-04:1792659332986",
+          "event": {
+            "type": "SEARCH_FAILED",
+            "reason": "Google Places could not resolve coordinates for the named location \"Ningyocho\". Observations: name=\"Nihonbashiningyocho\" address=\"Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJk_FY1k-JGGARn-QTt8Cz_8E\" coordinate=\"35.6852807,139.7843792\"",
+            "code": "GOOGLE_LOCATION_UNRESOLVED"
+          },
+          "occurredAt": "2026-10-22T08:55:38.884Z",
+          "trace": {
+            "schemaVersion": "1",
+            "runId": "run:hybrid-live:p2-holdout-04:1792659332986",
+            "correlationId": "event:restaurant-agent:1",
+            "actor": "ADAPTER"
+          }
+        }
+      ],
+      "observedPlaces": [
+        {
+          "id": "ChIJk_FY1k-JGGARn-QTt8Cz_8E",
+          "displayName": {
+            "text": "Nihonbashiningyocho"
+          },
+          "formattedAddress": "Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan",
+          "types": [
+            "sublocality_level_2",
+            "sublocality",
+            "political"
+          ],
+          "location": {
+            "latitude": 35.6852807,
+            "longitude": 139.7843792
+          }
+        }
+      ],
+      "responseScope": "BOUNDED_PUBLIC_FAILURE_OBSERVATIONS",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.result.json",
+        "sha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+        "runId": "28d5e06b-c9ab-4000-8edc-5f66376d9866",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Gotanda"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "e932c3eb259785333418c3ec16ae8bbed4c9f449cb177bcdcf4c332163c10fc1",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJh_ybVrJ6GGARmiCAnUtTj5o",
+          "observedAt": "2026-10-22T09:01:21.079Z",
+          "requestFingerprint": "e68d124ec8bd83663b934652ff85f3a5384f9d4b749642b5e38a02f2e5181569",
+          "claims": {
+            "locationResolutionQuery": "Gotanda",
+            "resolvedPlaceName": "Gotanda",
+            "resolvedPlaceId": "ChIJh_ybVrJ6GGARmiCAnUtTj5o",
+            "latitude": 35.62651880000001,
+            "longitude": 139.7233535,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-06-attempt-1/runner/2026-10-22T09-09-26-737Z-26fa6d0e-0c30-431c-a5ba-2393eb7d8422.result.json",
+        "sha256": "2cc91369892fec0a92f686db5194f81493d3b01b63a4856daef2c77b4a56e3e5",
+        "runId": "26fa6d0e-0c30-431c-a5ba-2393eb7d8422",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Shimokitazawa"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "0e200f133726bdf2e5d5f206e9727cb674dfc174aa9a1840ce5bb0ddb615a187",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJw_teZ_8hGGARgsSeLR2OLjM",
+          "observedAt": "2026-10-22T09:09:35.229Z",
+          "requestFingerprint": "5ab14440b92becaafb955ed93a7fd069c523baa7ecbf3a4016485fc7447d9f87",
+          "claims": {
+            "locationResolutionQuery": "Shimokitazawa",
+            "resolvedPlaceName": "Shimokitazawa",
+            "resolvedPlaceId": "ChIJw_teZ_8hGGARgsSeLR2OLjM",
+            "latitude": 35.665786,
+            "longitude": 139.66986269999998,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/runner/2026-10-22T09-19-53-736Z-8bed4854-5d97-4cce-89b2-8e44e62976aa.result.json",
+        "sha256": "0130e2cf761782e2144481d56fa1bab1be6624ee177ce82d1434243cc6dce27f",
+        "runId": "8bed4854-5d97-4cce-89b2-8e44e62976aa",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Ueno"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "bf3bb8eb949a6009c0281567e649bb15ccc9ad500224dcb49afa743fe9c123a9",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJs-soi56OGGARvvSyPcqIups",
+          "observedAt": "2026-10-22T09:20:09.924Z",
+          "requestFingerprint": "4344f076e204f06631aa9980308c8f6f8aad734cb838f0f1f59bb7d88041ba6d",
+          "claims": {
+            "locationResolutionQuery": "Ueno",
+            "resolvedPlaceName": "Ueno",
+            "resolvedPlaceId": "ChIJs-soi56OGGARvvSyPcqIups",
+            "latitude": 35.7087296,
+            "longitude": 139.7741538,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-08-attempt-1/runner/2026-10-22T09-33-41-137Z-69525c1d-a9d3-4354-9f87-45a855ea7adc.result.json",
+        "sha256": "166ab46356f8a1d8f3a4e7307d959af3698d5e91a5a17adc05879437c37b5161",
+        "runId": "69525c1d-a9d3-4354-9f87-45a855ea7adc",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Sangenjaya"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "03ca46173a90d1b2c419982be26a014e5b0a7ec3ff72208bccdb68a46a28f712",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJ-R4jJ5n0GGAR5j_HSqAxKcw",
+          "observedAt": "2026-10-22T09:33:49.287Z",
+          "requestFingerprint": "40d2967d1c9b3e41d60796eb00eaf7e3ff1df175431887153d32040ff14d195b",
+          "claims": {
+            "locationResolutionQuery": "Sangenjaya",
+            "resolvedPlaceName": "Sangenjaya",
+            "resolvedPlaceId": "ChIJ-R4jJ5n0GGAR5j_HSqAxKcw",
+            "latitude": 35.641253899999995,
+            "longitude": 139.667531,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/runner/2026-10-22T09-43-42-240Z-1fe7a835-0915-4fc1-9603-87143341155d.result.json",
+        "sha256": "ceca2aefa9c0a60479f66076d84ee11c5ba0abcb5355d76b63c959f3075ca116",
+        "runId": "1fe7a835-0915-4fc1-9603-87143341155d",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Akasaka"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "b8d285969bf94c536a70eb38382238fa75e10222beb7cfd6ff1a9ad8527d9996",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJlfFXH4GLGGARQUcHxUyjphE",
+          "observedAt": "2026-10-22T09:43:51.960Z",
+          "requestFingerprint": "7b4fb7c94ad4a68c40a584802943142e9136364e1f599ef03d27c58a692c1e29",
+          "claims": {
+            "locationResolutionQuery": "Akasaka",
+            "resolvedPlaceName": "Akasaka",
+            "resolvedPlaceId": "ChIJlfFXH4GLGGARQUcHxUyjphE",
+            "latitude": 35.6710403,
+            "longitude": 139.7345469,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/runner/2026-10-22T10-02-38-844Z-601cd4b1-fabb-4d6f-ab5e-cc6fb4d7ce51.result.json",
+        "sha256": "a3afcbd6e7b4b7d52718d710d388e0d2672e6a29829cc3d64ca78c6f6e608b12",
+        "runId": "601cd4b1-fabb-4d6f-ab5e-cc6fb4d7ce51",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Ningyocho"
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [
+        {
+          "id": "event:restaurant-agent:1",
+          "taskId": "hybrid-live:p2-holdout-04:1792663358772",
+          "event": {
+            "type": "SEARCH_FAILED",
+            "reason": "Google Places could not resolve coordinates for the named location \"Ningyocho\". Observations: name=\"Nihonbashiningyocho\" address=\"Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJk_FY1k-JGGARn-QTt8Cz_8E\" coordinate=\"35.6852807,139.7843792\"",
+            "code": "GOOGLE_LOCATION_UNRESOLVED"
+          },
+          "occurredAt": "2026-10-22T10:02:45.706Z",
+          "trace": {
+            "schemaVersion": "1",
+            "runId": "run:hybrid-live:p2-holdout-04:1792663358772",
+            "correlationId": "event:restaurant-agent:1",
+            "actor": "ADAPTER"
+          }
+        }
+      ],
+      "observedPlaces": [
+        {
+          "id": "ChIJk_FY1k-JGGARn-QTt8Cz_8E",
+          "displayName": {
+            "text": "Nihonbashiningyocho"
+          },
+          "formattedAddress": "Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan",
+          "types": [
+            "sublocality_level_2",
+            "sublocality",
+            "political"
+          ],
+          "location": {
+            "latitude": 35.6852807,
+            "longitude": 139.7843792
+          }
+        }
+      ],
+      "responseScope": "BOUNDED_PUBLIC_FAILURE_OBSERVATIONS",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1/runner/2026-10-22T10-08-08-592Z-7cea80fb-c1d8-46b7-9404-b2351e024565.result.json",
+        "sha256": "5852a4619fbf165ae850af4eabb966859e8d3b219f4afe8f04b4f45b3b63cb79",
+        "runId": "7cea80fb-c1d8-46b7-9404-b2351e024565",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Gotanda"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "feafe0837c3fda9fa55e1340d25e74a6cf515087a26529123ecdda9e680f6a86",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJh_ybVrJ6GGARmiCAnUtTj5o",
+          "observedAt": "2026-10-22T10:08:15.439Z",
+          "requestFingerprint": "e68d124ec8bd83663b934652ff85f3a5384f9d4b749642b5e38a02f2e5181569",
+          "claims": {
+            "locationResolutionQuery": "Gotanda",
+            "resolvedPlaceName": "Gotanda",
+            "resolvedPlaceId": "ChIJh_ybVrJ6GGARmiCAnUtTj5o",
+            "latitude": 35.62651880000001,
+            "longitude": 139.7233535,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-12-attempt-1/runner/2026-10-22T10-16-23-617Z-0cdaea8f-0db2-4085-b1f0-52b5abd4496a.result.json",
+        "sha256": "7a69c0b5147e7480060feae0617ef0d3b6472c30148f11b9d7d40edba9db9abc",
+        "runId": "0cdaea8f-0db2-4085-b1f0-52b5abd4496a",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Shimokitazawa"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "c361356e60d7f0390162e25001759f8f5131ee9e55e440293c2b2715b6579e3a",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJw_teZ_8hGGARgsSeLR2OLjM",
+          "observedAt": "2026-10-22T10:16:30.269Z",
+          "requestFingerprint": "5ab14440b92becaafb955ed93a7fd069c523baa7ecbf3a4016485fc7447d9f87",
+          "claims": {
+            "locationResolutionQuery": "Shimokitazawa",
+            "resolvedPlaceName": "Shimokitazawa",
+            "resolvedPlaceId": "ChIJw_teZ_8hGGARgsSeLR2OLjM",
+            "latitude": 35.665786,
+            "longitude": 139.66986269999998,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-13-attempt-1/runner/2026-10-22T10-24-28-216Z-3d45a76b-f3f7-4084-aec5-3ae45a846370.result.json",
+        "sha256": "76fffdd6662e2cac3c1b94f12805e27766ae555c8b5a0a4b82e68dea119974e1",
+        "runId": "3d45a76b-f3f7-4084-aec5-3ae45a846370",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Ueno"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "14e9b05b92577c7084d62050763b50bddc587db69b60ef8e6986f92d4f924df4",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJs-soi56OGGARvvSyPcqIups",
+          "observedAt": "2026-10-22T10:24:35.683Z",
+          "requestFingerprint": "4344f076e204f06631aa9980308c8f6f8aad734cb838f0f1f59bb7d88041ba6d",
+          "claims": {
+            "locationResolutionQuery": "Ueno",
+            "resolvedPlaceName": "Ueno",
+            "resolvedPlaceId": "ChIJs-soi56OGGARvvSyPcqIups",
+            "latitude": 35.7087296,
+            "longitude": 139.7741538,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-14-attempt-1/runner/2026-10-22T10-34-03-531Z-73b364ae-f896-4535-a739-1d560e245acd.result.json",
+        "sha256": "3eda6c39a4128d6cec1103e0fcb74705894e012f360ea294d1336de7545213a2",
+        "runId": "73b364ae-f896-4535-a739-1d560e245acd",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Sangenjaya"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "1b9ead0db27276ea606fc13b3f7520d667cc7531c60115f1d5980c3074ed3591",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJ-R4jJ5n0GGAR5j_HSqAxKcw",
+          "observedAt": "2026-10-22T10:34:16.874Z",
+          "requestFingerprint": "40d2967d1c9b3e41d60796eb00eaf7e3ff1df175431887153d32040ff14d195b",
+          "claims": {
+            "locationResolutionQuery": "Sangenjaya",
+            "resolvedPlaceName": "Sangenjaya",
+            "resolvedPlaceId": "ChIJ-R4jJ5n0GGAR5j_HSqAxKcw",
+            "latitude": 35.641253899999995,
+            "longitude": 139.667531,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/runner/2026-10-22T10-42-02-863Z-88cea1d7-adf7-49ac-ba2d-480dd1f199fc.result.json",
+        "sha256": "26e57e70b57a0b6e43e014dc8368aaf634f96e7b95aaa92325ce154b8615dc60",
+        "runId": "88cea1d7-adf7-49ac-ba2d-480dd1f199fc",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Akasaka"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "0701b12ebbe15fa3fe2864e7050f4ff861509461aebe03184c48abaca958b70c",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJlfFXH4GLGGARQUcHxUyjphE",
+          "observedAt": "2026-10-22T10:42:09.092Z",
+          "requestFingerprint": "7b4fb7c94ad4a68c40a584802943142e9136364e1f599ef03d27c58a692c1e29",
+          "claims": {
+            "locationResolutionQuery": "Akasaka",
+            "resolvedPlaceName": "Akasaka",
+            "resolvedPlaceId": "ChIJlfFXH4GLGGARQUcHxUyjphE",
+            "latitude": 35.6710403,
+            "longitude": 139.7345469,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/runner/2026-10-22T10-54-22-004Z-0404d30f-447d-4362-ab68-148bb7da5b3d.result.json",
+        "sha256": "4a532f4e5b160f8c5447bdbbced4c624b1f81557a938a9c3d85493fe16ab67ef",
+        "runId": "0404d30f-447d-4362-ab68-148bb7da5b3d",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Ningyocho"
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [
+        {
+          "id": "event:restaurant-agent:1",
+          "taskId": "hybrid-live:p2-holdout-04:1792666461936",
+          "event": {
+            "type": "SEARCH_FAILED",
+            "reason": "Google Places could not resolve coordinates for the named location \"Ningyocho\". Observations: name=\"Nihonbashiningyocho\" address=\"Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJk_FY1k-JGGARn-QTt8Cz_8E\" coordinate=\"35.6852807,139.7843792\"",
+            "code": "GOOGLE_LOCATION_UNRESOLVED"
+          },
+          "occurredAt": "2026-10-22T10:54:37.010Z",
+          "trace": {
+            "schemaVersion": "1",
+            "runId": "run:hybrid-live:p2-holdout-04:1792666461936",
+            "correlationId": "event:restaurant-agent:1",
+            "actor": "ADAPTER"
+          }
+        }
+      ],
+      "observedPlaces": [
+        {
+          "id": "ChIJk_FY1k-JGGARn-QTt8Cz_8E",
+          "displayName": {
+            "text": "Nihonbashiningyocho"
+          },
+          "formattedAddress": "Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan",
+          "types": [
+            "sublocality_level_2",
+            "sublocality",
+            "political"
+          ],
+          "location": {
+            "latitude": 35.6852807,
+            "longitude": 139.7843792
+          }
+        }
+      ],
+      "responseScope": "BOUNDED_PUBLIC_FAILURE_OBSERVATIONS",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-17-attempt-1/runner/2026-10-22T11-00-05-204Z-c57bbc4a-28c6-40f0-9c49-b8df7f71801b.result.json",
+        "sha256": "a982e1b0e4ef859e92b502cc8b92cde0d4b9440fac4a9dfaf23964bd94d136b2",
+        "runId": "c57bbc4a-28c6-40f0-9c49-b8df7f71801b",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Gotanda"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "fa05309b5509e1f02cfd2af36d2fc77ea0442db2799bd11baf45a246d1f0bde4",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJh_ybVrJ6GGARmiCAnUtTj5o",
+          "observedAt": "2026-10-22T11:00:11.742Z",
+          "requestFingerprint": "e68d124ec8bd83663b934652ff85f3a5384f9d4b749642b5e38a02f2e5181569",
+          "claims": {
+            "locationResolutionQuery": "Gotanda",
+            "resolvedPlaceName": "Gotanda",
+            "resolvedPlaceId": "ChIJh_ybVrJ6GGARmiCAnUtTj5o",
+            "latitude": 35.62651880000001,
+            "longitude": 139.7233535,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-18-attempt-1/runner/2026-10-22T11-09-39-059Z-dd57f6be-315c-48a0-942a-01c2c92fcfde.result.json",
+        "sha256": "a399abfa10d480535c54d71bba17eea41f8d343ccb076c2cb4e8bd12ae5a7fb4",
+        "runId": "dd57f6be-315c-48a0-942a-01c2c92fcfde",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "area": {
+        "query": "near Shimokitazawa"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "b22d6b727568aab66901107fdecbf245df5a22f8980e7743dc71270dc7ce069b",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJw_teZ_8hGGARgsSeLR2OLjM",
+          "observedAt": "2026-10-22T11:09:49.313Z",
+          "requestFingerprint": "5ab14440b92becaafb955ed93a7fd069c523baa7ecbf3a4016485fc7447d9f87",
+          "claims": {
+            "locationResolutionQuery": "Shimokitazawa",
+            "resolvedPlaceName": "Shimokitazawa",
+            "resolvedPlaceId": "ChIJw_teZ_8hGGARgsSeLR2OLjM",
+            "latitude": 35.665786,
+            "longitude": 139.66986269999998,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-01-attempt-1/runner/2026-10-22T20-13-00-252Z-526b2b8c-342f-4a01-a8e2-b807ed5efe0f.result.json",
+        "sha256": "d0627659b5817d98eafa97877a456861d9c7800ff984dea93651b2a1b1dae898",
+        "runId": "526b2b8c-342f-4a01-a8e2-b807ed5efe0f",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Asakusa"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "e7195a414cd9dea4bb7dbe412eebc693c0abc91929d8c3576ac819c1390511e0",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJM1N_BMKOGGARZ0DHgTj9hHw",
+          "observedAt": "2026-10-22T20:13:07.653Z",
+          "requestFingerprint": "ce265cb260ee63a97374df1378d6471553e8eb20c4f7032aacda4a630f2fd123",
+          "claims": {
+            "locationResolutionQuery": "Asakusa",
+            "resolvedPlaceName": "Asakusa",
+            "resolvedPlaceId": "ChIJM1N_BMKOGGARZ0DHgTj9hHw",
+            "latitude": 35.7185858,
+            "longitude": 139.7958849,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-02-attempt-1/runner/2026-10-22T20-21-53-560Z-f819f475-1c9b-477f-97f8-5a894c201a33.result.json",
+        "sha256": "d160d72d272ebfe0f3f07ab5b599e6fa9313cd485292a13aaf8143289a5103b6",
+        "runId": "f819f475-1c9b-477f-97f8-5a894c201a33",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Kachidoki"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "f06c2e009c75d87bd743e8b6cc8092ac902d205e4e2d40771982038ada3a26da",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJu2xQxH2JGGARXIA3h98YeCE",
+          "observedAt": "2026-10-22T20:21:59.997Z",
+          "requestFingerprint": "1d8ef00efd4d222da8e0aa4a8c2991a69d9ebe8349d548628467d0290057c74d",
+          "claims": {
+            "locationResolutionQuery": "Kachidoki",
+            "resolvedPlaceName": "Kachidoki",
+            "resolvedPlaceId": "ChIJu2xQxH2JGGARXIA3h98YeCE",
+            "latitude": 35.658221999999995,
+            "longitude": 139.7741538,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-03-attempt-1/runner/2026-10-22T20-30-45-800Z-b9a978ac-8482-454e-88db-6755dc9b684c.result.json",
+        "sha256": "f7a399e341d94c83aba339d233f5e22654e57e785fa0f66bb9d711aab71fc92c",
+        "runId": "b9a978ac-8482-454e-88db-6755dc9b684c",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Ebisu"
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [
+        {
+          "id": "event:restaurant-agent:1",
+          "taskId": "hybrid-live:p2b-holdout-03:1792701045732",
+          "event": {
+            "type": "SEARCH_FAILED",
+            "reason": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+            "code": "GOOGLE_LOCATION_UNRESOLVED"
+          },
+          "occurredAt": "2026-10-22T20:30:51.613Z",
+          "trace": {
+            "schemaVersion": "1",
+            "runId": "run:hybrid-live:p2b-holdout-03:1792701045732",
+            "correlationId": "event:restaurant-agent:1",
+            "actor": "ADAPTER"
+          }
+        }
+      ],
+      "observedPlaces": [],
+      "responseScope": "RECORDED_EMPTY_LIST",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-04-attempt-1/runner/2026-10-22T20-36-12-235Z-f9feab56-b5b3-4be4-8a3e-4a38d648a51b.result.json",
+        "sha256": "6679d8c30b0b08330a551fd2bb2bbaed799caa836e82e479cd09cc3ec8cc303c",
+        "runId": "f9feab56-b5b3-4be4-8a3e-4a38d648a51b",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Ikebukuro"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "43b65499cc6be1af142b957c75da259d228d4b470197de4366c7605571593b85",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJJ1xYpaCSGGARumLc8TmsILQ",
+          "observedAt": "2026-10-22T20:36:18.493Z",
+          "requestFingerprint": "01f2c69e9ea2fa08fb40321ed68e90fc7c8c15b832a7f62587cd3f3d5f797734",
+          "claims": {
+            "locationResolutionQuery": "Ikebukuro",
+            "resolvedPlaceName": "Ikebukuro",
+            "resolvedPlaceId": "ChIJJ1xYpaCSGGARumLc8TmsILQ",
+            "latitude": 35.734831400000004,
+            "longitude": 139.7077314,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-05-attempt-1/runner/2026-10-22T20-43-38-839Z-2e52f0d5-3b06-4ffa-9d79-39441e048cf6.result.json",
+        "sha256": "462f7b672feb581a428e523db3101d7e53229697aa8bbafa4ca2c256a9c4cecd",
+        "runId": "2e52f0d5-3b06-4ffa-9d79-39441e048cf6",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Azabu-Juban"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "612eb813c9e93b1f27c53421e5f1e0e667f688f592f66bc45df850eee6fc2ed3",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJa83EfZ-LGGARHbrRcVb6_8s",
+          "observedAt": "2026-10-22T20:43:45.456Z",
+          "requestFingerprint": "9ad1312b0d0fa0dbad2fad0f53fa47605c35d5445500e7c32fb4349ee4613cae",
+          "claims": {
+            "locationResolutionQuery": "Azabu-Juban",
+            "resolvedPlaceName": "Azabujuban",
+            "resolvedPlaceId": "ChIJa83EfZ-LGGARHbrRcVb6_8s",
+            "latitude": 35.6546541,
+            "longitude": 139.7351855,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 2,
+        "namedPlaceResolution": 1,
+        "discovery": 1,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-06-attempt-1/runner/2026-10-22T20-55-22-196Z-f6df6ee3-8afe-4ac1-9e72-dac007be4ff6.result.json",
+        "sha256": "7a4447681e0ee8260d4e7ace966cf65b35b9ac13bcf61fa04e9eda991548b5d1",
+        "runId": "f6df6ee3-8afe-4ac1-9e72-dac007be4ff6",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Shimbashi"
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [
+        {
+          "id": "event:restaurant-agent:1",
+          "taskId": "hybrid-live:p2b-holdout-06:1792702522125",
+          "event": {
+            "type": "SEARCH_FAILED",
+            "reason": "Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\"",
+            "code": "GOOGLE_LOCATION_UNRESOLVED"
+          },
+          "occurredAt": "2026-10-22T20:55:28.189Z",
+          "trace": {
+            "schemaVersion": "1",
+            "runId": "run:hybrid-live:p2b-holdout-06:1792702522125",
+            "correlationId": "event:restaurant-agent:1",
+            "actor": "ADAPTER"
+          }
+        }
+      ],
+      "observedPlaces": [
+        {
+          "id": "ChIJGx6XGeqLGGARGn6w2QDkxVA",
+          "displayName": {
+            "text": "Shinbashi"
+          },
+          "formattedAddress": "Shinbashi, Minato City, Tokyo 105-0004, Japan",
+          "types": [
+            "sublocality_level_2",
+            "sublocality",
+            "political"
+          ],
+          "location": {
+            "latitude": 35.6648291,
+            "longitude": 139.7562635
+          }
+        }
+      ],
+      "responseScope": "BOUNDED_PUBLIC_FAILURE_OBSERVATIONS",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-07-attempt-1/runner/2026-10-22T21-00-48-996Z-5bda4130-c758-4325-9937-95ca0a8a0490.result.json",
+        "sha256": "d02876e2f8563335f2dd132348b60dd127a86bec3110d21a49679653979631e5",
+        "runId": "5bda4130-c758-4325-9937-95ca0a8a0490",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Asakusa"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "6ff1d10b0db0ecdd0c896401a68cc7fc2b3a275603374e18e61b1cbd85a12469",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJM1N_BMKOGGARZ0DHgTj9hHw",
+          "observedAt": "2026-10-22T21:00:55.078Z",
+          "requestFingerprint": "ce265cb260ee63a97374df1378d6471553e8eb20c4f7032aacda4a630f2fd123",
+          "claims": {
+            "locationResolutionQuery": "Asakusa",
+            "resolvedPlaceName": "Asakusa",
+            "resolvedPlaceId": "ChIJM1N_BMKOGGARZ0DHgTj9hHw",
+            "latitude": 35.7185858,
+            "longitude": 139.7958849,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-08-attempt-1/runner/2026-10-22T21-08-48-119Z-7c5b19c9-1ab5-4a97-b408-706286ea0e27.result.json",
+        "sha256": "79c98c316c4c60ae6263819d9f75e9edca0a6bf0c8e45a7d1e1083d9fd7c24cf",
+        "runId": "7c5b19c9-1ab5-4a97-b408-706286ea0e27",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Kachidoki"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "b5d9353b70e862fbfa76ac8307cac470dbcc15b7011b53140ea6d8cf643a01e9",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJu2xQxH2JGGARXIA3h98YeCE",
+          "observedAt": "2026-10-22T21:08:54.271Z",
+          "requestFingerprint": "1d8ef00efd4d222da8e0aa4a8c2991a69d9ebe8349d548628467d0290057c74d",
+          "claims": {
+            "locationResolutionQuery": "Kachidoki",
+            "resolvedPlaceName": "Kachidoki",
+            "resolvedPlaceId": "ChIJu2xQxH2JGGARXIA3h98YeCE",
+            "latitude": 35.658221999999995,
+            "longitude": 139.7741538,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/runner/2026-10-22T21-17-21-383Z-60c026f8-95d7-4d54-902c-dc8c55d6ec43.result.json",
+        "sha256": "ed406c4c9154e929b2df0b24f79f2f784b54c589c04aad52a84f9a42da0a6315",
+        "runId": "60c026f8-95d7-4d54-902c-dc8c55d6ec43",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Ebisu"
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [
+        {
+          "id": "event:restaurant-agent:1",
+          "taskId": "hybrid-live:p2b-holdout-03:1792703841318",
+          "event": {
+            "type": "SEARCH_FAILED",
+            "reason": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+            "code": "GOOGLE_LOCATION_UNRESOLVED"
+          },
+          "occurredAt": "2026-10-22T21:17:27.779Z",
+          "trace": {
+            "schemaVersion": "1",
+            "runId": "run:hybrid-live:p2b-holdout-03:1792703841318",
+            "correlationId": "event:restaurant-agent:1",
+            "actor": "ADAPTER"
+          }
+        }
+      ],
+      "observedPlaces": [],
+      "responseScope": "RECORDED_EMPTY_LIST",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-10-attempt-1/runner/2026-10-22T21-22-46-248Z-739fc177-ba6b-4435-8008-122fb6f27dfb.result.json",
+        "sha256": "b4ea83efb7b9551a38baab8e7b5134eeecdc92f3b133a2924a24fe54c07cbfa6",
+        "runId": "739fc177-ba6b-4435-8008-122fb6f27dfb",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Ikebukuro"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "a627b0661f7e12402452ae3122b49fc61f3110d9029bdab4d11ea0580b88df6f",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJJ1xYpaCSGGARumLc8TmsILQ",
+          "observedAt": "2026-10-22T21:22:52.831Z",
+          "requestFingerprint": "01f2c69e9ea2fa08fb40321ed68e90fc7c8c15b832a7f62587cd3f3d5f797734",
+          "claims": {
+            "locationResolutionQuery": "Ikebukuro",
+            "resolvedPlaceName": "Ikebukuro",
+            "resolvedPlaceId": "ChIJJ1xYpaCSGGARumLc8TmsILQ",
+            "latitude": 35.734831400000004,
+            "longitude": 139.7077314,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-11-attempt-1/runner/2026-10-22T21-30-21-586Z-4e926f5b-c6ca-4fc3-9975-e3caa5735295.result.json",
+        "sha256": "8f3d4b02f7e69b293c38bc5239502982c67870afe214c932ac47ab353c8f31f7",
+        "runId": "4e926f5b-c6ca-4fc3-9975-e3caa5735295",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Azabu-Juban"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "a629c1e83162e3d8c3c1ce918117a073c2fbd3669233abf376f9da8e65bbe9b1",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJa83EfZ-LGGARHbrRcVb6_8s",
+          "observedAt": "2026-10-22T21:30:28.033Z",
+          "requestFingerprint": "9ad1312b0d0fa0dbad2fad0f53fa47605c35d5445500e7c32fb4349ee4613cae",
+          "claims": {
+            "locationResolutionQuery": "Azabu-Juban",
+            "resolvedPlaceName": "Azabujuban",
+            "resolvedPlaceId": "ChIJa83EfZ-LGGARHbrRcVb6_8s",
+            "latitude": 35.6546541,
+            "longitude": 139.7351855,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-12-attempt-1/runner/2026-10-22T21-38-48-616Z-5c215285-e59c-479a-b6ef-39a8a128bce2.result.json",
+        "sha256": "20df459631c391dab34c40774bf3c1d3c678dfd0bcd2407ea3c0c35a7fd83cc6",
+        "runId": "5c215285-e59c-479a-b6ef-39a8a128bce2",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Shimbashi"
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [
+        {
+          "id": "event:restaurant-agent:1",
+          "taskId": "hybrid-live:p2b-holdout-06:1792705128548",
+          "event": {
+            "type": "SEARCH_FAILED",
+            "reason": "Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\"",
+            "code": "GOOGLE_LOCATION_UNRESOLVED"
+          },
+          "occurredAt": "2026-10-22T21:38:55.515Z",
+          "trace": {
+            "schemaVersion": "1",
+            "runId": "run:hybrid-live:p2b-holdout-06:1792705128548",
+            "correlationId": "event:restaurant-agent:1",
+            "actor": "ADAPTER"
+          }
+        }
+      ],
+      "observedPlaces": [
+        {
+          "id": "ChIJGx6XGeqLGGARGn6w2QDkxVA",
+          "displayName": {
+            "text": "Shinbashi"
+          },
+          "formattedAddress": "Shinbashi, Minato City, Tokyo 105-0004, Japan",
+          "types": [
+            "sublocality_level_2",
+            "sublocality",
+            "political"
+          ],
+          "location": {
+            "latitude": 35.6648291,
+            "longitude": 139.7562635
+          }
+        }
+      ],
+      "responseScope": "BOUNDED_PUBLIC_FAILURE_OBSERVATIONS",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-13-attempt-1/runner/2026-10-22T21-44-15-315Z-be6e05c4-5456-4289-b12a-386a949a0dfe.result.json",
+        "sha256": "6b624058173b90cee5d3e9a074fe75c827229738ca87eb95df4668fd197d1045",
+        "runId": "be6e05c4-5456-4289-b12a-386a949a0dfe",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Asakusa"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "eb607d0da8fff9de3c19247ec1b5b02b60d1145a8da78f40367b9fea0b34a82b",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJM1N_BMKOGGARZ0DHgTj9hHw",
+          "observedAt": "2026-10-22T21:44:22.702Z",
+          "requestFingerprint": "ce265cb260ee63a97374df1378d6471553e8eb20c4f7032aacda4a630f2fd123",
+          "claims": {
+            "locationResolutionQuery": "Asakusa",
+            "resolvedPlaceName": "Asakusa",
+            "resolvedPlaceId": "ChIJM1N_BMKOGGARZ0DHgTj9hHw",
+            "latitude": 35.7185858,
+            "longitude": 139.7958849,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-14-attempt-1/runner/2026-10-22T21-53-04-891Z-c79d2b8b-c204-4881-85cf-14df3498cc6a.result.json",
+        "sha256": "eb2fbf1dae40148b05ecb58416ed4e058cd3334f48ca9520061d71b4458c55d2",
+        "runId": "c79d2b8b-c204-4881-85cf-14df3498cc6a",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Kachidoki"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "c1840f43694cacec7ebd49edfd76bf0eec1d888c56176a5441df34687fdf00f0",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJu2xQxH2JGGARXIA3h98YeCE",
+          "observedAt": "2026-10-22T21:53:12.224Z",
+          "requestFingerprint": "1d8ef00efd4d222da8e0aa4a8c2991a69d9ebe8349d548628467d0290057c74d",
+          "claims": {
+            "locationResolutionQuery": "Kachidoki",
+            "resolvedPlaceName": "Kachidoki",
+            "resolvedPlaceId": "ChIJu2xQxH2JGGARXIA3h98YeCE",
+            "latitude": 35.658221999999995,
+            "longitude": 139.7741538,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 3,
+        "namedPlaceResolution": 1,
+        "discovery": 2,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-15-attempt-1/runner/2026-10-22T22-01-57-482Z-a45bf287-2aff-4872-bfbe-62acfa11a0d2.result.json",
+        "sha256": "00dd8de97671893de350e8e7ac74dff65fed2f12cbc75a9c887b77aaf5be850f",
+        "runId": "a45bf287-2aff-4872-bfbe-62acfa11a0d2",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Ebisu"
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [
+        {
+          "id": "event:restaurant-agent:1",
+          "taskId": "hybrid-live:p2b-holdout-03:1792706517412",
+          "event": {
+            "type": "SEARCH_FAILED",
+            "reason": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+            "code": "GOOGLE_LOCATION_UNRESOLVED"
+          },
+          "occurredAt": "2026-10-22T22:02:03.860Z",
+          "trace": {
+            "schemaVersion": "1",
+            "runId": "run:hybrid-live:p2b-holdout-03:1792706517412",
+            "correlationId": "event:restaurant-agent:1",
+            "actor": "ADAPTER"
+          }
+        }
+      ],
+      "observedPlaces": [],
+      "responseScope": "RECORDED_EMPTY_LIST",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-16-attempt-1/runner/2026-10-22T22-07-25-660Z-8409f1aa-6cc4-40c8-8575-9fae22abc43b.result.json",
+        "sha256": "5db85297f7904e094ff818eeb3d2adea1e74ad947983c174e4690cc8a23334b7",
+        "runId": "8409f1aa-6cc4-40c8-8575-9fae22abc43b",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Ikebukuro"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "dcbd165114f59430b2f115be0971ef18c3ecff9aa7688cd421083ff7ed79d96f",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJJ1xYpaCSGGARumLc8TmsILQ",
+          "observedAt": "2026-10-22T22:07:32.092Z",
+          "requestFingerprint": "01f2c69e9ea2fa08fb40321ed68e90fc7c8c15b832a7f62587cd3f3d5f797734",
+          "claims": {
+            "locationResolutionQuery": "Ikebukuro",
+            "resolvedPlaceName": "Ikebukuro",
+            "resolvedPlaceId": "ChIJJ1xYpaCSGGARumLc8TmsILQ",
+            "latitude": 35.734831400000004,
+            "longitude": 139.7077314,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-17-attempt-1/runner/2026-10-22T22-14-57-225Z-c8dcfdd4-7041-44a0-b3ac-3572bd4484b2.result.json",
+        "sha256": "32239c6f4662f93c5ff636cd1f95df2973df78843986bf6cbe04741e935a399a",
+        "runId": "c8dcfdd4-7041-44a0-b3ac-3572bd4484b2",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Azabu-Juban"
+      },
+      "recordedSuccessEvidence": [
+        {
+          "evidenceId": "51c33c5f56becc745878bee6b5e7420fe748907311f669e4d007eb330617caa4",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "sourceEntityId": "ChIJa83EfZ-LGGARHbrRcVb6_8s",
+          "observedAt": "2026-10-22T22:15:04.597Z",
+          "requestFingerprint": "9ad1312b0d0fa0dbad2fad0f53fa47605c35d5445500e7c32fb4349ee4613cae",
+          "claims": {
+            "locationResolutionQuery": "Azabu-Juban",
+            "resolvedPlaceName": "Azabujuban",
+            "resolvedPlaceId": "ChIJa83EfZ-LGGARHbrRcVb6_8s",
+            "latitude": 35.6546541,
+            "longitude": 139.7351855,
+            "radiusMeters": 1000,
+            "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+          }
+        }
+      ],
+      "recordedFailure": [],
+      "observedPlaces": [],
+      "responseScope": "SELECTED_PROJECTION_ONLY_NO_RANKED_RESPONSE",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 2,
+        "namedPlaceResolution": 1,
+        "discovery": 1,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-18-attempt-1/runner/2026-10-22T22-23-30-930Z-8eac6ea7-3217-4bef-92a3-3d963636f225.result.json",
+        "sha256": "8c74dc462e1d4875769f6860b93edd7742f646694ed258c06fa46e3f87f21a12",
+        "runId": "8eac6ea7-3217-4bef-92a3-3d963636f225",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Shimbashi"
+      },
+      "recordedSuccessEvidence": [],
+      "recordedFailure": [
+        {
+          "id": "event:restaurant-agent:1",
+          "taskId": "hybrid-live:p2b-holdout-06:1792707810865",
+          "event": {
+            "type": "SEARCH_FAILED",
+            "reason": "Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\"",
+            "code": "GOOGLE_LOCATION_UNRESOLVED"
+          },
+          "occurredAt": "2026-10-22T22:23:36.396Z",
+          "trace": {
+            "schemaVersion": "1",
+            "runId": "run:hybrid-live:p2b-holdout-06:1792707810865",
+            "correlationId": "event:restaurant-agent:1",
+            "actor": "ADAPTER"
+          }
+        }
+      ],
+      "observedPlaces": [
+        {
+          "id": "ChIJGx6XGeqLGGARGn6w2QDkxVA",
+          "displayName": {
+            "text": "Shinbashi"
+          },
+          "formattedAddress": "Shinbashi, Minato City, Tokyo 105-0004, Japan",
+          "types": [
+            "sublocality_level_2",
+            "sublocality",
+            "political"
+          ],
+          "location": {
+            "latitude": 35.6648291,
+            "longitude": 139.7562635
+          }
+        }
+      ],
+      "responseScope": "BOUNDED_PUBLIC_FAILURE_OBSERVATIONS",
+      "runtimeCommit": "a7c9784bfb00c102341a91123e252b62f528a721",
+      "evaluationLocation": null,
+      "googleUsage": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      }
+    }
+  ],
+  "scope": "Only the exposed C, first holdout and Phase2b holdout result/capture directories; no new holdout searched."
+}
