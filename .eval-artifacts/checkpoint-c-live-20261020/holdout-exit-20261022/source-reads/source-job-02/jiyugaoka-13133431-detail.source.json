@@ -1,0 +1,112 @@
+{
+  "id": "jiyugaoka-13133431-detail",
+  "caseId": "p2-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1317/A131703/13133431/",
+  "observedAt": "2026-10-22T06:52:11.999Z",
+  "responseSha256": "abebef2fb4c795f7b7b2a6a4342c5a20d4fe4d4b076d9c918d09ae472f8e7c19",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/jiyugaoka-13133431-detail.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Pasta Bar MiKiYA's Jiyuugaoka",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Jiyugaoka  Meguro  Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1520035",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.60920179873082,
+          "longitude": 139.66927344372496
+        },
+        "servesCuisine": "Italian,Wine bar,Baru (Spanish style bar)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1317/A131703/13133431/\",\"name\":\"Pasta Bar MiKiYA's Jiyuugaoka\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/329186/640x640_rect_a817e0108035f50fee5a1741cf7813dc.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Jiyugaoka  Meguro  Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1520035\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.60920179873082,\"longitude\":139.66927344372496},\"priceRange\":\"JPY 3,000～JPY 3,999\",\"servesCuisine\":\"Italian,Wine bar,Baru (Spanish style bar)\",\"telephone\":\"+81-3-5731-9272\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"733\",\"ratingValue\":\"3.49\"}}\n    ",
+        "sha256": "4319a5c35406837f57d379c1e72246882b55ff26dd48164ebe504e6724d8dd34",
+        "htmlCharacterOffset": 6178
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 70709,
+        "raw": "Italian, Wine bar, Baru (Spanish style bar)"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Italian, Wine bar, Baru (Spanish style bar)",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Italian, Wine bar, Baru (Spanish style bar)",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "A pasta bar featuring chewy fresh pasta!",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                A pasta bar featuring chewy fresh pasta!\n              </h3>",
+      "sha256": "96b213b246c1225305c3610f78d6e45b0920a547b88c4e5594d7e04ea6326439",
+      "htmlCharacterOffset": 43777
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Italian, Wine bar, Baru (Spanish style bar)",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Wine bar, Baru (Spanish style bar)</span>\n                    </td>\n                  </tr>",
+      "sha256": "e6201cedfaadba3148ac69c7c48954fdb80941960f6225106650a536766adf50",
+      "htmlCharacterOffset": 70589
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 3,000 - JPY 3,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 3,000 - JPY 3,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "273a1fbe76508c61431d625f6f2f5280dcc67393e8e393b18b0d8b87c362545b",
+      "htmlCharacterOffset": 76017
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "f8ba7dd3edf78243aceebce5b660421d2a2509061227a3091532cd94ef85480f",
+      "htmlCharacterOffset": 83977
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Wine bar, Baru (Spanish style bar)</span>\n                    </td>\n                  </tr>",
+      "sha256": "e6201cedfaadba3148ac69c7c48954fdb80941960f6225106650a536766adf50",
+      "text": "Categories Italian, Wine bar, Baru (Spanish style bar)",
+      "htmlCharacterOffset": 70589
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131703/13133431/dtlratings/#price-range\">JPY 3,000 - JPY 3,999</a></span>\n                            </p>",
+      "sha256": "93109e31e6ae7a6f203dfdc393b99c837c8d3859852356c95d1fe388e527f3e0",
+      "text": "JPY 3,000 - JPY 3,999",
+      "htmlCharacterOffset": 25878
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131703/13133431/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "b623075f1d5c9c62c936c22d3a5d61ccafadf7098b0c400db90ba303d2042281",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26308
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1317/A131703/13133431/"
+}

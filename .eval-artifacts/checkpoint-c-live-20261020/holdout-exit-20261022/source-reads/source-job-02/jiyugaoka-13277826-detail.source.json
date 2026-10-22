@@ -1,0 +1,112 @@
+{
+  "id": "jiyugaoka-13277826-detail",
+  "caseId": "p2-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1317/A131703/13277826/",
+  "observedAt": "2026-10-22T06:51:40.389Z",
+  "responseSha256": "9be955229d67f4e4075c07710a92d7a47b5a1f1bd84931b0b86f6a98c3eb48b3",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/jiyugaoka-13277826-detail.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Cerdi Jiyuugaoka",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Midorigaoka Meguro Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1520034",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.60857181873222,
+          "longitude": 139.6724127837164
+        },
+        "servesCuisine": "Italian,Pasta,Cafe"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1317/A131703/13277826/\",\"name\":\"Cerdi Jiyuugaoka\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/372024/640x640_rect_bd22b4c94a13b89627c297d972c53345.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Midorigaoka Meguro Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1520034\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.60857181873222,\"longitude\":139.6724127837164},\"priceRange\":\"JPY 4,000～JPY 4,999\",\"servesCuisine\":\"Italian,Pasta,Cafe\",\"telephone\":\"+81-3-5726-8631\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"658\",\"ratingValue\":\"3.46\"}}\n    ",
+        "sha256": "26759884ad81c3eb71e06ecb1aa6fb9ec812c6e4e1933e7d150d4dfa5fd35432",
+        "htmlCharacterOffset": 6208
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 70460,
+        "raw": "Italian, Pasta, Cafe"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Italian, Pasta, Cafe",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Italian, Pasta, Cafe",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "A casual restaurant where you can enjoy 50 varieties of wine and authentic seasonal Italian cuisine.",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                A casual restaurant where you can enjoy 50 varieties of wine and authentic seasonal Italian cuisine.\n              </h3>",
+      "sha256": "0723f8d0e548373cef078dc7589a3e4c5734df42946f2961cd1dd4713b818a08",
+      "htmlCharacterOffset": 43309
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Italian, Pasta, Cafe",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Pasta, Cafe</span>\n                    </td>\n                  </tr>",
+      "sha256": "0fa3f06cbc81027364495c7b143a5fd0713f4d858f7363b0cdf57f4145118bab",
+      "htmlCharacterOffset": 70340
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 4,000 - JPY 4,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 4,000 - JPY 4,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "1494c19ee03cd5fa5807c66d2d027b0f504e3fb215e8d95d231420f173651892",
+      "htmlCharacterOffset": 79650
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome), Kids menu available For safety reasons, we kindly ask that you do not bring strollers or similar items into the restaurant.",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome), Kids menu available\n                  </p>\n                  <p class=\"rstinfo-table__each-info\">\n                    For safety reasons, we kindly ask that you do not bring strollers or similar items into the restaurant.<br />\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "8a1e53d87691453a57a7e683db0109d46f6b8dbacb2d104217aec30dc8a632f2",
+      "htmlCharacterOffset": 88955
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Pasta, Cafe</span>\n                    </td>\n                  </tr>",
+      "sha256": "0fa3f06cbc81027364495c7b143a5fd0713f4d858f7363b0cdf57f4145118bab",
+      "text": "Categories Italian, Pasta, Cafe",
+      "htmlCharacterOffset": 70340
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131703/13277826/dtlratings/#price-range\">JPY 4,000 - JPY 4,999</a></span>\n                            </p>",
+      "sha256": "8fb3c788f2bbb066353f04c3d838742b818c1e5355dcb94f6a0580ede7283da4",
+      "text": "JPY 4,000 - JPY 4,999",
+      "htmlCharacterOffset": 25619
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131703/13277826/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "ba664647fe73265dbd4e3651127ba925f36e36f5373c247dd56af5539e7fd4c3",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26049
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1317/A131703/13277826/"
+}
