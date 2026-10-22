@@ -1,0 +1,48 @@
+{
+  "status": "ALL_FIVE_GREEN",
+  "finalCodeCommit": "d662a23be673b4759866b0e7df267605ad935191",
+  "checks": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/phase2b-exit-pipeline-20261022/gates/typecheck-final.log",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    "architecture": {
+      "command": "npm run arch:check",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/phase2b-exit-pipeline-20261022/gates/architecture-final.log",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    "default": {
+      "command": "npm test",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/phase2b-exit-pipeline-20261022/gates/default-final.log",
+      "logSha256": "a73d68a28496d5a17084a67f0d81a0ca86413a6921decd0740b79b959b7b7561",
+      "passed": 1005,
+      "failed": 0
+    },
+    "build": {
+      "command": "npm run build",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/phase2b-exit-pipeline-20261022/gates/build-final.log",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    "browser": {
+      "command": "npm run test:browser:fixture",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/phase2b-exit-pipeline-20261022/gates/browser.log",
+      "logSha256": "3e6805b78fffb019760d152128cbaf87005a433bb02f329124469368774df719",
+      "passed": 131,
+      "failed": 0
+    }
+  },
+  "browserReuse": "Browser product/fixture sources unchanged by this task; full131 gate is from the same worktree. Cross-command source-clock addition is eval-only and has focused + final default-suite controls.",
+  "models": 0,
+  "websites": 0
+}

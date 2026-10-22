@@ -1,0 +1,76 @@
+{
+  "status": "PASS_PIPELINE_REHEARSAL_ONLY",
+  "mode": "OFFLINE_SAVED_REPLAY",
+  "freezeSha256": "b0d266ed1eb013d2c1a7f33da34ee89265e7825e5d56eef7ebfc8d7637e19e60",
+  "frozenCommit": "b4adb91ee06749423a70e3b2eb626b78959d74e5",
+  "originalRawCommitmentRejectedBeforeMaterialization": true,
+  "approvedExposedRecovery": true,
+  "datesAndRunnerCases": 6,
+  "sixWitnessCases": [
+    {
+      "caseId": "p2-holdout-01",
+      "count": 3
+    },
+    {
+      "caseId": "p2-holdout-02",
+      "count": 3
+    },
+    {
+      "caseId": "p2-holdout-03",
+      "count": 2
+    },
+    {
+      "caseId": "p2-holdout-04",
+      "count": 3
+    },
+    {
+      "caseId": "p2-holdout-05",
+      "count": 1
+    },
+    {
+      "caseId": "p2-holdout-06",
+      "count": 2
+    }
+  ],
+  "plannedSlots": 18,
+  "completedSlots": 18,
+  "sameCaseAdjacent": false,
+  "virtualSourceWaitMs": 5100000,
+  "reviewEntries": 9,
+  "candidateWordingPairs": 12,
+  "budgetStructuredBindings": [
+    {
+      "artifactSha256": "2df3226be31b0ba5a570dad2c37b97a87ce497747130815322b1822414042bfc",
+      "status": "STRUCTURED_FIELDS_MATCH"
+    },
+    {
+      "artifactSha256": "166ab46356f8a1d8f3a4e7307d959af3698d5e91a5a17adc05879437c37b5161",
+      "status": "STRUCTURED_FIELDS_MATCH"
+    },
+    {
+      "artifactSha256": "3eda6c39a4128d6cec1103e0fcb74705894e012f360ea294d1336de7545213a2",
+      "status": "STRUCTURED_FIELDS_MATCH"
+    }
+  ],
+  "evaluationBeforeReview": 0,
+  "evaluationAfterOldIndependentReview": 18,
+  "originalOverrunsPreserved": [
+    {
+      "runId": "h-07",
+      "historicalElapsedMs": 500076
+    },
+    {
+      "runId": "h-09",
+      "historicalElapsedMs": 500080
+    }
+  ],
+  "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubric": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "capabilityAndExits": "NOT_ASSESSED_BY_THIS_REHEARSAL; original execution evidence and limitations preserved; no budget price/display upgrade",
+  "newHoldoutOpened": false,
+  "newModels": 0,
+  "newWebsiteRequests": 0,
+  "newLive": 0,
+  "offlineDiscoveryTransportReads": 12,
+  "liveDenominator": 0
+}

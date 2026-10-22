@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.251
+- Document revision: 4.252
 - Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-22-PHASE2B-EXIT-PIPELINE-COMPLETE
+
+Phase2b退出流水线已完成零网站/零模型离线验收：最终d662a23b冻结3112项，旧暴露18槽位完整通过；6例见证3/3/2/3/1/2，9条目12措辞对不附结果，3份结构预算对应，缺判词评价0次、复用旧独立判词后18份评价。五门禁全绿（1005默认/131本地浏览器）。新留出仅71d9961c承诺未开原文，产品/ADR/Gold/预算及例03不改；旧500076/500080ms超限保留。此为流水线准备验收，非新留出或阶段退出；基线剩720模型不足900最低预留，未扩容。推送后停下等复核。 [报告](../../.eval-artifacts/phase2b-exit-pipeline-20261022/four-layer-report.md).
 
 ## DEV-2026-10-22-PHASE2B-EXIT-PIPELINE-PREP
 
