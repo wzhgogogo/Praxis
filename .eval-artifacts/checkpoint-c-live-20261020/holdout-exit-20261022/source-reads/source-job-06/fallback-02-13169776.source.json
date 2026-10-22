@@ -1,0 +1,127 @@
+{
+  "id": "fallback-02-13169776",
+  "caseId": "p2-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1317/A131706/13169776/",
+  "observedAt": "2026-10-22T07:24:09.773Z",
+  "responseSha256": "da6797ceae8240ce8136034aab295a515b0ef7974bb805547553878712bbf8b9",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "The Kentarone",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Sangenjaya Setagaya Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1540024",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.642195758710905,
+          "longitude": 139.67251543405595
+        },
+        "servesCuisine": "Italian,Bistro,Wine bar"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1317/A131706/13169776/\",\"name\":\"The Kentarone\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/331026/640x640_rect_0af491887a62fb14c0bb4e176de2e310.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Sangenjaya Setagaya Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1540024\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.642195758710905,\"longitude\":139.67251543405595},\"priceRange\":\"JPY 6,000～JPY 7,999\",\"servesCuisine\":\"Italian,Bistro,Wine bar\",\"telephone\":\"+81-80-6235-8333\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"98\",\"ratingValue\":\"3.32\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1317/A131706/13169776/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "b5e31c1c3f63bdbf978c8933ff380ff9a6e4321e3449ae31ed9d8dbb6acb0c2b",
+        "htmlCharacterOffset": 6257
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 76147,
+        "raw": "Italian, Bistro, Wine bar"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 51203,
+        "raw": "Omakase Course: 8 Dishes of Recommended Italian Cuisine including Fish and Meat Dishes, Pasta, Risotto, and More on the Day"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Italian, Bistro, Wine bar",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Omakase Course: 8 Dishes of Recommended Italian Cuisine including Fish and Meat Dishes, Pasta, Risotto, and More on the Day",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Italian, Bistro, Wine bar",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Omakase Course: 8 Dishes of Recommended Italian Cuisine including Fish and Meat Dishes, Pasta, Risotto, and More on the Day",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "Just a 5-minute walk from Sangenjaya Station, enjoy high-quality Italian cuisine and wine in a relaxed, casual-rich restaurant.",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                Just a 5-minute walk from Sangenjaya Station, enjoy high-quality Italian cuisine and wine in a relaxed, casual-rich restaurant.\n              </h3>",
+      "sha256": "78cf31e360916a180ff510a151a82b1d309a328bfdb38c9c0a098352587017ce",
+      "htmlCharacterOffset": 44897
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Omakase Course: 8 Dishes of Recommended Italian Cuisine including Fish and Meat Dishes, Pasta, Risotto, and More on the Day",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Omakase Course: 8 Dishes of Recommended Italian Cuisine including Fish and Meat Dishes, Pasta, Risotto, and More on the Day</span>",
+      "sha256": "74536420650204a2031db389d50696c30723d5e256b6718a630cd78196ea1c9c",
+      "htmlCharacterOffset": 51151
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Italian, Bistro, Wine bar",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Bistro, Wine bar</span>\n                    </td>\n                  </tr>",
+      "sha256": "41638620ab19a03abd62d2917e0cf269b56200e57dc86febb6a58f8432e85614",
+      "htmlCharacterOffset": 76027
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 6,000 - JPY 7,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 6,000 - JPY 7,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "b7cb2149d403069827469c88a0bb25694fead5cab074dec0b30fc8da727109a4",
+      "htmlCharacterOffset": 82276
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Bistro, Wine bar</span>\n                    </td>\n                  </tr>",
+      "sha256": "41638620ab19a03abd62d2917e0cf269b56200e57dc86febb6a58f8432e85614",
+      "text": "Categories Italian, Bistro, Wine bar",
+      "htmlCharacterOffset": 76027
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131706/13169776/dtlratings/#price-range\">JPY 6,000 - JPY 7,999</a></span>\n                            </p>",
+      "sha256": "80f66e98271db1d7c2f79276bf4a4df242f648395977e92a8779aa941e6ce872",
+      "text": "JPY 6,000 - JPY 7,999",
+      "htmlCharacterOffset": 26109
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131706/13169776/dtlratings/#price-range\">-</a></span>\n                            </p>",
+      "sha256": "82f8449e4c2f8e3e907ed76b701d80962301645a40c95f3d9a90c017979100a3",
+      "text": "-",
+      "htmlCharacterOffset": 26539
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1317/A131706/13169776/"
+}

@@ -1,0 +1,646 @@
+{
+  "outcome": {
+    "type": "QUALIFIED_DELIVERY",
+    "reasons": [
+      "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+    ],
+    "evidenceRefs": [
+      "loop",
+      "finalSnapshot.domainState.presentedResults",
+      "finalSnapshot.domainState.availability",
+      "finalSnapshot.domainState.readEvidence"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "YES"
+  },
+  "severity": {
+    "S0": {
+      "status": "ABSENT",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+        "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence",
+        ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "ABSENT",
+      "reasons": [
+        "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+      ],
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": []
+    }
+  },
+  "goldCorrection": {
+    "applied": true,
+    "artifactSha256": "239782eb48608b3891a5c1743456dd81209dceadd8f873193c7422d5ea242bb9",
+    "rev1Sha256": "447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+    "rev2Sha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753",
+    "refs": [
+      ".eval-artifacts/e1-evaluator-20261016/gold-corrections.json#sha256=5a755634a5337a95705185c0d413dc061554871ba0ec3b552cb270dbab4e1f9f",
+      ".eval-artifacts/p1-f-20261011/variants.yaml#sha256=447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+      ".eval-artifacts/p1-f-20261011/variants.rev2.yaml#sha256=1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753"
+    ]
+  },
+  "conditionStates": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+      "criteria": [
+        {
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[0]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        }
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+      "criteria": [
+        {
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[0]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        }
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13225919",
+      "criteria": [
+        {
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "evidenceRefs": [
+            "materializedCase.semantic.criteria[0]"
+          ],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+          ]
+        }
+      ]
+    }
+  ],
+  "conditionStateComparisons": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+      "text": "omakase",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+      "text": "omakase",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13225919",
+      "text": "omakase",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    }
+  ],
+  "softPreferenceObservations": {
+    "path": "/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml",
+    "sha256": "39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce"
+  },
+  "witnessFunnel": [
+    {
+      "outletName": "Shibuya Sushi Matsumoto",
+      "sourceId": "13261619",
+      "discovery": {
+        "status": "FOUND",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13261619"
+        ],
+        "possibleCandidateIds": [],
+        "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+      },
+      "identity": {
+        "status": "OBSERVED",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:775d5d0bcae8b6ce845de308"
+        ]
+      },
+      "facts": {
+        "status": "NOT_READ",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+            "status": "AVAILABLE"
+          }
+        ],
+        "witness": "AVAILABLE",
+        "observedAt": "2026-10-11T08:16:21.215Z",
+        "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+      },
+      "presented": "YES",
+      "feasible": "SUPPORTED",
+      "blocker": {
+        "stage": "FACTS",
+        "certainty": "HYPOTHESIS",
+        "reason": "Candidate bottleneck at FACTS; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/attempt-1.finish.json#sha256=660080f057897d10406d169b5558502912fdb281800539a1deb1d4860dbd4257",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        ".eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/witness-raw/attempt-1-13261619.body.txt#sha256=0aade29efbe805dd741f78be1441a6c3bdff61443bf13ee70864b249ad301bfa",
+        ".eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/witness-raw/attempt-1-13261619.metadata.json#sha256=2fd961b5f1b6d6ee55dfdf293daeefd8b7f54f2784cc659c9fe82aa44db48f38",
+        "/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    },
+    {
+      "outletName": "Shibuya Sushi Sen",
+      "sourceId": "13275802",
+      "discovery": {
+        "status": "FOUND",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1303/A130301/13275802"
+        ],
+        "possibleCandidateIds": [],
+        "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+      },
+      "identity": {
+        "status": "OBSERVED",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:4cec43c128772e161450bdee"
+        ]
+      },
+      "facts": {
+        "status": "NOT_READ",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+            "status": "AVAILABLE"
+          }
+        ],
+        "witness": "AVAILABLE",
+        "observedAt": "2026-10-11T08:16:21.577Z",
+        "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+      },
+      "presented": "YES",
+      "feasible": "SUPPORTED",
+      "blocker": {
+        "stage": "FACTS",
+        "certainty": "HYPOTHESIS",
+        "reason": "Candidate bottleneck at FACTS; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/attempt-1.finish.json#sha256=660080f057897d10406d169b5558502912fdb281800539a1deb1d4860dbd4257",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        ".eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/witness-raw/attempt-1-13275802.body.txt#sha256=182a4d5b9f42187f86b07c5b28e15fcdd9af802b397aa1091997d77977ec99ea",
+        ".eval-artifacts/p1-f-20261011/part-a/p1f-kf-h001-20261020/witness-raw/attempt-1-13275802.metadata.json#sha256=72e1cd20cd47326065ce8d2760c0533a87af9c99e581daefe5327e6a7b3b3326",
+        "/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    }
+  ],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 0,
+    "maxConsecutiveNoNewObservation": 1,
+    "noNewObservationRuns": [],
+    "sameFailureRuns": [],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": [
+        {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130302/13293501/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130302/13295650/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13225919/",
+          "count": 2,
+          "reloads": 1
+        }
+      ]
+    },
+    "violations": [],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionEquivalences": {
+    "path": "/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+    "sha256": "9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440",
+    "tableVersion": "criterion-equivalences@1/revision-1"
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@30",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@26",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h001-a1.result.json.gz",
+    "sha256": "239782eb48608b3891a5c1743456dd81209dceadd8f873193c7422d5ea242bb9",
+    "runId": "5bd68be2-d5fc-4a84-b460-e3fe2dcb40c2",
+    "caseId": "p1f-kf-h001-20261020"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "YES",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+      "outletName": "Sushi Teppen",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "DATE_NOT_SELECTABLE",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "DATE_NOT_SELECTABLE",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:f9e089930b9290a7bb7a6a8d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:3de9acc2fa91216b44645c56]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:69e641e9c185f5c31774abe7]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:66de3327697795ddd1bc27c4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1303/A130301/13308491:document:f4b2cb192a54299f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1303/A130301/13308491:2026-10-11T08:14:59.734Z:tabelog:en/tokyo/A1303/A130301/13308491:document:f4b2cb192a54299f]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+      "outletName": "Shibuya Sushi Sen",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:6f868e12a9e48e18cd7292f2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:4cec43c128772e161450bdee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:1a97b4e60e95653894dc17aa]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:a8fa98fd0c8a44d20b87d4a0]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+      "outletName": "Shibuya Sushi Matsumoto",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:518571b74e917bf9d14176c0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:775d5d0bcae8b6ce845de308]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:3491aab20725839c2f73866b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:e44e6150131021ac9d121806]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13225919",
+      "outletName": "Sushi Tokyo Ten、 Shibuya ten",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:812e686b886a6251fcb4f455]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:b73cac25c165333368cd50f9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:8487cf1e94ad3a3ac47feffc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:d4221523fc75f3fb332bf2eb]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "SATISFIED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "raw Tabelog response supports AVAILABLE at requested date/party/time",
+        "candidate=tabelog:en/tokyo/A1303/A130301/13275802",
+        "citedEvidence=4",
+        "offers=1",
+        "raw Tabelog response supports AVAILABLE at requested date/party/time",
+        "candidate=tabelog:en/tokyo/A1303/A130301/13261619",
+        "citedEvidence=4",
+        "offers=1",
+        "raw Tabelog response supports AVAILABLE at requested date/party/time",
+        "candidate=tabelog:en/tokyo/A1303/A130301/13225919",
+        "citedEvidence=4",
+        "offers=1"
+      ],
+      "directCause": "Every presented candidate has independently linked evidence.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "browserTrace[sequence=413].responses",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:6f868e12a9e48e18cd7292f2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:4cec43c128772e161450bdee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:1a97b4e60e95653894dc17aa]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:a8fa98fd0c8a44d20b87d4a0]",
+        "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1303/A130301/13275802][id=offer:tabelog:tabelog:en/tokyo/A1303/A130301/13275802:2026-10-20:19:00:2]",
+        "browserTrace[sequence=484].responses",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:518571b74e917bf9d14176c0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:775d5d0bcae8b6ce845de308]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:3491aab20725839c2f73866b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:e44e6150131021ac9d121806]",
+        "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1303/A130301/13261619][id=offer:tabelog:tabelog:en/tokyo/A1303/A130301/13261619:2026-10-20:19:00:2]",
+        "browserTrace[sequence=577].responses",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:812e686b886a6251fcb4f455]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:b73cac25c165333368cd50f9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:8487cf1e94ad3a3ac47feffc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:d4221523fc75f3fb332bf2eb]",
+        "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1303/A130301/13225919][id=offer:tabelog:tabelog:en/tokyo/A1303/A130301/13225919:2026-10-20:19:00:2]"
+      ],
+      "downstreamImpact": "The presentation is independently supported."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=6",
+        "applicableObservations=6",
+        "executedInvestigationVisits=5",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=0",
+        "maxConsecutiveNoNewObservation=1"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "SATISFIED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "presentedCandidates=3"
+      ],
+      "directCause": "Terminal presentation and independently evaluated evidence agree.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "Execution produced a qualified read-only result."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ],
+  "frozenInput": {
+    "manifestSha256": "68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2",
+    "fileRefs": [
+      "/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h001-a1.result.json.gz#sha256=239782eb48608b3891a5c1743456dd81209dceadd8f873193c7422d5ea242bb9"
+    ],
+    "observationContextSha256": "7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+    "observationRefs": [
+      "/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/.eval-artifacts/e1-evaluator-20261016/calibration-observations.rev2.json#sha256=7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+      "/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/.eval-artifacts/p1-f-20261011/rerun-20261011/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae"
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "a3737fddc2d9b169d517be8b22d99e6a4048e031050eaa8e6a88372c0b78c1f5",
+  "id": "b5cad472-1a54-4133-9f21-a5879d325ca5",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14136,
+    "completion_tokens": 4419,
+    "total_tokens": 18555,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4288
+    },
+    "prompt_cache_hit_tokens": 1664,
+    "prompt_cache_miss_tokens": 12472
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_ctgUHDEppVu5Z9Tot5qy7001",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:8:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar date strip forward toward 2026-11-05\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

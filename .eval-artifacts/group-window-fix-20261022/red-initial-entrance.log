@@ -1,0 +1,27 @@
+✖ group-window: an already prohibited candidate entrance is rejected before a browser session (4.57ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 211.931375
+
+✖ failing tests:
+
+test at src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1:108715
+✖ group-window: an already prohibited candidate entrance is rejected before a browser session (4.57ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1515:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }

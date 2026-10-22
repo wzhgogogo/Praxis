@@ -1,0 +1,36 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2-holdout-01","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/offline-rehearsal/h-01-attempt-1/network-preflight/2026-10-22T08-20-51-392Z-e7de2dfb-585a-4b23-9ba1-12b601d49af0.result.json","elapsedMs":1,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2-holdout-01",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 4
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 4,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 8,
+    "browserRuntimeCalls": 8,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 4,
+      "native-discovery:VENUE_SEARCH": 4
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 0,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 38,
+      "total": 2,
+      "namedPlaceResolution": 1,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 61
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/offline-rehearsal/h-01-attempt-1/runner/2026-10-22T08-20-51-442Z-1f9d977a-3a0e-4bb0-b4aa-b0ae5fbb4fc4.result.json",
+  "latencyMs": 61,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

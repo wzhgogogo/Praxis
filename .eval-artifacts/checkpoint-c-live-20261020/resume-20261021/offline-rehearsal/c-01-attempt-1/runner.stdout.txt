@@ -1,0 +1,37 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2l-kf-h001-20261103","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/resume-20261021/offline-rehearsal/c-01-attempt-1/network-preflight/2026-10-21T01-31-15-678Z-dae03017-b022-4e13-97d2-e963d3ea41cb.result.json","elapsedMs":1,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2l-kf-h001-20261103",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 4
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 4,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 8,
+    "browserRuntimeCalls": 8,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 4,
+      "native-discovery:VENUE_SEARCH": 4
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 0,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 38,
+      "total": 2,
+      "namedPlaceResolution": 1,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 59
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/resume-20261021/offline-rehearsal/c-01-attempt-1/runner/2026-10-21T01-31-15-727Z-b69460bd-ae36-462e-8f7f-a1d57b973363.result.json",
+  "evaluationPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/resume-20261021/offline-rehearsal/c-01-attempt-1/runner/2026-10-21T01-31-15-727Z-b69460bd-ae36-462e-8f7f-a1d57b973363.result.evaluation.30-1792546275755.json",
+  "latencyMs": 59,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

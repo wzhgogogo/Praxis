@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "85153cc41d495a5eb952c8eb7627f9ed33075d8203f3ff19d7f46576bd8bb8aa",
+  "id": "8c2ef650-29a5-4961-acf8-233f68a39831",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14153,
+    "completion_tokens": 527,
+    "total_tokens": 14680,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 392
+    },
+    "prompt_cache_hit_tokens": 1664,
+    "prompt_cache_miss_tokens": 12489
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_Sx2ZSCgUkcm8KkRkHXwB7814",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:10:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the date calendar from October to November to reach 2026-11-07\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

@@ -1,3 +1,4 @@
+import {isBrowserReadPathProhibited} from "../../infrastructure/browser/browser-read-policy.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { createHash } from "node:crypto";
 
@@ -8,7 +9,7 @@ import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSnapshot, Browser
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { inspectNativeOutletContinuity, sameNativeOutletUrl } from "../restaurant-availability/native-outlet-continuity.js";
-import { parseTabelogOutletIdentityWithEvidence } from "../tabelog/tabelog-page-parser.js";
+import { parseTabelogOutletIdentityWithEvidence, parseTabelogSourceFieldQuotes, parseTabelogPriceFacts } from "../tabelog/tabelog-page-parser.js";
 import { hasTableCheckBotChallenge, hasTableCheckPageUnavailable, parseTableCheckOutletIdentityWithEvidence, parseTableCheckScopedMenuSourcePartition, resolveTableCheckReservationTarget, sameReservationOutlet, type TableCheckReservationTarget } from "../tablecheck/tablecheck-page-parser.js";
 import { candidateStructuredObservation, candidateVisibleObservation } from "./google-listed-website-facts.js";
 import type { RestaurantFactJudgmentPort } from "./model-fact-judgment.js";
@@ -20,7 +21,7 @@ function key(value: string): string | undefined {
   } catch { return undefined; }
 }
 
-function sourceDocument(candidateId: string, identityEvidenceId: string, text: string, serviceScope?: RestaurantServiceScope): RestaurantFactSourceDocument {
+function sourceDocument(candidateId: string, identityEvidenceId: string, text: string, serviceScope?: RestaurantServiceScope, sourceFieldQuotes?: RestaurantFactSourceDocument["sourceFieldQuotes"], priceFacts?: RestaurantFactSourceDocument["priceFacts"]): RestaurantFactSourceDocument {
   const statements: RestaurantFactSourceDocument["statements"] = [];
   let total = 0;
   for (const line of text.split(/\r?\n/).map((item) => item.trim()).filter(Boolean)) {
@@ -30,7 +31,7 @@ function sourceDocument(candidateId: string, identityEvidenceId: string, text: s
   }
   const scopeKey = serviceScope ? `${serviceScope.field}\u0000${serviceScope.group}\u0000${serviceScope.value}` : "unscoped";
   return { id: `${candidateId}:document:${createHash("sha256").update(`${scopeKey}\u0000${text}`).digest("hex").slice(0, 16)}`, candidateId, identityEvidenceId,
-    ...(serviceScope ? { serviceScope } : {}), statements };
+    ...(serviceScope ? { serviceScope } : {}), ...(sourceFieldQuotes?.length ? { sourceFieldQuotes } : {}), ...(priceFacts ? { priceFacts } : {}), statements };
 }
 
 /** A menu/course page may be one child path below the observed native outlet. */
@@ -104,6 +105,10 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "NATIVE_SOURCE_ID_MISSING" };
         continue;
       }
+      if (isBrowserReadPathProhibited(this.networkPolicy, sourceUrl)) {
+        factChecks[candidate.restaurant.id] = {status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "SOURCE_UNSUPPORTED"};
+        continue;
+      }
       const executor = new BrowserTaskExecutor(this.runtime, {
         ...this.limits,
         ...(this.modelDecision ? { modelDecision: this.modelDecision } : {}),
@@ -144,7 +149,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
               ...scopedMenu.scoped.map((item) => sourceDocument(candidate.restaurant.id, identity.evidenceId, item.text, item.serviceScope)),
               ...(scopedMenu.unscopedText ? [sourceDocument(candidate.restaurant.id, identity.evidenceId, scopedMenu.unscopedText)] : []),
             ]
-            : [sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text)];
+            : [sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text, undefined, provider === "TABELOG" ? parseTabelogSourceFieldQuotes(page) : undefined, provider === "TABELOG" ? parseTabelogPriceFacts(page) : undefined)];
           const additions = nextDocuments.filter((document) => !documents.some((item) => item.id === document.id));
           documents.push(...additions);
           return additions.length > 0;
@@ -287,7 +292,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         if (provider === "TABLECHECK" && !hardFactsResolved(request.intent, judged.evidence) && !hasConfirmedNegativeConflict(request.intent, judged.evidence)) {
           const guide = parseTableCheckOutletIdentityWithEvidence(initial, sourceUrl);
           observedReservationTarget = guide && resolveTableCheckReservationTarget(initial, guide.outlet);
-          if (observedReservationTarget?.kind === "LINKED_PAGE") {
+          if (observedReservationTarget?.kind === "LINKED_PAGE" && !isBrowserReadPathProhibited(this.networkPolicy, observedReservationTarget.url)) {
             const documentsBefore = documents.length;
             await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: observedReservationTarget.url, observed: true });
             const reservationPage = await executor.snapshot({ source: provider, stage: "FACTS", signal, session });
@@ -344,9 +349,10 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         }
         evidence.push(...identities, ...judged.evidence);
         sourceDocuments.push(...documents);
+        const unsupported = observedReservationTarget?.kind === "LINKED_PAGE" && isBrowserReadPathProhibited(this.networkPolicy, observedReservationTarget.url);
         factChecks[candidate.restaurant.id] = { status: hardFactsResolved(request.intent, judged.evidence) ? "COMPLETED" : "UNKNOWN", checkedAt,
           evidenceIds: [...identities.map((item) => item.evidenceId), ...judged.evidence.map((item) => item.evidenceId)], sourceProvider: provider,
-          ...(!hardFactsResolved(request.intent, judged.evidence) ? { reasonCode: "NATIVE_HARD_FACTS_UNCONFIRMED" } : {}) };
+          ...(!hardFactsResolved(request.intent, judged.evidence) ? { reasonCode: unsupported ? "SOURCE_UNSUPPORTED" : "NATIVE_HARD_FACTS_UNCONFIRMED" } : {}) };
       } catch (error) {
         if (signal.aborted || (error && typeof error === "object" && "code" in error && (
           error.code === "MODEL_CALL_BUDGET_EXHAUSTED" || error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"

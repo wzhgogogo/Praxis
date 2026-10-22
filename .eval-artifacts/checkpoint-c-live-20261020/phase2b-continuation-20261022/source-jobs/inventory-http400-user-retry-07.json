@@ -1,0 +1,19 @@
+{
+  "id": "inventory-http400-user-retry-07",
+  "approvedBy": "USER",
+  "authorization": "User explicitly requested retry: 网页正常，你重试. Previous continuous task authorization remains in force.",
+  "scope": "Exactly the previously failed read-only four-parameter request; retain original HTTP400; stop on another non-retryable failure. No models, forms or slot clicks.",
+  "retryOf": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-05-13004546.attempt-1.metadata.json",
+    "sha256": "e42ea34e278cb890c2a598826cfbe4aeb94340e288e71abdb5cc9f892b3433b5",
+    "responseSha256": "6a5c73754b2c1ec21f35bc99f1d2280e74b8e3a423a208c8d5e9cbeb357f81cd"
+  },
+  "jobs": [
+    {
+      "kind": "INVENTORY",
+      "caseId": "p2b-holdout-05",
+      "rst_id": "13004546",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13004546&svd=20261103&svps=3&svt=1900"
+    }
+  ]
+}

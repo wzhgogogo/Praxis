@@ -1,0 +1,78 @@
+{
+  "schema": "phase2b-merged-acceptance@1",
+  "status": "PASS",
+  "frozenCodeCommit": "1a715325f121db137c8e509ce8a2440e55cad968",
+  "freezeSha256": "f648d2df299b6f4462969e1980048f4354acb400e0679acb9f03b63b892a369b",
+  "frozenFilesVerified": 4173,
+  "gates": [
+    {
+      "name": "typecheck",
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "architecture",
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/gates/architecture.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "default",
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/gates/unit-final.log",
+      "sha256": "c395cd2ca67f7cec545be567df956e52588d06a033f5b01473f628f8bc160cbc"
+    },
+    {
+      "name": "build",
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/gates/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/gates/browser.log",
+      "sha256": "21a770854ab974581ce8dad043ed6a40c9ff0f87a2c0ec4f2ec9048de3bd8fb5"
+    }
+  ],
+  "calendar": {
+    "passed": 69,
+    "total": 69,
+    "required": 68,
+    "mode": "OFFLINE_CACHED_RESPONSE_IDENTICAL_MESSAGES_SCHEMA_TIMEOUT_ONLY_CHANGED",
+    "newModels": 0
+  },
+  "selection": {
+    "passed": 5,
+    "total": 5,
+    "newModels": 0
+  },
+  "calibration": {
+    "passed": 22,
+    "total": 22,
+    "normalDeclaration": {
+      "matched": 20,
+      "total": 20
+    },
+    "boundary": {
+      "ABSENT": 9,
+      "PRESENT": 0,
+      "NOT_EVALUATED": 13
+    },
+    "freezeSha256": "b7f1ec38c1216f5ab2bb4985be9c78320901bf5021155fff99dfe760b8faeeea"
+  },
+  "budgetRows": {
+    "passed": 5,
+    "total": 5,
+    "runIds": [
+      "h-02",
+      "h-08",
+      "h-14"
+    ],
+    "mode": "frozen regression; exposed holdout; offline counterfactual presentation, not new Live or original evaluation replacement"
+  },
+  "newModels": 0,
+  "newWebsites": 0,
+  "newLive": 0
+}

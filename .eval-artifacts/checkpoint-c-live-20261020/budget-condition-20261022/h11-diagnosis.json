@@ -1,0 +1,111 @@
+{
+  "schema": "budget-wording-diagnosis@1",
+  "status": "report only; semantic Prompt and saved proposal unchanged",
+  "confirmedCause": "The semantic model introduced around before the Compiler. Same user message, same Prompt version; h05/h17 retained under. Strength remained SOFT, while the numerical operator changed.",
+  "stableSystemTextEqualAfterTimestampRemoval": true,
+  "hypothesis": "The Prompt scopes ideally as SOFT and tells the model to preserve amount/per-person, but does not explicitly require preserving the numeric comparison operator. The recorded output demonstrates a semantic deviation; model internal reasoning is not observable.",
+  "suggestion": "In a separately reviewed semantic Prompt change, explicitly separate condition strength from comparison direction: ideally under X stays SOFT and under X; only approximate/around wording gets the approved 20% tolerance. Add fixed-input under/around regressions before any model validation.",
+  "policy": {
+    "path": "src/domains/restaurant/condition-policy.json",
+    "sha256": "2a8d965f0e1d9de343f23dd9a7cc70a3484965b4484d98f194f1f8826135eb09",
+    "aroundTolerance": 0.2,
+    "softUpperLimit": 6000,
+    "aroundUpperLimit": 7200,
+    "rule": "Existing comparison policy; no strict-under boundary or tax conversion change."
+  },
+  "diagnosis": [
+    {
+      "runId": "h-05",
+      "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.result.json",
+      "artifactSha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+      "decisionsPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.decisions.jsonl",
+      "decisionsSha256": "a3f211e28fe13c93f7b1199dc83833d84653cf42543fed7d0e00c5c22d1da665",
+      "sequence": 1,
+      "promptVersion": "v21",
+      "systemPromptSha256": "c2391380340ad754b88c90ec8fe22467f8ce5cdde6df7c985d6d83cdb390649d",
+      "userMessageSha256": "84061ee1eac3c29273d6f836e3d8c9cf3bf01191b24ad8cee17543495d7e1b66",
+      "inputBudgetQuote": "Ideally under 6,000 yen per person",
+      "proposalPointer": "/semantic/proposal/facts/6/value",
+      "proposalValue": {
+        "kind": "CRITERION",
+        "text": "under 6,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      },
+      "compiledPointer": "/finalSnapshot/domainState/intentDraft/criteria/1",
+      "compiledValue": {
+        "text": "under 6,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      },
+      "outcome": "SUCCEEDED",
+      "finishReason": "TOOL_CALLS",
+      "temperature": 0,
+      "latencyMs": 4088,
+      "finding": "Model output already contains this wording; deterministic compilation preserved it. No BUDGET_PER_PERSON hard cap was emitted."
+    },
+    {
+      "runId": "h-11",
+      "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1/runner/2026-10-22T10-08-08-592Z-7cea80fb-c1d8-46b7-9404-b2351e024565.result.json",
+      "artifactSha256": "5852a4619fbf165ae850af4eabb966859e8d3b219f4afe8f04b4f45b3b63cb79",
+      "decisionsPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1/runner/2026-10-22T10-08-08-592Z-7cea80fb-c1d8-46b7-9404-b2351e024565.decisions.jsonl",
+      "decisionsSha256": "356696b98043ce12d53c99265d8e7c8da80dd26e0ac98830622f463e9eec509d",
+      "sequence": 1,
+      "promptVersion": "v21",
+      "systemPromptSha256": "ea00236302d845f6b9d40930ef299664aa621df65e4893456320acb21c4e49f0",
+      "userMessageSha256": "84061ee1eac3c29273d6f836e3d8c9cf3bf01191b24ad8cee17543495d7e1b66",
+      "inputBudgetQuote": "Ideally under 6,000 yen per person",
+      "proposalPointer": "/semantic/proposal/facts/6/value",
+      "proposalValue": {
+        "kind": "CRITERION",
+        "text": "around 6,000 yen per person or less",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      },
+      "compiledPointer": "/finalSnapshot/domainState/intentDraft/criteria/1",
+      "compiledValue": {
+        "text": "around 6,000 yen per person or less",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      },
+      "outcome": "SUCCEEDED",
+      "finishReason": "TOOL_CALLS",
+      "temperature": 0,
+      "latencyMs": 3495,
+      "finding": "Model output already contains this wording; deterministic compilation preserved it. No BUDGET_PER_PERSON hard cap was emitted."
+    },
+    {
+      "runId": "h-17",
+      "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-17-attempt-1/runner/2026-10-22T11-00-05-204Z-c57bbc4a-28c6-40f0-9c49-b8df7f71801b.result.json",
+      "artifactSha256": "a982e1b0e4ef859e92b502cc8b92cde0d4b9440fac4a9dfaf23964bd94d136b2",
+      "decisionsPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-17-attempt-1/runner/2026-10-22T11-00-05-204Z-c57bbc4a-28c6-40f0-9c49-b8df7f71801b.decisions.jsonl",
+      "decisionsSha256": "bdbfe8ba6965d7ff8bb53f7ab99024182b681af19de6edce69ab20141c8b2360",
+      "sequence": 1,
+      "promptVersion": "v21",
+      "systemPromptSha256": "202ebee4ad659161501319c83a1a10144c9028cd856e2175aa5af8a70500f967",
+      "userMessageSha256": "84061ee1eac3c29273d6f836e3d8c9cf3bf01191b24ad8cee17543495d7e1b66",
+      "inputBudgetQuote": "Ideally under 6,000 yen per person",
+      "proposalPointer": "/semantic/proposal/facts/6/value",
+      "proposalValue": {
+        "kind": "CRITERION",
+        "text": "under 6,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      },
+      "compiledPointer": "/finalSnapshot/domainState/intentDraft/criteria/1",
+      "compiledValue": {
+        "text": "under 6,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      },
+      "outcome": "SUCCEEDED",
+      "finishReason": "TOOL_CALLS",
+      "temperature": 0,
+      "latencyMs": 3466,
+      "finding": "Model output already contains this wording; deterministic compilation preserved it. No BUDGET_PER_PERSON hard cap was emitted."
+    }
+  ],
+  "newModels": 0,
+  "newWebsites": 0,
+  "newLive": 0
+}

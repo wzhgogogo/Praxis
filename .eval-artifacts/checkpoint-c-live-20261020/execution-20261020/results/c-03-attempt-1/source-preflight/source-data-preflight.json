@@ -1,0 +1,67 @@
+{
+  "version": "source-data-preflight@2",
+  "classification": "ENV_FAILURE",
+  "generationModelCalls": 0,
+  "googleRequests": 1,
+  "attempts": [
+    {
+      "sourceId": "tabelog",
+      "check": {
+        "sourceId": "tabelog",
+        "url": "https://tabelog.com/en/tokyo/A1301/rstLst/"
+      },
+      "count": 20,
+      "responseStatus": 200,
+      "reason": null,
+      "elapsedMs": 7019,
+      "outcome": "NONEMPTY",
+      "countsTowardStop": false
+    },
+    {
+      "sourceId": "tablecheck",
+      "check": {
+        "sourceId": "tablecheck",
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"
+      },
+      "count": null,
+      "responseStatus": null,
+      "reason": "NO_RESPONSE",
+      "detail": "BROWSER_READ_FAILED",
+      "networkDiagnostics": [
+        {
+          "code": "READ_REQUEST_FAILED",
+          "origin": "https://www.tablecheck.com",
+          "pathname": "/en/japan/search",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": [
+            "auto_geolocate",
+            "geo_distance",
+            "geo_latitude",
+            "geo_longitude",
+            "search_text",
+            "service_mode",
+            "sort_by",
+            "venue_type"
+          ]
+        }
+      ],
+      "elapsedMs": 1523,
+      "outcome": "FAILED",
+      "countsTowardStop": false
+    },
+    {
+      "sourceId": "google-places",
+      "check": {
+        "sourceId": "google-places",
+        "textQuery": "restaurants near Ginza, Tokyo"
+      },
+      "count": 1,
+      "responseStatus": null,
+      "reason": null,
+      "elapsedMs": 1578,
+      "outcome": "NONEMPTY",
+      "countsTowardStop": false
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+✖ C18 H002 current fact document carries same-page prices through judgment and Router to Reducer (54.087625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 214.988291
+
+✖ failing tests:
+
+test at src/application/restaurant-presentation-evidence.test.ts:1:4045
+✖ C18 H002 current fact document carries same-page prices through judgment and Router to Reducer (54.087625ms)
+  AssertionError [ERR_ASSERTION]: native source producer retains same-page prices
+  + actual - expected
+  
+  + undefined
+  - {
+  -   max: 9999,
+  -   min: 8000,
+  -   quote: 'JPY 8,000 - JPY 9,999',
+  -   sourceUrl: 'https://tabelog.com/en/tokyo/A1301/A130103/13292459/'
+  - }
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/application/restaurant-presentation-evidence.test.ts:106:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { min: 8000, max: 9999, quote: 'JPY 8,000 - JPY 9,999', sourceUrl: 'https://tabelog.com/en/tokyo/A1301/A130103/13292459/' },
+    operator: 'deepStrictEqual'
+  }

@@ -1,0 +1,22 @@
+{
+  "accepted": true,
+  "boundary": {
+    "identityStop": true,
+    "formStop": false,
+    "availabilityEvaluated": false
+  },
+  "actions": [
+    "snapshot",
+    "snapshot"
+  ],
+  "availabilityTrace": [
+    {
+      "event": "OPERATION_STARTED",
+      "detail": "SELECT"
+    },
+    {
+      "event": "OPERATION_FAILED",
+      "detail": "BENCHMARK_IDENTITY_COMPLETE"
+    }
+  ]
+}

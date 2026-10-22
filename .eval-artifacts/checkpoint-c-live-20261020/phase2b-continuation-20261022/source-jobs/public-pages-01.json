@@ -1,0 +1,61 @@
+{
+  "id": "public-pages-01",
+  "approvedBy": "USER_EXISTING_CONSECUTIVE_AUTHORIZATION",
+  "scope": "Zero-model public directory and merchant fields only. Japanese-to-English URLs preserve the source-observed restaurant ID and require independent canonical/identity verification.",
+  "requests": [
+    {
+      "id": "tokyo-directory",
+      "caseId": "p2b-holdout-01",
+      "kind": "LISTING",
+      "url": "https://tabelog.com/en/tokyo/"
+    },
+    {
+      "id": "moheji-hanare",
+      "caseId": "p2b-holdout-02",
+      "kind": "MERCHANT",
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13186205/",
+      "sourceObservedJapaneseUrl": "https://tabelog.com/tokyo/A1313/A131302/13186205/",
+      "provenance": "Google Places discovery websiteUri; same restaurant ID language projection, identity not assumed."
+    },
+    {
+      "id": "okoge",
+      "caseId": "p2b-holdout-02",
+      "kind": "MERCHANT",
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13243319/",
+      "sourceObservedJapaneseUrl": "https://tabelog.com/tokyo/A1313/A131302/13243319/",
+      "provenance": "Google Places discovery websiteUri; same restaurant ID language projection, identity not assumed."
+    },
+    {
+      "id": "moheji-hanare-no-hanare",
+      "caseId": "p2b-holdout-02",
+      "kind": "MERCHANT",
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13224664/",
+      "sourceObservedJapaneseUrl": "https://tabelog.com/tokyo/A1313/A131302/13224664/",
+      "provenance": "Google Places discovery websiteUri; same restaurant ID language projection, identity not assumed."
+    },
+    {
+      "id": "maen",
+      "caseId": "p2b-holdout-03",
+      "kind": "MERCHANT",
+      "url": "https://tabelog.com/en/tokyo/A1303/A130302/13256140/",
+      "sourceObservedJapaneseUrl": "https://tabelog.com/tokyo/A1303/A130302/13256140/",
+      "provenance": "Google Places discovery websiteUri; same restaurant ID language projection, identity not assumed."
+    },
+    {
+      "id": "thai999",
+      "caseId": "p2b-holdout-04",
+      "kind": "MERCHANT",
+      "url": "https://tabelog.com/en/tokyo/A1305/A130501/13279772/",
+      "sourceObservedJapaneseUrl": "https://tabelog.com/tokyo/A1305/A130501/13279772/",
+      "provenance": "Google Places discovery websiteUri; same restaurant ID language projection, identity not assumed."
+    },
+    {
+      "id": "odenbar",
+      "caseId": "p2b-holdout-06",
+      "kind": "MERCHANT",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130103/13306055/",
+      "sourceObservedJapaneseUrl": "https://tabelog.com/tokyo/A1301/A130103/13306055/",
+      "provenance": "Google Places discovery websiteUri; same restaurant ID language projection, identity not assumed."
+    }
+  ]
+}

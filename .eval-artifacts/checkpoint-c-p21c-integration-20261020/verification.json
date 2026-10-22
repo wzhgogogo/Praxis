@@ -1,0 +1,149 @@
+{
+  "schema": "checkpoint-c-p21c-verification@1",
+  "productionCommit": "d6d989bb8d0ec9c9372e62c7d088989274649d48",
+  "mode": "OFFLINE_ONLY",
+  "versions": {
+    "restaurantState": 18,
+    "taskDefinition": 16,
+    "browserPrompt": 17,
+    "browserActionSchema": 11,
+    "agentContext": 15,
+    "agentPrompt": 27,
+    "agentActionSchema": 4,
+    "retrievalPrompt": 5,
+    "retrievalSchema": 2,
+    "priceFacts": 1,
+    "evaluator": 30,
+    "rubric": 26
+  },
+  "gates": {
+    "typecheck": {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.588,
+      "log": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/typecheck.log"
+    },
+    "architecture": {
+      "gate": "architecture",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.479,
+      "log": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/architecture.log"
+    },
+    "default-tests": {
+      "gate": "default-tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 25.222,
+      "log": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/default-tests.log"
+    },
+    "build": {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 0.519,
+      "log": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/build.log"
+    },
+    "browser-fixtures": {
+      "gate": "browser-fixtures",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 299.498,
+      "log": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/browser-fixtures.log"
+    }
+  },
+  "testCounts": {
+    "default-tests": {
+      "tests": 978,
+      "pass": 978,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "browser-fixtures": {
+      "tests": 122,
+      "pass": 122,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  },
+  "calibration": {
+    "outcomes": "22/22",
+    "S0Declaration": "20/20",
+    "interruptedS0Declaration": "NOT_EVALUATED 2/2, excluded from normal denominator",
+    "deliveryTypes": "8/8",
+    "falseQualified": 0,
+    "boundaryEvaluatedAbsent": 9,
+    "boundaryEvidenceGaps": 13
+  },
+  "controlledRegionComposition": "6/6 PASS",
+  "frozenFilesVerified": 358,
+  "testRetentionPassed": true,
+  "historyRetentionPassed": true,
+  "originalEvidenceFilesRetained": 76,
+  "logs": {
+    "typecheck": {
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    "architecture": {
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/architecture.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    "default-tests": {
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/default-tests.log",
+      "sha256": "b0888c7a1a77c4e3a2c69fda37fd3ab40991ebe46106fe07d35c5389c2074017"
+    },
+    "build": {
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    "browser-fixtures": {
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/browser-fixtures.log",
+      "sha256": "fcd33fa488878c1ac17686c1dcf7fbd5d00194b376035e2958a6e2e035fb46ca"
+    },
+    "calibration": {
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/calibration.log",
+      "sha256": "940301e0452ff97fd39a7f354c62bfbcac32a142a148dd12eb8af463b56191a8"
+    },
+    "calibration-comparison": {
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/calibration-comparison.log",
+      "sha256": "ddcbe9aa38c813554b69696c9d93a5266283a0f45c5ac7ce583ed3271fcfbc22"
+    },
+    "region-composition-evaluation": {
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/region-composition-evaluation.log",
+      "sha256": "35069ef0172d9647afd131ab0bcdcaaf6292454e1b622fc100d8f56bf86ed2a3"
+    }
+  },
+  "usage": {
+    "realModelCalls": 0,
+    "googleApiCalls": 0,
+    "websiteReads": 0,
+    "probes": 0,
+    "liveRuns": 0,
+    "externalWriteActions": 0,
+    "localChromium": "LOCAL_FIXTURE_AND_HAR_ONLY",
+    "gitRemoteOperations": "Only fetch/pull/push against the authorized repository; not website/model probes."
+  }
+}

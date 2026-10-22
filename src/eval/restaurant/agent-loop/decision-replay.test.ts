@@ -5,7 +5,44 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { createHash } from "node:crypto";
 import { gunzipSync } from "node:zlib";
-import { runDecisionReplay, acceptableReplayAction, reproducesRecordedAction, rebuildBrowserInput, type ReplaySeed } from "./runners/run-decision-replay.js";
+import { availabilityPathInjectedRequest, runDecisionReplay, acceptableReplayAction, reproducesRecordedAction, rebuildBrowserInput, type ReplaySeed } from "./runners/run-decision-replay.js";
+import { assessSelectionReplay } from "./selection-replay-assessment.js";
+
+test("P2-2 conditional selection oracle checks every target and leaves uncompiled reviewer conditions unassessed", async () => {
+  const root = new URL("../../../../",import.meta.url);
+  const annotations = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/seed-annotations.rev1.frozen.json",root),"utf8"));
+  const contracts = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/selection-contracts.rev1.json",root),"utf8"));
+  const seed = JSON.parse(await readFile(new URL(".eval-artifacts/phase1-replay/seeds.v7.json",root),"utf8")).seeds.find((seed: ReplaySeed) => seed.seedId === "p1-seed-0134");
+  const capture = (await readFile(new URL(seed.origin.runArtifact,root),"utf8")).split(/\n/).filter(Boolean).map(line => JSON.parse(line)).find(row => row.sequence === seed.origin.decisionIndex);
+  const context = JSON.parse(capture.messages.find((message: {role:string}) => message.role === "user").content).context;
+  const artifact = JSON.parse(gunzipSync(await readFile(new URL(seed.origin.resultArtifact,root))).toString());
+  const observed = artifact.events.filter((event: any) => event.event.type === "SEARCH_COMPLETED" && event.occurredAt <= capture.startedAt).flatMap((event: any) => event.event.candidates.map((candidate: any) => candidate.restaurant));
+  const annotation = annotations.annotations.find((a: {seedId:string}) => a.seedId === seed.seedId), rules = contracts.rules.filter((rule: {seedId:string}) => rule.seedId === seed.seedId);
+  const before = assessSelectionReplay(seed.recordedAction,context,observed,annotation,rules,1000);
+  assert.equal(before.metrics.directInRadiusCheckable,8);
+  assert.equal(before.metrics.directSelected,1);
+  assert.equal(before.verdict,"NOT_ACCEPTABLE","one direct among three does not satisfy the independent all-selected condition");
+  const directIds = observed.filter((outlet: any) => outlet.sourceIds.googleWebsiteUri?.startsWith("https://tabelog.com/")).map((outlet: any) => outlet.id).slice(0,3);
+  assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:directIds},context,observed,annotation,rules,1000).verdict,"ACCEPTABLE");
+  const altered = {...annotation,acceptableActions:annotation.acceptableActions.map((action: any) => ({...action,when:action.when+" UNCOMPILED_NEW_CONDITION"}))};
+  assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:directIds},context,observed,altered,rules,1000).verdict,"NOT_EVALUATED");
+  const rev2 = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/seed-annotations.reviewer.json",root),"utf8")).annotations.find((a: {seedId:string}) => a.seedId === seed.seedId);
+  const currentRules = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/selection-contracts.json",root),"utf8")).rules.filter((rule: {seedId:string}) => rule.seedId === seed.seedId);
+  const mixedIds = [...directIds.slice(0,2),seed.recordedAction.candidateIds[1]];
+  assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:mixedIds},context,observed,rev2,currentRules,1000).verdict,"ACCEPTABLE","approved revision2 permits two DIRECT plus one in-radius name resolution");
+  assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:mixedIds},context,observed,annotation,rules,1000).verdict,"NOT_ACCEPTABLE","same output remains below the old strict rule");
+  const injected = availabilityPathInjectedRequest(seed,capture,observed,artifact.finalSnapshot.domainState.readEvidence);
+  const after = JSON.parse(injected.messages.find(message=>message.role==="user")!.content).context;
+  assert.equal(after.checkableCandidateIds.length,8,"production structural scope uses pre-decision circle evidence, not annotation IDs");
+  assert.deepEqual(after.legalActions.checkAvailability,after.checkableCandidateIds);
+  assert.equal(after.checkableCandidateIds.includes(seed.recordedAction.candidateIds[1]),false);
+  assert.deepEqual(after.factInvestigableCandidateIds,context.factInvestigableCandidateIds);
+  assert.deepEqual(after.intentDraft,context.intentDraft);assert.deepEqual(after.candidates.map((c:{id:string})=>c.id),context.candidates.map((c:{id:string})=>c.id));
+  assert.ok(injected.messages[0]!.content.includes("Every field unrelated to the selected action MUST be empty"));
+  const reduced = {...context,checkableCandidateIds:directIds.slice(0,2),candidates:context.candidates.filter((c: {id:string}) => directIds.slice(0,2).includes(c.id) || c.id === seed.recordedAction.candidateIds[1])};
+  assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:[directIds[0]]},reduced,observed,rev2,currentRules,1000).verdict,"NOT_ACCEPTABLE","with two direct options, both must be included");
+  assert.equal(assessSelectionReplay({type:"CHECK_AVAILABILITY",candidateIds:directIds.slice(0,2)},reduced,observed,rev2,currentRules,1000).verdict,"ACCEPTABLE");
+});
 
 test("E1 replay seeds retain both real h001 decisions and leave conditional proposals unscored", async () => {
   // Read/validate only. Never dispatch either new seed to runDecisionReplay.

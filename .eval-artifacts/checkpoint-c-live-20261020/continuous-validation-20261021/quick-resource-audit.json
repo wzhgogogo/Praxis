@@ -1,0 +1,45 @@
+{
+  "status": "RECORDED_WITH_OUTER_WALL_CEILING_SHORTFALL",
+  "models": 141,
+  "fullLiveRuns": 3,
+  "checkpointC18Runs": 0,
+  "environmentReruns": 0,
+  "googleRequestsIncludingPreflights": 12,
+  "postCheckRequests": 8,
+  "postCheckStatuses": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+  ],
+  "tokens": {
+    "inputTokens": 1819438,
+    "outputTokens": 24038,
+    "totalTokens": 1843476
+  },
+  "gaps": [
+    {
+      "nextRun": "c-02",
+      "seconds": 306.422,
+      "status": "SATISFIED"
+    },
+    {
+      "nextRun": "c-05",
+      "seconds": 307.224,
+      "status": "SATISFIED"
+    }
+  ],
+  "runner500sAllSatisfied": true,
+  "outer500sAllSatisfied": false,
+  "outerCeilingExceededRuns": [
+    "c-05"
+  ],
+  "model50AllSatisfied": true,
+  "google40AllSatisfied": true,
+  "cooldownSignals": [],
+  "safetyStops": []
+}

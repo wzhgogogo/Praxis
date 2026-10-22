@@ -1,0 +1,249 @@
+{
+  "schema": "tabelog-query-binding-result@1",
+  "status": "OFFLINE_PASS_AWAITING_REVIEW",
+  "finishedAt": "2026-10-21T08:49:21.642Z",
+  "sourceReview": "3d147882",
+  "codeCommit": "ebf1389f2d3bab34d0b54e799239ab092669fa0d",
+  "runCommit": "ca88fa6537a8c16a3ea41f565c4eb43aa36915b4",
+  "freezeSha256": "7f0c3026058901326a32f589fcf884d72ea6bad7c5050a1243430dbc89de5c7a",
+  "frozenFilesVerified": 690,
+  "sourceRecomputation": {
+    "total": 19,
+    "beforeConfirmed": 0,
+    "afterConfirmed": 17,
+    "unconfirmed": [
+      "c-05-13218101",
+      "c-05-13281152"
+    ],
+    "runtimeInventoryConfirmed": 0,
+    "runtimeInventoryUnknown": 19,
+    "postRun": {
+      "covered": 5,
+      "comparable": 4,
+      "renderedSubsetSupported": 4,
+      "exactSlotSetsEqual": 0,
+      "mismatches": 0
+    }
+  },
+  "calendar": {
+    "planned": 69,
+    "attempted": 69,
+    "passed": 69,
+    "required": 68,
+    "failedIds": [],
+    "meanWallMs": 1828.5570380869565,
+    "inputTokens": 952027,
+    "outputTokens": 8506
+  },
+  "selection": {
+    "passed": 5,
+    "total": 5,
+    "newCalls": 0,
+    "mode": "EXACT_INPUT_CACHED_MODEL_RESPONSE"
+  },
+  "calibration": {
+    "status": "PASS",
+    "outcomeMatches": 22,
+    "gates": {
+      "normalS0Declaration": {
+        "required": 20,
+        "matched": 20,
+        "passed": true
+      },
+      "interruptedS0Declaration": {
+        "required": 2,
+        "allowedUnknown": 2,
+        "passed": true
+      },
+      "s0Boundary": {
+        "required": 22,
+        "evaluatedAbsent": 9,
+        "observedViolation": 0,
+        "allowedEvidenceGaps": 13,
+        "ruleGaps": [],
+        "passed": true
+      },
+      "deliveryTypes": {
+        "required": 8,
+        "matched": 8,
+        "passed": true
+      },
+      "noFalseQualified": {
+        "count": 0,
+        "passed": true
+      },
+      "noEvaluatorErrors": {
+        "remaining": 0
+      }
+    }
+  },
+  "gates": {
+    "status": "PASS",
+    "mode": "OFFLINE_FIXTURE_ONLY",
+    "sourceRequests": 0,
+    "modelCalls": 0,
+    "fullLiveRuns": 0,
+    "entries": [
+      {
+        "name": "typecheck",
+        "command": "npm run typecheck",
+        "status": "PASS",
+        "exitCode": 0,
+        "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-typecheck.log",
+        "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+      },
+      {
+        "name": "architecture",
+        "command": "npm run arch:check",
+        "status": "PASS",
+        "exitCode": 0,
+        "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-arch.log",
+        "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+      },
+      {
+        "name": "defaultTests",
+        "command": "npm test",
+        "status": "PASS",
+        "exitCode": 0,
+        "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-test.log",
+        "logSha256": "aad67fc63908cb8245e7a39b08af99c8e0b894a49d45be7d7fb33d820a043eb2",
+        "total": 979,
+        "passed": 979,
+        "failed": 0
+      },
+      {
+        "name": "build",
+        "command": "npm run build",
+        "status": "PASS",
+        "exitCode": 0,
+        "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-build.log",
+        "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+      },
+      {
+        "name": "browserFixtures",
+        "command": "npm run test:browser:fixture",
+        "status": "PASS",
+        "exitCode": 0,
+        "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-browser.log",
+        "logSha256": "c9854529e5035fd5822ab1cc7d3cf346e12b61f31bb863fc5754be7a6c9bc46a",
+        "total": 131,
+        "passed": 131,
+        "failed": 0
+      }
+    ],
+    "typecheck": {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-typecheck.log",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    "architecture": {
+      "name": "architecture",
+      "command": "npm run arch:check",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-arch.log",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    "defaultTests": {
+      "name": "defaultTests",
+      "command": "npm test",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-test.log",
+      "logSha256": "aad67fc63908cb8245e7a39b08af99c8e0b894a49d45be7d7fb33d820a043eb2",
+      "total": 979,
+      "passed": 979,
+      "failed": 0
+    },
+    "build": {
+      "name": "build",
+      "command": "npm run build",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-build.log",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    "browserFixtures": {
+      "name": "browserFixtures",
+      "command": "npm run test:browser:fixture",
+      "status": "PASS",
+      "exitCode": 0,
+      "logPath": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/gate-browser.log",
+      "logSha256": "c9854529e5035fd5822ab1cc7d3cf346e12b61f31bb863fc5754be7a6c9bc46a",
+      "total": 131,
+      "passed": 131,
+      "failed": 0
+    }
+  },
+  "privateClasses": {
+    "total": 18,
+    "disappeared": 7,
+    "stillPresent": 11,
+    "tableCheckSupplement": [
+      {
+        "marker": "menu-item",
+        "provider": "TABLECHECK",
+        "kind": "TOKEN_OR_GENERIC_STATE_NOT_WHOLE_CLASS",
+        "path": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+        "status": "未覆盖",
+        "matchingPages": 0,
+        "reason": "No private js- hook or whole-class equality in TableCheck production source; legacy menu-item reservation DOM is not covered by allowed public-guide snapshots."
+      },
+      {
+        "marker": "CalendarSkeleton",
+        "provider": "TABLECHECK",
+        "kind": "TOKEN_OR_GENERIC_STATE_NOT_WHOLE_CLASS",
+        "path": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+        "status": "未覆盖",
+        "matchingPages": 0,
+        "reason": "No private js- hook or whole-class equality in TableCheck production source; legacy menu-item reservation DOM is not covered by allowed public-guide snapshots."
+      },
+      {
+        "marker": "skeleton",
+        "provider": "TABLECHECK",
+        "kind": "TOKEN_OR_GENERIC_STATE_NOT_WHOLE_CLASS",
+        "path": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+        "status": "仍存在",
+        "matchingPages": 39,
+        "reason": "No private js- hook or whole-class equality in TableCheck production source; legacy menu-item reservation DOM is not covered by allowed public-guide snapshots."
+      }
+    ]
+  },
+  "resourceUsage": {
+    "newModelApiRequests": 69,
+    "modelUsageKnown": 69,
+    "inputTokens": 952027,
+    "outputTokens": 8506,
+    "modelAutomaticRetries": 0,
+    "websiteRequests": 0,
+    "googleRequests": 0,
+    "fullLiveRuns": 0,
+    "environmentReruns": 0
+  },
+  "phase2": {
+    "totalModelCalls": 2353,
+    "remainingModelCalls": 1647,
+    "fullLiveRuns": 10,
+    "environmentReruns": 0
+  },
+  "safety": {
+    "offlineNegativeControls": "PASS_WRONG_DATE_PARTY_OUTLET_MISSING_OR_CONTRADICTORY_RESPONSE_REJECTED",
+    "historicalH003S0": "PRESENT_RETAINED",
+    "quickValidationHistorical": "0/3_RETAINED",
+    "newLive": "NOT_RUN",
+    "currentLiveS0": "NOT_EVALUATED"
+  },
+  "versions": {
+    "browserPrompt": 19,
+    "browserContext": 2,
+    "browserActionWire": 11,
+    "restaurantContext": 15,
+    "restaurantPrompt": 27,
+    "evaluator": 30,
+    "rubric": 26
+  },
+  "next": "STOP; push fix branch only; do not merge integration, recertify witnesses, or run quick/full Live until independent review accepts this repair."
+}

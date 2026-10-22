@@ -1,0 +1,27 @@
+{
+  "status": "PENDING_PROTOCOL_REVIEW",
+  "scope": "Execution timing fields only; no capability, condition or exit evaluation",
+  "rule": "Retain exact values and the frozen 500000 ms ceiling; no tolerance substituted",
+  "rows": [
+    {
+      "runId": "h-07",
+      "attempt": 1,
+      "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/runner/2026-10-22T09-19-53-736Z-8bed4854-5d97-4cce-89b2-8e44e62976aa.result.json",
+      "artifactSha256": "0130e2cf761782e2144481d56fa1bab1be6624ee177ce82d1434243cc6dce27f",
+      "recordedElapsedMs": 500076,
+      "limitMs": 500000,
+      "overrunMs": 76,
+      "outerChildWallMs": 540438
+    },
+    {
+      "runId": "h-09",
+      "attempt": 1,
+      "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/runner/2026-10-22T09-43-42-240Z-1fe7a835-0915-4fc1-9603-87143341155d.result.json",
+      "artifactSha256": "ceca2aefa9c0a60479f66076d84ee11c5ba0abcb5355d76b63c959f3075ca116",
+      "recordedElapsedMs": 500080,
+      "limitMs": 500000,
+      "overrunMs": 80,
+      "outerChildWallMs": 524480
+    }
+  ]
+}

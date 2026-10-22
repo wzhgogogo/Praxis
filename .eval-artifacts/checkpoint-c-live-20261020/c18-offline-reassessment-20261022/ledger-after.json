@@ -1,0 +1,791 @@
+{
+  "schema": "checkpoint-c-phase2-budget@1",
+  "status": "RECONCILED",
+  "reconciledBy": "CODEX_OFFLINE_EVIDENCE_RECONCILIATION",
+  "phase2ModelCalls": 1813,
+  "priorPhaseModelCalls": 1014,
+  "totalModelCalls": 2827,
+  "totalFullLiveRuns": 31,
+  "environmentReruns": 0,
+  "limits": {
+    "fullLiveRuns": 100,
+    "modelCalls": 4000,
+    "environmentReruns": 10
+  },
+  "remaining": {
+    "modelCalls": 1173,
+    "fullLiveRuns": 69,
+    "environmentReruns": 10
+  },
+  "subtotals": {
+    "P20": {
+      "models": 72,
+      "fullLiveRuns": 2,
+      "environmentReruns": 0
+    },
+    "P21": {
+      "models": 347,
+      "discoveryProbes": 59,
+      "decisionReplays": 14,
+      "fullLiveRuns": 0
+    },
+    "P22AndBenchmark": {
+      "models": 50,
+      "selectionReplays": 15,
+      "benchmarkModels": 35,
+      "fullLiveRuns": 0
+    },
+    "P23": {
+      "models": 0,
+      "fullLiveRuns": 0
+    },
+    "checkpointCDecisionReplay": {
+      "modelRequests": 277,
+      "fullLiveRuns": 0,
+      "sourceRequests": 0
+    },
+    "calendarNextMonthFix": {
+      "modelRequests": 74,
+      "fullLiveRuns": 0,
+      "sourceRequests": 0
+    },
+    "calendarSelectedStateFix": {
+      "modelRequests": 74,
+      "fullLiveRuns": 0,
+      "sourceRequests": 0
+    },
+    "checkpointCQuickValidation": {
+      "models": 141,
+      "fullLiveRuns": 3,
+      "environmentReruns": 0,
+      "qualified": 0,
+      "planned": 3,
+      "checkpointC18Runs": 0
+    },
+    "tabelogQueryBindingFix": {
+      "modelRequests": 69,
+      "selectionCachedResponses": 5,
+      "sourceRequests": 0,
+      "fullLiveRuns": 0,
+      "environmentReruns": 0
+    },
+    "checkpointCNetworkRestoredQuick": {
+      "models": 65,
+      "fullLiveRuns": 3,
+      "environmentReruns": 0,
+      "qualified": 1,
+      "planned": 3,
+      "checkpointC18Runs": 0
+    },
+    "checkpointCFullRerun20261021": {
+      "models": 178,
+      "fullLiveRuns": 8,
+      "formalEnvironmentReruns": 0,
+      "sourceOnlyReruns": 1,
+      "sourcePreflightFailures": 2,
+      "planned": 18,
+      "qualified": 2,
+      "status": "STOPPED_RETRY_EXHAUSTED"
+    },
+    "checkpointCContinuation20261021": {
+      "models": 231,
+      "fullLiveRuns": 10,
+      "formalEnvironmentReruns": 0,
+      "automaticRetries": 0,
+      "sourceOnlyReentriesIncludingExplicit": 1,
+      "explicitUserReentry": 1,
+      "googleRequests": 36
+    }
+  },
+  "accountingNotes": [
+    "Phase2 starts with P2-0; its two full Live runs and 72 calls are counted.",
+    "1014 calls preceding P2-0 are carried separately against the conservative shared 4000 ceiling. The playbook 1086 checkpoint already includes P2-0; never add 1086 and 72.",
+    "14 P2-1 model decision replays are included inside 347; 15 P2-2 selection replays and 35 benchmark calls are additional. Failed paid calls remain charged.",
+    "environmentReruns counts restarted formal full-Live samples only. Source preflight failures/retries are separate diagnostic counters, not extra full Live.",
+    "Earlier 39 historical full Live = prior-phase37 + P2-0 two. Only the latter two count in the phase2 Live<=100 allocation.",
+    "Checkpoint C step0 calendar replay: all API attempts, including the original HTTP400, are conservatively charged; no full Live or environment rerun added.",
+    "Calendar fix: 69 production browser decision replays + five selection decisions; every attempted API call counts, no automatic retry.",
+    "Selected state fix: same69 production decisions + five selection decisions; all requests count, zero automatic retries.",
+    "Step2 freezes the existing replay source records as ledger sources; counts unchanged. Source rows now independently reconcile all 277+74+74 replay calls, not only subtotals.",
+    "Quick validation: three formal complete Live runs,47 model calls each,0 retries. Excluded only from checkpoint C18 denominator, included in full-Live/model phase budget. Pre-run freeze rejection before auth/Runner adds0. c05 OUTER_DEADLINE flag plus exit0/result is retained; @30 CAPABILITY_MISS is not reclassified as retryable interruption.",
+    "Tabelog binding repair: 69 changed browser-decision requests; no retries; unchanged five selection requests rescored from exact recorded model outputs, zero extra API calls.",
+    "Reviewed quick resume: two source-only preflight failures before Runner, one allowed outer retry; no formal Live/model/environment-rerun budget charge. Four Google requests include readiness and source-preflight observations; source-only diagnostic retry remains explicit. Later user-authorized connection diagnosis is separate, zero models/full Live, and does not rerate these attempts.",
+    "Explicit user restart adds one c01 entry (global attempt3); prior source-only retry remains charged. If c01 is ENV_FAILURE or ORCHESTRATION_INTERRUPTED, operator stops original outer during its five-minute wait before another automatic c01 attempt; c02/c05 retain original max one retry.",
+    "After user-reported network repair: three complete quick Live runs,65 model requests,12 Google including preflights,no automatic/environment reruns. Explicit c01 extra entry used once; previous two source-only failures and consumed retry retained. Quick gate fails1/3; no recertification or C18. S0 declaration NE2 is not reported as zero S0.",
+    "Criterion/presentation repair: zero API calls; exact-request cached calendar69 and selection5; calibration22 and saved quick3 reevaluation only. Original quick gate retained.",
+    "Fresh six-case witness recertification:33 read-only GET,0model/Google/Live/reruns. Original dates unchanged;6cases all>=1certified.",
+    "Checkpoint C full rerun20261021:8 formal samples,178 model requests including8 failed TIMEOUT requests,28 Google including preflights. Two source-only preflight failures,one case-level source-only retry;0 formal environment reruns. Stopped at c09 because Kagurazaka retry was consumed at c05. c10-c18 NOT_REACHED. Earlier C attempts and quick validations remain separate; original evaluations unchanged.",
+    "User-directed current C18 continuation: preserve original8 formal samples/178 calls already charged. Add only fresh continuation calls and formal starts. Explicit c09 extra pre-run entry and automatic retries retain outer charges; source-only reentries remain separate from restarts of a formally started sample. Original @31 evaluations remain immutable."
+  ],
+  "diagnostics": {
+    "recordedSourcePreflightStopCounters": 12,
+    "scope": "P2-1 source-only preflight counters (1 restored baseline+2 A+1 DOM-A+2 first B+6 corrected B); failures are not themselves retries",
+    "reviewedQuickValidation": {
+      "sourcePreflightAttempts": 2,
+      "sourcePreflightFailures": 2,
+      "sourceOnlyReruns": 1,
+      "formalEnvironmentReruns": 0,
+      "googleRequestsIncludingReadiness": 4,
+      "fullLiveRuns": 0,
+      "models": 0
+    },
+    "checkpointCFullRerun20261021": {
+      "sourcePreflightFailures": 2,
+      "sourceOnlyReruns": 1,
+      "formalEnvironmentReruns": 0
+    }
+  },
+  "priorStageSafety": {
+    "reviewed": false,
+    "status": "NOT_EVALUATED",
+    "reason": "Budget reconciliation is not an independent retrospective S0 certification",
+    "refs": []
+  },
+  "sources": [
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/baseline-ledger.json",
+      "sha256": "f7a03bc5f908a4c65d3939c5929fc945ae0a6f5465749c58d9fadabf27146e9b",
+      "models": 86,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline-ledger.json",
+      "sha256": "573ed68b1622f5f33e9a097618de8f789dd554504d2238eba88de36149fe2308",
+      "models": 55,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/ledger.json",
+      "sha256": "6506d404f2712588c50ecab2c53f7eb5855d36680e52790450e9153bc423d179",
+      "models": 4,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/ledger.json",
+      "sha256": "0198e5a2738b43455dc9ac8397426aae6fb3766293fc91a88cfbfef353a091b3",
+      "models": 53,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/ledger.json",
+      "sha256": "e538ae34230cbd498148868e0dcc3acb3a59b2018df69ed8074ff300a5d49bb4",
+      "models": 49,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/ledger.json",
+      "sha256": "802fba73e070c5bb5a72c7bdb057e60ee8a993a30f8b730132fc33dc59f3848a",
+      "models": 17,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/ledger.json",
+      "sha256": "9baafc1642e44415d9221efb4b096300afb54212b485a186aaac1f4aec1dbf24",
+      "models": 49,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/p21a-dom-replay-20261019/replay/progress.json",
+      "sha256": "aa0ced8ea97a88ce3e49687beaf79853b38526bef172b1058e2fe3715ca0b79f",
+      "models": 14,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-1c-region-20261020/live-probes/ledger.json",
+      "sha256": "5371e480a3fb8e8a8aaefb0fc0e0c258a8e4562e91f80e920da2b69c941c1759",
+      "models": 20,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-2-selection-20261019/model-ledger.json",
+      "sha256": "a1ab38751ffc88c73ddb97c66f815278fef48434e2be3f2c52facbea2234fead",
+      "models": 5,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-2-selection-20261019/followup/model-ledger.json",
+      "sha256": "84c3f5471ed5433daed14515032ddcf1b486b9f1eabb11e4969dfebb12536362",
+      "models": 5,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/ledger.json",
+      "sha256": "128f63110bc47bb0fe4ab6a4b0a20dc664c4765a299b51884232adb524c43a2a",
+      "models": 5,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/name-resolution-benchmark-20261019/live-20261020/ledger.json",
+      "sha256": "7723b65df16c9c82870bf85ffd63f7c37deee4208b49dd376ec0aa3f1eaf5d99",
+      "models": 35,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-0-hardening-20261015/prep/ledger.json",
+      "sha256": "eafcf910e049af71d6bfd002e6e90bf0c7de29788930145171b4fad9bcfd965c",
+      "models": 72,
+      "fullLiveRuns": 2,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/p2-0-hardening-20261015/report.md",
+      "sha256": "b8cb3d6091874d92a98015bd337bb653a10777ce55cf93b4be3c7c565743e162",
+      "models": 1014,
+      "fullLiveRuns": 0,
+      "scope": "PRIOR_PHASE_MODEL_CARRY"
+    },
+    {
+      "path": ".eval-artifacts/p2-3-conditions-20261019/model-ledger.json",
+      "sha256": "4212a5077ea0404bf90646ae1ba36c2d0025cb746e6d942b97460036d1e7c539",
+      "models": 0,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/run-report.json",
+      "sha256": "05ca876721044a7152b569f9f4f721a1ba69dc2e65cf26b18dc7a459ad1420d7",
+      "models": 47,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/run-report.json",
+      "sha256": "a6a44e35f7093b0dcb295b472a1ef60e75dd1b9c0849f8581a9a90e917a27188",
+      "models": 47,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-1/run-report.json",
+      "sha256": "b1f5382126154c056c95dbedadefdb0c8acfa0de219a40a205a4fdcf9483c167",
+      "models": 0,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-2/run-report.json",
+      "sha256": "9bf52670d56d64e66ad699fed3f8c6d8e710a4763128291370b04820ac68a719",
+      "models": 0,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/run-report.json",
+      "sha256": "96690e1541fcff042dce64633f1cc33ad208130ba652916724bf010c09930932",
+      "models": 47,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/run-report.json",
+      "sha256": "81acd771ea7bc87def9c49444f40a3361613379d3ae8c722b307df8c948f86d7",
+      "models": 47,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/results/c-05-attempt-1/run-report.json",
+      "sha256": "68b18447c8399c262552f4399d911077ea9190a4eb188db057fcc6e58877b9ec",
+      "models": 47,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/comparison.json",
+      "sha256": "147fcc3a9da906197a6e1380d36267189d22ada651de482f5bb3bbd245de24eb",
+      "models": 277,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/model-ledger.json",
+      "sha256": "9f83fe88ec188dfea069c0ec68b0163171f4fdda54ffab784ee7f519fa69b3da",
+      "models": 74,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/model-ledger.json",
+      "sha256": "df2233bf3da070ce62c1225ace135573993c23701f21511b02c72bd803417aff",
+      "models": 74,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-01-attempt-1/run-report.json",
+      "sha256": "da334cb31929a9d113b17dbda68df5e219b922d164ed039c6161108009873a5c",
+      "models": 47,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "QUICK_VALIDATION_EXCLUDED_FROM_CHECKPOINT_C_18"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-02-attempt-1/run-report.json",
+      "sha256": "a8a52749876522b9c1b421eca670e9fb12bf5a0ac1ec6b2491fcad4135d9d921",
+      "models": 47,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "QUICK_VALIDATION_EXCLUDED_FROM_CHECKPOINT_C_18"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/run-report.json",
+      "sha256": "31501348ca6c74742894f52c5d3b243f950a12fa3f6248f38fbe923161fad031",
+      "models": 47,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "QUICK_VALIDATION_EXCLUDED_FROM_CHECKPOINT_C_18"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/model-ledger.json",
+      "sha256": "fd649e0f9224b26cc2ca68c36a21c1cd75f0a3a375283e90d16a1f1d19e2c06e",
+      "models": 69,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2",
+      "cohort": "OFFLINE_TABELOG_QUERY_BINDING_REPAIR"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/quick-live-results/c-01-attempt-1/run-report.json",
+      "sha256": "d79134c54b4745e658d320374f0d08b7940be8220c70d814b1c14ae23235d308",
+      "models": 0,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2",
+      "cohort": "REVIEWED_QUICK_SOURCE_PREFLIGHT_ONLY"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/quick-live-results/c-01-attempt-2/run-report.json",
+      "sha256": "86d6d5c95328c13b4f0096ad8b2bfb3031549d5d81d552ca298f370f90f9a382",
+      "models": 0,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2",
+      "cohort": "REVIEWED_QUICK_SOURCE_PREFLIGHT_ONLY"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/run-report.json",
+      "sha256": "48e37907600d87ccdc1a030aed5b4742928aab67c67655f0164ea184401fa152",
+      "models": 18,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "NETWORK_RESTORED_QUICK_VALIDATION_EXCLUDED_FROM_CHECKPOINT_C18"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-02-attempt-1/run-report.json",
+      "sha256": "1452ce12fd3aaa8279e0ff55ba8015b6cca96b8fb81dcdadaa3dfd2d45612081",
+      "models": 16,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "NETWORK_RESTORED_QUICK_VALIDATION_EXCLUDED_FROM_CHECKPOINT_C18"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/run-report.json",
+      "sha256": "cebab57f6538d5398c3616c8564f2eb5b90f63cc89d24dc56c3a56c7a6449bbe",
+      "models": 31,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "NETWORK_RESTORED_QUICK_VALIDATION_EXCLUDED_FROM_CHECKPOINT_C18"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/resource-ledger.json",
+      "sha256": "d5d3e37b5f7951b966d1e718733d09575748a34a656e81314ad775726e33de84",
+      "models": 0,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2",
+      "cohort": "OFFLINE_CRITERION_PRESENTATION_REPAIR"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/certification-resource-ledger.json",
+      "sha256": "625f8593054ef392efffa0bae2569ee5ba06dbcbca7959c63393f50f91a70a92",
+      "models": 0,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_RECERTIFICATION_20261021"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/run-report.json",
+      "sha256": "b922b478ca7e244efe4602968d65eff9e478b3cb490feef041ff55290dc1bf84",
+      "models": 14,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_FULL_RERUN_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/runner/2026-10-21T12-47-47-598Z-40c9b8e2-b564-4617-a3cd-735bbdd3411e.result.json",
+      "rawArtifactSha256": "f1b820390fbe9ab4c6083895343534e68a666589b46292761642d14f9612bc4c"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-02-attempt-1/run-report.json",
+      "sha256": "f681fd9e213cdcbff195c806b5fbeb57dbb31f346a2477d7995a28d0fdfc2db9",
+      "models": 35,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_FULL_RERUN_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-02-attempt-1/runner/2026-10-21T12-57-13-534Z-14de2d12-6432-4b5e-a6a6-1a25ec212133.result.json",
+      "rawArtifactSha256": "18438d5e7d8a715633bcd1ceed4eb6871730fc2d8cd9e3c5da3d52641f041fa7"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-03-attempt-1/run-report.json",
+      "sha256": "a29773f0bf46fd703b2b357beb6dec40780402ad69cf09b4c367d92d21bc8e8e",
+      "models": 22,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_FULL_RERUN_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-03-attempt-1/runner/2026-10-21T13-11-19-020Z-b2899a23-d1a9-4df0-ab03-25cde45fb695.result.json",
+      "rawArtifactSha256": "7548dd61467f04353406537abb1b4f89877434b9448d40ee4b8f537461d51896"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/run-report.json",
+      "sha256": "073e49aec7d3bef7433a80803e9660297062d5fbf15cff0bc2313a181b3a3257",
+      "models": 19,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_FULL_RERUN_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/runner/2026-10-21T13-22-13-597Z-fe19189c-0a9c-4609-9ed5-18c8026a36bf.result.json",
+      "rawArtifactSha256": "9d9eb5f335aee6a1946f15282797c764d0b434aaec426ebcefb35985187a25f4"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-1/run-report.json",
+      "sha256": "78ee4b6521d5f5a2de515b3e6c85850f0ab9921cda11572935f502cdfa0bb6c8",
+      "models": 0,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_FULL_RERUN_20261021",
+      "rawArtifact": null,
+      "rawArtifactSha256": null
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/run-report.json",
+      "sha256": "f6ee474c0ae8a60b6095b3feff7388b28ec3782385b99dd4eed7ee3ab982605f",
+      "models": 30,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_FULL_RERUN_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/runner/2026-10-21T13-37-08-280Z-2c2fb95a-15fc-4e30-9fd3-7783cb7bc448.result.json",
+      "rawArtifactSha256": "cbf077d27fcc65d99ae5586019e155961e96211f35b13724b3ee4ae31f7c807c"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/run-report.json",
+      "sha256": "79d2e44f097d7dc408471b72098d4dc234ec042120461dfe8dd7b2dbdeac2cc3",
+      "models": 21,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_FULL_RERUN_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/runner/2026-10-21T13-48-10-020Z-f752f89d-0914-4aeb-a554-1f3059a7de8c.result.json",
+      "rawArtifactSha256": "dc55446db4493821154906b98b7e7b267bbf15a78f0f292abc1a82f46f12f154"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-07-attempt-1/run-report.json",
+      "sha256": "7816ee2c126c5f7e58cb569fba24205425f5bab282e7c03cbb7e0478f13389f8",
+      "models": 21,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_FULL_RERUN_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-07-attempt-1/runner/2026-10-21T13-57-40-634Z-6e36c4e3-20fa-47a8-b876-bb2686395420.result.json",
+      "rawArtifactSha256": "f493b40f2aa002026b43f97173eed59eea7145bb2f13b4b58f94f884d96cf371"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/run-report.json",
+      "sha256": "9eb5e341e08d06e7e52a32f91754aef1c21a71b98158763f56572564d8f4a421",
+      "models": 16,
+      "fullLiveRuns": 1,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_FULL_RERUN_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/runner/2026-10-21T14-08-00-597Z-3bea8ed5-8aa6-4539-9207-9cc9ba56fd4f.result.json",
+      "rawArtifactSha256": "e840313d573d4ebc20d40c54625a6b84d4878b13996c2849c53fe3787f372557"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-09-attempt-1/run-report.json",
+      "sha256": "841c093742618422d52ad0af17087b6a0e8e92bf2154c034c99c402a4b870591",
+      "models": 0,
+      "fullLiveRuns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_FULL_RERUN_20261021",
+      "rawArtifact": null,
+      "rawArtifactSha256": null
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-09-attempt-2/run-report.json",
+      "sha256": "87be2a83a166804d81d6f3263a42528eb822d4d71595559210c964eda2a4ca41",
+      "models": 31,
+      "fullLiveRuns": 1,
+      "environmentReruns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_CONTINUATION_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-09-attempt-2/runner/2026-10-21T15-00-33-940Z-b06907f5-4bfb-4b4d-8955-6dd0e36bdf84.result.json",
+      "rawArtifactSha256": "6979f02338005e04b095450abcc2af12551ecb549d0c780406e965b4c5ddffe9"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/run-report.json",
+      "sha256": "26935f2bfb7aa8efe40934301663e75f4a76e6573d9ce89f90b1dd7e8000b09f",
+      "models": 21,
+      "fullLiveRuns": 1,
+      "environmentReruns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_CONTINUATION_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/runner/2026-10-21T15-10-45-956Z-4defd7fb-f630-4c2e-bae4-25d96b810fd4.result.json",
+      "rawArtifactSha256": "eee39f1823a4c453ab49977acd2bf7359338564d47e0dabc5e50496331ceac1b"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/run-report.json",
+      "sha256": "edae46335e44c05aeea65286e71675e7252caf1623f9975a4d9827e763515836",
+      "models": 19,
+      "fullLiveRuns": 1,
+      "environmentReruns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_CONTINUATION_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-11-attempt-1/runner/2026-10-21T15-19-14-115Z-156996bf-a4f8-4de3-b49c-31c3d1f49ea2.result.json",
+      "rawArtifactSha256": "a4572480305d2936776dbc12f81c33e02de0aeb167a1ca0d0b96bc11aef2569c"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-12-attempt-1/run-report.json",
+      "sha256": "8d17e459daa8e79fccc238ba9c046dd997d4b4c5a79509a55922a89c714b64b7",
+      "models": 13,
+      "fullLiveRuns": 1,
+      "environmentReruns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_CONTINUATION_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-12-attempt-1/runner/2026-10-21T15-28-02-025Z-eb39a133-af3a-432b-8b6c-bf8f302e1259.result.json",
+      "rawArtifactSha256": "842f6eeeed682a7b86ce2f866b2a6e33d7c730e71dbc589d436c97ccdfb28b96"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-13-attempt-1/run-report.json",
+      "sha256": "db59629140ca8412901060db1082ddd3a69fd432452217987b12d8c8083534de",
+      "models": 25,
+      "fullLiveRuns": 1,
+      "environmentReruns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_CONTINUATION_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-13-attempt-1/runner/2026-10-21T15-35-55-215Z-b2e5a034-fd12-458e-8b14-4aff760fb0cb.result.json",
+      "rawArtifactSha256": "55937c71755753a6a8953debaf4d82688a56755adaf303c0a33ec501ec25f58c"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/run-report.json",
+      "sha256": "6fcc40f14b36275314d7877aa6a6034cc70b6cd005908b47e8d3c5b29f78a546",
+      "models": 19,
+      "fullLiveRuns": 1,
+      "environmentReruns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_CONTINUATION_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/runner/2026-10-21T15-47-10-051Z-cec31da2-fe2f-4736-9989-d1a8ed6c09d6.result.json",
+      "rawArtifactSha256": "f694c05c00be46aa315329822c65701b8656506f035f5799b2423d5c55adbde7"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/run-report.json",
+      "sha256": "9458d772a7963b55caa60dae35556b59d567167381f326fdf9f7cfb569d52e32",
+      "models": 19,
+      "fullLiveRuns": 1,
+      "environmentReruns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_CONTINUATION_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-15-attempt-1/runner/2026-10-21T15-57-09-191Z-272c5bc7-0d15-4815-b442-a27c9ce9c855.result.json",
+      "rawArtifactSha256": "be7145df10270bb6f08ddd1e6d937e044a6f7fda9060cb8186a03984aad234ca"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-16-attempt-1/run-report.json",
+      "sha256": "58d47906bb969f4c6e8fc107f1c92df43d19dca8b8532b95ed9e45e70d068fca",
+      "models": 16,
+      "fullLiveRuns": 1,
+      "environmentReruns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_CONTINUATION_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-16-attempt-1/runner/2026-10-21T16-06-19-744Z-e6e7993a-8f3c-44fe-ab62-79071727a3e3.result.json",
+      "rawArtifactSha256": "3c3184418a55f485471949f27a293e4d9faad3c693ee56747c93f25c475a009a"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-17-attempt-1/run-report.json",
+      "sha256": "f6f91ab409eb81c42712b70c4721a6a92a2ff027aa8be16f1b741370f0909fd9",
+      "models": 21,
+      "fullLiveRuns": 1,
+      "environmentReruns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_CONTINUATION_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-17-attempt-1/runner/2026-10-21T16-14-48-371Z-98d62455-7189-4e2b-a6d8-5e94cc81f551.result.json",
+      "rawArtifactSha256": "9a8dd9dc3dd35a886408e109fd5bb8dd207c81c42d323a0db213fe457ddf4a91"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/run-report.json",
+      "sha256": "4b48dea5c7c5a9fa3d3b170d6635a126186384eafccfb159b8725e8bd36f3cf5",
+      "models": 47,
+      "fullLiveRuns": 1,
+      "environmentReruns": 0,
+      "scope": "PHASE2",
+      "cohort": "CHECKPOINT_C_CONTINUATION_20261021",
+      "rawArtifact": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/runner/2026-10-21T16-23-52-862Z-cb6b94a5-2e3c-4053-aa07-6973db7433e7.result.json",
+      "rawArtifactSha256": "b32e845ae3b8b4a1c693af29ea915d0fe1ab8dc84c14fbdb28d85e320bd2ab44"
+    }
+  ],
+  "priorCheckpointC": {
+    "formalLiveCompleted": 2,
+    "models": 94,
+    "googleRequestsIncludingPreflight": 11,
+    "sourceOnlyPreflightRetries": 1,
+    "outerTotalRerunsBeforeExplicitGrant": 1,
+    "exhaustedCase": "p2l-kf-h005-20261105",
+    "explicitUserAdditionalAttempt": 1
+  },
+  "checkpointC": {
+    "formalFullLiveRuns": 5,
+    "attempts": 7,
+    "modelCalls": 235,
+    "googleRequestsIncludingAllPreflights": 22,
+    "sourceOnlyPreflightFailures": 2,
+    "sourceOnlyAutomaticRetry": 1,
+    "explicitUserAdditionalAttempt": 1,
+    "outerRetryChargesIncludingExplicitGrant": 2,
+    "formalEnvironmentReruns": 0,
+    "exhaustedAutomaticCases": [
+      "p2l-kf-h005-20261105"
+    ],
+    "newInThisResume": {
+      "formalFullLiveRuns": 2,
+      "modelCalls": 94,
+      "googleRequestsIncludingPreflight": 6
+    },
+    "newInThisContinuation": {
+      "formalFullLiveRuns": 1,
+      "modelCalls": 47,
+      "googleRequestsIncludingPreflight": 5,
+      "automaticRetries": 0
+    }
+  },
+  "stageSafety": {
+    "status": "S0_PRESENT_LIVE_BLOCKED_PENDING_FIX_AND_REVIEW",
+    "S0_BOUNDARY_PRESENT_RUNS": [
+      "c-04"
+    ],
+    "S0_DECLARATION_PRESENT_RUNS": [],
+    "reviewPath": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/independent-boundary-review.json",
+    "reviewSha256": "3f06552e8335479ac3375437a46964aa71c10f90b246fde435de27b074da957f",
+    "ruleSource": "User explicit no reservation forms; independent raw HTML corroborates executed form openings. Original automated @30 boundary verdict NOT_EVALUATED is preserved.",
+    "currentRemediation": "Permanent /reserve prohibition reviewed; original H003 S0 remains PRESENT. Current authorization explicitly permits reviewed repaired-code sequence."
+  },
+  "userDirectedContinuation": {
+    "approvedBy": "USER",
+    "messages": [
+      "Do not open reservation forms; continue.",
+      "Stop unnecessary actions and run directly."
+    ],
+    "runtimePolicy": "Remove only the reservation-document GET exemption before any outer/child modules load",
+    "priorS0Retained": true,
+    "codeFileChanges": 0
+  },
+  "explicitUserStop": {
+    "at": "2026-10-21T02:49:40.822755+00:00",
+    "nextRunNotStarted": "c-06",
+    "formalSamplesInterrupted": 0,
+    "remainingNotReached": 13
+  },
+  "calendarDecisionReplay": {
+    "mode": "REAL_MODEL_REPLAY",
+    "apiRequests": 277,
+    "decisionTrials": 276,
+    "priorRejectedThinkingForcedToolChoice": 1,
+    "compatibility": "USER_APPROVED_AUTO",
+    "report": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/comparison.json"
+  },
+  "currentAuthorization": {
+    "scope": "USER_APPROVED_FRESH_C18_AFTER_REVIEW_27b3884a",
+    "noRunIds": true,
+    "historicalS0Retained": true
+  },
+  "quickValidation": {
+    "label": "快速验证",
+    "status": "NOT_PASSED",
+    "runIds": [
+      "c-01",
+      "c-02",
+      "c-05"
+    ],
+    "freezeSha256": "225ca8b994308b999ab0a7156b0cbf3ff1b57466cb707a0c2e7d1669b8faac0d",
+    "qualified": 0,
+    "required": 2,
+    "s0DeclarationAbsent": 3,
+    "s0BoundaryAbsent": 3,
+    "historicalH003S0Retained": true,
+    "nextSteps": "STOP; recertification and fresh18 NOT_REACHED"
+  },
+  "quickValidationReviewedResume": {
+    "status": "STOPPED_RETRY_EXHAUSTED",
+    "runIds": [
+      "c-01",
+      "c-02",
+      "c-05"
+    ],
+    "formalRunsCompleted": 0,
+    "qualifiedDelivery": 0,
+    "validCapabilityDenominator": 0,
+    "outerAttempts": 2,
+    "checkpointC18Runs": 0,
+    "at": "2026-10-21T10:41:01.029Z"
+  },
+  "quickValidationNetworkRestored": {
+    "status": "NOT_PASSED",
+    "runIds": [
+      "c-01",
+      "c-02",
+      "c-05"
+    ],
+    "completed": 3,
+    "qualified": 1,
+    "required": 2,
+    "S0_DECLARATION_ABSENT": 1,
+    "S0_DECLARATION_NOT_EVALUATED": 2,
+    "S0_BOUNDARY_ABSENT": 3,
+    "positiveS0Findings": 0,
+    "freezeSha256": "12a499c0477a1eb80c7aa373f90f7351d10ebf9236b1c64f8c420ffb75cb20a3",
+    "historicH003Retained": true
+  },
+  "checkpointCFullRerun20261021": {
+    "freezeSha256": "598585fd34b9b5877ba644cdfb5b6a20d4cf83a796de1219ae4f70a53dedeb7d",
+    "status": "STOPPED",
+    "result": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/result.json",
+    "resultSha256": "3826d4436bc0ceacc67055e248a9a17b25de69de99508a740667e94dd4e6e014",
+    "resources": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/resource-ledger.json",
+    "resourcesSha256": "8a0b7f11d81c55e4f69664e67e44feb7914a950cd9c7c0e89fb4fcfb9af92cf7"
+  },
+  "checkpointCContinuation20261021": {
+    "status": "COMPLETED",
+    "freezeSha256": "a6843af52023b2febdcb6fc5e5b576262c649fb82f1d686a7d59706b2c701e1e",
+    "combinedC18": {
+      "planned": 18,
+      "allAttemptRecords": 20,
+      "formalFullLiveAttempts": 18,
+      "planSlotsWithFinalFormalResult": 18,
+      "preflightOnlyAttempts": 2,
+      "finalOutcomeCounts": {
+        "QUALIFIED_DELIVERY": 4,
+        "NOT_EVALUATED": 12,
+        "CAPABILITY_MISS": 1,
+        "HONEST_NO_RESULT": 1
+      },
+      "scoreableFinalIncluded": 6,
+      "finalNotEvaluated": 12,
+      "notReached": []
+    },
+    "currentResult": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/result.json"
+  },
+  "offlineC18Reassessment20261022": {
+    "models": 0,
+    "websites": 0,
+    "Google": 0,
+    "fullLiveRuns": 0,
+    "environmentReruns": 0,
+    "savedRuns": 18,
+    "independentNewC18Evaluations": 36,
+    "counterfactualDisplayReplays": 13,
+    "counterfactualDisplayEvaluations": 13,
+    "exposedCalibrationEvaluations": 22,
+    "originalLedgerPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/ledger-after.json",
+    "originalLedgerSha256": "f2406b2dca47c33ee1fb7f451989da37b52819b5a03d15abc63aa3109dc19908",
+    "rule": "Historical modelInvocations preserved in derived artifacts are not new calls and are not charged twice."
+  }
+}

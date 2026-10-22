@@ -1,0 +1,451 @@
+{
+  "outcome": {
+    "type": "INTERNAL_FAILURE",
+    "reasons": [
+      "R6: terminal state records system defect BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED, corroborated by executed failed source attempts; no-result wording cannot erase it."
+    ],
+    "evidenceRefs": [
+      "finalSnapshot.domainState.noVerifiedResult",
+      "finalSnapshot.domainState.failure",
+      "trajectories.executionMetadata"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "NO"
+  },
+  "severity": {
+    "S0": {
+      "status": "ABSENT",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+        "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories",
+        ".eval-artifacts/p1-g-20261012/P1-G2/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim."
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "ABSENT",
+      "reasons": [
+        "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+      ],
+      "evidenceRefs": [
+        ".eval-artifacts/p1-g-20261012/P1-G2/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": []
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [],
+  "conditionStateComparisons": [],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml",
+    "sha256": "39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce"
+  },
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 12,
+    "maxConsecutiveNoNewObservation": 26,
+    "noNewObservationRuns": [
+      {
+        "key": "48b32a350b2b9b21",
+        "steps": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ]
+      }
+    ],
+    "sameFailureRuns": [
+      {
+        "key": "48b32a350b2b9b21:SEARCH_RESTAURANTS:AVAILABILITY_SOURCE_RESOLVER:BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED",
+        "steps": [
+          6,
+          8,
+          9,
+          11,
+          13,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28
+        ]
+      },
+      {
+        "key": "48b32a350b2b9b21:END_READ:UNRECORDED_SOURCE:REJECTED",
+        "steps": [
+          7,
+          10,
+          12,
+          15,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27,
+          29,
+          30
+        ]
+      }
+    ],
+    "sameTermRuns": [
+      {
+        "key": "48b32a350b2b9b21:omakase sushi near shibuya, tokyo",
+        "steps": [
+          8,
+          9
+        ]
+      }
+    ],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": [
+        {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13203305/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130302/13244783/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/rstLst/washoku/",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "count": 13,
+          "reloads": 12
+        }
+      ]
+    },
+    "violations": [
+      "rejectedActions=12>3",
+      "consecutiveNoNewObservation=26>4",
+      "sameFailure=13>3; steps=6,8,9,11,13,14,16,18,20,22,24,26,28; 48b32a350b2b9b21:SEARCH_RESTAURANTS:AVAILABILITY_SOURCE_RESOLVER:BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED",
+      "sameFailure=12>3; steps=7,10,12,15,17,19,21,23,25,27,29,30; 48b32a350b2b9b21:END_READ:UNRECORDED_SOURCE:REJECTED"
+    ],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 0,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/calibration-phase1-20261015/inputs/p1g2-h001-a4.result.json.gz",
+    "sha256": "70182d7548231fc6723823429dfcbabfe6b8d0af91f117d2b587b1cc4feec6fb",
+    "runId": "d808d9f3-cedd-4c2e-aa43-bc70362ef61d",
+    "caseId": "h001"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_SUPPORTED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "INTERNAL_EXECUTION_FAILURE"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13308491",
+      "outletName": "Sushi Teppen",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "DATE_NOT_SELECTABLE",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "DATE_NOT_SELECTABLE",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:f5f7ebfadd955c1993dc0769]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:0417942e292f230e2797297e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:dea73e3117c2d9a9504e6ea8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:66de3327697795ddd1bc27c4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1303/A130301/13308491:2026-10-15T08:01:33.465Z:tabelog:en/tokyo/A1303/A130301/13308491:document:8d49a67f9e9c9327]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "NOT_SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=5",
+        "applicableObservations=5",
+        "executedInvestigationVisits=2",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=12",
+        "maxConsecutiveNoNewObservation=26",
+        "sameTermSteps=8,9; 48b32a350b2b9b21:omakase sushi near shibuya, tokyo",
+        "rejectedActions=12>3",
+        "consecutiveNoNewObservation=26>4",
+        "sameFailure=13>3; steps=6,8,9,11,13,14,16,18,20,22,24,26,28; 48b32a350b2b9b21:SEARCH_RESTAURANTS:AVAILABILITY_SOURCE_RESOLVER:BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED",
+        "sameFailure=12>3; steps=7,10,12,15,17,19,21,23,25,27,29,30; 48b32a350b2b9b21:END_READ:UNRECORDED_SOURCE:REJECTED"
+      ],
+      "directCause": "Actual rejection/no-progress/repeated-failure/navigation records exceed the frozen diagnostic thresholds.",
+      "rootCauseHypothesis": "Agent/context/source failure recovery requires review; these counters do not prove investigation sufficiency or causal blame.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation"
+      ],
+      "downstreamImpact": "Coverage and evidence-lineage claims cannot be inferred from this artifact."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "presentedCandidates=0"
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NO_VERIFIED_RESULT",
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "noVerifiedResult=recorded",
+        "failureCode=missing",
+        "No executed current-request END_READ observation is recorded.",
+        "R6: terminal state records system defect BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED, corroborated by executed failed source attempts; no-result wording cannot erase it."
+      ],
+      "directCause": "Independent terminal/source/action records corroborate an internal failure; it is not an ordinary no-result.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "trajectories",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "trajectories.executionMetadata"
+      ],
+      "downstreamImpact": "Do not represent the scoped stop as a source-confirmed global negative result."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ],
+  "frozenInput": {
+    "manifestSha256": "68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2",
+    "fileRefs": [
+      "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/calibration-phase1-20261015/inputs/p1g2-h001-a4.result.json.gz#sha256=70182d7548231fc6723823429dfcbabfe6b8d0af91f117d2b587b1cc4feec6fb"
+    ],
+    "observationContextSha256": "7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+    "observationRefs": [
+      "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/e1-evaluator-20261016/calibration-observations.rev2.json#sha256=7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+      "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/p1-g-20261012/P1-G2/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae"
+    ]
+  }
+}

@@ -1,10 +1,11 @@
+import { assessIndependentHard, type HardCriterionEvidence, type IndependentHardSupport } from "./diagnostic-evaluator-hard.js";
+import { independentPriceCondition } from "./diagnostic-evaluator-prices.js";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { parseAllDocuments } from "yaml";
 import type { RunRecord, EvidenceRecord } from "./diagnostic-evaluator-record.js";
-import { normalizeCriterion } from "./criterion-equivalences.js";
-import type { CriterionEquivalenceTable } from "./criterion-equivalences.js";
+import { normalizeCriterion } from "./criterion-correspondence.js";
 
 export interface SoftPreferenceObservation {
   runIds: string[]; restaurant: string; criterion: string; status: "MET" | "NOT_MET"; evidence: string;
@@ -13,8 +14,10 @@ export interface SoftPreferenceObservations {
   path: string; sha256: string; observedBy: string; observedOn: string; observations: SoftPreferenceObservation[];
 }
 export interface UserConditionState {
-  text: string; polarity: string; strength: string; status: "MET" | "NOT_MET" | "NOT_CHECKED";
+  goldIndex: number; text: string; polarity: string; strength: string; status: "MET" | "NOT_MET" | "NOT_CHECKED";
   basis: string[]; evidenceRefs: string[];
+  supportObservation: "PRODUCT_OBSERVED" | "EXTERNAL_ONLY" | "NOT_ESTABLISHED";
+  supportDiagnostics?: IndependentHardSupport["supportDiagnostics"]; sourceScope?: IndependentHardSupport["sourceScope"];
 }
 export interface CandidateConditionStates { candidateId: string; criteria: UserConditionState[]; }
 
@@ -63,42 +66,43 @@ function matchesRestaurant(restaurant: { outletName?: string; sourceIds?: Record
   // match another branch, category or a partial name.
   return gold.split(";").some(name => normalizeCriterion(name) === normalizeCriterion(restaurant.outletName ?? ""));
 }
-function sameCriterion(gold: string, actual: string, polarity: string, table: CriterionEquivalenceTable): boolean {
-  return normalizeCriterion(gold) === normalizeCriterion(actual) || table.entries.some(entry => entry.conclusion === "SAME"
-    && entry.polarity === polarity && normalizeCriterion(entry.goldText) === normalizeCriterion(gold) && normalizeCriterion(entry.systemText) === normalizeCriterion(actual));
-}
 
 /** Every user criterion remains visible. Subjective semantics and unspecified
  * price tolerances are NOT_CHECKED, not inferred from eligibility or category.
  * External run-scoped observations are bound to verified original bytes.
  */
-export function assessUserConditions(root: RunRecord, table: CriterionEquivalenceTable, gold: SoftPreferenceObservations | undefined,
+export function assessUserConditions(root: RunRecord, gold: SoftPreferenceObservations | undefined,
   frozenRun: { runId: string; artifactSha256: string } | undefined, artifactSha256: string,
-  applicableEvidence: (candidateId: string) => EvidenceRecord[]): CandidateConditionStates[] {
+  applicableEvidence: (candidateId: string) => EvidenceRecord[], hardEvidence?: HardCriterionEvidence): CandidateConditionStates[] {
   const domain = root.finalSnapshot?.domainState;
   return (domain?.presentedResults?.candidateIds ?? []).map(candidateId => {
     const restaurant = domain?.candidates?.find(candidate => candidate.restaurant?.id === candidateId)?.restaurant;
     const sourceFacts = applicableEvidence(candidateId).filter(item => item.kind === "RESTAURANT_FACT" && item.provider !== "MODEL_JUDGMENT");
     return { candidateId, criteria: (root.materializedCase?.semantic?.criteria ?? []).map((criterion, index): UserConditionState => {
       const criterionText = criterion.value ?? criterion.text ?? "MISSING_CRITERION_TEXT", polarity = criterion.polarity ?? "MISSING", strength = criterion.strength ?? "MISSING";
-      const base = { text: criterionText, polarity, strength, evidenceRefs: [`materializedCase.semantic.criteria[${index}]`] };
+      const base = { goldIndex: index, text: criterionText, polarity, strength, supportObservation: "NOT_ESTABLISHED" as const, evidenceRefs: [`materializedCase.semantic.criteria[${index}]`] };
       if (!["POSITIVE", "NEGATIVE"].includes(polarity) || !["HARD", "SOFT", "UNSPECIFIED"].includes(strength) || criterionText === "MISSING_CRITERION_TEXT")
         return { ...base, status: "NOT_CHECKED", basis: ["The original criterion record lacks a valid text, polarity or strength."] };
+      const rawPrice = independentPriceCondition(root, candidateId, criterionText, sourceFacts);
+      if (rawPrice && rawPrice.status !== "NOT_CHECKED") return { ...base, ...rawPrice, supportObservation: "PRODUCT_OBSERVED",
+        status: polarity === "NEGATIVE" ? rawPrice.status === "MET" ? "NOT_MET" : "MET" : rawPrice.status };
       const applicableGold = gold && strength === "SOFT" && polarity === "POSITIVE" && restaurant && frozenRun?.artifactSha256 === artifactSha256
         ? gold.observations.flatMap((row, observationIndex) => row.runIds.includes(frozenRun.runId) && matchesRestaurant(restaurant, row.restaurant)
-          && sameCriterion(row.criterion, criterionText, polarity, table) ? [{ row, observationIndex }] : []) : [];
+          && normalizeCriterion(row.criterion) === normalizeCriterion(criterionText) ? [{ row, observationIndex }] : []) : [];
       if (applicableGold.length && gold) {
         const statuses = new Set(applicableGold.map(item => item.row.status));
         return { ...base, status: statuses.size === 1 ? applicableGold[0]!.row.status : "NOT_CHECKED",
+          supportObservation: statuses.size === 1 ? "EXTERNAL_ONLY" : "NOT_ESTABLISHED",
           basis: statuses.size === 1 ? applicableGold.map(item => `External observation by ${gold.observedBy} on ${gold.observedOn}: ${item.row.evidence}`) : ["Conflicting external observations; no status selected."],
           evidenceRefs: [...base.evidenceRefs, ...applicableGold.map(item => `${gold.path}#sha256=${gold.sha256}:observations[${item.observationIndex}]`)] };
       }
       if (/(?:yen|jpy|budget|price|cost|¥|円)/i.test(criterionText)) return { ...base, status: "NOT_CHECKED",
-        basis: ["No applicable independently recorded budget Gold; numeric 'around' tolerance is not defined (R3). Do not infer price from names, menus or categories."] };
+        basis: ["No applicable independently recorded budget Gold; no independently retained applicable raw meal-price region. Do not infer price from names or normalized commercial claims."] };
+      if (strength === "HARD") return { ...base, ...assessIndependentHard(root, candidateId, criterionText, polarity, artifactSha256, sourceFacts, hardEvidence) };
       // Only an explicit source type statement equal to the condition can be
       // read literally here. A model-derived verified* label is not this oracle.
-      const explicit = sourceFacts.filter(item => item.claims?.restaurantTypeFacts?.some(value => sameCriterion(criterionText, value, polarity, table)));
-      if (explicit.length) return { ...base, status: polarity === "POSITIVE" ? "MET" : "NOT_MET",
+      const explicit = sourceFacts.filter(item => item.claims?.restaurantTypeFacts?.some(value => normalizeCriterion(criterionText) === normalizeCriterion(value)));
+      if (explicit.length) return { ...base, status: polarity === "POSITIVE" ? "MET" : "NOT_MET", supportObservation: "PRODUCT_OBSERVED",
         basis: explicit.flatMap(item => item.claims!.restaurantTypeFacts!.map(value => `Recorded source statement: ${value}`)),
         evidenceRefs: [...base.evidenceRefs, ...explicit.map(item => `finalSnapshot.domainState.readEvidence[evidenceId=${item.evidenceId}]`)] };
       return { ...base, status: "NOT_CHECKED", basis: ["No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."] };

@@ -1,0 +1,83 @@
+{
+  "schema": "budget-condition-verification@1",
+  "status": "PASS",
+  "codeCommit": "46d471ff4d87f4f5de61beae464916a9f6d46f40",
+  "freezes": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/replay-freeze.json",
+      "sha256": "5ff443338c914b5e41d49129f0bdcb08a0c1143ee4b8794c894d7a7cb5ee6be9",
+      "codeCommit": "46d471ff4d87f4f5de61beae464916a9f6d46f40",
+      "verifiedFiles": 2898
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/calibration-freeze.json",
+      "sha256": "0452645dbef83a4a8213bfcbadf4347bf84fdf6fe549b21528f447aff56e8871",
+      "codeCommit": "46d471ff4d87f4f5de61beae464916a9f6d46f40",
+      "verifiedFiles": 808
+    }
+  ],
+  "gates": [
+    {
+      "name": "typecheck",
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/gates/typecheck-final.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "tests": null
+    },
+    {
+      "name": "architecture",
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/gates/architecture.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "tests": null
+    },
+    {
+      "name": "unit",
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/gates/unit-local-corrected.log",
+      "sha256": "84d79de89ac44e475c2fc3018b4be14d9805e6034c1a078a7441fb16f48f21ab",
+      "tests": 1001
+    },
+    {
+      "name": "build",
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/gates/build-final.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "tests": null
+    },
+    {
+      "name": "browser-fixture",
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/gates/browser-local.log",
+      "sha256": "986776fd2d95658839315ee451fd949691507ebbc61fc0a13c37d4ccd9ae6eb1",
+      "tests": 131
+    }
+  ],
+  "targetedTests": {
+    "green": 42,
+    "red": 4,
+    "redPath": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/red-tests.log",
+    "greenPath": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/green-tests.log"
+  },
+  "savedRuns": 3,
+  "deliveredRecords": 5,
+  "uniqueOutlets": 2,
+  "budgetRowsConsistent": 5,
+  "totalConditionRowsConsistent": 10,
+  "unsupported": 0,
+  "missedKnown": 0,
+  "calibration": {
+    "outcomes": "22/22",
+    "normalDeclaration": "20/20",
+    "interruptedDeclarationUnknown": 2,
+    "boundary": {
+      "ABSENT": 9,
+      "PRESENT": 0,
+      "NOT_EVALUATED": 13
+    }
+  },
+  "scope": "Offline counterfactual display regression on exposed saved artifacts. Original Live and original evaluations unchanged; no phase-exit claim.",
+  "newModels": 0,
+  "newWebsites": 0,
+  "newLive": 0
+}

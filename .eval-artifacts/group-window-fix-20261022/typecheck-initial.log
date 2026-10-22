@@ -1,0 +1,11 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/domains/restaurant/agent-context.test.ts(221,36): error TS2322: Type '"19"' is not assignable to type '"20"'.
+src/infrastructure/browser/browser-task-executor.test.ts(1120,185): error TS2739: Type '{ partySize: number; }' is missing the following properties from type 'BrowserReadGoal': outlet, hardCriteria
+src/infrastructure/browser/browser-task-executor.ts(897,81): error TS2554: Expected 3 arguments, but got 2.
+src/infrastructure/browser/browser-task-executor.ts(913,18): error TS2339: Property 'execute' does not exist on type 'BrowserTaskExecutor'.
+src/infrastructure/browser/browser-task-executor.ts(923,16): error TS2339: Property 'execute' does not exist on type 'BrowserTaskExecutor'.
+src/integrations/restaurant-availability/availability-source-resolver.ts(118,15): error TS2322: Type '"PROVIDER_FAILURE" | "SOURCE_UNSUPPORTED"' is not assignable to type '"AVAILABLE" | "PROVIDER_FAILURE" | "UNAVAILABLE"'.
+  Type '"SOURCE_UNSUPPORTED"' is not assignable to type '"AVAILABLE" | "PROVIDER_FAILURE" | "UNAVAILABLE"'.

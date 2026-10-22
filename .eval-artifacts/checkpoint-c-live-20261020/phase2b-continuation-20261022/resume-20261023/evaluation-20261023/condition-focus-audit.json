@@ -1,0 +1,2963 @@
+{
+  "mode": "OFFLINE_SAVED_EVIDENCE",
+  "doesNotOverrideFixedEvaluation": true,
+  "case02Prices": [
+    {
+      "runId": "h-02",
+      "candidateId": "tabelog:en/tokyo/A1313/A131302/13012757",
+      "actualDisplayRows": [
+        {
+          "text": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "MET",
+          "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:465c07e6c84a4528ea84a0f4"
+          ],
+          "sources": [
+            {
+              "field": "COURSE_TITLE",
+              "quote": "《2H All You Can Drink》【Limited Iroha Course】【JPY 4500】Enjoy our proud Mix Monjayaki, Pork Sauté, Seafood Butter Grilled, and other traditional flavors.",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "COURSE_TITLE",
+              "quote": "\"2-Hour All You Can Drink\" [B Course] Plan Enjoying Pork Steak, Monjayaki, and Seafood Teppan-yaki",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "COURSE_TITLE",
+              "quote": "\"2-Hour All You Can Drink\" [C Course] [JPY 6000] A plan featuring A5 Rank Black Wagyu Steak, Monjayaki, and Seafood Teppan-yaki.",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "around 4,000 yen per person or less",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "MET",
+          "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:465c07e6c84a4528ea84a0f4"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "Recommended All you can drink 《2H All You Can Drink》【Limited Iroha Course】【JPY 4500】Enjoy our proud Mix Monjayaki, Pork Sauté, Seafood Butter Grilled, and other traditional flavors. 7 items Reserve Set menu details JPY 4,500 （Price including tax）per person Number of people 4 - 62",
+              "field": "PRICE"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "All you can drink \"2-Hour All You Can Drink\" [B Course] Plan Enjoying Pork Steak, Monjayaki, and Seafood Teppan-yaki 6 items Reserve Set menu details JPY 5,000 （Price including tax）per person Number of people 4 - 62",
+              "field": "PRICE"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "All you can drink \"2-Hour All You Can Drink\" [C Course] [JPY 6000] A plan featuring A5 Rank Black Wagyu Steak, Monjayaki, and Seafood Teppan-yaki. 6 items Reserve Set menu details JPY 6,000 （Price including tax）per person Number of people 4 - 62",
+              "field": "PRICE"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "JPY 4,000 - JPY 4,999",
+              "field": "PRICE"
+            }
+          ]
+        }
+      ],
+      "goldPriceAssessment": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1313/A131302/13012757",
+          "text": "under 4,000 yen per person",
+          "criterionRef": null,
+          "matchMethod": null,
+          "displayed": "NOT_RECORDED",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        }
+      ],
+      "independentPriceConditions": [
+        {
+          "goldIndex": 1,
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "evidenceRefs": [
+            "rawSnapshot[528].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "h-02",
+      "candidateId": "tabelog:en/tokyo/A1313/A131302/13012768",
+      "actualDisplayRows": [
+        {
+          "text": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "NOT_CHECKED",
+          "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1313/A131302/13012768:2026-10-22T20:25:14.429Z:tabelog:en/tokyo/A1313/A131302/13012768:document:93adb4aa22e22941"
+          ],
+          "sources": [
+            {
+              "field": "NAME",
+              "quote": "Okame Hyottoko ten",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012768/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "CATEGORY",
+              "quote": "Monjyayaki",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012768/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "around 4,000 yen per person or less",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "MET",
+          "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+          "evidenceIds": [
+            "tabelog:en/tokyo/A1313/A131302/13012768:document:93adb4aa22e22941"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012768/",
+              "quote": "JPY 3,000 - JPY 3,999",
+              "field": "PRICE"
+            }
+          ]
+        }
+      ],
+      "goldPriceAssessment": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1313/A131302/13012768",
+          "text": "under 4,000 yen per person",
+          "criterionRef": null,
+          "matchMethod": null,
+          "displayed": "NOT_RECORDED",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        }
+      ],
+      "independentPriceConditions": [
+        {
+          "goldIndex": 1,
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "evidenceRefs": [
+            "rawSnapshot[662].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 3,000 - JPY 3,999; tax retained without conversion."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "h-02",
+      "candidateId": "tabelog:en/tokyo/A1313/A131302/13182404",
+      "actualDisplayRows": [
+        {
+          "text": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "NOT_CHECKED",
+          "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1313/A131302/13182404:2026-10-22T20:25:21.766Z:tabelog:en/tokyo/A1313/A131302/13182404:document:426455f892f5602e"
+          ],
+          "sources": [
+            {
+              "field": "CATEGORY",
+              "quote": "Monjyayaki",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13182404/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "around 4,000 yen per person or less",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "MET",
+          "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+          "evidenceIds": [
+            "tabelog:en/tokyo/A1313/A131302/13182404:document:426455f892f5602e"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13182404/",
+              "quote": "Recommended All you can drink [120-Minute All-You-Can-Drink ◆ Bakuten Enjoyment Course] Enjoy an assorted seafood teppan platter and a choice of 2 types of monja, along with a wide variety of drinks. Reserve Set menu details JPY 6,500 （Price including tax）per person Number of people 4 - 40",
+              "field": "PRICE"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13182404/",
+              "quote": "JPY 3,000 - JPY 3,999",
+              "field": "PRICE"
+            }
+          ]
+        }
+      ],
+      "goldPriceAssessment": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1313/A131302/13182404",
+          "text": "under 4,000 yen per person",
+          "criterionRef": null,
+          "matchMethod": null,
+          "displayed": "NOT_RECORDED",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        }
+      ],
+      "independentPriceConditions": [
+        {
+          "goldIndex": 1,
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "evidenceRefs": [
+            "rawSnapshot[684].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 3,000 - JPY 3,999; tax retained without conversion."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "h-08",
+      "candidateId": "tabelog:en/tokyo/A1313/A131302/13012757",
+      "actualDisplayRows": [
+        {
+          "text": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "MET",
+          "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:be160e048daf09ceaa0dc0cb"
+          ],
+          "sources": [
+            {
+              "field": "COURSE_TITLE",
+              "quote": "《2H All You Can Drink》【Limited Iroha Course】【JPY 4500】Enjoy our proud Mix Monjayaki, Pork Sauté, Seafood Butter Grilled, and other traditional flavors.",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "COURSE_TITLE",
+              "quote": "\"2-Hour All You Can Drink\" [B Course] Plan Enjoying Pork Steak, Monjayaki, and Seafood Teppan-yaki",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "COURSE_TITLE",
+              "quote": "\"2-Hour All You Can Drink\" [C Course] [JPY 6000] A plan featuring A5 Rank Black Wagyu Steak, Monjayaki, and Seafood Teppan-yaki.",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "around 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "MET",
+          "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:be160e048daf09ceaa0dc0cb"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "Recommended All you can drink 《2H All You Can Drink》【Limited Iroha Course】【JPY 4500】Enjoy our proud Mix Monjayaki, Pork Sauté, Seafood Butter Grilled, and other traditional flavors. 7 items Reserve Set menu details JPY 4,500 （Price including tax）per person Number of people 4 - 62",
+              "field": "PRICE"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "All you can drink \"2-Hour All You Can Drink\" [B Course] Plan Enjoying Pork Steak, Monjayaki, and Seafood Teppan-yaki 6 items Reserve Set menu details JPY 5,000 （Price including tax）per person Number of people 4 - 62",
+              "field": "PRICE"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "All you can drink \"2-Hour All You Can Drink\" [C Course] [JPY 6000] A plan featuring A5 Rank Black Wagyu Steak, Monjayaki, and Seafood Teppan-yaki. 6 items Reserve Set menu details JPY 6,000 （Price including tax）per person Number of people 4 - 62",
+              "field": "PRICE"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "JPY 4,000 - JPY 4,999",
+              "field": "PRICE"
+            }
+          ]
+        }
+      ],
+      "goldPriceAssessment": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1313/A131302/13012757",
+          "text": "under 4,000 yen per person",
+          "criterionRef": null,
+          "matchMethod": null,
+          "displayed": "NOT_RECORDED",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        }
+      ],
+      "independentPriceConditions": [
+        {
+          "goldIndex": 1,
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "evidenceRefs": [
+            "rawSnapshot[528].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "h-08",
+      "candidateId": "tabelog:en/tokyo/A1313/A131302/13010747",
+      "actualDisplayRows": [
+        {
+          "text": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "NOT_CHECKED",
+          "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1313/A131302/13010747:2026-10-22T21:11:58.541Z:tabelog:en/tokyo/A1313/A131302/13010747:document:5bfa9c8ebb61e2e6"
+          ],
+          "sources": [
+            {
+              "field": "NAME",
+              "quote": "Seafood Monja Kataoka",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13010747/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "CATEGORY",
+              "quote": "Monjyayaki",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13010747/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "around 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "MET",
+          "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+          "evidenceIds": [
+            "tabelog:en/tokyo/A1313/A131302/13010747:document:5bfa9c8ebb61e2e6"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13010747/",
+              "quote": "JPY 3,000 - JPY 3,999",
+              "field": "PRICE"
+            }
+          ]
+        }
+      ],
+      "goldPriceAssessment": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1313/A131302/13010747",
+          "text": "under 4,000 yen per person",
+          "criterionRef": null,
+          "matchMethod": null,
+          "displayed": "NOT_RECORDED",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        }
+      ],
+      "independentPriceConditions": [
+        {
+          "goldIndex": 1,
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "evidenceRefs": [
+            "rawSnapshot[684].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 3,000 - JPY 3,999; tax retained without conversion."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "h-08",
+      "candidateId": "tabelog:en/tokyo/A1313/A131302/13012768",
+      "actualDisplayRows": [
+        {
+          "text": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "NOT_CHECKED",
+          "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1313/A131302/13012768:2026-10-22T21:11:43.390Z:tabelog:en/tokyo/A1313/A131302/13012768:document:93adb4aa22e22941"
+          ],
+          "sources": [
+            {
+              "field": "NAME",
+              "quote": "Okame Hyottoko ten",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012768/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "CATEGORY",
+              "quote": "Monjyayaki",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012768/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "around 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "MET",
+          "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+          "evidenceIds": [
+            "tabelog:en/tokyo/A1313/A131302/13012768:document:93adb4aa22e22941"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012768/",
+              "quote": "JPY 3,000 - JPY 3,999",
+              "field": "PRICE"
+            }
+          ]
+        }
+      ],
+      "goldPriceAssessment": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1313/A131302/13012768",
+          "text": "under 4,000 yen per person",
+          "criterionRef": null,
+          "matchMethod": null,
+          "displayed": "NOT_RECORDED",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        }
+      ],
+      "independentPriceConditions": [
+        {
+          "goldIndex": 1,
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "evidenceRefs": [
+            "rawSnapshot[640].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 3,000 - JPY 3,999; tax retained without conversion."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "h-14",
+      "candidateId": "tabelog:en/tokyo/A1313/A131302/13012757",
+      "actualDisplayRows": [
+        {
+          "text": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "MET",
+          "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:c605333cc2a4846c9392e242"
+          ],
+          "sources": [
+            {
+              "field": "COURSE_TITLE",
+              "quote": "《2H All You Can Drink》【Limited Iroha Course】【JPY 4500】Enjoy our proud Mix Monjayaki, Pork Sauté, Seafood Butter Grilled, and other traditional flavors.",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "COURSE_TITLE",
+              "quote": "\"2-Hour All You Can Drink\" [B Course] Plan Enjoying Pork Steak, Monjayaki, and Seafood Teppan-yaki",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "COURSE_TITLE",
+              "quote": "\"2-Hour All You Can Drink\" [C Course] [JPY 6000] A plan featuring A5 Rank Black Wagyu Steak, Monjayaki, and Seafood Teppan-yaki.",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "MET",
+          "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:c605333cc2a4846c9392e242"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "Recommended All you can drink 《2H All You Can Drink》【Limited Iroha Course】【JPY 4500】Enjoy our proud Mix Monjayaki, Pork Sauté, Seafood Butter Grilled, and other traditional flavors. 7 items Reserve Set menu details JPY 4,500 （Price including tax）per person Number of people 4 - 62",
+              "field": "PRICE"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "All you can drink \"2-Hour All You Can Drink\" [B Course] Plan Enjoying Pork Steak, Monjayaki, and Seafood Teppan-yaki 6 items Reserve Set menu details JPY 5,000 （Price including tax）per person Number of people 4 - 62",
+              "field": "PRICE"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "All you can drink \"2-Hour All You Can Drink\" [C Course] [JPY 6000] A plan featuring A5 Rank Black Wagyu Steak, Monjayaki, and Seafood Teppan-yaki. 6 items Reserve Set menu details JPY 6,000 （Price including tax）per person Number of people 4 - 62",
+              "field": "PRICE"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012757/",
+              "quote": "JPY 4,000 - JPY 4,999",
+              "field": "PRICE"
+            }
+          ]
+        }
+      ],
+      "goldPriceAssessment": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1313/A131302/13012757",
+          "text": "under 4,000 yen per person",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT"
+        }
+      ],
+      "independentPriceConditions": [
+        {
+          "goldIndex": 1,
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "evidenceRefs": [
+            "rawSnapshot[528].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "h-14",
+      "candidateId": "tabelog:en/tokyo/A1313/A131302/13010747",
+      "actualDisplayRows": [
+        {
+          "text": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "NOT_CHECKED",
+          "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1313/A131302/13010747:2026-10-22T21:56:02.070Z:tabelog:en/tokyo/A1313/A131302/13010747:document:1a57c7c328312139"
+          ],
+          "sources": [
+            {
+              "field": "NAME",
+              "quote": "Seafood Monja Kataoka",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13010747/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "CATEGORY",
+              "quote": "Monjyayaki",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13010747/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "MET",
+          "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+          "evidenceIds": [
+            "tabelog:en/tokyo/A1313/A131302/13010747:document:1a57c7c328312139"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13010747/",
+              "quote": "JPY 3,000 - JPY 3,999",
+              "field": "PRICE"
+            }
+          ]
+        }
+      ],
+      "goldPriceAssessment": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1313/A131302/13010747",
+          "text": "under 4,000 yen per person",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT"
+        }
+      ],
+      "independentPriceConditions": [
+        {
+          "goldIndex": 1,
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "evidenceRefs": [
+            "rawSnapshot[640].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 3,000 - JPY 3,999; tax retained without conversion."
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "h-14",
+      "candidateId": "tabelog:en/tokyo/A1313/A131302/13012768",
+      "actualDisplayRows": [
+        {
+          "text": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "NOT_CHECKED",
+          "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1313/A131302/13012768:2026-10-22T21:56:16.249Z:tabelog:en/tokyo/A1313/A131302/13012768:document:93adb4aa22e22941"
+          ],
+          "sources": [
+            {
+              "field": "NAME",
+              "quote": "Okame Hyottoko ten",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012768/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "CATEGORY",
+              "quote": "Monjyayaki",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012768/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "MET",
+          "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+          "evidenceIds": [
+            "tabelog:en/tokyo/A1313/A131302/13012768:document:93adb4aa22e22941"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131302/13012768/",
+              "quote": "JPY 3,000 - JPY 3,999",
+              "field": "PRICE"
+            }
+          ]
+        }
+      ],
+      "goldPriceAssessment": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1313/A131302/13012768",
+          "text": "under 4,000 yen per person",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT"
+        }
+      ],
+      "independentPriceConditions": [
+        {
+          "goldIndex": 1,
+          "text": "under 4,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "evidenceRefs": [
+            "rawSnapshot[662].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 3,000 - JPY 3,999; tax retained without conversion."
+          ]
+        }
+      ]
+    }
+  ],
+  "case03And06FirstBlockers": [
+    {
+      "runId": "h-03",
+      "originalArtifact": {
+        "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-03-attempt-1/runner/2026-10-22T20-30-45-800Z-b9a978ac-8482-454e-88db-6755dc9b684c.result.json",
+        "sha256": "f7a399e341d94c83aba339d233f5e22654e57e785fa0f66bb9d711aab71fc92c"
+      },
+      "firstTrajectory": {
+        "id": "trajectory:hybrid-live:p2b-holdout-03:1792701045732:1",
+        "taskId": "hybrid-live:p2b-holdout-03:1792701045732",
+        "stepNumber": 1,
+        "occurredAt": "2026-10-22T20:30:50.462Z",
+        "stateVersionBefore": 1,
+        "stateHashBefore": "e2d54c05a7713251d0e3a02f9e0a7e5cca7264cd70c9f329b2bd25545489e20c",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:1"
+          ],
+          "commandIds": [],
+          "attemptIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "15",
+        "decisionContext": {
+          "schemaVersion": "15",
+          "now": "2026-10-22T20:30:48.929Z",
+          "phase": "UNDERSTANDING",
+          "intentDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "criteria": [
+              {
+                "text": "French cuisine",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "French restaurant near Ebisu",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-10-31",
+            "timeWindow": {
+              "earliest": "19:30",
+              "latest": "19:30"
+            },
+            "temporalResolution": {
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-10-22T20:30:45.732Z",
+              "timezone": "Asia/Tokyo",
+              "date": {
+                "expression": "Saturday, October 31",
+                "resolvedDate": "2026-10-31",
+                "basis": "EXPLICIT_DATE"
+              },
+              "timeWindow": {
+                "expression": "7:30 PM",
+                "resolvedTimeWindow": {
+                  "earliest": "19:30",
+                  "latest": "19:30"
+                },
+                "basis": "EXPLICIT_CLOCK"
+              }
+            },
+            "partySize": 2,
+            "partySizeSource": "EXPLICIT",
+            "area": {
+              "query": "near Ebisu"
+            },
+            "budgetPerPerson": {
+              "max": 15000,
+              "currency": "JPY"
+            }
+          },
+          "missingBlockingFields": [],
+          "candidates": [],
+          "availability": {},
+          "availabilityChecks": {},
+          "presentation": [],
+          "searchAvailability": {
+            "available": true
+          },
+          "readCompletion": {
+            "allowed": false,
+            "investigationRecorded": false,
+            "unresolvedCandidateIds": [],
+            "reason": "No actual source investigation is recorded"
+          },
+          "legalActions": {
+            "search": true,
+            "investigateCandidateFacts": [],
+            "checkAvailability": [],
+            "presentResults": [],
+            "endRead": false
+          }
+        },
+        "agentAction": {
+          "type": "SEARCH_RESTAURANTS",
+          "retrievalHint": "French restaurants near Ebisu, Tokyo"
+        },
+        "decisionSummary": "No candidates yet; discover French restaurants near Ebisu for 2 on 2026-10-31 at 19:30.",
+        "modelAttempt": {
+          "invocationId": "cd94acb1-28e3-4a88-b835-5eb2ff8a70c3",
+          "provider": "DEEPSEEK",
+          "model": "deepseek-flash",
+          "purpose": "restaurant_agent_decide",
+          "promptVersion": "27",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "4"
+          },
+          "finishReason": "TOOL_CALLS",
+          "latencyMs": 1531,
+          "usage": {
+            "inputTokens": 3623,
+            "outputTokens": 188,
+            "totalTokens": 3811
+          },
+          "providerRequestId": "22f26642-f466-4d75-9443-d36f0aabeadc"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 0,
+          "failureCode": "GOOGLE_LOCATION_UNRESOLVED",
+          "googleRequests": {
+            "limit": 38,
+            "total": 1,
+            "namedPlaceResolution": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        },
+        "observation": {
+          "type": "DISCOVERY_FAILED",
+          "detail": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places"
+        },
+        "stateVersionAfter": 2,
+        "stateHashAfter": "a9bcac9eca56828d49c0bcad55449d3d54d64ce9ee6d0dfab8be0a465847dca2",
+        "stepOutcome": "EXECUTION_FAILURE"
+      },
+      "remainingGaps": [
+        "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+        "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+      ],
+      "budgetPerPerson": {
+        "max": 15000,
+        "currency": "JPY"
+      },
+      "candidates": 0,
+      "displayedCount": 0
+    },
+    {
+      "runId": "h-06",
+      "originalArtifact": {
+        "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-06-attempt-1/runner/2026-10-22T20-55-22-196Z-f6df6ee3-8afe-4ac1-9e72-dac007be4ff6.result.json",
+        "sha256": "7a4447681e0ee8260d4e7ace966cf65b35b9ac13bcf61fa04e9eda991548b5d1"
+      },
+      "firstTrajectory": {
+        "id": "trajectory:hybrid-live:p2b-holdout-06:1792702522125:1",
+        "taskId": "hybrid-live:p2b-holdout-06:1792702522125",
+        "stepNumber": 1,
+        "occurredAt": "2026-10-22T20:55:26.929Z",
+        "stateVersionBefore": 1,
+        "stateHashBefore": "801b3127e59f97554f30625e5e864ce2bfbaa90c1c21c5f0fe7a2de960a737e9",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:1"
+          ],
+          "commandIds": [],
+          "attemptIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "15",
+        "decisionContext": {
+          "schemaVersion": "15",
+          "now": "2026-10-22T20:55:25.324Z",
+          "phase": "UNDERSTANDING",
+          "intentDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "criteria": [
+              {
+                "text": "oden",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Oden restaurant near Shimbashi for 8 people on Friday, October 30, between 7 and 9 PM",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-10-30",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "21:00"
+            },
+            "temporalResolution": {
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-10-22T20:55:22.125Z",
+              "timezone": "Asia/Tokyo",
+              "date": {
+                "expression": "Friday, October 30",
+                "resolvedDate": "2026-10-30",
+                "basis": "EXPLICIT_DATE"
+              },
+              "timeWindow": {
+                "expression": "any time between 7 and 9 PM",
+                "resolvedTimeWindow": {
+                  "earliest": "19:00",
+                  "latest": "21:00"
+                },
+                "basis": "EXPLICIT_CLOCK"
+              }
+            },
+            "partySize": 8,
+            "partySizeSource": "EXPLICIT",
+            "area": {
+              "query": "near Shimbashi"
+            }
+          },
+          "missingBlockingFields": [],
+          "candidates": [],
+          "availability": {},
+          "availabilityChecks": {},
+          "presentation": [],
+          "searchAvailability": {
+            "available": true
+          },
+          "readCompletion": {
+            "allowed": false,
+            "investigationRecorded": false,
+            "unresolvedCandidateIds": [],
+            "reason": "No actual source investigation is recorded"
+          },
+          "legalActions": {
+            "search": true,
+            "investigateCandidateFacts": [],
+            "checkAvailability": [],
+            "presentResults": [],
+            "endRead": false
+          }
+        },
+        "agentAction": {
+          "type": "SEARCH_RESTAURANTS",
+          "retrievalHint": "oden restaurants near Shimbashi, Tokyo"
+        },
+        "decisionSummary": "No candidates yet; discover oden restaurants near Shimbashi before checking availability for 8 on Oct 30, 19:00–21:00.",
+        "modelAttempt": {
+          "invocationId": "63cfbad0-b523-4fff-9d5d-7b1f6d49856e",
+          "provider": "DEEPSEEK",
+          "model": "deepseek-flash",
+          "purpose": "restaurant_agent_decide",
+          "promptVersion": "27",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "4"
+          },
+          "finishReason": "TOOL_CALLS",
+          "latencyMs": 1600,
+          "usage": {
+            "inputTokens": 3632,
+            "outputTokens": 194,
+            "totalTokens": 3826
+          },
+          "providerRequestId": "7191686d-0da9-4ffb-a30b-53328977371a"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 0,
+          "failureCode": "GOOGLE_LOCATION_UNRESOLVED",
+          "googleRequests": {
+            "limit": 38,
+            "total": 1,
+            "namedPlaceResolution": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        },
+        "observation": {
+          "type": "DISCOVERY_FAILED",
+          "detail": "Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\""
+        },
+        "stateVersionAfter": 2,
+        "stateHashAfter": "7ada0be3b55275dbd9f6fd8439057582d3afb40e5c89a781533f1fe60669bdb1",
+        "stepOutcome": "EXECUTION_FAILURE"
+      },
+      "remainingGaps": [
+        "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\"",
+        "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+      ],
+      "budgetPerPerson": null,
+      "candidates": 0,
+      "displayedCount": 0
+    },
+    {
+      "runId": "h-09",
+      "originalArtifact": {
+        "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/runner/2026-10-22T21-17-21-383Z-60c026f8-95d7-4d54-902c-dc8c55d6ec43.result.json",
+        "sha256": "ed406c4c9154e929b2df0b24f79f2f784b54c589c04aad52a84f9a42da0a6315"
+      },
+      "firstTrajectory": {
+        "id": "trajectory:hybrid-live:p2b-holdout-03:1792703841318:1",
+        "taskId": "hybrid-live:p2b-holdout-03:1792703841318",
+        "stepNumber": 1,
+        "occurredAt": "2026-10-22T21:17:26.647Z",
+        "stateVersionBefore": 1,
+        "stateHashBefore": "0822fb349159dcaddf0e7c12eb6b51860610543266decad6ca8de3f2ebe862aa",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:1"
+          ],
+          "commandIds": [],
+          "attemptIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "15",
+        "decisionContext": {
+          "schemaVersion": "15",
+          "now": "2026-10-22T21:17:25.000Z",
+          "phase": "UNDERSTANDING",
+          "intentDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "criteria": [
+              {
+                "text": "French cuisine",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "French restaurant near Ebisu",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-10-31",
+            "timeWindow": {
+              "earliest": "19:30",
+              "latest": "19:30"
+            },
+            "temporalResolution": {
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-10-22T21:17:21.318Z",
+              "timezone": "Asia/Tokyo",
+              "date": {
+                "expression": "Saturday, October 31",
+                "resolvedDate": "2026-10-31",
+                "basis": "EXPLICIT_DATE"
+              },
+              "timeWindow": {
+                "expression": "7:30 PM",
+                "resolvedTimeWindow": {
+                  "earliest": "19:30",
+                  "latest": "19:30"
+                },
+                "basis": "EXPLICIT_CLOCK"
+              }
+            },
+            "partySize": 2,
+            "partySizeSource": "EXPLICIT",
+            "area": {
+              "query": "near Ebisu"
+            },
+            "budgetPerPerson": {
+              "max": 15000,
+              "currency": "JPY"
+            }
+          },
+          "missingBlockingFields": [],
+          "candidates": [],
+          "availability": {},
+          "availabilityChecks": {},
+          "presentation": [],
+          "searchAvailability": {
+            "available": true
+          },
+          "readCompletion": {
+            "allowed": false,
+            "investigationRecorded": false,
+            "unresolvedCandidateIds": [],
+            "reason": "No actual source investigation is recorded"
+          },
+          "legalActions": {
+            "search": true,
+            "investigateCandidateFacts": [],
+            "checkAvailability": [],
+            "presentResults": [],
+            "endRead": false
+          }
+        },
+        "agentAction": {
+          "type": "SEARCH_RESTAURANTS",
+          "retrievalHint": "French restaurants near Ebisu, Tokyo"
+        },
+        "decisionSummary": "No candidates yet; discover French restaurants near Ebisu for 2 on 2026-10-31 at 19:30.",
+        "modelAttempt": {
+          "invocationId": "fa5b4031-cde3-4c88-af5a-191500eccef3",
+          "provider": "DEEPSEEK",
+          "model": "deepseek-flash",
+          "purpose": "restaurant_agent_decide",
+          "promptVersion": "27",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "4"
+          },
+          "finishReason": "TOOL_CALLS",
+          "latencyMs": 1642,
+          "usage": {
+            "inputTokens": 3623,
+            "outputTokens": 188,
+            "totalTokens": 3811
+          },
+          "providerRequestId": "bf033107-45bb-4f9c-b526-f85d0189f7bb"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 0,
+          "failureCode": "GOOGLE_LOCATION_UNRESOLVED",
+          "googleRequests": {
+            "limit": 38,
+            "total": 1,
+            "namedPlaceResolution": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        },
+        "observation": {
+          "type": "DISCOVERY_FAILED",
+          "detail": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places"
+        },
+        "stateVersionAfter": 2,
+        "stateHashAfter": "a04a8f2da421696528f8bb4da6451aefa7b57652278d3ce5645e065b1dcd6134",
+        "stepOutcome": "EXECUTION_FAILURE"
+      },
+      "remainingGaps": [
+        "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+        "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+      ],
+      "budgetPerPerson": {
+        "max": 15000,
+        "currency": "JPY"
+      },
+      "candidates": 0,
+      "displayedCount": 0
+    },
+    {
+      "runId": "h-12",
+      "originalArtifact": {
+        "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-12-attempt-1/runner/2026-10-22T21-38-48-616Z-5c215285-e59c-479a-b6ef-39a8a128bce2.result.json",
+        "sha256": "20df459631c391dab34c40774bf3c1d3c678dfd0bcd2407ea3c0c35a7fd83cc6"
+      },
+      "firstTrajectory": {
+        "id": "trajectory:hybrid-live:p2b-holdout-06:1792705128548:1",
+        "taskId": "hybrid-live:p2b-holdout-06:1792705128548",
+        "stepNumber": 1,
+        "occurredAt": "2026-10-22T21:38:54.253Z",
+        "stateVersionBefore": 1,
+        "stateHashBefore": "36373109b1cf4be6148d16a3d01dd9d2667db70dafb553995ddd6f7e0994a98d",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:1"
+          ],
+          "commandIds": [],
+          "attemptIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "15",
+        "decisionContext": {
+          "schemaVersion": "15",
+          "now": "2026-10-22T21:38:52.321Z",
+          "phase": "UNDERSTANDING",
+          "intentDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "criteria": [
+              {
+                "text": "oden",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Oden restaurant near Shimbashi for 8 people on Friday, October 30, between 7 and 9 PM",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-10-30",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "21:00"
+            },
+            "temporalResolution": {
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-10-22T21:38:48.548Z",
+              "timezone": "Asia/Tokyo",
+              "date": {
+                "expression": "Friday, October 30",
+                "resolvedDate": "2026-10-30",
+                "basis": "EXPLICIT_DATE"
+              },
+              "timeWindow": {
+                "expression": "any time between 7 and 9 PM",
+                "resolvedTimeWindow": {
+                  "earliest": "19:00",
+                  "latest": "21:00"
+                },
+                "basis": "EXPLICIT_CLOCK"
+              }
+            },
+            "partySize": 8,
+            "partySizeSource": "EXPLICIT",
+            "area": {
+              "query": "near Shimbashi"
+            }
+          },
+          "missingBlockingFields": [],
+          "candidates": [],
+          "availability": {},
+          "availabilityChecks": {},
+          "presentation": [],
+          "searchAvailability": {
+            "available": true
+          },
+          "readCompletion": {
+            "allowed": false,
+            "investigationRecorded": false,
+            "unresolvedCandidateIds": [],
+            "reason": "No actual source investigation is recorded"
+          },
+          "legalActions": {
+            "search": true,
+            "investigateCandidateFacts": [],
+            "checkAvailability": [],
+            "presentResults": [],
+            "endRead": false
+          }
+        },
+        "agentAction": {
+          "type": "SEARCH_RESTAURANTS",
+          "retrievalHint": "oden restaurants near Shimbashi, Tokyo"
+        },
+        "decisionSummary": "No candidates yet; discover oden restaurants near Shimbashi to then check availability for 8 on Oct 30, 19:00–21:00.",
+        "modelAttempt": {
+          "invocationId": "a8ab7742-ce34-4537-8f38-a0e8aa9a26f4",
+          "provider": "DEEPSEEK",
+          "model": "deepseek-flash",
+          "purpose": "restaurant_agent_decide",
+          "promptVersion": "27",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "4"
+          },
+          "finishReason": "TOOL_CALLS",
+          "latencyMs": 1927,
+          "usage": {
+            "inputTokens": 3632,
+            "outputTokens": 195,
+            "totalTokens": 3827
+          },
+          "providerRequestId": "6dbd3f32-8fae-4b33-a0da-63295f6a2a74"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 0,
+          "failureCode": "GOOGLE_LOCATION_UNRESOLVED",
+          "googleRequests": {
+            "limit": 38,
+            "total": 1,
+            "namedPlaceResolution": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        },
+        "observation": {
+          "type": "DISCOVERY_FAILED",
+          "detail": "Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\""
+        },
+        "stateVersionAfter": 2,
+        "stateHashAfter": "3ad4d3a7f7c5de7fa84533aeee4fb51b737f1c2764ccbea30380577438f6961a",
+        "stepOutcome": "EXECUTION_FAILURE"
+      },
+      "remainingGaps": [
+        "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\"",
+        "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+      ],
+      "budgetPerPerson": null,
+      "candidates": 0,
+      "displayedCount": 0
+    },
+    {
+      "runId": "h-15",
+      "originalArtifact": {
+        "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-15-attempt-1/runner/2026-10-22T22-01-57-482Z-a45bf287-2aff-4872-bfbe-62acfa11a0d2.result.json",
+        "sha256": "00dd8de97671893de350e8e7ac74dff65fed2f12cbc75a9c887b77aaf5be850f"
+      },
+      "firstTrajectory": {
+        "id": "trajectory:hybrid-live:p2b-holdout-03:1792706517412:1",
+        "taskId": "hybrid-live:p2b-holdout-03:1792706517412",
+        "stepNumber": 1,
+        "occurredAt": "2026-10-22T22:02:02.735Z",
+        "stateVersionBefore": 1,
+        "stateHashBefore": "01266fdb4f3321ca8ff6d2a3c54e7d1ee86f5d54c21615bd4ea350f3860be3fc",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:1"
+          ],
+          "commandIds": [],
+          "attemptIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "15",
+        "decisionContext": {
+          "schemaVersion": "15",
+          "now": "2026-10-22T22:02:00.744Z",
+          "phase": "UNDERSTANDING",
+          "intentDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "criteria": [
+              {
+                "text": "French cuisine",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "French restaurant near Ebisu",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-10-31",
+            "timeWindow": {
+              "earliest": "19:30",
+              "latest": "19:30"
+            },
+            "temporalResolution": {
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-10-22T22:01:57.412Z",
+              "timezone": "Asia/Tokyo",
+              "date": {
+                "expression": "Saturday, October 31",
+                "resolvedDate": "2026-10-31",
+                "basis": "EXPLICIT_DATE"
+              },
+              "timeWindow": {
+                "expression": "7:30 PM",
+                "resolvedTimeWindow": {
+                  "earliest": "19:30",
+                  "latest": "19:30"
+                },
+                "basis": "EXPLICIT_CLOCK"
+              }
+            },
+            "partySize": 2,
+            "partySizeSource": "EXPLICIT",
+            "area": {
+              "query": "near Ebisu"
+            },
+            "budgetPerPerson": {
+              "max": 15000,
+              "currency": "JPY"
+            }
+          },
+          "missingBlockingFields": [],
+          "candidates": [],
+          "availability": {},
+          "availabilityChecks": {},
+          "presentation": [],
+          "searchAvailability": {
+            "available": true
+          },
+          "readCompletion": {
+            "allowed": false,
+            "investigationRecorded": false,
+            "unresolvedCandidateIds": [],
+            "reason": "No actual source investigation is recorded"
+          },
+          "legalActions": {
+            "search": true,
+            "investigateCandidateFacts": [],
+            "checkAvailability": [],
+            "presentResults": [],
+            "endRead": false
+          }
+        },
+        "agentAction": {
+          "type": "SEARCH_RESTAURANTS",
+          "retrievalHint": "French restaurant near Ebisu, Tokyo"
+        },
+        "decisionSummary": "No candidates yet; search for French restaurants near Ebisu to build a candidate set for the 2026-10-31 19:30 party of 2 availability request.",
+        "modelAttempt": {
+          "invocationId": "12d46e09-e242-422a-a9f9-ebceb63eeaf0",
+          "provider": "DEEPSEEK",
+          "model": "deepseek-flash",
+          "purpose": "restaurant_agent_decide",
+          "promptVersion": "27",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "4"
+          },
+          "finishReason": "TOOL_CALLS",
+          "latencyMs": 1987,
+          "usage": {
+            "inputTokens": 3623,
+            "outputTokens": 197,
+            "totalTokens": 3820
+          },
+          "providerRequestId": "7390b2d3-4918-44fb-93ef-71ec4ac97083"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 0,
+          "failureCode": "GOOGLE_LOCATION_UNRESOLVED",
+          "googleRequests": {
+            "limit": 38,
+            "total": 1,
+            "namedPlaceResolution": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        },
+        "observation": {
+          "type": "DISCOVERY_FAILED",
+          "detail": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places"
+        },
+        "stateVersionAfter": 2,
+        "stateHashAfter": "6cff5f83f18477b33a8f12bb97d54448b79d72e56dbd72c4feb928d9655062bf",
+        "stepOutcome": "EXECUTION_FAILURE"
+      },
+      "remainingGaps": [
+        "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+        "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+      ],
+      "budgetPerPerson": {
+        "max": 15000,
+        "currency": "JPY"
+      },
+      "candidates": 0,
+      "displayedCount": 0
+    },
+    {
+      "runId": "h-18",
+      "originalArtifact": {
+        "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-18-attempt-1/runner/2026-10-22T22-23-30-930Z-8eac6ea7-3217-4bef-92a3-3d963636f225.result.json",
+        "sha256": "8c74dc462e1d4875769f6860b93edd7742f646694ed258c06fa46e3f87f21a12"
+      },
+      "firstTrajectory": {
+        "id": "trajectory:hybrid-live:p2b-holdout-06:1792707810865:1",
+        "taskId": "hybrid-live:p2b-holdout-06:1792707810865",
+        "stepNumber": 1,
+        "occurredAt": "2026-10-22T22:23:35.273Z",
+        "stateVersionBefore": 1,
+        "stateHashBefore": "4cca8524fa25cc2374b545e45df27ae53c2308f8c1c41485cda6a89a3435ebe4",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:1"
+          ],
+          "commandIds": [],
+          "attemptIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "15",
+        "decisionContext": {
+          "schemaVersion": "15",
+          "now": "2026-10-22T22:23:33.681Z",
+          "phase": "UNDERSTANDING",
+          "intentDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "criteria": [
+              {
+                "text": "oden",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Oden restaurant near Shimbashi for 8 people on Friday, October 30, between 7 and 9 PM",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-10-30",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "21:00"
+            },
+            "temporalResolution": {
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-10-22T22:23:30.865Z",
+              "timezone": "Asia/Tokyo",
+              "date": {
+                "expression": "Friday, October 30",
+                "resolvedDate": "2026-10-30",
+                "basis": "EXPLICIT_DATE"
+              },
+              "timeWindow": {
+                "expression": "any time between 7 and 9 PM",
+                "resolvedTimeWindow": {
+                  "earliest": "19:00",
+                  "latest": "21:00"
+                },
+                "basis": "EXPLICIT_CLOCK"
+              }
+            },
+            "partySize": 8,
+            "partySizeSource": "EXPLICIT",
+            "area": {
+              "query": "near Shimbashi"
+            }
+          },
+          "missingBlockingFields": [],
+          "candidates": [],
+          "availability": {},
+          "availabilityChecks": {},
+          "presentation": [],
+          "searchAvailability": {
+            "available": true
+          },
+          "readCompletion": {
+            "allowed": false,
+            "investigationRecorded": false,
+            "unresolvedCandidateIds": [],
+            "reason": "No actual source investigation is recorded"
+          },
+          "legalActions": {
+            "search": true,
+            "investigateCandidateFacts": [],
+            "checkAvailability": [],
+            "presentResults": [],
+            "endRead": false
+          }
+        },
+        "agentAction": {
+          "type": "SEARCH_RESTAURANTS",
+          "retrievalHint": "oden restaurants near Shimbashi, Tokyo"
+        },
+        "decisionSummary": "No candidates yet; discover oden restaurants near Shimbashi to then check availability for 8 on 2026-10-30 between 19:00 and 21:00.",
+        "modelAttempt": {
+          "invocationId": "ff4a3a9e-50ad-4ea5-ae58-377a83980cc5",
+          "provider": "DEEPSEEK",
+          "model": "deepseek-flash",
+          "purpose": "restaurant_agent_decide",
+          "promptVersion": "27",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "4"
+          },
+          "finishReason": "TOOL_CALLS",
+          "latencyMs": 1588,
+          "usage": {
+            "inputTokens": 3632,
+            "outputTokens": 200,
+            "totalTokens": 3832
+          },
+          "providerRequestId": "5af7c1ea-7620-4330-ab4e-5b465b935da7"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 0,
+          "failureCode": "GOOGLE_LOCATION_UNRESOLVED",
+          "googleRequests": {
+            "limit": 38,
+            "total": 1,
+            "namedPlaceResolution": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        },
+        "observation": {
+          "type": "DISCOVERY_FAILED",
+          "detail": "Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\""
+        },
+        "stateVersionAfter": 2,
+        "stateHashAfter": "2dd49129c437ff9625d74dcb53acb13844c72a54de0243dd17656303792e2b7b",
+        "stepOutcome": "EXECUTION_FAILURE"
+      },
+      "remainingGaps": [
+        "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\"",
+        "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+      ],
+      "budgetPerPerson": null,
+      "candidates": 0,
+      "displayedCount": 0
+    }
+  ],
+  "case05ExtraCondition": [
+    {
+      "runId": "h-05",
+      "originalArtifact": {
+        "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-05-attempt-1/runner/2026-10-22T20-43-38-839Z-2e52f0d5-3b06-4ffa-9d79-39441e048cf6.result.json",
+        "sha256": "462f7b672feb581a428e523db3101d7e53229697aa8bbafa4ca2c256a9c4cecd"
+      },
+      "actualCriteria": [
+        {
+          "text": "soba restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "sit-down restaurant with tables",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "standing soba counter",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "finalAcceptanceFinding": {
+        "dimension": "AUTHORITATIVE_CONDITIONS",
+        "status": "NOT_SATISFIED",
+        "stage": "SEMANTIC_TO_FINAL_STATE",
+        "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+        "observations": [
+          "Conflicting fields: criteria extra=sit down restaurant with tables."
+        ],
+        "directCause": "The recorded authoritative request conflicts with the materialized request.",
+        "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+        "certainty": "CONFIRMED",
+        "evidenceRefs": [
+          "materializedCase.semantic",
+          "finalSnapshot.domainState.intentDraft"
+        ],
+        "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+      },
+      "presentedCandidates": [],
+      "displayedConditionStates": {},
+      "remainingGaps": [
+        "Azabu Juban Soba Goya: availability UNKNOWN (EXTRACTION_FAILED); facts COMPLETED",
+        "honda Azabujuban: availability AVAILABLE (no request-bound slot established); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+        "TATSU: availability AVAILABLE (no request-bound slot established); facts UNKNOWN (BROWSER_RUNTIME_FAILED)",
+        "Hitsuji to Meshi: availability UNKNOWN (AVAILABILITY_RESULT_UNOBSERVED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+        "Umiji Bettei: availability UNKNOWN (AVAILABILITY_RESULT_UNOBSERVED); facts UNKNOWN (BROWSER_TIMEOUT)",
+        "Ushinikanabou Azabujuban: availability UNAVAILABLE (NO_MATCHING_SLOT); facts UNKNOWN (RESERVE_REACHED)",
+        "Shi Fan: availability SOURCE_UNSUPPORTED (SOURCE_UNSUPPORTED); facts UNKNOWN (RESERVE_REACHED)",
+        "Azabu Juban Hanabusa: availability UNKNOWN (AVAILABILITY_RESULT_UNOBSERVED); facts UNKNOWN (BROWSER_TIMEOUT)",
+        "Candidate tabelog:en/tokyo/A1307/A130702/13320164 lacks fresh evidenced availability for the authoritative request",
+        "Candidate tabelog:en/tokyo/A1307/A130702/13158345 has no evidence for HARD criterion sit-down restaurant with tables",
+        "Candidate tabelog:en/tokyo/A1307/A130702/13278227 has no evidence for HARD criterion soba restaurant",
+        "Candidate tablecheck:hitsuji-to-meshi lacks fresh evidenced availability for the authoritative request",
+        "Candidate tablecheck:sushiumiji-azabu-juban-bettei lacks fresh evidenced availability for the authoritative request",
+        "Candidate tablecheck:ushini-kanabou lacks fresh evidenced availability for the authoritative request",
+        "Candidate tablecheck:shi-fan lacks fresh evidenced availability for the authoritative request",
+        "Candidate tablecheck:azabujuban-hanabusa lacks fresh evidenced availability for the authoritative request",
+        "MODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats."
+      ],
+      "availabilityChecks": {
+        "tabelog:en/tokyo/A1307/A130702/13158345": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T20:45:05.503Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:5092a76a135c0cdfb5233969",
+            "evidence:restaurant:tabelog-hard-criteria:94966d72f7970b0e86c8b673",
+            "evidence:restaurant:tabelog-availability:303c71d516885aacdb6f131a"
+          ],
+          "displayExpiresAt": "2026-10-22T20:55:05.503Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tabelog:en/tokyo/A1307/A130702/13320164": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:45:26.938Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:26140b9ae3021b79ce0cc464",
+            "evidence:restaurant:tabelog-hard-criteria:bd03b37b280ac3d67f3d2835"
+          ],
+          "reasonCode": "EXTRACTION_FAILED",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "EXTRACTION_FAILED"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tabelog:en/tokyo/A1307/A130702/13278227": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T20:45:49.235Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:d6a124a11c2b6d7b5014073a",
+            "evidence:restaurant:tabelog-hard-criteria:b9c59e8028c3057ee01ecbda",
+            "evidence:restaurant:tabelog-availability:16df1705b50c50f933186591"
+          ],
+          "displayExpiresAt": "2026-10-22T20:55:49.235Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tablecheck:hitsuji-to-meshi": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:47:22.442Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:53b1ec5cc087945512dc8ee6",
+            "evidence:restaurant:tablecheck-hard-criteria:49103c75644058a4b27368d6",
+            "evidence:restaurant:tablecheck-hard-criteria:d9cd68c885209fa5ff65d6c6"
+          ],
+          "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "timeWindowCoverage": {
+            "date": "2026-11-03",
+            "partySize": 3,
+            "requestedWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "covered": [
+              {
+                "earliest": "19:00",
+                "latest": "19:00",
+                "status": "EMPTY"
+              }
+            ],
+            "uncovered": [],
+            "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+          },
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "FAILED",
+              "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED"
+            }
+          ],
+          "sourceProvider": "TABLECHECK",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tablecheck:sushiumiji-azabu-juban-bettei": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:47:31.089Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:11e3d2c1737c323943469390",
+            "evidence:restaurant:tablecheck-hard-criteria:9c07e33e896300722d75f02f",
+            "evidence:restaurant:tablecheck-hard-criteria:955c7bbaca85889818dcd72b"
+          ],
+          "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "timeWindowCoverage": {
+            "date": "2026-11-03",
+            "partySize": 3,
+            "requestedWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "covered": [
+              {
+                "earliest": "19:00",
+                "latest": "19:00",
+                "status": "EMPTY"
+              }
+            ],
+            "uncovered": [],
+            "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+          },
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "FAILED",
+              "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED"
+            }
+          ],
+          "sourceProvider": "TABLECHECK",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tablecheck:ushini-kanabou": {
+          "status": "UNAVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T20:47:47.526Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:9b5a6a0dbea87e778840e97e",
+            "evidence:restaurant:tablecheck-hard-criteria:c992f7b5cd7e71a2ec0604f0",
+            "evidence:restaurant:tablecheck-availability:b6b4b716b3bc7565af689e16",
+            "evidence:restaurant:tablecheck-entity-match:4185adaec384131747c22345",
+            "evidence:restaurant:tablecheck-hard-criteria:5e5274c7bdb48b56d04048c9"
+          ],
+          "reasonCode": "NO_MATCHING_SLOT",
+          "displayExpiresAt": "2026-10-22T20:57:47.526Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "timeWindowCoverage": {
+            "date": "2026-11-03",
+            "partySize": 3,
+            "requestedWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "covered": [
+              {
+                "earliest": "19:00",
+                "latest": "19:00",
+                "status": "EMPTY"
+              }
+            ],
+            "uncovered": [],
+            "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+          },
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "UNAVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABLECHECK",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tablecheck:shi-fan": {
+          "status": "SOURCE_UNSUPPORTED",
+          "checkedAt": "2026-10-22T20:47:57.008Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:beb8b6a1e495cf8c099328cc",
+            "evidence:restaurant:tablecheck-entity-match:8251d0c97d2c3981e345d472",
+            "evidence:restaurant:tablecheck-hard-criteria:223d19703b325a8daea4918e"
+          ],
+          "reasonCode": "SOURCE_UNSUPPORTED",
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "SOURCE_UNSUPPORTED",
+              "reasonCode": "SOURCE_UNSUPPORTED"
+            }
+          ],
+          "sourceProvider": "TABLECHECK",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tablecheck:azabujuban-hanabusa": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:47:57.030Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:25a241d9f5909b1c6a64eb81",
+            "evidence:restaurant:tablecheck-hard-criteria:9e3abfd2e0f23121f0f329f8",
+            "evidence:restaurant:tablecheck-hard-criteria:9fc17d24e28ea15b032d8598"
+          ],
+          "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "timeWindowCoverage": {
+            "date": "2026-11-03",
+            "partySize": 3,
+            "requestedWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "covered": [
+              {
+                "earliest": "19:00",
+                "latest": "19:00",
+                "status": "EMPTY"
+              }
+            ],
+            "uncovered": [],
+            "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+          },
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "FAILED",
+              "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED"
+            }
+          ],
+          "sourceProvider": "TABLECHECK",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        }
+      },
+      "factChecks": {
+        "tabelog:en/tokyo/A1307/A130702/13158345": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:45:51.750Z",
+          "evidenceIds": [
+            "evidence:restaurant:native-fact-identity:4904d21f81d2dba145b0683e",
+            "tabelog:en/tokyo/A1307/A130702/13158345:document:a7c6dfb836415b0e",
+            "fact-judgment:tabelog:en/tokyo/A1307/A130702/13158345:2026-10-22T20:46:04.399Z:tabelog:en/tokyo/A1307/A130702/13158345:document:a7c6dfb836415b0e"
+          ],
+          "sourceProvider": "TABELOG",
+          "reasonCode": "NATIVE_HARD_FACTS_UNCONFIRMED",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:94966d72f7970b0e86c8b673"
+          ]
+        },
+        "tabelog:en/tokyo/A1307/A130702/13278227": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:46:20.757Z",
+          "evidenceIds": [],
+          "reasonCode": "BROWSER_RUNTIME_FAILED",
+          "sourceProvider": "TABELOG",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:b9c59e8028c3057ee01ecbda"
+          ]
+        },
+        "tabelog:en/tokyo/A1307/A130702/13320164": {
+          "status": "COMPLETED",
+          "checkedAt": "2026-10-22T20:46:38.632Z",
+          "evidenceIds": [
+            "evidence:restaurant:native-fact-identity:12ee02ae7fbc9e98c2bbe964",
+            "tabelog:en/tokyo/A1307/A130702/13320164:document:074026b571db4eaa",
+            "fact-judgment:tabelog:en/tokyo/A1307/A130702/13320164:2026-10-22T20:46:47.609Z:tabelog:en/tokyo/A1307/A130702/13320164:document:074026b571db4eaa"
+          ],
+          "sourceProvider": "TABELOG",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:bd03b37b280ac3d67f3d2835"
+          ]
+        },
+        "tablecheck:hitsuji-to-meshi": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:48:14.719Z",
+          "evidenceIds": [
+            "evidence:restaurant:native-fact-identity:bbcc11b551b3218eecf20808",
+            "tablecheck:hitsuji-to-meshi:document:ac71adb867f0d86a",
+            "tablecheck:hitsuji-to-meshi:document:b92523aa1b29ecce",
+            "fact-judgment:tablecheck:hitsuji-to-meshi:2026-10-22T20:48:24.175Z:tablecheck:hitsuji-to-meshi:document:b92523aa1b29ecce,tablecheck:hitsuji-to-meshi:document:ac71adb867f0d86a"
+          ],
+          "sourceProvider": "TABLECHECK",
+          "reasonCode": "NATIVE_HARD_FACTS_UNCONFIRMED",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tablecheck-hard-criteria:49103c75644058a4b27368d6",
+            "evidence:restaurant:tablecheck-hard-criteria:d9cd68c885209fa5ff65d6c6"
+          ]
+        },
+        "tablecheck:sushiumiji-azabu-juban-bettei": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:48:40.823Z",
+          "evidenceIds": [],
+          "reasonCode": "BROWSER_TIMEOUT",
+          "sourceProvider": "TABLECHECK",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tablecheck-hard-criteria:9c07e33e896300722d75f02f",
+            "evidence:restaurant:tablecheck-hard-criteria:955c7bbaca85889818dcd72b"
+          ]
+        },
+        "tablecheck:azabujuban-hanabusa": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:49:12.188Z",
+          "evidenceIds": [],
+          "reasonCode": "BROWSER_TIMEOUT",
+          "sourceProvider": "TABLECHECK",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tablecheck-hard-criteria:9e3abfd2e0f23121f0f329f8",
+            "evidence:restaurant:tablecheck-hard-criteria:9fc17d24e28ea15b032d8598"
+          ]
+        },
+        "tablecheck:ushini-kanabou": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:49:46.240Z",
+          "evidenceIds": [],
+          "reasonCode": "RESERVE_REACHED",
+          "sourceProvider": "GOOGLE_PLACES",
+          "supersededEvidenceIds": []
+        },
+        "tablecheck:shi-fan": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T20:49:46.240Z",
+          "evidenceIds": [],
+          "reasonCode": "RESERVE_REACHED",
+          "sourceProvider": "GOOGLE_PLACES",
+          "supersededEvidenceIds": []
+        }
+      }
+    },
+    {
+      "runId": "h-11",
+      "originalArtifact": {
+        "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-11-attempt-1/runner/2026-10-22T21-30-21-586Z-4e926f5b-c6ca-4fc3-9975-e3caa5735295.result.json",
+        "sha256": "8f3d4b02f7e69b293c38bc5239502982c67870afe214c932ac47ab353c8f31f7"
+      },
+      "actualCriteria": [
+        {
+          "text": "soba restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "sit-down restaurant with tables",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "standing soba counter",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "finalAcceptanceFinding": {
+        "dimension": "AUTHORITATIVE_CONDITIONS",
+        "status": "NOT_SATISFIED",
+        "stage": "SEMANTIC_TO_FINAL_STATE",
+        "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+        "observations": [
+          "Conflicting fields: criteria extra=sit down restaurant with tables."
+        ],
+        "directCause": "The recorded authoritative request conflicts with the materialized request.",
+        "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+        "certainty": "CONFIRMED",
+        "evidenceRefs": [
+          "materializedCase.semantic",
+          "finalSnapshot.domainState.intentDraft"
+        ],
+        "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+      },
+      "presentedCandidates": [
+        "tabelog:en/tokyo/A1307/A130702/13278227"
+      ],
+      "displayedConditionStates": {
+        "tabelog:en/tokyo/A1307/A130702/13278227": [
+          {
+            "text": "soba restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1307/A130702/13278227:2026-10-22T21:33:11.339Z:tabelog:en/tokyo/A1307/A130702/13278227:document:3f336c3fb2dd870e",
+              "tabelog:en/tokyo/A1307/A130702/13278227:document:3f336c3fb2dd870e"
+            ],
+            "sources": [
+              {
+                "field": "CATEGORY",
+                "quote": "Soba (Buckwheat noodles)",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13278227/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          {
+            "text": "sit-down restaurant with tables",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1307/A130702/13278227:2026-10-22T21:33:11.339Z:tabelog:en/tokyo/A1307/A130702/13278227:document:3f336c3fb2dd870e"
+            ],
+            "sources": [
+              {
+                "field": "CATEGORY",
+                "quote": "Soba (Buckwheat noodles)",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13278227/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          {
+            "text": "standing soba counter",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [],
+            "sources": []
+          }
+        ]
+      },
+      "remainingGaps": [],
+      "availabilityChecks": {
+        "tabelog:en/tokyo/A1307/A130702/13158345": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T21:31:44.795Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:a5a82952f1c8ccd1da086017",
+            "evidence:restaurant:tabelog-hard-criteria:5034ecf74ab477a7d8b49577",
+            "evidence:restaurant:tabelog-availability:6f7c183cd7855dfc9f83d232"
+          ],
+          "displayExpiresAt": "2026-10-22T21:41:44.795Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tabelog:en/tokyo/A1307/A130702/13320164": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T21:32:06.213Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:c004e0ea1ec2ed4e658b965a",
+            "evidence:restaurant:tabelog-hard-criteria:9de11e9dec0d81686ad383f7"
+          ],
+          "reasonCode": "EXTRACTION_FAILED",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "EXTRACTION_FAILED"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tabelog:en/tokyo/A1307/A130702/13278227": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T21:32:28.527Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:ace4a29cc4018a689ce2a6b5",
+            "evidence:restaurant:tabelog-hard-criteria:303eb36c8859f58be7e34328",
+            "evidence:restaurant:tabelog-availability:d45a27dce1fc50bcc173edf6"
+          ],
+          "displayExpiresAt": "2026-10-22T21:42:28.527Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        }
+      },
+      "factChecks": {
+        "tabelog:en/tokyo/A1307/A130702/13158345": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T21:32:31.420Z",
+          "evidenceIds": [],
+          "reasonCode": "BROWSER_TIMEOUT",
+          "sourceProvider": "TABELOG",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:5034ecf74ab477a7d8b49577"
+          ]
+        },
+        "tabelog:en/tokyo/A1307/A130702/13278227": {
+          "status": "COMPLETED",
+          "checkedAt": "2026-10-22T21:33:01.429Z",
+          "evidenceIds": [
+            "evidence:restaurant:native-fact-identity:1503579371a153c8c66b529e",
+            "tabelog:en/tokyo/A1307/A130702/13278227:document:3f336c3fb2dd870e",
+            "fact-judgment:tabelog:en/tokyo/A1307/A130702/13278227:2026-10-22T21:33:11.339Z:tabelog:en/tokyo/A1307/A130702/13278227:document:3f336c3fb2dd870e"
+          ],
+          "sourceProvider": "TABELOG",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:303eb36c8859f58be7e34328"
+          ]
+        },
+        "tabelog:en/tokyo/A1307/A130702/13320164": {
+          "status": "COMPLETED",
+          "checkedAt": "2026-10-22T21:33:11.380Z",
+          "evidenceIds": [
+            "evidence:restaurant:native-fact-identity:12ee02ae7fbc9e98c2bbe964",
+            "tabelog:en/tokyo/A1307/A130702/13320164:document:c00c49e22d4cfd6d",
+            "fact-judgment:tabelog:en/tokyo/A1307/A130702/13320164:2026-10-22T21:33:24.695Z:tabelog:en/tokyo/A1307/A130702/13320164:document:c00c49e22d4cfd6d"
+          ],
+          "sourceProvider": "TABELOG",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:9de11e9dec0d81686ad383f7"
+          ]
+        }
+      }
+    },
+    {
+      "runId": "h-17",
+      "originalArtifact": {
+        "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-17-attempt-1/runner/2026-10-22T22-14-57-225Z-c8dcfdd4-7041-44a0-b3ac-3572bd4484b2.result.json",
+        "sha256": "32239c6f4662f93c5ff636cd1f95df2973df78843986bf6cbe04741e935a399a"
+      },
+      "actualCriteria": [
+        {
+          "text": "soba restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "sit-down restaurant with tables",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "standing soba counter",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "finalAcceptanceFinding": {
+        "dimension": "AUTHORITATIVE_CONDITIONS",
+        "status": "NOT_SATISFIED",
+        "stage": "SEMANTIC_TO_FINAL_STATE",
+        "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+        "observations": [
+          "Conflicting fields: criteria extra=sit down restaurant with tables."
+        ],
+        "directCause": "The recorded authoritative request conflicts with the materialized request.",
+        "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+        "certainty": "CONFIRMED",
+        "evidenceRefs": [
+          "materializedCase.semantic",
+          "finalSnapshot.domainState.intentDraft"
+        ],
+        "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+      },
+      "presentedCandidates": [
+        "tabelog:en/tokyo/A1307/A130702/13158345",
+        "tabelog:en/tokyo/A1307/A130702/13278227"
+      ],
+      "displayedConditionStates": {
+        "tabelog:en/tokyo/A1307/A130702/13158345": [
+          {
+            "text": "soba restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1307/A130702/13158345:2026-10-22T22:17:37.799Z:tabelog:en/tokyo/A1307/A130702/13158345:document:cf71b9ac9db66923",
+              "tabelog:en/tokyo/A1307/A130702/13158345:document:cf71b9ac9db66923"
+            ],
+            "sources": [
+              {
+                "field": "CATEGORY",
+                "quote": "Soba (Buckwheat noodles)",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13158345/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          {
+            "text": "sit-down restaurant with tables",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1307/A130702/13158345:2026-10-22T22:17:37.799Z:tabelog:en/tokyo/A1307/A130702/13158345:document:cf71b9ac9db66923"
+            ],
+            "sources": [
+              {
+                "field": "CATEGORY",
+                "quote": "Soba (Buckwheat noodles)",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13158345/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          {
+            "text": "standing soba counter",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [],
+            "sources": []
+          }
+        ],
+        "tabelog:en/tokyo/A1307/A130702/13278227": [
+          {
+            "text": "soba restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1307/A130702/13278227:2026-10-22T22:18:00.795Z:tabelog:en/tokyo/A1307/A130702/13278227:document:3f336c3fb2dd870e",
+              "tabelog:en/tokyo/A1307/A130702/13278227:document:3f336c3fb2dd870e"
+            ],
+            "sources": [
+              {
+                "field": "CATEGORY",
+                "quote": "Soba (Buckwheat noodles)",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13278227/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          {
+            "text": "sit-down restaurant with tables",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1307/A130702/13278227:2026-10-22T22:18:00.795Z:tabelog:en/tokyo/A1307/A130702/13278227:document:3f336c3fb2dd870e"
+            ],
+            "sources": [
+              {
+                "field": "CATEGORY",
+                "quote": "Soba (Buckwheat noodles)",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13278227/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          {
+            "text": "standing soba counter",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [],
+            "sources": []
+          }
+        ]
+      },
+      "remainingGaps": [],
+      "availabilityChecks": {
+        "tabelog:en/tokyo/A1307/A130702/13158345": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T22:16:23.883Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:dbf56bcde9b8c8999e588c95",
+            "evidence:restaurant:tabelog-hard-criteria:f514634f493da8ce68ad7ec3",
+            "evidence:restaurant:tabelog-availability:7d9ce1212e2a621241c32f3b"
+          ],
+          "displayExpiresAt": "2026-10-22T22:26:23.883Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tabelog:en/tokyo/A1307/A130702/13320164": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T22:16:51.768Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:3403772a713ce70fa1f3f956",
+            "evidence:restaurant:tabelog-hard-criteria:731601e56df3f5d461453927"
+          ],
+          "reasonCode": "EXTRACTION_FAILED",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "EXTRACTION_FAILED"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tabelog:en/tokyo/A1307/A130702/13278227": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T22:17:09.316Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:e110984f0a85855d8b7b10c8",
+            "evidence:restaurant:tabelog-hard-criteria:6ddfe1c5a13e9a133950c849",
+            "evidence:restaurant:tabelog-availability:91495a25671d63843a103a1f"
+          ],
+          "displayExpiresAt": "2026-10-22T22:27:09.316Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-03\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        }
+      },
+      "factChecks": {
+        "tabelog:en/tokyo/A1307/A130702/13158345": {
+          "status": "COMPLETED",
+          "checkedAt": "2026-10-22T22:17:11.045Z",
+          "evidenceIds": [
+            "evidence:restaurant:native-fact-identity:4904d21f81d2dba145b0683e",
+            "tabelog:en/tokyo/A1307/A130702/13158345:document:cf71b9ac9db66923",
+            "fact-judgment:tabelog:en/tokyo/A1307/A130702/13158345:2026-10-22T22:17:37.799Z:tabelog:en/tokyo/A1307/A130702/13158345:document:cf71b9ac9db66923"
+          ],
+          "sourceProvider": "TABELOG",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:f514634f493da8ce68ad7ec3"
+          ]
+        },
+        "tabelog:en/tokyo/A1307/A130702/13278227": {
+          "status": "COMPLETED",
+          "checkedAt": "2026-10-22T22:17:37.849Z",
+          "evidenceIds": [
+            "evidence:restaurant:native-fact-identity:1503579371a153c8c66b529e",
+            "tabelog:en/tokyo/A1307/A130702/13278227:document:3f336c3fb2dd870e",
+            "fact-judgment:tabelog:en/tokyo/A1307/A130702/13278227:2026-10-22T22:18:00.795Z:tabelog:en/tokyo/A1307/A130702/13278227:document:3f336c3fb2dd870e"
+          ],
+          "sourceProvider": "TABELOG",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:6ddfe1c5a13e9a133950c849"
+          ]
+        },
+        "tabelog:en/tokyo/A1307/A130702/13320164": {
+          "status": "COMPLETED",
+          "checkedAt": "2026-10-22T22:18:00.837Z",
+          "evidenceIds": [
+            "evidence:restaurant:native-fact-identity:12ee02ae7fbc9e98c2bbe964",
+            "tabelog:en/tokyo/A1307/A130702/13320164:document:74025669708fddf3",
+            "fact-judgment:tabelog:en/tokyo/A1307/A130702/13320164:2026-10-22T22:18:08.497Z:tabelog:en/tokyo/A1307/A130702/13320164:document:74025669708fddf3"
+          ],
+          "sourceProvider": "TABELOG",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:731601e56df3f5d461453927"
+          ]
+        }
+      }
+    }
+  ],
+  "case05Seating": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/case05-seating-audit.json",
+    "sha256": "53b2c0851c8d0e18ebd579ca42a78bb73e89afa710e9340ed40bc7872f3f2532"
+  }
+}

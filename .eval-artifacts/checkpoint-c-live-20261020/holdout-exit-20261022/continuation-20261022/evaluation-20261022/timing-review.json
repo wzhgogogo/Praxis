@@ -1,0 +1,30 @@
+{
+  "status": "REVIEWED_MEASUREMENT_JITTER_RETAINED_WITHOUT_RECLASSIFICATION",
+  "reviewPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md",
+  "reviewSha256": "95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f",
+  "sourceAuditPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/timing-exceptions.json",
+  "sourceAuditSha256": "dac8566546252dff54bd7fb6b5642c78b617431be5b9e8ecd5f2eed9f2297c44",
+  "rows": [
+    {
+      "runId": "h-07",
+      "attempt": 1,
+      "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-07-attempt-1/runner/2026-10-22T09-19-53-736Z-8bed4854-5d97-4cce-89b2-8e44e62976aa.result.json",
+      "artifactSha256": "0130e2cf761782e2144481d56fa1bab1be6624ee177ce82d1434243cc6dce27f",
+      "recordedElapsedMs": 500076,
+      "limitMs": 500000,
+      "overrunMs": 76,
+      "outerChildWallMs": 540438
+    },
+    {
+      "runId": "h-09",
+      "attempt": 1,
+      "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/runner/2026-10-22T09-43-42-240Z-1fe7a835-0915-4fc1-9603-87143341155d.result.json",
+      "artifactSha256": "ceca2aefa9c0a60479f66076d84ee11c5ba0abcb5355d76b63c959f3075ca116",
+      "recordedElapsedMs": 500080,
+      "limitMs": 500000,
+      "overrunMs": 80,
+      "outerChildWallMs": 524480
+    }
+  ],
+  "rule": "Retain exact 500000ms ceiling and original @33 resource findings; reviewer dfdb175b accepts 76/80ms measurement jitter without changing outcome classification."
+}

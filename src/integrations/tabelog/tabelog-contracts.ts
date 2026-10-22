@@ -40,6 +40,7 @@ export type TabelogIdentityFieldComparison = "MATCH" | "CONFLICT" | "INSUFFICIEN
 export type TabelogEntityResolutionReason =
   | "HIGH_EXACT_PHONE"
   | "HIGH_NAME_AND_ADDRESS"
+  | "SOURCE_BUSY"
   | "SEARCH_BOT_CHALLENGE"
   | "DETAIL_BOT_CHALLENGE"
   | "NO_OUTLETS_PARSED"
@@ -134,6 +135,7 @@ export interface TabelogAvailabilityPageObservation {
   sourceEntityId?: string;
   sourceUrl?: string;
   observedAt: string;
+  priceFacts?: import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts | undefined;
   requestedDate?: string;
   requestedPartySize?: number;
   entityMatch: TabelogEntityResolution;
@@ -146,6 +148,7 @@ export interface TabelogAvailabilityPageObservation {
     | "EXTRACTION_FAILED";
   visibleSlots?: string[];
   listedCourseDetails?: string[];
+  sourceFieldQuotes?: import("../../domains/restaurant/contracts.js").RestaurantSourceFieldQuote[];
   verifiedHardCriteria?: string[];
   excerpt?: string;
   failureCode?: string;

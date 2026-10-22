@@ -1,0 +1,39 @@
+{
+  "mode": "REAL_MODEL_REPLAY",
+  "startedAt": "2026-10-21T03:36:44.588Z",
+  "spec": {
+    "schema": "checkpoint-c-calendar-experiment@1",
+    "evidenceStatus": "EXPOSED_DEVELOPMENT_REPLAY",
+    "model": "deepseek-v4-flash",
+    "variants": [
+      "V0",
+      "V1",
+      "V2",
+      "V3"
+    ],
+    "points": 69,
+    "plannedCalls": 276,
+    "hardCallLimit": 300,
+    "baselineModelCalls": 1718,
+    "phaseModelLimit": 4000,
+    "endpoint": "https://api.deepseek.com/beta/chat/completions",
+    "thinkingTimeoutMs": 120000,
+    "thinkingMaxOutputTokens": 8192,
+    "automaticRetries": 0,
+    "sourceRequestsAllowed": 0,
+    "concurrency": 1,
+    "oracle": "DOM month navigation node + captured binding, user approved; not positional Next"
+  },
+  "planned": 276,
+  "freeze": {
+    "sha256": "c784a31ef87577789bb72d5197cda8da5ec81b1ce63d301512b1e8240af71e38",
+    "files": 459
+  },
+  "committedSha": "15e77164adcee198893070b2bff6a4c62e816d44",
+  "sourceRequestsAllowed": 0,
+  "originalFreeze": {
+    "sha256": "967d63e2d8e06ccbdcbb0134d55fdf4588124c8f0fa7dc49a45ac178e4a8a283",
+    "files": 434
+  },
+  "originalCommittedSha": "ee9ac1af2ce4eb547ca648798f677a167f059f83"
+}

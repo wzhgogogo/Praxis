@@ -1,0 +1,344 @@
+{
+  "status": "STOPPED_WITNESS_GATE_FAILED_NOT_LIVE_READY",
+  "failedStep": 3,
+  "failedCase": "p2-holdout-05",
+  "gate": {
+    "requiredCertifiedCases": 6,
+    "certifiedCases": 5
+  },
+  "priorC17": {
+    "status": "QUALIFIED_DELIVERY",
+    "deliveredCount": 3,
+    "modelCalls": 29,
+    "timeouts": 0,
+    "elapsedMs": 214037,
+    "checkpointC": "PASS",
+    "liveFreezeSha256": "282828a4c679af6a4de314c5a730076566714254b287a5327e3d97fdbdd76cbd",
+    "deliveryFreezeSha256": "108960f33d10662ed62ccde0051ab42eb6676c5282891838b600ac31c5f29df5"
+  },
+  "cases": [
+    {
+      "caseId": "p2-holdout-01",
+      "originalPlace": "Ueno",
+      "effectivePlace": "Ueno",
+      "fallbackOrdinal": 0,
+      "certifiedWitnessCount": 3,
+      "inventoryMatch": "EXACT_REQUEST_MATCH",
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "witnesses": [
+        {
+          "outletName": "Torie Ueno hirokoji ten",
+          "rst_id": "13128870",
+          "distanceMeters": 192.19107197592504,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13128870.source.json",
+            "sha256": "5f38cd224ceca3d517753cbc1dd241f62c95328fe5baae084356ac31fbdae935",
+            "responseSha256": "ded42b89afae0d1f53f5249b14e8725d01babd71fcdd396c7ac77e3d7bdcfe4e",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13128870.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-01-13128870.attempt-1.body.json",
+          "inventorySha256": "44c94fd53033cb511a9b3a8c701878afebd2cc20e3ceebb18fbaaf0d7bb696a7"
+        },
+        {
+          "outletName": "Ueno Kuromon Torie",
+          "rst_id": "13191933",
+          "distanceMeters": 343.70251186946575,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13191933.source.json",
+            "sha256": "a68e1accbb85e9b5054abb730757bd588d236d3d05be689e93e9c3cc6e294e84",
+            "responseSha256": "a868c4f8f94a82ad320f3c953aaf7e939a367a3d2043d6e408c799cd6bebbc0d",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13191933.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-01-13191933.attempt-1.body.json",
+          "inventorySha256": "4cdf1de5a6c41a943dabf39fc1d21e52d2c628c75350a572d00159c2ac412902"
+        },
+        {
+          "outletName": "Tori no Ichi Ueno honten",
+          "rst_id": "13290563",
+          "distanceMeters": 322.7399193186088,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13290563.source.json",
+            "sha256": "b5072ae5cb49b8c79c2352823decf709e3bdcd4be32c6348825a35bdfdc370c9",
+            "responseSha256": "6c5e65b30e1d86256d107f094d9f19a5f5aad80f8a0a8df905042b6add53eafd",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/ueno-13290563.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-01-13290563.attempt-1.body.json",
+          "inventorySha256": "aaec1156efe9d8e60e048690b35a82ae176b5be69abc63ed2aa249837b95e6c5"
+        }
+      ]
+    },
+    {
+      "caseId": "p2-holdout-02",
+      "originalPlace": "Jiyugaoka",
+      "effectivePlace": "Sangenjaya",
+      "fallbackOrdinal": 1,
+      "certifiedWitnessCount": 3,
+      "inventoryMatch": "EXACT_REQUEST_MATCH",
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "witnesses": [
+        {
+          "outletName": "SALVATORE CUOMO &amp; BAR Sangenjaya",
+          "rst_id": "13013080",
+          "distanceMeters": 614.2935954954295,
+          "matchingSlots": [
+            "19:30"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.source.json",
+            "sha256": "4410e3fd5a43be55d824969e4d607ec6607c9fffaf37fbf6e90a1914e6080336",
+            "responseSha256": "f79552910954fbb1037cd1eb31f61eb125b485134fa0304655a0662eb256646a",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-inventory-13013080.attempt-1.body.json",
+          "inventorySha256": "098fe92a6e35c78cf0b97d942008d7ac5c955859c0a2f5506af470f99d55eba7"
+        },
+        {
+          "outletName": "ilco",
+          "rst_id": "13230173",
+          "distanceMeters": 586.4678092854484,
+          "matchingSlots": [
+            "19:30"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.source.json",
+            "sha256": "0d42563686bd2f5b8e6d95d3c4cadec27b2b2d772a55d5b2835356bf004105a1",
+            "responseSha256": "7140e95f6186deddc0b4d3ada3f87cc23d79dc9e0496a1d94df5e6fe491217ec",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13230173.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-inventory-13230173.attempt-1.body.json",
+          "inventorySha256": "794690e5eb79e9073787596052ab424eda1d3f7b264abb28ad6fd00a8e88f050"
+        },
+        {
+          "outletName": "The Kentarone",
+          "rst_id": "13169776",
+          "distanceMeters": 462.43637149404543,
+          "matchingSlots": [
+            "19:30"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.source.json",
+            "sha256": "90a5271add374c2bbdd5bb6227f8a41fdde41333df21de95227a0c9e99f41a72",
+            "responseSha256": "da6797ceae8240ce8136034aab295a515b0ef7974bb805547553878712bbf8b9",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13169776.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-inventory-13169776.attempt-1.body.json",
+          "inventorySha256": "b74d3e2bc8634af8818f608a8a8851434f42fd553e4238df53c98026e7b03b7d"
+        }
+      ]
+    },
+    {
+      "caseId": "p2-holdout-03",
+      "originalPlace": "Akasaka",
+      "effectivePlace": "Akasaka",
+      "fallbackOrdinal": 0,
+      "certifiedWitnessCount": 2,
+      "inventoryMatch": "EXACT_REQUEST_MATCH",
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "witnesses": [
+        {
+          "outletName": "Shabu Gen",
+          "rst_id": "13015193",
+          "distanceMeters": 644.667414290496,
+          "matchingSlots": [
+            "18:00",
+            "18:30",
+            "19:00",
+            "19:30",
+            "20:00"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13015193.source.json",
+            "sha256": "13c45f08e47eea656f4975ee38d08e703e7a5f3580de381e292c9c158f9887db",
+            "responseSha256": "0bda9ceb62f4f22bbb7a55d4cb857670a549096bf8e75080df7f2c6b34e962ff",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13015193.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-03-13015193.attempt-1.body.json",
+          "inventorySha256": "6c7f35833ac4667a8d3ec0dc2327183c90b7bd3c3c617846898163ae4775b6ff"
+        },
+        {
+          "outletName": "Kappo Kukita",
+          "rst_id": "13169764",
+          "distanceMeters": 413.7227983928927,
+          "matchingSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13169764.source.json",
+            "sha256": "103697c8a7ce7214a17071cfbe24f500a12125054444edacafc8b211aa908096",
+            "responseSha256": "317402d91dbe65486a00a831c41c84ecf26cea6213a7bed5eab8271e1ee91e2b",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13169764.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-03-13169764.attempt-1.body.json",
+          "inventorySha256": "ddc1948cb07253baa42436eea1dd5c517d60058bf7404424427cf329d7b4b35b"
+        }
+      ]
+    },
+    {
+      "caseId": "p2-holdout-04",
+      "originalPlace": "Ningyocho",
+      "effectivePlace": "Ningyocho",
+      "fallbackOrdinal": 0,
+      "certifiedWitnessCount": 3,
+      "inventoryMatch": "EXACT_REQUEST_MATCH",
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "witnesses": [
+        {
+          "outletName": "Miyoshi",
+          "rst_id": "13022072",
+          "distanceMeters": 234.93966909541248,
+          "matchingSlots": [
+            "18:30"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/ningyocho-13022072.source.json",
+            "sha256": "af4fb8c6b775e259119aa84ff303ff61dd9aaf5c813b1186bd82c913989c9083",
+            "responseSha256": "0e561c58229d8fde02c6a8363dc9fdad04e99d23d7a8f57cbb8e4d260b39204b",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/ningyocho-13022072.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-04-13022072.attempt-1.body.json",
+          "inventorySha256": "223d66824acea897a2c96b57c0293e2628aa5ac9633e645b99ba0e53ff9ed786"
+        },
+        {
+          "outletName": "Utsuke",
+          "rst_id": "13291679",
+          "distanceMeters": 705.1196627285638,
+          "matchingSlots": [
+            "18:30"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13291679.source.json",
+            "sha256": "6c914f3b25385b95875794dbe8a1a194f9fd5babc3b05c57e6bdcdb9ecd36e2d",
+            "responseSha256": "f05795aa81d9ffdfe27290b4dc946263d134c1be5f76642c2356193bd0b10275",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13291679.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-04-13291679.attempt-1.body.json",
+          "inventorySha256": "fe8bed86d85a822b7ac71ca5aff90e7fdbadc43014139da9cc3d39c29aa4876d"
+        },
+        {
+          "outletName": "Ningyocho Umeda",
+          "rst_id": "13003026",
+          "distanceMeters": 328.40250384044907,
+          "matchingSlots": [
+            "18:30"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13003026.source.json",
+            "sha256": "34c4b6fc785256c21a94694a3b0ae0a9a12388e18b2528f864001422ce07dbb3",
+            "responseSha256": "6451e9ea86ea3b201eecde134afdd5912319a2cdbd69c47fd0565634fa6a184d",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/ningyocho-13003026.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-04-13003026.attempt-1.body.json",
+          "inventorySha256": "b57672a30e63154064dc7df905c94341f13ae99f913d01459551c10e3d56cefb"
+        }
+      ]
+    },
+    {
+      "caseId": "p2-holdout-05",
+      "originalPlace": "Gotanda",
+      "effectivePlace": "Shinagawa",
+      "fallbackOrdinal": 1,
+      "certifiedWitnessCount": 0,
+      "inventoryMatch": "NOT_CERTIFIED",
+      "classification": "NOT_CERTIFIED_AFTER_FALLBACK",
+      "witnesses": []
+    },
+    {
+      "caseId": "p2-holdout-06",
+      "originalPlace": "Shimokitazawa",
+      "effectivePlace": "Shimokitazawa",
+      "fallbackOrdinal": 0,
+      "certifiedWitnessCount": 2,
+      "inventoryMatch": "EXACT_REQUEST_MATCH",
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "witnesses": [
+        {
+          "outletName": "Nanban Tei Shimokitazawa ten",
+          "rst_id": "13037445",
+          "distanceMeters": 586.2833219637799,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13037445.source.json",
+            "sha256": "c2e84c8fbcadf4f30f52bb55bec5577c1672533f28d2dc0bf3c0f56e54eda4f4",
+            "responseSha256": "65cb540211fac46e1c404e7d29b1b2ebd6948d5c4ede54bc43d575c8a05fac2c",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13037445.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-05/p2-holdout-06-13037445.attempt-1.body.json",
+          "inventorySha256": "3d6aa64fbd861378d3ccf074a04e254b734087d08b0eb1f22af6d9cc223e8d55"
+        },
+        {
+          "outletName": "Yaki Yasai Ginga Dan",
+          "rst_id": "13289461",
+          "distanceMeters": 480.78055819870116,
+          "matchingSlots": [
+            "19:00"
+          ],
+          "pageSource": {
+            "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13289461.source.json",
+            "sha256": "e947219beb1d19e7e23ef946dfef7c107e763da6cd5b36a3dbf024698ea2e65b",
+            "responseSha256": "19af6b7dae840764c98b4f838eadd13f7896bee0d2b6a0a56ff0c58167b163cf",
+            "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/shimokitazawa-13289461.attempt-1.metadata.json"
+          },
+          "inventoryBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-05/p2-holdout-06-13289461.attempt-1.body.json",
+          "inventorySha256": "a5b078dc64bd8b779a0b17f23f7c8aadcebf98910149539c5e0635ad8421fbac"
+        }
+      ]
+    }
+  ],
+  "holdout": {
+    "planned": 18,
+    "started": 0,
+    "status": "NOT_REACHED",
+    "scoring": "NOT_RUN",
+    "wordingPairExtraction": "NOT_REACHED",
+    "finalLiveFreeze": "NOT_GENERATED_GATE_FAILED"
+  },
+  "earliestCertifiedWitnessObservation": "2026-10-22T06:41:36.126Z",
+  "witnessValidUntil": "2026-10-23T06:41:36.126Z",
+  "registrationFreezeSha256": "5d08caa84ca7c41226e0dfdc7c1dda7ce9dd1bd87720a4f11b93f497b97fa2fd",
+  "modelsAddedThisPreparation": 0,
+  "ledgerTotals": {
+    "fullLive": 33,
+    "modelCalls": 2885,
+    "environmentReruns": 2
+  },
+  "evidenceStatus": "Evaluation-side certification sources; unrun exit holdout, no capability result",
+  "layers": {
+    "endToEnd": {
+      "checkpointC": "PASS",
+      "exitHoldout": "NOT_RUN",
+      "witnessGate": "NOT_SATISFIED"
+    },
+    "stages": {
+      "P2_1": "NOT_REACHED",
+      "P2_2": "NOT_REACHED",
+      "P2_3": "NOT_REACHED"
+    },
+    "severity": {
+      "holdoutProductS0": "NOT_EVALUATED_NO_LIVE",
+      "sourceExternalWrites": 0
+    },
+    "attribution": {
+      "status": "SOURCE_SUPPORT_GAP_NOT_A_PRODUCT_MISS",
+      "reason": "Bounded source capture cannot certify the unchanged negative HARD; not proof of global infeasibility."
+    }
+  }
+}

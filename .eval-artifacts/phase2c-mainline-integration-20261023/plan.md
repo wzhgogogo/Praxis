@@ -1,0 +1,3 @@
+# Authorized mainline integration
+
+Evidence status: draft / not integrated until gates and remote verification. Merge exact prep06287b6f into main06703ba1; preserve both histories and document decisions. No product changes: exact bytes against1a715325, State20/Evaluator33/rubric29. Execute five gates and locally reconstructed cached69+5 plus independent22 calibration; no network/model/API calls. No new holdout access. Use an isolated integration worktree to preserve the user main worktree. Stop on an undecidable conflict; otherwise push only the designated mainline after verification, then rebase the repair branch while retaining e2042b7a records.

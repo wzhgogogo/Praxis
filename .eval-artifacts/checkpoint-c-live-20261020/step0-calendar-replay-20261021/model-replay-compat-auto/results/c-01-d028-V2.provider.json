@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "69073fda7ba94d7c6a117eb3584d269de48ac46c24fc88da0686d0a5a2462350",
+  "id": "e1668947-b1f2-4476-a9d5-560ef2735e9e",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14181,
+    "completion_tokens": 4953,
+    "total_tokens": 19134,
+    "prompt_tokens_details": {
+      "cached_tokens": 2816
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4812
+    },
+    "prompt_cache_hit_tokens": 2816,
+    "prompt_cache_miss_tokens": 11365
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_S8FN7Y8GQi9jhak5a23H9090",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:4:target:131\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Party size 2 is already the selected guest button; advance the calendar month to reach 2026-11-03.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

@@ -1,3 +1,4 @@
+import type { RestaurantPriceFacts } from "./price-facts.js";
 import type { RestaurantFailureCode } from "./failure-codes.js";
 import type { ExecutionResult } from "../../core/execution/contracts.js";
 import type { ActionProposal, Authorization, PolicyDenialCode } from "../../core/policy/contracts.js";
@@ -194,6 +195,15 @@ export interface RestaurantAvailabilityCheck {
   requestFingerprint?: string;
   /** A scoped no-slot result never excludes inventory in unobserved compatible scopes. */
   serviceScope?: RestaurantServiceScope;
+  /** Observed points only; uncovered intervals are explicitly open at checked endpoints. */
+  timeWindowCoverage?: {
+    date: string;
+    partySize: number;
+    requestedWindow: { earliest: string; latest: string };
+    covered: Array<{ earliest: string; latest: string; status: "EMPTY" | "AVAILABLE" }>;
+    uncovered: Array<{ earliest: string; latest: string; earliestExclusive: boolean; latestExclusive: boolean }>;
+    stopReason: "RESULT_FOUND" | "OBSERVED_TIMES_EXHAUSTED" | "TIME_QUERY_LIMIT" | "INCOMPLETE_RESULT";
+  };
 }
 
 /** Stable request binding for a completed slot/no-slot observation. */
@@ -219,6 +229,13 @@ export type RestaurantReadEvidenceProvider = "GOOGLE_PLACES" | "RESTAURANT_WEBSI
  * Small Domain-owned record of a grounded external read. It intentionally holds
  * normalized claims, never a provider payload, full HTML page, secret, or model reasoning.
  */
+export interface RestaurantSourceFieldQuote {
+  field: "CATEGORY" | "COURSE_TITLE" | "COURSE_DESCRIPTION" | "GOOGLE_TYPE" | "NAME" | "CUSTOMER_REVIEW" | "SOURCE_TEXT" | "PRICE";
+  quote: string;
+  sourceUrl: string;
+  meal?: "LUNCH" | "DINNER" | "UNSPECIFIED";
+}
+
 export interface RestaurantReadEvidence {
   evidenceId: string;
   kind: RestaurantReadEvidenceKind;
@@ -235,6 +252,10 @@ export interface RestaurantReadEvidence {
   supersedesEvidenceIds?: string[];
   requestFingerprint: string;
   claims: Record<string, string | number | boolean | string[]>;
+  /** Structured, quoted public price facts, independently versioned. */
+  priceFacts?: RestaurantPriceFacts;
+  /** Source-owned field quotations, never model-assigned roles. */
+  sourceFieldQuotes?: RestaurantSourceFieldQuote[];
   entityMatch?: {
     confidence: "HIGH" | "MEDIUM" | "LOW";
     matchedBy: string[];
@@ -273,6 +294,8 @@ export interface LocationAddressObservation {
 
 export interface RestaurantDiscoveryPlan {
   textRetrieval?: import("./discovery-retrieval.js").DiscoveryRetrievalSelection;
+  /** A planned source batch read early for region evidence, consumed once at its original cursor. */
+  regionReferenceRead?: { sourceId: string; readRunId?: string; read: RestaurantSearchRead };
   entries: Array<{
     sourceId: string;
     query: {
@@ -339,6 +362,14 @@ export interface RestaurantSearchContinuation {
     sourceId: string;
     candidateIds: string[];
   };
+  /** Retained source checkpoints, including capped sources. Only plan entries allow resumption; a source is stored here OR in sourceProgress, never both. */
+  deferredSources?: Array<{
+    progress: NonNullable<RestaurantSearchContinuation["sourceProgress"]>;
+    nextPageToken?: string;
+    usedPageTokens: string[];
+    pagesRead: number;
+    sourceRequestContext?: { textQuery: string };
+  }>;
   sourceProgress?: {
     retrieval?: { selection?: import("./discovery-retrieval.js").DiscoveryRetrievalSelection; rewrites:number; regionPages:number; retrievalPages:number; history:Array<{selection:import("./discovery-retrieval.js").DiscoveryRetrievalSelection;elapsedMs:number;parsedCount:number}> };
     directoryRegion?: {
@@ -436,6 +467,9 @@ export interface RestaurantCandidateFactRead {
 }
 
 export interface RestaurantFactSourceDocument {
+  /** Private metadata from this same source read; omitted from model messages. */
+  sourceFieldQuotes?: RestaurantSourceFieldQuote[];
+  priceFacts?: RestaurantPriceFacts;
   id: string;
   candidateId: string;
   identityEvidenceId: string;
@@ -492,7 +526,7 @@ export interface RestaurantReadExecutionMetadata {
   providerAttempts?: Array<{
     candidateId: string;
     provider: "TABLECHECK" | "TABELOG";
-    outcome: "AVAILABLE" | "UNAVAILABLE" | "PROVIDER_FAILURE";
+    outcome: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN" | "SOURCE_UNSUPPORTED" | "PROVIDER_FAILURE";
     failureCode?: RestaurantFailureCode;
   }>;
   /** Candidate-scoped native discovery failures; other observed outlets in the batch remain usable. */
@@ -692,7 +726,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "16";
+  schemaVersion: "20";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;
@@ -728,7 +762,7 @@ export interface RestaurantTaskState {
   investigationRevision?: number;
   selectedCandidateId?: string;
   selectedOfferId?: string;
-  presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string };
+  presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string; conditionStates: Record<string, import("./condition-states.js").RestaurantConditionState[]> };
   /** Scoped normal read completion, never a claim that every restaurant is unavailable. */
   noVerifiedResult?: { termination: RestaurantReadTermination; endedAt: string; investigatedCandidateIds: string[]; unresolvedCandidateIds: string[]; remainingGaps: string[] };
   /** An explicit user refresh only rechecks previously displayed candidates. */

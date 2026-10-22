@@ -1,0 +1,42 @@
+{
+  "observation": {
+    "sampleId": "native-boundary",
+    "method": "A",
+    "platform": "TABELOG",
+    "accepted": false,
+    "identityRecorded": true,
+    "observedOutletUrls": [],
+    "searchCompleted": true,
+    "elapsedMs": 4231,
+    "modelCalls": 0,
+    "failure": "NO_OUTLETS_PARSED"
+  },
+  "trace": [],
+  "accepted": false,
+  "inventoryChanges": 0,
+  "fixtureDocuments": 0,
+  "unexpected": [],
+  "boundary": {
+    "identityStop": false,
+    "formStop": false,
+    "availabilityEvaluated": false
+  },
+  "realExternalRequests": 0
+}
+node:internal/modules/run_main:105
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+false !== true
+
+    at <anonymous> (/Users/wangzhour/.codex/worktrees/integration-checkpoint-c/Praxis-Zhixing/.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/boundary-chromium.mjs:13:40) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual'
+}
+
+Node.js v24.4.1

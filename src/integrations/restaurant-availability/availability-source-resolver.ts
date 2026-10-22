@@ -115,9 +115,10 @@ export class AvailabilitySourceResolver {
             attempts.push({
               candidateId,
               provider: provider.provider,
-              outcome: "PROVIDER_FAILURE",
+              outcome: check?.status === "SOURCE_UNSUPPORTED" ? "SOURCE_UNSUPPORTED" : (check?.reasonCode === "PARTY_SIZE_NOT_SELECTABLE" || check?.reasonCode === "SELECTED_MEALTIME_EMPTY") ? "UNKNOWN" : "PROVIDER_FAILURE",
               failureCode: restaurantFailureCode(check?.reasonCode ?? read.metadata.failureCode, "PROVIDER_OBSERVATION_MISSING"),
             });
+            if (check?.reasonCode === "PARTY_SIZE_NOT_SELECTABLE") break;
           } catch (error) {
             if (signal.aborted) throw error;
             if (error && typeof error === "object" && "code" in error && (
@@ -134,7 +135,7 @@ export class AvailabilitySourceResolver {
           resultCandidateFactUpdates.push(...accumulatedCandidateFactUpdates);
           availabilityChecks[candidateId] = {
             ...(lastCheck ? structuredClone(lastCheck) : {}),
-            status: "UNKNOWN",
+            status: attempts.filter(a => a.candidateId === candidateId).every(a => a.outcome === "SOURCE_UNSUPPORTED") && lastCheck?.status === "SOURCE_UNSUPPORTED" ? "SOURCE_UNSUPPORTED" : "UNKNOWN",
             checkedAt: lastCheck?.checkedAt ?? new Date().toISOString(),
             evidenceIds: [...new Set(candidateEvidence.map((item) => item.evidenceId))],
             reasonCode: lastCheck?.reasonCode ?? "AVAILABILITY_SOURCES_EXHAUSTED",

@@ -1,0 +1,107 @@
+{
+  "status": "OFFLINE_PREPARATION_PASS_PENDING_USER_APPROVAL",
+  "reviewCommit": "4ac68fa",
+  "integrationBase": "a3f6b84",
+  "frozenCommit": "1d40f62bfdb20564a80e7601035dc5dfbfad0d96",
+  "freezePath": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/live-freeze-reviewed.json",
+  "freezeSha256": "4141d17db6601e404a6c3e23a8adae04e2f2bfa1833de8875091d4e40487ce4c",
+  "frozenFiles": 364,
+  "productionDiffVsIntegration": "EMPTY",
+  "approvedVariantsSha256": "910ba0fdf755392ab1d2a1b0c2da5f9fa8d66a32217c109e8eb5f3b3ee24e8b6",
+  "gates": {
+    "typecheck": {
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/typecheck.txt",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    "arch:check": {
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/arch-check.txt",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    "npm test": {
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/test.txt",
+      "sha256": "98c78d99064e6378c085aa84b786f993ed5c9b03baeb4576ab32f5dd6c16d528",
+      "tests": 978,
+      "passed": 978,
+      "failed": 0
+    },
+    "build": {
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/build.txt",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    "test:browser:fixture": {
+      "status": "PASS",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/test-browser-fixture.txt",
+      "sha256": "a3668f994a66d9a24e3084103db876e423181542812c02832dd50854aaddbffa",
+      "tests": 122,
+      "passed": 122,
+      "failed": 0
+    }
+  },
+  "outerControls": {
+    "status": "PASS",
+    "count": 14,
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/outer-controls-source-binding-green.txt",
+    "red": [
+      ".eval-artifacts/checkpoint-c-live-20261020/review-followup/tablecheck-policy-red.txt",
+      ".eval-artifacts/checkpoint-c-live-20261020/review-followup/tablecheck-source-binding-red.txt"
+    ]
+  },
+  "actualChromiumOuterControl": {
+    "status": "PASS",
+    "count": 1,
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/tablecheck-capture-browser-verified.txt"
+  },
+  "outerTypecheck": {
+    "status": "PASS",
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/outer-typecheck-source-binding.txt"
+  },
+  "stageBudget": {
+    "phase2Live": 2,
+    "phase2ModelsIncludingReplays": 469,
+    "priorPhaseModels": 1014,
+    "globalModelDebit": 1483,
+    "environmentFullLiveReruns": 0,
+    "remaining": {
+      "fullLiveRuns": 98,
+      "modelCalls": 2517,
+      "environmentReruns": 10
+    },
+    "ledgerSha256": "01913d152b5aa9d1095ae49c3bea90e5006d0443790f0bf8d0fe51d400417f33"
+  },
+  "rehearsal": {
+    "status": "PASS",
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/rehearsal-reviewed/report.md",
+    "result": "HONEST_NO_RESULT",
+    "elapsedMs": 54,
+    "scriptedResponses": 8,
+    "realModelCalls": 0,
+    "externalNetwork": 0,
+    "formalLiveRuns": 0,
+    "witnessCertificationRuns": 0
+  },
+  "estimates": {
+    "witnessCertificationMinutes": [
+      30,
+      60
+    ],
+    "eighteenNormalHours": [
+      3,
+      4
+    ],
+    "eighteenFullBudgetCoreMinutes": 235,
+    "eighteenIncludingPostChecksSuggestedHours": [
+      4,
+      4.5
+    ],
+    "cooldownOrEnvironmentReruns": "additional"
+  },
+  "limitations": [
+    "No website/model/certification/Live executed in this follow-up",
+    "Unknown TableCheck response semantics remain NOT_EVALUATED and continue; final safety acceptance stays blocked pending independent evidence/review",
+    "Freeze is Live configuration; fresh certified witnesses must be committed and bound before actual Live approval"
+  ]
+}

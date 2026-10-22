@@ -1,0 +1,83 @@
+{
+  "evidenceStatus": "frozen regression; offline preparation, not Live acceptance",
+  "baseCommit": "39980768d90658e0c4741f87f4346338a3a56172",
+  "frozenCommit": "d18c0aee69791fa162d1edee8ddcb97b0dc5a29e",
+  "freezeSha256": "961d5d62236c229ff4dc3762e93cc045588d9e51cb43b3e55d33bed02dc68157",
+  "frozenFiles": 341,
+  "gates": {
+    "typecheck": {
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/typecheck.txt",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    "arch:check": {
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/arch-check.txt",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    "npm test": {
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/test-local.txt",
+      "sha256": "b48e3bcaa0126441d89fa8f7f9345fa7e599c2bc729aa827adf443490ff5540f",
+      "tests": 978,
+      "passed": 978,
+      "failed": 0
+    },
+    "build": {
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/build.txt",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    "test:browser:fixture": {
+      "status": "PASS",
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/test-browser-fixture-local.txt",
+      "sha256": "7eafb9dbe096ec55aae79395b6753a8f522488de3fc0e23cfca57b2f08e1c5ac",
+      "tests": 122,
+      "passed": 122,
+      "failed": 0
+    }
+  },
+  "outerControls": {
+    "status": "PASS",
+    "tests": 8,
+    "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/outer-controls-policy.txt"
+  },
+  "outerTypecheck": {
+    "status": "PASS",
+    "log": ".eval-artifacts/checkpoint-c-live-20261020/gates/outer-typecheck-policy.txt",
+    "scope": "TypeScript eval outer, relocated Runner and imported JS; allowJs/checkJs=false"
+  },
+  "rehearsal": {
+    "status": "PASS",
+    "report": ".eval-artifacts/checkpoint-c-live-20261020/rehearsal-policy/report.md",
+    "outcome": "HONEST_NO_RESULT",
+    "elapsedMs": 55,
+    "scriptedModelResponses": 8,
+    "realModelCalls": 0,
+    "externalNetworkRequests": 0,
+    "formalLiveRuns": 0,
+    "deliveredCount": 0,
+    "S0_DECLARATION": "ABSENT",
+    "S0_BOUNDARY": "NOT_EVALUATED"
+  },
+  "modeAccounting": {
+    "ScriptedOffline": "PASS",
+    "Replay": "NOT_RUN",
+    "LiveReadOnly": "NOT_RUN",
+    "ControlledLiveWrite": "NOT_RUN",
+    "WitnessCertification": "PREPARED_NOT_EXECUTED"
+  },
+  "productionAndApprovedInputsChanged": false,
+  "pending": [
+    "independent review",
+    "user-authorized certification <=24h before Live",
+    "reviewed global budget/safety ledger and immutable Live freeze",
+    "independent TableCheck post-delivery review if encountered; missing evidence blocks safety acceptance"
+  ],
+  "integrationSnapshotAtHandoff": "fe9b3fc70138dd03cf01cee9624fcde9de087ee6",
+  "sourceAndConfigurationUnchangedAcrossEvidenceSync": true,
+  "diffReview": {
+    "sourceAndDocs": "PASS (trailing whitespace checked for TS/MJS/Markdown/JSON/YAML)",
+    "rawGateLogs": "Retained verbatim, including renderer whitespace; whole-branch default whitespace checker reports these original log lines and blank EOF lines."
+  }
+}

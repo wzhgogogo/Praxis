@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-20T15:59:38.540428+00:00",
+  "hardDeadline": "2026-10-21T12:26:00Z",
+  "launchSha256": "18c74e190841c815df8e18d204978c6bdb1e0bd040ebdbfd669bf72678af09a6",
+  "supervisorSha256": "0782efdf7fb1ec8c01b6300ed621b059a0ddb4e96bd7c906b070c6a53ef9f9ee",
+  "command": [
+    "/opt/homebrew/bin/node",
+    "--env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    ".eval-artifacts/checkpoint-c-live-20261020/outer.ts",
+    "--mode",
+    "LIVE_READ_ONLY",
+    "--freeze",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/live-freeze.json",
+    "--output",
+    ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results",
+    "--approval",
+    ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/user-approval.json",
+    "--registry",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json",
+    "--ledger",
+    ".eval-artifacts/checkpoint-c-live-20261020/phase2-ledger.json"
+  ],
+  "cwd": "/private/tmp/praxis-checkpoint-c-prep",
+  "approvedFreezeSha256": "7caa315a0f02bff9a3476eaaff6b67ab849b6f42af5b7cf113e39b6b1fad2573"
+}

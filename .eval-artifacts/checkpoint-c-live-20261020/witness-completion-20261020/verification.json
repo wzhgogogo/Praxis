@@ -1,0 +1,129 @@
+{
+  "status": "CERTIFICATION_COMPLETE_FINAL_FREEZE_TO_BE_RECORDED_IN_HANDOFF",
+  "captureCodeCommit": "079ae49e07abc2988cd747a0c33e7e334afbb33d",
+  "captureFreezeSha256": "2378186b2fbd83e28cd9df3c26e3a1221348e7e03ccf8d104fb23e1680fcb0f9",
+  "captureFilesUnchanged": 460,
+  "captureElapsedSeconds": 546.61,
+  "newHttpAttempts": 18,
+  "http200": 18,
+  "minSourceGapSeconds": 30.0,
+  "transportRetries": 0,
+  "cooldownRetries": 0,
+  "preservedWitnessesNotRecaptured": 6,
+  "pageReuseInventoryOnly": [
+    "p2l-kf-h003-20261106/13281962",
+    "p2l-kf-h005-20261105/13305528"
+  ],
+  "rawShaAndLiteralRequestAudit": "PASS",
+  "frozenInputsUnchanged": "PASS",
+  "sourceReviewActor": "CODEX_EVALUATION_SIDE",
+  "externalReviewerApproval": "PENDING",
+  "caseSummary": [
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "date": "2026-11-03",
+      "partySize": 2,
+      "earliest": "19:00",
+      "latest": "19:00",
+      "planned": 2,
+      "certified": 2,
+      "inventoryMatched": 2,
+      "notCertified": []
+    },
+    {
+      "caseId": "p2l-kf-h002-20261107",
+      "date": "2026-11-07",
+      "partySize": 2,
+      "earliest": "18:30",
+      "latest": "18:30",
+      "planned": 3,
+      "certified": 3,
+      "inventoryMatched": 3,
+      "notCertified": []
+    },
+    {
+      "caseId": "p2l-kf-h003-20261106",
+      "date": "2026-11-06",
+      "partySize": 10,
+      "earliest": "17:30",
+      "latest": "22:00",
+      "planned": 3,
+      "certified": 3,
+      "inventoryMatched": 3,
+      "notCertified": []
+    },
+    {
+      "caseId": "p2l-kf-h005-20261105",
+      "date": "2026-11-05",
+      "partySize": 4,
+      "earliest": "18:00",
+      "latest": "18:00",
+      "planned": 2,
+      "certified": 2,
+      "inventoryMatched": 2,
+      "notCertified": []
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "date": "2026-11-05",
+      "partySize": 3,
+      "earliest": "19:30",
+      "latest": "19:30",
+      "planned": 3,
+      "certified": 2,
+      "inventoryMatched": 2,
+      "notCertified": [
+        {
+          "rst_id": "13218101",
+          "name": "Kaiseki Komuro",
+          "reason": "NO_MATCHING_INVENTORY_FOR_REGISTERED_REQUEST"
+        }
+      ]
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "date": "2026-11-03",
+      "partySize": 2,
+      "earliest": "18:00",
+      "latest": "18:00",
+      "planned": 3,
+      "certified": 3,
+      "inventoryMatched": 3,
+      "notCertified": []
+    }
+  ],
+  "certifiedWitnessRegistrations": 15,
+  "plannedWitnessRegistrations": 16,
+  "allSixWitnessGates": "PASS; next 500 seconds inside global validity",
+  "stageBudget": {
+    "remaining": {
+      "fullLiveRuns": 98,
+      "modelCalls": 2517,
+      "environmentReruns": 10
+    },
+    "reservedRetries": 6,
+    "reservedRuns": 24,
+    "reservedModelCalls": 1200
+  },
+  "phase2LedgerSha256Unchanged": "01913d152b5aa9d1095ae49c3bea90e5006d0443790f0bf8d0fe51d400417f33",
+  "certificationCompletedAt": "2026-10-20T15:44:39.995Z",
+  "earliestWitnessObservedAt": "2026-10-20T12:26:41.866Z",
+  "liveMustFinishBefore": "2026-10-21T12:26:41.866Z",
+  "newModels": 0,
+  "newGoogleRequests": 0,
+  "newFullLiveRuns": 0,
+  "formalLiveEnvironmentReruns": 0,
+  "certificationControls": 8,
+  "outerControls": 14,
+  "tablecheckLocalBoundary": 1,
+  "fiveGates": {
+    "typecheck": "PASS current",
+    "arch": "PASS current",
+    "build": "PASS current",
+    "defaultTests": "978/978 PASS reused: production byte-identical to a3f6b84",
+    "browserFixtures": "122/122 PASS reused: browser/Guard unchanged"
+  },
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@30",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@26",
+  "liveApproval": "NOT_GRANTED; final SHA must be approved by external reviewer and user"
+}

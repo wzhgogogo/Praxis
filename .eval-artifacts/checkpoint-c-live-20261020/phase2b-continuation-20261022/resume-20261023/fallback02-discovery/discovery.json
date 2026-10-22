@@ -1,0 +1,277 @@
+{
+  "schema": "phase2b-witness-discovery@1",
+  "variants": [
+    {
+      "caseId": "p2b-holdout-02",
+      "place": "Kachidoki",
+      "date": "2026-10-30",
+      "earliest": "18:30",
+      "latest": "18:30",
+      "partySize": 4,
+      "merchantRequirements": [
+        {
+          "value": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Kachidoki, Tokyo, Japan",
+      "searchQuery": "Kachidoki, Tokyo, Japan monjayaki restaurant",
+      "centerObservations": {
+        "places": [
+          {
+            "id": "ChIJu2xQxH2JGGARXIA3h98YeCE",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ],
+            "formattedAddress": "Kachidoki, Chuo City, Tokyo 104-0054, Japan",
+            "location": {
+              "latitude": 35.658221999999995,
+              "longitude": 139.7741538
+            },
+            "displayName": {
+              "text": "Kachidoki",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 1,
+          "requestedAt": "2026-10-22T19:43:42.902Z",
+          "finishedAt": "2026-10-22T19:43:44.278Z",
+          "status": 200,
+          "sha256": "9a064440263c03b640e810a34f48a3cab7f9755587b98730c32cc8398b64e62b",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/fallback02-discovery/1-attempt-1.metadata.json"
+        }
+      },
+      "candidateObservations": {
+        "places": [
+          {
+            "id": "ChIJAcWODXmJGGARyXHltkbgfoI",
+            "types": [
+              "seafood_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-5-5 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.663165,
+              "longitude": 139.7806944
+            },
+            "websiteUri": "https://www.instagram.com/moheji_tsukishima_monja/",
+            "displayName": {
+              "text": "Tsukishima Monja Moheji Flagship",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJCwTxGnuJGGARMn4j3h6M0fk",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒104-0052 Tokyo, Chuo City, Tsukishima, 3-chōme−16−９ リノスタイル月島 1F",
+            "location": {
+              "latitude": 35.662433199999995,
+              "longitude": 139.7799627
+            },
+            "displayName": {
+              "text": "Tsukishima Monja Moheji Honten",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJBXMS0neJGGAR9RfYGDJ43M0",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒104-0052 Tokyo, Chuo City, Tsukishima, 3-chōme−7−１２ ザ・シティ月島 1F",
+            "location": {
+              "latitude": 35.6630456,
+              "longitude": 139.78083759999998
+            },
+            "websiteUri": "https://tsukishima-monja-koboreya.com/tenpo.html",
+            "displayName": {
+              "text": "Tsukishima Monja Koboreya Sohonten",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJd6LHTJCJGGAR9UcWfF3EG8M",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-14-2 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.6618138,
+              "longitude": 139.78048239999998
+            },
+            "websiteUri": "https://tsukishima-monja-koboreya.com/",
+            "displayName": {
+              "text": "Rodjiura Monja Koboreya Musubi",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJb7niGnuJGGARMJuR7Qbjh7s",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-16-9 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.6625002,
+              "longitude": 139.7800671
+            },
+            "websiteUri": "https://tsukishima-monja-koboreya.com/tenpo.html",
+            "displayName": {
+              "text": "Koboreya Honten",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJwfQMaCmJGGARnvCmL9w77Wo",
+            "types": [
+              "seafood_restaurant",
+              "japanese_izakaya_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "1-chōme-22-1-107 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.6639973,
+              "longitude": 139.7821914
+            },
+            "websiteUri": "https://tsukishimamonjamonrou.owst.jp/",
+            "displayName": {
+              "text": "Monrou",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJ___P-nuJGGARDKnElwYYfzQ",
+            "types": [
+              "japanese_izakaya_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒104-0054 Tokyo, Chuo City, Kachidoki, 2-chōme−9−１６ 勝どきハイデンス 1F",
+            "location": {
+              "latitude": 35.6595693,
+              "longitude": 139.7783292
+            },
+            "websiteUri": "https://www.hyoutan-kachidoki.com/",
+            "displayName": {
+              "text": "Monja Hyoutan",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJmf7PZliJGGARxqq5I3XUWIo",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒104-0052 Tokyo, Chuo City, Tsukishima, 1-chōme−22−１ ミッドタワーグランド 113",
+            "location": {
+              "latitude": 35.6638745,
+              "longitude": 139.7819707
+            },
+            "websiteUri": "https://tsukishima-monja-koboreya.com/tenpo.html",
+            "displayName": {
+              "text": "月島もんじゃ こぼれや 縁",
+              "languageCode": "ja"
+            }
+          },
+          {
+            "id": "ChIJm4WUCfCJGGARWnz7HhiN2As",
+            "types": [
+              "seafood_restaurant",
+              "japanese_izakaya_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "Japan, 〒104-0052 Tokyo, Chuo City, Tsukishima, 1-chōme−22−１ ミッドタワーグランド 111",
+            "location": {
+              "latitude": 35.6637902,
+              "longitude": 139.7819087
+            },
+            "websiteUri": "https://www.instagram.com/moheji_tsukishima_monja/",
+            "displayName": {
+              "text": "Monja Moheji Hanare-no-Hanare-no-Hanare",
+              "languageCode": "en"
+            }
+          },
+          {
+            "id": "ChIJbWT933qJGGARtYVvQJKGicU",
+            "types": [
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "formattedAddress": "3-chōme-6-4 Tsukishima, Chuo City, Tokyo 104-0052, Japan",
+            "location": {
+              "latitude": 35.663058299999996,
+              "longitude": 139.78061399999999
+            },
+            "websiteUri": "https://tabelog.com/tokyo/A1313/A131302/13186205/",
+            "displayName": {
+              "text": "Tsukishima Monja Moheji Hanare",
+              "languageCode": "en"
+            }
+          }
+        ],
+        "observation": {
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "method": "POST",
+          "attempt": 1,
+          "requestNumber": 2,
+          "requestedAt": "2026-10-22T19:44:14.280Z",
+          "finishedAt": "2026-10-22T19:44:15.611Z",
+          "status": 200,
+          "sha256": "fd85f572376c7367a46e331ac2826dc21b6a552a825999ad2c8e29e50dea7340",
+          "metadataPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/fallback02-discovery/2-attempt-1.metadata.json"
+        }
+      },
+      "merchantJobs": [],
+      "status": "PENDING_INDEPENDENT_CENTER_AND_HARD_REVIEW"
+    }
+  ],
+  "modelCalls": 0
+}

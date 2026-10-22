@@ -1,0 +1,290 @@
+{
+  "schema": "holdout-approved-lossless-format-recovery@1",
+  "status": "frozen regression; original artifact scoped",
+  "reviewPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/independent-review.md",
+  "reviewSha256": "ff22a21cf6f5114213e492d5a15075a67412654f70748c433492d10419280b51",
+  "goldPath": ".eval-artifacts/phase2-holdout/holdout.yaml",
+  "goldSha256": "cb0efa949f21fc0c19c7a6fd48e6a51c1848bb722c795b0ccd51213c43ecb98e",
+  "previousInputPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/inputs.json",
+  "rows": [
+    {
+      "run": {
+        "runId": "h-05",
+        "caseId": "p2-holdout-05",
+        "repeat": 1,
+        "role": "HOLDOUT"
+      },
+      "attempt": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1",
+      "startedAt": "2026-10-22T09:00:40.982Z",
+      "finishedAt": "2026-10-22T09:04:01.786Z",
+      "formalRunStarted": true,
+      "fullLiveRuns": 1,
+      "modelCallsCharged": 16,
+      "actualModelCallsKnown": true,
+      "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.result.json",
+      "artifactSha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+      "originalArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.result.json",
+      "originalArtifactSha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+      "evaluationArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.result.json",
+      "evaluationArtifactSha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+      "representation": "ORIGINAL_SAVED_BYTES",
+      "hardEvidencePath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/independent.hard-evidence.json",
+      "previousEvaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-05.evaluation.json",
+      "previousEvaluationSha256": "58802b5b104c79705c5b54d803afd1e1dd659f4bd94535833e87127db581739b",
+      "correction": {
+        "artifactSha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+        "rev1Sha256": "5d7cad92cfb35360bc0baaa665f1008d28524a8623e54bdcdde31931b0473ced",
+        "rev2Sha256": "a704efda317c70da9dff34c3f7eb3e26ef54cf9457f188e15b4fc51a80a168d2",
+        "refs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/independent-review.md#sha256=ff22a21cf6f5114213e492d5a15075a67412654f70748c433492d10419280b51",
+          ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/inputs.json#original-artifact-sha256=2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a"
+        ],
+        "materializedCase": {
+          "id": "p2-holdout-05",
+          "dataset": "restaurant-read-novel-variant@1",
+          "reference_time": "2026-10-22T00:00:00+09:00",
+          "semantic": {
+            "target": {
+              "goal": "AVAILABILITY"
+            },
+            "location": {
+              "value": "Gotanda",
+              "relation": "NEAR"
+            },
+            "date": {
+              "expression": "Saturday, October 31",
+              "value": "2026-10-31"
+            },
+            "time": {
+              "value": "19:00"
+            },
+            "party_size": 4,
+            "criteria": [
+              {
+                "value": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              },
+              {
+                "value": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              },
+              {
+                "value": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD"
+              }
+            ]
+          },
+          "acceptance": {
+            "required_claims": [
+              "Correct outlet within 1,000 m of the resolved Gotanda point; source-supported Chinese cuisine that is not primarily spicy Sichuan; a matching current slot on 2026-10-31 at 19:00 for 4.",
+              "The price preference is SOFT (\"ideally\"): report it as met, not met or not checked; it never blocks delivery."
+            ]
+          },
+          "materialization": {
+            "sourceReferenceTime": "2026-10-22T00:00:00+09:00",
+            "resolvedReferenceTime": "2026-10-22T09:01:13.130Z"
+          }
+        }
+      },
+      "recovery": {
+        "pointer": "/materializedCase/acceptance/required_claims/1",
+        "before": {
+          "The price preference is SOFT (\"ideally\")": "report it as met, not met or not checked; it never blocks delivery."
+        },
+        "after": "The price preference is SOFT (\"ideally\"): report it as met, not met or not checked; it never blocks delivery.",
+        "keyLength": 40,
+        "roundTrip": "PASS",
+        "onlyDifference": "single-key object restored to verbatim key + colon-space + string value; semantic criteria and acceptance contents unchanged"
+      }
+    },
+    {
+      "run": {
+        "runId": "h-11",
+        "caseId": "p2-holdout-05",
+        "repeat": 2,
+        "role": "HOLDOUT"
+      },
+      "attempt": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1",
+      "startedAt": "2026-10-22T10:07:48.581Z",
+      "finishedAt": "2026-10-22T10:11:02.811Z",
+      "formalRunStarted": true,
+      "fullLiveRuns": 1,
+      "modelCallsCharged": 16,
+      "actualModelCallsKnown": true,
+      "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1/runner/2026-10-22T10-08-08-592Z-7cea80fb-c1d8-46b7-9404-b2351e024565.result.json",
+      "artifactSha256": "5852a4619fbf165ae850af4eabb966859e8d3b219f4afe8f04b4f45b3b63cb79",
+      "originalArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1/runner/2026-10-22T10-08-08-592Z-7cea80fb-c1d8-46b7-9404-b2351e024565.result.json",
+      "originalArtifactSha256": "5852a4619fbf165ae850af4eabb966859e8d3b219f4afe8f04b4f45b3b63cb79",
+      "evaluationArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1/runner/2026-10-22T10-08-08-592Z-7cea80fb-c1d8-46b7-9404-b2351e024565.result.json",
+      "evaluationArtifactSha256": "5852a4619fbf165ae850af4eabb966859e8d3b219f4afe8f04b4f45b3b63cb79",
+      "representation": "ORIGINAL_SAVED_BYTES",
+      "hardEvidencePath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1/independent.hard-evidence.json",
+      "previousEvaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-11.evaluation.json",
+      "previousEvaluationSha256": "65abab08d87503eebd3f188e922f5c3e822f2fd3e2f061a30b9d2149a9f4bf78",
+      "correction": {
+        "artifactSha256": "5852a4619fbf165ae850af4eabb966859e8d3b219f4afe8f04b4f45b3b63cb79",
+        "rev1Sha256": "82acf5ba10b96bf062b2d733eecffa3041f1a191f4dc41903d4a9bc8a7a28354",
+        "rev2Sha256": "f25ced0b81d3941be05c26c9b2c965c0a4de6c14b3d2ec823902713961c09f4e",
+        "refs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/independent-review.md#sha256=ff22a21cf6f5114213e492d5a15075a67412654f70748c433492d10419280b51",
+          ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/inputs.json#original-artifact-sha256=5852a4619fbf165ae850af4eabb966859e8d3b219f4afe8f04b4f45b3b63cb79"
+        ],
+        "materializedCase": {
+          "id": "p2-holdout-05",
+          "dataset": "restaurant-read-novel-variant@1",
+          "reference_time": "2026-10-22T00:00:00+09:00",
+          "semantic": {
+            "target": {
+              "goal": "AVAILABILITY"
+            },
+            "location": {
+              "value": "Gotanda",
+              "relation": "NEAR"
+            },
+            "date": {
+              "expression": "Saturday, October 31",
+              "value": "2026-10-31"
+            },
+            "time": {
+              "value": "19:00"
+            },
+            "party_size": 4,
+            "criteria": [
+              {
+                "value": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              },
+              {
+                "value": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              },
+              {
+                "value": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD"
+              }
+            ]
+          },
+          "acceptance": {
+            "required_claims": [
+              "Correct outlet within 1,000 m of the resolved Gotanda point; source-supported Chinese cuisine that is not primarily spicy Sichuan; a matching current slot on 2026-10-31 at 19:00 for 4.",
+              "The price preference is SOFT (\"ideally\"): report it as met, not met or not checked; it never blocks delivery."
+            ]
+          },
+          "materialization": {
+            "sourceReferenceTime": "2026-10-22T00:00:00+09:00",
+            "resolvedReferenceTime": "2026-10-22T10:08:08.525Z"
+          }
+        }
+      },
+      "recovery": {
+        "pointer": "/materializedCase/acceptance/required_claims/1",
+        "before": {
+          "The price preference is SOFT (\"ideally\")": "report it as met, not met or not checked; it never blocks delivery."
+        },
+        "after": "The price preference is SOFT (\"ideally\"): report it as met, not met or not checked; it never blocks delivery.",
+        "keyLength": 40,
+        "roundTrip": "PASS",
+        "onlyDifference": "single-key object restored to verbatim key + colon-space + string value; semantic criteria and acceptance contents unchanged"
+      }
+    },
+    {
+      "run": {
+        "runId": "h-17",
+        "caseId": "p2-holdout-05",
+        "repeat": 3,
+        "role": "HOLDOUT"
+      },
+      "attempt": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-17-attempt-1",
+      "startedAt": "2026-10-22T10:59:40.366Z",
+      "finishedAt": "2026-10-22T11:04:13.531Z",
+      "formalRunStarted": true,
+      "fullLiveRuns": 1,
+      "modelCallsCharged": 21,
+      "actualModelCallsKnown": true,
+      "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-17-attempt-1/runner/2026-10-22T11-00-05-204Z-c57bbc4a-28c6-40f0-9c49-b8df7f71801b.result.json",
+      "artifactSha256": "a982e1b0e4ef859e92b502cc8b92cde0d4b9440fac4a9dfaf23964bd94d136b2",
+      "originalArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-17-attempt-1/runner/2026-10-22T11-00-05-204Z-c57bbc4a-28c6-40f0-9c49-b8df7f71801b.result.json",
+      "originalArtifactSha256": "a982e1b0e4ef859e92b502cc8b92cde0d4b9440fac4a9dfaf23964bd94d136b2",
+      "evaluationArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-17-attempt-1/runner/2026-10-22T11-00-05-204Z-c57bbc4a-28c6-40f0-9c49-b8df7f71801b.result.json",
+      "evaluationArtifactSha256": "a982e1b0e4ef859e92b502cc8b92cde0d4b9440fac4a9dfaf23964bd94d136b2",
+      "representation": "ORIGINAL_SAVED_BYTES",
+      "hardEvidencePath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-17-attempt-1/independent.hard-evidence.json",
+      "previousEvaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-17.evaluation.json",
+      "previousEvaluationSha256": "1a1b664501abfa5acdb23f7c5be4fb6131b7e1b7137ca00fc5769fca87dd7996",
+      "correction": {
+        "artifactSha256": "a982e1b0e4ef859e92b502cc8b92cde0d4b9440fac4a9dfaf23964bd94d136b2",
+        "rev1Sha256": "7968b6f595b47df3541107e800b52de2f8bf9d258640392e5e598fb96e6929de",
+        "rev2Sha256": "4e25242dbbbf88bd3fdab0a557fd9f6711f191f49be9b7d8985812d8e3315417",
+        "refs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/independent-review.md#sha256=ff22a21cf6f5114213e492d5a15075a67412654f70748c433492d10419280b51",
+          ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/inputs.json#original-artifact-sha256=a982e1b0e4ef859e92b502cc8b92cde0d4b9440fac4a9dfaf23964bd94d136b2"
+        ],
+        "materializedCase": {
+          "id": "p2-holdout-05",
+          "dataset": "restaurant-read-novel-variant@1",
+          "reference_time": "2026-10-22T00:00:00+09:00",
+          "semantic": {
+            "target": {
+              "goal": "AVAILABILITY"
+            },
+            "location": {
+              "value": "Gotanda",
+              "relation": "NEAR"
+            },
+            "date": {
+              "expression": "Saturday, October 31",
+              "value": "2026-10-31"
+            },
+            "time": {
+              "value": "19:00"
+            },
+            "party_size": 4,
+            "criteria": [
+              {
+                "value": "Chinese",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              },
+              {
+                "value": "under 6,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              },
+              {
+                "value": "spicy Sichuan food",
+                "polarity": "NEGATIVE",
+                "strength": "HARD"
+              }
+            ]
+          },
+          "acceptance": {
+            "required_claims": [
+              "Correct outlet within 1,000 m of the resolved Gotanda point; source-supported Chinese cuisine that is not primarily spicy Sichuan; a matching current slot on 2026-10-31 at 19:00 for 4.",
+              "The price preference is SOFT (\"ideally\"): report it as met, not met or not checked; it never blocks delivery."
+            ]
+          },
+          "materialization": {
+            "sourceReferenceTime": "2026-10-22T00:00:00+09:00",
+            "resolvedReferenceTime": "2026-10-22T11:00:05.120Z"
+          }
+        }
+      },
+      "recovery": {
+        "pointer": "/materializedCase/acceptance/required_claims/1",
+        "before": {
+          "The price preference is SOFT (\"ideally\")": "report it as met, not met or not checked; it never blocks delivery."
+        },
+        "after": "The price preference is SOFT (\"ideally\"): report it as met, not met or not checked; it never blocks delivery.",
+        "keyLength": 40,
+        "roundTrip": "PASS",
+        "onlyDifference": "single-key object restored to verbatim key + colon-space + string value; semantic criteria and acceptance contents unchanged"
+      }
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+import { availabilityCheckSelectionScope, observedCandidateAvailabilityPath, observedCandidateDistance } from "./candidate-read-observations.js";
+import { assessRestaurantConditions, priceCondition } from "./condition-states.js";
 import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import { isDisplayFresh } from "./availability-freshness.js";
@@ -53,8 +55,14 @@ export function restaurantCurrentFactEvidence(state: Readonly<RestaurantTaskStat
       const evidence = candidateEvidence.find(item => item.evidenceId === id);
       return evidence?.kind === "RESTAURANT_FACT" && evidence.provider !== "MODEL_JUDGMENT" ? [evidence.provider] : [];
     })));
+  // A completed fact read supersedes older facts from that source, not facts
+  // returned by a later authoritative availability observation. Keep the
+  // latter only while the current check actually references them; explicit
+  // supersession and a subsequent fact read still take precedence.
+  const availabilityFactIds = new Set(state.availabilityChecks[candidateId]?.evidenceIds ?? []);
   const facts = candidateEvidence.filter(evidence => evidence.kind === "RESTAURANT_FACT" && !superseded.has(evidence.evidenceId)
-    && (!check || (evidence.provider !== "MODEL_JUDGMENT" && sources.size > 0 && !sources.has(evidence.provider)) || check.evidenceIds.includes(evidence.evidenceId)));
+    && (!check || (evidence.provider !== "MODEL_JUDGMENT" && sources.size > 0 && !sources.has(evidence.provider)) || check.evidenceIds.includes(evidence.evidenceId)
+      || availabilityFactIds.has(evidence.evidenceId) && Date.parse(evidence.observedAt) > Date.parse(check.checkedAt)));
   const hasIdentity = (fact: RestaurantTaskState["readEvidence"][number]) => candidateEvidence.some(entity => entity.kind === "ENTITY_MATCH"
     && entity.entityMatch?.confidence === "HIGH" && entity.provider === fact.provider && entity.sourceEntityId === fact.sourceEntityId);
   const rawFacts = facts.filter(fact => fact.provider !== "MODEL_JUDGMENT" && hasIdentity(fact));
@@ -115,7 +123,11 @@ function presentationEvidenceIds(
     state.availabilityChecks[candidateId]?.requestFingerprint === restaurantAvailabilityRequestFingerprint(currentBookingIntent);
   if (currentNoSlot) return { valid: false, reason: `Candidate ${candidateId} has an explicit no-matching-slot observation for the current request` };
   const verifyHardCriteria = (facts: RestaurantTaskState["readEvidence"]) => {
-    for (const criterion of intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD")) {
+    for (const criterion of assessRestaurantConditions(intent, facts).filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD")) {
+      if (priceCondition(criterion.text, intent.budgetPerPerson)) {
+        if (criterion.status !== "MET") return `Candidate ${candidateId} lacks source-supported HARD price condition ${criterion.text}`;
+        continue;
+      }
       const supported = facts.some((evidence) =>
         stringListClaim(evidence, "verifiedHardCriteria").some((value) => normalized(value) === normalized(criterion.text)),
       );
@@ -265,10 +277,16 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
       || Boolean(candidate?.restaurant.sourceIds.discoveryDetailUri);
   }).map((item) => item.candidateId);
   const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
-  const checkableCandidateIds = completeBookingIntent ? presentation.filter((item) =>
+  const eligibleCheckableIds = completeBookingIntent ? presentation.filter((item) =>
     !excludedFromPendingBatch.has(item.candidateId) && !hardConflictedCandidates.has(item.candidateId)
       && (state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined),
   ).map((item) => item.candidateId) : [];
+  const checkableCandidateIds = state.refreshRequestedCandidateIds?.length ? eligibleCheckableIds : availabilityCheckSelectionScope(eligibleCheckableIds,
+    state.candidates.map(candidate => ({ id: candidate.restaurant.id,
+      availabilityPath: observedCandidateAvailabilityPath(state.readEvidence, candidate.restaurant.id, now),
+      inRadius: observedCandidateDistance(state.readEvidence, candidate.restaurant.id, now).distanceObservation !== undefined,
+      alreadyChecked: state.availabilityChecks[candidate.restaurant.id] !== undefined,
+    })));
   const investigationRecorded = state.searchRevision > 0 || Object.keys(state.factChecks ?? {}).length > 0 || Object.keys(state.availabilityChecks).length > 0;
   const relevantPresentation = presentation.filter((item) => !excludedFromPendingBatch.has(item.candidateId));
   const unresolvedCandidateIds = relevantPresentation.filter((item) => !item.eligible).map((item) => item.candidateId);

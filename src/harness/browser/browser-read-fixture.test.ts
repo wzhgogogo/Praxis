@@ -638,11 +638,9 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
     const body = finalSnapshot?.responses?.at(-1)?.body;
     assert.deepEqual({ base_date: body?.base_date, members: body?.members }, {
       base_date: { year: 2026, month: 8, day: 19 }, members: 2,
-    }, "empty vacancy responses still retain the final source query date and party");
-    // The artifact sanitizer omits an empty selection array.  Its absence is
-    // not stock proof; the provider page's explicit unavailable slot drives
-    // the UNAVAILABLE outcome above.
-    assert.equal("selection" in (body ?? {}), false);
+    }, "the no-matching-slot response retains the final source query date and party");
+    assert.equal(body?.selection?.length, 1);
+    assert.equal((body?.selection?.[0] as {time?:string} | undefined)?.time, "21:00", "only the independently bound source slot outside the requested window supports this negative result");
   }
 });
 }
@@ -1016,6 +1014,175 @@ function localFixture(html: string | Record<string, string>, runtimeKind: "LOCAL
   return { openSession: (input: Parameters<BrowserRuntime["openSession"]>[0]) => runtime.openSession(input) };
 }
 
+// Controlled widget transcribed from c-01 Matsumoto snapshot47: the real month
+// anchors contain hidden icon text; the two visible Next buttons page guests
+// and times. Scripted source behavior is a Fixture, not current Tabelog stock.
+for (const initialParty of [1, 2]) test(`Matsumoto selected-party ${initialParty} escapes the guest Next loop through production observation`, async () => {
+  const venue = "https://tabelog.com/en/tokyo/A1303/A130301/13261619/";
+  const runtime = localFixture({ [venue]: `<title>Matsumoto calendar fixture</title>
+    <style>.calendar-icon{display:none}.calendar-navi a{display:inline-block;padding:12px}</style>
+    <div class="calendar-widget"><div class="calendar-wrap"><div class="calendar-navi">
+      <a href="#" onclick="event.preventDefault();setMonth()"><i class="calendar-icon">Next month</i></a></div>
+      <table><caption>Oct 2026</caption><tbody><tr><td><button type="button" data-year="2026" data-month="10" data-day="21" onclick="selectDate()">21</button></td></tr></tbody></table></div>
+      <div class="guest-select"><span class="select-title">Guests</span><button type="button" aria-label="Previous">Previous</button><button type="button" value="1" class="${initialParty === 1 ? 'is-active' : ''}">1</button><button type="button" value="2" class="${initialParty === 2 ? 'is-active' : ''}" onclick="document.querySelectorAll('.guest-select button').forEach(b=>b.classList.remove('is-active'));this.classList.add('is-active');document.querySelector('tbody').insertAdjacentHTML('beforeend','<tr><td>Updated other content</td></tr>')">2</button>
+      <button type="button" aria-label="Next" onclick="guestPages++;document.querySelector('#guest-page').textContent=guestPages">Next</button><output id="guest-page">0</output></div>
+      <div class="time-select"><span class="select-title">Time</span><button type="button">7:00 PM</button><button type="button" aria-label="Next">Next</button></div></div>
+    <output id="selected">No date selected</output><script>let guestPages=0;
+    function setMonth(){document.querySelector('caption').textContent='Nov 2026';const day=document.querySelector('td button');day.textContent='3';day.dataset.month='11';day.dataset.day='3'}
+    function selectDate(){document.querySelector('#selected').textContent='Selected 2026-11-03'}</script>` });
+  const choices: string[] = [];
+  const observed: unknown[] = [];
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 6,
+    maxModelCallsTotal: 6, maxOperationsPerCandidate: 60, modelDecision: { async decide(input) {
+      observed.push({ month: input.observation.displayedCalendarMonth, controls: input.observation.targets.filter(t => /Next|month/.test(t.label)), progress: input.progress, history: input.history });
+      const partyConfirmed = input.observation.controlGroups?.some(group => group.label === "Guests" && group.selectedValues.length === 1 && group.selectedValues[0] === "2");
+      if (!partyConfirmed) {
+        const party = input.observation.targets.find(t => t.value === "2" && t.availableActions?.includes("CLICK_AUTHORITATIVE:PARTY_SIZE"));
+        if (party) { choices.push("PARTY"); return { type: "CLICK_AUTHORITATIVE", targetRef: party.ref, field: "PARTY_SIZE", reason: "Confirm requested guest count." }; }
+        const wrongNext = input.observation.targets.find(t => t.label === "Next" && t.controlGroupLabel === "Guests")!;
+        choices.push("GUEST_NEXT"); return { type: "CLICK", targetRef: wrongNext.ref, reason: "Try another guest control after an unconfirmed choice." };
+      }
+      const selectedParty = input.observation.targets.find(t => t.value === "2" && t.controlGroupLabel === "Guests");
+      assert.equal(selectedParty?.selected, true, "keep the selected button as observation evidence");
+      assert.deepEqual(selectedParty.availableActions, [], "confirmed party cannot be clicked again");
+      const next = input.observation.targets.find(t => t.label === "Next month" && t.controlGroupLabel === "Calendar");
+      const date = input.observation.targets.find(t => t.calendarDate === "2026-11-03");
+      if (date) { choices.push("DATE"); return { type: "CLICK_AUTHORITATIVE", targetRef: date.ref, field: "DATE", reason: "Select the requested date." }; }
+      if (next) {
+        assert.deepEqual(input.observation.displayedCalendarMonth, { year: 2026, month: 10, caption: "Oct 2026", source: "DOM caption" });
+        assert.ok(input.observation.targets.some(t => t.label === "Next" && t.controlGroupLabel === "Guests"));
+        assert.ok(input.observation.targets.some(t => t.label === "Next" && t.controlGroupLabel === "Time"));
+        choices.push("MONTH"); return { type: "CLICK", targetRef: next.ref, reason: "Advance the observed calendar." };
+      }
+      // Reproduces the original baseline's choice when the icon is unlabelled.
+      const wrongNext = input.observation.targets.find(t => t.label === "Next")!;
+      choices.push("GUEST_NEXT"); return { type: "CLICK", targetRef: wrongNext.ref, reason: "Attempt to advance November." };
+    } } });
+  const signal = new AbortController().signal;
+  try {
+    const session = await executor.acquire(signal, "TABELOG", "AVAILABILITY");
+    await executor.navigate({ session, source: "TABELOG", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(venue).origin], url: venue });
+    const result = await executor.runSkill({ taskId: "matsumoto-month-fixture", session, source: "TABELOG", stage: "AVAILABILITY", signal,
+      allowedOrigins: [new URL(venue).origin], goal: { outlet: { name: "Matsumoto" }, date: "2026-11-03", partySize: 2, hardCriteria: [] },
+      objective: "Reach the requested November date", methodReason: "Calendar initially shows October",
+      completion: snapshot => snapshot.text.includes("Selected 2026-11-03") ? { complete: true, reason: "Requested date selected", resultKey: "2026-11-03", resultBusy: false } : { complete: false, reason: "Requested date not yet selected" } });
+    assert.equal(result.status, "COMPLETED", JSON.stringify({ status: result.status, choices, observed }));
+    assert.deepEqual(choices, initialParty === 1 ? ["PARTY", "MONTH", "DATE"] : ["MONTH", "DATE"]);
+    assert.match(result.snapshot!.text, /Nov 2026/);
+    assert.match(result.snapshot!.html, /id="guest-page">0</);
+  } finally { await executor.close(); }
+});
+
+test("generic selected state comes from ARIA and exact state classes, with independent same-label groups", async () => {
+  const runtime = localFixture(`<fieldset><legend>States</legend>
+    ${["active", "selected", "current", "checked", "is-active", "is-selected", "is-current", "is-checked"].map((name, i) => `<button type="button" class="${name}" value="${i}">${name}</button>`).join("")}
+    <button type="button" aria-pressed="true">Pressed</button><button type="button" aria-selected="true">Selected</button>
+    <button type="button" aria-checked="true">Checked</button><a href="#" aria-current="page">Current</a>
+    <button type="button" class="inactive not-selected current-price" aria-current="false" aria-checked="mixed">Unknown</button></fieldset>
+    <fieldset><legend>Guests</legend><button type="button" value="2" class="active">2</button></fieldset>
+    <fieldset><legend>Guests</legend><button type="button" value="4" class="selected">4</button></fieldset>
+    <div><button type="button" class="is-active">Unowned</button></div>`);
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 1,
+    maxModelCallsTotal: 1, maxOperationsPerCandidate: 20, modelDecision: { async decide(input) {
+      const states = input.observation.targets.filter(t => t.controlGroupLabel === "States");
+      assert.equal(states.filter(t => t.selected).length, 12);
+      assert.equal(states.find(t => t.label === "Unknown")?.selected, undefined);
+      const guests = input.observation.controlGroups!.filter(group => group.label === "Guests");
+      assert.equal(guests.length, 2, "same label must not merge distinct DOM owners");
+      assert.notEqual(guests[0]!.ref, guests[1]!.ref);
+      assert.deepEqual(guests.map(group => group.selectedValues), [["2"], ["4"]]);
+      const unowned = input.observation.targets.find(t => t.label === "Unowned")!;
+      assert.equal(unowned.selected, true);
+      assert.equal(unowned.controlGroupLabel, "Unlabelled group");
+      assert.equal(unowned.controlGroupRef, undefined);
+      return { type: "REQUEST_HUMAN_HELP", reason: "Observation assertions complete." };
+    } } });
+  const signal = new AbortController().signal;
+  try {
+    const session = await executor.acquire(signal, "FIXTURE", "FACTS");
+    await executor.navigate({ session, source: "FIXTURE", stage: "FACTS", signal, allowedOrigins: [new URL(url).origin], url });
+    const result = await executor.runSkill({ taskId: "generic-selected-fixture", source: "FIXTURE", stage: "FACTS", session, signal,
+      allowedOrigins: [new URL(url).origin], goal: { outlet: { name: "Fixture" }, hardCriteria: [] }, objective: "Read public selection state",
+      completion: () => ({ complete: false, reason: "Read selected states" }) });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP");
+  } finally { await executor.close(); }
+});
+
+test("party click does not confirm from unrelated page changes or an unchanged group value", async () => {
+  const runtime = localFixture(`<fieldset><legend>Guests</legend><button type="button" value="1" class="is-active">1</button>
+    <button type="button" value="2" onclick="document.querySelector('#noise').textContent='Unrelated update'">2</button></fieldset><output id="noise">Initial</output>`);
+  let decisions = 0;
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 3,
+    maxModelCallsTotal: 3, maxOperationsPerCandidate: 36, modelDecision: { async decide(input) {
+      if (++decisions === 1) return { type: "CLICK_AUTHORITATIVE", field: "PARTY_SIZE", targetRef: input.observation.targets.find(t => t.value === "2")!.ref, reason: "Set two guests." };
+      assert.match(input.progress, /PARTY_SIZE_NOT_CONFIRMED/);
+      assert.equal(input.history.at(-1)?.outcome, "NO_CHANGE");
+      assert.equal(input.history.at(-1)?.reason, "PARTY_SIZE_NOT_CONFIRMED");
+      assert.deepEqual(input.observation.controlGroups!.find(group => group.label === "Guests")?.selectedValues, ["1"]);
+      return { type: "REQUEST_HUMAN_HELP", reason: "The source still shows one guest." };
+    } } });
+  const signal = new AbortController().signal;
+  try {
+    const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
+    await executor.navigate({ session, source: "FIXTURE", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(url).origin], url });
+    const result = await executor.runSkill({ taskId: "party-unconfirmed-fixture", session, source: "FIXTURE", stage: "AVAILABILITY", signal,
+      allowedOrigins: [new URL(url).origin], goal: { outlet: { name: "Fixture" }, partySize: 2, hardCriteria: [] }, objective: "Confirm two guests",
+      completion: snapshot => snapshot.text.includes("Unrelated update") ? { complete: true, reason: "Unrelated UI changed", resultKey: "noise", resultBusy: false } : { complete: false, reason: "Two guests not selected" } });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP", "source completion cannot bypass party postcondition");
+    assert.equal(decisions, 2);
+  } finally { await executor.close(); }
+});
+
+test("Chromium labels public icon alternatives and leaves ambiguous calendar ownership unlabelled", async () => {
+  const browser = await chromium.launch({ headless: true });
+  const registry = new PlaywrightControlRegistry();
+  try {
+    const page = await browser.newPage();
+    await page.route("**/*", route => route.abort());
+    await page.setContent(`<style>a{display:inline-block;padding:10px}</style>
+      <fieldset><legend>Public navigation</legend>
+      <a href="#" aria-label="ARIA alternative"></a><a href="#" title="Title alternative"></a>
+      <a href="#"><img alt="Image alternative" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"></a>
+      <a href="#"><svg width="16" height="16"><title>Icon alternative</title></svg></a></fieldset>
+      <div><a href="#" aria-label="Next month"></a><table><caption>Oct 2026</caption><tr><td>21</td></tr></table>
+      <table><caption>Nov 2026</caption><tr><td>3</td></tr></table></div>`);
+    const controls = await registry.observe(page);
+    for (const label of ["ARIA alternative", "Title alternative", "Image alternative", "Icon alternative"]) {
+      const control = controls.find(c => c.label === label);
+      assert.ok(control, label);
+      assert.equal(control.controlGroupLabel, "Public navigation");
+    }
+    const ambiguous = controls.find(c => c.label === "Next month")!;
+    assert.equal(ambiguous.controlGroupLabel, "Unlabelled group");
+    assert.equal(ambiguous.calendarMonth, undefined);
+  } finally { await registry.dispose(); await browser.close(); }
+});
+
+test("calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back", async () => {
+  const runtime = localFixture(`<div><a href="#" aria-label="Next month" onclick="event.preventDefault();document.querySelector('#noise').textContent='Unrelated update'">Next month</a>
+    <table><caption>Oct 2026</caption><tbody><tr><td>21</td></tr></tbody></table></div><output id="noise">Initial text</output>`);
+  let decisions = 0;
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 3,
+    maxModelCallsTotal: 3, maxOperationsPerCandidate: 36, modelDecision: { async decide(input) {
+      if (++decisions === 1) return { type: "CLICK", targetRef: input.observation.targets.find(t => t.label === "Next month")!.ref, reason: "Advance month." };
+      assert.match(input.progress, /CALENDAR_MONTH_UNCHANGED/);
+      assert.equal(input.history.at(-1)?.outcome, "NO_CHANGE");
+      assert.equal(input.history.at(-1)?.reason, "CALENDAR_MONTH_UNCHANGED");
+      assert.equal(input.observation.displayedCalendarMonth?.month, 10);
+      return { type: "REQUEST_HUMAN_HELP", reason: "The source calendar did not change." };
+    } } });
+  const signal = new AbortController().signal;
+  try {
+    const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
+    await executor.navigate({ session, source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(url).origin], url });
+    const result = await executor.runSkill({ taskId: "month-unchanged-fixture", session, source: "TABLECHECK", stage: "AVAILABILITY", signal,
+      allowedOrigins: [new URL(url).origin], goal: { outlet: { name: "Fixture" }, date: "2026-11-03", hardCriteria: [] },
+      objective: "Reach November", methodReason: "Reach requested month", completion: () => ({ complete: false, reason: "November not reached" }) });
+    assert.equal(result.status, "REQUESTED_HUMAN_HELP");
+    assert.equal(decisions, 2);
+  } finally { await executor.close(); }
+});
+
 test("Chromium control observation discards only a handle confirmed disconnected between reads", async () => {
   const browser = await chromium.launch({ headless: true });
   try {
@@ -1339,6 +1506,34 @@ test("saved Tabelog calendar keeps hidden future dates and disabled guests out o
     assert.equal((controlsRecord.detail as { snapshotSequence: number }).snapshotSequence, snapshotRecord.sequence);
     assert.equal(await observed.waitForSettled!(snapshot, 500), true, "restricted ready state may be settled without offering a requested guest control");
   } finally { await session.close(); }
+});
+
+test("real Chromium recovers a Tabelog busy page once and still grounds the exact request", async () => {
+  const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
+  const { fixtureCandidates } = await import("../restaurant-fixtures.js");
+  const sourceUrl = "https://tabelog.com/en/tokyo/A1303/A130301/13293469/";
+  const queryUrl='https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13293469&svd=20260805&svps=2&svt=1900';
+  const pages = { [sourceUrl]: await readFile(new URL("../../../.eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8"),
+    [queryUrl]:JSON.stringify({base_date:{year:2026,month:8,day:5},members:2,selection:{0:{time:'19:00',url:'/en/booking/form_course/new?rcd=13293469&member=2&visit_date=20260805&visit_time=1900'}}}) };
+  const good = '<title>Restaurant 1</title><h1 class="restaurant-name">Restaurant 1</h1><p class="restaurant-address">1-1 Shinjuku, Tokyo</p><p>予約 人数</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><div class="p-booking-calendar"><button class="is-selected" data-year="2026" data-month="8" data-day="5">5</button><fieldset><legend>Guests</legend><button aria-pressed="true" data-value="2">2</button></fieldset></div>'+`<script>fetch('${queryUrl}')</script>`;
+  const raw = localFixture(pages), arrivals: Array<{url:string;at:number}> = [], diagnostics: BrowserExecutionDiagnostic[] = [];
+  const runtime: BrowserRuntime = { async openSession(input) {
+    const session = await raw.openSession(input);
+    return new Proxy(session, { get(target, key) {
+      if (key === "navigate") return async (...args: Parameters<typeof session.navigate>) => { arrivals.push({url:args[0],at:performance.now()}); if (arrivals.length === 2) pages[sourceUrl] = good; return target.navigate(...args); };
+      const value = Reflect.get(target,key,target); return typeof value === "function" ? value.bind(target) : value;
+    } });
+  } };
+  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 15_000, maxOperationsPerCandidate: 24, maxModelCallsTotal: 1, maxModelCallsPerCandidate: 1, onDiagnostic: row => { diagnostics.push(row); } });
+  const candidate = structuredClone(fixtureCandidates[0]!);candidate.restaurant.sourceIds = { googleWebsiteUri: "https://tabelog.com/tokyo/A1303/A130301/13293469/" };
+  try {
+    const result = await new TabelogBrowserAvailability(executor).check({ candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-08-05",partySize:2,timeWindow:{earliest:"19:00",latest:"19:00"},hardCriteria:[] }, new AbortController().signal);
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status,"AVAILABLE",JSON.stringify(result));
+    assert.equal(result.offers[0]?.partySize,2);assert.equal(result.offers[0]?.dateTime.slice(0,16),"2026-08-05T19:00");
+    assert.ok(arrivals.every(row=>row.url===sourceUrl));assert.ok(arrivals[1]!.at-arrivals[0]!.at>=1_000);
+    assert.equal(diagnostics.filter(row=>row.event==="OPERATION_STARTED"&&row.detail==="WAIT_FOR_SOURCE_RETRY").length,1);
+    assert.equal(diagnostics.filter(row=>row.event==="MODEL_DECISION_STARTED").length,0);
+  } finally { await executor.close(); }
 });
 
 test("Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout", async () => {
@@ -1731,7 +1926,10 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
   const view = () => ({
     mode: "FIXTURE", case: { caseId: "case", title: "Compare restaurants", status: "ACTIVE", phase: "PRESENT_RESULTS", taskVersion: refreshed ? 2 : 1 },
     conversation: { id: "conversation", messages: [] }, activities: [],
-    restaurant: { intentDraft: { target: { goal: "AVAILABILITY" } }, missingRequiredFields: [], candidates: [{ restaurant: { id: "a", outletName: "Cafe A", address: "Tokyo" } }, { restaurant: { id: "b", outletName: "Discovery only", address: "Tokyo" } }], presentedCandidateIds: ["a"], availability: { a: [{ dateTime: "2026-09-18T19:00:00+09:00", source: "TABLECHECK", displayExpiresAt: new Date(Date.now() + (refreshed ? 600000 : -600000)).toISOString() }] }, availabilityChecks: { a: { status: "AVAILABLE", checkedAt: new Date(Date.now() - 600000).toISOString(), displayExpiresAt: new Date(Date.now() + (refreshed ? 600000 : -600000)).toISOString() } }, readEvidence: [old, current], currentFactEvidence: refreshed ? [current, discoveryOnly] : [old, discoveryOnly] },
+    restaurant: { intentDraft: { target: { goal: "AVAILABILITY" } }, missingRequiredFields: [], candidates: [{ restaurant: { id: "a", outletName: "Cafe A", address: "Tokyo" } }, { restaurant: { id: "b", outletName: "Discovery only", address: "Tokyo" } }], presentedCandidateIds: ["a"], availability: { a: [{ dateTime: "2026-09-18T19:00:00+09:00", source: "TABLECHECK", displayExpiresAt: new Date(Date.now() + (refreshed ? 600000 : -600000)).toISOString() }] }, availabilityChecks: { a: { status: "AVAILABLE", checkedAt: new Date(Date.now() - 600000).toISOString(), displayExpiresAt: new Date(Date.now() + (refreshed ? 600000 : -600000)).toISOString() } }, readEvidence: [old, current], currentFactEvidence: refreshed ? [current, discoveryOnly] : [old, discoveryOnly], conditionStates: { a: [
+      { text: "Around ¥10,000 per person", status: refreshed ? "MET" : "NOT_MET", explanation: "Recorded course price; tax retained without conversion.", sources: [{ field: "PRICE", sourceUrl: current.sourceUrl, quote: refreshed ? "Dinner course ¥8,000" : "Dinner course ¥7,500" }] },
+      { text: "Private room", status: "NOT_CHECKED", explanation: "No source evidence.", sources: [] },
+    ] } },
   });
   try {
     await page.route("**/*", async route => {
@@ -1746,11 +1944,15 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
     await page.getByText("No-show: old rule", { exact: false }).waitFor();
     assert.match(await page.locator("#artifact").innerText(), /Availability expired/);
     assert.doesNotMatch(await page.locator("#artifact").innerText(), /Evidence-grounded result/);
+    assert.match(await page.locator("#artifact").innerText(), /Around ¥10,000 per person — not met/);
+    assert.match(await page.locator("#artifact").innerText(), /Private room — not checked/);
     await page.getByRole("button", { name: "Refresh availability" }).click();
     await page.getByText("Cancellation: current rule", { exact: false }).waitFor();
     assert.equal(await page.locator(".candidate").count(), 1, "discovery-only Google facts must not appear as an investigated result");
     const text = await page.locator(".candidate").innerText();
     assert.match(text, /8,000/);
+    assert.match(text, /Around ¥10,000 per person — met/);
+    assert.match(text, /Observed price: Dinner course/);
     assert.doesNotMatch(text, /7,500|No-show: old rule/);
     assert.equal(await page.getByRole("link", { name: "Terms source" }).getAttribute("href"), current.sourceUrl);
     assert.match(text, /Evidence-grounded result/);
@@ -1774,10 +1976,10 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const html = `<h1>Restaurant 1</h1><p>1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p><div class="p-booking-calendar" style="display:none">
       <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17">17</p>
       <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20">20</p>
-      <button type="button" class="js-people-button is-active">2</button><button type="button" class="js-people-button">4</button>
+      <button type="button" class="p-booking-calendar__people-button js-people-button is-active">2</button><button type="button" class="p-booking-calendar__people-button js-people-button">4</button>
       <input type="hidden" class="js-people-hidden-value" value="2">
       <button data-state="disabled" data-date="2026-9-16" type="button">Disabled date</button>
-      <button class="js-time-button" type="button">7:00 PM</button>
+      <button class="p-booking-calendar__time-button js-time-button" data-time="1900" type="button">7:00 PM</button>
       </div><a href="https://social.example/restaurant">Official website</a>
       <script>
       setTimeout(()=>document.querySelector('.p-booking-calendar').style.display='block',150);
@@ -2014,7 +2216,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
   let calls=0;const diagnostics:string[]=[];
   const executor = new BrowserTaskExecutor(localFixture({[tableCheckDiscoveryUrl(candidate)]:`<a href="${sourceUrl}">Restaurant 1</a>`,[sourceUrl]:html},runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate:80,onDiagnostic:d=>{if(d.event==="REJECTED"||d.event==="MODEL_ACTION"||d.event==="METHOD_INCOMPLETE"||d.event==="POST_ACTION_VERIFIED")diagnostics.push(`${d.event}: ${d.detail??""}`)},modelDecision:{async decide(input){
     calls++;
-    assert.ok(!input.observation.targets.some(t=>t.label==='Sep 19th'),"selected disabled calendar day must prevent repeated date trigger clicks");
+    assert.deepEqual(input.observation.targets.find(t=>t.label==='Sep 19th')?.availableActions,[],"selected disabled calendar day retains state evidence but cannot repeat the date trigger");
     if(calls===2 || calls>=4) assert.ok(!input.observation.targets.some(t=>t.role==='combobox'&&t.label===(calls===2?'Any party size':'Time')), 'an already open list must not invite another open action');
     const label=calls===1?'Any party size':calls===2?'4 guests':calls===3?'Time':calls===6?'19:00':'20:00';
     const target=input.observation.targets.find(t=>t.label===label&&t.role===(calls===1||calls===3?'combobox':'option'));
@@ -2039,26 +2241,29 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
 
 
 for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
-  test(`${runtimeKind} Tabelog Adapter grounds passive exact-query responses and clears them on navigation`, async () => {
+ for (const markup of ["legacy", "current"] as const) {
+  test(`${runtimeKind} ${markup} Tabelog Adapter grounds passive exact-query responses and clears them on navigation`, async () => {
     const {TabelogBrowserAvailability}=await import("../../integrations/tabelog/tabelog-browser-availability.js");
     const {fixtureCandidates}=await import("../restaurant-fixtures.js");
     const candidate=structuredClone(fixtureCandidates[0]!);candidate.restaurant.sourceIds.phone="03-1111-2222";
     const sourceUrl="https://tabelog.com/en/tokyo/A1301/A130103/13292459/";
-    const endpoint="https://tabelog.com/en/booking/calendar/find_vacancy/";
-    const html=`<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p>
+    const endpoint="https://tabelog.com/en/booking/calendar/find_vacancy"+(markup==="legacy"?"/":"");
+    let html=`<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p>
       <div class="rstdtl-course-list js-rstdtl-course-list"><span class="rstdtl-course-list__course-title-text">Seasonal lunch course</span><p class="rstdtl-course-list__desc">Lunch only, 11:30 to 14:00.</p><del>JPY 9,000</del><span class="rstdtl-course-list__price-num">JPY<em>8,000</em><span>（Price including tax）per person</span></span><dl class="rstdtl-course-list__course-rule"><dt>Number of people</dt><dd>2 - 4</dd></dl></div>
       <div class="p-booking-calendar">
       <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17">17</p>
       <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20">20</p>
-      <button type="button" class="js-people-button is-active">2</button><button type="button" class="js-people-button">4</button>
-      <input type="hidden" class="js-people-hidden-value" value="2"></div>
-      <script>function query(){fetch('/en/booking/calendar/find_vacancy/?member='+document.querySelector('input').value);fetch('/unrelated.json')}
+      <fieldset><legend>Guests</legend><button type="button" class="p-booking-calendar__people-button js-people-button is-active">2</button><button type="button" class="p-booking-calendar__people-button js-people-button">4</button>
+      <input type="hidden" class="js-people-hidden-value" value="2"></fieldset><button type="button" class="p-booking-calendar__time-button" data-time="1845">6:45 PM</button></div>
+      <script>function query(){fetch('${endpoint}?member='+document.querySelector('.p-booking-calendar__people-button.is-active').textContent);fetch('/unrelated.json')}
       document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{document.querySelector('.is-current').classList.remove('is-current');el.classList.add('is-current');query()});
-      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');document.querySelector('input').value=el.textContent;query()});</script>`;
+      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');const hidden=document.querySelector('input');if(hidden)hidden.value=el.textContent;query()});</script>`;
+    if(markup==="current") html=html.replace(/<p class="js-calendar-day-target([^"]*)"([^>]*)>([^<]*)<\/p>/g,'<button type="button" class="p-booking-calendar__day$1"$2>$3</button>').replaceAll('js-calendar-day-target','p-booking-calendar__day').replaceAll('js-people-button','current-people-control');
+    if(markup==="current") html=html.replace('<input type="hidden" class="js-people-hidden-value" value="2">','');
     const payload=(members:number,time:string)=>JSON.stringify({base_date:{year:2026,month:9,day:20},members,selection:{0:{time,url:`/en/booking/form_course/new?rcd=13292459&member=${members}&visit_date=20260920&visit_time=${time.replace(':','')}`}}});
     const pages={ [sourceUrl]:html,"https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201":`<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,[endpoint+"?member=2"]:payload(2,"19:00"),[endpoint+"?member=4"]:payload(4,"18:45"),"https://tabelog.com/unrelated.json":JSON.stringify({private:"must not capture"}) };
     let calls=0;
-    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.ok(!input.observation.targets.some(t=>t.label==="Date 2026-09-20"), "selected date is evidence, not a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
+    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){assert.equal(input.observation.targets.some(t=>t.label==="Booking time 6:45 PM"&&(t.availableActions?.length??0)>0),false,"time has no model action");const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.deepEqual(input.observation.targets.find(t=>t.label==="Date 2026-09-20")?.availableActions, [], "selected date remains evidence without a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
     const signal=new AbortController().signal;
     try{
       const result=await new TabelogBrowserAvailability(executor).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-20",partySize:4,timeWindow:{earliest:"18:30",latest:"19:30"},hardCriteria:[]},signal);
@@ -2074,6 +2279,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     }finally{await executor.close()}
   });
 }
+ }
 
 test("workspace New case survives a late initial case-list response", async () => {
   const { LOCAL_WORKSPACE_PAGE } = await import('../../web/local-workspace-page.js');
@@ -2160,7 +2366,7 @@ test("C3 settles delayed date results before asking the model and never complete
     const origin="https://settle.example", target=origin+"/calendar";
     const html=`<title>Fixture</title><button id="date">Date 2026-10-23</button><div id="result"></div><script>
       date.onclick=()=>{result.innerHTML='<div class="loader" aria-busy="true">Loading</div><p>OLD_AVAILABLE</p>';
-      ${timeout ? "" : "setTimeout(()=>{result.innerHTML='<button id=guests>Guests 10</button>';document.querySelector('#guests').onclick=()=>result.textContent='CURRENT_AVAILABLE';},650);"}}
+      ${timeout ? "" : "setTimeout(()=>{result.innerHTML='<fieldset><legend>Guests</legend><button id=guests>Guests 10</button></fieldset>';document.querySelector('#guests').onclick=()=>{document.querySelector('#guests').setAttribute('aria-pressed','true');result.insertAdjacentHTML('beforeend','<p>CURRENT_AVAILABLE</p>')};},650);"}}
     </script>`;
     const har=join(directory,"source.har");await writeFile(har,replayHar(target,html));
     const raw=new LocalPlaywrightChromium();const runtime:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:input=>raw.openSession({...input,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]},replayHarPath:har})};
@@ -2454,4 +2660,91 @@ test('P21b guarded search filters reject unaudited parameters under the producti
    await assert.rejects(async()=>{await session.prepareNavigation?.(bad,{timeoutMs:2000});await session.navigate(bad,{timeoutMs:2000});},/admitted|blocked|failed/i);
   }finally{await session.close();await rm(directory,{recursive:true,force:true});}
  }
+});
+
+test('name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation',async()=>{
+ const {runNameResolutionMethodA}=await import('../../eval/restaurant/agent-loop/name-resolution-method-a.js');
+ const subject={name:'Fixture Restaurant',address:'1-1 Tokyo Fixture Street',phone:'03-1111-2222',coordinates:{lat:35.66,lng:139.7}};
+ for(const platform of ['TABELOG','TABLECHECK'] as const){
+  const detail=platform==='TABELOG'?'https://tabelog.com/tokyo/A1303/A130301/12345/':'https://www.tablecheck.com/en/fixture';
+  const searches=platform==='TABELOG'?['https://tabelog.com/en/tokyo/rstLst/?sw=Fixture%20Restaurant']:['https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Fixture+Restaurant&geo_latitude=35.66&geo_longitude=139.7&geo_distance=5km&auto_geolocate=false'];
+  const html=`<title>Fixture Restaurant</title><h1>Fixture Restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:subject.name,address:subject.address,telephone:subject.phone})}</script>${platform==='TABELOG'?'<p>Availability</p><select name="party_size"><option value="1">1</option></select><select name="date"><option value="1970-01-01">1970-01-01</option></select>':'<a href="https://www.tablecheck.com/en/shops/fixture/reserve">Reserve</a>'}`;
+  const pages:Record<string,string>={[detail]:html};for(const search of searches)pages[search]=`<a class="list-rst__rst-name-target" href="${detail}">Fixture Restaurant</a>`;
+  const actions:string[]=[],fixture=localFixture(pages);
+  const runtime:BrowserRuntime={openSession:async input=>{
+   const session=await fixture.openSession(input);
+   return new Proxy(session,{get(target,key){
+    const value=Reflect.get(target,key);
+    if(typeof value!=='function')return value;
+    return (...args:unknown[])=>{if(['select','fill','click'].includes(String(key)))actions.push(String(key));return value.apply(target,args);};
+   }});
+  }};
+  const artifact=await runNameResolutionMethodA('chromium',platform,subject,{mode:'OFFLINE_FIXTURE',runtime,signal:new AbortController().signal});
+  assert.equal(artifact.observation.accepted,true,JSON.stringify(artifact.observation));
+  assert.equal(artifact.observation.rawSelectedPageUrl,detail);assert.equal(artifact.observation.modelCalls,0);
+  assert.equal(artifact.pages.some(p=>p.url.includes('/reserve')),false);assert.equal(artifact.boundary.availabilityEvaluated,false);assert.deepEqual(actions,[],'No underlying request-control action after HIGH identity');
+ }
+});
+
+test('P21c recorded regional links reach six controlled development results through the production assembly',async()=>{
+ const {gunzipSync}=await import('node:zlib');
+ const {createLiveReadAssembly}=await import('../../integrations/restaurant-search/live-read-assembly.js');
+ const {LIVE_READ_DEBUG_INVESTIGATION_BUDGET}=await import('../../application/live-read-investigation-budget.js');
+ const {GooglePlacesClient}=await import('../../integrations/google/google-places-client.js');
+ const {tabelogDiscoveryPack,googlePlacesDiscoveryPack}=await import('../../integrations/restaurant-search/source-packs.js');
+ const records=JSON.parse(gunzipSync(await readFile(new URL('../../../.eval-artifacts/p2-1c-region-20261020/recordings.json.gz',import.meta.url))).toString());
+ const gold=JSON.parse(await readFile(new URL('../../../.eval-artifacts/p2-1c-region-20261020/inputs.json',import.meta.url),'utf8')).expectedTopRegionByCase;
+ const results=[];
+ for(const caseId of Object.keys(gold)){
+  const record=records.find((r:any)=>r.group==='checkpoint-b-corrected-20261019'&&r.caseId===caseId);
+  const referenceCase=/kagurazaka|nakameguro/.test(caseId);
+  const sourceRoot='https://tabelog.com/en/tokyo/rstLst/';
+  const rootInput=record.regionDecisions[0].input;
+  const projectedLinks=(input:any)=>input.observation.targets.filter((t:any)=>t.kind==='LINK'&&t.href&&t.availableActions.includes('OPEN_LINK')).map((t:any)=>`<a href="${t.href.replaceAll('&','&amp;')}">${t.label.replaceAll('&','&amp;').replaceAll('<','&lt;')}</a>`).join('');
+  const route=referenceCase?[`https://tabelog.com/en/tokyo/${gold[caseId]}/`]:record.regionDecisions.flatMap((d:any)=>{
+   const a=JSON.parse(d.outputText),t=d.input.observation.targets.find((t:any)=>t.ref===a.targetRef);
+   return a.action==='OPEN_LINK'&&t?.href&&tabelogDiscoveryPack.browser!.directory!.isRegionEntrance(t.href)?[t.href]:[];
+  });
+  const end=route.at(-1)!;assert.ok(end);
+  const detail=`https://tabelog.com/tokyo/${gold[caseId]}/${gold[caseId]}01/13999999/`;
+  const pages:Record<string,string>={[sourceRoot]:'<title>Projected observed region links</title>'+projectedLinks(rootInput)};
+  for(const decision of record.regionDecisions.slice(1))pages[decision.input.observation.url]='<title>Projected observed region links</title>'+projectedLinks(decision.input);
+  pages[end]=`<title>Controlled known-feasible result</title><a class="list-rst__rst-name-target" href="${detail}">Controlled venue</a>`;
+  pages[detail]=`<title>Controlled venue</title><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Controlled venue',address:'Tokyo',geo:{latitude:record.location.latitude,longitude:record.location.longitude}})}</script>`;
+  const folder=await mkdtemp(join(tmpdir(),'p21c-offline-')),harPath=join(folder,'region.har');
+  await writeFile(harPath,replayHarPages(pages));
+  const raw=new LocalPlaywrightChromium();let googleCalls=0,modelCalls=0;const modelInputs:any[]=[];const pagesObserved:string[]=[];const navigations:string[]=[];
+  const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async input=>{
+   const session=await raw.openSession({...input,replayHarPath:harPath});
+   return new Proxy(session,{get(target,key){if(key==='snapshot')return async()=>{const page=await target.snapshot();pagesObserved.push(page.url);return page;};if(key==='navigate')return async(...args:Parameters<typeof session.navigate>)=>{navigations.push(args[0]);return target.navigate(...args);};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});
+  }};
+  const model:import('../../core/model/contracts.js').ModelGateway={complete:async request=>{
+   modelCalls++;assert.equal(request.purpose,'browser_read_decide','region-only controlled variant has no positive HARD keyword');
+   const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);
+   modelInputs.push({purpose:request.purpose,observation:body.observation});
+   const href=route.find((url:string)=>body.observation.targets.some((t:any)=>t.href===url&&t.availableActions.includes('OPEN_LINK')));
+   const target=body.observation.targets.find((t:any)=>t.href===href);assert.ok(target,'the recorded/independently expected next entrance is executable');
+   if(referenceCase)assert.ok(body.observation.targets.filter((t:any)=>t.availableActions.includes('OPEN_LINK')).every((t:any)=>t.href===href||t.href===body.observation.url),'unsupported first-region guesses are removed');
+   route.splice(route.indexOf(href),1);
+   return {invocationId:'offline-region',provider:'FIXTURE',model:'scripted',finishReason:'TOOL_CALLS',latencyMs:0,outputText:JSON.stringify({action:'OPEN_LINK',targetRef:target.ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Use the current observed supported region'})};
+  }};
+  const google=new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:async()=>{
+   googleCalls++;
+   const candidates=record.googleBatch.detail.read.candidates;
+   const projected=referenceCase?candidates.filter((c:any)=>c.restaurant.sourceIds.googleWebsiteUri?.includes('tabelog.com/')):candidates.slice(0,20);
+   return new Response(JSON.stringify({places:projected.map((c:any)=>({id:c.restaurant.sourceIds.googlePlaces,displayName:{text:c.restaurant.outletName},formattedAddress:c.restaurant.address,location:{latitude:c.restaurant.coordinates.lat,longitude:c.restaurant.coordinates.lng},websiteUri:c.restaurant.sourceIds.googleWebsiteUri,types:['restaurant'],businessStatus:'OPERATIONAL'}))}),{status:200});
+  }});
+  const intent:import('../../domains/restaurant/contracts.js').RestaurantSearchIntent={timezone:'Asia/Tokyo',target:{goal:'RECOMMENDATION',query:'restaurants'},area:{query:rootInput.goal.outlet.address},criteria:[]};
+  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxGoogleRequests:40,maxBrowserModelCallsPerCandidate:6,maxBrowserOperationsPerCandidate:24,packs:[tabelogDiscoveryPack,googlePlacesDiscoveryPack]}, {model,browser:runtime,google,clock:{now:()=>new Date('2026-10-20T00:00:00Z')}});
+  try{
+   const read=await assembly.search.search({readRunId:`p21c-${caseId}`,intent,continuation:{intentFingerprint:JSON.stringify(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:record.location}},AbortSignal.timeout(90000));
+   results.push({caseId,variant:'Recorded region inputs, no criteria/date/party; projected links + recorded Google pointers + synthetic detail',navigations,pagesObserved,modelInputs,modelCalls,googleCalls,read});
+   assert.equal(read.candidates.length,1,JSON.stringify({caseId,metadata:read.metadata,navigations,modelInputs}));
+   assert.ok(read.metadata.nativeDiscoveryFunnel!.directoryRegion!.first.url.includes(`/${gold[caseId]}/`));
+   assert.ok(read.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!<90000);assert.ok(read.metadata.nativeDiscoveryFunnel!.retrieval!.regionPages<=4);assert.ok(modelCalls<=6);
+   if(referenceCase)assert.equal(googleCalls,1);
+   if(caseId.includes('h001')||caseId.includes('h005')||caseId.includes('kichijoji'))assert.equal(googleCalls,0,'a named or unnamed-coordinate route needs no new Google wait');
+  }finally{await rm(folder,{recursive:true,force:true});}
+ }
+ await writeFile(new URL('../../../.eval-artifacts/checkpoint-c-p21c-integration-20261020/region-composition-results.json',import.meta.url),JSON.stringify({mode:'LOCAL_CHROMIUM_HAR_FIXTURE_WITH_SCRIPTED_MODEL',realModelCalls:0,externalNetworkCalls:0,results},null,2)+'\n');
 });

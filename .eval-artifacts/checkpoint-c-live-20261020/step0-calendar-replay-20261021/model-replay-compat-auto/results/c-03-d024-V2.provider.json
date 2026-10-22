@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "2b1ff9d5d8ed4e51b6865ec8d4083b1d8db5a11e1987cabc86f5cc38e5bafad6",
+  "id": "ab3f9c73-6f3a-4700-988a-bcdec8851dcf",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 13948,
+    "completion_tokens": 752,
+    "total_tokens": 14700,
+    "prompt_tokens_details": {
+      "cached_tokens": 2816
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 609
+    },
+    "prompt_cache_hit_tokens": 2816,
+    "prompt_cache_miss_tokens": 11132
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_gIJSO0oi3RkWEW8N1p6M2445",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:4:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the public date carousel to reach the requested date 2026-11-05 (currently only late October shows).\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

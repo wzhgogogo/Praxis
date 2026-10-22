@@ -1,0 +1,322 @@
+{
+  "codeCommit": "16466670732d4baa1eab2a8b3dd020247fa29fc8",
+  "annotationRevision": 2,
+  "gate": {
+    "kagurazaka": {
+      "required": 1,
+      "passed": 1
+    },
+    "shibuya": {
+      "required": 2,
+      "passed": 3,
+      "total": 3,
+      "scope": "one near-duplicate scenario"
+    },
+    "control": {
+      "required": 1,
+      "passed": 1
+    },
+    "verdict": "PASS"
+  },
+  "newCalls": 5,
+  "cumulativeCalls": 10,
+  "maxCalls": 30,
+  "websiteRequests": 0,
+  "googleRequests": 0,
+  "executedActions": 0,
+  "live": 0,
+  "results": [
+    {
+      "seedId": "p1-seed-0133",
+      "selected": [
+        {
+          "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+          "name": "Sushi Teppen",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 749
+        }
+      ],
+      "reason": "Only one candidate discovered; it has a direct source page path. Check request-bound availability (2026-10-16 19:00, party of 2) to obtain both slot evidence and source facts for the omakase HARD criterion.",
+      "verdict": {
+        "verdict": "ACCEPTABLE",
+        "reasons": [
+          "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+        ],
+        "metrics": {
+          "selected": 1,
+          "directSelected": 1,
+          "directInRadiusCheckable": 1,
+          "directSelectionRatio": 1
+        }
+      },
+      "oldStrict": {
+        "status": "EVALUATED_SAME_OUTPUT_NO_EXTRA_CALL",
+        "before": {
+          "verdict": "ACCEPTABLE",
+          "reasons": [
+            "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+          ],
+          "metrics": {
+            "selected": 1,
+            "directSelected": 1,
+            "directInRadiusCheckable": 1,
+            "directSelectionRatio": 1
+          }
+        },
+        "after": {
+          "verdict": "ACCEPTABLE",
+          "reasons": [
+            "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+          ],
+          "metrics": {
+            "selected": 1,
+            "directSelected": 1,
+            "directInRadiusCheckable": 1,
+            "directSelectionRatio": 1
+          }
+        }
+      },
+      "witnessSelection": {
+        "before": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical URL membership only; no current/request slot claim."
+        },
+        "after": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical URL membership only; no current/request slot claim."
+        }
+      }
+    },
+    {
+      "seedId": "p1-seed-0134",
+      "selected": [
+        {
+          "id": "praxis:restaurant:6343d9d19c9b69881948e082",
+          "name": "Sumi Sushi Shibuya",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 189
+        },
+        {
+          "id": "praxis:restaurant:c510b28f298c4785d5fff548",
+          "name": "Shibuya Sushi Jinnan",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 328
+        },
+        {
+          "id": "praxis:restaurant:5f4fbd6b462f17e62da5bb43",
+          "name": "Sushi kazumasa",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 451
+        }
+      ],
+      "reason": "AVAILABILITY goal for 2 at 19:00 on 2026-10-16; no eligible candidates yet. Check request-bound availability on three nearby sushi candidates with direct source pages (Sumi Sushi 189m, Shibuya Sushi Jinnan 328m, Sushi kazumasa 451m), which can also return omakase facts.",
+      "verdict": {
+        "verdict": "ACCEPTABLE",
+        "reasons": [
+          "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+        ],
+        "metrics": {
+          "selected": 3,
+          "directSelected": 3,
+          "directInRadiusCheckable": 8,
+          "directSelectionRatio": 1
+        }
+      },
+      "oldStrict": {
+        "status": "EVALUATED_SAME_OUTPUT_NO_EXTRA_CALL",
+        "before": {
+          "verdict": "NOT_ACCEPTABLE",
+          "reasons": [
+            "Every selected candidate must be DIRECT when the annotated direct alternatives are available."
+          ],
+          "metrics": {
+            "selected": 3,
+            "directSelected": 1,
+            "directInRadiusCheckable": 8,
+            "directSelectionRatio": 0.3333333333333333
+          }
+        },
+        "after": {
+          "verdict": "ACCEPTABLE",
+          "reasons": [
+            "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+          ],
+          "metrics": {
+            "selected": 3,
+            "directSelected": 3,
+            "directInRadiusCheckable": 8,
+            "directSelectionRatio": 1
+          }
+        }
+      },
+      "witnessSelection": {
+        "before": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical URL membership only; no current/request slot claim."
+        },
+        "after": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical URL membership only; no current/request slot claim."
+        }
+      }
+    },
+    {
+      "seedId": "p22-selection-001",
+      "selected": [
+        {
+          "id": "praxis:restaurant:ea7f13811ba2762a8809896a",
+          "name": "Kagurazaka Jin",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 81
+        },
+        {
+          "id": "praxis:restaurant:f7be11a2d29a00afc46d46e4",
+          "name": "Sugata",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 107
+        },
+        {
+          "id": "praxis:restaurant:359e4485b73417043bd3a76a",
+          "name": "日本料理 ほそ川 神楽坂",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 95
+        }
+      ],
+      "reason": "AVAILABILITY goal for 3 at 19:30 on 2026-10-22 near Kagurazaka; TableCheck candidates already checked with unobserved results. Check the three legal checkable candidates (all DIRECT_SOURCE_PAGE, near Kagurazaka) for request-bound slots and source facts.",
+      "verdict": {
+        "verdict": "ACCEPTABLE",
+        "reasons": [
+          "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+        ],
+        "metrics": {
+          "selected": 3,
+          "directSelected": 3,
+          "directInRadiusCheckable": 3,
+          "directSelectionRatio": 1
+        }
+      },
+      "oldStrict": {
+        "status": "NOT_APPLICABLE"
+      },
+      "witnessSelection": {
+        "before": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical URL membership only; no current/request slot claim."
+        },
+        "after": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical URL membership only; no current/request slot claim."
+        }
+      }
+    },
+    {
+      "seedId": "p22-selection-002",
+      "selected": [
+        {
+          "id": "praxis:restaurant:6343d9d19c9b69881948e082",
+          "name": "Sumi Sushi Shibuya",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 189
+        },
+        {
+          "id": "praxis:restaurant:5f4fbd6b462f17e62da5bb43",
+          "name": "Sushi kazumasa",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 451
+        },
+        {
+          "id": "praxis:restaurant:c510b28f298c4785d5fff548",
+          "name": "Shibuya Sushi Jinnan",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 328
+        }
+      ],
+      "reason": "Availability goal for 2 at 19:00 on 2026-10-12; prior Tabelog/TableCheck reads returned unknown. Check the nearest direct-source sushi candidates (Sumi Sushi 189m, Sushi kazumasa 451m, Shibuya Sushi Jinnan 328m) for request-bound slots and omakase facts.",
+      "verdict": {
+        "verdict": "ACCEPTABLE",
+        "reasons": [
+          "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+        ],
+        "metrics": {
+          "selected": 3,
+          "directSelected": 3,
+          "directInRadiusCheckable": 9,
+          "directSelectionRatio": 1
+        }
+      },
+      "oldStrict": {
+        "status": "NOT_APPLICABLE"
+      },
+      "witnessSelection": {
+        "before": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical URL membership only; no current/request slot claim."
+        },
+        "after": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical URL membership only; no current/request slot claim."
+        }
+      }
+    },
+    {
+      "seedId": "p22-selection-003",
+      "selected": [
+        {
+          "id": "praxis:restaurant:6343d9d19c9b69881948e082",
+          "name": "Sumi Sushi Shibuya",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 189
+        },
+        {
+          "id": "praxis:restaurant:c510b28f298c4785d5fff548",
+          "name": "Shibuya Sushi Jinnan",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 328
+        },
+        {
+          "id": "praxis:restaurant:5f4fbd6b462f17e62da5bb43",
+          "name": "Sushi kazumasa",
+          "path": "DIRECT_SOURCE_PAGE",
+          "distance": 451
+        }
+      ],
+      "reason": "AVAILABILITY goal for 2 at 19:00 tonight; no eligible candidates yet. Check request-bound availability on the three nearest checkable sushi candidates (Sumi Sushi Shibuya 189m, Shibuya Sushi Jinnan 328m, Sushi kazumasa 451m), which can also return omakase facts.",
+      "verdict": {
+        "verdict": "ACCEPTABLE",
+        "reasons": [
+          "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+        ],
+        "metrics": {
+          "selected": 3,
+          "directSelected": 3,
+          "directInRadiusCheckable": 9,
+          "directSelectionRatio": 1
+        }
+      },
+      "oldStrict": {
+        "status": "NOT_APPLICABLE"
+      },
+      "witnessSelection": {
+        "before": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical URL membership only; no current/request slot claim."
+        },
+        "after": {
+          "status": "EVALUATED",
+          "selected": false,
+          "scope": "Historical URL membership only; no current/request slot claim."
+        }
+      }
+    }
+  ],
+  "scope": "single captured Agent decisions; no end-to-end, inventory or delivery acceptance"
+}

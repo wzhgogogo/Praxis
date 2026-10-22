@@ -1,0 +1,63 @@
+{
+  "id": "c-02-d031-V1",
+  "seedId": "c-02-d031",
+  "variant": "V1",
+  "runId": "c-02",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "a5c062d33380b58fdbe9dc5a61f97da061473e998aabde8eb595c6de5bba7aba",
+  "startedAt": "2026-10-21T03:48:26.030Z",
+  "finishedAt": "2026-10-21T03:48:27.870Z",
+  "elapsedMs": 1839.7985419999459,
+  "fetches": 1,
+  "outcome": "SUCCEEDED",
+  "response": {
+    "invocationId": "ef1ea72e-d3ac-46de-b9ea-e5dfaba054d2",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:4:target:125\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select party size 3? No — need 2; 2 is not offered. Instead advance calendar.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1839,
+    "providerRequestId": "5176ff51-4e14-4515-bd36-f6f710b21068",
+    "usage": {
+      "inputTokens": 14343,
+      "outputTokens": 137,
+      "totalTokens": 14480
+    }
+  },
+  "error": null,
+  "invocation": {
+    "invocationId": "ef1ea72e-d3ac-46de-b9ea-e5dfaba054d2",
+    "taskId": "checkpoint-c-calendar:c-02-d031:V1",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "SUCCEEDED",
+    "latencyMs": 1839,
+    "providerStatus": 200,
+    "usage": {
+      "inputTokens": 14343,
+      "outputTokens": 137,
+      "totalTokens": 14480
+    },
+    "providerRequestId": "5176ff51-4e14-4515-bd36-f6f710b21068"
+  },
+  "providerUsage": {
+    "prompt_tokens": 14343,
+    "completion_tokens": 137,
+    "total_tokens": 14480,
+    "prompt_tokens_details": {
+      "cached_tokens": 3200
+    },
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 11143
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash"
+}

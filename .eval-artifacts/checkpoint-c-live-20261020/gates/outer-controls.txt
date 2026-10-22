@@ -1,0 +1,41 @@
+✖ approved bytes, independent literal 18-run roster and spacing (12.154084ms)
+✔ S0 stops before any retry; ordinary product failures cannot retry; environment limits apply across repetitions (1.4755ms)
+✔ 403/503/429 and observed busy pages are bounded cooldown signals (0.1325ms)
+✔ witness future/expired/uncertified rejected, current accepted (0.275875ms)
+✖ frozen independent reviewed body grammar detects mutation (0.454667ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 446.3025
+
+✖ failing tests:
+
+test at .eval-artifacts/checkpoint-c-live-20261020/controls.test.ts:1:589
+✖ approved bytes, independent literal 18-run roster and spacing (12.154084ms)
+  Error: Frozen E2E case source is invalid: case.role: unknown key
+      at invalid (/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/live-case-materializer.ts:149:68)
+      at keys (/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/live-case-materializer.ts:158:72)
+      at validateCaseDocument (/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/live-case-materializer.ts:162:18)
+      at <anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/live-case-materializer.ts:142:5)
+      at Array.map (<anonymous>)
+      at loadFrozenLiveCases (/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/live-case-materializer.ts:140:20)
+      at async TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/controls.test.ts:13:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+
+test at .eval-artifacts/checkpoint-c-live-20261020/controls.test.ts:1:3113
+✖ frozen independent reviewed body grammar detects mutation (0.454667ms)
+  Error: Invalid reviewed-read mapping/unknown key/null
+      at keys (/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/diagnostic-evaluator-network.ts:20:164)
+      at parseReviewedReads (/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/diagnostic-evaluator-network.ts:26:18)
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/controls.test.ts:39:56)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)

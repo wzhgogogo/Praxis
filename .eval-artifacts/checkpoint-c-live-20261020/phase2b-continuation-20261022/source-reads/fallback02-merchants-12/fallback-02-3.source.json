@@ -1,0 +1,135 @@
+{
+  "id": "fallback-02-3",
+  "caseId": "p2b-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1313/A131302/13010747/",
+  "observedAt": "2026-10-22T19:58:42.900Z",
+  "responseSha256": "954874ec14b1227a7372d72594911ee3be2a03de021819e379de31a5300f130e",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-3.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Seafood Monja Kataoka",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Tsukishima Chuo Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1040052",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.66373775873233,
+          "longitude": 139.78276506419627
+        },
+        "servesCuisine": "Monjyayaki,Okonomiyaki (Japanese savory pancake),Teppanyaki"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1313/A131302/13010747/\",\"name\":\"Seafood Monja Kataoka\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/314962/640x640_rect_618794e49a51c2d795656ca3d9fb4a23.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Tsukishima Chuo Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1040052\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.66373775873233,\"longitude\":139.78276506419627},\"priceRange\":\"JPY 3,000～JPY 3,999\",\"servesCuisine\":\"Monjyayaki,Okonomiyaki (Japanese savory pancake),Teppanyaki\",\"telephone\":\"+81-3-5560-8989\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"250\",\"ratingValue\":\"3.42\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1313/A131302/13010747/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "50840b58d6a54d2d80ba2cab8bcd6ded6658490e4824bbaf08e193b0d5725a0c",
+        "htmlCharacterOffset": 6318
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 71993,
+        "raw": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Teppanyaki"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Teppanyaki",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "publicBookingRead": {
+    "status": "SOURCE_BOUND_READ_EXPOSED",
+    "rst_id": "13010747",
+    "url": "https://tabelog.com/en/booking/calendar/find_vacancy/",
+    "enabled": true,
+    "raw": "<div id=\"js-booking-params\" class=\"u-hidden\" data-rst-id=\"13010747\" data-booking-enabled=\"1\" data-fetch-url=\"https://tabelog.com/en/booking/calendar/find_vacancy/\" data-fetch-url-date=\"https://tabelog.com/en/booking/calendar/find_vacancy_date_with_status/\" data-fetch-url-member=\"https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date/\" data-fetch-url-initial-vacancy=\"https://tabelog.com/en/booking/calendar/initial_vacancy\">",
+    "rawSha256": "216141482a0a2c0ab9428b441d35a41b95ae430ee966e18eb7314704e0a75251",
+    "htmlCharacterOffset": 27670
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Teppanyaki",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "Just a minute from Tsukishima Station! A popular spot known for its carefully selected ingredients and signature whole mentaiko monjayaki.",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                Just a minute from Tsukishima Station! A popular spot known for its carefully selected ingredients and signature whole mentaiko monjayaki.\n              </h3>",
+      "sha256": "a8a00b1f3ae6f0081ef34804a7d755124d92d02b3ad52c67a434a436d19b7c69",
+      "htmlCharacterOffset": 44818
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Teppanyaki",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Monjyayaki, Okonomiyaki (Japanese savory pancake), Teppanyaki</span>\n                    </td>\n                  </tr>",
+      "sha256": "cb070fd46e10a6c85d0a96ea9ae50967447279600d50f98bb344e7d7e1ca09f5",
+      "htmlCharacterOffset": 71873
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 3,000 - JPY 3,999 JPY 2,000 - JPY 2,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 3,000 - JPY 3,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 2,000 - JPY 2,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "5086e7ba55b40450a00bc1e55c771b0fff6d49719d49e8516e30ed8f8c253c42",
+      "htmlCharacterOffset": 78130
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 65 seats",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      65 seats\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "0bcf7da319dd69bc5dc70ee64ad94e00dfbf03970942cb4836b281973f881579",
+      "htmlCharacterOffset": 82460
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 82713
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome), Strollers welcome",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome), Strollers welcome\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "a2985ef61baea50da85331e64108c930e853ed9d385e9366ff97d15a61c78bae",
+      "htmlCharacterOffset": 86885
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Monjyayaki, Okonomiyaki (Japanese savory pancake), Teppanyaki</span>\n                    </td>\n                  </tr>",
+      "sha256": "cb070fd46e10a6c85d0a96ea9ae50967447279600d50f98bb344e7d7e1ca09f5",
+      "text": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Teppanyaki",
+      "htmlCharacterOffset": 71873
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1313/A131302/13010747/dtlratings/#price-range\">JPY 3,000 - JPY 3,999</a></span>\n                            </p>",
+      "sha256": "217be44393522eda2f49d693a686d2f8229a5ad4067c169466d19fa8e6617071",
+      "text": "JPY 3,000 - JPY 3,999",
+      "htmlCharacterOffset": 26572
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1313/A131302/13010747/dtlratings/#price-range\">JPY 2,000 - JPY 2,999</a></span>\n                            </p>",
+      "sha256": "281125ca157172d436d5b5ca92b488479505ba983191bb83f62e82a30c02d2f1",
+      "text": "JPY 2,000 - JPY 2,999",
+      "htmlCharacterOffset": 27002
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1313/A131302/13010747/"
+}

@@ -1,0 +1,135 @@
+{
+  "schema": "holdout-evaluation-representation@1",
+  "rule": "Only same-request structured budget criteria additions. Original Gold, source, claims, actions, display and resources unchanged.",
+  "projections": [
+    {
+      "runId": "h-03",
+      "sourceArtifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-03-attempt-1/runner/2026-10-22T20-30-45-800Z-b9a978ac-8482-454e-88db-6755dc9b684c.result.json",
+      "sourceArtifactSha256": "f7a399e341d94c83aba339d233f5e22654e57e785fa0f66bb9d711aab71fc92c",
+      "viewPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/inputs/views/h-03.evaluation-view.json",
+      "viewSha256": "a18076622f85aa3cdbc3476f350f642b7cef98dbbb84bfe0de5c57a3a4808781",
+      "patches": [
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intentDraft/criteria/1",
+          "value": {
+            "text": "at most 15000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 15000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/wording-review.md#sha256=0b651e00df6e71554e3174f5c01b798ff4089d4a36f5134f9e0d49e28dcfb2ef"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/0/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "at most 15000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1"
+          },
+          "sourcePointer": "/trajectories/0/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 15000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/wording-review.md#sha256=0b651e00df6e71554e3174f5c01b798ff4089d4a36f5134f9e0d49e28dcfb2ef"
+        }
+      ]
+    },
+    {
+      "runId": "h-09",
+      "sourceArtifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/runner/2026-10-22T21-17-21-383Z-60c026f8-95d7-4d54-902c-dc8c55d6ec43.result.json",
+      "sourceArtifactSha256": "ed406c4c9154e929b2df0b24f79f2f784b54c589c04aad52a84f9a42da0a6315",
+      "viewPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/inputs/views/h-09.evaluation-view.json",
+      "viewSha256": "f9ac34a069abeb5cdfc5bcd7ddf73bd82dcc7ff2303a6ec248d908ffb148515f",
+      "patches": [
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intentDraft/criteria/1",
+          "value": {
+            "text": "at most 15000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 15000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/wording-review.md#sha256=0b651e00df6e71554e3174f5c01b798ff4089d4a36f5134f9e0d49e28dcfb2ef"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/0/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "at most 15000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1"
+          },
+          "sourcePointer": "/trajectories/0/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 15000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/wording-review.md#sha256=0b651e00df6e71554e3174f5c01b798ff4089d4a36f5134f9e0d49e28dcfb2ef"
+        }
+      ]
+    },
+    {
+      "runId": "h-15",
+      "sourceArtifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-15-attempt-1/runner/2026-10-22T22-01-57-482Z-a45bf287-2aff-4872-bfbe-62acfa11a0d2.result.json",
+      "sourceArtifactSha256": "00dd8de97671893de350e8e7ac74dff65fed2f12cbc75a9c887b77aaf5be850f",
+      "viewPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/inputs/views/h-15.evaluation-view.json",
+      "viewSha256": "1623e367aa15d3fc593ae0a0d6953e9c672c9e034a153ff65e9b93214e64bd21",
+      "patches": [
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intentDraft/criteria/1",
+          "value": {
+            "text": "at most 15000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 15000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/wording-review.md#sha256=0b651e00df6e71554e3174f5c01b798ff4089d4a36f5134f9e0d49e28dcfb2ef"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/0/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "at most 15000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1"
+          },
+          "sourcePointer": "/trajectories/0/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 15000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/wording-review.md#sha256=0b651e00df6e71554e3174f5c01b798ff4089d4a36f5134f9e0d49e28dcfb2ef"
+        }
+      ]
+    }
+  ]
+}

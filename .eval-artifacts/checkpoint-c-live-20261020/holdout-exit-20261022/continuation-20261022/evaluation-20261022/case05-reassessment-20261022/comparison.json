@@ -1,0 +1,161 @@
+{
+  "status": "COMPLETED_PENDING_INDEPENDENT_REVIEW",
+  "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubric": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "freezeSha256": "d6315af5e7ebbe3cf471295f9f6bcefbcdbdbb61b5ddc51698f72d33effaa22e",
+  "rows": [
+    {
+      "run": {
+        "runId": "h-05",
+        "caseId": "p2-holdout-05",
+        "repeat": 1,
+        "role": "HOLDOUT"
+      },
+      "originalArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.result.json",
+      "originalArtifactSha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+      "previousEvaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-05.evaluation.json",
+      "previousEvaluationSha256": "58802b5b104c79705c5b54d803afd1e1dd659f4bd94535833e87127db581739b",
+      "before": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "after": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/evaluations-33/h-05.evaluation.json",
+      "evaluationSha256": "393aa99d8e1136e58f7c82bc313871df8f228e3349412bb5268b0839b74776fd",
+      "controls": {
+        "singleKeyStringValue": true,
+        "reversible": true,
+        "onlyApprovedFieldChanged": true,
+        "originalDecoderRejectsObject": true,
+        "correctedDecoderAcceptsString": true,
+        "conditionAndDisplayStatesUnchanged": true
+      }
+    },
+    {
+      "run": {
+        "runId": "h-11",
+        "caseId": "p2-holdout-05",
+        "repeat": 2,
+        "role": "HOLDOUT"
+      },
+      "originalArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1/runner/2026-10-22T10-08-08-592Z-7cea80fb-c1d8-46b7-9404-b2351e024565.result.json",
+      "originalArtifactSha256": "5852a4619fbf165ae850af4eabb966859e8d3b219f4afe8f04b4f45b3b63cb79",
+      "previousEvaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-11.evaluation.json",
+      "previousEvaluationSha256": "65abab08d87503eebd3f188e922f5c3e822f2fd3e2f061a30b9d2149a9f4bf78",
+      "before": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "after": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/evaluations-33/h-11.evaluation.json",
+      "evaluationSha256": "2209871e0962db4dca5d757f85a1090c50e706ab036d6c409988f494e8924732",
+      "controls": {
+        "singleKeyStringValue": true,
+        "reversible": true,
+        "onlyApprovedFieldChanged": true,
+        "originalDecoderRejectsObject": true,
+        "correctedDecoderAcceptsString": true,
+        "conditionAndDisplayStatesUnchanged": true
+      }
+    },
+    {
+      "run": {
+        "runId": "h-17",
+        "caseId": "p2-holdout-05",
+        "repeat": 3,
+        "role": "HOLDOUT"
+      },
+      "originalArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-17-attempt-1/runner/2026-10-22T11-00-05-204Z-c57bbc4a-28c6-40f0-9c49-b8df7f71801b.result.json",
+      "originalArtifactSha256": "a982e1b0e4ef859e92b502cc8b92cde0d4b9440fac4a9dfaf23964bd94d136b2",
+      "previousEvaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/evaluations-33/h-17.evaluation.json",
+      "previousEvaluationSha256": "1a1b664501abfa5acdb23f7c5be4fb6131b7e1b7137ca00fc5769fca87dd7996",
+      "before": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "after": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/evaluations-33/h-17.evaluation.json",
+      "evaluationSha256": "3ee497a8f3fd8cd46447d5662cc9b55394d0fce0d4bcfb5c797a0ff2a88cfe20",
+      "controls": {
+        "singleKeyStringValue": true,
+        "reversible": true,
+        "onlyApprovedFieldChanged": true,
+        "originalDecoderRejectsObject": true,
+        "correctedDecoderAcceptsString": true,
+        "conditionAndDisplayStatesUnchanged": true
+      }
+    }
+  ],
+  "newModels": 0,
+  "newWebsites": 0,
+  "newLive": 0
+}

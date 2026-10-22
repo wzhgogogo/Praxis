@@ -1,0 +1,203 @@
+{
+  "id": "merchant-04-1",
+  "caseId": "p2b-holdout-04",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1305/A130501/13133693/",
+  "observedAt": "2026-10-22T17:29:18.457Z",
+  "responseSha256": "180e47927e373098fd7465770487696a1ddbf0d4a42911280392a6e4d3fe2b59",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Thai Sabai Paruko ten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Minamiikebukuro Toshima Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1710022",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.73061823786208,
+          "longitude": 139.7123984837594
+        },
+        "servesCuisine": "Thai,Buffet,Dining bar"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1305/A130501/13133693/\",\"name\":\"Thai Sabai Paruko ten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/166614/640x640_rect_626e2211235a58dda5d1a6827ec0e96c.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Minamiikebukuro Toshima Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1710022\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.73061823786208,\"longitude\":139.7123984837594},\"priceRange\":\"JPY 1,000～JPY 1,999\",\"servesCuisine\":\"Thai,Buffet,Dining bar\",\"telephone\":\"+81-3-5391-6222\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"455\",\"ratingValue\":\"3.46\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1305/A130501/13133693/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "2333f814a9b54f9bec86295f78aa8b076c7e7c7eb3a914fa58ee9d320cc04833",
+        "htmlCharacterOffset": 6272
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 81600,
+        "raw": "Thai, Buffet, Dining bar"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 53223,
+        "raw": "*From 2026/1/20 ~ [Weekday Limited 60 Minutes] Lunch Buffet 11:00 ~ 15:00 JPY 1,900 (tax Included)"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Thai, Buffet, Dining bar",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "*From 2026/1/20: [Weekday Limited 60 Minutes] Lunch Buffet & Choose Your Main Dish (Half Size) with Drink 11:00–15:00 JPY 2,200, tax Included",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "*From 2026/1/20 ~ [Weekday Limited 60 Minutes] Lunch Buffet 11:00 ~ 15:00 JPY 1,900 (tax Included)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "<No Sharing Required, Served on Individual Plates> A Collection of Popular Thai Dishes Including Crab Egg Curry Stir-Fry, Total of 7 Dishes [Party Course] for 2 People and Up JPY 3,800 (Tax Included / Price per Person)",
+        "found": false
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Each dish will be served on individual plates, eliminating the need for sharing, which is common at parties. Enjoy a delicious meal and a wonderful time while maintaining appropriate distance. This delightful course features a selection of popular and classic Thai dishes. *You can add a 120-minute all-you-can-drink option for an additional JPY 1,400 per person (last order at 90 minutes).",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Thai, Buffet, Dining bar",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "*From 2026/1/20: [Weekday Limited 60 Minutes] Lunch Buffet & Choose Your Main Dish (Half Size) with Drink 11:00–15:00 JPY 2,200, tax Included",
+      "meals": [
+        "LUNCH"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "*From 2026/1/20 ~ [Weekday Limited 60 Minutes] Lunch Buffet 11:00 ~ 15:00 JPY 1,900 (tax Included)",
+      "meals": [
+        "LUNCH"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "<No Sharing Required, Served on Individual Plates> A Collection of Popular Thai Dishes Including Crab Egg Curry Stir-Fry, Total of 7 Dishes [Party Course] for 2 People and Up JPY 3,800 (Tax Included / Price per Person)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Each dish will be served on individual plates, eliminating the need for sharing, which is common at parties. Enjoy a delicious meal and a wonderful time while maintaining appropriate distance. This delightful course features a selection of popular and classic Thai dishes. *You can add a 120-minute all-you-can-drink option for an additional JPY 1,400 per person (last order at 90 minutes).",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "【Directly Connected to Ikebukuro Station】Enjoy a lavish lunch buffet with plenty of vegetables at this cozy, casual Thai restaurant!",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                【Directly Connected to Ikebukuro Station】Enjoy a lavish lunch buffet with plenty of vegetables at this cozy, casual Thai restaurant!\n              </h3>",
+      "sha256": "9e0a9de79be0a83f7abb130c2b5571d4e9bdfe4ce7a41472b70de23f9568525d",
+      "htmlCharacterOffset": 44278
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "*From 2026/1/20: [Weekday Limited 60 Minutes] Lunch Buffet & Choose Your Main Dish (Half Size) with Drink 11:00–15:00 JPY 2,200, tax Included",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">*From 2026/1/20: [Weekday Limited 60 Minutes] Lunch Buffet &amp; Choose Your Main Dish (Half Size) with Drink 11:00–15:00 JPY 2,200, tax Included</span>",
+      "sha256": "8da85fd8c96a525bf1211669add5d32d0a53ff2140d97335a5cfdf83ecc97e3b",
+      "htmlCharacterOffset": 50239
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "*From 2026/1/20 ~ [Weekday Limited 60 Minutes] Lunch Buffet 11:00 ~ 15:00 JPY 1,900 (tax Included)",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">*From 2026/1/20 ~ [Weekday Limited 60 Minutes] Lunch Buffet 11:00 ~ 15:00 JPY 1,900 (tax Included)</span>",
+      "sha256": "1a3ee20e98258dcf0130278f0ac64849dacb61e26e8d55d4b250e67553f21044",
+      "htmlCharacterOffset": 53171
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "<No Sharing Required, Served on Individual Plates> A Collection of Popular Thai Dishes Including Crab Egg Curry Stir-Fry, Total of 7 Dishes [Party Course] for 2 People and Up JPY 3,800 (Tax Included / Price per Person)",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">&lt;No Sharing Required, Served on Individual Plates&gt; A Collection of Popular Thai Dishes Including Crab Egg Curry Stir-Fry, Total of 7 Dishes [Party Course] for 2 People and Up JPY 3,800 (Tax Included / Price per Person)</span>",
+      "sha256": "0af0ccb079ecd12b86d0ccbef145a9176018a739adc6392356a420d1eeea5dd7",
+      "htmlCharacterOffset": 55796
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Each dish will be served on individual plates, eliminating the need for sharing, which is common at parties. Enjoy a delicious meal and a wonderful time while maintaining appropriate distance. This delightful course features a selection of popular and classic Thai dishes. *You can add a 120-minute all-you-can-drink option for an additional JPY 1,400 per person (last order at 90 minutes).",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Each dish will be served on individual plates, eliminating the need for sharing, which is common at parties. Enjoy a delicious meal and a wonderful time while maintaining appropriate distance. This delightful course features a selection of popular and classic Thai dishes.\n                          \n                          *You can add a 120-minute all-you-can-drink option for an additional JPY 1,400 per person (last order at 90 minutes).\n                        </p>",
+      "sha256": "2b5f5496dc0dcbb8ac348f3d0ab6408472bcc598f09ab3fd6cc27255e9224305",
+      "htmlCharacterOffset": 56210
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Thai, Buffet, Dining bar",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Thai, Buffet, Dining bar</span>\n                    </td>\n                  </tr>",
+      "sha256": "b0584ac1d0785e90376c3e660474fcf1486b85063d9e2d799fbd87d3961b9ad1",
+      "htmlCharacterOffset": 81480
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 1,000 - JPY 1,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "9dc004325e6e97c890cf0fec2649cce5b5326ef398dfcbd67e2c1e9630bda7bb",
+      "htmlCharacterOffset": 87283
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 49 seats ( Semi-private room with 6 seats x 2 tables included)",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      49 seats\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      ( Semi-private room with 6 seats x 2 tables included)\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "79e9eb9317817472866ae2b306740b4b11217a17377a7aadd3cfa2121937fb6e",
+      "htmlCharacterOffset": 90853
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 91261
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "f8ba7dd3edf78243aceebce5b660421d2a2509061227a3091532cd94ef85480f",
+      "htmlCharacterOffset": 95008
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Thai, Buffet, Dining bar</span>\n                    </td>\n                  </tr>",
+      "sha256": "b0584ac1d0785e90376c3e660474fcf1486b85063d9e2d799fbd87d3961b9ad1",
+      "text": "Categories Thai, Buffet, Dining bar",
+      "htmlCharacterOffset": 81480
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1305/A130501/13133693/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "78dfd254f6b1104832ed21b838641dfda70c790b65a0fda61c7ee279dd205346",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26071
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1305/A130501/13133693/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "835bde91ff3d4a2f9f8113659cedbdd80f54d96c12095385976ab21093bcee50",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26501
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1305/A130501/13133693/"
+}

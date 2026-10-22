@@ -1,0 +1,227 @@
+{
+  "id": "jiyugaoka-13254250-detail",
+  "caseId": "p2-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1317/A131703/13254250/",
+  "observedAt": "2026-10-22T07:08:51.716Z",
+  "responseSha256": "62704f10d94563d84e8e308655c434c4addc861caf1b69a9fc2f1a183f8193d3",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-04/jiyugaoka-13254250-detail.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Trattoria Buca Junta",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Jiyugaoka  Meguro  Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1520035",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.61026706873017,
+          "longitude": 139.66932308373572
+        },
+        "servesCuisine": "Italian,Pasta"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1317/A131703/13254250/\",\"name\":\"Trattoria Buca Junta\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/304251/640x640_rect_ae96185e67ca072f5478fbe6621b24b9.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Jiyugaoka  Meguro  Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1520035\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.61026706873017,\"longitude\":139.66932308373572},\"priceRange\":\"JPY 5,000～JPY 5,999\",\"servesCuisine\":\"Italian,Pasta\",\"telephone\":\"+81-3-6459-5562\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"74\",\"ratingValue\":\"3.22\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1317/A131703/13254250/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "2495ac3abbe8298074f3566ebfa922f575ad9b5466ba075744011c95200bb11d",
+        "htmlCharacterOffset": 6296
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 78383,
+        "raw": "Italian, Pasta"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 48785,
+        "raw": "[Lunch] Reward Lunch to Enjoy Signature Dishes such as Pasta with Bottarga and Tagliata"
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "htmlCharacterOffset": 49073,
+        "raw": "Our dinner course includes pasta, a main dish, and dessert. This great value course is priced at JPY 4,980 and also comes with a salad and a post-meal drink. Please note that the course does not include an all-you-can-drink option."
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 51636,
+        "raw": "Dinner Pasta Set: A Great Plan to Enjoy Your Favorite Pasta Casually"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 54431,
+        "raw": "[Dinner Steak Set] Enjoy a wonderful night with a Strip Loin Steak plan!"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Italian, Pasta",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[Lunch] Reward Lunch to Enjoy Signature Dishes such as Pasta with Bottarga and Tagliata",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Our dinner course includes pasta, a main dish, and dessert. This great value course is priced at JPY 4,980 and also comes with a salad and a post-meal drink. Please note that the course does not include an all-you-can-drink option.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Dinner Pasta Set: A Great Plan to Enjoy Your Favorite Pasta Casually",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Choose a salad and one pasta dish from the menu. For an additional JPY 200, you can select Karasumi or Lasagna. You may choose from coffee, tea, or oolong tea.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[Dinner Steak Set] Enjoy a wonderful night with a Strip Loin Steak plan!",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Italian, Pasta",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[Lunch] Reward Lunch to Enjoy Signature Dishes such as Pasta with Bottarga and Tagliata",
+      "meals": [
+        "LUNCH"
+      ]
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Our dinner course includes pasta, a main dish, and dessert. This great value course is priced at JPY 4,980 and also comes with a salad and a post-meal drink. Please note that the course does not include an all-you-can-drink option.",
+      "meals": [
+        "LUNCH"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Dinner Pasta Set: A Great Plan to Enjoy Your Favorite Pasta Casually",
+      "meals": [
+        "DINNER"
+      ]
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Choose a salad and one pasta dish from the menu. For an additional JPY 200, you can select Karasumi or Lasagna. You may choose from coffee, tea, or oolong tea.",
+      "meals": [
+        "DINNER"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[Dinner Steak Set] Enjoy a wonderful night with a Strip Loin Steak plan!",
+      "meals": [
+        "DINNER"
+      ]
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "Just a 5-minute walk from Jiyugaoka Station ◆ Enjoy delicious Italian cuisine and wine in a casual setting. Don't miss our signature! Spaghetti with Bottarga.",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                Just a 5-minute walk from Jiyugaoka Station ◆ Enjoy delicious Italian cuisine and wine in a casual setting. Don&#39;t miss our signature! Spaghetti with Bottarga.\n              </h3>",
+      "sha256": "86329411548186239720dc73e6ad1e9d8b21b6cb8ac06eb53369f1ec93c1d64b",
+      "htmlCharacterOffset": 42731
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[Lunch] Reward Lunch to Enjoy Signature Dishes such as Pasta with Bottarga and Tagliata",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[Lunch] Reward Lunch to Enjoy Signature Dishes such as Pasta with Bottarga and Tagliata</span>",
+      "sha256": "f4d888f7ce39b1902755da1a60e653b2cee5b487045015f52b28570ebdd7b280",
+      "htmlCharacterOffset": 48733
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Our dinner course includes pasta, a main dish, and dessert. This great value course is priced at JPY 4,980 and also comes with a salad and a post-meal drink. Please note that the course does not include an all-you-can-drink option.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Our dinner course includes pasta, a main dish, and dessert. This great value course is priced at JPY 4,980 and also comes with a salad and a post-meal drink. Please note that the course does not include an all-you-can-drink option.\n                        </p>",
+      "sha256": "04fa7f949e6f484a3d0547163df8d23681d64e1dc824058a68999908a456ed52",
+      "htmlCharacterOffset": 49010
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Dinner Pasta Set: A Great Plan to Enjoy Your Favorite Pasta Casually",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Dinner Pasta Set: A Great Plan to Enjoy Your Favorite Pasta Casually</span>",
+      "sha256": "c6be18a9328eaeb0516c9f5c5094616bd17dd6a8a9fe2ec67e3bc7112ee222ae",
+      "htmlCharacterOffset": 51584
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Choose a salad and one pasta dish from the menu. For an additional JPY 200, you can select Karasumi or Lasagna. You may choose from coffee, tea, or oolong tea.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Choose a salad and one pasta dish from the menu. \n                          For an additional JPY 200, you can select Karasumi or Lasagna. \n                          You may choose from coffee, tea, or oolong tea.\n                        </p>",
+      "sha256": "04430dbe05a1ccd12ec72093074912020def9ef1a4135d25308eaf22a2d4b428",
+      "htmlCharacterOffset": 51842
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[Dinner Steak Set] Enjoy a wonderful night with a Strip Loin Steak plan!",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[Dinner Steak Set] Enjoy a wonderful night with a Strip Loin Steak plan!</span>",
+      "sha256": "96afe8de5b1152a152cd85e9dfa4a4e3e6fd931d3ae8e517d58c44a25d5dc115",
+      "htmlCharacterOffset": 54379
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Italian, Pasta",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Pasta</span>\n                    </td>\n                  </tr>",
+      "sha256": "678cc6cbc86adfb34b47aec3a4f386b71ee5b061bf9b349c1a3f62ef8fde61d4",
+      "htmlCharacterOffset": 78263
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 5,000 - JPY 5,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 5,000 - JPY 5,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "724411b8a5f306d13b15b90ea97b71e859f89a705eb743f7160dc368a86fbcbb",
+      "htmlCharacterOffset": 84525
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome) We have two high chairs available for children. Please note that we only have one table where strollers are allowed, so if you contact us in advance, we can assist you more smoothly.",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome)\n                  </p>\n                  <p class=\"rstinfo-table__each-info\">\n                    We have two high chairs available for children. <br />\n                    Please note that we only have one table where strollers are allowed, so if you contact us in advance, we can assist you more smoothly.<br />\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "a509d1111d094ccfce67785c78becf2c164051891d06192ec0dac3ce78ca1016",
+      "htmlCharacterOffset": 92433
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Pasta</span>\n                    </td>\n                  </tr>",
+      "sha256": "678cc6cbc86adfb34b47aec3a4f386b71ee5b061bf9b349c1a3f62ef8fde61d4",
+      "text": "Categories Italian, Pasta",
+      "htmlCharacterOffset": 78263
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131703/13254250/dtlratings/#price-range\">JPY 5,000 - JPY 5,999</a></span>\n                            </p>",
+      "sha256": "92585bac2d79a96415e15a0e8d3772eee7c21e8fbca024d58788b8cd529780b9",
+      "text": "JPY 5,000 - JPY 5,999",
+      "htmlCharacterOffset": 24188
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131703/13254250/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "72eea048f11db59b92e8b611eb0d17fb628decf47a3221b3d94e3289de58d7fa",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 24618
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1317/A131703/13254250/"
+}

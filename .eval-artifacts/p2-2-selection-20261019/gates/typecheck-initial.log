@@ -1,0 +1,8 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/domains/restaurant/agent-decision.test.ts(11,3): error TS2322: Type '"11"' is not assignable to type '"13"'.
+src/domains/restaurant/agent-decision.test.ts(104,18): error TS2741: Property 'availabilityPath' is missing in type '{ id: string; outletName: string; address: string; matchReasons: []; warnings: []; executionConfidence: "HIGH"; sourceCategories: []; observedFacts: { verifiedHardCriteria: []; verifiedNegativeCriteria: []; violatedNegativeCriteria: []; openingHoursMatch: false; commercialNotes: [...]; }; sourceAttempts: []; }' but required in type '{ id: string; outletName: string; address: string; distanceObservation?: CandidateDistanceObservation; sourceCategories: { source: string; values: string[]; }[]; ... 5 more ...; sourceAttempts: { ...; }[]; }'.
+src/infrastructure/postgres/postgres-runtime.test.ts(413,11): error TS2322: Type '"11"' is not assignable to type '"13"'.
+src/infrastructure/postgres/postgres-runtime.test.ts(415,13): error TS2322: Type '"11"' is not assignable to type '"13"'.

@@ -1,0 +1,70 @@
+{
+  "status": "NOT_CERTIFIED_IN_BOUNDED_SOURCE_CAPTURE",
+  "caseId": "p2-holdout-05",
+  "reviewedBy": "CODEX_EVALUATION_SIDE",
+  "independentOfProduction": true,
+  "sourcePlanSha256": "e382d9c82a91fcc21043af1c7d37ae8da274a27ac04c624fb0f79237ce15188c",
+  "rows": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/gotanda-13083288.source.json",
+      "sha256": "bf54088f4b08a1fbb74c3a77619dd94c2eec43d7ad0ed02efec3304a0554a0a3",
+      "responseSha256": "c554bb7aa773ce030fbdffaca6d3be7f0edafffdb78e689116b94b77900560d4",
+      "url": "https://tabelog.com/en/tokyo/A1316/A131603/13083288/",
+      "status": 200,
+      "negativeHard": "NOT_EVALUATED_NO_EXPLICIT_NON_SPICY_SUPPORT_IN_RETAINED_MERCHANT_FIELDS"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/gotanda-13279567.source.json",
+      "sha256": "98273a13a475541993bb406c07794ab2702a2b3c73a8ecfa073cf644b9873b87",
+      "responseSha256": "5e70bb2e7173022510fd7d0bb3ce1de94660089388d0251d6935502d0b03f868",
+      "url": "https://tabelog.com/en/tokyo/A1316/A131603/13279567/",
+      "status": 200,
+      "negativeHard": "NOT_EVALUATED_NO_EXPLICIT_NON_SPICY_SUPPORT_IN_RETAINED_MERCHANT_FIELDS"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/gotanda-13206629.source.json",
+      "sha256": "9c2a975051a0ce3f235eeb3886bd44bde2fa1518327282891fa9e54e942c70ce",
+      "responseSha256": "9f001ac675b5fd3fb2e43e5947e977e94bcad6cbed29a3a8dd57c242b4992dc2",
+      "url": "https://tabelog.com/en/tokyo/A1316/A131603/13206629/",
+      "status": 200,
+      "negativeHard": "NOT_EVALUATED_NO_EXPLICIT_NON_SPICY_SUPPORT_IN_RETAINED_MERCHANT_FIELDS"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/gotanda-13206629-menu.source.json",
+      "sha256": "677304fc23313c7525d92a4fb63748fa92522ed883c39966ee0143713fc52252",
+      "responseSha256": "1b020dcd23d64d469ac4922e96bd20813ff5f627edc60df81c755658c1fc1336",
+      "url": "https://tabelog.com/en/tokyo/A1316/A131603/13206629/dtlmenu/",
+      "status": 200,
+      "negativeHard": "NOT_EVALUATED_NO_EXPLICIT_NON_SPICY_SUPPORT_IN_RETAINED_MERCHANT_FIELDS"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/gotanda-13242878.source.json",
+      "sha256": "6b4c5d4e524965871b00b17c3c4932d3c7b86193bfad9ed2919b5ec8cf672f6e",
+      "responseSha256": "57cc337bbf03b98bcbea6e2032575bddb1ff21c1f4f8e9301ded6fe8b55a3051",
+      "url": "https://tabelog.com/en/tokyo/A1316/A131603/13242878/",
+      "status": 200,
+      "negativeHard": "NOT_EVALUATED_NO_EXPLICIT_NON_SPICY_SUPPORT_IN_RETAINED_MERCHANT_FIELDS"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/gotanda-13242878-menu.source.json",
+      "sha256": "2696221cee0b6f1fe6852fdf550afac5509ce7d960b2506d9ccc2e373ad661a8",
+      "responseSha256": "0d4ffaea343551a2673085ca1811bbc0cce2051f4f52cded747833653c426e33",
+      "url": "https://tabelog.com/en/tokyo/A1316/A131603/13242878/dtlmenu/",
+      "status": 200,
+      "negativeHard": "NOT_EVALUATED_NO_EXPLICIT_NON_SPICY_SUPPORT_IN_RETAINED_MERCHANT_FIELDS"
+    }
+  ],
+  "scope": "Six public merchant/menu pages; absence of an explicit supporting quote is inability to certify, not proof that a suitable restaurant does not exist.",
+  "fallback": {
+    "place": "Shinagawa",
+    "authorizedBy": "USER_CONSECUTIVE_STEP_3",
+    "ordinal": 1,
+    "max": 1,
+    "date": "2026-10-31",
+    "partySize": 4,
+    "earliest": "19:00",
+    "latest": "19:00",
+    "criteriaChanged": false
+  },
+  "models": 0
+}

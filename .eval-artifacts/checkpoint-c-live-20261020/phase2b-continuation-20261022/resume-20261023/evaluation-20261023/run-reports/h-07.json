@@ -1,0 +1,1806 @@
+{
+  "run": {
+    "runId": "h-07",
+    "caseId": "p2b-holdout-01",
+    "repeat": 2,
+    "role": "HOLDOUT"
+  },
+  "originalArtifact": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-07-attempt-1/runner/2026-10-22T21-00-48-996Z-5bda4130-c758-4325-9937-95ca0a8a0490.result.json",
+    "sha256": "d02876e2f8563335f2dd132348b60dd127a86bec3110d21a49679653979631e5"
+  },
+  "evaluation": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/evaluations/h-07.evaluation.json",
+    "sha256": "a74e9513fe2df102d884b111f8f2a57f99a0a20cc6926e80e2116569690aa862"
+  },
+  "representation": "ORIGINAL_SAVED_BYTES",
+  "capabilityDenominatorPolicy": "INCLUDED_SUBJECT_TO_EVALUATOR",
+  "layers": {
+    "endToEnd": {
+      "outcome": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "conditions": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131102/13325849",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "PRODUCT_OBSERVED",
+              "evidenceRefs": [
+                "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Our Top Recommendation! Satsuma Nishiki Beef Special Sirloin Sukiyaki with King Crab and Snow Crab 《120 Minutes All-You-Can-Eat and Drink》 If in doubt, choose this.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Casual Domestic Wagyu Sukiyaki & Snow Crab 《120 Minutes All-You-Can-Eat and Drink》 Recommended for Celebrations and Meetups; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Enjoy a reasonable all-you-can-eat course featuring domestic Wagyu sukiyaki, melt-in-your-mouth Zuwai crab, and hand-rolled sushi topped with black Wagyu and black Wagyu roe. With over 10 side dishes included, you can indulge to your heart's content. The all-you-can-drink option offers more than 20 varieties! Perfect for gatherings and celebrations.; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: [Lunch] Selected Domestic Wagyu and Nankoku Barley Pork (Sukiyaki) and Japanese Style Ice Cream \"90 Minutes All You Can Eat\" JPY 4,500; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: This course is perfect for those who want to enjoy authentic sukiyaki at a great price. Indulge in carefully selected high-quality Japanese Wagyu and the brand pork \"Nangoku Mugi Buta,\" served with fresh vegetables. Additionally, you can enjoy a variety of side dishes, including pork kakuni and kushikatsu, all you can eat! It's also highly recommended for gatherings with friends, colleagues, banquets, or business meals.; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "CATEGORY: Sukiyaki (Japanese sweet soy hotpot), Crab, Shabu shabu (Japanese hotpot); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                    "evidence:restaurant:tabelog-hard-criteria:798c71aa6d3065872d264c01"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                    "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                    "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                    "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                    "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08",
+                    "recordings/hybrid-1792702848932/snapshot-0019.html#sha256=3e6199ab5559c356727cbbfbad02e16883e8aac8cb565c6b53ea63849bb83a08"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [
+                  "LUNCH"
+                ],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131102/13268750",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "PRODUCT_OBSERVED",
+              "evidenceRefs": [
+                "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc"
+              ],
+              "status": "MET",
+              "basis": [
+                "COURSE_TITLE: Lunch Sukiyaki Course - Tsubaki; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: Lunch Sukiyaki Set featuring Aged Lean Beef; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Lunch Sukiyaki Course - Kaede; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: A lunch sukiyaki set featuring a selection of aged meats.; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_TITLE: Lunch Sukiyaki Course - Kiri; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "COURSE_DESCRIPTION: A lunch sukiyaki set featuring perfectly matured marbled beef; LUNCH. Restaurant offering only; requested-time course availability is not established.",
+                "CATEGORY: Sukiyaki (Japanese sweet soy hotpot), Shabu shabu (Japanese hotpot), Japanese Cuisine; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                    "evidence:restaurant:tabelog-hard-criteria:014df33dcd919eb233be746d"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                    "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                    "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                    "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                    "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                    "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc",
+                    "recordings/hybrid-1792702848932/snapshot-0026.html#sha256=5e50d24e3059d31fe150b4c2f2f501774353458239ec89239d7e4ce2c12765bc"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [
+                  "LUNCH"
+                ],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131102/13308669",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "sukiyaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "PRODUCT_OBSERVED",
+              "evidenceRefs": [
+                "recordings/hybrid-1792702848932/snapshot-0033.html#sha256=22a67ef02b23931661c8f25bc50f56f30b40bfcc3ff9b379d266dbda8ab03d81"
+              ],
+              "status": "MET",
+              "basis": [
+                "CATEGORY: Sukiyaki (Japanese sweet soy hotpot); meal unspecified. Restaurant offering only; requested-time course availability is not established."
+              ],
+              "supportDiagnostics": [
+                {
+                  "code": "PRESENTATION_CITATION_MISSING",
+                  "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                  "refs": [
+                    "recordings/hybrid-1792702848932/snapshot-0033.html#sha256=22a67ef02b23931661c8f25bc50f56f30b40bfcc3ff9b379d266dbda8ab03d81",
+                    "evidence:restaurant:tabelog-hard-criteria:27f499ed46cb148d362c703d"
+                  ]
+                },
+                {
+                  "code": "SOURCE_TEXT_ACCEPTED",
+                  "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                  "refs": [
+                    "recordings/hybrid-1792702848932/snapshot-0033.html#sha256=22a67ef02b23931661c8f25bc50f56f30b40bfcc3ff9b379d266dbda8ab03d81"
+                  ]
+                }
+              ],
+              "sourceScope": {
+                "kind": "RESTAURANT_OFFERING",
+                "meals": [],
+                "requestedCourseAvailability": "NOT_VERIFIED"
+              }
+            }
+          ]
+        }
+      ],
+      "display": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131102/13325849",
+          "text": "sukiyaki",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131102/13268750",
+          "text": "sukiyaki",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131102/13308669",
+          "text": "sukiyaki",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT"
+        }
+      ],
+      "elapsedMs": 158446,
+      "modelCalls": 18,
+      "deliveredCount": 3
+    },
+    "stages": {
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED",
+          "stage": "SEMANTIC_TO_FINAL_STATE",
+          "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+          "observations": [
+            "All independently readable applicable request fields match."
+          ],
+          "directCause": "No conflict observed.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "materializedCase.semantic",
+            "finalSnapshot.domainState.intentDraft"
+          ],
+          "downstreamImpact": "Grounding can be evaluated against one request."
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "SATISFIED",
+          "stage": "GROUNDING",
+          "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+          "observations": [
+            "raw Tabelog response supports AVAILABLE at requested date/party/time",
+            "candidate=tabelog:en/tokyo/A1311/A131102/13325849",
+            "citedEvidence=5",
+            "offers=1",
+            "raw Tabelog response supports AVAILABLE at requested date/party/time",
+            "candidate=tabelog:en/tokyo/A1311/A131102/13268750",
+            "citedEvidence=5",
+            "offers=1",
+            "raw Tabelog response supports AVAILABLE at requested date/party/time",
+            "candidate=tabelog:en/tokyo/A1311/A131102/13308669",
+            "citedEvidence=5",
+            "offers=1"
+          ],
+          "directCause": "Every presented candidate has independently linked evidence.",
+          "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-07-attempt-1/post-run/13325849.body.txt#sha256=a22620bd142321d2fa20ebfd54bf8cf8c859d5193be58ead12570b927f6ba837",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:69df6c40a583f5307ad3fe0e]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:1bfebac5400085d39b269d7a]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:ca073f9e35b02726dea7cde0]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1311/A131102/13325849:document:cb1b8adac646b6db]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1311/A131102/13325849:2026-10-22T21:03:06.807Z:tabelog:en/tokyo/A1311/A131102/13325849:document:cb1b8adac646b6db]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1311/A131102/13325849][id=offer:tabelog:tabelog:en/tokyo/A1311/A131102/13325849:2026-11-04:19:00:2]",
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-07-attempt-1/post-run/13268750.body.txt#sha256=6554855f0823d88cc6357f21da435d5d6d8afd169f495157eadec0e05ee6d537",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:642a45aca441c2bc867279b6]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:b3a6d0c22fbc1aa7f18da215]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:94e36051af12de7addaa145c]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1311/A131102/13268750:document:469e7e895e84ecba]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1311/A131102/13268750:2026-10-22T21:03:12.311Z:tabelog:en/tokyo/A1311/A131102/13268750:document:469e7e895e84ecba]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1311/A131102/13268750][id=offer:tabelog:tabelog:en/tokyo/A1311/A131102/13268750:2026-11-04:19:00:2]",
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-07-attempt-1/post-run/13308669.body.txt#sha256=10787a8a0cb4c1055957b442c39861e5895fb852fb7a94195350cdfd8ff1d953",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:74b8d71a0a34dcab47f05650]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:f6a6c588be37b92f084268d2]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:1ac5a33ae1f1e25576f3434e]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1311/A131102/13308669:document:5c91e97064846e11]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1311/A131102/13308669:2026-10-22T21:03:25.350Z:tabelog:en/tokyo/A1311/A131102/13308669:document:5c91e97064846e11]",
+            "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1311/A131102/13308669][id=offer:tabelog:tabelog:en/tokyo/A1311/A131102/13308669:2026-11-04:19:00:2]"
+          ],
+          "downstreamImpact": "The presentation is independently supported."
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED",
+          "stage": "AGENT_LOOP",
+          "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+          "observations": [
+            "executedObservations=4",
+            "applicableObservations=4",
+            "executedInvestigationVisits=6",
+            "authorizedRechecks=none",
+            "duplicates=none",
+            "rejectedActions=0",
+            "maxConsecutiveNoNewObservation=1"
+          ],
+          "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "trajectories[0].observation",
+            "trajectories[1].observation",
+            "trajectories[2].observation",
+            "trajectories[3].observation"
+          ],
+          "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "SATISFIED",
+          "stage": "PRESENT_RESULTS",
+          "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+          "observations": [
+            "phase=PRESENT_RESULTS",
+            "loop=TERMINAL",
+            "presentedCandidates=3"
+          ],
+          "directCause": "Terminal presentation and independently evaluated evidence agree.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "downstreamImpact": "Execution produced a qualified read-only result."
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "SATISFIED",
+          "stage": "TERMINATION",
+          "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+          "observations": [
+            "completion=PRESENTATION_RECORDED",
+            "phase=PRESENT_RESULTS",
+            "loop=TERMINAL",
+            "noVerifiedResult=missing",
+            "failureCode=missing"
+          ],
+          "directCause": "A presentation was recorded and is checked independently above.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "status",
+            "execution.failureCode",
+            "loop.status",
+            "finalSnapshot.domainState.phase",
+            "finalSnapshot.domainState.noVerifiedResult",
+            "finalSnapshot.domainState.failure"
+          ],
+          "downstreamImpact": "Presentation support remains independently auditable."
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "SATISFIED",
+          "stage": "RUN_ACCOUNTING",
+          "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+          "observations": [
+            "declarationDifference=TABELOG/FACTS/tabelog:en/tokyo/A1311/A131102/13325849: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+            "declarationDifference=TABELOG/FACTS/tabelog:en/tokyo/A1311/A131102/13325849: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24",
+            "declarationDifference=TABELOG/FACTS: runCeilings.maxAutomaticBrowserMs=500000 != effective.maxAutomaticElapsedMs=45000",
+            "declarationDifference=TABELOG/FACTS/tabelog:en/tokyo/A1311/A131102/13268750: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+            "declarationDifference=TABELOG/FACTS/tabelog:en/tokyo/A1311/A131102/13268750: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24",
+            "declarationDifference=TABELOG/FACTS/tabelog:en/tokyo/A1311/A131102/13308669: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+            "declarationDifference=TABELOG/FACTS/tabelog:en/tokyo/A1311/A131102/13308669: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24"
+          ],
+          "directCause": "Readable model/operation counters remain within actual executor limits and declared run ceilings; unavailable time-limit scopes remain explicit.",
+          "rootCauseHypothesis": "Runner limit/accounting requires review.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "resourceUsage",
+            "runCeilings",
+            "modelInvocations",
+            "diagnostics.browserExecution[0]",
+            "diagnostics.browserExecution[1]",
+            "diagnostics.browserExecution[2]",
+            "diagnostics.browserExecution[3]",
+            "diagnostics.browserExecution[4]",
+            "diagnostics.browserExecution[5]",
+            "diagnostics.browserExecution[6]",
+            "diagnostics.browserExecution[7]",
+            "diagnostics.browserExecution[8]",
+            "diagnostics.browserExecution[9]",
+            "diagnostics.browserExecution[10]",
+            "diagnostics.browserExecution[11]",
+            "diagnostics.browserExecution[12]",
+            "diagnostics.browserExecution[13]",
+            "diagnostics.browserExecution[14]",
+            "diagnostics.browserExecution[15]",
+            "diagnostics.browserExecution[16]",
+            "diagnostics.browserExecution[17]",
+            "diagnostics.browserExecution[18]",
+            "diagnostics.browserExecution[19]",
+            "diagnostics.browserExecution[20]",
+            "diagnostics.browserExecution[21]",
+            "diagnostics.browserExecution[22]",
+            "diagnostics.browserExecution[23]",
+            "diagnostics.browserExecution[24]",
+            "diagnostics.browserExecution[25]",
+            "diagnostics.browserExecution[26]",
+            "diagnostics.browserExecution[27]",
+            "diagnostics.browserExecution[28]",
+            "diagnostics.browserExecution[29]",
+            "diagnostics.browserExecution[30]",
+            "diagnostics.browserExecution[31]",
+            "diagnostics.browserExecution[32]",
+            "diagnostics.browserExecution[33]",
+            "diagnostics.browserExecution[34]",
+            "diagnostics.browserExecution[35]",
+            "diagnostics.browserExecution[36]",
+            "diagnostics.browserExecution[37]",
+            "diagnostics.browserExecution[38]",
+            "diagnostics.browserExecution[39]",
+            "diagnostics.browserExecution[40]",
+            "diagnostics.browserExecution[41]",
+            "diagnostics.browserExecution[42]",
+            "diagnostics.browserExecution[43]",
+            "diagnostics.browserExecution[44]",
+            "diagnostics.browserExecution[45]",
+            "diagnostics.browserExecution[46]",
+            "diagnostics.browserExecution[47]",
+            "diagnostics.browserExecution[48]",
+            "diagnostics.browserExecution[49]",
+            "diagnostics.browserExecution[50]",
+            "diagnostics.browserExecution[51]",
+            "diagnostics.browserExecution[52]",
+            "diagnostics.browserExecution[53]",
+            "diagnostics.browserExecution[54]",
+            "diagnostics.browserExecution[55]",
+            "diagnostics.browserExecution[56]",
+            "diagnostics.browserExecution[57]",
+            "diagnostics.browserExecution[58]",
+            "diagnostics.browserExecution[59]",
+            "diagnostics.browserExecution[60]",
+            "diagnostics.browserExecution[61]",
+            "diagnostics.browserExecution[62]",
+            "diagnostics.browserExecution[63]",
+            "diagnostics.browserExecution[64]",
+            "diagnostics.browserExecution[65]",
+            "diagnostics.browserExecution[66]",
+            "diagnostics.browserExecution[67]",
+            "diagnostics.browserExecution[68]",
+            "diagnostics.browserExecution[69]",
+            "diagnostics.browserExecution[70]",
+            "diagnostics.browserExecution[71]",
+            "diagnostics.browserExecution[72]",
+            "diagnostics.browserExecution[73]",
+            "diagnostics.browserExecution[74]",
+            "diagnostics.browserExecution[75]",
+            "diagnostics.browserExecution[76]",
+            "diagnostics.browserExecution[77]",
+            "diagnostics.browserExecution[78]",
+            "diagnostics.browserExecution[79]",
+            "diagnostics.browserExecution[80]",
+            "diagnostics.browserExecution[81]",
+            "diagnostics.browserExecution[82]",
+            "diagnostics.browserExecution[83]",
+            "diagnostics.browserExecution[84]",
+            "diagnostics.browserExecution[85]",
+            "diagnostics.browserExecution[86]",
+            "diagnostics.browserExecution[87]",
+            "diagnostics.browserExecution[88]",
+            "diagnostics.browserExecution[89]",
+            "diagnostics.browserExecution[90]",
+            "diagnostics.browserExecution[91]",
+            "diagnostics.browserExecution[92]",
+            "diagnostics.browserExecution[93]",
+            "diagnostics.browserExecution[94]",
+            "diagnostics.browserExecution[95]",
+            "diagnostics.browserExecution[96]",
+            "diagnostics.browserExecution[97]",
+            "diagnostics.browserExecution[98]",
+            "diagnostics.browserExecution[99]",
+            "browserTrace[sequence=1]",
+            "browserTrace[sequence=2]",
+            "browserTrace[sequence=3]",
+            "browserTrace[sequence=5]",
+            "browserTrace[sequence=6]",
+            "browserTrace[sequence=9]",
+            "browserTrace[sequence=12]",
+            "browserTrace[sequence=13]",
+            "browserTrace[sequence=15]",
+            "browserTrace[sequence=16]",
+            "browserTrace[sequence=17]",
+            "browserTrace[sequence=19]",
+            "browserTrace[sequence=20]",
+            "browserTrace[sequence=21]",
+            "browserTrace[sequence=23]",
+            "browserTrace[sequence=24]",
+            "browserTrace[sequence=27]",
+            "browserTrace[sequence=28]",
+            "browserTrace[sequence=29]",
+            "browserTrace[sequence=31]",
+            "browserTrace[sequence=32]",
+            "browserTrace[sequence=33]",
+            "browserTrace[sequence=35]",
+            "browserTrace[sequence=36]",
+            "browserTrace[sequence=37]",
+            "browserTrace[sequence=38]",
+            "browserTrace[sequence=39]",
+            "browserTrace[sequence=40]",
+            "browserTrace[sequence=41]",
+            "browserTrace[sequence=44]",
+            "browserTrace[sequence=45]",
+            "browserTrace[sequence=48]",
+            "browserTrace[sequence=49]",
+            "browserTrace[sequence=50]",
+            "browserTrace[sequence=52]",
+            "browserTrace[sequence=53]",
+            "browserTrace[sequence=54]",
+            "browserTrace[sequence=56]",
+            "browserTrace[sequence=57]",
+            "browserTrace[sequence=58]",
+            "browserTrace[sequence=59]",
+            "browserTrace[sequence=60]",
+            "browserTrace[sequence=61]",
+            "browserTrace[sequence=62]",
+            "browserTrace[sequence=63]",
+            "browserTrace[sequence=66]",
+            "browserTrace[sequence=67]",
+            "browserTrace[sequence=70]",
+            "browserTrace[sequence=71]",
+            "browserTrace[sequence=72]",
+            "browserTrace[sequence=74]",
+            "browserTrace[sequence=75]",
+            "browserTrace[sequence=76]",
+            "browserTrace[sequence=78]",
+            "browserTrace[sequence=79]",
+            "browserTrace[sequence=80]",
+            "browserTrace[sequence=83]",
+            "browserTrace[sequence=86]",
+            "browserTrace[sequence=87]",
+            "browserTrace[sequence=89]",
+            "browserTrace[sequence=90]",
+            "browserTrace[sequence=92]",
+            "browserTrace[sequence=95]",
+            "browserTrace[sequence=98]",
+            "browserTrace[sequence=99]",
+            "browserTrace[sequence=101]",
+            "browserTrace[sequence=102]",
+            "browserTrace[sequence=104]",
+            "browserTrace[sequence=107]",
+            "browserTrace[sequence=110]",
+            "browserTrace[sequence=111]",
+            "browserTrace[sequence=113]",
+            "browserTrace[sequence=114]",
+            "browserTrace[sequence=115]",
+            "browserTrace[sequence=118]",
+            "browserTrace[sequence=121]",
+            "browserTrace[sequence=122]",
+            "browserTrace[sequence=124]",
+            "browserTrace[sequence=125]",
+            "browserTrace[sequence=126]",
+            "browserTrace[sequence=129]",
+            "browserTrace[sequence=132]",
+            "browserTrace[sequence=133]",
+            "browserTrace[sequence=135]",
+            "browserTrace[sequence=136]",
+            "browserTrace[sequence=137]",
+            "browserTrace[sequence=140]",
+            "browserTrace[sequence=143]",
+            "browserTrace[sequence=144]",
+            "browserTrace[sequence=146]",
+            "browserTrace[sequence=147]",
+            "browserTrace[sequence=148]",
+            "browserTrace[sequence=151]",
+            "browserTrace[sequence=154]",
+            "browserTrace[sequence=155]",
+            "browserTrace[sequence=157]",
+            "browserTrace[sequence=158]",
+            "browserTrace[sequence=159]",
+            "browserTrace[sequence=160]",
+            "browserTrace[sequence=161]",
+            "diagnostics.browserExecution[100]",
+            "diagnostics.browserExecution[101]",
+            "diagnostics.browserExecution[102]",
+            "diagnostics.browserExecution[103]",
+            "diagnostics.browserExecution[161]",
+            "diagnostics.browserExecution[162]",
+            "diagnostics.browserExecution[163]",
+            "browserTrace[sequence=162]",
+            "browserTrace[sequence=163]",
+            "browserTrace[sequence=164]",
+            "browserTrace[sequence=166]",
+            "browserTrace[sequence=252]",
+            "browserTrace[sequence=253]",
+            "browserTrace[sequence=254]",
+            "diagnostics.browserExecution[104]",
+            "diagnostics.browserExecution[105]",
+            "diagnostics.browserExecution[106]",
+            "diagnostics.browserExecution[107]",
+            "diagnostics.browserExecution[108]",
+            "diagnostics.browserExecution[109]",
+            "browserTrace[sequence=169]",
+            "browserTrace[sequence=172]",
+            "browserTrace[sequence=175]",
+            "browserTrace[sequence=176]",
+            "browserTrace[sequence=178]",
+            "browserTrace[sequence=179]",
+            "diagnostics.browserExecution[110]",
+            "diagnostics.browserExecution[111]",
+            "diagnostics.browserExecution[112]",
+            "diagnostics.browserExecution[113]",
+            "diagnostics.browserExecution[114]",
+            "diagnostics.browserExecution[115]",
+            "diagnostics.browserExecution[116]",
+            "diagnostics.browserExecution[117]",
+            "diagnostics.browserExecution[118]",
+            "diagnostics.browserExecution[119]",
+            "diagnostics.browserExecution[120]",
+            "diagnostics.browserExecution[121]",
+            "diagnostics.browserExecution[122]",
+            "diagnostics.browserExecution[123]",
+            "diagnostics.browserExecution[124]",
+            "diagnostics.browserExecution[125]",
+            "diagnostics.browserExecution[126]",
+            "diagnostics.browserExecution[127]",
+            "diagnostics.browserExecution[128]",
+            "diagnostics.browserExecution[129]",
+            "diagnostics.browserExecution[130]",
+            "diagnostics.browserExecution[131]",
+            "diagnostics.browserExecution[132]",
+            "diagnostics.browserExecution[133]",
+            "diagnostics.browserExecution[134]",
+            "diagnostics.browserExecution[135]",
+            "diagnostics.browserExecution[136]",
+            "diagnostics.browserExecution[137]",
+            "diagnostics.browserExecution[138]",
+            "diagnostics.browserExecution[139]",
+            "diagnostics.browserExecution[140]",
+            "diagnostics.browserExecution[141]",
+            "diagnostics.browserExecution[142]",
+            "diagnostics.browserExecution[143]",
+            "diagnostics.browserExecution[144]",
+            "diagnostics.browserExecution[145]",
+            "diagnostics.browserExecution[146]",
+            "diagnostics.browserExecution[147]",
+            "diagnostics.browserExecution[148]",
+            "diagnostics.browserExecution[149]",
+            "diagnostics.browserExecution[150]",
+            "diagnostics.browserExecution[151]",
+            "diagnostics.browserExecution[152]",
+            "diagnostics.browserExecution[153]",
+            "diagnostics.browserExecution[154]",
+            "diagnostics.browserExecution[155]",
+            "diagnostics.browserExecution[156]",
+            "diagnostics.browserExecution[157]",
+            "diagnostics.browserExecution[158]",
+            "diagnostics.browserExecution[159]",
+            "diagnostics.browserExecution[160]",
+            "browserTrace[sequence=180]",
+            "browserTrace[sequence=182]",
+            "browserTrace[sequence=183]",
+            "browserTrace[sequence=185]",
+            "browserTrace[sequence=187]",
+            "browserTrace[sequence=188]",
+            "browserTrace[sequence=189]",
+            "browserTrace[sequence=191]",
+            "browserTrace[sequence=192]",
+            "browserTrace[sequence=195]",
+            "browserTrace[sequence=196]",
+            "browserTrace[sequence=197]",
+            "browserTrace[sequence=199]",
+            "browserTrace[sequence=200]",
+            "browserTrace[sequence=201]",
+            "browserTrace[sequence=203]",
+            "browserTrace[sequence=204]",
+            "browserTrace[sequence=205]",
+            "browserTrace[sequence=206]",
+            "browserTrace[sequence=207]",
+            "browserTrace[sequence=208]",
+            "browserTrace[sequence=209]",
+            "browserTrace[sequence=212]",
+            "browserTrace[sequence=213]",
+            "browserTrace[sequence=216]",
+            "browserTrace[sequence=217]",
+            "browserTrace[sequence=218]",
+            "browserTrace[sequence=220]",
+            "browserTrace[sequence=221]",
+            "browserTrace[sequence=222]",
+            "browserTrace[sequence=224]",
+            "browserTrace[sequence=225]",
+            "browserTrace[sequence=226]",
+            "browserTrace[sequence=227]",
+            "browserTrace[sequence=228]",
+            "browserTrace[sequence=229]",
+            "browserTrace[sequence=230]",
+            "browserTrace[sequence=231]",
+            "browserTrace[sequence=234]",
+            "browserTrace[sequence=235]",
+            "browserTrace[sequence=238]",
+            "browserTrace[sequence=239]",
+            "browserTrace[sequence=240]",
+            "browserTrace[sequence=242]",
+            "browserTrace[sequence=243]",
+            "browserTrace[sequence=244]",
+            "browserTrace[sequence=246]",
+            "browserTrace[sequence=247]",
+            "browserTrace[sequence=248]",
+            "browserTrace[sequence=250]",
+            "browserTrace[sequence=251]",
+            "diagnostics.browserExecution[164]",
+            "diagnostics.browserExecution[165]",
+            "diagnostics.browserExecution[166]",
+            "diagnostics.browserExecution[167]",
+            "diagnostics.browserExecution[225]",
+            "diagnostics.browserExecution[226]",
+            "diagnostics.browserExecution[227]",
+            "browserTrace[sequence=255]",
+            "browserTrace[sequence=256]",
+            "browserTrace[sequence=257]",
+            "browserTrace[sequence=259]",
+            "browserTrace[sequence=345]",
+            "browserTrace[sequence=346]",
+            "browserTrace[sequence=347]",
+            "diagnostics.browserExecution[168]",
+            "diagnostics.browserExecution[169]",
+            "diagnostics.browserExecution[170]",
+            "diagnostics.browserExecution[171]",
+            "diagnostics.browserExecution[172]",
+            "diagnostics.browserExecution[173]",
+            "browserTrace[sequence=262]",
+            "browserTrace[sequence=265]",
+            "browserTrace[sequence=268]",
+            "browserTrace[sequence=269]",
+            "browserTrace[sequence=271]",
+            "browserTrace[sequence=272]",
+            "diagnostics.browserExecution[174]",
+            "diagnostics.browserExecution[175]",
+            "diagnostics.browserExecution[176]",
+            "diagnostics.browserExecution[177]",
+            "diagnostics.browserExecution[178]",
+            "diagnostics.browserExecution[179]",
+            "diagnostics.browserExecution[180]",
+            "diagnostics.browserExecution[181]",
+            "diagnostics.browserExecution[182]",
+            "diagnostics.browserExecution[183]",
+            "diagnostics.browserExecution[184]",
+            "diagnostics.browserExecution[185]",
+            "diagnostics.browserExecution[186]",
+            "diagnostics.browserExecution[187]",
+            "diagnostics.browserExecution[188]",
+            "diagnostics.browserExecution[189]",
+            "diagnostics.browserExecution[190]",
+            "diagnostics.browserExecution[191]",
+            "diagnostics.browserExecution[192]",
+            "diagnostics.browserExecution[193]",
+            "diagnostics.browserExecution[194]",
+            "diagnostics.browserExecution[195]",
+            "diagnostics.browserExecution[196]",
+            "diagnostics.browserExecution[197]",
+            "diagnostics.browserExecution[198]",
+            "diagnostics.browserExecution[199]",
+            "diagnostics.browserExecution[200]",
+            "diagnostics.browserExecution[201]",
+            "diagnostics.browserExecution[202]",
+            "diagnostics.browserExecution[203]",
+            "diagnostics.browserExecution[204]",
+            "diagnostics.browserExecution[205]",
+            "diagnostics.browserExecution[206]",
+            "diagnostics.browserExecution[207]",
+            "diagnostics.browserExecution[208]",
+            "diagnostics.browserExecution[209]",
+            "diagnostics.browserExecution[210]",
+            "diagnostics.browserExecution[211]",
+            "diagnostics.browserExecution[212]",
+            "diagnostics.browserExecution[213]",
+            "diagnostics.browserExecution[214]",
+            "diagnostics.browserExecution[215]",
+            "diagnostics.browserExecution[216]",
+            "diagnostics.browserExecution[217]",
+            "diagnostics.browserExecution[218]",
+            "diagnostics.browserExecution[219]",
+            "diagnostics.browserExecution[220]",
+            "diagnostics.browserExecution[221]",
+            "diagnostics.browserExecution[222]",
+            "diagnostics.browserExecution[223]",
+            "diagnostics.browserExecution[224]",
+            "browserTrace[sequence=273]",
+            "browserTrace[sequence=275]",
+            "browserTrace[sequence=276]",
+            "browserTrace[sequence=278]",
+            "browserTrace[sequence=280]",
+            "browserTrace[sequence=281]",
+            "browserTrace[sequence=282]",
+            "browserTrace[sequence=284]",
+            "browserTrace[sequence=285]",
+            "browserTrace[sequence=288]",
+            "browserTrace[sequence=289]",
+            "browserTrace[sequence=290]",
+            "browserTrace[sequence=292]",
+            "browserTrace[sequence=293]",
+            "browserTrace[sequence=294]",
+            "browserTrace[sequence=296]",
+            "browserTrace[sequence=297]",
+            "browserTrace[sequence=298]",
+            "browserTrace[sequence=299]",
+            "browserTrace[sequence=300]",
+            "browserTrace[sequence=301]",
+            "browserTrace[sequence=302]",
+            "browserTrace[sequence=305]",
+            "browserTrace[sequence=306]",
+            "browserTrace[sequence=309]",
+            "browserTrace[sequence=310]",
+            "browserTrace[sequence=311]",
+            "browserTrace[sequence=313]",
+            "browserTrace[sequence=314]",
+            "browserTrace[sequence=315]",
+            "browserTrace[sequence=317]",
+            "browserTrace[sequence=318]",
+            "browserTrace[sequence=319]",
+            "browserTrace[sequence=320]",
+            "browserTrace[sequence=321]",
+            "browserTrace[sequence=322]",
+            "browserTrace[sequence=323]",
+            "browserTrace[sequence=324]",
+            "browserTrace[sequence=327]",
+            "browserTrace[sequence=328]",
+            "browserTrace[sequence=331]",
+            "browserTrace[sequence=332]",
+            "browserTrace[sequence=333]",
+            "browserTrace[sequence=335]",
+            "browserTrace[sequence=336]",
+            "browserTrace[sequence=337]",
+            "browserTrace[sequence=339]",
+            "browserTrace[sequence=340]",
+            "browserTrace[sequence=341]",
+            "browserTrace[sequence=343]",
+            "browserTrace[sequence=344]",
+            "diagnostics.browserExecution[228]",
+            "diagnostics.browserExecution[229]",
+            "diagnostics.browserExecution[230]",
+            "diagnostics.browserExecution[231]",
+            "diagnostics.browserExecution[289]",
+            "diagnostics.browserExecution[290]",
+            "diagnostics.browserExecution[291]",
+            "browserTrace[sequence=348]",
+            "browserTrace[sequence=349]",
+            "browserTrace[sequence=350]",
+            "browserTrace[sequence=352]",
+            "browserTrace[sequence=438]",
+            "browserTrace[sequence=439]",
+            "browserTrace[sequence=440]",
+            "diagnostics.browserExecution[232]",
+            "diagnostics.browserExecution[233]",
+            "diagnostics.browserExecution[234]",
+            "diagnostics.browserExecution[235]",
+            "diagnostics.browserExecution[236]",
+            "diagnostics.browserExecution[237]",
+            "browserTrace[sequence=355]",
+            "browserTrace[sequence=358]",
+            "browserTrace[sequence=361]",
+            "browserTrace[sequence=362]",
+            "browserTrace[sequence=364]",
+            "browserTrace[sequence=365]",
+            "diagnostics.browserExecution[238]",
+            "diagnostics.browserExecution[239]",
+            "diagnostics.browserExecution[240]",
+            "diagnostics.browserExecution[241]",
+            "diagnostics.browserExecution[242]",
+            "diagnostics.browserExecution[243]",
+            "diagnostics.browserExecution[244]",
+            "diagnostics.browserExecution[245]",
+            "diagnostics.browserExecution[246]",
+            "diagnostics.browserExecution[247]",
+            "diagnostics.browserExecution[248]",
+            "diagnostics.browserExecution[249]",
+            "diagnostics.browserExecution[250]",
+            "diagnostics.browserExecution[251]",
+            "diagnostics.browserExecution[252]",
+            "diagnostics.browserExecution[253]",
+            "diagnostics.browserExecution[254]",
+            "diagnostics.browserExecution[255]",
+            "diagnostics.browserExecution[256]",
+            "diagnostics.browserExecution[257]",
+            "diagnostics.browserExecution[258]",
+            "diagnostics.browserExecution[259]",
+            "diagnostics.browserExecution[260]",
+            "diagnostics.browserExecution[261]",
+            "diagnostics.browserExecution[262]",
+            "diagnostics.browserExecution[263]",
+            "diagnostics.browserExecution[264]",
+            "diagnostics.browserExecution[265]",
+            "diagnostics.browserExecution[266]",
+            "diagnostics.browserExecution[267]",
+            "diagnostics.browserExecution[268]",
+            "diagnostics.browserExecution[269]",
+            "diagnostics.browserExecution[270]",
+            "diagnostics.browserExecution[271]",
+            "diagnostics.browserExecution[272]",
+            "diagnostics.browserExecution[273]",
+            "diagnostics.browserExecution[274]",
+            "diagnostics.browserExecution[275]",
+            "diagnostics.browserExecution[276]",
+            "diagnostics.browserExecution[277]",
+            "diagnostics.browserExecution[278]",
+            "diagnostics.browserExecution[279]",
+            "diagnostics.browserExecution[280]",
+            "diagnostics.browserExecution[281]",
+            "diagnostics.browserExecution[282]",
+            "diagnostics.browserExecution[283]",
+            "diagnostics.browserExecution[284]",
+            "diagnostics.browserExecution[285]",
+            "diagnostics.browserExecution[286]",
+            "diagnostics.browserExecution[287]",
+            "diagnostics.browserExecution[288]",
+            "browserTrace[sequence=366]",
+            "browserTrace[sequence=368]",
+            "browserTrace[sequence=369]",
+            "browserTrace[sequence=371]",
+            "browserTrace[sequence=373]",
+            "browserTrace[sequence=374]",
+            "browserTrace[sequence=375]",
+            "browserTrace[sequence=377]",
+            "browserTrace[sequence=378]",
+            "browserTrace[sequence=381]",
+            "browserTrace[sequence=382]",
+            "browserTrace[sequence=383]",
+            "browserTrace[sequence=385]",
+            "browserTrace[sequence=386]",
+            "browserTrace[sequence=387]",
+            "browserTrace[sequence=389]",
+            "browserTrace[sequence=390]",
+            "browserTrace[sequence=391]",
+            "browserTrace[sequence=392]",
+            "browserTrace[sequence=393]",
+            "browserTrace[sequence=394]",
+            "browserTrace[sequence=395]",
+            "browserTrace[sequence=398]",
+            "browserTrace[sequence=399]",
+            "browserTrace[sequence=402]",
+            "browserTrace[sequence=403]",
+            "browserTrace[sequence=404]",
+            "browserTrace[sequence=406]",
+            "browserTrace[sequence=407]",
+            "browserTrace[sequence=408]",
+            "browserTrace[sequence=410]",
+            "browserTrace[sequence=411]",
+            "browserTrace[sequence=412]",
+            "browserTrace[sequence=413]",
+            "browserTrace[sequence=414]",
+            "browserTrace[sequence=415]",
+            "browserTrace[sequence=416]",
+            "browserTrace[sequence=417]",
+            "browserTrace[sequence=420]",
+            "browserTrace[sequence=421]",
+            "browserTrace[sequence=424]",
+            "browserTrace[sequence=425]",
+            "browserTrace[sequence=426]",
+            "browserTrace[sequence=428]",
+            "browserTrace[sequence=429]",
+            "browserTrace[sequence=430]",
+            "browserTrace[sequence=432]",
+            "browserTrace[sequence=433]",
+            "browserTrace[sequence=434]",
+            "browserTrace[sequence=436]",
+            "browserTrace[sequence=437]",
+            "diagnostics.browserExecution[292]",
+            "diagnostics.browserExecution[293]",
+            "diagnostics.browserExecution[294]",
+            "diagnostics.browserExecution[295]",
+            "diagnostics.browserExecution[296]",
+            "diagnostics.browserExecution[297]",
+            "diagnostics.browserExecution[298]",
+            "diagnostics.browserExecution[299]",
+            "diagnostics.browserExecution[300]",
+            "diagnostics.browserExecution[301]",
+            "diagnostics.browserExecution[302]",
+            "diagnostics.browserExecution[303]",
+            "diagnostics.browserExecution[304]",
+            "diagnostics.browserExecution[305]",
+            "diagnostics.browserExecution[306]",
+            "browserTrace[sequence=441]",
+            "browserTrace[sequence=442]",
+            "browserTrace[sequence=443]",
+            "browserTrace[sequence=445]",
+            "browserTrace[sequence=446]",
+            "browserTrace[sequence=449]",
+            "browserTrace[sequence=452]",
+            "browserTrace[sequence=453]",
+            "browserTrace[sequence=455]",
+            "browserTrace[sequence=456]",
+            "browserTrace[sequence=457]",
+            "browserTrace[sequence=459]",
+            "browserTrace[sequence=460]",
+            "browserTrace[sequence=461]",
+            "browserTrace[sequence=462]",
+            "diagnostics.browserExecution[307]",
+            "diagnostics.browserExecution[308]",
+            "diagnostics.browserExecution[309]",
+            "diagnostics.browserExecution[310]",
+            "diagnostics.browserExecution[311]",
+            "diagnostics.browserExecution[312]",
+            "diagnostics.browserExecution[313]",
+            "diagnostics.browserExecution[314]",
+            "diagnostics.browserExecution[315]",
+            "diagnostics.browserExecution[316]",
+            "diagnostics.browserExecution[317]",
+            "diagnostics.browserExecution[318]",
+            "diagnostics.browserExecution[319]",
+            "diagnostics.browserExecution[320]",
+            "diagnostics.browserExecution[321]",
+            "browserTrace[sequence=463]",
+            "browserTrace[sequence=464]",
+            "browserTrace[sequence=465]",
+            "browserTrace[sequence=467]",
+            "browserTrace[sequence=468]",
+            "browserTrace[sequence=471]",
+            "browserTrace[sequence=474]",
+            "browserTrace[sequence=475]",
+            "browserTrace[sequence=477]",
+            "browserTrace[sequence=478]",
+            "browserTrace[sequence=479]",
+            "browserTrace[sequence=481]",
+            "browserTrace[sequence=482]",
+            "browserTrace[sequence=483]",
+            "browserTrace[sequence=484]",
+            "diagnostics.browserExecution[322]",
+            "diagnostics.browserExecution[323]",
+            "diagnostics.browserExecution[324]",
+            "diagnostics.browserExecution[325]",
+            "diagnostics.browserExecution[326]",
+            "diagnostics.browserExecution[327]",
+            "diagnostics.browserExecution[328]",
+            "diagnostics.browserExecution[329]",
+            "diagnostics.browserExecution[330]",
+            "diagnostics.browserExecution[331]",
+            "diagnostics.browserExecution[332]",
+            "diagnostics.browserExecution[333]",
+            "diagnostics.browserExecution[334]",
+            "diagnostics.browserExecution[335]",
+            "diagnostics.browserExecution[336]",
+            "browserTrace[sequence=485]",
+            "browserTrace[sequence=486]",
+            "browserTrace[sequence=487]",
+            "browserTrace[sequence=489]",
+            "browserTrace[sequence=490]",
+            "browserTrace[sequence=493]",
+            "browserTrace[sequence=496]",
+            "browserTrace[sequence=497]",
+            "browserTrace[sequence=499]",
+            "browserTrace[sequence=500]",
+            "browserTrace[sequence=501]",
+            "browserTrace[sequence=503]",
+            "browserTrace[sequence=504]",
+            "browserTrace[sequence=505]",
+            "browserTrace[sequence=506]"
+          ],
+          "downstreamImpact": "Recorded budget use can be reviewed."
+        }
+      ],
+      "P2_1": {
+        "firstBatchWitnesses": [
+          {
+            "outletName": "Edo Niku Kappou Sasaya Asakusa",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+            "found": true
+          },
+          {
+            "outletName": "WAGYU SUKIYAKI Goku Asakusa Rokku Ku Ten",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13322725/",
+            "found": false
+          },
+          {
+            "outletName": "Wagyu Sukiyaki Asakusa Kotaro",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13312592/",
+            "found": false
+          }
+        ],
+        "witnessFunnel": [
+          {
+            "outletName": "Edo Niku Kappou Sasaya Asakusa",
+            "sourceId": "13316569",
+            "discovery": {
+              "status": "FOUND",
+              "candidateIds": [
+                "tabelog:en/tokyo/A1311/A131102/13316569"
+              ],
+              "possibleCandidateIds": [],
+              "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+            },
+            "identity": {
+              "status": "NOT_READ",
+              "evidenceIds": []
+            },
+            "facts": {
+              "status": "NOT_READ",
+              "evidenceIds": []
+            },
+            "availability": {
+              "recorded": [],
+              "witness": "NOT_EVALUATED",
+              "observedAt": null,
+              "reason": "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
+            },
+            "presented": "NO",
+            "feasible": "NOT_EVALUATED",
+            "blocker": {
+              "stage": "NOT_EVALUATED",
+              "certainty": "HYPOTHESIS",
+              "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-07-attempt-1/post-run/manifest.json#sha256=541d5f33c998fdfa79d0ea0ad6d7d417edef3f837bdeaec812842e288ef4aa23",
+              ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/inputs/witness-registry-view.json#sha256=2a310c7a64d69955cdb561dfa10644720e15fa64d4f62c429934c679ebe57676"
+            ]
+          },
+          {
+            "outletName": "WAGYU SUKIYAKI Goku Asakusa Rokku Ku Ten",
+            "sourceId": "13322725",
+            "discovery": {
+              "status": "NOT_FOUND",
+              "candidateIds": [],
+              "possibleCandidateIds": [],
+              "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+            },
+            "identity": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "facts": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "availability": {
+              "recorded": [],
+              "witness": "NOT_EVALUATED",
+              "observedAt": null,
+              "reason": "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
+            },
+            "presented": "NO",
+            "feasible": "NOT_EVALUATED",
+            "blocker": {
+              "stage": "NOT_EVALUATED",
+              "certainty": "HYPOTHESIS",
+              "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-07-attempt-1/post-run/manifest.json#sha256=541d5f33c998fdfa79d0ea0ad6d7d417edef3f837bdeaec812842e288ef4aa23",
+              ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/inputs/witness-registry-view.json#sha256=2a310c7a64d69955cdb561dfa10644720e15fa64d4f62c429934c679ebe57676"
+            ]
+          },
+          {
+            "outletName": "Wagyu Sukiyaki Asakusa Kotaro",
+            "sourceId": "13312592",
+            "discovery": {
+              "status": "NOT_FOUND",
+              "candidateIds": [],
+              "possibleCandidateIds": [],
+              "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+            },
+            "identity": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "facts": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "availability": {
+              "recorded": [],
+              "witness": "NOT_EVALUATED",
+              "observedAt": null,
+              "reason": "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
+            },
+            "presented": "NO",
+            "feasible": "NOT_EVALUATED",
+            "blocker": {
+              "stage": "NOT_EVALUATED",
+              "certainty": "HYPOTHESIS",
+              "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-07-attempt-1/post-run/manifest.json#sha256=541d5f33c998fdfa79d0ea0ad6d7d417edef3f837bdeaec812842e288ef4aa23",
+              ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/inputs/witness-registry-view.json#sha256=2a310c7a64d69955cdb561dfa10644720e15fa64d4f62c429934c679ebe57676"
+            ]
+          }
+        ],
+        "nativeFunnels": [
+          {
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1311/A131102/",
+                "observedOn": "https://tabelog.com/en/tokyo/A1311/",
+                "targetRef": "observation:3:target:14",
+                "label": "Asakusa"
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1311/A131102/13316569",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13316569/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.71242305870602,
+                    "longitude": 139.7972330346779
+                  },
+                  "distanceMeters": 696.7725377857581
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1311/A131102/13325849",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13325849/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.71400827219875,
+                    "longitude": 139.79271839160043
+                  },
+                  "distanceMeters": 584.4367025608166
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1311/A131102/13308746",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13308746/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.71156218489519,
+                    "longitude": 139.79500553649785
+                  },
+                  "distanceMeters": 785.897865340831
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1311/A131102/13268750",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13268750/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.715022237900314,
+                    "longitude": 139.80138298353947
+                  },
+                  "distanceMeters": 635.8412832319336
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1311/A131102/13308669",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13308669/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.711506168706244,
+                    "longitude": 139.79611609466943
+                  },
+                  "distanceMeters": 788.381511610505
+                }
+              ]
+            },
+            "source": "TABELOG",
+            "rawSourceLinks": 13,
+            "parsedOutlets": 13,
+            "inspectedOutlets": 5,
+            "batchCap": 5,
+            "sourceDetailCap": 10,
+            "sourceDetailAttempts": 5,
+            "deferredByBatchCap": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13016855/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13322725/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13241225/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13312592/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13185222/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13304879/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13255953/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13318726/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              }
+            ],
+            "rejected": [],
+            "accepted": 5,
+            "sourcePageCap": 7,
+            "sourceElapsedCapMs": 90000,
+            "sourceElapsedMs": 61675,
+            "sourceTimeLimitReached": false,
+            "pagesRead": 5,
+            "batchLimitReached": true,
+            "sourceExhausted": false,
+            "batchEnded": true,
+            "sourceEnded": false,
+            "progressionReason": "FIRST_SOURCE_BATCH",
+            "listingObservations": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/",
+                "parsedOutlets": 20,
+                "resultCount": 139467
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/",
+                "parsedOutlets": 20,
+                "resultCount": 7400
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/",
+                "parsedOutlets": 20,
+                "resultCount": 2252
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/",
+                "parsedOutlets": 20,
+                "resultCount": 2252
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/rstLst/RC0107/",
+                "parsedOutlets": 20,
+                "resultCount": 21,
+                "nextPageUrl": "https://tabelog.com/en/tokyo/A1311/A131102/rstLst/RC0107/2/"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/rstLst/RC0107/?vac_net=1&svd=20261104&svt=1900&svps=2",
+                "parsedOutlets": 13,
+                "resultCount": 13
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/rstLst/RC0107/?vac_net=1&svd=20261104&svt=1900&svps=2",
+                "parsedOutlets": 13,
+                "resultCount": 13
+              }
+            ],
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 3,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Supplied category \"Sukiyaki (Japanese sweet soy hotpot)\" directly matches the hard criterion; use it to retrieve sukiyaki restaurants in Asakusa.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1311/A131102/rstLst/RC0107/"
+                  },
+                  "elapsedMs": 36947,
+                  "parsedCount": 20
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Supplied category \"Sukiyaki (Japanese sweet soy hotpot)\" directly matches the hard criterion; use it to retrieve sukiyaki restaurants in Asakusa.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1311/A131102/rstLst/RC0107/"
+              }
+            },
+            "searchAvailabilityHint": {
+              "status": "APPLIED",
+              "reason": "OBSERVED_QUERY_MATCH",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/rstLst/RC0107/?vac_net=1&svd=20261104&svt=1900&svps=2",
+              "unfilteredUrl": "https://tabelog.com/en/tokyo/A1311/A131102/rstLst/RC0107/",
+              "request": {
+                "date": "2026-11-04",
+                "partySize": 2,
+                "time": "19:00"
+              },
+              "observed": {
+                "date": "2026-11-04",
+                "partySize": 2,
+                "time": "19:00"
+              },
+              "parsedCount": 13
+            }
+          }
+        ]
+      },
+      "P2_2": {
+        "selections": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131102/13325849",
+            "sequence": 7,
+            "availabilityPath": "DIRECT_SOURCE_PAGE"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131102/13268750",
+            "sequence": 7,
+            "availabilityPath": "DIRECT_SOURCE_PAGE"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131102/13308669",
+            "sequence": 7,
+            "availabilityPath": "DIRECT_SOURCE_PAGE"
+          }
+        ],
+        "selectedDirectPageEvents": 3,
+        "timings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "MEASURED_WITH_EXPLICIT_GAPS",
+          "elapsedMs": 158505,
+          "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+          "criticalPath": [
+            {
+              "stage": "MODEL_DECISION:browser_read_decide",
+              "elapsedMs": 28731,
+              "percent": 18.12624207438251
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:DETAIL",
+              "elapsedMs": 20061,
+              "percent": 12.656383079398125
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+              "elapsedMs": 14887,
+              "percent": 9.392132740292105
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:SEARCH",
+              "elapsedMs": 12549,
+              "percent": 7.917100406927226
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_agent_decide",
+              "elapsedMs": 11038,
+              "percent": 6.963818176082773
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1311/A131102/13308669",
+              "elapsedMs": 9903,
+              "percent": 6.247752436831646
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1311/A131102/13325849",
+              "elapsedMs": 9455,
+              "percent": 5.965111510677897
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_fact_judgment",
+              "elapsedMs": 7950,
+              "percent": 5.0156146493801455
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1311/A131102/13325849:RESOLUTION",
+              "elapsedMs": 7792,
+              "percent": 4.915933251316993
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+              "elapsedMs": 5312,
+              "percent": 3.3513138386801677
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1311/A131102/13325849:REQUEST_AND_RESULT",
+              "elapsedMs": 5198,
+              "percent": 3.2793918172928302
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1311/A131102/13268750:REQUEST_AND_RESULT",
+              "elapsedMs": 4987,
+              "percent": 3.146272988233809
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1311/A131102/13308669:REQUEST_AND_RESULT",
+              "elapsedMs": 4902,
+              "percent": 3.0926469196555315
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1311/A131102/13308669:RESOLUTION",
+              "elapsedMs": 3713,
+              "percent": 2.3425128544840854
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1311/A131102/13268750",
+              "elapsedMs": 3520,
+              "percent": 2.2207501340651716
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1311/A131102/13268750:RESOLUTION",
+              "elapsedMs": 3408,
+              "percent": 2.150089902526734
+            },
+            {
+              "stage": "SEMANTIC",
+              "elapsedMs": 3338,
+              "percent": 2.105927257815211
+            },
+            {
+              "stage": "SEARCH_RESTAURANTS",
+              "elapsedMs": 1221,
+              "percent": 0.7703227027538564
+            },
+            {
+              "stage": "UNATTRIBUTED",
+              "elapsedMs": 164,
+              "percent": 0.10346676760985458
+            },
+            {
+              "stage": "FACTS",
+              "elapsedMs": 160,
+              "percent": 0.10094318791205326
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+              "elapsedMs": 122,
+              "percent": 0.0769691807829406
+            },
+            {
+              "stage": "CHECK_AVAILABILITY",
+              "elapsedMs": 89,
+              "percent": 0.056149648276079614
+            },
+            {
+              "stage": "PRESENTATION",
+              "elapsedMs": 5,
+              "percent": 0.0031544746222516643
+            }
+          ],
+          "modelSteps": [
+            {
+              "purpose": "restaurant_semantic_interpret",
+              "sequence": 1,
+              "latencyMs": 3338,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 2,
+              "latencyMs": 1565,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 3,
+              "latencyMs": 2512,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 4,
+              "latencyMs": 3822,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 5,
+              "latencyMs": 4922,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 6,
+              "latencyMs": 2800,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 7,
+              "latencyMs": 3997,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 8,
+              "latencyMs": 3515,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 9,
+              "latencyMs": 4080,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 10,
+              "latencyMs": 3372,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 11,
+              "latencyMs": 1866,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 12,
+              "latencyMs": 3067,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 13,
+              "latencyMs": 4087,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 14,
+              "latencyMs": 3523,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 15,
+              "latencyMs": 2926,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 16,
+              "latencyMs": 1934,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 17,
+              "latencyMs": 3090,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 18,
+              "latencyMs": 1953,
+              "placed": true
+            }
+          ],
+          "gaps": [
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      },
+      "P2_3": {
+        "prices": [],
+        "display": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131102/13325849",
+            "text": "sukiyaki",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131102/13268750",
+            "text": "sukiyaki",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1311/A131102/13308669",
+            "text": "sukiyaki",
+            "criterionRef": "criterion:0",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          }
+        ]
+      }
+    },
+    "severity": {
+      "S0": {
+        "status": "ABSENT",
+        "reasons": [
+          "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence",
+          ".eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ]
+      },
+      "S1": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No independently established unmet user-need conclusion."
+        ],
+        "evidenceRefs": []
+      },
+      "S2": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No valid independent feasible witness supplied."
+        ],
+        "evidenceRefs": []
+      },
+      "S3": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "Experience/latency thresholds belong to E2; not scored here."
+        ],
+        "evidenceRefs": []
+      },
+      "S4": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "User-invisible retry effects are not independently established."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ]
+      },
+      "S0_BOUNDARY": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    "attribution": {
+      "certainty": "HYPOTHESIS_UNLESS_RAW_CAUSE_CONFIRMED",
+      "witnessBlockers": [
+        {
+          "outletName": "Edo Niku Kappou Sasaya Asakusa",
+          "stage": "NOT_EVALUATED",
+          "certainty": "HYPOTHESIS",
+          "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+        },
+        {
+          "outletName": "WAGYU SUKIYAKI Goku Asakusa Rokku Ku Ten",
+          "stage": "NOT_EVALUATED",
+          "certainty": "HYPOTHESIS",
+          "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+        },
+        {
+          "outletName": "Wagyu Sukiyaki Asakusa Kotaro",
+          "stage": "NOT_EVALUATED",
+          "certainty": "HYPOTHESIS",
+          "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+        }
+      ]
+    }
+  },
+  "postEvidence": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-07-attempt-1/post-run/post-check.json",
+    "verifiedResponses": 3,
+    "gaps": []
+  },
+  "resources": {
+    "discoveryCandidates": 5,
+    "candidatesChecked": 3,
+    "agentDecisions": 4,
+    "browserModelCalls": 8,
+    "modelCallsStarted": 18,
+    "browserRuntimeCalls": 89,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 29,
+      "tabelog:en/tokyo/A1311/A131102/13325849": 20,
+      "tabelog:en/tokyo/A1311/A131102/13268750": 20,
+      "tabelog:en/tokyo/A1311/A131102/13308669": 20
+    },
+    "pageStillLoadingWithinBound": 13,
+    "postActionWaitTotalMs": 19023,
+    "browserModelActions": 8,
+    "googleRequests": {
+      "limit": 38,
+      "total": 3,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 158446
+  }
+}

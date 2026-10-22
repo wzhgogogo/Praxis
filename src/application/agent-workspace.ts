@@ -1,4 +1,4 @@
-import type { CandidateDistanceObservation } from "../domains/restaurant/agent-context.js";
+import type { CandidateDistanceObservation } from "../domains/restaurant/candidate-read-observations.js";
 import type { TaskLifecycleState } from "../core/task-runtime/contracts.js";
 import type {
   AvailabilityOffer,
@@ -104,6 +104,7 @@ export interface RestaurantCaseView {
     /** Current source-scoped facts only; historical facts remain in durable state. */
     currentFactEvidence: RestaurantReadEvidence[];
     presentedCandidateIds?: string[];
+    conditionStates?: Record<string, import("../domains/restaurant/condition-states.js").RestaurantConditionState[]>;
     viewedCandidateIds?: string[];
     shortlistCandidateIds?: string[];
     selectionFeedback?: string[];

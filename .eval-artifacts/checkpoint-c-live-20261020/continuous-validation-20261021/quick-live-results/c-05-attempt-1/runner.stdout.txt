@@ -1,0 +1,47 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2l-kagurazaka-kaiseki-20261105","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/network-preflight/2026-10-21T07-21-11-405Z-a1699253-9691-49b4-9bd1-209a343e0bf4.result.json","elapsedMs":4044,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2l-kagurazaka-kaiseki-20261105",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 10
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 10,
+    "candidatesChecked": 10,
+    "agentDecisions": 10,
+    "browserModelCalls": 26,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 245,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 27,
+      "tabelog:en/tokyo/A1309/A130905/13300814": 26,
+      "tabelog:en/tokyo/A1309/A130905/13180712": 26,
+      "tabelog:en/tokyo/A1309/A130905/13218101": 23,
+      "tabelog:en/tokyo/A1309/A130905/13048623": 26,
+      "tabelog:en/tokyo/A1309/A130905/13281152": 19,
+      "native-discovery:VENUE_SEARCH": 17,
+      "tablecheck:konbuya-kagurazaka": 10,
+      "tablecheck:uoida-kagurazaka": 13,
+      "tablecheck:sushiyahajime": 22,
+      "tablecheck:nose-to-tail": 8,
+      "tablecheck:ragusa-kagurazaka": 28
+    },
+    "pageStillLoadingWithinBound": 39,
+    "postActionWaitTotalMs": 59959,
+    "browserModelActions": 17,
+    "googleRequests": {
+      "limit": 38,
+      "total": 3,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 482445
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T07-21-32-500Z-80e0c8b1-79dd-42e7-ad29-3ce8d0fa4d2e.result.json",
+  "evaluationPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T07-21-32-500Z-80e0c8b1-79dd-42e7-ad29-3ce8d0fa4d2e.result.evaluation.30-1792567775279.json",
+  "latencyMs": 482445,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

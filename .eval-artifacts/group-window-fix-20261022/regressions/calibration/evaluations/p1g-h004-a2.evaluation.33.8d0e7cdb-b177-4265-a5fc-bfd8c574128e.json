@@ -1,0 +1,640 @@
+{
+  "outcome": {
+    "type": "ENV_FAILURE",
+    "reasons": [
+      "R5: raw prior preflight failed before request window expiry 2026-10-12 17:00+09:00; formal execution began after the window."
+    ],
+    "evidenceRefs": [
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/calibration-observations.rev2.json#sha256=7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/live/h004/attempt-2/finish.json#sha256=02b44939f8435cbe8c63d21a141b6f740ba09961f6a98046abf8379d5cc90a5c",
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/live/h004/attempt-1/finish.json#sha256=acb93f1471cb3939fbb878576442bda4bdfd8eea25ca2f573f7005d59d99a321"
+    ],
+    "capabilityDenominator": "EXCLUDED",
+    "userGoalComplete": "NO"
+  },
+  "severity": {
+    "S0": {
+      "status": "ABSENT",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+        "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories",
+        ".eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim."
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "ABSENT",
+      "reasons": [
+        "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+      ],
+      "evidenceRefs": [
+        ".eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": []
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [],
+  "conditionStateComparisons": [],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": {
+    "path": "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml",
+    "sha256": "39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce"
+  },
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 1,
+    "maxConsecutiveNoNewObservation": 2,
+    "noNewObservationRuns": [
+      {
+        "key": "8c8a5965ac3c4a71",
+        "steps": [
+          11,
+          12
+        ]
+      }
+    ],
+    "sameFailureRuns": [
+      {
+        "key": "8c8a5965ac3c4a71:CHECK_AVAILABILITY:TABELOG:AVAILABILITY_SOURCES_EXHAUSTED",
+        "steps": [
+          4,
+          5,
+          9,
+          10
+        ]
+      }
+    ],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": [
+        {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13310761/",
+          "count": 4,
+          "reloads": 3
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130102/13043019/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130103/13002564/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130103/13002648/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130102/13262740/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13310761/party/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13002369/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13257245/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13002704/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13186583/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13227099/",
+          "count": 3,
+          "reloads": 2
+        }
+      ]
+    },
+    "violations": [
+      "sameFailure=4>3; steps=4,5,9,10; 8c8a5965ac3c4a71:CHECK_AVAILABILITY:TABELOG:AVAILABILITY_SOURCES_EXHAUSTED"
+    ],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 1,
+        "actualIndex": 1,
+        "method": "REVIEWED_SEMANTIC_INDEX",
+        "refs": [
+          "src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml#sha256=9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440:entry=meet-friend",
+          ".eval-artifacts/calibration-phase1-20261015/inputs/manifest.json:run=p1g-h004-a2"
+        ]
+      },
+      {
+        "goldIndex": 0,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1g-h004-a2.result.json.gz",
+    "sha256": "490e329720bcb54d004d6fe13c807d0c3a8a7a8ba6e33f59daec194b280091d4",
+    "runId": "4bfe0518-32c8-4fe1-8e97-9cc17e42b259",
+    "caseId": "h004"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_SUPPORTED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NO_VERIFIED_RESULT"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13310761",
+      "outletName": "Tiffany Blue Box Cafe",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[3].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:3047bbde89760813859cff2d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:5e554ba49cd8cd9cbdad3470]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130101/13310761:document:2d61d8b9242d6381]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130101/13310761:2026-10-12T08:03:07.906Z:tabelog:en/tokyo/A1301/A130101/13310761:document:2d61d8b9242d6381]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:2595e6c0f55af2528dd2dbde]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130102/13043019",
+      "outletName": "The Peninsula Boutique &amp; Cafe",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:d5e1d5e7fdf0cbbce753789b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:421281cc37b0247b86745455]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130102/13043019:document:cbaa12629ec45c17]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130102/13043019:2026-10-12T08:03:27.965Z:tabelog:en/tokyo/A1301/A130102/13043019:document:cbaa12629ec45c17]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:91a20194fc511a42d71ed8e7]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130103/13002564",
+      "outletName": "CAFE DE L’AMBRE",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[3].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:9853647a8a259792aed5571d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:56d1b56853341f04c81ae618]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130103/13002564:document:fd98e0b942f38b66]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130103/13002564:2026-10-12T08:03:13.474Z:tabelog:en/tokyo/A1301/A130103/13002564:document:fd98e0b942f38b66]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:6bda174105e113fda38563be]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130103/13002648",
+      "outletName": "Cafe Paulista",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[3].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:351baab5ba63b612cbf5e360]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:cb7464bed43353ff3989cbb8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130103/13002648:document:d703683081b6dd73]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130103/13002648:2026-10-12T08:03:19.688Z:tabelog:en/tokyo/A1301/A130103/13002648:document:d703683081b6dd73]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:f1b75bf10f079cacb3508eb4]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130102/13262740",
+      "outletName": "Giolitti Cafe Yuurakuchou ten",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:6565754a6740b162beacf8f6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:13c465366193ec64caa61f7c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130102/13262740:document:83af587882c3cab0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130102/13262740:2026-10-12T08:03:35.774Z:tabelog:en/tokyo/A1301/A130102/13262740:document:83af587882c3cab0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:8beb5bea900ddbfc3de30a3c]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13002369",
+      "outletName": "Bunmeidou Cafe Higashi ginza ten",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[8].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:1437247c928b8b0151b48827]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:61c23b2d3bbba514f892650c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130101/13002369:document:82d13366d9cc56b8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130101/13002369:2026-10-12T08:05:20.008Z:tabelog:en/tokyo/A1301/A130101/13002369:document:82d13366d9cc56b8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:b970fea95b9cfacf98310e1c]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13257245",
+      "outletName": "LE CAFE V",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[9].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:51117364935213526d66fe44]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:95c971a7362ec36b60010d69]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130101/13257245:document:7d7ece55071a6a29]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130101/13257245:2026-10-12T08:05:37.960Z:tabelog:en/tokyo/A1301/A130101/13257245:document:7d7ece55071a6a29]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:2df0d5dba2bf4e1f7d253372]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13002704",
+      "outletName": "Noa Cafe Ginza",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "DATE_NOT_SELECTABLE",
+          "evidenceRef": "trajectories[8].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "DATE_NOT_SELECTABLE",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:5f6b7f0234de0fe478f53fc6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:1c7039be4fd1448c3647d822]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130101/13002704:document:3bab59b72c4a2d6e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130101/13002704:2026-10-12T08:05:24.926Z:tabelog:en/tokyo/A1301/A130101/13002704:document:3bab59b72c4a2d6e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:f052f186f24056b6172bf231]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13186583",
+      "outletName": "Bunmeidou Cafe Ginza ten",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[8].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:5ddfe4ee98a3a7c899d94407]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:21a7b6e5e2db7f00321b1bbf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130101/13186583:document:1ad327c94ab43595]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130101/13186583:2026-10-12T08:05:29.953Z:tabelog:en/tokyo/A1301/A130101/13186583:document:1ad327c94ab43595]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:55039c84ae662bb151f06813]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13227099",
+      "outletName": "BARA cafe",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[9].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:f705ecc420ef7e0ad745f5b3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:915a97da2541061d46c83f58]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1301/A130101/13227099:document:49da8442acdeac93]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1301/A130101/13227099:2026-10-12T08:05:46.240Z:tabelog:en/tokyo/A1301/A130101/13227099:document:49da8442acdeac93]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:736a73ca60d6aff096b12cc3]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "NOT_SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=11",
+        "applicableObservations=11",
+        "executedInvestigationVisits=20",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=1",
+        "maxConsecutiveNoNewObservation=2",
+        "sameFailure=4>3; steps=4,5,9,10; 8c8a5965ac3c4a71:CHECK_AVAILABILITY:TABELOG:AVAILABILITY_SOURCES_EXHAUSTED"
+      ],
+      "directCause": "Actual rejection/no-progress/repeated-failure/navigation records exceed the frozen diagnostic thresholds.",
+      "rootCauseHypothesis": "Agent/context/source failure recovery requires review; these counters do not prove investigation sufficiency or causal blame.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation",
+        "trajectories[6].observation",
+        "trajectories[7].observation",
+        "trajectories[8].observation",
+        "trajectories[9].observation",
+        "trajectories[11].observation"
+      ],
+      "downstreamImpact": "Coverage and evidence-lineage claims cannot be inferred from this artifact."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "presentedCandidates=0"
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NO_VERIFIED_RESULT",
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "noVerifiedResult=recorded",
+        "failureCode=missing",
+        "Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED."
+      ],
+      "directCause": "Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "trajectories"
+      ],
+      "downstreamImpact": "Do not represent the scoped stop as a source-confirmed global negative result."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ],
+  "frozenInput": {
+    "manifestSha256": "68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2",
+    "fileRefs": [
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/calibration-phase1-20261015/inputs/p1g-h004-a2.result.json.gz#sha256=490e329720bcb54d004d6fe13c807d0c3a8a7a8ba6e33f59daec194b280091d4"
+    ],
+    "observationContextSha256": "7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+    "observationRefs": [
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/calibration-observations.rev2.json#sha256=7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/prep/scripts/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/live/h004/attempt-2/finish.json#sha256=02b44939f8435cbe8c63d21a141b6f740ba09961f6a98046abf8379d5cc90a5c",
+      "/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/.eval-artifacts/p1-g-20261012/live/h004/attempt-1/finish.json#sha256=acb93f1471cb3939fbb878576442bda4bdfd8eea25ca2f573f7005d59d99a321"
+    ]
+  }
+}

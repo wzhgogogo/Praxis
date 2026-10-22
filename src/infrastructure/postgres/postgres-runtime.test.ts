@@ -35,7 +35,7 @@ import {
   fixtureOffers,
 } from "../../harness/restaurant-fixtures.js";
 import { restaurantBookingTaskDefinition } from "../../domains/restaurant/task-definition.js";
-import type { RestaurantIntentPatch } from "../../domains/restaurant/contracts.js";
+import { restaurantSearchIntentFingerprint, type RestaurantIntentPatch, type RestaurantReadEvidence, type RestaurantSearchContinuation } from "../../domains/restaurant/contracts.js";
 import { restaurantRecoveryEventFactory } from "../../domains/restaurant/recovery.js";
 import { applyPostgresMigrations, POSTGRES_MIGRATIONS } from "./migrations.js";
 import { PostgresCommandOutbox } from "./postgres-command-outbox.js";
@@ -410,9 +410,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
         stateHashBefore: "context-hash",
         causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] },
         capabilities: [],
-          contextSchemaVersion: "11",
+          contextSchemaVersion: "15",
         decisionContext: {
-            schemaVersion: "11",
+            schemaVersion: "15",
           now: "2026-08-20T00:00:00.000Z",
           phase: "SEARCHING",
           missingBlockingFields: [],
@@ -430,9 +430,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       const [step] = await store.list("trajectory-context-task");
-      assert.equal(step?.contextSchemaVersion, "11");
+      assert.equal(step?.contextSchemaVersion, "15");
       assert.deepEqual(step?.decisionContext, {
-        schemaVersion: "11",
+        schemaVersion: "15",
         now: "2026-08-20T00:00:00.000Z",
         phase: "SEARCHING",
         missingBlockingFields: [],
@@ -824,6 +824,28 @@ describe("PostgresTaskRuntime with PGlite", () => {
 
   currentTest("restores a Restaurant task through a new runtime instance", async () => {
     await withDatabase(async ({ database, clock }) => {
+      // One persisted search state must retain both sides of the integration:
+      // quoted prices and the source batch read early for region routing.
+      const priceEvidence: RestaurantReadEvidence = {
+        evidenceId: "persisted-price", kind: "RESTAURANT_FACT", provider: "TABELOG",
+        candidateId: fixtureCandidates[0]!.restaurant.id, sourceUrl: "https://fixture.example/menu",
+        observedAt: clock.now().toISOString(), requestFingerprint: "fixture", claims: {},
+        priceFacts: {schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [{
+          amount: 12000, tax: "INCLUDED", meal: "DINNER", kind: "MEAL", quote: "Dinner course JPY 12000 tax included", sourceUrl: "https://fixture.example/menu",
+        }]},
+      };
+      const fingerprint = restaurantSearchIntentFingerprint(fixtureIntent);
+      const query = {category: "restaurant", positiveCriteria: [], location: {latitude: 35, longitude: 139, radiusMeters: 1000, label: "Fixture", areaMatchBasis: "NAMED_PLACE_RADIUS" as const}};
+      const continuation: RestaurantSearchContinuation = {
+        intentFingerprint: fingerprint, usedPageTokens: [], pagesRead: 1, exhausted: false,
+        discoveryPlan: {cursor: 0, entries: [{sourceId: "directory", query}, {sourceId: "structured", query}],
+          regionReferenceRead: {sourceId: "structured", readRunId: "restaurant-run-1", read: {
+            candidates: fixtureCandidates, evidence: [],
+            continuation: {intentFingerprint: fingerprint, usedPageTokens: [], pagesRead: 1, exhausted: true},
+            metadata: {provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 1},
+          }},
+        },
+      };
       let firstSequence = 0;
       const firstRuntime = withTestTrace(new PostgresTaskRuntime(
         database,
@@ -847,7 +869,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
         {
           id: "restaurant-event-2",
           taskId: "restaurant-task-1",
-          event: { type: "SEARCH_COMPLETED", request: { intent: fixtureIntent }, candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } },
+          event: { type: "SEARCH_COMPLETED", request: { intent: fixtureIntent }, candidates: fixtureCandidates, evidence: [priceEvidence], continuation, metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } },
           occurredAt: clock.now().toISOString(),
         },
         1,
@@ -872,7 +894,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       assert.equal(restored.runId, "restaurant-run-1");
-      assert.equal(restored.domainState.schemaVersion, "16");
+      assert.equal(restored.domainState.schemaVersion, "20");
+      assert.deepEqual(restored.domainState.readEvidence, [priceEvidence]);
+      assert.deepEqual(restored.domainState.searchContinuation?.discoveryPlan?.regionReferenceRead, continuation.discoveryPlan!.regionReferenceRead);
       assert.equal(restored.domainState.phase, "SEARCHING");
       assert.equal(restored.version, 2);
       assert.equal(duplicate.duplicateEvent, true);

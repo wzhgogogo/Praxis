@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/opt/homebrew/bin/node",
+    "--env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    ".eval-artifacts/checkpoint-c-live-20261020/outer.ts",
+    "--mode",
+    "LIVE_READ_ONLY",
+    "--freeze",
+    ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-freeze.json",
+    "--output",
+    ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results",
+    "--approval",
+    ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-user-approval.json",
+    "--registry",
+    ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/registry.certified.json",
+    "--ledger",
+    ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/ledger-before-live.json"
+  ],
+  "cwd": "/private/tmp/praxis-checkpoint-c-prep",
+  "provider": "DEEPSEEK",
+  "model": "deepseek-v4-flash",
+  "hardDeadline": "2026-10-22T12:23:38.769Z",
+  "planned": 18,
+  "noRunIds": true,
+  "originalPlanSha256": "e00c728e99f727f0eeb775c268de20164b3293f8341750239cf0f5f7ef91c8b3"
+}

@@ -1,0 +1,47 @@
+{
+  "checkpointC": {
+    "formalFullLiveRuns": 5,
+    "outerAttempts": 7,
+    "modelCalls": 235,
+    "googleIncludingAllPreflights": 22,
+    "qualified": 0,
+    "deliveredRestaurants": 0,
+    "sourcePreflightFailures": 2,
+    "sourcePreflightAutomaticRetries": 1,
+    "formalEnvironmentReruns": 0
+  },
+  "modelPurposes": {
+    "restaurant_semantic_interpret": 5,
+    "restaurant_agent_decide": 49,
+    "browser_read_decide": 153,
+    "restaurant_discovery_retrieval": 7,
+    "restaurant_fact_judgment": 20,
+    "restaurant_party_size_supplement": 1
+  },
+  "modelTransportOutcomes": {
+    "SUCCEEDED": 235
+  },
+  "finalAvailabilityStatuses": {
+    "UNKNOWN": 43,
+    "UNAVAILABLE": 3
+  },
+  "finalAvailabilityReasonCodes": {
+    "REQUEST_SELECTION_UNCONFIRMED": 18,
+    "BROWSER_TIMEOUT": 5,
+    "RESERVE_REACHED": 12,
+    "SELECTED_MEALTIME_EMPTY": 4,
+    "AVAILABILITY_RESULT_UNOBSERVED": 3,
+    "NO_MATCHING_SLOT": 3,
+    "BROWSER_RUNTIME_FAILED": 1
+  },
+  "allFiveEndWithModelCallReserve": true,
+  "newModelsThisContinuation": 47,
+  "offlineReplaysNewModels": 0,
+  "stageModelCallsAfter": 1718,
+  "modelCountReconciliation": "All five resourceUsage, modelInvocations and decision JSONL counts equal 47. Transport SUCCEEDED is not semantic correctness.",
+  "stageRemaining": {
+    "fullLiveRuns": 93,
+    "modelCalls": 2282,
+    "environmentReruns": 10
+  }
+}

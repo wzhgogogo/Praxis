@@ -1,0 +1,58 @@
+{
+  "mode": "LIVE_READ_ONLY",
+  "newRows": [
+    {
+      "run": {
+        "runId": "c-03",
+        "caseId": "p2l-kf-h005-20261105",
+        "repeat": 1,
+        "role": "TARGET"
+      },
+      "elapsedMs": 273976,
+      "modelCallsStarted": 47,
+      "modelPurposes": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 8,
+        "browser_read_decide": 33,
+        "restaurant_discovery_retrieval": 1,
+        "restaurant_fact_judgment": 4
+      },
+      "googleRequestsIncludingBothPreflights": 3,
+      "browserRuntimeCalls": 217,
+      "browserModelActions": 31,
+      "postWitnessChecks": 2,
+      "postAllHttp200": true
+    },
+    {
+      "run": {
+        "runId": "c-04",
+        "caseId": "p2l-kf-h003-20261106",
+        "repeat": 1,
+        "role": "BUDGET"
+      },
+      "elapsedMs": 424090,
+      "modelCallsStarted": 47,
+      "modelPurposes": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 14,
+        "browser_read_decide": 31,
+        "restaurant_discovery_retrieval": 1
+      },
+      "googleRequestsIncludingBothPreflights": 3,
+      "browserRuntimeCalls": 301,
+      "browserModelActions": 27,
+      "postWitnessChecks": 3,
+      "postAllHttp200": true
+    }
+  ],
+  "newModelCalls": 94,
+  "newGoogleRequestsIncludingPreflight": 6,
+  "carriedModelCalls": 94,
+  "allCheckpointCModelCalls": 188,
+  "offlineScriptedRehearsal": {
+    "count": 1,
+    "realModelCalls": 0,
+    "network": 0,
+    "excludedFromLiveDenominators": true
+  }
+}

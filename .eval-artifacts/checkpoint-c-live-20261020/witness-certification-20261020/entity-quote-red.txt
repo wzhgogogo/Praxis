@@ -1,0 +1,36 @@
+✔ all same-source page and inventory reads are at least 30 seconds after previous completion (8.695959ms)
+✔ busy/status failure waits 15 minutes exactly once, retains both responses, then stops if still failing (1.274333ms)
+✔ inventory certification binds raw date, party, outlet and exact time without opening slot URLs (0.146083ms)
+✖ source evidence retains entity-encoded HARD quote bytes, not only a found flag (0.841875ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 43.727875
+
+✖ failing tests:
+
+test at .eval-artifacts/checkpoint-c-live-20261020/witness-certification-control.test.mjs:32:1
+✖ source evidence retains entity-encoded HARD quote bytes, not only a found flag (0.841875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'We offer only the &quot;Omakase Course.&quot;'
+  
+      at TestContext.<anonymous> (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-control.test.mjs:37:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'We offer only the &quot;Omakase Course.&quot;',
+    operator: 'strictEqual'
+  }

@@ -1,0 +1,67 @@
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2l-kf-h001-20261103",
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@30",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@26"
+  },
+  "runtimeContext": {
+    "commitSha": "9381d976f0bbe67c5b8664199c702f29c080bdbe",
+    "worktree": "CLEAN",
+    "dataset": {
+      "version": "restaurant-read-development-variant@3",
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+      "sha256": "571c673070b517795f6eddfb9fd3b1e9c31a7607ff670fda8adb9ed28448c1f4",
+      "parent": {
+        "dataset": "restaurant-read-development@6",
+        "sha256": "00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6"
+      },
+      "cohort": "DEVELOPMENT_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/offline-rehearsal/c-01-attempt-1/network-preflight/2026-10-21T10-34-05-740Z-4582f97c-fca5-43dd-99bc-a365c09ec3f5.result.json",
+      "elapsedMs": 1,
+      "targetCount": 3
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    }
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "requestedRunCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "schemaVersion": "1",
+  "runId": "28b448c7-0aff-4491-8c18-42c5c7e67e48",
+  "startedAt": "2026-10-21T10:34:05.786Z",
+  "status": "STARTED"
+}

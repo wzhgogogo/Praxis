@@ -1,0 +1,113 @@
+{
+  "seedId": "p1-seed-0133",
+  "scenario": "SINGLE_NATIVE_CANDIDATE_CONTROL",
+  "codeCommit": "16466670732d4baa1eab2a8b3dd020247fa29fc8",
+  "annotationRevision": 2,
+  "requestSha256": "c25bc333c1399bfd2792e876c54d8f1803f35c03ef98c4f6d39d10e54a8a4170",
+  "call": {
+    "call": 6,
+    "seedId": "p1-seed-0133",
+    "codeCommit": "16466670732d4baa1eab2a8b3dd020247fa29fc8",
+    "requestSha256": "c25bc333c1399bfd2792e876c54d8f1803f35c03ef98c4f6d39d10e54a8a4170",
+    "startedAt": "2026-10-19T15:51:47.511Z",
+    "status": "SUCCEEDED",
+    "latencyMs": 5391,
+    "usage": {
+      "inputTokens": 4222,
+      "outputTokens": 221,
+      "totalTokens": 4443
+    },
+    "model": "deepseek-flash",
+    "finishedAt": "2026-10-19T15:51:52.903Z",
+    "errorCode": null
+  },
+  "beforeAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "tabelog:en/tokyo/A1303/A130301/13308491"
+    ],
+    "decisionSummary": "AVAILABILITY goal with a single checkable candidate; the availability read can supply both the request-bound slot and source facts (omakase, hours) for Sushi Teppen."
+  },
+  "before": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 1,
+      "directSelected": 1,
+      "directInRadiusCheckable": 1,
+      "directSelectionRatio": 1
+    }
+  },
+  "afterAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "tabelog:en/tokyo/A1303/A130301/13308491"
+    ],
+    "decisionSummary": "Only one candidate discovered; it has a direct source page path. Check request-bound availability (2026-10-16 19:00, party of 2) to obtain both slot evidence and source facts for the omakase HARD criterion."
+  },
+  "after": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 1,
+      "directSelected": 1,
+      "directInRadiusCheckable": 1,
+      "directSelectionRatio": 1
+    }
+  },
+  "oldStrict": {
+    "status": "EVALUATED_SAME_OUTPUT_NO_EXTRA_CALL",
+    "before": {
+      "verdict": "ACCEPTABLE",
+      "reasons": [
+        "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+      ],
+      "metrics": {
+        "selected": 1,
+        "directSelected": 1,
+        "directInRadiusCheckable": 1,
+        "directSelectionRatio": 1
+      }
+    },
+    "after": {
+      "verdict": "ACCEPTABLE",
+      "reasons": [
+        "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+      ],
+      "metrics": {
+        "selected": 1,
+        "directSelected": 1,
+        "directInRadiusCheckable": 1,
+        "directSelectionRatio": 1
+      }
+    }
+  },
+  "wireText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"tabelog:en/tokyo/A1303/A130301/13308491\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Only one candidate discovered; it has a direct source page path. Check request-bound availability (2026-10-16 19:00, party of 2) to obtain both slot evidence and source facts for the omakase HARD criterion.\"}",
+  "finishReason": "TOOL_CALLS",
+  "errorCode": null,
+  "selected": [
+    {
+      "id": "tabelog:en/tokyo/A1303/A130301/13308491",
+      "name": "Sushi Teppen",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 749
+    }
+  ],
+  "witnessSelection": {
+    "before": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical URL membership only; no current/request slot claim."
+    },
+    "after": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical URL membership only; no current/request slot claim."
+    }
+  },
+  "executedActions": 0
+}

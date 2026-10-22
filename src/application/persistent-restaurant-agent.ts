@@ -1,4 +1,4 @@
-import { observedCandidateDistance } from "../domains/restaurant/agent-context.js";
+import { observedCandidateDistance } from "../domains/restaurant/candidate-read-observations.js";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 
 import type {
@@ -1021,7 +1021,7 @@ export class PersistentRestaurantAgentApplication {
         availabilityChecks: structuredClone(state.availabilityChecks),
         readEvidence: structuredClone(state.readEvidence),
         currentFactEvidence: state.candidates.flatMap(candidate => structuredClone(restaurantCurrentFactEvidence(state, candidate.restaurant.id))),
-        ...(state.presentedResults ? { presentedCandidateIds: [...state.presentedResults.candidateIds] } : {}),
+        ...(state.presentedResults ? { presentedCandidateIds: [...state.presentedResults.candidateIds], conditionStates: structuredClone(state.presentedResults.conditionStates) } : {}),
         ...(state.selectionSession ? {
           viewedCandidateIds: [...state.selectionSession.viewedCandidateIds],
           shortlistCandidateIds: [...state.selectionSession.shortlistCandidateIds],

@@ -1,0 +1,71 @@
+{
+  "seedId": "p1-seed-0134",
+  "scenario": "SHIBUYA_OMAKASE",
+  "codeCommit": "1c08f4cff61bddcc52c92e625a2f56471a15f47a",
+  "action": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:6343d9d19c9b69881948e082",
+      "praxis:restaurant:c510b28f298c4785d5fff548",
+      "praxis:restaurant:5f4fbd6b462f17e62da5bb43"
+    ],
+    "decisionSummary": "AVAILABILITY goal for 2026-10-16 19:00, party of 2, omakase near Shibuya. No eligible candidates yet; check request-bound availability on the nearest direct-source sushi candidates (Sumi Sushi 189m, Shibuya Sushi Jinnan 328m, Sushi kazumasa 451m) to obtain both slots and source facts."
+  },
+  "wireText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:6343d9d19c9b69881948e082\", \"praxis:restaurant:c510b28f298c4785d5fff548\", \"praxis:restaurant:5f4fbd6b462f17e62da5bb43\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"AVAILABILITY goal for 2026-10-16 19:00, party of 2, omakase near Shibuya. No eligible candidates yet; check request-bound availability on the nearest direct-source sushi candidates (Sumi Sushi 189m, Shibuya Sushi Jinnan 328m, Sushi kazumasa 451m) to obtain both slots and source facts.\"}",
+  "finishReason": "TOOL_CALLS",
+  "call": {
+    "seedId": "p1-seed-0134",
+    "startedAt": "2026-10-20T08:24:22.512Z",
+    "status": "SUCCEEDED",
+    "requestSha256": "42b90152a4eb2c75cc76a5051c22418a859a84055a3f0cdc584d649daa6b6bc6",
+    "model": "deepseek-flash",
+    "latencyMs": 6488,
+    "usage": {
+      "inputTokens": 22240,
+      "outputTokens": 301,
+      "totalTokens": 22541
+    },
+    "finishedAt": "2026-10-20T08:24:29.000Z",
+    "errorCode": null
+  },
+  "verdict": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 3,
+      "directInRadiusCheckable": 8,
+      "directSelectionRatio": 1
+    }
+  },
+  "selected": [
+    {
+      "id": "praxis:restaurant:6343d9d19c9b69881948e082",
+      "name": "Sumi Sushi Shibuya",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 189
+    },
+    {
+      "id": "praxis:restaurant:c510b28f298c4785d5fff548",
+      "name": "Shibuya Sushi Jinnan",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 328
+    },
+    {
+      "id": "praxis:restaurant:5f4fbd6b462f17e62da5bb43",
+      "name": "Sushi kazumasa",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 451
+    }
+  ],
+  "directCount": 3,
+  "totalSelected": 3,
+  "reconstruction": {
+    "stateVersionBefore": 8,
+    "events": 8,
+    "observedFactsCount": 0,
+    "priceFactsCount": 0
+  }
+}

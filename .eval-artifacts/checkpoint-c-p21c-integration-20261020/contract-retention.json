@@ -1,0 +1,14 @@
+{
+  "restaurantState": 18,
+  "taskDefinition": 16,
+  "browserPrompt": 17,
+  "agentContext": 15,
+  "agentPrompt": 27,
+  "retainedFields": [
+    "RestaurantReadEvidence.priceFacts",
+    "RestaurantDiscoveryPlan.regionReferenceRead",
+    "presentedResults.conditionStates"
+  ],
+  "persistenceCoverage": "Existing PostgresTaskRuntime restore test asserts State18, quoted price evidence and serialized region source batch together. Existing presentation/condition behavior tests retained.",
+  "pass": true
+}

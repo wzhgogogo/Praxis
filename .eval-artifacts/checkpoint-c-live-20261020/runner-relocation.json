@@ -1,0 +1,60 @@
+{
+  "source": "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+  "sourceSha256": "b1b737c7f06d679db77696302f4740ffbef17c315fdf29c77d45a7abbdf92465",
+  "generatedSha256": "ee06fa055003a37119f4faae3b16551ffe7eb5cd8515eeba377670328601780c",
+  "changes": [
+    {
+      "from": "import { preflightSourceIds, runSourceDataPreflight }",
+      "to": "import { preflightSourceIds, runSourceDataPreflight as originalSourcePreflight }"
+    },
+    {
+      "from": "environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration, runLivePreflight",
+      "to": "environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration, runLivePreflight as originalNetworkPreflight"
+    },
+    {
+      "from": "customLiveCaseCohort(frozen)",
+      "to": "checkpointCaseCohort(frozen)"
+    },
+    {
+      "from": "async function runHybridLiveRead(): Promise<void> {",
+      "to": "export async function runHybridLiveRead(): Promise<void> {"
+    },
+    {
+      "from": "import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION",
+      "to": "import { evaluateArtifactAfterFinish as originalEvaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION"
+    },
+    {
+      "from": "targets: [\"DEEPSEEK\", \"GOOGLE\", \"TABELOG\", \"TABLECHECK\"]",
+      "to": "targets: [\"DEEPSEEK\", \"GOOGLE\", \"TABELOG\"]"
+    },
+    {
+      "from": "const sourceDataPreflightDirectory=resolve('.eval-artifacts/source-data-preflight',`${Date.now()}-${selectedId}`);",
+      "to": "const sourceDataPreflightDirectory=resolve(process.env.CHECKPOINT_C_ATTEMPT!, 'source-preflight');"
+    },
+    {
+      "from": "directory: resolve(\".eval-artifacts\", \"recordings\")",
+      "to": "directory: resolve(process.env.CHECKPOINT_C_ATTEMPT!, \"recordings\")"
+    },
+    {
+      "from": "startDiagnosticRun(resolve(\".eval-artifacts\", \"restaurant-hybrid-live-read\")",
+      "to": "startDiagnosticRun(resolve(process.env.CHECKPOINT_C_ATTEMPT!, \"runner\")"
+    },
+    {
+      "from": "DeepSeekModelGateway.fromEnvironment(effectiveEnvironment, {",
+      "to": "modelTransport(effectiveEnvironment, {"
+    },
+    {
+      "from": "const googleClient = new GooglePlacesClient({",
+      "to": "const googleClient = googleTransport({"
+    },
+    {
+      "from": "const rawBrowser = browserRuntimeFromEnvironment(effectiveEnvironment);",
+      "to": "const rawBrowser = browserTransport(effectiveEnvironment);"
+    },
+    {
+      "from": "browserTrace.push({ sequence, at: new Date().toISOString(), kind, detail: safeRecord(detail) });",
+      "to": "browserTrace.push({ sequence, at: new Date().toISOString(), kind, detail: safeRecord(detail) });\n  observeTrace({ sequence, at: new Date().toISOString(), kind, detail: safeRecord(detail) });"
+    }
+  ],
+  "importChange": "relative relocation only; complete production Runner retained"
+}

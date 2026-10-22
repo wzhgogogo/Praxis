@@ -1,0 +1,266 @@
+{
+  "id": "gotanda-13206629-menu",
+  "caseId": "p2-holdout-05",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1316/A131603/13206629/dtlmenu/",
+  "observedAt": "2026-10-22T06:56:15.116Z",
+  "responseSha256": "1b020dcd23d64d469ac4922e96bd20813ff5f627edc60df81c755658c1fc1336",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/gotanda-13206629-menu.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Fire Hall 4000",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Higashigotanda Shinagawa Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1410022",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.62567078873907,
+          "longitude": 139.72803016385015
+        },
+        "servesCuisine": "Sichuan,Chinese,Chinese hot pot"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1316/A131603/13206629/\",\"name\":\"Fire Hall 4000\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/77662/640x640_rect_77662419.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Higashigotanda Shinagawa Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1410022\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.62567078873907,\"longitude\":139.72803016385015},\"priceRange\":\"JPY 5,000～JPY 5,999\",\"servesCuisine\":\"Sichuan,Chinese,Chinese hot pot\",\"telephone\":\"+81-3-6450-3384\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"1061\",\"ratingValue\":\"3.51\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1316/A131603/13206629/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "4d042c7590481de129c982135b2eed4fbacb6fefc9b696e77269c77303e91e3b",
+        "htmlCharacterOffset": 6028
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 55465,
+        "raw": "Sichuan, Chinese, Chinese hot pot"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Sichuan, Chinese, Chinese hot pot",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Sichuan, Chinese, Chinese hot pot",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Hotpot noodle soup",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Hotpot noodle soup\n                  </p>",
+      "sha256": "b98b3085fda502f6ab7969ed37aed2fe6466c94b54e6d03b968c2a4ae0e57e74",
+      "htmlCharacterOffset": 37395
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Chongqing Style Burning Noodles (4000 Style Dry Dandan Noodles)",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Chongqing Style Burning Noodles (4000 Style Dry Dandan Noodles)\n                  </p>",
+      "sha256": "90582f3d442e646541ac4ed65acbb561632b2abf21de4c3c320ae7d501d53746",
+      "htmlCharacterOffset": 38696
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Dandan noodles",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Dandan noodles\n                  </p>",
+      "sha256": "272b5f5065ca62a3d1e62e47df146fc205f42859d05ce8083cca8f26114ef78c",
+      "htmlCharacterOffset": 39924
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Extremely Spicy Hot Pot Meatballs",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Extremely Spicy Hot Pot Meatballs\n                  </p>",
+      "sha256": "2ac8a9d00470ded8d5ff12994b3f7f87e1da0d452776471fe1c24303a8020776",
+      "htmlCharacterOffset": 41031
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Mapo Tofu",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Mapo Tofu\n                  </p>",
+      "sha256": "b54908160ab948054439224d92f77cf5a32a78c195539bedad6c9b7f7f9859a9",
+      "htmlCharacterOffset": 41942
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Liver and Chives Stir-Fry",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Liver and Chives Stir-Fry\n                  </p>",
+      "sha256": "da9e89a13aa44795b2fa08a81bb0067f2774c58580bdfec9fca6ab014c1940c7",
+      "htmlCharacterOffset": 42861
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "\"Enchanting black vinegar sauce\" vinegared chicken",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    &quot;Enchanting black vinegar sauce&quot; vinegared chicken\n                  </p>",
+      "sha256": "f53fc0a426c845f93c5dbc84edb8b20c6415f317429cedbd37a31ef761f066e0",
+      "htmlCharacterOffset": 43866
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Komoda special shrimp chili sauce",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Komoda special shrimp chili sauce\n                  </p>",
+      "sha256": "dd41ab20351852c6b1f2096cd0555f32e5de2d51a9ccb48badd9d09a23be2dff",
+      "htmlCharacterOffset": 44852
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Kato pork and colorful vegetables",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Kato pork and colorful vegetables\n                  </p>",
+      "sha256": "7af74366768e8ee623e4661ae74c206da07584f7ee98b8493d3ff122aaef86b8",
+      "htmlCharacterOffset": 45811
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Open flame fried mixed rice",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Open flame fried mixed rice\n                  </p>",
+      "sha256": "23a55f38f5ac5a29a6c9f277b84e6c52c350b47b7f48c7f370004746d98614b7",
+      "htmlCharacterOffset": 46758
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Kato Pork Jumbo Fried Dumplings",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Kato Pork Jumbo Fried Dumplings\n                  </p>",
+      "sha256": "ce7e5d4bf6084c745c6cb993023d266adede401d587348921f0eeac744219314",
+      "htmlCharacterOffset": 47899
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Chengdu specialty boiled dumplings",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Chengdu specialty boiled dumplings\n                  </p>",
+      "sha256": "78a06fed60d4301bcba42c4b791e7b1a2a49d46cfde14122e9b754bcd4f4337b",
+      "htmlCharacterOffset": 48856
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Kato Pork Shumai",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Kato Pork Shumai\n                  </p>",
+      "sha256": "fb948c43b6582f4f34fc101ceab2a82382166b21592b490188c67fdf8633f8a8",
+      "htmlCharacterOffset": 49319
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Pork belly rice",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Pork belly rice\n                  </p>",
+      "sha256": "6a40b9f3b9b7d61f5e9f43398321a84c7a40d872d5b51263ecd2a246cb315d32",
+      "htmlCharacterOffset": 49764
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "1 gyoza",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    1 gyoza\n                  </p>",
+      "sha256": "862744a3d796b34d320a1310313390342e089c8d212c8def2f228962f89f4084",
+      "htmlCharacterOffset": 50208
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "large rice",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    large rice\n                  </p>",
+      "sha256": "c0072178c965e03fef461830ad898ef6ab226af2f42d71236eb4fad98ac5df15",
+      "htmlCharacterOffset": 50644
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "medium rice",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    medium rice\n                  </p>",
+      "sha256": "3557ba80591a598559867391e878e40efd9ef1ffc9e77fe12c0022bb83d309d1",
+      "htmlCharacterOffset": 51083
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "small rice",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    small rice\n                  </p>",
+      "sha256": "116bcb73d1a1a65a1104d4ff382e023a0d8183a66f50514f88ca651d213e746c",
+      "htmlCharacterOffset": 51523
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Panda bun",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Panda bun\n                  </p>",
+      "sha256": "b3e4a5140de7a88bdb0f96be4d68b341d156bd989fb44ba94743daea760ff8fd",
+      "htmlCharacterOffset": 52409
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Almond Pudding",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Almond Pudding\n                  </p>",
+      "sha256": "c490421dce54440b97d32c80b74a5778914e25c49e1b89152fe7da81a60f9b19",
+      "htmlCharacterOffset": 52847
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Oolong Ice Cream",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Oolong Ice Cream\n                  </p>",
+      "sha256": "1ab069894237fb89f6cd9d1a9dd9a8a982a8f717b39033dddb929a8f840abd75",
+      "htmlCharacterOffset": 53290
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Sesame Dumpling 1 piece",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Sesame Dumpling 1 piece\n                  </p>",
+      "sha256": "79c4eb4eefab5c11bfa00e3518cff73036f62f71ce9736ffe3d7fb19e9a10691",
+      "htmlCharacterOffset": 53735
+    },
+    {
+      "role": "MERCHANT_MENU_ITEM",
+      "text": "Dipping egg",
+      "raw": "<p class=\"rstdtl-menu-lst__menu-title\">\n                    Dipping egg\n                  </p>",
+      "sha256": "121df8ae03210b0501dab5e3da07b074d28e7e3d1578b8f3b777e9369d52404f",
+      "htmlCharacterOffset": 54187
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Sichuan, Chinese, Chinese hot pot",
+      "raw": "<tr>\n                  <th>\n                    Categories \n                  </th>\n                  <td><span>Sichuan, Chinese, Chinese hot pot</span>\n                  </td>\n                </tr>",
+      "sha256": "fe6071df8e03f9bea0412cade308a9827a585033186868857e6318fc56d1cc17",
+      "htmlCharacterOffset": 55353
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 5,000 - JPY 5,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                  <th>\n                    Average price\n                  </th>\n                  <td>\n                    <div class=\"rstinfo-table__budget\">\n                      <p class=\"rstinfo-table__budget-item\">\n                        <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 5,000 - JPY 5,999</em>\n                      </p>\n                      <p class=\"rstinfo-table__budget-item\">\n                        <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                      </p>\n                    </div>\n                  </td>\n                </tr>",
+      "sha256": "a63e01f0e33032e97b9d11534e9e927bc54d62d92cdd46d171214e416e08fede",
+      "htmlCharacterOffset": 61105
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome Of course, that's no problem! We also have baby chairs available.",
+      "raw": "<tr>\n              <th>\n                Family friendly\n              </th>\n              <td>\n                <p>\n                  Children welcome\n                </p>\n                <p class=\"rstinfo-table__each-info\">\n                  Of course, that&#39;s no problem! We also have baby chairs available.<br />\n                </p>\n              </td>\n            </tr>",
+      "sha256": "5969fc2377815a781216584e047280c41246e97c1f05a12e5103f9dce9b036a7",
+      "htmlCharacterOffset": 67028
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                  <th>\n                    Categories \n                  </th>\n                  <td><span>Sichuan, Chinese, Chinese hot pot</span>\n                  </td>\n                </tr>",
+      "sha256": "fe6071df8e03f9bea0412cade308a9827a585033186868857e6318fc56d1cc17",
+      "text": "Categories Sichuan, Chinese, Chinese hot pot",
+      "htmlCharacterOffset": 55353
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                            <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1316/A131603/13206629/dtlratings/#price-range\">JPY 5,000 - JPY 5,999</a></span>\n                          </p>",
+      "sha256": "3ca5cef613350e2a65087ec95a7685f8c27371ab95d7f0153d6fea38e00adace",
+      "text": "JPY 5,000 - JPY 5,999",
+      "htmlCharacterOffset": 26210
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                            <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1316/A131603/13206629/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                          </p>",
+      "sha256": "8e8976ebdc1ec614583d221eba9fe4dcf12c01952c863eabefa554ae1838b22f",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26634
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1316/A131603/13206629/dtlmenu/"
+}

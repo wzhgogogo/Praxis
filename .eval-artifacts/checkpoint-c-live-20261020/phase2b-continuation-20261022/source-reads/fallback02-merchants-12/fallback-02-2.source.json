@@ -1,0 +1,252 @@
+{
+  "id": "fallback-02-2",
+  "caseId": "p2b-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1313/A131302/13189642/",
+  "observedAt": "2026-10-22T19:58:11.382Z",
+  "responseSha256": "813b42dca67b4f18022e91d7f5784e8af02b451bbcd943006a03f2b1275b45a1",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-2.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Koboreya Honten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Tsukishima Chuo Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1040052",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.66250771873226,
+          "longitude": 139.78007510418573
+        },
+        "servesCuisine": "Monjyayaki,Okonomiyaki (Japanese savory pancake),Izakaya (Japanese style tavern)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1313/A131302/13189642/\",\"name\":\"Koboreya Honten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/173297/320x320_rect_662520c9dba644ce6d7ccdfdb70d767d.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Tsukishima Chuo Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1040052\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.66250771873226,\"longitude\":139.78007510418573},\"priceRange\":\"JPY 3,000～JPY 3,999\",\"servesCuisine\":\"Monjyayaki,Okonomiyaki (Japanese savory pancake),Izakaya (Japanese style tavern)\",\"telephone\":\"+81-3-3520-9976\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"805\",\"ratingValue\":\"3.48\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1313/A131302/13189642/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "ca8ecbb2e8ddbbf7fd243b7837055e268cc85a8492b8ac67e7cbb123ac2be643",
+        "htmlCharacterOffset": 6304
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 84045,
+        "raw": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 50404,
+        "raw": "[2-Hour All You Can Drink] &quot;Shio&quot; - Seafood Delight Course -"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 54519,
+        "raw": "[2-Hour All You Can Drink] &quot;Kizuna&quot; - Special Course for 2 People -"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 58575,
+        "raw": "[2-Hour All You Can Drink] &quot;Tsuki&quot; - Tsukishima Enjoyment Course -"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[2-Hour All You Can Drink] \"Shio\" - Seafood Delight Course -",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "This seafood course is a delight for fish lovers, featuring carefully selected ingredients from all over the country, with fresh seafood sourced daily from long-standing wholesale vendors at Toyosu Market. You will also enjoy the highest quality mentaiko that can only be tasted with this course, alongside our signature monja named after our restaurant, Koboreya. Additionally, savor our decadent okonomiyaki loaded with fluffy batter and luxurious scallops from Ohambe, and our exceptional yakisoba made with scallops, squid, clam, and pork belly, complemented by a special soy sauce.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[2-Hour All You Can Drink] \"Kizuna\" - Special Course for 2 People -",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "This is a special course called \"Kizuna\" available exclusively for two diners, allowing you to fully enjoy the flavors of Koboreya. We offer a combination of our signature items and those exclusive to this course. Delight in simplicity with our proud ingredients, including tempura bits from Michelin Bib Gourmand-rated Tempura Abe, and dashi made from Fukushimakatsu and pork backbones sourced from a long-established shop in Kyoto.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[2-Hour All You Can Drink] \"Tsuki\" - Tsukishima Enjoyment Course -",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "For those experiencing Tsukishima Monja for the first time, we highly recommend the \"Koboreya\" special course. Indulge in the classic Tsukishima-style Mentaiko Monja, featuring a savory sauce made with pork and Baby Star, a beloved treat since the Showa era. Enjoy the finest quality mentaiko sourced from Japan. Additionally, savor our special soy sauce yakisoba, made with chewy noodles, and a fluffy, carefully crafted okonomiyaki.",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "publicBookingRead": {
+    "status": "SOURCE_BOUND_READ_EXPOSED",
+    "rst_id": "13189642",
+    "url": "https://tabelog.com/en/booking/calendar/find_vacancy/",
+    "enabled": true,
+    "raw": "<div id=\"js-booking-params\" class=\"u-hidden\" data-rst-id=\"13189642\" data-booking-enabled=\"1\" data-fetch-url=\"https://tabelog.com/en/booking/calendar/find_vacancy/\" data-fetch-url-date=\"https://tabelog.com/en/booking/calendar/find_vacancy_date_with_status/\" data-fetch-url-member=\"https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date/\" data-fetch-url-initial-vacancy=\"https://tabelog.com/en/booking/calendar/initial_vacancy\">",
+    "rawSha256": "114373c43afb71a1966028bf5773c78ba9b92ed77ea46b78bdfc7b6c7a3c4e48",
+    "htmlCharacterOffset": 27708
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[2-Hour All You Can Drink] \"Shio\" - Seafood Delight Course -",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "This seafood course is a delight for fish lovers, featuring carefully selected ingredients from all over the country, with fresh seafood sourced daily from long-standing wholesale vendors at Toyosu Market. You will also enjoy the highest quality mentaiko that can only be tasted with this course, alongside our signature monja named after our restaurant, Koboreya. Additionally, savor our decadent okonomiyaki loaded with fluffy batter and luxurious scallops from Ohambe, and our exceptional yakisoba made with scallops, squid, clam, and pork belly, complemented by a special soy sauce.",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[2-Hour All You Can Drink] \"Kizuna\" - Special Course for 2 People -",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "This is a special course called \"Kizuna\" available exclusively for two diners, allowing you to fully enjoy the flavors of Koboreya. We offer a combination of our signature items and those exclusive to this course. Delight in simplicity with our proud ingredients, including tempura bits from Michelin Bib Gourmand-rated Tempura Abe, and dashi made from Fukushimakatsu and pork backbones sourced from a long-established shop in Kyoto.",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[2-Hour All You Can Drink] \"Tsuki\" - Tsukishima Enjoyment Course -",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "For those experiencing Tsukishima Monja for the first time, we highly recommend the \"Koboreya\" special course. Indulge in the classic Tsukishima-style Mentaiko Monja, featuring a savory sauce made with pork and Baby Star, a beloved treat since the Showa era. Enjoy the finest quality mentaiko sourced from Japan. Additionally, savor our special soy sauce yakisoba, made with chewy noodles, and a fluffy, carefully crafted okonomiyaki.",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "Mastering Dashi: \"Creative Monjayaki with Traditional Japanese Ingredients\"",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                Mastering Dashi: &quot;Creative Monjayaki with Traditional Japanese Ingredients&quot;\n              </h3>",
+      "sha256": "0b715c0a2c9e4ac4f505cebe630f51b8e09fea12174e001cd6e6f9eb4f2fafda",
+      "htmlCharacterOffset": 44716
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[2-Hour All You Can Drink] \"Shio\" - Seafood Delight Course -",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[2-Hour All You Can Drink] &quot;Shio&quot; - Seafood Delight Course -</span>",
+      "sha256": "3ef6f1f47d0e989e25427628604f12ab85576f8b3e82247592feec4f4ae7e16a",
+      "htmlCharacterOffset": 50352
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "This seafood course is a delight for fish lovers, featuring carefully selected ingredients from all over the country, with fresh seafood sourced daily from long-standing wholesale vendors at Toyosu Market. You will also enjoy the highest quality mentaiko that can only be tasted with this course, alongside our signature monja named after our restaurant, Koboreya. Additionally, savor our decadent okonomiyaki loaded with fluffy batter and luxurious scallops from Ohambe, and our exceptional yakisoba made with scallops, squid, clam, and pork belly, complemented by a special soy sauce.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          This seafood course is a delight for fish lovers, featuring carefully selected ingredients from all over the country, with fresh seafood sourced daily from long-standing wholesale vendors at Toyosu Market. \n                          \n                          You will also enjoy the highest quality mentaiko that can only be tasted with this course, alongside our signature monja named after our restaurant, Koboreya. \n                          \n                          Additionally, savor our decadent okonomiyaki loaded with fluffy batter and luxurious scallops from Ohambe, and our exceptional yakisoba made with scallops, squid, clam, and pork belly, complemented by a special soy sauce.\n                        </p>",
+      "sha256": "7f224d853bd7905261b09d5687503b0bddd929459459f0d23fec88fc847ad1e5",
+      "htmlCharacterOffset": 50612
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[2-Hour All You Can Drink] \"Kizuna\" - Special Course for 2 People -",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[2-Hour All You Can Drink] &quot;Kizuna&quot; - Special Course for 2 People -</span>",
+      "sha256": "f027ebe82fae044486e6abe53234ee9720599cc17e0b5893dded8fe7473e4eb0",
+      "htmlCharacterOffset": 54467
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "This is a special course called \"Kizuna\" available exclusively for two diners, allowing you to fully enjoy the flavors of Koboreya. We offer a combination of our signature items and those exclusive to this course. Delight in simplicity with our proud ingredients, including tempura bits from Michelin Bib Gourmand-rated Tempura Abe, and dashi made from Fukushimakatsu and pork backbones sourced from a long-established shop in Kyoto.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          This is a special course called &quot;Kizuna&quot; available exclusively for two diners, allowing you to fully enjoy the flavors of Koboreya. \n                          We offer a combination of our signature items and those exclusive to this course. \n                          Delight in simplicity with our proud ingredients, including tempura bits from Michelin Bib Gourmand-rated Tempura Abe, and dashi made from Fukushimakatsu and pork backbones sourced from a long-established shop in Kyoto.\n                        </p>",
+      "sha256": "dfd83ededb59294379e480a81576167c21c436595cdb76773f0491e10a747cfc",
+      "htmlCharacterOffset": 54734
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[2-Hour All You Can Drink] \"Tsuki\" - Tsukishima Enjoyment Course -",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[2-Hour All You Can Drink] &quot;Tsuki&quot; - Tsukishima Enjoyment Course -</span>",
+      "sha256": "22daa6a9379b1441ebb20449c8e5d6834ac5f417cb7c32014be563de738bf3d6",
+      "htmlCharacterOffset": 58523
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "For those experiencing Tsukishima Monja for the first time, we highly recommend the \"Koboreya\" special course. Indulge in the classic Tsukishima-style Mentaiko Monja, featuring a savory sauce made with pork and Baby Star, a beloved treat since the Showa era. Enjoy the finest quality mentaiko sourced from Japan. Additionally, savor our special soy sauce yakisoba, made with chewy noodles, and a fluffy, carefully crafted okonomiyaki.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          For those experiencing Tsukishima Monja for the first time, we highly recommend the &quot;Koboreya&quot; special course. \n                          Indulge in the classic Tsukishima-style Mentaiko Monja, featuring a savory sauce made with pork and Baby Star, a beloved treat since the Showa era. Enjoy the finest quality mentaiko sourced from Japan. \n                          Additionally, savor our special soy sauce yakisoba, made with chewy noodles, and a fluffy, carefully crafted okonomiyaki.\n                        </p>",
+      "sha256": "6a1d2b6d579a94fcffbd250c3b6f00a60d26cb16fae9c86650aee43843b540e5",
+      "htmlCharacterOffset": 58789
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "640577269514633641fd1784baf8cb2f2fa3f40597ebd8232b43330fc22db879",
+      "htmlCharacterOffset": 83925
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 3,000 - JPY 3,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 3,000 - JPY 3,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "273a1fbe76508c61431d625f6f2f5280dcc67393e8e393b18b0d8b87c362545b",
+      "htmlCharacterOffset": 91331
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 24 seats",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      24 seats\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "89ff7a775c77b7b80188584738c4eefb5deb29f75bef67c25bc7731408fbf576",
+      "htmlCharacterOffset": 95895
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Available For 20-30 people Please contact us for details",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Available\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      For 20-30 people\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      Please contact us for details\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "3313b03f3cf7089e4cf8e9eae85989325f80b4526fcbaa478548ff2ce2af5c03",
+      "htmlCharacterOffset": 96391
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome) Children's tableware available",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome)\n                  </p>\n                  <p class=\"rstinfo-table__each-info\">\n                    Children&#39;s tableware available<br />\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "f14fec3b8f9ee4f122c141096c06dcf7ffc6e62267c11828e37fe98171e9706a",
+      "htmlCharacterOffset": 100582
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "640577269514633641fd1784baf8cb2f2fa3f40597ebd8232b43330fc22db879",
+      "text": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "htmlCharacterOffset": 83925
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1313/A131302/13189642/dtlratings/#price-range\">JPY 3,000 - JPY 3,999</a></span>\n                            </p>",
+      "sha256": "2c2b8a1004314495204b6ead6d71ae6c32cc285f9a97751f99630c3153488a05",
+      "text": "JPY 3,000 - JPY 3,999",
+      "htmlCharacterOffset": 26610
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1313/A131302/13189642/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "39e9ed2a15e4994f366cd4adf4609e97397e028a912d3219134dbb2b25095438",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 27040
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1313/A131302/13189642/"
+}

@@ -1,0 +1,127 @@
+{
+  "id": "akasaka-13015193",
+  "caseId": "p2-holdout-03",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+  "observedAt": "2026-10-22T06:45:21.838Z",
+  "responseSha256": "0bda9ceb62f4f22bbb7a55d4cb857670a549096bf8e75080df7f2c6b34e962ff",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/merchant-job-01/akasaka-13015193.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Shabu Gen",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Akasaka Minato Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1070052",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.676497438709646,
+          "longitude": 139.73695669435727
+        },
+        "servesCuisine": "Shabu shabu (Japanese hotpot),Sukiyaki (Japanese sweet soy hotpot),Pork shabu shabu"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1308/A130801/13015193/\",\"name\":\"Shabu Gen\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/342283/640x640_rect_8f837e50b3238091c82ce8178a3703b1.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Akasaka Minato Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1070052\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.676497438709646,\"longitude\":139.73695669435727},\"priceRange\":\"JPY 10,000～JPY 14,999\",\"servesCuisine\":\"Shabu shabu (Japanese hotpot),Sukiyaki (Japanese sweet soy hotpot),Pork shabu shabu\",\"telephone\":\"+81-3-3586-4054\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"363\",\"ratingValue\":\"3.43\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1308/A130801/13015193/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "439c6634c9cd5f2934021770e872883db0d1c67dfbc291a34989594dbeb4e022",
+        "htmlCharacterOffset": 6423
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 82527,
+        "raw": "Shabu shabu (Japanese hotpot), Sukiyaki (Japanese sweet soy hotpot), Pork shabu shabu"
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "htmlCharacterOffset": 55293,
+        "raw": "This course includes an all-you-can-drink option, featuring carefully selected rare cuts of black Wagyu beef and Yonezawa pork."
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Shabu shabu (Japanese hotpot), Sukiyaki (Japanese sweet soy hotpot), Pork shabu shabu",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "《Online & Weekday Limited》 2-Hour All-You-Can-Drink Included! Black Wagyu Rib Roast, Sirloin Cap, and Yonezawa Pork All-You-Can-Eat Course! Tax Included JPY 15,000!",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "\"Online & Weekday Limited\" Traditional Shabu-Shabu 2-Hour All You Can Drink Premium Course! Tax Included JPY 10,000!",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "This course includes an all-you-can-drink option, featuring carefully selected rare cuts of black Wagyu beef and Yonezawa pork.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "\"Online & Weekdays Only\" Traditional Shabu-Shabu Special Beef and Yonezawa Pork 2-Hour All-You-Can-Eat Course",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Shabu shabu (Japanese hotpot), Sukiyaki (Japanese sweet soy hotpot), Pork shabu shabu",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "《Online & Weekday Limited》 2-Hour All-You-Can-Drink Included! Black Wagyu Rib Roast, Sirloin Cap, and Yonezawa Pork All-You-Can-Eat Course! Tax Included JPY 15,000!",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "\"Online & Weekday Limited\" Traditional Shabu-Shabu 2-Hour All You Can Drink Premium Course! Tax Included JPY 10,000!",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "This course includes an all-you-can-drink option, featuring carefully selected rare cuts of black Wagyu beef and Yonezawa pork.",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "\"Online & Weekdays Only\" Traditional Shabu-Shabu Special Beef and Yonezawa Pork 2-Hour All-You-Can-Eat Course",
+      "meals": []
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Shabu shabu (Japanese hotpot), Sukiyaki (Japanese sweet soy hotpot), Pork shabu shabu</span>\n                    </td>\n                  </tr>",
+      "sha256": "90a5556b7b37f5cc243b0b133327f4fb53233aee743da8c581929cae34cebdda",
+      "text": "Categories Shabu shabu (Japanese hotpot), Sukiyaki (Japanese sweet soy hotpot), Pork shabu shabu",
+      "htmlCharacterOffset": 82407
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1308/A130801/13015193/dtlratings/#price-range\">JPY 10,000 - JPY 14,999</a></span>\n                            </p>",
+      "sha256": "aa79b5f23c34d7368cfbd5d58daee24652805c1d7f488298ca9bc12327f7f180",
+      "text": "JPY 10,000 - JPY 14,999",
+      "htmlCharacterOffset": 26950
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1308/A130801/13015193/dtlratings/#price-range\">JPY 3,000 - JPY 3,999</a></span>\n                            </p>",
+      "sha256": "2a3953e49fec5e76b00a32daac1d770d1d30c11fa102c975ee6200cb72cd19af",
+      "text": "JPY 3,000 - JPY 3,999",
+      "htmlCharacterOffset": 27382
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/"
+}

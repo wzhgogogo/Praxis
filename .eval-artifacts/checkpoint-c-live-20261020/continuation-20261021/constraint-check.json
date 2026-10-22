@@ -1,0 +1,53 @@
+{
+  "status": "BLOCKED_UNCHANGED_RUNNER_CANNOT_ENFORCE_NO_FORM_CONSTRAINT",
+  "at": "2026-10-21T02:29:28.606156+00:00",
+  "latestUserInstruction": "\u4e0d\u6253\u5f00\u9884\u7ea6\u8868\u5355\uff0c\u7ee7\u7eed\u8dd1",
+  "otherConstraint": "No changes to any code",
+  "checks": [
+    {
+      "path": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "line": 763,
+      "sha256": "d0bf609217f5d141813b19392065d8e7a2cb4871229aef433e93be72347f54b9",
+      "finding": "Deterministic navigation to the reservation entry before snapshot."
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-public-query.ts",
+      "line": 42,
+      "sha256": "f5bc79396599307fb0fff526050916f0845256df00a473c7d255bd8db2a57580",
+      "finding": "Hardcoded source policy permits reservation-entry GET."
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/runner-entry.ts",
+      "line": 405,
+      "sha256": "89a68fa743bb90fe8aeb0f8e14059853b063530930879e9027a803c534514d9e",
+      "finding": "CLI composition has no no-form policy setting."
+    },
+    {
+      "path": "src/infrastructure/browser/local-playwright-chromium.ts",
+      "line": 205,
+      "sha256": "8ccd9210815fea3e97e8cdc76d71a048c142903ffef38696c7d98cc8283c3ece",
+      "finding": "Environment settings cover proxy/interactive/profile only."
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/transports.ts",
+      "line": 58,
+      "sha256": "e1492ae41feb342edb99aa2088814cc3ca22b99fd8d7e8324006175882c67968",
+      "finding": "Observer wraps responses; no configurable pre-navigation form admission."
+    }
+  ],
+  "decision": "No launch, no workaround, no relaxation, no code changes. Runtime approval inactive. Restore original 18-run plan and keep unused 14-run selection/freeze as history.",
+  "additionalFormalRuns": 0,
+  "additionalModels": 0,
+  "additionalSourceRequests": 0,
+  "priorFormalRuns": 4,
+  "notReached": 14,
+  "priorS0": "c-04 PRESENT; not fixed or relabelled",
+  "minimalRequiredChange": "Navigation-before-dispatch enforcement in eval outer; NOT IMPLEMENTED due explicit user no-code-change instruction.",
+  "originalPlanRestoredSha256": "c9c0004d812aeb930c2dba7ff0fdce2d820f766dc83abb9a3076036f390e7704",
+  "unusedPreparedApprovalSha256": "ccbcebdfcfdc364ec539e5703cb4e718ede26703d59b9c46446b21b933148fb9",
+  "inactiveApprovalSha256": "df5352f7742e930c9be9d440ee5b9a148b9185279bafcad61db58f4f3ec85b25",
+  "codeFilesChanged": [],
+  "runtimeFreezeStatus": "UNUSED_INACTIVE; original plan restored after denied startup, not a runnable approved freeze",
+  "supervisorStarted": false,
+  "authorizationConsumed": false
+}

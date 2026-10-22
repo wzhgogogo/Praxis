@@ -1,0 +1,59 @@
+{
+  "kind": "SELECTION",
+  "id": "p22-selection-001",
+  "codeCommit": "b7f56b660c9a1fc017b792a01eb405ff83349383",
+  "freezeSha256": "d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d",
+  "call": {
+    "kind": "SELECTION",
+    "id": "p22-selection-001",
+    "startedAt": "2026-10-21T04:32:09.941Z",
+    "requestSha256": "fc5cf2a9ea82acb71f110f912bb0540cf845c833b5f59aabfe7dd45c45bbae9b",
+    "status": "SUCCEEDED",
+    "finishedAt": "2026-10-21T04:32:11.992Z",
+    "wallMs": 2050.1151669999817,
+    "latencyMs": 2050,
+    "model": "deepseek-flash",
+    "usage": {
+      "inputTokens": 23847,
+      "outputTokens": 272,
+      "totalTokens": 24119
+    },
+    "error": null
+  },
+  "action": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:ea7f13811ba2762a8809896a",
+      "praxis:restaurant:f7be11a2d29a00afc46d46e4",
+      "praxis:restaurant:359e4485b73417043bd3a76a"
+    ],
+    "decisionSummary": "AVAILABILITY goal for 3 at 19:30 on 2026-10-22; no eligible candidates yet. Check the three checkable Kagurazaka candidates (direct-source-page paths, 81–95 m) for request-bound slots and source facts."
+  },
+  "rawResponse": {
+    "invocationId": "f2447cff-b342-4ca6-bb26-f994af1110d5",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:ea7f13811ba2762a8809896a\", \"praxis:restaurant:f7be11a2d29a00afc46d46e4\", \"praxis:restaurant:359e4485b73417043bd3a76a\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"AVAILABILITY goal for 3 at 19:30 on 2026-10-22; no eligible candidates yet. Check the three checkable Kagurazaka candidates (direct-source-page paths, 81–95 m) for request-bound slots and source facts.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2050,
+    "providerRequestId": "34895f07-c43e-4edc-aa3d-23fc642af8d5",
+    "usage": {
+      "inputTokens": 23847,
+      "outputTokens": 272,
+      "totalTokens": 24119
+    }
+  },
+  "verdict": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 3,
+      "directInRadiusCheckable": 3,
+      "directSelectionRatio": 1
+    }
+  },
+  "acceptable": true
+}

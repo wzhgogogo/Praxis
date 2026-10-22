@@ -1,0 +1,244 @@
+{
+  "id": "fallback-02-13013080",
+  "caseId": "p2-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1317/A131706/13013080/",
+  "observedAt": "2026-10-22T07:23:06.184Z",
+  "responseSha256": "f79552910954fbb1037cd1eb31f61eb125b485134fa0304655a0662eb256646a",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-02-13013080.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "SALVATORE CUOMO &amp; BAR Sangenjaya",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Nozawa Setagaya Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1540003",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.63850287569582,
+          "longitude": 139.67342594189887
+        },
+        "servesCuisine": "Italian,Pizza,Baru (Spanish style bar)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1317/A131706/13013080/\",\"name\":\"SALVATORE CUOMO &amp; BAR Sangenjaya\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/341698/640x640_rect_f70ebecf643981ef0176e6d7a0f53a6f.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Nozawa Setagaya Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1540003\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.63850287569582,\"longitude\":139.67342594189887},\"priceRange\":\"JPY 4,000～JPY 4,999\",\"servesCuisine\":\"Italian,Pizza,Baru (Spanish style bar)\",\"telephone\":\"+81-3-3418-5965\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"69\",\"ratingValue\":\"3.06\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1317/A131706/13013080/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "340fb40ec1daa40f3348769e829129a00f4b399b556dfe83ad5beb787db5dd32",
+        "htmlCharacterOffset": 6368
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 85468,
+        "raw": "Italian, Pizza, Baru (Spanish style bar)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 51272,
+        "raw": "[2-Hour All-You-Can-Drink] Casual Plan ★ Most Popular Pizza, 5 Types of Appetizers, Pasta, and 5 Courses with 9 Dishes"
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "htmlCharacterOffset": 51591,
+        "raw": "Enjoy our great value course with a two-hour all-you-can-drink option! Perfect for after-parties or casual dining gatherings! Savor an assortment of appetizers and seasonal fritters that pair wonderfully with drinks, along with our most popular Margherita pizza and pasta!"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 55065,
+        "raw": "[3-Hour All-You-Can-Drink] Sunday to Thursday Limited ★ Casual Plan ★ Most Popular Pizza, 5 Types of Appetizers, Pasta, and 5 Courses with 9 Dishes"
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "htmlCharacterOffset": 55413,
+        "raw": "Enjoy a fantastic course with a three-hour all-you-can-drink option! Perfect for after-parties or casual dining gatherings! Savor an assortment of appetizers and seasonal fritters that pair wonderfully with drinks, along with our most popular Margherita pizza and pasta!"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 58914,
+        "raw": "[2-Hour All-You-Can-Drink] Salvatore Plan ★ Chicken Sauté Main, Wood-Fired Pizza, Pasta, and 7 Courses with 11 Dishes"
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "htmlCharacterOffset": 59233,
+        "raw": "Enjoy a delightful Italian experience at Salvatore with this course that includes a two-hour all-you-can-drink option! Savor our signature Neapolitan pizza, featuring the ever-popular Margherita. The meal includes an assortment of appetizers, a fresh salad, French fries topped with freshly grated cheese, seasonal pasta, and a main dish that is irresistibly fragrant with garlic butter!"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Italian, Pizza, Baru (Spanish style bar)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[2-Hour All-You-Can-Drink] Casual Plan ★ Most Popular Pizza, 5 Types of Appetizers, Pasta, and 5 Courses with 9 Dishes",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Enjoy our great value course with a two-hour all-you-can-drink option! Perfect for after-parties or casual dining gatherings! Savor an assortment of appetizers and seasonal fritters that pair wonderfully with drinks, along with our most popular Margherita pizza and pasta!",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[3-Hour All-You-Can-Drink] Sunday to Thursday Limited ★ Casual Plan ★ Most Popular Pizza, 5 Types of Appetizers, Pasta, and 5 Courses with 9 Dishes",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Enjoy a fantastic course with a three-hour all-you-can-drink option! Perfect for after-parties or casual dining gatherings! Savor an assortment of appetizers and seasonal fritters that pair wonderfully with drinks, along with our most popular Margherita pizza and pasta!",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[2-Hour All-You-Can-Drink] Salvatore Plan ★ Chicken Sauté Main, Wood-Fired Pizza, Pasta, and 7 Courses with 11 Dishes",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Enjoy a delightful Italian experience at Salvatore with this course that includes a two-hour all-you-can-drink option! Savor our signature Neapolitan pizza, featuring the ever-popular Margherita. The meal includes an assortment of appetizers, a fresh salad, French fries topped with freshly grated cheese, seasonal pasta, and a main dish that is irresistibly fragrant with garlic butter!",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Italian, Pizza, Baru (Spanish style bar)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[2-Hour All-You-Can-Drink] Casual Plan ★ Most Popular Pizza, 5 Types of Appetizers, Pasta, and 5 Courses with 9 Dishes",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Enjoy our great value course with a two-hour all-you-can-drink option! Perfect for after-parties or casual dining gatherings! Savor an assortment of appetizers and seasonal fritters that pair wonderfully with drinks, along with our most popular Margherita pizza and pasta!",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[3-Hour All-You-Can-Drink] Sunday to Thursday Limited ★ Casual Plan ★ Most Popular Pizza, 5 Types of Appetizers, Pasta, and 5 Courses with 9 Dishes",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Enjoy a fantastic course with a three-hour all-you-can-drink option! Perfect for after-parties or casual dining gatherings! Savor an assortment of appetizers and seasonal fritters that pair wonderfully with drinks, along with our most popular Margherita pizza and pasta!",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[2-Hour All-You-Can-Drink] Salvatore Plan ★ Chicken Sauté Main, Wood-Fired Pizza, Pasta, and 7 Courses with 11 Dishes",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Enjoy a delightful Italian experience at Salvatore with this course that includes a two-hour all-you-can-drink option! Savor our signature Neapolitan pizza, featuring the ever-popular Margherita. The meal includes an assortment of appetizers, a fresh salad, French fries topped with freshly grated cheese, seasonal pasta, and a main dish that is irresistibly fragrant with garlic butter!",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "A masterpiece of craftsmanship. Authentic pizza crafted by professionals with specialized qualifications, bringing out the true flavors of the ingredients.",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                A masterpiece of craftsmanship. Authentic pizza crafted by professionals with specialized qualifications, bringing out the true flavors of the ingredients.\n              </h3>",
+      "sha256": "d771bbeff8dbdb1a3b7f1e76e9482c340b3f368d455c2aa36250658015f42a07",
+      "htmlCharacterOffset": 44972
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[2-Hour All-You-Can-Drink] Casual Plan ★ Most Popular Pizza, 5 Types of Appetizers, Pasta, and 5 Courses with 9 Dishes",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[2-Hour All-You-Can-Drink] Casual Plan ★ Most Popular Pizza, 5 Types of Appetizers, Pasta, and 5 Courses with 9 Dishes</span>",
+      "sha256": "96384aa714789228a37e0fcbb4ba29909eaec37b643602a8ede71a589b5d944d",
+      "htmlCharacterOffset": 51220
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Enjoy our great value course with a two-hour all-you-can-drink option! Perfect for after-parties or casual dining gatherings! Savor an assortment of appetizers and seasonal fritters that pair wonderfully with drinks, along with our most popular Margherita pizza and pasta!",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Enjoy our great value course with a two-hour all-you-can-drink option! Perfect for after-parties or casual dining gatherings! Savor an assortment of appetizers and seasonal fritters that pair wonderfully with drinks, along with our most popular Margherita pizza and pasta!\n                        </p>",
+      "sha256": "9a000fd5043da18d7d8048aad5ef9abec5bc9517026d3b8a72112c9f4884a6e8",
+      "htmlCharacterOffset": 51528
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[3-Hour All-You-Can-Drink] Sunday to Thursday Limited ★ Casual Plan ★ Most Popular Pizza, 5 Types of Appetizers, Pasta, and 5 Courses with 9 Dishes",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[3-Hour All-You-Can-Drink] Sunday to Thursday Limited ★ Casual Plan ★ Most Popular Pizza, 5 Types of Appetizers, Pasta, and 5 Courses with 9 Dishes</span>",
+      "sha256": "01abb07314e251a30372a0d503a63caadd31e696ad62514b86f2375a1cf0205e",
+      "htmlCharacterOffset": 55013
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Enjoy a fantastic course with a three-hour all-you-can-drink option! Perfect for after-parties or casual dining gatherings! Savor an assortment of appetizers and seasonal fritters that pair wonderfully with drinks, along with our most popular Margherita pizza and pasta!",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Enjoy a fantastic course with a three-hour all-you-can-drink option! Perfect for after-parties or casual dining gatherings! Savor an assortment of appetizers and seasonal fritters that pair wonderfully with drinks, along with our most popular Margherita pizza and pasta!\n                        </p>",
+      "sha256": "a3f8251d8e0d82874fe214d6186481c21d2996f39fb9a6a0b90925d90038595f",
+      "htmlCharacterOffset": 55350
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[2-Hour All-You-Can-Drink] Salvatore Plan ★ Chicken Sauté Main, Wood-Fired Pizza, Pasta, and 7 Courses with 11 Dishes",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[2-Hour All-You-Can-Drink] Salvatore Plan ★ Chicken Sauté Main, Wood-Fired Pizza, Pasta, and 7 Courses with 11 Dishes</span>",
+      "sha256": "049307cb58fce6be4caad2f9db8acd77d767e796c0d30adf323039bbeb45a26e",
+      "htmlCharacterOffset": 58862
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Enjoy a delightful Italian experience at Salvatore with this course that includes a two-hour all-you-can-drink option! Savor our signature Neapolitan pizza, featuring the ever-popular Margherita. The meal includes an assortment of appetizers, a fresh salad, French fries topped with freshly grated cheese, seasonal pasta, and a main dish that is irresistibly fragrant with garlic butter!",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Enjoy a delightful Italian experience at Salvatore with this course that includes a two-hour all-you-can-drink option! Savor our signature Neapolitan pizza, featuring the ever-popular Margherita. The meal includes an assortment of appetizers, a fresh salad, French fries topped with freshly grated cheese, seasonal pasta, and a main dish that is irresistibly fragrant with garlic butter!\n                        </p>",
+      "sha256": "984eeaa0558ecc20c82c9519b836458bda808780a7b87c72355c558d18917774",
+      "htmlCharacterOffset": 59170
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Italian, Pizza, Baru (Spanish style bar)",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Pizza, Baru (Spanish style bar)</span>\n                    </td>\n                  </tr>",
+      "sha256": "e86ced8bbcf495964879c7d3ddb58d364e62804b502d82b5c8aa7ce0884417e7",
+      "htmlCharacterOffset": 85348
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 4,000 - JPY 4,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 4,000 - JPY 4,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "1494c19ee03cd5fa5807c66d2d027b0f504e3fb215e8d95d231420f173651892",
+      "htmlCharacterOffset": 90822
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome The aisles are wide enough for strollers to pass through♪",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome\n                  </p>\n                  <p class=\"rstinfo-table__each-info\">\n                    The aisles are wide enough for strollers to pass through♪<br />\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "bbea2287cfea1506075cbfe1735b7c7c25aabb268e09a549d0d2079db7fab27c",
+      "htmlCharacterOffset": 98855
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Italian, Pizza, Baru (Spanish style bar)</span>\n                    </td>\n                  </tr>",
+      "sha256": "e86ced8bbcf495964879c7d3ddb58d364e62804b502d82b5c8aa7ce0884417e7",
+      "text": "Categories Italian, Pizza, Baru (Spanish style bar)",
+      "htmlCharacterOffset": 85348
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131706/13013080/dtlratings/#price-range\">JPY 4,000 - JPY 4,999</a></span>\n                            </p>",
+      "sha256": "e00547c1a9673b487d3d4f53d4e22065a8a058e5cefd68ecbea5ceb01c8af2ce",
+      "text": "JPY 4,000 - JPY 4,999",
+      "htmlCharacterOffset": 26472
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1317/A131706/13013080/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "a4e102145ee52027f79217bd2afe180680c9b13b1ad380c5cc3da6c4dbf4f7ee",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26902
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1317/A131706/13013080/"
+}

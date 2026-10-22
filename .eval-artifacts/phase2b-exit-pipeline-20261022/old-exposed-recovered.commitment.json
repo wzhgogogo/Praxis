@@ -1,0 +1,31 @@
+{
+  "schema": "holdout-commitment@1",
+  "set": "OLD EXPOSED REHEARSAL ONLY",
+  "status": "APPROVED_BY_USER",
+  "approvedAt": "2026-10-20T19:59:00+08:00",
+  "committedBy": "independent reviewer (Claude)",
+  "textLocation": "Claude project only (holdout/PHASE-2-HOLDOUT.md). The text is NOT in this repository and must not be added before the exit check.",
+  "use": "Phase 2 exit check only, 6 cases x 3 runs (playbook section 6 item 2). Exposed after use.",
+  "hashMethod": {
+    "file": "SHA-256 of the UTF-8, LF-terminated YAML block (5418 bytes), header comments included, with {DATE} placeholders unfilled.",
+    "case": "Split the YAML on lines consisting exactly of '---'; for each case document, strip leading/trailing newlines, append one LF, SHA-256 of the UTF-8 bytes. {DATE} placeholders unfilled."
+  },
+  "dateRule": "At exit, {DATE} is replaced by the case's listed weekday falling 7-14 days after the exit check starts. Filling the date (and switching to the listed fallback place if witness certification fails) are the only permitted changes; both must be recorded.",
+  "fileSha256": "7f3ffd66e5138e06309debeb88438ee22ca9fbd4e04dd50776cce9dc3aeb6b76",
+  "caseSha256": {
+    "p2-holdout-01": "15eecc2741e7d8f01901a7c95564bb0a406e6b4db963a04613cd598a121467e3",
+    "p2-holdout-02": "d95cc5a7eff45fe12c83c824243010308dd5d8eb3387dc946ee15f63e8925636",
+    "p2-holdout-03": "39fa9393f177755fd8f27f2b1181fed7d552e310f6275e9a89fc29da1f0dc59f",
+    "p2-holdout-04": "88521e019268e75426b8058d8e684e038e81425d918ed540ce1cdf28041ca3ab",
+    "p2-holdout-05": "b502613c0b3c760e96e7a9a3e0d9b0a91b13314b3b7e837135f6f73640505b04",
+    "p2-holdout-06": "6e5988202ce13fd379506f036e534e207f34f3cd0a177fa46d6a5d640c09139e"
+  },
+  "lineage": {
+    "originalFileSha256": "cb0efa949f21fc0c19c7a6fd48e6a51c1848bb722c795b0ccd51213c43ecb98e",
+    "recoveryPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/inputs.json",
+    "recoverySha256": "6ef71fb62978aff8261e4d2e727cf76c9652797f2665da822e77906fb40f38f3",
+    "reviewPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/independent-review.md",
+    "reviewSha256": "ff22a21cf6f5114213e492d5a15075a67412654f70748c433492d10419280b51",
+    "onlyLogicalChange": "required_claims[1] single-key mapping restored verbatim under existing approval; serialization is a derived rehearsal copy"
+  }
+}

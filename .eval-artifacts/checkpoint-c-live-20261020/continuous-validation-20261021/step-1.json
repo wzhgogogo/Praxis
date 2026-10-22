@@ -1,0 +1,66 @@
+{
+  "schema": "checkpoint-c-continuous-step@1",
+  "step": 1,
+  "status": "PASS",
+  "at": "2026-10-21T06:45:09.313285+00:00",
+  "reviewCommit": "481b8930b3e50c11e2c5d8a9bfa4dc3df25b86a2",
+  "codeCommit": "8e47ddfd70be692e5d43dd70474e7e1a78b22d88",
+  "freezeSha256": "040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b",
+  "frozenFilesVerified": 628,
+  "productionAndSkillsUnchangedSinceReplay": true,
+  "calendar": {
+    "passed": 69,
+    "total": 69,
+    "minimum": 68,
+    "status": "PASS"
+  },
+  "selection": {
+    "passed": 5,
+    "total": 5,
+    "direct": 13,
+    "selected": 13,
+    "status": "PASS"
+  },
+  "calibration": {
+    "passed": 22,
+    "total": 22,
+    "status": "PASS"
+  },
+  "fiveGates": {
+    "status": "PASS",
+    "mode": "OFFLINE_FIXTURES",
+    "modelCalls": 0,
+    "websites": 0,
+    "gates": {
+      "typecheck": {
+        "status": "PASS",
+        "log": ".eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/typecheck-final.log"
+      },
+      "architecture": {
+        "status": "PASS",
+        "log": ".eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/architecture-final.log"
+      },
+      "default": {
+        "status": "PASS",
+        "log": ".eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/default-tests-final-2.log",
+        "tests": 977,
+        "passed": 977,
+        "failed": 0
+      },
+      "build": {
+        "status": "PASS",
+        "log": ".eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/build-final.log"
+      },
+      "browser": {
+        "status": "PASS",
+        "log": ".eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/browser-fixtures-final.log",
+        "tests": 129,
+        "passed": 129,
+        "failed": 0
+      }
+    }
+  },
+  "newModelCalls": 0,
+  "newFullLiveRuns": 0,
+  "ledgerSource": ".eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/phase2-ledger-after.json"
+}

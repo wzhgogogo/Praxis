@@ -1,3 +1,4 @@
+import { assessRestaurantConditions } from "./condition-states.js";
 import { createHash } from "node:crypto";
 
 import type { ActionProposal } from "../../core/policy/contracts.js";
@@ -22,7 +23,7 @@ import type {
 import { restaurantAvailabilityRequestFingerprint, restaurantSearchIntentFingerprint } from "./contracts.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
-import { assessRestaurantRead } from "./read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "./action-validator.js";
 import { restaurantReadStopIsSystem, restaurantUnverifiedReadSummary } from "./read-loop-termination.js";
 
@@ -621,6 +622,10 @@ function transition(
       if (event.evidenceIds.length === 0 || !event.evidenceIds.every((id) => availableEvidence.has(id))) {
         throw new Error("Results presentation must reference current authoritative evidence");
       }
+      const citedEvidence = new Set(event.evidenceIds);
+      if (event.candidateIds.some(id => restaurantPresentationEvidenceIds(state, id, context.now)?.some(required => !citedEvidence.has(required)))) {
+        throw new Error("Results presentation omitted current required evidence citations");
+      }
       const { pendingResultBatchTarget: _pendingResultBatchTarget, defaultBatchDeliveryWindow: _defaultBatchDeliveryWindow, ...remaining } = state;
       const resultBatchTarget = state.pendingResultBatchTarget === undefined
         ? undefined
@@ -629,7 +634,7 @@ function transition(
         state: {
           ...remaining,
           phase: "PRESENT_RESULTS",
-          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now },
+          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now, conditionStates: Object.fromEntries(event.candidateIds.map(id => [id, assessRestaurantConditions(state.intentDraft!, restaurantCurrentFactEvidence(state, id))])) },
           selectionSession: {
             deliveredCandidateIds: [...new Set([...(state.selectionSession?.deliveredCandidateIds ?? []), ...event.candidateIds])],
             viewedCandidateIds: [...(state.selectionSession?.viewedCandidateIds ?? [])],
@@ -822,10 +827,10 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "14",
+  version: "18",
   create() {
     return {
-      schemaVersion: "16",
+      schemaVersion: "20",
       phase: "UNDERSTANDING",
       candidates: [],
       availability: {},

@@ -153,3 +153,9 @@ HARD 资格、来源身份、精确坐标半径、新鲜度、权威日期人数
 TableCheck 三次原始筛选快照均是 “Search is unavailable right now. Please try again.”，不是正常零结果；触发的搜索 OPTIONS 包含未审核的 `open_from/open_until`，因此被 Guard 拒绝。日期标签省略年份是另一核对缺口，补年份不能修复错误页。当前不扩展网络权限，停用该 Pack 的搜索空位筛选，记录 `SKIPPED / FILTER_TRANSPORT_NOT_REVIEWED`，继续未筛选发现。移除停用的 URL 构造和选中值解析路径。原网络规则和独立评价不放宽，不据此宣称没有空位；以后支持新传输需单独审核。
 
 旧三次 B 标为“B 第一版 / superseded retrospective”，保留全部原始字节但排除新比较。用户批准探测上限 55，模型上限仍 450；新 B 从头十次，仅发现。预检失败按检查点计数，TableCheck 503 后等待至少十分钟再用一次预检重试；仍是 503 时结束，不增加第二次重试，恢复最多三十分钟。检查点 A 的 H002 变化单列为 HARD 修正，其余变化列为本次 P2-1b 组合（含上述检索约束），不声称单变量因果证明。证据见[修正检查点 B](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。
+
+## 2026-10-19 P2-2 首次查位入口分配（用户批准，追加）
+
+用户按c816e74复核批准：当前合法首次查位池中若有至少三家未查过、由圆心半径观察确认在范围内且有DIRECT_SOURCE_PAGE的候选，只把这些候选按原顺序提供为checkableCandidateIds，并由本地Validator核对；不足三家时保留既有池，允许名称解析候选补入。事实调查列表、身份/HARD/库存资格和预算不变；具体选店仍由Agent决定，代码不按距离或店名排序。显式用户刷新属于既有定向重查合同，保持原目标权限，不用首次读取分配阻断用户指定刷新。
+
+Prompt@27再次明确无关字段必须为空；CHECK_AVAILABILITY不接受retrievalHint等其他动作字段，不删除冲突字段放行。已暴露开发回放按独立revision2原门槛，五颗各一次，后续结果不论通过与否继续已批准离线工作，不追加重采样或Live。

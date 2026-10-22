@@ -1,0 +1,150 @@
+{
+  "id": "fallback-02-5",
+  "caseId": "p2b-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1313/A131302/13182404/",
+  "observedAt": "2026-10-22T20:01:26.622Z",
+  "responseSha256": "de49b096fae45ee05241fef5610dde1b2a7579fb4eb23222031a815b35be060b",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-final-merchants-14/fallback-02-5.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Tsukishima Monja Bakuten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Tsukishima Chuo Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1040052",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.663234714445984,
+          "longitude": 139.78085518920008
+        },
+        "servesCuisine": "Monjyayaki,Izakaya (Japanese style tavern),Seafood"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1313/A131302/13182404/\",\"name\":\"Tsukishima Monja Bakuten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/305931/640x640_rect_9692f3f130c3c4a9d2c848f15ea13a36.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Tsukishima Chuo Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1040052\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.663234714445984,\"longitude\":139.78085518920008},\"priceRange\":\"JPY 3,000～JPY 3,999\",\"servesCuisine\":\"Monjyayaki,Izakaya (Japanese style tavern),Seafood\",\"telephone\":\"+81-3-3532-0035\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"30\",\"ratingValue\":\"3.11\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1313/A131302/13182404/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "d2a90a5ec7dcdf1c891536fc5ca4cac1cba1e55ffd7d82ec379866010e71cf90",
+        "htmlCharacterOffset": 6359
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 76224,
+        "raw": "Monjyayaki, Izakaya (Japanese style tavern), Seafood"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 51649,
+        "raw": "[120-Minute All-You-Can-Drink ◆ Bakuten Enjoyment Course] Enjoy an assorted seafood teppan platter and a choice of 2 types of monja, along with a wide variety of drinks."
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Monjyayaki, Izakaya (Japanese style tavern), Seafood",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[120-Minute All-You-Can-Drink ◆ Bakuten Enjoyment Course] Enjoy an assorted seafood teppan platter and a choice of 2 types of monja, along with a wide variety of drinks.",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "publicBookingRead": {
+    "status": "SOURCE_BOUND_READ_EXPOSED",
+    "rst_id": "13182404",
+    "url": "https://tabelog.com/en/booking/calendar/find_vacancy/",
+    "enabled": true,
+    "raw": "<div id=\"js-booking-params\" class=\"u-hidden\" data-rst-id=\"13182404\" data-booking-enabled=\"1\" data-fetch-url=\"https://tabelog.com/en/booking/calendar/find_vacancy/\" data-fetch-url-date=\"https://tabelog.com/en/booking/calendar/find_vacancy_date_with_status/\" data-fetch-url-member=\"https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date/\" data-fetch-url-initial-vacancy=\"https://tabelog.com/en/booking/calendar/initial_vacancy\">",
+    "rawSha256": "1c7bdfb9a6400941cf1e2f36ff09d232ba7e31e88d29043b84441b40b81d10f7",
+    "htmlCharacterOffset": 27648
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Monjyayaki, Izakaya (Japanese style tavern), Seafood",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[120-Minute All-You-Can-Drink ◆ Bakuten Enjoyment Course] Enjoy an assorted seafood teppan platter and a choice of 2 types of monja, along with a wide variety of drinks.",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "Just 3 minutes from Tsukishima Station! Enjoy authentic, flavorful monjayaki! Perfect for teppanyaki and a variety of dishes, our izakaya welcomes you!",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                Just 3 minutes from Tsukishima Station! Enjoy authentic, flavorful monjayaki! Perfect for teppanyaki and a variety of dishes, our izakaya welcomes you!\n              </h3>",
+      "sha256": "7b770abf7b130297c02356d04fe60dab7571ddbbaab09a4e36b9ac34135feda1",
+      "htmlCharacterOffset": 44824
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[120-Minute All-You-Can-Drink ◆ Bakuten Enjoyment Course] Enjoy an assorted seafood teppan platter and a choice of 2 types of monja, along with a wide variety of drinks.",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[120-Minute All-You-Can-Drink ◆ Bakuten Enjoyment Course] Enjoy an assorted seafood teppan platter and a choice of 2 types of monja, along with a wide variety of drinks.</span>",
+      "sha256": "557ba4222a0adfce1e3785f9c02b02a381c3b2113aa738aea62779ca8593e350",
+      "htmlCharacterOffset": 51597
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Monjyayaki, Izakaya (Japanese style tavern), Seafood",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Monjyayaki, Izakaya (Japanese style tavern), Seafood</span>\n                    </td>\n                  </tr>",
+      "sha256": "f8418cd66114bdb06ff030dc6c0e17326a8a8f9ac4c5d54f2922b9bc6ed42ef0",
+      "htmlCharacterOffset": 76104
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 3,000 - JPY 3,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 3,000 - JPY 3,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "273a1fbe76508c61431d625f6f2f5280dcc67393e8e393b18b0d8b87c362545b",
+      "htmlCharacterOffset": 81344
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 46 seats",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      46 seats\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "c81aa5d412e2495ca2d4300405af08b681fbe754e36e0fb7e7dcdadf72dcac17",
+      "htmlCharacterOffset": 84808
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 85061
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Monjyayaki, Izakaya (Japanese style tavern), Seafood</span>\n                    </td>\n                  </tr>",
+      "sha256": "f8418cd66114bdb06ff030dc6c0e17326a8a8f9ac4c5d54f2922b9bc6ed42ef0",
+      "text": "Categories Monjyayaki, Izakaya (Japanese style tavern), Seafood",
+      "htmlCharacterOffset": 76104
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1313/A131302/13182404/dtlratings/#price-range\">JPY 3,000 - JPY 3,999</a></span>\n                            </p>",
+      "sha256": "c74ffd3c384339987eda4ab76f86ef511ba60742760c046804ef249d1a4368b9",
+      "text": "JPY 3,000 - JPY 3,999",
+      "htmlCharacterOffset": 26550
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1313/A131302/13182404/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "454697aa6fb7ae0c912a8be4124b64dece66dd9543f449f22830417179b1062a",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26980
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1313/A131302/13182404/"
+}

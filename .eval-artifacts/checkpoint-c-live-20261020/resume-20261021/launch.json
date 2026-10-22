@@ -1,0 +1,28 @@
+{
+  "cwd": "/private/tmp/praxis-checkpoint-c-prep",
+  "hardDeadline": "2026-10-21T12:26:00Z",
+  "approvedFreezeSha256": "10202ba3bd144f4ea1715e47eaf1cc31c2779e5adffc15538c305fd22cf6783d",
+  "priorApprovedFreezeSha256": "7caa315a0f02bff9a3476eaaff6b67ab849b6f42af5b7cf113e39b6b1fad2573",
+  "command": [
+    "/opt/homebrew/bin/node",
+    "--env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    ".eval-artifacts/checkpoint-c-live-20261020/outer.ts",
+    "--mode",
+    "LIVE_READ_ONLY",
+    "--freeze",
+    ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/live-freeze.json",
+    "--output",
+    ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results",
+    "--approval",
+    ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/user-approval.json",
+    "--registry",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json",
+    "--ledger",
+    ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/phase2-ledger.json",
+    "--resume",
+    ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/resume.json"
+  ],
+  "scope": "Original Runner and 16 remaining plan positions; explicit H005 attempt-3 only; previous samples/counters carried; all hard limits unchanged."
+}

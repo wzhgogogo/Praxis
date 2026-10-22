@@ -1,0 +1,147 @@
+{
+  "schema": "phase2-holdout-witness-search@1",
+  "status": "READY_FOR_AUTHORIZED_ZERO_MODEL_READS",
+  "variants": [
+    {
+      "caseId": "p2-holdout-01",
+      "place": "Ueno",
+      "fallbackPlace": "Asakusabashi",
+      "date": "2026-11-04",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 3,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "yakitori",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Ueno yakitori restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6
+    },
+    {
+      "caseId": "p2-holdout-02",
+      "place": "Jiyugaoka",
+      "fallbackPlace": "Sangenjaya",
+      "date": "2026-10-30",
+      "earliest": "19:30",
+      "latest": "19:30",
+      "partySize": 2,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "Italian",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "under 8,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Jiyugaoka Italian restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6
+    },
+    {
+      "caseId": "p2-holdout-03",
+      "place": "Akasaka",
+      "fallbackPlace": "Toranomon",
+      "date": "2026-10-29",
+      "earliest": "18:00",
+      "latest": "20:00",
+      "partySize": 6,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "shabu-shabu",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Akasaka shabu-shabu restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6
+    },
+    {
+      "caseId": "p2-holdout-04",
+      "place": "Ningyocho",
+      "fallbackPlace": "Kanda",
+      "date": "2026-11-03",
+      "earliest": "18:30",
+      "latest": "18:30",
+      "partySize": 2,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "unagi",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Ningyocho unagi restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6
+    },
+    {
+      "caseId": "p2-holdout-05",
+      "place": "Gotanda",
+      "fallbackPlace": "Shinagawa",
+      "date": "2026-10-31",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 4,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "Chinese",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "spicy Sichuan food",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Gotanda Chinese restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6
+    },
+    {
+      "caseId": "p2-holdout-06",
+      "place": "Shimokitazawa",
+      "fallbackPlace": "Koenji",
+      "date": "2026-10-30",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 5,
+      "radiusMeters": 800,
+      "merchantRequirements": [
+        {
+          "value": "izakaya",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "searchQuery": "site:tabelog.com/en/tokyo/ Shimokitazawa izakaya restaurant",
+      "targetWitnesses": 3,
+      "maxCandidatePagesPerPlace": 6
+    }
+  ],
+  "sourceRules": {
+    "minGapMs": 30000,
+    "transportRetryMs": 120000,
+    "cooldownMs": 900000,
+    "maxRetries": 1,
+    "noForms": true,
+    "noSlotClicks": true,
+    "sourceFailureStops": true,
+    "businessFailureUsesFallbackOnce": true
+  },
+  "models": 0
+}

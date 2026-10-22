@@ -1,0 +1,5989 @@
+{
+  "schema": "google-website-link-coverage@1",
+  "status": "EXPOSED_OFFLINE_PROXY",
+  "network": 0,
+  "models": 0,
+  "manifest": {
+    "path": ".eval-artifacts/p2-2-selection-20261019/timing-inputs.json",
+    "sha256": "514803416bfe0e64b2fdaf43dfc4daee3142c90d479f17bef7526498bf100183"
+  },
+  "productionPackSourceSha256": "fd26b37f5c2089948ecdc05bb285c49784ffe238a7825f7751399c0dda90f78e",
+  "definition": "Google-returned candidates, first observation per place ID per run. WEBSITE_FIELD_ONLY means a valid Google website field but no supported direct source entrance under current Packs. It does not verify official ownership or outbound reservation links.",
+  "limitations": [
+    "No current website read; official website ownership and supported-link yield NOT_EVALUATED.",
+    "All returned Google candidates, not a qualified/HARD/in-radius-only selection pool.",
+    "Repeated cases/runs are correlated; appearances are not independent restaurants.",
+    "No checkpoint C artifact in this frozen manifest; C NOT_EVALUATED.",
+    "No candidate observed is not proof that Google succeeded with zero candidates."
+  ],
+  "candidateAppearances": {
+    "total": 1191,
+    "DIRECT_SOURCE_PAGE": 158,
+    "WEBSITE_FIELD_ONLY": 927,
+    "NO_WEBSITE_FIELD": 106,
+    "UNUSABLE_WEBSITE_FIELD": 0,
+    "websiteFieldOnlyFraction": 0.7783375314861462
+  },
+  "uniquePlaceIds": {
+    "total": 253,
+    "DIRECT_SOURCE_PAGE": 31,
+    "WEBSITE_FIELD_ONLY": 198,
+    "NO_WEBSITE_FIELD": 24,
+    "UNUSABLE_WEBSITE_FIELD": 0,
+    "OBSERVATION_VARIANT": 0,
+    "note": "Each place ID counted once; conflicting observations stay variant, never choose the best link."
+  },
+  "groups": [
+    {
+      "group": "CALIBRATION22",
+      "runs": 22,
+      "withCandidates": 4,
+      "noCandidatesObserved": [
+        "p1fA-kf-h001-a1",
+        "p1fA-kf-h002-a1",
+        "p1fA-kf-h003-a1",
+        "p1fA-kf-h004-a1",
+        "p1fA-kf-h005-a1",
+        "p1fA-nakameguro-a1",
+        "p1fA-kf-h003-a2",
+        "p1fA-kf-h005-a1r",
+        "p1fA-kichijoji-a2",
+        "p1fB-h002-a1",
+        "p1fB-h003-a1",
+        "p1fB-h004-a1",
+        "p1fB-h005-a2",
+        "p1g-kichijoji-a2",
+        "p1g-h003-a2",
+        "p1g-h004-a2",
+        "p1g2-h001-a4",
+        "p20-h002-a1"
+      ],
+      "candidateAppearances": {
+        "total": 149,
+        "DIRECT_SOURCE_PAGE": 29,
+        "WEBSITE_FIELD_ONLY": 108,
+        "NO_WEBSITE_FIELD": 12,
+        "UNUSABLE_WEBSITE_FIELD": 0,
+        "websiteFieldOnlyFraction": 0.7248322147651006
+      },
+      "uniquePlaceIds": {
+        "total": 80,
+        "DIRECT_SOURCE_PAGE": 13,
+        "WEBSITE_FIELD_ONLY": 63,
+        "NO_WEBSITE_FIELD": 4,
+        "UNUSABLE_WEBSITE_FIELD": 0,
+        "OBSERVATION_VARIANT": 0,
+        "note": "Each place ID counted once; conflicting observations stay variant, never choose the best link."
+      }
+    },
+    {
+      "group": "P21_BASELINE",
+      "runs": 10,
+      "withCandidates": 10,
+      "noCandidatesObserved": [],
+      "candidateAppearances": {
+        "total": 360,
+        "DIRECT_SOURCE_PAGE": 39,
+        "WEBSITE_FIELD_ONLY": 288,
+        "NO_WEBSITE_FIELD": 33,
+        "UNUSABLE_WEBSITE_FIELD": 0,
+        "websiteFieldOnlyFraction": 0.8
+      },
+      "uniquePlaceIds": {
+        "total": 206,
+        "DIRECT_SOURCE_PAGE": 24,
+        "WEBSITE_FIELD_ONLY": 164,
+        "NO_WEBSITE_FIELD": 18,
+        "UNUSABLE_WEBSITE_FIELD": 0,
+        "OBSERVATION_VARIANT": 0,
+        "note": "Each place ID counted once; conflicting observations stay variant, never choose the best link."
+      }
+    },
+    {
+      "group": "P21_A_CORRECTED",
+      "runs": 10,
+      "withCandidates": 9,
+      "noCandidatesObserved": [
+        "p21_a_corrected-p2-kf-h002-20261031-attempt-1"
+      ],
+      "candidateAppearances": {
+        "total": 340,
+        "DIRECT_SOURCE_PAGE": 43,
+        "WEBSITE_FIELD_ONLY": 268,
+        "NO_WEBSITE_FIELD": 29,
+        "UNUSABLE_WEBSITE_FIELD": 0,
+        "websiteFieldOnlyFraction": 0.788235294117647
+      },
+      "uniquePlaceIds": {
+        "total": 201,
+        "DIRECT_SOURCE_PAGE": 27,
+        "WEBSITE_FIELD_ONLY": 156,
+        "NO_WEBSITE_FIELD": 18,
+        "UNUSABLE_WEBSITE_FIELD": 0,
+        "OBSERVATION_VARIANT": 0,
+        "note": "Each place ID counted once; conflicting observations stay variant, never choose the best link."
+      }
+    },
+    {
+      "group": "P21_A_DOM",
+      "runs": 10,
+      "withCandidates": 9,
+      "noCandidatesObserved": [
+        "p21_a_dom-p2-kf-h002-20261031-attempt-1"
+      ],
+      "candidateAppearances": {
+        "total": 342,
+        "DIRECT_SOURCE_PAGE": 47,
+        "WEBSITE_FIELD_ONLY": 263,
+        "NO_WEBSITE_FIELD": 32,
+        "UNUSABLE_WEBSITE_FIELD": 0,
+        "websiteFieldOnlyFraction": 0.7690058479532164
+      },
+      "uniquePlaceIds": {
+        "total": 192,
+        "DIRECT_SOURCE_PAGE": 28,
+        "WEBSITE_FIELD_ONLY": 146,
+        "NO_WEBSITE_FIELD": 18,
+        "UNUSABLE_WEBSITE_FIELD": 0,
+        "OBSERVATION_VARIANT": 0,
+        "note": "Each place ID counted once; conflicting observations stay variant, never choose the best link."
+      }
+    }
+  ],
+  "runs": [
+    {
+      "id": "p1fA-kf-h001-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h001-a1.result.json.gz",
+        "sha256": "83b330b1304a65e25ef77cf12ddd181ecbdd1565f054c4b95ac6b7c628711200",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fA-kf-h002-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h002-a1.result.json.gz",
+        "sha256": "b9d372b248655a47d10a8f7d20699bdf3f046debc40fafb8d0f6e4fcfb595d52",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fA-kf-h003-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/started.json.gz",
+        "sha256": "75d45a23586d251c652866a9eec8c1d97331fab1db0bcda9e9dbd0f4026c4231",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fA-kf-h004-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h004-a1.result.json.gz",
+        "sha256": "8c0a42a8874bcad94a2cb08d9e388e85e45ed023e24389689283ae03c62d4a8e",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fA-kf-h005-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1/started.json.gz",
+        "sha256": "9174e51c2a804a2d1c15f3d1ce45da538210611139006218bd8e8bb42b967bde",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fA-kagurazaka-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kagurazaka-a1.result.json.gz",
+        "sha256": "1392900320f585502df76dac156b25b0514ba1c8316b512249930257ce8ed44a",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 3,
+      "WEBSITE_FIELD_ONLY": 37,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.925
+    },
+    {
+      "id": "p1fA-nakameguro-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-nakameguro-a1.result.json.gz",
+        "sha256": "5b2e5bd26dad41779770d8837f6a4839a2d695e14950a93a263d1a97866db345",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fA-kf-h003-a2",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a2.result.json.gz",
+        "sha256": "fa6d33fedf61807d0cdee7ac865e60aa9ecdbdb7814422b49d86ea52c82ab253",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fA-kf-h005-a1r",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h005-a1r.result.json.gz",
+        "sha256": "5a83096ce2283c0f302c9d30c1b6e600eea7131c81ef7597049eb2f483e8db8e",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fA-kichijoji-a2",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kichijoji-a2.result.json.gz",
+        "sha256": "70bca71741c28e97c814d17928918410c5a11260b33b1295ce1a65eaa1ee1ad0",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fB-h001-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fB-h001-a1.result.json.gz",
+        "sha256": "620b18b82e54ed105b0195642bb861550a90279ebbce6dcec664ce8648e8e440",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "OBSERVED",
+      "occurrences": 36,
+      "total": 36,
+      "DIRECT_SOURCE_PAGE": 9,
+      "WEBSITE_FIELD_ONLY": 23,
+      "NO_WEBSITE_FIELD": 4,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.6388888888888888
+    },
+    {
+      "id": "p1fB-h002-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fB-h002-a1.result.json.gz",
+        "sha256": "f03baa98139f6b26fa2868b81554179c70832cda5f2ff4bc37d10cfb9e8f4aa8",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fB-h003-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fB-h003-a1.result.json.gz",
+        "sha256": "98654876b1d25af9e755f6ccf0c21934e2184cfaee4063b4ded3e393aeee55ca",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fB-h004-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fB-h004-a1.result.json.gz",
+        "sha256": "427ee4e39a2eddcf0a4ae94c73b30f90aa60370a5c755a8c5f97fb8ce6c81087",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1fB-h005-a2",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fB-h005-a2.result.json.gz",
+        "sha256": "64a4377b3aa1913425205677dd9357dcc50870752e8c775f5aaa2fcee4e86e4a",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1g-kichijoji-a2",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1g-kichijoji-a2.result.json.gz",
+        "sha256": "21b4615f2fa5d20002c40d4cf75cd4fa2ee0271be6cb274aecf768903e547888",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1g-h001-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1g-h001-a1.result.json.gz",
+        "sha256": "7063f613063c65a5ecf20a6acfdf9836eb9234246ec2504d534e27fd169074a7",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "OBSERVED",
+      "occurrences": 36,
+      "total": 36,
+      "DIRECT_SOURCE_PAGE": 9,
+      "WEBSITE_FIELD_ONLY": 23,
+      "NO_WEBSITE_FIELD": 4,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.6388888888888888
+    },
+    {
+      "id": "p1g-h003-a2",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1g-h003-a2.result.json.gz",
+        "sha256": "ed036dbac200584f1159d4140fdf16d6ba367681d5ca6790499b4f738561d74c",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1g-h004-a2",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1g-h004-a2.result.json.gz",
+        "sha256": "155058656297bd4ce8d3e021edb01285ebf80f3c787603e9b839afed03e5227f",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p1g2-h001-a4",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1g2-h001-a4.result.json.gz",
+        "sha256": "7c57302e5b2de42afb291e38bca852409e34da3268b66f46f67afbe01ea2abd3",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p20-h002-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p20-h002-a1.result.json.gz",
+        "sha256": "ed8ee536c2965dd5e4cc46e00c7efc7deb95f2743fe7fce76ee672436d84fc21",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p20-h001-a1",
+      "group": "CALIBRATION22",
+      "input": {
+        "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p20-h001-a1.result.json.gz",
+        "sha256": "ef6df9604c654df4b45a50387c292800ed67d2c1024d88b900e9081c5e0863b0",
+        "kind": "SEARCH_COMPLETED events, first Google place observation"
+      },
+      "status": "OBSERVED",
+      "occurrences": 37,
+      "total": 37,
+      "DIRECT_SOURCE_PAGE": 8,
+      "WEBSITE_FIELD_ONLY": 25,
+      "NO_WEBSITE_FIELD": 4,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.6756756756756757
+    },
+    {
+      "id": "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+      "group": "P21_BASELINE",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+        "sha256": "b754b4e751c4516b51beae0c513a6c23f778b53ccd891a468494947837e44196",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 3,
+      "WEBSITE_FIELD_ONLY": 37,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.925
+    },
+    {
+      "id": "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+      "group": "P21_BASELINE",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2-preflight-2/trace.jsonl",
+        "sha256": "9b5eea28408d5a65381ed629fe9b4af406982d67a11eb1216450ca7f1666cdc2",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 3,
+      "WEBSITE_FIELD_ONLY": 37,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.925
+    },
+    {
+      "id": "p21_baseline-p2-kf-h001-20261027-attempt-1",
+      "group": "P21_BASELINE",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+        "sha256": "0224a2423386262e06abbefe0aac98972741a2ea5285c432a07773b0a2ebbf05",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 33,
+      "total": 33,
+      "DIRECT_SOURCE_PAGE": 7,
+      "WEBSITE_FIELD_ONLY": 22,
+      "NO_WEBSITE_FIELD": 4,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.6666666666666666
+    },
+    {
+      "id": "p21_baseline-p2-kf-h001-20261027-attempt-2",
+      "group": "P21_BASELINE",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+        "sha256": "c9cf6440e79233e4a1eced2699b7f890b4eed646fdc2a5444f143568335c56c6",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 33,
+      "total": 33,
+      "DIRECT_SOURCE_PAGE": 7,
+      "WEBSITE_FIELD_ONLY": 22,
+      "NO_WEBSITE_FIELD": 4,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.6666666666666666
+    },
+    {
+      "id": "p21_baseline-p2-kf-h002-20261031-attempt-1",
+      "group": "P21_BASELINE",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h002-20261031/attempt-1/trace.jsonl",
+        "sha256": "b3ef6695dd16cb8a5ff91481aa895358d13741a0f7593c53b27669a65eab676d",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 20,
+      "total": 20,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 20,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 1
+    },
+    {
+      "id": "p21_baseline-p2-kf-h005-20261029-attempt-1",
+      "group": "P21_BASELINE",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-1/trace.jsonl",
+        "sha256": "109c10466611ced0f411c02cba6541acd70b9ee218fcece1db3b4270a4381a60",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 3,
+      "WEBSITE_FIELD_ONLY": 34,
+      "NO_WEBSITE_FIELD": 3,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.85
+    },
+    {
+      "id": "p21_baseline-p2-kf-h005-20261029-attempt-2",
+      "group": "P21_BASELINE",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-2/trace.jsonl",
+        "sha256": "4ffeed57f7929f139bf0e15fe0fe05641ba720854f1366bfece83aaa50ea2187",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 3,
+      "WEBSITE_FIELD_ONLY": 34,
+      "NO_WEBSITE_FIELD": 3,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.85
+    },
+    {
+      "id": "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+      "group": "P21_BASELINE",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+        "sha256": "682d3ddeae2fa6c9727d13e9f88c6bc005f71f5f89e67915e50a0ce58e942a8d",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 2,
+      "WEBSITE_FIELD_ONLY": 30,
+      "NO_WEBSITE_FIELD": 8,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.75
+    },
+    {
+      "id": "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+      "group": "P21_BASELINE",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+        "sha256": "ff0dfe5bc4fbaa66b5b4743f6800e27309f22c8987b16bbce4e3d58b2f666f7c",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 2,
+      "WEBSITE_FIELD_ONLY": 30,
+      "NO_WEBSITE_FIELD": 8,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.75
+    },
+    {
+      "id": "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+      "group": "P21_BASELINE",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+        "sha256": "6f0da0d47f3de60bb682e97f698d6d10f3f19c1922ebf1a7e1257bb6a17047ee",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 34,
+      "total": 34,
+      "DIRECT_SOURCE_PAGE": 9,
+      "WEBSITE_FIELD_ONLY": 22,
+      "NO_WEBSITE_FIELD": 3,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.6470588235294118
+    },
+    {
+      "id": "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+        "sha256": "0e95f11b54844b1da81686f7c42bcf25fef20271650241ed2501f2a5ae783a9d",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 3,
+      "WEBSITE_FIELD_ONLY": 37,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.925
+    },
+    {
+      "id": "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+      "group": "P21_A_CORRECTED",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+        "sha256": "5406c12c5cd56929efb610d8de7892ce9f0751657c110d1cf0b0202a639b08f3",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 3,
+      "WEBSITE_FIELD_ONLY": 37,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.925
+    },
+    {
+      "id": "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+        "sha256": "b1094c4646222cbd566ae75f3bed75c73b663b3aba093457b78fad3538e8eb66",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 33,
+      "total": 33,
+      "DIRECT_SOURCE_PAGE": 6,
+      "WEBSITE_FIELD_ONLY": 23,
+      "NO_WEBSITE_FIELD": 4,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.696969696969697
+    },
+    {
+      "id": "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+      "group": "P21_A_CORRECTED",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+        "sha256": "dca7003de6ee3a5ad20cb03317a30108d77bf41353e84ea52cc42204b3d8e310",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 33,
+      "total": 33,
+      "DIRECT_SOURCE_PAGE": 6,
+      "WEBSITE_FIELD_ONLY": 23,
+      "NO_WEBSITE_FIELD": 4,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.696969696969697
+    },
+    {
+      "id": "p21_a_corrected-p2-kf-h002-20261031-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h002-20261031/attempt-1/trace.jsonl",
+        "sha256": "ea2db1b82e4c8af294143bb5354d143e26c4ea6050ace26a9ad9a47577e3bbc2",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-1/trace.jsonl",
+        "sha256": "6b1e9460e808f6f4387fda68aa42624f5646e6a89c005fabe2526f6c16a332db",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 4,
+      "WEBSITE_FIELD_ONLY": 33,
+      "NO_WEBSITE_FIELD": 3,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.825
+    },
+    {
+      "id": "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+      "group": "P21_A_CORRECTED",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h005-20261029/attempt-2/trace.jsonl",
+        "sha256": "d2aab1fbacc992afb064a136c894427a3be0332f0847691389d68b0da91a1ac2",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 4,
+      "WEBSITE_FIELD_ONLY": 33,
+      "NO_WEBSITE_FIELD": 3,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.825
+    },
+    {
+      "id": "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+        "sha256": "9f05e522f5dd3fb73cf2aed72ac60c9eb43c41e45c5c010d7f312061334b1454",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 3,
+      "WEBSITE_FIELD_ONLY": 32,
+      "NO_WEBSITE_FIELD": 5,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.8
+    },
+    {
+      "id": "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+      "group": "P21_A_CORRECTED",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+        "sha256": "f71d33713a9a9219eb4240e4f9ccaa999d085d98ab2d4b805108ebd155b6c4f0",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 5,
+      "WEBSITE_FIELD_ONLY": 28,
+      "NO_WEBSITE_FIELD": 7,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.7
+    },
+    {
+      "id": "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+      "group": "P21_A_CORRECTED",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+        "sha256": "a6621ce5994cd6b02851fb07d827f8cbdb7db3f050cefb58bf527ffa83a8de3c",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 34,
+      "total": 34,
+      "DIRECT_SOURCE_PAGE": 9,
+      "WEBSITE_FIELD_ONLY": 22,
+      "NO_WEBSITE_FIELD": 3,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.6470588235294118
+    },
+    {
+      "id": "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+      "group": "P21_A_DOM",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+        "sha256": "b64b62278a911420df762f4d953c2bd682bc5c9a49fff55aeb7ebdf40a8286ae",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 39,
+      "total": 39,
+      "DIRECT_SOURCE_PAGE": 3,
+      "WEBSITE_FIELD_ONLY": 36,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.9230769230769231
+    },
+    {
+      "id": "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2",
+      "group": "P21_A_DOM",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+        "sha256": "450a1efff8ef83d48459f2607fff629e473d490f0b93368b1b8a482510fd9354",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 39,
+      "total": 39,
+      "DIRECT_SOURCE_PAGE": 3,
+      "WEBSITE_FIELD_ONLY": 36,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.9230769230769231
+    },
+    {
+      "id": "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+      "group": "P21_A_DOM",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+        "sha256": "828d358f0f99f02ea5cb1abf2ae960cb15f71731a23a28af6baeac65fc9f96e0",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 33,
+      "total": 33,
+      "DIRECT_SOURCE_PAGE": 7,
+      "WEBSITE_FIELD_ONLY": 23,
+      "NO_WEBSITE_FIELD": 3,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.696969696969697
+    },
+    {
+      "id": "p21_a_dom-p2-kf-h001-20261027-attempt-2",
+      "group": "P21_A_DOM",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+        "sha256": "b047bd4b30c224946b3eacc0cdb29dd799a6d28a9351cea5bd2ebba04431dd9b",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 37,
+      "total": 37,
+      "DIRECT_SOURCE_PAGE": 7,
+      "WEBSITE_FIELD_ONLY": 26,
+      "NO_WEBSITE_FIELD": 4,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.7027027027027027
+    },
+    {
+      "id": "p21_a_dom-p2-kf-h002-20261031-attempt-1",
+      "group": "P21_A_DOM",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h002-20261031/attempt-1/trace.jsonl",
+        "sha256": "a06449023fec9ea5f0637130d88fe7cd4d2b96a3746b03d147420aa9bf3162dd",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "NO_GOOGLE_CANDIDATE_OBSERVED",
+      "occurrences": 0,
+      "total": 0,
+      "DIRECT_SOURCE_PAGE": 0,
+      "WEBSITE_FIELD_ONLY": 0,
+      "NO_WEBSITE_FIELD": 0,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": null
+    },
+    {
+      "id": "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+      "group": "P21_A_DOM",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-1/trace.jsonl",
+        "sha256": "39050ee6b8932be67a1ce5de1f87773d101971a585bd2ab50a99fcce12759ffa",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 4,
+      "WEBSITE_FIELD_ONLY": 32,
+      "NO_WEBSITE_FIELD": 4,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.8
+    },
+    {
+      "id": "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2",
+      "group": "P21_A_DOM",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h005-20261029/attempt-2-preflight-2/trace.jsonl",
+        "sha256": "197df7c277513e1913abd3dc98771aabba3b6a011ebc4699bc84c99111a212c1",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 4,
+      "WEBSITE_FIELD_ONLY": 32,
+      "NO_WEBSITE_FIELD": 4,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.8
+    },
+    {
+      "id": "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+      "group": "P21_A_DOM",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+        "sha256": "b74ca13c61b46024a872392c6a9b17fb20cf6d9d4ab807f570f683581d4b22e6",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 5,
+      "WEBSITE_FIELD_ONLY": 28,
+      "NO_WEBSITE_FIELD": 7,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.7
+    },
+    {
+      "id": "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2",
+      "group": "P21_A_DOM",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+        "sha256": "c77e4ec2c64abc82c923fb523d5eba449a4c398debd080e4d041e86def7aa938",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 40,
+      "total": 40,
+      "DIRECT_SOURCE_PAGE": 5,
+      "WEBSITE_FIELD_ONLY": 28,
+      "NO_WEBSITE_FIELD": 7,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.7
+    },
+    {
+      "id": "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1",
+      "group": "P21_A_DOM",
+      "input": {
+        "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+        "sha256": "5fe12c95ceb60666f54ba6f69a51bb7a00f90a74c9e2455a9a1c3d86a9eed51c",
+        "kind": "SOURCE_FIRST_BATCH trace"
+      },
+      "status": "OBSERVED",
+      "occurrences": 34,
+      "total": 34,
+      "DIRECT_SOURCE_PAGE": 9,
+      "WEBSITE_FIELD_ONLY": 22,
+      "NO_WEBSITE_FIELD": 3,
+      "UNUSABLE_WEBSITE_FIELD": 0,
+      "websiteFieldOnlyFraction": 0.6470588235294118
+    }
+  ],
+  "places": [
+    {
+      "googlePlaceId": "ChIJScElk_KMGGARgaxmq-wDEIs",
+      "names": [
+        "Tanimoto Kagurazaka"
+      ],
+      "websites": [
+        "https://tanimoto-kagurazaka.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJDeEeH-6MGGARHPf2PojaOc0",
+      "names": [
+        "Kagurazaka Marutomi"
+      ],
+      "websites": [
+        "https://gd4e801.gorp.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJtxW3Pg2NGGARhgWR3svCf3M",
+      "names": [
+        "Kaiseki Japanese cuisine Utou"
+      ],
+      "websites": [
+        "https://www.instagram.com/bishokuten/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJY6F6g1qMGGARCUFr8rKB2ws",
+      "names": [
+        "Washoku Kagurazaka KUROSU"
+      ],
+      "websites": [
+        "https://www.kagurazaka-x.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ_3h281qMGGAR_mbclQ6ywYw",
+      "names": [
+        "Fushikino"
+      ],
+      "websites": [
+        "http://www.fushikino.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJe9SLW1qMGGARNTrNOwolMiM",
+      "names": [
+        "Yumeji"
+      ],
+      "websites": [
+        "https://www.kagurazaka-yumeji.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJpb5Z71qMGGARmtzGJK0PSSI",
+      "names": [
+        "Tonami"
+      ],
+      "websites": [
+        "https://www.wa-kinari.jp/tonami/index.html"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJjdT5wlqMGGARJtJeEFb-pqg",
+      "names": [
+        "Sen Kagurazaka"
+      ],
+      "websites": [
+        "https://www.instagram.com/kagurazaka_washoku_sen%20%20%20%20%20%20https://washoku-sen.jp/layout.html"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ4YBRSL2MGGAR_mNICyn4a20",
+      "names": [
+        "Ichirin"
+      ],
+      "websites": [
+        "http://mikizo.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJG0qkOMqNGGARBdQMXRz2_Js",
+      "names": [
+        "Kagurazaka Jin"
+      ],
+      "websites": [
+        "https://www.tablecheck.com/ja/kagurazaka-jin"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJlyoVjlqMGGARQF4j_HTbldA",
+      "names": [
+        "神楽坂 料亭牧"
+      ],
+      "websites": [
+        "https://r.gnavi.co.jp/ksauusr20000/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ5aIYU1qMGGARzYSgDVyn6oc",
+      "names": [
+        "Kaga"
+      ],
+      "websites": [
+        "https://r.gnavi.co.jp/p663200/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJiSRxIluMGGARgaWss9mCC6o",
+      "names": [
+        "Kohaku"
+      ],
+      "websites": [
+        "https://kagurazaka-kohaku.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJQ-hQ_FqMGGARZbuwhDSj98c",
+      "names": [
+        "Kaga Namafu Kappo Kagurazaka MAEDA"
+      ],
+      "websites": [
+        "https://www.maeda.kaga-ya.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJsRm0_VqMGGAR8VWY_lpcAB0",
+      "names": [
+        "Kisouan Sasaki"
+      ],
+      "websites": [
+        "http://kisouan.kagurazaka-sasaki.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ1-YLGVuMGGARj2-7aY_Lb_k",
+      "names": [
+        "Sugata"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1309/A130905/13053749/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJjdT5wlqMGGARJ6s_UcJByH4",
+      "names": [
+        "Chisô Kon'ya"
+      ],
+      "websites": [
+        "https://kagurazaka-konya.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ1wRBvtKNGGARP47nK0oldpA",
+      "names": [
+        "Washokubiyori Osaketo Kagrazaka"
+      ],
+      "websites": [
+        "https://www.osaketo-washoku.jp/shop/kagurazaka/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJpa6hiFqMGGARjeiJomoWoXE",
+      "names": [
+        "Kagurazaka Yukimoto"
+      ],
+      "websites": [
+        "https://www.kagurazakayukimoto.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJp3YszVCMGGARociGYhxMNBc",
+      "names": [
+        "Washoku Kouseki Kagurazaka"
+      ],
+      "websites": [
+        "https://kouseki.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJFUeS4lqMGGAROVO8hlcSMZI",
+      "names": [
+        "Sushi Tempura Yokota Kagurazaka"
+      ],
+      "websites": [
+        "https://gez8518.gorp.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJjdT5wlqMGGAR3uEsmw2zuC0",
+      "names": [
+        "Yukawa"
+      ],
+      "websites": [
+        "http://yukawa.tokyo/index.html"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJq9YbiFqMGGARke7Hb7Duipo",
+      "names": [
+        "Shun Bunke"
+      ],
+      "websites": [
+        "https://kagurazaka-shun-bunke.com/?utm_source=google&utm_medium=map",
+        "https://kagurazaka-shun-bunke.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJa0WEW1qMGGARPztXG-uvYjI",
+      "names": [
+        "Kagurazaka Ishikawa"
+      ],
+      "websites": [
+        "http://kagurazaka-ishikawa.co.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ58Y9CFqMGGAReZzpd5pxt4w",
+      "names": [
+        "Iwakura"
+      ],
+      "websites": [
+        "https://www.iwakura-teppanyaki.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJvcAND1CMGGARREOPIDPw8fU",
+      "names": [
+        "Waraku"
+      ],
+      "websites": [
+        "http://wa-kinari.jp/waraku/index.html"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJXdapalqMGGARiDRMwA1Wd3U",
+      "names": [
+        "Sakanohana Kagurazaka"
+      ],
+      "websites": [
+        "http://sakanohana-kagurazk.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJtVK68PaNGGARcVFzIIY-7JM",
+      "names": [
+        "Sushi Ōya"
+      ],
+      "websites": [
+        "https://sushioya.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJtdFO8FqMGGARMHZa4191w4k",
+      "names": [
+        "和食 おの寺 神楽坂"
+      ],
+      "websites": [
+        "https://washoku-onodera.net/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJzwk96emNGGARLBC1SA4JLIE",
+      "names": [
+        "日本料理 ほそ川 神楽坂"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1309/A130905/13222581/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJPY06t3CNGGARaJP_4uwkEP8",
+      "names": [
+        "鮨 輝らく"
+      ],
+      "websites": [
+        "https://subscription-lab.jp/kiraku.html"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJIUax4nCNGGARKfCxKB1tL-8",
+      "names": [
+        "Byakuya"
+      ],
+      "websites": [
+        "https://nihonryori-byakuya.com/?utm_medium=referral&utm_source=google&utm_campaign=mm&utm_content=hp",
+        "https://nihonryori-byakuya.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJW7FqxoONGGARQk1z-r_6Czk",
+      "names": [
+        "SHIGEtei（シゲ テイ）和食 神楽坂"
+      ],
+      "websites": [
+        "https://www.shigetei.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJyWrDBFqMGGAR5DX-4OO4UhI",
+      "names": [
+        "Ebihara"
+      ],
+      "websites": [
+        "https://wasyoku-ebihara.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJQ-hQ_FqMGGARb4Moq6ETpdk",
+      "names": [
+        "Kaiseki Ichimonji"
+      ],
+      "websites": [
+        "https://ge49400.gorp.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJiyD_J0WMGGARFoQRwbVw4F0",
+      "names": [
+        "Madoy Kagurazaka Annex"
+      ],
+      "websites": [
+        "https://madoy.com/tenpo-kagurazaka-bettei/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJPTtGm1qMGGARoy2xW20oSLg",
+      "names": [
+        "葉歩花庭"
+      ],
+      "websites": [
+        "https://www.habukatei.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJo_jamhKNGGAR3LHf9GddjAY",
+      "names": [
+        "縁楽"
+      ],
+      "websites": [
+        "https://www.bar-viande.com/?utm_source=GBP&utm_medium=organic",
+        "https://www.bar-viande.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ_3h281qMGGART4qavk6rq34",
+      "names": [
+        "Menosou"
+      ],
+      "websites": [
+        "https://www.menosou.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJU3JNNFuMGGARcTmp-vJq1rc",
+      "names": [
+        "Kagurazaka Shimakin"
+      ],
+      "websites": [
+        "https://www.shimakin-kagurazaka.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fA-kagurazaka-a1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJIfsum5ONGGAR4Py4OO7pZJ4",
+      "names": [
+        "Sushi Teppen(Shibuya)"
+      ],
+      "websites": [
+        "https://sushi-teppen.site/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJRR9sB62MGGARDApiYRPtr60",
+      "names": [
+        "鮨とみなか Sushi Tominaka"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJTSLfR1qLGGARZVAT7ynYhsk",
+      "names": [
+        "Sushi Hanaoka"
+      ],
+      "websites": [
+        "http://shibuya-sushi-hanaoka.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJAQAs2VmLGGAR2xgVuG8eqHA",
+      "names": [
+        "Sushi Suga"
+      ],
+      "websites": [
+        "https://www.sushisuga.jp/?utm_source=google-mybusiness&utm_medium=organic",
+        "https://www.sushisuga.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJcfBBqa2MGGARqeCVeVtrmyw",
+      "names": [
+        "Sushi Gotoku"
+      ],
+      "websites": [
+        "https://gotoku-jp.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJE8JffFyLGGARu0oj3f3eM-s",
+      "names": [
+        "Sushi Yajima"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJwxo5mQyNGGARGlfFnIn56ek",
+      "names": [
+        "SHIZEN"
+      ],
+      "websites": [
+        "http://sakai-shokai.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJL6FFhk2LGGAR1py8vmXOhfI",
+      "names": [
+        "Sumi Sushi Shibuya"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1303/A130301/13293469/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJSUIvjNGLGGARKPEGGNzQJKk",
+      "names": [
+        "かみや"
+      ],
+      "websites": [
+        "https://www.instagram.com/kamiya_shibuya?igsh=OGpycWg4MGMwYjM=&utm_source=qr",
+        "https://www.instagram.com/kamiya_shibuya"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJXZWyvqmMGGARXDJsBBNtnHA",
+      "names": [
+        "Yamashita"
+      ],
+      "websites": [
+        "http://shibuyayamashita.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJAQBsuViLGGARBwEwlENTnKQ",
+      "names": [
+        "Shibuya Sushi Labo"
+      ],
+      "websites": [
+        "https://tsagroup.jp/sushilab/shibuya/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJcQ6JXG6LGGARHVNzDoWXN_U",
+      "names": [
+        "Shibuya Sushiki"
+      ],
+      "websites": [
+        "https://fish-well.site/shibuya-sushiki?utm_source=google&utm_medium=GBP",
+        "https://fish-well.site/shibuya-sushiki"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJa46cDOuLGGARoHFYP4t51Ms",
+      "names": [
+        "Shibuya Namikibashi Sushi Hajime"
+      ],
+      "websites": [
+        "https://sushihajime-shibuya.studio.site/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJE5VDldqLGGARkvu-KzJMRsE",
+      "names": [
+        "OKANOUE"
+      ],
+      "websites": [
+        "https://booking.resebook.jp/webrsv/plan_search/s014440301/24770?isfixshop=true&affiid=glb",
+        "https://booking.resebook.jp/webrsv/plan_search/s014440301/24770"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJZUCkUu2LGGARYtiJZeiBbis",
+      "names": [
+        "Sushi kazumasa"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1303/A130301/13275782/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJZdJ4f1WNGGARMEU45iPP5Qk",
+      "names": [
+        "Shibuya Sushi Jinnan"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1303/A130301/13307953/?lid=owner_rst-top-jitempo_pc",
+        "https://tabelog.com/tokyo/A1303/A130301/13307953/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJmyWWCQyNGGARdey3b2CuQzI",
+      "names": [
+        "Shibuya Sushi Ajuuta"
+      ],
+      "websites": [
+        "https://yoyaku.tabelog.com/yoyaku/net_booking_form/index?rcd=13257494",
+        "https://yoyaku.tabelog.com/yoyaku/net_booking_form/index"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJn7E3IgCLGGAR7DR0U7vGgdk",
+      "names": [
+        "Sushi Hichou"
+      ],
+      "websites": [
+        "https://sushi-hicho.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJkcbeI1-LGGAREdZ9ZyM5BCs",
+      "names": [
+        "Organic Sushi Ouchi"
+      ],
+      "websites": [
+        "https://afg2.jorougumo.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ7TXbt1eLGGAR-Q4sYu55H0w",
+      "names": [
+        "和泉鮨南口店"
+      ],
+      "websites": [
+        "http://izumizushi.com/izumi_minami.html"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJiWkvzVuNGGARjUzmZTlJKCQ",
+      "names": [
+        "雲"
+      ],
+      "websites": [
+        "https://www.foodies-reserve.com/en/restaurants/RS54ELV7Q5J2Y8OK"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJc4GWrEOLGGARVdTgxS8zAUQ",
+      "names": [
+        "Sushi Matsumoto Shibuya"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1303/A130301/13261619/?utm_source=google&utm_medium=google_map&utm_campaign=tech_18",
+        "https://tabelog.com/tokyo/A1303/A130301/13261619/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJw7SHTHqLGGARjV7jH5n3a-U",
+      "names": [
+        "Sushi Inase"
+      ],
+      "websites": [
+        "https://www.tablecheck.com/ja/sushiinase/reserve/landing"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJle_HOQCLGGARXa4B3OnmyDU",
+      "names": [
+        "Sushi-Au"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJZ3H5tiWLGGAR7zO8VBvjEzo",
+      "names": [
+        "Sakura Sushiki"
+      ],
+      "websites": [
+        "https://shinkichisan.com/company/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJIxdui16LGGAR6dA-SGEjgjs",
+      "names": [
+        "Sushizen"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJB_RqSiuLGGARcXonqgjr2-0",
+      "names": [
+        "Sushi Komachi"
+      ],
+      "websites": [
+        "https://www.sushikomati.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJV3Nq8niLGGARKsUjCiB87BU",
+      "names": [
+        "Matsue Shibuya Scramble Square Store"
+      ],
+      "websites": [
+        "https://www.matsue.cc/jp/scsq/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJI4xAJ0CNGGAR-ytoZKtFDwE",
+      "names": [
+        "Sushi Sublime TOKYO Shibuya"
+      ],
+      "websites": [
+        "https://japan-food.guide/restaurants/1879"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJxbkmgImNGGARj3E7ZNVB7hs",
+      "names": [
+        "Sushi Rizaki"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1303/A130301/13235258/party/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJDfPwaomLGGARk6LSZO_zhCY",
+      "names": [
+        "Sushi Nasu"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1303/A130301/13316574/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJvaI3zlyLGGARr6Q_TCfDmmI",
+      "names": [
+        "Naminoue shibuya"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1303/A130301/13190728/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJZ_APgyyLGGARtwyDA7ciMAk",
+      "names": [
+        "三宿の寿司 えん はなれ"
+      ],
+      "websites": [
+        "https://www.instagram.com/misyuku_sakana_en/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJwX8rr16LGGARKmcPdU_bTwA",
+      "names": [
+        "Shokkan"
+      ],
+      "websites": [
+        "https://discovery-t.com/shokkan-shibuya/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1",
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJdwvXdKqMGGARg-UfEdmCXFE",
+      "names": [
+        "Shibuya Kappo Sancho"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1303/A130301/13160273/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p1g-h001-a1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJg6tyF6iMGGARoTtgYX2RpSE",
+      "names": [
+        "Sushimanshi Buyase Ibuten"
+      ],
+      "websites": [
+        "https://gjp1600.gorp.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1fB-h001-a1",
+        "p20-h001-a1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJhwM_3GCLGGARvwhEA6XH04A",
+      "names": [
+        "Takumi Sushiko"
+      ],
+      "websites": [
+        "https://restaurant.ikyu.com/109403/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p1g-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJy4-g57SLGGAR6O_aEr6nGr8",
+      "names": [
+        "Sushisho Isseki Sancho"
+      ],
+      "websites": [
+        "https://www.instagram.com/sushisho_issekisancho/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p20-h001-a1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-1",
+        "p21_baseline-p2-kf-h001-20261027-attempt-2",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-1",
+        "p21_a_corrected-p2-kf-h001-20261027-attempt-2",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJm72nExmNGGARb5-8ghk5Gec",
+      "names": [
+        "KOURIN"
+      ],
+      "websites": [
+        "https://instagram.com/sushi_kourin?igshid=NmZiMzY2Mjc="
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p20-h001-a1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJBR-RMIiLGGARjdfuvp7hPO8",
+      "names": [
+        "Sushi Tatsu Shibuya"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1303/A130301/13233978/?utm_source=google&utm_medium=google_map&utm_campaign=tech_17"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p20-h001-a1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJecUG2E6NGGAR5fjVSD7DIRY",
+      "names": [
+        "KOMB"
+      ],
+      "websites": [
+        "https://komb.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ2xVEOVeMGGARszi5QfwUrbk",
+      "names": [
+        "Robataya Jirō"
+      ],
+      "websites": [
+        "http://www.robataya-jiro.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJGTxxIlONGGARpZTjDFvDlZc",
+      "names": [
+        "神楽坂 囲炉裏 肉よろず"
+      ],
+      "websites": [
+        "https://nikuyorozu.jp/irori/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJw7UPFFuMGGARAGbw5bOT9QI",
+      "names": [
+        "Omoto Kagurazaka"
+      ],
+      "websites": [
+        "http://robata-omoto.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_baseline-p2-kagurazaka-kaiseki-20261029-attempt-2-preflight-2",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJX9MhjuaLGGARvoMvduRK-5E",
+      "names": [
+        "Mitsukoshi Ginza"
+      ],
+      "websites": [
+        "https://www.mistore.jp/store/ginza.html"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJqdKZXOSLGGARTJzuDTGhPjI",
+      "names": [
+        "Ginza Loft"
+      ],
+      "websites": [
+        "https://www.loft.co.jp/ginzaloft/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJT7wVXe6LGGARpg6sWitWN8Y",
+      "names": [
+        "Imperial Hotel Tokyo"
+      ],
+      "websites": [
+        "https://www.imperialhotel.co.jp/tokyo"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJKQAKAOSLGGARwGhpOXWgfYo",
+      "names": [
+        "Ginza Itoya"
+      ],
+      "websites": [
+        "http://www.ito-ya.co.jp/ginza/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ31e8ELqLGGARGwjapF0PUiM",
+      "names": [
+        "TOHO Cinemas Hibiya"
+      ],
+      "websites": [
+        "https://hlo.tohotheater.jp/net/schedule/081/TNPI2000J01.do"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJo859cuWLGGAR2tOIYoMnCtY",
+      "names": [
+        "Yurakucho Marui"
+      ],
+      "websites": [
+        "https://www.0101.co.jp/086/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJIeuDAOyLGGARhI_-HrDOv4E",
+      "names": [
+        "Dai-ichi Hotel Tokyo"
+      ],
+      "websites": [
+        "https://www.hankyu-hotel.com/hotel/dh/dhtokyo"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJeTst88KLGGARuv7SFiEThqo",
+      "names": [
+        "The Royal Park Hotel Tokyo Shiodome"
+      ],
+      "websites": [
+        "https://www.royalparkhotels.co.jp/ic/tokyoshiodome/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ57Hp_52LGGARvt4ghJExG_g",
+      "names": [
+        "Age.3 GINZA"
+      ],
+      "websites": [
+        "https://age-3013.vercel.app/age3-site/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ59m82ueLGGARhsERWKeECJ4",
+      "names": [
+        "Sotetsu Fresa Inn Ginza-Nanachome"
+      ],
+      "websites": [
+        "https://sotetsu-hotels.com/fresa-inn/ginza7/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJoWc0a7yLGGARhItMlJx8SYI",
+      "names": [
+        "Kura Sushi"
+      ],
+      "websites": [
+        "https://shop.kurasushi.co.jp/detail/641"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ3Q5zleCLGGARnuvHr-FOgMM",
+      "names": [
+        "Godaime Hanayama Udon Ginza"
+      ],
+      "websites": [
+        "http://www.hanayamaudon.co.jp/ginza/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJjykJZCCLGGARMx5vYqRsWYI",
+      "names": [
+        "Ginza Kagari - Soba"
+      ],
+      "websites": [
+        "https://www.instagram.com/kagari_honten/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJUdq3uymLGGARO7hFrLUXZp4",
+      "names": [
+        "Muji Hotel Ginza"
+      ],
+      "websites": [
+        "https://hotel.muji.com/ginza/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJkc9owueLGGAREpyt6KeHSFE",
+      "names": [
+        "Hotel Musse Ginza Meitetsu"
+      ],
+      "websites": [
+        "https://m-inn.com/musse/ginza/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJY7oGy8KLGGARwzg3K3wIBa8",
+      "names": [
+        "Caretta Shiodome"
+      ],
+      "websites": [
+        "https://www.caretta.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ4wnkFeSLGGARliQwUPoODeY",
+      "names": [
+        "bills Ginza"
+      ],
+      "websites": [
+        "https://www.billsjapan.com/jp/locations/ginza"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJoWCjwuWLGGAR5yLcbTuWzzc",
+      "names": [
+        "Saizeriya"
+      ],
+      "websites": [
+        "https://shop.saizeriya.co.jp/sz_restaurant/spot/detail"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJs7dmFgCLGGARTn-etNVuCYI",
+      "names": [
+        "Seafood Buffet Dining Ginza Happo"
+      ],
+      "websites": [
+        "https://ginzahappo.owst.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJQVNRJpuLGGARn0Qn2NmW3k8",
+      "names": [
+        "The Gate Hotel Tokyo by HULIC"
+      ],
+      "websites": [
+        "https://www.gate-hotel.jp/tokyo/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h002-20261031-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ1WzWeC-LGGARKltXcP7uLqg",
+      "names": [
+        "Tsujita Ginza"
+      ],
+      "websites": [
+        "https://tsukemen-tsujita.com/shop/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJEya_v2qLGGARrrXnV41imwc",
+      "names": [
+        "Kushiyaki Bistro Fukumimi Ginza 6"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1301/A130101/13307478/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJ28VJ6RiLGGARGZqMx9Z8Ugc",
+      "names": [
+        "Ginza Inaba"
+      ],
+      "websites": [
+        "https://www.ginza-inaba.tokyo/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJpYBA196LGGARi0VmejQRaUU",
+      "names": [
+        "Tsukiji Ihachi Honten - A5 Wagyu Steak"
+      ],
+      "websites": [
+        "http://tsukiji-ihachi.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJqzgP0OaLGGAR9IUFVjSj6Ww",
+      "names": [
+        "Furutoshi"
+      ],
+      "websites": [
+        "https://www.furutoshi-ginza.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJJcK1XoeLGGARA0UJkKh9k7Q",
+      "names": [
+        "Halal Wagyu Gyumon"
+      ],
+      "websites": [
+        "https://gyumon-group.com/shop/ramen-ginza/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJy9r9HOOLGGARfeitqCirRFU",
+      "names": [
+        "#カツ丼は人を幸せにする 銀座店"
+      ],
+      "websites": [
+        "http://tojinai.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJp3wfG4qLGGARv2oAKLob2Ag",
+      "names": [
+        "Godaime Wagyu Tokyo"
+      ],
+      "websites": [
+        "https://burger.halal-food-wagyu.com/tokyo/higashi-ginza/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJh6AiUuGLGGARKuwNvN3OCK8",
+      "names": [
+        "Ginhachi"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1301/A130101/13131872/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJ99eWPe-LGGARQoLqmkaT0rw",
+      "names": [
+        "Ginza Sun-mi Nihonryori Kagawa"
+      ],
+      "websites": [
+        "https://site.locaop.jp/sun-mi-washoku-hub"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ7YxUOwCLGGARYAUrzfcot6c",
+      "names": [
+        "Ippudo - Ginza East"
+      ],
+      "websites": [
+        "https://stores.ippudo.com/1149"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ53Np9eaLGGARmIRreH8W7Lo",
+      "names": [
+        "A Happy Pancake Ginza"
+      ],
+      "websites": [
+        "http://magia.tokyo/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJR7VjvuCLGGARwo4yz3p2y4A",
+      "names": [
+        "Ippudo - Ginza"
+      ],
+      "websites": [
+        "https://stores.ippudo.com/1123"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJm7k2sz6LGGARwE3Ux_p9l9M",
+      "names": [
+        "Ginza Kokuu"
+      ],
+      "websites": [
+        "https://www.instagram.com/ginza_kokuu/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ9aSZYxiLGGARoB2iy30pnL0",
+      "names": [
+        "LATTE ART MANIA GINZA"
+      ],
+      "websites": [
+        "https://www.instagram.com/latteartmania_ginza"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJo7KDDuWLGGARSzJ4udwXa9Q",
+      "names": [
+        "Edomae Sushi Ginza Ryōhei Sushi"
+      ],
+      "websites": [
+        "https://www.ryoheisushi.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ4bf41-eLGGAR-8MK9GqIm7c",
+      "names": [
+        "Kanesaka"
+      ],
+      "websites": [
+        "http://www.sushi-kanesaka.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJjzTYHOCLGGARhGDkN0CyO-U",
+      "names": [
+        "WAGYU SUSHI and SANDWICH Tsukiji Wine Stand 88"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1313/A131301/13282794/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJiz4WcOiLGGARNDAYR4fRLDc",
+      "names": [
+        "Shinamen HASHIGO Ginza"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJJcvBZwCLGGARf0D_3U26Cws",
+      "names": [
+        "Ginza Haruchan Ramen"
+      ],
+      "websites": [
+        "https://www.instagram.com/haruchan_ginza"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJqZ8IDtKLGGAREwEYOV44aaE",
+      "names": [
+        "Wagyu & Vegan Hamburger (Halal Gluten Free) Tokyo Ginza Restaurant"
+      ],
+      "websites": [
+        "https://tofu-vegan.halal-food-wagyu.com/tokyo/ginza-burger/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ8c4X2d6LGGARjNJLJz1lAHg",
+      "names": [
+        "Kakigoya"
+      ],
+      "websites": [
+        "https://kakigoya-tsukiji.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJRZGCCOWLGGARTbuL5FrsFcM",
+      "names": [
+        "Tendon Itsuki Ginza"
+      ],
+      "websites": [
+        "https://www.grandcuisine.co.jp/about"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJy-Pz1KOLGGAROi5yR0ETAlM",
+      "names": [
+        "Tsujita Kyobashi"
+      ],
+      "websites": [
+        "https://tsukemen-tsujita.com/shop/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJSZNJhruLGGARD61BiSwqjw4",
+      "names": [
+        "Brewman Tokyo - GINZA"
+      ],
+      "websites": [
+        "https://www.instagram.com/brewman_tokyo_ginza"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJVVXJ3-iLGGARBGB2fgVM1FA",
+      "names": [
+        "银座木屋总店"
+      ],
+      "websites": [
+        "https://ginza-kiya.com/0929/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJNWOC4-OLGGAR1XuTzWK9Xt8",
+      "names": [
+        "Ginza Bonten"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJkXYIhCSLGGAR-cTftg4yU64",
+      "names": [
+        "Kunisuke Coffee"
+      ],
+      "websites": [
+        "https://instagram.com/kunisuke_coffee"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJT3xSHl6JGGAR-yKnJmFi1eU",
+      "names": [
+        "Senmaiya Onigiri Shop"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJD84x9d-LGGARBHX4iN-gNEM",
+      "names": [
+        "Teppanyaki Kurosawa"
+      ],
+      "websites": [
+        "http://9638.net/tsukiji/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ7YW0VOaLGGARhGuFEiGbqS0",
+      "names": [
+        "Kyushu Jangara Ginza"
+      ],
+      "websites": [
+        "https://kyushujangara.co.jp/shops/ginza/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJrWBiduaLGGARyG1HaOJ_jl0",
+      "names": [
+        "Tendon&Ramen Hageten"
+      ],
+      "websites": [
+        "https://hageten.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJYWa8c0qJGGAR6OBNR75ddb0",
+      "names": [
+        "LPlus(エルプラス)"
+      ],
+      "websites": [
+        "https://www.instagram.com/lplus_tokyo"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJW4Hi46OLGGARZVuuNeN6hxs",
+      "names": [
+        "Turret Coffee"
+      ],
+      "websites": [
+        "http://instagram.com/turretcoffee"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJgdQhm-aLGGARfYDNofPv4ik",
+      "names": [
+        "Tsukiji Sushisei - Ginza 4 Chome"
+      ],
+      "websites": [
+        "http://www.tsukijisushisay.co.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJCT-6lA-LGGARkuuV3ZZoPrI",
+      "names": [
+        "Oginoya Gen Yurakucho"
+      ],
+      "websites": [
+        "https://gen.oginoya.tokyo/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJKxP859-LGGARb-mg9TJmWNY",
+      "names": [
+        "Tsukiji Tamazushi restaurant & sushi experience"
+      ],
+      "websites": [
+        "https://www.tamasushi.co.jp/blogs/brand/tsukiji_honten"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJXV-S2d6LGGAR254lgW2PqgU",
+      "names": [
+        "Hikobe"
+      ],
+      "websites": [
+        "https://www.tsukiji.or.jp/shoplist/cat-d/cat-12/417/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJj2s6QgCLGGARilhiinl95b0",
+      "names": [
+        "ROAR COFFEE Tokyo Ginza"
+      ],
+      "websites": [
+        "http://roar-coffee.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kf-h005-20261029-attempt-1",
+        "p21_baseline-p2-kf-h005-20261029-attempt-2",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJzfhtmEjuGGARBH3xquPzORI",
+      "names": [
+        "Kanekoya Kichijoji"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJK2D7xEjuGGARL4kF7l4iF5Q",
+      "names": [
+        "Tenpura Wakayama"
+      ],
+      "websites": [
+        "https://s-wakayama.com/free/kitijyoji"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJNcYxTkbuGGARq52lAu0KUQU",
+      "names": [
+        "Tendon Tenya"
+      ],
+      "websites": [
+        "https://www.tenya.co.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJZckDBnHvGGARf_1uxPSgGA4",
+      "names": [
+        "天ぷら むらやま 吉祥寺"
+      ],
+      "websites": [
+        "https://tempura-murayama.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJC64wU0_uGGARa-4uqLVZ1PY",
+      "names": [
+        "Tenkichi"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJhbCHTMPvGGARAieZd-CWoXc",
+      "names": [
+        "博多天ぷらやまや アトレ吉祥寺店"
+      ],
+      "websites": [
+        "https://restaurant-yamaya.com/brand/tenpura/restaurant/atre_kichijoji"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJbW0ao27vGGAR780rVsYsYM0",
+      "names": [
+        "Sushi and Tempura Iwai Kichijoji"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1320/A132001/13282321/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJqYcgmUvvGGAR0NWFWMTIW6A",
+      "names": [
+        "うな天"
+      ],
+      "websites": [
+        "https://instagram.com/unaten.kichijoji/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJDwqyEwDvGGAR_maVs_wryHM",
+      "names": [
+        "藁焼き鰹たたき明神丸 吉祥寺店"
+      ],
+      "websites": [
+        "https://shop.myojinmaru.jp/shop/kichijyouji/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJhxa9k0juGGAR-bZL6dHy9jo",
+      "names": [
+        "Kanda Matsuya"
+      ],
+      "websites": [
+        "http://www.kanda-matsuya.jp/kichijoji/k01.htm"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJwb0qAADvGGARx0IN7BZa2GQ",
+      "names": [
+        "Nihonbashi Tendon Tenmusu Kaneko Hannosuke Atre Kichijoji"
+      ],
+      "websites": [
+        "https://kaneko-hannosuke.com/shop/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJv2DfI4XvGGAR8aG6gnGz08I",
+      "names": [
+        "国産のお酒と小料理 きらく家"
+      ],
+      "websites": [
+        "https://kichijoji-kirakuya.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJFZyKlEjuGGARecwpmsr3EUc",
+      "names": [
+        "Umenohana Kichijoji Store"
+      ],
+      "websites": [
+        "https://www.umenohana.co.jp/stores/detail/18"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJswQ8zkjuGGARu_w4_n9tvxc",
+      "names": [
+        "Kichijoji Sunaba"
+      ],
+      "websites": [
+        "https://www.kichijoji-sunaba.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ5zw2t0fuGGARR0XcK-12MlA",
+      "names": [
+        "Enzo Kichojoji"
+      ],
+      "websites": [
+        "https://g811100.gorp.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJf826juTvGGARfxsXwDmH3VM",
+      "names": [
+        "爛漫東京"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJOWaKmzjuGGARlv0nv99juQU",
+      "names": [
+        "Kisshō Kichijōji"
+      ],
+      "websites": [
+        "https://kissho-kichijoji.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJb28BpD7uGGARCKbh7JY22s0",
+      "names": [
+        "和食 菘"
+      ],
+      "websites": [
+        "http://www.kichijoji-suzuna.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJH6MaBUjuGGARC5SX2jgBv1E",
+      "names": [
+        "Isomaru Suisan"
+      ],
+      "websites": [
+        "https://isomaru.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJIyHVdUjuGGARCAann2SBamE",
+      "names": [
+        "Isomaru Suisan"
+      ],
+      "websites": [
+        "https://isomaru.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJAQDUIjnuGGARq6mKZfYpl2E",
+      "names": [
+        "おどり"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJKX6z4zjuGGARFVOfMpk5t0M",
+      "names": [
+        "福郎"
+      ],
+      "websites": [
+        "https://luckypeople.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ04F2nTjuGGAR27e91ZDBncE",
+      "names": [
+        "和食居酒屋 吉祥寺みかづき酒房"
+      ],
+      "websites": [
+        "https://mikazukishubo.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJDXuo9d_vGGARwSHi6ABWYEY",
+      "names": [
+        "吉祥じ 和こん"
+      ],
+      "websites": [
+        "https://www.instagram.com/kichijoji.wakon"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJmR2hjzfuGGARBdrDn8Ty4HA",
+      "names": [
+        "Toriyoshi - Kichijoji"
+      ],
+      "websites": [
+        "https://toriyoshi.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJF_KUizfuGGARkiJmBy-EfSc",
+      "names": [
+        "Kichijoji Miura"
+      ],
+      "websites": [
+        "http://www.kichijoji-miura.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJd04JJUnuGGARIZrdFz6E3Qw",
+      "names": [
+        "Uoshin Kichijoji"
+      ],
+      "websites": [
+        "https://uoshins.com/kichijouji/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJd1VkqtLvGGAR7_tybcLhGBc",
+      "names": [
+        "焼き鳥と蕎麦 灯"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1320/A132001/13256151/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJefLtDUjuGGAR2JEuQ2irZx4",
+      "names": [
+        "Dashi Chazuke En Atre Kichijoji branch"
+      ],
+      "websites": [
+        "https://byo.co.jp/dashichazuke-en/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJV0Ikv0juGGARtING6sEyB2M",
+      "names": [
+        "八丈島 浜やん"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJoxMrAkfuGGARqVlf_qoOJ-w",
+      "names": [
+        "Koikoi"
+      ],
+      "websites": [
+        "https://kichijoji-koi.owst.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJizSBRkjuGGARV0tn49N9AaU",
+      "names": [
+        "Ibuki Udon Kichijoji"
+      ],
+      "websites": [
+        "https://instagram.com/ibukiudon"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJrbQd7jfuGGARXis6KDpGL7o",
+      "names": [
+        "Inokashira Shirube"
+      ],
+      "websites": [
+        "https://raku-co.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJz09ynEfuGGARJNp63VwN7AA",
+      "names": [
+        "Cuisine Kichijoji Waltz"
+      ],
+      "websites": [
+        "https://waltz-kichijouji.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ1WEJ8DjuGGARNSztZh-1Bmo",
+      "names": [
+        "Waragamo"
+      ],
+      "websites": [
+        "https://waragamo.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJbV5Xt0juGGARzrPAaM5hAjY",
+      "names": [
+        "Uozaru"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJpblwXDjuGGARgSI1uq0HwY4",
+      "names": [
+        "Kuroneko"
+      ],
+      "websites": [
+        "http://www.kappou-kuroneko.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJz4-62BTvGGARIcHr-vfMAwo",
+      "names": [
+        "季節料理 なか美"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJjTBWkzjuGGARsUvcSIbMQj0",
+      "names": [
+        "Yabu-asa"
+      ],
+      "websites": [
+        "https://www.instagram.com/kichiyabu/profilecard/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJK5K_z0fuGGARFkUN-LoGWJU",
+      "names": [
+        "Unatetsu"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_baseline-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJxeseKkqLGGARIxR0ndu7EWg",
+      "names": [
+        "Wagyu Yakiniku Restaurant \"Shikata\" Nakameguro"
+      ],
+      "websites": [
+        "https://www.yakiniku-shikata.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJVVX5tDmLGGARS5BVj3tXb2w",
+      "names": [
+        "yakiniku futago Nakameguro Main Building（bbq japanese)"
+      ],
+      "websites": [
+        "https://yakiniku-futago.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJmc8hYp-LGGARvaZuTurThqA",
+      "names": [
+        "赤身肉じゃんか中目店"
+      ],
+      "websites": [
+        "https://janka-nakameguro.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJua9HVUiLGGAR8_4FTLaAmmY",
+      "names": [
+        "Beef-tei écharpe"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJMdCbiUiLGGARllPSOZeB4bI",
+      "names": [
+        "Yakiniku Champion Naka-meguro Atlas Tower Store"
+      ],
+      "websites": [
+        "https://www.yakiniku-champion.com/jp/nat/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ0UKuqUmLGGAROsX4_lo24us",
+      "names": [
+        "Ushigoro Bambina Carbone Nakameguro"
+      ],
+      "websites": [
+        "https://ushigoro.com/hormone/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJs65o_huLGGARB5AadChjJKU",
+      "names": [
+        "Nakameguro Yakiniku Togyumon"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1317/A131701/13290371/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJg8WSMACLGGAR8C0swRHGqic",
+      "names": [
+        "Fresh Hormone Rambo Nakameguro"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJl1BcKrqLGGARtvXHSD-3JOk",
+      "names": [
+        "Kabuto Nakameguro – Shabu-Shabu, Sukiyaki, Yakiniku"
+      ],
+      "websites": [
+        "https://gj77700.gorp.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJq4YcI0mLGGARto4kNtp5xqM",
+      "names": [
+        "Onoda Shoten"
+      ],
+      "websites": [
+        "https://www.instagram.com/onoda_shouten_nakameguro"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ6U8b_tCLGGARIp3FRAsTBL8",
+      "names": [
+        "Yakiniku Ushicoco Nakameguro"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1317/A131701/13261753/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJL5ANoUmLGGAROypzcGwYXCQ",
+      "names": [
+        "Horumon Toku Nakameguro"
+      ],
+      "websites": [
+        "https://www.facebook.com/%E3%83%9B%E3%83%AB%E3%83%A2%E3%83%B3%E3%81%A8%E3%81%8F%E4%B8%AD%E7%9B%AE%E9%BB%92-1063550703733816/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ53Vpck2LGGARDhxblAQrl28",
+      "names": [
+        "焼肉 うし幸"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1317/A131701/13312085/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJ8XQGJGmLGGARhw4VeKPgzsY",
+      "names": [
+        "Kabuto Nakameguro Annex – Shabu-Shabu, Sukiyaki, Yakiniku"
+      ],
+      "websites": [
+        "https://gj75700.gorp.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJndEGyU6LGGAR-UkiSIGIF8Q",
+      "names": [
+        "炭火焼きホルモン まんてん 中目黒店"
+      ],
+      "websites": [
+        "https://www.instagram.com/manten_nakameguro/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJAQDkh0mLGGARbfy8WZ_dfIw",
+      "names": [
+        "Wagyu beef Yakiniku Beef Kitchen Nakameguro"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1317/A131701/13054178/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJISv1DlyLGGARKtftbe6nzhM",
+      "names": [
+        "Horumon Matsuda HANARE Yakiniku Nakameguro"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1317/A131701/13235974/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJK8Z3F9SLGGARTTYyTTk1N5E",
+      "names": [
+        "焼肉 牛目黒"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1317/A131701/13281273/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJLRU3AACLGGARDzHlMgNB1o4",
+      "names": [
+        "焼肉きんぐ 中目黒店"
+      ],
+      "websites": [
+        "https://www.yakiniku-king.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJMfQa10iLGGARotp1sao-eK4",
+      "names": [
+        "ZASSO"
+      ],
+      "websites": [
+        "http://zasso.tokyo/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ1V1L30eLGGARJ1tY4awvqv0",
+      "names": [
+        "成吉思汗ふじや"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJx4rzM0mLGGARP2gYa-k0jsY",
+      "names": [
+        "魅惑の七輪 らんまん 中目黒店"
+      ],
+      "websites": [
+        "https://www.instagram.com/ranman_nakameguro/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJwWHahJuLGGARu0yfxtaa_p4",
+      "names": [
+        "中目黒 大衆焼肉 暴飲暴食"
+      ],
+      "websites": [
+        "https://yoyaku.toreta.in/nakame-bouinbou"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJGTMCyy2LGGARlCFFCITS0I8",
+      "names": [
+        "Tombo"
+      ],
+      "websites": [
+        "https://tombo.foodre.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJDwmSjoiLGGARThPWdzgaWKU",
+      "names": [
+        "炭火焼肉ホルモンまんてん高架下"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1317/A131701/13241250/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJ9z3b-bmLGGARhPVFH_45qMA",
+      "names": [
+        "Hanuri Nakameguro"
+      ],
+      "websites": [
+        "https://hanuri-nakameguro.foodre.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJB9QkMkmLGGARtfCS6aaUm0o",
+      "names": [
+        "Wana"
+      ],
+      "websites": [
+        "https://wana-nakammeguro.owst.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJDaHIVGqLGGARfbqv1Ga8brI",
+      "names": [
+        "焼肉おおにし 祐天寺店"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1317/A131701/13242327/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJSbkc-GaLGGARvypwIrsU7CU",
+      "names": [
+        "深夜焼肉 不眠不休"
+      ],
+      "websites": [
+        "https://yoyaku.toreta.in/nakameguro-fumin-fukyu/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJkeH30UeLGGARYlpMRYGASws",
+      "names": [
+        "Maedaya"
+      ],
+      "websites": [
+        "https://instagram.com/yukariskaya"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ1V1L30eLGGARkBygEoWW8yY",
+      "names": [
+        "Yakitori Akira Nakameguro Main Store"
+      ],
+      "websites": [
+        "https://salt-group.jp/shop/akira_nakameguro/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJv6eIxzeLGGAR3wUJpK4BB6w",
+      "names": [
+        "T nakameguro"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1317/A131701/13273441/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJAQAwlkiLGGARFVQeoJjqRio",
+      "names": [
+        "Maruya"
+      ],
+      "websites": [
+        "https://instagram.com/yakiton_maruya/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJzSdJjueLGGARjvqTPwnzCcE",
+      "names": [
+        "Grilled Chicken & Shinshu Togakushi Soba Izakaya Nanaki Nakameguro"
+      ],
+      "websites": [
+        "https://gj5p000.gorp.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_baseline-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_corrected-p2-nakameguro-yakiniku-20261030-attempt-1",
+        "p21_a_dom-p2-nakameguro-yakiniku-20261030-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ20qQWACNGGARVAAk9PsBcdE",
+      "names": [
+        "割烹たけのこ"
+      ],
+      "websites": [
+        "https://kappoutakenoko-yoyaku.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJK8ENB1uMGGARZFjmMR1Bvus",
+      "names": [
+        "Sanko"
+      ],
+      "websites": [
+        "https://www.facebook.com/kagurazaka.sankou"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_corrected-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJV5ffBQCLGGARnst2ZhorDmQ",
+      "names": [
+        "築地かわむら"
+      ],
+      "websites": [
+        "https://www.tsukiji-kawamura.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJEVMmNeSLGGARwgDOnfP67As",
+      "names": [
+        "Ginza Bokujin"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1301/A130101/13310287/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJ5xcyZhyLGGARgcJTwjaoCC0",
+      "names": [
+        "Shoutoku Honten Megumi"
+      ],
+      "websites": [
+        "https://shu-toku-megumi.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-1",
+        "p21_a_corrected-p2-kf-h005-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJE2wPgzzvGGARSN11duU4wmY",
+      "names": [
+        "Shifuku Shokudō"
+      ],
+      "websites": [
+        "https://hibi-no.com/sajiki/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJCTulszjuGGARewOMVDInU5w",
+      "names": [
+        "Tamaya Kichijoji"
+      ],
+      "websites": [
+        "https://tamaya-chanbara.com/tamaya-kichijoji/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJdWNDEDnuGGARSHgY1dBq-5I",
+      "names": [
+        "Satonoyado"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJt-uY_aTvGGAR76lxNlKxDI4",
+      "names": [
+        "Oniyamma - Kichijoji"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJqdnczB3vGGARH6a7Qauu5CY",
+      "names": [
+        "Hikiniku to Come (Kichijoji)"
+      ],
+      "websites": [
+        "https://www.hikinikutocome.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ__97B0juGGARgSLh7at0_J8",
+      "names": [
+        "Tenkazushi Kichijoji"
+      ],
+      "websites": [
+        "http://www.tenkazushi.co.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ58ggUEbuGGARsk-vLKMYbnQ",
+      "names": [
+        "Mogame Shokudo"
+      ],
+      "websites": [
+        "https://www.instagram.com/mogame_shokudou/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJA4KUvUfuGGARt-NuUFl37NM",
+      "names": [
+        "Toriyoshishoten Kichijoji Kitaguchiten"
+      ],
+      "websites": [
+        "https://toriyoshishoten.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJm4Jc8EfuGGAREtPGdQza_vc",
+      "names": [
+        "Sushi no Midori Kichijoji"
+      ],
+      "websites": [
+        "http://www.sushinomidori.co.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJH_8PTUvvGGARlzcfsOkYxzk",
+      "names": [
+        "Sushi Yamashiro Kichijoji"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1320/A132001/13246986/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJO1sc5kfuGGARdLnYMTnSpm0",
+      "names": [
+        "Tsukada Suisan"
+      ],
+      "websites": [
+        "https://tsukada-satsuma.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ_VBQ4XnvGGARfBYyLADdBkU",
+      "names": [
+        "pololi食堂とpihakopi"
+      ],
+      "websites": [
+        "https://pololi-shokudo.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJi2LUH0buGGARv8p1-g8s6k0",
+      "names": [
+        "Kayashima"
+      ],
+      "websites": [
+        "http://kayashima.org/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJp3MvzqnvGGARuuEoe--bGZ0",
+      "names": [
+        "Kairi"
+      ],
+      "websites": [
+        "https://kai-ri.jp/kichijoji/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJqQ0t9TfvGGARpzdjUTCdJIw",
+      "names": [
+        "Uobei Kichijoji"
+      ],
+      "websites": [
+        "https://www.uobei.info/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJt_hBIzjuGGARxyChCdHJzD8",
+      "names": [
+        "Joumon"
+      ],
+      "websites": [
+        "http://www.teyandei.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJYzelhGvvGGARuo5GATroaY8",
+      "names": [
+        "Sushi to Shuko Tomikawa"
+      ],
+      "websites": [
+        "https://tomikawa-sushitosyukou.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-1"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ9ze-r0fuGGARMWlEfmmY-BI",
+      "names": [
+        "鮨処 みこし"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1320/A132001/13034967/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJjTvZm-PvGGARFbidE4fVkWU",
+      "names": [
+        "３８ふ頭Ｂ突堤 吉祥寺店"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJG1oV8TjuGGARvKfIamcNb1E",
+      "names": [
+        "Uo Hide Zen"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJcQz75UfuGGARWirx6QM4rXk",
+      "names": [
+        "片口"
+      ],
+      "websites": [
+        "http://hamoyoko.jp/menu/kichijoji_katakuchi/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJ2-UAe0fuGGARhybu2ln-4Ws",
+      "names": [
+        "Uo Hide"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    },
+    {
+      "googlePlaceId": "ChIJYwYEDzjuGGARWwtE4x2NXPQ",
+      "names": [
+        "Syogaya Kurobe"
+      ],
+      "websites": [
+        "https://shop.gyro.holdings/detail/pd1806/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJR8FVDzjuGGARgQfaGWxDSbc",
+      "names": [
+        "Yakitori & Obanzai SAKAMOTO"
+      ],
+      "websites": [
+        "https://tabelog.com/tokyo/A1320/A132001/13196218/"
+      ],
+      "buckets": [
+        "DIRECT_SOURCE_PAGE"
+      ],
+      "runs": [
+        "p21_a_corrected-p2-kichijoji-tempura-20261027-attempt-2",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-1",
+        "p21_a_dom-p2-kichijoji-tempura-20261027-attempt-2"
+      ],
+      "classification": "DIRECT_SOURCE_PAGE"
+    },
+    {
+      "googlePlaceId": "ChIJJUyeE_-MGGARgyV2OaAnkLo",
+      "names": [
+        "Tantaka"
+      ],
+      "websites": [
+        "https://tantaka.gorp.jp/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-1",
+        "p21_a_dom-p2-kagurazaka-kaiseki-20261029-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJhedmAaCMGGARY6vnHoPx1eY",
+      "names": [
+        "Tomita"
+      ],
+      "websites": [
+        "https://sushi-tomita.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_dom-p2-kf-h001-20261027-attempt-1",
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJg5TNcuSLGGAR3Ah3sG_KNBY",
+      "names": [
+        "Tachiguisushi KAKIDA Sakura Stage Shibuya"
+      ],
+      "websites": [
+        "https://tblc.hk/fZC5H"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJz9NsIKmMGGAR6LA78zkpeGY",
+      "names": [
+        "KINKA Sushi Bar Izakaya 渋谷"
+      ],
+      "websites": [
+        "https://www.kinkasushibarizakaya.com/jp"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJiT-k69eLGGARNGQG4N1vvR8",
+      "names": [
+        "Sushi Tokyo Ten Shibuya"
+      ],
+      "websites": [
+        "http://sushitokyo-ten.com/"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJh79i16mMGGARN1HObiQvcVA",
+      "names": [
+        "Uogashi Nihon-Ichi Shibuya Dogenzaka"
+      ],
+      "websites": [
+        "https://uogashi-nihonichi.imachika.com/store/17"
+      ],
+      "buckets": [
+        "WEBSITE_FIELD_ONLY"
+      ],
+      "runs": [
+        "p21_a_dom-p2-kf-h001-20261027-attempt-2"
+      ],
+      "classification": "WEBSITE_FIELD_ONLY"
+    },
+    {
+      "googlePlaceId": "ChIJyxwlBu-LGGARwxxV8MAuwDE",
+      "names": [
+        "Marugin"
+      ],
+      "websites": [],
+      "buckets": [
+        "NO_WEBSITE_FIELD"
+      ],
+      "runs": [
+        "p21_a_dom-p2-kf-h005-20261029-attempt-1",
+        "p21_a_dom-p2-kf-h005-20261029-attempt-2-preflight-2"
+      ],
+      "classification": "NO_WEBSITE_FIELD"
+    }
+  ]
+}

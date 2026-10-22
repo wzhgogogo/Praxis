@@ -1,0 +1,6 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/harness/browser/browser-read-fixture.test.ts(1358,53): error TS2741: Property 'maxModelCallsPerCandidate' is missing in type '{ maxAutomaticElapsedMs: number; maxOperationsPerCandidate: number; maxModelCallsTotal: number; onDiagnostic: (row: BrowserExecutionDiagnostic) => void; }' but required in type 'BrowserTaskExecutorOptions'.
+src/integrations/tabelog/tabelog-browser-availability.test.ts(72,82): error TS2739: Type '{ maxAutomaticElapsedMs: number; maxElapsedMsPerProvider: number; maxModelCallsTotal: number; }' is missing the following properties from type 'BrowserTaskExecutorOptions': maxModelCallsPerCandidate, maxOperationsPerCandidate

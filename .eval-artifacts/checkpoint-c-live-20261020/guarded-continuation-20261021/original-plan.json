@@ -1,0 +1,128 @@
+{
+  "status": "current executable; exposed development, not Clean Baseline",
+  "source": ".eval-artifacts/p2-live-set-20261019/variants.yaml",
+  "sourceSha256": "910ba0fdf755392ab1d2a1b0c2da5f9fa8d66a32217c109e8eb5f3b3ee24e8b6",
+  "runnerInput": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+  "baseCommit": "a3f6b84",
+  "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@30",
+  "rubric": "restaurant-hybrid-read-diagnostic-rubric@26",
+  "ceilings": {
+    "timeoutMs": 500000,
+    "maxModelCalls": 50,
+    "maxGoogleRequests": 40
+  },
+  "minGapMs": 300000,
+  "cooldownMs": 900000,
+  "maxRerunsPerCase": 1,
+  "maxTotalReruns": 10,
+  "runs": [
+    {
+      "runId": "c-01",
+      "caseId": "p2l-kf-h001-20261103",
+      "repeat": 1,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-02",
+      "caseId": "p2l-kf-h002-20261107",
+      "repeat": 1,
+      "role": "BUDGET"
+    },
+    {
+      "runId": "c-03",
+      "caseId": "p2l-kf-h005-20261105",
+      "repeat": 1,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-04",
+      "caseId": "p2l-kf-h003-20261106",
+      "repeat": 1,
+      "role": "BUDGET"
+    },
+    {
+      "runId": "c-05",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "repeat": 1,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-06",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "repeat": 1,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-07",
+      "caseId": "p2l-kf-h005-20261105",
+      "repeat": 2,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-08",
+      "caseId": "p2l-kf-h003-20261106",
+      "repeat": 2,
+      "role": "BUDGET"
+    },
+    {
+      "runId": "c-09",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "repeat": 2,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-10",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "repeat": 2,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-11",
+      "caseId": "p2l-kf-h001-20261103",
+      "repeat": 2,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-12",
+      "caseId": "p2l-kf-h002-20261107",
+      "repeat": 2,
+      "role": "BUDGET"
+    },
+    {
+      "runId": "c-13",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "repeat": 3,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-14",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "repeat": 3,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-15",
+      "caseId": "p2l-kf-h001-20261103",
+      "repeat": 3,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-16",
+      "caseId": "p2l-kf-h002-20261107",
+      "repeat": 3,
+      "role": "BUDGET"
+    },
+    {
+      "runId": "c-17",
+      "caseId": "p2l-kf-h005-20261105",
+      "repeat": 3,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-18",
+      "caseId": "p2l-kf-h003-20261106",
+      "repeat": 3,
+      "role": "BUDGET"
+    }
+  ]
+}

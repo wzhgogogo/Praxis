@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "gates": [
+    {
+      "command": "npm run typecheck",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "command": "npm run arch:check",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/arch-check.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "command": "npm test",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/default-test-with-loopback.log",
+      "sha256": "928ebc05f83a77e196c1fca77ab79a267b888b3849814a6d2bdd8c738f7b3238",
+      "tests": 998,
+      "passed": 998,
+      "failed": 0
+    },
+    {
+      "command": "npm run build",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "command": "npm run test:browser:fixture",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/browser-fixture.log",
+      "sha256": "69cb27f430df03e8c1c455a33c63eda4faee0da9eaf2be1aeab159833a163768",
+      "tests": 131,
+      "passed": 131,
+      "failed": 0
+    }
+  ],
+  "calibration": {
+    "matched": 22,
+    "total": 22,
+    "normalDeclaration": {
+      "matched": 20,
+      "total": 20
+    },
+    "boundary": {
+      "ABSENT": 9,
+      "PRESENT": 0,
+      "NOT_EVALUATED": 13
+    }
+  },
+  "displayGate": {
+    "tempura": 4,
+    "utou": 3,
+    "allConsistent": true,
+    "unsupported": 0,
+    "missed": 0,
+    "externalSupport": 2
+  },
+  "sandboxOnlyFailure": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/default-test.log",
+    "cause": "Sandbox EPERM listening on 127.0.0.1; same sources passed with local loopback permission"
+  }
+}

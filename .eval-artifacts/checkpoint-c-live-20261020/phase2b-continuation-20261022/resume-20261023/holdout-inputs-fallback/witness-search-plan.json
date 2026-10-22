@@ -1,0 +1,127 @@
+{
+  "schema": "phase2b-witness-search@1",
+  "sourceRules": {
+    "radiusMeters": 800,
+    "minGapMs": 30000,
+    "cooldownMs": 900000,
+    "transportRetryMs": 120000,
+    "maxRetries": 1,
+    "validForMs": 86400000,
+    "maxCandidatePagesPerPlace": 6,
+    "targetWitnesses": 3
+  },
+  "variants": [
+    {
+      "caseId": "p2b-holdout-01",
+      "place": "Asakusa",
+      "date": "2026-11-04",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 2,
+      "merchantRequirements": [
+        {
+          "value": "sukiyaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Asakusa, Tokyo, Japan",
+      "searchQuery": "Asakusa, Tokyo, Japan sukiyaki restaurant"
+    },
+    {
+      "caseId": "p2b-holdout-02",
+      "place": "Kachidoki",
+      "date": "2026-10-30",
+      "earliest": "18:30",
+      "latest": "18:30",
+      "partySize": 4,
+      "merchantRequirements": [
+        {
+          "value": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Kachidoki, Tokyo, Japan",
+      "searchQuery": "Kachidoki, Tokyo, Japan monjayaki restaurant"
+    },
+    {
+      "caseId": "p2b-holdout-03",
+      "place": "Ebisu",
+      "date": "2026-10-31",
+      "earliest": "19:30",
+      "latest": "19:30",
+      "partySize": 2,
+      "merchantRequirements": [
+        {
+          "value": "French",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "at most 15,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Ebisu, Tokyo, Japan",
+      "searchQuery": "Ebisu, Tokyo, Japan French at most 15,000 yen per person restaurant"
+    },
+    {
+      "caseId": "p2b-holdout-04",
+      "place": "Ikebukuro",
+      "date": "2026-11-05",
+      "earliest": "18:00",
+      "latest": "20:00",
+      "partySize": 6,
+      "merchantRequirements": [
+        {
+          "value": "Thai",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Ikebukuro, Tokyo, Japan",
+      "searchQuery": "Ikebukuro, Tokyo, Japan Thai restaurant"
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "place": "Azabu-Juban",
+      "date": "2026-11-03",
+      "earliest": "19:00",
+      "latest": "19:00",
+      "partySize": 3,
+      "merchantRequirements": [
+        {
+          "value": "soba",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "standing soba counter",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Azabu-Juban, Tokyo, Japan",
+      "searchQuery": "Azabu-Juban, Tokyo, Japan soba restaurant"
+    },
+    {
+      "caseId": "p2b-holdout-06",
+      "place": "Shimbashi",
+      "date": "2026-10-30",
+      "earliest": "19:00",
+      "latest": "21:00",
+      "partySize": 8,
+      "merchantRequirements": [
+        {
+          "value": "oden",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Shimbashi, Tokyo, Japan",
+      "searchQuery": "Shimbashi, Tokyo, Japan oden restaurant"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "status": "NOT_CERTIFIED_AFTER_ONE_AUTHORIZED_FALLBACK",
+  "caseId": "p2-holdout-05",
+  "fallbackOrdinal": 1,
+  "maxFallbacks": 1,
+  "reviewedBy": "CODEX_EVALUATION_SIDE",
+  "independentOfProduction": true,
+  "rows": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-05/fallback-05-13129369.source.json",
+      "sha256": "165e98c996abd5bdac7d792718f1221ce62fa7b96a38d7b086985133367a10a9",
+      "responseSha256": "1ddf1a50f0b1c2c32cc5be81ed555bff7b2fe718b54a00b728336efd08b0594d",
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-05/fallback-05-13129369.attempt-1.metadata.json",
+      "url": "https://tabelog.com/en/tokyo/A1315/A131501/13129369/",
+      "sourceStatus": 200,
+      "merchantFields": 9
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-05/fallback-05-13253783.source.json",
+      "sha256": "cccdc36e09e3b9c6067f4347850da74bbbfb31f1068440d0cfcc43e4069df8b1",
+      "responseSha256": "44261e58ed50360b00978b56ba4b95be3ecf181bd153043ebe5933b7ca6aa673",
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-05/fallback-05-13253783.attempt-1.metadata.json",
+      "url": "https://tabelog.com/en/tokyo/A1315/A131501/13253783/",
+      "sourceStatus": 200,
+      "merchantFields": 4
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-05/fallback-05-13282229.source.json",
+      "sha256": "2b9b732d40f0c5e92a4320ad5ec26fb76b0a3082b67a3d3556dac1ad51024df9",
+      "responseSha256": "91964787120f2060cb52ee6d8cff6c41cb4171dd5d4e98b69fd5486c10087b04",
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-05/fallback-05-13282229.attempt-1.metadata.json",
+      "url": "https://tabelog.com/en/tokyo/A1315/A131501/13282229/",
+      "sourceStatus": 200,
+      "merchantFields": 8
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-05-menu-13129369.source.json",
+      "sha256": "6268994e56c736c0669a3a674c0b499c5be0c39afa95e57e603017d7d4f4df17",
+      "responseSha256": "e7d0d6b57bd5422b27ebc72108d527cf65da33f7af298a71a8bf2db805f077ac",
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-05-menu-13129369.attempt-1.metadata.json",
+      "url": "https://tabelog.com/en/tokyo/A1315/A131501/13129369/dtlmenu/",
+      "sourceStatus": 200,
+      "merchantFields": 237
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-05-menu-13253783.source.json",
+      "sha256": "e6fca69e9e5d12345e76d95ab9bdb6bc5009df5f2a964f917463bf15783f3366",
+      "responseSha256": "0d413cbdc15c72db8502538cffe8cec050d51013a1d5dac4f0b3f6ec7b535ff8",
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-05-menu-13253783.attempt-1.metadata.json",
+      "url": "https://tabelog.com/en/tokyo/A1315/A131501/13253783/dtlmenu/",
+      "sourceStatus": 200,
+      "merchantFields": 152
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-05-menu-13253787.source.json",
+      "sha256": "ee952ef270500eb1189b003f76594a6094f87f6cb0f0317c55e44a2eefbd910b",
+      "responseSha256": "95a8f99df5830123bbe5a6c658f4a593bfae6e60b330d399f1cbbfe8b7c29b57",
+      "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-06/fallback-05-menu-13253787.attempt-1.metadata.json",
+      "url": "https://tabelog.com/en/tokyo/A1315/A131501/13253787/dtlmenu/",
+      "sourceStatus": 200,
+      "merchantFields": 181
+    }
+  ],
+  "hardCriterionIndex": 2,
+  "hardStatus": "NOT_EVALUATED",
+  "reason": "No retained visible merchant statement explicitly supports the unchanged negative HARD. Category differences, absence of words, generic non-Sichuan dish names and adjustable levels 1–5 do not establish a non-spicy request match.",
+  "excludedCandidate": {
+    "rst_id": "13282229",
+    "reason": "Restaurant source is an izakaya without the Chinese category; preserved and not certified."
+  },
+  "scope": "Bounded six-page source review, not a global claim that feasible restaurants do not exist. No inventory was requested for unsupported fallback witnesses.",
+  "decision": "STOP_BATCH_BEFORE_HOLDOUT_LIVE",
+  "dateChanged": false,
+  "conditionsChanged": false,
+  "models": 0,
+  "network": 0
+}

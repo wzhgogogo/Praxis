@@ -1,0 +1,71 @@
+{
+  "kind": "CALENDAR",
+  "id": "c-05-d009",
+  "codeCommit": "b7f56b660c9a1fc017b792a01eb405ff83349383",
+  "freezeSha256": "d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d",
+  "call": {
+    "kind": "CALENDAR",
+    "id": "c-05-d009",
+    "startedAt": "2026-10-21T04:31:35.260Z",
+    "requestSha256": "e36064256ae7105b191498cbc5bbcdd20c602b9605cdd69b2450e2a9655c12d9",
+    "status": "SUCCEEDED",
+    "finishedAt": "2026-10-21T04:31:37.219Z",
+    "wallMs": 1957.286541999987,
+    "latencyMs": 1957,
+    "model": "deepseek-flash",
+    "usage": {
+      "inputTokens": 12748,
+      "outputTokens": 126,
+      "totalTokens": 12874
+    },
+    "error": null
+  },
+  "action": {
+    "type": "CLICK_AUTHORITATIVE",
+    "targetRef": "observation:1:target:94",
+    "field": "PARTY_SIZE",
+    "reason": "Select guests=3 via the authoritative party-size control."
+  },
+  "rawResponse": {
+    "invocationId": "f31fedd7-aeeb-4da6-9fe9-fcfcb9bbff29",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:1:target:94\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select guests=3 via the authoritative party-size control.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1957,
+    "providerRequestId": "7d141be5-c00b-406e-a47b-7ada1ba83bf4",
+    "usage": {
+      "inputTokens": 12748,
+      "outputTokens": 126,
+      "totalTokens": 12874
+    }
+  },
+  "verdict": {
+    "acceptable": false,
+    "expected": {
+      "action": "CLICK",
+      "targetRef": "observation:1:target:62",
+      "originalRef": "observation:4:target:86",
+      "rule": "Original DOM node a containing Next month in calendar navigation, bound through captured stableKey and exact original targetRef; never target order",
+      "binding": {
+        "controlId": "dom:1:62",
+        "stableKey": "a[href],[role=link]|link||Next month||96",
+        "outerHTML": "<a href=\"https://tabelog.com/en/tokyo/A1309/A130905/13300814/#\" class=\"p-booking-calendar__calendar-navi-target p-booking-calendar__calendar-navi-target--next\"><i>Next month</i></a>"
+      }
+    },
+    "actualTarget": {
+      "ref": "observation:1:target:94",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "3",
+      "controlGroupLabel": "Guests",
+      "value": "3",
+      "type": "button",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:PARTY_SIZE"
+      ]
+    }
+  },
+  "acceptable": false
+}

@@ -1,0 +1,104 @@
+{
+  "status": "FAIL",
+  "c17QualifiedDelivery": false,
+  "c17Outcome": "CAPABILITY_MISS",
+  "beforeDeadline": true,
+  "perTarget": [
+    {
+      "caseId": "p2l-kf-h001-20261103",
+      "planned": 3,
+      "qualified": 3,
+      "outcomes": [
+        {
+          "runId": "c-01",
+          "outcome": "QUALIFIED_DELIVERY",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        },
+        {
+          "runId": "c-11",
+          "outcome": "QUALIFIED_DELIVERY",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        },
+        {
+          "runId": "c-15",
+          "outcome": "QUALIFIED_DELIVERY",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        }
+      ]
+    },
+    {
+      "caseId": "p2l-kf-h005-20261105",
+      "planned": 3,
+      "qualified": 1,
+      "outcomes": [
+        {
+          "runId": "c-03",
+          "outcome": "CAPABILITY_MISS",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        },
+        {
+          "runId": "c-07",
+          "outcome": "QUALIFIED_DELIVERY",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        },
+        {
+          "runId": "c-17",
+          "outcome": "CAPABILITY_MISS",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@33"
+        }
+      ]
+    },
+    {
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "planned": 3,
+      "qualified": 3,
+      "outcomes": [
+        {
+          "runId": "c-05",
+          "outcome": "QUALIFIED_DELIVERY",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        },
+        {
+          "runId": "c-09",
+          "outcome": "QUALIFIED_DELIVERY",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        },
+        {
+          "runId": "c-13",
+          "outcome": "QUALIFIED_DELIVERY",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        }
+      ]
+    },
+    {
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "planned": 3,
+      "qualified": 3,
+      "outcomes": [
+        {
+          "runId": "c-06",
+          "outcome": "QUALIFIED_DELIVERY",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        },
+        {
+          "runId": "c-10",
+          "outcome": "QUALIFIED_DELIVERY",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        },
+        {
+          "runId": "c-14",
+          "outcome": "QUALIFIED_DELIVERY",
+          "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@32"
+        }
+      ]
+    }
+  ],
+  "s0Present": 0,
+  "originalC18DisplayReplay": {
+    "status": "PASS",
+    "unsupported": 0,
+    "missed": 0,
+    "externalSupport": 2
+  },
+  "next": "STOP; do not open holdout"
+}

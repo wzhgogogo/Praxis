@@ -1,0 +1,40 @@
+✔ all same-source page and inventory reads are at least 30 seconds after previous completion (8.970708ms)
+✔ busy/status failure waits 15 minutes exactly once, retains both responses, then stops if still failing (1.372791ms)
+✔ inventory certification binds raw date, party, outlet and exact time without opening slot URLs (0.151084ms)
+✔ source evidence retains entity-encoded HARD quote bytes, not only a found flag (0.8465ms)
+✔ no-status transport failure waits two minutes, replays once unchanged and stops on a second failure (0.250417ms)
+✔ resume preserves the three supported witnesses and refreshes only the missing evidence (0.835208ms)
+✔ source identity review resolves a translated name without accepting another canonical outlet (0.366708ms)
+✖ completion preserves six supported witnesses and reuses Meibutsuya business page for inventory only (0.969708ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 52.428083
+
+✖ failing tests:
+
+test at .eval-artifacts/checkpoint-c-live-20261020/witness-certification-control.test.mjs:79:1
+✖ completion preserves six supported witnesses and reuses Meibutsuya business page for inventory only (0.969708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'CAPTURE'
+  - 'REUSE_PAGE_CAPTURE_INVENTORY'
+  
+      at TestContext.<anonymous> (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-control.test.mjs:88:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'CAPTURE',
+    expected: 'REUSE_PAGE_CAPTURE_INVENTORY',
+    operator: 'strictEqual'
+  }

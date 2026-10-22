@@ -1,0 +1,32 @@
+{
+  "schema": "phase2b-witness-search@1",
+  "sourceRules": {
+    "radiusMeters": 800,
+    "minGapMs": 30000,
+    "cooldownMs": 900000,
+    "transportRetryMs": 120000,
+    "maxRetries": 1,
+    "validForMs": 86400000,
+    "maxCandidatePagesPerPlace": 6,
+    "targetWitnesses": 3
+  },
+  "variants": [
+    {
+      "caseId": "p2b-holdout-02",
+      "place": "Kachidoki",
+      "date": "2026-10-30",
+      "earliest": "18:30",
+      "latest": "18:30",
+      "partySize": 4,
+      "merchantRequirements": [
+        {
+          "value": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "centerQuery": "Kachidoki, Tokyo, Japan",
+      "searchQuery": "Kachidoki, Tokyo, Japan monjayaki restaurant"
+    }
+  ]
+}

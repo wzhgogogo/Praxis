@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { readFile } from "node:fs/promises";
 
 import { RestaurantExecutionRouter } from "../../application/restaurant-execution-router.js";
 import type { RestaurantTaskState } from "../../domains/restaurant/contracts.js";
@@ -821,7 +822,13 @@ test("TableCheck native guide uses its own ID and linked booking entrance withou
     sourceIds: { tablecheck: "restaurant1", tablecheckNativeGuideUri: "https://www.tablecheck.com/en/restaurant1" } } };
   const reservation: BrowserSnapshot = { url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation",
     text: "Restaurant 1 2 guests 2026-08-05 19:00", html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section><a href="/en/restaurant1/reserve/landing?start_date=2026-08-05&pax=2&start_time=19:00">19:00</a>' };
-  const session = new FixtureBrowserSession([matchingOutletPage(), reservation]);
+  // Genuine price elements in a synthetic identity envelope; this does not
+  // replay Aloft identity or inventory. The separate request page has no menu.
+  const menu = await readFile(new URL("../../harness/browser/fixtures/restaurant-prices/aloft-public-20261019.html", import.meta.url), "utf8");
+  const guide = matchingOutletPage();
+  guide.html += menu;
+  guide.text += " " + menu.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+  const session = new FixtureBrowserSession([guide, reservation]);
   const nativeDiagnostics: Array<{ nativeContinuity?: { confirmed: boolean; reason: string; observedSourceEntityId?: string } }> = [];
   const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z",
     { onIdentityDiagnostic: (diagnostic) => nativeDiagnostics.push(diagnostic) })
@@ -829,6 +836,14 @@ test("TableCheck native guide uses its own ID and linked booking entrance withou
   assert.equal(session.navigations.some((value) => value.includes("/japan/search")), false);
   assert.equal(result.availabilityChecks[native.restaurant.id]?.status, "AVAILABLE", JSON.stringify({ checks: result.availabilityChecks, navigations: session.navigations }));
   assert.equal(result.evidence.some((item) => item.kind === "ENTITY_MATCH" && item.entityMatch?.matchedBy.includes("NATIVE_SOURCE_ID_AND_DETAIL")), true);
+  const priceFact = result.evidence.find(item => item.kind === "RESTAURANT_FACT" && item.priceFacts);
+  assert.deepEqual(priceFact?.priceFacts?.listedCoursePricesYen.map(item => item.amount), [7000, 7500, 9800, 3000]);
+  assert.equal(priceFact?.sourceUrl, guide.url, "the guide citation must not become the request page URL");
+  const blocked = await new TableCheckBrowserAvailability({ openSession: async () => new FixtureBrowserSession([guide,
+    { ...reservation, text: "verify you are human", html: "" }]) }, () => "2026-08-05T09:00:00.000Z")
+    .check({ ...request, candidateIds: [native.restaurant.id], candidates: [native], hardCriteria: [] }, new AbortController().signal);
+  assert.equal(blocked.availabilityChecks[native.restaurant.id]?.status, "UNKNOWN");
+  assert.equal(blocked.evidence.some(item => item.priceFacts?.listedCoursePricesYen[0]?.amount === 7000), true);
   assert.deepEqual(nativeDiagnostics[0]?.nativeContinuity, { confirmed: true, reason: "SAME_SOURCE_OUTLET",
     expectedSourceEntityId: "restaurant1", observedSourceEntityId: "restaurant1" });
   const wrong = { ...native, restaurant: { ...native.restaurant, sourceIds: { ...native.restaurant.sourceIds, tablecheck: "another-branch" } } };
@@ -1458,4 +1473,44 @@ test("TableCheck actual empty widget stops mealtime loops without claiming a wid
       if (variant === "wrong-party") assert.equal(check.reasonCode, "REQUEST_SELECTION_UNCONFIRMED");
     } finally { await executor.close(); }
   }
+});
+
+
+test("group-window: prohibited linked workflow is unsupported before navigation", async () => {
+ const guide="https://www.tablecheck.com/en/restaurant1";
+ const session=new FixtureBrowserSession([
+  discoveryPage({href:"/en/restaurant1",text:"Restaurant 1"}),
+  {url:guide,title:"Restaurant 1",text:"Restaurant 1",html:'<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><a href="/en/shops/restaurant1/reserve">Book a table</a>'},
+  {url:guide+"/reserve",title:"Reservation",text:"",html:'<div data-selected-date="2026-08-05" data-pax="2"></div>'},
+ ]);
+ Object.assign(session.metadata,{readNetworkBoundary:"INSTALLED"});
+ const result=await new TableCheckBrowserAvailability({openSession:async()=>session},undefined,{networkPolicy:{documentOrigins:["https://www.tablecheck.com"],staticResources:[],dynamicReads:[],prohibitedPaths:[{hostname:"tablecheck.com",pathSegment:"reserve"}]}}).check(request,new AbortController().signal);
+ assert.equal(session.navigations.some(url=>url.includes("/reserve")),false);
+ assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"SOURCE_UNSUPPORTED");
+});
+
+test("group-window: point empty continues to the next observed legal time", async () => {
+ let selected="19:00";const selections:string[]=[];
+ const date="2026-08-05",guide="https://www.tablecheck.com/en/restaurant1";
+ const widget=()=>`<div data-testid="Venue Availability"><form><button data-testid="day" data-date="2026-8-5" aria-selected="true">5</button><div data-testid="Venue Pax Select" id="pax-2"></div><div data-testid="Venue Time Select" id="time-${selected}"></div>${selected==="19:00"?'<span data-testid="Venue Unavailable Msg">We could not find a table on Aug 5th for the selected mealtime</span>':`<a href="/en/shops/restaurant1/reserve?start_date=${date}&amp;num_people=2&amp;start_time=19:30">19:30</a>`}</form></div>`;
+ const session=new FixtureBrowserSession([discoveryPage({href:"/en/restaurant1",text:"Restaurant 1"}),{url:guide,title:"Restaurant 1",text:"Restaurant 1",html:""}]);
+ const snapshot=session.snapshot.bind(session);
+ session.snapshot=async()=>{const p=await snapshot();return p.url===guide?{...p,html:'<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a>'+widget()}:p;};
+ session.observeControls=async()=>[{id:"time",stableKey:"time",kind:"SELECT",role:"combobox",label:"Time",visible:true,disabled:false,options:["18:30","19:00","19:15","19:30","22:30"].map(t=>({value:t,label:t,selected:t===selected,disabled:t==="19:15"}))}];
+ session.select=async(_id,value)=>{selections.push(value);selected=value;return[value];};
+ const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:30000,maxModelCallsPerCandidate:6,maxModelCallsTotal:6,maxOperationsPerCandidate:80});
+ try{
+ const result=await new TableCheckBrowserAvailability(executor).check({...request,date,partySize:2,timeWindow:{earliest:"19:00",latest:"20:00"}},new AbortController().signal);
+ assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"AVAILABLE");
+ assert.deepEqual(selections,["19:30"]);
+ assert.equal(result.offers[0]!.dateTime,`${date}T19:30:00+09:00`);
+ }finally{await executor.close();}
+});
+
+test("group-window: an already prohibited candidate entrance is rejected before a browser session",async()=>{
+ let opened=0;
+ const blocked={...candidate,restaurant:{...candidate.restaurant,sourceIds:{tablecheck:"restaurant1",tablecheckNativeGuideUri:"https://www.tablecheck.com/en/shops/restaurant1/reserve"}}};
+ const policy={documentOrigins:["https://www.tablecheck.com"],staticResources:[],dynamicReads:[],prohibitedPaths:[{hostname:"tablecheck.com",pathSegment:"reserve"}]};
+ const result=await new TableCheckBrowserAvailability({async openSession(){opened++;throw Error("Prohibited entrance must never acquire browser");}},undefined,{networkPolicy:policy}).check({...request,candidates:[blocked]},new AbortController().signal);
+ assert.equal(opened,0);assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"SOURCE_UNSUPPORTED");assert.equal(result.offers.length,0);assert.equal(result.evidence.some(e=>e.entityMatch?.confidence==="HIGH"),false);
 });

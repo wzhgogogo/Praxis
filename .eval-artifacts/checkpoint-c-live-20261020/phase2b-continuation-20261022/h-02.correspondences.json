@@ -1,0 +1,34 @@
+{
+  "schema": "artifact-criterion-correspondence@1",
+  "status": "frozen regression; artifact-specific independent review",
+  "rule": "Only dfdb175b-approved equivalent pairs. Exact original artifact and both wording hashes required. No synonyms, cross-pairs or 6000 budget equivalence.",
+  "entries": [
+    {
+      "runId": "h-02",
+      "artifactSha256": "3e22e283f80a0363d472eac5ffa9d3006823bf1ebd3cb0a8f80d947a9434f1bd",
+      "pairs": [
+        {
+          "goldIndex": 0,
+          "actualIndex": 0,
+          "semanticId": "reviewed:h-02:criterion:0",
+          "goldTextSha256": "fe1d9c7db3762da63c17852f7652e3d4a73154f90bcd90474550c7a552d3d0bf",
+          "actualTextSha256": "7a708f2992ce0578c6b2187ea1b4b6f20807880621af27404ffc8268a8d396ef",
+          "refs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+          ]
+        },
+        {
+          "goldIndex": 1,
+          "actualIndex": 1,
+          "semanticId": "structured:h-02:budgetPerPerson",
+          "goldTextSha256": "d72717e39b1c1c0b1dd220c4b0a0c561f915635fec922b0f4f4c68b157bb3e02",
+          "actualTextSha256": "d72717e39b1c1c0b1dd220c4b0a0c561f915635fec922b0f4f4c68b157bb3e02",
+          "refs": [
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f",
+            ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/budget-structure-audit.json#original-sha256=2df3226be31b0ba5a570dad2c37b97a87ce497747130815322b1822414042bfc:goldIndex=1"
+          ]
+        }
+      ]
+    }
+  ]
+}

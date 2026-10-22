@@ -17,7 +17,9 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "25" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "27" as const;
+export const RESTAURANT_AGENT_ACTION_FIELDS_INSTRUCTION = "Every field unrelated to the selected action MUST be empty. CHECK_AVAILABILITY and INVESTIGATE_CANDIDATE_FACTS use candidateIds only: retrievalHint, question, candidateId and offerId must be empty strings, relatedFields must be an empty array. Put explanations only in decisionSummary; never copy a search hint into another action.";
+export const RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION = "Candidate availabilityPath is a source-derived advisory fact. DIRECT_SOURCE_PAGE can be opened for availability without name search and is usually faster and more reliable; NAME_RESOLUTION requires confirming the same outlet through source name search; NONE has no currently supported path. Among legal in-radius candidates consistent with the requested HARD conditions, prefer DIRECT_SOURCE_PAGE for availability. Missing HARD facts may be investigated on those candidates; identity, all HARD conditions and exact-request inventory still require their own evidence. Do not infer eligibility or a successful result from this hint.";
 export const RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION = "Candidate sourceCategories are source-attributed observations, not verified HARD facts or eligibility. Among currently legal candidates, prioritize those whose observed categories agree with the HARD request; leave obvious category conflicts with HARD exclusions until last. Category observations never authorize excluding or accepting a candidate, changing constraints, or claiming a result.";
 /**
  * Strict-function responses include a provider envelope as well as the action
@@ -133,7 +135,9 @@ Use END_READ only if context.readCompletion.allowed is true. It records a bounde
 
 The strict response transport always requires every wire field. For fields that do not apply to your selected action, return an empty string or an empty array exactly as the schema permits; never put a meaningful value in a field for another action.
 
+${RESTAURANT_AGENT_ACTION_FIELDS_INSTRUCTION}
 ${RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION}
+${RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION}
 Candidate distanceObservation is an observed distance in rounded meters from the user, evaluation, or named-place circle center. When equally suitable for all conditions, prefer investigating and presenting nearer candidates. For a named place this is only a weak preference. Distance never offsets HARD conditions, missing facts, identity, freshness or eligibility. Include each presented candidate's observed distance in any generated display text; absent distance remains unknown.
 
 Choose exactly one action from the supplied Restaurant capability catalog. A failed read is information; you may choose another valid path. Never assume booking success. Never include provider names, adapter instructions, authorization objects, terms hashes, risks, evidence, state patches, events, tool calls, or chain-of-thought.
@@ -181,7 +185,7 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
           ...RESTAURANT_AGENT_ACTION_SCHEMA,
           jsonSchema: RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA,
         },
-        timeoutMs: 10_000,
+        timeoutMs: 30_000,
         fallback: "FAIL_CLOSED",
         maxOutputTokens: RESTAURANT_AGENT_DECISION_MAX_OUTPUT_TOKENS,
         temperature: 0,

@@ -1,0 +1,88 @@
+✖ saved holdout case02 events expose five structured HARD budgets through Router to Reducer with independent price agreement (38.006541ms)
+✖ source price statuses disclose soft shortfalls but gate hard budgets before presentation (5.416875ms)
+✖ structured per-person cap has a HARD condition row with current quoted price, conflict and unknown states (2.961958ms)
+✖ soft budget strength and its upper-bound versus around meaning stay separate (0.571292ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 367.755416
+
+✖ failing tests:
+
+test at src/application/restaurant-presentation-evidence.test.ts:1:463
+✖ saved holdout case02 events expose five structured HARD budgets through Router to Reducer with independent price agreement (38.006541ms)
+  AssertionError [ERR_ASSERTION]: h-02:tabelog:en/tokyo/A1317/A131706/13258420: structured budget must reach actual presentation
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/application/restaurant-presentation-evidence.test.ts:25:94)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/domains/restaurant/action-validator.test.ts:1:61020
+✖ source price statuses disclose soft shortfalls but gate hard budgets before presentation (5.416875ms)
+  AssertionError [ERR_ASSERTION]: a structured HARD cap rejects an excessive or unverified price
+  + actual - expected
+  
+  + 'ALLOWED'
+  - 'REJECTED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/domains/restaurant/action-validator.test.ts:845:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'ALLOWED',
+    expected: 'REJECTED',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/condition-states.test.ts:1:2776
+✖ structured per-person cap has a HARD condition row with current quoted price, conflict and unknown states (2.961958ms)
+  AssertionError [ERR_ASSERTION]: a structured cap must not disappear outside intent.criteria
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/domains/restaurant/condition-states.test.ts:37:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/condition-states.test.ts:1:4037
+✖ soft budget strength and its upper-bound versus around meaning stay separate (0.571292ms)
+  AssertionError [ERR_ASSERTION]: max 6000 yen per person
+  + actual - expected
+  
+  + 'NOT_CHECKED'
+  - 'NOT_MET'
+         ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/src/domains/restaurant/condition-states.test.ts:50:113)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_CHECKED',
+    expected: 'NOT_MET',
+    operator: 'strictEqual'
+  }

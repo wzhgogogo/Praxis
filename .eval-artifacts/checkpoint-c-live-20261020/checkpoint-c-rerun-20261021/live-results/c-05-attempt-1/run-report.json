@@ -1,0 +1,321 @@
+{
+  "mode": "LIVE_READ_ONLY",
+  "run": {
+    "runId": "c-05",
+    "caseId": "p2l-kagurazaka-kaiseki-20261105",
+    "repeat": 1,
+    "role": "TARGET"
+  },
+  "postEvidenceGaps": [],
+  "tablecheckPostReview": null,
+  "independentPostDeliveryEvidenceComplete": true,
+  "freezeSha256": "598585fd34b9b5877ba644cdfb5b6a20d4cf83a796de1219ae4f70a53dedeb7d",
+  "artifact": null,
+  "artifactSha256": null,
+  "evaluationPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-1/independent.evaluation.json",
+  "layers": {
+    "endToEnd": {
+      "qualifiedDelivery": false,
+      "outcome": {
+        "type": "ENV_FAILURE",
+        "reasons": [
+          "Independent outer preflight failed before formal execution."
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-1/finish.json"
+        ],
+        "capabilityDenominator": "EXCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "requestCriteria": [],
+      "conditions": [],
+      "displayedExpectedConditionCount": 0,
+      "independentConditionRowCount": 0,
+      "displayConsistency": [],
+      "elapsedMs": null,
+      "modelCalls": null,
+      "realModelCalls": null,
+      "googleRequests": null,
+      "preflightGoogleRequests": 1,
+      "totalGoogleRequests": null,
+      "realNetworkGoogleRequests": null,
+      "deliveredCount": null
+    },
+    "stages": {
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "NOT_EVALUATED",
+          "stage": "SEMANTIC_TO_FINAL_STATE",
+          "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+          "observations": [
+            "Missing or invalid comparison records: target.goal, location, materializedCase.semantic.criteria, finalSnapshot.domainState.intentDraft, MISSING:materializedCase.semantic, MISSING:materializedCase.semantic.criteria, MISSING:finalSnapshot.domainState.intentDraft, MISSING:finalSnapshot.domainState.intentDraft.criteria."
+          ],
+          "directCause": "The artifact lacks a required authority record; no condition conflict can be inferred.",
+          "rootCauseHypothesis": "Final-state serialization or historical artifact schema needs review.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "materializedCase.semantic",
+            "finalSnapshot.domainState.intentDraft"
+          ],
+          "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED",
+          "stage": "GROUNDING",
+          "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+          "observations": [],
+          "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+          "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [],
+          "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "NOT_EVALUATED",
+          "stage": "AGENT_LOOP",
+          "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+          "observations": [
+            "Trajectory record is missing; executed observation lineage cannot be evaluated.",
+            "rejectedActions=0",
+            "maxConsecutiveNoNewObservation=0"
+          ],
+          "directCause": "No trajectory record.",
+          "rootCauseHypothesis": "Historical artifact or execution serialization omits actual observation lineage.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "artifact.trajectories"
+          ],
+          "downstreamImpact": "Coverage and evidence-lineage claims cannot be inferred from this artifact."
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED",
+          "stage": "PRESENT_RESULTS",
+          "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+          "observations": [
+            "phase=missing",
+            "loop=missing",
+            "presentedCandidates=0"
+          ],
+          "directCause": "No terminal presentation was executed.",
+          "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "downstreamImpact": "No qualified completion can be claimed."
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED",
+          "stage": "TERMINATION",
+          "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+          "observations": [
+            "completion=NOT_EVALUATED",
+            "phase=missing",
+            "loop=missing",
+            "noVerifiedResult=missing",
+            "failureCode=missing"
+          ],
+          "directCause": "Artifact lacks enough terminal information to classify the outcome.",
+          "rootCauseHypothesis": "Historical artifact or terminal serialization requires review.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "status",
+            "execution.failureCode",
+            "loop.status",
+            "finalSnapshot.domainState.phase",
+            "finalSnapshot.domainState.noVerifiedResult",
+            "finalSnapshot.domainState.failure"
+          ],
+          "downstreamImpact": "No reliable outcome classification can be claimed."
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED",
+          "stage": "RUN_ACCOUNTING",
+          "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+          "observations": [
+            "resourceUsage is missing.",
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ],
+          "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+          "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "resourceUsage",
+            "limits",
+            "modelInvocations"
+          ],
+          "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+        }
+      ],
+      "witnessFunnel": [],
+      "P2_1": {
+        "firstCandidateBatchWitnesses": {
+          "status": "NOT_EVALUATED",
+          "reason": "Requires certified registry and first DISCOVERY observation"
+        },
+        "nativeFirstBatchFunnels": []
+      },
+      "P2_2": {
+        "selectedAvailabilityCandidates": [],
+        "selectedDirectPageCount": {
+          "status": "NOT_EVALUATED",
+          "reason": "No CHECK_AVAILABILITY selection; inspect raw context fields before counting"
+        },
+        "stageTimings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "NOT_EVALUATED",
+          "elapsedMs": null,
+          "criticalPath": [],
+          "modelSteps": [],
+          "gaps": [
+            "Missing valid run start/end timestamps.",
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      },
+      "P2_3": {
+        "priceConditions": [],
+        "conditionDisplay": [],
+        "deliveredCount": null
+      }
+    },
+    "severity": {
+      "S0": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "result.json missing; displayed claims cannot be evaluated.",
+          "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+          "EVIDENCE_GAP: run: missing network request records",
+          "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ]
+      },
+      "S1": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No independently established unmet user-need conclusion."
+        ],
+        "evidenceRefs": []
+      },
+      "S2": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No valid independent feasible witness supplied."
+        ],
+        "evidenceRefs": []
+      },
+      "S3": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "Experience/latency thresholds belong to E2; not scored here."
+        ],
+        "evidenceRefs": []
+      },
+      "S4": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "User-invisible retry effects are not independently established."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_DECLARATION": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "result.json missing; displayed claims cannot be evaluated."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_BOUNDARY": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+          "EVIDENCE_GAP: run: missing network request records",
+          "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+        ],
+        "evidenceRefs": [
+          "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": [
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "run",
+            "missing": [
+              "complete trace after orchestration interruption"
+            ],
+            "evidenceRefs": [
+              "browserTrace"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "run",
+            "missing": [
+              "network request records"
+            ],
+            "evidenceRefs": [
+              "browserTrace.networkRequests"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "session",
+            "missing": [
+              "recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              "browserTrace.SESSION_OPENED"
+            ]
+          }
+        ]
+      }
+    },
+    "attribution": {
+      "status": "HYPOTHESIS_ONLY",
+      "witnessBlockers": [],
+      "unassessed": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    }
+  },
+  "safety": {
+    "s0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "result.json missing; displayed claims cannot be evaluated.",
+        "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "status": "See separate declaration and boundary assessments; UNKNOWN never becomes zero"
+  },
+  "network": "SEE_RAW_RECORDS",
+  "limitations": [
+    "P2-1/P2-2/P2-3 combined Live cannot establish separate causal effects."
+  ]
+}

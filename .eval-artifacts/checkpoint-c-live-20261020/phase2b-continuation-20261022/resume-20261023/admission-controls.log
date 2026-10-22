@@ -1,0 +1,27 @@
+✔ merchant seating extraction excludes review and hidden rows (1.415583ms)
+✔ explicit seated format retains same-merchant raw quote and exact inventory binding (3.434458ms)
+✔ negative condition still requires a bound source adjudication (1.419417ms)
+✔ invented seating quotation is rejected (1.003833ms)
+✔ wrong party or restaurant in the inventory is not certified (5.043667ms)
+✔ merchant outside 800 metres is rejected (1.0465ms)
+✔ red/green: legacy witness gate rejects business exclusion; exact approved source-bound admission accepts it (9.606584ms)
+✔ missing/tampered exclusion, expiry and extended deadline remain red (1.207833ms)
+✔ HTTP failure, response date mismatch and incorrect distance disposition cannot become business exclusions (7.715917ms)
+✔ offline outer reaches exactly 18 ordered slots including excluded case; five-minute gaps and immediate S0 stop preserved (20.234916ms)
+✔ only an enabled same-merchant source-published endpoint is retained (0.739958ms)
+✔ phone reservation text, wrong merchant, disabled flag and unrelated endpoint do not expose the read (0.079417ms)
+✔ Phase2b input gate stops on the actual exposed non-string required_claims, before date conversion (6.690125ms)
+✔ Phase2b commitment gate precedes parsing, detects file and per-document tampering, rejects unknown/null/condition objects (4.047458ms)
+✔ Phase2b first weekday 7–14 Tokyo days, approved fallback only, and Runner-compatible dates are independently fixed (17.440667ms)
+✔ Phase2b saved merchant/inventory certification enforces radius, raw HARD quote and independently reviewed negative evidence (21.236333ms)
+✔ Phase2b source reads share origin clock; 403/busy wait 15 minutes once, transport failure waits 2 minutes, writes are blocked (7.97ms)
+✔ Phase2b 18 slots preserve order/budgets; S0 and witness expiry stop the remaining batch (1.597667ms)
+✔ Phase2b wording pack contains no results; budgets correspond by numeric fields and independent review blocks evaluation (922.168292ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1244.148792

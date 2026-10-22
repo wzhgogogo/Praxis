@@ -1,0 +1,33 @@
+{
+  "cwd": "/private/tmp/praxis-checkpoint-c-prep",
+  "command": [
+    "/opt/homebrew/bin/node",
+    "--env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    ".eval-artifacts/checkpoint-c-live-20261020/outer.ts",
+    "--mode",
+    "LIVE_READ_ONLY",
+    "--freeze",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/quick-live-freeze-final.json",
+    "--output",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/quick-live-results",
+    "--approval",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/quick-user-approval-final.json",
+    "--registry",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json",
+    "--ledger",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/ledger-before-quick.json",
+    "--run-ids",
+    "c-01,c-02,c-05"
+  ],
+  "hardDeadline": "2026-10-21T12:26:00Z",
+  "freezeSha256": "9513895bb1d3e642e324b64d2379e5fd868a17730d2d81510470832aeaa25797",
+  "label": "\u5feb\u901f\u9a8c\u8bc1",
+  "checkpointC18Runs": 0,
+  "provider": "DEEPSEEK",
+  "model": "deepseek-v4-flash",
+  "thinking": "unchanged production browser decisions disabled",
+  "credentials": "existing authorized .env, never recorded",
+  "entry": "original approved outer, unchanged plan/Runner/guard/evaluator"
+}

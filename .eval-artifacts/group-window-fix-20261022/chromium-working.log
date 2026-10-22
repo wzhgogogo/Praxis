@@ -1,0 +1,33 @@
+✔ group-window Chromium: available keeps exact request and explicit coverage (893.385958ms)
+✔ group-window Chromium: all-empty keeps exact request and explicit coverage (1586.926709ms)
+✔ group-window Chromium: wrong-party keeps exact request and explicit coverage (877.963083ms)
+✔ group-window Chromium: forbidden entry is not attempted by availability or repeated FACTS (1378.314875ms)
+✖ group-window Chromium: disabled exact party stops without clicking or changing the count (470.932ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5577.707917
+
+✖ failing tests:
+
+test at src/harness/browser/group-window.test.ts:5:3015
+✖ group-window Chromium: disabled exact party stops without clicking or changing the count (470.932ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'PARTY_SIZE_NOT_SELECTABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/harness/browser/group-window.test.ts:74:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'PARTY_SIZE_NOT_SELECTABLE',
+    operator: 'strictEqual'
+  }

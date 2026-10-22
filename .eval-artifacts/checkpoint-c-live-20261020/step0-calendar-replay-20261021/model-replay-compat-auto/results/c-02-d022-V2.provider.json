@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "824839c1d9e4cf128da1539fe37999685d3d53b8fd039c2ed12da84702bf42c4",
+  "id": "7c0f11f2-8a1a-4d8d-8aa3-2e11b5be6393",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14173,
+    "completion_tokens": 6137,
+    "total_tokens": 20310,
+    "prompt_tokens_details": {
+      "cached_tokens": 1536
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5997
+    },
+    "prompt_cache_hit_tokens": 1536,
+    "prompt_cache_miss_tokens": 12637
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_2SojenszORYB5hAte5As3402",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:13:target:123\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Shift the calendar carousel backward from the capped 9-14 range to reach party size 2 and earlier dates\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

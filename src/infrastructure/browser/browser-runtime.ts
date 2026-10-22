@@ -33,6 +33,8 @@ export interface BrowserReadNetworkPolicy {
   documentOrigins: readonly string[];
   /** ADR-0036: prepared public document origins may issue non-sensitive GET/HEAD reads. */
   genericPublicRead?: boolean;
+  /** Source-revoked workflows. Deny wins over prepared navigation and reviewed rules. */
+  prohibitedPaths?: readonly { hostname: string; pathSegment: string }[];
   staticResources: readonly BrowserReadNetworkRequestRule[];
   dynamicReads: readonly BrowserReadNetworkRequestRule[];
 }
@@ -112,7 +114,7 @@ export interface BrowserControlHint {
   selector: string;
   labelPrefix: string;
   value: "TEXT" | "DATE_PARTS";
-  selectedClass: string;
+  selectedClass?: string;
   /** Source has observed a navigation/write boundary; keep as evidence only. */
   observationOnly?: boolean;
 }
@@ -127,6 +129,12 @@ export interface BrowserPageControl {
   kind: "LINK" | "BUTTON" | "INPUT" | "SELECT" | "CHECKBOX" | "RADIO" | "RANGE" | "REGION";
   role: string;
   label: string;
+  /** Public DOM ownership; an unknown or ambiguous owner is never inferred. */
+  controlGroupLabel?: string;
+  /** Registry-observed DOM owner identity; never inferred from a repeated label. */
+  controlGroupKey?: string;
+  labelSource?: "DOM descendant text";
+  calendarMonth?: BrowserCalendarMonth;
   value?: string;
   href?: string;
   /** Browser-observed structural facts, never a page assertion of safety. */
@@ -159,6 +167,13 @@ export interface BrowserPageControl {
   /** A custom role=option is actionable only when bound to an observed combobox. */
   optionOwnerId?: string;
   controlledListboxId?: string;
+}
+
+export interface BrowserCalendarMonth {
+  year: number;
+  month: number;
+  caption: string;
+  source: "DOM caption" | "ARIA label";
 }
 
 export interface BrowserSessionMetadata {

@@ -1,0 +1,112 @@
+{
+  "id": "ningyocho-13022072",
+  "caseId": "p2-holdout-04",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1302/A130204/13022072/",
+  "observedAt": "2026-10-22T06:51:08.664Z",
+  "responseSha256": "0e561c58229d8fde02c6a8363dc9fdad04e99d23d7a8f57cbb8e4d260b39204b",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-02/ningyocho-13022072.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Miyoshi",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Nihonbashiningyocho Chuo Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1030013",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.68544613791286,
+          "longitude": 139.78178588325449
+        },
+        "servesCuisine": "Unagi (Eel)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1302/A130204/13022072/\",\"name\":\"Miyoshi\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/274174/640x640_rect_4ad60f66ba7884908f4909be597eb112.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Nihonbashiningyocho Chuo Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1030013\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.68544613791286,\"longitude\":139.78178588325449},\"priceRange\":\"JPY 8,000～JPY 9,999\",\"servesCuisine\":\"Unagi (Eel)\",\"telephone\":\"+81-3-3664-3440\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"365\",\"ratingValue\":\"3.50\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1302/A130204/13022072/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "3002599ed8eb7a634b95dad6d6ee3132fd33eac2ac7a8e9c5f9cbbde489018dc",
+        "htmlCharacterOffset": 6291
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 114,
+        "raw": "Unagi (Eel)"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Unagi (Eel)",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Unagi (Eel)",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "Just a minute's walk from Ningyocho Station. Enjoy grilled \"unagi\" over charcoal and rice cooked with charcoal. We also offer courses for parties!",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                Just a minute&#39;s walk from Ningyocho Station.  \n                Enjoy grilled &quot;unagi&quot; over charcoal and rice cooked with charcoal.  \n                We also offer courses for parties!\n              </h3>",
+      "sha256": "2b1f048d79d520bf567abb08567f6c22b63991821f774bd181ca6179acbe1f0b",
+      "htmlCharacterOffset": 41453
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Unagi (Eel)",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Unagi (Eel)</span>\n                    </td>\n                  </tr>",
+      "sha256": "a14ea02c34445e28d3b1b700d634cda641c7c0318187c6f2a597d189752de622",
+      "htmlCharacterOffset": 68946
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 8,000 - JPY 9,999 JPY 4,000 - JPY 4,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 8,000 - JPY 9,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 4,000 - JPY 4,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "970e264de9d38e06789e1bd3b89c69fff7b535bee3bea80d7ba0b42d4366ac64",
+      "htmlCharacterOffset": 74395
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome, Strollers welcome",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome, Strollers welcome\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "5e787b37d027253baa55249ac6539b7275f41980772038eec1165c94d907eba3",
+      "htmlCharacterOffset": 82484
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Unagi (Eel)</span>\n                    </td>\n                  </tr>",
+      "sha256": "a14ea02c34445e28d3b1b700d634cda641c7c0318187c6f2a597d189752de622",
+      "text": "Categories Unagi (Eel)",
+      "htmlCharacterOffset": 68946
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1302/A130204/13022072/dtlratings/#price-range\">JPY 8,000 - JPY 9,999</a></span>\n                            </p>",
+      "sha256": "1e14390590365ba40402556461f9deba7428c885fdd8fccc9e32e057c89621d6",
+      "text": "JPY 8,000 - JPY 9,999",
+      "htmlCharacterOffset": 22567
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1302/A130204/13022072/dtlratings/#price-range\">JPY 4,000 - JPY 4,999</a></span>\n                            </p>",
+      "sha256": "46a87f4518b37ba618b2ea8ee470fdf99e69f84d4cf69cd1c107256d16002d64",
+      "text": "JPY 4,000 - JPY 4,999",
+      "htmlCharacterOffset": 22997
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1302/A130204/13022072/"
+}

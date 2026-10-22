@@ -1,0 +1,45 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2-holdout-03","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/network-preflight/2026-10-22T08-41-43-825Z-5331188a-1348-4428-a9f4-24fb7d40be5c.result.json","elapsedMs":4074,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2-holdout-03",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 12
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 10,
+    "candidatesChecked": 10,
+    "agentDecisions": 12,
+    "browserModelCalls": 19,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 259,
+    "browserOperationsByCandidate": {
+      "native-discovery:VENUE_SEARCH": 22,
+      "tablecheck:hachimenroppi": 8,
+      "tablecheck:1seki3cho-akasaka-samjo": 8,
+      "tablecheck:obanzai-yoshiko": 43,
+      "tablecheck:ushinokura-akasaka": 8,
+      "tablecheck:sushi-koshikawa": 43,
+      "tablecheck:ryusaika": 33,
+      "tablecheck:shirosaka": 8,
+      "tablecheck:aniko": 37,
+      "tablecheck:kamo-akahane": 41,
+      "tablecheck:wakiya-ichiemi": 8
+    },
+    "pageStillLoadingWithinBound": 57,
+    "postActionWaitTotalMs": 126387,
+    "browserModelActions": 18,
+    "googleRequests": {
+      "limit": 38,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 489041
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/runner/2026-10-22T08-42-01-645Z-8a1e9abe-a8ba-4eed-9d7d-4e9388d374c0.result.json",
+  "latencyMs": 489041,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

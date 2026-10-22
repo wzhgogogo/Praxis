@@ -131,3 +131,14 @@ test("Tabelog bot challenge remains provider-scoped and all providers exhausted 
   assert.equal(result.metadata.failureCode, "AVAILABILITY_SOURCES_EXHAUSTED");
   assert.equal(result.metadata.providerAttempts?.[1]?.failureCode, "BOT_CHALLENGE");
 });
+
+test("group-window: disabled requested party moves to next candidate rather than another query",async()=>{
+ const calls:string[]=[];
+ const result=await resolver(provider("TABLECHECK",{status:"UNKNOWN",reasonCode:"PARTY_SIZE_NOT_SELECTABLE"},calls),provider("TABELOG",{status:"AVAILABLE"},calls)).check(request,new AbortController().signal);
+ assert.deepEqual(calls,["TABLECHECK"]);assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"UNKNOWN");assert.equal(result.offers.length,0);assert.equal(result.metadata.failureCode,undefined);
+});
+test("group-window: one unsupported source does not erase another source's UNKNOWN",async()=>{
+ const calls:string[]=[];
+ const result=await resolver(provider("TABLECHECK",{status:"UNKNOWN",reasonCode:"REQUEST_UNCONFIRMED"},calls),provider("TABELOG",{status:"SOURCE_UNSUPPORTED",reasonCode:"SOURCE_UNSUPPORTED"},calls)).check(request,new AbortController().signal);
+ assert.deepEqual(calls,["TABLECHECK","TABELOG"]);assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"UNKNOWN");assert.equal(result.offers.length,0);
+});

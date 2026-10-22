@@ -1,0 +1,63 @@
+{
+  "id": "c-05-d009-V0",
+  "seedId": "c-05-d009",
+  "variant": "V0",
+  "runId": "c-05",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "b235a2825d3279264ace5f9b26132cc5492d4463ee1f6fa1e59844f989784d39",
+  "startedAt": "2026-10-21T03:53:47.858Z",
+  "finishedAt": "2026-10-21T03:53:49.652Z",
+  "elapsedMs": 1794.3532089999644,
+  "fetches": 1,
+  "outcome": "SUCCEEDED",
+  "response": {
+    "invocationId": "11fc1376-4a3f-4ce2-a5cf-d94d173a1b34",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:4:target:125\", \"authoritativeField\": \"DATE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to November to reach requested date 2026-11-05\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1794,
+    "providerRequestId": "18120370-5e14-4910-bed4-6a65b0a1c3cc",
+    "usage": {
+      "inputTokens": 13889,
+      "outputTokens": 130,
+      "totalTokens": 14019
+    }
+  },
+  "error": null,
+  "invocation": {
+    "invocationId": "11fc1376-4a3f-4ce2-a5cf-d94d173a1b34",
+    "taskId": "checkpoint-c-calendar:c-05-d009:V0",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "SUCCEEDED",
+    "latencyMs": 1794,
+    "providerStatus": 200,
+    "usage": {
+      "inputTokens": 13889,
+      "outputTokens": 130,
+      "totalTokens": 14019
+    },
+    "providerRequestId": "18120370-5e14-4910-bed4-6a65b0a1c3cc"
+  },
+  "providerUsage": {
+    "prompt_tokens": 13889,
+    "completion_tokens": 130,
+    "total_tokens": 14019,
+    "prompt_tokens_details": {
+      "cached_tokens": 13696
+    },
+    "prompt_cache_hit_tokens": 13696,
+    "prompt_cache_miss_tokens": 193
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash"
+}

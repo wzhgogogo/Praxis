@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "7c89fe2cc7d58dc1f8f7a403e0567361b08c57417dbe68b785da33821f611548",
+  "id": "74db317d-1c40-47c0-b176-46683581e96d",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14260,
+    "completion_tokens": 831,
+    "total_tokens": 15091,
+    "prompt_tokens_details": {
+      "cached_tokens": 3072
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 692
+    },
+    "prompt_cache_hit_tokens": 3072,
+    "prompt_cache_miss_tokens": 11188
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_iMNMyfBN3q9MMCMPRD4o1478",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:14:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the date strip/calendar toward 2026-11-03 so the requested date becomes selectable.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

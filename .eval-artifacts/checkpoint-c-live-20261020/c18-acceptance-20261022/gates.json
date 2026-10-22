@@ -1,0 +1,69 @@
+{
+  "status": "FAILED_STOP_REQUIRED",
+  "gates": [
+    {
+      "command": "npm run typecheck",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/typecheck-final.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "command": "npm run arch:check",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/arch-check-final.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "command": "npm run build",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/build-final.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "command": "npm test",
+      "status": "FAIL",
+      "exitCode": 1,
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/default-test-final.log",
+      "sha256": "c50801e659680a75091ec91306d84ad9effc79bccfd40a37b1c8d790a7f03a6d",
+      "tests": 997,
+      "passed": 996,
+      "failed": 1
+    },
+    {
+      "command": "npm run test:browser:fixture",
+      "status": "PASS",
+      "exitCode": 0,
+      "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/browser-fixture.log",
+      "sha256": "e4524bd23a69e59f414b78dc793bd91269ce384c8848f0dfc7fa678acb272e07",
+      "tests": 131,
+      "passed": 131,
+      "failed": 0,
+      "scope": "Real local Chromium Fixture; production sources unchanged after this pass; later added application regression is not a browser-test dependency"
+    }
+  ],
+  "calibration": {
+    "status": "PASS",
+    "matched": 22,
+    "total": 22,
+    "normalDeclaration": {
+      "matched": 20,
+      "total": 20
+    },
+    "boundary": {
+      "ABSENT": 9,
+      "PRESENT": 0,
+      "NOT_EVALUATED": 13
+    }
+  },
+  "mechanicalDisplayGate": "FAIL",
+  "stop": "Do not run c17 or open holdout. Default business regression fails; three MISSED remain.",
+  "priorDefaultBeforeAddingKnownRegression": {
+    "passed": 996,
+    "total": 996,
+    "log": ".eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/default-test.log"
+  },
+  "rule": "Known unresolved business regression added to default suite; no skip/todo/reversed assertion. Product implementation not changed after failed display gate."
+}

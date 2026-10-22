@@ -1,3 +1,4 @@
+import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
 import type { BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
@@ -268,7 +269,7 @@ export class PlaywrightReadNetworkGuard {
   }
 
   private async admitsPreflight(url: URL, request: Pick<Request, "headerValue" | "postData">, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {
-    if (url.username || url.password || !/^https?:$/.test(url.protocol) || !["other", "fetch", "xhr"].includes(type)
+    if (this.prohibitedRead(url) || url.username || url.password || !/^https?:$/.test(url.protocol) || !["other", "fetch", "xhr"].includes(type)
       || !facts || facts.secFetchMode !== "cors" || facts.requestedMethod !== "GET" || facts.bodyBytes !== 0) return false;
     for (const rule of this.policy.dynamicReads) {
       const cors = rule.corsPreflight;
@@ -282,7 +283,7 @@ export class PlaywrightReadNetworkGuard {
   }
 
   private async admitsRedirectRequest(url: URL, request: Pick<Request, "headerValue" | "postData">, method: string, type: string): Promise<boolean> {
-    if (url.username || url.password || !/^https?:$/.test(url.protocol)) return false;
+    if (this.prohibitedRead(url) || url.username || url.password || !/^https?:$/.test(url.protocol)) return false;
     const sourceRule = (await Promise.all([...this.policy.staticResources, ...this.policy.dynamicReads].map(rule => allows(rule, request, url, method, type)))).some(Boolean);
     if (type === "document" && ["GET", "HEAD"].includes(method) && (!this.sensitiveGenericRead(url) || sourceRule)
       && (this.policy.documentOrigins.includes(url.origin) || this.policy.genericPublicRead && this.genericOrigins.has(url.origin))) return true;
@@ -311,6 +312,7 @@ export class PlaywrightReadNetworkGuard {
   }
 
   private assertSafePreparedDocument(url: URL): void {
+    if (this.prohibitedRead(url)) throw new Error("Browser read prohibited source workflow");
     if (!/^https?:$/i.test(url.protocol) || url.username || url.password) throw new Error("Browser read document credentials or protocol are not admitted");
     if (this.sensitiveGenericRead(url) && !this.matchesReviewedDocument(url)) throw new Error("Browser read sensitive document is not admitted");
   }
@@ -344,6 +346,11 @@ export class PlaywrightReadNetworkGuard {
     const method = request.method();
     const url = new URL(request.url());
     const type = request.resourceType();
+    if (this.prohibitedRead(url)) {
+      this.blocked("BLOCKED_ENDPOINT", url, method, type);
+      await route.abort("blockedbyclient");
+      return;
+    }
     const key = requestKey(url.toString());
     const preparedDocument = type === "document" && (method === "GET" || method === "HEAD") && this.documents.delete(key);
     const rules = [...this.policy.staticResources, ...this.policy.dynamicReads];
@@ -403,6 +410,11 @@ export class PlaywrightReadNetworkGuard {
       this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort() };
       await route.abort("failed");
     }
+  }
+
+  /** An explicit source revocation cannot be reopened by a reviewed read rule. */
+  private prohibitedRead(url: URL): boolean {
+    return isBrowserReadPathProhibited(this.policy, url);
   }
 
   /** ADR-0036 permits public GET/HEAD exploration, not sensitive endpoint or PII query shapes. */

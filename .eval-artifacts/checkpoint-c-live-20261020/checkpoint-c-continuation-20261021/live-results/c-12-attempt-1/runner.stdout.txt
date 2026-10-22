@@ -1,0 +1,37 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2l-kf-h002-20261107","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-12-attempt-1/network-preflight/2026-10-21T15-27-29-427Z-d5f07814-3a4c-481a-ba25-2962558fba1f.result.json","elapsedMs":7264,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2l-kf-h002-20261107",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 4
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 1,
+    "candidatesChecked": 1,
+    "agentDecisions": 4,
+    "browserModelCalls": 5,
+    "modelCallsStarted": 13,
+    "browserRuntimeCalls": 46,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 26,
+      "tabelog:en/tokyo/A1301/A130103/13292459": 20
+    },
+    "pageStillLoadingWithinBound": 5,
+    "postActionWaitTotalMs": 12941,
+    "browserModelActions": 5,
+    "googleRequests": {
+      "limit": 38,
+      "total": 2,
+      "namedPlaceResolution": 1,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 138821
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-12-attempt-1/runner/2026-10-21T15-28-02-025Z-eb39a133-af3a-432b-8b6c-bf8f302e1259.result.json",
+  "evaluationPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-12-attempt-1/runner/2026-10-21T15-28-02-025Z-eb39a133-af3a-432b-8b6c-bf8f302e1259.result.evaluation.31-1792596620926.json",
+  "latencyMs": 138821,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

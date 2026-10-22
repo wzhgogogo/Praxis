@@ -1,0 +1,19 @@
+✖ real Chromium recovers a Tabelog busy page once and still grounds the exact request (8.857292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 385.486625
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:90:5693
+✖ real Chromium recovers a Tabelog busy page once and still grounds the exact request (8.857292ms)
+  TypeError [Error]: Explicit positive browser limit required: maxModelCallsPerCandidate
+      at new BrowserTaskExecutor (/private/tmp/praxis-p2-2-selection-20261019/src/infrastructure/browser/browser-task-executor.ts:279:75)
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-2-selection-20261019/src/harness/browser/browser-read-fixture.test.ts:1358:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)

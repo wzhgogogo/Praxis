@@ -1,0 +1,63 @@
+{
+  "id": "c-05-d014-V3",
+  "seedId": "c-05-d014",
+  "variant": "V3",
+  "runId": "c-05",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "cc0afeb72eec3c3a3ceea8a95b879a608c430d54026d7e61f7daafddb09bca3c",
+  "startedAt": "2026-10-21T03:54:14.003Z",
+  "finishedAt": "2026-10-21T03:54:15.983Z",
+  "elapsedMs": 1980.019500000053,
+  "fetches": 1,
+  "outcome": "SUCCEEDED",
+  "response": {
+    "invocationId": "df8f0422-0b78-46f4-85b3-d30e9e23947a",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:89\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to November 2026 to reach the requested date.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1979,
+    "providerRequestId": "66c78629-9010-40d2-acdd-8597fd7203e3",
+    "usage": {
+      "inputTokens": 15251,
+      "outputTokens": 124,
+      "totalTokens": 15375
+    }
+  },
+  "error": null,
+  "invocation": {
+    "invocationId": "df8f0422-0b78-46f4-85b3-d30e9e23947a",
+    "taskId": "checkpoint-c-calendar:c-05-d014:V3",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "SUCCEEDED",
+    "latencyMs": 1979,
+    "providerStatus": 200,
+    "usage": {
+      "inputTokens": 15251,
+      "outputTokens": 124,
+      "totalTokens": 15375
+    },
+    "providerRequestId": "66c78629-9010-40d2-acdd-8597fd7203e3"
+  },
+  "providerUsage": {
+    "prompt_tokens": 15251,
+    "completion_tokens": 124,
+    "total_tokens": 15375,
+    "prompt_tokens_details": {
+      "cached_tokens": 4096
+    },
+    "prompt_cache_hit_tokens": 4096,
+    "prompt_cache_miss_tokens": 11155
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash"
+}

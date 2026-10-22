@@ -6,7 +6,7 @@ import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserReadNetworkRe
 import { tabelogPublicReadNetworkPolicy } from "../tabelog/tabelog-public-query.js";
 import { tableCheckPublicReadNetworkPolicy } from "../tablecheck/tablecheck-public-query.js";
 import { tableCheckRequestedReservationUrl, type TableCheckReservationTarget } from "../tablecheck/tablecheck-page-parser.js";
-import { hasBotChallenge, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets, tabelogSearchResultBusy } from "../tabelog/tabelog-page-parser.js";
+import { hasTabelogSourceBusy, hasBotChallenge, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets, tabelogSearchResultBusy } from "../tabelog/tabelog-page-parser.js";
 import { hasTableCheckBotChallenge, hasTableCheckDiscoveryNoResult, tableCheckSearchResultBusy, inspectTableCheckPageUnavailable, parseTableCheckDiscoveryOutletUrls, parseTableCheckOutletIdentityWithEvidence } from "../tablecheck/tablecheck-page-parser.js";
 import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "../tablecheck/tablecheck-browser-availability.js";
 import type { TableCheckIdentityDiagnostic, TableCheckUserInterventionHandler } from "../tablecheck/tablecheck-contracts.js";
@@ -71,6 +71,7 @@ export interface BrowserDiscoveryPackCapability {
   directory?: {
     listingRoot(url: string): string | undefined;
     isRegionEntrance(url: string): boolean;
+    containsObservedOutlet?(entranceUrl: string, outletUrl: string): boolean;
     links(page: BrowserSnapshot): Array<{ url: string; label: string; attributes: string; category: boolean }>;
     /** Pack-owned URL grammar for a bounded listing retrieval expression. */
     withRetrievalExpression(url: string, expression: string): string;
@@ -95,8 +96,12 @@ export interface DiscoverySourcePack {
     provider: string;
     /** Source-owned routing preference for an already grounded candidate. */
     candidateBinding(candidate: RestaurantOutlet): "EXCLUSIVE" | "PREFERRED" | "NEUTRAL" | "INAPPLICABLE";
+    /** Advisory path cost only; never identity, HARD or inventory evidence. */
+    candidatePath(candidate: RestaurantOutlet): "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE";
     /** Stable default order among otherwise neutral current providers. */
     availabilityPriority: number;
+    /** Public source congestion, not an identity failure or bot challenge. */
+    sourceBusy?: { matches(page: BrowserSnapshot): boolean; retryDelayMs: number };
     /** Construct this Pack's existing availability adapter for one shared read run. */
     createProvider(context: SourcePackAvailabilityProviderContext): RestaurantAvailabilityProvider;
     /**
@@ -244,13 +249,50 @@ function tabelogAvailabilitySearchUrl(candidate: RestaurantOutlet, outletName = 
   return `https://tabelog.com/en/${region}rstLst/?sw=${encodeURIComponent(outletName)}`;
 }
 
+function isTabelogOutletUrl(value: string | undefined): boolean {
+  if (!value) return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && !url.username && !url.password && !url.port
+      && url.hostname === "tabelog.com"
+      && /^\/(?:[a-z]{2}\/)?[a-z-]+\/A\d+\/A\d+\/\d+(?:\/|$)/.test(url.pathname);
+  } catch { return false; }
+}
+
+/** Preserve the numeric outlet and region path; locale/query/subpage are not identity. */
+export function normalizeTabelogOutletUrl(value: string): string | undefined {
+  if (!isTabelogOutletUrl(value)) return undefined;
+  const path = new URL(value).pathname.match(/^\/(?:[a-z]{2}\/)?([a-z-]+\/A\d+\/A\d+\/\d+)(?:\/|$)/)?.[1];
+  return path ? `https://tabelog.com/en/${path}/` : undefined;
+}
+
+function isTableCheckOutletUrl(value: string | undefined): boolean {
+  if (!value) return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && !url.username && !url.password && !url.port
+      && url.hostname === "www.tablecheck.com"
+      && /^\/(?:en|ja)\/(?:shops\/)?(?!japan(?:\/|$)|search(?:\/|$)|login(?:\/|$))[a-z0-9][a-z0-9-]+(?:\/(?:reserve(?:\/.*)?)?)?\/?$/.test(url.pathname);
+  } catch { return false; }
+}
+
+/** Consult actual availability Packs, preserving candidate order and qualification. */
+export function candidateAvailabilityPath(candidate: RestaurantOutlet, packs: readonly DiscoverySourcePack[] = restaurantDiscoveryPacks): "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE" {
+  const paths = packs.flatMap(pack => pack.availability ? [pack.availability.candidatePath(candidate)] : []);
+  return paths.includes("DIRECT_SOURCE_PAGE") ? "DIRECT_SOURCE_PAGE" : paths.includes("NAME_RESOLUTION") ? "NAME_RESOLUTION" : "NONE";
+}
+
 export const tabelogDiscoveryPack: DiscoverySourcePack = {
   meta: { id: "tabelog", capabilities: ["DISCOVERY", "FACTS", "AVAILABILITY"], reservationOnly: false, supportsGroups: false, supportsSameDay: true, basePriority: 30 },
   documentOrigins: ["https://tabelog.com"], staticResources: tabelogPublicReadNetworkPolicy.staticResources, reviewedReads: tabelogPublicReadNetworkPolicy.dynamicReads,
   skillPath: "web-skills/tabelog/SKILL.md",
   availability: {
     provider: "TABELOG",
+    sourceBusy: { matches: hasTabelogSourceBusy, retryDelayMs: 1_000 },
     candidateBinding: tabelogAvailabilityBinding,
+    candidatePath: candidate => tabelogAvailabilityBinding(candidate) === "INAPPLICABLE" ? "NONE"
+      : [candidate.sourceIds.tabelogNativeDetailUri, candidate.sourceIds.googleWebsiteUri].some(isTabelogOutletUrl)
+        ? "DIRECT_SOURCE_PAGE" : "NAME_RESOLUTION",
     availabilityPriority: 10,
     createProvider: (context) => new TabelogBrowserAvailability(context.executor, context.now, context.maxCandidateMatches, {
       ...(context.maxBrowserSessions !== undefined ? { maxBrowserSessions: context.maxBrowserSessions } : {}),
@@ -299,6 +341,10 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
     },
     directory: {
       listingRoot: directoryListingRoot,
+      containsObservedOutlet(entrance, outlet) {
+        const detail = normalizeTabelogOutletUrl(outlet), region = regionalDirectoryHomepage(entrance);
+        return this.isRegionEntrance(entrance) && !!detail && !!region && detail.startsWith(region);
+      },
       isRegionEntrance(value) { try { const url = new URL(value); return url.origin === "https://tabelog.com" && /^\/en\/[^/]+\/(?:A\d+|C\d+|R\d+)(?:\/(?:A\d+|C\d+|R\d+))*\/(?:rstLst\/)?$/.test(url.pathname); } catch { return false; } },
       links: directoryListingLinks,
       withRetrievalExpression(value, expression) { const url = new URL(value); url.searchParams.set("sw", expression); return url.toString(); },
@@ -312,18 +358,13 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
           && tabelogListing(page).outlets.length > 0;
       },
       observedListingFromRegionHomepage(page, observedListingUrl) {
-        const expectedHomepage = regionalDirectoryHomepage(observedListingUrl);
         const expectedListingRoot = directoryListingRoot(observedListingUrl);
-        if (!expectedHomepage || !expectedListingRoot) return undefined;
+        if (!regionalDirectoryHomepage(observedListingUrl) || !expectedListingRoot) return undefined;
         return [...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)].flatMap((match) => {
           try {
             const url = new URL((match[1] ?? "").replaceAll("&amp;", "&"), page.url);
-            // A homepage may expose subarea/category links before its own
-            // unfiltered directory. Only the exact originally observed
-            // listing root restores this query; a different prefix would
-            // silently change the current region or retrieval scope.
-            return url.origin === "https://tabelog.com" && `${url.origin}${url.pathname}`.startsWith(expectedHomepage)
-              && url.pathname === expectedListingRoot && !url.search && !url.hash
+            // Exact root equality also excludes subareas and categories.
+            return url.origin === "https://tabelog.com" && url.pathname === expectedListingRoot && !url.search && !url.hash
               ? [url.toString()] : [];
           } catch { return []; }
         })[0];
@@ -347,6 +388,9 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
   availability: {
     provider: "TABLECHECK",
     candidateBinding: tableCheckAvailabilityBinding,
+    candidatePath: candidate => tableCheckAvailabilityBinding(candidate) === "INAPPLICABLE" ? "NONE"
+      : [candidate.sourceIds.tablecheckNativeGuideUri, candidate.sourceIds.googleListedTableCheckUri, candidate.sourceIds.googleWebsiteUri].some(isTableCheckOutletUrl)
+        ? "DIRECT_SOURCE_PAGE" : "NAME_RESOLUTION",
     availabilityPriority: 20,
     createProvider: (context) => new TableCheckBrowserAvailability(context.executor, context.now, {
       ...(context.maxBrowserSessions !== undefined ? { maxBrowserSessions: context.maxBrowserSessions } : {}),

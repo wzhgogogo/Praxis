@@ -1,0 +1,7 @@
+# Checkpoint C continuation from c09
+
+current executable; exposed development diagnostic, not Clean Baseline. User directly authorizes continuing remaining Live after connectivity diagnosis. Preserve8 formal runs and10 prior attempts; resume c09 pre-run failure once as explicit user reentry (attempt2), then c10-c18 in original order, without --run-ids. Earlier c03/c04/c08 terminal model timeouts are completed samples, not retry targets.
+
+Only update obsolete c03 resume loader to current c09 evidence and witnessed deadline; outer/Runner/evaluator31/rubric27/production/plan remain unchanged. Freeze committed code, prior evidence, current cumulative ledger2596models/21Live/0formal env reruns and registry before launch. Keep Kagurazaka automatic retry exhausted; charge this explicit additional entry in outer retry history. S0 PRESENT still stops; only eligible ENV/ORCH retry once per other case, cumulative<=10. Original500s/50models/40Google,>=5min gaps,15min busy/status retry remain. No forms,/reserve,time clicks.
+
+Deadline2026-10-22T12:23:38.769Z (Beijing20:23:38.769), unchanged from earliest witness+24h. Acceptance: offline resume selects exactly c09-c18, preserves every original outcome/S0/retry charge, rejects S0/deadline extension/finished formal retry/missing or changed prior evidence; existing unchanged production gates and offline pipeline evidence reused. No model or source calls during prep. On completion/stop reconcile all models/Live/environment restarts separately from source-only entries, commit/push four layers and stop.

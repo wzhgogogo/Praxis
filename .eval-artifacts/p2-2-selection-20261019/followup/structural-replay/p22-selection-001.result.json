@@ -1,0 +1,105 @@
+{
+  "seedId": "p22-selection-001",
+  "scenario": "KAGURAZAKA_KAISEKI",
+  "codeCommit": "16466670732d4baa1eab2a8b3dd020247fa29fc8",
+  "annotationRevision": 2,
+  "requestSha256": "91ee9d3010c59b1baf8be464ab9638c501c14ad4b8c9ded25de30fa017699b79",
+  "call": {
+    "call": 8,
+    "seedId": "p22-selection-001",
+    "codeCommit": "16466670732d4baa1eab2a8b3dd020247fa29fc8",
+    "requestSha256": "91ee9d3010c59b1baf8be464ab9638c501c14ad4b8c9ded25de30fa017699b79",
+    "startedAt": "2026-10-19T15:51:57.889Z",
+    "status": "SUCCEEDED",
+    "latencyMs": 4342,
+    "usage": {
+      "inputTokens": 23847,
+      "outputTokens": 281,
+      "totalTokens": 24128
+    },
+    "model": "deepseek-flash",
+    "finishedAt": "2026-10-19T15:52:02.234Z",
+    "errorCode": null
+  },
+  "beforeAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:eeb6396dbd632839d53c45c8",
+      "praxis:restaurant:f10f0d8bee11fbdc94d0bc0f",
+      "praxis:restaurant:07cd0218d5b699afb55a000c"
+    ],
+    "decisionSummary": "AVAILABILITY goal for 3 at 19:30 on 2026-10-22 near Kagurazaka; no candidate yet has fresh evidenced availability. Checking the three nearest kaiseki-consistent outlets (Utou 73m, KUROSU 43m, Ishikawa 80m) to obtain request-bound offers."
+  },
+  "before": {
+    "verdict": "NOT_ACCEPTABLE",
+    "reasons": [
+      "The approved revision2 requires at least two DIRECT selections when three are checkable."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 0,
+      "directInRadiusCheckable": 3,
+      "directSelectionRatio": 0
+    }
+  },
+  "afterAction": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:ea7f13811ba2762a8809896a",
+      "praxis:restaurant:f7be11a2d29a00afc46d46e4",
+      "praxis:restaurant:359e4485b73417043bd3a76a"
+    ],
+    "decisionSummary": "AVAILABILITY goal for 3 at 19:30 on 2026-10-22 near Kagurazaka; TableCheck candidates already checked with unobserved results. Check the three legal checkable candidates (all DIRECT_SOURCE_PAGE, near Kagurazaka) for request-bound slots and source facts."
+  },
+  "after": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 3,
+      "directInRadiusCheckable": 3,
+      "directSelectionRatio": 1
+    }
+  },
+  "oldStrict": {
+    "status": "NOT_APPLICABLE"
+  },
+  "wireText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:ea7f13811ba2762a8809896a\", \"praxis:restaurant:f7be11a2d29a00afc46d46e4\", \"praxis:restaurant:359e4485b73417043bd3a76a\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"AVAILABILITY goal for 3 at 19:30 on 2026-10-22 near Kagurazaka; TableCheck candidates already checked with unobserved results. Check the three legal checkable candidates (all DIRECT_SOURCE_PAGE, near Kagurazaka) for request-bound slots and source facts.\"}",
+  "finishReason": "TOOL_CALLS",
+  "errorCode": null,
+  "selected": [
+    {
+      "id": "praxis:restaurant:ea7f13811ba2762a8809896a",
+      "name": "Kagurazaka Jin",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 81
+    },
+    {
+      "id": "praxis:restaurant:f7be11a2d29a00afc46d46e4",
+      "name": "Sugata",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 107
+    },
+    {
+      "id": "praxis:restaurant:359e4485b73417043bd3a76a",
+      "name": "日本料理 ほそ川 神楽坂",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 95
+    }
+  ],
+  "witnessSelection": {
+    "before": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical URL membership only; no current/request slot claim."
+    },
+    "after": {
+      "status": "EVALUATED",
+      "selected": false,
+      "scope": "Historical URL membership only; no current/request slot claim."
+    }
+  },
+  "executedActions": 0
+}

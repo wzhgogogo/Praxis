@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "896bb3d1db795e5e555cb11279bded06351811533c40aff456768224e3647992",
+  "id": "72a1d3e3-c4d9-4025-956c-a55faead1ca3",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14153,
+    "completion_tokens": 123,
+    "total_tokens": 14276,
+    "prompt_tokens_details": {
+      "cached_tokens": 13952
+    },
+    "prompt_cache_hit_tokens": 13952,
+    "prompt_cache_miss_tokens": 201
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_p7INmkbt2KEXC6GVGim18861",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:12:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar toward November 2026 to reach requested date.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

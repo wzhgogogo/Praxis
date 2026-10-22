@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import {networkTargets} from './outer-preflight.mjs';
+import {busyQuote,sourceResponse} from './observe-browser.mjs';
+assert.deepEqual(networkTargets,['DEEPSEEK','GOOGLE','TABELOG']);
+for(const status of [403,503,429])assert.equal(sourceResponse({url:'https://tabelog.com/en/tokyo/',resourceType:'document',status}),true);
+assert.equal(sourceResponse({url:'https://example.com/',resourceType:'document',status:429}),false);
+assert.equal(sourceResponse({url:'https://tabelog.com/image.png',resourceType:'image',status:429}),false);
+assert.equal(sourceResponse({url:'https://tabelog.com/en/tokyo/',resourceType:'document',status:200}),false);
+assert.ok(busyQuote('現在アクセスが集中しています。'));assert.equal(busyQuote('Restaurants near Tokyo'),null);
+const p=JSON.parse(await fs.readFile(new URL('./plan.json',import.meta.url),'utf8'));
+assert.deepEqual(p.planned.map(r=>[r.caseId,r.repeat]),[['p2-kagurazaka-kaiseki-20261029',1],['p2-nakameguro-yakiniku-20261030',1],['p2-kf-h001-20261027',1],['p2-kagurazaka-kaiseki-20261029',2],['p2-nakameguro-yakiniku-20261030',2]]);
+assert.equal(p.limits.formalProbes,60);assert.equal(p.limits.modelCalls,450);assert.equal(p.renewWitnesses,false);
+assert.equal(p.witnessCutoff,'2026-10-21T02:47:04.643Z');
+const expected={'p2-kagurazaka-kaiseki-20261029':'A1309','p2-nakameguro-yakiniku-20261030':'A1317','p2-kf-h001-20261027':'A1303'};
+assert.deepEqual(p.acceptance.expectedTopRegion,expected);
+console.log(JSON.stringify({status:'PASS',mode:'OFFLINE_ONLY',network:0,models:0,checks:15}));

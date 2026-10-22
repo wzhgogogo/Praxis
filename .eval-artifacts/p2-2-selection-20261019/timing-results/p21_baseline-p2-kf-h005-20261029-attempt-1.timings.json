@@ -1,0 +1,101 @@
+{
+  "id": "p21_baseline-p2-kf-h005-20261029-attempt-1",
+  "group": "P21_BASELINE",
+  "input": {
+    "id": "p21_baseline-p2-kf-h005-20261029-attempt-1",
+    "group": "P21_BASELINE",
+    "artifact": {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-1/probe-summary.json",
+      "sha256": "bf53eff664b3b8d3a896c8e3bbf00a24a695b2f96dbb7409f435257358dbff7e"
+    },
+    "trace": {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-1/trace.jsonl",
+      "sha256": "109c10466611ced0f411c02cba6541acd70b9ee218fcece1db3b4270a4381a60"
+    },
+    "decisions": {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h005-20261029/attempt-1/probe.decisions.jsonl",
+      "sha256": "dcd1a58bfab8f63aa88ef5d8ffa9f868a8d049f5ccbfbb98c1e9dae02337acab"
+    }
+  },
+  "timing": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 69111,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:REGION",
+        "elapsedMs": 26245,
+        "percent": 37.97514143913415
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 18036,
+        "percent": 26.097148066154446
+      },
+      {
+        "stage": "MODEL_DECISION:browser_read_decide",
+        "elapsedMs": 12640,
+        "percent": 18.289418471733878
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:SEARCH",
+        "elapsedMs": 5199,
+        "percent": 7.522680904631679
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+        "elapsedMs": 4702,
+        "percent": 6.803547915671889
+      },
+      {
+        "stage": "DISCOVERY:google-places:SOURCE_TOTAL",
+        "elapsedMs": 2012,
+        "percent": 2.911258699772829
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+        "elapsedMs": 114,
+        "percent": 0.16495203368494163
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+        "elapsedMs": 92,
+        "percent": 0.1331191850790757
+      },
+      {
+        "stage": "DISCOVERY:tablecheck:SOURCE_TOTAL",
+        "elapsedMs": 51,
+        "percent": 0.07379433085905282
+      },
+      {
+        "stage": "DISCOVERY:tabelog:SOURCE_TOTAL",
+        "elapsedMs": 20,
+        "percent": 0.028938953278059936
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 1,
+        "latencyMs": 5615,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 2,
+        "latencyMs": 3337,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 3,
+        "latencyMs": 3688,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  }
+}

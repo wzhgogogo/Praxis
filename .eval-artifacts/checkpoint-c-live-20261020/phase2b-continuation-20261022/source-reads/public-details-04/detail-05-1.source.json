@@ -1,0 +1,112 @@
+{
+  "id": "detail-05-1",
+  "caseId": "p2b-holdout-05",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1307/A130702/13004546/",
+  "observedAt": "2026-10-22T17:23:45.710Z",
+  "responseSha256": "ba6d2f8d3929ebc29affb73e99fc4d318fde410863ebea7a43a61b66bfa378ff",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-05-1.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Azabu Kawakami An",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Azabujuban Minato Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1060045",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.65314197872415,
+          "longitude": 139.7359576041221
+        },
+        "servesCuisine": "Soba (Buckwheat noodles),Tempura,Japanese Cuisine"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1307/A130702/13004546/\",\"name\":\"Azabu Kawakami An\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/104716/640x640_rect_104716943.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Azabujuban Minato Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1060045\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.65314197872415,\"longitude\":139.7359576041221},\"priceRange\":\" \",\"servesCuisine\":\"Soba (Buckwheat noodles),Tempura,Japanese Cuisine\",\"telephone\":\"+81-3-5439-5757\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"1087\",\"ratingValue\":\"3.52\"}}\n    ",
+        "sha256": "8e153681deba900d7cbae9afef969cb8a0c90c3ff06039f4386c1eebfbffde35",
+        "htmlCharacterOffset": 6155
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 56327,
+        "raw": "Soba (Buckwheat noodles), Tempura, Japanese Cuisine"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Soba (Buckwheat noodles), Tempura, Japanese Cuisine",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Soba (Buckwheat noodles), Tempura, Japanese Cuisine",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "CATEGORY",
+      "text": "Categories Soba (Buckwheat noodles), Tempura, Japanese Cuisine",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Soba (Buckwheat noodles), Tempura, Japanese Cuisine</span>\n                    </td>\n                  </tr>",
+      "sha256": "d7bdb49e88838a9366a37d8a26916929bde425046808052e1083bae09bb75432",
+      "htmlCharacterOffset": 56207
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 50 seats ( The restaurant has table seating. There are also 5 terrace seats. Pets are allowed.)",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      50 seats\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      ( The restaurant has table seating. There are also 5 terrace seats. Pets are allowed.)\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "9891d0877a06516027b6fa48ade6948a55506ea464139e24ef8fd40c908f932d",
+      "htmlCharacterOffset": 63772
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Available For 6 people, For 8 people",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Available\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      For 6 people, For 8 people\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "7ae827c8ea293feb72f996a0426895c6b2e9b4eaf8c5acb05016d852e8cb4704",
+      "htmlCharacterOffset": 64213
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome No limit",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome\n                  </p>\n                  <p class=\"rstinfo-table__each-info\">\n                    No limit<br />\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "3e6bf40c5cb5d6b8db330f9d3505ad0234dfed01b02787f88692a1c1cc2773a8",
+      "htmlCharacterOffset": 67705
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Soba (Buckwheat noodles), Tempura, Japanese Cuisine</span>\n                    </td>\n                  </tr>",
+      "sha256": "d7bdb49e88838a9366a37d8a26916929bde425046808052e1083bae09bb75432",
+      "text": "Categories Soba (Buckwheat noodles), Tempura, Japanese Cuisine",
+      "htmlCharacterOffset": 56207
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1307/A130702/13004546/dtlratings/#price-range\">-</a></span>\n                            </p>",
+      "sha256": "d0c715c95d8cdd18eadba9cec194ce18c1a7ad14594cbc87413b81ca181f3dd9",
+      "text": "-",
+      "htmlCharacterOffset": 25453
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1307/A130702/13004546/dtlratings/#price-range\">JPY 2,000 - JPY 2,999</a></span>\n                            </p>",
+      "sha256": "6d5eda20845fb77de6628d5ca73971ea484b4ee743ef19caafc52982b58ee282",
+      "text": "JPY 2,000 - JPY 2,999",
+      "htmlCharacterOffset": 25863
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1307/A130702/13004546/"
+}

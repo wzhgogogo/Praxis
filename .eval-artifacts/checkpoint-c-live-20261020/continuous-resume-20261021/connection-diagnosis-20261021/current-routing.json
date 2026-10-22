@@ -1,0 +1,83 @@
+{
+  "at": "2026-10-21T10:47:53.987802+00:00",
+  "guiConfigs/guiNConfig.json": {
+    "path": "/Users/wangzhour/Library/Application Support/v2rayN/guiConfigs/guiNConfig.json",
+    "modified": 1792578783.6049473,
+    "sha256": "b5f6cbdce9276da90c6aaf837b5f141ae34354e1e007518af798c01b7bb6aa06",
+    "tun": {
+      "EnableTun": true,
+      "AutoRoute": false,
+      "StrictRoute": false,
+      "Stack": "gvisor",
+      "Mtu": 9000,
+      "EnableIPv6Address": false,
+      "IcmpRouting": "rule",
+      "EnableLegacyProtect": false,
+      "RouteExcludeAddress": [
+        "144.202.113.30/32",
+        "144.202.113.30/32",
+        "54.178.0.0/16",
+        "35.72.0.0/13",
+        "3.112.0.0/14",
+        "57.180.0.0/14",
+        "175.41.192.0/18",
+        "18.176.0.0/13",
+        "52.192.0.0/11"
+      ],
+      "IPv4Address": null,
+      "IPv6Address": null
+    }
+  },
+  "binConfigs/config.json": {
+    "path": "/Users/wangzhour/Library/Application Support/v2rayN/binConfigs/config.json",
+    "modified": 1792509792.720281,
+    "sha256": "f9045178cab624feb068bdf37f42e3db3f2517122586d79871cc2aece9dfa614",
+    "domainRules": [
+      {
+        "type": "field",
+        "outboundTag": "direct",
+        "domain": [
+          "domain:tablecheck.com",
+          "domain:tablecheck.net"
+        ]
+      }
+    ],
+    "outboundBindings": [
+      {
+        "tag": "proxy",
+        "sendThrough": null,
+        "sockopt": null
+      },
+      {
+        "tag": "direct",
+        "sendThrough": null,
+        "sockopt": null
+      },
+      {
+        "tag": "block",
+        "sendThrough": null,
+        "sockopt": null
+      },
+      {
+        "tag": "dns",
+        "sendThrough": null,
+        "sockopt": null
+      }
+    ]
+  },
+  "binConfigs/configPre.json": {
+    "path": "/Users/wangzhour/Library/Application Support/v2rayN/binConfigs/configPre.json",
+    "modified": 1790582645.9469345,
+    "sha256": "cef02ae59f7981ce767bfe536ce52e8fb2ca9063bbafb7812316f8baae339431"
+  },
+  "currentDNS": [
+    "52.68.109.188",
+    "54.178.173.154",
+    "54.178.32.17"
+  ],
+  "routes": {
+    "52.68.109.188": "   route to: 52.68.109.188\ndestination: 52.0.0.0\n       mask: 255.128.0.0\n    gateway: 172.18.0.1\n  interface: utun84\n      flags: <UP,GATEWAY,DONE,STATIC,PRCLONING>\n recvpipe  sendpipe  ssthresh  rtt,msec    rttvar  hopcount      mtu     expire\n       0         0         0         0         0         0      9000         0 \n",
+    "54.178.173.154": "   route to: 54.178.173.154\ndestination: 54.178.173.154\n    gateway: 192.168.1.1\n  interface: en0\n      flags: <UP,GATEWAY,HOST,DONE,WASCLONED,IFSCOPE,IFREF,GLOBAL>\n recvpipe  sendpipe  ssthresh  rtt,msec    rttvar  hopcount      mtu     expire\n       0         0         0         0         0         0      1500         0 \n",
+    "54.178.32.17": "   route to: 54.178.32.17\ndestination: default\n       mask: default\n    gateway: 192.168.1.1\n  interface: en0\n      flags: <UP,GATEWAY,DONE,STATIC,PRCLONING,GLOBAL>\n recvpipe  sendpipe  ssthresh  rtt,msec    rttvar  hopcount      mtu     expire\n       0         0         0         0         0         0      1500         0 \n"
+  }
+}

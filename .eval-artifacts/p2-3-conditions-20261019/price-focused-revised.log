@@ -1,0 +1,53 @@
+✔ approved price tolerance compares meals, keeps unknown and distinguishes soft from hard (2.002042ms)
+✖ recorded source price fragments retain exact ranges, course values, tax and quotes (5.179167ms)
+✖ Tabelog existing read grounds recorded course prices even when inventory is UNKNOWN (3.904542ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 205.407542
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:1:43822
+✖ recorded source price fragments retain exact ranges, course values, tax and quotes (5.179167ms)
+  AssertionError [ERR_ASSERTION]: ginza-outlet-13292459
+  + actual - expected
+  
+  + []
+  - [
+  -   13000,
+  -   18000,
+  -   19000
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-3-conditions-20261019/src/integrations/tabelog/tabelog-browser-availability.test.ts:663:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 13000, 18000, 19000 ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:1:45796
+✖ Tabelog existing read grounds recorded course prices even when inventory is UNKNOWN (3.904542ms)
+  AssertionError [ERR_ASSERTION]: the opened page's price must survive Adapter → grounding, without a new read
+  + actual - expected
+  
+  + undefined
+  - 9800
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-p2-3-conditions-20261019/src/integrations/tabelog/tabelog-browser-availability.test.ts:684:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 9800,
+    operator: 'strictEqual'
+  }

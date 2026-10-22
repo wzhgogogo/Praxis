@@ -1,0 +1,26 @@
+{
+  "cwd": "/private/tmp/praxis-checkpoint-c-prep",
+  "hardDeadline": "2026-10-21T12:26:00Z",
+  "approvedFreezeSha256": "ba9f551d28aa6fbd754dc853e4dbeddb7d72350f6736fc998537c14ba1701b04",
+  "approvalBasis": "Explicit latest continuation direction; all code identical to 5c64234",
+  "command": [
+    "/opt/homebrew/bin/node",
+    "--env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    ".eval-artifacts/checkpoint-c-live-20261020/outer.ts",
+    "--mode",
+    "LIVE_READ_ONLY",
+    "--freeze",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuation-20261021/live-freeze.json",
+    "--output",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuation-20261021/results",
+    "--approval",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuation-20261021/user-approval.json",
+    "--registry",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json",
+    "--ledger",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuation-20261021/phase2-ledger.json"
+  ],
+  "scope": "Remaining 14 original plan positions; original outer, Runner, transport, guard and evaluator unchanged. Prior S0 and budget charges retained in ledger; original automatic no-form contract still scored. No slot clicks, customer entry, or submissions."
+}

@@ -1,0 +1,40 @@
+{
+  "id": "p1fA-kf-h003-a1",
+  "group": "CALIBRATION22",
+  "input": {
+    "id": "p1fA-kf-h003-a1",
+    "group": "CALIBRATION22",
+    "artifact": {
+      "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/started.json.gz",
+      "sha256": "75d45a23586d251c652866a9eec8c1d97331fab1db0bcda9e9dbd0f4026c4231"
+    },
+    "decisions": {
+      "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kf-h003-a1/decisions.jsonl.gz",
+      "sha256": "ca5480c69c0e7d5e51d83a5f2ca43457c1cfa49e41c656d8d9d69149c85e832a"
+    }
+  },
+  "timing": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "NOT_EVALUATED",
+    "elapsedMs": null,
+    "criticalPath": [],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 1991,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 1463,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "Missing valid run start/end timestamps.",
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  }
+}

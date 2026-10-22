@@ -1,0 +1,628 @@
+{
+  "schema": "holdout-evaluation-representation@1",
+  "status": "frozen regression; no counterfactual source/claim changes",
+  "projections": [
+    {
+      "runId": "h-02",
+      "sourceArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-02-attempt-1/runner/2026-10-22T08-33-27-412Z-91a9440a-8622-41cd-96f2-526be579345b.result.json",
+      "sourceArtifactSha256": "2df3226be31b0ba5a570dad2c37b97a87ce497747130815322b1822414042bfc",
+      "viewPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/views/h-02.evaluation-view.json",
+      "viewSha256": "dec9f7054ef46abd17b216e12f4ab7794517f83fdc775c6a8729f9e4ee74345b",
+      "patches": [
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/0/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/0/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/1/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/1/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/1/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/1/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/2/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/2/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/2/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/2/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/3/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/3/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/3/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/3/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/4/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/4/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/4/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/4/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/5/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/5/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/5/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/5/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        }
+      ],
+      "rule": "Existing same-request structured budget projected only into intent criteria for @33; no source, Gold, display, timing, or resource field is changed."
+    },
+    {
+      "runId": "h-08",
+      "sourceArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-08-attempt-1/runner/2026-10-22T09-33-41-137Z-69525c1d-a9d3-4354-9f87-45a855ea7adc.result.json",
+      "sourceArtifactSha256": "166ab46356f8a1d8f3a4e7307d959af3698d5e91a5a17adc05879437c37b5161",
+      "viewPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/views/h-08.evaluation-view.json",
+      "viewSha256": "bd1aba272d9dceb7b4e3b9030dd43d4a464138eee6f3badcc1d69c51433e7429",
+      "patches": [
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/0/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/0/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/1/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/1/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/1/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/1/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/2/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/2/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/2/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/2/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/3/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/3/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/3/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/3/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/4/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/4/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/4/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/4/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/5/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/5/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/5/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/5/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/6/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/6/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/6/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/6/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        }
+      ],
+      "rule": "Existing same-request structured budget projected only into intent criteria for @33; no source, Gold, display, timing, or resource field is changed."
+    },
+    {
+      "runId": "h-14",
+      "sourceArtifactPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-14-attempt-1/runner/2026-10-22T10-34-03-531Z-73b364ae-f896-4535-a739-1d560e245acd.result.json",
+      "sourceArtifactSha256": "3eda6c39a4128d6cec1103e0fcb74705894e012f360ea294d1336de7545213a2",
+      "viewPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/views/h-14.evaluation-view.json",
+      "viewSha256": "ca33455d2743f0a4da85cd38afe8019879a496be28bb9998d2dce83b78a85d52",
+      "patches": [
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/0/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/0/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/1/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/1/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/1/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/1/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/2/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/2/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/2/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/2/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/3/decisionContext/intentDraft/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/3/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/3/decisionContext/intent/criteria/1",
+          "value": {
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          "sourcePointer": "/trajectories/3/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 8000,
+            "currency": "JPY"
+          },
+          "goldIndex": 1,
+          "reviewRef": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/wording-review.md#sha256=95f511e56716b067b43b84cccec687517f507d0dd6dc2a415c77895b3c41998f"
+        }
+      ],
+      "rule": "Existing same-request structured budget projected only into intent criteria for @33; no source, Gold, display, timing, or resource field is changed."
+    }
+  ]
+}

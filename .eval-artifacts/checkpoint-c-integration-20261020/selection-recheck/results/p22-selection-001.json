@@ -1,0 +1,71 @@
+{
+  "seedId": "p22-selection-001",
+  "scenario": "KAGURAZAKA_KAISEKI",
+  "codeCommit": "1c08f4cff61bddcc52c92e625a2f56471a15f47a",
+  "action": {
+    "type": "CHECK_AVAILABILITY",
+    "candidateIds": [
+      "praxis:restaurant:ea7f13811ba2762a8809896a",
+      "praxis:restaurant:f7be11a2d29a00afc46d46e4",
+      "praxis:restaurant:359e4485b73417043bd3a76a"
+    ],
+    "decisionSummary": "No eligible candidates yet; the only legal availability reads are the three checkable Kagurazaka outlets with direct source pages. Checking them for the 2026-10-22 19:30 party-of-3 request."
+  },
+  "wireText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:ea7f13811ba2762a8809896a\", \"praxis:restaurant:f7be11a2d29a00afc46d46e4\", \"praxis:restaurant:359e4485b73417043bd3a76a\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No eligible candidates yet; the only legal availability reads are the three checkable Kagurazaka outlets with direct source pages. Checking them for the 2026-10-22 19:30 party-of-3 request.\"}",
+  "finishReason": "TOOL_CALLS",
+  "call": {
+    "seedId": "p22-selection-001",
+    "startedAt": "2026-10-20T08:24:29.002Z",
+    "status": "SUCCEEDED",
+    "requestSha256": "fc5cf2a9ea82acb71f110f912bb0540cf845c833b5f59aabfe7dd45c45bbae9b",
+    "model": "deepseek-flash",
+    "latencyMs": 4841,
+    "usage": {
+      "inputTokens": 23847,
+      "outputTokens": 262,
+      "totalTokens": 24109
+    },
+    "finishedAt": "2026-10-20T08:24:33.844Z",
+    "errorCode": null
+  },
+  "verdict": {
+    "verdict": "ACCEPTABLE",
+    "reasons": [
+      "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+    ],
+    "metrics": {
+      "selected": 3,
+      "directSelected": 3,
+      "directInRadiusCheckable": 3,
+      "directSelectionRatio": 1
+    }
+  },
+  "selected": [
+    {
+      "id": "praxis:restaurant:ea7f13811ba2762a8809896a",
+      "name": "Kagurazaka Jin",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 81
+    },
+    {
+      "id": "praxis:restaurant:f7be11a2d29a00afc46d46e4",
+      "name": "Sugata",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 107
+    },
+    {
+      "id": "praxis:restaurant:359e4485b73417043bd3a76a",
+      "name": "日本料理 ほそ川 神楽坂",
+      "path": "DIRECT_SOURCE_PAGE",
+      "distance": 95
+    }
+  ],
+  "directCount": 3,
+  "totalSelected": 3,
+  "reconstruction": {
+    "stateVersionBefore": 7,
+    "events": 7,
+    "observedFactsCount": 0,
+    "priceFactsCount": 0
+  }
+}

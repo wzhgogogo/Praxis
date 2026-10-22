@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "9700fb2da48433bfa979c3bd50078d2e70cabad53ce87fcb2688eff8ea1b9e78",
+  "id": "1f27e1b3-509b-415e-b3ba-7069eaddf068",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14163,
+    "completion_tokens": 761,
+    "total_tokens": 14924,
+    "prompt_tokens_details": {
+      "cached_tokens": 1664
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 628
+    },
+    "prompt_cache_hit_tokens": 1664,
+    "prompt_cache_miss_tokens": 12499
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_NbUeAC0re6tlKmngZpfV8066",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:11:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the visible date list toward the requested 2026-11-07\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

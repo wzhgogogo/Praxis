@@ -1,0 +1,55 @@
+{
+  "schema": "p22-annotated-selection-replay-plan@1",
+  "status": "AUTHORIZED_OUTER_ONLY_CONTINUATION_NOT_RETRY",
+  "selectedSeedIds": [
+    "p22-selection-001",
+    "p22-selection-002",
+    "p22-selection-003"
+  ],
+  "outputDirectory": ".eval-artifacts/p2-2-selection-20261019/annotated-replay.remaining",
+  "maxCallsTotal": 30,
+  "plannedCalls": 3,
+  "websiteRequests": 0,
+  "googleRequests": 0,
+  "fullLiveRuns": 0,
+  "witnessSourceUrls": {
+    "p1-seed-0133": [
+      "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+    ],
+    "p1-seed-0134": [
+      "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+    ],
+    "p22-selection-001": [
+      "https://tabelog.com/en/tokyo/A1309/A130905/13218101/",
+      "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+      "https://tabelog.com/en/tokyo/A1309/A130905/13011403/"
+    ],
+    "p22-selection-002": [
+      "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+    ],
+    "p22-selection-003": [
+      "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "https://tabelog.com/en/tokyo/A1303/A130301/13275802/"
+    ]
+  },
+  "witnessInput": ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json",
+  "note": "User approved independent reviewer revision2 before any model replay. One call per seed. Old strict rule on same outputs; pending/unannotated further seeds excluded.",
+  "annotationRevision": 2,
+  "strictComparison": "Score0133/0134 with frozen revision1 on identical model outputs; new seeds have no revision1 label.",
+  "witnessInputs": [
+    ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json",
+    ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/witnesses.certified.json"
+  ],
+  "witnessScope": "Historical independent witness URL membership only. No validity renewal or current-date/request slot claim; never injected into model request.",
+  "expectedPriorCalls": 2,
+  "freezePath": ".eval-artifacts/p2-2-selection-20261019/model-run-freeze.remaining.json",
+  "priorResults": [
+    ".eval-artifacts/p2-2-selection-20261019/annotated-replay/p1-seed-0133.result.json",
+    ".eval-artifacts/p2-2-selection-20261019/annotated-replay/p1-seed-0134.result.json"
+  ],
+  "continuationBasis": "User already authorized outer-only corrections directly. Revision2 unchanged; first two calls/results kept; only three unrun seeds resume. Invalid format counts as failure, never retried or executed. Model/source behavior, Gold, per-call budget and global30 unchanged.",
+  "previousFrozenCommit": "290658fd61d4f5d1c4a990808eeba6176a4a9555"
+}

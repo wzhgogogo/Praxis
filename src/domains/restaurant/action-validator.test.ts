@@ -3,11 +3,12 @@ import { test } from "node:test";
 
 import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } from "./contracts.js";
 import { MAX_AVAILABILITY_CHECK_BATCH, validateRestaurantAction } from "./action-validator.js";
-import { restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { applyRestaurantIntentPatch, missingBlockingFields } from "./intent-state.js";
 import { restaurantBookingTaskDefinition } from "./task-definition.js";
 import { RestaurantExecutionRouter } from "../../application/restaurant-execution-router.js";
 import { RestaurantAgentLoopCoordinator } from "../../application/restaurant-agent-loop.js";
+import { projectRestaurantAgentContext } from "./agent-context.js";
 import { ScriptedRestaurantAgentDecisionPort } from "./agent-decision.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import type { TaskSnapshot } from "../../core/task-runtime/contracts.js";
@@ -15,7 +16,7 @@ import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtu
 import type { RestaurantOutcome } from "./contracts.js";
 
 const incompleteState: RestaurantTaskState = {
-  schemaVersion: "16",
+  schemaVersion: "20",
   phase: "UNDERSTANDING",
   candidates: [],
   availability: {},
@@ -40,6 +41,29 @@ test("Reducer derives missing fields and accumulates a criterion correction dete
   assert.deepEqual(missingBlockingFields(corrected), []);
   assert.equal(corrected.partySize, 3);
   assert.deepEqual(corrected.criteria, []);
+});
+
+test("availability selection keeps three unchecked in-radius direct entrances and preserves fact/refresh scope", () => {
+  const ids = ["name-near", "direct-c", "outside", "direct-a", "direct-b"];
+  const state: RestaurantTaskState = { ...incompleteState, phase: "SEARCHING", searchRevision: 1,
+    intentDraft: { ...fixtureIntent, schemaVersion: "3", target: { goal: "AVAILABILITY", query: "restaurant" } }, intent: fixtureIntent,
+    candidates: ids.map(id => ({ ...fixtureCandidates[0]!, restaurant: { ...fixtureCandidates[0]!.restaurant, id } })),
+    readEvidence: ids.map(id => ({ evidenceId: id, candidateId: id, kind: "DISCOVERY", provider: "GOOGLE_PLACES", observedAt: now,
+      requestFingerprint: "current", claims: { availabilityPath: id === "name-near" ? "NAME_RESOLUTION" : "DIRECT_SOURCE_PAGE",
+        areaMatch: id !== "outside", areaMatchBasis: "TASK_LOCATION_RADIUS", distanceMeters: id === "outside" ? 1001 : 100 } })),
+  };
+  const originalFacts = assessRestaurantRead(state, now).factInvestigableCandidateIds;
+  const context = projectRestaurantAgentContext(state, now);
+  assert.deepEqual(context.checkableCandidateIds, ["direct-c", "direct-a", "direct-b"]);
+  assert.deepEqual(context.legalActions.checkAvailability, context.checkableCandidateIds);
+  assert.deepEqual(context.factInvestigableCandidateIds, originalFacts);
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["name-near"] }, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["direct-c", "direct-b"] }, now).status, "ALLOWED");
+  assert.equal(validateRestaurantAction(state, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: ["name-near"] }, now).status, "ALLOWED");
+  const fewer = { ...state, availabilityChecks: { "direct-c": { status: "UNKNOWN" as const, checkedAt: now, evidenceIds: [] } } };
+  assert.deepEqual(projectRestaurantAgentContext(fewer, now).checkableCandidateIds, ["name-near", "outside", "direct-a", "direct-b"], "a checked direct cannot trigger the three-unchecked rule");
+  const refresh = { ...state, availabilityChecks: { "name-near": { status: "AVAILABLE" as const, checkedAt: now, evidenceIds: [] } }, refreshRequestedCandidateIds: ["name-near"] };
+  assert.equal(validateRestaurantAction(refresh, { type: "CHECK_AVAILABILITY", candidateIds: ["name-near"] }, now).status, "ALLOWED", "an explicit user refresh is not allocation of a new first-read batch");
 });
 
 test("Action validator binds search to complete authoritative intent", () => {
@@ -598,7 +622,7 @@ test("User refresh reopens only displayed candidates and preserves prior evidenc
     availability: { a: [{ id: "old-slot", restaurantId: "a", source: "TABELOG", dateTime: "2026-08-05T19:00:00+09:00", timezone: "Asia/Tokyo", partySize: 2, bookingMode: "REQUEST", executionMode: "BROWSER", checkedAt: now, expiresAt: "2026-08-05T09:02:00.000Z", displayExpiresAt: "2026-08-05T09:02:00.000Z" }] },
     availabilityChecks: { a: { status: "AVAILABLE", checkedAt: now, evidenceIds: ["old-evidence"], displayExpiresAt: "2026-08-05T09:02:00.000Z" } },
     readEvidence: [{ evidenceId: "old-evidence", kind: "AVAILABILITY", provider: "TABELOG", candidateId: "a", observedAt: now, requestFingerprint: "x", claims: {} }],
-    presentedResults: { candidateIds: ["a"], evidenceIds: ["old-evidence"], presentedAt: now },
+    presentedResults: { candidateIds: ["a"], evidenceIds: ["old-evidence"], presentedAt: now, conditionStates: {} },
   };
   const next = restaurantBookingTaskDefinition.transition(state, { type: "AVAILABILITY_REFRESH_REQUESTED", candidateIds: ["a"] }, { taskId: "task", runId: "run", now, createId: (prefix) => prefix }).state;
   assert.equal(next.phase, "SEARCHING");
@@ -623,7 +647,7 @@ test("Recommendation refresh reopens displayed facts without routing through ava
   const state: RestaurantTaskState = {
     ...incompleteState, phase: "PRESENT_RESULTS",
     intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "Tokyo" } }),
-    candidates: [candidate], presentedResults: { candidateIds: ["a"], evidenceIds: ["old-facts"], presentedAt: now },
+    candidates: [candidate], presentedResults: { candidateIds: ["a"], evidenceIds: ["old-facts"], presentedAt: now, conditionStates: {} },
     factChecks: { a: { status: "COMPLETED", checkedAt: now, evidenceIds: ["old-facts"] } },
     readEvidence: [{ evidenceId: "old-facts", kind: "RESTAURANT_FACT", provider: "GOOGLE_PLACES", candidateId: "a", observedAt: now, requestFingerprint: "old", claims: { verifiedHardCriteria: ["cafe"] } }],
   };
@@ -646,7 +670,7 @@ test("a requested website-fact refresh replaces only stale same-source commercia
   const state: RestaurantTaskState = {
     ...incompleteState, phase: "PRESENT_RESULTS",
     intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe with cancellation details" }, area: { query: "Tokyo" } }),
-    candidates: [candidate], presentedResults: { candidateIds: ["a"], evidenceIds: ["old-facts"], presentedAt: now },
+    candidates: [candidate], presentedResults: { candidateIds: ["a"], evidenceIds: ["old-facts"], presentedAt: now, conditionStates: {} },
     factChecks: { a: { status: "COMPLETED", checkedAt: now, evidenceIds: ["old-facts"], sourceProvider: "RESTAURANT_WEBSITE" } },
     readEvidence: [{
       evidenceId: "website-entity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE", candidateId: "a", sourceEntityId: "website:a",
@@ -794,4 +818,31 @@ test("C6a expired immediate window ends without investigating another candidate"
   const ended = restaurantBookingTaskDefinition.transition(expired, execution.event, { taskId: "expiry", runId: "expiry", now: later, createId: prefix => prefix });
   assert.equal(ended.state.phase, "NO_VERIFIED_RESULT");
   assert.equal(sourceCalls, 0);
+});
+
+test("source price statuses disclose soft shortfalls but gate hard budgets before presentation", () => {
+  const candidateId = "budget-cafe";
+  const make = (strength: "SOFT" | "HARD", amount?: number, structured = false): RestaurantTaskState => ({ ...incompleteState, phase: "SEARCHING",
+    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "Tokyo" }, addCriteria: [{ text: structured ? "cafe" : "around 3,000 yen per person", polarity: "POSITIVE", strength }], ...(structured ? { budgetPerPerson: { max: 3000, currency: "JPY" } } : {}) }),
+    candidates: [{ restaurant: { id: candidateId, outletName: "Budget Cafe", address: "Tokyo", sourceIds: {}, provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
+    readEvidence: [
+      { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: now, requestFingerprint: "request", claims: { areaQuery: "Tokyo", areaMatch: true } },
+      { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "TABLECHECK", candidateId, sourceEntityId: "outlet", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] } },
+      { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "TABLECHECK", candidateId, sourceEntityId: "outlet", sourceUrl: "https://www.tablecheck.com/en/budget-cafe", observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"] }, ...(amount ? { priceFacts: { schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [{ amount, kind: "MEAL", meal: "UNSPECIFIED", tax: "INCLUDED", quote: `Course JPY ${amount} including tax`, sourceUrl: "https://www.tablecheck.com/en/budget-cafe" }] } } : {}) },
+    ],
+  });
+  const present = { type: "PRESENT_RESULTS" as const, candidateIds: [candidateId] };
+  assert.equal(validateRestaurantAction(make("HARD", 3300), present, now).status, "ALLOWED");
+  assert.equal(validateRestaurantAction(make("HARD", 4000), present, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(make("HARD"), present, now).status, "REJECTED");
+  const soft = make("SOFT", 4000);
+  assert.equal(validateRestaurantAction(soft, present, now).status, "ALLOWED");
+  const evidenceIds = restaurantPresentationEvidenceIds(soft, candidateId, now)!;
+  const shown = restaurantBookingTaskDefinition.transition(soft, { type: "RESULTS_PRESENTED", candidateIds: [candidateId], evidenceIds }, { taskId: "price", runId: "price", now, createId: prefix => prefix }).state;
+  assert.equal(shown.presentedResults?.conditionStates?.[candidateId]?.[0]?.status, "NOT_MET");
+  assert.equal(validateRestaurantAction(make("HARD",2500,true),present,now).status,"ALLOWED");
+  for(const state of [make("HARD",4000,true),make("HARD",undefined,true)]){
+    assert.equal(validateRestaurantAction(state,present,now).status,"REJECTED","a structured HARD cap rejects an excessive or unverified price");
+    assert.throws(()=>restaurantBookingTaskDefinition.transition(state,{type:"RESULTS_PRESENTED",candidateIds:[candidateId],evidenceIds:["area","entity","facts"]},{taskId:"cap",runId:"cap",now,createId:p=>p}),/not grounded/);
+  }
 });

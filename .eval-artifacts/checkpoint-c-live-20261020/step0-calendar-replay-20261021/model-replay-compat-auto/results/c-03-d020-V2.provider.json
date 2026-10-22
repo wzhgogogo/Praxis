@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "6cdd407d097ce98b89946694b43955e7d8592c6ba5a5606f103e8af8dd7b280f",
+  "id": "1b867170-54e8-48e4-9261-516e699dfa0c",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14170,
+    "completion_tokens": 4375,
+    "total_tokens": 18545,
+    "prompt_tokens_details": {
+      "cached_tokens": 2816
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4229
+    },
+    "prompt_cache_hit_tokens": 2816,
+    "prompt_cache_miss_tokens": 11354
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_tyRZKkJFPdNwocs0ybKz3926",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:4:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Visible date strip ends at 2026-10-31; advance the calendar pager to reach the requested 2026-11-05.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

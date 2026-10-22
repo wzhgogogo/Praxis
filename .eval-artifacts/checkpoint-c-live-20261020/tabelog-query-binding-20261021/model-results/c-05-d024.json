@@ -1,0 +1,53 @@
+{
+  "id": "c-05-d024",
+  "kind": "CALENDAR",
+  "codeCommit": "ca88fa6537a8c16a3ea41f565c4eb43aa36915b4",
+  "freezeSha256": "7f0c3026058901326a32f589fcf884d72ea6bad7c5050a1243430dbc89de5c7a",
+  "call": {
+    "id": "c-05-d024",
+    "startedAt": "2026-10-21T08:48:42.776Z",
+    "requestSha256": "f6631c639458bf35bf6a3978e110b38cb04a9bd30840bc728b226cb31fa07c1c",
+    "status": "SUCCEEDED",
+    "finishedAt": "2026-10-21T08:48:44.517Z",
+    "wallMs": 1740.7236669999984,
+    "latencyMs": 1740,
+    "model": "deepseek-flash",
+    "usage": {
+      "inputTokens": 13791,
+      "outputTokens": 123,
+      "totalTokens": 13914
+    },
+    "error": null
+  },
+  "action": {
+    "type": "CLICK",
+    "targetRef": "observation:11:target:75",
+    "reason": "Advance calendar to November 2026 to reach requested date"
+  },
+  "rawResponse": {
+    "invocationId": "7178be7e-17a2-4bf5-b8c3-3cc1d598fa9e",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:11:target:75\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to November 2026 to reach requested date\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1740,
+    "providerRequestId": "2246302c-44e6-4ca7-9062-979cdecc5320",
+    "usage": {
+      "inputTokens": 13791,
+      "outputTokens": 123,
+      "totalTokens": 13914
+    }
+  },
+  "expected": {
+    "action": "CLICK",
+    "targetRef": "observation:11:target:75",
+    "originalRef": "observation:10:target:85",
+    "rule": "Original DOM node a containing Next month in calendar navigation, bound through captured stableKey and exact original targetRef; never target order",
+    "binding": {
+      "controlId": "dom:1:75",
+      "stableKey": "a[href],[role=link]|link||Next month||94",
+      "outerHTML": "<a href=\"https://tabelog.com/en/tokyo/A1309/A130905/13218101/#\" class=\"p-booking-calendar__calendar-navi-target p-booking-calendar__calendar-navi-target--next\"><i>Next month</i></a>"
+    }
+  },
+  "acceptable": true
+}

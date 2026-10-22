@@ -1,0 +1,68 @@
+{
+  "id": "c-01-d014-V2",
+  "seedId": "c-01-d014",
+  "variant": "V2",
+  "runId": "c-01",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "6cfa3a8ef9b52fb224ed0e1aa70ae1d7b467591727cee8be0057e246ccb6379b",
+  "startedAt": "2026-10-21T03:41:03.621Z",
+  "finishedAt": "2026-10-21T03:41:06.548Z",
+  "elapsedMs": 2927.084916,
+  "fetches": 1,
+  "outcome": "SUCCEEDED",
+  "response": {
+    "invocationId": "72c54845-a59f-41e0-9a89-7db6f38a227c",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:3:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Open the next month to reach the requested November date.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2926,
+    "providerRequestId": "e16f0f6a-99fe-4951-ba80-0ba7dc54feb0",
+    "usage": {
+      "inputTokens": 14101,
+      "outputTokens": 298,
+      "totalTokens": 14399,
+      "reasoningTokens": 171
+    }
+  },
+  "error": null,
+  "invocation": {
+    "invocationId": "72c54845-a59f-41e0-9a89-7db6f38a227c",
+    "taskId": "checkpoint-c-calendar:c-01-d014:V2",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "SUCCEEDED",
+    "latencyMs": 2926,
+    "providerStatus": 200,
+    "usage": {
+      "inputTokens": 14101,
+      "outputTokens": 298,
+      "totalTokens": 14399,
+      "reasoningTokens": 171
+    },
+    "providerRequestId": "e16f0f6a-99fe-4951-ba80-0ba7dc54feb0"
+  },
+  "providerUsage": {
+    "prompt_tokens": 14101,
+    "completion_tokens": 298,
+    "total_tokens": 14399,
+    "prompt_tokens_details": {
+      "cached_tokens": 1536
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 171
+    },
+    "prompt_cache_hit_tokens": 1536,
+    "prompt_cache_miss_tokens": 12565
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash"
+}

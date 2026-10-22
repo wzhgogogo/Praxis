@@ -1,0 +1,40 @@
+{
+  "id": "fallback02-merchants-12",
+  "approvedBy": "USER_EXISTING_CONSECUTIVE_AUTHORIZATION",
+  "scope": "Three bounded candidate merchant reads for the committed Kachidoki fallback. HARD/geo/source-booking metadata captured in this same read; no separate precheck request.",
+  "requests": [
+    {
+      "id": "fallback-02-1",
+      "caseId": "p2b-holdout-02",
+      "kind": "MERCHANT",
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13219260/",
+      "provenance": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/fallback-monja.source.json",
+        "label": "Rojiura Monja Koboreya Yui",
+        "rawAnchorSha256": "239c54f0ca0db396de13bf2a663e93ed9c56823a724d74e6fc15117c18fb5e70"
+      }
+    },
+    {
+      "id": "fallback-02-2",
+      "caseId": "p2b-holdout-02",
+      "kind": "MERCHANT",
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13189642/",
+      "provenance": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/fallback-monja.source.json",
+        "label": "Koboreya Honten",
+        "rawAnchorSha256": "ccfcbd0d6a64d7dba97d8835cf1d12227518700e2d8df531ee5bff07e7d04f76"
+      }
+    },
+    {
+      "id": "fallback-02-3",
+      "caseId": "p2b-holdout-02",
+      "kind": "MERCHANT",
+      "url": "https://tabelog.com/en/tokyo/A1313/A131302/13010747/",
+      "provenance": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/case06-final-and-monja-listing-11/fallback-monja.source.json",
+        "label": "Seafood Monja Kataoka",
+        "rawAnchorSha256": "dd20ce051b2425d22c14907d452cf3ac5f4d67baa2dbec8a7c408b7e94652ba8"
+      }
+    }
+  ]
+}

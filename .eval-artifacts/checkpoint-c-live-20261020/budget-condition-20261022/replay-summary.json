@@ -1,0 +1,602 @@
+{
+  "schema": "budget-condition-display-replay@1",
+  "status": "PASS",
+  "scope": "frozen regression; exposed holdout; offline counterfactual presentation, not new Live or original evaluation replacement",
+  "codeCommit": "46d471ff4d87f4f5de61beae464916a9f6d46f40",
+  "freezeSha256": "5ff443338c914b5e41d49129f0bdcb08a0c1143ee4b8794c894d7a7cb5ee6be9",
+  "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubric": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "budgetRows": 5,
+  "budgetConsistent": 5,
+  "rows": [
+    {
+      "runId": "h-02",
+      "originalArtifactSha256": "2df3226be31b0ba5a570dad2c37b97a87ce497747130815322b1822414042bfc",
+      "replayPath": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/replays/h-02.result.json",
+      "replaySha256": "8a149e68397f1af37f73d810b59784ce1a4edc880f4d6e6e1cf4247bb539ba3f",
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/evaluations/h-02.evaluation.json",
+      "evaluationSha256": "7685aec6d50c308444279b7e871c379451f9ca7fd90c0a23bba8b7d37ef851f0",
+      "originalOutcome": "QUALIFIED_DELIVERY",
+      "replayOutcome": "QUALIFIED_DELIVERY",
+      "scope": "Offline display replay only; not a new end-to-end or Live success",
+      "budgets": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+          "outletName": "Wine Shokudo Re.TOSCANA",
+          "criterionRef": "criterion:1",
+          "originalDisplayed": "NOT_RECORDED",
+          "displayed": {
+            "text": "at most 8000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1",
+            "status": "MET",
+            "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1317/A131706/13258420:document:e249e328ad38e38a"
+            ],
+            "sources": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+                "quote": "Popular 6 Assorted Appetizers + Today's Main Dish! 2 items Enjoy our popular assorted appetizer platter and today's main dish with this recommended menu. For reservations only, we are increasing the volume from four to six varieties! Featuring our signature fig butter, fresh fish carpaccio, and seasonal appetizers, we will prepare a selection of the day's recommendations for you. The main dish is served in a perfectly portioned size, making it easy to enjoy even for one person. This popular set is also recommended for first-time visitors or those unsure of what to order. Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 1 - 4",
+                "field": "PRICE"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+                "quote": "JPY 4,000 - JPY 4,999",
+                "field": "PRICE"
+              }
+            ]
+          },
+          "independent": {
+            "goldIndex": 1,
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "evidenceRefs": [
+              "rawSnapshot[523].priceRegions[0]"
+            ],
+            "status": "MET",
+            "basis": [
+              "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+            ]
+          },
+          "comparison": {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          "originalComparison": {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          }
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+          "outletName": "PESCHERIA",
+          "criterionRef": "criterion:1",
+          "originalDisplayed": "NOT_RECORDED",
+          "displayed": {
+            "text": "at most 8000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1",
+            "status": "MET",
+            "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1317/A131706/13210377:document:74712407330ff2ad"
+            ],
+            "sources": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+                "quote": "[Table Reservation Only (Dinner)] Enjoy world champion exquisite pasta and top-quality seafood directly from Oita a la carte! This is a reservation plan for those who wish to freely choose their dishes and drinks based on their mood on the day. Enjoy our exquisite seafood Italian cuisine, featuring dishes made with brand fish directly sourced from Oita and exceptional pasta created by world champion chefs, all available a la carte. Reserve Set menu details JPY 1 （Price including tax）per person",
+                "field": "PRICE"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+                "quote": "All you can drink 2-Hour All-You-Can-Drink Course: Enjoy 3 Assorted Appetizers, Fritto Misto, and World Champion's Pasta in a 5-Dish Meal 5 items Perfect for first-time visitors to PESCHERIA, this introductory course includes a two-hour all-you-can-drink option. Start with an assortment of three appetizers and today's salad, followed by a platter of freshly fried fritto and homemade gnocchi with house-made sausage and tomatoes, created by a world champion pasta chef. Conclude with a delightful dessert. This five-course meal offers a casual way to enjoy the flavors of Southern Italy and is ideal for welcome and farewell parties or girls' nights out. Reserve Set menu details JPY 4,000 （Price including tax）per person",
+                "field": "PRICE"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+                "quote": "All you can drink 2-Hour A la Carte All-You-Can-Drink Plan with Premium Malts and Sparkling Wine! Enjoy with Your Favorite Dishes 30 items This is the perfect \"A la carte All-you-can-drink\" plan for those who want to choose their dishes based on their mood on the day. Enjoy a wide selection, including the delightful Premium Malts and sparkling wine for toasting, as well as a variety of cocktails. We also offer plenty of non-alcoholic options, such as blood orange. Indulge in exquisite dishes from the world champion of pasta and top-quality seafood delivered directly from Oita, and enjoy at your leisure in your preferred style. Reserve Set menu details JPY 3,000 （Price including tax）per person",
+                "field": "PRICE"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+                "quote": "JPY 4,000 - JPY 4,999",
+                "field": "PRICE"
+              }
+            ]
+          },
+          "independent": {
+            "goldIndex": 1,
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "evidenceRefs": [
+              "rawSnapshot[545].priceRegions[0]"
+            ],
+            "status": "MET",
+            "basis": [
+              "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+            ]
+          },
+          "comparison": {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          "originalComparison": {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          }
+        }
+      ],
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence",
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        }
+      }
+    },
+    {
+      "runId": "h-08",
+      "originalArtifactSha256": "166ab46356f8a1d8f3a4e7307d959af3698d5e91a5a17adc05879437c37b5161",
+      "replayPath": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/replays/h-08.result.json",
+      "replaySha256": "9d817c65ba2e775259cc556318e4f836772bec790c80c14b230b98d937a0d0ec",
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/evaluations/h-08.evaluation.json",
+      "evaluationSha256": "4f94baa07fb48c7b8b5d8329eedc9430d96f933bd79101b8f86f9e9202e4ea59",
+      "originalOutcome": "QUALIFIED_DELIVERY",
+      "replayOutcome": "QUALIFIED_DELIVERY",
+      "scope": "Offline display replay only; not a new end-to-end or Live success",
+      "budgets": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+          "outletName": "Wine Shokudo Re.TOSCANA",
+          "criterionRef": "criterion:1",
+          "originalDisplayed": "NOT_RECORDED",
+          "displayed": {
+            "text": "at most 8000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1",
+            "status": "MET",
+            "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1317/A131706/13258420:document:b2a581554fb7d581"
+            ],
+            "sources": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+                "quote": "Popular 6 Assorted Appetizers + Today's Main Dish! 2 items Enjoy our popular assorted appetizer platter and today's main dish with this recommended menu. For reservations only, we are increasing the volume from four to six varieties! Featuring our signature fig butter, fresh fish carpaccio, and seasonal appetizers, we will prepare a selection of the day's recommendations for you. The main dish is served in a perfectly portioned size, making it easy to enjoy even for one person. This popular set is also recommended for first-time visitors or those unsure of what to order. Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 1 - 4",
+                "field": "PRICE"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+                "quote": "JPY 4,000 - JPY 4,999",
+                "field": "PRICE"
+              }
+            ]
+          },
+          "independent": {
+            "goldIndex": 1,
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "evidenceRefs": [
+              "rawSnapshot[524].priceRegions[0]"
+            ],
+            "status": "MET",
+            "basis": [
+              "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+            ]
+          },
+          "comparison": {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          "originalComparison": {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          }
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+          "outletName": "PESCHERIA",
+          "criterionRef": "criterion:1",
+          "originalDisplayed": "NOT_RECORDED",
+          "displayed": {
+            "text": "at most 8000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1",
+            "status": "MET",
+            "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1317/A131706/13210377:document:c6ac2314cec39a33"
+            ],
+            "sources": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+                "quote": "[Table Reservation Only (Dinner)] Enjoy world champion exquisite pasta and top-quality seafood directly from Oita a la carte! This is a reservation plan for those who wish to freely choose their dishes and drinks based on their mood on the day. Enjoy our exquisite seafood Italian cuisine, featuring dishes made with brand fish directly sourced from Oita and exceptional pasta created by world champion chefs, all available a la carte. Reserve Set menu details JPY 1 （Price including tax）per person",
+                "field": "PRICE"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+                "quote": "All you can drink 2-Hour All-You-Can-Drink Course: Enjoy 3 Assorted Appetizers, Fritto Misto, and World Champion's Pasta in a 5-Dish Meal 5 items Perfect for first-time visitors to PESCHERIA, this introductory course includes a two-hour all-you-can-drink option. Start with an assortment of three appetizers and today's salad, followed by a platter of freshly fried fritto and homemade gnocchi with house-made sausage and tomatoes, created by a world champion pasta chef. Conclude with a delightful dessert. This five-course meal offers a casual way to enjoy the flavors of Southern Italy and is ideal for welcome and farewell parties or girls' nights out. Reserve Set menu details JPY 4,000 （Price including tax）per person",
+                "field": "PRICE"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+                "quote": "All you can drink 2-Hour A la Carte All-You-Can-Drink Plan with Premium Malts and Sparkling Wine! Enjoy with Your Favorite Dishes 30 items This is the perfect \"A la carte All-you-can-drink\" plan for those who want to choose their dishes based on their mood on the day. Enjoy a wide selection, including the delightful Premium Malts and sparkling wine for toasting, as well as a variety of cocktails. We also offer plenty of non-alcoholic options, such as blood orange. Indulge in exquisite dishes from the world champion of pasta and top-quality seafood delivered directly from Oita, and enjoy at your leisure in your preferred style. Reserve Set menu details JPY 3,000 （Price including tax）per person",
+                "field": "PRICE"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+                "quote": "JPY 4,000 - JPY 4,999",
+                "field": "PRICE"
+              }
+            ]
+          },
+          "independent": {
+            "goldIndex": 1,
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "evidenceRefs": [
+              "rawSnapshot[612].priceRegions[0]"
+            ],
+            "status": "MET",
+            "basis": [
+              "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+            ]
+          },
+          "comparison": {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          "originalComparison": {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13210377",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          }
+        }
+      ],
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence",
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        }
+      }
+    },
+    {
+      "runId": "h-14",
+      "originalArtifactSha256": "3eda6c39a4128d6cec1103e0fcb74705894e012f360ea294d1336de7545213a2",
+      "replayPath": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/replays/h-14.result.json",
+      "replaySha256": "4084cd7f7b6dbe94db385ab3d5a67f0f5a9dddddf2eb1433f64de86601ce4779",
+      "evaluationPath": ".eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/evaluations/h-14.evaluation.json",
+      "evaluationSha256": "ae6a9cb8d82bc68905e21f0492d08d5fdb1018bd28e775cd15c040cb5d53625a",
+      "originalOutcome": "QUALIFIED_DELIVERY",
+      "replayOutcome": "QUALIFIED_DELIVERY",
+      "scope": "Offline display replay only; not a new end-to-end or Live success",
+      "budgets": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+          "outletName": "Wine Shokudo Re.TOSCANA",
+          "criterionRef": "criterion:1",
+          "originalDisplayed": "NOT_RECORDED",
+          "displayed": {
+            "text": "at most 8000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:1",
+            "status": "MET",
+            "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1317/A131706/13258420:document:b2a581554fb7d581"
+            ],
+            "sources": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+                "quote": "Popular 6 Assorted Appetizers + Today's Main Dish! 2 items Enjoy our popular assorted appetizer platter and today's main dish with this recommended menu. For reservations only, we are increasing the volume from four to six varieties! Featuring our signature fig butter, fresh fish carpaccio, and seasonal appetizers, we will prepare a selection of the day's recommendations for you. The main dish is served in a perfectly portioned size, making it easy to enjoy even for one person. This popular set is also recommended for first-time visitors or those unsure of what to order. Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 1 - 4",
+                "field": "PRICE"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+                "quote": "JPY 4,000 - JPY 4,999",
+                "field": "PRICE"
+              }
+            ]
+          },
+          "independent": {
+            "goldIndex": 1,
+            "text": "under 8,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "evidenceRefs": [
+              "rawSnapshot[284].priceRegions[0]"
+            ],
+            "status": "MET",
+            "basis": [
+              "Independent raw price: JPY 4,000 - JPY 4,999; tax retained without conversion."
+            ]
+          },
+          "comparison": {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "MET",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "CONSISTENT"
+          },
+          "originalComparison": {
+            "candidateId": "tabelog:en/tokyo/A1317/A131706/13258420",
+            "text": "under 8,000 yen per person",
+            "criterionRef": "criterion:1",
+            "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+            "displayed": "NOT_RECORDED",
+            "independent": "MET",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+          }
+        }
+      ],
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence",
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        }
+      }
+    }
+  ],
+  "sourceCalls": 0,
+  "deniedNetworkAttempts": 0,
+  "newModels": 0,
+  "newWebsites": 0,
+  "newLive": 0
+}

@@ -67,6 +67,7 @@ export interface TableCheckAvailabilityPageObservation {
   sourceEntityId?: string;
   sourceUrl?: string;
   observedAt: string;
+  priceFacts?: import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts | undefined;
   requestedDate?: string;
   requestedPartySize?: number;
   serviceScope?: RestaurantServiceScope;

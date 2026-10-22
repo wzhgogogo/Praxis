@@ -1,0 +1,31 @@
+✔ all same-source page and inventory reads are at least 30 seconds after previous completion (9.242ms)
+✔ busy/status failure waits 15 minutes exactly once, retains both responses, then stops if still failing (1.430792ms)
+✔ inventory certification binds raw date, party, outlet and exact time without opening slot URLs (0.162875ms)
+✔ source evidence retains entity-encoded HARD quote bytes, not only a found flag (0.909458ms)
+✔ no-status transport failure waits two minutes, replays once unchanged and stops on a second failure (0.293041ms)
+✖ resume preserves the three supported witnesses and refreshes only the missing evidence (1.367542ms)
+✔ source identity review resolves a translated name without accepting another canonical outlet (0.259167ms)
+✔ completion preserves six supported witnesses and reuses Meibutsuya business page for inventory only (0.578875ms)
+✔ retained observations keep cross-round paths and earliest timestamps, refusing changed hashes (2.2115ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 52.8255
+
+✖ failing tests:
+
+test at .eval-artifacts/checkpoint-c-live-20261020/witness-certification-control.test.mjs:56:1
+✖ resume preserves the three supported witnesses and refreshes only the missing evidence (1.367542ms)
+  Error: REUSED_PAGE_SOURCE_MISSING
+      at resumeOperations (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/certify-witnesses.mjs:79:29)
+      at TestContext.<anonymous> (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-certification-control.test.mjs:59:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)

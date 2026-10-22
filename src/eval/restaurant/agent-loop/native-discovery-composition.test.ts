@@ -294,6 +294,9 @@ test("H001 native first batch presents three source-bound Tabelog results withou
     "a healthy Tabelog list and its three details share one browser session");
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
   assert.ok(result.state.readEvidence.some(item => item.kind === "DISCOVERY" && item.provider === "TABELOG" && Array.isArray(item.claims.sourceCategories) && item.claims.sourceCategories.includes("Sushi")));
+  const observed = result.trajectories.find(step => step.decisionContext?.candidates.length)?.decisionContext?.candidates;
+  assert.ok(observed?.length);
+  assert.ok(observed.every(candidate => candidate.availabilityPath === "DIRECT_SOURCE_PAGE"), "the production assembly must annotate before the Agent chooses, without another request");
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
@@ -305,51 +308,19 @@ test("H001 native cited-menu follow-up carries source-bound HARD evidence to a c
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
-test("H001 TableCheck reserve-menu scope reaches a synthetic-only current result without borrowing a sibling menu", async () => {
-  const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS");
-  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, failure: result.state.failure, facts: result.state.factChecks, availability: result.state.availabilityChecks, purposes: result.model.purposes, browserInputs: result.model.browserDecisionInputs, navigations: result.navigations }));
-  assert.ok(result.networkRequests.some(request => request.outcome === "ADMITTED" && request.pathname === "/en/shops/native-omakase-1/reserve"
-    && request.method === "GET" && request.resourceType === "document" && request.queryKeys.join(",") === "pax,start_date"),
-    "the same production Live Guard must admit the generated fixed-query document before this composition can deliver");
-  assert.equal(result.navigations.some((url) => url === "https://www.tablecheck.com/en/native-omakase-1"), true, "the guide is read first and has no scoped menu text");
-  assert.equal(result.navigations.some((url) => url.startsWith("https://www.tablecheck.com/en/shops/native-omakase-1/reserve")), true, "the scoped menu comes from the guide-observed same-outlet reserve entrance");
-  assert.equal(result.model.purposes.filter((purpose) => purpose === "browser_read_decide").length >= 1, true, "the production executor selects the category and settles its result before another decision");
-  const scopedFacts = result.state.readEvidence.filter((item) => item.kind === "RESTAURANT_FACT" && item.claims.serviceScopeValue === "sushi");
-  assert.equal(scopedFacts.some((item) => Array.isArray(item.claims.verifiedHardCriteria) && item.claims.verifiedHardCriteria.includes("omakase")), true);
-  const actions = result.trajectories.flatMap((step) => step.agentAction ? [step.agentAction.type] : []);
-  assert.ok(actions.indexOf("INVESTIGATE_CANDIDATE_FACTS") < actions.indexOf("CHECK_AVAILABILITY"), `expected facts before availability, received ${actions.join(",")}`);
-  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
-  const rejected = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { bareReserveLink: true });
-  assert.equal(rejected.state.phase, "NO_VERIFIED_RESULT", JSON.stringify(rejected.artifact));
-  assert.equal(rejected.state.factChecks?.["tablecheck:native-omakase-1"]?.status, "UNKNOWN");
-  assert.equal(rejected.state.presentedResults, undefined, "a bare reserve link cannot supply scoped HARD facts through the Live Guard");
-  assert.ok(!rejected.navigations.some(url => new URL(url).pathname.endsWith("/reserve") && !new URL(url).search), "the Guard rejects a bare entry before the fixed source page can load");
-
-});
-
-test("H001 TableCheck reserve-menu scope can check availability before facts and exposes the service-radio prerequisite", async () => {
-  const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { availabilityFirst: true });
-  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, failure: result.state.failure, facts: result.state.factChecks, availability: result.state.availabilityChecks, purposes: result.model.purposes }));
-  assert.ok(result.networkRequests.some(request => request.outcome === "ADMITTED" && request.pathname === "/en/shops/native-omakase-1/reserve"
-    && request.method === "GET" && request.resourceType === "document" && request.queryKeys.join(",") === "pax,start_date"),
-    "the same production Live Guard must admit the generated fixed-query document before this composition can deliver");
-  const categoryPrompt = result.model.browserDecisionInputs.find((input) => input.observation.targets.some((target) => target.label === "Sushi"));
-  assert.ok(categoryPrompt, "the production browser executor sends a category decision input");
-  assert.match(categoryPrompt.objective, /service-category radio/i);
-  assert.match(categoryPrompt.progress, /no selected service category/i);
-  assert.deepEqual(categoryPrompt.observation.targets.find((target) => target.label === "Sushi")?.availableActions, ["SET_CHECKED"]);
-  const waitPrompt = result.model.browserDecisionInputs.find((input) => input.observation.pageActions?.includes("WAIT"));
-  assert.ok(waitPrompt, "the loading result exposes canonical WAIT as a page action, never as a target capability");
-  assert.equal(waitPrompt.observation.targets.some((target) => target.availableActions?.includes("WAIT")), false);
-  const actions = result.trajectories.flatMap((step) => step.agentAction ? [step.agentAction.type] : []);
-  assert.ok(actions.indexOf("CHECK_AVAILABILITY") < actions.indexOf("INVESTIGATE_CANDIDATE_FACTS"), `expected availability before facts, received ${actions.join(",")}`);
-  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
-  const rejected = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { bareReserveLink: true, availabilityFirst: true });
-  assert.equal(rejected.state.phase, "NO_VERIFIED_RESULT", JSON.stringify(rejected.artifact));
-  assert.equal(rejected.state.factChecks?.["tablecheck:native-omakase-1"]?.status, "UNKNOWN");
-  assert.equal(rejected.state.presentedResults, undefined, "a bare reserve link cannot supply scoped HARD facts through the Live Guard");
-  assert.ok(!rejected.navigations.some(url => new URL(url).pathname.endsWith("/reserve") && !new URL(url).search), "the Guard rejects a bare entry before the fixed source page can load");
-
+test("H001 TableCheck reserve-menu facts cannot bypass the permanent form prohibition", async () => {
+  for (const availabilityFirst of [false, true]) {
+    const result = await runScenario("TABLECHECK_SCOPED_MENU_DELIVERS", { availabilityFirst });
+    assert.equal(result.state.phase, "NO_VERIFIED_RESULT");
+    assert.equal(result.state.presentedResults, undefined);
+    assert.equal(result.state.factChecks?.["tablecheck:native-omakase-1"]?.status, "UNKNOWN");
+    assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "NO");
+    assert.equal(result.navigations.some(url => new URL(url).pathname.split("/").includes("reserve")), false,
+      "neither facts-first nor availability-first may reach the booking form");
+    assert.equal(result.networkRequests.some(request => request.outcome === "ADMITTED" && request.pathname.includes("/reserve")), false);
+    assert.equal(result.state.readEvidence.some(item => item.kind === "RESTAURANT_FACT" && item.claims.serviceScopeValue === "sushi"), false,
+      "the inaccessible form cannot contribute scoped menu evidence");
+  }
 });
 
 test("H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver", async () => {
@@ -454,7 +425,7 @@ test("the production Router advances the default three-pack cursor and reaches G
     date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
     area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
   };
-  let state: RestaurantTaskState = { schemaVersion: "16", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
+  let state: RestaurantTaskState = { schemaVersion: "20", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
   const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
   assert.equal(first.event?.type, "SEARCH_COMPLETED");
   if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
@@ -550,7 +521,7 @@ test("H001 native Tabelog batch continues past unavailable and unknown outlets, 
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/102"]);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
   assert.equal(result.state.availabilityChecks["tabelog:tokyo/A1304/A130401/100"]?.status, "UNAVAILABLE");
-  assert.equal(result.state.availabilityChecks["tabelog:tokyo/A1304/A130401/101"]?.status, "UNKNOWN");
+  assert.equal(result.state.availabilityChecks["tabelog:tokyo/A1304/A130401/101"]?.status, "SOURCE_UNSUPPORTED");
   assert.equal(result.state.availabilityChecks["tabelog:tokyo/A1304/A130401/102"]?.status, "AVAILABLE");
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
   const funnel = result.trajectories.find((step) => step.executionMetadata?.provider === "TABELOG")?.executionMetadata?.nativeDiscoveryFunnel;
@@ -631,13 +602,15 @@ test("native discovery retains category pagination including links revealed by a
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/106"], JSON.stringify({navigations:result.navigations,search:result.state.searchContinuation,metadata:result.trajectories.filter(x=>x.agentAction?.type==="SEARCH_RESTAURANTS").map(x=>x.executionMetadata)}));
   assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/2/"), true);
   assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/3/"), true);
-  assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
+  assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), true);
+  assert.ok(result.navigations.findIndex(url => url.includes("tablecheck.com")) < result.navigations.findIndex(url => url.endsWith("/105/")), "another source first batch precedes directory second chunk");
   const firstDetail = result.navigations.findIndex((url) => url.endsWith("/100/"));
   const category = result.navigations.findIndex((url) => url.includes("/rstLst/sushi/"));
   assert.ok(firstDetail >= 0 && category < firstDetail, "sparse retrieval is refined before details while observed entries stay at the queue front");
   const reads = result.trajectories.filter((step) => step.executionMetadata?.provider === "TABELOG" && step.agentAction?.type === "SEARCH_RESTAURANTS");
   assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [5, 1, 1]);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
+  assert.ok(result.state.searchContinuation?.deferredSources?.some(item => item.progress.sourceId === "tablecheck" && item.progress.pagesRead > 0), "a finished source checkpoint is retained across handoff too; spent budgets and unread entrances are not discarded");
 });
 
 test("H001's named Shibuya entry avoids an unrelated root-list candidate before investigation", async () => {
@@ -726,7 +699,7 @@ test("H001 retains unstarted Tabelog entries when a failed detail cannot reopen 
   assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4, "retained entries add no listing navigation after the initial query, hint and single fallback");
 });
 
-test("native detail chunk continues through later observed Tabelog results before changing source", async () => {
+test("native detail chunk retains deferred outlets while another source gets its first batch", async () => {
   const result = await runScenario("TABELOG_BATCH_CAP");
   const funnel = result.trajectories.find((step) => step.executionMetadata?.provider === "TABELOG")?.executionMetadata?.nativeDiscoveryFunnel;
   assert.deepEqual({ raw: funnel?.rawSourceLinks, parsed: funnel?.parsedOutlets, inspected: funnel?.inspectedOutlets,
@@ -737,7 +710,7 @@ test("native detail chunk continues through later observed Tabelog results befor
     reasonCode: "DETAIL_BATCH_CAP",
   }], "the observed sixth entrance is deferred, not rejected or represented as source exhaustion");
   assert.equal(new Set(result.navigations.filter((url) => /tabelog\.com\/tokyo\/A1304\/A130401\/\d+\/$/.test(url))).size, 6,
-    "the sixth observed entrance is inspected in a later Tabelog chunk before the source changes");
+    "the sixth observed entrance survives source handoff and is inspected in a later Tabelog chunk");
 });
 
 test("H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated", async () => {

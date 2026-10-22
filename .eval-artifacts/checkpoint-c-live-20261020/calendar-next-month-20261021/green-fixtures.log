@@ -1,0 +1,49 @@
+✖ Matsumoto month navigation escapes the guest Next loop through production observation (540.246708ms)
+✖ calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back (466.342125ms)
+✔ H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (245.9345ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1429.527625
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:68:3217
+✖ Matsumoto month navigation escapes the guest Next loop through production observation (540.246708ms)
+  AssertionError [ERR_ASSERTION]: {"status":"MODEL_FAILURE","choices":["GUEST_NEXT"]}
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'COMPLETED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-calendar-next-month/src/harness/browser/browser-read-fixture.test.ts:1059:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'COMPLETED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-fixture.test.ts:78:2187
+✖ calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back (466.342125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-calendar-next-month/src/harness/browser/browser-read-fixture.test.ts:1086:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }

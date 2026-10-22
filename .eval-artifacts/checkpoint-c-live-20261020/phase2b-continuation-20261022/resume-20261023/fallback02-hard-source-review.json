@@ -1,0 +1,88 @@
+{
+  "schema": "phase2b-witness-source-review@1",
+  "status": "EVALUATION_SIDE_SOURCE_ADJUDICATION_NOT_HUMAN_REVIEW",
+  "authority": "User-approved listed fallback only after saved primary three merchants had no requested inventory; original criteria and date unchanged.",
+  "originalSourceReview": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witness-hard-source-review.json",
+    "sha256": "4483d86b8c7d8beaee6c154767046da91278c644dc4808bc5361d68071567b9d"
+  },
+  "primaryFailure": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/case02-primary-business-failure.json",
+    "sha256": "7e4e04fb4f938ff7bde3bf49b19023a7fdef4c53c7e6cdc1b6e4ab30ac48771e"
+  },
+  "userSkip": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/user-skip-kawakami.json",
+    "sha256": "7d8cf2252df7ddab5ba28d6fd52aae8cb7392d16b8014da9d814fe345cb4a249"
+  },
+  "entries": [
+    {
+      "caseId": "p2b-holdout-02",
+      "rst_id": "13219260",
+      "outletName": "Rojiura Monja Koboreya Yui",
+      "criterion": {
+        "value": "monjayaki",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Monjyayaki, Izakaya (Japanese style tavern), Okonomiyaki (Japanese savory pancake)",
+      "rawFragmentSha256": "861283333ccece428868180ed4c0c8c594b49873c9695bbe19218169d68a1746",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-1.source.json",
+        "sha256": "fa93cca4adb4bf699f1f76671fece17440e079846c4ebcab801f060ad96b31ac"
+      },
+      "distanceMeters": 698.649338997405,
+      "rule": "SOURCE_TRANSLITERATION_MONJYAYAKI",
+      "publicBookingRead": {
+        "status": "SOURCE_BOUND_READ_EXPOSED",
+        "rst_id": "13219260",
+        "url": "https://tabelog.com/en/booking/calendar/find_vacancy/",
+        "enabled": true,
+        "raw": "<div id=\"js-booking-params\" class=\"u-hidden\" data-rst-id=\"13219260\" data-booking-enabled=\"1\" data-fetch-url=\"https://tabelog.com/en/booking/calendar/find_vacancy/\" data-fetch-url-date=\"https://tabelog.com/en/booking/calendar/find_vacancy_date_with_status/\" data-fetch-url-member=\"https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date/\" data-fetch-url-initial-vacancy=\"https://tabelog.com/en/booking/calendar/initial_vacancy\">",
+        "rawSha256": "9cbd870f27cf288ff04fa0e88b8d0cc89c10a2a59e578a7b51ad312b4d5e84cc",
+        "htmlCharacterOffset": 28036
+      }
+    },
+    {
+      "caseId": "p2b-holdout-02",
+      "rst_id": "13189642",
+      "outletName": "Koboreya Honten",
+      "criterion": {
+        "value": "monjayaki",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "rawFragmentSha256": "640577269514633641fd1784baf8cb2f2fa3f40597ebd8232b43330fc22db879",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-2.source.json",
+        "sha256": "bd126dd64fc544ba95b227aa5894006d0801a1dffb81b82ee0d80db5f4afbade"
+      },
+      "distanceMeters": 716.434871638236,
+      "rule": "SOURCE_TRANSLITERATION_MONJYAYAKI",
+      "publicBookingRead": {
+        "status": "SOURCE_BOUND_READ_EXPOSED",
+        "rst_id": "13189642",
+        "url": "https://tabelog.com/en/booking/calendar/find_vacancy/",
+        "enabled": true,
+        "raw": "<div id=\"js-booking-params\" class=\"u-hidden\" data-rst-id=\"13189642\" data-booking-enabled=\"1\" data-fetch-url=\"https://tabelog.com/en/booking/calendar/find_vacancy/\" data-fetch-url-date=\"https://tabelog.com/en/booking/calendar/find_vacancy_date_with_status/\" data-fetch-url-member=\"https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date/\" data-fetch-url-initial-vacancy=\"https://tabelog.com/en/booking/calendar/initial_vacancy\">",
+        "rawSha256": "114373c43afb71a1966028bf5773c78ba9b92ed77ea46b78bdfc7b6c7a3c4e48",
+        "htmlCharacterOffset": 27708
+      }
+    }
+  ],
+  "excludedCandidates": [
+    {
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-3.source.json",
+        "sha256": "184375077596fc9b62b4acd484a0f6890fbb9403657430ba08e1472e7ec67761"
+      },
+      "outletName": "Seafood Monja Kataoka",
+      "distanceMeters": 990.6614046950209,
+      "reason": "WITNESS_OUTSIDE_800M"
+    }
+  ],
+  "models": 0,
+  "network": 0
+}

@@ -1,0 +1,63 @@
+{
+  "id": "c-02-d014-V1",
+  "seedId": "c-02-d014",
+  "variant": "V1",
+  "runId": "c-02",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "d7a349f5b03d8a77069dd6768cf8eeedb8f4049487d8de8f6f2c39a41cabfb4c",
+  "startedAt": "2026-10-21T03:44:44.167Z",
+  "finishedAt": "2026-10-21T03:44:46.581Z",
+  "elapsedMs": 2414.3850000000093,
+  "fetches": 1,
+  "outcome": "SUCCEEDED",
+  "response": {
+    "invocationId": "2940994d-f0de-46be-93a7-4c5e1413aa81",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:5:target:124\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select guest count 2 via the authoritative party-size control.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2414,
+    "providerRequestId": "78f43703-72b6-478a-8a30-71a9699dbaf0",
+    "usage": {
+      "inputTokens": 14269,
+      "outputTokens": 127,
+      "totalTokens": 14396
+    }
+  },
+  "error": null,
+  "invocation": {
+    "invocationId": "2940994d-f0de-46be-93a7-4c5e1413aa81",
+    "taskId": "checkpoint-c-calendar:c-02-d014:V1",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "SUCCEEDED",
+    "latencyMs": 2414,
+    "providerStatus": 200,
+    "usage": {
+      "inputTokens": 14269,
+      "outputTokens": 127,
+      "totalTokens": 14396
+    },
+    "providerRequestId": "78f43703-72b6-478a-8a30-71a9699dbaf0"
+  },
+  "providerUsage": {
+    "prompt_tokens": 14269,
+    "completion_tokens": 127,
+    "total_tokens": 14396,
+    "prompt_tokens_details": {
+      "cached_tokens": 3200
+    },
+    "prompt_cache_hit_tokens": 3200,
+    "prompt_cache_miss_tokens": 11069
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash"
+}

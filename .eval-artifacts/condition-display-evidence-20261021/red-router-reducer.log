@@ -1,0 +1,29 @@
+✖ c05 Kaga Router to Reducer retains the later availability-read source fact (35.093375ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 210.578458
+
+✖ failing tests:
+
+test at src/application/restaurant-presentation-evidence.test.ts:1:835
+✖ c05 Kaga Router to Reducer retains the later availability-read source fact (35.093375ms)
+  AssertionError [ERR_ASSERTION]: merchant name and customer-review title alone must not display HARD MET
+  + actual - expected
+  
+  + 'MET'
+  - 'NOT_CHECKED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/condition-display-evidence/Praxis-Zhixing/src/application/restaurant-presentation-evidence.test.ts:38:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'MET',
+    expected: 'NOT_CHECKED',
+    operator: 'strictEqual'
+  }

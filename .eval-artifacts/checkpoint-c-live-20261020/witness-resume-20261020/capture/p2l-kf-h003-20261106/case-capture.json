@@ -1,0 +1,77 @@
+{
+  "caseId": "p2l-kf-h003-20261106",
+  "finishedAt": "2026-10-20T13:24:41.549Z",
+  "rows": [
+    {
+      "outletName": "Private rooms Izakaya Ginraku Yurakucho",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130102/13266155/",
+      "bookingSource": "TABELOG",
+      "hardEvidence": [],
+      "rst_id": "13266155",
+      "identityMatched": false,
+      "address": null,
+      "distanceMeters": null,
+      "hardObservations": [],
+      "inventory": {
+        "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13266155&svd=20261106&svps=10&svt=1730",
+        "method": "GET",
+        "attempt": 1,
+        "requestNumber": 5,
+        "requestedAt": "2026-10-20T13:21:04.258Z",
+        "finishedAt": "2026-10-20T13:21:05.068Z",
+        "status": 200,
+        "contentType": "application/json; charset=utf-8",
+        "sha256": "bf14063c5720df90550401e27757ff4124e08aee0b8132cde3995ef7f60385bf",
+        "parameters": {
+          "rst_id": "13266155",
+          "svd": "20261106",
+          "svps": "10",
+          "svt": "1730"
+        },
+        "bodyPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h003-20261106/13266155.vacancy-attempt-1.body.txt"
+      },
+      "matchingSlots": [
+        "17:30",
+        "17:45",
+        "18:00",
+        "18:15",
+        "18:30",
+        "18:45",
+        "19:00",
+        "19:15",
+        "19:30",
+        "19:45",
+        "20:00",
+        "20:15",
+        "20:30",
+        "20:45",
+        "21:00",
+        "21:15",
+        "21:30",
+        "21:45",
+        "22:00"
+      ],
+      "observationRefs": [
+        {
+          "kind": "IDENTITY",
+          "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h003-20261106/13266155.attempt-1.source.json",
+          "fileSha256": "043ec522953be51529e2ee18775663a5c94020eca2eb7c69165ecc9b640e76f0",
+          "requestedAt": "2026-10-20T13:20:31.196Z",
+          "sourceResponseSha256": "483e9c312d5988c85d3760b0fd7848644e4ba87a2bef1de72145201b3b761c0c"
+        },
+        {
+          "kind": "INVENTORY",
+          "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/capture/p2l-kf-h003-20261106/13266155.vacancy-attempt-1.body.txt",
+          "fileSha256": "bf14063c5720df90550401e27757ff4124e08aee0b8132cde3995ef7f60385bf",
+          "requestedAt": "2026-10-20T13:21:04.258Z"
+        }
+      ],
+      "reusedInventory": null,
+      "classification": "PENDING_INDEPENDENT_HARD_REVIEW"
+    }
+  ],
+  "stopped": {
+    "caseId": "p2l-kf-h003-20261106",
+    "message": "SOURCE_TRANSPORT_RETRY_EXHAUSTED"
+  }
+}

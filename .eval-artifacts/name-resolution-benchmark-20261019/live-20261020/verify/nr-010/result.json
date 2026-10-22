@@ -1,0 +1,62 @@
+{
+  "sampleId": "nr-010",
+  "status": "VERIFIED",
+  "google": {
+    "name": "Yakitori & Obanzai SAKAMOTO",
+    "address": "Japan, 〒180-0003 Tokyo, Musashino, Kichijōji Minamichō, 1-chōme−3−３ 吉祥寺南口ビル 1F",
+    "phone": "0422-71-0066",
+    "coordinates": {
+      "lat": 35.7023375,
+      "lng": 139.5797416
+    }
+  },
+  "expected": {
+    "outletId": "13196218",
+    "sourceUrl": "https://tabelog.com/tokyo/A1320/A132001/13196218/"
+  },
+  "observed": {
+    "phones": [
+      "+81-422-71-0066",
+      "050-5595-8610",
+      "0422-71-0066"
+    ],
+    "addresses": [
+      "1800003 Tokyo Kichijoji Minamicho Musashino Tokyo ",
+      "東京都武蔵野市吉祥寺南町1-3-3 吉祥寺南口ビル 1F Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-422-71-0066",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1800003 Tokyo Kichijoji Minamicho Musashino Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "050-5595-8610",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都武蔵野市吉祥寺南町1-3-3 吉祥寺南口ビル 1F Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      },
+      {
+        "field": "phone",
+        "value": "0422-71-0066",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13196218/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": "+81-422-71-0066",
+  "addressMatch": null,
+  "reason": "Independent exact public phone or full address matches Google",
+  "error": null
+}

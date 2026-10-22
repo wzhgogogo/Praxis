@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "mode": "OFFLINE_RESUME_CONFIGURATION",
+  "sourceRequests": 0,
+  "models": 0,
+  "priorFreezeSha256": "598585fd34b9b5877ba644cdfb5b6a20d4cf83a796de1219ae4f70a53dedeb7d",
+  "unchangedPriorFrozenFiles": 505,
+  "changedPriorFiles": [
+    ".eval-artifacts/checkpoint-c-live-20261020/resume.mjs",
+    ".eval-artifacts/checkpoint-c-live-20261020/resume.test.ts"
+  ],
+  "productionHashesUnchanged": 323,
+  "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@31",
+  "rubric": "restaurant-hybrid-read-diagnostic-rubric@27",
+  "controlsPassed": 31,
+  "initialSandboxLoopbackDenied": "offline-controls-sandbox-denied.log; unchanged test passed with loopback permission",
+  "remainingRunIds": [
+    "c-09",
+    "c-10",
+    "c-11",
+    "c-12",
+    "c-13",
+    "c-14",
+    "c-15",
+    "c-16",
+    "c-17",
+    "c-18"
+  ],
+  "carriedAttemptRecords": 10,
+  "carriedFormalFullLive": 8,
+  "ledgerSourcesVerified": 47,
+  "beforeCounts": {
+    "totalModelCalls": 2596,
+    "totalFullLiveRuns": 21,
+    "environmentReruns": 0
+  },
+  "reusedAcceptedSourceGates": {
+    "default": 982,
+    "chromium": 131,
+    "typecheck": "PASS",
+    "arch": "PASS",
+    "build": "PASS"
+  },
+  "reusedCalendar": {
+    "passed": 69,
+    "mode": "EXACT_REQUEST_CACHED_RESPONSE"
+  },
+  "reusedSelection": 5,
+  "reusedCalibration": 22,
+  "unchangedOfflinePipelineEvidence": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/offline-rehearsal/finish.json",
+  "hardDeadline": "2026-10-22T12:23:38.769Z"
+}

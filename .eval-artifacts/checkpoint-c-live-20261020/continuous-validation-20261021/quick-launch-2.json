@@ -1,0 +1,29 @@
+{
+  "cwd": "/private/tmp/praxis-checkpoint-c-prep",
+  "hardDeadline": "2026-10-21T12:26:00Z",
+  "freezeSha256": "225ca8b994308b999ab0a7156b0cbf3ff1b57466cb707a0c2e7d1669b8faac0d",
+  "command": [
+    "/opt/homebrew/bin/node",
+    "--env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    ".eval-artifacts/checkpoint-c-live-20261020/outer.ts",
+    "--mode",
+    "LIVE_READ_ONLY",
+    "--freeze",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-validation-live-freeze-2.json",
+    "--output",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-live-results",
+    "--approval",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-user-approval-2.json",
+    "--registry",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/registry.certified.json",
+    "--ledger",
+    ".eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/phase2-ledger-step-2.json",
+    "--run-ids",
+    "c-01,c-02,c-05"
+  ],
+  "label": "快速验证",
+  "checkpointC18Runs": 0,
+  "source": "Original plan run objects and existing outer run body unchanged"
+}

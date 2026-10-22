@@ -101,9 +101,18 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
           card.append(node('h3', candidate.restaurant.outletName), node('div', candidate.restaurant.address + (candidate.distanceObservation ? ' · ' + candidate.distanceObservation.meters + ' m from ' + (candidate.distanceObservation.centerBasis === 'NAMED_PLACE_RADIUS' ? 'requested place' : candidate.distanceObservation.centerBasis === 'TASK_LOCATION_RADIUS' ? 'your location' : 'evaluation location') : '') + ' · ' + statusDetail, 'muted'));
           card.append(node('div', presentedIds.includes(id) && (factOnly || !expired) ? 'Evidence-grounded result' : 'Investigated candidate — not a verified result for the current request', 'muted'));
           if (check && check.checkedAt) card.append(node('div', 'Availability checked: ' + new Date(check.checkedAt).toLocaleString(), 'muted'));
+          (view.restaurant.conditionStates?.[id] || []).forEach(condition => {
+            const label = condition.status === 'MET' ? 'met' : condition.status === 'NOT_MET' ? 'not met' : 'not checked';
+            card.append(node('p', condition.text + ' — ' + label + ': ' + condition.explanation));
+            condition.sources.forEach(source => { const fieldLabel = { CATEGORY: 'Source category', COURSE_TITLE: 'Course title', COURSE_DESCRIPTION: 'Course description', GOOGLE_TYPE: 'Observed type', NAME: 'Source name', CUSTOMER_REVIEW: 'Customer review', SOURCE_TEXT: 'Unclassified source text', PRICE: 'Observed price' }[source.field]; const link = node('a', fieldLabel + (source.meal && source.meal !== 'UNSPECIFIED' ? ' (' + source.meal.toLowerCase() + ')' : '') + ': ' + source.quote, 'muted'); link.href = source.sourceUrl; link.target = '_blank'; link.rel = 'noreferrer'; card.append(link); });
+          });
           let hasPrice = false, hasCancellation = false;
           facts.forEach(fact => {
             const claims = fact.claims, terms = [];
+            if (fact.priceFacts) {
+              [fact.priceFacts.dinnerBudgetRangeYen, fact.priceFacts.lunchBudgetRangeYen].filter(Boolean).forEach(range => { hasPrice = true; terms.push(range.quote); });
+              fact.priceFacts.listedCoursePricesYen.forEach(price => { hasPrice = true; terms.push(price.quote + ' — listed plan, availability not checked'); });
+            }
             if (Array.isArray(claims.listedCourseDetails)) { hasPrice = true; terms.push('Listed courses — availability of each plan has not been checked:'); terms.push(...claims.listedCourseDetails); }
             if (typeof claims.coursePriceYen === 'number') { hasPrice = true; terms.push('Course: ¥' + claims.coursePriceYen.toLocaleString() + (claims.coursePriceTax ? ' (' + String(claims.coursePriceTax).toLowerCase() + ' tax)' : '')); }
             if (typeof claims.privateRoomMinimumYen === 'number') terms.push('Private-room minimum: ¥' + claims.privateRoomMinimumYen.toLocaleString());

@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "7f604d35c910fa3b8f94851c3cea96738db8e86c77300101603aca657af3b829",
+  "id": "2e83bcea-fd16-401a-ba2c-dd7a90460878",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14036,
+    "completion_tokens": 137,
+    "total_tokens": 14173,
+    "prompt_tokens_details": {
+      "cached_tokens": 13824
+    },
+    "prompt_cache_hit_tokens": 13824,
+    "prompt_cache_miss_tokens": 212
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_uTUnTgpd6iUvdBRyo0jp7054",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:4:target:125\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select guest count 3? No — need 2; 2 is disabled. Advancing calendar instead.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

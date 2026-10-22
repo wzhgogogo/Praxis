@@ -1,0 +1,32 @@
+✖ Runner deferral prevents automatic evaluation; normal mode still delegates (1.637417ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 236.96975
+
+✖ failing tests:
+
+test at .eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/controls.test.ts:1:1004
+✖ Runner deferral prevents automatic evaluation; normal mode still delegates (1.637417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + {
+  +   evaluation: {},
+  +   outputPath: 'FORBIDDEN_WHEN_DEFERRED'
+  + }
+  - {}
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/controls.test.ts:8:131)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { outputPath: 'FORBIDDEN_WHEN_DEFERRED', evaluation: {} },
+    expected: {},
+    operator: 'deepStrictEqual'
+  }

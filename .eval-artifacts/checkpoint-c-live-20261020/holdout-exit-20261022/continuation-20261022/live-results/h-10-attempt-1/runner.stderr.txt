@@ -1,0 +1,14 @@
+/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/live-preflight.ts:324
+    throw new LivePreflightError(code, journal.resultPath);
+          ^
+
+
+LivePreflightError: PREFLIGHT_TIMEOUT
+    at runLivePreflight (/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/live-preflight.ts:324:11)
+    at async runHybridLiveRead (/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/runner-entry.ts:222:19)
+    at async <anonymous> (/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/child-entry.ts:4:1) {
+  code: 'PREFLIGHT_TIMEOUT',
+  artifactPath: '/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-1/network-preflight/2026-10-22T09-57-07-149Z-371fdd48-8d94-47e5-9177-6729de6c25c8.result.json'
+}
+
+Node.js v24.4.1

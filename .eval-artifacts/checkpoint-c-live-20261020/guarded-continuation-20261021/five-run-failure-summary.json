@@ -1,0 +1,824 @@
+{
+  "status": "OBSERVED_PATTERN_NOT_FINAL_ROOT_CAUSE",
+  "runs": [
+    {
+      "runId": "c-01",
+      "caseId": "p2l-kf-h001-20261103",
+      "rawResultPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/runner/2026-10-20T16-00-10-755Z-efba4afb-4c0c-4a6f-a0a7-f2fe22f624f2.result.json",
+      "rawResultSha256": "401d01c13d17772bda16868a5f22ebf569c605127302fdfdbe294ec5db771423",
+      "reportPath": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/run-report.json",
+      "reportSha256": "05ca876721044a7152b569f9f4f721a1ba69dc2e65cf26b18dc7a459ad1420d7",
+      "outcome": "CAPABILITY_MISS",
+      "elapsedMs": 282259,
+      "models": 47,
+      "modelPurposes": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 9,
+        "browser_read_decide": 30,
+        "restaurant_discovery_retrieval": 2,
+        "restaurant_fact_judgment": 5
+      },
+      "modelOutcomes": {
+        "SUCCEEDED": 47
+      },
+      "termination": {
+        "type": "END_READ",
+        "reasonCode": "AGENT_END_READ",
+        "isSystemReason": false,
+        "initiator": "AGENT"
+      },
+      "reserveGap": [
+        "MODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats."
+      ],
+      "availabilityStatuses": {
+        "UNKNOWN": 8
+      },
+      "availabilityReasons": {
+        "REQUEST_SELECTION_UNCONFIRMED": 4,
+        "BROWSER_TIMEOUT": 1,
+        "RESERVE_REACHED": 3
+      },
+      "firstWitnessBatch": {
+        "status": "OBSERVED",
+        "value": [
+          {
+            "outletName": "Shibuya Sushi Matsumoto",
+            "found": true
+          },
+          {
+            "outletName": "Shibuya Sushi Sen",
+            "found": true
+          }
+        ]
+      },
+      "selectedDirectPages": {
+        "status": "OBSERVED",
+        "value": 11
+      },
+      "witnessRows": [
+        {
+          "outletName": "Shibuya Sushi Matsumoto",
+          "sourceId": "13261619",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1303/A130301/13261619"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:20df8a3337daf885455be873",
+              "evidence:restaurant:native-fact-identity:ea9cfe3fbf50e997576507b3"
+            ]
+          },
+          "facts": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1303/A130301/13261619:document:fe7b0896c976e2a7"
+            ]
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+                "status": "UNKNOWN",
+                "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-20T16:04:55.570Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "AVAILABILITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        },
+        {
+          "outletName": "Shibuya Sushi Sen",
+          "sourceId": "13275802",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1303/A130301/13275802"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:c607cb1d6a28d2ed89358691",
+              "evidence:restaurant:native-fact-identity:8efde8ea6be2bad2821fa86c"
+            ]
+          },
+          "facts": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1303/A130301/13275802:document:4a7ea613ff0f851a"
+            ]
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+                "status": "UNKNOWN",
+                "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-20T16:04:55.941Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "AVAILABILITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        }
+      ],
+      "postRecheck": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-01-attempt-1/post-run/post-check.json",
+      "criteriaRows": 0,
+      "displayRows": 0,
+      "googleIncludingPreflight": 3
+    },
+    {
+      "runId": "c-02",
+      "caseId": "p2l-kf-h002-20261107",
+      "rawResultPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/runner/2026-10-20T16-10-24-179Z-47d73c8c-22c4-439e-8563-7c48997c1059.result.json",
+      "rawResultSha256": "23a5676ffcfe035c0320c1a30fd07e272f93309a5b3cc8cdf3307ae215429715",
+      "reportPath": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/run-report.json",
+      "reportSha256": "a6a44e35f7093b0dcb295b472a1ef60e75dd1b9c0849f8581a9a90e917a27188",
+      "outcome": "HONEST_NO_RESULT",
+      "elapsedMs": 297013,
+      "models": 47,
+      "modelPurposes": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_party_size_supplement": 1,
+        "restaurant_agent_decide": 8,
+        "browser_read_decide": 31,
+        "restaurant_discovery_retrieval": 1,
+        "restaurant_fact_judgment": 5
+      },
+      "modelOutcomes": {
+        "SUCCEEDED": 47
+      },
+      "termination": {
+        "type": "END_READ",
+        "reasonCode": "AGENT_END_READ",
+        "isSystemReason": false,
+        "initiator": "AGENT"
+      },
+      "reserveGap": [
+        "MODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats."
+      ],
+      "availabilityStatuses": {
+        "UNKNOWN": 8
+      },
+      "availabilityReasons": {
+        "REQUEST_SELECTION_UNCONFIRMED": 4,
+        "BROWSER_TIMEOUT": 1,
+        "RESERVE_REACHED": 3
+      },
+      "firstWitnessBatch": {
+        "status": "OBSERVED",
+        "value": [
+          {
+            "outletName": "Ginza Sushi Tempura Iwai",
+            "found": false
+          },
+          {
+            "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+            "found": false
+          },
+          {
+            "outletName": "Ginza Sushi Den",
+            "found": true
+          }
+        ]
+      },
+      "selectedDirectPages": {
+        "status": "OBSERVED",
+        "value": 8
+      },
+      "witnessRows": [
+        {
+          "outletName": "Ginza Sushi Tempura Iwai",
+          "sourceId": "13305528",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1301/A130101/13305528"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "NOT_READ",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_READ",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1301/A130101/13305528",
+                "status": "UNKNOWN",
+                "reasonCode": "RESERVE_REACHED"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-20T16:15:23.172Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "IDENTITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at IDENTITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        },
+        {
+          "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+          "sourceId": "13296659",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-20T16:15:23.576Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        },
+        {
+          "outletName": "Ginza Sushi Den",
+          "sourceId": "13291473",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1301/A130101/13291473"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:28fe331ed8eb704a10ff32cc",
+              "evidence:restaurant:native-fact-identity:3a90ff3c5c0517b0be01fd68"
+            ]
+          },
+          "facts": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1301/A130101/13291473:document:986bfde60d67e9e9"
+            ]
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+                "status": "UNKNOWN",
+                "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-20T16:15:23.983Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "AVAILABILITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at AVAILABILITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        }
+      ],
+      "postRecheck": ".eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-02-attempt-1/post-run/post-check.json",
+      "criteriaRows": 0,
+      "displayRows": 0,
+      "googleIncludingPreflight": 4
+    },
+    {
+      "runId": "c-03",
+      "caseId": "p2l-kf-h005-20261105",
+      "rawResultPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/runner/2026-10-21T01-32-26-613Z-aee07dce-71f4-4fa7-9cc6-daadf3daf648.result.json",
+      "rawResultSha256": "7b4f15e6b6ff11d44a326e69da4d4a04cd5e63fe24f009cf530cc2e5614ad717",
+      "reportPath": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/run-report.json",
+      "reportSha256": "96690e1541fcff042dce64633f1cc33ad208130ba652916724bf010c09930932",
+      "outcome": "CAPABILITY_MISS",
+      "elapsedMs": 273976,
+      "models": 47,
+      "modelPurposes": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 8,
+        "browser_read_decide": 33,
+        "restaurant_discovery_retrieval": 1,
+        "restaurant_fact_judgment": 4
+      },
+      "modelOutcomes": {
+        "SUCCEEDED": 47
+      },
+      "termination": {
+        "type": "END_READ",
+        "reasonCode": "AGENT_END_READ",
+        "isSystemReason": false,
+        "initiator": "AGENT"
+      },
+      "reserveGap": [
+        "MODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats."
+      ],
+      "availabilityStatuses": {
+        "UNKNOWN": 7
+      },
+      "availabilityReasons": {
+        "BROWSER_TIMEOUT": 1,
+        "REQUEST_SELECTION_UNCONFIRMED": 3,
+        "RESERVE_REACHED": 3
+      },
+      "firstWitnessBatch": {
+        "status": "OBSERVED",
+        "value": [
+          {
+            "outletName": "Ginza Sushi Tempura Iwai",
+            "found": false
+          },
+          {
+            "outletName": "Kushiyaki Bistro Fukumimi Ginza korido",
+            "found": false
+          }
+        ]
+      },
+      "selectedDirectPages": {
+        "status": "OBSERVED",
+        "value": 7
+      },
+      "witnessRows": [
+        {
+          "outletName": "Ginza Sushi Tempura Iwai",
+          "sourceId": "13305528",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1301/A130101/13305528"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "NOT_READ",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_READ",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1301/A130101/13305528",
+                "status": "UNKNOWN",
+                "reasonCode": "RESERVE_REACHED"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T01:37:02.554Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "IDENTITY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at IDENTITY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        },
+        {
+          "outletName": "Kushiyaki Bistro Fukumimi Ginza korido",
+          "sourceId": "13255508",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T01:37:02.951Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        }
+      ],
+      "postRecheck": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-03-attempt-3/post-run/post-check.json",
+      "criteriaRows": 0,
+      "displayRows": 0,
+      "googleIncludingPreflight": 3
+    },
+    {
+      "runId": "c-04",
+      "caseId": "p2l-kf-h003-20261106",
+      "rawResultPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/runner/2026-10-21T01-42-26-520Z-efc920f9-59e6-4c20-b22c-702fc72233e3.result.json",
+      "rawResultSha256": "ffc29942ae668f5b4a8c668f2f28dd6cd8b1d789d262259cc2fbfc2cbc1d14df",
+      "reportPath": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/run-report.json",
+      "reportSha256": "81acd771ea7bc87def9c49444f40a3361613379d3ae8c722b307df8c948f86d7",
+      "outcome": "HONEST_NO_RESULT",
+      "elapsedMs": 424090,
+      "models": 47,
+      "modelPurposes": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 14,
+        "browser_read_decide": 31,
+        "restaurant_discovery_retrieval": 1
+      },
+      "modelOutcomes": {
+        "SUCCEEDED": 47
+      },
+      "termination": {
+        "type": "END_READ",
+        "reasonCode": "AGENT_END_READ",
+        "isSystemReason": false,
+        "initiator": "AGENT"
+      },
+      "reserveGap": [
+        "MODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats."
+      ],
+      "availabilityStatuses": {
+        "UNKNOWN": 13
+      },
+      "availabilityReasons": {
+        "BROWSER_TIMEOUT": 1,
+        "SELECTED_MEALTIME_EMPTY": 4,
+        "REQUEST_SELECTION_UNCONFIRMED": 3,
+        "AVAILABILITY_RESULT_UNOBSERVED": 2,
+        "RESERVE_REACHED": 3
+      },
+      "firstWitnessBatch": {
+        "status": "OBSERVED",
+        "value": [
+          {
+            "outletName": "Private rooms Izakaya Ginraku Yurakucho",
+            "found": false
+          },
+          {
+            "outletName": "Meibutsuya Yurakucho",
+            "found": false
+          },
+          {
+            "outletName": "Uotami Tsukiji ekimae",
+            "found": false
+          }
+        ]
+      },
+      "selectedDirectPages": {
+        "status": "OBSERVED",
+        "value": 13
+      },
+      "witnessRows": [
+        {
+          "outletName": "Private rooms Izakaya Ginraku Yurakucho",
+          "sourceId": "13266155",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T01:49:32.392Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        },
+        {
+          "outletName": "Meibutsuya Yurakucho",
+          "sourceId": "13281962",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T01:49:32.816Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        },
+        {
+          "outletName": "Uotami Tsukiji ekimae",
+          "sourceId": "13318227",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T01:49:33.215Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        }
+      ],
+      "postRecheck": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/results/c-04-attempt-1/post-run/post-check.json",
+      "criteriaRows": 0,
+      "displayRows": 0,
+      "googleIncludingPreflight": 3
+    },
+    {
+      "runId": "c-05",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "rawResultPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/results/c-05-attempt-1/runner/2026-10-21T02-40-35-503Z-11d9ce68-adc1-4f43-93db-76ba7e3a414a.result.json",
+      "rawResultSha256": "a5458cd0c70736471f2696b58c76650151e279693202c325312c9c785528a6c6",
+      "reportPath": ".eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/results/c-05-attempt-1/run-report.json",
+      "reportSha256": "68b18447c8399c262552f4399d911077ea9190a4eb188db057fcc6e58877b9ec",
+      "outcome": "CAPABILITY_MISS",
+      "elapsedMs": 299901,
+      "models": 47,
+      "modelPurposes": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 10,
+        "restaurant_discovery_retrieval": 2,
+        "browser_read_decide": 28,
+        "restaurant_fact_judgment": 6
+      },
+      "modelOutcomes": {
+        "SUCCEEDED": 47
+      },
+      "termination": {
+        "type": "END_READ",
+        "reasonCode": "AGENT_END_READ",
+        "isSystemReason": false,
+        "initiator": "AGENT"
+      },
+      "reserveGap": [
+        "MODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats."
+      ],
+      "availabilityStatuses": {
+        "UNKNOWN": 7,
+        "UNAVAILABLE": 3
+      },
+      "availabilityReasons": {
+        "REQUEST_SELECTION_UNCONFIRMED": 4,
+        "BROWSER_TIMEOUT": 1,
+        "NO_MATCHING_SLOT": 3,
+        "BROWSER_RUNTIME_FAILED": 1,
+        "AVAILABILITY_RESULT_UNOBSERVED": 1
+      },
+      "firstWitnessBatch": {
+        "status": "OBSERVED",
+        "value": [
+          {
+            "outletName": "Kaiseki Komuro",
+            "found": true
+          },
+          {
+            "outletName": "Kagurazaka Kappou Kaga",
+            "found": true
+          },
+          {
+            "outletName": "Chisou Konya",
+            "found": false
+          }
+        ]
+      },
+      "selectedDirectPages": {
+        "status": "OBSERVED",
+        "value": 10
+      },
+      "witnessRows": [
+        {
+          "outletName": "Kaiseki Komuro",
+          "sourceId": "13218101",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1309/A130905/13218101"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Registered same-source outlet ID and name; explicit address conflicts still veto"
+          },
+          "identity": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:aee21b7976c49c2bc5b8bc32",
+              "evidence:restaurant:native-fact-identity:07993d2c9a0540485445e2f5"
+            ]
+          },
+          "facts": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "tabelog:en/tokyo/A1309/A130905/13218101:document:9cde8bce473c61cd"
+            ]
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "tabelog:en/tokyo/A1309/A130905/13218101",
+                "status": "UNKNOWN",
+                "reasonCode": "BROWSER_TIMEOUT"
+              }
+            ],
+            "witness": "NO_MATCHING_SLOT",
+            "observedAt": "2026-10-21T02:45:37.106Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_SUPPORTED",
+          "blocker": {
+            "stage": "NONE",
+            "certainty": "HYPOTHESIS",
+            "reason": "No supported slot/presentation obligation or no missing stage; no counterfactual causal claim"
+          }
+        },
+        {
+          "outletName": "Kagurazaka Kappou Kaga",
+          "sourceId": "13048623",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T02:45:37.501Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "NOT_EVALUATED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        },
+        {
+          "outletName": "Chisou Konya",
+          "sourceId": "13011403",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-21T02:45:37.888Z",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          }
+        }
+      ],
+      "postRecheck": ".eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/results/c-05-attempt-1/post-run/post-check.json",
+      "criteriaRows": 0,
+      "displayRows": 0,
+      "googleIncludingPreflight": 5
+    }
+  ],
+  "note": "Availability/model counters are recorded production behavior, not an independent correctness oracle. Prior @30 outcomes and independent boundary evidence remain authoritative.",
+  "confirmedPatterns": {
+    "zeroDelivery": 5,
+    "same47CallEnding": 5,
+    "technicalModelSuccesses": 235,
+    "browserDecisions": 153,
+    "requestSelectionUnconfirmed": 18,
+    "browserTimeout": 5,
+    "callReserveMechanism": "remainingCalls <=4 opens end/delivery window; the final END_READ decision leaves three calls. This is expected termination policy, not proof that the 47th call itself is a bug.",
+    "codeRefs": [
+      {
+        "path": "src/application/restaurant-agent-loop.ts",
+        "line": 189
+      },
+      {
+        "path": "src/domains/restaurant/read-assessment.ts",
+        "line": 301
+      }
+    ],
+    "nextOfflineInvestigation": [
+      "Trace why request/date/party selection remains unconfirmed before qualified evidence is produced.",
+      "Inspect browser decision loops, timeout and availability response binding using the linked raw artifacts.",
+      "Resolve source-ID first-batch hits versus independent name/address identity vetoes."
+    ],
+    "notClaimed": "No definitive single root cause, provider outage, absence of real seats, or product fix. The c-05 runtime policy is stricter than the first four samples."
+  }
+}

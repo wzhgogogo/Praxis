@@ -1,13 +1,19 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.63
-- Last updated: 2026-10-19
+- Document revision: 1.82
+- Last updated: 2026-10-22
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
 
 状态：`verified`表示官方文档确认；`assumed`表示设计假设待实测；`requires partnership`表示存在能力但访问条件未取得；`unsupported`表示当前不纳入。
+
+2026-10-21 condition-display source quotation slice (offline, draft / not integrated): Tabelog availability and native fact reads retain source-owned category/course field quotes, meal limits, and name/review roles. Field quotation extraction matches complete class tokens, independent of class order, additional classes or JS hooks; the existing Tabelog field-quotation Fixture covers these variations. Selected quotations inherit a same-source field role in either containment direction: use the complete field itself when a selection contains it, or the selected line when the field contains it. Adjacent item counts and review text never inherit a merchant field role. Name/review or unclassified text alone cannot display HARD MET; model requests omit private role metadata. No new navigation, requests, Guard permissions or qualification rules. Harness coverage: condition-states.test.ts, restaurant-presentation-evidence.test.ts, Tabelog field-quotation controls, model payload invariance, and the existing real Chromium Web source-link test. See ../../.eval-artifacts/condition-display-evidence-20261021/report.md.
+
+2026-10-21 Tabelog 改版请求绑定补修（离线，draft / not integrated）：日期按公开 data-year/month/day 与通用选中状态确认，人数按人数组内的 data-value／文字与通用状态确认；已存在的隐藏人数字段必须一致，缺失不拒绝。复用通用 Browser 选中状态函数；控件提示撤去已消失的 js- 钩子，时段按钮仅观察。库存须同日期、人数和门店的 find_vacancy 响应与页面选择一致，缺失或冲突不由时间按钮补成库存。监听带／不带尾斜杠的两个已允许 GET 路径，不扩展 Guard 权限。19 个原始失败快照有17个选中状态可确认；因旧监听未捕获运行时 JSON，19个历史库存结论均保持 UNKNOWN。4家可比来源的页面时段是事后四参数GET的受支持子集，不是完整集合相等。来源私有标记18处逐项审计，7处消失均属本轮关键路径；其余11处仍存在仅报告。新旧标记真实本地Chromium控制独立于历史Live。冻结后真实模型69/69、选店缓存重评5/5、校准22/22、五门禁979+131通过，690项SHA原样验证，新增69模型、0网站/Live。见[修复证据](../../.eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/plan.md)；不代表实时库存、完整交付或继续Live的许可。
+
+2026-10-21 选中状态补修（离线，draft / not integrated）：通用Browser从明确ARIA或精确状态class读取selected，DOM组无唯一归属/当前选中值时保持未知。人数点击后必须在同组回读请求人数，才允许完成读取；已选控件作为证据保留，不能重复人数操作。真实Chromium反例证明可见文案改变不能替代确认，同名不同DOM组不合并。旧TableCheck reserve路径撤销不变；Tabelog日期/人数URL参数仍仅为历史核查报告，本次未实现或访问。最终模型与校准结果单列，不由本地Fixture推导来源兼容性。 最终离线回放69/69、选店5/5、校准22/22、五门禁977+129通过，0网站/Live；仍待复核，不代表实时库存或完整交付。
 
 T1离线组装证据（2026-10-15）：Runner、Web和固定来源主组合共用生产读取factory及一个browserBudget；native组合实际查位累计>12调用后仍能找店，恢复旧阈值目标断言失败；真实Chromium动态Tabelog两种库存路径100/100门禁通过。仅证明固定传输下限额／接线，不新增来源能力或Live兼容性结论。见`.eval-artifacts/t1-assembly-20261015/report.md`。
 
@@ -18,6 +24,10 @@ T1 Guard补充：CDP每个暂停请求执行原策略检查；同networkId的Net
 P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、超时和未到达情况见 [批次报告](../../.eval-artifacts/p2-1-discovery-20261016/report.md)。后续独立复核确认十次 TableCheck 失败为 VPN 环境问题，不能作为正常网络下的能力基线。
 
 2026-10-17 P2-1a（离线）：[Accepted ADR-0042](../decisions/0042-agent-planned-discovery-and-search-availability-hints.md) 的检索规划已接入生产读取组合；目录先观察地区，稀疏或明确空结果可在详情前最多改写两次。地区页最多四、检索页最多三、实际列表文档合计最多七，来源90秒及全局500秒/50模型不提高；详情批次和资格不变。TableCheck/Google 共用一次无页面初始文本规划。真实本地 Chromium 动态 Fixture 证明可见类别/空状态与越地区拒绝，不能证明当前外站或真实模型选词质量。Pack 未新增网络放行或空位筛选参数；P2-1b 未实施。预检/指标修正和证据见[离线收尾报告](../../.eval-artifacts/p2-1-discovery-20261016/followup/report.md)。
+
+2026-10-19 P2-3（离线）：现有Tabelog／TableCheck已打开页面的菜单读取保留数值、税、餐段、附加项及引用；介绍页价格不因独立查位UNKNOWN丢失。五份真实页面价格片段及受控Adapter/Web链证明接线，不能证明当前库存或完整Live。Aloft完整菜单文本另确认3300为BBQ附加项；生产Guard直接reserve导航仍拒绝，不作为浏览器成功样本。见[P2-3报告](../../.eval-artifacts/p2-3-conditions-20261019/report.md)。
+
+2026-10-21 日历与只读边界修复（离线，draft / not integrated，翻月54/69未通过门槛）：生产V3补充公开DOM控件组、实际月标题和空标签链接替代文本；翻月后独立回读月份，不变即NO_CHANGE。TableCheck来源永久撤销`/reserve`及子路径读取许可，旧G1的start_date/pax例外删除；prepared/observed navigation、CDP与重定向均由同一Guard先拒绝。H003本地独立接收器证明零到达，旧两条reserve菜单交付测试退役为拒绝交付合同。公开guide、搜索及已审核四参数空位请求不因该路径撤销而开放或关闭。历史H001 slot和菜单记录保留为历史证据，不代表当前可进入预约页。[本轮证据](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)。
 
 | Provider | Discovery | Availability | Execute | Cancel | Verify | Takeover | Status / 限制 |
 |---|---|---|---|---|---|---|---|
@@ -30,7 +40,7 @@ P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、�
 | Hot Pepper Web Service | 餐厅、区域、预算等 | 未见公开库存API | 未见公开Consumer Booking API | 否 | 否 | 否 | `verified` Discovery；预约需网页或合作能力 |
 | Hot Pepper Web | 餐厅页 | 网页可查 | Browser | Browser/管理链接 | 成功页、邮件、订单状态 | 登录/验证/支付 | `assumed`，需逐流程Adapter验证；Request Booking不是即时成功 |
 | TableCheck API | 有集成能力 | 可能 | 可能 | 可能 | 可能 | 取决于流程 | `requires partnership`；不作为MVP无条件依赖 |
-| TableCheck Web | 公开的`/en/japan/search`按候选名称和Google坐标发现渲染出的guide页链接；原生入口同样按五详情工作块保留后续已观察入口至十详情／二列表页／90秒来源上限（每块最多一列表页） | H001只读Browser Adapter（已在原始 H001 得到一个完整 grounded slot） | 否 | 否 | 否 | 受控模型接管仅限同一会话中已观察到的只读目标 | 按请求Planner与候选的可信入口选择来源。搜索排序只限制待读取页面，不构成identity；详情页必须以JSON-LD/DOM/tel link的Google exact phone或name+full address达到HIGH。预约页只接受详情页实际链接或其嵌入的公开Availability结构，绝不派生slug；仅设置只读日期/人数参数并读取明确bookable slot。对详情页实际观察到的同门店`/shops/<same-shop>/reserve`或`/<same-shop>/reserve[/landing]`入口，Adapter可被动记录页面自己发出的同店`GET /available` JSON；即使响应URL精确绑定东京日期、成人数和单一请求时段，`failure/data:null`也只保留为诊断，不能接纳无位。不同门店、日期、人数、成功/未知响应、缺失响应或宽时间窗一律保持UNKNOWN。公开查询控件在隔离网络边界确实INSTALLED后使用共享click／checkbox／radio／range合同；无需来源UI权限函数或哈希class。敏感业务操作、个人字段仍拒绝，日期／人数／时间操作继续绑定目标并读回；真实选后库存结果绑定尚未观察，故范围库存仍为UNKNOWN。结果审计保存脱敏`Venue Availability`查询区域和当前控件；页面未确认请求、等待中、解析器不支持的结果与确认的无在线结果保持不同状态。`TABLECHECK_DISCOVERY_NO_RESULT`、`TABLECHECK_DISCOVERY_INCOMPLETE`、`TABLECHECK_ENTITY_MATCH_UNCERTAIN`、`TABLECHECK_PAGE_UNAVAILABLE`和`TABLECHECK_PARSE_FAILED`分开保留；`PAGE_UNAVAILABLE`仅可由错误页title/primary heading证明，不能由正文数字或任意`not found`字样触发。搜索页未抽取链接时同一session交给受限模型，artifact记录交接原因、观察、动作和动作后验证；耗尽后才退出该来源。2026-09-08冻结 H001 在 KINKA Sushi Bar Izakaya 渋谷通过Google exact phone达到HIGH，回读`2026-09-08`、2 人、`19:00`的公开可订slot，并进入`PRESENT_RESULTS`；这只证明该次来源/库存，不保证其他门店、日期或Web UI已验收。没有登录、个人资料、支付、点击确认或提交。identity、日期/人数或slot不确定时fail closed。TableCheck API仍`requires partnership` |
+| TableCheck Web | 公开`/en/japan/search`及guide原生发现；既有五详情工作块/来源预算不变 | 公开guide与已审核只读库存接口；进入`/reserve`的查位路径在导航前返回SOURCE_UNSUPPORTED、未决菜单事实保留UNKNOWN，不能交付 | 否 | 否 | 否 | 仅允许的公开只读目标 | 当前永久拒绝tablecheck.com及子域所有`reserve`路径段和子路径（GET/HEAD/其他方法、显式allow和重定向均不例外）；不打开预约表单。identity仍须Google exact phone或name+full address达到HIGH；明确库存必须匹配门店、东京日期、人数和时段。公开查询的受控操作不授予个人信息、时段点击或提交权限。H003旧Live越界结论保留；2026-09-08 H001的KINKA完整slot为历史单次记录，不代表当前入口许可或其他门店兼容性。搜索、来源失败、UNKNOWN与UNAVAILABLE原因仍分开；本次只做离线，未重新证明实时库存或完整交付。TableCheck API仍requires partnership |
 | Google-listed Restaurant Website | 仅已发现候选的Google `websiteUri` | 有界只读的JSON-LD、可见字段及引用式原文事实交接 | 否 | 否 | 否 | 否 | 代码实现、尚待本切片Live实测。复用受控Browser Executor及Generic网络档打开HTTP(S)同源网址，移除query/fragment并拒绝凭据、跨源跳转及敏感控件。候选名称加地址包含、同序门牌加可用地域词对应，或唯一公开电话（可见数字/tel链接）精确对应，才可建立HIGH identity；门牌数字本身、同名、缺地址或明确不同城市/街区均为UNKNOWN。JSON-LD是快捷路径，不会遮住同页可见事实；身份确认后才接纳明确标注的公开套餐价/税费、包间低消、取消和no-show字段，裸金额不推断；字段彼此不派生。候选身份确认后可把每候选最多6,000字符的原文按片段ID临时交给既有事实模型；模型每页最多选择3条原文，代码仅按观察到的ID保存短引用及同来源身份，不保存整页原文到Task State。派生`MODEL_JUDGMENT`只保存到原始来源事实的引用链，不伪装为页面来源。交接不证明条件或库存；Agent仍负责后续调查。536项默认测试与生产组合通过，Matsue两页Replay可绑定；不同电话/跨语言地址及共享菜单归属未解决，一次固定来源真实模型已证明Matsue阅读交接，但fact judgment11有引用格式失败；当前12/schema4以当前来源ID枚举约束引用，仅离线门禁通过，尚无修正后的模型或新整单Live验收。Google Maps URL、Google列出的网址或模型结论都不单独证明官网/门店事实；失败为candidate-scoped UNKNOWN，绝不构成无位 |
 | Phone-only Restaurant | 可能 | 电话 | 否 | 否 | 用户/餐厅确认 | 用户 | `unsupported`于MVP |
 
@@ -294,3 +304,36 @@ The final Chromium Fetch boundary checks browser-reserved preflight headers, not
 
 
 2026-10-19 检查点 B 修正（离线）：Tabelog 已确认同地区首页可用此前观察到的列表根应用权威筛选，缺观察／跨地区仍拒绝；真实本地 Chromium 的 302 首页落点验证实际生产 factory、Guard、筛选与详情链。稀疏且有类别且改写未耗尽时，Schema@2、Domain 和执行器拒绝 KEEP；Prompt@5 配套，无类别／额度耗尽仍允许。原三次 TableCheck 录制实际显示搜索错误，筛选预检含未审核 open_from/open_until；停用该筛选并记 SKIPPED/FILTER_TRANSPORT_NOT_REVIEWED，使用普通列表，不扩大网络权限或生成空位证据。旧双来源筛选 Fixture 中 TableCheck 的应用／回退覆盖已退役为明确跳过；既有交付、半径和 HARD 断言保留，精确导航次数移回普通搜索。离线诊断与新十次仅发现探测分列于[修正报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。不证明查位或完整 Live。
+
+## P2-2 availability path advisory (2026-10-19, isolated feature)
+
+Tabelog/TableCheck existing availability Packs expose a candidate path from already-observed outlet URLs: DIRECT_SOURCE_PAGE, NAME_RESOLUTION, or NONE. The shared production assembly projects the fact into DISCOVERY evidence before the Agent decision; it changes no source access, authorization, candidate order or qualification. Pack URL grammars remain source-owned. The Agent sees Context@13 and Prompt@26 guidance; missing HARD, identity and exact-request inventory still need independent evidence.
+
+Harness mapping: source-packs.test.ts outlet/list/booking-host controls, agent-context.test.ts latest/future/cross-candidate hint controls, and native-discovery-composition.test.ts H001 production initialization (effective old-assembly red, new fixed-source delivery green). Five offline gates pass952/952 and local Chromium119/119. Real-model one-turn replay under approved independent revision2 fails its selection gate (Kagurazaka fail, Shibuya1/3, control pass; five calls, no website/action execution). This is implemented advisory metadata, not proven reliable selection, current website compatibility, faster end-to-end delivery or full P2-2 acceptance. [Report](../../.eval-artifacts/p2-2-selection-20261019/report.md).
+
+## 2026-10-19 Tabelog source congestion (offline feature)
+
+The availability Pack identifies its fixed Japanese access-congestion title/body separately from CAPTCHA. Its Adapter waits1000ms and retries the same public page at most once per candidate/source read, within the existing Executor operation and wall-time limits. Continued congestion becomes UNKNOWN/SOURCE_BUSY (ENVIRONMENT) before identity matching; it grants no identity, HARD or inventory evidence. Google-listed Tabelog detail links are normalized by the Pack to the same numeric outlet and region path under /en/, excluding query/hash/subpages; native identity rules are unchanged.
+
+Harness: three prior h001 recordings retain six identical raw HTML snapshots (one markup shape), Adapter/Pack recovery and conflict/deadline controls, and a real local Chromium busy-to-qualified-slot control with0 model calls. Current external-site behavior, limiting cause and speed benefit remain unverified. No new source/network permissions; pacing is a later proposal only. Evidence: [P2-2 followup](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md).
+
+
+2026-10-20 P2-2地区离线修复：共享DIRECTORY在Agent观察入口中屏蔽已访问其他地区的首页/列表别名，执行返回同样拒绝绕过；当前地区首页恢复列表保持。LOCATION必须观察权威输入与实际结果更新，并替换旧链接绑定。真实神乐坂菜单链接片段只证明重复入口阻止；合成公开LOCATION查询在原预算产出有坐标候选。既有坐标/身份/4/5规则不变，ADR-0040不改；本轮未访问网站，真实正确神乐坂路径未覆盖。Harness：directory-region-selection.test.ts、native-discovery-composition.test.ts和本地Chromium原门禁；[报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md#4-地区选择主线集成与离线机制修复)。
+
+2026-10-20 P2-1c（离线）：缺同名标签时复用同请求、原半径内Google候选的Pack同源门店路径，约束当前可操作地区入口；原Google阶段消费提前读取，不重复请求。无地名/代码表，站点包净增0；身份/库存/半径/权限不变。既有directory-region-selection主测覆盖拒绝及恢复，实际生产factory+Guard+Chromium六地区受控正例通过；真实链接投影与合成详情分列，54条历史含神乐坂4条缺入口观察，不能计作新路径成功。State17/TaskDefinition15、Browser Prompt17，预算未改；真实网站和模型未跑，后续五次探测等待批准。[报告](../../.eval-artifacts/p2-1c-region-20261020/report.md)。
+
+
+2026-10-20 P2-1c集成更新（仅离线）：State18／TaskDefinition16已同时保留P2-3价格与条件字段、地区提前读取；Browser Prompt17保持。原生产factory+Guard+Chromium六地区组合及预算仍通过，五门禁默认978／Chromium122全绿，原22条Evaluator校准22/22／S0声明20/20。旧段落版本/结果为原分支历史；实际网站/模型能力不由本轮推断。用户已批准后续5探测预算，等待另行通知；[本轮集成报告](../../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。
+
+
+2026-10-20 P2-1c真实发现诊断：当前集成源码不变，神乐坂两次A1309/A130905（TL5/TC5）、中目黑两次A1317/A131701（TL4/TC5）、h001一次A1303（TL4/TC5，原见证首批保留）；79–113秒/例、每例4模型，无失败码或READ_BUDGET_EXCEEDED。五次真实只读boundary审计ABSENT，0完整Live/库存/外写。本轮已暴露开发诊断，不作整体成功率；Recorder仍NOT_REPLAYABLE/UNSAFE_DOCUMENT，跨来源缓存消费不由这个按源Runner评价。20模型/23Google，仅存储上限经用户批准65MB；[原始报告/评价](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)。
+
+2026-10-22 same-read Tabelog price retention (offline; checkpoint-C prep): NativeSourceFactRead attaches existing parser-owned restaurant-price-facts@1 to the current source document; ModelRestaurantFactJudgment keeps same-source prices private and forwards them to current source evidence. Source identity/currentness/supersession and condition policy are unchanged. Saved C12/C16 replay tests cover all three H002 missing-price rows via actual native producer, scripted judgment and Router->Reducer; model payload invariance and cross-source rejection are covered. No new navigation, requests, Guard permissions or real model calls. Merchant course availability remains unverified. See ../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md.
+
+2026-10-22 merchant field containment repair (offline): Native fact judgment retains the original selected statement and inherits its containing parser-owned field role (field contains statement). Existing same-candidate/HIGH identity/source binding, review/neighbor/hidden exclusion and meal limits are unchanged. Harness: saved C18 four split-tempura judgment->Router->Reducer controls; field quote parser hidden/review/neighbor controls; model payload/cross-candidate tests. No extra requests, model calls, navigation or Guard permissions. Eval33/rubric29 separately records product-observed versus external-only support.
+
+2026-10-22 acceptance stop (checkpoint-C preparation only; not integrated): strict field-contains-selected-statement passes the four split-tempura cases, but drops three current Utou COURSE_TITLE quotations when the selected line also contains the adjacent “8 items” count. Saved Router->Reducer replay and independent Evaluator33 identify three product-observed MISSED_KNOWN_CONDITION rows. The unresolved business regression is retained as a failing default application test; the five-gate acceptance is NOT passed. No c17 environment rerun, holdout input read, source request or real model call was performed. See [stop report](../../.eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/four-layer-report.md).
+
+## 2026-10-22 group/window repair (offline only)
+
+当前读取组装把同一 source policy 交给计划和 Guard；显式禁止的入口在查位前返回 SOURCE_UNSUPPORTED，FACTS 不再重开该入口。TableCheck 公开 guide 的单餐段 EMPTY 在原日期、人数和窗口不变的前提下，最多读取四个实际观察到的合法时间选项，并保留已覆盖点和未覆盖区间；不推导整窗无位。Tabelog 等来源中，请求日期已选中而精确人数可见且 disabled 时，提前 UNKNOWN，换候选而不强选或改人数。此前菜单/预约入口历史证据不代表当前路径许可。真实本地 Chromium 与六份保存产物分别验证可执行机制和已记录状态；本批不访问来源、不运行模型或 Live，当前库存与完整交付仍未验证。

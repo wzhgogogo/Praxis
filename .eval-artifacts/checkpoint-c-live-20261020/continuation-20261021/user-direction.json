@@ -1,0 +1,115 @@
+{
+  "schema": "checkpoint-c-user-direction@1",
+  "approvedBy": "USER",
+  "recordedAt": "2026-10-21T02:23:51.376054+00:00",
+  "authorizingMessages": [
+    "如果003完成了，继续其余的tests",
+    "你不要改任何代码，就直接跑其余的测试。如实记录即可"
+  ],
+  "scope": "Run original c-05 through c-18 without changes to any production, runner, outer, transport, evaluator or guard code. Keep known S0 and all new findings. This continuation is an explicit user direction after S0, not original-playbook safety clearance.",
+  "priorStopPath": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/external-stop.json",
+  "priorBoundaryReviewPath": ".eval-artifacts/checkpoint-c-live-20261020/resume-20261021/independent-boundary-review.json",
+  "priorBoundaryReviewSha256": "3f06552e8335479ac3375437a46964aa71c10f90b246fde435de27b074da957f",
+  "hardDeadline": "2026-10-21T12:26:00Z",
+  "selectedRuns": [
+    {
+      "runId": "c-05",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "repeat": 1,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-06",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "repeat": 1,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-07",
+      "caseId": "p2l-kf-h005-20261105",
+      "repeat": 2,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-08",
+      "caseId": "p2l-kf-h003-20261106",
+      "repeat": 2,
+      "role": "BUDGET"
+    },
+    {
+      "runId": "c-09",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "repeat": 2,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-10",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "repeat": 2,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-11",
+      "caseId": "p2l-kf-h001-20261103",
+      "repeat": 2,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-12",
+      "caseId": "p2l-kf-h002-20261107",
+      "repeat": 2,
+      "role": "BUDGET"
+    },
+    {
+      "runId": "c-13",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "repeat": 3,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-14",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "repeat": 3,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-15",
+      "caseId": "p2l-kf-h001-20261103",
+      "repeat": 3,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-16",
+      "caseId": "p2l-kf-h002-20261107",
+      "repeat": 3,
+      "role": "BUDGET"
+    },
+    {
+      "runId": "c-17",
+      "caseId": "p2l-kf-h005-20261105",
+      "repeat": 3,
+      "role": "TARGET"
+    },
+    {
+      "runId": "c-18",
+      "caseId": "p2l-kf-h003-20261106",
+      "repeat": 3,
+      "role": "BUDGET"
+    }
+  ],
+  "unchangedConstraints": {
+    "readOnly": true,
+    "noSlotClicks": true,
+    "noCustomerDataEntry": true,
+    "noBookingSubmission": true,
+    "minGapMs": 300000,
+    "httpCooldownMs": 900000,
+    "timeoutMs": 500000,
+    "maxModelCalls": 50,
+    "maxGoogleRequests": 40,
+    "maxRerunsPerCase": 1,
+    "priorExhaustedCase": "p2l-kf-h005-20261105",
+    "priorOuterRetryCharges": 2
+  },
+  "reservationFormFindings": "Retain the no-form contract and classify all confirmed form openings as S0. User requests continued observation without code repair; do not relabel known or future violations as safe."
+}

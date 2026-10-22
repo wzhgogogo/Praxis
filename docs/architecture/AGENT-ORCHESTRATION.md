@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.19
-- Last updated: 2026-10-01
+- Document revision: 3.24
+- Last updated: 2026-10-22
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -47,6 +47,8 @@ LLM Response / Adjustment可以解释事实、生成澄清问题或提出非权�
 
 ## Model Gateway
 
+Restaurant Agent Decision与Browser Read Decision的单次模型请求上限为30秒；总运行、调用数与执行器截止仍独立约束，Live Runner把请求上限裁到整次剩余时间。此次参数调整不新增Provider自动重试，也不改变Prompt/Context或Schema。
+
 所有模型调用经服务端`ModelGateway`；首个Provider为DeepSeek。每次请求必须声明`taskId`、purpose、promptVersion、outputSchema、timeout和失败行为。Gateway只记录Provider、模型、Prompt/Schema版本、延迟、Token、Provider request ID、状态码和错误码；不记录Prompt或Completion正文。Key只存在服务端Secret。
 
 当前Restaurant Semantic Interpreter固定为非流式、500输出Token、温度0、Thinking关闭。Domain把完整机器可读Proposal Schema放入通用Model Request；该Schema只使用当前strict transport支持的JSON Schema子集，无法由传输层表达的non-blank规则仍由本地Domain Validator校验。DeepSeek Gateway用Beta strict function作为仅传输结构的强制信封，不注册或执行Runtime Tool。Gateway必须得到唯一匹配的`tool_calls` arguments，本地Proposal Validator仍再次校验；结构合法不代表语义正确。Contract无效时最多再尝试一次，Provider失败不盲重试或降级为自由文本。当前标识为`restaurant-semantic-prompt@10`与`restaurant-semantic-proposal@3`；相对日期和时段由受限Proposal语义与受信任参考时刻在代码中物化。每个新请求的`TARGET.goal`明确为`RECOMMENDATION`或`AVAILABILITY`：具体到访的可用性承诺不依赖book/reserve字面词，人数只是空位读取参数。Criterion strength按用户意图为`HARD` / `SOFT` / `UNSPECIFIED`，未来Provider Search Criteria Compiler必须是独立确定性边界，当前未实现。
@@ -87,6 +89,20 @@ MVP不使用Multi-Agent。Desktop与Mobile Web是同一用户级Agent的不同Su
 
 通用 Browser Executor 只有来源提供的 completion predicate 通过才返回 COMPLETED。模型提出 COMPLETE 而 predicate 未通过时，Executor 把具体未满足条件带回同一浏览器会话、同一请求和原预算继续调查；同一未变化观察上的重复 COMPLETE 以无进展停止。来源仍拥有结构化核验，任何中间状态都不能单独建立 Offer 或成功 Task State。Web 当前条款使用 currentFactEvidence，历史 readEvidence 保留审计，不能作为当前卡片的首条事实。
 
+### Browser observation and calendar verification (2026-10-21)
+
+Browser Prompt@19 / browser_read_context@2 extends this with positive control selection state from ARIA and exact active/selected/current/checked classes (including is-). Current selected values are grouped by the observed DOM owner, not by repeated labels; unknown ownership stays unbound and no default value is invented. Selected controls remain visible as state evidence. A party-size click must be followed by a unique selected value in that same group matching the requested size; unrelated DOM changes are `NO_CHANGE` / `PARTY_SIZE_NOT_CONFIRMED` and cannot complete the read. Confirmed groups no longer offer another PARTY_SIZE authoritative click. This is public observation and execution feedback, not inventory evidence or new action permission. Action wire@11, Restaurant Context@15/Prompt@27, skills, thinking and TableCheck reservation-path prohibition remain unchanged.
+
+Browser Prompt@18 / browser_read_context@1 adds public DOM control-group labels, the uniquely observed displayed calendar month, and alternative text on otherwise empty links (aria-label/title/icon or image text). Ownership without a unique nearby source binding stays `Unlabelled group`; requested dates never supply the displayed month. Browser context was previously unversioned; browser_read_action@11 and Restaurant Context@15/Prompt@27 are unchanged. Generic web skills and thinking are unchanged (the approved V3 only).
+
+For a calendar navigation click, the executor compares observed year/month before and after settlement. An unconfirmed month change yields `NO_CHANGE` / `CALENDAR_MONTH_UNCHANGED`, feeds the concrete gap back to the model and cannot count unrelated content changes as calendar progress or complete the read. It grants no new action or evidence authority. TableCheck's source policy now permanently prohibits `/reserve` and descendants, including previously reviewed query variants, before navigation, routing and redirects; public guide/search and approved read APIs remain separately reviewed.
+
 ### Source-owned nonstandard control observation (2026-09-16)
 
 A source may supply code-owned control hints describing observed nonstandard elements and their value/selection attributes. Runtime reads actual DOM values; models receive only current opaque references, never selectors or scripts. Existing action permission, authoritative-value matching and result verification remain in force. Current use is Tabelog date/guest controls; standard browser observation needs no hints.
+
+2026-10-21 Tabelog source update: the Browser registry and source query predicate share the same positive ARIA/class selected-state function. The source predicate reads selected date parts and selected people within their public DOM group; hidden people values constrain the query only when present. The public English calendar accepts inventory only from the latest exact `find_vacancy` response whose date, people and slot-link outlet identity agree with the page and request. Missing or conflicting responses stay UNKNOWN; UI time templates cannot substitute for that binding. Both observed endpoint spellings (with and without a trailing slash) are passively captured under the existing Guard. Time controls remain observation-only. Prompt@19, Context@2 and action wire@11 retain identical schemas and prompt text; this changes source extraction and control hints, not model instructions or authority.
+
+### Group/window read control (2026-10-22, offline repair)
+
+The existing browser executor can advance a public time query only through a current enabled observed combobox option inside the immutable request window, using the existing action validation and budgets. It never clicks an availability/booking link. Disabled-party termination requires the current requested date and a visible, unselected disabled exact count; an old-date disabled control does not preempt calendar selection. Planning consults the same explicit source path revocations as the Guard; no rule is broadened. Prompt/action/context schemas remain unchanged; source continuation state advances to restaurant-state20/task-definition18.

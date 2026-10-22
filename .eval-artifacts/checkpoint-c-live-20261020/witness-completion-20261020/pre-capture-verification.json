@@ -1,0 +1,33 @@
+{
+  "status": "PRE_CAPTURE_OFFLINE_READY",
+  "models": 0,
+  "networkRequests": 0,
+  "certificationControls": 8,
+  "outerControls": 14,
+  "typecheck": "PASS",
+  "archCheck": "PASS",
+  "build": "PASS",
+  "productionCodeMatchesA3f6b84": true,
+  "unchangedFiveGateEvidence": {
+    "defaultTests": "978/978 PASS reused",
+    "browserFixtures": "122/122 PASS reused",
+    "reason": "Production, browser execution and Guard are byte-identical to a3f6b84; current changes affect eval-owned witness orchestration only.",
+    "evidence": ".eval-artifacts/checkpoint-c-live-20261020/review-followup/verification.json"
+  },
+  "scope": {
+    "preservedWitnesses": 6,
+    "inventoryOnlyPageReuse": 2,
+    "fullCaptures": 8,
+    "baselineGetRequests": 18
+  },
+  "oldHardRefreshPathAndTest": "retired after all HARD evidence completed",
+  "red": ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/resume-controls-red.txt",
+  "intermediate": ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/resume-controls-intermediate.txt",
+  "green": ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/resume-controls-green.txt",
+  "certificationScriptSha256": "5fe6f4d9e5a3a3b1df5af29f821568adca1cbc73191b91e303174ee604996e38",
+  "tablecheckLocalBoundary": "1/1 PASS; initial sandbox localhost EPERM retained separately",
+  "setupOnlyFailures": [
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/outer-controls.txt",
+    ".eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/tablecheck-boundary.txt"
+  ]
+}

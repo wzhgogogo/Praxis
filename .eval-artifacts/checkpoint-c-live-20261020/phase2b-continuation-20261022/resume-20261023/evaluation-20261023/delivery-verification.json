@@ -1,0 +1,98 @@
+{
+  "status": "PASS_DELIVERY_INTEGRITY_NOT_STAGE_EXIT",
+  "at": "2026-10-22T23:22:42.866Z",
+  "frozen": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/evaluation-freeze.json",
+      "sha256": "6cb51c43263563ba2ec44c5e0845f8bb699653254253e797e867ae954b003f9c",
+      "files": 2619
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/live-freeze.json",
+      "sha256": "69209a016be68d6df97417fa7679d70b0e321212ab0c6d6400f361ba507f8448",
+      "files": 884
+    }
+  ],
+  "originalArtifactsVerified": 18,
+  "evaluationFilesVerified": 18,
+  "registrationUnchanged": true,
+  "registrationRecordedBeforeEvaluation": true,
+  "productCodeUnchangedFrom": "1a715325f121db137c8e509ce8a2440e55cad968",
+  "reusedValidation": {
+    "fiveGates": [
+      {
+        "name": "typecheck",
+        "status": "PASS",
+        "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+      },
+      {
+        "name": "architecture",
+        "status": "PASS",
+        "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+      },
+      {
+        "name": "default",
+        "status": "PASS",
+        "sha256": "c395cd2ca67f7cec545be567df956e52588d06a033f5b01473f628f8bc160cbc"
+      },
+      {
+        "name": "build",
+        "status": "PASS",
+        "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+      },
+      {
+        "name": "browser",
+        "status": "PASS",
+        "sha256": "21a770854ab974581ce8dad043ed6a40c9ff0f87a2c0ec4f2ec9048de3bd8fb5"
+      }
+    ],
+    "calendar": {
+      "passed": 69,
+      "total": 69,
+      "required": 68,
+      "mode": "OFFLINE_CACHED_RESPONSE_IDENTICAL_MESSAGES_SCHEMA_TIMEOUT_ONLY_CHANGED",
+      "newModels": 0
+    },
+    "selection": {
+      "passed": 5,
+      "total": 5,
+      "newModels": 0
+    },
+    "calibration": {
+      "passed": 22,
+      "total": 22,
+      "normalDeclaration": {
+        "matched": 20,
+        "total": 20
+      },
+      "boundary": {
+        "ABSENT": 9,
+        "PRESENT": 0,
+        "NOT_EVALUATED": 13
+      },
+      "freezeSha256": "b7f1ec38c1216f5ab2bb4985be9c78320901bf5021155fff99dfe760b8faeeea"
+    },
+    "budgetRows": {
+      "passed": 5,
+      "total": 5,
+      "runIds": [
+        "h-02",
+        "h-08",
+        "h-14"
+      ],
+      "mode": "frozen regression; exposed holdout; offline counterfactual presentation, not new Live or original evaluation replacement"
+    }
+  },
+  "newModels": 0,
+  "newRestaurantWebsites": 0,
+  "newLive": 0,
+  "newEnvironmentReruns": 0,
+  "resources": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/resources.json",
+  "stageExit": "NOT_PASSED_PENDING_INDEPENDENT_SIGNOFF",
+  "ledger": {
+    "modelCalls": 3634,
+    "fullLiveRuns": 72,
+    "environmentReruns": 3
+  },
+  "privateRepository": true
+}

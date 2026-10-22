@@ -1,0 +1,125 @@
+{
+  "schema": "phase2b-exit-execution@1",
+  "deferEvaluation": true,
+  "ceilings": {
+    "decisionTimeoutMs": 30000,
+    "timeoutMs": 500000,
+    "maxModelCalls": 50,
+    "maxGoogleRequests": 40
+  },
+  "minGapMs": 300000,
+  "cooldownMs": 900000,
+  "maxRerunsPerCase": 1,
+  "maxTotalReruns": 4,
+  "runs": [
+    {
+      "runId": "h-01",
+      "caseId": "p2b-holdout-01",
+      "repeat": 1,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-02",
+      "caseId": "p2b-holdout-02",
+      "repeat": 1,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-03",
+      "caseId": "p2b-holdout-03",
+      "repeat": 1,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-04",
+      "caseId": "p2b-holdout-04",
+      "repeat": 1,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-05",
+      "caseId": "p2b-holdout-05",
+      "repeat": 1,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-06",
+      "caseId": "p2b-holdout-06",
+      "repeat": 1,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-07",
+      "caseId": "p2b-holdout-01",
+      "repeat": 2,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-08",
+      "caseId": "p2b-holdout-02",
+      "repeat": 2,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-09",
+      "caseId": "p2b-holdout-03",
+      "repeat": 2,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-10",
+      "caseId": "p2b-holdout-04",
+      "repeat": 2,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-11",
+      "caseId": "p2b-holdout-05",
+      "repeat": 2,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-12",
+      "caseId": "p2b-holdout-06",
+      "repeat": 2,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-13",
+      "caseId": "p2b-holdout-01",
+      "repeat": 3,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-14",
+      "caseId": "p2b-holdout-02",
+      "repeat": 3,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-15",
+      "caseId": "p2b-holdout-03",
+      "repeat": 3,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-16",
+      "caseId": "p2b-holdout-04",
+      "repeat": 3,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-17",
+      "caseId": "p2b-holdout-05",
+      "repeat": 3,
+      "role": "HOLDOUT"
+    },
+    {
+      "runId": "h-18",
+      "caseId": "p2b-holdout-06",
+      "repeat": 3,
+      "role": "HOLDOUT"
+    }
+  ],
+  "runnerInput": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml"
+}

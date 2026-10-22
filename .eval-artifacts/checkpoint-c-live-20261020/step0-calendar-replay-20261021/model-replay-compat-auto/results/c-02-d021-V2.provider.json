@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "f55617f0f472e88417e3b6bfc8efc9ad7446e9aee4eb20363a5e50b79273ba64",
+  "id": "db704cec-4d53-4725-80aa-ac48821cda6c",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14173,
+    "completion_tokens": 3699,
+    "total_tokens": 17872,
+    "prompt_tokens_details": {
+      "cached_tokens": 1536
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3559
+    },
+    "prompt_cache_hit_tokens": 1536,
+    "prompt_cache_miss_tokens": 12637
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_w9yP5s8Ubw1KfL14jdRU1371",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:12:target:123\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Step guest-count carousel back toward the requested party size 2; it currently shows only disabled 8-13.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

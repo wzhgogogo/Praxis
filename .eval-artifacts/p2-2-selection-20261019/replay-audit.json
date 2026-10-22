@@ -1,0 +1,86 @@
+{
+  "status": "INPUT_AND_SCOPE_CHECKED_NOT_SELECTION_ACCEPTANCE",
+  "evaluatedProductionSourceCommit": "290658fd61d4f5d1c4a990808eeba6176a4a9555",
+  "continuationCommit": "6283843",
+  "sourceHashesUnchanged": true,
+  "continuationFreezeAll325Verified": true,
+  "originalFreezeDifference": [
+    ".eval-artifacts/p2-2-selection-20261019/run-annotated-selection.mjs"
+  ],
+  "reason": "Only the authorized outer continuation changed; original run and freeze retained in290658f/6283843. No source, annotation, request, radius, time or result edited.",
+  "annotationRevision": 2,
+  "modelsUsed": 5,
+  "modelsMax": 30,
+  "modelNames": [
+    "deepseek-flash"
+  ],
+  "latencyTotalMs": 23491,
+  "tokens": {
+    "inputTokens": 100070,
+    "outputTokens": 1257,
+    "totalTokens": 101327
+  },
+  "websiteRequests": 0,
+  "googleRequests": 0,
+  "executedModelActions": 0,
+  "seeds": [
+    {
+      "seedId": "p1-seed-0133",
+      "contextEqualExceptPathAndSchema": true,
+      "independentReviewerDirectCount": 1,
+      "productionHintDirectCheckable": 1,
+      "candidateOrderAndConditionsPreserved": true,
+      "modelRequestSha256": "6a96ba5e259dc174e0f75e3555ad145187016a285af2d6ba1170841dc79bc19a"
+    },
+    {
+      "seedId": "p1-seed-0134",
+      "contextEqualExceptPathAndSchema": true,
+      "independentReviewerDirectCount": 8,
+      "productionHintDirectCheckable": 8,
+      "candidateOrderAndConditionsPreserved": true,
+      "modelRequestSha256": "750a2d0d959319f9550ea5079b2a33f6295fd1a1235d08660dc6236c6f2b3c72"
+    },
+    {
+      "seedId": "p22-selection-001",
+      "contextEqualExceptPathAndSchema": true,
+      "independentReviewerDirectCount": 3,
+      "productionHintDirectCheckable": 3,
+      "candidateOrderAndConditionsPreserved": true,
+      "modelRequestSha256": "199db74e9e77aad47acaee8615122ab8e68a9149a0d0edea809596c330b296bd"
+    },
+    {
+      "seedId": "p22-selection-002",
+      "contextEqualExceptPathAndSchema": true,
+      "independentReviewerDirectCount": 9,
+      "productionHintDirectCheckable": 9,
+      "candidateOrderAndConditionsPreserved": true,
+      "modelRequestSha256": "436dc66303c8d8fd12f94e625a122e6a9d9b48c11061f4e7ca1f90d0fedbc1ca"
+    },
+    {
+      "seedId": "p22-selection-003",
+      "contextEqualExceptPathAndSchema": true,
+      "independentReviewerDirectCount": 9,
+      "productionHintDirectCheckable": 9,
+      "candidateOrderAndConditionsPreserved": true,
+      "modelRequestSha256": "9eb3c9b6ea921ac1fccdf848ec62415be5f5e6907a9e6563e0ae4d76fe68738f"
+    }
+  ],
+  "gate": {
+    "kagurazaka": {
+      "required": 1,
+      "passed": 0
+    },
+    "shibuya": {
+      "required": 2,
+      "passed": 1,
+      "total": 3,
+      "independence": "Near-duplicates of one scenario, not three independent scenarios."
+    },
+    "control": {
+      "required": 1,
+      "passed": 1
+    },
+    "verdict": "FAIL"
+  },
+  "scope": "Single captured decisions with original temporal request. No full runtime, current inventory, live or checkpointC claim."
+}

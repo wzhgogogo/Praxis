@@ -1,0 +1,119 @@
+{
+  "status": "OBSERVED_PROXIMATE_FAILURE_ROOT_CAUSE_UNPROVEN",
+  "artifactPath": ".eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/live-results/c-17-attempt-2/runner/2026-10-22T05-24-49-196Z-5f82d1a1-87c7-408e-b895-0c5b0aa223dd.result.json",
+  "artifactSha256": "5a95df212352017f6411b453d61fa42ea0e6baf08f05718cae0b45e8efdbf46f",
+  "loop": {
+    "status": "MODEL_FAILURE",
+    "steps": 6
+  },
+  "lastModelInvocation": {
+    "invocationId": "b0aa7f54-eead-4026-a7ae-8c79419a1997",
+    "taskId": "hybrid-live:p2l-kf-h005-20261105:1792646689127",
+    "purpose": "restaurant_agent_decide",
+    "promptVersion": "27",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-v4-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "restaurant_agent_action",
+      "version": "4"
+    },
+    "outcome": "FAILED",
+    "latencyMs": 10004,
+    "errorCode": "TIMEOUT",
+    "settledAt": "2026-10-22T05:29:07.261Z"
+  },
+  "successfulModelInvocations": 27,
+  "failedModelInvocations": 2,
+  "failedInvocations": [
+    {
+      "invocationId": "ad5820f4-c77e-4ee7-88bc-fd66088ec8e9",
+      "taskId": "browser-read:tabelog:en/tokyo/A1301/A130101/13323643",
+      "purpose": "browser_read_decide",
+      "promptVersion": "19",
+      "fallback": "FAIL_CLOSED",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-v4-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "browser_read_action",
+        "version": "11"
+      },
+      "outcome": "FAILED",
+      "latencyMs": 10006,
+      "errorCode": "TIMEOUT",
+      "settledAt": "2026-10-22T05:27:04.886Z"
+    },
+    {
+      "invocationId": "b0aa7f54-eead-4026-a7ae-8c79419a1997",
+      "taskId": "hybrid-live:p2l-kf-h005-20261105:1792646689127",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-v4-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4"
+      },
+      "outcome": "FAILED",
+      "latencyMs": 10004,
+      "errorCode": "TIMEOUT",
+      "settledAt": "2026-10-22T05:29:07.261Z"
+    }
+  ],
+  "recordedAvailabilityCandidates": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13291473",
+      "offers": 1,
+      "dateTimes": [
+        "2026-11-05T18:00:00+09:00"
+      ],
+      "partySizes": [
+        4
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+      "offers": 1,
+      "dateTimes": [
+        "2026-11-05T18:00:00+09:00"
+      ],
+      "partySizes": [
+        4
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+      "offers": 1,
+      "dateTimes": [
+        "2026-11-05T18:00:00+09:00"
+      ],
+      "partySizes": [
+        4
+      ]
+    }
+  ],
+  "deliveredCount": 0,
+  "independentOutcome": {
+    "type": "CAPABILITY_MISS",
+    "reasons": [
+      "No delivery despite independent request-matching feasible witness; cause is classified separately."
+    ],
+    "evidenceRefs": [
+      ".eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/live-results/c-17-attempt-2/post-run/manifest.json#sha256=91571c8384b59db75efac5bfd99a5b467568b1ccf330cd842901a69d52e39145",
+      ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/registry.certified.json#sha256=d9aec98e76bf01316ec484c1913c4df4ecb035d63d420dde2c1b8f34a5de1d93",
+      ".eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/live-results/c-17-attempt-2/post-run/13305528.body.txt#sha256=94ed604e8e82fc08f89a163ff976235c38e24d09c0d85b0c86dad303a22ebcff",
+      ".eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/live-results/c-17-attempt-2/post-run/13305528.metadata.json#sha256=e2dcc81cc6c5eaa64090f4988d4ea13ac107932efbd93cecbf4c591629e64575"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "NO"
+  },
+  "observed": "The final Agent decision timed out at its existing 10-second limit before PRESENT_RESULTS. Existing availability state is not a delivery or an independent qualification judgment.",
+  "unproven": "The saved TIMEOUT contains no HTTP status or transport cause. Network jitter, provider latency and other causes are not distinguished. No new connectivity probe or model call was made after the stop.",
+  "noAutomaticReclassification": true,
+  "noFurtherRetry": true,
+  "holdout": "NOT_OPENED"
+}

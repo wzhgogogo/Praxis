@@ -1,0 +1,6 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {createFreeze,git,sha,verifyFreeze} from '../../../freeze.mjs';
+const r='.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023',d=`${r}/evaluation-20261023`,live=verifyFreeze(`${r}/live-freeze.json`);
+assert.equal(git('status','--porcelain','--untracked-files=no'),'','COMMIT_BEFORE_FREEZE');assert.equal(git('diff','--name-only',live.productionBase,'--','src','scripts','web-skills','package.json','package-lock.json'),'','FIXED_EVALUATOR_AND_PRODUCT_REQUIRED');
+const extra=[...Object.keys(live.files),...git('ls-files',r).split('\n').filter(Boolean)];const m=createFreeze(`${d}/evaluation-freeze.json`,extra);Object.assign(m,{purpose:'FROZEN_PHASE2B_OFFLINE_EVALUATION_AFTER_B617BFF0; NO_MODEL_NO_WEBSITE_NO_LIVE',productionBase:live.productionBase,evaluator:'restaurant-hybrid-read-diagnostic-evaluator@33',rubric:'restaurant-hybrid-read-diagnostic-rubric@29',reviewCommit:'b617bff0',registrationShas:JSON.parse(fs.readFileSync(`${d}/registration-shas.json`)).files,newModels:0,newNetwork:0,newLive:0});fs.writeFileSync(`${d}/evaluation-freeze.json`,JSON.stringify(m,null,2)+'\n');console.log(JSON.stringify({commit:m.commit,files:Object.keys(m.files).length,sha256:sha(fs.readFileSync(`${d}/evaluation-freeze.json`))}));

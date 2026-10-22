@@ -1,0 +1,1018 @@
+{
+  "schema": "group-window-saved-replay@1",
+  "mode": "OFFLINE_COMPONENT_SAVED_HTML_CONTROLS_AND_BATCH_BOUNDARIES",
+  "rows": [
+    {
+      "id": "c-04",
+      "originalSearchOrder": [
+        "TABLECHECK",
+        "TABLECHECK"
+      ],
+      "newFirstSource": "tabelog",
+      "earlierTabelogAttempt": true,
+      "projectedBatchOrder": [
+        {
+          "source": "tabelog",
+          "batch": 1,
+          "status": "BLOCKED_BY_RECORDING_GAP",
+          "reason": "This source response was never read in the original run. No empty list or witness admission is fabricated."
+        }
+      ],
+      "schedulingScope": "Current production Planner at saved batch boundary. First source attempt changes; absent source responses and new Agent choices are NOT_EVALUATED, not a new full task replay.",
+      "restricted": [
+        {
+          "candidateId": "tablecheck:tounai",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-21T13:22:13.597Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:6670e55a1456aa7893eeeb8a",
+              "evidence:restaurant:tablecheck-hard-criteria:522049374b724bd26e6cfccf"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/tounai"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/recordings/hybrid-1792588933535/snapshot-0039.html",
+            "htmlSha256": "683e5a143716bbda19c046cfb0581d04b0b2241a2f68927901aa89b7f4119474",
+            "snapshot": 39,
+            "runtimeHtmlSha256": "9f3e49d7d1cbfd57dd73d76c64ae6898800c2ce618f1285c56d09ba5fdf5e15c",
+            "controlsSequence": 585,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:m3-felice",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-21T13:22:13.597Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:3f68e4797ea4c7114ca25c66",
+              "evidence:restaurant:tablecheck-hard-criteria:34b04a34352f13f776e3199f"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/m3-felice"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/recordings/hybrid-1792588933535/snapshot-0040.html",
+            "htmlSha256": "49a58dc67985f779d3f311e2bef1fa4e7d4cf68305565e19ee605ee46b8752f3",
+            "snapshot": 40,
+            "runtimeHtmlSha256": "a4494880f6c547cdde23159d64fdea7aa9f79446de5e60f6750af38c121de56c",
+            "controlsSequence": 608,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        }
+      ],
+      "timeReplay": {
+        "status": "PASS_PARTIAL_SCOPE_ONLY",
+        "candidateId": "tablecheck:nakamata-nodoguro-ginza",
+        "check": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-21T13:22:13.597Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:4e92b318f98d06383dd4e734",
+            "evidence:restaurant:tablecheck-hard-criteria:2807a441beb5d192be2d95a6"
+          ],
+          "reasonCode": "SELECTED_MEALTIME_EMPTY",
+          "timeWindowCoverage": {
+            "date": "2026-11-06",
+            "partySize": 10,
+            "requestedWindow": {
+              "earliest": "17:30",
+              "latest": "22:00"
+            },
+            "covered": [
+              {
+                "earliest": "19:00",
+                "latest": "19:00",
+                "status": "EMPTY"
+              }
+            ],
+            "uncovered": [
+              {
+                "earliest": "17:30",
+                "latest": "19:00",
+                "earliestExclusive": false,
+                "latestExclusive": true
+              },
+              {
+                "earliest": "19:00",
+                "latest": "22:00",
+                "earliestExclusive": true,
+                "latestExclusive": false
+              }
+            ],
+            "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+          }
+        },
+        "followupActions": 0,
+        "provenance": {
+          "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/recordings/hybrid-1792588933535/snapshot-0017.html",
+          "htmlSha256": "1cf3b206f64d8d708d0330b5408eeb9dfe09ae77c55463298c9c91e09658fafb",
+          "snapshot": 17,
+          "runtimeHtmlSha256": "1716f6fcf1852529c148c3a7ce37e68559c3ecaa370d4f6b04811ab1846e8797",
+          "controlsSequence": null,
+          "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+        },
+        "limitation": "Only this bound point is recorded; later menu/result transitions are absent. Unknown portions stay unknown. Synthetic local Chromium independently proves the continuation mechanism."
+      },
+      "partyReplay": {
+        "status": "NOT_REACHED_NO_TABELOG_DISABLED_REQUESTED_PARTY"
+      },
+      "originalModels": 19,
+      "newModels": 0,
+      "newWebsites": 0,
+      "newLive": 0
+    },
+    {
+      "id": "c-08",
+      "originalSearchOrder": [
+        "TABLECHECK"
+      ],
+      "newFirstSource": "tabelog",
+      "earlierTabelogAttempt": true,
+      "projectedBatchOrder": [
+        {
+          "source": "tabelog",
+          "batch": 1,
+          "status": "BLOCKED_BY_RECORDING_GAP",
+          "reason": "This source response was never read in the original run. No empty list or witness admission is fabricated."
+        }
+      ],
+      "schedulingScope": "Current production Planner at saved batch boundary. First source attempt changes; absent source responses and new Agent choices are NOT_EVALUATED, not a new full task replay.",
+      "restricted": [
+        {
+          "candidateId": "tablecheck:tounai",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-21T14:08:00.597Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:167f78ae047a4b6b34d020bf",
+              "evidence:restaurant:tablecheck-hard-criteria:6ef6805baa09c0010ff623eb"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/tounai"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/recordings/hybrid-1792591680527/snapshot-0036.html",
+            "htmlSha256": "d69a9609add1cd4de46f1c9414e0429f2cc02c0b7abe5fea1a67db4cc3fbbaa1",
+            "snapshot": 36,
+            "runtimeHtmlSha256": "4f352b510b2e4c2cf8c2f98f322c23892cdc6ad3ffe63d377a9e74a87942d3fc",
+            "controlsSequence": 539,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:m3-felice",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-21T14:08:00.597Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:d97ece5bb52ec711a2c7a1f9",
+              "evidence:restaurant:tablecheck-hard-criteria:b8326aedf315cef475012dc9"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/m3-felice"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-08-attempt-1/recordings/hybrid-1792591680527/snapshot-0037.html",
+            "htmlSha256": "33eb73bb7144a2de8503041af12b31ba140eae3d998856101586ce3575c9f735",
+            "snapshot": 37,
+            "runtimeHtmlSha256": "c006611a65f4b8f9d38e869acd5895faef323fc443f8cf9ee6ca106c4180a030",
+            "controlsSequence": 562,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        }
+      ],
+      "timeReplay": {
+        "status": "NOT_REACHED_IN_ORIGINAL_RUN"
+      },
+      "partyReplay": {
+        "status": "NOT_REACHED_NO_TABELOG_DISABLED_REQUESTED_PARTY"
+      },
+      "originalModels": 16,
+      "newModels": 0,
+      "newWebsites": 0,
+      "newLive": 0
+    },
+    {
+      "id": "c-18",
+      "originalSearchOrder": [
+        "TABLECHECK",
+        "TABLECHECK",
+        "TABELOG"
+      ],
+      "newFirstSource": "tabelog",
+      "earlierTabelogAttempt": true,
+      "projectedBatchOrder": [
+        {
+          "source": "tabelog",
+          "batch": 1,
+          "status": "RECORDED_BATCH_BOUNDARY_REPLAY",
+          "candidateIds": [
+            "tabelog:en/tokyo/A1301/A130103/13292459",
+            "tabelog:en/tokyo/A1301/A130101/13255508",
+            "tabelog:en/tokyo/A1301/A130101/13138388",
+            "tabelog:en/tokyo/A1301/A130101/13011570"
+          ],
+          "pendingDetails": 15,
+          "sourceEnded": false
+        },
+        {
+          "source": "tablecheck",
+          "batch": 1,
+          "status": "RECORDED_BATCH_BOUNDARY_REPLAY",
+          "candidateIds": [
+            "tablecheck:nakamata-nodoguro-ginza",
+            "tablecheck:takahashiya-ginza",
+            "tablecheck:tounai",
+            "tablecheck:m3-felice",
+            "tablecheck:kanaike-kinri"
+          ],
+          "pendingDetails": 15,
+          "sourceEnded": false
+        },
+        {
+          "source": "google-places",
+          "batch": 1,
+          "status": "BLOCKED_BY_RECORDING_GAP",
+          "reason": "This source response was never read in the original run. No empty list or witness admission is fabricated."
+        }
+      ],
+      "schedulingScope": "Current production Planner at saved batch boundary. First source attempt changes; absent source responses and new Agent choices are NOT_EVALUATED, not a new full task replay.",
+      "restricted": [
+        {
+          "candidateId": "tablecheck:tounai",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-21T16:23:52.862Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:79086d60688cc29b8a53700d",
+              "evidence:restaurant:tablecheck-hard-criteria:460f4aea5cceb82d4a2cc620"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/tounai"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/recordings/hybrid-1792599832794/snapshot-0044.html",
+            "htmlSha256": "ac70d314093aec2fd20f14ec3ee1a6282453fcdd058ef6c3eb560013a0734109",
+            "snapshot": 44,
+            "runtimeHtmlSha256": "d59f9fea63816abfc9b07580568d9d29b8dc10f7bcdc6702aff153b520b433de",
+            "controlsSequence": 700,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:m3-felice",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-21T16:23:52.862Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:b261fdfee697b75813181964",
+              "evidence:restaurant:tablecheck-hard-criteria:918edb05f7f4b86f08de09df"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/m3-felice"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/recordings/hybrid-1792599832794/snapshot-0045.html",
+            "htmlSha256": "e664dc4bebdb0ebfa6f9a64b4441999036c19a9d3d92e3b79db07d177810d9d7",
+            "snapshot": 45,
+            "runtimeHtmlSha256": "3bf070b46b4bd8ac9f76f20d1adc18a49c691104e69efc3bd2c2411166473e4c",
+            "controlsSequence": 723,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:grandbach-ginza-magdalena",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-21T16:23:52.862Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:7ec4430e9b43bf087524358f"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/grandbach-ginza-magdalena"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/recordings/hybrid-1792599832794/snapshot-0078.html",
+            "htmlSha256": "ac29f43d78f7c0bba625a10e79f16857a993525fda98735d821601ec2cc0da43",
+            "snapshot": 78,
+            "runtimeHtmlSha256": "2a443794cd290891c892243de74bb6ba14372ceb1a7cfb8d3fe93bd2294e2942",
+            "controlsSequence": 1240,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:satoyama-zenhouse",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-21T16:23:52.862Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:3e087d9fb1cbae707493475b"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/satoyama-zenhouse"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/recordings/hybrid-1792599832794/snapshot-0079.html",
+            "htmlSha256": "5e2bd6144fec9f32c74e0ae98109175cddc8efa120913dc163b54f6d93df1ebd",
+            "snapshot": 79,
+            "runtimeHtmlSha256": "c5daa3037e02d0f6efcd89dd664391b125aa6bbb626eb0017ae7703702e2fbba",
+            "controlsSequence": 1263,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:teki",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-21T16:23:52.862Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:1ae185d4fb19053ed629f834",
+              "evidence:restaurant:tablecheck-hard-criteria:22d86faaceeb4746c7e82f97"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/teki"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/recordings/hybrid-1792599832794/snapshot-0082.html",
+            "htmlSha256": "8d85caee020f0e3186207ea9ee8b75f49f4022cdf944bca56aaab966100e9011",
+            "snapshot": 82,
+            "runtimeHtmlSha256": "3b43bf1771756939e87d298690f1f630302749fd375dd4ead4c82a04b17e2625",
+            "controlsSequence": 1332,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        }
+      ],
+      "timeReplay": {
+        "status": "PASS_PARTIAL_SCOPE_ONLY",
+        "candidateId": "tablecheck:nakamata-nodoguro-ginza",
+        "check": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-21T16:23:52.862Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:907a0c2f3405c7fc9bdb71de",
+            "evidence:restaurant:tablecheck-hard-criteria:69f09c73aea56e7db7564ca2"
+          ],
+          "reasonCode": "BROWSER_RUNTIME_FAILED",
+          "timeWindowCoverage": {
+            "date": "2026-11-06",
+            "partySize": 10,
+            "requestedWindow": {
+              "earliest": "17:30",
+              "latest": "22:00"
+            },
+            "covered": [
+              {
+                "earliest": "19:00",
+                "latest": "19:00",
+                "status": "EMPTY"
+              }
+            ],
+            "uncovered": [
+              {
+                "earliest": "17:30",
+                "latest": "19:00",
+                "earliestExclusive": false,
+                "latestExclusive": true
+              },
+              {
+                "earliest": "19:00",
+                "latest": "22:00",
+                "earliestExclusive": true,
+                "latestExclusive": false
+              }
+            ],
+            "stopReason": "INCOMPLETE_RESULT"
+          }
+        },
+        "followupActions": 1,
+        "provenance": {
+          "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/recordings/hybrid-1792599832794/snapshot-0018.html",
+          "htmlSha256": "b0c5f53ae0bb1acd8727b4d4b00d5a88a5ce973028f8ba219570f89470e6a6df",
+          "snapshot": 18,
+          "runtimeHtmlSha256": "d87587d5892739c3fc6e77df376ae1ac4e410c00ecdd3b70c94bbf2022caa50d",
+          "controlsSequence": 243,
+          "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+        },
+        "limitation": "Only this bound point is recorded; later menu/result transitions are absent. Unknown portions stay unknown. Synthetic local Chromium independently proves the continuation mechanism."
+      },
+      "partyReplay": {
+        "status": "PASS_DISABLED_PARTY_UNKNOWN",
+        "candidateId": "tabelog:en/tokyo/A1301/A130101/13138388",
+        "reasonCode": "PARTY_SIZE_NOT_SELECTABLE",
+        "modelDecisions": 0,
+        "actions": 0,
+        "provenance": {
+          "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-18-attempt-1/recordings/hybrid-1792599832794/snapshot-0102.html",
+          "htmlSha256": "8d5218e0635af4ff8edaeaecd025cda348748aec8120e4f8e810e12579a18e9c",
+          "snapshot": 102,
+          "runtimeHtmlSha256": "446ec4c0c90705ee5170370534de2780ae64a7b05e41eab2ebdc1e5221e995ed",
+          "controlsSequence": 1655,
+          "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+        }
+      },
+      "originalModels": 47,
+      "newModels": 0,
+      "newWebsites": 0,
+      "newLive": 0
+    },
+    {
+      "id": "h-03",
+      "originalSearchOrder": [
+        "TABLECHECK",
+        "TABLECHECK"
+      ],
+      "newFirstSource": "tabelog",
+      "earlierTabelogAttempt": true,
+      "projectedBatchOrder": [
+        {
+          "source": "tabelog",
+          "batch": 1,
+          "status": "BLOCKED_BY_RECORDING_GAP",
+          "reason": "This source response was never read in the original run. No empty list or witness admission is fabricated."
+        }
+      ],
+      "schedulingScope": "Current production Planner at saved batch boundary. First source attempt changes; absent source responses and new Agent choices are NOT_EVALUATED, not a new full task replay.",
+      "restricted": [
+        {
+          "candidateId": "tablecheck:hachimenroppi",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T08:42:01.645Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:0de16604319f223bf3d3d580",
+              "evidence:restaurant:tablecheck-hard-criteria:5aec64755954e9f7ce1a6cb4"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/hachimenroppi"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/recordings/hybrid-1792658521571/snapshot-0031.html",
+            "htmlSha256": "6a384bb202458a09535d8170c27f5b72501aa3d872c7c3dfdac53d6eaff4f298",
+            "snapshot": 31,
+            "runtimeHtmlSha256": "0170260b368fad324a855bd494908120a15b1bf453140584ec9bac598c583170",
+            "controlsSequence": 456,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:1seki3cho-akasaka-samjo",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T08:42:01.645Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:cba3cef061881a12b3bf8902"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/1seki3cho-akasaka-samjo"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/recordings/hybrid-1792658521571/snapshot-0032.html",
+            "htmlSha256": "494797e8c96ec1454cab72e0f574f7627f59ba612d2eb84a610d2880dbffbf30",
+            "snapshot": 32,
+            "runtimeHtmlSha256": "82316a826a4e20d6eb8a715d153463b58c8f4a8967fc09bff1820eebe53312a4",
+            "controlsSequence": 481,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:ushinokura-akasaka",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T08:42:01.645Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:376ba731231261638bd78cd3",
+              "evidence:restaurant:tablecheck-hard-criteria:cc725382994d47806351ac26"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/ushinokura-akasaka"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/recordings/hybrid-1792658521571/snapshot-0033.html",
+            "htmlSha256": "80f971a7a9924a1ba1b7c19e7c443b3fc2245760eed0c5dec17b010d0f48096d",
+            "snapshot": 33,
+            "runtimeHtmlSha256": "d5f068a5d6a37140ba2bbd2f94134c902e1ca625b8f8c5e7bbd5f322711a7e1c",
+            "controlsSequence": 506,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:shirosaka",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T08:42:01.645Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:92815b693df3b9c0ab3af19d",
+              "evidence:restaurant:tablecheck-hard-criteria:cec5013882a69c9a55215c1e"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/shirosaka"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/recordings/hybrid-1792658521571/snapshot-0082.html",
+            "htmlSha256": "a05df18f86f742bc0f4bcfcebb0ebd23de81920d62d535b64deb25042beb8b40",
+            "snapshot": 82,
+            "runtimeHtmlSha256": "7ed0ff0e263ebbb4172a90f67b9caa194450f9797782cbb0ba10ab050f3bd813",
+            "controlsSequence": 1241,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:wakiya-ichiemi",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T08:42:01.645Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:7b08cdc7efc2aef1b5fb2b79"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/wakiya-ichiemi"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/recordings/hybrid-1792658521571/snapshot-0088.html",
+            "htmlSha256": "5e2acfa6f98de491267a2d4bfd741d8e8645341901df2a8fec46d39e72483bd1",
+            "snapshot": 88,
+            "runtimeHtmlSha256": "8b1a6d8a50501c750902944d3ca1ae25efbe2cc8f452ae0f849bf34089c0c704",
+            "controlsSequence": 1345,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        }
+      ],
+      "timeReplay": {
+        "status": "PASS_PARTIAL_SCOPE_ONLY",
+        "candidateId": "tablecheck:obanzai-yoshiko",
+        "check": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T08:42:01.645Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:1f4e00a23394c5f7491c548a",
+            "evidence:restaurant:tablecheck-hard-criteria:f219dfad5ab9ca3d771abc26"
+          ],
+          "reasonCode": "BROWSER_RUNTIME_FAILED",
+          "timeWindowCoverage": {
+            "date": "2026-10-29",
+            "partySize": 6,
+            "requestedWindow": {
+              "earliest": "18:00",
+              "latest": "20:00"
+            },
+            "covered": [
+              {
+                "earliest": "19:00",
+                "latest": "19:00",
+                "status": "EMPTY"
+              }
+            ],
+            "uncovered": [
+              {
+                "earliest": "18:00",
+                "latest": "19:00",
+                "earliestExclusive": false,
+                "latestExclusive": true
+              },
+              {
+                "earliest": "19:00",
+                "latest": "20:00",
+                "earliestExclusive": true,
+                "latestExclusive": false
+              }
+            ],
+            "stopReason": "INCOMPLETE_RESULT"
+          }
+        },
+        "followupActions": 1,
+        "provenance": {
+          "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/recordings/hybrid-1792658521571/snapshot-0019.html",
+          "htmlSha256": "459fa7419f2ec67e237dfbae297af81ab3cbf6982ded93df31a1af1de815f408",
+          "snapshot": 19,
+          "runtimeHtmlSha256": "19ca1d96e1905a3b48bc322e9ec71d903229a12f6c259fdd52b8b9383bd01765",
+          "controlsSequence": 257,
+          "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+        },
+        "limitation": "Only this bound point is recorded; later menu/result transitions are absent. Unknown portions stay unknown. Synthetic local Chromium independently proves the continuation mechanism."
+      },
+      "partyReplay": {
+        "status": "NOT_REACHED_NO_TABELOG_DISABLED_REQUESTED_PARTY"
+      },
+      "originalModels": 47,
+      "newModels": 0,
+      "newWebsites": 0,
+      "newLive": 0
+    },
+    {
+      "id": "h-09",
+      "originalSearchOrder": [
+        "TABLECHECK",
+        "TABLECHECK"
+      ],
+      "newFirstSource": "tabelog",
+      "earlierTabelogAttempt": true,
+      "projectedBatchOrder": [
+        {
+          "source": "tabelog",
+          "batch": 1,
+          "status": "BLOCKED_BY_RECORDING_GAP",
+          "reason": "This source response was never read in the original run. No empty list or witness admission is fabricated."
+        }
+      ],
+      "schedulingScope": "Current production Planner at saved batch boundary. First source attempt changes; absent source responses and new Agent choices are NOT_EVALUATED, not a new full task replay.",
+      "restricted": [
+        {
+          "candidateId": "tablecheck:hachimenroppi",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T09:43:42.240Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:92f91e08063ac00bf9e2ad18",
+              "evidence:restaurant:tablecheck-hard-criteria:8037d251af38701ff224f4b8"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/hachimenroppi"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/recordings/hybrid-1792662222175/snapshot-0028.html",
+            "htmlSha256": "c961e026c015f983521901a25ac3a7b642b1dec56e72ad8e93417b30607e6de4",
+            "snapshot": 28,
+            "runtimeHtmlSha256": "446c957f1a51aa1aa7d7f14418f0c8ced27a5a84a0c563e377a26451807f73d1",
+            "controlsSequence": 412,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:1seki3cho-akasaka-samjo",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T09:43:42.240Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:60d215a0d8247f6f1401125a"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/1seki3cho-akasaka-samjo"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/recordings/hybrid-1792662222175/snapshot-0029.html",
+            "htmlSha256": "c3add5bfc5517a1808877381f34b0fbf1155c2fac493bbfdf9b35972a258a33a",
+            "snapshot": 29,
+            "runtimeHtmlSha256": "172bf6fbd45cbc131e6505fd1bd862766637017abf071ec6f831d600a1fd492c",
+            "controlsSequence": 437,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:ushinokura-akasaka",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T09:43:42.240Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:c7011fe9e64d9e672b1660f0",
+              "evidence:restaurant:tablecheck-hard-criteria:89cb26e47310893fab7e05d9"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/ushinokura-akasaka"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/recordings/hybrid-1792662222175/snapshot-0036.html",
+            "htmlSha256": "36620e3c814298940b3f354862530b6d0ea59fd344965ec9c16df3bc65ab46f9",
+            "snapshot": 36,
+            "runtimeHtmlSha256": "45a07cd415bedcd38a2431f785ee3d5f7d1a4b82d987efe6b27680b2a21d67f8",
+            "controlsSequence": 555,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:shirosaka",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T09:43:42.240Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:b68fcf1d8564ec8cba90915c",
+              "evidence:restaurant:tablecheck-hard-criteria:5ae06da9641973ca43175f4f"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/shirosaka"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/recordings/hybrid-1792662222175/snapshot-0081.html",
+            "htmlSha256": "542d6a5820cab9c471d9c4ae0f2d70249dbbf46c277aba976459bb9d9b00e63b",
+            "snapshot": 81,
+            "runtimeHtmlSha256": "e54b87a403e8d3b541e25ea183ef05710edf71e7da6aeb8eac011d2858ac4876",
+            "controlsSequence": 1248,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:wakiya-ichiemi",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T09:43:42.240Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:282a890234d5b3497966d882"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/wakiya-ichiemi"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/recordings/hybrid-1792662222175/snapshot-0076.html",
+            "htmlSha256": "af5e834a910e95ab2ff083f49e677737b919f3e0b7cc9d0e6e409d08b1fd05bf",
+            "snapshot": 76,
+            "runtimeHtmlSha256": "de87f63511bb2705560cb2bddf34319067459922312de9483d450225f8fb28bf",
+            "controlsSequence": null,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        }
+      ],
+      "timeReplay": {
+        "status": "PASS_PARTIAL_SCOPE_ONLY",
+        "candidateId": "tablecheck:ryusaika",
+        "check": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T09:43:42.240Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:33f45217dc7b1050ff467562",
+            "evidence:restaurant:tablecheck-hard-criteria:0743fda19e314506a74a8097"
+          ],
+          "reasonCode": "BROWSER_RUNTIME_FAILED",
+          "timeWindowCoverage": {
+            "date": "2026-10-29",
+            "partySize": 6,
+            "requestedWindow": {
+              "earliest": "18:00",
+              "latest": "20:00"
+            },
+            "covered": [
+              {
+                "earliest": "19:00",
+                "latest": "19:00",
+                "status": "EMPTY"
+              }
+            ],
+            "uncovered": [
+              {
+                "earliest": "18:00",
+                "latest": "19:00",
+                "earliestExclusive": false,
+                "latestExclusive": true
+              },
+              {
+                "earliest": "19:00",
+                "latest": "20:00",
+                "earliestExclusive": true,
+                "latestExclusive": false
+              }
+            ],
+            "stopReason": "INCOMPLETE_RESULT"
+          }
+        },
+        "followupActions": 1,
+        "provenance": {
+          "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-09-attempt-1/recordings/hybrid-1792662222175/snapshot-0056.html",
+          "htmlSha256": "81d89ba3bd342948c04a9fba4080c6e450d058b6bf4d234fae2ccb2c00a82f77",
+          "snapshot": 56,
+          "runtimeHtmlSha256": "afa88dc79a4df65052853deb310b0d716d3420e1e50414a4b1fcfb7df0cee78d",
+          "controlsSequence": 841,
+          "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+        },
+        "limitation": "Only this bound point is recorded; later menu/result transitions are absent. Unknown portions stay unknown. Synthetic local Chromium independently proves the continuation mechanism."
+      },
+      "partyReplay": {
+        "status": "NOT_REACHED_NO_TABELOG_DISABLED_REQUESTED_PARTY"
+      },
+      "originalModels": 43,
+      "newModels": 0,
+      "newWebsites": 0,
+      "newLive": 0
+    },
+    {
+      "id": "h-15",
+      "originalSearchOrder": [
+        "TABLECHECK",
+        "TABLECHECK"
+      ],
+      "newFirstSource": "tabelog",
+      "earlierTabelogAttempt": true,
+      "projectedBatchOrder": [
+        {
+          "source": "tabelog",
+          "batch": 1,
+          "status": "BLOCKED_BY_RECORDING_GAP",
+          "reason": "This source response was never read in the original run. No empty list or witness admission is fabricated."
+        }
+      ],
+      "schedulingScope": "Current production Planner at saved batch boundary. First source attempt changes; absent source responses and new Agent choices are NOT_EVALUATED, not a new full task replay.",
+      "restricted": [
+        {
+          "candidateId": "tablecheck:hachimenroppi",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T10:42:02.863Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:c8c33959659de27c4be632d1",
+              "evidence:restaurant:tablecheck-hard-criteria:e5b6f7ba48670e41869a97fd"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/hachimenroppi"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/recordings/hybrid-1792665722792/snapshot-0033.html",
+            "htmlSha256": "c290fda16d95a5abdb8b34de29089552aa55a90f9b270dac0614a53c8536378a",
+            "snapshot": 33,
+            "runtimeHtmlSha256": "91215f79f14cba97ccf9e65ed86225fc7b7f0186baec89d6b61f0bd77b62a4a8",
+            "controlsSequence": 475,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:1seki3cho-akasaka-samjo",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T10:42:02.863Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:ec053a5dbd27f40cb2e35b56"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/1seki3cho-akasaka-samjo"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/recordings/hybrid-1792665722792/snapshot-0034.html",
+            "htmlSha256": "5494f4482becbb6f0ce35dc1413d63abd8c60ceb3d3b508a80ea483b943dc13a",
+            "snapshot": 34,
+            "runtimeHtmlSha256": "cfa18bd629eca6c0eecbafd0c2cfd9ace5883f7d8a0d4381064200c746a0cf64",
+            "controlsSequence": 500,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:ushinokura-akasaka",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T10:42:02.863Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:02e584b13a27078bb58bbad3",
+              "evidence:restaurant:tablecheck-hard-criteria:e024164841b9de989c1a334b"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/ushinokura-akasaka"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/recordings/hybrid-1792665722792/snapshot-0035.html",
+            "htmlSha256": "c75766618f2f84600ba1c03f2dbd3a069ae0a26f9afa1292e02e1dfbae1f348d",
+            "snapshot": 35,
+            "runtimeHtmlSha256": "1e401c8aebbf9e346c153f391f6c5db6feeebb222552bebc240c2f814b5b8723",
+            "controlsSequence": 525,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:shirosaka",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T10:42:02.863Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:8bb480a191ccf2b20c971832",
+              "evidence:restaurant:tablecheck-hard-criteria:25e08211447d6ba3f1148350"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/shirosaka"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/recordings/hybrid-1792665722792/snapshot-0090.html",
+            "htmlSha256": "811f5508f75169c3d21d3ce3c6214162ef64a993d2bf654e94179e511c02a570",
+            "snapshot": 90,
+            "runtimeHtmlSha256": "43e8ae3f8ba0fd3e87e92a4fc7d2b387ecaaae00ba5d94e0ae03459de3283833",
+            "controlsSequence": 1372,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        },
+        {
+          "candidateId": "tablecheck:wakiya-ichiemi",
+          "check": {
+            "status": "SOURCE_UNSUPPORTED",
+            "checkedAt": "2026-10-22T10:42:02.863Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:f3568b10d19f04236dd60ee7"
+            ],
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          },
+          "navigations": [
+            "https://www.tablecheck.com/en/wakiya-ichiemi"
+          ],
+          "provenance": {
+            "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/recordings/hybrid-1792665722792/snapshot-0083.html",
+            "htmlSha256": "3b4a523b6ea041f2c3b14e1184ae57658ca9118b65f6cf8c96e32208b9e73a67",
+            "snapshot": 83,
+            "runtimeHtmlSha256": "abafe2055218a590d6be1735484c2e80a5d0be55bf12e11eeb9c8d10a2ab764b",
+            "controlsSequence": null,
+            "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+          }
+        }
+      ],
+      "timeReplay": {
+        "status": "PASS_PARTIAL_SCOPE_ONLY",
+        "candidateId": "tablecheck:obanzai-yoshiko",
+        "check": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-22T10:42:02.863Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:cc706a284c583014443a62b4",
+            "evidence:restaurant:tablecheck-hard-criteria:ad2351a025ead2c7181b111f"
+          ],
+          "reasonCode": "BROWSER_RUNTIME_FAILED",
+          "timeWindowCoverage": {
+            "date": "2026-10-29",
+            "partySize": 6,
+            "requestedWindow": {
+              "earliest": "18:00",
+              "latest": "20:00"
+            },
+            "covered": [
+              {
+                "earliest": "20:00",
+                "latest": "20:00",
+                "status": "EMPTY"
+              }
+            ],
+            "uncovered": [
+              {
+                "earliest": "18:00",
+                "latest": "20:00",
+                "earliestExclusive": false,
+                "latestExclusive": true
+              }
+            ],
+            "stopReason": "INCOMPLETE_RESULT"
+          }
+        },
+        "followupActions": 1,
+        "provenance": {
+          "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-15-attempt-1/recordings/hybrid-1792665722792/snapshot-0021.html",
+          "htmlSha256": "d37093e823103e0c4654d4d76bba012fc826e728075a897b0446acb05597f70c",
+          "snapshot": 21,
+          "runtimeHtmlSha256": "867f7ea05e05b030b84bed300fa2cbf7da8e19264e44076bdb78baf2a2e14ff2",
+          "controlsSequence": 276,
+          "visibleText": "STRUCTURED_HTML_RECONSTRUCTION; not a fresh visible-page observation"
+        },
+        "limitation": "Only this bound point is recorded; later menu/result transitions are absent. Unknown portions stay unknown. Synthetic local Chromium independently proves the continuation mechanism."
+      },
+      "partyReplay": {
+        "status": "NOT_REACHED_NO_TABELOG_DISABLED_REQUESTED_PARTY"
+      },
+      "originalModels": 47,
+      "newModels": 0,
+      "newWebsites": 0,
+      "newLive": 0
+    }
+  ],
+  "newModels": 0,
+  "externalRequests": 0,
+  "newLive": 0,
+  "fullTaskOutcome": "NOT_EVALUATED",
+  "safety": "No external dispatch in replay; production network permission is independently covered by local Chromium controls, not proven by this mock metadata."
+}

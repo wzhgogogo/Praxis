@@ -821,8 +821,14 @@ test("BrowserTaskExecutor reuses post-action controls to confirm two selections 
   const session = new FixtureSession([
     { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Choose date", html: '<button type="button" data-date="2026-9-10">Thursday 10</button>' },
     { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Choose guests", html: '<button type="button" data-value="2">2 guests</button>' },
-    { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Date and guests confirmed", html: '<p>Selected request</p>' },
+    { url: "https://www.tablecheck.com/en/sushi", title: "availability", text: "Date and guests confirmed", html: '<button type="button" data-value="2" aria-pressed="true">2 guests</button>' },
   ]);
+  const observe = session.observeControls.bind(session);
+  session.observeControls = async () => {
+    const controls = await observe();
+    const selected = /aria-pressed="true"/.test((await session.snapshot()).html);
+    return controls.map(control => control.value === "2" ? { ...control, controlGroupKey: "fixture:guests", controlGroupLabel: "Guests", selected } : control);
+  };
   const events: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12,
     maxOperationsPerCandidate: 10,
@@ -1104,4 +1110,39 @@ test("executor requires explicit positive model and operation limits", () => {
   // @ts-expect-error Missing per-candidate and operation bounds cannot compile.
   assert.throws(() => new BrowserTaskExecutor({ openSession: async () => new FixtureSession([]) }, { maxModelCallsTotal: 120 }), TypeError);
   assert.throws(() => new BrowserTaskExecutor({ openSession: async () => new FixtureSession([]) }, { maxAutomaticElapsedMs: 300_000,  maxModelCallsTotal: 120, maxModelCallsPerCandidate: 0, maxOperationsPerCandidate: 80 }), TypeError);
+});
+
+
+test("group-window: visible disabled requested party ends before another model decision", async () => {
+ const session=new FixtureSession([{url:"https://example.com/menu",title:"Menu",text:"Guests 10 unavailable",html:"<main></main>"}]);
+ session.observeControls=async()=>[{id:"ten",stableKey:"ten",kind:"BUTTON",role:"button",label:"Guests 10",value:"10",controlGroupLabel:"Guests",controlGroupKey:"guests",visible:true,disabled:true}];
+ let decisions=0;const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:1000,maxModelCallsPerCandidate:1,maxModelCallsTotal:1,maxOperationsPerCandidate:20,modelDecision:{async decide(){decisions++;return {type:"REQUEST_HUMAN_HELP",reason:"old path"};}}});
+ const result=await executor.runSkill({taskId:"disabled-party",source:"fixture",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:["https://example.com"],goal:{outlet:{name:"Fixture",address:"Fixture"},partySize:10,hardCriteria:[]},objective:"Read request",completion:()=>({complete:false,reason:"No bound result"})});
+ assert.equal(result.reasonCode,"PARTY_SIZE_NOT_SELECTABLE");assert.equal(decisions,0);assert.equal(session.clicks,0);await executor.close();
+});
+
+for (const control of [
+ {label:"Guests 10",value:"10",controlGroupLabel:"Guests",disabled:false,visible:true},
+ {label:"Guests 10",value:"10",controlGroupLabel:"Guests",disabled:true,visible:false},
+ {label:"Guests 10",value:"10",controlGroupLabel:"Guests",disabled:true,visible:true,outsideViewport:true},
+ {label:"Guests 9",value:"9",controlGroupLabel:"Guests",disabled:true,visible:true},
+ {label:"10",value:"10",controlGroupLabel:"Booking time",disabled:true,visible:true},
+ {label:"Guests 10",value:"10",controlGroupLabel:"Guests",disabled:true,visible:true,selected:true},
+]) test(`group-window: party stop excludes ${JSON.stringify(control)}`,async()=>{
+ const session=new FixtureSession([{url:"https://example.com",title:"Fixture",text:"",html:""}]);
+ session.observeControls=async()=>[{id:"control",stableKey:"control",kind:"BUTTON",role:"button",...control}];
+ let decisions=0;const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:1000,maxModelCallsPerCandidate:1,maxModelCallsTotal:1,maxOperationsPerCandidate:20,modelDecision:{async decide(){decisions++;return {type:"REQUEST_HUMAN_HELP",reason:"No explicit result"};}}});
+ const result=await executor.runSkill({taskId:"normal-party-control",source:"fixture",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:["https://example.com"],goal:{outlet:{name:"Fixture",address:"Fixture"},partySize:10,hardCriteria:[]},objective:"Read",completion:()=>({complete:false,reason:"No bound result"})});
+ assert.notEqual(result.reasonCode,"PARTY_SIZE_NOT_SELECTABLE");assert.equal(decisions,1);await executor.close();
+});
+
+for (const selectedDate of ["2026-11-05", "2026-11-06"]) test(`group-window: disabled party is bound to selected date ${selectedDate}`,async()=>{
+ const session=new FixtureSession([{url:"https://example.com",title:"Fixture",text:"",html:""}]);
+ session.observeControls=async()=>[
+  {id:"date",stableKey:"date",kind:"BUTTON",role:"button",label:`Date ${selectedDate}`,calendarDate:selectedDate,selected:true,visible:true,disabled:false},
+  {id:"ten",stableKey:"ten",kind:"BUTTON",role:"button",label:"Guests 10",value:"10",controlGroupLabel:"Guests",visible:true,disabled:true},
+ ];
+ let models=0;const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:1000,maxModelCallsPerCandidate:1,maxModelCallsTotal:1,maxOperationsPerCandidate:20,modelDecision:{async decide(){models++;return{type:"REQUEST_HUMAN_HELP",reason:"Request date still unselected"};}}});
+ const result=await executor.runSkill({taskId:"date-bound-party",source:"fixture",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:["https://example.com"],goal:{outlet:{name:"Fixture",address:"Fixture"},date:"2026-11-06",partySize:10,hardCriteria:[]},objective:"Read exact date and party",completion:()=>({complete:false,reason:"No current inventory"})});
+ assert.equal(result.reasonCode,selectedDate==="2026-11-06"?"PARTY_SIZE_NOT_SELECTABLE":undefined);assert.equal(models,selectedDate==="2026-11-06"?0:1);await executor.close();
 });

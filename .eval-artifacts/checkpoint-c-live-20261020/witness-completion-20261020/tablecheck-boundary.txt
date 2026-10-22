@@ -1,0 +1,24 @@
+✖ passive outer recorder preserves actual Chromium response bytes without changing request or retaining headers (2.909291ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 334.8685
+
+✖ failing tests:
+
+test at .eval-artifacts/checkpoint-c-live-20261020/tablecheck-capture-browser.test.ts:1:579
+✖ passive outer recorder preserves actual Chromium response bytes without changing request or retaining headers (2.909291ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }

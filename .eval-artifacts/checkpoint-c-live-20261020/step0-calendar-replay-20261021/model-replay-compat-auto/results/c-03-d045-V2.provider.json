@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "676ab68d547bf3024b763bf4036683ace25e1a845cc72be4b7fd954c99ce6517",
+  "id": "f60e504b-e593-4248-9ce9-13b4b297f081",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14018,
+    "completion_tokens": 1203,
+    "total_tokens": 15221,
+    "prompt_tokens_details": {
+      "cached_tokens": 2944
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1071
+    },
+    "prompt_cache_hit_tokens": 2944,
+    "prompt_cache_miss_tokens": 11074
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_TUUEquFjscYUQtXNHAa46580",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the date strip toward November 5, which is not yet visible.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

@@ -1,0 +1,28 @@
+{
+  "status": 200,
+  "bodySha256": "2468b48fe50453aaec8166b8870c4152e6c501a5873df6c9c498cc305119bd76",
+  "id": "offline",
+  "model": "deepseek-v4-flash",
+  "usage": {
+    "prompt_tokens": 100,
+    "completion_tokens": 20,
+    "total_tokens": 120,
+    "prompt_cache_hit_tokens": 80,
+    "prompt_cache_miss_tokens": 20,
+    "completion_tokens_details": {
+      "reasoning_tokens": 10
+    }
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\":\"CLICK\",\"targetRef\":\"observation:4:target:88\",\"authoritativeField\":\"NONE\",\"requestedState\":\"NONE\",\"reason\":\"Read-only calendar navigation.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

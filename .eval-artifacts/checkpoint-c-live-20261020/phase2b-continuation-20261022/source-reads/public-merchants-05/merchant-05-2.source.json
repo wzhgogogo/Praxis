@@ -1,0 +1,251 @@
+{
+  "id": "merchant-05-2",
+  "caseId": "p2b-holdout-05",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1307/A130702/13320164/",
+  "observedAt": "2026-10-22T17:27:11.782Z",
+  "responseSha256": "fd31547cf902f5b0e39e716adc95ce471a34266c2bfe75db860bf606018d39b8",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Azabu Juban Soba Goya",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Azabujuban Minato Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1060045",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.65651178239808,
+          "longitude": 139.73341316767417
+        },
+        "servesCuisine": "Izakaya (Japanese style tavern),Soba (Buckwheat noodles),Tempura"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1307/A130702/13320164/\",\"name\":\"Azabu Juban Soba Goya\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/206107/640x640_rect_ef68d7b941b6248875da181bbfed9b3e.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Azabujuban Minato Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1060045\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.65651178239808,\"longitude\":139.73341316767417},\"priceRange\":\"JPY 6,000～JPY 7,999\",\"servesCuisine\":\"Izakaya (Japanese style tavern),Soba (Buckwheat noodles),Tempura\",\"telephone\":\"+81-3-6811-5613\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"107\",\"ratingValue\":\"3.37\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1307/A130702/13320164/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "91059ddca73e8cc50e9fe757a2d7fb78d79701600330cb2d8af7c158fb1857d2",
+        "htmlCharacterOffset": 6358
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 82013,
+        "raw": "Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 49450,
+        "raw": "Soba Goya Manzoku Course (Food Only)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 52548,
+        "raw": "Seasonal Delicacies Course (Food Only)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 55788,
+        "raw": "Seasonal Lunch Kaiseki – Soba Tasting – (Weekends and Public Holidays Only)"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Soba Goya Manzoku Course (Food Only)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Introducing the classic dinner course at Azabu Juban Soba Goya! Enjoy a balanced selection of dishes featuring seasonal ingredients and the unique flavors of a soba restaurant. Please note that the menu may change based on ingredient availability.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Seasonal Delicacies Course (Food Only)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Indulge in our luxurious menu! Experience the seasonal delights of our Shun Kanou Course, featuring exquisite dishes from Azabu Juban Soba Goya. Perfect for entertaining guests or enjoying a leisurely drink with someone special! Includes a two-and-a-half-hour all-you-can-drink option! Please note that menu items may change based on ingredient availability.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Seasonal Lunch Kaiseki – Soba Tasting – (Weekends and Public Holidays Only)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "【Available on Weekends and Public Holidays】 For those who wish to enjoy a leisurely lunch, our menu is perfect for family meals, daytime drinks, memorial services, and gatherings after events. We invite you to spend a relaxing time at Azabu Juban Soba Goya. *Please note that menu items may change based on ingredient availability.",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Soba Goya Manzoku Course (Food Only)",
+      "meals": [
+        "DINNER"
+      ]
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Introducing the classic dinner course at Azabu Juban Soba Goya! Enjoy a balanced selection of dishes featuring seasonal ingredients and the unique flavors of a soba restaurant. Please note that the menu may change based on ingredient availability.",
+      "meals": [
+        "DINNER"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Seasonal Delicacies Course (Food Only)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Indulge in our luxurious menu! Experience the seasonal delights of our Shun Kanou Course, featuring exquisite dishes from Azabu Juban Soba Goya. Perfect for entertaining guests or enjoying a leisurely drink with someone special! Includes a two-and-a-half-hour all-you-can-drink option! Please note that menu items may change based on ingredient availability.",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Seasonal Lunch Kaiseki – Soba Tasting – (Weekends and Public Holidays Only)",
+      "meals": [
+        "LUNCH"
+      ]
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "【Available on Weekends and Public Holidays】 For those who wish to enjoy a leisurely lunch, our menu is perfect for family meals, daytime drinks, memorial services, and gatherings after events. We invite you to spend a relaxing time at Azabu Juban Soba Goya. *Please note that menu items may change based on ingredient availability.",
+      "meals": [
+        "LUNCH"
+      ]
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "[5-minute walk from Azabu-Juban Station] Enjoy carefully crafted soba and fine sake in a serene adult Japanese space. Surprises available!",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                [5-minute walk from Azabu-Juban Station] Enjoy carefully crafted soba and fine sake in a serene adult Japanese space. Surprises available!\n              </h3>",
+      "sha256": "2f269dc6c0cc55ec150aadf44ee72f620c12c83650af26c933192323ad5e7334",
+      "htmlCharacterOffset": 44864
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Soba Goya Manzoku Course (Food Only)",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Soba Goya Manzoku Course (Food Only)</span>",
+      "sha256": "9d688aee7948ada8f23cb711f69b0c4edabd54883f60d68173b5ade7eb63692c",
+      "htmlCharacterOffset": 49398
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Introducing the classic dinner course at Azabu Juban Soba Goya! Enjoy a balanced selection of dishes featuring seasonal ingredients and the unique flavors of a soba restaurant. Please note that the menu may change based on ingredient availability.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Introducing the classic dinner course at Azabu Juban Soba Goya! \n                          Enjoy a balanced selection of dishes featuring seasonal ingredients and the unique flavors of a soba restaurant. \n                          Please note that the menu may change based on ingredient availability.\n                        </p>",
+      "sha256": "71f89aa356c945c777d529da2ad4cb8adde3d67460bdaf04c28e9083ed160d51",
+      "htmlCharacterOffset": 49624
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Seasonal Delicacies Course (Food Only)",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Seasonal Delicacies Course (Food Only)</span>",
+      "sha256": "639ac82db0fa935db2a7aa815c1022a35e8387274a8516bc43d2132a550baf48",
+      "htmlCharacterOffset": 52496
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Indulge in our luxurious menu! Experience the seasonal delights of our Shun Kanou Course, featuring exquisite dishes from Azabu Juban Soba Goya. Perfect for entertaining guests or enjoying a leisurely drink with someone special! Includes a two-and-a-half-hour all-you-can-drink option! Please note that menu items may change based on ingredient availability.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Indulge in our luxurious menu!\n                          Experience the seasonal delights of our Shun Kanou Course, featuring exquisite dishes from Azabu Juban Soba Goya. Perfect for entertaining guests or enjoying a leisurely drink with someone special!\n                          Includes a two-and-a-half-hour all-you-can-drink option!\n                          Please note that menu items may change based on ingredient availability.\n                        </p>",
+      "sha256": "46b763d8f6d75a986658cbdc7b4b52ac02b9ea83a5b60b5ad00f846b72a8df1c",
+      "htmlCharacterOffset": 52725
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Seasonal Lunch Kaiseki – Soba Tasting – (Weekends and Public Holidays Only)",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Seasonal Lunch Kaiseki – Soba Tasting – (Weekends and Public Holidays Only)</span>",
+      "sha256": "805b9b4ff8782438119cd8cb7533679c779172222e3ebf32c9c7d0598bab767f",
+      "htmlCharacterOffset": 55736
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "【Available on Weekends and Public Holidays】 For those who wish to enjoy a leisurely lunch, our menu is perfect for family meals, daytime drinks, memorial services, and gatherings after events. We invite you to spend a relaxing time at Azabu Juban Soba Goya. *Please note that menu items may change based on ingredient availability.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          【Available on Weekends and Public Holidays】\n                          For those who wish to enjoy a leisurely lunch, our menu is perfect for family meals, daytime drinks, memorial services, and gatherings after events. \n                          We invite you to spend a relaxing time at Azabu Juban Soba Goya.\n                          *Please note that menu items may change based on ingredient availability.\n                        </p>",
+      "sha256": "f5abae2a868ff5ed6f454451efc7953a1ba1b41b13ef384024fd5512661098bd",
+      "htmlCharacterOffset": 56001
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura</span>\n                    </td>\n                  </tr>",
+      "sha256": "6e9d3a6aa66d5110771f5f8a4ceef71c044b48cdd3017e97d24efa2cf06c52ea",
+      "htmlCharacterOffset": 81893
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 6,000 - JPY 7,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 6,000 - JPY 7,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "b4c528f91b9f6ab485d749f6e839d8b8926714cfe01f3f786a36535697805244",
+      "htmlCharacterOffset": 88040
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 40 seats ( Semi-private room, terrace seating, table seating, counter seating)",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      40 seats\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      ( Semi-private room, terrace seating, table seating, counter seating)\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "5d761978da505ddf55015b4bd3c16102f28f70f5cdcb80a77979e645f221d80b",
+      "htmlCharacterOffset": 92454
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Available For 6 people Private rooms available (2 tables for 6 people each) - can be combined for a total of 12 guests.",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Available\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      For 6 people\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      Private rooms available (2 tables for 6 people each) - can be combined for a total of 12 guests.\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "f3739dba64ce30e96ed4c065fdafa0d08c97f36cdbba6bad88e9080df7957426",
+      "htmlCharacterOffset": 93121
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome)",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome)\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "4fb1676034f990614929dce4ae621c1b6f03a1430381bfe10df20ef5792fe291",
+      "htmlCharacterOffset": 96986
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura</span>\n                    </td>\n                  </tr>",
+      "sha256": "6e9d3a6aa66d5110771f5f8a4ceef71c044b48cdd3017e97d24efa2cf06c52ea",
+      "text": "Categories Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura",
+      "htmlCharacterOffset": 81893
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1307/A130702/13320164/dtlratings/#price-range\">JPY 6,000 - JPY 7,999</a></span>\n                            </p>",
+      "sha256": "9ddaf6f946041f0bf4b93f901970eff70a51c526e5dbef53a99eb5a50ace8c9f",
+      "text": "JPY 6,000 - JPY 7,999",
+      "htmlCharacterOffset": 26660
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1307/A130702/13320164/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "9b0b90025fa1e03a8ad2d51effd3d3c7c648677cffed953ec19260bd8ed2199e",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 27090
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1307/A130702/13320164/"
+}

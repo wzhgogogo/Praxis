@@ -1,0 +1,16 @@
+/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/source-data-preflight.ts:95
+  if(failed.length)throw new SourceDataPreflightError(failed,artifactPath);
+                         ^
+
+
+SourceDataPreflightError: ENV_FAILURE: source data unavailable: tablecheck
+    at runSourceDataPreflight (/private/tmp/praxis-checkpoint-c-prep/src/eval/restaurant/agent-loop/source-data-preflight.ts:95:26)
+    at async sourcePreflight (/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/transports.ts:28:13)
+    at async runHybridLiveRead (/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/runner-entry.ts:237:1)
+    at async <anonymous> (/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/child-entry.ts:4:1) {
+  sourceIds: [ 'tablecheck' ],
+  artifactPath: '/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/execution-20261020/results/c-03-attempt-2/source-preflight/source-data-preflight.json',
+  code: 'ENV_FAILURE'
+}
+
+Node.js v24.4.1

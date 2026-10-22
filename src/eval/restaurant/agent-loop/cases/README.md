@@ -1,10 +1,10 @@
 # Restaurant read development cases
 
 - Status: current executable development diagnostic; not a Clean Baseline
-- Document revision: 1.6
+- Document revision: 1.7
 - Dataset: `restaurant-read-development@7`
 - Acceptance contract: `restaurant-read-acceptance@3`
-- Updated: 2026-10-09
+- Updated: 2026-10-21
 - Contamination: `PROMPT_AND_RESULT_EXPOSED`; `baselineEligible: false`
 - Product authority: [Restaurant Domain](../../../../../docs/domains/RESTAURANT-BOOKING.md), [ADR-0020](../../../../../docs/decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0024](../../../../../docs/decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../../../../../docs/decisions/0025-model-directed-read-investigation.md)
 
@@ -70,3 +70,7 @@ Future user-promise or Gold changes must update this contract, current YAML and 
 ## Gold@7 immediate window
 
 Gold@7 promotes the independently reviewed H005 window [reference, reference+30min], expires at that end and requires the actual earliest qualifying future slot time to be reported. A fully elapsed window permits ending or asking for a newly approved nearest-bookable-time search; no implicit renewal. The materializer resolves both start/end at each live reference. H001–H004 and all original user messages are unchanged except dataset identifiers. Gold@6 and historical results are never rewritten or re-evaluated as Gold@7. Midnight crossing still requires explicit clarification under ADR-0039. The 2026-10-10 C6a supplement now permits an honest early end only when all checked public pages have current identity-grounded hours explicitly showing no opening period in the original immediate window; unknown/API-only/partial/cross-night observations do not trigger it. This has offline composition verification only, not Live acceptance.
+
+## Criterion correspondence inputs
+
+`criterion-correspondences.json` is a frozen, exposed-development registry of already reviewed Gold-index/authoritative-index identities, scoped to exact original artifact SHA and original wording hashes. It contains no result labels and is never passed to a production model. The evaluator does not execute `criterion-equivalences.yaml`; that YAML remains immutable historical review evidence cited by the registry. An unregistered run receives no historical semantic binding, and source-condition truth still needs independent raw evidence. Generic text normalization cannot resolve unreviewed paraphrases.

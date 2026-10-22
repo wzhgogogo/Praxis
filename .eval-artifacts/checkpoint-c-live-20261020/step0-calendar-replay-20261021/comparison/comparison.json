@@ -1,0 +1,2623 @@
+{
+  "schema": "checkpoint-c-calendar-report@1",
+  "mode": "REAL_MODEL_REPLAY",
+  "startedAt": "2026-10-21T03:36:44.588Z",
+  "finishedAt": "2026-10-21T03:56:07.570Z",
+  "freeze": {
+    "sha256": "c784a31ef87577789bb72d5197cda8da5ec81b1ce63d301512b1e8240af71e38",
+    "files": 459
+  },
+  "committedSha": "15e77164adcee198893070b2bff6a4c62e816d44",
+  "planned": 276,
+  "attempted": 276,
+  "actualModelCalls": 277,
+  "websiteRequests": 0,
+  "stopped": null,
+  "variants": [
+    {
+      "variant": "V0",
+      "planned": 69,
+      "attempted": 69,
+      "succeeded": 69,
+      "notReached": 0,
+      "correct": 0,
+      "accuracyAllPlanned": 0,
+      "accuracyAttempted": 0,
+      "meanElapsedMs": 1793.5077077101455,
+      "meanSucceededElapsedMs": 1793.5077077101455,
+      "categories": {
+        "GUEST_PAGER": 65,
+        "OTHER_ACTION": 4
+      },
+      "tokens": {
+        "input": {
+          "sum": 962375,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "output": {
+          "sum": 8585,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "total": {
+          "sum": 970960,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "reasoning": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 69
+        },
+        "cacheHit": {
+          "sum": 949493,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "cacheMiss": {
+          "sum": 12882,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 0
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 0
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 0
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 0
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 0
+        }
+      ],
+      "returnedModels": [
+        "deepseek-flash"
+      ],
+      "apiAttempts": 69,
+      "apiFailures": 0,
+      "meanAllApiElapsedMs": 1793.5077077101455,
+      "apiCallsWithUsage": 69,
+      "apiCallsWithMissingUsage": 0
+    },
+    {
+      "variant": "V1",
+      "planned": 69,
+      "attempted": 69,
+      "succeeded": 69,
+      "notReached": 0,
+      "correct": 0,
+      "accuracyAllPlanned": 0,
+      "accuracyAttempted": 0,
+      "meanElapsedMs": 1834.2274800869568,
+      "meanSucceededElapsedMs": 1834.2274800869568,
+      "categories": {
+        "GUEST_PAGER": 67,
+        "OTHER_ACTION": 2
+      },
+      "tokens": {
+        "input": {
+          "sum": 983558,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "output": {
+          "sum": 8485,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "total": {
+          "sum": 992043,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "reasoning": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 69
+        },
+        "cacheHit": {
+          "sum": 193024,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "cacheMiss": {
+          "sum": 790534,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 0
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 0
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 0
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 0
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 0
+        }
+      ],
+      "returnedModels": [
+        "deepseek-flash"
+      ],
+      "apiAttempts": 69,
+      "apiFailures": 0,
+      "meanAllApiElapsedMs": 1834.2274800869568,
+      "apiCallsWithUsage": 69,
+      "apiCallsWithMissingUsage": 0
+    },
+    {
+      "variant": "V2",
+      "planned": 69,
+      "attempted": 69,
+      "succeeded": 66,
+      "notReached": 0,
+      "correct": 0,
+      "accuracyAllPlanned": 0,
+      "accuracyAttempted": 0,
+      "meanElapsedMs": 7886.383283246381,
+      "meanSucceededElapsedMs": 8098.039530333338,
+      "categories": {
+        "GUEST_PAGER": 60,
+        "PROVIDER_FAILURE": 3,
+        "OTHER_ACTION": 4,
+        "TIME_PAGER": 2
+      },
+      "tokens": {
+        "input": {
+          "sum": 963755,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "output": {
+          "sum": 93711,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "total": {
+          "sum": 1057466,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "reasoning": {
+          "sum": 84566,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "cacheHit": {
+          "sum": 154368,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "cacheMiss": {
+          "sum": 809387,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 0
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 0
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 0
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 0
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 0
+        }
+      ],
+      "returnedModels": [
+        "deepseek-flash"
+      ],
+      "apiAttempts": 70,
+      "apiFailures": 4,
+      "meanAllApiElapsedMs": 7783.375804200004,
+      "apiCallsWithUsage": 69,
+      "apiCallsWithMissingUsage": 1
+    },
+    {
+      "variant": "V3",
+      "planned": 69,
+      "attempted": 69,
+      "succeeded": 69,
+      "notReached": 0,
+      "correct": 68,
+      "accuracyAllPlanned": 0.9855072463768116,
+      "accuracyAttempted": 0.9855072463768116,
+      "meanElapsedMs": 1885.9853141014435,
+      "meanSucceededElapsedMs": 1885.9853141014435,
+      "categories": {
+        "CORRECT_MONTH_CONTROL": 68,
+        "OTHER_ACTION": 1
+      },
+      "tokens": {
+        "input": {
+          "sum": 1054569,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "output": {
+          "sum": 8510,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "total": {
+          "sum": 1063079,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "reasoning": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 69
+        },
+        "cacheHit": {
+          "sum": 283520,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        },
+        "cacheMiss": {
+          "sum": 771049,
+          "reportedCalls": 69,
+          "attemptedCalls": 69
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 18
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 17
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 16
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 1
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 16
+        }
+      ],
+      "returnedModels": [
+        "deepseek-flash"
+      ],
+      "apiAttempts": 69,
+      "apiFailures": 0,
+      "meanAllApiElapsedMs": 1885.9853141014435,
+      "apiCallsWithUsage": 69,
+      "apiCallsWithMissingUsage": 0
+    }
+  ],
+  "paired": [
+    {
+      "variant": "V1",
+      "versus": "V0",
+      "pairedPlanned": 69,
+      "improved": 0,
+      "regressed": 0,
+      "bothCorrect": 0,
+      "bothWrongOrNotReached": 69
+    },
+    {
+      "variant": "V2",
+      "versus": "V0",
+      "pairedPlanned": 69,
+      "improved": 0,
+      "regressed": 0,
+      "bothCorrect": 0,
+      "bothWrongOrNotReached": 69
+    },
+    {
+      "variant": "V3",
+      "versus": "V0",
+      "pairedPlanned": 69,
+      "improved": 68,
+      "regressed": 0,
+      "bothCorrect": 0,
+      "bothWrongOrNotReached": 1
+    }
+  ],
+  "monetaryCost": "NOT_EVALUATED_NO_FROZEN_UNIT_PRICE",
+  "endpoint": "https://api.deepseek.com/beta/chat/completions",
+  "noBrowserActionsExecuted": true,
+  "productionChanges": 0,
+  "originalS0": "c-04 PRESENT retained; no Live reauthorization implied",
+  "apiRequests": 277,
+  "decisionTrialsAttempted": 276,
+  "wholeExperimentCap": 300,
+  "originalFreeze": {
+    "sha256": "967d63e2d8e06ccbdcbb0134d55fdf4588124c8f0fa7dc49a45ac178e4a8a283",
+    "files": 434
+  },
+  "compatibilityFreeze": {
+    "sha256": "c784a31ef87577789bb72d5197cda8da5ec81b1ce63d301512b1e8240af71e38",
+    "files": 459
+  },
+  "compatibility": {
+    "approvedBy": "USER",
+    "field": "tool_choice",
+    "variant": "V2",
+    "value": "auto",
+    "priorFailedAttemptRetained": true,
+    "interpretation": "V2 includes thinking + auto tool_choice + expanded timeout/output, not a thinking-only causal contrast"
+  },
+  "attempts": [
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay/results/c-01-d008-V0.json",
+      "sha256": "0682a38110890d4e53f8e82a0e0310764ec66def82cfe28e9caed0b8e59414a2",
+      "id": "c-01-d008-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2959.8355
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay/results/c-01-d008-V1.json",
+      "sha256": "c2dc103692ec358fa78a5cf508de0fc9800ff45ce76ee5a08c8af0b1f9deda08",
+      "id": "c-01-d008-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1807.324709
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay/results/c-01-d008-V2.json",
+      "sha256": "44e7db55c4f956d7cae63f1123c0e3d2cdc30ceebdf6af909ee11a34e217ec11",
+      "id": "c-01-d008-V2",
+      "variant": "V2",
+      "outcome": "FAILED",
+      "elapsedMs": 675.8597500000005
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d008-V2.json",
+      "sha256": "5f65a86575846292d3a9601bef4722acb23e48a532c7fa1e9488bd2f113f9694",
+      "id": "c-01-d008-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 4900.368917
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d008-V3.json",
+      "sha256": "c7b2005fa0a5c50a81b3af7245c862f9c3e5ec77e6d1354d0f59f0284de1ba2e",
+      "id": "c-01-d008-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1757.546375
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d011-V1.json",
+      "sha256": "c20a75b4c758b58e79018e3fe8e641d2022d21c151d2980a10f7f3920d7241d1",
+      "id": "c-01-d011-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1818.9363329999996
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d011-V2.json",
+      "sha256": "54d42029ffe2435877f6cf4cada866747e03f8cf35d062a149a73acf64c9f766",
+      "id": "c-01-d011-V2",
+      "variant": "V2",
+      "outcome": "FAILED",
+      "elapsedMs": 4535.484917
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d011-V3.json",
+      "sha256": "3451099f7a2377ab2ea11adf690817d3004ddcdba22e7e4915d43fcea625dc6d",
+      "id": "c-01-d011-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1787.8004999999994
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d011-V0.json",
+      "sha256": "179a60fecd0de22af02215af371d9ab45e7cfa3a453cf1b3acfe342d4cb4e9dd",
+      "id": "c-01-d011-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1879.5308750000004
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d014-V2.json",
+      "sha256": "3bb172d72469a2dea236f9c83635f8b4dc251b0739104c6ba5cf9640bcc2832b",
+      "id": "c-01-d014-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2927.084916
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d014-V3.json",
+      "sha256": "df01adada60a6299cf80da5883446b6db5704d30c4a885e3ff5e1ffed1e21e83",
+      "id": "c-01-d014-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1524.5927090000005
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d014-V0.json",
+      "sha256": "e3ff24906ce3430cec68254ce284ce649cea881e3728424e46de5a5108ccf19f",
+      "id": "c-01-d014-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1797.3759580000005
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d014-V1.json",
+      "sha256": "f60a8e8d650cd2361643644a59f0eb0bd44be9fb78dd59cf43ad3297b4db8e23",
+      "id": "c-01-d014-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1902.462790999998
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d015-V3.json",
+      "sha256": "e4023d0dd68eed9106e0fbaa73d1c5e13871c6ab4caff1c3f1e0d0581e4f9524",
+      "id": "c-01-d015-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1851.0727909999987
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d015-V0.json",
+      "sha256": "53c215e217e5a01234b2296399524869d1b3c3ec9905ad845a6f14a7219ef5c2",
+      "id": "c-01-d015-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1805.0595829999984
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d015-V1.json",
+      "sha256": "4c0995a70e1f8db2ce5114ff364e5c21a851ceff68e63c0416313536f215939e",
+      "id": "c-01-d015-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2060.131333000001
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d015-V2.json",
+      "sha256": "e11ad4f31587fb528f0a8c590a2fb7716f5f792b317fd88aa3d7759809d29e19",
+      "id": "c-01-d015-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 3792.7801249999975
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d016-V0.json",
+      "sha256": "7bd0a03e73d7115ad83b62f0614f7c2c9341b4663ca65274ab8ccaef2beb9d90",
+      "id": "c-01-d016-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1513.7666669999962
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d016-V1.json",
+      "sha256": "21183a710ec0340bc742ecffc9595d9c2d8ffb245730181b0bb891421a81ea3f",
+      "id": "c-01-d016-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2046.0041249999995
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d016-V2.json",
+      "sha256": "193c173abb7f1bca77c6bf34910623e11a9be3944da4d1f1a18c287b239d3264",
+      "id": "c-01-d016-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 4102.487458000003
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d016-V3.json",
+      "sha256": "8bcbe514ab4f5314ea7cbfcebebb8bd2cc663fb9cce9b343da6fc17ef2d6c02d",
+      "id": "c-01-d016-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1466.5197499999995
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d017-V1.json",
+      "sha256": "ac2e81f107d6b4fc28daca4f03e59423346b4d02e05375d50fca26d493e53189",
+      "id": "c-01-d017-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1653.7224159999969
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d017-V2.json",
+      "sha256": "bbb27ec7dc12240976a96f2b43d015901e288d98b7b06e8718eb3b55018cd571",
+      "id": "c-01-d017-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 8199.433082999996
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d017-V3.json",
+      "sha256": "0a206d71a83799a0f829afa0aebb9601684c36f0a03c5a3edeea12741e1255b1",
+      "id": "c-01-d017-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2508.337707999999
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d017-V0.json",
+      "sha256": "6989dc47b567d03c93ec6585679a5896bf9bf486fd3917d3abf2686dc9e3a186",
+      "id": "c-01-d017-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1966.0047909999994
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d018-V2.json",
+      "sha256": "dba0029c51aaef1cba807ba33113cb920db3fac2a29fc95783a126e3ee9c0eec",
+      "id": "c-01-d018-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 3201.581665999998
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d018-V3.json",
+      "sha256": "bee62471d7185c5b9ba8630468255a4bd04e715ac5b6086f4a19a8d6a6e60652",
+      "id": "c-01-d018-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2485.4720000000016
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d018-V0.json",
+      "sha256": "cbdb5644c43b68896f05a6eba6c50d054a70e513af20d674fde46d147fb82379",
+      "id": "c-01-d018-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2473.7171249999956
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d018-V1.json",
+      "sha256": "038b80c4d7fe12609c7e9820216919d66093baf9ca446c5f32152a4c3db2533f",
+      "id": "c-01-d018-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1469.8752920000115
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d019-V3.json",
+      "sha256": "921e263b785128d95aceef6aa2051f284dd886930a5a8eeed871e396201d9823",
+      "id": "c-01-d019-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2294.1503329999978
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d019-V0.json",
+      "sha256": "97669f5e5b603072c73a25464cadd708995f955b5f9e6aa90170da90a95f4494",
+      "id": "c-01-d019-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1911.6815410000127
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d019-V1.json",
+      "sha256": "a9c29f9c956486762022c83de7ab0fa5f7440899b9dab1e5bc2e43bdda37b747",
+      "id": "c-01-d019-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1715.1067080000066
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d019-V2.json",
+      "sha256": "477036cb3c7d7d8264f67a4592fcb283755bd7724106725bb62db4bb2790f413",
+      "id": "c-01-d019-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 4457.728209000008
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d020-V0.json",
+      "sha256": "0186637e33dceb228e024dbe2d7a655ce3ace86603bdd5fad0928cb81e1825b1",
+      "id": "c-01-d020-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1706.8457909999997
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d020-V1.json",
+      "sha256": "0a50391572d12b08b9d83faa02761112a6b3bf3499900ca9e6ae232cad234e59",
+      "id": "c-01-d020-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1477.7900840000075
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d020-V2.json",
+      "sha256": "7bd30c1d2d8b8cdd62326967c4bf7c8212b385e644fc9ada53d12136f2f24874",
+      "id": "c-01-d020-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 8244.064375000002
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d020-V3.json",
+      "sha256": "8798b8488ca3208d713599cb8947428b3ab99b780ee8f042379aaab89ba0c0c6",
+      "id": "c-01-d020-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1682.2573339999944
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d021-V1.json",
+      "sha256": "1e6c7304a7786a4d18b13ad28be0963d03e03ad68eb3172e3cfe721b62466f36",
+      "id": "c-01-d021-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1688.9493749999965
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d021-V2.json",
+      "sha256": "efd27ef42f921e7d442ccaa494472c76a45a988175dddbe948236bdf24a45b9e",
+      "id": "c-01-d021-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 5192.283708999996
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d021-V3.json",
+      "sha256": "370a1ae14fd9a14b44ff3d68189e6a3bf7ad208adc4c5e8b0fb828bcb3d6c249",
+      "id": "c-01-d021-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1816.4939160000067
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d021-V0.json",
+      "sha256": "c24e6834b0ac6feaf38d72df99cf1227900823c80906de9f0d6de22040a36388",
+      "id": "c-01-d021-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1839.0805830000027
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d022-V2.json",
+      "sha256": "9e7a10adb91951f605860c65c2ee96f6f564abf71872e6e5abd1e23bf2209a21",
+      "id": "c-01-d022-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 3747.481999999989
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d022-V3.json",
+      "sha256": "06b9551c6f7fe633bf7193c001719deec903b63e147c09c9f858d5813d903297",
+      "id": "c-01-d022-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2103.6881670000002
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d022-V0.json",
+      "sha256": "aa18c9b500213dd37a60c93b5bd2d540b913aa1412689c2286dbb4d0f9f08f1d",
+      "id": "c-01-d022-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2329.831375000009
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d022-V1.json",
+      "sha256": "39db665f0c3dd780d249fa3f465a166f3e85c6673a796ed24fc790f585604ea3",
+      "id": "c-01-d022-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1836.356375000003
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d023-V3.json",
+      "sha256": "f198e009dcf2f4d7604f73f3cca3d0b87e2ab4f5120cd01828aa00a8465d50e7",
+      "id": "c-01-d023-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2472.2905829999945
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d023-V0.json",
+      "sha256": "6c41bc17928668464b83613ac19677558528ba912fa845ce76b4c854931b6526",
+      "id": "c-01-d023-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2295.2217079999973
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d023-V1.json",
+      "sha256": "6b17d1c743015291d1ae6557e70da1133403623648b73ed1dfd3b56c6c4fc7cb",
+      "id": "c-01-d023-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2665.824166999999
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d023-V2.json",
+      "sha256": "8ed13f9e2061d8b6a442f36dc17e58d144d0098fb64ffc7a236f416524bcf821",
+      "id": "c-01-d023-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 4027.5525000000052
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d024-V0.json",
+      "sha256": "460f5aeed949decb5d28b422c5f1d5441194376c2323e7071b705a39fa3ecf8d",
+      "id": "c-01-d024-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1943.2113329999993
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d024-V1.json",
+      "sha256": "5cdc0234472fb484b625bc748db1d22c8a68dc5e50d86117e8ce2eb20d5e3ce0",
+      "id": "c-01-d024-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2261.6365829999995
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d024-V2.json",
+      "sha256": "0b46101c618a8e53b8cfe39d196373e276ea360acd5c9aca62601cefa08cf2e7",
+      "id": "c-01-d024-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 6540.299792000005
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d024-V3.json",
+      "sha256": "8e2cf26079b152940d78dec716700b3c96b16655ee54cb80296884ff017082bb",
+      "id": "c-01-d024-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1860.7462919999962
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d025-V1.json",
+      "sha256": "76654641dc6250c7d8fd8ad58f97205b8f1ce58e1dd7e93886d29e33c3d0049b",
+      "id": "c-01-d025-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1679.1067089999851
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d025-V2.json",
+      "sha256": "7726cb1c86b06ded9fe3d10a44262d2e48467de7d2ad4888c4edbad7f4b31784",
+      "id": "c-01-d025-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 5268.530624999985
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d025-V3.json",
+      "sha256": "0ba851f9059176ff03894d805e577c815adc15facd1a3b93de1f739ccf3ee270",
+      "id": "c-01-d025-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1534.080459000019
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d025-V0.json",
+      "sha256": "4d06e2fc7835238e797710f2a7eca5dced3cf2f9f4ac36af1d34239963acd599",
+      "id": "c-01-d025-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1596.5142090000154
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d028-V2.json",
+      "sha256": "da0c421561ac6123bd7b626024d1ab839dad3397e91417f1f1d6bba0a1566eb6",
+      "id": "c-01-d028-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 25640.174375000002
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d028-V3.json",
+      "sha256": "891a6dcd89c331b54c41f2613ad91b9beaac66c8da51b293d82df1d1f55c1898",
+      "id": "c-01-d028-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2082.218124999985
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d028-V0.json",
+      "sha256": "d9556a77251bd376122767a6e95b54f828548e8c51acd6fc7da1f680d22ad9c8",
+      "id": "c-01-d028-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1908.2454169999983
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d028-V1.json",
+      "sha256": "abad859f1c03faa20866730cd2556962ecf9cc71251129f82eea1e27213c75ab",
+      "id": "c-01-d028-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2264.3542080000043
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d031-V3.json",
+      "sha256": "2b5d19155a6ef4fe35dcaa9beda1c7c4610f5a0a6535609047ea7118343cc644",
+      "id": "c-01-d031-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1829.1357920000155
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d031-V0.json",
+      "sha256": "9d7b90bfb38b5108d14e1285212b05153a316fde7bbcef8f99bb26c46e70ddbd",
+      "id": "c-01-d031-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1418.2902919999906
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d031-V1.json",
+      "sha256": "f0505bfa4c71ec7ed891d67f728e91677b06f37a11d842820d77eb35d8402b21",
+      "id": "c-01-d031-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1476.314458000008
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d031-V2.json",
+      "sha256": "30ba41a9e8a79eb1624df45b208cdedd344ef351b45eb3df785940ab859c01c6",
+      "id": "c-01-d031-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 3974.4388750000217
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d044-V0.json",
+      "sha256": "6483aecfc44454898081f1c35e81f5ad0a07c847cc5941e8b6bd6af041ae8fd5",
+      "id": "c-01-d044-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1709.4772079999966
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d044-V1.json",
+      "sha256": "ad0eb9ab329fa35e65ee95c8b59664a093fc923a199c9edc43af811c6076246b",
+      "id": "c-01-d044-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1840.0283749999944
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d044-V2.json",
+      "sha256": "d34618c0eb150741b761fd60d4338a40ac003ad79e1f977ff465868ba2a44a35",
+      "id": "c-01-d044-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2692.5533750000177
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d044-V3.json",
+      "sha256": "4d1007a93f44eb666e67f73b54fc13c89052d1201308c6a4510f304cfc04da90",
+      "id": "c-01-d044-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1944.7040829999896
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d045-V1.json",
+      "sha256": "874318a527d5d603a213b2f9fcd4180303243b34bc596d20054888f6bd0e6621",
+      "id": "c-01-d045-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1965.9928329999966
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d045-V2.json",
+      "sha256": "a8a07ddfa39d4604c589bc45fd5af742e13e3d38d2aab68239b78203044fae92",
+      "id": "c-01-d045-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2940.543540999992
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d045-V3.json",
+      "sha256": "19796cf4d06e9a320a5d69a736020c402c6a31300df7b344d9eb5edfe39dbe88",
+      "id": "c-01-d045-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1995.4683749999967
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d045-V0.json",
+      "sha256": "5ac11e7b2d0d363152609660970c44983ee9df3aa5eb87cc29b5cb7d2a91db73",
+      "id": "c-01-d045-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1527.3668329999782
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d046-V2.json",
+      "sha256": "41a9fbae64df949910ef9e5f6ecd98eb812cee30c64645629372cf1569a20bcd",
+      "id": "c-01-d046-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 6458.185333000001
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d046-V3.json",
+      "sha256": "df7bc703bf6606d84c40751d306ef8080f04a57998acfbed121a4d3cfe269c6f",
+      "id": "c-01-d046-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1312.767959000019
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d046-V0.json",
+      "sha256": "b065d1558f15bb9111aac4dd95ad9566786691f25718ac72fd649d8b66c6fd12",
+      "id": "c-01-d046-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1932.427708000003
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d046-V1.json",
+      "sha256": "d96805159a9ca107cb3212d6fc84024529cb8c6f4b6018d81d6cf0adcc0cc6d6",
+      "id": "c-01-d046-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1803.2149589999754
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d010-V3.json",
+      "sha256": "419fbd4130571ac47c1b44cacba1f6460ca9fc23898366e29990ae95b498d90e",
+      "id": "c-02-d010-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1599.2239999999874
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d010-V0.json",
+      "sha256": "7f0af9d4c60d335f501ae36bd5d6ff6ca3e14b7468764eee25277cdd8892cf64",
+      "id": "c-02-d010-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1768.0071249999746
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d010-V1.json",
+      "sha256": "3e9be4d58adf90ad46674f5c9f0cf60db87c7ec90dc50b3fa87d52b77699b5c9",
+      "id": "c-02-d010-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2050.250666000007
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d010-V2.json",
+      "sha256": "dd308df7a929164a1132e87fd69b59d4489b149b1f6137bbd3d23213c7475b5b",
+      "id": "c-02-d010-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 3541.8747910000093
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d013-V0.json",
+      "sha256": "4dd448a374f6c9872e1ddd4f2cb3aed5b81289dee670d1cee74c59d575f8b3e4",
+      "id": "c-02-d013-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1571.1822500000126
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d013-V1.json",
+      "sha256": "6345799a5ad25aa7683df05f20d6ff3ad61b2baaea2c7e5ebd09b886942e8321",
+      "id": "c-02-d013-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1541.9540419999976
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d013-V2.json",
+      "sha256": "ea759a8109625b85a25622642976abe2fef6a6e565efd30327b7e23594b657f1",
+      "id": "c-02-d013-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 8758.442083000002
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d013-V3.json",
+      "sha256": "47d131759cc6d2dfe2023222b5e00a76f98222d2924e7ec73b3b272c79a557e5",
+      "id": "c-02-d013-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1831.4097919999913
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d014-V1.json",
+      "sha256": "a35b87c1d91f2cd3f98670a8bae5bdf88eaac45eba33061fe2c23f62555654d5",
+      "id": "c-02-d014-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2414.3850000000093
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d014-V2.json",
+      "sha256": "33fc78f707fa80c6121742129fd70d00bc2fb59dfc22b965d030b5e7a666732a",
+      "id": "c-02-d014-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 17125.38287500001
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d014-V3.json",
+      "sha256": "0d04af69ef55eb229e5b966e3cbbc6423960792c64dd70de18462e2d37b66ceb",
+      "id": "c-02-d014-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2424.3109579999873
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d014-V0.json",
+      "sha256": "f164f487a17ef00a1be046b6b0398492d6500608755b66b080a64840edfbb226",
+      "id": "c-02-d014-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1791.8061250000028
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d015-V2.json",
+      "sha256": "b0fbc7fc78b9d5bec6887b7d0d2b6ac2420bb36827c71efbef4aeb676fa35200",
+      "id": "c-02-d015-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 13518.946292000037
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d015-V3.json",
+      "sha256": "a1b8cf8b63cf29ad1bd10035751c029d15c5d4e12773ac7668d66bf690828456",
+      "id": "c-02-d015-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1520.7766670000274
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d015-V0.json",
+      "sha256": "169a29323932a67c054ab0e7d6e9a4571faacee35b34f8fea1f15604824afe3e",
+      "id": "c-02-d015-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2156.188542000018
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d015-V1.json",
+      "sha256": "15096ba4b6d1e2001a1aa97a00b43d4b897da6ba168556d555ec81d1266e2e25",
+      "id": "c-02-d015-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1886.0517910000053
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d016-V3.json",
+      "sha256": "9b862e3004d8596941fbaef24fb25ef814b993e008e042f90563980f4d9d509d",
+      "id": "c-02-d016-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1943.590124999988
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d016-V0.json",
+      "sha256": "bbece6067e2f48e5aa59327e7bd615ad8ce812f70aaa66c658f25bf1811f0118",
+      "id": "c-02-d016-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1638.4117079999996
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d016-V1.json",
+      "sha256": "e4500403ad7770f3b510b40d3c47173f2364a6fd3f269e0ff84274dc3e66183b",
+      "id": "c-02-d016-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1641.739041999972
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d016-V2.json",
+      "sha256": "72d0dfc0f014061125004b4312054ad46403a30c2991606dea95aadd50d065d2",
+      "id": "c-02-d016-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 14987.091707999993
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d018-V0.json",
+      "sha256": "60316afe23c0838f10b925645d44297056c36b0babd608e5f8ffe8665c5b254b",
+      "id": "c-02-d018-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1392.2890420000185
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d018-V1.json",
+      "sha256": "adab4e421bdc5157e7793d76534a9979dbe235769f84f879e82d4291a3567524",
+      "id": "c-02-d018-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1627.7526249999646
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d018-V2.json",
+      "sha256": "a314fb02ea4ed056b92564de2001ef647dba11cf33495aa4e73b9eb6901137f9",
+      "id": "c-02-d018-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 26699.665957999998
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d018-V3.json",
+      "sha256": "124a78339c67f850b756d407f137c249a2c20b86796c94625aae725f786a1eb2",
+      "id": "c-02-d018-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1465.8792919999687
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d019-V1.json",
+      "sha256": "efd07f2ddce427ff1d1d2d63784002666f3512b82a3d112da51593c4c7871667",
+      "id": "c-02-d019-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1773.688124999986
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d019-V2.json",
+      "sha256": "d5a0f9dbd86578151ff148c68331357aa3b6d57b6f55f13713a0f57f9e9cf9fa",
+      "id": "c-02-d019-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 3279.289166999981
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d019-V3.json",
+      "sha256": "85f19c931e317a705944b401e484a87f772c5433f2889ec029d64af30f38d073",
+      "id": "c-02-d019-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1300.77887499996
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d019-V0.json",
+      "sha256": "281170b132398ef23bb29a81d56c235dbd54f3964aca6faa8db4ab164150eeeb",
+      "id": "c-02-d019-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1478.4456670000218
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d020-V2.json",
+      "sha256": "2e530e21c862baa27985ec0552c37489e3d1600ce5921e6a70d96f05ac3b43b3",
+      "id": "c-02-d020-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 4792.742582999985
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d020-V3.json",
+      "sha256": "ea06f34ea7be5de9ecf1f2bb47a36a32d3239523e56afdf8e604a8e560ac2baf",
+      "id": "c-02-d020-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1934.081708999991
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d020-V0.json",
+      "sha256": "54ff1a44f4e8939ccd95bbf7380d3f367c934d6156bc08acc67995db57b219d7",
+      "id": "c-02-d020-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1643.8667909999494
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d020-V1.json",
+      "sha256": "3d9a0fd850fc3076274bee7f6b984f9193d4f44d1a9496c43e080077666546e4",
+      "id": "c-02-d020-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1666.7045410000137
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d021-V3.json",
+      "sha256": "3110b92297cb463781d881cf33016db2824525368d07c3b5b698614957e824fa",
+      "id": "c-02-d021-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1926.9735830000136
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d021-V0.json",
+      "sha256": "8683e896dc3ac023f1a48c66fc4a812670a5dd998a9e4f433924f01be9fb5ccc",
+      "id": "c-02-d021-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1522.8576669999748
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d021-V1.json",
+      "sha256": "7f4f1553068a2ba1bde29acc7367e20e1bca5d8d3a3b72b6b2bdf2f97570e2e5",
+      "id": "c-02-d021-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1770.146207999962
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d021-V2.json",
+      "sha256": "b43eeb7ad1be0d2fa279a2d72035bb4934ea86be18b22a5dfd1e0b967db12ffc",
+      "id": "c-02-d021-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 19082.57558299997
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d022-V0.json",
+      "sha256": "ddf410f435ab38c9fcd6cf001decc9ff7032b9ff7e48315fb6136f2dccc3b895",
+      "id": "c-02-d022-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1754.8995410000207
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d022-V1.json",
+      "sha256": "0c89765444bd3bac43b3ffd9bf7b18138942dde222ce5965b4b1f9834aea4586",
+      "id": "c-02-d022-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1604.1158750000177
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d022-V2.json",
+      "sha256": "db0d997d621c609c4b05052eae19baa00657763c35cfab54c52a1dd79309645a",
+      "id": "c-02-d022-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 31591.055249999976
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d022-V3.json",
+      "sha256": "a9b04c9ff0bc7b8f1ef46ae60cd1dddbec4650dc9447b565c35d3ae37a15fe76",
+      "id": "c-02-d022-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1512.6207500000019
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d023-V1.json",
+      "sha256": "07acef1e4861a49d8f9f0e08488da995d9fc72e2ddbd3e5995389571dee5155e",
+      "id": "c-02-d023-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1858.1595000000088
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d023-V2.json",
+      "sha256": "f2d41adbed280035d57050e1e23348199a71650141846cdddfae7c6df61b4a1b",
+      "id": "c-02-d023-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 8387.957875000022
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d023-V3.json",
+      "sha256": "400b3bbc0eff2676438f8254d872a0f343a2a96ac1453abd3fc5c4f89c11a683",
+      "id": "c-02-d023-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1716.9803329999559
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d023-V0.json",
+      "sha256": "77e492720029732138870be8c534146cfc4ad8fc15cc5f1d447bcfb68acb7ba6",
+      "id": "c-02-d023-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1464.942665999988
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d024-V2.json",
+      "sha256": "a569fa7d35ec1bd82828e35de5d6102fee8b8fd45cd73e7b10050079fae15f1d",
+      "id": "c-02-d024-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 9696.296583999996
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d024-V3.json",
+      "sha256": "4868d5d6d6f09549a99928032b9d8d30a8b85194f64371a1f7f5b7cdbe86829b",
+      "id": "c-02-d024-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1838.075375000015
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d024-V0.json",
+      "sha256": "8d1d2f92664589ea1dab18189543cd0e473b86d4ae1c8fb7ff8328753724e60e",
+      "id": "c-02-d024-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1680.142292000004
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d024-V1.json",
+      "sha256": "ec28a0d9799f5e270db96dc3c2a9616251c83a17e6ca5e4e2e4079ea9ba88d71",
+      "id": "c-02-d024-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1898.9215829999885
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d026-V3.json",
+      "sha256": "ff5c58ff6c17372f7efa669674c9b97080de2260cd6b5cde954379d7cc9118e6",
+      "id": "c-02-d026-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1448.7263749999693
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d026-V0.json",
+      "sha256": "fe91a3c265a6eb8b8c1b8659087ab836b8cf88ff5670f57718cc1fa429f600db",
+      "id": "c-02-d026-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1463.5683340000105
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d026-V1.json",
+      "sha256": "da1fe3fcaab0f8b8527405e768cc65f8416b82f855aaedab2d595b58f03ffa94",
+      "id": "c-02-d026-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2053.4930420000455
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d026-V2.json",
+      "sha256": "35a4d170d618d4d1baf0e5f0614f8ff439635ce67cc43f9cb79415bfd66735db",
+      "id": "c-02-d026-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 8224.04241699999
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d027-V0.json",
+      "sha256": "a8306198aa31338c4217d17e7a55af34f6bde558d5dc109abc384c2a0cc5e6e4",
+      "id": "c-02-d027-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1898.718583000009
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d027-V1.json",
+      "sha256": "ff3cdc726e5248f8c357b12efc79ddd7c1d8d3806ea04b95b5ecc6d18660aa12",
+      "id": "c-02-d027-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1599.599749999994
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d027-V2.json",
+      "sha256": "8721767ffde7ee7b396e452ebb4ee11b7a336c946c205ffd74613f0cd3ff25ea",
+      "id": "c-02-d027-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2329.4985420000157
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d027-V3.json",
+      "sha256": "fcff002d9c75da429c154187bfbec84b228871f8e8a7bc83075e1667590f183c",
+      "id": "c-02-d027-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1339.1544160000049
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d031-V1.json",
+      "sha256": "9aefb48bb497d283d47bca7c4e6591f24c5a273c6e4b8919ae14b060db5b5cb7",
+      "id": "c-02-d031-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1839.7985419999459
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d031-V2.json",
+      "sha256": "7d0751e24f11b3db086029d25b76264722b48aac4d1f18f781e29c2671002568",
+      "id": "c-02-d031-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 15566.108707999985
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d031-V3.json",
+      "sha256": "aaeb20121a83e48fb3209eeeb5b6a4eed31c749504f891b85b2708f4114771e9",
+      "id": "c-02-d031-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1824.3582079999615
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d031-V0.json",
+      "sha256": "7c4e4c1fd1e3a8e52a2abbcf989bacae562488a3b464de78c717669040517961",
+      "id": "c-02-d031-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1573.563124999986
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d034-V2.json",
+      "sha256": "e923639d864d9bfbe88bd250707ebe36be8d5ae0b252ad075a8ae13cef423bef",
+      "id": "c-02-d034-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 19550.87933299999
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d034-V3.json",
+      "sha256": "5926cfc015228678802ff6b363d80470d137fef8889ac3b783899af056035a89",
+      "id": "c-02-d034-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1940.7882080000127
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d034-V0.json",
+      "sha256": "546562a0149888c84814640fa3635e17ff845ec2bd4d489b40c955f08c04684f",
+      "id": "c-02-d034-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2025.9027920000372
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d034-V1.json",
+      "sha256": "ffb2264bdbf56b737f79a8a50ba35e755d4cfbb0281f215d7dd36603eadf7d41",
+      "id": "c-02-d034-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1835.1859170000535
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d046-V3.json",
+      "sha256": "66a314eb616df61cb6317acf4e0f04631f167f8244afcf8982adcf576e5dd50b",
+      "id": "c-02-d046-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1964.3624590000254
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d046-V0.json",
+      "sha256": "ca6e6398763b8e9ec75fde92d7a6710df913092ab3a6247c8e5525b3de1a7096",
+      "id": "c-02-d046-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1612.686290999991
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d046-V1.json",
+      "sha256": "07a24bf2c88727f21d21b9f98cb56e355f571738dacb38924e26f72fe563c4bb",
+      "id": "c-02-d046-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1405.177250000008
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-02-d046-V2.json",
+      "sha256": "30cb71256392fa8de24a007ace0ff1d5e946b2c5405a3b4132d19db079f5d214",
+      "id": "c-02-d046-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2846.903209000011
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d007-V0.json",
+      "sha256": "36ec490d360b165275b6b8bebd2650fd9fc2cea9d61506b650b148e2780ef7ea",
+      "id": "c-03-d007-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2722.467875000031
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d007-V1.json",
+      "sha256": "8e6bb97dd4239b6485bd66e21be3fbc3f373ae0c130d3e0ef4899aea219dff7b",
+      "id": "c-03-d007-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1544.65716599999
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d007-V2.json",
+      "sha256": "53db02d074a54d4e6362b5d5685aad0e496846cceb5a0f90ea38ee2333a037df",
+      "id": "c-03-d007-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 5818.787167000002
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d007-V3.json",
+      "sha256": "150af1aae13692559d502977be2d0b74ebba3fb73fdc04223009ab0ffca79042",
+      "id": "c-03-d007-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1871.559833999956
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d008-V1.json",
+      "sha256": "5f3a9cb3e5edc4c8c26d39850e1c6e1bee9ec7c1e58ff400e851574268e59dfa",
+      "id": "c-03-d008-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2235.600208000047
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d008-V2.json",
+      "sha256": "a9a33fa2fb4e3308a4a3cfd6eee79801ab33003a0776d6a246f0968d7524a10c",
+      "id": "c-03-d008-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 7757.324125000043
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d008-V3.json",
+      "sha256": "f3393a5bf293befe258fed693bcb5829c53fdeacc2b6b662a819b2e91623c400",
+      "id": "c-03-d008-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2150.746374999988
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d008-V0.json",
+      "sha256": "6d148181288342e76cc3a893332594392cb0fa09cf312db2ce1bb03def7066f0",
+      "id": "c-03-d008-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1965.8820410000626
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d009-V2.json",
+      "sha256": "3d1046dbc9316abb6d83ce19a4d60056c96f40797e326258e69f03977d08e739",
+      "id": "c-03-d009-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 12951.152166999993
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d009-V3.json",
+      "sha256": "8d16c5c65446b500194fc46dd74e4a362cf26f5c3ecd9c5fed0495c1e6b132ff",
+      "id": "c-03-d009-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1766.8171670000302
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d009-V0.json",
+      "sha256": "ef7fa7dd15afaf668e62cd77e54e927d0c45f888d16b6b3de2cc0f3634ee47aa",
+      "id": "c-03-d009-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1449.331542000058
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d009-V1.json",
+      "sha256": "ac193381ea8615ceb275c545207c651e94ec395551733f2340e530fcf15b13ab",
+      "id": "c-03-d009-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1682.6734590000706
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d010-V3.json",
+      "sha256": "ef8e6324122d7e6856f1ffda14e9c9d818918c538072b391b4d03b426f8b1dcb",
+      "id": "c-03-d010-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2122.2458750000224
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d010-V0.json",
+      "sha256": "a2f130856533925ea6229a57979d00e8d2e8cc90c13eb438f3f86ce52ec57ea3",
+      "id": "c-03-d010-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1573.184917000006
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d010-V1.json",
+      "sha256": "2613db7964f634623bbeb70b439abdccfdf457db3bea747288a3d28785659169",
+      "id": "c-03-d010-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2171.4533339999616
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d010-V2.json",
+      "sha256": "0d223560ceaa42191aca07ba8c91e6a29756e23c79d1e3ed4c43acd5fb8486b8",
+      "id": "c-03-d010-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 5441.93979199999
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d011-V0.json",
+      "sha256": "b29ac2b5f9df640ec919e6f0b042b4a3debb9246fe4aeed34efd914fe58c390a",
+      "id": "c-03-d011-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1937.026291999966
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d011-V1.json",
+      "sha256": "2a049892ef0e7315c98c65e1ea8f3ac9d8f2ec0f76899fcf9daeb2a2e4f2cdfc",
+      "id": "c-03-d011-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1563.7280829999363
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d011-V2.json",
+      "sha256": "62cd5394f023aeb96daed8686cda07e82d7341f92d2cf2104dce12e1772c6f5c",
+      "id": "c-03-d011-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 3485.8967079999857
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d011-V3.json",
+      "sha256": "755ce080e0b099aec290c0763d1d053fd8139e44faa483c30ab066828c0af3b4",
+      "id": "c-03-d011-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2461.344625000027
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d012-V1.json",
+      "sha256": "f94f57b82f92337643f56dadb70fbca52810ec75472b80e1ddbe66bf5c7ea9bf",
+      "id": "c-03-d012-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1490.6680829999968
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d012-V2.json",
+      "sha256": "200f9fd872d25031601718d99dc3d5ae490173fdfcaffc011e77c18a4132ffbc",
+      "id": "c-03-d012-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 23149.28162500006
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d012-V3.json",
+      "sha256": "31725794339af19e1f04ade69d4e8f80095f0de1b19a19d8c04864b470dcf5f8",
+      "id": "c-03-d012-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1753.5182499999646
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d012-V0.json",
+      "sha256": "ac05106c52e949ebde853f48ee02a0e7bd7831e2d78d0c6c349e65ae29650ea4",
+      "id": "c-03-d012-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1607.6290410000365
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d013-V2.json",
+      "sha256": "1e80d73793d70a08eda0a42dfa9605c0aa6cd5054fe513883c7a060357479d77",
+      "id": "c-03-d013-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 8937.50558300002
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d013-V3.json",
+      "sha256": "f6b2e4052dd5f4162ae497c79835bd82c6c6d41b020b597929885540697bd10c",
+      "id": "c-03-d013-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1432.8509170000907
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d013-V0.json",
+      "sha256": "52be53c7151ca4ec7a8eb7ab55337ac9f3453d2aa99db316d8a7d88408f080f6",
+      "id": "c-03-d013-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2066.5980419999687
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d013-V1.json",
+      "sha256": "2717c97cf658e59dd66f81e5a2c070462b9229a33c94c75a5a3312ce03a31065",
+      "id": "c-03-d013-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1383.3357499999693
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d014-V3.json",
+      "sha256": "067a84622d946638dbba3cffeca71bafaa9fb97a5a889ad800d2d58fac80dae9",
+      "id": "c-03-d014-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1491.4814169999445
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d014-V0.json",
+      "sha256": "e0ff7e5f1af9578642b847048de3e777348ab470cdfb67a4e25214e9ece146d9",
+      "id": "c-03-d014-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1701.9626670000143
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d014-V1.json",
+      "sha256": "62b1233656da37c1c497ad4893f6743abec52b0eaba8c3874cc440a794104b2d",
+      "id": "c-03-d014-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2138.1366249999264
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d014-V2.json",
+      "sha256": "9987f7c6b25435265270a32524fcb73bf12ee19a00e91eba84ee07d43f59a584",
+      "id": "c-03-d014-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 11918.378167000017
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d016-V0.json",
+      "sha256": "9e7e2859455ab80fcab50e488eeb42b1179b34d493568558ec4ad83ea734870d",
+      "id": "c-03-d016-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1608.8196669999743
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d016-V1.json",
+      "sha256": "381efa07367e20422d92c426f4cfa191e8c8a833e0c51e6977f81cb5762b0bc7",
+      "id": "c-03-d016-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1887.0898340001004
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d016-V2.json",
+      "sha256": "3d3d869199df9108d165b4cb96592088ae59060bbbb01b41050cb79786f70a9b",
+      "id": "c-03-d016-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 13723.800167000038
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d016-V3.json",
+      "sha256": "ad5aad60fa1265362738748fdb1d29d0310fb8b5400151eda2907855f2fc659e",
+      "id": "c-03-d016-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1694.1085840000305
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d017-V1.json",
+      "sha256": "a84d21e06dbf0902595748d5850eeb6ee15a6be7e056bad1c7a0d2b6416413ee",
+      "id": "c-03-d017-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2243.2000830000034
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d017-V2.json",
+      "sha256": "0baa5c5e9eb731ad335087b14e270dd20961cf0d306a0ad58fa1c53109f81bb2",
+      "id": "c-03-d017-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 5317.393666999997
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d017-V3.json",
+      "sha256": "854b2dd3318274657ae50c9629f0e7467c79a74e2575e11e74f944dfc99cd77e",
+      "id": "c-03-d017-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2608.1911669999827
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d017-V0.json",
+      "sha256": "58fff6b0ed50f55509aca1e94f3fdf4dd3a8b7516d3b1d2c3020caf41cb2ca06",
+      "id": "c-03-d017-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2057.4679999999935
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d020-V2.json",
+      "sha256": "90b331afdc95b3c1387fb489cd9a28bc3c5b34cd493225a214f2fe41e8a6df82",
+      "id": "c-03-d020-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 23228.35154199996
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d020-V3.json",
+      "sha256": "7e2e52e17a7cf388419d4c713677d49b286b0ff7e6f870196f982818bb2663d1",
+      "id": "c-03-d020-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2114.9403750000056
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d020-V0.json",
+      "sha256": "7168ba1f0961e017c927513bfa02f2344ac35baa0ef6a3d8e2835a2153557804",
+      "id": "c-03-d020-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1460.4741249999497
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d020-V1.json",
+      "sha256": "7266efa53fa3e82a459dba7f7168a5c416bcdd35af41a560ef349b25403487c4",
+      "id": "c-03-d020-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1924.2828339999542
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d024-V3.json",
+      "sha256": "fd3120b453c5a8e8244a42c8f448fd6af195d6238590a7ea6c670aa24dbd5fca",
+      "id": "c-03-d024-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2004.3994160000002
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d024-V0.json",
+      "sha256": "5b064b7289b142effb561d0fd5ec8b17e86337aed09e0522b3277cabdf007b3c",
+      "id": "c-03-d024-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1452.451999999932
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d024-V1.json",
+      "sha256": "a7896043f0a36cca2cf80508b89a8ba92fbf373910baa7fb4b9402bfc2ef0289",
+      "id": "c-03-d024-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2368.143374999985
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d024-V2.json",
+      "sha256": "87729081fcff042408da242765f0559e5dabd16311c5d839862897caed81f057",
+      "id": "c-03-d024-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 5014.307707999949
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d043-V0.json",
+      "sha256": "39d654375de6dcba0bacd3189a2eb1e4dd475a831301aecc25a0175e963f5ca0",
+      "id": "c-03-d043-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1674.0647500000196
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d043-V1.json",
+      "sha256": "791d9451659670b98246d2e6dac2de788ef521c7622c06f718c8b4012746370d",
+      "id": "c-03-d043-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2155.2149590000045
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d043-V2.json",
+      "sha256": "d5f87c0b28b8ea2ac6fa15bf5417c1bca746b0e1f8db16e6d4f68e00be45f453",
+      "id": "c-03-d043-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2705.1081669999985
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d043-V3.json",
+      "sha256": "ee3cfb538073ca885802e12426ba4ce4385bcdfae1fa34157edee8ab4ae3cba0",
+      "id": "c-03-d043-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 3270.290709000081
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d044-V1.json",
+      "sha256": "c6364fc95a45edf35a7cde2d6afe4669b9fa2f69851bfab508f50983a917cf1c",
+      "id": "c-03-d044-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2369.2374169999966
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d044-V2.json",
+      "sha256": "02c2e771d3fc69784d4fe7e75989083189651a6a28200bbfe208b58baefe896a",
+      "id": "c-03-d044-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 10581.90162499994
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d044-V3.json",
+      "sha256": "d4d5d73b34256c757bce8eb72910ef980aaac0a2c40222b7844c2faa73751dc7",
+      "id": "c-03-d044-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1886.7713750000112
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d044-V0.json",
+      "sha256": "5dfd0a4f4dd4e1dae3ffdb624d2b06deb7407df58296201424a7e9b31bccbb72",
+      "id": "c-03-d044-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1438.327750000055
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d045-V2.json",
+      "sha256": "7006995b1b2805b40a99cd6b1633c4330bc6e0177bb78033c7be3049d5044274",
+      "id": "c-03-d045-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 7199.464458000031
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d045-V3.json",
+      "sha256": "eaa5501a0b65e02b657ef6fbc38cee802dcc6eeb4f6316c55ff4ed9a34bd5052",
+      "id": "c-03-d045-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1637.8057920000283
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d045-V0.json",
+      "sha256": "c9142b52afd67e834e7022bf44220ee89400b0c5439fbfa0c266da4cc57d6922",
+      "id": "c-03-d045-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1689.5537079999922
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d045-V1.json",
+      "sha256": "2ba252f0107ff2f4839459347b6ab68883c8344d83ddb2a49616603e032e5e19",
+      "id": "c-03-d045-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1493.4265410000226
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d046-V3.json",
+      "sha256": "fa012c0bcb7834472db60124afafb018224b53415d08b0a29edca1dab7db4b5f",
+      "id": "c-03-d046-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1694.7993749999441
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d046-V0.json",
+      "sha256": "8dd263c2eef4a9c8c6541b0160b2e7e5458184d309e1033ce1085edcb63b9b66",
+      "id": "c-03-d046-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1584.9367499999935
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d046-V1.json",
+      "sha256": "18912a4a92d2659f0ed9c9d7f7d2735620e380911c6f16c1a07c02a6f0fa85be",
+      "id": "c-03-d046-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1421.1299169999547
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-03-d046-V2.json",
+      "sha256": "304dfe8835d39c51443f2ca3d9f5366e4dea4d3aafd1f1551c4b25074bc53731",
+      "id": "c-03-d046-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 8178.793166999938
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-04-d046-V0.json",
+      "sha256": "2c6316c06a546386ef83e4db48e1d3e5995ee88d97ceb1a0e6d4e29e118810c5",
+      "id": "c-04-d046-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1694.691583000007
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-04-d046-V1.json",
+      "sha256": "3023b2e673aa4a577628c4a3a1579dbe422238106a19dd4a4c7457cef85cf616",
+      "id": "c-04-d046-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1889.3555410000263
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-04-d046-V2.json",
+      "sha256": "240b6a2237c565bf2b88e2a8b40b2868cd6b846f7fe3a1d4cbe78c8c1f9a3cb1",
+      "id": "c-04-d046-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 10308.887833000044
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-04-d046-V3.json",
+      "sha256": "ddb7d962145e7fcc57cdf547f30362cb8f70d45d2b2e9a87cd863f2874da1ae5",
+      "id": "c-04-d046-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2034.5030419999966
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d009-V1.json",
+      "sha256": "82142db90a2b01e22aa2cebfd3a880cd41ce904ab3a084f91502c0c73c4b6ab2",
+      "id": "c-05-d009-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1438.6473750000587
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d009-V2.json",
+      "sha256": "23d09375a3e321f5c127be0490464a2b842b2cc947d49e4c9f05091b0087241a",
+      "id": "c-05-d009-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 3320.2477090000175
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d009-V3.json",
+      "sha256": "c1eea9d04ab7b60bc9aa4b12455e53077fb0f0b7806017943e66643f9c47035e",
+      "id": "c-05-d009-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1567.717791999923
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d009-V0.json",
+      "sha256": "a5a7335b1cf0d33b4a3f14addec90c6edc7a9ed32e667a63e1e74026fae5ce4c",
+      "id": "c-05-d009-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1794.3532089999644
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d010-V2.json",
+      "sha256": "7880ab5407785766fd49371562447df283c01181f545874af943128af240b726",
+      "id": "c-05-d010-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2980.345374999917
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d010-V3.json",
+      "sha256": "ba686d69fc20dcc97166cca29f46a621a0f91b3bdb3634df541c672dccc0d1e0",
+      "id": "c-05-d010-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1803.98199999996
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d010-V0.json",
+      "sha256": "26ba531bd8cc161afe74acb0bd63a5a304168e4c49408fd8875caab77a47e0e8",
+      "id": "c-05-d010-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1564.0897910000058
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d010-V1.json",
+      "sha256": "df02c71429bb4c5a5afd3930add3a92cc8924803a12920736e704afcb36d3a6a",
+      "id": "c-05-d010-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2128.6580829999875
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d013-V3.json",
+      "sha256": "a194950f2c387481b71689facce2986a83a8a2672d086c236d77ee60fe7c4ed7",
+      "id": "c-05-d013-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2171.4857499999925
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d013-V0.json",
+      "sha256": "562b9592ccc5b2c6d8a8657ad58b2778aafaa1cca6f1a74b8c2c5f91af2d9904",
+      "id": "c-05-d013-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1761.7885000000242
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d013-V1.json",
+      "sha256": "ba8e84641486005e19d67a29283d9b7a1ce2bbc8b96fd6bb9e3edd366590048b",
+      "id": "c-05-d013-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2151.767292000004
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d013-V2.json",
+      "sha256": "816d9c5863f7168ddfe5c642fd7b02a67154bfd9fe06a04823d2cf2088306aee",
+      "id": "c-05-d013-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2447.4209170000395
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d014-V0.json",
+      "sha256": "e3cd6251ba347b220e1278a4758d9af50bca813f659dbffe8b98b6f6dc35dd12",
+      "id": "c-05-d014-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1522.579832999967
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d014-V1.json",
+      "sha256": "e78160e3e7c1c0eebbaa740034629b529fdbf2676df2e5a86b9bd007c30491bf",
+      "id": "c-05-d014-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1375.9799999999814
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d014-V2.json",
+      "sha256": "29ab06d9feda6736777fbb53aa942b9a7c0b939998bb30800c3ce9643a608120",
+      "id": "c-05-d014-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 4420.504458000069
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d014-V3.json",
+      "sha256": "1a3880226f009ece3eb169a4816f454ae104e7eff7463a5c0a600944e984e65c",
+      "id": "c-05-d014-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1980.019500000053
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d016-V1.json",
+      "sha256": "9994b9bc67a644a7f06812d684364e6884e9632f6fb03127dc8ec6669c55b380",
+      "id": "c-05-d016-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2022.3114160000114
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d016-V2.json",
+      "sha256": "6a41d3ab6a95a900ab98ba1994daa68004f10dde56969d35a5eaaa73d252534f",
+      "id": "c-05-d016-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 4580.585542000015
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d016-V3.json",
+      "sha256": "00c7b9b842eaca920c5f03a5f16c5cb9f2e7dbfe6ce3cb8e812712f4b3de9e6f",
+      "id": "c-05-d016-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 3036.472167000058
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d016-V0.json",
+      "sha256": "037833bb0a8263c298d53faa6e6b83b222f3cecc8d60a0b064bbe3760f85030a",
+      "id": "c-05-d016-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2163.082999999984
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d017-V2.json",
+      "sha256": "6222419935f0e59ca44915f67caa61b6882890b30d73df4f87337ac626c2fed4",
+      "id": "c-05-d017-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2822.7036249999655
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d017-V3.json",
+      "sha256": "19050cc4ad01d1f19c0c4b7613a46c68938d3c12cf1d610459fdf70da60d7df7",
+      "id": "c-05-d017-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1940.0236250000307
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d017-V0.json",
+      "sha256": "1a8cc1f7c279f3e54bfcd666a1e315ef405894d996fd0ed0b632c5311c60b8c3",
+      "id": "c-05-d017-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2318.9898340000072
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d017-V1.json",
+      "sha256": "7de368942713d48a7c8a43a032ac353d4f0c6aeaea93bb94eb179e554842472c",
+      "id": "c-05-d017-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2319.6332499999553
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d018-V3.json",
+      "sha256": "9043da1d9304c45fc5da9f817d6ba38798b74bffc32588e271537cf3c45ce7b7",
+      "id": "c-05-d018-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2079.063291999977
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d018-V0.json",
+      "sha256": "1cb9c9e45280b02cb1d69d66b8ef58ed2638855cd957f645adf7da956d0262f7",
+      "id": "c-05-d018-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1972.9357079999754
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d018-V1.json",
+      "sha256": "4d7b1df2902d9b506dde9d9b64c4d845fffdeede350aaa1d0c9f3ab6c86f20b0",
+      "id": "c-05-d018-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2071.818667000043
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d018-V2.json",
+      "sha256": "1c20a6f517adf1739f4ac2bcb1b4b1f1760dca6b9c852a570e29de82805b3755",
+      "id": "c-05-d018-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2173.2596250000643
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d019-V0.json",
+      "sha256": "8c83a2fd09e573881ef2a13f29020f898fbf0ed198bf9d7bd375d21ed393c13d",
+      "id": "c-05-d019-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2381.3791670000646
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d019-V1.json",
+      "sha256": "fd860a1ae1f9b403a07df8bb23c3d25ee2e133d29274abaf37f1c2f94b811431",
+      "id": "c-05-d019-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1432.1331250000512
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d019-V2.json",
+      "sha256": "a375e20e0eb49ebac5bbca19570d527a79d665cecece4341d82f1bcd4b12c1b7",
+      "id": "c-05-d019-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2062.5985409999266
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d019-V3.json",
+      "sha256": "b95d44cc9f9caae2fbba8e3776bbd97544631a043dcafbf692dcf26ca7a4a561",
+      "id": "c-05-d019-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2108.5088749999413
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d020-V1.json",
+      "sha256": "eb0baa71cfe9331564da3e52dca987a1cddbe61ecaa1c6912f8e8549553a7257",
+      "id": "c-05-d020-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1974.434542000061
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d020-V2.json",
+      "sha256": "92b122fad107a32d0b056dae2bfa122ad51c9af4cc11f37d004eac35433bf88e",
+      "id": "c-05-d020-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2732.4195840000175
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d020-V3.json",
+      "sha256": "df6735bae268a22d48007183908437e76e2f733165bbeb3a596a092f80089c55",
+      "id": "c-05-d020-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1372.671665999922
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d020-V0.json",
+      "sha256": "0c295de4a5d3ff781dcc9f3fd6d978de5cf661fc7ae1cc77d46d00c063763bfd",
+      "id": "c-05-d020-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1511.5536669999128
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d021-V2.json",
+      "sha256": "5538affb2d20e7dd0ffaa4ccd5cf9094f03f1fed0cc5c2dea6eae5356d901365",
+      "id": "c-05-d021-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 12077.051334000076
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d021-V3.json",
+      "sha256": "e6e9ab3f5adf10478ae9b31878073234b311b9082e75f5346feeb0335d6a729e",
+      "id": "c-05-d021-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1659.5504589999327
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d021-V0.json",
+      "sha256": "612288616736a09590751c78747c4502404c43fb463f54bb16f873a8477fcfb3",
+      "id": "c-05-d021-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1796.5123750000494
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d021-V1.json",
+      "sha256": "0ce028f650a7fbc073064ba0a033c13c03a7a1760c7370738d10c325256b8269",
+      "id": "c-05-d021-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2048.0626250000205
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d022-V3.json",
+      "sha256": "a1e100ee41938d1944f180fd37661afdc702aabd4904bc0ee3fc8788ff8e82b3",
+      "id": "c-05-d022-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1577.501874999958
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d022-V0.json",
+      "sha256": "768e5308bb9ecd8e532abfaccc9684702000b37483e15f40918834398027e652",
+      "id": "c-05-d022-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1538.2085000000661
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d022-V1.json",
+      "sha256": "c569d2a25d6d552862031a7512051887096a4ca54acc16966efd81ee8fbdda35",
+      "id": "c-05-d022-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1642.3193339999998
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d022-V2.json",
+      "sha256": "6b6064f741572cbf06257e7b3e1f510956a6002db20e2d8ff4028f1c19e1ba16",
+      "id": "c-05-d022-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2961.8797920000507
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d023-V0.json",
+      "sha256": "7faac170b592c32e635b62566a1bc210427bc93c1a1a44205220b79f989b6b2f",
+      "id": "c-05-d023-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1657.0235839999514
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d023-V1.json",
+      "sha256": "a3c2776c33142d0177d4e5d61e43b69cc107b9e3669373f546cbb1d50fc72d2b",
+      "id": "c-05-d023-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1583.6296249999432
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d023-V2.json",
+      "sha256": "11b1e22102b5a669e5cb86f52528997749fee637ceba64734489254726c14d44",
+      "id": "c-05-d023-V2",
+      "variant": "V2",
+      "outcome": "FAILED",
+      "elapsedMs": 2250.9257499999367
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d023-V3.json",
+      "sha256": "df54a6ff18b948bc0a4dc042ee1731fc01bc7c56d45166b26ff3a643e0d6f9a0",
+      "id": "c-05-d023-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1487.1968749999069
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d024-V1.json",
+      "sha256": "c2b10dd70570ca1fcb99b8a78bca744bf991b8e38738ebacfc97bccab0e3ad21",
+      "id": "c-05-d024-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2100.139749999973
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d024-V2.json",
+      "sha256": "8851bab8f5ca18f75a5ca1d4561a6c116b9552e390df90721b076804bd153afe",
+      "id": "c-05-d024-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2577.158250000095
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d024-V3.json",
+      "sha256": "786ef294cbb5f53b0a0cc15dbce1d33636763f4a1634ab6027bbc1fbbca1b050",
+      "id": "c-05-d024-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1500.1184169999324
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d024-V0.json",
+      "sha256": "c43362679b0858b5f316d3995c360a2d2dc7b250eb2320cf2258d31b4b10947b",
+      "id": "c-05-d024-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1430.7746249999618
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d025-V2.json",
+      "sha256": "70fdb14468aa6448218196b27f210321db56684875432c87ba5ccd169588362b",
+      "id": "c-05-d025-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1920.0466250000754
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d025-V3.json",
+      "sha256": "c86982d7956e8ad35dc1a1af12ed4a20cda56f1d5107a3b43c9471fc8a0dad34",
+      "id": "c-05-d025-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1559.3948749999981
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d025-V0.json",
+      "sha256": "7b9193b844e091c677bd9fad061d1dff59d2d56dda285c795d8f151df924ac95",
+      "id": "c-05-d025-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1658.907084000064
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d025-V1.json",
+      "sha256": "75f111d70249c8dd67d0021f49a250441ca8c7750112e0abc43127cded6cefff",
+      "id": "c-05-d025-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1218.4330420000479
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d028-V3.json",
+      "sha256": "b1033e0b17a9ba35cfdb03790eb8f3e2342d8ae5c5e478c5810b6f6d9213cece",
+      "id": "c-05-d028-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2609.7565000000177
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d028-V0.json",
+      "sha256": "3c926000a43b16478675cdb084f95b39ae46f556c129da80f11cdaea4478e141",
+      "id": "c-05-d028-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 2513.6400419999845
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d028-V1.json",
+      "sha256": "64aabc09fdb7139a667199bc9e00571b62043d169253e6097b62bb357ef5d84c",
+      "id": "c-05-d028-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1746.6973340000259
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d028-V2.json",
+      "sha256": "28f16b7741282d975b5eb89d76bb9d54703f57b1c1b6e17ed21d3514404b60c0",
+      "id": "c-05-d028-V2",
+      "variant": "V2",
+      "outcome": "FAILED",
+      "elapsedMs": 2903.4268750000047
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d029-V0.json",
+      "sha256": "24f25459a7ceb5be48edf43ad16093c1b428ecd24e422314a0847e64ea61e60b",
+      "id": "c-05-d029-V0",
+      "variant": "V0",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1530.3791249999776
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d029-V1.json",
+      "sha256": "10ce1f306050164b91a81069f013eb5c578b317d5f0f86953d52486de405320f",
+      "id": "c-05-d029-V1",
+      "variant": "V1",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1445.4421249999432
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d029-V2.json",
+      "sha256": "23156680264fc8c37f8b92b80d6f287694316b7b1278fa13a4b031496e148e9d",
+      "id": "c-05-d029-V2",
+      "variant": "V2",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 5389.788124999963
+    },
+    {
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d029-V3.json",
+      "sha256": "b545cec55bb8bfa6145080803dba4775338d9050c37aed3967b181c6209d9d3b",
+      "id": "c-05-d029-V3",
+      "variant": "V3",
+      "outcome": "SUCCEEDED",
+      "elapsedMs": 1841.7143340000184
+    }
+  ]
+}

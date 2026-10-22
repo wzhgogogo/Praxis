@@ -1,0 +1,48 @@
+{
+  "schema": "phase2b-user-source-retry@1",
+  "status": "STOPPED_HTTP400_REPEATED",
+  "authorizedBy": "USER: 网页正常，你重试",
+  "requestExactMatch": true,
+  "parameters": {
+    "rst_id": "13004546",
+    "svd": "20261103",
+    "svps": "3",
+    "svt": "1900"
+  },
+  "originalMetadata": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-05-13004546.attempt-1.metadata.json",
+    "sha256": "e42ea34e278cb890c2a598826cfbe4aeb94340e288e71abdb5cc9f892b3433b5"
+  },
+  "retryMetadata": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/http400-retry/1-attempt-1.metadata.json",
+    "sha256": "f6c3e97fb346e781390d26fe617b379a60bd2d6b44e5d4b7f1e9b0d430b38970"
+  },
+  "retryRawBody": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/http400-retry/1-attempt-1.body.json",
+    "sha256": "6a5c73754b2c1ec21f35bc99f1d2280e74b8e3a423a208c8d5e9cbeb357f81cd"
+  },
+  "responseSha256": "6a5c73754b2c1ec21f35bc99f1d2280e74b8e3a423a208c8d5e9cbeb357f81cd",
+  "responseByteIdenticalToPrior": true,
+  "elapsedMs": 1263,
+  "sameOriginGapMs": 5895074,
+  "freezeProofs": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-freezes/inventory-http400-user-retry-07.json",
+      "sha256": "74184fa244f399e495b3f860e52f306fddf8a2e899c455cfe421bde9b3dffd19",
+      "files": 766,
+      "status": "PASS"
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/stopped-audit-freeze.json",
+      "sha256": "2f205883a4d9455086c029b5b370ef18b22b23aa6012dea07ed4bc545fe1958b",
+      "files": 1224,
+      "status": "PASS"
+    }
+  ],
+  "modelCalls": 0,
+  "fullLiveRuns": 0,
+  "environmentReruns": 0,
+  "websiteRequests": 1,
+  "httpStatus": 400,
+  "scope": "Source retry only; no no-stock judgment, no capability evaluation, no continuation or new holdout Live after repeated HTTP400"
+}

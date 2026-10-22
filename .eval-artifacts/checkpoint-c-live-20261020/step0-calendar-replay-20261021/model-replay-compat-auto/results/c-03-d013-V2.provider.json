@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "f8199cbeec5bcf821dbfb38039343ecd7b33b0e9d7341b0c53d13686cc0b08a0",
+  "id": "0ec8642a-318c-4773-b111-340b2d3e0e29",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14136,
+    "completion_tokens": 1669,
+    "total_tokens": 15805,
+    "prompt_tokens_details": {
+      "cached_tokens": 3072
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1531
+    },
+    "prompt_cache_hit_tokens": 3072,
+    "prompt_cache_miss_tokens": 11064
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_H7nPwIPPAfpPWv3mcHTP7239",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:9:target:130\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance the date calendar carousel past Oct 31 toward the requested 2026-11-05.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

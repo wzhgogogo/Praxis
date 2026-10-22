@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.194
-- Last updated: 2026-10-20
+- Document revision: 4.268
+- Last updated: 2026-10-23
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -10,6 +10,255 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-23-CHECKPOINT-C-PHASE2B-OFFLINE-EVALUATION
+
+仅离线评价保存的18次第二阶段b运行；对应及结构预算先登记SHA并提交冻结，固定Evaluator33/rubric29无后改。7QD/7MISS/2未合格/2未评，例01与04各3/3，仅2例达单例门槛；例02按运行前无见证批准排除。39条对照33一致、6条已审不等价价格展示未对应。S0 PRESENT为0，声明4次/越界6次未完整评价；退出2/4/6未满足、3未完整评价，5仅指标。站点窄口径3591→3863（+272），共享层新增常量候选0。0新模型/网站/Live/重跑，累计3634/5000模型、72/100 Live、3/10环境重跑。原始材料、Gold、评测器、rubric与登记不改；仅私有准备分支推送后停下等签收。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/four-layer-report.md).
+
+## TEST-2026-10-23-CHECKPOINT-C-PHASE2B-WORDINGS-PENDING
+
+第二阶段b原顺序18槽位已全部保存原始产物与SHA；本批294模型、18完整Live、0环境重跑，累计3634/5000模型、72/100 Live、3/10重跑。Live冻结69209a016be68d6df97417fa7679d70b0e321212ab0c6d6400f361ba507f8448的884项未变；完成于2026-10-22T22:23:37.641Z，早于见证截止。仅抽14份产物的20条候选措辞配对；无能力评价/退出结论，等待独立措辞判定。第02例既定业务无见证排除记录保留，未修改产品/Prompt。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/pending-wordings.md).
+
+## TEST-2026-10-23-CHECKPOINT-C-PHASE2B-WITNESS-RESUMED
+
+已批准恢复的评测侧见证认证完成：五例有见证，一例主地点及承诺fallback业务无见证，按用户预先批准排除能力分母并保留全部18槽位。80来源请求、0模型/Live/环境重跑；新增外层19项控制全绿，生产与Prompt字节未改，复用已验收五门禁及回放基线。累计3340/5000模型、54/100 Live、3/10重跑；最早见证截止2026-10-23T17:14:00.086Z。下一步提交最终冻结后连续执行18次，能力评价延后，仅提措辞等待复核。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/plan.md).
+
+## TEST-2026-10-23-CHECKPOINT-C-PHASE2B-STEP3-HTTP400-STOP
+
+已批准连续任务：步骤1验收与步骤2三次暴露Live检查通过；步骤3只读认证在四参数接口HTTP400处按冻结采集器停止，原始响应与部分登记已保存，未将来源失败/未到达冒充业务无见证。新留出Live 0/18、未作能力评价；本阶段认证0模型，累计3340/5000模型、54/100完整Live、3/10环境重跑。详见停止四层报告、部分登记、源节奏审计和冻结；等待复核。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-PHASE2B-WITNESS-INPUTS
+
+在前两步全部通过后才打开复核者提供的da8ff090新留出：承诺eb5458b2与71d9961c及提供分支逐字一致，原文358beff8、6份用例SHA独立匹配，字符串严格校验通过。按东京10月23日物化6例日期，与复核exit-dates一致，只填日期无其他更改。原文只用于本次退出认证/执行，不复制到开发Fixture、语义Prompt或开发日志；生产代码保持三次合格检查的版本。准备冻结后0模型、30秒来源节奏查找认证。现累计3340/54/3、上限5000，剩1660/46/7；尚无新留出模型请求或Live，能力评价延后。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-PHASE2B-STEP2-LIVE-PASS
+
+三次旧暴露完整Live检查全通过：例03两次及例01对照均Evaluator33/rubric29 QD，各交付3家，三次实际先到Tabelog。例03见证1/2进候选，两次返回18:00至20:00窗口内九时刻并集；例01见证3/3入候选，19:00。声明/越界均ABSENT；无重跑，间隔/500秒/50模型/40Google/旧见证有效期均满足。新增60模型/3Live/0重跑，累计3340/54/3，按5000剩1660/46/7；不计任何退出分母。冻结8afad494/4175项前后通过，原始/独立评价/四层报告已保存。第三步新原文仍未打开，接下来核对承诺及分支后准备新见证，最终18次只提措辞不评价。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-PHASE2B-STEP1-COMPLETE
+
+第一步合并验收全部满足：预算/团体/流水线已按序进入准备分支，模型累计上限5000。实际五门禁1024/136、缓存真实响应69/69与选店5/5、独立校准22/22及旧例02五条预算均CONSISTENT。69与5请求经当前生产重建后逐项内容相同；无新模型/网站/Live。冻结f648d2df/4173项前后核对，当前3280/51/3、剩1720/49/7；旧原始/评价/Gold保持。新留出未打开，进入已批准三次旧暴露Live检查，必须在旧见证北京时间10月23日14:41:36前完成；不过门槛即停，不续期。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-PHASE2B-MERGED-INPUTS
+
+已按顺序合入预算200e13cf、团体98cc7994、退出流水线47afd2d7，逐项保留各方行为、测试与历史正文，统一State20/Task18和文档修订；只摘取06703ba1预算批准。累计模型上限5000，当前3280剩1720；Live100与重跑10不变。实际五门禁1024/136全绿；69+5请求经当前生产重建，与批准内容完全相同（仅既有30秒传输超时差异），准备提交冻结后复用真实响应验收、独立22校准及旧例02五预算行回放。三次检查入口复用同一外层，仅三槽计划/单独授权，16项控制通过；原18槽行为保留。新留出未打开，模型/外站/Live增量0。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/plan.md).
+
+## TEST-2026-10-22-PHASE2B-EXIT-PIPELINE-COMPLETE
+
+Phase2b退出流水线已完成零网站/零模型离线验收：最终d662a23b冻结3112项，旧暴露18槽位完整通过；6例见证3/3/2/3/1/2，9条目12措辞对不附结果，3份结构预算对应，缺判词评价0次、复用旧独立判词后18份评价。五门禁全绿（1005默认/131本地浏览器）。新留出仅71d9961c承诺未开原文，产品/ADR/Gold/预算及例03不改；旧500076/500080ms超限保留。此为流水线准备验收，非新留出或阶段退出；基线剩720模型不足900最低预留，未扩容。推送后停下等复核。 [报告](../../.eval-artifacts/phase2b-exit-pipeline-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-PHASE2B-EXIT-PIPELINE-PREP
+
+在17415d1c独立分支准备Phase2b退出流水线；仅引入71d9961c承诺，未读新留出原文。增加SHA先于解析、非字符串条件拒绝、日期/后备记录、800米见证、18槽位及措辞复核门禁，复用旧Runner/独立Evaluator33。旧例05类型门禁红绿通过，后续提交冻结后演练旧已暴露18产物；模型/网站/Live均0，预算修复和例03不改。 [计划](../../.eval-artifacts/phase2b-exit-pipeline-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-BUDGET-CONDITION-COMPLETE
+
+结构预算漏核对和漏展示已修复：生成稳定criterionRef的HARD行，资格与展示共用来源价格结果，超预算/无价拒绝；SOFT比较含义和既有价格政策保留。h-02/h-08/h-14原事件经当前Router→Reducer，5条预算及全部10条条件与Evaluator33/rubric29独立评价CONSISTENT，原产物/旧评价不覆盖。4个红灯、42项相关测试、实际五门禁（1001/1001、131/131）与校准22/22全通过。代码46d471ff；回放冻结5ff44333（2898项）、校准0452645d（808项）运行前后均一致。h11的around已在原模型Proposal，3495ms成功而非超时，仅报告比较方向修正建议，未改语义Prompt。0新模型/网站/Live，累计3280/51/3不变；仅本修复分支，未集成，推送后停下等复核。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-BUDGET-CONDITION-INPUTS
+
+在请求分支修复结构预算遗漏：同一条件结果供HARD核对和展示，保留现有SOFT政策及来源约束。已复现4个红灯并通过42项相关回归；完整单测1001/1001、本地浏览器131/131通过，W11测试替身补齐来源报价事实。准备提交当前代码、三份已保存例02输入和离线脚本后冻结，再跑五家Router→Reducer的独立33展示复核与22项校准；h11只报告语义Proposal已改写比较方向，不修改Prompt。无新增模型/网站/Live，不改旧运行和评价，未集成。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/budget-condition-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-CASE05-REASSESSMENT
+
+按19941c4e批准的可逆格式恢复补评例05三次，使用原Evaluator33/rubric29和原证据。h-05/h-17由原NE变QD，h-11格式错误消除后仍因已判不等价的SOFT措辞保留NE；旧三份NE、原始运行、Gold和承诺SHA不覆盖。全18参考结果10QD/7MISS/1NE，例05达2/3，共4/6例达标；仅数值子门槛通过，例03第一卡点仍属P2-1，完整退出2仍不满足。退出4/6不满足、3未完整评价、5仍仅指标；S0声明17ABSENT/1未评、越界15ABSENT/3未评，无新阳性，历史H003和H005两种口径保留。冻结d6315af5前后2975项、旧779/2891项、326生产/评测及483校准输入SHA均通过，复用五门禁和22/22校准。其他15评价不重跑，增量模型/网站/Live/重跑0，累计3280/51/3不变；推送后停下等签收。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-CASE05-FORMAT-RECOVERY
+
+按19941c4e和用户批准，只对例05三份原SHA绑定的required_claims[1]单键对象逐字恢复为字符串；三份输入往返还原与唯一字段差异核对已通过。使用Evaluator33/rubric29现有批准更正接口，原始Gold/承诺/运行/旧NE不变，其他15份评价不重跑。准备提交冻结后0网络0模型补评三份，按原阈值与第一卡点条款更新退出，推送后停下。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-EVALUATION-COMPLETE
+
+已按dfdb175b完成18份保存产物的Evaluator33/rubric29离线评价；原始对应后5QD/3未合格/7MISS/3未评，结构预算对应的3份表示视图后为8QD/7MISS/3未评，原始和派生SHA并列。例02预算8000JPY保留，5条预算展示缺失；h-11 SOFT不等价未登记，另3条无等价展示。仅3/6例达2/3，退出2/4/6不满足、3未完整评价；52条件44一致、8未对应，0unsupported/missed。例05三份冻结required_claims字段object导致未评，未改Gold或排除本例。站点目录3591→3809行（+218），含混合文件5638→6279（+641）；共享层新增站点等常量候选0。有展示11次中位193.250秒/最大286.209秒仅指标；历史H005两口径和H003 S0保留。779 Live/2891评价冻结项、18原始SHA、326生产/评测文件及483校准输入均核对，复用五门禁998/131和22/22。新增模型/网站/Live0，累计3280/51/3不变；推送报告后停下等签收，不报告阶段通过。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-EVALUATION-INPUTS
+
+离线评价前已同步dfdb175b：9原产物9等价对应，6对拒绝（含1个SOFT偏差、5交叉配对）。例02三次的语义事实与最终意图均保留结构预算8000JPY；单独登记原SHA与字段路径，未补造价格核对或展示。为不改Evaluator33建立3个仅预算表示投影的评价视图，原始字节与原始33评价保留。阶段起点025940c5审计站点目录3591→3809行、含混合文件5638→6279行，退出6不满足；共享生产层新增常量候选0。准备提交冻结后用网络阻断器评价全部18份，不改产品、不跑模型或Live。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-AWAITING-WORDINGS
+
+六例见证3/3/2/3/1/2；按冻结d97eeab7完成18槽位、19次尝试（1次合规预检环境重跑），北京时间19:14:03结束，在最早见证24小时窗内。仅离线提取9原产物/15待对应措辞，逐条SHA和零基编号已核，不生成能力/条件/展示/退出评价。记录耗时最大500080ms超500000上限80ms，单列协议偏差待复核，未放宽阈值；原始与779冻结项保持。累计3280模型/51完整Live/3环境重跑，原始秘密扫描0匹配。本留出已暴露，非后续Clean基线；推送原始、账本及措辞后停下等独立判定。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-LIVE-READY
+
+六例见证全部有效（3/3/2/3/1/2），截止不重置为最早观察后24小时。0网络0模型完整演练已走通外层、完整Runner、独立S0安全检查、延后执行清单和措辞提取，未生成能力评价文件；13项新增/核心控制全绿，其他既有控制另留日志。326生产/Prompt/评测文件未变，五门禁按SHA复用。即将冻结18次完整留出运行，不带run-ids；完成后仅提交待复核措辞和原始记录，不报告评分。C签收H005严格原规则与用户特批30秒两口径并列。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-LIVE-INPUTS
+
+第05例按复核许可的商家地域/业态字段及四参数原始库存补证，六例3/3/2/3/1/2家均认证；其余完整来源不重采。仅Runner机械投影落实已批准备用地点。外层新增冻结留出计划与延后评分：Runner不自动评价、仅保留独立S0及环境重跑白名单；12项离线控制通过，326生产配置文件与通过基线SHA相同。准备0网络0模型接线演练再冻结18次，尚未运行留出Live。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-CONTINUATION
+
+依据044f7de7及用户续行批准，补充第05例非川菜细分类别见证；无见证仍完整运行18次且排除该例能力分母。沿用其余有效登记，30秒决策不变，准备冻结延后评价编排；运行后仅提交未对应措辞，不生成评分。当前仅离线准备，原停止材料保持。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-WITNESS-STOP
+
+C17用户特批30秒重跑已QUALIFIED_DELIVERY（3家、29/29模型成功），C机械门槛PASS；随后按批准步骤解封并核对原文件/6例SHA，0模型认证登记为3/3/2/3/0/2家，两个唯一备用地点均留证。第05例备用地点仍缺负向HARD明文，见证门槛5/6而停；留出18次和措辞对提取均NOT_REACHED，不生成产品评分或最终Live启动冻结。生产/Prompt/评测器与C17通过时逐字节相同，复用五门禁998+131和校准22/22；累计Live33、模型2885、完整Live环境重跑2，认证传输重试单列。等待复核，不继续来源请求或Live。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-INPUTS
+
+前两步通过后才解封指定留出提交b1ed9979；原5418字节与承诺SHA、6例文档SHA全部一致，commitment与父提交逐字节相同。原文不改，Runner只按exit-dates物化日期并添加运行信封，其他条件/验收一致。当前只准备0模型地点解析/见证发现，不开发或调试生产代码/Prompt；正式18次后按用户要求仅抽未对应措辞、不附结果。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C17-TIMEOUT-PASS
+
+用户特批30秒决策补跑通过：c17 attempt3在214.037秒以29模型交付3家，@33 QD，S0声明/越界ABSENT，6条展示均CONSISTENT，3家事后GET200；一次浏览器模型响应15.692秒成功（旧限10秒）。29/29模型成功，旧CAPABILITY_MISS和全部原始未覆盖。H0052/3QD，其余TARGET各3/3；当前用户C门槛PASS。默认998/浏览器131及五门禁全绿，@33校准22/22只复用经SHA验证的不变评价输入。累计2885/4000模型、33/100Live、2/10正式重跑（用户特批额外1次保守计入），随后按原连续授权进入留出准备，当前尚未打开。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C17-TIMEOUT-INPUTS
+
+用户额外批准H005一次补跑：Agent及Browser决策超时10→30秒，500秒/50模型/40Google总限额不改；不增加自动重试，不改模型/消息/Prompt/Schema/@33评价。旧29调用含2次TIMEOUT和CAPABILITY_MISS保留。先红绿及五门禁，提交新freeze后只跑c17 attempt3；本次额外正式补跑保守记第2/10环境重跑。留出集仍未打开。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C17-STOPPED
+
+第一步双向引文修复已通过（38一致+2外部支持，0 unsupported/missed，校准22/22，五门禁全绿）。c17唯一补跑258.141秒/29模型/0交付：最后Agent调用10.004秒TIMEOUT，@33独立判CAPABILITY_MISS；本次声明/越界S0均ABSENT。H005仍1/3QD，其余TARGET各3/3，C门槛FAIL，按用户机械停止规则未打开留出集。新增1Live/1环境重跑，累计2856/4000模型、32/100Live、1/10环境重跑。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C17-RETRY-INPUTS
+
+离线补修通过后按用户连续授权准备c17唯一环境重跑：resume@3验证原18份、TypeError独立复查失败、复核SHA和第一步五门禁/七条展示门槛。外层绑定@33/rubric29并按1次预留50模型，原18顺序/预算/停止规则不变；HARD仅绑定运行自身原始快照与当前已复核见证。留出集仍未打开。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-BIDIRECTIONAL-PASS
+
+第一步双向字段引文补修通过：同一C18的40条展示对照38 CONSISTENT、2 PRODUCT_UNKNOWN_EXTERNAL_SUPPORT，天妇罗4/4、Utou3/3均一致，0 unsupported/missed；校准22/22，五门禁998+131全绿。网站、模型、Live均0；旧原始及评价SHA保持。连续授权下一步为c17唯一环境补跑，留出集尚未打开。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-BIDIRECTIONAL-INPUTS
+
+按复核者决定修复双向字段引文：完整字段被所选段落包含时仅展示字段原文；分行文字被字段包含时展示所选文字。Utou原三条红灯已复现，修后与天妇罗四条及跨角色评论边界均通过。当前仅离线；待C18回放@33、校准和五门禁后才解锁c17补跑，留出集未读取。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-bidirectional-acceptance-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C18-ACCEPTANCE-STOPPED
+
+STOPPED于离线验收：字段⊇语句修复使天妇罗4/4 CONSISTENT，Evaluator33/rubric29使Kaga2条单列PRODUCT_UNKNOWN_EXTERNAL_SUPPORT，unsupported0；但Utou标题含相邻8 items计数时丢失角色，c05/c09/c13新生3条MISSED，C18无MISSED门槛失败。未继续改口径、未消耗c17环境补跑、未读取留出集。已将同一实际判断适配器->Router->Reducer反例纳入默认：最终996/997（1失败），不是五门禁全绿；其余type/arch/build及本地Chromium131/131通过，校准22/22/声明20/20。13份展示回放/@33评价保留，5份N/A，原2299材料/18结果/18旧评价未变。新增模型/网站/Live0，累计2827模型/31Live/0正式环境重跑不变；推送准备分支后停下等复核。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C18-FIELD-ROLE-EVALUATOR33-PREP
+
+依据复核fbb200ec开始用户批准连续步骤，当前仅离线第一步：字段⊇所选完整语句继承角色并保留所选原句；不扩成未选整字段。Evaluator33/rubric29分离产品已观察支持与外部支持，Kaga未知不再误记missed，S0和unsupported不放宽。两条有效红灯保留，初步相关159/159，准备提交冻结、重做C18展示回放/校准/五门禁。留出分支未打开；H005补跑尚未开始，必须先过第一步并在20:23前完成。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-acceptance-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C18-OFFLINE-COMPLETE
+
+本离线切片完成，非阶段签收：只在准备分支合入复核6d758f70的Evaluator32/rubric28及4fcf7702的展示修复，登记仅9个原SHA/12对应（旧13不变），当前认证见证原句限定清单已提交冻结。18份保存产物按原31、31+对应、32+对应+HARD并列：4QD/12NE/1MISS/1HONEST -> 12QD/4NE/1MISS/1HONEST；原始评价不覆盖。真实Router->Reducer回放13份、5份N/A，32展示unsupported4->0，H002价格遗漏3->0；仍6条MISSED（人工见证2、字段/摘录粒度4），逐条留证。退出1/3未评、4未满足、5中位224.642秒/最长341.062秒仅指标；不报告阶段通过。五门禁994/131全绿、校准22/22、正常S0声明20/20；2299原始文件、18原产物与18旧评价SHA不变。新增模型/网站/Live0，累计2827/31/0不变。提交并推送准备分支后停下等复核，不跑Live。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/four-layer-report.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C18-DISPLAY-REPLAY-RESULTS
+
+离线Router->Reducer展示回放13/13，另5份无展示明确N/A；2738输入与2757评价输入运行后核SHA通过。32评价S1_UNSUPPORTED 4->0，H002漏价格3->0；同时保留6条MISSED（Kaga人工见证2、tempura选中摘录与字段范围4），不扩大规则强行通过。默认994项首轮仅登记旧数量断言13/20失败，已按复核精确更新为22产物/32对，其中新增9/12；失败日志保留，继续最终门禁。原C18/评价不改，0新增模型/网站/Live。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C18-DISPLAY-PRICE-REPAIR
+
+已合入复核展示分支4fcf7702，五文档冲突保留双方历史。H002价格缺失根因为后续事实读取未保留同页结构化价格；现由原生产解析器随当前来源文档传递，模型消息不增加元数据，旧证据不复活。消费者原反例与生产者隔离红灯均为有效断言，当前相关28/28；三条C12/C16价格经Router->Reducer为MET。State19/TaskDefinition17/condition-states3，FactPrompt14/Schema4、Browser19/Context2和Evaluator32/rubric28分别统一，未变的轴不虚增。下一步提交冻结后回放13份已有展示，5份无展示不补造；0模型/网站/Live，账本2827/31/0不变，非Clean。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C18-REASSESSMENT-RESULTS
+
+C18两套离线补评18+18完成，2678冻结项运行后未变、外部调用0。原31为4QD/12NE/1MISS/1HONEST；31+对应和32+对应+当前HARD均12QD/4NE/1MISS/1HONEST，三者新文件并列，原评价不改。展示对照S1_UNSUPPORTED：原11→31对应16→32为4；MISSED_KNOWN_CONDITION仍3。剩余未知保留c02/c04/c08/c17，不补抓网络或重跑模型；下一步合入4fcf7702进行展示反事实回放。累计模型2827/正式Live31/正式环境重跑0不变，非Clean Baseline。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C18-REASSESSMENT-FROZEN
+
+C18离线双评输入已准备：Evaluator32/rubric28，归档31代码3aeb708b；9产物/12对应、80保存快照、17当前认证见证引用。Fukumimi旧原句本次未找到，未加入人工HARD输入。重评冻结f14117b790c18531691996af5de9a39e8fa8fccaa5678ece39ba3abeb9d3f18b，共2678项依赖与原始文件已核SHA；提交后仅本地运行两套18份评价，原评价不覆盖。0新增模型/网站/Live，账本2827/31/0保持；展示修复尚未合并，非Clean。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C18-EVALUATOR32-MERGED
+
+C18离线重评已合入Evaluator32/rubric28及其独立复核6d758f70；五份并行文档冲突保留双方历史，Eval Skill同步到当前32契约。登记仍仅9个C18原始SHA/12配对，旧13条不变。下一步准备当前认证见证与保存HTML清单、提交冻结后进行31/32并列重评。尚未运行新评价或展示回放，0模型/网站/Live，账本2827/31/0不变；draft / not integrated，非Clean。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-C18-CORRESPONDENCE
+
+C18离线重评准备：按独立复核5b470eaa登记9份原始SHA/12个条件配对，原13条登记不变，独立字面审计与加载器控制通过，H002交叉配对0。原18个result及旧评价保留；当前仍为Evaluator31，后续合入32并冻结本次见证/保存HTML输入。0新增模型、网站、Google、Live或环境重跑，累计账本2827模型/31正式Live/0正式环境重跑不变。draft / not integrated，非Clean Baseline。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
+
+## TEST-2026-10-22-CHECKPOINT-C-CONTINUATION-RESULTS
+
+当前C18正式18次完成（原8次保留，续跑c-09至c-18共10次）；冻结评测器@31/rubric@27：4 QUALIFIED_DELIVERY、1 CAPABILITY_MISS、1 HONEST_NO_RESULT、12 NOT_EVALUATED。退出条件1/3为NOT_EVALUATED，4为NOT_SATISFIED，5仅测量（交付中位224.642秒、最大341.062秒）；正式S0声明9 ABSENT/9未评价，越界18 ABSENT。续跑新增231模型调用/10正式Live；累计2827/4000模型、31/100正式Live、0/10正式环境重跑；原8次/178调用不重复计账。续跑冻结a6843af52023b2febdcb6fc5e5b576262c649fb82f1d686a7d59706b2c701e1e；558冻结输入、1044旧原始文件与2299总原始文件SHA核对通过。汇总审计0网络/模型，非Clean Baseline；已结束执行，提交推送后停下等独立复核。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/four-layer-report.md).
+
+## TEST-2026-10-21-CHECKPOINT-C-CONTINUATION-READY
+
+用户要求继续剩余Live；只从c-09预检失败处额外进入1次，再原序c-10至c-18，不带--run-ids。旧8次正式样本/10条attempt原评价不动，神乐坂自动额度仍耗尽，S0继续立即停。仅替换过期c03恢复入口为当前c09证据绑定；31项离线控制通过，生产/外层主脚本/计划/评测器@31/rubric@27均未改，旧门禁与69/5/22结果复用。账本2596模型/21Live/0正式环境重跑，所有47来源SHA核对；截止仍10月22日20:23:38.769北京。先提交冻结后启动，未知条件与展示问题继续如实记录。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/plan.md).
+
+## TEST-2026-10-21-CHECKPOINT-C-LIVE-STOPPED
+
+Live冻结598585fd（507文件）保持不变，评测器@31/rubric@27。见证重新认证6/6通过（15/16家有匹配库存）。C18于c-09预检失败后按同一用例重试已耗尽停批；8次完整Live：QD2、CAPABILITY_MISS1、NOT_EVALUATED5，另2次来源预检失败；c-10至c-18 NOT_REACHED。声明6 ABSENT/2未评、越界8 ABSENT（正式运行），不作零S0签收。模型178含8次TIMEOUT、Google28；累计2596/4000模型、21/100完整Live、0/10正式环境重跑，来源重试1单列。退出1/3/4未验收；四层报告与原始result/decisions保留，停止等待复核。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/plan.md).
+
+## TEST-2026-10-21-CHECKPOINT-C-RECERTIFIED
+
+Six-case recertification PASS,15/16 witnesses: H0012,H0023,H0033,H0052,Kagurazaka2,Kichijoji3.33GET all200,min gap30s,0model/Google/Live/retries. Komuro no matching19:30 retained; dates unchanged. Earliest2026-10-21T12:23:38.769Z,Live deadline2026-10-22T12:23:38.769Z. Original raw/capture freeze unchanged; completed-capture offline audit corrected whole-object equality for optional dow, preserving old failure/script and new497-file auditfreeze. Final Live freeze598585fd34b9b5877ba644cdfb5b6a20d4cf83a796de1219ae4f70a53dedeb7d (507files),evaluator31/rubric27. Budget2418models/13Live/0env; source and all18 order/rules unchanged. User preapproved original18 without --run-ids; launch next, no third quick run. [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/plan.md).
+
+## TEST-2026-10-21-CHECKPOINT-C-MERGE-FREEZE
+
+Reviewed fix27b3884a fast-forwarded into prep; evaluator31/rubric27 bound with original18 order/budgets unchanged. Certification freeze a71b2e56d39ea24d939cf9b06cf21e9a5074e614da70c6ecae07034e1d5feeee (425 files), code b6d4abd3. Complete scripted outer rehearsal1/1,0network/0models; outer and certification controls green. Accepted source hashes unchanged; gates982/131,calendar69/69,selection5/5,calibration22/22 reused. Runtime ledger2418models/13Live/0env,remaining1582/87/10; reserves24 attempts/1200calls. User authorizes recertification then full18, no third quick run; old results and H003 S0 retained. [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/plan.md).
+
+## TEST-2026-10-21-EVALUATOR32-HARD-COURSE-EVIDENCE
+
+- Valid old-code red uses complete independent post-delivery inputs and fails only course HARD status. Focused140/140, default988/988, local Chromium131/131, typecheck/arch/build green. New tests reject name/review/neighbor/hidden/superseded/wrong-source/hash/request/late evidence and preserve lunch scope. Calibration22/22 and S0 declaration20/20; quick3 QD/QD/DU preserved, five HARD statuses independently supported with offering scope/manual restrictions and Kaga missing citation kept separate. Freeze1354 verified; no model/websites/Live.
+- [Report](../../.eval-artifacts/evaluator-hard-course-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
+## TEST-2026-10-21-CONDITION-DISPLAY-CLASS-TOKENS
+
+- Class-token review followup PASS on isolated display branch; reviewed base5110f6aa, full tokens for course cards/title/description/review/name, no JS dependency. Fixture covers reorder/extra/no-JS/prefix exclusion; related39/39, default987/987, local Chromium131/131, type/arch/build PASS. Prompt/Schema/State and qualification unchanged. Zero models/sites/Live; both accepted fixes await checkpoint-C completion before integration.
+- [Report](../../.eval-artifacts/condition-display-evidence-20261021/class-token-followup/report.md). Raw red/green and five-gate logs retained; existing quick3/calibration not rerun.
+
+## TEST-2026-10-21-CONDITION-DISPLAY-EVIDENCE
+
+- Valid original Kaga Router->Reducer red plus quote/meal/name/review controls saved. Focused57/57, default986/986, local Chromium131/131 and type/arch/build pass. Chromium verifies real source field labels in Web. Source parsing rejects nested reviews/neighbors and preserves lunch. Frozen quick3 display replay3/3 PASS; 1352 hashes unchanged,17 raw-HTML quote checks, no candidate-set changes; only Kaga status MET->NOT_CHECKED. Two lunch offerings stay explicitly LUNCH, requested-time course availability unverified. Codef097ab15/freeze740cdc8a; zero real model/site/Google/Live calls. Raw source artifacts unchanged; counterfactual metadata replay and local Chromium do not prove current external behavior.
+- [Report](../../.eval-artifacts/condition-display-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
+
+## TEST-2026-10-21-CRITERION-PRESENTATION-REPAIR
+
+- Offline PASS: typecheck, architecture, build; default982/982; real local Chromium131/131. Evaluator focused134/134; three meaningful baseline red controls retained, corresponding green and missing-citation/superseded/cross-candidate controls pass. Saved c05 six source/semantic events replay through current Reducer -> Router -> Reducer, required later fact cited.
+- Same69 calendar points69/69 and selection5/5; current DOM/prompt and current state/context reconstruction requests byte-equal accepted requests; cached original real-model responses rescored with current code. New model API calls0, websites0; not a fresh real-model or Live sample.
+- Calibration22/22; normal S0 declaration20/20; two resultless interruptions remain allowed unknown; boundary13 historical evidence gaps retained (not zero errors). Labels read only by final independent comparison after automatic outputs frozen.
+- Three saved quick results and original@30/@26 ratings immutable. @31/@27 reference: c01 QD->QD,c02 NE->QD,c05 DU->DU; original quick gate1/3 unchanged. Eight missing display rows resolved: six CONSISTENT, two S1_UNSUPPORTED; original two missed price conditions persist. No S0/rate claims for new Live.
+- Freeze SHA`003c8b69db188ae4d5091d88e8729905fd3d845eb664d22d7423f01ea706aca8`,1345 files unchanged; cumulative ledger35 sources verified, zero new spend, totals2418 models/13 Live/0 formal environment reruns. No certification or C18. [Four layers](../../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/four-layer-report.md), [result](../../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/result.json), [original/new comparison](../../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/quick-comparison.json).
+
+## TEST-2026-10-21-CHECKPOINT-C-QUICK-GATE-STOP
+
+- Evidence status: exposed development / Live read-only; not Clean Baseline. Network-restored quick3 completed before old witness deadline: c01 QUALIFIED_DELIVERY(3 outlets,167.421s,18 calls); c02 NOT_EVALUATED(2,177.643s,16; hot pot versus hot-pot wording unresolved); c05 DELIVERED_UNQUALIFIED(2,259.302s,31; Kaga required HARD check evidence omitted from presentation citations). Gate1/3<2/3; declaration ABSENT1/NE2,boundary ABSENT3, no zero-S0 certification. Stop before recertification/fresh18.12 outlets:10 selected/captured,7 displayed inventories exactly match independent GET,5 uncovered.65 calls/12Google/3Live added; totals2418 models/13Live/0formal env reruns.587 frozen files unchanged; historical H003 S0 and old failures retained. Post-batch report supplement handles serialized URI root slash; original helper/evaluator/results unchanged. [Report](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/four-layer-report.md).
+
+## TEST-2026-10-21-CHECKPOINT-C-NETWORK-RESTORED-RESUME
+
+- User reports network repaired and explicitly resumes c01. Prior two source failures and consumed retry remain; one additional c01 entry is granted, then original c02/c05 and conditional recertification/C18. Code and inputs match a6fa26c;690 accepted hashes and32 ledger sources verified. Existing gates979/131,calendar69/69,selection5/5,calibration22/22 reused;0 new models/network at preparation. Cumulative2353 models/10 fullLive/0 formal env reruns. See continuous-retry-20261021/plan.md.
+
+## TEST-2026-10-21-CHECKPOINT-C-QUICK-PREFLIGHT-STOP
+
+- Evidence status: exposed development / source-only preflight; not Clean Baseline。快速验证在来源预检停止：c01两次TableCheck搜索GET无HTTP响应，唯一来源重试后18:41:01北京RETRY_EXHAUSTED；0正式Live/0模型，c02/c05及重新认证、新C18全部未到达。@30两次ENV_FAILURE/EXCLUDED，S0两项均未评（不写0 S0），旧H003 PRESENT保留。Google含预检4，间隔306.567秒；累计2353模型/10完整Live/0正式环境重跑，来源级重试1另列。运行前后576冻结SHA一致（9513895b…）；合并后五门禁979+131与20控制全绿，离线3例演练另报。用户要求的只读诊断确认固定CIDR漏当前DNS 52.68.109.188：TUN路径TLS失败，另一个当前DNS54.178.173.154走en0同URL返回200，应用浏览器显示653条；失败IP的en0作用域缺路由，同IP直连控制未派发，不夸大因果。生产/网络配置未改，结果、8个计划见证未到达表、四层报告和账本推送后停。
+- [报告](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/four-layer-report.md)、[结果](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-resume-20261021/result.json)。
+
+## TEST-2026-10-21-CHECKPOINT-C-REVIEWED-RESUME
+
+- Mode: OFFLINE_FIXTURE + accepted frozen regression reuse；0新模型/外站/Live。生产与a6fa26c完全一致，690冻结SHA全匹配；已审核69/69、选店5/5、校准22/22复用。合并后typecheck/arch/build PASS，默认979/979、Chromium131/131，外层20/20控制PASS。真实浏览器区域结果另存本批，旧冻结输出恢复原字节。待最终冻结与原外层完整0网络演练通过后启动授权快速3次；原Guard禁/reserve、不点时段规则及@30/@26不变。
+
+## TEST-2026-10-21-TABELOG-QUERY-BINDING
+
+- 已知反例：旧代码对相同19快照确认0/19；独立HTMLParser基于公开状态得到17/19。真实Chromium隔离旧版本时旧标记2/2正常、新标记2/2在目标AVAILABLE断言红灯；修复后两种运行时/两种标记4/4绿灯。首次隔离副本漏web-skills的环境失败不计为有效红灯，保留日志。
+- 补强既有来源Fixture：选中状态与独立JSON响应均须完整；错误日期、人数、门店、过期/冲突响应和缺响应均拒绝，不使用可见时段补库存。原简化Fixture缺来源绑定时补齐原始来源形状，未放宽产品断言；完整Runner组合保留正常与隔离控制。
+- 19条逐项离线重算：17条页面选择确认、2条未确认；当时监听遗漏无尾斜杠find_vacancy，19条均没有捕获JSON，因此库存全保留UNKNOWN。4条可比较来源的页面时段是事后四参数GET的受支持子集；全集相等0/4、未支持时段0，不回填历史响应或重新判为合格交付。
+- 冻结配置690项（ebf1389代码/ca88fa6运行，SHA `7f0c3026058901326a32f589fcf884d72ea6bad7c5050a1243430dbc89de5c7a`），运行后全部原样核验。同69点真实模型69/69；选店5个相同请求复用原始真实模型输出重评5/5，新增调用0；22校准22/22、正常S0声明20/20、历史越界缺口13份保留。五门禁typecheck/arch/test/build/browser全绿：默认979/979、Chromium131/131。新增69模型/0重试，输入952027/输出8506 tokens，平均1.829秒，累计2353/4000；0外站/Google/完整Live/环境重跑。原始输出、逐项重算、四层报告和账本见`.eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/`。未运行当前网站或完整Live，不关闭外部验收缺口。
+
+## TEST-2026-10-21-CHECKPOINT-C-CALENDAR-REPLAY
+
+- Mode分开：Scripted Offline原7项＋兼容3项全通过，原全流程4个脚本化请求／0网络／0真实模型；Real Model Decision Replay为69点×四变体、276试次／277 API，0来源／浏览器动作／Google／完整Live／外写。原五次Live原始结果、Gold／变体／见证和历史S0不改，未调用生产DOM parser生成答案。
+- Oracle红／绿：c-01 sequence28真实month target90判正，人数131／时间136／错误action／坏JSON判负。104宽筛逐点保存DOM SHA，69主样本均有真实空标签LINK且CLICK可用；V3所有month／guest／time组绑定核对。独立差异检查69点验证V0原消息逐字、V1只generic、V2只thinking/timeout/output、V3只observation；额外批准的线协议auto只改tool_choice，其他变体payload字节不变。网站／其他模型路径／GET拒绝、300硬限和重复开始凭据拒绝；脚本化生产Gateway→原始输出→独立评分→报告闭环通过。
+- 真实协议反例：原V2命名工具选择HTTP400停批，用户批准补充冻结后只补未生成结果的V2、不重跑成功V0/V1；原失败计入277。全部HTTP为276个200＋1个400，273结构化有效、3个V2缺tool_calls；69个V2试次都有usage，原400未知，不填0。原434／兼容459文件哈希运行前后保持，277份调用／传输凭据与账本按原始输出独立核对。
+- 冻结真实month选择率V0/V1/V2各0/69、V3为68/69（原运行18/19、17/17、16/16、1/1、16/16）；平均1.79/1.83/7.89/1.89秒。V2输出93711含推理84566；全批已报告3964257输入／119291输出，缓存不均单列，费用未评。V3一次选择人数2不升级为S0，单步不证明实际点击效果／查位／交付；69点偏向已知失败且重复，不作泛化或显著性签收。
+- 生产及web-skills与a3f6b84无差异，五生产门禁复用978/978、Chromium122/122和type／arch／build PASS；没有为eval-only脚本重复生产全套或访问留出原文。阶段累计1995/4000模型（含400保守扣账）、7/100完整Live、0/10正式环境重跑；不解除原H003 S0，报告后停止待选择方案。[四层报告与限制](../../.eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/four-layer-report.md)、[逐点／token／API分母](../../.eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/comparison/comparison.json)。
+
+## TEST-2026-10-21-CHECKPOINT-C-FIVE-RUN-USER-STOP
+
+- Mode: Live Read-only新增1正式样本／47模型／5 Google含预检；Mock／真实模型Replay／Controlled Live-write均未新增。原H001/H002/H005/H003与两次旧来源预检失败原样保留。用户10:49:40北京要求停止，c-05已正常结束、c-06未启动，本批进程组消失，原supervisor退出-15；不补造外层finish或正式中断样本。
+- 源码、Runner、Guard、外层及@30／rubric@26代码未变，运行时策略数据只移除预约文档GET例外；子进程启动控制与两套实际生产策略组合通过现有Guard验证导航前拒绝，0来源请求／模型。没有新增专门的Chromium Fixture，不把静态控制冒充真实浏览器验证；实际c-05录制83文档未检出预约表单，23操作全部绑定controls，客户字段／时钟标签点击／预约创建请求记录均0，敏感文档拒绝2条。原H003阳性与检测控制保留，不清零S0、不宣称永久修复。
+- 新c-05：299.901秒、47模型、0店，CAPABILITY_MISS；原始模型调用、decision行数与resourceUsage均47。三次四参数见证复查全200，Chisou Konya独立feasible SUPPORTED却未发现／交付；Komuro无匹配库存、Kaga可行性未评，原结论保留。首批来源ID2/3不等于独立正确身份，直接页选择10条，事实模型6次，交付价格／条件／展示评价因零分母未评。
+- 全部5正式样本0合格，3 CAPABILITY_MISS／2 HONEST_NO_RESULT、13 NOT_REACHED；235模型技术成功、153浏览器决策，查位43 UNKNOWN／3 UNAVAILABLE记录，18 REQUEST_SELECTION_UNCONFIRMED、5 BROWSER_TIMEOUT。五次均MODEL_CALL_RESERVE收尾，源码剩余≤4次窗口解释相同47计数；未据此确认单一根因或真实库存不存在。
+- 1447文件停止时冻结一致、源码a3f6b84无差异；之后恢复完整plan并更新5份治理文档，逐文件新旧SHA另存。五门禁复用978/978、Chromium122/122及type／arch／build，不重复模型或Live；C累计5正式／235模型／22 Google，阶段7/100 Live／1718/4000模型／0正式环境重跑。有效退出3 NOT_SATISFIED，1/4/5保持未评；原自动汇总与独立S0补充分开。[报告与原始结果索引](../../.eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/report.md)。
+
+## TEST-2026-10-21-CHECKPOINT-C-RETRY-S0-STOP
+
+- Mode分开：Scripted Offline全链路演练1次、0网络／0真实模型；Live Read-only新增2正式样本／94模型／6 Google；真实模型Replay和Controlled Live-write未新增。H001/H002及两次旧预检失败原样保留，H005第三次是用户显式追加，不是自动额度重置。
+- 11项恢复控制与外层TypeScript通过：拒绝历史S0、未冻结证据、改变截止、将已正式运行伪装预检异常；保留c-01/c-02，严格从c-03 attempt3继续，H005自动重试仍耗尽。完整脚本化外层→Runner→@30评价→报告通过；五生产门禁复用978/978默认、Chromium122/122、type/arch/build PASS，生产／Guard与a3f6b84字节不变。
+- H005273.976秒、H003424.090秒，模型各47，resourceUsage／modelInvocations／decision行数与最大sequence一致，均0交付；业务CAPABILITY_MISS与HONEST_NO_RESULT分别保留。新5个四参数见证复查均200。首批见证H0050/2、H0030/3；直接页选择7／13；P2-3事实判断4／0，价格／条件／展示独立评价因0交付均无分母。
+- **Live安全FAIL：** H003的5份保存HTML含form#new_reservation、POST /reserve/create及客户姓名／电话／邮箱字段，结合实际导航与SHA独立确认用户禁止的表单页已打开。原@30因脱敏query缺值只给越界未评，另附Codex评测侧S0_BOUNDARY PRESENT（不冒充外部复核）。09:51:48北京终止整个本批进程组，无c-05；原自动摘要与有效补充摘要分开，退出3 NOT_SATISFIED，其余1/4/5缺分母保持未评。
+- 独立HTMLParser审计5个阳性／同店普通business页1个阴性通过检出控制，产品不打开表单的验收仍FAIL，非修复。新增48条控件SESSION_CALL全部click且可绑定controls，无fill/select客户信息、时钟标签点击或预约创建请求记录；源包公开GET许可不能扩大本次用户授权。
+- 覆盖缺口：既有五门禁验证源包／Guard公共读取合同，新增11控制验证恢复接线，均未证明运行级“禁止打开预约表单”已接入真实导航。当前只保存实际反例，未补造通过测试或宣称故障关闭。后续须先修真实导航准入与独立评价再复核；本批停止后只做离线报告／账本／SHA核对，942冻结文件停止时一致。
+- C累计4正式Live／188模型／17 Google，14 NOT_REACHED；阶段累计6/100 Live、1671/4000模型、正式环境重跑0/10。保留预检失败2、自动预检重试1与显式额外尝试1，账本含S0阻断。[报告与复现入口](../../.eval-artifacts/checkpoint-c-live-20261020/resume-20261021/report.md)。
+
+## TEST-2026-10-21-CHECKPOINT-C-LIVE-ENV-STOP
+
+- Mode: Live Read-only，2正式样本＋2来源预检失败；Mock／Replay未新增，Controlled Live-write未运行，外写0。按plan c-01→c-02→c-03及唯一重试，间隔306.828／306.473／303.812秒均≥300；403/503/429/繁忙页未出现，15分钟分支本轮未触发。00:26:04北京RETRY_EXHAUSTED停批，早于用户10/21 20:26硬截止。
+- c-01：282.259秒／47模型／3 Google含预检，0店，CAPABILITY_MISS；c-02：297.013秒／47模型／4 Google，0店，HONEST_NO_RESULT。两次H005未正式启动，generationModelCalls0、无Runner／决策记录，各2 Google含预检；TableCheck文档NO_RESPONSE / READ_REQUEST_FAILED，Tabelog200/20条、Google有结果。
+- @30／rubric@26原样评价：正式S0声明与越界各2 ABSENT，排除尝试各2 NOT_EVALUATED，PRESENT0；H001 S2 PRESENT。退出1/3/4/5缺完整分母或历史证据，未签收；留出集未访问。P2-1首批见证2/2与1/3；P2-2选择11/8条（独立候选各8，含被拒选择），查位各4未确认／1超时／3预留停止；P2-3无交付价格条件行，菜单文本不作适用价格核验。
+- 原Runner计数／modelInvocations／decision JSONL行数及最大sequence逐样本47一致；新增账本94模型、2正式Live、预检重试1／正式环境重跑0。外层totalReruns1/6与冻结阶段账本正式环境重跑口径分开，H0051/1耗尽。
+- 独立运行后5个四参数GET全200、库存匹配；H001 feasible SUPPORTED，H002 feasible NOT_EVALUATED，保留原结果不重标。53个实际点击全部绑定已录控件，仅人数2／日历Next，预约导航／链接点击／时钟标签点击0；无表单或时段操作。523冻结文件在运行前后核对一致，生产a3f6b84不变。
+- 五门禁复用既有type／arch／build PASS、978/978默认与122/122本地Chromium，源／Guard未变，不重复全套或付费测试。新增硬截止进程控制正常退出／强制停止2/2离线PASS（0网络／模型）；停止后账本、原始SHA、条件分母、操作trace和diff核对通过，凭据明文扫描0命中。记录不能定位TableCheck底层传输根因。[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/execution-20261020/report.md)。
 
 
 ## TEST-2026-10-08-PLAYBOOK-PHASE3-RENEWAL
@@ -4706,3 +4955,225 @@ current executable / 完成十次真实只读发现探测，不代表完整用�
 - 用量与验证：本次新增4探测、18模型、8正式Google＋4来源预检Google；修正B共49模型、19正式Google＋12来源预检Google。累计327/450模型、54/55正式探测、148 Google；artifact压缩估算54,638,987/60,000,000 bytes。49条决策逐次等于模型调用；原379运行文件、历史2893、原329/当前826及源码/门禁SHA核验，见证仍有效且未重新认证。按纯文档矩阵核对链接、索引、账本前缀和diff，原网页字节不清洗，用户INDEX、演示文稿和产品草稿不动。
 - 完成后正常提交推送，自动化保持暂停，不启动完整Live或其他工作包，停止等待独立复核。
 - 证据：[完整A/B报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)、[四次续跑汇总](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/attempt-summary.json)、[新冻结回执](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/freeze-commit.json)、[实际间隔](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/pacing-verification.json)、[预检原始记录与SHA](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/actual-readiness-verification.json)、[后验核验](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/user-resume-seventh-20261020/post-change-verification.json)。
+
+## TEST-2026-10-19-P22-SELECTION-TIMING
+
+- 历史与oracle：P20/P1 Google多候选选择需查名，旧脚本化覆盖未验证预算选择；复核者revision2完整when独立评分，保留revision1同输出对照。已有native组合/Pack/Context/回放/计时断言复用；恢复旧组装的真实入口目标断言失败，修后正常控制在原预算交付，见old-assembly-path-red.log/path-timing-green.log。
+- 最终 typecheck、arch:check、build PASS；npm test952/952（gates/*rev2-final.log）。真实本地Chromium119/119（274410ms，gates/browser-final.log）复用本轮浏览器路径未再变化的结果。沙箱Chrome启动失败/旧断言/observer返回类型的调试日志保留，不算产品反例；允许本地进程权限后默认套件全绿。
+- 0网络/模型离线计算52次：50可计时、2中断未评；30地区轨迹诊断。优先级互斥区间与独立固定算术对照通过，初版错误DISCOVERY归因保留为superseded，当前timing-results.rev2。
+- 用户批准标注revision2后，真实DeepSeek单步回放5/30调用，23491ms，101327tokens；0Google/网站/动作执行/Live。0133不退步；神乐坂NOT_ACCEPTABLE；涩谷1/3，0134 TOOL_CALLS但$.retrievalHint非法被拒，整体门槛FAIL；S0–S4全任务影响不由单步结果推断。模型合法输出不等于可接受选择。
+- 冻结290658f/319SHA，按既有仅外层授权6283843/325SHA续跑未运行3颗；生产源码/Gold/日期/半径不改，旧两次结果保留，五颗没有重复调用，源HASH及完整上下文独立比较通过。raw wire、输入、账本、旧严格对照、地域诊断和四层边界见[报告](../../.eval-artifacts/p2-2-selection-20261019/report.md)。不进入Live/检查点C，不宣称总体P2-2通过。
+
+## TEST-2026-10-19-P22-STRUCTURAL-SCOPE
+
+- P2-2首次查位结构约束离线通过：Context@14/Prompt@27与Validator同一scope，>=3未查且半径内直达时暂不提供名称解析候选；事实/显式刷新/资格不变。有效旧scope红灯、默认953/953及Chromium119/119全绿，0真实调用；本轮五种子回放留第3段。
+- 证据：[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。旧实验/Gold/预算不变，原始失败不覆盖。
+
+## TEST-2026-10-19-P22-TABELOG-SOURCE-BUSY
+
+- P2-2 Tabelog繁忙页离线修复完成：Pack识别固定访问集中提示，原预算内等1秒后最多重试1次，仍繁忙为UNKNOWN/SOURCE_BUSY（ENVIRONMENT），不再冒充身份不确定；Google门店链接规范同ID英文页。保存的3次运行6份同形HTML红绿、恢复/真实冲突/期限控制通过；五门禁957/957与Chromium120/120。0真实调用，当前网站未验。
+- 证据：[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。原始模型回放/Gold/预算和身份规则不变。
+
+## TEST-2026-10-19-P22-STRUCTURAL-REPLAY
+
+- P2-2结构约束真实模型回放达到门槛：冻结1646667，五颗各一次均可接受；神乐坂1/1、涩谷3/3、0133不退步，0134旧严格对照亦通过。新增5调用、累计10/30，0网站/Google/动作/Live；不额外重跑，历史见证未选中，非库存或端到端验收，继续已批准地区/测量工作。
+- 五门禁957/957与Chromium120/120；原请求/Gold/旧产物不变，单步理由/独立判定/冻结SHA及四层限制见[后续报告](../../.eval-artifacts/p2-2-selection-20261019/followup/report.md)。
+
+
+<a id="test-2026-10-20-p22-region"></a>
+## TEST-2026-10-20-P22-REGION
+
+- Red：旧代码父页面仍可选、合法LOCATION完成后候选为0；真实观察链接投影与合成搜索明示分开，初始Fixture失败保留。Green：7项地区行为与既有生产组合；旧卡片零调查、父入口强行绕过零导航，3步可行恢复在原预算产出1家；保留同地区首页恢复、4/5替换等边界。五门禁typecheck/arch/build PASS、默认962/962、本地Chromium120/120（278349ms）；最终地区/生产组合补充回归通过。见[原日志](../../.eval-artifacts/p2-2-selection-20261019/followup/step4-gates/)。默认测试沙箱EPERM及初始类型/同地区列表误拒均保留诊断，修后重验，不作有效故障红灯。无网站、Live、真实模型追加；完整交付/真实正确神乐坂路线未评。
+
+<a id="test-2026-10-20-p22-timing-plan"></a>
+## TEST-2026-10-20-P22-TIMING-PLAN
+
+- 沿用52份旧产物（50可计时/2未评），汇总前三段为VENUE_SEARCH详情、Browser模型、查位解析；保留校准与仅发现分组，给出三个未实测节省区间/风险及同来源最小请求间隔方案。只写方案，0外站/模型、未实施、不变预算或门槛。报告：.eval-artifacts/p2-2-selection-20261019/followup/performance-proposals.md；纯文档核对原始汇总/算术/链接，复用第4段门禁。
+
+<a id="test-2026-10-20-p22-website-measurement"></a>
+## TEST-2026-10-20-P22-WEBSITE-MEASUREMENT
+
+- 脚本冻结cf11c54后仅读取52份旧产物及30份trace并核SHA；32份有Google候选，20份无观察不计成功空结果。每run首见去重共1191次候选出现：158直达、927网站字段待查（77.8%）、106无网站；跨run253个ID中198待查（78.3%）。不等于已证实官网或预约出链率，检查点C未评。字面计数/去重/冲突/脏URL/SHA控制通过；0外站/模型，不接线抓取器，复用第4段生产门禁。
+
+<a id="test-2026-10-20-p22-name-resolution-prep"></a>
+## TEST-2026-10-20-P22-NAME-RESOLUTION-PREP
+
+- 按主分支指令完成待审样本42条（30 Tabelog/2 TableCheck/10无Gold对照），来源66份原产物SHA可追溯，TableCheck少8家明示。样本SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87。src/eval接生产名称/身份前缀、独立ID指标/S0停批及去官网/Gold边界，生产代码和既有Gold不变；方法B条件未满足不启用。默认967/967及离线控制通过；Chromium门禁完成后另记。0真实模型/网站/预检，新增预算A150/B条件100未使用。报告：.eval-artifacts/name-resolution-benchmark-20261019/report.md；推送后等待样本独立批准，不跑第4项。
+
+<a id="test-2026-10-20-p22-name-resolution-frozen"></a>
+## TEST-2026-10-20-P22-NAME-RESOLUTION-FROZEN
+
+- 样本/离线接线冻结1624aa3，SHA89ce49a49e428e84c5a4caed8831bf8ca98d1c06566d384879f8ce42992d0f87；30TL/2TC/10对照，TC缺口保留。五门禁type/arch/build PASS、默认967/967、本地Chromium121/121（283348ms），5项指标/泄漏/禁止日期控制通过，66份原输入及配置SHA不变。真实模型/网站/预检均0，方法B未启用；推送后停下等样本批准，第4项仍须批准与网络就绪。见基准report.md。
+
+## TEST-2026-10-19-P2-3-PRICE-CONDITIONS
+
+- Historical cause: Sendou9800 course existed in recorded HTML but was only prose; old behavior tests omitted numeric price grounding and per-condition display. Baseline4592 Adapter fails the new9800 assertion (`old-adapter-price-red.log`); current source fragment control passes. Extend existing Adapter/assessment/context/evaluator/Web tests; do not count fixture construction failures as product regression evidence.
+- Known-feasible controls: exact recorded prices and tax retained, approved around endpoints2400/3600 accepted and4000 rejected, HARD missing/false blocked, SOFT false disclosed, lunch/add-on not used as dinner price. TableCheck retains guide facts when the request page is unavailable. Actual local Chromium Web refresh replaces the displayed price/status and keeps citations. Model/Google calls0.
+- Independent calibration: code d79dae7,49 frozen file hashes;22 saved automatic outputs frozen before the existing comparator read unchanged reviewer labels. Outcome22/22, normal S0_DECLARATION20/20, interrupted2/2 explicitly NOT_EVALUATED allowed; S0_BOUNDARY9 ABSENT,13 evidence gaps allowed,0 rule gaps. Not an overall boundary-zero claim or new-case accuracy.
+- Real read-only observation: guide317f501 yielded public menu HTML in12.9s; later user-supplied reserve URL was rejected before network by production Guard. Separate web text reading confirmed3300 drink option needs BBQ and cannot be booked alone. This is current text corroboration, not original historical DOM/Replay or inventory acceptance. No form interaction.
+- Gates: typecheck/architecture/build passed, default953/953; full actual Chromium119/119 passed. Existing failed old-context assertion and fixture debugging logs remain for attribution. No full task Live, real model replay, or external write.
+
+## TEST-2026-10-20-CHECKPOINT-C-INTEGRATION
+
+Checkpoint C offline integration starts from origin13c93a3, sequentially merges P2-2 7dfeb69 and P2-3 89e0dfb (41d677c/5309545). All13 conflicted paths preserve both behaviors/history/tests; combined Context@15, Prompt@27, State@17, Evaluator@30/rubric@26. Five gates PASS: typecheck/arch/build, default972/972 and local Chromium121/121. Original22 calibration retains22/22 outcome types,20/20 normal S0 declarations,8/8 delivery subtypes,0 false qualified; boundary9 ABSENT/13 historical gaps remain distinct. All354 frozen hashes and both branch test inventories verified. No websites/models/Google/probes/Live or name-resolution item4; primary user drafts/INDEX untouched. Independent integration branch only, pushed under explicit user authorization; no source/main merge. [Report](../../.eval-artifacts/checkpoint-c-integration-20261020/report.md).
+
+Concurrent remote review305d1e0 was synchronized verbatim after the feature merges (38 review-only lines,0 conflicts). src/package and all354 frozen hashes remain unchanged from5309545; the same five gates and22 calibration apply. No P2-1c implementation or new calls.
+
+## TEST-2026-10-20-CHECKPOINT-C-SELECTION-NAME-BENCHMARK
+
+Integrated branch8ecfcfc review read. Freeze1c08f4c and explicit specific-payload human approval precede5 actual DeepSeek selection replays: all ACCEPTABLE, Kagurazaka1/1, Shibuya3/3,0133control1/1, direct13/13. Context15/current Prompt27; original event prefixes supply commercial facts, but none of these historical turns has a price fact (no invented prices).0 websites/Google/actions/Live during replay. Tabelog benchmark now prepared:30Gold+5controls, TableCheck7 deferred; frozen sample89ce49a4 retained. Eval-only source admission removes cross-source readiness dependency,403/429 are ENV, both valid red/green. Final four code gates PASS (972/972), local browser121/121 reused because production browser/prefix unchanged. Outer11 offline controls and321 input/source/config hashes. Gold once/30s; source block10m and3/day stop; methodA<=150 and3/subject; methodB disabled. [Selection report](../../.eval-artifacts/checkpoint-c-integration-20261020/selection-recheck/report.md), [benchmark phase](../../.eval-artifacts/name-resolution-benchmark-20261019/live-20261020/report.md). Real source work starts only after this freeze commit; final results follow in the same entry.
+
+
+Gold phase2260cc8 subsequently completed30 once-onlyHTTP200 reads (0 models), min gap30.032s; original28/2 automatic certificate preserved, manual full-address comparison before A yields29VERIFIED/1DROPPED. User-approved eval identity-stop patch closes swallowed-diagnostic continuation: strengthened existing default test red(select)→green(no controls), local Chromium identity prefix green, production unchanged. Fresh five gates PASS972/972 +121/121 (279333ms). MethodA-only390 SHA freeze and13 offline controls retain30 prior reads/5 replay calls; public-payload authorization recorded,34 subjects planned/≤150 models. No MethodA call yet. Parallel remote changes deferred until this frozen execution ends.
+
+
+Final execution:30Gold once(allHTTP200),29VERIFIED/1DROPPED fixed before A;34/34 methodA subjects complete at1b4cfda. Gold12/29 CORRECT,15NOT_FOUND,2UNCERTAIN,0WRONG_ACCEPTED; controls2REVIEW_REQUIRED/3UNCERTAIN unscored.35 actual deepseek-flash calls(≤3/subject),5 selection calls,total40; Google/fullLive/B0. Median32530.5ms,max61442ms;63 logical gaps minimum30.025s,0source blocks.390 current/321 historical SHA,66 original input SHA,35 normalized paid-request SHA and unchanged30Gold ledger prefix verified. Independent response audit0 recorded violations but64 session/request gaps remain NOT_EVALUATED.14 list-request final URLs leave rstLst; record observation without attributing language/phone-rule cause. Root and phase reports include all result/artifact/raw/model paths and area/name-shape groups. Source execution finished before any parallel remote integration; no rerun or new call.
+
+Publication-only remote merge after source completion preservesfe9b3fc and State18/P2-1c, with5 document conflicts resolved retaining both complete bodies/indices; all236 raw benchmark files and18 replay files unchanged. Fresh merged five gates978/978 +122/122 PASS.11 independent evaluator files unchanged; remote22/22 types and20/20 S0 calibration reused. Current State18/Task16/BrowserPrompt17; original name run remains frozen1b4cfda/State17. No extra model/source calls or source/main merge; publication-retention.json and report document scope. The existing browser suite regenerated its tracked region fixture output (20 timing fields); current gate output saved separately in the benchmark batch, original bytes restored exactly with SHA receipt.
+
+<a id="test-2026-10-20-p21c-region-entrance"></a>
+## TEST-2026-10-20-P21C-REGION-ENTRANCE
+
+- 冻结输入/评分f85e7a0，源码/生产组装43000a9。旧覆盖遗漏：缺标签但已有同源指针；red.log在旧代码结果0且错误地区可执行。补强既有地区主测，含序列化一次消费、失败不重试、跨run/请求、外域/缺坐标/越界反例。
+- 六例实际生产factory+Guard+本地Chromium，真实链接/Google指针投影与合成详情分列；独立字面地区、几何、观察引用和原预算核验。不是完整任务或真实模型通过率。54条历史逐条评分，神乐坂4条缺入口观察保留未覆盖。
+- 默认973/973，本地Chromium122/122，typecheck/arch/build PASS；最终门禁及原始产物见[verification](../../.eval-artifacts/p2-1c-region-20261020/verification.json)。真实网站/模型/探测/Live均0，五次后续探测未运行。
+
+## TEST-2026-10-20-P21C-CHECKPOINT-C-INTEGRATION
+
+- 以8ecfcfc为基线合入已复核ddfdedd，源码/配置冻结d6d989b；State@18／TaskDefinition@16，保留价格/条件状态与地区提前读取，Browser Prompt@17。五门禁PASS：默认978/978、本地Chromium122/122，type/arch/build通过；原22份校准结果类型22/22、S0声明20/20。真实网站/模型/探测/Live均0。
+- 用户18预期先红（17≠18）后绿；误选测试和初始类型错误单列，不算原故障红灯。六个受控生产地区组合按原独立Gold/几何/预算检查通过。Evaluator/Comparator复用，运行前冻结358项SHA；2中断声明不入20分母，边界9 ABSENT/13历史证据缺口保持。
+- [报告](../../.eval-artifacts/checkpoint-c-p21c-integration-20261020/report.md)。离线 acceptance 通过；实际地区/来源预算和h001非退步等后续5探测等待用户通知，最早见证到期即停、不续期。
+
+## TEST-2026-10-20-P21C-LIVE-PROBES
+
+- 复用B失败原证据和P2-1c固定录制红绿，外层15核对+3 plan-only均0网络/模型；源码不变，复用前切片五门禁978/122与22份校准。真实五例神乐坂2/2正确A1309、中目黑2/2正确A1317、h001单次保持TL4/TC5及见证首批；原始snapshot/观察引用/几何/预算和只读边界独立核对通过。
+- 五例均无失败码/READ_BUDGET_EXCEEDED，模型20/20成功，Google正式18+预检5；累计347模型/59探测/171Google。全部间隔≥300秒、0环境重试；原见证截止前完成未续期。录制NOT_REPLAYABLE/UNSAFE_DOCUMENT为当前限制，非库存/完整Live验收。
+- [报告](../../.eval-artifacts/p2-1c-region-20261020/live-probes/report.md)与执行/评价/调用账本分列；普通推送集成分支后停下等复核，不追加探测。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-OFFLINE-PREP
+
+- Evidence status: current executable preparation；演练为frozen regression，非Clean Baseline。
+- 五门禁PASS：typecheck、arch:check、npm test 978/978、build、本地Chromium122/122。首次沙箱本地监听／浏览器权限失败独立保留，放行本地Fixture后全绿，未访问外站。外层控制8/8、外层TypeScript及认证脚本语法PASS。最终冻结0ce8a3f，341文件，脚本化传输完整跑通外层→Runner→@30/rubric@26→四层报告，8个脚本响应、0真实模型／网络／Live／认证；HONEST_NO_RESULT，S0声明ABSENT、越界NOT_EVALUATED，不当作Live验收。运行后来源失败控制保留原result和evidence-gap；仍待用户批准24h内见证、Live及预算／安全账本复核。
+- [本批报告](../../.eval-artifacts/checkpoint-c-live-20261020/report.md)／[验证记录](../../.eval-artifacts/checkpoint-c-live-20261020/verification.json)。
+
+- 后续外层最终合同检查：繁忙信号也须 ENV_FAILURE / ORCHESTRATION_INTERRUPTED 才能重跑；八项控制与外层typecheck仍PASS。当前有效冻结更新为 `d18c0ae`／SHA `961d5d62236c229ff4dc3762e93cc045588d9e51cb43b3e55d33bed02dc68157`，341文件，`rehearsal-policy/` 再次跑通完整0网络／0真实模型链路；较早冻结与演练作为历史保留，不覆盖原产物。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-REVIEW-PREP
+
+- Evidence status: current executable preparation；脚本化frozen regression，非Clean Baseline。
+- 五门禁全绿：typecheck/arch/build，默认978/978、Chromium122/122。未知即停批与shops/slug绑定有目标断言红灯；14项外层绿灯、1项真实Chromium/Guard本地捕获控制、独立外层typecheck通过。最终冻结1d40f62／364文件，SHA 4141d17db6601e404a6c3e23a8adae04e2f2bfa1833de8875091d4e40487ce4c；冻结后完整脚本化Runner→@30/rubric26→四层报告通过，8脚本响应，0外站/真实模型/认证/Live。较早冻结演练保留为历史，不覆盖。
+- 未评价不等于安全通过；当前库存、真实模型表现均未验证。认证预计30–60分钟，18次预计3–4小时，满预算预留4–4.5小时；环境冷却另加。推送准备分支后停下等批准。
+- [报告](../../.eval-artifacts/checkpoint-c-live-20261020/review-followup/report.md)／[验证](../../.eval-artifacts/checkpoint-c-live-20261020/review-followup/verification.json)。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-WITNESS-INTERRUPTED
+
+- Evidence status: current partial Live Read-only witness evidence；非Clean Baseline。
+- 认证前3/3节奏/重试/绑定控制PASS；停止后实体quote断言红→绿4/4，JS语法/外层类型检查PASS；partial finalize与六例Live门禁均拒绝，未启动Live。库存正文和JSON-LD原始片段SHA独立核验PASS，五门禁复用未变生产基线978/978＋122/122；这些不等于认证或Live通过。
+- 用户批准认证，未批准Live；H002第三家fetch failed且无HTTP状态，停止后没有重试或自动恢复。最终认证未完成，无最终Live冻结SHA；只封存中断证据。
+- [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/report.md)、[未完成登记](../../.eval-artifacts/checkpoint-c-live-20261020/witness-certification-20261020/registry.pending.json)。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-WITNESS-RESUME-STOP
+
+- Evidence status: current partial Live Read-only witness evidence；已暴露开发集，非Clean Baseline。
+- 两分钟重试红→绿；认证6/6、外层14/14、类型／语法通过。真实认证8次HTTP尝试6个200及2次无状态失败，重试等待120.002s、最小来源间隔30.002s。停止后JSON-LD身份复核7/7（含异店拒绝），旧捕获exact-name=false保留；partial finalize及全部六例Live门禁均拒绝。原始SHA与只读请求序列独立核验PASS；五门禁复用未变生产基线，不将源码门禁当完整认证／Live通过。
+- 0模型／Google／整单Live／正式Live环境重跑；最早见证2026-10-20 20:26:41.866北京，24h截止次日同刻，认证完成时间为空。未自行改日期、未打开表单或点击时段。
+- [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/report.md)、[未完成登记](../../.eval-artifacts/checkpoint-c-live-20261020/witness-resume-20261020/registry.pending.json)。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-WITNESS-COMPLETION
+
+- Evidence status: current executable preparation；已暴露开发证据，非Clean Baseline。
+- Live Read-only认证准备：8项认证控制通过，实际红灯证实旧实现会重采Meibutsuya门店页；跨轮SHA／时间保留反例通过。外层14控制、typecheck／arch／build通过；生产与a3f6b84同字节，复用978/978默认及122/122真实Chromium门禁。此时0新增网站／模型／Google／整单Live。
+- [计划](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/plan.md) · [离线核验](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/pre-capture-verification.json)。
+
+
+## TEST-2026-10-20-CHECKPOINT-C-WITNESS-CERTIFIED
+
+- Evidence status: current Live Read-only witness certification；已暴露开发集，非Clean Baseline，不是正式Live。
+- 精确续采18GET全200、最小间隔30.000秒、0重试／模型／Google／完整Live；保留原6家不重采。6例15/16登记认证，计数2/3/3/2/2/3；Komuro指定库存未匹配，Fukumimi当前菜系证据与原句变化及人工判断单列。
+- 460项冻结运行输入结束后不变；原始SHA／请求字面量审计、六例500秒时效门禁与阶段剩余额度通过。认证控制8、外层14、本地边界1，typecheck／arch／build通过；生产未变复用978/122门禁。
+- 最早见证2026-10-20 20:26:41.866北京，Live须在次日同一时刻前完成；生成最终Live冻结后推送准备分支，等待复核者和用户批准SHA，不开始Live。
+- [报告](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/report.md) · [核验](../../.eval-artifacts/checkpoint-c-live-20261020/witness-completion-20261020/verification.json)。
+
+## TEST-2026-10-21-CALENDAR-NEXT-MONTH
+
+- Evidence status: draft / not integrated；Fixture/静态生产观察，已暴露开发集。
+- 初始sandbox Chrome/localhost启动失败单列；提权后有效旧实现红灯3/3：Matsumoto重复错误Next耗尽、月份未变无NO_CHANGE反馈、H003接收器收到reserve请求。修复后3/3绿，新增公开aria/title/img/svg文字及多个日历不乱绑Fixture通过。中间序列化__name导致观察缺失已修复并留原日志，不把它混作设计红灯。
+- 五门禁：npm run typecheck PASS；npm run arch:check PASS（0 forbidden）；npm test PASS 977/977；npm run build PASS；npm run test:browser:fixture PASS 126/126（真实本地Chromium）。默认978→977来自两条过期reserve菜单成功测试合并为一条两顺序拒绝合同；Chromium122→126补当前真实失效点。0模型/真实网站。
+- 69点生产观察预检69/69：真实Next month anchor对应公开DOM节点、Calendar组、Oct2026与CLICK许可；同一批69原种子/oracle不改。重建有CSS，本地履行所有文档/样式，其他资源拒绝；脚本不执行，未打开表单或点击时段。准备保留原progress/history；两日历锚点href按原始观察恢复脱敏丢失#，记录输入SHA。
+- 冻结后计划：原22自动产物先保存SHA再独立比较；69浏览器点≥68，5选店5/5；最多74模型含失败且无付费重试。阶段账本1995/4000为唯一基线。单点回放不代表完整任务、实时库存或泛化能力；旧Live S0不撤销。
+- 记录：[`gates.json`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/gates.json)、[`原始反例`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/red-fixtures.log)、[`Tabelog参数核查`](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/url-parameter-audit/audit.json)。
+
+- 本轮冻结后结果（同一切片）：b7f56b660c9a1fc017b792a01eb405ff83349383 / freeze SHA256 d065beef6675bdb0bc403a32326a956b83422e4632b93089ade434ba37b9709d，625项运行后无变。原22校准22/22（S0声明20/20、8交付子类8/8、0误判合格；越界9无/13缺口），P2-2五选店5/5、直接页13/13；翻月仅54/69，15点为PARTY_SIZE，未达≥68/69，整体NOT_ACCEPTED。全部74请求成功、无重试，984912输入/9975输出token、0 reasoning；模型请求墙钟翻月均1.890s、选店2.132s，批次141.296s。阶段账本2069/4000、完整Live7/100、环境重跑0/10；0新网站/Google/Live。
+- 偏离与限制：真实静态生产重建的69份target集合、64份visibleText与第0步不同，history/progress/skills未变；不能把原68/69与新54/69当作严格单变量比较，门槛仍失败，不改标签/不付费补跑。独立Fixture证明字段与月份后置条件，不能代替真实任务或下游反事实。Guard旧S0不撤销。
+- 浏览器门禁原有测试会覆盖旧region-composition-results.json，已将本轮产物另存本批次并恢复旧文件逐字原样；受保护Gold/变体/种子与所有冻结代码/输入/脚本均未变化。机器输出[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/result.json)、[四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/four-layer-report.md)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/decision-matrix.json)与[运行后校验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-next-month-20261021/post-verification.json)。推送独立修复分支后停止，等待复核，不合入集成、不跑Live。
+
+## TEST-2026-10-21-CALENDAR-SELECTED-STATE
+
+- Evidence status: draft / not integrated；真实本地Chromium与固定开发输入，非Clean Baseline。
+- 有效红灯4/4：已有2人仍重复点击/1人点击后循环、通用选中状态缺失、人数未变但无关文案改变却COMPLETED。修后4/4绿；涵盖8种精确class及4种ARIA正状态、负状态不猜、同名不同组隔离、无人数组不编造、已选控件作为证据保留、人数未确认不能收尾。Matsumoto Fixture包含其他区域DOM内容更新，组确认仍绑定真实owner。
+- 默认回归旧单元Fixture仅改变“confirmed”文案，现补选中控件与组；浏览器旧断言要求隐藏选中日期，现改为保留证据且无可执行动作。Tabelog组合与C3成功Fixture补真实标记与组归属，失败场景不改。测试证明当前行为合同，不改69点评分和原输入。
+- 准备69原点全部独立DOM绑定真正Next month，当前引用均一致；历史引用时序逐点审计，0模型/网站。原15问题点selected=请求人数且不再给PARTY_SIZE权威点击；32未观察选择、3不同请求均如实保留。旧54/69与74调用原样保留。
+- 最终五门禁、原22校准与69+5回放待提交冻结后记录；最多74真实模型请求，不重试，0网站/Google/Live。文件均在[本批次](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/plan.md)。
+
+- 冻结后最终结果：运行提交8e47ddfd70be692e5d43dd70474e7e1a78b22d88，SHA256 040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b，628项复验一致；同69点69/69，原15未命中点15/15且重复已确认人数提议0；选店5/5、直接页13/13；原22校准22/22（正常S0声明20/20，交付子类8/8，0误判合格，越界9份无/13份缺口保持）。五门禁type/arch/build、默认977/977、真实Chromium129/129全绿。
+- 全部74次API成功、0重试；翻月平均1.877s、961320输入/8535输出token，选店平均2.053s、95435输入/1361输出；reasoning0，批次墙钟140.104s。阶段账本2069→2143/4000、剩1857，完整Live7/100、环境重跑0/10不变。0网站/Google/Live，不实现URL路径。
+- 37点正选中（34与请求一致、3不同），32点未观察到；独立来源核查69/69一致，未知不编造。69点历史/观察编号逐点一致，history/progress无改、显式历史targetRef0。选中状态/组投影/引用修正共同变化，非严格单字段因果试验，也不代表完整交付或泛化；历史H003 S0与上一轮54/69保持。
+- [四层报告](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/four-layer-report.md)、[result.json](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/result.json)、[逐点表](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/decision-matrix.json)、[引用审计](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/reference-audit.json)和[冻结复验](../../.eval-artifacts/checkpoint-c-live-20261020/calendar-selected-state-20261021/post-verification.json)。既有门禁生成的区域输出另存本批次后原文件恢复，代码/输入/外层运行中无改。离线门槛通过、待复核，推本修复分支后停止。
+
+
+## TEST-2026-10-21-CHECKPOINT-C-CONTINUOUS-STEP-1
+
+- Evidence status: frozen regression, exposed development. Accepted review481b893 and 628 frozen-file SHAs independently rechecked; production/skills unchanged since8e47ddf. Calendar69/69, selection5/5, calibration22/22, all five gates PASS (977 default/129 Chromium). Reused existing unchanged evidence; new model/network/Live0.
+- Freeze040dbdac7477e64b643aa6550c43a57b650473dae51365b143d90f1f3954876b; cumulative models2143/4000, fullLive7/100, environment reruns0/10. Historical H003 S0 retained. [Four-layer report](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-1-report.md).
+
+
+## TEST-2026-10-21-CHECKPOINT-C-CONTINUOUS-STEP-2
+
+- Evidence status: current executable, exposed development. Accepted fix8589b3b merged/pushed integration; prep merge92beed0 preserves both histories. No production/skills/dependency delta from accepted gates,628 frozen inputs match. Existing outer, plan18, Runner, inputs, evaluator30/rubric26 unchanged.
+- Cumulative ledger2143 models,7 Live,0 env reruns; source evidence now includes277+74+74 already-counted replay calls, totals unchanged. Existing global budget check PASS,1200 models reserved for18+6 possible retries. No new models/websites/Live. [Four-layer report](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/step-2-report.md).
+
+
+## TEST-2026-10-21-CHECKPOINT-C-QUICK-LIVE-ENTRY
+
+- Evidence status: current executable plus frozen regression, exposed development. Steps1/2 PASS; original outer complete0-network/0-model rehearsal succeeds and553 freeze files reverified. SHA b1175e307a68e021e0e7744eda750b488d36f72f84038cbfb3ed04224c8b2273. No original outer/plan modification.
+- Quick3 cannot be selected by current CLI (only18 or historical fixed-c03 resume); clarification requested before relaxing explicit immutable-outer constraint. No authorization consumed or Live started; steps3–5 NOT_REACHED. Cumulative2143 models,7 fullLive,0 env reruns unchanged; old H003 S0 retained. [Report](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/four-layer-report.md).
+
+
+## TEST-2026-10-21-CHECKPOINT-C-RUN-SELECTION
+
+- Evidence status: current executable preparation, exposed development. User explicitly approved minimal --run-ids entry for c-01/c-02/c-05 only. Select original run objects in plan order; reject unknown/duplicate/empty IDs and resume combination. Default18 Live/default1 rehearsal/historical resume unchanged; no changes to Runner, plan, policies, evaluator or run budgets.
+- Twenty offline controls PASS; full original outer scripted three-run/default verification follows committed freeze. New models/sites/Live0; cumulative2143/7/0 unchanged. Scope label and separate results keep quick samples outside checkpointC18. [Authorization](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/run-selection-approval.md).
+
+- Quick entry final verification PASS: original outer executed exactly c-01/c-02/c-05 in0-network/0-model mode, default rehearsal retained1 run and defaultLive18 unchanged;20 controls PASS. Final quick freeze5c4dd01e4d21afcc8a687066dbb1e2bd2cd8e8cfd683e404b26e9d292fbdd8f4,558 files verified. Cumulative2143 models/7 Live/0 env reruns;1857 model calls remain. Old witness window sufficient for quick3 before2026-10-21T12:26Z; user preapproval permits launch after push.
+
+- Quick launch pre-run freeze check rejected changed documentation before authorization consumption, output directory or Runner start;0 models/sites/formalLive/env reruns. Rejection retained; refreeze final committed snapshot and verify all files before launch. Freeze record lives in continuous-validation-20261021/quick-final-freeze-receipt.json; do not mutate frozen documentation during quick batch.
+
+
+## TEST-2026-10-21-CHECKPOINT-C-QUICK-VALIDATION-STOP
+
+- Evidence status: exposed development Live Read-only, one diagnostic per case; not Clean Baseline. 快速验证未通过，按门槛停止：H001/神乐坂 CAPABILITY_MISS，H002 HONEST_NO_RESULT；QUALIFIED_DELIVERY 0/3（要求≥2/3），交付均为0，两项S0各3/3 ABSENT。三次47模型共141，Google含预检12，累计2284/4000模型、10/100完整Live、0/10正式环境重跑。快速三次不计检查点C18，原五次及H003 S0保留；第4步认证与新18次均NOT_REACHED。
+- Original production/skills/plan/Runner/evaluator30/rubric26 unchanged; user-approved run selection20 controls and actual offline3+default1 passed. Existing production acceptance69/69,5/5,22/22 and five gates977/129 reused unchanged. Freeze225ca8b994308b999ab0a7156b0cbf3ff1b57466cb707a0c2e7d1669b8faac0d/559 files verified before and after runs, before documentation updates.
+- Runner times278.382/280.614/482.445s; outer wall298.662/307.277/504.686s. c05 retains OUTER_DEADLINE plus exit0 and full result; @30 CAPABILITY_MISS not reclassified/retried. Independent post-reads8/8 HTTP200; gaps306.422/307.224s. Source-observed selection versus query-acceptance mismatch is a hypothesis, no new fix or extra calls.
+- [Four-layer report](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-four-layer-report.md), [raw result index](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/quick-result-manifest.json), [ledger](../../.eval-artifacts/checkpoint-c-live-20261020/continuous-validation-20261021/phase2-ledger-after-quick.json). Stop after push pending independent review.
+
+
+## TEST-2026-10-22-GROUP-WINDOW-FIX
+
+- Evidence status: draft / not integrated; exposed offline repair. Base17415d1c, review b180f30d. Partial source batches rotate behind other scheduled sources, retaining active/suspended cursors, pending entrances and candidates. Prohibited workflows return SOURCE_UNSUPPORTED before navigation and are not reopened for FACTS. Point-empty queries advance through at most four observed legal times; uncovered scope remains unknown. Disabled exact party ends UNKNOWN only after the requested date is selected.
+- restaurant-state@20 / task definition18; Prompt, Browser action/context, Evaluator33/rubric29 and qualification unchanged. Valid before-fix scheduling assertions, installed-policy restriction red, and three real Chromium baseline failures are retained. Initial restriction Mock failure lacking INSTALLED is explicitly excluded as detection evidence.
+- Five gates PASS: typecheck, arch:check, default1013/1013, build, Chromium136/136. Initial default failure was the old persisted-schema expectation19; updated to current20, original failure log retained. Browser-generated tracked fixture metrics are saved separately and historical bytes restored.
+- 69 calendar and five selection inputs prepared: calendar differs only by the previously approved base timeoutMs10000 to30000; model messages/schema/observation/oracle identical. Selection requests byte-identical. Commit-freeze before cached response regression,22 calibration and six saved-run component replays; these final replays are not yet executed at this entry. New real models/websites/Google/Live0.
+- [Plan](../../.eval-artifacts/group-window-fix-20261022/plan.md), [gates](../../.eval-artifacts/group-window-fix-20261022/gates/results.json).
+
+- Frozen replay follow-up: code22fef57b passed five gates; cached69/69+5/5 and calibration22/22 (normal declarations20/20) passed with zero external calls. Six-run component driver stopped at c18 because it mixed recorder and global trace sequences. Original failure retained; only the eval-side mapping is corrected and newly frozen. Product/source inputs and scoring unchanged. No original snapshot/decision rewritten.
+
+- Final source follow-up: retained even ended/capped source checkpoints (valid red-ended-checkpoint), and classified a completed point-empty observation UNKNOWN rather than provider failure (valid red-partial-observation). Chromium time-window controls now enter the same createLiveReadAssembly/Resolver/Guard as Live, with original80-operation/provider/run limits; positive and four-empty paths need no model transport, wrong-party negative uses one scripted help response. Final gates1013/136 PASS. Product code and all historical inputs remain frozen for a final zero-network component/cache/calibration replay.
+
+- Delivery follow-up within prohibited-entry scope: even an initial candidate URL already prohibited by current policy now stops before acquiring a browser; identity remains unverified. Native FACTS checks the same initial boundary. Valid red-initial-entrance retained; final full five-gate rerun1014/136 PASS. Freeze the final unchanged-input offline replay before execution, then stop after report/push.
+
+- Completed on frozen bd268ee0bf45e838f70235be6e34d4ae76b72d17: all five gates1014/136 PASS; final cached calendar69/69, selection5/5; current evaluator33 calibration22/22 and normal declaration20/20. Six saved-component rows complete: Tabelog first at scheduling boundary,24 prohibited paths early unsupported, five recorded bound-empty points retain unknown remainder, c18 disabled10 stops with zero new decision/action. Original219 model calls are historical reuse, new real model/site/Google/Live0. Missing Tabelog/Google response branches remain NOT_EVALUATED; no new full-task success, S0 clearance or efficiency claim. [Final report](../../.eval-artifacts/group-window-fix-20261022/report.md).

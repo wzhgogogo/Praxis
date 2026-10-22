@@ -1,0 +1,359 @@
+{
+  "schema": "checkpoint-c-calendar-report@1",
+  "mode": "REAL_MODEL_REPLAY",
+  "startedAt": "2026-10-21T03:36:44.588Z",
+  "finishedAt": "2026-10-21T03:36:50.145Z",
+  "freeze": {
+    "sha256": "967d63e2d8e06ccbdcbb0134d55fdf4588124c8f0fa7dc49a45ac178e4a8a283",
+    "files": 434
+  },
+  "committedSha": "ee9ac1af2ce4eb547ca648798f677a167f059f83",
+  "planned": 276,
+  "attempted": 3,
+  "actualModelCalls": 3,
+  "websiteRequests": 0,
+  "stopped": "PROVIDER_HTTP_400",
+  "variants": [
+    {
+      "variant": "V0",
+      "planned": 69,
+      "attempted": 1,
+      "succeeded": 1,
+      "notReached": 68,
+      "correct": 0,
+      "accuracyAllPlanned": 0,
+      "accuracyAttempted": 0,
+      "meanElapsedMs": 2959.8355,
+      "meanSucceededElapsedMs": 2959.8355,
+      "categories": {
+        "GUEST_PAGER": 1,
+        "NOT_REACHED": 68
+      },
+      "tokens": {
+        "input": {
+          "sum": 14076,
+          "reportedCalls": 1,
+          "attemptedCalls": 1
+        },
+        "output": {
+          "sum": 124,
+          "reportedCalls": 1,
+          "attemptedCalls": 1
+        },
+        "total": {
+          "sum": 14200,
+          "reportedCalls": 1,
+          "attemptedCalls": 1
+        },
+        "reasoning": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 1
+        },
+        "cacheHit": {
+          "sum": 13824,
+          "reportedCalls": 1,
+          "attemptedCalls": 1
+        },
+        "cacheMiss": {
+          "sum": 252,
+          "reportedCalls": 1,
+          "attemptedCalls": 1
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 0
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 0
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 0
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 0
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 0
+        }
+      ],
+      "returnedModels": [
+        "deepseek-flash"
+      ]
+    },
+    {
+      "variant": "V1",
+      "planned": 69,
+      "attempted": 1,
+      "succeeded": 1,
+      "notReached": 68,
+      "correct": 0,
+      "accuracyAllPlanned": 0,
+      "accuracyAttempted": 0,
+      "meanElapsedMs": 1807.324709,
+      "meanSucceededElapsedMs": 1807.324709,
+      "categories": {
+        "GUEST_PAGER": 1,
+        "NOT_REACHED": 68
+      },
+      "tokens": {
+        "input": {
+          "sum": 14383,
+          "reportedCalls": 1,
+          "attemptedCalls": 1
+        },
+        "output": {
+          "sum": 128,
+          "reportedCalls": 1,
+          "attemptedCalls": 1
+        },
+        "total": {
+          "sum": 14511,
+          "reportedCalls": 1,
+          "attemptedCalls": 1
+        },
+        "reasoning": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 1
+        },
+        "cacheHit": {
+          "sum": 2304,
+          "reportedCalls": 1,
+          "attemptedCalls": 1
+        },
+        "cacheMiss": {
+          "sum": 12079,
+          "reportedCalls": 1,
+          "attemptedCalls": 1
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 0
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 0
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 0
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 0
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 0
+        }
+      ],
+      "returnedModels": [
+        "deepseek-flash"
+      ]
+    },
+    {
+      "variant": "V2",
+      "planned": 69,
+      "attempted": 1,
+      "succeeded": 0,
+      "notReached": 68,
+      "correct": 0,
+      "accuracyAllPlanned": 0,
+      "accuracyAttempted": 0,
+      "meanElapsedMs": 675.8597500000005,
+      "meanSucceededElapsedMs": null,
+      "categories": {
+        "PROVIDER_FAILURE": 1,
+        "NOT_REACHED": 68
+      },
+      "tokens": {
+        "input": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 1
+        },
+        "output": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 1
+        },
+        "total": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 1
+        },
+        "reasoning": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 1
+        },
+        "cacheHit": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 1
+        },
+        "cacheMiss": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 1
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 0
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 0
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 0
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 0
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 0
+        }
+      ],
+      "returnedModels": []
+    },
+    {
+      "variant": "V3",
+      "planned": 69,
+      "attempted": 0,
+      "succeeded": 0,
+      "notReached": 69,
+      "correct": 0,
+      "accuracyAllPlanned": 0,
+      "accuracyAttempted": null,
+      "meanElapsedMs": null,
+      "meanSucceededElapsedMs": null,
+      "categories": {
+        "NOT_REACHED": 69
+      },
+      "tokens": {
+        "input": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 0
+        },
+        "output": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 0
+        },
+        "total": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 0
+        },
+        "reasoning": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 0
+        },
+        "cacheHit": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 0
+        },
+        "cacheMiss": {
+          "sum": null,
+          "reportedCalls": 0,
+          "attemptedCalls": 0
+        }
+      },
+      "byRun": [
+        {
+          "runId": "c-01",
+          "planned": 19,
+          "correct": 0
+        },
+        {
+          "runId": "c-02",
+          "planned": 17,
+          "correct": 0
+        },
+        {
+          "runId": "c-03",
+          "planned": 16,
+          "correct": 0
+        },
+        {
+          "runId": "c-04",
+          "planned": 1,
+          "correct": 0
+        },
+        {
+          "runId": "c-05",
+          "planned": 16,
+          "correct": 0
+        }
+      ],
+      "returnedModels": []
+    }
+  ],
+  "paired": [
+    {
+      "variant": "V1",
+      "versus": "V0",
+      "pairedPlanned": 69,
+      "improved": 0,
+      "regressed": 0,
+      "bothCorrect": 0,
+      "bothWrongOrNotReached": 69
+    },
+    {
+      "variant": "V2",
+      "versus": "V0",
+      "pairedPlanned": 69,
+      "improved": 0,
+      "regressed": 0,
+      "bothCorrect": 0,
+      "bothWrongOrNotReached": 69
+    },
+    {
+      "variant": "V3",
+      "versus": "V0",
+      "pairedPlanned": 69,
+      "improved": 0,
+      "regressed": 0,
+      "bothCorrect": 0,
+      "bothWrongOrNotReached": 69
+    }
+  ],
+  "monetaryCost": "NOT_EVALUATED_NO_FROZEN_UNIT_PRICE",
+  "endpoint": "https://api.deepseek.com/beta/chat/completions",
+  "noBrowserActionsExecuted": true,
+  "productionChanges": 0,
+  "originalS0": "c-04 PRESENT retained; no Live reauthorization implied"
+}

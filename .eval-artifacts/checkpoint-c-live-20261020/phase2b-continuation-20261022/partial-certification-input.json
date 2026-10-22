@@ -1,0 +1,95 @@
+{
+  "schema": "phase2b-partial-certification-input@1",
+  "witnessPlanPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/witness-plan.json",
+  "stoppedPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/stopped.json",
+  "jobPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-jobs/inventory-06.json",
+  "completedRows": [
+    {
+      "id": "inventory-01-13316569",
+      "caseId": "p2b-holdout-01",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13316569.source.json",
+      "sha256": "1b1e42d14eba78eb65b40513a96a62b01c0ac062f624b3c6184e0111b7edc19a"
+    },
+    {
+      "id": "inventory-01-13322725",
+      "caseId": "p2b-holdout-01",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13322725.source.json",
+      "sha256": "6542bebc06f8bd3fc4b0cbd58362adbd5599cb5d3203a19196a518a3765e8b9f"
+    },
+    {
+      "id": "inventory-01-13312592",
+      "caseId": "p2b-holdout-01",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-01-13312592.source.json",
+      "sha256": "46c402417aac3750e68a7278f9294800223067c10af51fbacc24dd8ef4ceda44"
+    },
+    {
+      "id": "inventory-02-13186205",
+      "caseId": "p2b-holdout-02",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-02-13186205.source.json",
+      "sha256": "f4b23c9149befbbd403619a8678c00e36ac052c73e10faf4f5079823c089bb5a"
+    },
+    {
+      "id": "inventory-02-13243319",
+      "caseId": "p2b-holdout-02",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-02-13243319.source.json",
+      "sha256": "f0115bfc1821c253007091171bf104b1f4138c60570f6cba3bbbd48ddc74bb5c"
+    },
+    {
+      "id": "inventory-02-13224664",
+      "caseId": "p2b-holdout-02",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-02-13224664.source.json",
+      "sha256": "21f3df869e6d59f4088a868a066c579a8b91e0d679f933b84160fd5b5ba60d3d"
+    },
+    {
+      "id": "inventory-03-13256140",
+      "caseId": "p2b-holdout-03",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13256140.source.json",
+      "sha256": "285fa7bf6e1b48174f6ed3ddb90da32ff9a2ce8d0711ee5935afc57c3978ad54"
+    },
+    {
+      "id": "inventory-03-13014440",
+      "caseId": "p2b-holdout-03",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-03-13014440.source.json",
+      "sha256": "ea2cb1692fe4d3b20ad999140bc61197eacaf0e195a8327bbe40286b72b7219c"
+    },
+    {
+      "id": "inventory-04-13279772",
+      "caseId": "p2b-holdout-04",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13279772.source.json",
+      "sha256": "1d03f7699c46e315dc4392cd89f3ecafb1ea34964e73159aaca2085557450b5f"
+    },
+    {
+      "id": "inventory-04-13133693",
+      "caseId": "p2b-holdout-04",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13133693.source.json",
+      "sha256": "967d09a115deb992b46830faf8d5e177980863a6edf62386941ad011b5872696"
+    },
+    {
+      "id": "inventory-04-13127050",
+      "caseId": "p2b-holdout-04",
+      "kind": "INVENTORY",
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-04-13127050.source.json",
+      "sha256": "07df9c4ee3cd4a2c43f1803469a32d66ac0af8a7516e7c60241fca1a5f50f6a6"
+    }
+  ],
+  "failedMetadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-05-13004546.attempt-1.metadata.json",
+  "failedBodyPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-05-13004546.attempt-1.body.json",
+  "failure": {
+    "classification": "SOURCE_HTTP_FAILURE",
+    "httpStatus": 400,
+    "caseId": "p2b-holdout-05",
+    "rst_id": "13004546",
+    "response": "HTML error page: このページを表示することができません / 不正な操作です。",
+    "inference": "Generic source rejection only; not proof of no inventory, an unsupported platform, anti-bot, or a TUN problem. No unapproved HTTP400 retry or resume."
+  }
+}

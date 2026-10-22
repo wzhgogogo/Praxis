@@ -1,0 +1,41 @@
+{
+  "command": [
+    "/opt/homebrew/bin/node",
+    "--env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    ".eval-artifacts/checkpoint-c-live-20261020/outer.ts",
+    "--mode",
+    "LIVE_READ_ONLY",
+    "--freeze",
+    ".eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/live-freeze.json",
+    "--output",
+    ".eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/live-results",
+    "--approval",
+    ".eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/live-user-approval.json",
+    "--registry",
+    ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/registry.certified.json",
+    "--ledger",
+    ".eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/ledger-before.json",
+    "--resume",
+    ".eval-artifacts/checkpoint-c-live-20261020/c17-environment-retry-20261022/resume.json"
+  ],
+  "cwd": "/private/tmp/praxis-checkpoint-c-prep",
+  "freezeSha256": "3fdfcb85a23f219ab370c268c9c79e9ad6041d3d524fb2c802fa566abd83ad67",
+  "budget": {
+    "remaining": {
+      "fullLiveRuns": 69,
+      "modelCalls": 1173,
+      "environmentReruns": 10
+    },
+    "reservedRetries": 0,
+    "reservedRuns": 1,
+    "reservedModelCalls": 50
+  },
+  "runIds": [
+    "c-17"
+  ],
+  "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubric": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "deadline": "2026-10-22T12:23:00.000Z"
+}

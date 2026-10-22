@@ -20,9 +20,9 @@ const userRequestedThree: FixedSourceExpectation = {
 function evaluation(overrides: Partial<RestaurantHybridDiagnosticEvaluation["execution"]> = {}, failedDimension?: string): RestaurantHybridDiagnosticEvaluation {
   const notScored = { status: "NOT_EVALUATED" as const, reasons: ["UNIT_ONLY_NOT_SCORED"], evidenceRefs: [] };
   return {
-    schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@29", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@25", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", recordReadIssues: [], goldCorrection: null,
-    conditionStates: [], softPreferenceObservations: { path: "UNIT_ONLY_NOT_SCORED", sha256: "UNIT_ONLY_NOT_SCORED" },
-    sourceArtifact: { path: "fixture", sha256: "fixture" }, criterionEquivalences: { path: "TEST_ONLY", sha256: "TEST_ONLY", tableVersion: "restaurant-criterion-equivalences@1" }, pendingCriterionWordings: [],
+    schemaVersion: "1", evaluatorVersion: "restaurant-hybrid-read-diagnostic-evaluator@33", rubricVersion: "restaurant-hybrid-read-diagnostic-rubric@29", rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", recordReadIssues: [], goldCorrection: null,
+    conditionStates: [], conditionStateComparisons: [], conditionEvidenceFindings: [], softPreferenceObservations: { path: "UNIT_ONLY_NOT_SCORED", sha256: "UNIT_ONLY_NOT_SCORED" },
+    sourceArtifact: { path: "fixture", sha256: "fixture" }, criterionCorrespondence: { path: "TEST_ONLY", sha256: "TEST_ONLY", schema: "artifact-criterion-correspondence@1", matches: [] }, pendingCriterionWordings: [],
     // This pre-existing acceptance unit stub is not an outcome/severity score.
     outcome: { type: "NOT_EVALUATED", reasons: ["UNIT_ONLY_NOT_SCORED"], evidenceRefs: [], capabilityDenominator: "NOT_EVALUATED", userGoalComplete: "NOT_EVALUATED" },
     severity: { S0: notScored, S0_DECLARATION: notScored, S0_BOUNDARY: { ...notScored, gaps: [] }, S1: notScored, S2: notScored, S3: notScored, S4: notScored },

@@ -1,0 +1,70 @@
+{
+  "id": "c-05-d010-V2",
+  "seedId": "c-05-d010",
+  "variant": "V2",
+  "runId": "c-05",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "50f629b789c09b1cc7e5763acd809b9aeded3edff7d7c26e140c15b2fb097f3b",
+  "startedAt": "2026-10-21T03:53:49.653Z",
+  "finishedAt": "2026-10-21T03:53:52.634Z",
+  "elapsedMs": 2980.345374999917,
+  "fetches": 1,
+  "outcome": "SUCCEEDED",
+  "response": {
+    "invocationId": "626a25e2-7a64-4516-a80b-50d4368500bc",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:125\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to November to reveal requested date\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2980,
+    "providerRequestId": "ac3c2f7c-89d7-421c-86cd-8221bdd12226",
+    "usage": {
+      "inputTokens": 13973,
+      "outputTokens": 333,
+      "totalTokens": 14306,
+      "reasoningTokens": 207
+    }
+  },
+  "error": null,
+  "invocation": {
+    "invocationId": "626a25e2-7a64-4516-a80b-50d4368500bc",
+    "taskId": "checkpoint-c-calendar:c-05-d010:V2",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "SUCCEEDED",
+    "latencyMs": 2980,
+    "providerStatus": 200,
+    "usage": {
+      "inputTokens": 13973,
+      "outputTokens": 333,
+      "totalTokens": 14306,
+      "reasoningTokens": 207
+    },
+    "providerRequestId": "ac3c2f7c-89d7-421c-86cd-8221bdd12226"
+  },
+  "providerUsage": {
+    "prompt_tokens": 13973,
+    "completion_tokens": 333,
+    "total_tokens": 14306,
+    "prompt_tokens_details": {
+      "cached_tokens": 1536
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 207
+    },
+    "prompt_cache_hit_tokens": 1536,
+    "prompt_cache_miss_tokens": 12437
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash",
+  "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-05-d010-V2.json",
+  "sourceSha256": "7880ab5407785766fd49371562447df283c01181f545874af943128af240b726"
+}

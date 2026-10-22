@@ -8,7 +8,7 @@ import type { ModelGateway, ModelResponse } from "../../core/model/contracts.js"
 import { DeepSeekModelGateway } from "../../infrastructure/deepseek/deepseek-model-gateway.js";
 
 const context: RestaurantAgentContext = {
-  schemaVersion: "11",
+  schemaVersion: "15",
   now: "2026-01-01T00:00:00.000Z",
   phase: "UNDERSTANDING",
   intentDraft: {
@@ -36,10 +36,15 @@ test("Restaurant Agent sends a DeepSeek-strict compatible wire schema and restor
     },
   });
 
-  const result = await new RestaurantAgentDecision(gateway).decide({
+  let requestedTimeoutMs = 0;
+  const result = await new RestaurantAgentDecision({ async complete(request) {
+    requestedTimeoutMs = request.timeoutMs;
+    return gateway.complete(request);
+  } }).decide({
     taskId: "task-h001", context, recentExecutionHistory: [], capabilities: RESTAURANT_AGENT_CAPABILITIES,
   });
 
+  assert.equal(requestedTimeoutMs, 30_000, "Agent decision latency allowance; Runner retains its total deadline");
   assert.equal(endpoint, "https://api.deepseek.com/beta/chat/completions");
   const tools = requestBody?.tools as Array<{ function: { strict: boolean; parameters: Record<string, unknown> } }>;
   assert.equal(tools[0]?.function.strict, true);
@@ -50,7 +55,7 @@ test("Restaurant Agent sends a DeepSeek-strict compatible wire schema and restor
   if (result.status !== "PROPOSED") return;
   assert.deepEqual(result.action, { type: "SEARCH_RESTAURANTS", retrievalHint: "omakase near Shibuya" });
   assert.equal(result.decisionSummary, "Search first.");
-  assert.equal(result.modelAttempt.promptVersion, "25");
+  assert.equal(result.modelAttempt.promptVersion, "27");
   assert.equal(result.modelAttempt.providerRequestId, "request-123");
   assert.deepEqual(result.modelAttempt.outputSchema, { name: "restaurant_agent_action", version: "4" });
 });
@@ -102,7 +107,7 @@ test("Restaurant Agent supplies candidate commercial comparisons only as source-
     ...context,
     phase: "SEARCHING",
     candidates: [{
-      id: "restaurant-a", outletName: "A", address: "Tokyo", matchReasons: [], warnings: [], executionConfidence: "HIGH", sourceCategories: [],
+      id: "restaurant-a", outletName: "A", address: "Tokyo", matchReasons: [], warnings: [], executionConfidence: "HIGH", sourceCategories: [], availabilityPath: "NAME_RESOLUTION",
       observedFacts: {
         verifiedHardCriteria: [], verifiedNegativeCriteria: [], violatedNegativeCriteria: [], openingHoursMatch: false,
         commercialNotes: [{ field: "COURSE_PRICE", value: "8000 JPY (tax included)", source: "RESTAURANT_WEBSITE" }],

@@ -7,6 +7,7 @@ import type { RestaurantTaskState } from "../../domains/restaurant/contracts.js"
 import { validateRestaurantAction } from "../../domains/restaurant/action-validator.js";
 import { applyRestaurantIntentPatch } from "../../domains/restaurant/intent-state.js";
 import { ModelRestaurantFactJudgment } from "./model-fact-judgment.js";
+import { assessRestaurantConditions } from "../../domains/restaurant/condition-states.js";
 
 const candidate: RestaurantCandidate = {
   restaurant: { id: "a", outletName: "Cafe A", address: "Tokyo", sourceIds: {}, provenance: {} },
@@ -221,7 +222,7 @@ test("negative category raw judgments reach conversion and the current presentat
     const result = await new ModelRestaurantFactJudgment(model(raw), now).judge({ candidate, intent: factIntent, evidence });
     assert.deepEqual(result.evidence[0]?.claims[control.claim], [criterion], control.name);
     const state: RestaurantTaskState = {
-      schemaVersion: "16", phase: "SEARCHING", candidates: [candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
+      schemaVersion: "20", phase: "SEARCHING", candidates: [candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
       intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurant" }, area: { query: "Tokyo" }, addCriteria: [{ text: criterion, polarity: "NEGATIVE", strength: "HARD" }] }),
       readEvidence: [...evidence, ...result.evidence],
     };
@@ -239,6 +240,10 @@ test("website judgments preserve selected source statements and reject invented 
     claims: { outletName: "Cafe A" }, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] },
   };
   const document = { id: "source-document", candidateId: "a", identityEvidenceId: identity.evidenceId,
+    priceFacts: { schemaVersion: "restaurant-price-facts@1" as const, listedCoursePricesYen: [],
+      dinnerBudgetRangeYen: { min: 8000, max: 9999, quote: "JPY 8,000 - JPY 9,999", sourceUrl: identity.sourceUrl! },
+      lunchBudgetRangeYen: { min: 100, max: 200, quote: "JPY 100 - JPY 200", sourceUrl: "https://other-outlet.example/" } },
+    sourceFieldQuotes: [{ field: "COURSE_DESCRIPTION" as const, quote: "旬のつまみからはじまるおまかせコースを提供します。", sourceUrl: identity.sourceUrl! }],
     statements: [{ id: "statement-1", text: "旬のつまみからはじまるおまかせコースを提供します。" }] };
   for (const mode of ["valid", "invented", "other-candidate", "statement-as-citation"] as const) {
     const transport = model({
@@ -264,10 +269,39 @@ test("website judgments preserve selected source statements and reject invented 
     assert.equal(properties.sourceSelections.items.properties.statementIds.maxItems, undefined);
     const source = read.evidence.find(e => e.provider === "RESTAURANT_WEBSITE");
     assert.deepEqual(source?.claims.restaurantTypeFacts, [document.statements[0]!.text]);
+    assert.deepEqual(source?.sourceFieldQuotes, document.sourceFieldQuotes);
+    assert.deepEqual(source?.priceFacts?.dinnerBudgetRangeYen, document.priceFacts.dinnerBudgetRangeYen);
+    assert.equal(source?.priceFacts?.lunchBudgetRangeYen, undefined, "cross-source prices cannot enter this source fact");
+    assert.equal(JSON.parse(wire!.messages.find(m => m.role === "user")!.content).sourceDocuments[0].priceFacts, undefined, "price metadata stays private");
+    assert.equal(JSON.parse(wire!.messages.find(m => m.role === "user")!.content).sourceDocuments[0].sourceFieldQuotes, undefined, "source role metadata stays private; original model message shape unchanged");
     assert.equal(source?.sourceEntityId, identity.sourceEntityId);
     assert.equal(source?.claims.verifiedHardCriteria, undefined);
     assert.deepEqual(read.evidence.find(e => e.provider === "MODEL_JUDGMENT")?.claims.supportingEvidenceIds, [document.id]);
   }
+});
+
+test("a selection spanning merchant and review fields preserves each complete field's own role", async () => {
+  const url = "https://restaurant.example/menu";
+  const identity: RestaurantReadEvidence = {
+    evidenceId: "identity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE", candidateId: "a",
+    sourceUrl: url, sourceEntityId: "website-a", observedAt: now(), requestFingerprint: "source", claims: { outletName: "Cafe A" },
+    entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] },
+  };
+  const document = { id: "document", candidateId: "a", identityEvidenceId: identity.evidenceId,
+    statements: [{ id: "selected", text: "Japanese dining Customer review: amazing tempura" }],
+    sourceFieldQuotes: [
+      { field: "COURSE_DESCRIPTION" as const, quote: "Japanese dining", sourceUrl: url },
+      { field: "CUSTOMER_REVIEW" as const, quote: "Customer review: amazing tempura", sourceUrl: url },
+      { field: "COURSE_TITLE" as const, quote: "tempura", sourceUrl: "https://other-outlet.example/menu" },
+      { field: "CATEGORY" as const, quote: "Japanese dining and noodles", sourceUrl: url },
+    ],
+  };
+  const read = await new ModelRestaurantFactJudgment(model({ sourceSelections: [{ documentId: document.id, statementIds: ["selected"] }], judgments: [] }))
+    .judge({ candidate, intent: { ...positiveIntent, criteria: [{ text: "tempura", strength: "HARD", polarity: "POSITIVE" }] }, evidence: [identity], sourceDocuments: [document] });
+  const source = read.evidence.find(e => e.evidenceId === document.id)!;
+  assert.deepEqual(source.sourceFieldQuotes, document.sourceFieldQuotes.slice(0, 2), "partial overlaps and other outlets cannot inherit roles; review words stay in their own field");
+  const assessed = assessRestaurantConditions({ criteria: [{ text: "tempura", strength: "HARD", polarity: "POSITIVE" }] }, [source]);
+  assert.equal(assessed[0]!.status, "NOT_CHECKED", "a review cannot become a merchant HARD condition through a flattened paragraph");
 });
 
 test("a model fact judgment keeps one cited service scope and rejects mixed scope citations", async () => {

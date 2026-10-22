@@ -1,0 +1,12 @@
+file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/certify-witnesses.mjs:189
+ if(capture.variants.length!==6||capture.stopped)throw Error('INCOMPLETE_CAPTURE; Nov 3 certification failure -> reviewer proposes Nov 10 and asks user again; never alter approved variants here');
+                                                       ^
+
+Error: INCOMPLETE_CAPTURE; Nov 3 certification failure -> reviewer proposes Nov 10 and asks user again; never alter approved variants here
+    at main (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/certify-witnesses.mjs:189:56)
+    at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/certify-witnesses.mjs:217:97
+    at ModuleJob.run (node:internal/modules/esm/module_job:370:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:99:5)
+
+Node.js v24.4.1

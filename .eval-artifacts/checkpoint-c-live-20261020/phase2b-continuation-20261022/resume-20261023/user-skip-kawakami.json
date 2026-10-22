@@ -1,0 +1,25 @@
+{
+  "schema": "phase2b-user-witness-exclusion@1",
+  "approvedBy": "USER",
+  "classification": "SKIPPED_SOURCE_BOOKING_NOT_EXPOSED",
+  "caseId": "p2b-holdout-05",
+  "rst_id": "13004546",
+  "outletName": "Azabu Kawakami An",
+  "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13004546/",
+  "reason": "User confirmed no booking control on the English Tabelog page and explicitly instructed to skip this outlet. The earlier find_vacancy URL was synthesized by the capture script, not obtained from this merchant page.",
+  "officialReservationUrl": "https://reservation.fonz.monoedge.ai/#/booking/location/kawakamian/azabu/reservation-notice?utm_source=own_website&utm_medium=shop&utm_campaign=kj",
+  "officialReservationSource": "USER_PROVIDED_NOT_OPENED_OR_VERIFIED_BY_AGENT",
+  "userComparisonUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+  "userComparisonStatus": "USER_REPORTED_BOOKING_CONTROL_PRESENT; not prechecked or added as a witness",
+  "originalFailure": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/inventory-06/inventory-05-13004546.attempt-1.metadata.json",
+    "sha256": "e42ea34e278cb890c2a598826cfbe4aeb94340e288e71abdb5cc9f892b3433b5"
+  },
+  "retryFailure": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/http400-retry/1-attempt-1.metadata.json",
+    "sha256": "f6c3e97fb346e781390d26fe617b379a60bd2d6b44e5d4b7f1e9b0d430b38970"
+  },
+  "appliesOnlyToThisOutlet": true,
+  "noChangeToHTTPFailureRulesForOtherOutlets": true,
+  "models": 0
+}

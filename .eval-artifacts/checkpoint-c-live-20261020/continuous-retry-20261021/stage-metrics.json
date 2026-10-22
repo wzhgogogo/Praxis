@@ -1,0 +1,2042 @@
+[
+  {
+    "runId": "c-01",
+    "P2_1": {
+      "firstBatchWitnessFound": 2,
+      "registeredWitnessCount": 2,
+      "raw": {
+        "firstCandidateBatchWitnesses": {
+          "status": "OBSERVED",
+          "value": [
+            {
+              "outletName": "Shibuya Sushi Matsumoto",
+              "found": true
+            },
+            {
+              "outletName": "Shibuya Sushi Sen",
+              "found": true
+            }
+          ]
+        },
+        "nativeFirstBatchFunnels": [
+          {
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1303/",
+                "observedOn": "https://tabelog.com/en/tokyo/",
+                "targetRef": "observation:2:target:37",
+                "label": "Shibuya & Ebisu & Daikanyama"
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13275802",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.65966043790453,
+                    "longitude": 139.70420908304837
+                  },
+                  "distanceMeters": 259.89098966055064
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13261619",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.65779487090903,
+                    "longitude": 139.69905014779476
+                  },
+                  "distanceMeters": 632.6559958397069
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13225919",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13225919/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.65706133790588,
+                    "longitude": 139.7032661830228
+                  },
+                  "distanceMeters": 548.5990760537866
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13319616",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.65689614870868,
+                    "longitude": 139.6948663741888
+                  },
+                  "distanceMeters": 985.5131615740612
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1303/A130301/13274777",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13274777/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.66092381870841,
+                    "longitude": 139.70205448422442
+                  },
+                  "distanceMeters": 195.86279284091643
+                }
+              ]
+            },
+            "source": "TABELOG",
+            "rawSourceLinks": 13,
+            "parsedOutlets": 13,
+            "inspectedOutlets": 5,
+            "batchCap": 5,
+            "sourceDetailCap": 10,
+            "sourceDetailAttempts": 5,
+            "deferredByBatchCap": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13285910/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13199924/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275479/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13298154/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13294625/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13290905/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              }
+            ],
+            "rejected": [],
+            "accepted": 5,
+            "sourcePageCap": 7,
+            "sourceElapsedCapMs": 90000,
+            "sourceElapsedMs": 59294,
+            "sourceTimeLimitReached": false,
+            "pagesRead": 5,
+            "batchLimitReached": true,
+            "sourceExhausted": false,
+            "batchEnded": true,
+            "sourceEnded": false,
+            "progressionReason": "FIRST_SOURCE_BATCH",
+            "listingObservations": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/",
+                "parsedOutlets": 20,
+                "resultCount": 139441
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/",
+                "parsedOutlets": 20,
+                "resultCount": 5614
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/",
+                "parsedOutlets": 20,
+                "resultCount": 5614
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/?sw=omakase",
+                "parsedOutlets": 3,
+                "resultCount": 3
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/",
+                "parsedOutlets": 20,
+                "resultCount": 197,
+                "nextPageUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/2/"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?vac_net=1&svd=20261103&svt=1900&svps=2",
+                "parsedOutlets": 13,
+                "resultCount": 80,
+                "nextPageUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/2/?svd=20261103&svps=2&svt=1900&vac_net=1"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?vac_net=1&svd=20261103&svt=1900&svps=2",
+                "parsedOutlets": 13,
+                "resultCount": 80,
+                "nextPageUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/2/?svd=20261103&svps=2&svt=1900&vac_net=1"
+              }
+            ],
+            "retrieval": {
+              "rewrites": 1,
+              "regionPages": 2,
+              "retrievalPages": 2,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Search directly for the hard criterion \"omakase\" in the Shibuya area.",
+                    "keyword": "omakase",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 25445,
+                  "parsedCount": 3
+                },
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant observed category for omakase.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase"
+                  },
+                  "elapsedMs": 27202,
+                  "parsedCount": 3
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Only 3 results shown; expanding to the supplied Sushi category, the most relevant observed category for omakase.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?sw=omakase"
+              }
+            },
+            "queryAdjustment": "PRE_DETAIL_RETRIEVAL_REWRITE",
+            "searchAvailabilityHint": {
+              "status": "APPLIED",
+              "reason": "OBSERVED_QUERY_MATCH",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/?vac_net=1&svd=20261103&svt=1900&svps=2",
+              "unfilteredUrl": "https://tabelog.com/en/tokyo/A1303/rstLst/sushi/",
+              "request": {
+                "date": "2026-11-03",
+                "partySize": 2,
+                "time": "19:00"
+              },
+              "observed": {
+                "date": "2026-11-03",
+                "partySize": 2,
+                "time": "19:00"
+              },
+              "parsedCount": 13
+            }
+          }
+        ]
+      }
+    },
+    "P2_2": {
+      "selectedDirectPages": {
+        "status": "OBSERVED",
+        "value": 5
+      },
+      "raw": {
+        "selectedAvailabilityCandidates": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13274777",
+            "context": {
+              "id": "tabelog:en/tokyo/A1303/A130301/13274777",
+              "outletName": "Edomae Sushi Sushi Fuku",
+              "address": "1500002 Tokyo Shibuya Shibuya Tokyo ",
+              "distanceObservation": {
+                "meters": 196,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Shibuya Sta. 219m / Sushi, Seafood, Japanese Cuisine"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Shibuya"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 6
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+            "context": {
+              "id": "tabelog:en/tokyo/A1303/A130301/13275802",
+              "outletName": "Shibuya Sushi Sen",
+              "address": "1500002 Tokyo Shibuya Shibuya Tokyo ",
+              "distanceObservation": {
+                "meters": 260,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Shibuya Sta. 265m / Sushi, Seafood, Izakaya (Japanese style tavern)"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Shibuya"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 6
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13225919",
+            "context": {
+              "id": "tabelog:en/tokyo/A1303/A130301/13225919",
+              "outletName": "Sushi Tokyo Ten、 Shibuya ten",
+              "address": "1500002 Tokyo Shibuya Shibuya Tokyo ",
+              "distanceObservation": {
+                "meters": 549,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Shibuya Sta. 277m / Sushi"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Shibuya"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 6
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+            "context": {
+              "id": "tabelog:en/tokyo/A1303/A130301/13261619",
+              "outletName": "Shibuya Sushi Matsumoto",
+              "address": "1500043 Tokyo Dogenzaka Shibuya Tokyo ",
+              "distanceObservation": {
+                "meters": 633,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Shibuya Sta. 252m / Sushi, Seafood, Japanese Cuisine"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Shibuya"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 13
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+            "context": {
+              "id": "tabelog:en/tokyo/A1303/A130301/13319616",
+              "outletName": "Sushi Sho Issekisanchou",
+              "address": "1500044 Tokyo Maruyamacho Shibuya Tokyo ",
+              "distanceObservation": {
+                "meters": 986,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Shinsen Sta. 122m / Sushi"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Shibuya"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 13
+          }
+        ],
+        "selectedDirectPageCount": {
+          "status": "OBSERVED",
+          "value": 5
+        },
+        "stageTimings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "MEASURED_WITH_EXPLICIT_GAPS",
+          "elapsedMs": 167493,
+          "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+          "criticalPath": [
+            {
+              "stage": "MODEL_DECISION:browser_read_decide",
+              "elapsedMs": 40464,
+              "percent": 24.158621554333614
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:DETAIL",
+              "elapsedMs": 23991,
+              "percent": 14.323583672153465
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:SEARCH",
+              "elapsedMs": 13675,
+              "percent": 8.164520308311392
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_agent_decide",
+              "elapsedMs": 13202,
+              "percent": 7.8821204468246435
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+              "elapsedMs": 12732,
+              "percent": 7.601511704966775
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13225919:RESOLUTION",
+              "elapsedMs": 9391,
+              "percent": 5.606801478270733
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13319616:RESOLUTION",
+              "elapsedMs": 5790,
+              "percent": 3.4568608837384245
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13274777:REQUEST_AND_RESULT",
+              "elapsedMs": 5216,
+              "percent": 3.114159994746049
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13275802:REQUEST_AND_RESULT",
+              "elapsedMs": 5214,
+              "percent": 3.1129659149934623
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13261619:REQUEST_AND_RESULT",
+              "elapsedMs": 5187,
+              "percent": 3.096845838333542
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13319616:REQUEST_AND_RESULT",
+              "elapsedMs": 5148,
+              "percent": 3.073561283158102
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13225919:REQUEST_AND_RESULT",
+              "elapsedMs": 5046,
+              "percent": 3.0126632157761817
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+              "elapsedMs": 4855,
+              "percent": 2.898628599404154
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13275802:RESOLUTION",
+              "elapsedMs": 4138,
+              "percent": 2.470551008101831
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13274777:RESOLUTION",
+              "elapsedMs": 3596,
+              "percent": 2.146955395150842
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1303/A130301/13261619:RESOLUTION",
+              "elapsedMs": 3560,
+              "percent": 2.125461959604282
+            },
+            {
+              "stage": "SEMANTIC",
+              "elapsedMs": 3536,
+              "percent": 2.1111330025732418
+            },
+            {
+              "stage": "SEARCH_RESTAURANTS",
+              "elapsedMs": 2272,
+              "percent": 1.356474598938463
+            },
+            {
+              "stage": "UNATTRIBUTED",
+              "elapsedMs": 180,
+              "percent": 0.10746717773280076
+            },
+            {
+              "stage": "CHECK_AVAILABILITY",
+              "elapsedMs": 150,
+              "percent": 0.08955598144400063
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+              "elapsedMs": 147,
+              "percent": 0.08776486181512062
+            },
+            {
+              "stage": "PRESENTATION",
+              "elapsedMs": 3,
+              "percent": 0.001791119628880013
+            }
+          ],
+          "modelSteps": [
+            {
+              "purpose": "restaurant_semantic_interpret",
+              "sequence": 1,
+              "latencyMs": 3536,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 2,
+              "latencyMs": 2347,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 3,
+              "latencyMs": 3894,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 4,
+              "latencyMs": 3111,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 5,
+              "latencyMs": 1744,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 6,
+              "latencyMs": 6545,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 7,
+              "latencyMs": 4915,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 8,
+              "latencyMs": 3886,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 9,
+              "latencyMs": 3743,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 10,
+              "latencyMs": 1876,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 11,
+              "latencyMs": 4732,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 12,
+              "latencyMs": 2238,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 13,
+              "latencyMs": 2384,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 14,
+              "latencyMs": 4854,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 15,
+              "latencyMs": 4592,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 16,
+              "latencyMs": 3900,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 17,
+              "latencyMs": 1834,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 18,
+              "latencyMs": 1926,
+              "placed": true
+            }
+          ],
+          "gaps": [
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      }
+    },
+    "P2_3": {
+      "priceConditions": [],
+      "conditionDisplay": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+          "text": "omakase",
+          "displayed": "MET",
+          "independent": "NOT_CHECKED",
+          "assessment": "S1_UNSUPPORTED"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+          "text": "omakase",
+          "displayed": "MET",
+          "independent": "NOT_CHECKED",
+          "assessment": "S1_UNSUPPORTED"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+          "text": "omakase",
+          "displayed": "MET",
+          "independent": "NOT_CHECKED",
+          "assessment": "S1_UNSUPPORTED"
+        }
+      ],
+      "deliveredCount": 3
+    }
+  },
+  {
+    "runId": "c-02",
+    "P2_1": {
+      "firstBatchWitnessFound": 0,
+      "registeredWitnessCount": 3,
+      "raw": {
+        "firstCandidateBatchWitnesses": {
+          "status": "OBSERVED",
+          "value": [
+            {
+              "outletName": "Ginza Sushi Tempura Iwai",
+              "found": false
+            },
+            {
+              "outletName": "Ginza Wagyu Teppanyaki USHIGAMI",
+              "found": false
+            },
+            {
+              "outletName": "Ginza Sushi Den",
+              "found": false
+            }
+          ]
+        },
+        "nativeFirstBatchFunnels": [
+          {
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+                "observedOn": "https://tabelog.com/en/tokyo/A1301/A130101/",
+                "targetRef": "observation:4:target:17",
+                "label": "Higashi Ginza Sta."
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1301/A130103/13292459",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.66722032872345,
+                    "longitude": 139.76182924424614
+                  },
+                  "distanceMeters": 553.9636866129426
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1301/A130101/13295658",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13295658/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.66857859380928,
+                    "longitude": 139.76305499491173
+                  },
+                  "distanceMeters": 389.95319215815704
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1301/A130101/13323643",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13323643/",
+                  "outcome": "UNKNOWN"
+                }
+              ]
+            },
+            "source": "TABELOG",
+            "rawSourceLinks": 17,
+            "parsedOutlets": 17,
+            "inspectedOutlets": 3,
+            "batchCap": 5,
+            "sourceDetailCap": 10,
+            "sourceDetailAttempts": 3,
+            "deferredByBatchCap": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13287552/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13280412/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13268259/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13228975/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13295959/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13304245/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131301/13040408/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13290465/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13258242/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13291594/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131301/13209942/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              }
+            ],
+            "rejected": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13323643/",
+                "reasonCode": "BROWSER_TIMEOUT"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13189458/",
+                "reasonCode": "SESSION_OPEN_FAILED"
+              }
+            ],
+            "accepted": 2,
+            "sourcePageCap": 7,
+            "sourceElapsedCapMs": 90000,
+            "sourceElapsedMs": 90022,
+            "sourceTimeLimitReached": true,
+            "pagesRead": 6,
+            "batchLimitReached": true,
+            "sourceExhausted": false,
+            "batchEnded": true,
+            "sourceEnded": true,
+            "progressionReason": "FIRST_SOURCE_BATCH",
+            "listingObservations": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/",
+                "parsedOutlets": 20,
+                "resultCount": 139441
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/",
+                "parsedOutlets": 20,
+                "resultCount": 6250
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/",
+                "parsedOutlets": 20,
+                "resultCount": 2660
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+                "parsedOutlets": 20,
+                "resultCount": 5036,
+                "nextPageUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/2/?railroad=true"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/",
+                "parsedOutlets": 20,
+                "resultCount": 5036,
+                "nextPageUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/2/?railroad=true"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/",
+                "parsedOutlets": 20,
+                "resultCount": 415,
+                "nextPageUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/2/?railroad=true"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/?vac_net=1&svd=20261107&svt=1830&svps=2",
+                "parsedOutlets": 17,
+                "resultCount": 160,
+                "nextPageUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/2/?railroad=true&svd=20261107&svps=2&svt=1830&vac_net=1"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/?vac_net=1&svd=20261107&svt=1830&svps=2",
+                "parsedOutlets": 17,
+                "resultCount": 160,
+                "nextPageUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/2/?railroad=true&svd=20261107&svps=2&svt=1830&vac_net=1"
+              }
+            ],
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 4,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Sushi is a strong fit for a first-date restaurant around 10,000 yen per person; the observed list already shows several sushi spots in that price band, so narrowing to the supplied Sushi category surfaces relevant candidates.",
+                    "categoryUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/"
+                  },
+                  "elapsedMs": 63580,
+                  "parsedCount": 20
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Sushi is a strong fit for a first-date restaurant around 10,000 yen per person; the observed list already shows several sushi spots in that price band, so narrowing to the supplied Sushi category surfaces relevant candidates.",
+                "categoryUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/"
+              }
+            },
+            "searchAvailabilityHint": {
+              "status": "APPLIED",
+              "reason": "OBSERVED_QUERY_MATCH",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/?vac_net=1&svd=20261107&svt=1830&svps=2",
+              "unfilteredUrl": "https://tabelog.com/en/tokyo/A1301/A130101/R8188/rstLst/sushi/",
+              "request": {
+                "date": "2026-11-07",
+                "partySize": 2,
+                "time": "18:30"
+              },
+              "observed": {
+                "date": "2026-11-07",
+                "partySize": 2,
+                "time": "18:30"
+              },
+              "parsedCount": 17
+            }
+          }
+        ]
+      }
+    },
+    "P2_2": {
+      "selectedDirectPages": {
+        "status": "OBSERVED",
+        "value": 2
+      },
+      "raw": {
+        "selectedAvailabilityCandidates": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130101/13295658",
+              "outletName": "Ginza Sushi Sendou",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 390,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Ginza Sta. 380m / Sushi, Japanese Cuisine, Seafood"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Higashi-ginza Sta."
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 8
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+            "context": {
+              "id": "tabelog:en/tokyo/A1301/A130103/13292459",
+              "outletName": "Seafood Buffet Dining Ginza Happo",
+              "address": "1040061 Tokyo Ginza Chuo Tokyo ",
+              "distanceObservation": {
+                "meters": 554,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Shimbashi Sta. 337m / Yakiniku (Japanese BBQ), Sushi, Izakaya (Japanese style tavern)"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Higashi-ginza Sta."
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 8
+          }
+        ],
+        "selectedDirectPageCount": {
+          "status": "OBSERVED",
+          "value": 2
+        },
+        "stageTimings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "MEASURED_WITH_EXPLICIT_GAPS",
+          "elapsedMs": 177681,
+          "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+          "criticalPath": [
+            {
+              "stage": "MODEL_DECISION:browser_read_decide",
+              "elapsedMs": 29508,
+              "percent": 16.60729059381701
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:SEARCH",
+              "elapsedMs": 28303,
+              "percent": 15.929108908662155
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+              "elapsedMs": 22154,
+              "percent": 12.46841249205036
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:DETAIL",
+              "elapsedMs": 17603,
+              "percent": 9.90708066703812
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130103/13292459:RESOLUTION",
+              "elapsedMs": 16354,
+              "percent": 9.2041355012635
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_agent_decide",
+              "elapsedMs": 13629,
+              "percent": 7.670488121971399
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13295658:RESOLUTION",
+              "elapsedMs": 7853,
+              "percent": 4.419718484249864
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130101/13295658",
+              "elapsedMs": 7355,
+              "percent": 4.139440908144372
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_fact_judgment",
+              "elapsedMs": 6035,
+              "percent": 3.396536489551499
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130101/13295658:REQUEST_AND_RESULT",
+              "elapsedMs": 5698,
+              "percent": 3.206870740259229
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1301/A130103/13292459:REQUEST_AND_RESULT",
+              "elapsedMs": 5585,
+              "percent": 3.1432736195766573
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1301/A130103/13292459",
+              "elapsedMs": 5548,
+              "percent": 3.1224497836009477
+            },
+            {
+              "stage": "SEMANTIC",
+              "elapsedMs": 5126,
+              "percent": 2.8849454922023177
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+              "elapsedMs": 3607,
+              "percent": 2.0300426044427935
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_party_size_supplement",
+              "elapsedMs": 1552,
+              "percent": 0.8734754982243459
+            },
+            {
+              "stage": "SEARCH_RESTAURANTS",
+              "elapsedMs": 1305,
+              "percent": 0.7344623229270434
+            },
+            {
+              "stage": "UNATTRIBUTED",
+              "elapsedMs": 153,
+              "percent": 0.08610937579144647
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+              "elapsedMs": 143,
+              "percent": 0.08048131201422774
+            },
+            {
+              "stage": "FACTS",
+              "elapsedMs": 104,
+              "percent": 0.05853186328307473
+            },
+            {
+              "stage": "CHECK_AVAILABILITY",
+              "elapsedMs": 63,
+              "percent": 0.035456801796477956
+            },
+            {
+              "stage": "PRESENTATION",
+              "elapsedMs": 3,
+              "percent": 0.001688419133165617
+            }
+          ],
+          "modelSteps": [
+            {
+              "purpose": "restaurant_semantic_interpret",
+              "sequence": 1,
+              "latencyMs": 5126,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_party_size_supplement",
+              "sequence": 2,
+              "latencyMs": 1552,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 3,
+              "latencyMs": 4568,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 4,
+              "latencyMs": 7083,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 5,
+              "latencyMs": 5044,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 6,
+              "latencyMs": 6065,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 7,
+              "latencyMs": 3607,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 8,
+              "latencyMs": 4813,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 9,
+              "latencyMs": 3692,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 10,
+              "latencyMs": 1994,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 11,
+              "latencyMs": 3489,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 12,
+              "latencyMs": 2141,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 13,
+              "latencyMs": 2426,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 14,
+              "latencyMs": 3127,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 15,
+              "latencyMs": 2908,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 16,
+              "latencyMs": 1822,
+              "placed": true
+            }
+          ],
+          "gaps": [
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      }
+    },
+    "P2_3": {
+      "priceConditions": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "around 10,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "evidenceRefs": [
+            "rawSnapshot[381].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 8,000 - JPY 9,999; tax retained without conversion."
+          ]
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "around 10,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "evidenceRefs": [
+            "rawSnapshot[359].priceRegions[0]"
+          ],
+          "status": "MET",
+          "basis": [
+            "Independent raw price: JPY 8,000 - JPY 9,999; tax retained without conversion."
+          ]
+        }
+      ],
+      "conditionDisplay": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "good for a first date",
+          "displayed": "NOT_RECORDED",
+          "independent": "NOT_CHECKED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "around 10,000 yen per person",
+          "displayed": "NOT_CHECKED",
+          "independent": "MET",
+          "assessment": "MISSED_KNOWN_CONDITION"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "Sichuan/Hunan cuisine",
+          "displayed": "NOT_RECORDED",
+          "independent": "NOT_CHECKED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+          "text": "hot pot restaurant",
+          "displayed": "NOT_RECORDED",
+          "independent": "NOT_CHECKED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "good for a first date",
+          "displayed": "NOT_RECORDED",
+          "independent": "NOT_CHECKED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "around 10,000 yen per person",
+          "displayed": "NOT_CHECKED",
+          "independent": "MET",
+          "assessment": "MISSED_KNOWN_CONDITION"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "Sichuan/Hunan cuisine",
+          "displayed": "NOT_RECORDED",
+          "independent": "NOT_CHECKED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+          "text": "hot pot restaurant",
+          "displayed": "NOT_RECORDED",
+          "independent": "NOT_CHECKED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        }
+      ],
+      "deliveredCount": 2
+    }
+  },
+  {
+    "runId": "c-05",
+    "P2_1": {
+      "firstBatchWitnessFound": 2,
+      "registeredWitnessCount": 3,
+      "raw": {
+        "firstCandidateBatchWitnesses": {
+          "status": "OBSERVED",
+          "value": [
+            {
+              "outletName": "Kaiseki Komuro",
+              "found": true
+            },
+            {
+              "outletName": "Kagurazaka Kappou Kaga",
+              "found": true
+            },
+            {
+              "outletName": "Chisou Konya",
+              "found": false
+            }
+          ]
+        },
+        "nativeFirstBatchFunnels": [
+          {
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1309/A130905/",
+                "observedOn": "https://tabelog.com/en/tokyo/A1309/",
+                "targetRef": "observation:3:target:16",
+                "label": "Iidabashi & Kagurazaka"
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1309/A130905/13180712",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13180712/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.701758137889605,
+                    "longitude": 139.74127178344764
+                  },
+                  "distanceMeters": 94.37358159173102
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1309/A130905/13048623",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.70060405168399,
+                    "longitude": 139.73936066233145
+                  },
+                  "distanceMeters": 127.29033693323183
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1309/A130905/13218101",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13218101/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.69929850869562,
+                    "longitude": 139.73841661458658
+                  },
+                  "distanceMeters": 294.46122331555716
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1309/A130905/13300814",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13300814/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.70198016164809,
+                    "longitude": 139.74080662495157
+                  },
+                  "distanceMeters": 74.14826229981192
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1309/A130905/13281152",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13281152/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.70431420869127,
+                    "longitude": 139.7347725146398
+                  },
+                  "distanceMeters": 591.7441497994118
+                }
+              ]
+            },
+            "source": "TABELOG",
+            "rawSourceLinks": 5,
+            "parsedOutlets": 5,
+            "inspectedOutlets": 5,
+            "batchCap": 5,
+            "sourceDetailCap": 10,
+            "sourceDetailAttempts": 5,
+            "deferredByBatchCap": [],
+            "rejected": [],
+            "accepted": 5,
+            "sourcePageCap": 7,
+            "sourceElapsedCapMs": 90000,
+            "sourceElapsedMs": 76799,
+            "sourceTimeLimitReached": false,
+            "pagesRead": 4,
+            "batchLimitReached": false,
+            "sourceExhausted": "UNKNOWN",
+            "batchEnded": true,
+            "sourceEnded": true,
+            "progressionReason": "FIRST_SOURCE_BATCH",
+            "listingObservations": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/",
+                "parsedOutlets": 20,
+                "resultCount": 139441
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1309/",
+                "parsedOutlets": 20,
+                "resultCount": 3366
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/",
+                "parsedOutlets": 20,
+                "resultCount": 1706
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/",
+                "parsedOutlets": 20,
+                "resultCount": 1706
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/?sw=kaiseki",
+                "parsedOutlets": 5,
+                "resultCount": 5
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/?sw=kaiseki",
+                "parsedOutlets": 5,
+                "resultCount": 5
+              }
+            ],
+            "retrieval": {
+              "rewrites": 0,
+              "regionPages": 3,
+              "retrievalPages": 1,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Direct keyword search for the hard criterion \"kaiseki restaurant\" in the Kagurazaka area.",
+                    "keyword": "kaiseki",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 43869,
+                  "parsedCount": 5
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "Direct keyword search for the hard criterion \"kaiseki restaurant\" in the Kagurazaka area.",
+                "keyword": "kaiseki",
+                "criterionRef": "criterion:0"
+              }
+            },
+            "searchAvailabilityHint": {
+              "status": "SKIPPED",
+              "reason": "QUERY_NOT_REPRESENTABLE",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/?sw=kaiseki",
+              "unfilteredUrl": "https://tabelog.com/en/tokyo/A1309/A130905/?sw=kaiseki"
+            }
+          }
+        ]
+      }
+    },
+    "P2_2": {
+      "selectedDirectPages": {
+        "status": "OBSERVED",
+        "value": 5
+      },
+      "raw": {
+        "selectedAvailabilityCandidates": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+            "context": {
+              "id": "tabelog:en/tokyo/A1309/A130905/13300814",
+              "outletName": "Kaiseki Utou",
+              "address": "1620825 Tokyo Kagurazaka Shinjuku Tokyo ",
+              "distanceObservation": {
+                "meters": 74,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Iidabashi Sta. 391m / Japanese Cuisine"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Kagurazaka"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 7
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13180712",
+            "context": {
+              "id": "tabelog:en/tokyo/A1309/A130905/13180712",
+              "outletName": "Niku Kaiseki Yukawa",
+              "address": "1620825 Tokyo Kagurazaka Shinjuku Tokyo ",
+              "distanceObservation": {
+                "meters": 94,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Iidabashi Sta. 351m / Japanese Cuisine, Shabu shabu (Japanese hotpot), Steak"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Kagurazaka"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 7
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13218101",
+            "context": {
+              "id": "tabelog:en/tokyo/A1309/A130905/13218101",
+              "outletName": "Kaiseki Komuro",
+              "address": "1620827 Tokyo Wakamiyacho Shinjuku Tokyo ",
+              "distanceObservation": {
+                "meters": 294,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Ushigome Kagurazaka Sta. 345m / Japanese Cuisine"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Kagurazaka"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": []
+            },
+            "rawDecisionSequence": 7
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+            "context": {
+              "id": "tabelog:en/tokyo/A1309/A130905/13048623",
+              "outletName": "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro",
+              "address": "1620827 Tokyo Wakamiyacho Shinjuku Tokyo ",
+              "distanceObservation": {
+                "meters": 127,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Ushigome Kagurazaka Sta. 403m / Japanese Cuisine, Creative"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Kagurazaka"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [
+                  "kaiseki restaurant"
+                ],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "COMPLETED"
+                }
+              ]
+            },
+            "rawDecisionSequence": 20
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1309/A130905/13281152",
+            "context": {
+              "id": "tabelog:en/tokyo/A1309/A130905/13281152",
+              "outletName": "Kaiseki Ichimonji",
+              "address": "1620805 Tokyo Yaraicho Shinjuku Tokyo ",
+              "distanceObservation": {
+                "meters": 592,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              },
+              "sourceCategories": [
+                {
+                  "source": "TABELOG",
+                  "values": [
+                    "Kagurazaka Sta. 62m / Japanese Cuisine"
+                  ]
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "matchReasons": [
+                "Source coordinates within 1000 m of Kagurazaka"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM",
+              "observedFacts": {
+                "verifiedHardCriteria": [
+                  "kaiseki restaurant"
+                ],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": [],
+                "openingHoursMatch": false,
+                "commercialNotes": []
+              },
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "COMPLETED"
+                }
+              ]
+            },
+            "rawDecisionSequence": 20
+          }
+        ],
+        "selectedDirectPageCount": {
+          "status": "OBSERVED",
+          "value": 5
+        },
+        "stageTimings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "MEASURED_WITH_EXPLICIT_GAPS",
+          "elapsedMs": 259392,
+          "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+          "criticalPath": [
+            {
+              "stage": "MODEL_DECISION:browser_read_decide",
+              "elapsedMs": 51705,
+              "percent": 19.933151369356032
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:DETAIL",
+              "elapsedMs": 32906,
+              "percent": 12.685819146311376
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+              "elapsedMs": 21583,
+              "percent": 8.320611275598322
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13048623:RESOLUTION",
+              "elapsedMs": 19898,
+              "percent": 7.671015297310634
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_agent_decide",
+              "elapsedMs": 15803,
+              "percent": 6.092323587466074
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_fact_judgment",
+              "elapsedMs": 13040,
+              "percent": 5.02714038983469
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1309/A130905/13281152",
+              "elapsedMs": 10191,
+              "percent": 3.928802738712065
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1309/A130905/13218101",
+              "elapsedMs": 9967,
+              "percent": 3.8424469528744143
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13281152:RESOLUTION",
+              "elapsedMs": 7975,
+              "percent": 3.0744972859610167
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1309/A130905/13048623",
+              "elapsedMs": 7924,
+              "percent": 3.0548359240069085
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1309/A130905/13300814",
+              "elapsedMs": 7692,
+              "percent": 2.96539600296077
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:SEARCH",
+              "elapsedMs": 6900,
+              "percent": 2.660066617320503
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13180712:REQUEST_AND_RESULT",
+              "elapsedMs": 6701,
+              "percent": 2.583348754009376
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13300814:REQUEST_AND_RESULT",
+              "elapsedMs": 6646,
+              "percent": 2.562145324451024
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13048623:REQUEST_AND_RESULT",
+              "elapsedMs": 6253,
+              "percent": 2.4106371823340735
+            },
+            {
+              "stage": "FACTS:TABELOG:tabelog:en/tokyo/A1309/A130905/13180712",
+              "elapsedMs": 5670,
+              "percent": 2.1858808290155443
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+              "elapsedMs": 5473,
+              "percent": 2.1099339995065383
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13218101:RESOLUTION",
+              "elapsedMs": 4507,
+              "percent": 1.7375246730816678
+            },
+            {
+              "stage": "SEMANTIC",
+              "elapsedMs": 4153,
+              "percent": 1.6010516901060943
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13281152:REQUEST_AND_RESULT",
+              "elapsedMs": 3336,
+              "percent": 1.2860843819393042
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13300814:RESOLUTION",
+              "elapsedMs": 3132,
+              "percent": 1.207438934122872
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13218101:REQUEST_AND_RESULT",
+              "elapsedMs": 2978,
+              "percent": 1.1480693313594867
+            },
+            {
+              "stage": "AVAILABILITY:TABELOG:tabelog:en/tokyo/A1309/A130905/13180712:RESOLUTION",
+              "elapsedMs": 2972,
+              "percent": 1.1457562299531212
+            },
+            {
+              "stage": "SEARCH_RESTAURANTS",
+              "elapsedMs": 1160,
+              "percent": 0.4471996052306933
+            },
+            {
+              "stage": "FACTS",
+              "elapsedMs": 268,
+              "percent": 0.10331852948433261
+            },
+            {
+              "stage": "UNATTRIBUTED",
+              "elapsedMs": 222,
+              "percent": 0.08558475203552923
+            },
+            {
+              "stage": "CHECK_AVAILABILITY",
+              "elapsedMs": 175,
+              "percent": 0.06746545768566493
+            },
+            {
+              "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+              "elapsedMs": 145,
+              "percent": 0.05589995065383666
+            },
+            {
+              "stage": "PRESENTATION",
+              "elapsedMs": 17,
+              "percent": 0.006553787318036023
+            }
+          ],
+          "modelSteps": [
+            {
+              "purpose": "restaurant_semantic_interpret",
+              "sequence": 1,
+              "latencyMs": 4153,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 2,
+              "latencyMs": 1525,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 3,
+              "latencyMs": 3218,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 4,
+              "latencyMs": 5260,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 5,
+              "latencyMs": 4531,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_discovery_retrieval",
+              "sequence": 6,
+              "latencyMs": 2255,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 7,
+              "latencyMs": 3339,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 8,
+              "latencyMs": 2804,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 9,
+              "latencyMs": 2286,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 10,
+              "latencyMs": 1498,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 11,
+              "latencyMs": 4344,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 12,
+              "latencyMs": 2427,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 13,
+              "latencyMs": 1811,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 14,
+              "latencyMs": 3855,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 15,
+              "latencyMs": 2219,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 16,
+              "latencyMs": 2068,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 17,
+              "latencyMs": 2368,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 18,
+              "latencyMs": 2456,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 19,
+              "latencyMs": 2234,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 20,
+              "latencyMs": 2116,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 21,
+              "latencyMs": 5006,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 22,
+              "latencyMs": 5014,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 23,
+              "latencyMs": 4057,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 24,
+              "latencyMs": 2746,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 25,
+              "latencyMs": 1809,
+              "placed": true
+            },
+            {
+              "purpose": "browser_read_decide",
+              "sequence": 26,
+              "latencyMs": 2038,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 27,
+              "latencyMs": 1675,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 28,
+              "latencyMs": 2592,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 29,
+              "latencyMs": 3108,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_fact_judgment",
+              "sequence": 30,
+              "latencyMs": 2874,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 31,
+              "latencyMs": 2488,
+              "placed": true
+            }
+          ],
+          "gaps": [
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      }
+    },
+    "P2_3": {
+      "priceConditions": [],
+      "conditionDisplay": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13300814",
+          "text": "kaiseki",
+          "displayed": "NOT_RECORDED",
+          "independent": "NOT_CHECKED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+          "text": "kaiseki",
+          "displayed": "NOT_RECORDED",
+          "independent": "NOT_CHECKED",
+          "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+        }
+      ],
+      "deliveredCount": 2
+    }
+  }
+]

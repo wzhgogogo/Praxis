@@ -1,0 +1,97 @@
+{
+  "status": "INPUTS_VERIFIED_NO_MODEL",
+  "commit": "290658fd61d4f5d1c4a990808eeba6176a4a9555",
+  "inputs": [
+    {
+      "seedId": "p1-seed-0133",
+      "requestSha256": "6a96ba5e259dc174e0f75e3555ad145187016a285af2d6ba1170841dc79bc19a",
+      "candidates": 1,
+      "before": {
+        "verdict": "ACCEPTABLE",
+        "reasons": [
+          "All compiled reviewer conditions were checked against captured candidates, distance, source IDs, legal scope and missing facts."
+        ],
+        "metrics": {
+          "selected": 1,
+          "directSelected": 1,
+          "directInRadiusCheckable": 1,
+          "directSelectionRatio": 1
+        }
+      },
+      "timeoutMs": 10000
+    },
+    {
+      "seedId": "p1-seed-0134",
+      "requestSha256": "750a2d0d959319f9550ea5079b2a33f6295fd1a1235d08660dc6236c6f2b3c72",
+      "candidates": 38,
+      "before": {
+        "verdict": "NOT_ACCEPTABLE",
+        "reasons": [
+          "The approved revision2 requires at least two DIRECT selections when three are checkable."
+        ],
+        "metrics": {
+          "selected": 3,
+          "directSelected": 1,
+          "directInRadiusCheckable": 8,
+          "directSelectionRatio": 0.3333333333333333
+        }
+      },
+      "timeoutMs": 10000
+    },
+    {
+      "seedId": "p22-selection-001",
+      "requestSha256": "199db74e9e77aad47acaee8615122ab8e68a9149a0d0edea809596c330b296bd",
+      "candidates": 42,
+      "before": {
+        "verdict": "NOT_ACCEPTABLE",
+        "reasons": [
+          "The approved revision2 requires at least two DIRECT selections when three are checkable."
+        ],
+        "metrics": {
+          "selected": 3,
+          "directSelected": 0,
+          "directInRadiusCheckable": 3,
+          "directSelectionRatio": 0
+        }
+      },
+      "timeoutMs": 10000
+    },
+    {
+      "seedId": "p22-selection-002",
+      "requestSha256": "436dc66303c8d8fd12f94e625a122e6a9d9b48c11061f4e7ca1f90d0fedbc1ca",
+      "candidates": 38,
+      "before": {
+        "verdict": "NOT_ACCEPTABLE",
+        "reasons": [
+          "The approved revision2 requires at least two DIRECT selections when three are checkable."
+        ],
+        "metrics": {
+          "selected": 3,
+          "directSelected": 1,
+          "directInRadiusCheckable": 9,
+          "directSelectionRatio": 0.3333333333333333
+        }
+      },
+      "timeoutMs": 10000
+    },
+    {
+      "seedId": "p22-selection-003",
+      "requestSha256": "9eb3c9b6ea921ac1fccdf848ec62415be5f5e6907a9e6563e0ae4d76fe68738f",
+      "candidates": 38,
+      "before": {
+        "verdict": "NOT_ACCEPTABLE",
+        "reasons": [
+          "The approved revision2 requires at least two DIRECT selections when three are checkable."
+        ],
+        "metrics": {
+          "selected": 3,
+          "directSelected": 1,
+          "directInRadiusCheckable": 9,
+          "directSelectionRatio": 0.3333333333333333
+        }
+      },
+      "timeoutMs": 10000
+    }
+  ],
+  "models": 0
+}

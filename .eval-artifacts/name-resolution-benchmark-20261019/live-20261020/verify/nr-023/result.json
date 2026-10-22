@@ -1,0 +1,50 @@
+{
+  "sampleId": "nr-023",
+  "status": "DROPPED",
+  "google": {
+    "name": "WAGYU SUSHI and SANDWICH Tsukiji Wine Stand 88",
+    "address": "Japan, 〒104-0045 Tokyo, Chuo City, Tsukiji, 4-chōme−10−１４ 加藤ビル １F-5",
+    "phone": "03-6264-2800",
+    "coordinates": {
+      "lat": 35.6653953,
+      "lng": 139.7700501
+    }
+  },
+  "expected": {
+    "outletId": "13282794",
+    "sourceUrl": "https://tabelog.com/tokyo/A1313/A131301/13282794/"
+  },
+  "observed": {
+    "phones": [
+      "+81-不明の為情報お待ちしております"
+    ],
+    "addresses": [
+      "1040045 Tokyo Tsukiji Chuo Tokyo ",
+      "東京都中央区築地4-10-14 加藤ビル 1F Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-不明の為情報お待ちしております",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1040045 Tokyo Tsukiji Chuo Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "東京都中央区築地4-10-14 加藤ビル 1F Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1313/A131301/13282794/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": null,
+  "addressMatch": null,
+  "reason": "No independently confirmed matching phone or full address; excluded from scoring",
+  "error": null
+}

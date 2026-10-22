@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "bodySha256": "065c7bc71130b5b07e31a7a5c09a04bf097b0c8d69146bf5ce12f3a80e334a5d",
+  "id": "2593b384-4d02-4d2d-a6b9-bd4614e7d652",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 14172,
+    "completion_tokens": 5078,
+    "total_tokens": 19250,
+    "prompt_tokens_details": {
+      "cached_tokens": 1536
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4942
+    },
+    "prompt_cache_hit_tokens": 1536,
+    "prompt_cache_miss_tokens": 12636
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_lr1ACALKt6Gw1l9h5h7P4468",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK\", \"targetRef\": \"observation:9:target:123\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Guest carousel currently shows 5-10; paging back to reveal party size 2.\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

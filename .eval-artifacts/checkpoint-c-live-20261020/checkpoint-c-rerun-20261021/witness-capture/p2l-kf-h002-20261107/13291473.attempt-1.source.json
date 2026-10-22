@@ -1,0 +1,54 @@
+{
+  "url": "https://tabelog.com/en/tokyo/A1301/A130101/13291473/",
+  "method": "GET",
+  "attempt": 1,
+  "requestNumber": 10,
+  "requestedAt": "2026-10-21T12:28:29.711Z",
+  "finishedAt": "2026-10-21T12:28:31.652Z",
+  "status": 200,
+  "contentType": "text/html; charset=utf-8",
+  "sha256": "89cd1cd8b66510bf9bb1f68fdd8d9756a8e7778f79a4ef4807ed63622cd2c1eb",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Ginza Sushi Den",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Ginza Chuo Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1040061",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.66865132872347,
+          "longitude": 139.76471785425858
+        },
+        "servesCuisine": "Sushi,Seafood,Japanese Cuisine"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1301/A130101/13291473/\",\"name\":\"Ginza Sushi Den\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/226600/640x640_rect_dab5e375f28de6f42b2fac39e39455f4.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Ginza Chuo Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1040061\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.66865132872347,\"longitude\":139.76471785425858},\"priceRange\":\"JPY 8,000～JPY 9,999\",\"servesCuisine\":\"Sushi,Seafood,Japanese Cuisine\",\"telephone\":\"+81-3-6264-0933\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"304\",\"ratingValue\":\"3.52\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1301/A130101/13291473/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "6077050cbd3c84666eb4c92733e2b8e22c22eeb024d42cce93b61bbac02ecbb6",
+        "htmlCharacterOffset": 6274
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "exclusions",
+        "htmlCharacterOffset": 81532,
+        "raw": "Sushi, Seafood, Japanese Cuisine"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "exclusions",
+        "preregisteredQuote": "Sushi, Seafood, Japanese Cuisine",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  }
+}

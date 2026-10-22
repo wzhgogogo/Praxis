@@ -1,0 +1,30 @@
+{
+  "status": 200,
+  "bodySha256": "99f629f99639981939554e149a3adf6e919a3076bba4eb079d3ed6d800bfcbb2",
+  "id": "03b3b560-ab45-4b93-8a1c-80dae9f0816d",
+  "model": "deepseek-flash",
+  "usage": {
+    "prompt_tokens": 13629,
+    "completion_tokens": 124,
+    "total_tokens": 13753,
+    "prompt_tokens_details": {
+      "cached_tokens": 13440
+    },
+    "prompt_cache_hit_tokens": 13440,
+    "prompt_cache_miss_tokens": 189
+  },
+  "finishReason": "tool_calls",
+  "toolCalls": [
+    {
+      "index": 0,
+      "id": "call_00_KeNZjPxyBdGanTQkSwx04535",
+      "type": "function",
+      "function": {
+        "name": "browser_read_action",
+        "arguments": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:5:target:117\", \"authoritativeField\": \"PARTY_SIZE\", \"requestedState\": \"NONE\", \"reason\": \"Select guest count 2 on the calendar\"}"
+      }
+    }
+  ],
+  "errorType": null,
+  "errorCode": null
+}

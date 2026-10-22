@@ -1,0 +1,65 @@
+{
+  "id": "c-01-d014-V1",
+  "seedId": "c-01-d014",
+  "variant": "V1",
+  "runId": "c-01",
+  "mode": "REAL_MODEL_REPLAY",
+  "requestSha256": "b1c4f3aea39a854c60a4d9d21280d1f7cdbffb11dea10a4a0d9b66c3e2be85e1",
+  "startedAt": "2026-10-21T03:41:09.876Z",
+  "finishedAt": "2026-10-21T03:41:11.779Z",
+  "elapsedMs": 1902.462790999998,
+  "fetches": 1,
+  "outcome": "SUCCEEDED",
+  "response": {
+    "invocationId": "890397c1-f779-4788-9589-2f6704fc9317",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:3:target:129\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar month toward November 2026\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1902,
+    "providerRequestId": "9c8eb7c0-4de5-4125-942b-ff871b734ae5",
+    "usage": {
+      "inputTokens": 14388,
+      "outputTokens": 120,
+      "totalTokens": 14508
+    }
+  },
+  "error": null,
+  "invocation": {
+    "invocationId": "890397c1-f779-4788-9589-2f6704fc9317",
+    "taskId": "checkpoint-c-calendar:c-01-d014:V1",
+    "purpose": "browser_read_decide",
+    "promptVersion": "17",
+    "fallback": "FAIL_CLOSED",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "browser_read_action",
+      "version": "11"
+    },
+    "outcome": "SUCCEEDED",
+    "latencyMs": 1902,
+    "providerStatus": 200,
+    "usage": {
+      "inputTokens": 14388,
+      "outputTokens": 120,
+      "totalTokens": 14508
+    },
+    "providerRequestId": "9c8eb7c0-4de5-4125-942b-ff871b734ae5"
+  },
+  "providerUsage": {
+    "prompt_tokens": 14388,
+    "completion_tokens": 120,
+    "total_tokens": 14508,
+    "prompt_tokens_details": {
+      "cached_tokens": 2304
+    },
+    "prompt_cache_hit_tokens": 2304,
+    "prompt_cache_miss_tokens": 12084
+  },
+  "providerStatus": 200,
+  "providerModel": "deepseek-flash",
+  "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/step0-calendar-replay-20261021/model-replay-compat-auto/results/c-01-d014-V1.json",
+  "sourceSha256": "f60a8e8d650cd2361643644a59f0eb0bd44be9fb78dd59cf43ad3297b4db8e23"
+}

@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "defaultTests": 1013,
+  "browserTests": 136,
+  "rows": [
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "elapsedMs": null,
+      "log": ".eval-artifacts/group-window-fix-20261022/gates-verified/typecheck.log",
+      "mode": "RERUN_AFTER_TEST_STUB_FIX"
+    },
+    {
+      "name": "arch-check",
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "elapsedMs": 255,
+      "log": ".eval-artifacts/group-window-fix-20261022/gates-final/arch-check.log",
+      "mode": "PASS_REUSED_UNCHANGED_PRODUCTION_SOURCE_AFTER_BROWSER_TEST_STUB_ASSERTION_FIX"
+    },
+    {
+      "name": "default-tests",
+      "command": "npm test",
+      "exitCode": 0,
+      "elapsedMs": 23298,
+      "log": ".eval-artifacts/group-window-fix-20261022/gates-final/default-tests.log",
+      "mode": "PASS_REUSED_UNCHANGED_PRODUCTION_SOURCE_AFTER_BROWSER_TEST_STUB_ASSERTION_FIX"
+    },
+    {
+      "name": "build",
+      "command": "npm run build",
+      "exitCode": 0,
+      "elapsedMs": 381,
+      "log": ".eval-artifacts/group-window-fix-20261022/gates-final/build.log",
+      "mode": "PASS_REUSED_UNCHANGED_PRODUCTION_SOURCE_AFTER_BROWSER_TEST_STUB_ASSERTION_FIX"
+    },
+    {
+      "name": "browser-fixtures",
+      "command": "npm run test:browser:fixture",
+      "exitCode": 0,
+      "elapsedMs": 308310,
+      "log": ".eval-artifacts/group-window-fix-20261022/gates-verified/browser-fixtures.log",
+      "mode": "RERUN_AFTER_TEST_STUB_FIX"
+    }
+  ],
+  "reuseBoundary": "Only the Chromium test scripted-model response/count assertion changed after the passing default/arch/build. All product code is identical; typecheck and complete browser gate rerun."
+}

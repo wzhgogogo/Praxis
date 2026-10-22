@@ -1,0 +1,890 @@
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2b-holdout-06",
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@33",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@29"
+  },
+  "runtimeContext": {
+    "commitSha": "a7c9784bfb00c102341a91123e252b62f528a721",
+    "worktree": "CLEAN",
+    "dataset": {
+      "version": "restaurant-read-novel-variant@1",
+      "sourcePath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+      "sha256": "276910da0c43b501f4e68327cca7e4ba8514090a8910ad33ab2873f5a4cbaa48",
+      "cohort": "NOVEL_LOCATION_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-06-attempt-1/network-preflight/2026-10-22T20-55-04-929Z-988c2b1a-807f-47ae-a4e6-7ab93a5f9dbb.result.json",
+      "elapsedMs": 4027,
+      "targetCount": 3
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    }
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "requestedRunCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "schemaVersion": "1",
+  "limits": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "runCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "requestMetadata": {
+    "sha256": "c69d8b42bf9d0b073f7ec9529326966704303c749ff44eaa6e83ed31837b8684",
+    "characterCount": 93
+  },
+  "materializedCase": {
+    "id": "p2b-holdout-06",
+    "dataset": "restaurant-read-novel-variant@1",
+    "reference_time": "2026-10-23T00:00:00+09:00",
+    "semantic": {
+      "target": {
+        "goal": "AVAILABILITY"
+      },
+      "location": {
+        "value": "Shimbashi",
+        "relation": "NEAR"
+      },
+      "date": {
+        "expression": "Friday, October 30",
+        "value": "2026-10-30"
+      },
+      "time": {
+        "expression": "between 7 and 9 PM",
+        "type": "TIME_WINDOW",
+        "start": "19:00",
+        "end": "21:00"
+      },
+      "party_size": 8,
+      "criteria": [
+        {
+          "value": "oden",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "acceptance": {
+      "required_claims": [
+        "Correct outlet within 1,000 m of the resolved Shimbashi point; source-supported oden; a matching current slot for 8 on 2026-10-30 starting between 19:00 and 21:00."
+      ]
+    },
+    "materialization": {
+      "sourceReferenceTime": "2026-10-23T00:00:00+09:00",
+      "resolvedReferenceTime": "2026-10-22T20:55:22.125Z"
+    }
+  },
+  "semantic": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "Oden restaurant near Shimbashi for 8 people on Friday, October 30, between 7 and 9 PM",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "value": "2026-10-30",
+            "raw": "Friday, October 30"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:00",
+            "latest": "21:00",
+            "raw": "any time between 7 and 9 PM"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 8,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near Shimbashi"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "oden",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "a3642713-59f9-4157-9146-c3b3eca9fc2f",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v21",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "3"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3118,
+        "usage": {
+          "inputTokens": 5993,
+          "outputTokens": 356,
+          "totalTokens": 6349
+        },
+        "providerRequestId": "b219203d-3412-4732-9fdf-d02316e8119b"
+      }
+    ]
+  },
+  "modelInvocations": [
+    {
+      "invocationId": "a3642713-59f9-4157-9146-c3b3eca9fc2f",
+      "taskId": "hybrid-live:p2b-holdout-06:1792702522125",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v21",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3118,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 5993,
+        "outputTokens": 356,
+        "totalTokens": 6349
+      },
+      "providerRequestId": "b219203d-3412-4732-9fdf-d02316e8119b",
+      "settledAt": "2026-10-22T20:55:25.316Z"
+    },
+    {
+      "invocationId": "63cfbad0-b523-4fff-9d5d-7b1f6d49856e",
+      "taskId": "hybrid-live:p2b-holdout-06:1792702522125",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1600,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 3632,
+        "outputTokens": 194,
+        "totalTokens": 3826
+      },
+      "providerRequestId": "7191686d-0da9-4ffb-a30b-53328977371a",
+      "settledAt": "2026-10-22T20:55:26.926Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "event:hybrid-live:p2b-holdout-06:1792702522125:semantic:1",
+      "taskId": "hybrid-live:p2b-holdout-06:1792702522125",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Oden restaurant near Shimbashi for 8 people on Friday, October 30, between 7 and 9 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 8,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Shimbashi"
+          },
+          "addCriteria": [
+            {
+              "text": "oden",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "21:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-22T20:55:22.125Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Friday, October 30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "any time between 7 and 9 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "21:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-10-22T20:55:25.320Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2b-holdout-06:1792702522125",
+        "correlationId": "event:hybrid-live:p2b-holdout-06:1792702522125:semantic:1",
+        "actor": "MODEL"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:1",
+      "taskId": "hybrid-live:p2b-holdout-06:1792702522125",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\"",
+        "code": "GOOGLE_LOCATION_UNRESOLVED"
+      },
+      "occurredAt": "2026-10-22T20:55:28.189Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2b-holdout-06:1792702522125",
+        "correlationId": "event:restaurant-agent:1",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:2",
+      "taskId": "hybrid-live:p2b-holdout-06:1792702522125",
+      "event": {
+        "type": "AGENT_LOOP_TERMINATED",
+        "termination": "NO_PROGRESS",
+        "reasonCode": "GOOGLE_LOCATION_UNRESOLVED",
+        "reason": "The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance"
+      },
+      "occurredAt": "2026-10-22T20:55:28.190Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2b-holdout-06:1792702522125",
+        "correlationId": "event:restaurant-agent:2",
+        "actor": "SYSTEM"
+      }
+    }
+  ],
+  "trajectories": [
+    {
+      "id": "trajectory:hybrid-live:p2b-holdout-06:1792702522125:1",
+      "taskId": "hybrid-live:p2b-holdout-06:1792702522125",
+      "stepNumber": 1,
+      "occurredAt": "2026-10-22T20:55:26.929Z",
+      "stateVersionBefore": 1,
+      "stateHashBefore": "801b3127e59f97554f30625e5e864ce2bfbaa90c1c21c5f0fe7a2de960a737e9",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:1"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-22T20:55:25.324Z",
+        "phase": "UNDERSTANDING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "oden",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Oden restaurant near Shimbashi for 8 people on Friday, October 30, between 7 and 9 PM",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "21:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-22T20:55:22.125Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Friday, October 30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "any time between 7 and 9 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "21:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 8,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Shimbashi"
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "oden restaurants near Shimbashi, Tokyo"
+      },
+      "decisionSummary": "No candidates yet; discover oden restaurants near Shimbashi before checking availability for 8 on Oct 30, 19:00–21:00.",
+      "modelAttempt": {
+        "invocationId": "63cfbad0-b523-4fff-9d5d-7b1f6d49856e",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1600,
+        "usage": {
+          "inputTokens": 3632,
+          "outputTokens": 194,
+          "totalTokens": 3826
+        },
+        "providerRequestId": "7191686d-0da9-4ffb-a30b-53328977371a"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 0,
+        "failureCode": "GOOGLE_LOCATION_UNRESOLVED",
+        "googleRequests": {
+          "limit": 38,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY_FAILED",
+        "detail": "Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\""
+      },
+      "stateVersionAfter": 2,
+      "stateHashAfter": "7ada0be3b55275dbd9f6fd8439057582d3afb40e5c89a781533f1fe60669bdb1",
+      "stepOutcome": "EXECUTION_FAILURE"
+    },
+    {
+      "id": "trajectory:hybrid-live:p2b-holdout-06:1792702522125:2",
+      "taskId": "hybrid-live:p2b-holdout-06:1792702522125",
+      "stepNumber": 2,
+      "occurredAt": "2026-10-22T20:55:28.189Z",
+      "stateVersionBefore": 2,
+      "stateHashBefore": "7ada0be3b55275dbd9f6fd8439057582d3afb40e5c89a781533f1fe60669bdb1",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:2"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "observation": {
+        "type": "READ_ENDED",
+        "detail": "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance",
+        "candidateIds": [],
+        "unresolvedCandidateIds": [],
+        "termination": {
+          "type": "NO_PROGRESS",
+          "reasonCode": "GOOGLE_LOCATION_UNRESOLVED",
+          "isSystemReason": false,
+          "initiator": "SYSTEM"
+        }
+      },
+      "stateVersionAfter": 3,
+      "stateHashAfter": "a32ee66359f524164ef37d5c44cb56a0a0fe40a7ed02b04e675a63448de56d33",
+      "stepOutcome": "TERMINAL"
+    }
+  ],
+  "diagnostics": {
+    "tablecheckIdentity": [],
+    "tabelogIdentity": [],
+    "tabelogUserInterventions": [],
+    "browserExecution": [],
+    "browserTrace": []
+  },
+  "finalSnapshot": {
+    "id": "hybrid-live:p2b-holdout-06:1792702522125",
+    "runId": "run:hybrid-live:p2b-holdout-06:1792702522125",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "18",
+    "lifecycleState": "SUCCEEDED",
+    "domainState": {
+      "schemaVersion": "20",
+      "phase": "NO_VERIFIED_RESULT",
+      "searchRevision": 0,
+      "investigationRevision": 1,
+      "intentDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "oden",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Oden restaurant near Shimbashi for 8 people on Friday, October 30, between 7 and 9 PM",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "21:00"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-22T20:55:22.125Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Friday, October 30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "any time between 7 and 9 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:00",
+              "latest": "21:00"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 8,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Shimbashi"
+        }
+      },
+      "candidates": [],
+      "availability": {},
+      "availabilityChecks": {},
+      "factChecks": {},
+      "readEvidence": [],
+      "noVerifiedResult": {
+        "investigatedCandidateIds": [],
+        "unresolvedCandidateIds": [],
+        "remainingGaps": [
+          "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\"",
+          "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+        ],
+        "termination": {
+          "type": "NO_PROGRESS",
+          "reasonCode": "GOOGLE_LOCATION_UNRESOLVED",
+          "isSystemReason": false,
+          "initiator": "SYSTEM"
+        },
+        "endedAt": "2026-10-22T20:55:28.190Z"
+      }
+    },
+    "outcome": {
+      "status": "NO_VERIFIED_RESULT",
+      "investigatedCandidateIds": [],
+      "unresolvedCandidateIds": [],
+      "remainingGaps": [
+        "AGENT_LOOP_NO_PROGRESS: The named location could not be resolved to coordinates by the available source; no result may claim nearby compliance; GOOGLE_LOCATION_UNRESOLVED: Google Places could not resolve coordinates for the named location \"Shimbashi\". Observations: name=\"Shinbashi\" address=\"Shinbashi, Minato City, Tokyo 105-0004, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJGx6XGeqLGGARGn6w2QDkxVA\" coordinate=\"35.6648291,139.7562635\"",
+        "Sources with recorded reads or attempts: none; unread discovery entries: none recorded. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+      ]
+    },
+    "version": 3,
+    "createdAt": "2026-10-22T20:55:22.197Z",
+    "updatedAt": "2026-10-22T20:55:28.190Z"
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 1,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 2,
+    "browserRuntimeCalls": 0,
+    "browserOperationsByCandidate": {},
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 0,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 38,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 6066
+  },
+  "searchState": {
+    "candidatesDiscovered": 0,
+    "candidatesInvestigated": 0,
+    "candidatesAvailabilityChecked": 0,
+    "remainingCandidateIds": [],
+    "remainingAvailabilityCandidateIds": [],
+    "continuationExhausted": null,
+    "nextPageTokenPresent": false
+  },
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 1
+  },
+  "latencyMs": 6066,
+  "decisionCapture": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-06-attempt-1/runner/2026-10-22T20-55-22-196Z-f6df6ee3-8afe-4ac1-9e72-dac007be4ff6.decisions.jsonl",
+    "sha256": "5e2ff12c5d38a29c2c8e03c6ac503c12811ee730844120e403a385b6e4874d74",
+    "callsStarted": 2,
+    "rowsWritten": 2,
+    "errors": []
+  },
+  "browserRecording": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-06-attempt-1/recordings/hybrid-1792702522125",
+    "screenshot": "NOT_CAPTURED_NO_SANITIZER",
+    "replay": {
+      "status": "NOT_REPLAYABLE",
+      "reason": "NO_CAPTURED_PUBLIC_DOCUMENT"
+    }
+  },
+  "stageTimings": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 6068,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "SEMANTIC",
+        "elapsedMs": 3118,
+        "percent": 51.3843111404087
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_agent_decide",
+        "elapsedMs": 1600,
+        "percent": 26.367831245880026
+      },
+      {
+        "stage": "SEARCH_RESTAURANTS",
+        "elapsedMs": 1260,
+        "percent": 20.76466710613052
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 90,
+        "percent": 1.4831905075807514
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 3118,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 1600,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  },
+  "status": "SUCCEEDED",
+  "stage": "AGENT_LOOP",
+  "failureCode": null,
+  "runId": "f6df6ee3-8afe-4ac1-9e72-dac007be4ff6",
+  "startedAt": "2026-10-22T20:55:22.196Z",
+  "finishedAt": "2026-10-22T20:55:28.193Z"
+}

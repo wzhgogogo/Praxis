@@ -1,0 +1,40 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2-holdout-03","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-01-attempt-1/network-preflight/2026-10-22T16-13-38-812Z-2d95897d-dad5-4656-afe3-9c7f11b9992b.result.json","elapsedMs":7457,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2-holdout-03",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 5
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 5,
+    "candidatesChecked": 5,
+    "agentDecisions": 5,
+    "browserModelCalls": 11,
+    "modelCallsStarted": 19,
+    "browserRuntimeCalls": 111,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 23,
+      "tabelog:en/tokyo/A1308/A130801/13126018": 17,
+      "tabelog:en/tokyo/A1308/A130801/13247290": 17,
+      "tabelog:en/tokyo/A1308/A130801/13015193": 17,
+      "tabelog:en/tokyo/A1308/A130801/13005690": 17,
+      "tabelog:en/tokyo/A1308/A130801/13002832": 20
+    },
+    "pageStillLoadingWithinBound": 13,
+    "postActionWaitTotalMs": 24468,
+    "browserModelActions": 11,
+    "googleRequests": {
+      "limit": 38,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 230295
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-01-attempt-1/runner/2026-10-22T16-14-07-336Z-cfce456d-7ee1-414f-8214-92448dafa513.result.json",
+  "latencyMs": 230295,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

@@ -1,0 +1,33 @@
+▶ PostgresTaskRuntime with PGlite
+  ✖ restores a Restaurant task through a new runtime instance (681.500792ms)
+✖ PostgresTaskRuntime with PGlite (682.415209ms)
+ℹ tests 1
+ℹ suites 1
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 887.727833
+
+✖ failing tests:
+
+test at src/infrastructure/postgres/postgres-runtime.test.ts:4:1877
+✖ restores a Restaurant task through a new runtime instance (681.500792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '17' !== '18'
+  
+      at <anonymous> (/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/src/infrastructure/postgres/postgres-runtime.test.ts:875:14)
+      at async withDatabase (/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/src/infrastructure/postgres/postgres-runtime.test.ts:172:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-checkpoint-c-p21c-integration-20261020/src/infrastructure/postgres/postgres-runtime.test.ts:826:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Promise.all (index 13)
+      at async Suite.run (node:internal/test_runner/test:1466:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '17',
+    expected: '18',
+    operator: 'strictEqual'
+  }

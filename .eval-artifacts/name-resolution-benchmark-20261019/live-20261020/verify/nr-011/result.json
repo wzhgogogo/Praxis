@@ -1,0 +1,62 @@
+{
+  "sampleId": "nr-011",
+  "status": "VERIFIED",
+  "google": {
+    "name": "日本料理 ほそ川 神楽坂",
+    "address": "Japan, 〒162-0825 Tokyo, Shinjuku City, Kagurazaka, 3-chōme−６ 神楽坂館 1階",
+    "phone": "03-3267-0031",
+    "coordinates": {
+      "lat": 35.7008064,
+      "lng": 139.73962659999998
+    }
+  },
+  "expected": {
+    "outletId": "13222581",
+    "sourceUrl": "https://tabelog.com/tokyo/A1309/A130905/13222581/"
+  },
+  "observed": {
+    "phones": [
+      "+81-3-3267-0031",
+      "050-5456-7519",
+      "03-3267-0031"
+    ],
+    "addresses": [
+      "1620825 Tokyo Kagurazaka Shinjuku Tokyo ",
+      "東京都新宿区神楽坂3-6 神楽坂館 1F Show larger map Find nearby restaurants"
+    ],
+    "quotes": [
+      {
+        "field": "phone",
+        "value": "+81-3-3267-0031",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "address",
+        "value": "1620825 Tokyo Kagurazaka Shinjuku Tokyo ",
+        "basis": "MAIN_BUSINESS_JSON_LD"
+      },
+      {
+        "field": "phone",
+        "value": "050-5456-7519",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      },
+      {
+        "field": "address",
+        "value": "東京都新宿区神楽坂3-6 神楽坂館 1F Show larger map Find nearby restaurants",
+        "basis": "PRIMARY_ADDRESS_TABLE"
+      },
+      {
+        "field": "phone",
+        "value": "03-3267-0031",
+        "basis": "PRIMARY_CONTACT_TABLE"
+      }
+    ]
+  },
+  "rawPageUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+  "httpStatus": 200,
+  "idMatch": true,
+  "phoneMatch": "+81-3-3267-0031",
+  "addressMatch": null,
+  "reason": "Independent exact public phone or full address matches Google",
+  "error": null
+}
