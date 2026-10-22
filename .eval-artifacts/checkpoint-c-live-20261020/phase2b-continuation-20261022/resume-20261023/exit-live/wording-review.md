@@ -1,6 +1,6 @@
 # 第二阶段 b 留出集条件措辞：复核者判定（评价前，未看结果）
 
-对象：`pending-words.json`／`pending-wordings.json`（14 份产物、20 条候选配对），`a55e2999`。复核时间：2026-10-23 06:55 北京（Vienna 00:55）。复核者只看了措辞包；复核者核对过，包中不含 QUALIFIED、CAPABILITY、DELIVER、MET 等结果字样。依据为 holdout.yaml 的用户原文、Gold 和 acceptance。每项判定只对所列产物有效，按产物 SHA 和条件编号登记，不作为通用同义词规则。
+对象：`pending-wordings.json`／`pending-wordings.md`（14 份产物、20 条候选配对），`a55e2999`。复核时间：2026-10-23 06:45 北京（Vienna 00:45）。复核者只看了措辞包；复核者核对过，包中不含 QUALIFIED、CAPABILITY、DELIVER、MET 等结果字样。依据为 holdout.yaml 的用户原文、Gold 和 acceptance。每项判定只对所列产物有效，按产物 SHA 和条件编号登记，不作为通用同义词规则。
 
 | 产物 | Gold | 产品措辞 | 判定 |
 | --- | --- | --- | --- |
@@ -8,7 +8,7 @@
 | h-03、h-09、h-15（例 03） | [0] French（P HARD） | [0] French cuisine | **等价** |
 | h-04、h-10、h-16（例 04） | [0] Thai（P HARD） | [0] Thai restaurant | **等价** |
 | h-05、h-11、h-17（例 05） | [0] soba（P HARD） | [0] soba restaurant | **等价** |
-| h-03、h-09、h-15（例 03） | [1] at most 15,000 yen per person（P HARD） | （条件列表中没有） | **不是措辞问题。** 按已批准的流水线规则，核对 `intent.budgetPerPerson` 是否保存了 max=15000 JPY；若保存，按结构对应并引用字段，若没有则判为丢失 HARD 条件 |
+| h-03、h-09、h-15（例 03） | [1] at most 15,000 yen per person（P HARD） | （条件列表中没有） | **不是措辞问题，按结构字段对应。** 复核者只读取了三次运行的解析意图（`events[0].event.patch.budgetPerPerson` 和 `intentDraft.budgetPerPerson`），没有读取价格、条件状态或交付字段：三次均为 `{"max": 15000, "currency": "JPY"}`，与 "at most 15,000 yen per person" 数值和方向完全一致。`structured-budget-bindings.json` 目前为空，请按产物 SHA 写入这三条结构绑定（Gold [1] ↔ `budgetPerPerson.max=15000 JPY`，HARD），然后由已合并的预算条件路径评价（价格超出或未知 → 未满足） |
 | h-05、h-11、h-17（例 05） | — | [1] sit-down restaurant with tables（P HARD） | **没有 Gold 对应，是产品多出的一个条件。** 用户原文是 "a sit-down soba restaurant … Not a standing soba counter"，Gold 用负向条件 "standing soba counter" 加 acceptance 表达同一意思。产品另加了正向 "sit-down"，可以理解；但 "with tables" 比用户要求窄（坐着吃的吧台店也符合用户要求）。处理：不作为 Gold 条件的对应，也不让它使整次运行变为未评价；在报告中单列为"产品额外条件"，并检查它是否导致排除了坐席吧台店（如有，记为过度约束的发现） |
 | h-02（例 02） | [1] under 4,000 yen per person（P SOFT） | [1] around 4,000 yen per person or less | **不等价。** 与上一留出集 h-11 相同的已知偏差（"ideally under" 被解释为 "around"），已列入第三阶段。本例 acceptance 明确要求"保持 under 4,000，而不是 around 4,000"，按评测器既有规则评价，作为发现项报告 |
 | h-08（例 02） | [1] under 4,000 yen per person（P SOFT） | [1] around 4,000 yen per person | **不等价**，比 h-02 更宽（没有 "or less"）。处理同上 |
