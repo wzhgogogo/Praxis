@@ -1,0 +1,40 @@
+{
+  "status": "PASS_CONTROLS_HOLDOUT_GATE_FAILED",
+  "existingGateAccepted": [
+    "p2-holdout-01",
+    "p2-holdout-02",
+    "p2-holdout-03",
+    "p2-holdout-04",
+    "p2-holdout-06"
+  ],
+  "existingGateRejected": [
+    "p2-holdout-05"
+  ],
+  "reserveIfWitnessGateHadPassed": {
+    "remaining": {
+      "fullLiveRuns": 67,
+      "modelCalls": 1115,
+      "environmentReruns": 8
+    },
+    "reservedRetries": 4,
+    "reservedRuns": 22,
+    "reservedModelCalls": 1100
+  },
+  "liveReady": false,
+  "reason": "One authorized fallback exhausted without negative HARD support",
+  "holdoutLive": 0,
+  "holdoutModelCalls": 0,
+  "externalWrites": 0,
+  "bookingFormRequests": 0,
+  "timeslotClicks": 0,
+  "calibration": {
+    "matched": 22,
+    "total": 22,
+    "mode": "REUSED_UNCHANGED_EVALUATOR_AND_FROZEN_INPUTS"
+  },
+  "fiveGates": {
+    "mode": "REUSED_SOURCE_IDENTICAL_TO_PASSED_C17_TIMEOUT_BATCH",
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/c17-timeout-retry-20261022/gates.json",
+    "sha256": "37dc769e134fe045e4a397259e05fdc2c8b629479490633657e6e81eb7d0a625"
+  }
+}

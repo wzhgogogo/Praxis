@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "sourceMetadata": 64,
+  "responseBodiesVerified": 26,
+  "rawFragmentsVerified": 873,
+  "pacing": [
+    {
+      "origin": "https://places.googleapis.com",
+      "requests": 8,
+      "minObservedGapMs": 30002
+    },
+    {
+      "origin": "https://tabelog.com",
+      "requests": 56,
+      "minObservedGapMs": 30000
+    }
+  ],
+  "retries": [
+    {
+      "firstPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-02-13277826.attempt-1.metadata.json",
+      "retryPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/inventory-job-01/p2-holdout-02-13277826.attempt-2.metadata.json",
+      "waitMs": 120002,
+      "status": "RECOVERED_AFTER_SINGLE_TRANSPORT_RETRY"
+    }
+  ],
+  "productionFilesVerified": 326,
+  "productionChangesAfterHoldoutOpening": 0,
+  "privateOriginalSha256": "cb0efa949f21fc0c19c7a6fd48e6a51c1848bb722c795b0ccd51213c43ecb98e",
+  "commitmentSha256": "3eecc57e2366fc5cd6e9e989f54387b7134a43b8c5dfe5aa7ccd4ee39b9bff28",
+  "caseHashesVerified": 6,
+  "network": 0,
+  "models": 0
+}
