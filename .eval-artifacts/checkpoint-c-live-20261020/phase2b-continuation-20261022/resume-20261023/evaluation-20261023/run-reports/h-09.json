@@ -1,0 +1,395 @@
+{
+  "run": {
+    "runId": "h-09",
+    "caseId": "p2b-holdout-03",
+    "repeat": 2,
+    "role": "HOLDOUT"
+  },
+  "originalArtifact": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/runner/2026-10-22T21-17-21-383Z-60c026f8-95d7-4d54-902c-dc8c55d6ec43.result.json",
+    "sha256": "ed406c4c9154e929b2df0b24f79f2f784b54c589c04aad52a84f9a42da0a6315"
+  },
+  "evaluation": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/evaluations/h-09.evaluation.json",
+    "sha256": "7869b39426cbeed2485302306e9ba71f81c0cca518bb88c1edd1f307793d0510"
+  },
+  "representation": "REVIEWED_STRUCTURED_BUDGET_REPRESENTATION",
+  "capabilityDenominatorPolicy": "INCLUDED_SUBJECT_TO_EVALUATOR",
+  "layers": {
+    "endToEnd": {
+      "outcome": {
+        "type": "CAPABILITY_MISS",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/post-run/manifest.json#sha256=cc7b4a5c2f7def788aa36c67c2f9300b5bdf599c473e65863520a52f2b4deb15",
+          ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/inputs/witness-registry-view.json#sha256=2a310c7a64d69955cdb561dfa10644720e15fa64d4f62c429934c679ebe57676",
+          ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/post-run/13014440.body.txt#sha256=df37500d99108ea0b8e31f0e01fe04cc1638789126b26749858c68d4e4db5159",
+          ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/post-run/13014440.metadata.json#sha256=6226115976987d590bb3cd3b624d75a452ac9273b0150b207cb0af57d75ee683"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "conditions": [],
+      "display": [],
+      "elapsedMs": 6463,
+      "modelCalls": 2,
+      "deliveredCount": 0
+    },
+    "stages": {
+      "findings": [
+        {
+          "dimension": "AUTHORITATIVE_CONDITIONS",
+          "status": "SATISFIED",
+          "stage": "SEMANTIC_TO_FINAL_STATE",
+          "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+          "observations": [
+            "All independently readable applicable request fields match."
+          ],
+          "directCause": "No conflict observed.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [
+            "materializedCase.semantic",
+            "finalSnapshot.domainState.intentDraft"
+          ],
+          "downstreamImpact": "Grounding can be evaluated against one request."
+        },
+        {
+          "dimension": "REQUIRED_EVIDENCE",
+          "status": "NOT_EVALUATED",
+          "stage": "GROUNDING",
+          "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+          "observations": [],
+          "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+          "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [],
+          "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+        },
+        {
+          "dimension": "INVESTIGATION_BEHAVIOR",
+          "status": "SATISFIED",
+          "stage": "AGENT_LOOP",
+          "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+          "observations": [
+            "executedObservations=0",
+            "applicableObservations=0",
+            "executedInvestigationVisits=0",
+            "authorizedRechecks=none",
+            "duplicates=none",
+            "rejectedActions=0",
+            "maxConsecutiveNoNewObservation=1"
+          ],
+          "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "CONFIRMED",
+          "evidenceRefs": [],
+          "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+        },
+        {
+          "dimension": "FINAL_CLAIM",
+          "status": "NOT_EVALUATED",
+          "stage": "PRESENT_RESULTS",
+          "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+          "observations": [
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "presentedCandidates=0"
+          ],
+          "directCause": "No terminal presentation was executed.",
+          "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "downstreamImpact": "No qualified completion can be claimed."
+        },
+        {
+          "dimension": "COMPLETION_OUTCOME",
+          "status": "NOT_EVALUATED",
+          "stage": "TERMINATION",
+          "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+          "observations": [
+            "completion=NO_VERIFIED_RESULT",
+            "phase=NO_VERIFIED_RESULT",
+            "loop=TERMINAL",
+            "noVerifiedResult=recorded",
+            "failureCode=missing",
+            "System NO_PROGRESS/GOOGLE_LOCATION_UNRESOLVED ended a bounded read with matching scope and explicit gaps. This does not establish source exhaustion or that every restaurant has no availability."
+          ],
+          "directCause": "System NO_PROGRESS/GOOGLE_LOCATION_UNRESOLVED ended a bounded read with matching scope and explicit gaps. This does not establish source exhaustion or that every restaurant has no availability.",
+          "rootCauseHypothesis": "Not applicable.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "status",
+            "execution.failureCode",
+            "loop.status",
+            "finalSnapshot.domainState.phase",
+            "finalSnapshot.domainState.noVerifiedResult",
+            "finalSnapshot.domainState.failure",
+            "trajectories",
+            "events",
+            "finalSnapshot.domainState.noVerifiedResult"
+          ],
+          "downstreamImpact": "Do not represent the scoped stop as a source-confirmed global negative result."
+        },
+        {
+          "dimension": "RESOURCES",
+          "status": "NOT_EVALUATED",
+          "stage": "RUN_ACCOUNTING",
+          "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+          "observations": [
+            "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+          ],
+          "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+          "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+          "certainty": "UNKNOWN",
+          "evidenceRefs": [
+            "resourceUsage",
+            "runCeilings",
+            "modelInvocations"
+          ],
+          "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+        }
+      ],
+      "P2_1": {
+        "firstBatchWitnesses": [
+          {
+            "outletName": "Le Puits d’or Kin no Ido",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13014440/",
+            "found": null
+          }
+        ],
+        "witnessFunnel": [
+          {
+            "outletName": "Le Puits d’or Kin no Ido",
+            "sourceId": "13014440",
+            "discovery": {
+              "status": "NOT_FOUND",
+              "candidateIds": [],
+              "possibleCandidateIds": [],
+              "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+            },
+            "identity": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "facts": {
+              "status": "NOT_EVALUATED",
+              "evidenceIds": []
+            },
+            "availability": {
+              "recorded": [],
+              "witness": "AVAILABLE",
+              "observedAt": "2026-10-22T21:17:28.909Z",
+              "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+            },
+            "presented": "NO",
+            "feasible": "SUPPORTED",
+            "blocker": {
+              "stage": "DISCOVERY",
+              "certainty": "HYPOTHESIS",
+              "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+            },
+            "evidenceRefs": [
+              ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/post-run/manifest.json#sha256=cc7b4a5c2f7def788aa36c67c2f9300b5bdf599c473e65863520a52f2b4deb15",
+              ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/inputs/witness-registry-view.json#sha256=2a310c7a64d69955cdb561dfa10644720e15fa64d4f62c429934c679ebe57676",
+              ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/post-run/13014440.body.txt#sha256=df37500d99108ea0b8e31f0e01fe04cc1638789126b26749858c68d4e4db5159",
+              ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/post-run/13014440.metadata.json#sha256=6226115976987d590bb3cd3b624d75a452ac9273b0150b207cb0af57d75ee683"
+            ]
+          }
+        ],
+        "nativeFunnels": []
+      },
+      "P2_2": {
+        "selections": [],
+        "selectedDirectPageEvents": null,
+        "timings": {
+          "schemaVersion": "restaurant-stage-timings@1",
+          "status": "MEASURED_WITH_EXPLICIT_GAPS",
+          "elapsedMs": 6401,
+          "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+          "criticalPath": [
+            {
+              "stage": "SEMANTIC",
+              "elapsedMs": 3608,
+              "percent": 56.36619278237775
+            },
+            {
+              "stage": "MODEL_DECISION:restaurant_agent_decide",
+              "elapsedMs": 1642,
+              "percent": 25.652241837212937
+            },
+            {
+              "stage": "SEARCH_RESTAURANTS",
+              "elapsedMs": 1132,
+              "percent": 17.684736759881268
+            },
+            {
+              "stage": "UNATTRIBUTED",
+              "elapsedMs": 19,
+              "percent": 0.2968286205280425
+            }
+          ],
+          "modelSteps": [
+            {
+              "purpose": "restaurant_semantic_interpret",
+              "sequence": 1,
+              "latencyMs": 3608,
+              "placed": true
+            },
+            {
+              "purpose": "restaurant_agent_decide",
+              "sequence": 2,
+              "latencyMs": 1642,
+              "placed": true
+            }
+          ],
+          "gaps": [
+            "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+          ]
+        }
+      },
+      "P2_3": {
+        "prices": [],
+        "display": []
+      }
+    },
+    "severity": {
+      "S0": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+          "EVIDENCE_GAP: run: missing network request records",
+          "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories",
+          ".eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ]
+      },
+      "S1": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No independently established unmet user-need conclusion."
+        ],
+        "evidenceRefs": []
+      },
+      "S2": {
+        "status": "PRESENT",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/post-run/manifest.json#sha256=cc7b4a5c2f7def788aa36c67c2f9300b5bdf599c473e65863520a52f2b4deb15",
+          ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/evaluation-20261023/inputs/witness-registry-view.json#sha256=2a310c7a64d69955cdb561dfa10644720e15fa64d4f62c429934c679ebe57676",
+          ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/post-run/13014440.body.txt#sha256=df37500d99108ea0b8e31f0e01fe04cc1638789126b26749858c68d4e4db5159",
+          ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/post-run/13014440.metadata.json#sha256=6226115976987d590bb3cd3b624d75a452ac9273b0150b207cb0af57d75ee683"
+        ]
+      },
+      "S3": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "Experience/latency thresholds belong to E2; not scored here."
+        ],
+        "evidenceRefs": []
+      },
+      "S4": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "User-invisible retry effects are not independently established."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "S0_BOUNDARY": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "EVIDENCE_GAP: run: missing network request records",
+          "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": [
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "run",
+            "missing": [
+              "network request records"
+            ],
+            "evidenceRefs": [
+              "browserTrace.networkRequests"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "session",
+            "missing": [
+              "recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              "browserTrace.SESSION_OPENED"
+            ]
+          }
+        ]
+      }
+    },
+    "attribution": {
+      "certainty": "HYPOTHESIS_UNLESS_RAW_CAUSE_CONFIRMED",
+      "witnessBlockers": [
+        {
+          "outletName": "Le Puits d’or Kin no Ido",
+          "stage": "DISCOVERY",
+          "certainty": "HYPOTHESIS",
+          "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+        }
+      ]
+    }
+  },
+  "postEvidence": {
+    "path": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/post-run/post-check.json",
+    "verifiedResponses": 1,
+    "gaps": []
+  },
+  "resources": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 1,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 2,
+    "browserRuntimeCalls": 0,
+    "browserOperationsByCandidate": {},
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 0,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 38,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 6463
+  }
+}
