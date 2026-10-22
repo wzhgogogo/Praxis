@@ -285,3 +285,35 @@ export function parseTabelogPriceFacts(snapshot: BrowserSnapshot): import("../..
   }
   return facts.dinnerBudgetRangeYen || facts.lunchBudgetRangeYen || facts.listedCoursePricesYen.length ? facts : undefined;
 }
+
+
+/** Field roles are read from this outlet's markup, never guessed from a quote. */
+export function parseTabelogSourceFieldQuotes(snapshot: BrowserSnapshot): import("../../domains/restaurant/contracts.js").RestaurantSourceFieldQuote[] {
+  type Quote = import("../../domains/restaurant/contracts.js").RestaurantSourceFieldQuote;
+  const clean = (s: string) => publicPriceText(s).replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
+  const hasClass = (tag: string, token: string) => (tag.match(/\sclass\s*=\s*(["'])([\s\S]*?)\1/i)?.[2] ?? "").split(/\s+/).includes(token);
+  const output: Quote[] = [];
+  const add = (field: Quote["field"], markup: string, meal: Quote["meal"] = "UNSPECIFIED") => {
+    const quote = clean(markup); if (quote && quote.length <= 1600) output.push({ field, quote, sourceUrl: snapshot.url, meal });
+  };
+  for (const block of sourcePriceElements(snapshot.html, tag => hasClass(tag, "display-name"))) add("NAME", block);
+  for (const block of sourcePriceElements(snapshot.html, tag => hasClass(tag, "rstdtl-rvw__title-target"))) add("CUSTOMER_REVIEW", block);
+  let merchantHtml = snapshot.html;
+  for (const block of sourcePriceElements(merchantHtml, tag => /^<(?:aside|nav)\b/i.test(tag) || /class=["'][^"']*(?:rstdtl-rvw|recommend|related|neighbor|is-hidden)[^"']*["']/i.test(tag)).sort((a, b) => b.length - a.length)) merchantHtml = merchantHtml.replace(block, "");
+  for (const card of sourcePriceElements(merchantHtml, tag => hasClass(tag, "rstdtl-course-list"))) {
+    const ownRoot = snapshot.url.match(/^(https?:\/\/[^/]+\/en\/[^/]+\/[^/]+\/[^/]+\/\d{8}\/)/)?.[1];
+    if (ownRoot && [...card.matchAll(/href=["']([^"']*\/party\/[^"']*)["']/gi)].some(m => !m[1]!.startsWith(ownRoot + "party/"))) continue;
+    const title = sourcePriceElements(card, tag => /^<span\b/i.test(tag) && hasClass(tag, "rstdtl-course-list__course-title-text"))[0] ?? "";
+    const description = sourcePriceElements(card, tag => /^<p\b/i.test(tag) && hasClass(tag, "rstdtl-course-list__desc"))[0] ?? "";
+    const titleText = clean(title), whole = clean(card);
+    const meal: Quote["meal"] = /lunch|ランチ|昼食/i.test(titleText) ? "LUNCH" : /dinner|ディナー|夕食/i.test(titleText) ? "DINNER"
+      : /lunch|ランチ|昼食/i.test(whole) && !/dinner|ディナー|夕食/i.test(whole) ? "LUNCH" : /dinner|ディナー|夕食/i.test(whole) && !/lunch|ランチ|昼食/i.test(whole) ? "DINNER" : "UNSPECIFIED";
+    add("COURSE_TITLE", title, meal); add("COURSE_DESCRIPTION", description, meal);
+  }
+  for (const table of sourcePriceElements(merchantHtml, tag => /^<table\b/i.test(tag) && /class=["'][^"']*rstinfo-table[^"']*["']/i.test(tag)))
+    for (const row of sourcePriceElements(table, tag => /^<tr\b/i.test(tag))) {
+      const heading = row.match(/<th\b[^>]*>([\s\S]*?)<\/th>/i)?.[1] ?? "";
+      if (/^(?:Categories|Cuisine|Genre)$/i.test(clean(heading))) add("CATEGORY", row.match(/<td\b[^>]*>([\s\S]*?)<\/td>/i)?.[1] ?? "");
+    }
+  return output.slice(0, 32);
+}

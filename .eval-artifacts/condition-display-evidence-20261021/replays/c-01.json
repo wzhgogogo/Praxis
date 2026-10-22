@@ -1,0 +1,805 @@
+{
+  "mode": "SAVED_SOURCE_FIELDS_THEN_ROUTER_REDUCER",
+  "source": {
+    "path": "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/runner/2026-10-21T11-00-16-745Z-04d5a0a4-85d5-4fb6-9c46-f81494df90ee.result.json",
+    "sha256": "2bc63774a6b244a7202c2d1193a95a00c543e8965170a9015c995ccd65129358"
+  },
+  "baselineCommit": "27b3884aad4f6dfff1b8d139d164b1c6fdf94352",
+  "codeCommit": "f097ab15aeca1ed10426bc67eccb7042b3a9105a",
+  "originalPresentation": {
+    "candidateIds": [
+      "tabelog:en/tokyo/A1303/A130301/13275802",
+      "tabelog:en/tokyo/A1303/A130301/13261619",
+      "tabelog:en/tokyo/A1303/A130301/13319616"
+    ],
+    "evidenceIds": [
+      "evidence:restaurant:tabelog-entity-match:f71a67594f935f08e9f26f08",
+      "evidence:restaurant:native-discovery:31fd936932832e3b2c5d18dd",
+      "evidence:restaurant:tabelog-availability:cd8d57b389bb9c30b3b024d3",
+      "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31",
+      "evidence:restaurant:tabelog-entity-match:943b6690a6ab98e152103021",
+      "evidence:restaurant:native-discovery:659a9379f35e055e3aab7ea6",
+      "evidence:restaurant:tabelog-availability:f57dd7b282cd63001d63e9b4",
+      "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519",
+      "evidence:restaurant:tabelog-entity-match:407772410786c70237ab2fe4",
+      "evidence:restaurant:native-discovery:33f5bfb1bff6024eb9f2ae32",
+      "evidence:restaurant:tabelog-availability:64cb260bad3e8d4aa4eed157",
+      "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f"
+    ],
+    "presentedAt": "2026-10-21T11:03:04.085Z",
+    "conditionStates": {
+      "tabelog:en/tokyo/A1303/A130301/13275802": [
+        {
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "status": "MET",
+          "explanation": "Current candidate-bound source facts establish this condition status.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+              "quote": "omakase"
+            }
+          ]
+        }
+      ],
+      "tabelog:en/tokyo/A1303/A130301/13261619": [
+        {
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "status": "MET",
+          "explanation": "Current candidate-bound source facts establish this condition status.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+              "quote": "omakase"
+            }
+          ]
+        }
+      ],
+      "tabelog:en/tokyo/A1303/A130301/13319616": [
+        {
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "status": "MET",
+          "explanation": "Current candidate-bound source facts establish this condition status.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f"
+          ],
+          "sources": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+              "quote": "omakase"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "before": {
+    "stateSchema": "18",
+    "presentation": {
+      "candidateIds": [
+        "tabelog:en/tokyo/A1303/A130301/13275802",
+        "tabelog:en/tokyo/A1303/A130301/13261619",
+        "tabelog:en/tokyo/A1303/A130301/13319616"
+      ],
+      "evidenceIds": [
+        "evidence:restaurant:tabelog-entity-match:f71a67594f935f08e9f26f08",
+        "evidence:restaurant:native-discovery:31fd936932832e3b2c5d18dd",
+        "evidence:restaurant:tabelog-availability:cd8d57b389bb9c30b3b024d3",
+        "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31",
+        "evidence:restaurant:tabelog-entity-match:943b6690a6ab98e152103021",
+        "evidence:restaurant:native-discovery:659a9379f35e055e3aab7ea6",
+        "evidence:restaurant:tabelog-availability:f57dd7b282cd63001d63e9b4",
+        "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519",
+        "evidence:restaurant:tabelog-entity-match:407772410786c70237ab2fe4",
+        "evidence:restaurant:native-discovery:33f5bfb1bff6024eb9f2ae32",
+        "evidence:restaurant:tabelog-availability:64cb260bad3e8d4aa4eed157",
+        "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f"
+      ],
+      "presentedAt": "2026-10-21T11:03:04.085Z",
+      "conditionStates": {
+        "tabelog:en/tokyo/A1303/A130301/13275802": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Current candidate-bound source facts establish this condition status.",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31"
+            ],
+            "sources": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+                "quote": "omakase"
+              }
+            ]
+          }
+        ],
+        "tabelog:en/tokyo/A1303/A130301/13261619": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Current candidate-bound source facts establish this condition status.",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519"
+            ],
+            "sources": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                "quote": "omakase"
+              }
+            ]
+          }
+        ],
+        "tabelog:en/tokyo/A1303/A130301/13319616": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Current candidate-bound source facts establish this condition status.",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f"
+            ],
+            "sources": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                "quote": "omakase"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "after": {
+    "stateSchema": "19",
+    "presentation": {
+      "candidateIds": [
+        "tabelog:en/tokyo/A1303/A130301/13275802",
+        "tabelog:en/tokyo/A1303/A130301/13261619",
+        "tabelog:en/tokyo/A1303/A130301/13319616"
+      ],
+      "evidenceIds": [
+        "evidence:restaurant:tabelog-entity-match:f71a67594f935f08e9f26f08",
+        "evidence:restaurant:native-discovery:31fd936932832e3b2c5d18dd",
+        "evidence:restaurant:tabelog-availability:cd8d57b389bb9c30b3b024d3",
+        "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31",
+        "evidence:restaurant:tabelog-entity-match:943b6690a6ab98e152103021",
+        "evidence:restaurant:native-discovery:659a9379f35e055e3aab7ea6",
+        "evidence:restaurant:tabelog-availability:f57dd7b282cd63001d63e9b4",
+        "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519",
+        "evidence:restaurant:tabelog-entity-match:407772410786c70237ab2fe4",
+        "evidence:restaurant:native-discovery:33f5bfb1bff6024eb9f2ae32",
+        "evidence:restaurant:tabelog-availability:64cb260bad3e8d4aa4eed157",
+        "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f"
+      ],
+      "presentedAt": "2026-10-21T11:03:04.085Z",
+      "conditionStates": {
+        "tabelog:en/tokyo/A1303/A130301/13275802": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering, limited to LUNCH where stated. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31"
+            ],
+            "sources": [
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Lunch Omakase Course",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+                "meal": "LUNCH"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Lunch Omakase Course",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+                "meal": "LUNCH"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Lunch Special Omakase Course",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+                "meal": "LUNCH"
+              }
+            ]
+          }
+        ],
+        "tabelog:en/tokyo/A1303/A130301/13261619": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519"
+            ],
+            "sources": [
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Omakase Nigiri Course",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Premium Omakase Nigiri Course",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Awarded one Michelin star in the Tokyo Guide 2019 and 2020, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Special Omakase Nigiri Course",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          }
+        ],
+        "tabelog:en/tokyo/A1303/A130301/13319616": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering, limited to LUNCH where stated. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f"
+            ],
+            "sources": [
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "The Omakase Nigiri 8-Piece Course features fresh seafood carefully selected by our skilled chefs, delivering the ultimate sushi experience.",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                "meal": "LUNCH"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Lunch Omakase Nigiri 10 Pieces Course",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                "meal": "LUNCH"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Our Omakase Nigiri Course featuring 10 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that you won't find anywhere else. *Menu items may vary based on availability.",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                "meal": "LUNCH"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Lunch Omakase 13 Nigiri Course",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                "meal": "LUNCH"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Our Omakase Nigiri Course featuring 13 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that cannot be found elsewhere. *Menu items may vary based on availability.",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                "meal": "LUNCH"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "conditions": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+      "text": "omakase",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "originalLive": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31"
+        ],
+        "sources": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "quote": "omakase"
+          }
+        ]
+      },
+      "currentBase": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:0",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31"
+        ],
+        "sources": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "quote": "omakase"
+          }
+        ]
+      },
+      "fixed": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:0",
+        "status": "MET",
+        "explanation": "Merchant source fields support this restaurant offering, limited to LUNCH where stated. Requested-time course availability has not been verified.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31"
+        ],
+        "sources": [
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Lunch Omakase Course",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "meal": "LUNCH"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Lunch Omakase Course",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "meal": "LUNCH"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Lunch Special Omakase Course",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+            "meal": "LUNCH"
+          }
+        ]
+      }
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+      "text": "omakase",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "originalLive": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519"
+        ],
+        "sources": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "quote": "omakase"
+          }
+        ]
+      },
+      "currentBase": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:0",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519"
+        ],
+        "sources": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "quote": "omakase"
+          }
+        ]
+      },
+      "fixed": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:0",
+        "status": "MET",
+        "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519"
+        ],
+        "sources": [
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Omakase Nigiri Course",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Premium Omakase Nigiri Course",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "Awarded one Michelin star in the Tokyo Guide 2019 and 2020, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Special Omakase Nigiri Course",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      }
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+      "text": "omakase",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "originalLive": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f"
+        ],
+        "sources": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+            "quote": "omakase"
+          }
+        ]
+      },
+      "currentBase": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:0",
+        "status": "MET",
+        "explanation": "Current candidate-bound source facts establish this condition status.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f"
+        ],
+        "sources": [
+          {
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+            "quote": "omakase"
+          }
+        ]
+      },
+      "fixed": {
+        "text": "omakase",
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:0",
+        "status": "MET",
+        "explanation": "Merchant source fields support this restaurant offering, limited to LUNCH where stated. Requested-time course availability has not been verified.",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f"
+        ],
+        "sources": [
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "The Omakase Nigiri 8-Piece Course features fresh seafood carefully selected by our skilled chefs, delivering the ultimate sushi experience.",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+            "meal": "LUNCH"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Lunch Omakase Nigiri 10 Pieces Course",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+            "meal": "LUNCH"
+          },
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "Our Omakase Nigiri Course featuring 10 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that you won't find anywhere else. *Menu items may vary based on availability.",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+            "meal": "LUNCH"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Lunch Omakase 13 Nigiri Course",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+            "meal": "LUNCH"
+          },
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "Our Omakase Nigiri Course featuring 13 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that cannot be found elsewhere. *Menu items may vary based on availability.",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+            "meal": "LUNCH"
+          }
+        ]
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13275802",
+      "evidenceId": "evidence:restaurant:tabelog-hard-criteria:f60c5761fc986b5d8cf0fb31",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+      "snapshot": 26,
+      "path": "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0026.html",
+      "sha256": "84ba7da0d0515a47bd484f31c1f0f21042ffd650c6f1575b22967926f7d4f07b",
+      "selectedModelQuotes": false,
+      "fields": [
+        {
+          "field": "NAME",
+          "quote": "Shibuya Sushi Sen",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Incredible sushi lunch for this price!",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Targeting inbound tourists and young...",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Affordable counter sushi in Shibuya!...",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Lunch Omakase Course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "We will serve you the freshest seasonal nigiri of the day.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Lunch Omakase Course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "We will serve you the freshest seasonal nigiri of the day.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Lunch Special Omakase Course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "We will serve you the freshest seasonal nigiri of the day.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "CATEGORY",
+          "quote": "Sushi, Seafood, Izakaya (Japanese style tavern)",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13261619",
+      "evidenceId": "evidence:restaurant:tabelog-hard-criteria:f09b157bc0214286741d6519",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "snapshot": 40,
+      "path": "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0040.html",
+      "sha256": "578e86c807c50faa79e587e7017436e6a4833da702df7c3d97b96bfb583c3e8a",
+      "selectedModelQuotes": false,
+      "fields": [
+        {
+          "field": "NAME",
+          "quote": "Shibuya Sushi Matsumoto",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Delicious as always!",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Exquisite luxury lunch!",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Edo-style sushi featuring tangy rice...",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Omakase Nigiri Course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Premium Omakase Nigiri Course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Awarded one Michelin star in the Tokyo Guide 2019 and 2020, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Special Omakase Nigiri Course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Awarded one Michelin star in the Tokyo 2019 and 2020 guides, enjoy the world of traditional Edomae sushi crafted by our skilled chef, who has honed his craft at numerous renowned sushi establishments, through our Omakase course.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CATEGORY",
+          "quote": "Sushi, Seafood, Japanese Cuisine",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1303/A130301/13319616",
+      "evidenceId": "evidence:restaurant:tabelog-hard-criteria:e502da2077ba21f39e4ffe7f",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+      "snapshot": 47,
+      "path": "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/recordings/hybrid-1792580416669/snapshot-0047.html",
+      "sha256": "5670a4bb020ef2c716ef7f23506119cb3ae6ca6107b2162721ffb35872d17c5d",
+      "selectedModelQuotes": false,
+      "fields": [
+        {
+          "field": "NAME",
+          "quote": "Sushi Sho Issekisanchou",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Shinsen / Sushi",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Enjoy the broth and the dishes in a ...",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "A new experience of Dashi and Sushi ...",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Lunch 8 Nigiri Course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "The Omakase Nigiri 8-Piece Course features fresh seafood carefully selected by our skilled chefs, delivering the ultimate sushi experience.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Lunch Omakase Nigiri 10 Pieces Course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Our Omakase Nigiri Course featuring 10 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that you won't find anywhere else. *Menu items may vary based on availability.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Lunch Omakase 13 Nigiri Course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Our Omakase Nigiri Course featuring 13 pieces offers the finest sushi experience, crafted with fresh seafood carefully selected by our skilled chefs. In particular, the premium tuna sourced from Yamako spreads rich flavors the moment it touches your palate, creating a luxurious moment that cannot be found elsewhere. *Menu items may vary based on availability.",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "LUNCH"
+        },
+        {
+          "field": "CATEGORY",
+          "quote": "Sushi",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    }
+  ],
+  "sourceCalls": 0,
+  "modelCalls": 0,
+  "limitation": "Counterfactual source-field metadata reconstructed from saved HTML and original selected quotes; original IDs/labels retained to reconnect original model references. No source or model re-execution, no new availability claim."
+}

@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.228
+- Document revision: 4.229
 - Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -51,6 +51,15 @@ Reviewed fix27b3884a fast-forwarded into prep; evaluator31/rubric27 bound with o
 
 - Evaluator32/rubric28 independently consumes artifact-bound recorded merchant course/category HTML and reviewer-bound witness HARD quotes. Source roles, current citations, recording ordinal/runtime hash and meal limits are checked without production parser imports. Kaga manual witness remains outlet/request/certification/result-SHA bound; product name/review alone is not accepted. No product/Prompt/input/original-result changes; separate branch only.
 - [Report](../../.eval-artifacts/evaluator-hard-course-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
+## DEV-2026-10-21-CONDITION-DISPLAY-CLASS-TOKENS
+
+- Class-token review followup PASS on isolated display branch; reviewed base5110f6aa, full tokens for course cards/title/description/review/name, no JS dependency. Fixture covers reorder/extra/no-JS/prefix exclusion; related39/39, default987/987, local Chromium131/131, type/arch/build PASS. Prompt/Schema/State and qualification unchanged. Zero models/sites/Live; both accepted fixes await checkpoint-C completion before integration.
+- [Report](../../.eval-artifacts/condition-display-evidence-20261021/class-token-followup/report.md). Raw red/green and five-gate logs retained; existing quick3/calibration not rerun.
+
+## DEV-2026-10-21-CONDITION-DISPLAY-EVIDENCE
+
+- Parser-owned field quotations now reach condition-states3 and the Web with their real source words and meal scope. Names/customer reviews alone cannot display HARD MET; no condition text is fabricated as a quote. Two actual producers retain the metadata: Tabelog availability and native fact reads. Private source roles are omitted from model requests, keeping Prompt14/Schema4 unchanged. State19/TaskDefinition17 updates current callers directly; no compatibility, migration or reset. Eligibility/Guard/freshness unchanged. Codef097ab15; committed freeze740cdc8a (1352 hashes), offline source-field Router->Reducer replay3/3 complete: four merchant-supported HARD MET states retain real quotes, Kaga becomes NOT_CHECKED. Existing qualification and candidate sets unchanged; not a Live or model rerun.
+- [Report](../../.eval-artifacts/condition-display-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
 
 ## DEV-2026-10-21-CRITERION-PRESENTATION-REPAIR
 

@@ -35,7 +35,7 @@ test("c05 Kaga Router to Reducer retains the later availability-read source fact
   assert.ok(execution.event?.type === "RESULTS_PRESENTED" && execution.event.evidenceIds.includes(laterFact), "the newer source fact must reach the presentation event");
   const shown = restaurantBookingTaskDefinition.transition(state, execution.event!, { taskId: "saved-c05", runId: "saved-c05", now, createId: p => p }).state;
   assert.ok(shown.presentedResults!.evidenceIds.includes(laterFact));
-  assert.equal(shown.presentedResults!.conditionStates[candidateId]![0]!.status, "MET");
+  assert.equal(shown.presentedResults!.conditionStates[candidateId]![0]!.status, "NOT_CHECKED", "merchant name and customer-review title alone must not display HARD MET");
   assert.equal(shown.presentedResults!.conditionStates[candidateId]![0]!.criterionRef, "criterion:0");
   assert.equal(reads, 0);
   assert.throws(() => restaurantBookingTaskDefinition.transition(state, { ...execution.event!, type: "RESULTS_PRESENTED", candidateIds, evidenceIds: shown.presentedResults!.evidenceIds.filter(id => id !== laterFact) },

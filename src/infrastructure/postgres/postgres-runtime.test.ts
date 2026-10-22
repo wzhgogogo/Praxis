@@ -894,7 +894,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       assert.equal(restored.runId, "restaurant-run-1");
-      assert.equal(restored.domainState.schemaVersion, "18");
+      assert.equal(restored.domainState.schemaVersion, "19");
       assert.deepEqual(restored.domainState.readEvidence, [priceEvidence]);
       assert.deepEqual(restored.domainState.searchContinuation?.discoveryPlan?.regionReferenceRead, continuation.discoveryPlan!.regionReferenceRead);
       assert.equal(restored.domainState.phase, "SEARCHING");

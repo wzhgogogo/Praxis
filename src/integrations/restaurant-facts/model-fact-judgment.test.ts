@@ -221,7 +221,7 @@ test("negative category raw judgments reach conversion and the current presentat
     const result = await new ModelRestaurantFactJudgment(model(raw), now).judge({ candidate, intent: factIntent, evidence });
     assert.deepEqual(result.evidence[0]?.claims[control.claim], [criterion], control.name);
     const state: RestaurantTaskState = {
-      schemaVersion: "18", phase: "SEARCHING", candidates: [candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
+      schemaVersion: "19", phase: "SEARCHING", candidates: [candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
       intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurant" }, area: { query: "Tokyo" }, addCriteria: [{ text: criterion, polarity: "NEGATIVE", strength: "HARD" }] }),
       readEvidence: [...evidence, ...result.evidence],
     };
@@ -239,6 +239,7 @@ test("website judgments preserve selected source statements and reject invented 
     claims: { outletName: "Cafe A" }, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] },
   };
   const document = { id: "source-document", candidateId: "a", identityEvidenceId: identity.evidenceId,
+    sourceFieldQuotes: [{ field: "COURSE_DESCRIPTION" as const, quote: "旬のつまみからはじまるおまかせコースを提供します。", sourceUrl: identity.sourceUrl! }],
     statements: [{ id: "statement-1", text: "旬のつまみからはじまるおまかせコースを提供します。" }] };
   for (const mode of ["valid", "invented", "other-candidate", "statement-as-citation"] as const) {
     const transport = model({
@@ -264,6 +265,8 @@ test("website judgments preserve selected source statements and reject invented 
     assert.equal(properties.sourceSelections.items.properties.statementIds.maxItems, undefined);
     const source = read.evidence.find(e => e.provider === "RESTAURANT_WEBSITE");
     assert.deepEqual(source?.claims.restaurantTypeFacts, [document.statements[0]!.text]);
+    assert.deepEqual(source?.sourceFieldQuotes, document.sourceFieldQuotes);
+    assert.equal(JSON.parse(wire!.messages.find(m => m.role === "user")!.content).sourceDocuments[0].sourceFieldQuotes, undefined, "source role metadata stays private; original model message shape unchanged");
     assert.equal(source?.sourceEntityId, identity.sourceEntityId);
     assert.equal(source?.claims.verifiedHardCriteria, undefined);
     assert.deepEqual(read.evidence.find(e => e.provider === "MODEL_JUDGMENT")?.claims.supportingEvidenceIds, [document.id]);

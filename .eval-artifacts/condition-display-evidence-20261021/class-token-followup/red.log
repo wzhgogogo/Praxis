@@ -1,0 +1,57 @@
+✖ Tabelog field quotations match class tokens with reordered and extra classes without JS hooks (3.4525ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 216.292959
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:1:59573
+✖ Tabelog field quotations match class tokens with reordered and extra classes without JS hooks (3.4525ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    [
+      {
+        field: 'NAME',
+        meal: 'UNSPECIFIED',
+        quote: 'Source Restaurant',
+  ...
+      {
+  +     field: 'NAME',
+  -     field: 'CUSTOMER_REVIEW',
+        meal: 'UNSPECIFIED',
+  +     quote: 'Not a name field',
+  -     quote: 'Customer opinion',
+        sourceUrl: 'https://tabelog.com/en/tokyo/A0000/A000000/11111111/'
+      },
+  -   {
+  -     field: 'COURSE_TITLE',
+  -     meal: 'LUNCH',
+  -     quote: 'Lunch Omakase Course',
+  -     sourceUrl: 'https://tabelog.com/en/tokyo/A0000/A000000/11111111/'
+  -   },
+  -   {
+  -     field: 'COURSE_DESCRIPTION',
+  -     meal: 'LUNCH',
+  -     quote: 'Lunch course details',
+  -     sourceUrl: 'https://tabelog.com/en/tokyo/A0000/A000000/11111111/'
+  -   }
+    ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/condition-display-evidence/Praxis-Zhixing/src/integrations/tabelog/tabelog-browser-availability.test.ts:820:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { field: 'NAME', quote: 'Source Restaurant', sourceUrl: 'https://tabelog.com/en/tokyo/A0000/A000000/11111111/', meal: 'UNSPECIFIED' }, { field: 'NAME', quote: 'Not a name field', sourceUrl: 'https://tabelog.com/en/tokyo/A0000/A000000/11111111/', meal: 'UNSPECIFIED' } ],
+    expected: [ { field: 'NAME', quote: 'Source Restaurant', sourceUrl: 'https://tabelog.com/en/tokyo/A0000/A000000/11111111/', meal: 'UNSPECIFIED' }, { field: 'CUSTOMER_REVIEW', quote: 'Customer opinion', sourceUrl: 'https://tabelog.com/en/tokyo/A0000/A000000/11111111/', meal: 'UNSPECIFIED' }, { field: 'COURSE_TITLE', quote: 'Lunch Omakase Course', sourceUrl: 'https://tabelog.com/en/tokyo/A0000/A000000/11111111/', meal: 'LUNCH' }, { field: 'COURSE_DESCRIPTION', quote: 'Lunch course details', sourceUrl: 'https://tabelog.com/en/tokyo/A0000/A000000/11111111/', meal: 'LUNCH' } ],
+    operator: 'deepStrictEqual'
+  }

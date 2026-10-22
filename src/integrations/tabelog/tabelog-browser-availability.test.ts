@@ -9,7 +9,7 @@ import { RESTAURANT_FAILURE_CLASSIFICATION } from "../../domains/restaurant/fail
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { inspectTabelogEntity, resolveTabelogEntity } from "./tabelog-entity-resolver.js";
 import { TabelogBrowserAvailability, tabelogAvailabilityCompletion } from "./tabelog-browser-availability.js";
-import { parseTabelogAvailabilitySlots, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets } from "./tabelog-page-parser.js";
+import { parseTabelogSourceFieldQuotes, parseTabelogAvailabilitySlots, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets } from "./tabelog-page-parser.js";
 import { hasTabelogSelectedQuery, tabelogCapturedSlots, tabelogQueryControlsRestricted, tabelogRequestedDateState } from "./tabelog-query-controls.js";
 
 const candidate = fixtureCandidates[0]!;
@@ -779,4 +779,44 @@ test("Tabelog existing read grounds recorded course prices even when inventory i
   const prices = read.evidence.find(item => item.kind === "RESTAURANT_FACT")?.priceFacts;
   assert.equal(prices?.listedCoursePricesYen[0]?.amount, 9800, "the opened page's price must survive Adapter → grounding, without a new read");
   assert.equal(read.offers.length, 0, "listed prices do not establish inventory");
+});
+
+
+test("Tabelog field quotations retain merchant courses separately from names/reviews and reject neighboring courses", async () => {
+  const url="https://tabelog.com/en/tokyo/A0000/A000000/11111111/";
+  const card=(title:string,href=url+"party/1/")=>`<div class="rstdtl-course-list js-rstdtl-course-list"><a href="${href}"><span class="rstdtl-course-list__course-title-text">${title}</span></a><p class="rstdtl-course-list__desc">Dinner bookings handled separately</p></div>`;
+  const html=`<h2 class="display-name">Omakase House</h2><div class="rstdtl-rvw"><a class="rstdtl-rvw__title-target">Wonderful Kaiseki</a>${card("Review Omakase Course")}</div><aside>${card("Neighbor Omakase")}</aside>${card("Lunch Omakase Course")}${card("Foreign Omakase",url.replace("11111111","22222222")+"party/1/")}<table class="rstinfo-table__table"><tr><th>Categories</th><td>Sushi, Japanese Cuisine</td></tr></table>`;
+  const q=parseTabelogSourceFieldQuotes({url,title:"Source",text:"",html});
+  assert.ok(q.some(q=>q.field==="NAME"&&q.quote==="Omakase House"));
+  assert.ok(q.some(q=>q.field==="CUSTOMER_REVIEW"&&q.quote==="Wonderful Kaiseki"));
+  assert.ok(q.some(q=>q.field==="COURSE_TITLE"&&q.quote==="Lunch Omakase Course"&&q.meal==="LUNCH"));
+  assert.ok(q.some(q=>q.field==="CATEGORY"&&q.quote==="Sushi, Japanese Cuisine"));
+  assert.ok(!q.some(q=>/Review Omakase|Neighbor Omakase|Foreign Omakase/.test(q.quote)));
+  const root=new URL("../../../.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/",import.meta.url);
+  for(const [file,id,hasCourse] of [["snapshot-0033.html","13300814",true],["snapshot-0034.html","13048623",false]] as const){
+    const actual=parseTabelogSourceFieldQuotes({url:`https://tabelog.com/en/tokyo/A1309/A130905/${id}/`,title:"Saved source",text:"",html:await readFile(new URL(file,root),"utf8")});
+    assert.equal(actual.some(q=>q.field==="COURSE_TITLE"&&/Kaiseki/.test(q.quote)),hasCourse);
+    if(!hasCourse)assert.ok(actual.some(q=>q.field==="CUSTOMER_REVIEW"&&q.quote==="A Flaw in the Spring Kaiseki Experience"));
+  }
+});
+
+
+test("Tabelog field quotations match class tokens with reordered and extra classes without JS hooks", () => {
+  const url = "https://tabelog.com/en/tokyo/A0000/A000000/11111111/";
+  const expected = [
+    { field: "NAME", quote: "Source Restaurant", sourceUrl: url, meal: "UNSPECIFIED" },
+    { field: "CUSTOMER_REVIEW", quote: "Customer opinion", sourceUrl: url, meal: "UNSPECIFIED" },
+    { field: "COURSE_TITLE", quote: "Lunch Omakase Course", sourceUrl: url, meal: "LUNCH" },
+    { field: "COURSE_DESCRIPTION", quote: "Lunch course details", sourceUrl: url, meal: "LUNCH" },
+  ];
+  for (const classes of [
+    { card: "js-rstdtl-course-list rstdtl-course-list", title: "emphasis rstdtl-course-list__course-title-text", description: "rstdtl-course-list__desc expanded", review: "highlight rstdtl-rvw__title-target", name: "display-name prominent" },
+    { card: "extra rstdtl-course-list another", title: "rstdtl-course-list__course-title-text emphasis", description: "expanded rstdtl-course-list__desc", review: "rstdtl-rvw__title-target highlight", name: "prominent display-name" },
+  ]) {
+    const html = `<h2 class="${classes.name}">Source Restaurant</h2>
+      <h2 class="display-name-suffix">Not a name field</h2>
+      <a class="${classes.review}">Customer opinion</a>
+      <div class="${classes.card}"><a href="${url}party/1/"><span class="${classes.title}">Lunch Omakase Course</span></a><p class="${classes.description}">Lunch course details</p></div>`;
+    assert.deepEqual(parseTabelogSourceFieldQuotes({ url, title: "Source", text: "", html }), expected);
+  }
 });

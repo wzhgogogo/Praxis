@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.331
+- Document revision: 4.332
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -24,6 +24,10 @@
 - **2026-10-21 Checkpoint C merge-freeze:** Reviewed fix27b3884a fast-forwarded into prep; evaluator31/rubric27 bound with original18 order/budgets unchanged. Certification freeze a71b2e56d39ea24d939cf9b06cf21e9a5074e614da70c6ecae07034e1d5feeee (425 files), code b6d4abd3. Complete scripted outer rehearsal1/1,0network/0models; outer and certification controls green. Accepted source hashes unchanged; gates982/131,calendar69/69,selection5/5,calibration22/22 reused. Runtime ledger2418models/13Live/0env,remaining1582/87/10; reserves24 attempts/1200calls. User authorizes recertification then full18, no third quick run; old results and H003 S0 retained. [Batch](../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/plan.md).
 
 - **2026-10-21 Evaluator32 offline PASS; calibration22/22, S0 declaration20/20 and quick3 reference reevaluation complete; awaiting review. Independent merchant course/category and narrowly reviewed witness HARD evidence now has separate accepted/unaccepted/unproven/missing-citation diagnostics. Five gates988/131 green; no product changes, no website/model/Live, not merged or applied to running checkpoint C.** [Report](../.eval-artifacts/evaluator-hard-course-evidence-20261021/report.md).
+
+- **2026-10-21 Class-token review followup PASS on isolated display branch; reviewed base5110f6aa, full tokens for course cards/title/description/review/name, no JS dependency. Fixture covers reorder/extra/no-JS/prefix exclusion; related39/39, default987/987, local Chromium131/131, type/arch/build PASS. Prompt/Schema/State and qualification unchanged. Zero models/sites/Live; both accepted fixes await checkpoint-C completion before integration.** [Report](../.eval-artifacts/condition-display-evidence-20261021/class-token-followup/report.md).
+
+- **2026-10-21 Condition display offline PASS, separate branch awaiting review. Five gates986/131; source replay3/3 retains four merchant-supported HARD MET states and makes Kaga NOT_CHECKED with actual NAME/REVIEW quotes. Lunch restrictions and requested-course-availability unknown retained. Codef097ab15, freeze740cdc8a (1352 files); State19/TaskDefinition17/condition-states3. Zero models/websites/Live; no evaluator merge or active C change.** [Report](../.eval-artifacts/condition-display-evidence-20261021/report.md).
 
 - **2026-10-21 Offline criterion/presentation repair PASS; fix branch only, awaiting review:** Evaluator@31/rubric@27 associates conditions by explicit IDs or reviewed exact-artifact semantic indices; formatting normalization only, no executable synonym lookup. All eight existing-but-unmatched display rows now resolve (six consistent unknowns, two still independently unsupported). Kaga's later availability-read fact was filtered by an earlier same-source fact-check list; current Router/Reducer citations now retain it and reject omission. Condition-states@2 adds request-local criterionRef. Five gates green (982 default / 131 Chromium), calendar69/69 and selection5/5 from byte-identical requests and cached real responses, calibration22/22. Saved quick3 reference outcomes QD/QD/DU; original QD/NE/DU and quick gate1/3 retained. Code1bb92bca; freeze`003c8b69db188ae4d5091d88e8729905fd3d845eb664d22d7423f01ea706aca8` (1345 files). Zero new models/websites/Live; cumulative2418/13/0 environment reruns. No integration merge, recertification or fresh C18; no third quick run. [Four-layer report](../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/four-layer-report.md), [result.json](../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/result.json).
 

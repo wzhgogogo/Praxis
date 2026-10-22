@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.13
+- Document revision: 3.14
 - Last updated: 2026-10-21
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
@@ -263,3 +263,6 @@ C0c（用户 2026-10-10 批准）：共享预算剩余 ≤4 且无合格候选�
 
 
 2026-10-10 P1-D（用户批准 ADR-0040）：当前 Restaurant State@14 / TaskDefinition@13，新增来源入口与首五个详情坐标诊断；未发布 State@13 不兼容，使用既有显式 reset 协议，本批不重置数据。地区入口改为当前观察引用选择；Browser schema@11 / prompt@16 的 LOCATION 仅填同次 Google 解析名称和保留实际地址组成部分，不推断车站。最后接纳仍按原精确坐标半径与身份规则，未知和越界均不接纳。
+
+
+2026-10-21 isolated condition display fix (draft / not integrated): restaurant-condition-states@3 sources carry exact quoted text, field role and observed meal scope. Restaurant State@19 / TaskDefinition@17 do not accept the previous unpublished display contract; update current callers and fixtures directly. No compatibility path, database reset or migration is executed in this batch. Existing tasks must be backed up and explicitly reset/migrated before any later integration if retained data needs protection. The running checkpoint C remains on its frozen State@18 code. Merchant names/customer reviews alone remain NOT_CHECKED; a listed lunch offering never establishes a dinner plan or requested-course availability. Source field roles are parser-owned metadata omitted from model messages, so Fact Prompt14 / response Schema4 remain unchanged. Eligibility, identity, freshness and Guard rules do not change.

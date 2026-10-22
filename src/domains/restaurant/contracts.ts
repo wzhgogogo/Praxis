@@ -220,6 +220,13 @@ export type RestaurantReadEvidenceProvider = "GOOGLE_PLACES" | "RESTAURANT_WEBSI
  * Small Domain-owned record of a grounded external read. It intentionally holds
  * normalized claims, never a provider payload, full HTML page, secret, or model reasoning.
  */
+export interface RestaurantSourceFieldQuote {
+  field: "CATEGORY" | "COURSE_TITLE" | "COURSE_DESCRIPTION" | "GOOGLE_TYPE" | "NAME" | "CUSTOMER_REVIEW" | "SOURCE_TEXT" | "PRICE";
+  quote: string;
+  sourceUrl: string;
+  meal?: "LUNCH" | "DINNER" | "UNSPECIFIED";
+}
+
 export interface RestaurantReadEvidence {
   evidenceId: string;
   kind: RestaurantReadEvidenceKind;
@@ -238,6 +245,8 @@ export interface RestaurantReadEvidence {
   claims: Record<string, string | number | boolean | string[]>;
   /** Structured, quoted public price facts, independently versioned. */
   priceFacts?: RestaurantPriceFacts;
+  /** Source-owned field quotations, never model-assigned roles. */
+  sourceFieldQuotes?: RestaurantSourceFieldQuote[];
   entityMatch?: {
     confidence: "HIGH" | "MEDIUM" | "LOW";
     matchedBy: string[];
@@ -441,6 +450,8 @@ export interface RestaurantCandidateFactRead {
 }
 
 export interface RestaurantFactSourceDocument {
+  /** Private source-parser metadata; omitted from model messages. */
+  sourceFieldQuotes?: RestaurantSourceFieldQuote[];
   id: string;
   candidateId: string;
   identityEvidenceId: string;
@@ -697,7 +708,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "18";
+  schemaVersion: "19";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;

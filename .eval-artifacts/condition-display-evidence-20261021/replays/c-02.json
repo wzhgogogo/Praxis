@@ -1,0 +1,608 @@
+{
+  "mode": "SAVED_SOURCE_FIELDS_THEN_ROUTER_REDUCER",
+  "source": {
+    "path": "../checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-02-attempt-1/runner/2026-10-21T11-08-45-696Z-53ba31bd-c5b8-4bb9-8e0f-65286ec6ab98.result.json",
+    "sha256": "9efa8b5d1b7a68e8b3986bcb146700b5b51a278bf6370f3a94d3ffac9f26cdf3"
+  },
+  "baselineCommit": "27b3884aad4f6dfff1b8d139d164b1c6fdf94352",
+  "codeCommit": "f097ab15aeca1ed10426bc67eccb7042b3a9105a",
+  "originalPresentation": {
+    "candidateIds": [
+      "tabelog:en/tokyo/A1301/A130103/13292459",
+      "tabelog:en/tokyo/A1301/A130101/13295658"
+    ],
+    "evidenceIds": [
+      "evidence:restaurant:tabelog-entity-match:7ff024d13cbc1f7eab607e20",
+      "evidence:restaurant:native-discovery:40e14e3c5f70b49500b8f87e",
+      "evidence:restaurant:tabelog-availability:bb1464a87c8df95fef0118b4",
+      "tabelog:en/tokyo/A1301/A130103/13292459:document:4b8d680bf0f3b2d9",
+      "fact-judgment:tabelog:en/tokyo/A1301/A130103/13292459:2026-10-21T11:11:41.375Z:tabelog:en/tokyo/A1301/A130103/13292459:document:4b8d680bf0f3b2d9",
+      "evidence:restaurant:tabelog-entity-match:6b67260405e6070c119d3d33",
+      "evidence:restaurant:native-discovery:0267f08aee6421873789a41e",
+      "evidence:restaurant:tabelog-availability:510d99b1e3e67fd1e4e74d34",
+      "tabelog:en/tokyo/A1301/A130101/13295658:document:5a6aca1e7e9147aa",
+      "fact-judgment:tabelog:en/tokyo/A1301/A130101/13295658:2026-10-21T11:11:32.878Z:tabelog:en/tokyo/A1301/A130101/13295658:document:5a6aca1e7e9147aa"
+    ],
+    "presentedAt": "2026-10-21T11:11:43.260Z",
+    "conditionStates": {
+      "tabelog:en/tokyo/A1301/A130103/13292459": [
+        {
+          "text": "around 10,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "status": "NOT_CHECKED",
+          "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+          "evidenceIds": [],
+          "sources": []
+        },
+        {
+          "text": "first-date restaurant",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED",
+          "status": "NOT_CHECKED",
+          "explanation": "No current source evidence establishes this condition.",
+          "evidenceIds": [],
+          "sources": []
+        },
+        {
+          "text": "hot-pot restaurant",
+          "polarity": "NEGATIVE",
+          "strength": "HARD",
+          "status": "NOT_CHECKED",
+          "explanation": "No current source evidence establishes this condition.",
+          "evidenceIds": [],
+          "sources": []
+        },
+        {
+          "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+          "polarity": "NEGATIVE",
+          "strength": "HARD",
+          "status": "NOT_CHECKED",
+          "explanation": "No current source evidence establishes this condition.",
+          "evidenceIds": [],
+          "sources": []
+        }
+      ],
+      "tabelog:en/tokyo/A1301/A130101/13295658": [
+        {
+          "text": "around 10,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "status": "NOT_CHECKED",
+          "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+          "evidenceIds": [],
+          "sources": []
+        },
+        {
+          "text": "first-date restaurant",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED",
+          "status": "NOT_CHECKED",
+          "explanation": "No current source evidence establishes this condition.",
+          "evidenceIds": [],
+          "sources": []
+        },
+        {
+          "text": "hot-pot restaurant",
+          "polarity": "NEGATIVE",
+          "strength": "HARD",
+          "status": "NOT_CHECKED",
+          "explanation": "No current source evidence establishes this condition.",
+          "evidenceIds": [],
+          "sources": []
+        },
+        {
+          "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+          "polarity": "NEGATIVE",
+          "strength": "HARD",
+          "status": "NOT_CHECKED",
+          "explanation": "No current source evidence establishes this condition.",
+          "evidenceIds": [],
+          "sources": []
+        }
+      ]
+    }
+  },
+  "before": {
+    "stateSchema": "18",
+    "presentation": {
+      "candidateIds": [
+        "tabelog:en/tokyo/A1301/A130103/13292459",
+        "tabelog:en/tokyo/A1301/A130101/13295658"
+      ],
+      "evidenceIds": [
+        "evidence:restaurant:tabelog-entity-match:7ff024d13cbc1f7eab607e20",
+        "evidence:restaurant:native-discovery:40e14e3c5f70b49500b8f87e",
+        "evidence:restaurant:tabelog-availability:bb1464a87c8df95fef0118b4",
+        "tabelog:en/tokyo/A1301/A130103/13292459:document:4b8d680bf0f3b2d9",
+        "fact-judgment:tabelog:en/tokyo/A1301/A130103/13292459:2026-10-21T11:11:41.375Z:tabelog:en/tokyo/A1301/A130103/13292459:document:4b8d680bf0f3b2d9",
+        "evidence:restaurant:tabelog-entity-match:6b67260405e6070c119d3d33",
+        "evidence:restaurant:native-discovery:0267f08aee6421873789a41e",
+        "evidence:restaurant:tabelog-availability:510d99b1e3e67fd1e4e74d34",
+        "tabelog:en/tokyo/A1301/A130101/13295658:document:5a6aca1e7e9147aa",
+        "fact-judgment:tabelog:en/tokyo/A1301/A130101/13295658:2026-10-21T11:11:32.878Z:tabelog:en/tokyo/A1301/A130101/13295658:document:5a6aca1e7e9147aa"
+      ],
+      "presentedAt": "2026-10-21T11:11:43.260Z",
+      "conditionStates": {
+        "tabelog:en/tokyo/A1301/A130103/13292459": [
+          {
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT",
+            "criterionRef": "criterion:0",
+            "status": "NOT_CHECKED",
+            "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "first-date restaurant",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED",
+            "criterionRef": "criterion:1",
+            "status": "NOT_CHECKED",
+            "explanation": "No current source evidence establishes this condition.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "hot-pot restaurant",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2",
+            "status": "NOT_CHECKED",
+            "explanation": "No current source evidence establishes this condition.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:3",
+            "status": "NOT_CHECKED",
+            "explanation": "No current source evidence establishes this condition.",
+            "evidenceIds": [],
+            "sources": []
+          }
+        ],
+        "tabelog:en/tokyo/A1301/A130101/13295658": [
+          {
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT",
+            "criterionRef": "criterion:0",
+            "status": "NOT_CHECKED",
+            "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "first-date restaurant",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED",
+            "criterionRef": "criterion:1",
+            "status": "NOT_CHECKED",
+            "explanation": "No current source evidence establishes this condition.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "hot-pot restaurant",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2",
+            "status": "NOT_CHECKED",
+            "explanation": "No current source evidence establishes this condition.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:3",
+            "status": "NOT_CHECKED",
+            "explanation": "No current source evidence establishes this condition.",
+            "evidenceIds": [],
+            "sources": []
+          }
+        ]
+      }
+    }
+  },
+  "after": {
+    "stateSchema": "19",
+    "presentation": {
+      "candidateIds": [
+        "tabelog:en/tokyo/A1301/A130103/13292459",
+        "tabelog:en/tokyo/A1301/A130101/13295658"
+      ],
+      "evidenceIds": [
+        "evidence:restaurant:tabelog-entity-match:7ff024d13cbc1f7eab607e20",
+        "evidence:restaurant:native-discovery:40e14e3c5f70b49500b8f87e",
+        "evidence:restaurant:tabelog-availability:bb1464a87c8df95fef0118b4",
+        "tabelog:en/tokyo/A1301/A130103/13292459:document:4b8d680bf0f3b2d9",
+        "fact-judgment:tabelog:en/tokyo/A1301/A130103/13292459:2026-10-21T11:11:41.375Z:tabelog:en/tokyo/A1301/A130103/13292459:document:4b8d680bf0f3b2d9",
+        "evidence:restaurant:tabelog-entity-match:6b67260405e6070c119d3d33",
+        "evidence:restaurant:native-discovery:0267f08aee6421873789a41e",
+        "evidence:restaurant:tabelog-availability:510d99b1e3e67fd1e4e74d34",
+        "tabelog:en/tokyo/A1301/A130101/13295658:document:5a6aca1e7e9147aa",
+        "fact-judgment:tabelog:en/tokyo/A1301/A130101/13295658:2026-10-21T11:11:32.878Z:tabelog:en/tokyo/A1301/A130101/13295658:document:5a6aca1e7e9147aa"
+      ],
+      "presentedAt": "2026-10-21T11:11:43.260Z",
+      "conditionStates": {
+        "tabelog:en/tokyo/A1301/A130103/13292459": [
+          {
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT",
+            "criterionRef": "criterion:0",
+            "status": "NOT_CHECKED",
+            "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "first-date restaurant",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED",
+            "criterionRef": "criterion:1",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "hot-pot restaurant",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:3",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [],
+            "sources": []
+          }
+        ],
+        "tabelog:en/tokyo/A1301/A130101/13295658": [
+          {
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT",
+            "criterionRef": "criterion:0",
+            "status": "NOT_CHECKED",
+            "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "first-date restaurant",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED",
+            "criterionRef": "criterion:1",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "hot-pot restaurant",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [],
+            "sources": []
+          },
+          {
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:3",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [],
+            "sources": []
+          }
+        ]
+      }
+    }
+  },
+  "conditions": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+      "text": "around 10,000 yen per person",
+      "polarity": "POSITIVE",
+      "strength": "SOFT",
+      "originalLive": {
+        "text": "around 10,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT",
+        "status": "NOT_CHECKED",
+        "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "currentBase": {
+        "text": "around 10,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT",
+        "criterionRef": "criterion:0",
+        "status": "NOT_CHECKED",
+        "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "fixed": {
+        "text": "around 10,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT",
+        "criterionRef": "criterion:0",
+        "status": "NOT_CHECKED",
+        "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+        "evidenceIds": [],
+        "sources": []
+      }
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+      "text": "first-date restaurant",
+      "polarity": "POSITIVE",
+      "strength": "UNSPECIFIED",
+      "originalLive": {
+        "text": "first-date restaurant",
+        "polarity": "POSITIVE",
+        "strength": "UNSPECIFIED",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "currentBase": {
+        "text": "first-date restaurant",
+        "polarity": "POSITIVE",
+        "strength": "UNSPECIFIED",
+        "criterionRef": "criterion:1",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "fixed": {
+        "text": "first-date restaurant",
+        "polarity": "POSITIVE",
+        "strength": "UNSPECIFIED",
+        "criterionRef": "criterion:1",
+        "status": "NOT_CHECKED",
+        "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+        "evidenceIds": [],
+        "sources": []
+      }
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+      "text": "hot-pot restaurant",
+      "polarity": "NEGATIVE",
+      "strength": "HARD",
+      "originalLive": {
+        "text": "hot-pot restaurant",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "currentBase": {
+        "text": "hot-pot restaurant",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:2",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "fixed": {
+        "text": "hot-pot restaurant",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:2",
+        "status": "NOT_CHECKED",
+        "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+        "evidenceIds": [],
+        "sources": []
+      }
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130103/13292459",
+      "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+      "polarity": "NEGATIVE",
+      "strength": "HARD",
+      "originalLive": {
+        "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "currentBase": {
+        "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:3",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "fixed": {
+        "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:3",
+        "status": "NOT_CHECKED",
+        "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+        "evidenceIds": [],
+        "sources": []
+      }
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+      "text": "around 10,000 yen per person",
+      "polarity": "POSITIVE",
+      "strength": "SOFT",
+      "originalLive": {
+        "text": "around 10,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT",
+        "status": "NOT_CHECKED",
+        "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "currentBase": {
+        "text": "around 10,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT",
+        "criterionRef": "criterion:0",
+        "status": "NOT_CHECKED",
+        "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "fixed": {
+        "text": "around 10,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT",
+        "criterionRef": "criterion:0",
+        "status": "NOT_CHECKED",
+        "explanation": "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget.",
+        "evidenceIds": [],
+        "sources": []
+      }
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+      "text": "first-date restaurant",
+      "polarity": "POSITIVE",
+      "strength": "UNSPECIFIED",
+      "originalLive": {
+        "text": "first-date restaurant",
+        "polarity": "POSITIVE",
+        "strength": "UNSPECIFIED",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "currentBase": {
+        "text": "first-date restaurant",
+        "polarity": "POSITIVE",
+        "strength": "UNSPECIFIED",
+        "criterionRef": "criterion:1",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "fixed": {
+        "text": "first-date restaurant",
+        "polarity": "POSITIVE",
+        "strength": "UNSPECIFIED",
+        "criterionRef": "criterion:1",
+        "status": "NOT_CHECKED",
+        "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+        "evidenceIds": [],
+        "sources": []
+      }
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+      "text": "hot-pot restaurant",
+      "polarity": "NEGATIVE",
+      "strength": "HARD",
+      "originalLive": {
+        "text": "hot-pot restaurant",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "currentBase": {
+        "text": "hot-pot restaurant",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:2",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "fixed": {
+        "text": "hot-pot restaurant",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:2",
+        "status": "NOT_CHECKED",
+        "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+        "evidenceIds": [],
+        "sources": []
+      }
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13295658",
+      "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+      "polarity": "NEGATIVE",
+      "strength": "HARD",
+      "originalLive": {
+        "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "currentBase": {
+        "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:3",
+        "status": "NOT_CHECKED",
+        "explanation": "No current source evidence establishes this condition.",
+        "evidenceIds": [],
+        "sources": []
+      },
+      "fixed": {
+        "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+        "polarity": "NEGATIVE",
+        "strength": "HARD",
+        "criterionRef": "criterion:3",
+        "status": "NOT_CHECKED",
+        "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+        "evidenceIds": [],
+        "sources": []
+      }
+    }
+  ],
+  "bindings": [],
+  "sourceCalls": 0,
+  "modelCalls": 0,
+  "limitation": "Counterfactual source-field metadata reconstructed from saved HTML and original selected quotes; original IDs/labels retained to reconnect original model references. No source or model re-execution, no new availability claim."
+}

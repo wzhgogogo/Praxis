@@ -148,6 +148,7 @@ export interface TabelogAvailabilityPageObservation {
     | "EXTRACTION_FAILED";
   visibleSlots?: string[];
   listedCourseDetails?: string[];
+  sourceFieldQuotes?: import("../../domains/restaurant/contracts.js").RestaurantSourceFieldQuote[];
   verifiedHardCriteria?: string[];
   excerpt?: string;
   failureCode?: string;

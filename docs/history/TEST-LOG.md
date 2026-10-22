@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.235
+- Document revision: 4.236
 - Last updated: 2026-10-22
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -51,6 +51,15 @@ Reviewed fix27b3884a fast-forwarded into prep; evaluator31/rubric27 bound with o
 
 - Valid old-code red uses complete independent post-delivery inputs and fails only course HARD status. Focused140/140, default988/988, local Chromium131/131, typecheck/arch/build green. New tests reject name/review/neighbor/hidden/superseded/wrong-source/hash/request/late evidence and preserve lunch scope. Calibration22/22 and S0 declaration20/20; quick3 QD/QD/DU preserved, five HARD statuses independently supported with offering scope/manual restrictions and Kaga missing citation kept separate. Freeze1354 verified; no model/websites/Live.
 - [Report](../../.eval-artifacts/evaluator-hard-course-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
+## TEST-2026-10-21-CONDITION-DISPLAY-CLASS-TOKENS
+
+- Class-token review followup PASS on isolated display branch; reviewed base5110f6aa, full tokens for course cards/title/description/review/name, no JS dependency. Fixture covers reorder/extra/no-JS/prefix exclusion; related39/39, default987/987, local Chromium131/131, type/arch/build PASS. Prompt/Schema/State and qualification unchanged. Zero models/sites/Live; both accepted fixes await checkpoint-C completion before integration.
+- [Report](../../.eval-artifacts/condition-display-evidence-20261021/class-token-followup/report.md). Raw red/green and five-gate logs retained; existing quick3/calibration not rerun.
+
+## TEST-2026-10-21-CONDITION-DISPLAY-EVIDENCE
+
+- Valid original Kaga Router->Reducer red plus quote/meal/name/review controls saved. Focused57/57, default986/986, local Chromium131/131 and type/arch/build pass. Chromium verifies real source field labels in Web. Source parsing rejects nested reviews/neighbors and preserves lunch. Frozen quick3 display replay3/3 PASS; 1352 hashes unchanged,17 raw-HTML quote checks, no candidate-set changes; only Kaga status MET->NOT_CHECKED. Two lunch offerings stay explicitly LUNCH, requested-time course availability unverified. Codef097ab15/freeze740cdc8a; zero real model/site/Google/Live calls. Raw source artifacts unchanged; counterfactual metadata replay and local Chromium do not prove current external behavior.
+- [Report](../../.eval-artifacts/condition-display-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
 
 ## TEST-2026-10-21-CRITERION-PRESENTATION-REPAIR
 
