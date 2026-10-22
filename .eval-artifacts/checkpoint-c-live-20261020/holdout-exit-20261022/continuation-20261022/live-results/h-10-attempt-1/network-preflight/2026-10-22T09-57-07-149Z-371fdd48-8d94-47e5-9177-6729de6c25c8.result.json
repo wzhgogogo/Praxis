@@ -1,0 +1,48 @@
+{
+  "mode": "LIVE_NETWORK_PREFLIGHT",
+  "preflightVersion": "live-network-preflight@1",
+  "runner": "HYBRID_LIVE_READ",
+  "plannedTargets": [
+    "DEEPSEEK",
+    "GOOGLE",
+    "TABELOG"
+  ],
+  "timeoutMs": 10000,
+  "generationModelCalls": 0,
+  "restaurantDiscoveryRequests": 0,
+  "evaluator": {
+    "applicability": "NOT_APPLICABLE",
+    "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+  },
+  "network": {
+    "proxyMode": "ENVIRONMENT"
+  },
+  "status": "FAILED",
+  "stage": "NETWORK_READINESS",
+  "failureCode": "PREFLIGHT_TIMEOUT",
+  "attempts": [
+    {
+      "target": "DEEPSEEK",
+      "request": {
+        "method": "GET",
+        "url": "https://api.deepseek.com/models",
+        "range": "NONE",
+        "authorization": "PRESENT"
+      },
+      "elapsedMs": 10004,
+      "outcome": "FAILED",
+      "tls": "NOT_ESTABLISHED",
+      "failureCode": "PREFLIGHT_TIMEOUT"
+    }
+  ],
+  "elapsedMs": 10004,
+  "configuration": {
+    "proxyMode": "ENVIRONMENT",
+    "googleProxyConfigured": false,
+    "browserProxyConfigured": false
+  },
+  "schemaVersion": "1",
+  "runId": "371fdd48-8d94-47e5-9177-6729de6c25c8",
+  "startedAt": "2026-10-22T09:57:07.149Z",
+  "finishedAt": "2026-10-22T09:57:17.155Z"
+}

@@ -1,0 +1,39 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2-holdout-01","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-01-attempt-1/network-preflight/2026-10-22T08-24-55-389Z-6fe4663b-80f3-4633-a79f-a73ea103f65d.result.json","elapsedMs":4408,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2-holdout-01",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 5
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 4,
+    "candidatesChecked": 4,
+    "agentDecisions": 5,
+    "browserModelCalls": 13,
+    "modelCallsStarted": 22,
+    "browserRuntimeCalls": 115,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 25,
+      "tabelog:en/tokyo/A1311/A131101/13128870": 21,
+      "tabelog:en/tokyo/A1311/A131101/13300700": 24,
+      "tabelog:en/tokyo/A1311/A131101/13290563": 24,
+      "tabelog:en/tokyo/A1311/A131101/13191933": 21
+    },
+    "pageStillLoadingWithinBound": 13,
+    "postActionWaitTotalMs": 23960,
+    "browserModelActions": 13,
+    "googleRequests": {
+      "limit": 38,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 170694
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-01-attempt-1/runner/2026-10-22T08-25-14-355Z-73b46e0c-e5e4-4fdb-a5d0-92e96ea8dd7b.result.json",
+  "latencyMs": 170694,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

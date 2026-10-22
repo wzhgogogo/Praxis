@@ -1,0 +1,38 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2-holdout-05","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1/network-preflight/2026-10-22T10-07-48-972Z-a1514622-f60c-4b17-933e-9641939d35ac.result.json","elapsedMs":4286,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2-holdout-05",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 4
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 5,
+    "candidatesChecked": 3,
+    "agentDecisions": 4,
+    "browserModelCalls": 7,
+    "modelCallsStarted": 16,
+    "browserRuntimeCalls": 85,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 25,
+      "tabelog:en/tokyo/A1316/A131603/13240907": 20,
+      "tabelog:en/tokyo/A1316/A131603/13091855": 20,
+      "tabelog:en/tokyo/A1316/A131604/13258196": 20
+    },
+    "pageStillLoadingWithinBound": 13,
+    "postActionWaitTotalMs": 19391,
+    "browserModelActions": 7,
+    "googleRequests": {
+      "limit": 38,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 174111
+  },
+  "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-11-attempt-1/runner/2026-10-22T10-08-08-592Z-7cea80fb-c1d8-46b7-9404-b2351e024565.result.json",
+  "latencyMs": 174111,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
