@@ -124,8 +124,11 @@ test("E1 review Gold correction binds all affected originals and both source SHA
 
 test("historical criterion identity registry is exact-artifact scoped, not a synonym table", () => {
   const registry = loadCriterionCorrespondences();
-  assert.equal(registry.entries.length, 13);
-  assert.equal(registry.entries.reduce((n, row) => n + row.pairs.length, 0), 20);
+  assert.equal(registry.entries.length, 22);
+  assert.equal(registry.entries.reduce((n, row) => n + row.pairs.length, 0), 32);
+  const c18 = registry.entries.filter(row => row.pairs.some(pair => pair.refs.some(ref => ref.includes("checkpoint-c-continuation-20261021/independent-review.md"))));
+  assert.equal(c18.length, 9, "C18 review adds exactly nine artifact scopes");
+  assert.equal(c18.reduce((n, row) => n + row.pairs.length, 0), 12, "four reviewed groups add twelve exact index pairs");
   assert.ok(registry.entries.every(row => /^[a-f0-9]{64}$/.test(row.artifactSha256) && row.pairs.every(pair => pair.refs.length)));
   assert.equal(matchCriteria([{ value: "good for a first date" }], [{ text: "first-date restaurant" }]).length, 0, "no general synonym recognition remains");
 });

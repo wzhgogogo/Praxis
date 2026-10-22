@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.237
+- Document revision: 4.238
 - Last updated: 2026-10-22
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-22-CHECKPOINT-C-C18-DISPLAY-REPLAY-RESULTS
+
+离线Router->Reducer展示回放13/13，另5份无展示明确N/A；2738输入与2757评价输入运行后核SHA通过。32评价S1_UNSUPPORTED 4->0，H002漏价格3->0；同时保留6条MISSED（Kaga人工见证2、tempura选中摘录与字段范围4），不扩大规则强行通过。默认994项首轮仅登记旧数量断言13/20失败，已按复核精确更新为22产物/32对，其中新增9/12；失败日志保留，继续最终门禁。原C18/评价不改，0新增模型/网站/Live。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
 
 ## TEST-2026-10-22-CHECKPOINT-C-C18-DISPLAY-PRICE-REPAIR
 
