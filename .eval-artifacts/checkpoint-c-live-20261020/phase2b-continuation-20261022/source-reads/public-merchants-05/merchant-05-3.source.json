@@ -1,0 +1,119 @@
+{
+  "id": "merchant-05-3",
+  "caseId": "p2b-holdout-05",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1307/A130702/13015155/",
+  "observedAt": "2026-10-22T17:27:43.325Z",
+  "responseSha256": "be1959d05e68914f5d43f0484e0bad10ad526f15d419292fd73a4fbb86e63183",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-3.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Azabu Nagasaka Sarashina Honten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Azabujuban Minato Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1060045",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.656583888722224,
+          "longitude": 139.73677501415625
+        },
+        "servesCuisine": "Soba (Buckwheat noodles)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1307/A130702/13015155/\",\"name\":\"Azabu Nagasaka Sarashina Honten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/331996/640x640_rect_2ce1f53a2eb552257f01d3334795d197.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Azabujuban Minato Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1060045\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.656583888722224,\"longitude\":139.73677501415625},\"priceRange\":\"JPY 3,000～JPY 3,999\",\"servesCuisine\":\"Soba (Buckwheat noodles)\",\"telephone\":\"+81-3-3584-9410\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"731\",\"ratingValue\":\"3.49\"}}\n    ",
+        "sha256": "6421cf56267d98d6a91dacbb9f83750ea8c1e7d25c51e6e6802073080e61641c",
+        "htmlCharacterOffset": 6174
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 128,
+        "raw": "Soba (Buckwheat noodles)"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Soba (Buckwheat noodles)",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Soba (Buckwheat noodles)",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "CATEGORY",
+      "text": "Categories Soba (Buckwheat noodles)",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Soba (Buckwheat noodles)</span>\n                    </td>\n                  </tr>",
+      "sha256": "b382d467fcc4e18ebe17e5da44804f805924c8585de06b92464d33b189894501",
+      "htmlCharacterOffset": 54944
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 3,000 - JPY 3,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 3,000 - JPY 3,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "273a1fbe76508c61431d625f6f2f5280dcc67393e8e393b18b0d8b87c362545b",
+      "htmlCharacterOffset": 60033
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 88 seats ( 20 seats at tables, 4 tatami rooms, private rooms available)",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      88 seats\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      ( 20 seats at tables, 4 tatami rooms, private rooms available)\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "df77dbb3a9839907ebcbad8e9fc3acfeae56fd1621209828561dd2698e727a20",
+      "htmlCharacterOffset": 63183
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Available For 2 people, For 4 people, For 6 people, For 8 people, For 10-20 people, For 20-30 people, For over 30 people",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Available\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      For 2 people, For 4 people, For 6 people, For 8 people, For 10-20 people, For 20-30 people, For over 30 people\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "13c15ef926b59c731cfbf64ffa987f88c1fb8ff73a5feff4d1b335d4d0cae0a1",
+      "htmlCharacterOffset": 63600
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "f8ba7dd3edf78243aceebce5b660421d2a2509061227a3091532cd94ef85480f",
+      "htmlCharacterOffset": 67071
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Soba (Buckwheat noodles)</span>\n                    </td>\n                  </tr>",
+      "sha256": "b382d467fcc4e18ebe17e5da44804f805924c8585de06b92464d33b189894501",
+      "text": "Categories Soba (Buckwheat noodles)",
+      "htmlCharacterOffset": 54944
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1307/A130702/13015155/dtlratings/#price-range\">JPY 3,000 - JPY 3,999</a></span>\n                            </p>",
+      "sha256": "f549c1b1e711e0295212dac9e53d8137b421a8ca93d532b8806fee47b51f4a2e",
+      "text": "JPY 3,000 - JPY 3,999",
+      "htmlCharacterOffset": 21216
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1307/A130702/13015155/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "784067f83e4a8309351a75db582af324aabb12951508f420451086ff15d392c5",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 21646
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1307/A130702/13015155/"
+}

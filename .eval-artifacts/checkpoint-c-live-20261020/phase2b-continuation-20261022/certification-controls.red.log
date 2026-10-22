@@ -1,0 +1,116 @@
+✔ merchant seating extraction excludes review and hidden rows (1.158875ms)
+✖ explicit seated format retains same-merchant raw quote and exact inventory binding (1.765083ms)
+✖ negative condition still requires a bound source adjudication (1.08925ms)
+✖ invented seating quotation is rejected (1.209583ms)
+✖ wrong party or restaurant in the inventory is not certified (1.089833ms)
+✔ merchant outside 800 metres is rejected (0.835875ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 2
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 106.618417
+
+✖ failing tests:
+
+test at .eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:36:1
+✖ explicit seated format retains same-merchant raw quote and exact inventory binding (1.765083ms)
+  AssertionError [ERR_ASSERTION]: MERCHANT_EXPLICIT_ROLE_REQUIRED
+      at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:68:224
+      at Array.map (<anonymous>)
+      at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:62:32
+      at Array.map (<anonymous>)
+      at certifySavedWitnesses (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:59:31)
+      at TestContext.<anonymous> (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:37:23)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at .eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:39:1
+✖ negative condition still requires a bound source adjudication (1.08925ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /NEGATIVE_HARD_REVIEW_REQUIRED/. Input:
+  
+  'AssertionError [ERR_ASSERTION]: MERCHANT_EXPLICIT_ROLE_REQUIRED'
+  
+      at TestContext.<anonymous> (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:40:96)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: AssertionError [ERR_ASSERTION]: MERCHANT_EXPLICIT_ROLE_REQUIRED
+        at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:68:224
+        at Array.map (<anonymous>)
+        at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:62:32
+        at Array.map (<anonymous>)
+        at certifySavedWitnesses (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:59:31)
+        at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:40:107
+        at getActual (node:assert:530:5)
+        at strict.throws (node:assert:676:24)
+        at TestContext.<anonymous> (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:40:96)
+        at Test.runInAsyncScope (node:async_hooks:214:14),
+    expected: /NEGATIVE_HARD_REVIEW_REQUIRED/,
+    operator: 'throws'
+  }
+
+test at .eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:42:1
+✖ invented seating quotation is rejected (1.209583ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /RAW_MERCHANT_QUOTE_REQUIRED/. Input:
+  
+  'AssertionError [ERR_ASSERTION]: MERCHANT_EXPLICIT_ROLE_REQUIRED'
+  
+      at TestContext.<anonymous> (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:43:113)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: AssertionError [ERR_ASSERTION]: MERCHANT_EXPLICIT_ROLE_REQUIRED
+        at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:68:224
+        at Array.map (<anonymous>)
+        at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:62:32
+        at Array.map (<anonymous>)
+        at certifySavedWitnesses (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:59:31)
+        at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:43:124
+        at getActual (node:assert:530:5)
+        at strict.throws (node:assert:676:24)
+        at TestContext.<anonymous> (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:43:113)
+        at Test.runInAsyncScope (node:async_hooks:214:14),
+    expected: /RAW_MERCHANT_QUOTE_REQUIRED/,
+    operator: 'throws'
+  }
+
+test at .eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:45:1
+✖ wrong party or restaurant in the inventory is not certified (1.089833ms)
+  AssertionError [ERR_ASSERTION]: MERCHANT_EXPLICIT_ROLE_REQUIRED
+      at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:68:224
+      at Array.map (<anonymous>)
+      at file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:62:32
+      at Array.map (<anonymous>)
+      at certifySavedWitnesses (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/phase2b-exit-pipeline-20261022/witnesses.mjs:59:31)
+      at TestContext.<anonymous> (file:///private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/certification-controls.test.mjs:48:16)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

@@ -1,0 +1,236 @@
+{
+  "id": "merchant-03-1",
+  "caseId": "p2b-holdout-03",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1303/A130302/13287947/",
+  "observedAt": "2026-10-22T17:28:14.944Z",
+  "responseSha256": "4053caf92deaa9c4d088ee6fcbbe9fcaa4137702e09bdac945ac0b8cda3dd776",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-1.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "TiTi",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Ebisu Shibuya Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1500013",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.64592570872278,
+          "longitude": 139.71723696406232
+        },
+        "servesCuisine": "Bistro,Italian,Wine bar"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1303/A130302/13287947/\",\"name\":\"TiTi\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/223846/640x640_rect_15374adff44347bcd2515f8623e97d72.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Ebisu Shibuya Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1500013\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.64592570872278,\"longitude\":139.71723696406232},\"priceRange\":\"JPY 8,000～JPY 9,999\",\"servesCuisine\":\"Bistro,Italian,Wine bar\",\"telephone\":\"+81-70-9232-5619\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"165\",\"ratingValue\":\"3.41\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1303/A130302/13287947/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "f0f6a5e516f9216af3c0a096c0b0d7d86b4055737a5b2fc3606707873146e34d",
+        "htmlCharacterOffset": 6226
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 79147,
+        "raw": "Bistro, Italian, Wine bar"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 48831,
+        "raw": "TiTi Standard Course: A chef&#39;s selection featuring a total of 6 dishes including meat and fish."
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 51601,
+        "raw": "TiTi Casual Short Course: A Chef&#39;s Selection of 4 Dishes Featuring Meat and Fish"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 54332,
+        "raw": "[TiTi Special Course] A chef&#39;s choice course featuring a total of 7 dishes, including meat and fish."
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Bistro, Italian, Wine bar",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "TiTi Standard Course: A chef's selection featuring a total of 6 dishes including meat and fish.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Appetizers (2 dishes), Fish dish, Meat dish, Main course, Dessert TiTi's popular standard course",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "TiTi Casual Short Course: A Chef's Selection of 4 Dishes Featuring Meat and Fish",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Appetizer platter, fish dish, meat dish, and dessert. Chef's special course of the day.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "[TiTi Special Course] A chef's choice course featuring a total of 7 dishes, including meat and fish.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Amuse-bouche, two appetizers, fish dish, meat dish, main course, dessert. TiTi's popular standard course.",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Bistro, Italian, Wine bar",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "TiTi Standard Course: A chef's selection featuring a total of 6 dishes including meat and fish.",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Appetizers (2 dishes), Fish dish, Meat dish, Main course, Dessert TiTi's popular standard course",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "TiTi Casual Short Course: A Chef's Selection of 4 Dishes Featuring Meat and Fish",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Appetizer platter, fish dish, meat dish, and dessert. Chef's special course of the day.",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "[TiTi Special Course] A chef's choice course featuring a total of 7 dishes, including meat and fish.",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Amuse-bouche, two appetizers, fish dish, meat dish, main course, dessert. TiTi's popular standard course.",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "A hidden gem wine bistro for adults in Ebisu and Hiroo. Enjoy exquisite terrines, pâtés, and venison dishes crafted with French techniques.",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                A hidden gem wine bistro for adults in Ebisu and Hiroo. Enjoy exquisite terrines, pâtés, and venison dishes crafted with French techniques.\n              </h3>",
+      "sha256": "3a4e5c9b20a1492db9cc5b56036b701d40fc6f60cf9e70877cdb7a871a6e0983",
+      "htmlCharacterOffset": 43808
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "TiTi Standard Course: A chef's selection featuring a total of 6 dishes including meat and fish.",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">TiTi Standard Course: A chef&#39;s selection featuring a total of 6 dishes including meat and fish.</span>",
+      "sha256": "829b20b2139c19a2739f6e68d13c15750c9f11e04ba64f22795e6558199b9396",
+      "htmlCharacterOffset": 48779
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Appetizers (2 dishes), Fish dish, Meat dish, Main course, Dessert TiTi's popular standard course",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Appetizers (2 dishes), Fish dish, Meat dish, Main course, Dessert\n                          TiTi&#39;s popular standard course\n                        </p>",
+      "sha256": "3da1f041483e6b4d742558046f51bbc016ba4230c366e7a4784996e04671b60b",
+      "htmlCharacterOffset": 49068
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "TiTi Casual Short Course: A Chef's Selection of 4 Dishes Featuring Meat and Fish",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">TiTi Casual Short Course: A Chef&#39;s Selection of 4 Dishes Featuring Meat and Fish</span>",
+      "sha256": "d3d3a9f3e74944fc9b912b2ff4c6344e38fd65416189bf700ad752140bf05b52",
+      "htmlCharacterOffset": 51549
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Appetizer platter, fish dish, meat dish, and dessert. Chef's special course of the day.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Appetizer platter, fish dish, meat dish, and dessert.\n                          Chef&#39;s special course of the day.\n                        </p>",
+      "sha256": "5dcd9506f1a1c0b6407a6901eb373381903a593995ce9db471856513cf303d50",
+      "htmlCharacterOffset": 51823
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "[TiTi Special Course] A chef's choice course featuring a total of 7 dishes, including meat and fish.",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">[TiTi Special Course] A chef&#39;s choice course featuring a total of 7 dishes, including meat and fish.</span>",
+      "sha256": "a71bb20e4caa90fbf702a23a67704be0c4d546d5d98a39417fb9d3833b5cd0ca",
+      "htmlCharacterOffset": 54280
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Amuse-bouche, two appetizers, fish dish, meat dish, main course, dessert. TiTi's popular standard course.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Amuse-bouche, two appetizers, fish dish, meat dish, main course, dessert. \n                          TiTi&#39;s popular standard course.\n                        </p>",
+      "sha256": "307851d92728f59a0087b8818323b4cf34dbc841623317597194abdafb88dd46",
+      "htmlCharacterOffset": 54574
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Bistro, Italian, Wine bar",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Bistro, Italian, Wine bar</span>\n                    </td>\n                  </tr>",
+      "sha256": "4a54677c73d1506f7b15c4e96c08cf43826ba48083105c0c3b07fb55833498a8",
+      "htmlCharacterOffset": 79027
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 8,000 - JPY 9,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 8,000 - JPY 9,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "322ef04be9ef63ac9c55847a0143159b79bb0b2bb6ca789737a0be47410a765f",
+      "htmlCharacterOffset": 84837
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 18 seats ( 8 counter seats, 10 table seats)",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      18 seats\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      ( 8 counter seats, 10 table seats)\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "31314b5620f09172543c1d331942ad50fce9faf537a5f0cfc52010ed957bd12f",
+      "htmlCharacterOffset": 88806
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 89459
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Bistro, Italian, Wine bar</span>\n                    </td>\n                  </tr>",
+      "sha256": "4a54677c73d1506f7b15c4e96c08cf43826ba48083105c0c3b07fb55833498a8",
+      "text": "Categories Bistro, Italian, Wine bar",
+      "htmlCharacterOffset": 79027
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1303/A130302/13287947/dtlratings/#price-range\">JPY 8,000 - JPY 9,999</a></span>\n                            </p>",
+      "sha256": "3c113737dcacdbb53a4a7c36e9433037748ccc2a8dd38c3a271d34456a4c47a1",
+      "text": "JPY 8,000 - JPY 9,999",
+      "htmlCharacterOffset": 25945
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1303/A130302/13287947/dtlratings/#price-range\">-</a></span>\n                            </p>",
+      "sha256": "1afa638f79f34bfab21a87428d5f7d5dee26d6f2d3f55b531b88419a5fba72c6",
+      "text": "-",
+      "htmlCharacterOffset": 26375
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1303/A130302/13287947/"
+}

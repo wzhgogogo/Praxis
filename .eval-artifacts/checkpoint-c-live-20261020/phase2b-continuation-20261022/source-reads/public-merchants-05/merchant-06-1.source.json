@@ -1,0 +1,192 @@
+{
+  "id": "merchant-06-1",
+  "caseId": "p2b-holdout-06",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1301/A130103/13239145/",
+  "observedAt": "2026-10-22T17:30:22.401Z",
+  "responseSha256": "5823685870b7a804170ed3b4a338a90ef09f7a83fe82978eccf7b3daee9dfda1",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-1.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "MUSASHI Shinbashi ten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Shinbashi  Minato  Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1050004",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.66740303791594,
+          "longitude": 139.75545998309065
+        },
+        "servesCuisine": "Oden,Yakitori (Grilled chicken skewers),Izakaya (Japanese style tavern)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1301/A130103/13239145/\",\"name\":\"MUSASHI Shinbashi ten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/127041/640x640_rect_127041122.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Shinbashi  Minato  Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1050004\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.66740303791594,\"longitude\":139.75545998309065},\"priceRange\":\"JPY 3,000～JPY 3,999\",\"servesCuisine\":\"Oden,Yakitori (Grilled chicken skewers),Izakaya (Japanese style tavern)\",\"telephone\":\"+81-3-5510-3181\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"380\",\"ratingValue\":\"3.37\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1301/A130103/13239145/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "0cd66da6d6f5c683f3501ebd67fd19ff2e3ced003036a00ffffb80eb8fc8e34e",
+        "htmlCharacterOffset": 6334
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 82401,
+        "raw": "Oden, Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 50775,
+        "raw": "Oden and Local Chicken Course with 2-Hour All-You-Can-Drink JPY 3980 (Tax Included)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 53929,
+        "raw": "Oden and Aomori Shamo Rock Chicken Course with 2-Hour All-You-Can-Drink JPY 4480 (Tax Included)"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 57234,
+        "raw": "Special 634 Course with 3-Hour All-You-Can-Drink JPY 4980 (tax included)"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Oden, Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Oden and Local Chicken Course with 2-Hour All-You-Can-Drink JPY 3980 (Tax Included)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Oden and Aomori Shamo Rock Chicken Course with 2-Hour All-You-Can-Drink JPY 4480 (Tax Included)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Special 634 Course with 3-Hour All-You-Can-Drink JPY 4980 (tax included)",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Oden, Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Oden and Local Chicken Course with 2-Hour All-You-Can-Drink JPY 3980 (Tax Included)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Oden and Aomori Shamo Rock Chicken Course with 2-Hour All-You-Can-Drink JPY 4480 (Tax Included)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Special 634 Course with 3-Hour All-You-Can-Drink JPY 4980 (tax included)",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "【Private Booths Available】Enjoy dishes made with Kyoto-style dashi oden and Aomori's Shamo chicken in a charming Machiya atmosphere.",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                【Private Booths Available】Enjoy dishes made with Kyoto-style dashi oden and Aomori&#39;s Shamo chicken in a charming Machiya atmosphere.\n              </h3>",
+      "sha256": "dae94c7288781c40b2f673b0a7b9473f422ea7c58e46884199b17220279fa476",
+      "htmlCharacterOffset": 44514
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Oden and Local Chicken Course with 2-Hour All-You-Can-Drink JPY 3980 (Tax Included)",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Oden and Local Chicken Course with 2-Hour All-You-Can-Drink JPY 3980 (Tax Included)</span>",
+      "sha256": "5aac231e9258ac0ae020c39f56e23e65fd5890548b028d3b11ab9643cd7fb91f",
+      "htmlCharacterOffset": 50723
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Oden and Aomori Shamo Rock Chicken Course with 2-Hour All-You-Can-Drink JPY 4480 (Tax Included)",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Oden and Aomori Shamo Rock Chicken Course with 2-Hour All-You-Can-Drink JPY 4480 (Tax Included)</span>",
+      "sha256": "0ef88148dd0afc8f9170adf38d03ee1d66f2f8e3787af59be39db53140ea2df5",
+      "htmlCharacterOffset": 53877
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Special 634 Course with 3-Hour All-You-Can-Drink JPY 4980 (tax included)",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Special 634 Course with 3-Hour All-You-Can-Drink JPY 4980 (tax included)</span>",
+      "sha256": "9377674d806abd7f2fd42058b76f9c6c1f96d79c1bfaa737910dee813910fcbe",
+      "htmlCharacterOffset": 57182
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Oden, Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern)",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Oden, Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "f9b210c7fabe98e426cf4d9a9c16585037b62ef7c08062232171cb9a395dbefc",
+      "htmlCharacterOffset": 82281
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 3,000 - JPY 3,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 3,000 - JPY 3,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "89456332b508707bbcdbc568bba8f8ad2db6220400f44010cd5d36ee523637a2",
+      "htmlCharacterOffset": 88487
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 80 seats",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      80 seats\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "b5b384411d5bdd34951ca981cac1b86d62081260d9ef87ed22352db60b5c6997",
+      "htmlCharacterOffset": 92866
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 93362
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "f8ba7dd3edf78243aceebce5b660421d2a2509061227a3091532cd94ef85480f",
+      "htmlCharacterOffset": 96906
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Oden, Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "f9b210c7fabe98e426cf4d9a9c16585037b62ef7c08062232171cb9a395dbefc",
+      "text": "Categories Oden, Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern)",
+      "htmlCharacterOffset": 82281
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1301/A130103/13239145/dtlratings/#price-range\">JPY 3,000 - JPY 3,999</a></span>\n                            </p>",
+      "sha256": "c913b315bfd3b8f41a05d8008d96d15a41748a2a90dbc855463625bc1371c3b5",
+      "text": "JPY 3,000 - JPY 3,999",
+      "htmlCharacterOffset": 26567
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1301/A130103/13239145/dtlratings/#price-range\">-</a></span>\n                            </p>",
+      "sha256": "3266916ae2789172bea839de75707d0ffd8fb2ab7e56a9f9e3f6b0a89c650b52",
+      "text": "-",
+      "htmlCharacterOffset": 26997
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1301/A130103/13239145/"
+}

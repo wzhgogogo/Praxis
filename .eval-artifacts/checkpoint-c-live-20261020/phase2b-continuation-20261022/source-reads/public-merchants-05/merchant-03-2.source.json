@@ -1,0 +1,250 @@
+{
+  "id": "merchant-03-2",
+  "caseId": "p2b-holdout-03",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1303/A130302/13014440/",
+  "observedAt": "2026-10-22T17:28:46.732Z",
+  "responseSha256": "65c47f739cdd1f712010127c221c1b51299ba61d8b2adb44ac791d8635d2a430",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Le Puits d’or Kin no Ido",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Ebisunishi Shibuya Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1500021",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.6472109379135,
+          "longitude": 139.7075398829203
+        },
+        "servesCuisine": "French"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1303/A130302/13014440/\",\"name\":\"Le Puits d’or Kin no Ido\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/237448/640x640_rect_e52ef4f7d2999aa692faac2101778db4.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Ebisunishi Shibuya Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1500021\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.6472109379135,\"longitude\":139.7075398829203},\"priceRange\":\"JPY 10,000～JPY 14,999\",\"servesCuisine\":\"French\",\"telephone\":\"+81-3-3463-0455\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"48\",\"ratingValue\":\"3.12\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1303/A130302/13014440/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "86b96d1a4cb2991bf3d496e7cffb28852b32ce4e26d7bc0fdbaed1c0b981c87b",
+        "htmlCharacterOffset": 6146
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 127,
+        "raw": "French"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 49972,
+        "raw": "Lunch Luxurious Course with Shrimp, Seafood, and Wagyu Fillet as Two Main Dishes"
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "htmlCharacterOffset": 53650,
+        "raw": "Popular Lunch! 【Anniversary Plan】Recommended Omakase Course for Birthdays, Wedding Anniversaries, and Celebrations + Muscat Grape Cloudy Wine"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "French",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Business Reception & Dining Weekdays Only Full Course with 3 Wine Pairings and Souvenir + Weekday Dinner",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Introducing our exclusive weekday special plan, perfect for important business dinners and entertaining clients, limited to just three groups per day. We offer a unique space welcoming only a select few guests, featuring exquisite French cuisine and carefully paired wines. Chef Watanabe's expertise: Drawing from the lineage of the renowned Alain Chapel, he has honed his skills in Michelin-starred restaurants in France, delivering authentic classic French dishes. Enjoy a supreme full course that includes our signature \"Sautéed Foie Gras.\" Madame Watanabe's pairings: With certification from Robert Parker, Madame Watanabe will suggest exquisite wine pairings perfectly matched to each dish, ensuring that your conversations flow without interruption from drink orders. *Includes a special gift from the chef.",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Lunch Luxurious Course with Shrimp, Seafood, and Wagyu Fillet as Two Main Dishes",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Just a 3-minute walk from Ebisu Station. Limited to two groups per day, this plan is perfect for a bright and inviting lunchtime. We have prepared a special plan for entertaining important guests or hosting business meals in a calm atmosphere. Enjoy a delightful and delicious experience. *The ambiance of our restaurant resembles a chic, small French bistro. ★ Highly recommended for seniors!",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "Popular Lunch! 【Anniversary Plan】Recommended Omakase Course for Birthdays, Wedding Anniversaries, and Celebrations + Muscat Grape Cloudy Wine",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "A customer review on Google: I used this restaurant to celebrate a special anniversary, and I can honestly say that there are no adjectives that can adequately describe the food, drinks, service, music, atmosphere, and cleanliness other than \"wonderful.\" Among all the places I've visited, the beef tenderloin here was the most delicious. I highly recommend this restaurant!",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "French",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Business Reception & Dining Weekdays Only Full Course with 3 Wine Pairings and Souvenir + Weekday Dinner",
+      "meals": [
+        "DINNER"
+      ]
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Introducing our exclusive weekday special plan, perfect for important business dinners and entertaining clients, limited to just three groups per day. We offer a unique space welcoming only a select few guests, featuring exquisite French cuisine and carefully paired wines. Chef Watanabe's expertise: Drawing from the lineage of the renowned Alain Chapel, he has honed his skills in Michelin-starred restaurants in France, delivering authentic classic French dishes. Enjoy a supreme full course that includes our signature \"Sautéed Foie Gras.\" Madame Watanabe's pairings: With certification from Robert Parker, Madame Watanabe will suggest exquisite wine pairings perfectly matched to each dish, ensuring that your conversations flow without interruption from drink orders. *Includes a special gift from the chef.",
+      "meals": [
+        "DINNER"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Lunch Luxurious Course with Shrimp, Seafood, and Wagyu Fillet as Two Main Dishes",
+      "meals": [
+        "LUNCH"
+      ]
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Just a 3-minute walk from Ebisu Station. Limited to two groups per day, this plan is perfect for a bright and inviting lunchtime. We have prepared a special plan for entertaining important guests or hosting business meals in a calm atmosphere. Enjoy a delightful and delicious experience. *The ambiance of our restaurant resembles a chic, small French bistro. ★ Highly recommended for seniors!",
+      "meals": [
+        "LUNCH"
+      ]
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "Popular Lunch! 【Anniversary Plan】Recommended Omakase Course for Birthdays, Wedding Anniversaries, and Celebrations + Muscat Grape Cloudy Wine",
+      "meals": [
+        "LUNCH"
+      ]
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "A customer review on Google: I used this restaurant to celebrate a special anniversary, and I can honestly say that there are no adjectives that can adequately describe the food, drinks, service, music, atmosphere, and cleanliness other than \"wonderful.\" Among all the places I've visited, the beef tenderloin here was the most delicious. I highly recommend this restaurant!",
+      "meals": [
+        "LUNCH"
+      ]
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "Celebrating Our 37th Anniversary!",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                Celebrating Our 37th Anniversary!\n              </h3>",
+      "sha256": "5b5f61cb91016f2b925e8ecbac55edb8f22c0ffb1b404b2ab7026213ee4c5679",
+      "htmlCharacterOffset": 40373
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Business Reception & Dining Weekdays Only Full Course with 3 Wine Pairings and Souvenir + Weekday Dinner",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Business Reception &amp; Dining Weekdays Only Full Course with 3 Wine Pairings and Souvenir + Weekday Dinner</span>",
+      "sha256": "a6da880fa98c3a88cdf47769a2c90b63102544cab5cd0475ca2262abe0266a3b",
+      "htmlCharacterOffset": 45980
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Introducing our exclusive weekday special plan, perfect for important business dinners and entertaining clients, limited to just three groups per day. We offer a unique space welcoming only a select few guests, featuring exquisite French cuisine and carefully paired wines. Chef Watanabe's expertise: Drawing from the lineage of the renowned Alain Chapel, he has honed his skills in Michelin-starred restaurants in France, delivering authentic classic French dishes. Enjoy a supreme full course that includes our signature \"Sautéed Foie Gras.\" Madame Watanabe's pairings: With certification from Robert Parker, Madame Watanabe will suggest exquisite wine pairings perfectly matched to each dish, ensuring that your conversations flow without interruption from drink orders. *Includes a special gift from the chef.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Introducing our exclusive weekday special plan, perfect for important business dinners and entertaining clients, limited to just three groups per day.\n                          We offer a unique space welcoming only a select few guests, featuring exquisite French cuisine and carefully paired wines.\n                          Chef Watanabe&#39;s expertise: Drawing from the lineage of the renowned Alain Chapel, he has honed his skills in Michelin-starred restaurants in France, delivering authentic classic French dishes. Enjoy a supreme full course that includes our signature &quot;Sautéed Foie Gras.&quot;\n                          Madame Watanabe&#39;s pairings: With certification from Robert Parker, Madame Watanabe will suggest exquisite wine pairings perfectly matched to each dish, ensuring that your conversations flow without interruption from drink orders.\n                          *Includes a special gift from the chef.\n                        </p>",
+      "sha256": "b4b664029bbc48f20d6de1fa45aa3619bc7d67e0d965016fa95d9b380e5bb0d0",
+      "htmlCharacterOffset": 46205
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Lunch Luxurious Course with Shrimp, Seafood, and Wagyu Fillet as Two Main Dishes",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Lunch Luxurious Course with Shrimp, Seafood, and Wagyu Fillet as Two Main Dishes</span>",
+      "sha256": "abf36aa9781094113014272dff7abc7e31846620fed5c83c8212e9bc59059f14",
+      "htmlCharacterOffset": 49920
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Just a 3-minute walk from Ebisu Station. Limited to two groups per day, this plan is perfect for a bright and inviting lunchtime. We have prepared a special plan for entertaining important guests or hosting business meals in a calm atmosphere. Enjoy a delightful and delicious experience. *The ambiance of our restaurant resembles a chic, small French bistro. ★ Highly recommended for seniors!",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Just a 3-minute walk from Ebisu Station. \n                          Limited to two groups per day, this plan is perfect for a bright and inviting lunchtime. \n                          We have prepared a special plan for entertaining important guests or hosting business meals in a calm atmosphere. Enjoy a delightful and delicious experience.\n                          *The ambiance of our restaurant resembles a chic, small French bistro.\n                          ★ Highly recommended for seniors!\n                        </p>",
+      "sha256": "057e583d383419ff4263026aedd2494a348a0e413d83e6deb0629feea62efeb9",
+      "htmlCharacterOffset": 50190
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "Popular Lunch! 【Anniversary Plan】Recommended Omakase Course for Birthdays, Wedding Anniversaries, and Celebrations + Muscat Grape Cloudy Wine",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">Popular Lunch! 【Anniversary Plan】Recommended Omakase Course for Birthdays, Wedding Anniversaries, and Celebrations + Muscat Grape Cloudy Wine</span>",
+      "sha256": "8ae6efd674de7a4745fcfa4596683133b6d668e5ea272248a5a18df38bd11675",
+      "htmlCharacterOffset": 53598
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "A customer review on Google: I used this restaurant to celebrate a special anniversary, and I can honestly say that there are no adjectives that can adequately describe the food, drinks, service, music, atmosphere, and cleanliness other than \"wonderful.\" Among all the places I've visited, the beef tenderloin here was the most delicious. I highly recommend this restaurant!",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          A customer review on Google:\n                          I used this restaurant to celebrate a special anniversary, and I can honestly say that there are no adjectives that can adequately describe the food, drinks, service, music, atmosphere, and cleanliness other than &quot;wonderful.&quot; Among all the places I&#39;ve visited, the beef tenderloin here was the most delicious. I highly recommend this restaurant!\n                        </p>",
+      "sha256": "a2f4f8ec6f3b21d71379cefda288abf42d19d696ece1b984d3247eb6556a2c1a",
+      "htmlCharacterOffset": 53929
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories French",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>French</span>\n                    </td>\n                  </tr>",
+      "sha256": "39bfb76dc35f6a9e3a9b33595a716565c06acf407af4d64488caec3f13314f91",
+      "htmlCharacterOffset": 79550
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 10,000 - JPY 14,999 JPY 10,000 - JPY 14,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 10,000 - JPY 14,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 10,000 - JPY 14,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "24ecd7d73487f38fb850d81b737eaed00b20cd25c38635c2bdc3704d5f271062",
+      "htmlCharacterOffset": 85696
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 12 seats ( 12 table seats)",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      12 seats\n                    </p>\n                    <p class=\"rstinfo-table__notice\">\n                      ( 12 table seats)\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "3e1255238d0ea1730accae6207b9021e57bf6029b80f93ee54b71fe91dd8a7e6",
+      "htmlCharacterOffset": 89858
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 90473
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children are welcome from middle school age and above. We will prepare the same menu as the one you reserved. *However, this does not apply to private bookings.",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p class=\"rstinfo-table__each-info\">\n                    Children are welcome from middle school age and above. We will prepare the same menu as the one you reserved. *However, this does not apply to private bookings.<br />\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "cccc0d766f525339fabd58240507194c433bc4f6a076a9797d55509ee5b46902",
+      "htmlCharacterOffset": 94229
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>French</span>\n                    </td>\n                  </tr>",
+      "sha256": "39bfb76dc35f6a9e3a9b33595a716565c06acf407af4d64488caec3f13314f91",
+      "text": "Categories French",
+      "htmlCharacterOffset": 79550
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1303/A130302/13014440/dtlratings/#price-range\">JPY 10,000 - JPY 14,999</a></span>\n                            </p>",
+      "sha256": "ece143b4a10129c1d4799d28d65d68ec3fd8952ef64aefc5beaac5a32d7902dc",
+      "text": "JPY 10,000 - JPY 14,999",
+      "htmlCharacterOffset": 22071
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1303/A130302/13014440/dtlratings/#price-range\">JPY 10,000 - JPY 14,999</a></span>\n                            </p>",
+      "sha256": "d03fd7b9b0f877fe8372e10c554eb05906d15073c6d741385cc508bfa2823e31",
+      "text": "JPY 10,000 - JPY 14,999",
+      "htmlCharacterOffset": 22503
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1303/A130302/13014440/"
+}

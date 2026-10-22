@@ -1,0 +1,468 @@
+{
+  "schema": "phase2b-witness-source-review@1",
+  "status": "EVALUATION_SIDE_SOURCE_ADJUDICATION_NOT_HUMAN_REVIEW",
+  "reviewer": "Codex evaluation-side inspection of saved merchant fields; no model/API adjudication",
+  "authority": "User-approved continuous step 3; negative HARD requires explicit merchant business-format evidence. No witness or product outcome implied.",
+  "sourceBinding": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/phase2b-source-binding.json",
+    "sha256": "a6a5cfa0df689b9bc9f4bbaa23dd3e564d922298634417fac9b5837dd4e6b259"
+  },
+  "rules": {
+    "identity": "Exact same-source canonical restaurant ID, business JSON-LD name/address/geo; unique political-area center captured before merchant selection; radius <=800m.",
+    "cuisine": "Literal merchant category, not directory label, name or review. Tabelog Monjyayaki is the merchant category transliteration for monjayaki; Okonomiyaki alone would not support it.",
+    "budget": "Merchant dinner price range, retaining the raw Dinner-labelled fragment and requiring its upper bound <= the requested numeric maximum under the existing price policy.",
+    "negativeFormat": "Explicit table seating/table seats/tables in merchant Seats or Private rooms field supports seated restaurant format rather than a standing-only soba counter. Generic seat count, name, missing standing keyword, reviews or cuisine alone do not qualify."
+  },
+  "excludedCandidates": [
+    {
+      "caseId": "p2b-holdout-05",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-05-2.source.json",
+        "sha256": "dbb8d2e18ad4e688896913624386255ada0dd2c733855a605aeb786ed4f92f6c"
+      },
+      "reason": "No explicit table-seating business-format quote in captured merchant fields; a seat count alone is insufficient."
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-05-3.source.json",
+        "sha256": "f270339cab3097e228582318d4b59e1619d4be8f56aa9a4f15243844e2b43556"
+      },
+      "reason": "No explicit table-seating business-format quote in captured merchant fields; a seat count alone is insufficient."
+    },
+    {
+      "caseId": "p2b-holdout-03",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-1.source.json",
+        "sha256": "d7a79ba7e7d1595d66d5a8eaab319446610f392bb96e8068dace04ede8148dd0"
+      },
+      "reason": "French not explicit in saved merchant fields; directory/Bistro/Italian does not establish French."
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-1.source.json",
+        "sha256": "99e24c0c71a47dbc31177020603ead8e801f1fc44e989ecc1b169954b947f2b4"
+      },
+      "reason": "No explicit table-seating business-format quote in captured merchant fields; a seat count alone is insufficient."
+    }
+  ],
+  "entries": [
+    {
+      "caseId": "p2b-holdout-01",
+      "rst_id": "13316569",
+      "outletName": "Edo Niku Kappou Sasaya Asakusa",
+      "criterion": {
+        "value": "sukiyaki",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Sukiyaki (Japanese sweet soy hotpot), Teppanyaki, Steak",
+      "rawFragmentSha256": "de1a239db3d39818b7cbfe30c2cca30fcfbf6d0431767fb07f618c91ff977da2",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-1.source.json",
+        "sha256": "c34ee3395327db0f561789d32c269f38ca5d5829f6bc00a1a5f4a961c42fa5b2"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-01",
+      "rst_id": "13322725",
+      "outletName": "WAGYU SUKIYAKI Goku Asakusa Rokku Ku Ten",
+      "criterion": {
+        "value": "sukiyaki",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Sukiyaki (Japanese sweet soy hotpot)",
+      "rawFragmentSha256": "66ed79424a7a624676b4b307b3204326e1c9707f5a589f7c904c3eb2d74ed0f9",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-2.source.json",
+        "sha256": "be843e5b22e811a313500c9e36b837a84a25df25b6bb34f39267d31e390a4b6c"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-01",
+      "rst_id": "13312592",
+      "outletName": "Wagyu Sukiyaki Asakusa Kotaro",
+      "criterion": {
+        "value": "sukiyaki",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Sukiyaki (Japanese sweet soy hotpot), Yakiniku (Japanese BBQ)",
+      "rawFragmentSha256": "6bc63600c325ac1dfba616aed6aa66b20dd2d3a83f61e6ee93c88b1041ed6358",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-01-3.source.json",
+        "sha256": "82236ed19edba3c9ddad8db986c580e0a7ce2353dc7f7f2327867611dcfd4d3d"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-02",
+      "rst_id": "13186205",
+      "outletName": "Tsukishima Monja Moheji Hanare",
+      "criterion": {
+        "value": "monjayaki",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "rawFragmentSha256": "640577269514633641fd1784baf8cb2f2fa3f40597ebd8232b43330fc22db879",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/moheji-hanare.source.json",
+        "sha256": "65bd38351cbd694329f09e43a6f884b80be4ec2f435a70be2892fc658daa6415"
+      },
+      "rule": "SOURCE_TRANSLITERATION_MONJYAYAKI"
+    },
+    {
+      "caseId": "p2b-holdout-02",
+      "rst_id": "13243319",
+      "outletName": "Tsukishimamonja Okoge Tsukishima Honten",
+      "criterion": {
+        "value": "monjayaki",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "rawFragmentSha256": "640577269514633641fd1784baf8cb2f2fa3f40597ebd8232b43330fc22db879",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/okoge.source.json",
+        "sha256": "26aa79cd292120d3075093591092142ad20a3578ac998546f51d2a8c4cd4fe96"
+      },
+      "rule": "SOURCE_TRANSLITERATION_MONJYAYAKI"
+    },
+    {
+      "caseId": "p2b-holdout-02",
+      "rst_id": "13224664",
+      "outletName": "Tsukishima Monja Moheji Hanare no Hanare",
+      "criterion": {
+        "value": "monjayaki",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "rawFragmentSha256": "640577269514633641fd1784baf8cb2f2fa3f40597ebd8232b43330fc22db879",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/moheji-hanare-no-hanare.source.json",
+        "sha256": "1df605cd68bc2e28a236686f6daa82e4e0e756fe57514d6f67f2f5360cbe4ae6"
+      },
+      "rule": "SOURCE_TRANSLITERATION_MONJYAYAKI"
+    },
+    {
+      "caseId": "p2b-holdout-03",
+      "rst_id": "13256140",
+      "outletName": "MAEN Sake pairing restaurant",
+      "criterion": {
+        "value": "French",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories French, Italian, Japanese sake bar",
+      "rawFragmentSha256": "89f6530f77cf95f518fe67ff7bf56597ad7da80108c640f7c7b8f6f1fbc2f271",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/maen.source.json",
+        "sha256": "00af798372cf28e1d05cd580918766823e96b9c562db3a2bd604b45806ce5e71"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-03",
+      "rst_id": "13256140",
+      "outletName": "MAEN Sake pairing restaurant",
+      "criterion": {
+        "value": "at most 15,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "MERCHANT_AVERAGE_PRICE_DINNER",
+      "quote": "JPY 10,000 - JPY 14,999",
+      "rawFragmentSha256": "24ecd7d73487f38fb850d81b737eaed00b20cd25c38635c2bdc3704d5f271062",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/maen.source.json",
+        "sha256": "00af798372cf28e1d05cd580918766823e96b9c562db3a2bd604b45806ce5e71"
+      },
+      "rule": "SAVED_MERCHANT_DINNER_RANGE_WITHIN_CAP",
+      "priceEvidence": {
+        "quote": "JPY 10,000 - JPY 14,999",
+        "rawFragmentSha256": "cd63a5599b3f123c99ddfd47473be96a1c0792e6f463baec3b3601fe055590e0",
+        "meal": "DINNER",
+        "min": 10000,
+        "max": 14999,
+        "requestedMax": 15000,
+        "currency": "JPY"
+      }
+    },
+    {
+      "caseId": "p2b-holdout-03",
+      "rst_id": "13014440",
+      "outletName": "Le Puits d’or Kin no Ido",
+      "criterion": {
+        "value": "French",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories French",
+      "rawFragmentSha256": "39bfb76dc35f6a9e3a9b33595a716565c06acf407af4d64488caec3f13314f91",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+        "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-03",
+      "rst_id": "13014440",
+      "outletName": "Le Puits d’or Kin no Ido",
+      "criterion": {
+        "value": "at most 15,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "MERCHANT_AVERAGE_PRICE_DINNER",
+      "quote": "JPY 10,000 - JPY 14,999",
+      "rawFragmentSha256": "24ecd7d73487f38fb850d81b737eaed00b20cd25c38635c2bdc3704d5f271062",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-03-2.source.json",
+        "sha256": "bbc4b8e84464ba364cee96cafcc66f4d4e9c602de9f8a8c182229be1102f3e94"
+      },
+      "rule": "SAVED_MERCHANT_DINNER_RANGE_WITHIN_CAP",
+      "priceEvidence": {
+        "quote": "JPY 10,000 - JPY 14,999",
+        "rawFragmentSha256": "ece143b4a10129c1d4799d28d65d68ec3fd8952ef64aefc5beaac5a32d7902dc",
+        "meal": "DINNER",
+        "min": 10000,
+        "max": 14999,
+        "requestedMax": 15000,
+        "currency": "JPY"
+      }
+    },
+    {
+      "caseId": "p2b-holdout-04",
+      "rst_id": "13279772",
+      "outletName": "Thai Yatai 999 Ikebukuro higashiguchi ten",
+      "criterion": {
+        "value": "Thai",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Thai, Izakaya (Japanese style tavern), Asian, Ethnic",
+      "rawFragmentSha256": "e691b2602cdc0891800d7268d94459cc89ae975413c15dfc3c41d0a5bed74a9c",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/thai999.source.json",
+        "sha256": "5bc0fd587cdf01ae0d3598c411d7076c09fe2267f4629f8f81da2cdf00d99e4e"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-04",
+      "rst_id": "13133693",
+      "outletName": "Thai Sabai Paruko ten",
+      "criterion": {
+        "value": "Thai",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Thai, Buffet, Dining bar",
+      "rawFragmentSha256": "b0584ac1d0785e90376c3e660474fcf1486b85063d9e2d799fbd87d3961b9ad1",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-1.source.json",
+        "sha256": "2edaeecb827e1a40acd347b35c4a24a6af1e23c187bdbf0c10bdfbb1809f3e6b"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-04",
+      "rst_id": "13127050",
+      "outletName": "AGALICO",
+      "criterion": {
+        "value": "Thai",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Thai, Bistro, Izakaya (Japanese style tavern)",
+      "rawFragmentSha256": "553760baaed677289f5233010bbc0f717af805d23ac5a74af836a9f78ed8cc12",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-04-2.source.json",
+        "sha256": "300e88d0659428a7248781d420194534189046934c51f47f1a935bb962c8f5e3"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "rst_id": "13004546",
+      "outletName": "Azabu Kawakami An",
+      "criterion": {
+        "value": "soba",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Soba (Buckwheat noodles), Tempura, Japanese Cuisine",
+      "rawFragmentSha256": "d7bdb49e88838a9366a37d8a26916929bde425046808052e1083bae09bb75432",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-05-1.source.json",
+        "sha256": "a40404a72490d29338ebe8d327fcd67af0b0f18123227923baa2b157de3fda3f"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "rst_id": "13004546",
+      "outletName": "Azabu Kawakami An",
+      "criterion": {
+        "value": "standing soba counter",
+        "polarity": "NEGATIVE",
+        "strength": "HARD"
+      },
+      "role": "MERCHANT_SEATING",
+      "quote": "Number of seats 50 seats ( The restaurant has table seating. There are also 5 terrace seats. Pets are allowed.)",
+      "rawFragmentSha256": "9891d0877a06516027b6fa48ade6948a55506ea464139e24ef8fd40c908f932d",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-details-04/detail-05-1.source.json",
+        "sha256": "a40404a72490d29338ebe8d327fcd67af0b0f18123227923baa2b157de3fda3f"
+      },
+      "rule": "EXPLICIT_MERCHANT_TABLE_SEATING"
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "rst_id": "13320164",
+      "outletName": "Azabu Juban Soba Goya",
+      "criterion": {
+        "value": "soba",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Izakaya (Japanese style tavern), Soba (Buckwheat noodles), Tempura",
+      "rawFragmentSha256": "6e9d3a6aa66d5110771f5f8a4ceef71c044b48cdd3017e97d24efa2cf06c52ea",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+        "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "rst_id": "13320164",
+      "outletName": "Azabu Juban Soba Goya",
+      "criterion": {
+        "value": "standing soba counter",
+        "polarity": "NEGATIVE",
+        "strength": "HARD"
+      },
+      "role": "MERCHANT_SEATING",
+      "quote": "Number of seats 40 seats ( Semi-private room, terrace seating, table seating, counter seating)",
+      "rawFragmentSha256": "5d761978da505ddf55015b4bd3c16102f28f70f5cdcb80a77979e645f221d80b",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-2.source.json",
+        "sha256": "23189b4ab8b06b21fa9e052fde92307cf6833d8f82e551d23093d5e8e43f6f9a"
+      },
+      "rule": "EXPLICIT_MERCHANT_TABLE_SEATING"
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "rst_id": "13015155",
+      "outletName": "Azabu Nagasaka Sarashina Honten",
+      "criterion": {
+        "value": "soba",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Soba (Buckwheat noodles)",
+      "rawFragmentSha256": "b382d467fcc4e18ebe17e5da44804f805924c8585de06b92464d33b189894501",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-3.source.json",
+        "sha256": "f539f264c6fe37a3020d43588fa7c164bb8e1a4ac3ab166128d16e794ffda92f"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-05",
+      "rst_id": "13015155",
+      "outletName": "Azabu Nagasaka Sarashina Honten",
+      "criterion": {
+        "value": "standing soba counter",
+        "polarity": "NEGATIVE",
+        "strength": "HARD"
+      },
+      "role": "MERCHANT_SEATING",
+      "quote": "Number of seats 88 seats ( 20 seats at tables, 4 tatami rooms, private rooms available)",
+      "rawFragmentSha256": "df77dbb3a9839907ebcbad8e9fc3acfeae56fd1621209828561dd2698e727a20",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-05-3.source.json",
+        "sha256": "f539f264c6fe37a3020d43588fa7c164bb8e1a4ac3ab166128d16e794ffda92f"
+      },
+      "rule": "EXPLICIT_MERCHANT_TABLE_SEATING"
+    },
+    {
+      "caseId": "p2b-holdout-06",
+      "rst_id": "13306055",
+      "outletName": "odembaumami Shimbashi",
+      "criterion": {
+        "value": "oden",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Izakaya (Japanese style tavern), Oden, Seafood",
+      "rawFragmentSha256": "6560a0332daea4bcb80e9668dc846eb04c0ddebe8f38a118a6b820f7dd4421b7",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-pages-01/odenbar.source.json",
+        "sha256": "f7f066cf6cd17e261e3dcdb80519b5f8ed7c5d666fed999859fbff55232ef661"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-06",
+      "rst_id": "13239145",
+      "outletName": "MUSASHI Shinbashi ten",
+      "criterion": {
+        "value": "oden",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Oden, Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern)",
+      "rawFragmentSha256": "f9b210c7fabe98e426cf4d9a9c16585037b62ef7c08062232171cb9a395dbefc",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-1.source.json",
+        "sha256": "66c55e3faa10292ae1917c6aed2a7401eb9f6c759c8458495e87b60d4df81449"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    },
+    {
+      "caseId": "p2b-holdout-06",
+      "rst_id": "13243927",
+      "outletName": "Sakaba Futamata Nishishinbashi ten",
+      "criterion": {
+        "value": "oden",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      "role": "CATEGORY",
+      "quote": "Categories Izakaya (Japanese style tavern), Oden, Yakitori (Grilled chicken skewers)",
+      "rawFragmentSha256": "ab479bef5218b064b54d13bac44e19b73bd956261ef7e9a6631018eccc8fa770",
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/public-merchants-05/merchant-06-2.source.json",
+        "sha256": "44b5cb5fa50281560227d66cc8bc2e54095c35d024d0d0d6b5ec576aefaf1354"
+      },
+      "rule": "LITERAL_MERCHANT_CATEGORY"
+    }
+  ],
+  "network": 0,
+  "models": 0
+}
