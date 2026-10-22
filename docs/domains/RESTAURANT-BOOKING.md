@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.17
+- Document revision: 3.18
 - Last updated: 2026-10-22
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
@@ -12,6 +12,8 @@
 2026-10-21 presentation evidence closure: a fact read's source replacement excludes older same-source facts, while source facts explicitly referenced by a later current availability check remain in the shared current-fact view. Explicit supersession, a subsequent same-source fact read, candidate identity and model-support checks still take precedence. Router citations include these current facts, and Reducer rejects a presentation event missing any required citation. Display conditions expose current-request-local `criterionRef` values (`restaurant-condition-states@3`); the references do not establish semantic equivalence to a different request. No new source read, authority, or booking permission is introduced.
 
 ## 只读目标的当前验收口径
+
+`budgetPerPerson.max` 沿用语义合同的明确每人硬上限，与开放 criteria 一起进入条件核对和展示。结构预算条件追加在原 criteria 后并生成当前请求内的 `criterionRef`，不重编号已有条件。around/ideally 等软目标仍由 SOFT criteria 表达；强度和数值比较方向分别保留，另行声明的软目标与硬上限不按金额去重。核对和资格共用同一条件结果：只采用当前、同店、同来源且适用餐期的价格事实，展示原始价格文字和来源；附加项或午餐价格不能证明晚餐预算，税按原文不换算。明确硬上限超出为 NOT_MET、缺少适用价格为 NOT_CHECKED，两者都不支持交付；SOFT 的短缺或未知仍如实披露。近似价格继续使用已批准的20%区间政策，不新增严格小于或税换算规则。
 
 开放找店/比较按RECOMMENDATION交付；已表达具体日期/时间、地点及已知或有封闭推断依据人数的到访需求按AVAILABILITY交付，即使措辞是recommend、looking或need。人数不足时先补问，缺精确时间仍可发现候选；空位读取才绑定日期、时段和人数。推荐需要适用营业事实与HARD条件支持；空位目标需要同候选、同请求的当前slot。当前明确无位排除候选，UNKNOWN不作反证。用户明确允许邻近时段时，原`timeWindow`保持为展示与比较基准，单独的`permittedAlternativeTimeWindow`才可扩大一次只读查询；日期、人数和其他条件不因此改变，范围外slot不能成为结果。模糊“after work”保留原意并以有依据的17:30–22:00宽窗查询，绝不伪称用户指定精确钟点；下午按12:00–17:00物化；evening/night统一为EVENING，按同日18:00–23:00物化（产品查询解释，不是用户原报钟点，不支持跨午夜窗口）。after work仅表达时间，不自动增加适合下班后的criterion；独立表达的喝酒等条件仍保留。窗口唯一执行事实源为temporal-materialization.ts中的policy@3。案例标注和自动/人工评分分工只维护于[当前只读验收契约](../../src/eval/restaurant/agent-loop/cases/README.md)，不以特定网站或固定动作顺序定义通过。
 

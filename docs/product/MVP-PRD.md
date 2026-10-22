@@ -1,8 +1,8 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.9
-- Last updated: 2026-09-24
+- Document revision: 0.10
+- Last updated: 2026-10-22
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [User Flows](USER-FLOWS.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -66,6 +66,8 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 14. 用户可以关闭页面后恢复同一Case，并看到最新候选、状态、下一步和关键Activity。
 15. Web提供`Active / Needs You / Waiting / Completed`视图；选择、授权、条款变化和Human Takeover可在Mobile Web完成。
 16. Conversation、解释文本和模型Working Plan不作为权威预约状态；Case视图必须从服务端Task、Authorization、Attempt、Evidence和Outcome投影。
+
+预算作为候选条件展示：明确每人上限属于 HARD，须有适用餐期的当前价格依据才可交付；超出或价格未知的门店不能作为合格结果。around/ideally 等 SOFT 预算保留其强度和比较含义，核对不满足或未核对时透明展示。条件行提供真实价格原文及来源，不把已列出的课程价格宣称为该课程已有空位。
 
 ## 授权规则
 

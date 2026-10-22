@@ -822,13 +822,13 @@ test("C6a expired immediate window ends without investigating another candidate"
 
 test("source price statuses disclose soft shortfalls but gate hard budgets before presentation", () => {
   const candidateId = "budget-cafe";
-  const make = (strength: "SOFT" | "HARD", amount?: number): RestaurantTaskState => ({ ...incompleteState, phase: "SEARCHING",
-    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "Tokyo" }, addCriteria: [{ text: "around 3,000 yen per person", polarity: "POSITIVE", strength }] }),
+  const make = (strength: "SOFT" | "HARD", amount?: number, structured = false): RestaurantTaskState => ({ ...incompleteState, phase: "SEARCHING",
+    intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "recommend a cafe" }, area: { query: "Tokyo" }, addCriteria: [{ text: structured ? "cafe" : "around 3,000 yen per person", polarity: "POSITIVE", strength }], ...(structured ? { budgetPerPerson: { max: 3000, currency: "JPY" } } : {}) }),
     candidates: [{ restaurant: { id: candidateId, outletName: "Budget Cafe", address: "Tokyo", sourceIds: {}, provenance: {} }, matchReasons: [], warnings: [], executionConfidence: "HIGH" }],
     readEvidence: [
       { evidenceId: "area", kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: now, requestFingerprint: "request", claims: { areaQuery: "Tokyo", areaMatch: true } },
       { evidenceId: "entity", kind: "ENTITY_MATCH", provider: "TABLECHECK", candidateId, sourceEntityId: "outlet", observedAt: now, requestFingerprint: "request", claims: {}, entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] } },
-      { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "TABLECHECK", candidateId, sourceEntityId: "outlet", sourceUrl: "https://www.tablecheck.com/en/budget-cafe", observedAt: now, requestFingerprint: "request", claims: {}, ...(amount ? { priceFacts: { schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [{ amount, kind: "MEAL", meal: "UNSPECIFIED", tax: "INCLUDED", quote: `Course JPY ${amount} including tax`, sourceUrl: "https://www.tablecheck.com/en/budget-cafe" }] } } : {}) },
+      { evidenceId: "facts", kind: "RESTAURANT_FACT", provider: "TABLECHECK", candidateId, sourceEntityId: "outlet", sourceUrl: "https://www.tablecheck.com/en/budget-cafe", observedAt: now, requestFingerprint: "request", claims: { verifiedHardCriteria: ["cafe"] }, ...(amount ? { priceFacts: { schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [{ amount, kind: "MEAL", meal: "UNSPECIFIED", tax: "INCLUDED", quote: `Course JPY ${amount} including tax`, sourceUrl: "https://www.tablecheck.com/en/budget-cafe" }] } } : {}) },
     ],
   });
   const present = { type: "PRESENT_RESULTS" as const, candidateIds: [candidateId] };
@@ -840,4 +840,9 @@ test("source price statuses disclose soft shortfalls but gate hard budgets befor
   const evidenceIds = restaurantPresentationEvidenceIds(soft, candidateId, now)!;
   const shown = restaurantBookingTaskDefinition.transition(soft, { type: "RESULTS_PRESENTED", candidateIds: [candidateId], evidenceIds }, { taskId: "price", runId: "price", now, createId: prefix => prefix }).state;
   assert.equal(shown.presentedResults?.conditionStates?.[candidateId]?.[0]?.status, "NOT_MET");
+  assert.equal(validateRestaurantAction(make("HARD",2500,true),present,now).status,"ALLOWED");
+  for(const state of [make("HARD",4000,true),make("HARD",undefined,true)]){
+    assert.equal(validateRestaurantAction(state,present,now).status,"REJECTED","a structured HARD cap rejects an excessive or unverified price");
+    assert.throws(()=>restaurantBookingTaskDefinition.transition(state,{type:"RESULTS_PRESENTED",candidateIds:[candidateId],evidenceIds:["area","entity","facts"]},{taskId:"cap",runId:"cap",now,createId:p=>p}),/not grounded/);
+  }
 });
