@@ -1,4 +1,4 @@
-import {readFileSync,writeFileSync} from 'node:fs';import {resolve,relative} from 'node:path';
+import {readFileSync,writeFileSync} from 'node:fs';import {execFileSync} from 'node:child_process';import {resolve,relative} from 'node:path';
 import {createFreeze,sha} from '../freeze.mjs';import {loadResume} from '../resume.mjs';import {executionRuns} from '../run-selection.mjs';import {checkStageBudget,gateWitness} from '../policy.mjs';
 const base='.eval-artifacts/checkpoint-c-live-20261020',dir=`${base}/c17-environment-retry-20261022`,offline=process.argv[2]==='offline';
 const read=p=>JSON.parse(readFileSync(p)),put=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n',{flag:'wx'}),config=read(`${dir}/resume.json`),ledger=read(`${dir}/ledger-before.json`);
@@ -6,6 +6,7 @@ const refs=new Set([`${dir}/resume.json`,`${dir}/ledger-before.json`,`${dir}/aut
 for(const p of Object.keys(read(config.priorManifestPath).files))refs.add(p);
 for(const s of ledger.sources)refs.add(s.path);
 const registry=read(config.registryPath);for(const v of registry.variants)for(const w of v.witnesses)for(const r of w.observationRefs??[])refs.add(relative(process.cwd(),resolve(r.path)));
+for(const p of execFileSync('git',['ls-files','-z',dir],{encoding:'utf8',maxBuffer:32*1024*1024}).split('\0').filter(Boolean))refs.add(p);
 for(const p of refs)readFileSync(p);
 const output=`${dir}/${offline?'offline':'live'}-freeze.json`,manifest=createFreeze(output,[...refs]),freezeSha256=sha(readFileSync(output));
 const plan=read(`${base}/plan.json`),resume=loadResume(`${dir}/resume.json`,manifest,plan),runs=executionRuns(plan,{resume});
