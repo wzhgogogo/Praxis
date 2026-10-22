@@ -83,8 +83,8 @@ const claims = object({ serviceScopeField: text, serviceScopeGroup: text, servic
   verifiedNegativeCriteria: texts, restaurantTypeFacts: texts, categoryUnknownNegativeCriteria: texts,
   openingHoursMatch: boolean, regularOpeningHours: texts, date: text, partySize: number, visibleSlots: texts, inventoryStatus: text });
 const evidence = object({ evidenceId: text, kind: text, provider: text, candidateId: text, sourceEntityId: text,
-  sourceUrl: text, observedAt: text, displayExpiresAt: text, expiresAt: text, claims, entityMatch: object({ confidence: text }) });
-const check = object({ status: text, reasonCode: text, evidenceIds: texts });
+  sourceUrl: text, observedAt: text, displayExpiresAt: text, expiresAt: text, supersedesEvidenceIds: texts, claims, entityMatch: object({ confidence: text }) });
+const check = object({ status: text, reasonCode: text, evidenceIds: texts, supersededEvidenceIds: texts });
 const offer = object({ id: text, restaurantId: text, source: text, dateTime: text, partySize: number, checkedAt: text,
   displayExpiresAt: text, expiresAt: text, alternativeToRequestedTime: boolean, serviceScope });
 const termination = object({ initiator: text, type: text, reasonCode: text, isSystemReason: boolean });
@@ -113,7 +113,7 @@ const browserExecution = object(executorFields);
 const traceDetail = object({ snapshotSequence: number, controls: array(control), stage: text, candidateId: text,
   source: text, event: text, elapsedMs: number, effectiveLimits, lifecycle,
   readNetworkBoundary: text, networkRequests: array(networkRequest),
-  url: text, method: text, args: array(raw), responses: array(object({ url: text, status: number, observedAt: text, body: tabelogBody })),
+  url: text, htmlSha256: text, method: text, args: array(raw), responses: array(object({ url: text, status: number, observedAt: text, body: tabelogBody })),
   observedStateTags: array(object({ tag: text, class: text, "data-time": text, disabled: text, "aria-disabled": text })),
   priceRegions: array(object({ markup: text, truncated: boolean, visibleTextIncluded: boolean })),
   queryRegions: array(object({ truncated: boolean, ancestorMarkupHidden: boolean, markup: text })) });

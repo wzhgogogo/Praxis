@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.327
+- Document revision: 4.329
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 Checkpoint C c18-evaluator32-merged:** C18离线重评已合入Evaluator32/rubric28及其独立复核6d758f70；五份并行文档冲突保留双方历史，Eval Skill同步到当前32契约。登记仍仅9个C18原始SHA/12配对，旧13条不变。下一步准备当前认证见证与保存HTML清单、提交冻结后进行31/32并列重评。尚未运行新评价或展示回放，0模型/网站/Live，账本2827/31/0不变；draft / not integrated，非Clean。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
 
 - **2026-10-22 Checkpoint C c18-correspondence:** C18离线重评准备：按独立复核5b470eaa登记9份原始SHA/12个条件配对，原13条登记不变，独立字面审计与加载器控制通过，H002交叉配对0。原18个result及旧评价保留；当前仍为Evaluator31，后续合入32并冻结本次见证/保存HTML输入。0新增模型、网站、Google、Live或环境重跑，累计账本2827模型/31正式Live/0正式环境重跑不变。draft / not integrated，非Clean Baseline。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
 
@@ -16,6 +18,8 @@
 - **2026-10-21 Checkpoint C recertified:** Six-case recertification PASS,15/16 witnesses: H0012,H0023,H0033,H0052,Kagurazaka2,Kichijoji3.33GET all200,min gap30s,0model/Google/Live/retries. Komuro no matching19:30 retained; dates unchanged. Earliest2026-10-21T12:23:38.769Z,Live deadline2026-10-22T12:23:38.769Z. Original raw/capture freeze unchanged; completed-capture offline audit corrected whole-object equality for optional dow, preserving old failure/script and new497-file auditfreeze. Final Live freeze598585fd34b9b5877ba644cdfb5b6a20d4cf83a796de1219ae4f70a53dedeb7d (507files),evaluator31/rubric27. Budget2418models/13Live/0env; source and all18 order/rules unchanged. User preapproved original18 without --run-ids; launch next, no third quick run. [Batch](../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/plan.md).
 
 - **2026-10-21 Checkpoint C merge-freeze:** Reviewed fix27b3884a fast-forwarded into prep; evaluator31/rubric27 bound with original18 order/budgets unchanged. Certification freeze a71b2e56d39ea24d939cf9b06cf21e9a5074e614da70c6ecae07034e1d5feeee (425 files), code b6d4abd3. Complete scripted outer rehearsal1/1,0network/0models; outer and certification controls green. Accepted source hashes unchanged; gates982/131,calendar69/69,selection5/5,calibration22/22 reused. Runtime ledger2418models/13Live/0env,remaining1582/87/10; reserves24 attempts/1200calls. User authorizes recertification then full18, no third quick run; old results and H003 S0 retained. [Batch](../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/plan.md).
+
+- **2026-10-21 Evaluator32 offline PASS; calibration22/22, S0 declaration20/20 and quick3 reference reevaluation complete; awaiting review. Independent merchant course/category and narrowly reviewed witness HARD evidence now has separate accepted/unaccepted/unproven/missing-citation diagnostics. Five gates988/131 green; no product changes, no website/model/Live, not merged or applied to running checkpoint C.** [Report](../.eval-artifacts/evaluator-hard-course-evidence-20261021/report.md).
 
 - **2026-10-21 Offline criterion/presentation repair PASS; fix branch only, awaiting review:** Evaluator@31/rubric@27 associates conditions by explicit IDs or reviewed exact-artifact semantic indices; formatting normalization only, no executable synonym lookup. All eight existing-but-unmatched display rows now resolve (six consistent unknowns, two still independently unsupported). Kaga's later availability-read fact was filtered by an earlier same-source fact-check list; current Router/Reducer citations now retain it and reject omission. Condition-states@2 adds request-local criterionRef. Five gates green (982 default / 131 Chromium), calendar69/69 and selection5/5 from byte-identical requests and cached real responses, calibration22/22. Saved quick3 reference outcomes QD/QD/DU; original QD/NE/DU and quick gate1/3 retained. Code1bb92bca; freeze`003c8b69db188ae4d5091d88e8729905fd3d845eb664d22d7423f01ea706aca8` (1345 files). Zero new models/websites/Live; cumulative2418/13/0 environment reruns. No integration merge, recertification or fresh C18; no third quick run. [Four-layer report](../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/four-layer-report.md), [result.json](../.eval-artifacts/checkpoint-c-live-20261020/criterion-presentation-20261021/result.json).
 

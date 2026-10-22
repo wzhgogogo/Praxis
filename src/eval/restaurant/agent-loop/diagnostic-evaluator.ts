@@ -1,3 +1,4 @@
+import type { HardCriterionEvidence } from "./diagnostic-evaluator-hard.js";
 import { independentPriceCondition } from "./diagnostic-evaluator-prices.js";
 import { isRestaurantFailureCode, RESTAURANT_FAILURE_CLASSIFICATION } from "../../../domains/restaurant/failure-codes.js";
 import { createHash } from "node:crypto";
@@ -23,8 +24,8 @@ import { assessUserConditions, loadSoftPreferenceObservations } from "./diagnost
 import type { CandidateConditionStates, SoftPreferenceObservations } from "./diagnostic-evaluator-preferences.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@31";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@27";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@32";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@28";
 
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
 
@@ -80,6 +81,7 @@ export interface RestaurantHybridDiagnosticEvaluation {
   criterionCorrespondence: { path: string; sha256: string; schema: string; matches: CriterionMatch[] };
   pendingCriterionWordings: PendingCriterionWording[];
   conditionStates: CandidateConditionStates[];
+  conditionEvidenceFindings: Array<{ candidateId: string; criterion: string; code: string; reason: string; refs: string[] }>;
   conditionStateComparisons: Array<{ candidateId: string; text: string; displayed: string; independent: string; assessment: string }>;
   softPreferenceObservations: { path: string; sha256: string } | null;
   outcome: RunOutcome;
@@ -1045,6 +1047,7 @@ function assessNoResult(root: RunRecord, domain: DomainRecord, request: RequestS
 
 /** Deterministically diagnoses an already-written artifact; it never calls a model or a provider. */
 export interface DiagnosticEvaluationOptions {
+  hardEvidence?: HardCriterionEvidence;
   criterionCorrespondences?: CriterionCorrespondences;
   postDeliveryTabelog?: PostDeliveryTabelogObservation[];
   orchestration?: unknown;
@@ -1176,10 +1179,12 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
   const feasibleWitnesses = witnessFunnel.filter(row => row.feasible === "SUPPORTED");
   const conditionStates = assessUserConditions(root, softPreferences, options.frozenRun, sourceArtifact.sha256, candidateId => {
     const assessment = candidateAssessments[presentedIds.indexOf(candidateId)];
-    if (assessment?.status !== "SATISFIED") return [];
+    // A missing unrelated citation still fails REQUIRED_EVIDENCE, but must not erase independently cited HARD truth.
+    const conflicts = assessment?.observations.filter(value => value.startsWith("conflict=")) ?? [];
+    if (assessment?.status !== "SATISFIED" && !(conflicts.length && conflicts.every(value => /check evidence .* was not cited by presentation/.test(value)))) return [];
     return evidence.filter(item => item.candidateId === candidateId && citedIds.has(item.evidenceId ?? "")
       && observations?.some(read => read.applicableRequest && read.candidateIds.includes(candidateId) && read.evidenceIds.includes(item.evidenceId ?? "")));
-  });
+  }, options.hardEvidence);
   const witnessWindowExpired = options.witnessOracle?.applicableArtifactSha256 === sourceArtifact.sha256
     && options.witnessOracle.validUntil && root.startedAt
     && Date.parse(root.startedAt) > Date.parse(options.witnessOracle.validUntil)
@@ -1204,6 +1209,9 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
         : displayed?.status === "MET" && condition.status === "NOT_CHECKED" ? "S1_UNSUPPORTED"
         : displayed?.status === "NOT_CHECKED" && condition.status !== "NOT_CHECKED" ? "MISSED_KNOWN_CONDITION" : displayed ? "CONSISTENT" : "HISTORICAL_DISPLAY_NOT_RECORDED" };
   }));
+  const conditionEvidenceFindings = conditionStates.flatMap(candidate => candidate.criteria.flatMap(condition => (condition.supportDiagnostics ?? []).map(diagnostic => ({ candidateId: candidate.candidateId, criterion: condition.text, ...diagnostic }))));
+  const missingCitations = candidateAssessments.flatMap((assessment, index) => assessment.observations.filter(value => /check evidence .* was not cited by presentation/.test(value)).map(reason => ({ candidateId: presentedIds[index]!, criterion: "PRESENTATION", code: "PRESENTATION_CITATION_MISSING", reason, refs: assessment.refs })));
+  conditionEvidenceFindings.push(...missingCitations as typeof conditionEvidenceFindings);
   const falseStatuses = conditionStateComparisons.filter(row => row.assessment === "S0_DECLARATION");
   if (falseStatuses.length) {
     const assessment = { status: "PRESENT" as const, reasons: falseStatuses.map(row => `${row.candidateId}: displayed MET for ${row.text}, independently NOT_MET.`), evidenceRefs: falseStatuses.map(row => `presentedResults.conditionStates[${row.candidateId}]`) };
@@ -1220,7 +1228,7 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     ending.directCause = "Independent terminal/source/action records corroborate an internal failure; it is not an ordinary no-result.";
   }
   const goldCorrection = options.goldCorrection ? { applied: true as const, artifactSha256: options.goldCorrection.artifactSha256, rev1Sha256: options.goldCorrection.rev1Sha256, rev2Sha256: options.goldCorrection.rev2Sha256, refs: options.goldCorrection.refs } : null;
-  return { ...classification, goldCorrection, conditionStates, conditionStateComparisons, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionCorrespondence: { path: correspondences.path, sha256: correspondences.sha256, schema: correspondences.schema, matches: criterionMatches }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
+  return { ...classification, goldCorrection, conditionStates, conditionStateComparisons, conditionEvidenceFindings, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionCorrespondence: { path: correspondences.path, sha256: correspondences.sha256, schema: correspondences.schema, matches: criterionMatches }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.
@@ -1228,8 +1236,8 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     systemBehavior: corroboratedInternalFailure || anyNotSatisfied ? "NOT_SUPPORTED" : noResultSupported ? "SUPPORTED_BY_EVIDENCE" : anyNotEvaluated ? "NOT_EVALUATED" : "SUPPORTED_BY_EVIDENCE", externalConditions: candidates.length > 0 ? "OBSERVED" : "NOT_EVALUATED", evidenceSufficiency: evidenceStatus === "SATISFIED" ? "SUFFICIENT_FOR_PRESENTED_RESULT" : evidenceStatus === "NOT_SATISFIED" ? "INSUFFICIENT" : "NOT_EVALUATED", completion: corroboratedInternalFailure ? "INTERNAL_EXECUTION_FAILURE" : completion }, candidateSummaries, findings, unassessedDimensions: [...effectiveResources.unassessed, ...investigationMetrics.unassessed, ...(resultMissing ? ["result.json missing: result-dependent stage dimensions remain NOT_EVALUATED; only outer interruption and trace can be assessed."] : []), "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.", "Cost is not inferred without explicit configured price inputs.", "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.", ...(criteriaComparison.unresolved.length ? ["Criterion text differs without explicit identity or normalized literal correspondence; no LLM judge was used and independent semantic review is required."] : []), ...expected.unsupportedHardCriteria.map((criterion) => `Negative/non-positive HARD criterion '${criterion}' has no accepted source-evidence contract in this evaluator.`)] };
 }
 function evaluationOutputPath(artifactPath: string, suffix: string): string { return resolve(dirname(artifactPath), `${basename(artifactPath, ".json")}.evaluation.${suffix}-${Date.now()}.json`); }
-export async function evaluateArtifactFile(inputPath: string): Promise<{ evaluation: RestaurantHybridDiagnosticEvaluation; outputPath: string }> {
-  const artifactPath = resolve(inputPath); const bytes = await readFile(artifactPath); const source = (artifactPath.endsWith(".gz") ? gunzipSync(bytes) : bytes).toString("utf8"); const evaluation = evaluateRestaurantHybridLiveArtifact(JSON.parse(source), { path: artifactPath, sha256: sha256(source) }); const outputPath = evaluationOutputPath(artifactPath, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION.split("@")[1]!.replace(/[^a-z0-9]+/gi, "-")); await mkdir(dirname(outputPath), { recursive: true }); await writeFile(outputPath, JSON.stringify(evaluation, null, 2), { flag: "wx" }); return { evaluation, outputPath };
+export async function evaluateArtifactFile(inputPath: string, options: DiagnosticEvaluationOptions = {}): Promise<{ evaluation: RestaurantHybridDiagnosticEvaluation; outputPath: string }> {
+  const artifactPath = resolve(inputPath); const bytes = await readFile(artifactPath); const source = (artifactPath.endsWith(".gz") ? gunzipSync(bytes) : bytes).toString("utf8"); const evaluation = evaluateRestaurantHybridLiveArtifact(JSON.parse(source), { path: artifactPath, sha256: sha256(source) }, options); const outputPath = evaluationOutputPath(artifactPath, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION.split("@")[1]!.replace(/[^a-z0-9]+/gi, "-")); await mkdir(dirname(outputPath), { recursive: true }); await writeFile(outputPath, JSON.stringify(evaluation, null, 2), { flag: "wx" }); return { evaluation, outputPath };
 }
 /** A failed evaluation is an immutable sidecar and never changes an already saved execution artifact. */
 export async function evaluateArtifactAfterFinish(inputPath: string, evaluate: typeof evaluateArtifactFile = evaluateArtifactFile): Promise<{ outputPath?: string; evaluation?: RestaurantHybridDiagnosticEvaluation; evaluationFailure?: string; failurePath?: string }> {

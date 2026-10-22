@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.224
+- Document revision: 4.226
 - Last updated: 2026-10-22
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-22-CHECKPOINT-C-C18-EVALUATOR32-MERGED
+
+C18离线重评已合入Evaluator32/rubric28及其独立复核6d758f70；五份并行文档冲突保留双方历史，Eval Skill同步到当前32契约。登记仍仅9个C18原始SHA/12配对，旧13条不变。下一步准备当前认证见证与保存HTML清单、提交冻结后进行31/32并列重评。尚未运行新评价或展示回放，0模型/网站/Live，账本2827/31/0不变；draft / not integrated，非Clean。 [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/plan.md).
 
 ## DEV-2026-10-22-CHECKPOINT-C-C18-CORRESPONDENCE
 
@@ -34,6 +38,11 @@ Six-case recertification PASS,15/16 witnesses: H0012,H0023,H0033,H0052,Kagurazak
 ## DEV-2026-10-21-CHECKPOINT-C-MERGE-FREEZE
 
 Reviewed fix27b3884a fast-forwarded into prep; evaluator31/rubric27 bound with original18 order/budgets unchanged. Certification freeze a71b2e56d39ea24d939cf9b06cf21e9a5074e614da70c6ecae07034e1d5feeee (425 files), code b6d4abd3. Complete scripted outer rehearsal1/1,0network/0models; outer and certification controls green. Accepted source hashes unchanged; gates982/131,calendar69/69,selection5/5,calibration22/22 reused. Runtime ledger2418models/13Live/0env,remaining1582/87/10; reserves24 attempts/1200calls. User authorizes recertification then full18, no third quick run; old results and H003 S0 retained. [Batch](../../.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/plan.md).
+
+## DEV-2026-10-21-EVALUATOR32-HARD-COURSE-EVIDENCE
+
+- Evaluator32/rubric28 independently consumes artifact-bound recorded merchant course/category HTML and reviewer-bound witness HARD quotes. Source roles, current citations, recording ordinal/runtime hash and meal limits are checked without production parser imports. Kaga manual witness remains outlet/request/certification/result-SHA bound; product name/review alone is not accepted. No product/Prompt/input/original-result changes; separate branch only.
+- [Report](../../.eval-artifacts/evaluator-hard-course-evidence-20261021/report.md); frozen evidence and limitations remain separate from Live signoff.
 
 ## DEV-2026-10-21-CRITERION-PRESENTATION-REPAIR
 

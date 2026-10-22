@@ -2117,3 +2117,21 @@ test("criterion punctuation normalization cannot erase polarity or HARD-strength
   artifact.finalSnapshot.domainState.intentDraft.criteria[0].strength = "SOFT";
   assert.equal(evaluate(), "NOT_SATISFIED");
 });
+
+
+test("HARD32 retained merchant course title independently establishes omakase", async () => {
+  const dir = new URL("../../../../.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-01-attempt-1/", import.meta.url);
+  const artifactPath = new URL("runner/2026-10-21T11-00-16-745Z-04d5a0a4-85d5-4fb6-9c46-f81494df90ee.result.json", dir);
+  const bytes = await readFile(artifactPath); const artifact = JSON.parse(bytes.toString());
+  const candidateId = "tabelog:en/tokyo/A1303/A130301/13261619";
+  const htmlPath = new URL("recordings/hybrid-1792580416669/snapshot-0040.html", dir);
+  const html = await readFile(htmlPath, "utf8");
+  const fact = artifact.finalSnapshot.domainState.readEvidence.find((e: any) => e.candidateId === candidateId && e.kind === "RESTAURANT_FACT");
+  const post = JSON.parse(await readFile(new URL("post-run/post-check.json", dir), "utf8"));
+  const postDeliveryTabelog = post.rows.filter((r: any) => r.raw?.status === 200).map((r: any) => loadPostDeliveryTabelogObservation(new URL("post-run/" + basename(r.raw.metadataPath), dir).pathname, new URL("post-run/" + basename(r.raw.bodyPath), dir).pathname));
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, { path: artifactPath.pathname, sha256: createHash("sha256").update(bytes).digest("hex") }, {
+    postDeliveryTabelog, hardEvidence: { artifactSha256: createHash("sha256").update(bytes).digest("hex"), snapshots: [{ candidateId, evidenceId: fact.evidenceId, provider: "TABELOG", sourceUrl: fact.sourceUrl, observedAt: fact.observedAt, html, snapshot: 40, runtimeHtmlSha256: artifact.diagnostics.browserTrace.filter((t: any) => t.kind === "SNAPSHOT")[39].detail.htmlSha256, path: htmlPath.pathname, sha256: createHash("sha256").update(html).digest("hex") }], witnesses: [] },
+  } as any);
+  assert.equal(result.findings.find(f => f.dimension === "REQUIRED_EVIDENCE")?.status, "SATISFIED", "independent inventory and existing source lineage must be complete before testing HARD32");
+  assert.equal(result.conditionStates.find(c => c.candidateId === candidateId)?.criteria[0]?.status, "MET", "original merchant course card, not normalized verifiedHardCriteria, supports omakase");
+});

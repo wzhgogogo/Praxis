@@ -5,8 +5,8 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.8
-- Last updated: 2026-10-21
+- Document revision: 2.9
+- Last updated: 2026-10-22
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
 
@@ -171,9 +171,11 @@ npm run eval:restaurant:agent-loop:artifact -- --manifest <inputs/manifest.json>
 - `NO_VERIFIED_RESULT`可证明记录范围内的处理，不能证明搜索穷尽或用户目标完成；内部失败、取消、预算停止和未到达保留实际根因。
 - 模型选路允许多种合法顺序；固定来源未覆盖的合法调用是诊断环境缺口，不直接归因模型。重复无效动作、忽略已有证据、无支持的最终断言、错时钟或错请求、绕过安全边界，才按实际记录归因。
 
-### 7.1 Offline classification rules (evaluator@31 / rubric@27)
+### 7.1 Offline classification rules (evaluator@32 / rubric@28)
 
 The evaluator never reads result labels. Conditions correspond through an explicit criterionRef/semantic identifier, or an independently reviewed, exact-artifact-SHA-scoped Gold-index to authoritative-index binding. Historical index bindings retain immutable review refs and both original wording hashes; they never apply to another artifact or establish source truth. Text-only comparison performs generic NFKC/case/punctuation/hyphen/whitespace normalization, without synonyms, stemming, translation, or inferred index/order equivalence. Unbound or ambiguous wording stays pending review; polarity, multiplicity, and HARD strength remain independent checks. Display comparison first resolves the requested condition to its authoritative condition, then uses that condition's reference (or a unique normalized literal for a legacy display row). Missing/ambiguous display records remain unassessed. Original evaluations are immutable; a new sidecar is a reference under the new evaluator, not a retroactive gate pass.
+
+Evaluator@32 additionally accepts a frozen `restaurant-hard-criterion-evidence@1` manifest through `--hard-evidence`. Saved merchant course/category HTML must bind the exact original artifact, candidate, executed evidence, cited observation, URL, snapshot ordinal, recording SHA and runtime HTML SHA; the evaluator parses these fields independently of production parsing. Reviewed witness quotes must bind the same artifact/outlet/request, current applicable certification, raw quote file and independent review SHA. Names, reviews and model verified labels are not automatic HARD proof. Course meal restrictions remain explicit restaurant-offering observations, not requested-time course availability. Accepted text, unaccepted text, unproven claims and missing presentation citations are separate findings. Historical evaluations remain unchanged.
 
 
 | 结果 | 必需的可读依据 |
@@ -231,11 +233,11 @@ R6对无结果记录同时要求：终态failure、search failure或remainingGap
 | 已有artifact补评 | `npm run eval:restaurant:agent-loop:artifact` | 结论支持性与终止行为 |
 | 决策回放 | `run-decision-replay.ts`（原样、注入、history模式） | 单步决策在冻结输入上的表现 |
 
-四层结构的现有覆盖（@31 / rubric@27离线诊断边界；具体校准状态见STATUS及当批报告）：
+四层结构的现有覆盖（@32 / rubric@28离线诊断边界；具体校准状态见STATUS及当批报告）：
 
 | 层 | 已有 | 缺口 |
 | --- | --- | --- |
-| 端到端结果 | @31类型化读取、独立来源核验、结果分类、R1–R9及原始中断包入口；逐店逐criteria状态及独立SOFT观察Gold | 损坏Gold/原始证据不足仍未评价；时间分解未自动输出 |
+| 端到端结果 | @32类型化读取、独立来源核验、结果分类、R1–R9及原始中断包入口；逐店逐criteria状态、独立SOFT观察Gold及产物绑定商家字段/见证HARD支持 | 损坏Gold/原始证据不足仍未评价；时间分解未自动输出 |
 | 逐环节判定 | 理解请求Gold比对；见证逐候选发现/身份/事实/查位/展示漏斗 | 历史见证缺地址时跨来源身份未评；OBSERVED链路不是自由文本质量评分 |
 | 严重程度 | 原始claim/Gold及trace独立核验S0、明确需求漂移S1；各级显式状态 | 脱敏/不完整trace、自由文本HARD语义及S3/S4影响仍可能未评价；不把未知记为0 |
 | 归因 | 见证漏斗自动输出HYPOTHESIS；人工sidecar与回放 | 注入式回放尚未用于因果确认；无跨运行汇总 |
