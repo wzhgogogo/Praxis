@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.257
+- Document revision: 4.258
 - Last updated: 2026-10-22
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-22-LOCATION-RESOLUTION-DIAGNOSIS
+
+仅旧产物诊断人形町h-04/10/16：Google返回东京Nihonbashiningyocho，生产精确名称及有限后缀规则拒绝；三次源码与597f1a8b相同，属于旧覆盖遗漏/来源表示缺口。下北泽、神乐坂有生产解析对照，自由之丘仅独立见证查询。未修代码、未重新评分，网站/模型/Live均0。 诊断脚本：3原始运行/4对照/4源码SHA核对通过；纯报告按Test矩阵不跑产品门禁。 [报告](../../.eval-artifacts/location-resolution-diagnosis-20261022/report.md).
 
 ## TEST-2026-10-22-CHECKPOINT-C-HOLDOUT-CASE05-REASSESSMENT
 

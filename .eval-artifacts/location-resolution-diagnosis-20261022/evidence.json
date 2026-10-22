@@ -1,0 +1,248 @@
+{
+  "schema": "location-resolution-diagnosis@1",
+  "status": "DIAGNOSIS_ONLY_NO_REPAIR",
+  "contamination": "Old exposed holdout only; no new holdout accessed",
+  "baseline": "17415d1cc1fad5c5da7729de125f4581e0251cb1",
+  "failedRuns": [
+    {
+      "run": "h-04-attempt-1",
+      "artifact": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/runner/2026-10-22T08-55-33-055Z-52866809-a474-4ee5-a11a-bdeecf2fc251.result.json",
+        "sha256": "cdf819738946725534180c6ede36b1b6b492919280f1cfaa70b0d115c39b486f"
+      },
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "eventPointer": "/events/1/event",
+      "failure": {
+        "type": "SEARCH_FAILED",
+        "reason": "Google Places could not resolve coordinates for the named location \"Ningyocho\". Observations: name=\"Nihonbashiningyocho\" address=\"Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJk_FY1k-JGGARn-QTt8Cz_8E\" coordinate=\"35.6852807,139.7843792\"",
+        "code": "GOOGLE_LOCATION_UNRESOLVED"
+      },
+      "areaQuery": "near Ningyocho",
+      "latencyMs": 5901,
+      "searchWallMs": 1125,
+      "googleRequests": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      },
+      "requestReconstruction": {
+        "method": "POST",
+        "url": "https://places.googleapis.com/v1/places:searchText",
+        "textQuery": "Ningyocho",
+        "pageSize": 10,
+        "geographicBias": "No bound evaluationLocation: named NEAR request; requiresEvaluationLocation=false. No Tokyo/JP language or region restriction added.",
+        "provenance": "Pinned call chain; HTTP request/response bodies for these three production calls were not saved."
+      }
+    },
+    {
+      "run": "h-10-attempt-2",
+      "artifact": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-10-attempt-2/runner/2026-10-22T10-02-38-844Z-601cd4b1-fabb-4d6f-ab5e-cc6fb4d7ce51.result.json",
+        "sha256": "a3afcbd6e7b4b7d52718d710d388e0d2672e6a29829cc3d64ca78c6f6e608b12"
+      },
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "eventPointer": "/events/1/event",
+      "failure": {
+        "type": "SEARCH_FAILED",
+        "reason": "Google Places could not resolve coordinates for the named location \"Ningyocho\". Observations: name=\"Nihonbashiningyocho\" address=\"Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJk_FY1k-JGGARn-QTt8Cz_8E\" coordinate=\"35.6852807,139.7843792\"",
+        "code": "GOOGLE_LOCATION_UNRESOLVED"
+      },
+      "areaQuery": "near Ningyocho",
+      "latencyMs": 6935,
+      "searchWallMs": 1449,
+      "googleRequests": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      },
+      "requestReconstruction": {
+        "method": "POST",
+        "url": "https://places.googleapis.com/v1/places:searchText",
+        "textQuery": "Ningyocho",
+        "pageSize": 10,
+        "geographicBias": "No bound evaluationLocation: named NEAR request; requiresEvaluationLocation=false. No Tokyo/JP language or region restriction added.",
+        "provenance": "Pinned call chain; HTTP request/response bodies for these three production calls were not saved."
+      }
+    },
+    {
+      "run": "h-16-attempt-1",
+      "artifact": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-16-attempt-1/runner/2026-10-22T10-54-22-004Z-0404d30f-447d-4362-ab68-148bb7da5b3d.result.json",
+        "sha256": "4a532f4e5b160f8c5447bdbbced4c624b1f81557a938a9c3d85493fe16ab67ef"
+      },
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "eventPointer": "/events/1/event",
+      "failure": {
+        "type": "SEARCH_FAILED",
+        "reason": "Google Places could not resolve coordinates for the named location \"Ningyocho\". Observations: name=\"Nihonbashiningyocho\" address=\"Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan\" types=\"sublocality_level_2,sublocality,political\" placeId=\"ChIJk_FY1k-JGGARn-QTt8Cz_8E\" coordinate=\"35.6852807,139.7843792\"",
+        "code": "GOOGLE_LOCATION_UNRESOLVED"
+      },
+      "areaQuery": "near Ningyocho",
+      "latencyMs": 15077,
+      "searchWallMs": 2756,
+      "googleRequests": {
+        "limit": 38,
+        "total": 1,
+        "namedPlaceResolution": 1,
+        "discovery": 0,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      },
+      "requestReconstruction": {
+        "method": "POST",
+        "url": "https://places.googleapis.com/v1/places:searchText",
+        "textQuery": "Ningyocho",
+        "pageSize": 10,
+        "geographicBias": "No bound evaluationLocation: named NEAR request; requiresEvaluationLocation=false. No Tokyo/JP language or region restriction added.",
+        "provenance": "Pinned call chain; HTTP request/response bodies for these three production calls were not saved."
+      }
+    }
+  ],
+  "comparators": [
+    {
+      "place": "Shimokitazawa",
+      "kind": "SAVED_PRODUCTION_DISCOVERY_EVIDENCE",
+      "artifact": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-06-attempt-1/runner/2026-10-22T09-09-26-737Z-26fa6d0e-0c30-431c-a5ba-2393eb7d8422.result.json",
+        "sha256": "2cc91369892fec0a92f686db5194f81493d3b01b63a4856daef2c77b4a56e3e5"
+      },
+      "runtimeCommit": "597f1a8b89370d41b85e7fa887ddf6b49630ab6d",
+      "claim": {
+        "pointer": "/events/1/event/evidence/0/claims",
+        "value": {
+          "locationResolutionQuery": "Shimokitazawa",
+          "resolvedPlaceName": "Shimokitazawa",
+          "resolvedPlaceId": "ChIJw_teZ_8hGGARgsSeLR2OLjM",
+          "latitude": 35.665786,
+          "longitude": 139.66986269999998,
+          "radiusMeters": 1000,
+          "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+        }
+      }
+    },
+    {
+      "place": "Kagurazaka",
+      "kind": "SAVED_PRODUCTION_DISCOVERY_EVIDENCE",
+      "artifact": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/guarded-continuation-20261021/results/c-05-attempt-1/runner/2026-10-21T02-40-35-503Z-11d9ce68-adc1-4f43-93db-76ba7e3a414a.result.json",
+        "sha256": "a5458cd0c70736471f2696b58c76650151e279693202c325312c9c785528a6c6"
+      },
+      "runtimeCommit": "dadca01e01ade6c8c3b27a8d538f0ff21cc44178",
+      "claim": {
+        "pointer": "/events/1/event/evidence/0/claims",
+        "value": {
+          "locationResolutionQuery": "Kagurazaka",
+          "resolvedPlaceName": "Kagurazaka",
+          "resolvedPlaceId": "ChIJIaZLQ1qMGGARYTD1p6NjCuI",
+          "latitude": 35.701459799999995,
+          "longitude": 139.7402946,
+          "radiusMeters": 1000,
+          "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+        }
+      }
+    },
+    {
+      "place": "Jiyugaoka, Tokyo, Japan",
+      "kind": "INDEPENDENT_WITNESS_LOOKUP_NOT_PRODUCTION",
+      "body": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/centers/p2-holdout-02.attempt-1.body.json",
+        "sha256": "eed7113fde76c8130b7e2c811140e8f058b89d9a9920c6c6edf125ea43ab0647"
+      },
+      "metadata": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/centers/p2-holdout-02.attempt-1.metadata.json",
+        "sha256": "a7e0d5c1cfb704d815748cb077e1789d5bbe5600cb5f1dfd139948933c8bce52"
+      },
+      "returnedPlaces": [
+        {
+          "id": "ChIJR0UdxeH0GGARwV6PMnPblQM",
+          "types": [
+            "sublocality_level_2",
+            "sublocality",
+            "political"
+          ],
+          "formattedAddress": "Jiyugaoka, Meguro City, Tokyo 152-0035, Japan",
+          "location": {
+            "latitude": 35.6105884,
+            "longitude": 139.66689309999998
+          },
+          "displayName": {
+            "text": "Jiyugaoka",
+            "languageCode": "en"
+          }
+        }
+      ],
+      "request": {
+        "textQuery": "Jiyugaoka, Tokyo, Japan",
+        "pageSize": 3
+      },
+      "httpStatus": 200
+    },
+    {
+      "place": "Ningyocho, Tokyo, Japan",
+      "kind": "INDEPENDENT_WITNESS_LOOKUP_NOT_PRODUCTION",
+      "body": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/centers/p2-holdout-04.attempt-1.body.json",
+        "sha256": "b24589761b46171b685590049057d4eaf89423abadffa612d3d4584068b51434"
+      },
+      "metadata": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/centers/p2-holdout-04.attempt-1.metadata.json",
+        "sha256": "02bcd74fbf47d74f1498139af1eb1556c55ce7da4f62b540d2c204fb6f3e0ab6"
+      },
+      "returnedPlaces": [
+        {
+          "id": "ChIJk_FY1k-JGGARn-QTt8Cz_8E",
+          "types": [
+            "sublocality_level_2",
+            "sublocality",
+            "political"
+          ],
+          "formattedAddress": "Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan",
+          "location": {
+            "latitude": 35.6852807,
+            "longitude": 139.7843792
+          },
+          "displayName": {
+            "text": "Nihonbashiningyocho",
+            "languageCode": "en"
+          }
+        }
+      ],
+      "request": {
+        "textQuery": "Ningyocho, Tokyo, Japan",
+        "pageSize": 3
+      },
+      "httpStatus": 200
+    }
+  ],
+  "pinnedProductionFiles": [
+    {
+      "path": "src/integrations/google/google-places-restaurant-search.ts",
+      "sha256": "20b1c5ea521eec106b5c3a2d65b05bafa579663f530c1c292e113f04a5b842cd"
+    },
+    {
+      "path": "src/integrations/google/google-places-client.ts",
+      "sha256": "9a0fc3171d98e70f2e682d1cdc636152923249a02af25deeb35bccc885ae5677"
+    },
+    {
+      "path": "src/integrations/google/google-places-contracts.ts",
+      "sha256": "fb52df7eb9644efa6664109b7c56a026e4939e7bab711e47e66db8864ad6979e"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/evaluation-location-selection.ts",
+      "sha256": "28542f105e88abd248a451d0fd1364f8fad4f5578bcd319f53c678df51006955"
+    }
+  ],
+  "networkRequests": 0,
+  "modelCalls": 0,
+  "productionChanges": 0,
+  "limits": [
+    "Production raw HTTP bodies/status/addressComponents not preserved for h-04/h-10/h-16. Error observation projection is original evidence; independent witness HTTP200 is a different request.",
+    "Jiyugaoka did not run as the production location: the approved fallback Sangenjaya did. Its successful saved Google lookup is only an independent source comparison."
+  ]
+}

@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.353
+- Document revision: 4.354
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 地点解析诊断：** 仅旧产物诊断人形町h-04/10/16：Google返回东京Nihonbashiningyocho，生产精确名称及有限后缀规则拒绝；三次源码与597f1a8b相同，属于旧覆盖遗漏/来源表示缺口。下北泽、神乐坂有生产解析对照，自由之丘仅独立见证查询。未修代码、未重新评分，网站/模型/Live均0。 [报告](../.eval-artifacts/location-resolution-diagnosis-20261022/report.md).
 
 - **2026-10-22 Checkpoint C holdout-case05-reassessment:** 按19941c4e批准的可逆格式恢复补评例05三次，使用原Evaluator33/rubric29和原证据。h-05/h-17由原NE变QD，h-11格式错误消除后仍因已判不等价的SOFT措辞保留NE；旧三份NE、原始运行、Gold和承诺SHA不覆盖。全18参考结果10QD/7MISS/1NE，例05达2/3，共4/6例达标；仅数值子门槛通过，例03第一卡点仍属P2-1，完整退出2仍不满足。退出4/6不满足、3未完整评价、5仍仅指标；S0声明17ABSENT/1未评、越界15ABSENT/3未评，无新阳性，历史H003和H005两种口径保留。冻结d6315af5前后2975项、旧779/2891项、326生产/评测及483校准输入SHA均通过，复用五门禁和22/22校准。其他15评价不重跑，增量模型/网站/Live/重跑0，累计3280/51/3不变；推送后停下等签收。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022/case05-reassessment-20261022/four-layer-report.md).
 
