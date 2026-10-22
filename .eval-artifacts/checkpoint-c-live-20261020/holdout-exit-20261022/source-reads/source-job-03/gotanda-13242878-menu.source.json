@@ -1,0 +1,87 @@
+{
+  "id": "gotanda-13242878-menu",
+  "caseId": "p2-holdout-05",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1316/A131603/13242878/dtlmenu/",
+  "observedAt": "2026-10-22T06:57:18.110Z",
+  "responseSha256": "0d4ffaea343551a2673085ca1811bbc0cce2051f4f52cded747833653c426e33",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/source-reads/source-job-03/gotanda-13242878-menu.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Chipao Maratan Gotanda ten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Nishigotanda Shinagawa Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1410031",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.62413312873851,
+          "longitude": 139.72317716383802
+        },
+        "servesCuisine": "Chinese,Chinese hot pot,Chinese rice porridge"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1316/A131603/13242878/\",\"name\":\"Chipao Maratan Gotanda ten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/384339/640x640_rect_43da2dddda5cb2d7749943ebd2207179.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Nishigotanda Shinagawa Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1410031\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.62413312873851,\"longitude\":139.72317716383802},\"priceRange\":\"JPY 1,000～JPY 1,999\",\"servesCuisine\":\"Chinese,Chinese hot pot,Chinese rice porridge\",\"telephone\":\"+81-3-5747-9044\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"420\",\"ratingValue\":\"3.47\"}}\n    ",
+        "sha256": "6e4b013185dfb4541faf9819fe54f046718f07c04de2d69c701ae9b1ea4c91f6",
+        "htmlCharacterOffset": 6053
+      }
+    ],
+    "rawQuotes": [],
+    "hardQuoteObservations": [],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "merchantFields": [],
+  "sourceFragments": [
+    {
+      "role": "CATEGORY",
+      "text": "Categories Chinese, Chinese hot pot, Chinese rice porridge",
+      "raw": "<tr>\n                  <th>\n                    Categories \n                  </th>\n                  <td><span>Chinese, Chinese hot pot, Chinese rice porridge</span>\n                  </td>\n                </tr>",
+      "sha256": "32c690bffe1469373635649befba299c36dc5d3d3167d04ef89a76e36434c72c",
+      "htmlCharacterOffset": 36002
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 1,000 - JPY 1,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                  <th>\n                    Average price\n                  </th>\n                  <td>\n                    <div class=\"rstinfo-table__budget\">\n                      <p class=\"rstinfo-table__budget-item\">\n                        <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                      </p>\n                      <p class=\"rstinfo-table__budget-item\">\n                        <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                      </p>\n                    </div>\n                  </td>\n                </tr>",
+      "sha256": "2b65973965c34d3fab83cf5831c82b34d129d071aba78a2d38a38372b734502e",
+      "htmlCharacterOffset": 40833
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome), Strollers welcome",
+      "raw": "<tr>\n              <th>\n                Family friendly\n              </th>\n              <td>\n                <p>\n                  Children welcome(Babies welcome, Preschoolers welcome, School-age children welcome), Strollers welcome\n                </p>\n              </td>\n            </tr>",
+      "sha256": "4c4a2e3a66d09e30efc764997266bd69a06d01129a2a38d0438a2fcb02acad73",
+      "htmlCharacterOffset": 47700
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                  <th>\n                    Categories \n                  </th>\n                  <td><span>Chinese, Chinese hot pot, Chinese rice porridge</span>\n                  </td>\n                </tr>",
+      "sha256": "32c690bffe1469373635649befba299c36dc5d3d3167d04ef89a76e36434c72c",
+      "text": "Categories Chinese, Chinese hot pot, Chinese rice porridge",
+      "htmlCharacterOffset": 36002
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                            <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1316/A131603/13242878/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                          </p>",
+      "sha256": "787cd17a52a9cec3e64500312ecefaff1a034dbd789b5071c7ca9f84d6a87dae",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 25720
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                            <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1316/A131603/13242878/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                          </p>",
+      "sha256": "4ca4a49bcca61607016b8410821627a797a125a58604b9d43122ebb9e7046269",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 26144
+    }
+  ],
+  "canonical": null
+}
