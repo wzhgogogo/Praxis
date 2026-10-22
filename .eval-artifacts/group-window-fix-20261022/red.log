@@ -1,0 +1,113 @@
+✖ group-window: inaccurate group flag cannot outrank source priority (4.262125ms)
+✖ group-window: unfinished source chunk rotates behind every other first batch (0.48225ms)
+✖ group-window: visible disabled requested party ends before another model decision (7.841542ms)
+✖ group-window: prohibited linked workflow is unsupported before navigation (12.13475ms)
+✖ group-window: point empty continues to the next observed legal time (38.41575ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 780.096833
+
+✖ failing tests:
+
+test at src/domains/restaurant/discovery-planner.test.ts:1:3111
+✖ group-window: inaccurate group flag cannot outrank source priority (4.262125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'source-reservation-a'
+  - 'source-directory-b'
+            ^
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/domains/restaurant/discovery-planner.test.ts:53:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'source-reservation-a',
+    expected: 'source-directory-b',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/discovery-planner.test.ts:1:3417
+✖ group-window: unfinished source chunk rotates behind every other first batch (0.48225ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'source-places-c'
+  - 'source-reservation-a'
+            ^
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/domains/restaurant/discovery-planner.test.ts:60:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'source-places-c',
+    expected: 'source-reservation-a',
+    operator: 'strictEqual'
+  }
+
+test at src/infrastructure/browser/browser-task-executor.test.ts:1:72514
+✖ group-window: visible disabled requested party ends before another model decision (7.841542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'PARTY_SIZE_NOT_SELECTABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.test.ts:1121:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'PARTY_SIZE_NOT_SELECTABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1:105570
+✖ group-window: prohibited linked workflow is unsupported before navigation (12.13475ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'SOURCE_UNSUPPORTED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1487:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'SOURCE_UNSUPPORTED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1:106606
+✖ group-window: point empty continues to the next observed legal time (38.41575ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1503:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }

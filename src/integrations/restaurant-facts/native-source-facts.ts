@@ -1,3 +1,4 @@
+import {isBrowserReadPathProhibited} from "../../infrastructure/browser/browser-read-policy.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { createHash } from "node:crypto";
 
@@ -102,6 +103,10 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
       const checkedAt = this.now();
       if (!provider || !sourceUrl || !sourceEntityId || !key(sourceUrl)) {
         factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "NATIVE_SOURCE_ID_MISSING" };
+        continue;
+      }
+      if (isBrowserReadPathProhibited(this.networkPolicy, sourceUrl)) {
+        factChecks[candidate.restaurant.id] = {status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "SOURCE_UNSUPPORTED"};
         continue;
       }
       const executor = new BrowserTaskExecutor(this.runtime, {
@@ -287,7 +292,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         if (provider === "TABLECHECK" && !hardFactsResolved(request.intent, judged.evidence) && !hasConfirmedNegativeConflict(request.intent, judged.evidence)) {
           const guide = parseTableCheckOutletIdentityWithEvidence(initial, sourceUrl);
           observedReservationTarget = guide && resolveTableCheckReservationTarget(initial, guide.outlet);
-          if (observedReservationTarget?.kind === "LINKED_PAGE") {
+          if (observedReservationTarget?.kind === "LINKED_PAGE" && !isBrowserReadPathProhibited(this.networkPolicy, observedReservationTarget.url)) {
             const documentsBefore = documents.length;
             await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: observedReservationTarget.url, observed: true });
             const reservationPage = await executor.snapshot({ source: provider, stage: "FACTS", signal, session });
@@ -344,9 +349,10 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         }
         evidence.push(...identities, ...judged.evidence);
         sourceDocuments.push(...documents);
+        const unsupported = observedReservationTarget?.kind === "LINKED_PAGE" && isBrowserReadPathProhibited(this.networkPolicy, observedReservationTarget.url);
         factChecks[candidate.restaurant.id] = { status: hardFactsResolved(request.intent, judged.evidence) ? "COMPLETED" : "UNKNOWN", checkedAt,
           evidenceIds: [...identities.map((item) => item.evidenceId), ...judged.evidence.map((item) => item.evidenceId)], sourceProvider: provider,
-          ...(!hardFactsResolved(request.intent, judged.evidence) ? { reasonCode: "NATIVE_HARD_FACTS_UNCONFIRMED" } : {}) };
+          ...(!hardFactsResolved(request.intent, judged.evidence) ? { reasonCode: unsupported ? "SOURCE_UNSUPPORTED" : "NATIVE_HARD_FACTS_UNCONFIRMED" } : {}) };
       } catch (error) {
         if (signal.aborted || (error && typeof error === "object" && "code" in error && (
           error.code === "MODEL_CALL_BUDGET_EXHAUSTED" || error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"

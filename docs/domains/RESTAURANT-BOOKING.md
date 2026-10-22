@@ -24,6 +24,12 @@
 
 负向HARD默认仍须有当前、同候选、来源绑定的`verifiedNegativeCriteria`，任何`violatedNegativeCriteria`都阻止展示。唯一例外是[ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md)：同一Fact Judgment对精确的餐厅/菜系/门店类型排除，基于带引用的type事实返回`UNKNOWN/RESTAURANT_CATEGORY_TYPE`时，记录`categoryUnknownNegativeCriteria`并仅可用于资格。它不是确认“不是该类型”的事实，不显示为已验证负向条件；`OTHER`或`UNKNOWN_SCOPE`（例如过敏、污染、医疗、安全、无障碍）仍失败关闭。名称、缺失关键词、跨候选引用或已被替代的来源事实均不适用。
 
+## 2026-10-22 bounded group/window reads
+
+`restaurant-state@20` / task definition `18` records the active source chunk separately from suspended source cursors. After investigation, a partial chunk rejoins the source queue tail; pending details and candidates are retained. Static group-capability bonuses no longer choose a source. This replaces the pre-Pilot state19 continuation semantics without a legacy reader or automatic database migration; historical result fixtures remain immutable. No database is opened/reset by this repair.
+
+An explicitly policy-prohibited workflow returns `SOURCE_UNSUPPORTED` before navigation and is not retried as FACTS material. A visible disabled exact party, after the requested date is confirmed, yields `UNKNOWN / PARTY_SIZE_NOT_SELECTABLE`; it neither changes the count nor proves the day empty. A point-specific EMPTY may continue at a fresh enabled source-observed in-window time, at most four time observations per outlet and within existing deadlines/operation budgets. `timeWindowCoverage` retains checked EMPTY/AVAILABLE points and uncovered intervals with explicit endpoint inclusivity. Missing, conflicting, failed or unrecorded follow-up results remain unknown; a collection of point-empty messages never becomes whole-window UNAVAILABLE. Qualification, HARD, identity, radius, freshness and booking authority are unchanged.
+
 ## Implementation Status
 
 Discovery按[ADR-0037](../decisions/0037-request-driven-discovery-source-packs.md)以权威intent、坐标／原半径和Pack metadata规划；负向条件不转为检索关键词，RECOMMENDATION不选择reservation-only来源，人数和目标时区日期只影响声明能力的优先级。Google保留命名地点解析与发现，已解析地点在同一计划复用。旧二选一入口和固定nativeStage退役；本轮离线阶段已获root验收，当前网站与库存须通过后续探针。

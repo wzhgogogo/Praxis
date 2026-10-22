@@ -1,0 +1,29 @@
+✖ group-window Chromium: disabled exact party stops without clicking or changing the count (512.332667ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 912.683708
+
+✖ failing tests:
+
+test at src/harness/browser/group-window.test.ts:5:3015
+✖ group-window Chromium: disabled exact party stops without clicking or changing the count (512.332667ms)
+  AssertionError [ERR_ASSERTION]: [{"id":"dom:1:1","structure":{"tag":"BUTTON","name":"","classes":["p-booking-calendar__people-button","is-selected"],"dialogLabel":"","formClass":"","sliderCount":0,"listboxId":""},"stableKey":"button,[role=button],[role=option],input[role=combobox][aria-readonly=true]|button||2|2|0","kind":"BUTTON","role":"button","label":"2","controlGroupLabel":"Unlabelled group","value":"2","type":"button","disabled":false,"visible":true,"selected":true},{"id":"dom:1:2","structure":{"tag":"BUTTON","name":"","classes":["p-booking-calendar__people-button","is-disabled"],"dialogLabel":"","formClass":"","sliderCount":0,"listboxId":""},"stableKey":"button,[role=button],[role=option],input[role=combobox][aria-readonly=true]|button||10|10|1","kind":"BUTTON","role":"button","label":"10","controlGroupLabel":"Unlabelled group","value":"10","type":"button","disabled":true,"visible":true}]
+  + actual - expected
+  
+  + undefined
+  - 'PARTY_SIZE_NOT_SELECTABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/harness/browser/group-window.test.ts:74:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'PARTY_SIZE_NOT_SELECTABLE',
+    operator: 'strictEqual'
+  }

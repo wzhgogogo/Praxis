@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.23
-- Last updated: 2026-10-21
+- Document revision: 3.24
+- Last updated: 2026-10-22
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -102,3 +102,7 @@ For a calendar navigation click, the executor compares observed year/month befor
 A source may supply code-owned control hints describing observed nonstandard elements and their value/selection attributes. Runtime reads actual DOM values; models receive only current opaque references, never selectors or scripts. Existing action permission, authoritative-value matching and result verification remain in force. Current use is Tabelog date/guest controls; standard browser observation needs no hints.
 
 2026-10-21 Tabelog source update: the Browser registry and source query predicate share the same positive ARIA/class selected-state function. The source predicate reads selected date parts and selected people within their public DOM group; hidden people values constrain the query only when present. The public English calendar accepts inventory only from the latest exact `find_vacancy` response whose date, people and slot-link outlet identity agree with the page and request. Missing or conflicting responses stay UNKNOWN; UI time templates cannot substitute for that binding. Both observed endpoint spellings (with and without a trailing slash) are passively captured under the existing Guard. Time controls remain observation-only. Prompt@19, Context@2 and action wire@11 retain identical schemas and prompt text; this changes source extraction and control hints, not model instructions or authority.
+
+### Group/window read control (2026-10-22, offline repair)
+
+The existing browser executor can advance a public time query only through a current enabled observed combobox option inside the immutable request window, using the existing action validation and budgets. It never clicks an availability/booking link. Disabled-party termination requires the current requested date and a visible, unselected disabled exact count; an old-date disabled control does not preempt calendar selection. Planning consults the same explicit source path revocations as the Guard; no rule is broadened. Prompt/action/context schemas remain unchanged; source continuation state advances to restaurant-state20/task-definition18.

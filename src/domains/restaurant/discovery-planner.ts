@@ -61,11 +61,10 @@ export function planDiscoverySources(
 ): DiscoveryPlan {
   const category = generalDiscoveryCategory(intent);
   const sameDay = Boolean(intent.date && intent.date === localDate(now, intent.timezone));
-  const group = intent.partySize !== undefined && intent.partySize >= 6;
   const candidates = packs
     .filter((pack) => pack.capabilities.includes("DISCOVERY"))
     .filter((pack) => intent.target?.goal !== "RECOMMENDATION" || !pack.reservationOnly)
-    .map((pack) => ({ pack, score: pack.basePriority + (group && pack.supportsGroups ? 100 : 0) + (sameDay && pack.supportsSameDay ? 10 : 0) }))
+    .map((pack) => ({ pack, score: pack.basePriority + (sameDay && pack.supportsSameDay ? 10 : 0) }))
     .sort((left, right) => right.score - left.score || left.pack.id.localeCompare(right.pack.id));
   return {
     entries: candidates.map(({ pack }) => ({ sourceId: pack.id, query: { category, positiveCriteria:positiveDiscoveryCriteria(intent), location: { ...location } } })),
@@ -77,6 +76,10 @@ export function currentDiscoveryPlanEntry(plan: DiscoveryPlan): DiscoveryPlanEnt
   return plan.entries[plan.cursor];
 }
 
-export function advanceDiscoveryPlan(plan: DiscoveryPlan): DiscoveryPlan {
-  return { ...plan, entries: plan.entries.map((entry) => ({ sourceId: entry.sourceId, query: { ...entry.query, location: { ...entry.query.location } } })), cursor: Math.min(plan.entries.length, plan.cursor + 1) };
+/** A partial chunk rejoins the tail, after every other scheduled source batch. */
+export function advanceDiscoveryPlan(plan: DiscoveryPlan, sourceEnded = true): DiscoveryPlan {
+  const entries = structuredClone(plan.entries);
+  const current = entries[plan.cursor];
+  if (current && !sourceEnded) entries.push(structuredClone(current));
+  return {...plan, entries, cursor: Math.min(entries.length, plan.cursor + 1)};
 }

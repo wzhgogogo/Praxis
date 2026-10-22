@@ -425,7 +425,7 @@ test("the production Router advances the default three-pack cursor and reaches G
     date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
     area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
   };
-  let state: RestaurantTaskState = { schemaVersion: "19", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
+  let state: RestaurantTaskState = { schemaVersion: "20", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
   const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
   assert.equal(first.event?.type, "SEARCH_COMPLETED");
   if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
@@ -521,7 +521,7 @@ test("H001 native Tabelog batch continues past unavailable and unknown outlets, 
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/102"]);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
   assert.equal(result.state.availabilityChecks["tabelog:tokyo/A1304/A130401/100"]?.status, "UNAVAILABLE");
-  assert.equal(result.state.availabilityChecks["tabelog:tokyo/A1304/A130401/101"]?.status, "UNKNOWN");
+  assert.equal(result.state.availabilityChecks["tabelog:tokyo/A1304/A130401/101"]?.status, "SOURCE_UNSUPPORTED");
   assert.equal(result.state.availabilityChecks["tabelog:tokyo/A1304/A130401/102"]?.status, "AVAILABLE");
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
   const funnel = result.trajectories.find((step) => step.executionMetadata?.provider === "TABELOG")?.executionMetadata?.nativeDiscoveryFunnel;
@@ -602,13 +602,15 @@ test("native discovery retains category pagination including links revealed by a
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/106"], JSON.stringify({navigations:result.navigations,search:result.state.searchContinuation,metadata:result.trajectories.filter(x=>x.agentAction?.type==="SEARCH_RESTAURANTS").map(x=>x.executionMetadata)}));
   assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/2/"), true);
   assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/3/"), true);
-  assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
+  assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), true);
+  assert.ok(result.navigations.findIndex(url => url.includes("tablecheck.com")) < result.navigations.findIndex(url => url.endsWith("/105/")), "another source first batch precedes directory second chunk");
   const firstDetail = result.navigations.findIndex((url) => url.endsWith("/100/"));
   const category = result.navigations.findIndex((url) => url.includes("/rstLst/sushi/"));
   assert.ok(firstDetail >= 0 && category < firstDetail, "sparse retrieval is refined before details while observed entries stay at the queue front");
   const reads = result.trajectories.filter((step) => step.executionMetadata?.provider === "TABELOG" && step.agentAction?.type === "SEARCH_RESTAURANTS");
   assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [5, 1, 1]);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
+  assert.ok(result.state.searchContinuation?.deferredSources?.some(item => item.progress.sourceId === "tablecheck" && item.progress.pagesRead > 0), "a finished source checkpoint is retained across handoff too; spent budgets and unread entrances are not discarded");
 });
 
 test("H001's named Shibuya entry avoids an unrelated root-list candidate before investigation", async () => {
@@ -697,7 +699,7 @@ test("H001 retains unstarted Tabelog entries when a failed detail cannot reopen 
   assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4, "retained entries add no listing navigation after the initial query, hint and single fallback");
 });
 
-test("native detail chunk continues through later observed Tabelog results before changing source", async () => {
+test("native detail chunk retains deferred outlets while another source gets its first batch", async () => {
   const result = await runScenario("TABELOG_BATCH_CAP");
   const funnel = result.trajectories.find((step) => step.executionMetadata?.provider === "TABELOG")?.executionMetadata?.nativeDiscoveryFunnel;
   assert.deepEqual({ raw: funnel?.rawSourceLinks, parsed: funnel?.parsedOutlets, inspected: funnel?.inspectedOutlets,
@@ -708,7 +710,7 @@ test("native detail chunk continues through later observed Tabelog results befor
     reasonCode: "DETAIL_BATCH_CAP",
   }], "the observed sixth entrance is deferred, not rejected or represented as source exhaustion");
   assert.equal(new Set(result.navigations.filter((url) => /tabelog\.com\/tokyo\/A1304\/A130401\/\d+\/$/.test(url))).size, 6,
-    "the sixth observed entrance is inspected in a later Tabelog chunk before the source changes");
+    "the sixth observed entrance survives source handoff and is inspected in a later Tabelog chunk");
 });
 
 test("H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated", async () => {

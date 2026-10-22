@@ -1108,6 +1108,21 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       ?? planDiscoverySources(request.intent, location, this.packs.map((pack) => pack.meta), this.now()));
     const entry = currentDiscoveryPlanEntry(discoveryPlan);
     if (!entry) throw Object.assign(new Error("Discovery source plan is exhausted"), { code: "DISCOVERY_PLAN_EXHAUSTED" });
+    const previous = request.continuation;
+    const paused = previous?.deferredSources ?? [];
+    const resumed = paused.find(item => item.progress.sourceId === entry.sourceId);
+    const deferredSources = paused.filter(item => item.progress.sourceId !== entry.sourceId);
+    if (previous?.sourceProgress && previous.sourceProgress.sourceId !== entry.sourceId) {
+      deferredSources.push({progress: previous.sourceProgress, usedPageTokens: previous.usedPageTokens, pagesRead: previous.pagesRead,
+        ...(previous.nextPageToken ? {nextPageToken: previous.nextPageToken} : {}),
+        ...(previous.sourceRequestContext ? {sourceRequestContext: previous.sourceRequestContext} : {})});
+    }
+    if (previous && previous.sourceProgress?.sourceId !== entry.sourceId) {
+      const {sourceProgress: _active, nextPageToken: _token, sourceRequestContext: _query, ...rest} = previous;
+      request = {...request, continuation: {...rest, usedPageTokens: resumed?.usedPageTokens ?? [], pagesRead: resumed?.pagesRead ?? 0,
+        ...(resumed ? {sourceProgress: resumed.progress, ...(resumed.nextPageToken ? {nextPageToken: resumed.nextPageToken} : {}),
+          ...(resumed.sourceRequestContext ? {sourceRequestContext: resumed.sourceRequestContext} : {})} : {})}};
+    }
     const pack = this.packs.find((candidate) => candidate.meta.id === entry.sourceId);
     const source = nativeSourceForPack(pack);
     const prepareTextRetrieval = async (timeoutMs: number) => {
@@ -1133,7 +1148,11 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         sourceProgress:{sourceId:entry.sourceId,inspectedSourceIds:[],detailAttempts:0,pagesRead:0,pendingSourceIds:[],...prior,elapsedMs:(prior?.elapsedMs??0)+planningElapsedMs,
           retrieval:prior?.retrieval??{selection:discoveryPlan.textRetrieval!,rewrites:0,regionPages:0,retrievalPages:0,history:[]}}}};
     }
-    if (!source) return this.searchGooglePack(request, signal, discoveryPlan, entry.sourceId, entry.query.keyword ?? entry.query.category, location);
+    if (!source) {
+      const read = await this.searchGooglePack(request, signal, discoveryPlan, entry.sourceId, entry.query.keyword ?? entry.query.category, location);
+      read.continuation!.deferredSources = deferredSources;
+      return read;
+    }
     let batch: Awaited<ReturnType<NativeRestaurantSearch["batch"]>> = { candidates: [], evidence: [], candidateFailures: [],
       progress: {
         retrieval:request.continuation?.sourceProgress?.retrieval??{rewrites:0,regionPages:0,retrievalPages:0,history:[]},
@@ -1203,20 +1222,21 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         ? restaurantFailureCode(error.code, "SEARCH_FAILED") : restaurantFailureCode(`${source}_NATIVE_DISCOVERY_FAILED`, "SEARCH_FAILED");
     }
     const sourceEnded = batch.funnel.sourceEnded;
-    const nextPlan = sourceEnded ? advanceDiscoveryPlan(discoveryPlan) : discoveryPlan;
+    const nextPlan = advanceDiscoveryPlan(discoveryPlan, sourceEnded);
     return {
       candidates: batch.candidates,
       evidence: [...(localityEvidence ? [localityEvidence] : []), ...batch.evidence],
       continuation: {
         intentFingerprint: restaurantSearchIntentFingerprint(request.intent),
         discoveryPlan: nextPlan,
+        deferredSources,
         currentDiscoveryBatch: {
           sourceId: entry.sourceId,
           candidateIds: batch.candidates.map((candidate) => candidate.restaurant.id),
         },
         usedPageTokens: [], pagesRead: (request.continuation?.pagesRead ?? 0) + batch.funnel.pagesRead,
         exhausted: sourceEnded && currentDiscoveryPlanEntry(nextPlan) === undefined,
-        ...(!sourceEnded || failureCode ? { sourceProgress: batch.progress } : {}),
+        sourceProgress: batch.progress,
         ...(failureCode ? { lastFailureCode: failureCode } : {}),
         locationContext: location,
       },
@@ -1262,7 +1282,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     if (!read.continuation) throw Object.assign(new Error("Google discovery did not return a bounded cursor"), { code: "GOOGLE_MALFORMED_RESPONSE" });
     const googleContinuation = read.continuation;
     const sourceEnded = googleContinuation.exhausted;
-    const nextPlan = sourceEnded ? advanceDiscoveryPlan(plan) : plan;
+    const nextPlan = advanceDiscoveryPlan(plan, sourceEnded);
     const candidates = read.candidates.map((candidate) => ({
       ...candidate,
       restaurant: { ...candidate.restaurant, sourceIds: { ...candidate.restaurant.sourceIds, discoverySourceId: sourceId } },

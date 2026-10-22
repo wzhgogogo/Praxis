@@ -1,0 +1,29 @@
+✖ group-window Chromium: all-empty keeps exact request and explicit coverage (1613.807875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2011.226917
+
+✖ failing tests:
+
+test at src/harness/browser/group-window.test.ts:5:95
+✖ group-window Chromium: all-empty keeps exact request and explicit coverage (1613.807875ms)
+  AssertionError [ERR_ASSERTION]: a completed partial source observation is not a provider failure
+  + actual - expected
+  
+  + 'AVAILABILITY_SOURCES_EXHAUSTED'
+  - undefined
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/harness/browser/group-window.test.ts:55:32)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'AVAILABILITY_SOURCES_EXHAUSTED',
+    expected: undefined,
+    operator: 'strictEqual'
+  }

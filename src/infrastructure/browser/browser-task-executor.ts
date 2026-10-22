@@ -1,3 +1,4 @@
+import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import { setTimeout as wait } from "node:timers/promises";
 import type { BrowserControlHint, BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError, type BrowserDeadlineScope, type BrowserRuntimeFailureCode } from "./browser-runtime-errors.js";
@@ -323,6 +324,8 @@ export class BrowserTaskExecutor {
     this.finishProvider(outcome, reason);
   }
 
+  private networkPolicy: BrowserReadNetworkPolicy | undefined;
+
   async acquire(signal: AbortSignal, source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"], networkPolicy?: BrowserReadNetworkPolicy): Promise<BrowserSession> {
     this.ensureLifecycle(source, stage);
     try {
@@ -332,6 +335,7 @@ export class BrowserTaskExecutor {
       this.finishProvider(error instanceof BrowserRuntimeError && error.code === "BROWSER_ABORTED" ? "ABANDONED" : "FAILED", this.reasonForFailure(error));
       throw error;
     }
+    if (networkPolicy) this.networkPolicy = networkPolicy;
     if (this.session) return this.session;
     // Session acquisition is provider work too. Race it against the candidate
     // deadline without passing a disposable candidate timer into the runtime:
@@ -445,6 +449,7 @@ export class BrowserTaskExecutor {
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
     const assess = async (current: BrowserSnapshot, controls: BrowserPageControl[]) => {
+      if (this.disabledRequestedParty(input, {snapshot: current, controls, targets: toObservedTargets(controls, 0), revision: 0})) return {complete: false as const, reason: "PARTY_SIZE_NOT_SELECTABLE"};
       const pending: BrowserCompletionAssessment = { complete: false, reason: "Page is still loading after its bounded settlement wait; old results are not usable." };
       // Only the adapter's existing predicate can establish a bound result.
       // Readiness itself never establishes identity, request binding or inventory.
@@ -476,6 +481,7 @@ export class BrowserTaskExecutor {
     // completion, including on the initial snapshot and after a source-owned
     // shortcut. HTML alone is never a shortcut around current DOM evidence.
     let verifiedObservation: Observation | undefined = await this.observe(input, snapshot);
+    if (this.disabledRequestedParty(input, verifiedObservation)) return {status: "NO_SAFE_ACTION", reasonCode: "PARTY_SIZE_NOT_SELECTABLE", snapshot, controls: verifiedObservation.controls};
     let completion = await assess(snapshot, verifiedObservation.controls);
     if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
     if (snapshot.settlement === "PENDING") {
@@ -565,6 +571,7 @@ export class BrowserTaskExecutor {
       if (pendingOption && this.optionSelectionObserved(pendingOption, observation.controls)) pendingOption = undefined;
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, observation.controls)) pendingRadio = undefined;
       if (pendingParty && partyGroupConfirmed(observation, input.goal, pendingParty.groupKey)) pendingParty = undefined;
+      if (this.disabledRequestedParty(input, observation)) return {status: "NO_SAFE_ACTION", reasonCode: "PARTY_SIZE_NOT_SELECTABLE", snapshot, controls: observation.controls};
       completion = await assess(snapshot, observation.controls);
       if (completion.complete && !pendingOption && !pendingRadio && !pendingParty) return { status: "COMPLETED", snapshot, controls: observation.controls };
       if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
@@ -668,6 +675,7 @@ export class BrowserTaskExecutor {
       }
       if (action.type === "COMPLETE") {
         consecutiveStateRepeats = 0;
+        if (this.disabledRequestedParty(input, observation)) return {status: "NO_SAFE_ACTION", reasonCode: "PARTY_SIZE_NOT_SELECTABLE", snapshot, controls: observation.controls};
         completion = await assess(snapshot, observation.controls);
         if (pendingOption || pendingRadio) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
         if (completion.complete && !pendingParty) return { status: "COMPLETED", snapshot, controls: observation.controls };
@@ -886,6 +894,44 @@ export class BrowserTaskExecutor {
     await closing;
   }
 
+  private disabledRequestedParty(input: BrowserSkillReadInput, observation: Observation): boolean {
+    if (input.stage !== "AVAILABILITY" || input.goal.partySize === undefined) return false;
+    // Disabled counts can still belong to the old date while a future date is being selected.
+    if (input.goal.date && ![...observation.targets.values()].some(target =>
+      target.selected && this.targetDate(target) === input.goal.date
+      || target.kind === "INPUT" && target.value === input.goal.date && /date/i.test(`${target.type ?? ""} ${target.inputName ?? ""} ${target.label}`))) return false;
+    return [...observation.targets.values()].some(target => target.disabled && !target.selected && !target.outsideViewport
+      && !partyGroupConfirmed(observation, input.goal, target.controlGroupKey)
+      && (/^(?:guests?|people|party size|人数)$/i.test(target.controlGroupLabel ?? "") || /^(?:guests?|people|party size|人数)\s*\d+$/i.test(target.label)
+        || target.kind === "OPTION" && /\b(?:guests?|people|party|adults?)\b|人数/i.test(observation.targets.get(target.ownerRef ?? "")?.label ?? ""))
+      && matchesAuthoritativeControl(target, "PARTY_SIZE", input.goal));
+  }
+
+  /** Query only the next enabled, source-observed time; never invent an interval or click a slot. */
+  async advanceAvailabilityTime(input: BrowserSkillReadInput, checkedTimes: readonly string[]): Promise<string | undefined> {
+    let snapshot = await this.snapshot(input);
+    let observation = await this.observe(input, snapshot);
+    let options = [...observation.targets.values()].filter(target => target.kind === "OPTION" && !target.disabled && !target.selected
+      && matchesAuthoritativeControl(target, "TIME", input.goal) && !checkedTimes.includes(observedClock(target.label) ?? ""));
+    if (!options.length) {
+      const owners = [...observation.targets.values()].filter(target => target.role === "combobox" && target.kind !== "SELECT" && !target.disabled
+        && (/\btime\b|時刻|時間/i.test(target.controlGroupLabel ?? "") || observedClock(target.label) !== undefined || observedClock(target.value ?? "") !== undefined));
+      if (owners.length !== 1 || !this.actionHints(input, observation, owners[0]!, false).availableActions?.includes("CLICK")) return;
+      await this.applyGenericAction(input, observation, owners[0], {type: "CLICK", targetRef: owners[0]!.ref, reason: "Observe source-provided time query choices"});
+      await this.waitForSettled(input, snapshot);
+      snapshot = await this.snapshot(input);
+      observation = await this.observe(input, snapshot);
+      options = [...observation.targets.values()].filter(target => target.kind === "OPTION" && !target.disabled && !target.selected
+        && matchesAuthoritativeControl(target, "TIME", input.goal) && !checkedTimes.includes(observedClock(target.label) ?? ""));
+    }
+    const next = options.sort((a,b) => observedClock(a.label)!.localeCompare(observedClock(b.label)!))[0];
+    if (!next || !this.actionHints(input, observation, next, false).availableActions?.includes("CHOOSE_OPTION:TIME")) return;
+    const time = observedClock(next.label)!;
+    await this.applyGenericAction(input, observation, next, {type: "CHOOSE_OPTION", targetRef: next.ref, field: "TIME", reason: "Continue the same outlet at its next unobserved legal time"});
+    await this.waitForSettled(input, snapshot);
+    return time;
+  }
+
   private async observe(input: BrowserSkillReadInput, snapshot: BrowserSnapshot): Promise<Observation> {
     this.observationRevision += 1;
     const controls = input.session.observeControls
@@ -918,6 +964,7 @@ export class BrowserTaskExecutor {
   private actionHints(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget, pendingSelection: boolean): Pick<BrowserReadActionTarget, "availableActions" | "rejectionReason"> {
     const availableActions: string[] = [];
     let rejectionReason: string | undefined;
+    if (target.href && isBrowserReadPathProhibited(this.networkPolicy, target.href)) return {availableActions, rejectionReason: "NAVIGATION_PROHIBITED"};
     const date = this.targetDate(target);
     if (input.stage === "AVAILABILITY" && input.goal.date && date) {
       if (date !== input.goal.date) return { availableActions, rejectionReason: "NON_REQUEST_DATE" };

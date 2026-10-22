@@ -1,3 +1,4 @@
+import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
 import type { BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
@@ -413,12 +414,7 @@ export class PlaywrightReadNetworkGuard {
 
   /** An explicit source revocation cannot be reopened by a reviewed read rule. */
   private prohibitedRead(url: URL): boolean {
-    const rules = this.policy.prohibitedPaths?.filter(rule => url.hostname === rule.hostname || url.hostname.endsWith(`.${rule.hostname}`));
-    if (!rules?.length) return false;
-    try {
-      const segments = decodeURIComponent(url.pathname).toLowerCase().split("/");
-      return rules.some(rule => segments.includes(rule.pathSegment.toLowerCase()));
-    } catch { return true; }
+    return isBrowserReadPathProhibited(this.policy, url);
   }
 
   /** ADR-0036 permits public GET/HEAD exploration, not sensitive endpoint or PII query shapes. */

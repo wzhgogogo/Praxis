@@ -1,0 +1,31 @@
+✔ group-window Chromium: available keeps exact request and explicit coverage (948.553125ms)
+✔ group-window Chromium: all-empty keeps exact request and explicit coverage (1615.849584ms)
+✖ group-window Chromium: wrong-party keeps exact request and explicit coverage (872.220208ms)
+✔ group-window Chromium: forbidden entry is not attempted by availability or repeated FACTS (1397.798625ms)
+✔ group-window Chromium: disabled exact party stops without clicking or changing the count (467.63725ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5697.486167
+
+✖ failing tests:
+
+test at src/harness/browser/group-window.test.ts:5:95
+✖ group-window Chromium: wrong-party keeps exact request and explicit coverage (872.220208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/harness/browser/group-window.test.ts:47:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }

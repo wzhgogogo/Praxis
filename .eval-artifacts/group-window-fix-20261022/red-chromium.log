@@ -1,0 +1,67 @@
+✖ group-window Chromium: available keeps exact request and explicit coverage (528.64025ms)
+✖ group-window Chromium: forbidden entry is not attempted by availability or repeated FACTS (435.339625ms)
+✖ group-window Chromium: disabled exact party stops without clicking or changing the count (479.20825ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1810.19575
+
+✖ failing tests:
+
+test at src/harness/browser/group-window.test.ts:5:95
+✖ group-window Chromium: available keeps exact request and explicit coverage (528.64025ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"tablecheck:window-fixture":{"status":"UNKNOWN","checkedAt":"2026-10-22T00:00:00Z","evidenceIds":["evidence:restaurant:tablecheck-entity-match:91a0c7a3af42fd2f33d77745"],"reasonCode":"SELECTED_MEALTIME_EMPTY"}},"evidence":[{"evidenceId":"evidence:restaurant:tablecheck-entity-match:91a0c7a3af42fd2f33d77745","kind":"ENTITY_MATCH","provider":"TABLECHECK","candidateId":"tablecheck:window-fixture","sourceEntityId":"window-fixture","sourceUrl":"https://www.tablecheck.com/en/window-fixture","observedAt":"2026-10-22T00:00:00Z","requestFingerprint":"fc408bc27d04994ec0816a2f3c1352e9bee979e3f1e501670bfea1f62d6346be","claims":{"outletName":"Window fixture"},"entityMatch":{"confidence":"HIGH","matchedBy":["NATIVE_SOURCE_ID_AND_DETAIL"]}}],"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":513,"failureCode":"SELECTED_MEALTIME_EMPTY","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:6960bbfb-b01e-483f-acd5-8e80993e370c","startedAt":"2026-10-22T14:06:39.342Z","readNetworkBoundary":"INSTALLED"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/harness/browser/group-window.test.ts:42:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/group-window.test.ts:5:1698
+✖ group-window Chromium: forbidden entry is not attempted by availability or repeated FACTS (435.339625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'SOURCE_UNSUPPORTED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/harness/browser/group-window.test.ts:57:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'SOURCE_UNSUPPORTED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/group-window.test.ts:5:3015
+✖ group-window Chromium: disabled exact party stops without clicking or changing the count (479.20825ms)
+  AssertionError [ERR_ASSERTION]: [{"id":"dom:1:1","structure":{"tag":"BUTTON","name":"","classes":["p-booking-calendar__people-button","is-selected"],"dialogLabel":"","formClass":"","sliderCount":0,"listboxId":""},"stableKey":"button,[role=button],[role=option],input[role=combobox][aria-readonly=true]|button||2|2|0","kind":"BUTTON","role":"button","label":"2","controlGroupLabel":"Guests","controlGroupKey":"dom-group:BODY:1/DIV:0/DIV:0/DIV:1","value":"2","type":"button","disabled":false,"visible":true,"selected":true},{"id":"dom:1:2","structure":{"tag":"BUTTON","name":"","classes":["p-booking-calendar__people-button","is-disabled"],"dialogLabel":"","formClass":"","sliderCount":0,"listboxId":""},"stableKey":"button,[role=button],[role=option],input[role=combobox][aria-readonly=true]|button||10|10|1","kind":"BUTTON","role":"button","label":"10","controlGroupLabel":"Guests","controlGroupKey":"dom-group:BODY:1/DIV:0/DIV:0/DIV:1","value":"10","type":"button","disabled":true,"visible":true}]
+  + actual - expected
+  
+  + undefined
+  - 'PARTY_SIZE_NOT_SELECTABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/group-window-fix/Praxis-Zhixing/src/harness/browser/group-window.test.ts:74:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'PARTY_SIZE_NOT_SELECTABLE',
+    operator: 'strictEqual'
+  }
