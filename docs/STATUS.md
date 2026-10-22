@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.358
+- Document revision: 4.359
 - Last updated: 2026-10-22
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-22 Checkpoint C phase2b-step2-live-pass:** 三次旧暴露完整Live检查全通过：例03两次及例01对照均Evaluator33/rubric29 QD，各交付3家，三次实际先到Tabelog。例03见证1/2进候选，两次返回18:00至20:00窗口内九时刻并集；例01见证3/3入候选，19:00。声明/越界均ABSENT；无重跑，间隔/500秒/50模型/40Google/旧见证有效期均满足。新增60模型/3Live/0重跑，累计3340/54/3，按5000剩1660/46/7；不计任何退出分母。冻结8afad494/4175项前后通过，原始/独立评价/四层报告已保存。第三步新原文仍未打开，接下来核对承诺及分支后准备新见证，最终18次只提措辞不评价。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/four-layer-report.md).
 
 - **2026-10-22 Checkpoint C phase2b-step1-complete:** 第一步合并验收全部满足：预算/团体/流水线已按序进入准备分支，模型累计上限5000。实际五门禁1024/136、缓存真实响应69/69与选店5/5、独立校准22/22及旧例02五条预算均CONSISTENT。69与5请求经当前生产重建后逐项内容相同；无新模型/网站/Live。冻结f648d2df/4173项前后核对，当前3280/51/3、剩1720/49/7；旧原始/评价/Gold保持。新留出未打开，进入已批准三次旧暴露Live检查，必须在旧见证北京时间10月23日14:41:36前完成；不过门槛即停，不续期。 [Batch](../.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/four-layer-report.md).
 

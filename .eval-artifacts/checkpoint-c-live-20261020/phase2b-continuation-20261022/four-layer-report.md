@@ -1,34 +1,35 @@
-# Phase2b 第一步：合并验收
+# Phase2b 第二步：三次完整 Live 检查
 
-Evidence status: frozen exposed regression; merged in codex/chore-checkpoint-c-prep. No new Live, no new Clean-holdout result.
+Evidence status: exposed Live checks / non-exit denominator. 第一批新Phase2b原文尚未打开。本步门槛 **PASS**；可继续第三步。
 
-预算200e13cf → 团体98cc7994 → 退出流水线47afd2d7按序合入；仅摘取06703ba1预算批准，不合入其他开发代码。State20 / TaskDefinition18，Browser Prompt19 / Restaurant Agent Prompt27 / Semantic Prompt21，Evaluator33 / rubric29；文档修订号统一递增，所有历史记录及双方行为/测试保留。
-
-冻结代码提交 1a715325f121db137c8e509ce8a2440e55cad968，SHA-256 **f648d2df299b6f4462969e1980048f4354acb400e0679acb9f03b63b892a369b**，运行前提交4173项，离线验收后逐项通过。团体最终包使用delivery-freeze032c73a2，批准复核按98cc7994逐字核对；准备时误取中间包的核对失败发生在运行前，未改任何历史输入。
+第一步五门禁1024/136、69/69、5/5、22/22、预算5行全部通过，见 [第一步报告](step1-four-layer-report.md)。第二步冻结SHA-256 **8afad494c490e706429c2cd874f2dcfe530547a07dab8c831a0544dcbd043bb4**，4175项在运行前提交，批次结束后核对通过。计划q-01例03 → q-02例01 → q-03例03，三次均使用旧登记和原Runner输入，不改日期，不续期。
 
 ## 1. 端到端结果
 
-第一步门槛PASS；这仅证明合并后离线回归，不是新的整单或Live交付。三份旧例02保存事件经过当前生产Router→Reducer，实际新State20单独保存，只将其真实展示投影进旧观察的评价视图，旧原始结果不覆盖。
+Evaluator33/rubric29独立判定三次均QUALIFIED_DELIVERY。例03为2/2，例01为1/1；达到用户本轮机械门槛，不作为新退出检查或稳定成功率基线。
 
-| 旧运行 | 预算行数 | 与@33独立核对 |
-| --- | --- | --- |
-| h-02 | 2 | CONSISTENT, CONSISTENT |
-| h-08 | 2 | CONSISTENT, CONSISTENT |
-| h-14 | 1 | CONSISTENT |
+| 运行/用例 | 独立结果 | 交付数 | 先到Tabelog | 登记见证入候选 | 耗时 | 模型 | Google含预检 | S0声明/越界 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| q-01 / p2-holdout-03 | QUALIFIED_DELIVERY | 3 | 是 | 1/2 | 230.295s | 19 | 3 | ABSENT/ABSENT |
+| q-02 / p2-holdout-01 | QUALIFIED_DELIVERY | 3 | 是 | 3/3 | 223.878s | 22 | 3 | ABSENT/ABSENT |
+| q-03 / p2-holdout-03 | QUALIFIED_DELIVERY | 3 | 是 | 1/2 | 187.581s | 19 | 3 | ABSENT/ABSENT |
 
-## 2. 逐环节判定
+三次完成于2026-10-22T16:35:49.895Z，早于旧见证总截止2026-10-23T06:41:36.126Z（北京10月23日14:41:36）。无重跑；两段完成至下次开始间隔均>=300秒。每次<=500秒、50模型和40Google；所有原始耗时保留，未截断清理时间。
 
-- 五门禁实际运行：typecheck/arch/build PASS，默认1024/1024、本地Chromium136/136；原历史浏览器生成报告已恢复，新结果另存。加入三槽检查入口后默认套件再次1024/1024，外层当前16项控制PASS。
-- 69点用当前生产观察重建，与冻结的批准模型内容、Schema、oracle逐点一致，仅保留此前10秒→30秒超时变化；复用原真实模型响应，69/69。选店请求逐字相同，5/5。此为缓存响应回归，非新模型质量样本。
-- 校准Evaluator33/rubric29：先保存22份自动输出，再比较标签，22/22；常规声明20/20，2中断仍未评，越界9 ABSENT/13 NOT_EVALUATED。
-- 预算5行MET/CONSISTENT；全部10条条件一致；原Gold、Proposal、priceFacts、来源响应和旧评价保留。
+## 2. 逐环节
 
-## 3. 严重程度与资源
+- 先到达：三次首个原始浏览器SNAPSHOT都是Tabelog东京目录页，非仅计划排序；精确时刻/sequence/URL见 [gate-summary](live-checks/gate-summary.json)。
+- 例03两次：Shabu Gen进入候选，Kappo Kukita未进入。两次都读到窗口内空位链接18:00、18:15、18:30、18:45、19:00、19:15、19:30、19:45、20:00（为不同交付店的并集；Shabu Gen自身为半小时粒度）。
+- 例01：三家登记见证全部进入候选，匹配时刻为19:00。
+- 时间窗上述是Tabelog实际返回且保留的匹配链接，不把它写成TableCheck逐点续查的执行。三次没有timeWindowCoverage结构记录，TableCheck四点续查分支的Live贡献仍未单独验证；第一步本地真实Chromium正反例证据保留。
+- 身份、HARD、日期/人数/时段、展示和运行后独立GET均由本轮@33独立核对。每次完整四层记录、条件与展示比较、原始SHA和HARD材料见各attempt的complete.run-report.json、complete.evaluation.json。
 
-离线预算展示0 S1_UNSUPPORTED/0 MISSED_KNOWN_CONDITION；不把历史S0或未知改为零。新真实模型/外站/Google/Live/重跑全部0；原累计3280模型、51完整Live、3环境重跑。用户批准后上限5000，剩1720模型/49Live/7环境重跑。预算门禁与流水线账本更新使用同一常量，旧账本不改写。
+## 3. 严重程度与预算
 
-## 4. 归因与下一门槛
+三次S0_DECLARATION与S0_BOUNDARY均ABSENT；没有S0 PRESENT，不消除历史H003记录。新增60模型、3完整Live、0环境重跑，均计入累计账本；不计任何退出检查分母。累计3340/5000模型、54/100完整Live、3/10环境重跑；剩余1660模型/46Live/7重跑。原始资源和冻结输入不覆盖。
 
-合并没有改变各方生产行为；首个待证明项仍是团体与时间窗修复的真实因果贡献。三次检查复用同一Runner/Guard/独立post/S0执行器，仅增加独立SHA绑定的三槽计划，原18槽行为保留。先例03、再例01、再例03；不计任何退出分母。门槛为0 S0 PRESENT、例03至少1/2 QD且例01 QD；现有见证须在北京时间2026-10-23 14:41:36前全部跑完，过期停，不续期。
+## 4. 归因与下一步
 
-新Phase2b原文仍未打开，第三至第五步尚未开始。检查失败就提交停止报告，不绕过，不以离线回归代替Live。
+例03的真实路径已从旧运行TableCheck优先的卡点转为先到Tabelog并交付，符合修复的预期机制；当前两次不是同库存的随机对照，不能拆分四项团体修复、预算修复或外部库存变化的独立因果贡献。上野对照本次合格，单次不证明长期无退步。
+
+前三次检查已全部结束。接下来先核对新承诺，再打开指定分支原文；校验失败或分支不存在就停。新留出跑完只提措辞包，不出能力结果，等待独立判词。

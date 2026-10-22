@@ -1,0 +1,1600 @@
+{
+  "schema": "phase2b-three-live-checks@1",
+  "status": "PASS",
+  "freezeSha256": "8afad494c490e706429c2cd874f2dcfe530547a07dab8c831a0544dcbd043bb4",
+  "scope": "Three exposed Live checks; full-Live budget only, zero exit-check denominator",
+  "conditions": {
+    "allThreeReached": true,
+    "noPositiveS0": true,
+    "groupQualifiedAtLeastOne": true,
+    "controlQualified": true,
+    "withinExistingWitnessWindow": true,
+    "allFormalRunsWithinCeilings": true,
+    "notStopped": true
+  },
+  "reports": [
+    {
+      "run": {
+        "runId": "q-01",
+        "caseId": "p2-holdout-03",
+        "repeat": 1,
+        "role": "EXPOSED_LIVE_CHECK"
+      },
+      "attempt": 1,
+      "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-01-attempt-1/runner/2026-10-22T16-14-07-336Z-cfce456d-7ee1-414f-8214-92448dafa513.result.json",
+      "artifactSha256": "fe50a10af8177edc480f500638a7b7bed3fc9c87dc451d907e43275ede12bee6",
+      "evaluationPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-01-attempt-1/complete.evaluation.json",
+      "outcome": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "firstObservedNativeSource": {
+        "source": "TABELOG",
+        "url": "https://tabelog.com/en/tokyo/",
+        "sequence": 14,
+        "at": "2026-10-22T16:14:25.009Z"
+      },
+      "reachedTabelogFirst": true,
+      "tabelogPagesObserved": [
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/",
+          "sequence": 14,
+          "at": "2026-10-22T16:14:25.009Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/",
+          "sequence": 18,
+          "at": "2026-10-22T16:14:25.177Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/",
+          "sequence": 30,
+          "at": "2026-10-22T16:14:26.526Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/",
+          "sequence": 51,
+          "at": "2026-10-22T16:14:35.760Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/rstLst/syabusyabu/",
+          "sequence": 66,
+          "at": "2026-10-22T16:14:44.284Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 78,
+          "at": "2026-10-22T16:14:49.885Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 89,
+          "at": "2026-10-22T16:14:55.437Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 100,
+          "at": "2026-10-22T16:15:10.699Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 111,
+          "at": "2026-10-22T16:15:14.263Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 122,
+          "at": "2026-10-22T16:15:29.208Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 143,
+          "at": "2026-10-22T16:15:46.389Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 147,
+          "at": "2026-10-22T16:15:46.466Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 152,
+          "at": "2026-10-22T16:15:46.995Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 165,
+          "at": "2026-10-22T16:15:47.878Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 186,
+          "at": "2026-10-22T16:15:54.042Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 208,
+          "at": "2026-10-22T16:15:57.921Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 216,
+          "at": "2026-10-22T16:15:58.535Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 237,
+          "at": "2026-10-22T16:16:05.903Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 241,
+          "at": "2026-10-22T16:16:05.999Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 246,
+          "at": "2026-10-22T16:16:06.533Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 258,
+          "at": "2026-10-22T16:16:07.428Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 279,
+          "at": "2026-10-22T16:16:11.927Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 301,
+          "at": "2026-10-22T16:16:16.030Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 309,
+          "at": "2026-10-22T16:16:16.606Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 330,
+          "at": "2026-10-22T16:16:21.257Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 334,
+          "at": "2026-10-22T16:16:21.310Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 339,
+          "at": "2026-10-22T16:16:21.868Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 351,
+          "at": "2026-10-22T16:16:22.751Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 372,
+          "at": "2026-10-22T16:16:28.140Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 394,
+          "at": "2026-10-22T16:16:34.447Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 402,
+          "at": "2026-10-22T16:16:35.038Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 423,
+          "at": "2026-10-22T16:16:51.063Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 427,
+          "at": "2026-10-22T16:16:51.146Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 432,
+          "at": "2026-10-22T16:16:51.701Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 444,
+          "at": "2026-10-22T16:16:52.596Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 465,
+          "at": "2026-10-22T16:16:59.297Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 487,
+          "at": "2026-10-22T16:17:02.827Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 495,
+          "at": "2026-10-22T16:17:03.414Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 516,
+          "at": "2026-10-22T16:17:20.172Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 520,
+          "at": "2026-10-22T16:17:20.242Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 525,
+          "at": "2026-10-22T16:17:20.771Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 537,
+          "at": "2026-10-22T16:17:21.645Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 558,
+          "at": "2026-10-22T16:17:27.456Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 580,
+          "at": "2026-10-22T16:17:31.147Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 588,
+          "at": "2026-10-22T16:17:31.743Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 607,
+          "at": "2026-10-22T16:17:50.792Z"
+        }
+      ],
+      "firstScheduledNativeSource": "TABELOG",
+      "witnesses": [
+        {
+          "outletName": "Shabu Gen",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "enteredCandidates": true
+        },
+        {
+          "outletName": "Kappo Kukita",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13169764/",
+          "enteredCandidates": false
+        }
+      ],
+      "requestedWindow": {
+        "earliest": "18:00",
+        "latest": "20:00"
+      },
+      "timeWindowCoverage": [],
+      "availabilityChecks": {
+        "tabelog:en/tokyo/A1308/A130801/13126018": {
+          "status": "UNAVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:15:58.561Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:5c73f9bf32d281a6166f4a15",
+            "evidence:restaurant:tabelog-hard-criteria:7b947bb2bd17807f7ed90903",
+            "evidence:restaurant:tabelog-availability:37bb62f9e80b07c86549bb32"
+          ],
+          "reasonCode": "NO_MATCHING_SLOT",
+          "displayExpiresAt": "2026-10-22T16:25:58.561Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "UNAVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-29\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6}"
+        },
+        "tabelog:en/tokyo/A1308/A130801/13247290": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:16:16.644Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:43fcef4e612a24a54ccf0c65",
+            "evidence:restaurant:tabelog-hard-criteria:e0f525dd57fc0bf07cb866b4",
+            "evidence:restaurant:tabelog-availability:2687d26fc1dd7fc662a01032"
+          ],
+          "displayExpiresAt": "2026-10-22T16:26:16.644Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-29\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6}"
+        },
+        "tabelog:en/tokyo/A1308/A130801/13015193": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:16:35.059Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:975cc787a06b67807b39db7f",
+            "evidence:restaurant:tabelog-hard-criteria:d97e2729288f6cdd3f5ab5ba",
+            "evidence:restaurant:tabelog-availability:b828396bc28f50bcf918ce1c"
+          ],
+          "displayExpiresAt": "2026-10-22T16:26:35.059Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-29\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6}"
+        },
+        "tabelog:en/tokyo/A1308/A130801/13005690": {
+          "status": "UNAVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:17:03.441Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:6d6bf666378762538fd064d5",
+            "evidence:restaurant:tabelog-hard-criteria:3501a957bfa5828e4ec0bcbc",
+            "evidence:restaurant:tabelog-availability:f7be55276b85e370437b29e5"
+          ],
+          "reasonCode": "NO_MATCHING_SLOT",
+          "displayExpiresAt": "2026-10-22T16:27:03.441Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "UNAVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-29\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6}"
+        },
+        "tabelog:en/tokyo/A1308/A130801/13002832": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:17:31.774Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:bab1461afd60a7dfd81218b6",
+            "evidence:restaurant:tabelog-hard-criteria:bb2bbabf4b7a3aa05cc86f34",
+            "evidence:restaurant:tabelog-availability:b2f0ae517e26a06ab343ce7b"
+          ],
+          "displayExpiresAt": "2026-10-22T16:27:31.774Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-29\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6}"
+        }
+      },
+      "deliveredTimes": {
+        "tabelog:en/tokyo/A1308/A130801/13126018": [],
+        "tabelog:en/tokyo/A1308/A130801/13247290": [
+          "2026-10-29T18:00:00+09:00",
+          "2026-10-29T18:15:00+09:00",
+          "2026-10-29T18:30:00+09:00",
+          "2026-10-29T18:45:00+09:00",
+          "2026-10-29T19:00:00+09:00",
+          "2026-10-29T19:15:00+09:00",
+          "2026-10-29T19:30:00+09:00",
+          "2026-10-29T19:45:00+09:00",
+          "2026-10-29T20:00:00+09:00"
+        ],
+        "tabelog:en/tokyo/A1308/A130801/13015193": [
+          "2026-10-29T18:00:00+09:00",
+          "2026-10-29T18:30:00+09:00",
+          "2026-10-29T19:00:00+09:00",
+          "2026-10-29T19:30:00+09:00",
+          "2026-10-29T20:00:00+09:00"
+        ],
+        "tabelog:en/tokyo/A1308/A130801/13005690": [],
+        "tabelog:en/tokyo/A1308/A130801/13002832": [
+          "2026-10-29T18:00:00+09:00",
+          "2026-10-29T18:15:00+09:00",
+          "2026-10-29T18:30:00+09:00",
+          "2026-10-29T18:45:00+09:00",
+          "2026-10-29T19:00:00+09:00",
+          "2026-10-29T19:15:00+09:00",
+          "2026-10-29T19:30:00+09:00",
+          "2026-10-29T19:45:00+09:00",
+          "2026-10-29T20:00:00+09:00"
+        ]
+      },
+      "elapsedMs": 230295,
+      "modelCalls": 19,
+      "totalGoogleRequests": 3,
+      "resourcesWithinCeilings": true,
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence",
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        }
+      },
+      "reportPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-01-attempt-1/complete.run-report.json"
+    },
+    {
+      "run": {
+        "runId": "q-02",
+        "caseId": "p2-holdout-01",
+        "repeat": 1,
+        "role": "EXPOSED_LIVE_CHECK"
+      },
+      "attempt": 1,
+      "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-02-attempt-1/runner/2026-10-22T16-23-29-594Z-d6ca0f8b-e98d-4fad-b36a-1816471829fd.result.json",
+      "artifactSha256": "ab7ba76d8efd4336fde9eb9614800c63ee394a8349a8d56fe5dcea8fe886eef2",
+      "evaluationPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-02-attempt-1/complete.evaluation.json",
+      "outcome": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "firstObservedNativeSource": {
+        "source": "TABELOG",
+        "url": "https://tabelog.com/en/tokyo/",
+        "sequence": 14,
+        "at": "2026-10-22T16:23:41.635Z"
+      },
+      "reachedTabelogFirst": true,
+      "tabelogPagesObserved": [
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/",
+          "sequence": 14,
+          "at": "2026-10-22T16:23:41.635Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/",
+          "sequence": 18,
+          "at": "2026-10-22T16:23:41.799Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/",
+          "sequence": 30,
+          "at": "2026-10-22T16:23:43.114Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/",
+          "sequence": 51,
+          "at": "2026-10-22T16:23:53.914Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/rstLst/yakitori/",
+          "sequence": 66,
+          "at": "2026-10-22T16:24:02.816Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/rstLst/yakitori/",
+          "sequence": 78,
+          "at": "2026-10-22T16:24:08.166Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "sequence": 90,
+          "at": "2026-10-22T16:24:15.866Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "sequence": 101,
+          "at": "2026-10-22T16:24:23.516Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "sequence": 112,
+          "at": "2026-10-22T16:24:31.010Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131102/13232128/",
+          "sequence": 123,
+          "at": "2026-10-22T16:24:48.721Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13300700/",
+          "sequence": 134,
+          "at": "2026-10-22T16:24:54.780Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "sequence": 155,
+          "at": "2026-10-22T16:25:08.359Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "sequence": 159,
+          "at": "2026-10-22T16:25:08.406Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "sequence": 164,
+          "at": "2026-10-22T16:25:08.965Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "sequence": 177,
+          "at": "2026-10-22T16:25:10.181Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "sequence": 198,
+          "at": "2026-10-22T16:25:16.201Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "sequence": 220,
+          "at": "2026-10-22T16:25:19.137Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "sequence": 242,
+          "at": "2026-10-22T16:25:22.360Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "sequence": 250,
+          "at": "2026-10-22T16:25:23.090Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13300700/",
+          "sequence": 271,
+          "at": "2026-10-22T16:25:32.673Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13300700/",
+          "sequence": 275,
+          "at": "2026-10-22T16:25:32.722Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13300700/",
+          "sequence": 280,
+          "at": "2026-10-22T16:25:33.284Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13300700/",
+          "sequence": 292,
+          "at": "2026-10-22T16:25:34.194Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13300700/",
+          "sequence": 313,
+          "at": "2026-10-22T16:25:39.781Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13300700/",
+          "sequence": 335,
+          "at": "2026-10-22T16:25:43.597Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13300700/",
+          "sequence": 357,
+          "at": "2026-10-22T16:25:49.930Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13300700/",
+          "sequence": 365,
+          "at": "2026-10-22T16:25:50.617Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "sequence": 386,
+          "at": "2026-10-22T16:25:54.040Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "sequence": 390,
+          "at": "2026-10-22T16:25:54.121Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "sequence": 395,
+          "at": "2026-10-22T16:25:54.638Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "sequence": 407,
+          "at": "2026-10-22T16:25:55.532Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "sequence": 428,
+          "at": "2026-10-22T16:26:01.000Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "sequence": 450,
+          "at": "2026-10-22T16:26:05.561Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "sequence": 472,
+          "at": "2026-10-22T16:26:10.490Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "sequence": 480,
+          "at": "2026-10-22T16:26:11.144Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "sequence": 501,
+          "at": "2026-10-22T16:26:17.867Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "sequence": 505,
+          "at": "2026-10-22T16:26:17.918Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "sequence": 510,
+          "at": "2026-10-22T16:26:18.490Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "sequence": 522,
+          "at": "2026-10-22T16:26:19.391Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "sequence": 543,
+          "at": "2026-10-22T16:26:25.470Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "sequence": 565,
+          "at": "2026-10-22T16:26:31.709Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "sequence": 587,
+          "at": "2026-10-22T16:26:35.601Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "sequence": 595,
+          "at": "2026-10-22T16:26:36.256Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "sequence": 614,
+          "at": "2026-10-22T16:26:45.138Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1311/A131101/13300700/",
+          "sequence": 636,
+          "at": "2026-10-22T16:27:07.286Z"
+        }
+      ],
+      "firstScheduledNativeSource": "TABELOG",
+      "witnesses": [
+        {
+          "outletName": "Torie Ueno hirokoji ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13128870/",
+          "enteredCandidates": true
+        },
+        {
+          "outletName": "Ueno Kuromon Torie",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13191933/",
+          "enteredCandidates": true
+        },
+        {
+          "outletName": "Tori no Ichi Ueno honten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13290563/",
+          "enteredCandidates": true
+        }
+      ],
+      "requestedWindow": {
+        "earliest": "19:00",
+        "latest": "19:00"
+      },
+      "timeWindowCoverage": [],
+      "availabilityChecks": {
+        "tabelog:en/tokyo/A1311/A131101/13128870": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:25:23.119Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:213cdcb0496e9b5de6e2e52b",
+            "evidence:restaurant:tabelog-hard-criteria:53fe2fb2f579f7af50110f46",
+            "evidence:restaurant:tabelog-availability:88ab7b550ca1c837a5bc8c7b"
+          ],
+          "displayExpiresAt": "2026-10-22T16:35:23.119Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tabelog:en/tokyo/A1311/A131101/13300700": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:25:50.668Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:ebf61caa4f3119c9c529b9cb",
+            "evidence:restaurant:tabelog-hard-criteria:50f0529ef9eebe9449ae89ea",
+            "evidence:restaurant:tabelog-availability:18d72a540a441333db27b437"
+          ],
+          "displayExpiresAt": "2026-10-22T16:35:50.668Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tabelog:en/tokyo/A1311/A131101/13290563": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:26:11.183Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:e963e71b9e3cfe4a4cdd37a2",
+            "evidence:restaurant:tabelog-hard-criteria:dacc0f59ab20dbe93233799c",
+            "evidence:restaurant:tabelog-availability:d2b7e1014fd6cb68d101a20e"
+          ],
+          "displayExpiresAt": "2026-10-22T16:36:11.183Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        },
+        "tabelog:en/tokyo/A1311/A131101/13191933": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:26:36.282Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:75419f33e289e408ba014b96",
+            "evidence:restaurant:tabelog-hard-criteria:0e3b9817604b17f867fd12ee",
+            "evidence:restaurant:tabelog-availability:cea04caf7798e652587b5157"
+          ],
+          "displayExpiresAt": "2026-10-22T16:36:36.282Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":3}"
+        }
+      },
+      "deliveredTimes": {
+        "tabelog:en/tokyo/A1311/A131101/13128870": [
+          "2026-11-04T19:00:00+09:00"
+        ],
+        "tabelog:en/tokyo/A1311/A131101/13300700": [
+          "2026-11-04T19:00:00+09:00"
+        ],
+        "tabelog:en/tokyo/A1311/A131101/13290563": [
+          "2026-11-04T19:00:00+09:00"
+        ],
+        "tabelog:en/tokyo/A1311/A131101/13191933": [
+          "2026-11-04T19:00:00+09:00"
+        ]
+      },
+      "elapsedMs": 223878,
+      "modelCalls": 22,
+      "totalGoogleRequests": 3,
+      "resourcesWithinCeilings": true,
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence",
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        }
+      },
+      "reportPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-02-attempt-1/complete.run-report.json"
+    },
+    {
+      "run": {
+        "runId": "q-03",
+        "caseId": "p2-holdout-03",
+        "repeat": 2,
+        "role": "EXPOSED_LIVE_CHECK"
+      },
+      "attempt": 1,
+      "artifactPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-03-attempt-1/runner/2026-10-22T16-32-37-599Z-f1aa2a6e-1699-48c1-9a81-5a9417c4232b.result.json",
+      "artifactSha256": "16cbde8b93316faa54e1c413e69c98c67b942bf68914f4a2d246429cd51e68bb",
+      "evaluationPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-03-attempt-1/complete.evaluation.json",
+      "outcome": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "firstObservedNativeSource": {
+        "source": "TABELOG",
+        "url": "https://tabelog.com/en/tokyo/",
+        "sequence": 14,
+        "at": "2026-10-22T16:32:49.553Z"
+      },
+      "reachedTabelogFirst": true,
+      "tabelogPagesObserved": [
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/",
+          "sequence": 14,
+          "at": "2026-10-22T16:32:49.553Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/",
+          "sequence": 18,
+          "at": "2026-10-22T16:32:49.727Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/",
+          "sequence": 30,
+          "at": "2026-10-22T16:32:51.067Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/",
+          "sequence": 51,
+          "at": "2026-10-22T16:32:59.540Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/rstLst/syabusyabu/",
+          "sequence": 66,
+          "at": "2026-10-22T16:33:06.613Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 78,
+          "at": "2026-10-22T16:33:11.007Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 89,
+          "at": "2026-10-22T16:33:14.404Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 100,
+          "at": "2026-10-22T16:33:18.585Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 111,
+          "at": "2026-10-22T16:33:25.224Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 122,
+          "at": "2026-10-22T16:33:29.138Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 143,
+          "at": "2026-10-22T16:33:46.436Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 147,
+          "at": "2026-10-22T16:33:46.494Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 152,
+          "at": "2026-10-22T16:33:47.077Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 164,
+          "at": "2026-10-22T16:33:47.991Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 185,
+          "at": "2026-10-22T16:33:56.990Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 207,
+          "at": "2026-10-22T16:34:03.731Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13126018/",
+          "sequence": 215,
+          "at": "2026-10-22T16:34:04.341Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 236,
+          "at": "2026-10-22T16:34:10.384Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 240,
+          "at": "2026-10-22T16:34:10.441Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 245,
+          "at": "2026-10-22T16:34:10.987Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 257,
+          "at": "2026-10-22T16:34:11.893Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 278,
+          "at": "2026-10-22T16:34:16.751Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 300,
+          "at": "2026-10-22T16:34:20.026Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13247290/",
+          "sequence": 308,
+          "at": "2026-10-22T16:34:20.602Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 329,
+          "at": "2026-10-22T16:34:28.308Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 333,
+          "at": "2026-10-22T16:34:28.355Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 338,
+          "at": "2026-10-22T16:34:28.923Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 350,
+          "at": "2026-10-22T16:34:29.816Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 371,
+          "at": "2026-10-22T16:34:35.249Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 393,
+          "at": "2026-10-22T16:34:38.900Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "sequence": 401,
+          "at": "2026-10-22T16:34:39.489Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 422,
+          "at": "2026-10-22T16:34:54.528Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 426,
+          "at": "2026-10-22T16:34:54.590Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 431,
+          "at": "2026-10-22T16:34:55.160Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 443,
+          "at": "2026-10-22T16:34:56.069Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 464,
+          "at": "2026-10-22T16:35:01.234Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 486,
+          "at": "2026-10-22T16:35:05.493Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13005690/",
+          "sequence": 494,
+          "at": "2026-10-22T16:35:06.073Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 515,
+          "at": "2026-10-22T16:35:16.517Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 519,
+          "at": "2026-10-22T16:35:16.572Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 524,
+          "at": "2026-10-22T16:35:17.118Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 536,
+          "at": "2026-10-22T16:35:18.038Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 557,
+          "at": "2026-10-22T16:35:23.194Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 579,
+          "at": "2026-10-22T16:35:26.607Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 587,
+          "at": "2026-10-22T16:35:27.169Z"
+        },
+        {
+          "source": "TABELOG",
+          "url": "https://tabelog.com/en/tokyo/A1308/A130801/13002832/",
+          "sequence": 606,
+          "at": "2026-10-22T16:35:37.676Z"
+        }
+      ],
+      "firstScheduledNativeSource": "TABELOG",
+      "witnesses": [
+        {
+          "outletName": "Shabu Gen",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13015193/",
+          "enteredCandidates": true
+        },
+        {
+          "outletName": "Kappo Kukita",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13169764/",
+          "enteredCandidates": false
+        }
+      ],
+      "requestedWindow": {
+        "earliest": "18:00",
+        "latest": "20:00"
+      },
+      "timeWindowCoverage": [],
+      "availabilityChecks": {
+        "tabelog:en/tokyo/A1308/A130801/13126018": {
+          "status": "UNAVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:34:04.391Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:92d5e8c47450cd65d1727502",
+            "evidence:restaurant:tabelog-hard-criteria:80a68df18e8ec499504dc583",
+            "evidence:restaurant:tabelog-availability:d9318b47aaa573a02a0459e8"
+          ],
+          "reasonCode": "NO_MATCHING_SLOT",
+          "displayExpiresAt": "2026-10-22T16:44:04.391Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "UNAVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-29\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6}"
+        },
+        "tabelog:en/tokyo/A1308/A130801/13247290": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:34:20.641Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:17f56e945729d6511ca23c05",
+            "evidence:restaurant:tabelog-hard-criteria:4f9f12f1a512d12b65b31b8c",
+            "evidence:restaurant:tabelog-availability:b8da02eb5280d6f000b16a38"
+          ],
+          "displayExpiresAt": "2026-10-22T16:44:20.641Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-29\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6}"
+        },
+        "tabelog:en/tokyo/A1308/A130801/13015193": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:34:39.539Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:2c4f751699fe2c68004a3023",
+            "evidence:restaurant:tabelog-hard-criteria:aac6567dbc720f66bdde3cc1",
+            "evidence:restaurant:tabelog-availability:40845ff5bb68a6fcccabd3b2"
+          ],
+          "displayExpiresAt": "2026-10-22T16:44:39.539Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-29\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6}"
+        },
+        "tabelog:en/tokyo/A1308/A130801/13005690": {
+          "status": "UNAVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:35:06.121Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:03583633802061ba3fbd5aea",
+            "evidence:restaurant:tabelog-hard-criteria:5a2e3b3eaf11d5570f803e04",
+            "evidence:restaurant:tabelog-availability:b5b37aaa1020c378b36c66d9"
+          ],
+          "reasonCode": "NO_MATCHING_SLOT",
+          "displayExpiresAt": "2026-10-22T16:45:06.121Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "UNAVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-29\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6}"
+        },
+        "tabelog:en/tokyo/A1308/A130801/13002832": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-22T16:35:27.220Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:ae26e5eb6b35cfe90144b7e0",
+            "evidence:restaurant:tabelog-hard-criteria:053e641e5a929b25b8515b18",
+            "evidence:restaurant:tabelog-availability:0de2036974d96661d2661f66"
+          ],
+          "displayExpiresAt": "2026-10-22T16:45:27.220Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-10-29\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6}"
+        }
+      },
+      "deliveredTimes": {
+        "tabelog:en/tokyo/A1308/A130801/13126018": [],
+        "tabelog:en/tokyo/A1308/A130801/13247290": [
+          "2026-10-29T18:00:00+09:00",
+          "2026-10-29T18:15:00+09:00",
+          "2026-10-29T18:30:00+09:00",
+          "2026-10-29T18:45:00+09:00",
+          "2026-10-29T19:00:00+09:00",
+          "2026-10-29T19:15:00+09:00",
+          "2026-10-29T19:30:00+09:00",
+          "2026-10-29T19:45:00+09:00",
+          "2026-10-29T20:00:00+09:00"
+        ],
+        "tabelog:en/tokyo/A1308/A130801/13015193": [
+          "2026-10-29T18:00:00+09:00",
+          "2026-10-29T18:30:00+09:00",
+          "2026-10-29T19:00:00+09:00",
+          "2026-10-29T19:30:00+09:00",
+          "2026-10-29T20:00:00+09:00"
+        ],
+        "tabelog:en/tokyo/A1308/A130801/13005690": [],
+        "tabelog:en/tokyo/A1308/A130801/13002832": [
+          "2026-10-29T18:00:00+09:00",
+          "2026-10-29T18:15:00+09:00",
+          "2026-10-29T18:30:00+09:00",
+          "2026-10-29T18:45:00+09:00",
+          "2026-10-29T19:00:00+09:00",
+          "2026-10-29T19:15:00+09:00",
+          "2026-10-29T19:30:00+09:00",
+          "2026-10-29T19:45:00+09:00",
+          "2026-10-29T20:00:00+09:00"
+        ]
+      },
+      "elapsedMs": 187581,
+      "modelCalls": 19,
+      "totalGoogleRequests": 3,
+      "resourcesWithinCeilings": true,
+      "severity": {
+        "S0": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence",
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "ABSENT",
+          "reasons": [
+            "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+          ],
+          "evidenceRefs": [
+            "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": []
+        }
+      },
+      "reportPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/q-03-attempt-1/complete.run-report.json"
+    }
+  ],
+  "ledgerPath": "/private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/live-checks/ledger-after.json",
+  "next": "STEP3_AUTHORIZED"
+}
