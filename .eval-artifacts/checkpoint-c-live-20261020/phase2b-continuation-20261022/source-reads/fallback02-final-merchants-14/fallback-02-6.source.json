@@ -1,0 +1,169 @@
+{
+  "id": "fallback-02-6",
+  "caseId": "p2b-holdout-02",
+  "kind": "MERCHANT",
+  "url": "https://tabelog.com/en/tokyo/A1313/A131302/13130047/",
+  "observedAt": "2026-10-22T20:01:58.472Z",
+  "responseSha256": "301d8ac9e3203e0aa30363bac5d3a2dc85ab9c45bd8aab79fa9118811640f92e",
+  "metadataPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-final-merchants-14/fallback-02-6.attempt-1.metadata.json",
+  "evidence": {
+    "businesses": [
+      {
+        "name": "Monja Fugetsu Tsukishima ten",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "",
+          "addressLocality": "Tsukishima Chuo Tokyo",
+          "addressRegion": "Tokyo",
+          "postalCode": "1040052",
+          "addressCountry": "JP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.66430617873184,
+          "longitude": 139.78234649420233
+        },
+        "servesCuisine": "Monjyayaki,Okonomiyaki (Japanese savory pancake),Izakaya (Japanese style tavern)"
+      }
+    ],
+    "jsonLd": [
+      {
+        "raw": "\n      {\"@context\":\"http://schema.org\",\"@type\":\"Restaurant\",\"@id\":\"https://tabelog.com/en/tokyo/A1313/A131302/13130047/\",\"name\":\"Monja Fugetsu Tsukishima ten\",\"image\":\"https://tblg.k-img.com/restaurant/images/Rvw/62098/320x320_rect_62098195.jpg\",\"address\":{\"@type\":\"PostalAddress\",\"streetAddress\":\"\",\"addressLocality\":\"Tsukishima Chuo Tokyo\",\"addressRegion\":\"Tokyo\",\"postalCode\":\"1040052\",\"addressCountry\":\"JP\"},\"geo\":{\"@type\":\"GeoCoordinates\",\"latitude\":35.66430617873184,\"longitude\":139.78234649420233},\"priceRange\":\"JPY 2,000～JPY 2,999\",\"servesCuisine\":\"Monjyayaki,Okonomiyaki (Japanese savory pancake),Izakaya (Japanese style tavern)\",\"telephone\":\"+81-3-5166-0888\",\"aggregateRating\":{\"@type\":\"AggregateRating\",\"ratingCount\":\"316\",\"ratingValue\":\"3.41\"},\"potentialAction\":{\"@type\":\"ReserveAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://tabelog.com/en/tokyo/A1313/A131302/13130047/?cid=google_yoyaku\",\"inLanguage\":\"en\",\"actionPlatform\":[\"http://schema.org/DesktopWebPlatform\",\"http://schema.org/IOSPlatform\",\"http://schema.org/AndroidPlatform\"]},\"result\":{\"@type\":\"FoodEstablishmentReservation\",\"name\":\"Reserve table\"}}}\n    ",
+        "sha256": "0b6e6418185fa6266491f439b4cf00e9518586edce5c85f436a4e80ceff3a386",
+        "htmlCharacterOffset": 6380
+      }
+    ],
+    "rawQuotes": [
+      {
+        "criterion": "CATEGORY",
+        "htmlCharacterOffset": 77461,
+        "raw": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)"
+      }
+    ],
+    "hardQuoteObservations": [
+      {
+        "criterion": "CATEGORY",
+        "preregisteredQuote": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_TITLE",
+        "preregisteredQuote": "2-Hour All-You-Can-Drink with 7 Dishes \"Full Stomach Fugetsu Course\" JPY 4980 for Parties, Girls' Night Out, and Birthdays",
+        "found": true
+      },
+      {
+        "criterion": "COURSE_DESCRIPTION",
+        "preregisteredQuote": "Our signature course includes delicious Monja and Yakisoba, guaranteed to fill you up! Perfect for banquets, girls' parties, and more. *Children will be charged the regular price.",
+        "found": true
+      }
+    ],
+    "privacy": "Only raw business JSON-LD without personal fields, preregistered quote bytes and source business fields; no full customer-review HTML/cookies retained."
+  },
+  "publicBookingRead": {
+    "status": "SOURCE_BOUND_READ_EXPOSED",
+    "rst_id": "13130047",
+    "url": "https://tabelog.com/en/booking/calendar/find_vacancy/",
+    "enabled": true,
+    "raw": "<div id=\"js-booking-params\" class=\"u-hidden\" data-rst-id=\"13130047\" data-booking-enabled=\"1\" data-fetch-url=\"https://tabelog.com/en/booking/calendar/find_vacancy/\" data-fetch-url-date=\"https://tabelog.com/en/booking/calendar/find_vacancy_date_with_status/\" data-fetch-url-member=\"https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date/\" data-fetch-url-initial-vacancy=\"https://tabelog.com/en/booking/calendar/initial_vacancy\">",
+    "rawSha256": "f6973acf34b8400d9b39e3882e6fe1a9b5b7b54e9731307635878e21f780357d",
+    "htmlCharacterOffset": 28191
+  },
+  "merchantFields": [
+    {
+      "field": "CATEGORY",
+      "quote": "Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "meals": []
+    },
+    {
+      "field": "COURSE_TITLE",
+      "quote": "2-Hour All-You-Can-Drink with 7 Dishes \"Full Stomach Fugetsu Course\" JPY 4980 for Parties, Girls' Night Out, and Birthdays",
+      "meals": []
+    },
+    {
+      "field": "COURSE_DESCRIPTION",
+      "quote": "Our signature course includes delicious Monja and Yakisoba, guaranteed to fill you up! Perfect for banquets, girls' parties, and more. *Children will be charged the regular price.",
+      "meals": []
+    }
+  ],
+  "sourceFragments": [
+    {
+      "role": "MERCHANT_INTRO_TITLE",
+      "text": "Just a 2-minute walk from Tsukishima Station! Takeout is also very welcome♪ Perfect for parties, welcome gatherings, and farewell events in our spacious venue!",
+      "raw": "<h3 class=\"pr-comment-title js-pr-title\">\n                Just a 2-minute walk from Tsukishima Station! Takeout is also very welcome♪ Perfect for parties, welcome gatherings, and farewell events in our spacious venue!\n              </h3>",
+      "sha256": "0eff943f00d65abb3348b47017eaca4880bdb01698cc94f8d92d7a1b2342c55c",
+      "htmlCharacterOffset": 44944
+    },
+    {
+      "role": "COURSE_TITLE",
+      "text": "2-Hour All-You-Can-Drink with 7 Dishes \"Full Stomach Fugetsu Course\" JPY 4980 for Parties, Girls' Night Out, and Birthdays",
+      "raw": "<span class=\"rstdtl-course-list__course-title-text\">2-Hour All-You-Can-Drink with 7 Dishes &quot;Full Stomach Fugetsu Course&quot; JPY 4980 for Parties, Girls&#39; Night Out, and Birthdays</span>",
+      "sha256": "c25666eaa81b95926c1eb6bd0df4387d089e05f44c8672fe62e696b05aa63b8b",
+      "htmlCharacterOffset": 51028
+    },
+    {
+      "role": "COURSE_DESCRIPTION",
+      "text": "Our signature course includes delicious Monja and Yakisoba, guaranteed to fill you up! Perfect for banquets, girls' parties, and more. *Children will be charged the regular price.",
+      "raw": "<p class=\"rstdtl-course-list__desc\">\n                          Our signature course includes delicious Monja and Yakisoba, guaranteed to fill you up! Perfect for banquets, girls&#39; parties, and more.\n                          *Children will be charged the regular price.\n                        </p>",
+      "sha256": "799d15b4e754913254ebc5a41d6f1098212fad7535d232bcc10d22d7f34954a5",
+      "htmlCharacterOffset": 51354
+    },
+    {
+      "role": "CATEGORY",
+      "text": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "640577269514633641fd1784baf8cb2f2fa3f40597ebd8232b43330fc22db879",
+      "htmlCharacterOffset": 77341
+    },
+    {
+      "role": "MERCHANT_AVERAGE_PRICE",
+      "text": "Average price JPY 2,000 - JPY 2,999 JPY 1,000 - JPY 1,999",
+      "raw": "<tr>\n                    <th>\n                      Average price\n                    </th>\n                    <td>\n                      <div class=\"rstinfo-table__budget\">\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><em>JPY 2,000 - JPY 2,999</em>\n                        </p>\n                        <p class=\"rstinfo-table__budget-item\">\n                          <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><em>JPY 1,000 - JPY 1,999</em>\n                        </p>\n                      </div>\n                    </td>\n                  </tr>",
+      "sha256": "4272c9088a5928e2661893f7fc445818868ee461a17c23dbb7ca23c932819b0e",
+      "htmlCharacterOffset": 83550
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Number of seats 124 seats",
+      "raw": "<tr>\n                  <th>\n                    Number of seats\n                  </th>\n                  <td>\n                    <p>\n                      124 seats\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "124e2a9ecada345baf72afbe4388a1976ef50b5dec26d1fe49119c3afe838eb6",
+      "htmlCharacterOffset": 86676
+    },
+    {
+      "role": "MERCHANT_SEATING",
+      "text": "Private rooms Unavailable",
+      "raw": "<tr>\n                  <th>\n                    Private rooms\n                  </th>\n                  <td>\n                    <p>\n                      Unavailable\n                    </p>\n                  </td>\n                </tr>",
+      "sha256": "189176548493ef9b73f65caaf80225b54d592deffffe46728e412bb401cc920a",
+      "htmlCharacterOffset": 86930
+    },
+    {
+      "role": "MERCHANT_FAMILY_POLICY",
+      "text": "Family friendly Children welcome Accepting infants and older. Facilities and services: Baby food is allowed, child-friendly utensils are available, and strollers are welcome.",
+      "raw": "<tr>\n                <th>\n                  Family friendly\n                </th>\n                <td>\n                  <p>\n                    Children welcome\n                  </p>\n                  <p class=\"rstinfo-table__each-info\">\n                    Accepting infants and older.<br />\n                    Facilities and services: Baby food is allowed, child-friendly utensils are available, and strollers are welcome.<br />\n                  </p>\n                </td>\n              </tr>",
+      "sha256": "3eb6b099591bf563daf711bd6987ccf5c6eea6ed9ad8553ae94fd7a57a880bae",
+      "htmlCharacterOffset": 90999
+    }
+  ],
+  "categorySourceFragments": [
+    {
+      "raw": "<tr>\n                    <th>\n                      Categories \n                    </th>\n                    <td><span>Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)</span>\n                    </td>\n                  </tr>",
+      "sha256": "640577269514633641fd1784baf8cb2f2fa3f40597ebd8232b43330fc22db879",
+      "text": "Categories Monjyayaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)",
+      "htmlCharacterOffset": 77341
+    }
+  ],
+  "budgetSourceFragments": [
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Dinner\" class=\"c-rating-v3__time c-rating-v3__time--dinner\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1313/A131302/13130047/dtlratings/#price-range\">JPY 2,000 - JPY 2,999</a></span>\n                            </p>",
+      "sha256": "9afe68fd89e789834dfc90d8c14840e54e578d446341e4e429d2dac7c9100cfb",
+      "text": "JPY 2,000 - JPY 2,999",
+      "htmlCharacterOffset": 26733
+    },
+    {
+      "raw": "<p class=\"c-rating-v3 c-rating-v3--s rdheader-budget__icon\">\n                              <i aria-label=\"Lunch\" class=\"c-rating-v3__time c-rating-v3__time--lunch\" role=\"img\"></i><span class=\"c-rating-v3__val\"><a class=\"rdheader-budget__price-target\" href=\"https://tabelog.com/en/tokyo/A1313/A131302/13130047/dtlratings/#price-range\">JPY 1,000 - JPY 1,999</a></span>\n                            </p>",
+      "sha256": "95c3b41cf6b388c626676904a2c1002324d3c8c12c5774fb22105f47146a88da",
+      "text": "JPY 1,000 - JPY 1,999",
+      "htmlCharacterOffset": 27163
+    }
+  ],
+  "canonical": "https://tabelog.com/en/tokyo/A1313/A131302/13130047/"
+}

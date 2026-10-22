@@ -1,0 +1,77 @@
+{
+  "schema": "phase2b-business-witness-exclusion@1",
+  "status": "PRIMARY_AND_APPROVED_FALLBACK_NOT_CERTIFIED",
+  "authorization": "USER_APPROVED_CONTINUOUS_STEP3_NO_WITNESS_EXCLUSION",
+  "caseId": "p2b-holdout-02",
+  "primaryFailure": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/case02-primary-business-failure.json",
+    "sha256": "7e4e04fb4f938ff7bde3bf49b19023a7fdef4c53c7e6cdc1b6e4ab30ac48771e"
+  },
+  "witnessPlan": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/witness-plan-final-candidates.json",
+    "sha256": "c9405919b9c54c8b2e894488563e109c9177118e2d913172373d88d68a3e5151"
+  },
+  "inventoryIndex": {
+    "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/inventory-final-index.json",
+    "sha256": "a15fcf239e25b70a4eee6767dfda5b248a1fbbdf4166902fb8567e9fec96d7e3"
+  },
+  "fallbackCandidates": [
+    {
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-1.source.json",
+        "sha256": "fa93cca4adb4bf699f1f76671fece17440e079846c4ebcab801f060ad96b31ac"
+      },
+      "outletName": "Rojiura Monja Koboreya Yui",
+      "distanceMeters": 698.649338997405,
+      "reason": "NO_MATCHING_INVENTORY"
+    },
+    {
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-2.source.json",
+        "sha256": "bd126dd64fc544ba95b227aa5894006d0801a1dffb81b82ee0d80db5f4afbade"
+      },
+      "outletName": "Koboreya Honten",
+      "distanceMeters": 716.434871638236,
+      "reason": "NO_MATCHING_INVENTORY"
+    },
+    {
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-merchants-12/fallback-02-3.source.json",
+        "sha256": "184375077596fc9b62b4acd484a0f6890fbb9403657430ba08e1472e7ec67761"
+      },
+      "outletName": "Seafood Monja Kataoka",
+      "distanceMeters": 990.6614046950209,
+      "reason": "OUTSIDE_800M"
+    },
+    {
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-final-merchants-14/fallback-02-4.source.json",
+        "sha256": "131589d845a52ed1236d5450b9cd198984c6192df3725c804f867644209d5627"
+      },
+      "outletName": "Private rooms Monja Koboreya Kakoi",
+      "distanceMeters": 808.9877457046379,
+      "reason": "OUTSIDE_800M"
+    },
+    {
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-final-merchants-14/fallback-02-5.source.json",
+        "sha256": "6bbaa79a232549535655bae5a604d2cb1a92de53bb3a26f296f9a041ac17a20f"
+      },
+      "outletName": "Tsukishima Monja Bakuten",
+      "distanceMeters": 822.9385613552591,
+      "reason": "OUTSIDE_800M"
+    },
+    {
+      "pageSource": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/source-reads/fallback02-final-merchants-14/fallback-02-6.source.json",
+        "sha256": "d56f3583b9a3cf43bde3e6586c851f43d0b0bc8b60157c5146ad4c53b5bfbd5d"
+      },
+      "outletName": "Monja Fugetsu Tsukishima ten",
+      "distanceMeters": 1002.7579214772823,
+      "reason": "OUTSIDE_800M"
+    }
+  ],
+  "rule": "Only business inventory absence or independently calculated distance exclusion. No failed transport/HTTP response is a no-witness oracle. Still execute all three slots; exclude this case from capability denominator. No product/Prompt tuning.",
+  "modelCalls": 0,
+  "network": 0
+}

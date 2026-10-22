@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
 import {mkdirSync,readFileSync,writeFileSync,readdirSync,existsSync,openSync,closeSync} from 'node:fs';
 import {resolve,relative} from 'node:path';
-import {gateWitness,nextAction,checkStageBudget,consumeAuthorization,PHASE2_MODEL_CALL_LIMIT} from '../checkpoint-c-live-20261020/policy.mjs';
+import {nextAction,checkStageBudget,consumeAuthorization,PHASE2_MODEL_CALL_LIMIT} from '../checkpoint-c-live-20261020/policy.mjs';
+import {gatePhase2bWitness} from './witness-admission.mjs';
 import {verifyFreeze} from '../checkpoint-c-live-20261020/freeze.mjs';
 import {evaluateSafetyOnly} from '../checkpoint-c-live-20261020/evaluate-report.ts';
 import {postCheck} from '../checkpoint-c-live-20261020/post-check.mjs';
@@ -28,7 +29,7 @@ export async function executePlan({plan,registry,directory,attempt,now=Date.now,
   while(true){
    while(now()<lastFinish+plan.minGapMs)await sleep(Math.min(30000,lastFinish+plan.minGapMs-now()));
    try{verify();}catch(e){stop={action:'STOP_BATCH',reason:'FROZEN_CONFIGURATION_OR_AUTHORIZATION_CHANGED',detail:e.message};break;}
-   try{gateWitness(registry,run.caseId,now(),500000);}catch(e){stop={action:'STOP_BATCH',reason:'WITNESS_EXPIRED_OR_NOT_CERTIFIED',detail:e.message};break;}
+   try{gatePhase2bWitness(registry,run.caseId,now(),500000);}catch(e){stop={action:'STOP_BATCH',reason:'WITNESS_EXPIRED_OR_NOT_CERTIFIED',detail:e.message};break;}
    const startedAt=new Date(now()).toISOString();number++;const row=await attempt(run,number,directory);
    lastFinish=now();rows.push({run,attempt:number,startedAt,finishedAt:new Date(lastFinish).toISOString(),...row});
    const action=nextAction({s0:row.s0===true,cooldown:row.cooldown===true,classification:row.classification??'DEFERRED',caseReruns:caseRetries.get(run.caseId)??0,totalReruns:retries},{...plan,maxTotalReruns:Math.min(plan.maxTotalReruns,retryAllowance)});
