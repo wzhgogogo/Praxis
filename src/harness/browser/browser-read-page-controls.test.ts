@@ -356,4 +356,3 @@ test("C5a excludes disabled, occluded and noncurrent list options", async () => 
     assert.equal(result.status, "REQUESTED_HUMAN_HELP", JSON.stringify(observed)); assert.equal(calls, 1);
   } finally { await executor.close(); }
 });
-

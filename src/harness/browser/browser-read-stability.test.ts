@@ -142,4 +142,3 @@ test('model full-page OPEN_LINK allows slow DOMContentLoaded and times out only 
   assert.equal(diagnostics.filter(d=>d.event==='CLOSED').length,1,'the owned session closes once, including timeout');
  }
 });
-

@@ -321,4 +321,3 @@ test("C2a selectable requested date retains authoritative click and blocks an or
     const read=await executor.runSkill({taskId:'selectable',session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://www.tablecheck.com'],goal:{outlet:{name:'Fixture'},date:'2026-10-24',hardCriteria:[]},objective:'Select date',completion:s=>({complete:s.text.includes('Selected'),reason:'Date not selected', resultKey: JSON.stringify([s.url, s.text, s.interactiveState]), resultBusy: false })});assert.equal(read.status,'COMPLETED');
   }finally{await executor.close();}
 });
-

@@ -39,7 +39,7 @@ for name,ranges in groups.items():
  shared=[n for n in ['url','identity','replayHar','replayHarPages','exactGuideAvailabilityUrl','localFixture'] if re.search(r'\b'+n+r'\b',body)]
  header='\n'.join(used)+'\n'
  if shared:header+='import { '+', '.join(shared)+' } from "./browser-read-test-fixtures.js";\n'
- target=folder/(name+'.test.ts');target.write_text(header+'\n'+body)
+ target=folder/(name+'.test.ts');target.write_text((header+'\n'+body).rstrip()+'\n')
  rows.append({'file':str(target.relative_to(root)),'sourceRanges':ranges,'bodySha256':hashlib.sha256(body.encode()).hexdigest()})
 assert len(re.findall(r'\btest\(',source))==sum(len(re.findall(r'\btest\(', (folder/(n+'.test.ts')).read_text())) for n in groups)
 path.unlink()

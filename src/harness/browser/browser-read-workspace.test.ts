@@ -87,4 +87,3 @@ test("workspace New case survives a late initial case-list response", async () =
     assert.equal(await page.locator('#case-title').innerText(),'Start a case');
   } finally {release();await browser.close()}
 });
-

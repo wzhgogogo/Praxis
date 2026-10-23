@@ -446,4 +446,3 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   }
 });
 }
-

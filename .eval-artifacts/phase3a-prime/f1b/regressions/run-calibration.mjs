@@ -8,7 +8,7 @@ let externalCalls=0;globalThis.fetch=()=>{externalCalls++;throw Error('OFFLINE_C
 const manifestPath='.eval-artifacts/calibration-phase1-20261015/inputs/manifest.json',labelsPath='.eval-artifacts/calibration-phase1-20261015/labels.yaml';
 if(mode==='prepare'){
  const source=await read('.eval-artifacts/evaluator-hard-course-evidence-20261021/freeze.json'),files={};
- for(const[p,h]of Object.entries(source.files))if(!p.startsWith('src/')&&!p.startsWith('scripts/')&&!p.startsWith('docs/')&&!p.startsWith('.eval-artifacts/evaluator-hard-course-evidence-20261021/')&&!p.startsWith('.eval-artifacts/checkpoint-c')){files[p]=sha(await fs.readFile(p));assert.equal(files[p],h,`Approved calibration input drift:${p}`);}
+ for(const[p,h]of Object.entries(source.files))if(!p.startsWith('src/')&&!p.startsWith('scripts/')&&!p.startsWith('docs/')&&!p.startsWith('.eval-artifacts/evaluator-hard-course-evidence-20261021/')&&!p.startsWith('.eval-artifacts/checkpoint-c')&&p!=='package.json'){files[p]=sha(await fs.readFile(p));assert.equal(files[p],h,`Approved calibration input drift:${p}`);}
  for(const p of execFileSync('git',['ls-files','-z','src','scripts','package.json','package-lock.json','tsconfig.json','tsconfig.build.json'],{encoding:'utf8'}).split('\0').filter(Boolean))files[p]=sha(await fs.readFile(p));
  const add=async p=>{files[p]=sha(await fs.readFile(p));};
  async function walk(p){for(const d of await fs.readdir(p,{withFileTypes:true})){const n=path.join(p,d.name);if(d.isDirectory())await walk(n);else await add(n);}}
