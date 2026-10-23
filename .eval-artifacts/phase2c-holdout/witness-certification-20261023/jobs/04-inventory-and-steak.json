@@ -1,0 +1,63 @@
+{
+  "id": "04-inventory-and-steak",
+  "approvedBy": "USER_PHASE2C_WITNESS_AUTHORIZATION",
+  "requests": [
+    {
+      "id": "inventory-01",
+      "caseId": "p2c-holdout-01",
+      "kind": "INVENTORY",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13108466&svd=20261104&svps=2&svt=1900",
+      "pageSource": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-01.attempt-1.source.json",
+        "sha256": "8321b02b49bef7c19469b5a2f707aee0a27cf69608c5a1387d9bb8658d6f4566"
+      }
+    },
+    {
+      "id": "inventory-02",
+      "caseId": "p2c-holdout-02",
+      "kind": "INVENTORY",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13016759&svd=20261030&svps=4&svt=1830",
+      "pageSource": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-02.attempt-1.source.json",
+        "sha256": "68507152626abd7b283c3edb4107cf5f0db4ec0d61e9e5e1bfd4f1e4e28ba0e2"
+      }
+    },
+    {
+      "id": "inventory-04",
+      "caseId": "p2c-holdout-04",
+      "kind": "INVENTORY",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13202196&svd=20261105&svps=6&svt=1800",
+      "pageSource": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-04.attempt-1.source.json",
+        "sha256": "3e664db79be00271c94ae49b60b85001de55ec2d4b0d1d54450a6ed97a78d98b"
+      }
+    },
+    {
+      "id": "inventory-06",
+      "caseId": "p2c-holdout-06",
+      "kind": "INVENTORY",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13280146&svd=20261030&svps=8&svt=1730",
+      "pageSource": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-06.attempt-1.source.json",
+        "sha256": "595cd0e638d6a736d5ff4a13dcc54d19e9318cf2db5429e0ff85cae47cce38bf"
+      }
+    },
+    {
+      "id": "merchant-05",
+      "caseId": "p2c-holdout-05",
+      "kind": "MERCHANT",
+      "url": "https://tabelog.com/en/tokyo/A1302/A130203/13181311/",
+      "lineage": {
+        "source": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-05.attempt-1.source.json",
+          "sha256": "5f3bfee21a46daa0c3325976d187a3fda4e9833f8fe794c4e2b533b6f94dc297"
+        },
+        "publicLink": {
+          "url": "https://tabelog.com/en/tokyo/A1302/A130203/13181311/",
+          "label": "Niku Kitchen BOICHI Hacchobori irifune ten",
+          "rawAnchorSha256": "08660ddabd50d5cb34786d2ec585f7cc67232c0db8fa977f18c585bff1062893"
+        }
+      }
+    }
+  ]
+}
