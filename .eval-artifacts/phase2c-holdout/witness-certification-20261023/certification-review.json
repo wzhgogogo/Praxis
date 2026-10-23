@@ -1,0 +1,710 @@
+{
+  "schema": "phase2c-independent-witness-review@1",
+  "reviewedBy": "CODEX_EVALUATION_SIDE",
+  "independentOfProduction": true,
+  "productOrModelUsed": false,
+  "sourceTruth": "Explicit raw same-merchant category + source-bound exact inventory; no inferred review/name cues",
+  "originalDataset": {
+    "path": ".eval-artifacts/phase2c-holdout/holdout.yaml",
+    "sha256": "1602ca7a5ff860130b81235553db8e77d7d9c25d261801c38330db0a97171a1e"
+  },
+  "exitDates": {
+    "path": ".eval-artifacts/phase2c-holdout/exit-dates.json",
+    "sha256": "6233ffac2e0730137ac1c7c92b6ff9753340cca81d4ea319dbb822c08cb9dfdf"
+  },
+  "variants": [
+    {
+      "caseId": "p2c-holdout-01",
+      "usedPlace": "Akabane",
+      "center": {
+        "response": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-01.attempt-1.body.json",
+          "sha256": "28562706d3b24303387f875fed6af3166dc0e81fc6e7dcb2fc20156f3e787980"
+        },
+        "metadata": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-01.attempt-1.metadata.json",
+          "sha256": "b8078f489ff9e1c52d5812e5e9ae70967a15cd229bc9093f3742355d5204cb88"
+        },
+        "placeId": "ChIJWX3QWB2TGGARPRJlTdnE96Q",
+        "requestedAt": "2026-10-23T04:15:40.465Z"
+      },
+      "witnesses": [
+        {
+          "rst_id": "13108466",
+          "outletName": "Kushi Katsu Dengana Akabane ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+          "pageSource": {
+            "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-01.attempt-1.source.json",
+            "sha256": "8321b02b49bef7c19469b5a2f707aee0a27cf69608c5a1387d9bb8658d6f4566"
+          },
+          "pageMetadata": {
+            "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-01.attempt-1.metadata.json",
+            "sha256": "bdd0ca24451c3d3cfdd95d9aaf344beae2036ae382817f619e8d3b5d706e4b71"
+          },
+          "hardCriteria": [
+            {
+              "value": "kushikatsu",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "goldIndex": 0,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Kushi-age (Deep-fried skewers), Izakaya (Japanese style tavern), Tripe",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-01.attempt-1.source.json",
+                  "sha256": "8321b02b49bef7c19469b5a2f707aee0a27cf69608c5a1387d9bb8658d6f4566"
+                }
+              ],
+              "adjudication": {
+                "rule": "Frozen case01 acceptance explicitly permits kushikatsu(kushiage); exact source classification Kushi-age is retained.",
+                "authority": {
+                  "path": ".eval-artifacts/phase2c-holdout/holdout.yaml",
+                  "sha256": "1602ca7a5ff860130b81235553db8e77d7d9c25d261801c38330db0a97171a1e"
+                },
+                "caseId": "p2c-holdout-01"
+              }
+            }
+          ],
+          "softObservations": [],
+          "inventory": {
+            "metadata": {
+              "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-01.attempt-1.metadata.json",
+              "sha256": "a9d6dcc80b5c43d03b3c0d27b6eae8f8e93293bc8c7766598a6575d6d1cba757"
+            },
+            "body": {
+              "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-01.attempt-1.body.json",
+              "sha256": "3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976"
+            }
+          },
+          "identityBasis": "Same source outlet ID plus exact current raw business name/canonical URL and geo; raw address retained as supplied, missing street fields not invented."
+        }
+      ],
+      "searchEvidence": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-01.attempt-1.metadata.json",
+          "sha256": "b8078f489ff9e1c52d5812e5e9ae70967a15cd229bc9093f3742355d5204cb88"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-01.attempt-1.metadata.json",
+          "sha256": "f19bafaeffedf302720cc8b8d4099b95933a6d269552255ea01cc7ec4261d5b5"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-01.attempt-1.metadata.json",
+          "sha256": "54b7c467d2c87c047f5a14921ddf5b7034b22fba056ac30274dedfcc34ad7af5"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-01.attempt-1.metadata.json",
+          "sha256": "bdd0ca24451c3d3cfdd95d9aaf344beae2036ae382817f619e8d3b5d706e4b71"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-01.attempt-1.metadata.json",
+          "sha256": "a9d6dcc80b5c43d03b3c0d27b6eae8f8e93293bc8c7766598a6575d6d1cba757"
+        }
+      ]
+    },
+    {
+      "caseId": "p2c-holdout-02",
+      "usedPlace": "Okachimachi",
+      "center": {
+        "response": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-02.attempt-1.body.json",
+          "sha256": "964a1ef2d6def2dd93c4b39c5f3210cc13d0dc7ede3101040571f404ac1688ae"
+        },
+        "metadata": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-02.attempt-1.metadata.json",
+          "sha256": "79f8775b8c8403b5ccd888afcdd0dc954056666334536edb4108f3a6881dcdf8"
+        },
+        "placeId": "ChIJc-deL6COGGARRENyB-YX2eI",
+        "requestedAt": "2026-10-23T04:16:12.155Z"
+      },
+      "witnesses": [
+        {
+          "rst_id": "13016759",
+          "outletName": "Yakiniku Yansando Ueno hirokoji ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13016759/",
+          "pageSource": {
+            "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-02.attempt-1.source.json",
+            "sha256": "68507152626abd7b283c3edb4107cf5f0db4ec0d61e9e5e1bfd4f1e4e28ba0e2"
+          },
+          "pageMetadata": {
+            "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-02.attempt-1.metadata.json",
+            "sha256": "5093e391f913796bbdd49eff5b2a69a0dc093f9d82872c1ef4a201197badd226"
+          },
+          "hardCriteria": [
+            {
+              "value": "Korean",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "goldIndex": 0,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Yakiniku (Japanese BBQ), Korean, Tripe",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-02.attempt-1.source.json",
+                  "sha256": "68507152626abd7b283c3edb4107cf5f0db4ec0d61e9e5e1bfd4f1e4e28ba0e2"
+                }
+              ]
+            }
+          ],
+          "softObservations": [
+            {
+              "criterion": "no more than 5,000 yen per person",
+              "strength": "SOFT",
+              "usedAsGate": false,
+              "observations": [
+                {
+                  "role": "MERCHANT_AVERAGE_PRICE",
+                  "quote": "Average price JPY 6,000 - JPY 7,999 JPY 2,000 - JPY 2,999",
+                  "source": {
+                    "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-02.attempt-1.source.json",
+                    "sha256": "68507152626abd7b283c3edb4107cf5f0db4ec0d61e9e5e1bfd4f1e4e28ba0e2"
+                  }
+                }
+              ]
+            }
+          ],
+          "inventory": {
+            "metadata": {
+              "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-02.attempt-1.metadata.json",
+              "sha256": "2cc3b866d174e473af9621596a702e054d3b9567fa905143402b48877ab80619"
+            },
+            "body": {
+              "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-02.attempt-1.body.json",
+              "sha256": "39590ada38c1b37ae8a56bd276cd06ba36107cd6367be5d1c4d774edf9e5ba92"
+            }
+          },
+          "identityBasis": "Same source outlet ID plus exact current raw business name/canonical URL and geo; raw address retained as supplied, missing street fields not invented."
+        }
+      ],
+      "searchEvidence": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-02.attempt-1.metadata.json",
+          "sha256": "79f8775b8c8403b5ccd888afcdd0dc954056666334536edb4108f3a6881dcdf8"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-02.attempt-1.metadata.json",
+          "sha256": "c7e3f3db1b8faf42ce7f5af4bf3c75dde4d6374e4854f0d30d45d6f3281819c3"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-02.attempt-1.metadata.json",
+          "sha256": "9c4493234d395208f7281ecb07bfec0d359b3ab183088bda08a7a16ca925ce10"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-02.attempt-1.metadata.json",
+          "sha256": "5093e391f913796bbdd49eff5b2a69a0dc093f9d82872c1ef4a201197badd226"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-02.attempt-1.metadata.json",
+          "sha256": "2cc3b866d174e473af9621596a702e054d3b9567fa905143402b48877ab80619"
+        }
+      ]
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "usedPlace": "Kudanshita",
+      "center": {
+        "response": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-center-03.attempt-1.body.json",
+          "sha256": "e52d82607df4d21182e95cf9db02c8ddfca032a7db03db28ac6b9a2dc4f70c28"
+        },
+        "metadata": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-center-03.attempt-1.metadata.json",
+          "sha256": "558085a7bf13b88fd1c2a4200596d76fc633270bbb0e544181585631b45bba3a"
+        },
+        "placeId": "ChIJd3hxAWuMGGAR7mLxDsxP5v8",
+        "requestedAt": "2026-10-23T04:35:18.356Z"
+      },
+      "witnesses": [],
+      "searchEvidence": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-03.attempt-1.metadata.json",
+          "sha256": "04df09a30f11e85a121ee73499ef4951adbc0276d224eeeb116a2cd0c5ebf2e8"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-03.attempt-1.metadata.json",
+          "sha256": "0f29894c61b414c772445a411a0323a8fbc7a5a777ef633021e6665bc9c1fce5"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-03.attempt-1.metadata.json",
+          "sha256": "f7eaf980f2bb3c2a6f66c4d2f9b7f0db2df2f82ebfe7e322f04e97e4ff0524af"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-03.attempt-1.metadata.json",
+          "sha256": "28d8809bc2638bed34d5b28887d6db00ee7ecad7ff9b19dc5d682ef9980f6b57"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/05-fugu-dinner-evidence/merchant-03.attempt-1.metadata.json",
+          "sha256": "ca1c5bc376a15c884d062412ffc4f2f83e264cd4739249d6de482ac0bdb21f62"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-03.attempt-1.metadata.json",
+          "sha256": "6e4c1815950dda75cd67eebc45d3f0fd3570b8dd4bf5f62aba67edd1d05e9a9d"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/07-primary-fugu-search/fugu-primary-google.attempt-1.metadata.json",
+          "sha256": "2c7b1bafdbe77f0109bb3d946d970c3aac5d20eec586d61bff5b6215fc230c3b"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/07-primary-fugu-search/ichigaya-fugu-list.attempt-1.metadata.json",
+          "sha256": "d2950d79688a055a8ef0c48f2b97cf54a1393f1e6069aef4f61e2195dda41357"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/08-primary-shiose-dinner/shiose-03.attempt-1.metadata.json",
+          "sha256": "0f40be345e36389dffc79408efcafecb48e233fe6ac48d0a40ca4342d50133aa"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-center-03.attempt-1.metadata.json",
+          "sha256": "558085a7bf13b88fd1c2a4200596d76fc633270bbb0e544181585631b45bba3a"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-fugu-list-03.attempt-1.metadata.json",
+          "sha256": "93c4f7bcf259c67357716c392dc48310e6b187677d973f02a48c9a8ac523d480"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-fugu-google-03.attempt-1.metadata.json",
+          "sha256": "8a62f324cc6f83fd83d0e104cb2a7b04d1f81543c14057c7e58618f7643e1e8d"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/10-fallback-native-and-city/fallback-native-google-03.attempt-1.metadata.json",
+          "sha256": "7bf2c257d8180a463457bdc8cf7f8fdc3ad4de6d15fd714f60d8bbff6b0c3567"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/10-fallback-native-and-city/fallback-city-fugu-03.attempt-1.metadata.json",
+          "sha256": "7777f94a4f35c995b9843e55f3b03f99e29bfcf3df5144a1fd221514b48cfef9"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/11-fallback-circle-east-check/fallback-east-google-03.attempt-1.metadata.json",
+          "sha256": "a55ed17059d07273ef20d05f92a56af03933cfe1fe340da2f52074bf58bd85b2"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/12-fallback-obu-dinner/obu-03.attempt-1.metadata.json",
+          "sha256": "f05b00123bc0650bdf7ab799a285d982cb38246e095ad7cba620199ff56073b7"
+        }
+      ],
+      "primaryNoWitnessEvidence": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-03.attempt-1.body.json",
+          "sha256": "355a0d1accf56cf97628c23cb9eb05b4a73874c34548d5223e2f0df4884948b3"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-03.attempt-1.metadata.json",
+          "sha256": "6e4c1815950dda75cd67eebc45d3f0fd3570b8dd4bf5f62aba67edd1d05e9a9d"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/07-primary-fugu-search/fugu-primary-google.attempt-1.body.json",
+          "sha256": "1a1aec21b6f1477e876072c1c888f5f4611c059c8445534403906d7a4141f3c0"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/07-primary-fugu-search/ichigaya-fugu-list.attempt-1.source.json",
+          "sha256": "46091dd590e3828ed47b47b7f5e17c104b6f188dfc33672ac2d4c613b45ec231"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/08-primary-shiose-dinner/shiose-03.attempt-1.source.json",
+          "sha256": "ccda9d95b8e5066f9a6c692ae61d3305062d1cce9a0d84a72ba8be81c4a9fe96"
+        }
+      ],
+      "fallbackRecord": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/fallback-03.json",
+        "sha256": "dab19777d24e16643622d99489ad6a3bf5b61fc25fded810072835ddfee181d4"
+      },
+      "noWitnessEvidence": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-03.attempt-1.body.json",
+          "sha256": "355a0d1accf56cf97628c23cb9eb05b4a73874c34548d5223e2f0df4884948b3"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-03.attempt-1.metadata.json",
+          "sha256": "6e4c1815950dda75cd67eebc45d3f0fd3570b8dd4bf5f62aba67edd1d05e9a9d"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/07-primary-fugu-search/fugu-primary-google.attempt-1.body.json",
+          "sha256": "1a1aec21b6f1477e876072c1c888f5f4611c059c8445534403906d7a4141f3c0"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/07-primary-fugu-search/ichigaya-fugu-list.attempt-1.source.json",
+          "sha256": "46091dd590e3828ed47b47b7f5e17c104b6f188dfc33672ac2d4c613b45ec231"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/08-primary-shiose-dinner/shiose-03.attempt-1.source.json",
+          "sha256": "ccda9d95b8e5066f9a6c692ae61d3305062d1cce9a0d84a72ba8be81c4a9fe96"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/08-primary-shiose-dinner/shiose-03.attempt-1.metadata.json",
+          "sha256": "0f40be345e36389dffc79408efcafecb48e233fe6ac48d0a40ca4342d50133aa"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/08-primary-shiose-dinner/shiose-03.attempt-1.source.json",
+          "sha256": "ccda9d95b8e5066f9a6c692ae61d3305062d1cce9a0d84a72ba8be81c4a9fe96"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-center-03.attempt-1.metadata.json",
+          "sha256": "558085a7bf13b88fd1c2a4200596d76fc633270bbb0e544181585631b45bba3a"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-center-03.attempt-1.body.json",
+          "sha256": "e52d82607df4d21182e95cf9db02c8ddfca032a7db03db28ac6b9a2dc4f70c28"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-fugu-list-03.attempt-1.metadata.json",
+          "sha256": "93c4f7bcf259c67357716c392dc48310e6b187677d973f02a48c9a8ac523d480"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-fugu-list-03.attempt-1.source.json",
+          "sha256": "526143faf2ad03c183f57b69e8f04fc3b97d75e96aba39a0fada854f031252e1"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-fugu-google-03.attempt-1.metadata.json",
+          "sha256": "8a62f324cc6f83fd83d0e104cb2a7b04d1f81543c14057c7e58618f7643e1e8d"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-fugu-google-03.attempt-1.body.json",
+          "sha256": "8fe9494c6a288699180d5c8d259164ed82b2a7533935cf15c1dca311bd22cb08"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/10-fallback-native-and-city/fallback-native-google-03.attempt-1.metadata.json",
+          "sha256": "7bf2c257d8180a463457bdc8cf7f8fdc3ad4de6d15fd714f60d8bbff6b0c3567"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/10-fallback-native-and-city/fallback-native-google-03.attempt-1.body.json",
+          "sha256": "db9816f22baa20bbc0f6411ef58629f7ecc08ed9f3fa8e08d655cfbade95dfbf"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/10-fallback-native-and-city/fallback-city-fugu-03.attempt-1.metadata.json",
+          "sha256": "7777f94a4f35c995b9843e55f3b03f99e29bfcf3df5144a1fd221514b48cfef9"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/10-fallback-native-and-city/fallback-city-fugu-03.attempt-1.source.json",
+          "sha256": "ac683aa5e2c438233952f03644afeda4d91b35d7055fda3477cb74907c9d2c3b"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/11-fallback-circle-east-check/fallback-east-google-03.attempt-1.metadata.json",
+          "sha256": "a55ed17059d07273ef20d05f92a56af03933cfe1fe340da2f52074bf58bd85b2"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/11-fallback-circle-east-check/fallback-east-google-03.attempt-1.body.json",
+          "sha256": "da19f324d7252474ffee39ab86de53493db1e3365b666aa8344c7877ae191be9"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/12-fallback-obu-dinner/obu-03.attempt-1.metadata.json",
+          "sha256": "f05b00123bc0650bdf7ab799a285d982cb38246e095ad7cba620199ff56073b7"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/12-fallback-obu-dinner/obu-03.attempt-1.source.json",
+          "sha256": "f6f37c654c305682b63359652339e0519c92db8dcc03e8d6a561cf40166a3a27"
+        }
+      ],
+      "noWitnessReason": "NO_CERTIFIED_WITNESS_FOUND_IN_BOUNDED_APPROVED_PRIMARY_AND_FALLBACK_SOURCE_SEARCH; not a claim of global restaurant impossibility or product capability",
+      "fallbackCandidateAdjudication": {
+        "outletName": "Kakurega Teppan Obu",
+        "rst_id": "13206414",
+        "source": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/12-fallback-obu-dinner/obu-03.attempt-1.source.json",
+          "sha256": "f6f37c654c305682b63359652339e0519c92db8dcc03e8d6a561cf40166a3a27"
+        },
+        "unsupported": [
+          "No explicit fugu support in captured merchant category/course fields",
+          "No specific dinner option <=10000JPY per person established; average range10000-14999 is not proof of such an option",
+          "No source-bound public inventory read exposed; never manufacture or access reservation form"
+        ],
+        "anniversaryNotUsedAsGate": true
+      }
+    },
+    {
+      "caseId": "p2c-holdout-04",
+      "usedPlace": "Ryogoku",
+      "center": {
+        "response": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-04.attempt-1.body.json",
+          "sha256": "f65e5c7267efea0fa5a81a0c3575bb0fb30e0d3a49e46a6ba8e64de7f90b9f6b"
+        },
+        "metadata": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-04.attempt-1.metadata.json",
+          "sha256": "71bee887f499b3ede7e3549c7a3a367bd7d57ef019ea55f66b399f4259405d25"
+        },
+        "placeId": "ChIJcT75sEqJGGARo4DjAx2dCOM",
+        "requestedAt": "2026-10-23T04:17:17.091Z"
+      },
+      "witnesses": [
+        {
+          "rst_id": "13202196",
+          "outletName": "Chanko Kirishima Ryougoku edo NOREN ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+          "pageSource": {
+            "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-04.attempt-1.source.json",
+            "sha256": "3e664db79be00271c94ae49b60b85001de55ec2d4b0d1d54450a6ed97a78d98b"
+          },
+          "pageMetadata": {
+            "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-04.attempt-1.metadata.json",
+            "sha256": "13215559d71835c3e7041cd60d422dcd46c5fd28a98b2918a1d39fba9d7d11e0"
+          },
+          "hardCriteria": [
+            {
+              "value": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "goldIndex": 0,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Chanko-nabe, Japanese Cuisine, Seafood",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-04.attempt-1.source.json",
+                  "sha256": "3e664db79be00271c94ae49b60b85001de55ec2d4b0d1d54450a6ed97a78d98b"
+                }
+              ]
+            }
+          ],
+          "softObservations": [
+            {
+              "criterion": "private room",
+              "strength": "SOFT",
+              "usedAsGate": false,
+              "observations": [
+                {
+                  "role": "MERCHANT_SEATING",
+                  "quote": "Private rooms Unavailable",
+                  "source": {
+                    "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-04.attempt-1.source.json",
+                    "sha256": "3e664db79be00271c94ae49b60b85001de55ec2d4b0d1d54450a6ed97a78d98b"
+                  }
+                }
+              ]
+            }
+          ],
+          "inventory": {
+            "metadata": {
+              "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-04.attempt-1.metadata.json",
+              "sha256": "285ebb9f893e3bfae5f084d036929b7ebca90cbb14d5e89a8988499734e10f75"
+            },
+            "body": {
+              "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-04.attempt-1.body.json",
+              "sha256": "78973ad9e97d682e3114695bd50d13f9cf1132c591bd4d592b40986ea155825c"
+            }
+          },
+          "identityBasis": "Same source outlet ID plus exact current raw business name/canonical URL and geo; raw address retained as supplied, missing street fields not invented."
+        }
+      ],
+      "searchEvidence": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-04.attempt-1.metadata.json",
+          "sha256": "71bee887f499b3ede7e3549c7a3a367bd7d57ef019ea55f66b399f4259405d25"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-04.attempt-1.metadata.json",
+          "sha256": "2deb57eb4a6223052f85a22328377308ced802c832a14b120b6c9efd401ca3c6"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-04.attempt-1.metadata.json",
+          "sha256": "d5921377ba5afd25c634b0a4cf0cd9193389640cecfbb1029703e75ebb4db2ef"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-04.attempt-1.metadata.json",
+          "sha256": "13215559d71835c3e7041cd60d422dcd46c5fd28a98b2918a1d39fba9d7d11e0"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-04.attempt-1.metadata.json",
+          "sha256": "285ebb9f893e3bfae5f084d036929b7ebca90cbb14d5e89a8988499734e10f75"
+        }
+      ]
+    },
+    {
+      "caseId": "p2c-holdout-05",
+      "usedPlace": "Hatchobori",
+      "center": {
+        "response": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-05.attempt-1.body.json",
+          "sha256": "2afc4df9f1a1feca317551f2056131251c9ada23925dd02d3d221523e69d34b3"
+        },
+        "metadata": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-05.attempt-1.metadata.json",
+          "sha256": "cbb9bdf76ceee9fbb6c4aa301ab305a2842b43463e7b886dc4034e86d3832fbe"
+        },
+        "placeId": "ChIJO1wpfl6JGGARjNtDmO2lRrI",
+        "requestedAt": "2026-10-23T04:17:48.378Z"
+      },
+      "witnesses": [
+        {
+          "rst_id": "13181311",
+          "outletName": "Niku Kitchen BOICHI Hacchobori irifune ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13181311/",
+          "pageSource": {
+            "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/merchant-05.attempt-1.source.json",
+            "sha256": "90b1badd32858d5958e7057463415e06968b2dfb3c6f28fb0a7d4b4088571770"
+          },
+          "pageMetadata": {
+            "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/merchant-05.attempt-1.metadata.json",
+            "sha256": "e9819a69ba777728a34d737c22e16c5f713f3ec3b180909055d0baab0c914cb4"
+          },
+          "hardCriteria": [
+            {
+              "value": "steak",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "goldIndex": 0,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Bistro, Steak, Niku baru (Meat bar)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/merchant-05.attempt-1.source.json",
+                  "sha256": "90b1badd32858d5958e7057463415e06968b2dfb3c6f28fb0a7d4b4088571770"
+                }
+              ]
+            },
+            {
+              "value": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "goldIndex": 1,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Bistro, Steak, Niku baru (Meat bar)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/merchant-05.attempt-1.source.json",
+                  "sha256": "90b1badd32858d5958e7057463415e06968b2dfb3c6f28fb0a7d4b4088571770"
+                }
+              ],
+              "adjudication": {
+                "rule": "User-approved case05 source classification must show Steak/teppanyaki steak rather than Hamburger steak; captured category is Bistro, Steak, Meat bar. Does not infer absence from a menu keyword.",
+                "authority": {
+                  "path": ".eval-artifacts/phase2c-holdout/holdout.yaml",
+                  "sha256": "1602ca7a5ff860130b81235553db8e77d7d9c25d261801c38330db0a97171a1e"
+                },
+                "caseId": "p2c-holdout-05"
+              }
+            }
+          ],
+          "softObservations": [],
+          "inventory": {
+            "metadata": {
+              "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-05.attempt-1.metadata.json",
+              "sha256": "eebf7f1feec573f1303ff2a98e79590e0a1b0a954032780bc4e6da12769db2cb"
+            },
+            "body": {
+              "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-05.attempt-1.body.json",
+              "sha256": "f903fe96ca43d573d8ef4040f54f8935f0dc0852f35e55f43bf14b93e13097a2"
+            }
+          },
+          "identityBasis": "Same source outlet ID plus exact current raw business name/canonical URL and geo; raw address retained as supplied, missing street fields not invented."
+        }
+      ],
+      "searchEvidence": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-05.attempt-1.metadata.json",
+          "sha256": "cbb9bdf76ceee9fbb6c4aa301ab305a2842b43463e7b886dc4034e86d3832fbe"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-05.attempt-1.metadata.json",
+          "sha256": "2a5986f5fe3d792ee4481cde609ffd052aca27b1595746d326840b7585566f8f"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-05.attempt-1.metadata.json",
+          "sha256": "03a1097baf92b23fdb8e51145794db454034295b2564f2cebc1e822833d95589"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-05.attempt-1.metadata.json",
+          "sha256": "93ff6f8ba504a44066638d87682868c42b789f20908d916fcbd5e02e0ddebdd8"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/merchant-05.attempt-1.metadata.json",
+          "sha256": "e9819a69ba777728a34d737c22e16c5f713f3ec3b180909055d0baab0c914cb4"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-05.attempt-1.metadata.json",
+          "sha256": "eebf7f1feec573f1303ff2a98e79590e0a1b0a954032780bc4e6da12769db2cb"
+        }
+      ]
+    },
+    {
+      "caseId": "p2c-holdout-06",
+      "usedPlace": "Kitasenju",
+      "center": {
+        "response": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-06.attempt-1.body.json",
+          "sha256": "90ae46b599c0809e0dfcec7a00c9b335c11d8e39bdcf6ee360a705a44bed35ce"
+        },
+        "metadata": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-06.attempt-1.metadata.json",
+          "sha256": "0c03e8ee4e39b8c7f8184860281a7a0167b1e6cd0d650685b13aaab76566e671"
+        },
+        "placeId": "ChIJcW6bo0-OGGARCbs3q_vmtww",
+        "requestedAt": "2026-10-23T04:18:19.592Z"
+      },
+      "witnesses": [
+        {
+          "rst_id": "13280146",
+          "outletName": "Hakata Motsu-nabe Yamaya Kitasenju ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13280146/",
+          "pageSource": {
+            "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-06.attempt-1.source.json",
+            "sha256": "595cd0e638d6a736d5ff4a13dcc54d19e9318cf2db5429e0ff85cae47cce38bf"
+          },
+          "pageMetadata": {
+            "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-06.attempt-1.metadata.json",
+            "sha256": "a3c902c34e10ace01f8f75137a737d201a26957c5b860fed220d43ff76c38ea1"
+          },
+          "hardCriteria": [
+            {
+              "value": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "goldIndex": 0,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Izakaya (Japanese style tavern), Regional Cuisine, Motsu-nabe",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-06.attempt-1.source.json",
+                  "sha256": "595cd0e638d6a736d5ff4a13dcc54d19e9318cf2db5429e0ff85cae47cce38bf"
+                }
+              ]
+            }
+          ],
+          "softObservations": [],
+          "inventory": {
+            "metadata": {
+              "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-06.attempt-1.metadata.json",
+              "sha256": "bdc66001e060f462d01933cda9af19af6e9a66839d0244523adeda61a2c7c6ab"
+            },
+            "body": {
+              "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-06.attempt-1.body.json",
+              "sha256": "8ea9d6150e26a57b35350c7b8ee3c84c7ccbf82e3823657f74d4847f8b881461"
+            }
+          },
+          "identityBasis": "Same source outlet ID plus exact current raw business name/canonical URL and geo; raw address retained as supplied, missing street fields not invented."
+        }
+      ],
+      "searchEvidence": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-06.attempt-1.metadata.json",
+          "sha256": "0c03e8ee4e39b8c7f8184860281a7a0167b1e6cd0d650685b13aaab76566e671"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-06.attempt-1.metadata.json",
+          "sha256": "6b24f9cf658000166480cd1bf213e334cf5df3fc668766c18b8ca9ea27d50562"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-06.attempt-1.metadata.json",
+          "sha256": "58d21deeadce4f050f4036dcae926d143212144efa0e1f5c725f72e2657cdc62"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-06.attempt-1.metadata.json",
+          "sha256": "a3c902c34e10ace01f8f75137a737d201a26957c5b860fed220d43ff76c38ea1"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-06.attempt-1.metadata.json",
+          "sha256": "bdc66001e060f462d01933cda9af19af6e9a66839d0244523adeda61a2c7c6ab"
+        }
+      ]
+    }
+  ]
+}
