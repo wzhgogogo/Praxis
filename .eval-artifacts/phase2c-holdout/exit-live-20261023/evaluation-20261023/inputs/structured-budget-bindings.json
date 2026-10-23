@@ -1,0 +1,54 @@
+{
+  "schema": "artifact-structured-criterion-binding@1",
+  "status": "APPROVED_BY_INDEPENDENT_REVIEWER",
+  "reviewPath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md",
+  "reviewSha256": "1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5",
+  "entries": [
+    {
+      "runId": "h-03",
+      "artifactSha256": "077afcc53cb86a86600cbcc9dc7b894d1e8e7d91c579ce469e048daf287e8294",
+      "goldIndex": 2,
+      "goldTextSha256": "06e83339964079a702ef2498ea59d9faa7f50366eb312e8819095cf4079ec7d7",
+      "strength": "HARD",
+      "polarity": "POSITIVE",
+      "expected": {
+        "max": 10000,
+        "currency": "JPY"
+      },
+      "actual": {
+        "max": 10000,
+        "currency": "JPY"
+      },
+      "intentPointers": [
+        "/events/0/event/patch/budgetPerPerson",
+        "/finalSnapshot/domainState/intentDraft/budgetPerPerson"
+      ],
+      "reviewPath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md",
+      "reviewSha256": "1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5",
+      "rule": "Numeric/direction/per-person binding only. Existing HARD budget path requires MET; over or unknown does not fulfill it."
+    },
+    {
+      "runId": "h-09",
+      "artifactSha256": "72dc7f784291e1d0ebe3528c307a4ac01e5f1771adc330d38a7d12e2a85b4955",
+      "goldIndex": 2,
+      "goldTextSha256": "06e83339964079a702ef2498ea59d9faa7f50366eb312e8819095cf4079ec7d7",
+      "strength": "HARD",
+      "polarity": "POSITIVE",
+      "expected": {
+        "max": 10000,
+        "currency": "JPY"
+      },
+      "actual": {
+        "max": 10000,
+        "currency": "JPY"
+      },
+      "intentPointers": [
+        "/events/0/event/patch/budgetPerPerson",
+        "/finalSnapshot/domainState/intentDraft/budgetPerPerson"
+      ],
+      "reviewPath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md",
+      "reviewSha256": "1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5",
+      "rule": "Numeric/direction/per-person binding only. Existing HARD budget path requires MET; over or unknown does not fulfill it."
+    }
+  ]
+}

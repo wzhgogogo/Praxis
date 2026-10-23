@@ -1,0 +1,738 @@
+{
+  "schema": "holdout-evaluation-representation@1",
+  "rule": "Only reviewed structured-budget criteria additions, reversible byte-source/deep-object lineage; original Gold, sources, actions, display, evidence and resources unchanged.",
+  "projections": [
+    {
+      "runId": "h-03",
+      "sourceArtifactPath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-2/runner/2026-10-23T05-55-19-111Z-50ff3f8d-ecf7-4716-b5b6-808a7c232903.result.json",
+      "sourceArtifactSha256": "077afcc53cb86a86600cbcc9dc7b894d1e8e7d91c579ce469e048daf287e8294",
+      "viewPath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/evaluation-20261023/inputs/views/h-03.evaluation-view.json",
+      "viewSha256": "517d436b76996a2dbcf2b3a3772790adcd47a679e3c855a4158753c90172ac60",
+      "patches": [
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/0/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/0/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/1/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/1/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/1/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/1/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/2/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/2/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/2/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/2/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/3/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/3/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/3/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/3/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/4/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/4/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/4/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/4/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/5/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/5/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/5/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/5/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/6/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/6/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/6/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/6/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/7/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/7/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/7/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/7/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/8/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/8/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/8/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/8/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/9/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/9/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/9/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/9/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        }
+      ]
+    },
+    {
+      "runId": "h-09",
+      "sourceArtifactPath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-09-attempt-1/runner/2026-10-23T06-40-08-617Z-1849354e-a865-4407-b25f-e90bcf8a9b21.result.json",
+      "sourceArtifactSha256": "72dc7f784291e1d0ebe3528c307a4ac01e5f1771adc330d38a7d12e2a85b4955",
+      "viewPath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/evaluation-20261023/inputs/views/h-09.evaluation-view.json",
+      "viewSha256": "87f93f0685ca337cca7e64ff2032ccca3c8c317ffc6cc43954445ea262718c7e",
+      "patches": [
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/finalSnapshot/domainState/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/finalSnapshot/domainState/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/0/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/0/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/1/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/1/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/1/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/1/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/2/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/2/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/2/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/2/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/3/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/3/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/3/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/3/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/4/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/4/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/4/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/4/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/5/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/5/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/5/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/5/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/6/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/6/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/6/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/6/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/7/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/7/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/7/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/7/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/8/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/8/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/8/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/8/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/9/decisionContext/intentDraft/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/9/decisionContext/intentDraft/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        },
+        {
+          "op": "add",
+          "path": "/trajectories/9/decisionContext/intent/criteria/2",
+          "value": {
+            "text": "at most 10000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:2"
+          },
+          "sourcePointer": "/trajectories/9/decisionContext/intent/budgetPerPerson",
+          "sourceValue": {
+            "max": 10000,
+            "currency": "JPY"
+          },
+          "goldIndex": 2,
+          "reviewRef": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/wording-review.md#sha256=1e18415027dc3f386397bf172511d9c877e2731fc59fde395083b6a171eee4c5"
+        }
+      ]
+    }
+  ]
+}
