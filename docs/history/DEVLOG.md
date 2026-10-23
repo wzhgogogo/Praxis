@@ -4518,3 +4518,8 @@ Approved product8487a844 unchanged. Ran13/18 slots (14 formal attempts,11 comple
 ### 2026-10-23 Phase2c explicit timeout retry continuation
 
 用户明确授权h-01/h-13各重试一次，再执行h-14至h-18；旧记录不覆盖，两个例外单列，不改ENV配额。预算基线4231/5000模型、86/100完整Live、5/10环境重跑；7次加最多4次剩余正常环境重跑的最坏预算550调用/11Live，额度足够。顺序随机120–240秒间隔，30秒模型/500秒整单、只读与S0停批不变。评测外层仅将失效的SIGTERM宽限改为500秒SIGKILL；7项零网络/零模型控制PASS，包含真实忽略SIGTERM子进程红绿。产品/Runner/Gold/见证/评测器33/rubric29字节不变，复用既有产品门禁，不宣称新Live能力通过。范围与新冻结见 `.eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/`。
+
+
+### 2026-10-23 Phase2c timeout retry stopped
+
+Current run evidence; exposed holdout; capability evaluation deferred. User-authorized h01/h13 retry once each added74 models/2 formalLive/0 ENV reruns. h01 hit500s, no result; h13-only600s was separately frozen, initial diagnostic CLI rejection before formal start retained(0 models), corrected complete Runner hit TableCheck search busy after402.610s/33 calls. Case01 environment retry already consumed; ENVIRONMENT_RETRY_EXHAUSTED stops before h14-h18. No S0 monitor signal, but missing-result independent safety is NOT_EVALUATED, not zero. Original results/packets preserved; raw artifacts committed before blind extraction. Current freeze de7dd1c13eb3f1a913f22d019962b85702efc1540b7d411876f4ae71d188731e. Models4305/5000, Live88/100, ENV5/10; Google known lower bound65+11 witness, exact unknown. Product unchanged;7 zero-network/model controls PASS plus actual SIGTERM-red/SIGKILL-green, no new call after deadline; reviewed product gates reused by byte identity.13/18 slots recorded,11 complete artifacts, h14-h18 NOT_REACHED. [Report](../../.eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/report.md).

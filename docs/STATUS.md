@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.367
+- Document revision: 4.368
 - Last updated: 2026-10-23
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-23 Phase2c timeout retry STOPPED:** User-authorized h01/h13 retries added74 models/2Live/0ENV. h01 timed out500s; h13 under approved600s hit TableCheck search busy at402.610s. Existing case retry exhausted; h14-h18 NOT_REACHED.13 slots/11 complete artifacts, missing-result safety NOT_EVALUATED. Models4305/5000,Live88/100,ENV5/10. Product unchanged; raw freeze and blind wording packet saved, no capability scores. [Report](../.eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/report.md).
 
 - **2026-10-23 Phase2c witness certification:** 第二阶段c退出见证认证完成：5/6例各1家独立认证，唯一无见证例按承诺fallback后仍无充分来源支持，按用户预先批准排除；所有换地点与原始观察SHA保留。承诺整文件及六例SHA一致，原文/日期未改；42次只读来源请求（Google11、Tabelog31）全200、0重试，最小来源间隔30秒。0产品代码/模型/浏览器/完整Live/环境重跑；16项离线边界控制和零网络认证及独立字节/距离/库存复算通过，140项输入冻结保持。认证材料登记与报告只在私有留出分支；本轮不开始18次Live。最早保守观察为北京时间10月23日12:15:40.465，24小时截止10月24日12:15:40.465。 [报告](../.eval-artifacts/phase2c-holdout/witness-certification-20261023/report.md).
 
