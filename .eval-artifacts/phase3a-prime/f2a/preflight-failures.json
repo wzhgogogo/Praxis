@@ -1,0 +1,7 @@
+{
+  "status": "superseded retrospective",
+  "entries": [
+    {"scope": "external main-gates script", "failure": "ArgumentParser default used parents[3] after moving script to /private/tmp; IndexError before gates started", "repair": "Explicit main worktree default; no gate or evaluation had started"},
+    {"scope": "h-12 comparison script at b0d2b900", "failure": "ERR_MODULE_NOT_FOUND /private/tmp/src/eval/restaurant/agent-loop/diagnostic-evaluator.ts", "repair": "Correct relative import from four parents to three; no evaluator invocation or sidecar had started; input bytes unchanged"}
+  ]
+}

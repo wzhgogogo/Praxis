@@ -9,7 +9,7 @@ const manifest = JSON.parse(await fs.readFile(`${root}/inputs/manifest.json`));
 for (const [file, hash] of Object.entries(manifest.files)) assert.equal(sha(await fs.readFile(`${root}/inputs/${file}`)), hash);
 let externalCalls = 0;
 globalThis.fetch = () => { externalCalls++; throw Error('OFFLINE_ONLY'); };
-const { evaluateRestaurantHybridLiveArtifact } = await import('../../../../src/eval/restaurant/agent-loop/diagnostic-evaluator.ts');
+const { evaluateRestaurantHybridLiveArtifact } = await import('../../../src/eval/restaurant/agent-loop/diagnostic-evaluator.ts');
 const bytes = gunzipSync(await fs.readFile(`${root}/inputs/${manifest.h12.path}`));
 assert.equal(sha(bytes), manifest.h12.originalSha256);
 const evaluation = evaluateRestaurantHybridLiveArtifact(JSON.parse(bytes), { path: manifest.h12.originalPath, sha256: sha(bytes) });
