@@ -1,0 +1,100 @@
+{
+  "schema": "phase2c-user-timeout-retry-continuation@1",
+  "deferEvaluation": true,
+  "ceilings": {
+    "decisionTimeoutMs": 30000,
+    "timeoutMs": 500000,
+    "maxModelCalls": 50,
+    "maxGoogleRequests": 40
+  },
+  "cooldownMs": 900000,
+  "maxRerunsPerCase": 1,
+  "maxTotalReruns": 6,
+  "runs": [
+    {
+      "runId": "h-13",
+      "caseId": "p2c-holdout-01",
+      "repeat": 3,
+      "role": "HOLDOUT",
+      "initialAttempt": 3,
+      "explicitTimeoutRetry": true,
+      "timeoutMs": 600000
+    },
+    {
+      "runId": "h-14",
+      "caseId": "p2c-holdout-02",
+      "repeat": 3,
+      "role": "HOLDOUT",
+      "initialAttempt": 1,
+      "explicitTimeoutRetry": false
+    },
+    {
+      "runId": "h-15",
+      "caseId": "p2c-holdout-03",
+      "repeat": 3,
+      "role": "HOLDOUT",
+      "initialAttempt": 1,
+      "explicitTimeoutRetry": false
+    },
+    {
+      "runId": "h-16",
+      "caseId": "p2c-holdout-04",
+      "repeat": 3,
+      "role": "HOLDOUT",
+      "initialAttempt": 1,
+      "explicitTimeoutRetry": false
+    },
+    {
+      "runId": "h-17",
+      "caseId": "p2c-holdout-05",
+      "repeat": 3,
+      "role": "HOLDOUT",
+      "initialAttempt": 1,
+      "explicitTimeoutRetry": false
+    },
+    {
+      "runId": "h-18",
+      "caseId": "p2c-holdout-06",
+      "repeat": 3,
+      "role": "HOLDOUT",
+      "initialAttempt": 1,
+      "explicitTimeoutRetry": false
+    }
+  ],
+  "kind": "USER_H13_600S_ONLY_THEN_H14_H18_500S",
+  "mode": "LIVE_READ_ONLY",
+  "hardDeadline": "2026-10-24T04:15:40.465Z",
+  "runnerInput": ".eval-artifacts/phase2c-holdout/exit-live-20261023/runner-input.yaml",
+  "registryPath": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/registry.json",
+  "ledgerPath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/ledger-before.json",
+  "evaluator": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubric": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "onlyRetry": [
+    "ENV_FAILURE"
+  ],
+  "parallelFallback": [
+    "SOURCE_CHALLENGE",
+    "SOURCE_HTTP_403_503_429",
+    "SOURCE_BUSY",
+    "DEEPSEEK_RATE_LIMIT",
+    "PARALLEL_RESOURCE_CONFLICT"
+  ],
+  "excludedFromCapability": [
+    "p2c-holdout-03"
+  ],
+  "priorFinishedAt": "2026-10-23T08:13:39.552Z",
+  "priorCaseRetries": {
+    "p2c-holdout-01": 1,
+    "p2c-holdout-03": 1
+  },
+  "priorManifest": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/all-execution-manifest.json",
+  "interval": {
+    "minMs": 120000,
+    "maxMs": 240000,
+    "distribution": "crypto.randomInt(120,241) seconds independently per attempted run; draw recorded before wait"
+  },
+  "maxNewReruns": 4,
+  "sequentialOnly": true,
+  "explicitTimeoutRetryLimit": 1,
+  "initialNotBefore": "2026-10-23T08:16:11.552Z"
+}

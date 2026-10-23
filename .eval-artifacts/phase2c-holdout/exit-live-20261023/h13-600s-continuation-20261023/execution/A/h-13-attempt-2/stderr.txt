@@ -1,0 +1,11 @@
+/private/tmp/praxis-phase2c-witness/.eval-artifacts/checkpoint-c-live-20261020/runner-entry.ts:285
+  if (!Number.isSafeInteger(value) || value < 1 || value > fallback) throw new Error(`${flag} must be between 1 and ${fallback}`);
+                                                                           ^
+
+
+Error: --timeout-ms must be between 1 and 500000
+    at runCeiling (/private/tmp/praxis-phase2c-witness/.eval-artifacts/checkpoint-c-live-20261020/runner-entry.ts:285:76)
+    at runHybridLiveRead (/private/tmp/praxis-phase2c-witness/.eval-artifacts/checkpoint-c-live-20261020/runner-entry.ts:295:26)
+    at async <anonymous> (/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/child-entry.ts:5:1)
+
+Node.js v24.4.1

@@ -1,0 +1,110 @@
+{
+  "schema": "phase2c-sequential-continuation@1",
+  "evaluation": "DEFERRED",
+  "attempts": [
+    {
+      "run": {
+        "runId": "h-13",
+        "caseId": "p2c-holdout-01",
+        "repeat": 3,
+        "role": "HOLDOUT",
+        "initialAttempt": 2,
+        "explicitTimeoutRetry": true,
+        "timeoutMs": 600000
+      },
+      "authorization": "USER_EXPLICIT_TIMEOUT_RETRY",
+      "attempt": 2,
+      "queue": "A",
+      "startedAt": "2026-10-23T08:13:17.762Z",
+      "finishedAt": "2026-10-23T08:13:39.552Z",
+      "gapMs": 123000,
+      "artifactPath": null,
+      "artifactSha256": null,
+      "formalRunStarted": false,
+      "modelCallsCharged": 0,
+      "s0": false,
+      "cooldown": false,
+      "classification": "DEFERRED",
+      "directory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/execution/A/h-13-attempt-2",
+      "productStartedAt": null,
+      "productFinishedAt": null,
+      "productElapsedMs": null,
+      "googleRequests": 2,
+      "postFailure": false,
+      "offline": false
+    }
+  ],
+  "totalReruns": 0,
+  "stop": {
+    "reason": "H13_RUNNER_CEILING_CONFIGURATION_CORRECTION_BEFORE_FORMAL_START"
+  },
+  "plannedRuns": [
+    {
+      "run": {
+        "runId": "h-13",
+        "caseId": "p2c-holdout-01",
+        "repeat": 3,
+        "role": "HOLDOUT",
+        "initialAttempt": 2,
+        "explicitTimeoutRetry": true,
+        "timeoutMs": 600000
+      },
+      "status": "PREFLIGHT_ONLY"
+    },
+    {
+      "run": {
+        "runId": "h-14",
+        "caseId": "p2c-holdout-02",
+        "repeat": 3,
+        "role": "HOLDOUT",
+        "initialAttempt": 1,
+        "explicitTimeoutRetry": false
+      },
+      "status": "NOT_REACHED"
+    },
+    {
+      "run": {
+        "runId": "h-15",
+        "caseId": "p2c-holdout-03",
+        "repeat": 3,
+        "role": "HOLDOUT",
+        "initialAttempt": 1,
+        "explicitTimeoutRetry": false
+      },
+      "status": "NOT_REACHED"
+    },
+    {
+      "run": {
+        "runId": "h-16",
+        "caseId": "p2c-holdout-04",
+        "repeat": 3,
+        "role": "HOLDOUT",
+        "initialAttempt": 1,
+        "explicitTimeoutRetry": false
+      },
+      "status": "NOT_REACHED"
+    },
+    {
+      "run": {
+        "runId": "h-17",
+        "caseId": "p2c-holdout-05",
+        "repeat": 3,
+        "role": "HOLDOUT",
+        "initialAttempt": 1,
+        "explicitTimeoutRetry": false
+      },
+      "status": "NOT_REACHED"
+    },
+    {
+      "run": {
+        "runId": "h-18",
+        "caseId": "p2c-holdout-06",
+        "repeat": 3,
+        "role": "HOLDOUT",
+        "initialAttempt": 1,
+        "explicitTimeoutRetry": false
+      },
+      "status": "NOT_REACHED"
+    }
+  ]
+}
