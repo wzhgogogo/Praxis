@@ -1,0 +1,11 @@
+# Phase2c full Live execution slice
+
+Status: frozen candidate; no capability evaluation before independent wording review.
+
+Use approved product8487a844 (byte equivalent16e91940), Evaluator33/rubric29 unchanged. Gold dates remain exit-dates.json; only case03 uses approved Kudanshita fallback and is excluded from capability denominator. Existing witness package remains immutable. Gate5/6, common deadline2026-10-24T04:15:40.465Z.
+
+Run18 via complete existing Runner. Odd queueA, even queueB stagger90000ms. Max2 active attempts, independent processes, temporary Chromium contexts, attempt recording and queue ledgers. Per-queue finish-to-start gap300000ms. Source403/503/429/busy/challenge, DeepSeek rate limiting, or port/file/browser conflict immediately sets remaining work to original-order sequential execution; healthy in-flight attempt may finish. Independent source post-read failures retain raw path/SHA; no fabricated declaration. S0 PRESENT cancels in-flight work and stops batch. ENV_FAILURE only may rerun, max1 per case, total remaining7 but at most6 possible for6cases. Capability failures never rerun. No forms, slots, /reserve, PII or external writes.
+
+Before each attempt verify all frozen hashes, witness deadline and cumulative budgets. Reserve50models per concurrent/run attempt, each500s and38RunnerGoogle plus2preflight=40. No decision timeout extension beyond30s. Source retry cooldown15min once; no-status transport error2min once. Independent post-review is separately timed and does not extend product500s. All attempts including failed calls count. Queues append only their own ledgers; controller alone writes scheduler events/merged ledger. No shared browser profile or fixed listen port.
+
+Offline checks: full Runner with scripted transport/no network, controlled scheduler normal2queues/stagger/isolation; source/DeepSeek/conflict sequential fallback; ENV-only retry; S0 abort; deadline/budget fail closed. Product five gates and69/5/22 regressions reused only after byte equality. Freeze/config committed before Live. Finish freezes raw artifacts then extracts wording-only packet (wording/SHA/indices, no grades/results/source price facts). Stop for reviewer, no capability evaluation or public publication.

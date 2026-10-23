@@ -1,0 +1,81 @@
+{
+  "source": ".eval-artifacts/phase2c-holdout/holdout.yaml",
+  "sourceSha256": "1602ca7a5ff860130b81235553db8e77d7d9c25d261801c38330db0a97171a1e",
+  "changes": [
+    {
+      "caseId": "p2c-holdout-01",
+      "date": "2026-11-04",
+      "display": "Wednesday, November 4",
+      "weekday": "Wednesday",
+      "offsetDays": 12,
+      "originalPlace": "Akabane",
+      "place": "Akabane",
+      "fallbackUsed": false,
+      "onlyDateAndApprovedFallback": true
+    },
+    {
+      "caseId": "p2c-holdout-02",
+      "date": "2026-10-30",
+      "display": "Friday, October 30",
+      "weekday": "Friday",
+      "offsetDays": 7,
+      "originalPlace": "Okachimachi",
+      "place": "Okachimachi",
+      "fallbackUsed": false,
+      "onlyDateAndApprovedFallback": true
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "date": "2026-10-31",
+      "display": "Saturday, October 31",
+      "weekday": "Saturday",
+      "offsetDays": 8,
+      "originalPlace": "Ichigaya",
+      "place": "Kudanshita",
+      "fallbackUsed": true,
+      "fallback": {
+        "caseId": "p2c-holdout-03",
+        "place": "Kudanshita",
+        "classification": "PRIMARY_BUSINESS_WITNESS_NOT_CERTIFIED",
+        "reviewPath": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/fallback-03.json",
+        "reviewSha256": "dab19777d24e16643622d99489ad6a3bf5b61fc25fded810072835ddfee181d4"
+      },
+      "onlyDateAndApprovedFallback": true
+    },
+    {
+      "caseId": "p2c-holdout-04",
+      "date": "2026-11-05",
+      "display": "Thursday, November 5",
+      "weekday": "Thursday",
+      "offsetDays": 13,
+      "originalPlace": "Ryogoku",
+      "place": "Ryogoku",
+      "fallbackUsed": false,
+      "onlyDateAndApprovedFallback": true
+    },
+    {
+      "caseId": "p2c-holdout-05",
+      "date": "2026-11-03",
+      "display": "Tuesday, November 3",
+      "weekday": "Tuesday",
+      "offsetDays": 11,
+      "originalPlace": "Hatchobori",
+      "place": "Hatchobori",
+      "fallbackUsed": false,
+      "onlyDateAndApprovedFallback": true
+    },
+    {
+      "caseId": "p2c-holdout-06",
+      "date": "2026-10-30",
+      "display": "Friday, October 30",
+      "weekday": "Friday",
+      "offsetDays": 7,
+      "originalPlace": "Kitasenju",
+      "place": "Kitasenju",
+      "fallbackUsed": false,
+      "onlyDateAndApprovedFallback": true
+    }
+  ],
+  "network": 0,
+  "models": 0
+}

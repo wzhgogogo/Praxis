@@ -1,0 +1,206 @@
+---
+id: p2c-holdout-01
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-23T00:00:00+09:00
+content: >
+  Could you find a kushikatsu place near Akabane with a table for 2 on
+  Wednesday, November 4 at 7 PM?
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Akabane
+    relation: NEAR
+  date:
+    expression: Wednesday, November 4
+    value: 2026-11-04
+  time:
+    value: 19:00
+  party_size: 2
+  criteria:
+    - value: kushikatsu
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Akabane point;
+      source-supported kushikatsu (kushiage); a matching current slot on
+      2026-11-04 at 19:00 for 2.
+---
+id: p2c-holdout-02
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-23T00:00:00+09:00
+content: >
+  There are 4 of us looking for Korean food near Okachimachi on Friday, October
+  30 at 6:30 PM, ideally no more than 5,000 yen per person.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Okachimachi
+    relation: NEAR
+  date:
+    expression: Friday, October 30
+    value: 2026-10-30
+  time:
+    value: 18:30
+  party_size: 4
+  criteria:
+    - value: Korean
+      polarity: POSITIVE
+      strength: HARD
+    - value: no more than 5,000 yen per person
+      polarity: POSITIVE
+      strength: SOFT
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Okachimachi point;
+      source-supported Korean cuisine; a matching current slot on 2026-10-30 at
+      18:30 for 4.
+    - The price preference is SOFT because the user said ideally. Report it as
+      met, not met or not checked, keep the limit as no more than 5,000 yen
+      rather than around 5,000 yen, and never let it block delivery.
+---
+id: p2c-holdout-03
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-23T00:00:00+09:00
+content: >
+  Looking for a fugu restaurant near Kudanshita for our anniversary dinner, 2
+  people on Saturday, October 31 at 7:30 PM. We don't want to spend more than
+  10,000 yen per person.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Kudanshita
+    relation: NEAR
+  date:
+    expression: Saturday, October 31
+    value: 2026-10-31
+  time:
+    value: 19:30
+  party_size: 2
+  criteria:
+    - value: fugu
+      polarity: POSITIVE
+      strength: HARD
+    - value: anniversary dinner
+      polarity: POSITIVE
+      strength: UNSPECIFIED
+    - value: no more than 10,000 yen per person
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Kudanshita point;
+      source-supported fugu (pufferfish); a matching current slot on 2026-10-31
+      at 19:30 for 2.
+    - Source evidence that a dinner option is available at or below JPY 10,000
+      per person; the firm limit is shown to the user with its status and
+      source.
+---
+id: p2c-holdout-04
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-23T00:00:00+09:00
+content: >
+  6 of us want chanko nabe near Ryogoku on Thursday, November 5, any time
+  between 6 and 8 PM. A private room would be nice.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Ryogoku
+    relation: NEAR
+  date:
+    expression: Thursday, November 5
+    value: 2026-11-05
+  time:
+    expression: between 6 and 8 PM
+    type: TIME_WINDOW
+    start: 18:00
+    end: 20:00
+  party_size: 6
+  criteria:
+    - value: chanko nabe
+      polarity: POSITIVE
+      strength: HARD
+    - value: private room
+      polarity: POSITIVE
+      strength: SOFT
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Ryogoku point;
+      source-supported chanko nabe; a matching current slot for 6 on 2026-11-05
+      starting between 18:00 and 20:00.
+    - The private room is SOFT because the user said would be nice. Report it as
+      met, not met or not checked from the source's seating or private-room
+      information; never let it block delivery and never claim a private room
+      without source support.
+---
+id: p2c-holdout-05
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-23T00:00:00+09:00
+content: >
+  Is there a steak restaurant near Hatchobori with a table for 3 on Tuesday,
+  November 3 at 7 PM? Not a hamburg steak place.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Hatchobori
+    relation: NEAR
+  date:
+    expression: Tuesday, November 3
+    value: 2026-11-03
+  time:
+    value: 19:00
+  party_size: 3
+  criteria:
+    - value: steak
+      polarity: POSITIVE
+      strength: HARD
+    - value: hamburg steak place
+      polarity: NEGATIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Hatchobori point;
+      source-supported steak; a matching current slot on 2026-11-03 at 19:00 for
+      3.
+    - The outlet is not a hamburg steak (hambagu) restaurant; the source
+      category shows steak (or teppanyaki steak) rather than hamburg steak as
+      the outlet's cuisine.
+---
+id: p2c-holdout-06
+dataset: restaurant-read-novel-variant@1
+reference_time: 2026-10-23T00:00:00+09:00
+content: >
+  We're a group of 8 from the office looking for motsunabe near Kitasenju on
+  Friday, October 30 after work.
+semantic:
+  target:
+    goal: AVAILABILITY
+  location:
+    value: Kitasenju
+    relation: NEAR
+  date:
+    expression: Friday, October 30
+    value: 2026-10-30
+  time:
+    expression: after work
+    type: TIME_WINDOW
+    start: 17:30
+    end: 22:00
+  party_size: 8
+  criteria:
+    - value: motsunabe
+      polarity: POSITIVE
+      strength: HARD
+acceptance:
+  required_claims:
+    - Correct outlet within 1,000 m of the resolved Kitasenju point;
+      source-supported motsunabe; a matching current slot for 8 on 2026-10-30
+      starting between 17:30 and 22:00.
+    - "'After work' is a vague time: keep it as an evening window (17:30-22:00,
+      the same convention as H003) and do not invent an exact time; any slot
+      found must be shown with its actual time."
