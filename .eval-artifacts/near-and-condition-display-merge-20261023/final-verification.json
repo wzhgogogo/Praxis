@@ -1,0 +1,132 @@
+{
+  "schema": "near-display-merge-final-verification@1",
+  "status": "PASS_OFFLINE_READY_FOR_AUTHORIZED_MAIN_PUSH",
+  "verifiedAt": "2026-10-23T12:01:27.624374+00:00",
+  "mainBefore": "4d953731163e922741ea91ccc6c1c47b53f0b0e1",
+  "reviewedFix": "9de09404612d103b87a85f2a767f61aafdca1725",
+  "mergeCommit": "09b5d35361cca8f10b967b10cae6c478c6d34df2",
+  "freezeCommit": "00ff1fa5e7b65f6fa7da2f3d3137d6a42ad11fee",
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 459
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 286
+    },
+    {
+      "name": "default-tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 23083
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 459
+    },
+    {
+      "name": "browser-fixtures",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 306835
+    }
+  ],
+  "counts": {
+    "default-tests": {
+      "tests": 1029,
+      "pass": 1029,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "browser-fixtures": {
+      "tests": 138,
+      "pass": 138,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "calendar": {
+    "passed": 69,
+    "total": 69,
+    "required": 68
+  },
+  "selection": {
+    "passed": 5,
+    "total": 5
+  },
+  "calibration": {
+    "passed": 22,
+    "total": 22,
+    "normalDeclaration": {
+      "matched": 20,
+      "total": 20
+    },
+    "boundary": {
+      "ABSENT": 9,
+      "PRESENT": 0,
+      "NOT_EVALUATED": 13
+    }
+  },
+  "freezes": [
+    {
+      "path": ".eval-artifacts/near-and-condition-display-merge-20261023/replay-freeze.json",
+      "sha256": "64139ca0e2d532f2d193e53111dc877f4540ecff492928a06b133671bda241fd",
+      "files": 4297
+    },
+    {
+      "path": ".eval-artifacts/near-and-condition-display-merge-20261023/regressions/calibration-freeze.json",
+      "sha256": "f111f93ccb6beb5eb9ec4ed66f98822f61687739e8fcf5ec728633378ffa7696",
+      "files": 815
+    }
+  ],
+  "sourceFileCount": 335,
+  "sourceMismatches": 0,
+  "codeChangedBeyondReviewedBranches": 0,
+  "primaryProtectedFiles": 9,
+  "historicalMetricRestored": true,
+  "newResources": {
+    "modelProviderCalls": 0,
+    "Google": 0,
+    "restaurantWebsites": 0,
+    "fullLive": 0,
+    "environmentReruns": 0,
+    "cachedCalendarResponses": 69,
+    "cachedSelectionResponses": 5,
+    "offlineCalibrationArtifacts": 22
+  },
+  "limitations": [
+    "Offline cached responses are not new model-quality sampling or Live validation.",
+    "Original diagnostic/holdout outputs and scores remain unchanged.",
+    "Approved small generic descriptor suffix list remains an F3 follow-up; no extra repair in this merge."
+  ]
+}

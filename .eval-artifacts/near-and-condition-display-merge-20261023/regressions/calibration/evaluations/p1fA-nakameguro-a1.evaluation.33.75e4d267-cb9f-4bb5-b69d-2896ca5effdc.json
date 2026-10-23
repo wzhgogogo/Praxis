@@ -1,0 +1,730 @@
+{
+  "outcome": {
+    "type": "QUALIFIED_DELIVERY",
+    "reasons": [
+      "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+    ],
+    "evidenceRefs": [
+      "loop",
+      "finalSnapshot.domainState.presentedResults",
+      "finalSnapshot.domainState.availability",
+      "finalSnapshot.domainState.readEvidence"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "YES"
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+        "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/yakiniku-champion-nat/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ebisu-ushimitsu/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ushimitsu-ebisuhonten/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/yakiniku-champion-honten/reserve: missing original start_date/pax query values"
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence",
+        ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: POST https://production.tablecheck.com//v2/hub/availability_calendar_v2: missing raw POST body inspection (all field names/types), request body SHA-256, content-type",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/yakiniku-champion-nat/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ebisu-ushimitsu/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/ushimitsu-ebisuhonten/reserve: missing original start_date/pax query values",
+        "EVIDENCE_GAP: GET https://www.tablecheck.com//en/shops/yakiniku-champion-honten/reserve: missing original start_date/pax query values"
+      ],
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "POST https://production.tablecheck.com//v2/hub/availability_calendar_v2",
+          "missing": [
+            "raw POST body inspection (all field names/types)",
+            "request body SHA-256",
+            "content-type"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[1384]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/yakiniku-champion-nat/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2106]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ebisu-ushimitsu/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[2570]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/ushimitsu-ebisuhonten/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3567]"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "GET https://www.tablecheck.com//en/shops/yakiniku-champion-honten/reserve",
+          "missing": [
+            "original start_date/pax query values"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests[3842]"
+          ]
+        }
+      ]
+    }
+  },
+  "goldCorrection": {
+    "applied": true,
+    "artifactSha256": "777fc1b1aedb4f0fae321b11aae89c00015150dba1977599268ddb046a03dcf5",
+    "rev1Sha256": "447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+    "rev2Sha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753",
+    "refs": [
+      ".eval-artifacts/e1-evaluator-20261016/gold-corrections.json#sha256=5a755634a5337a95705185c0d413dc061554871ba0ec3b552cb270dbab4e1f9f",
+      ".eval-artifacts/p1-f-20261011/variants.yaml#sha256=447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+      ".eval-artifacts/p1-f-20261011/variants.rev2.yaml#sha256=1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753"
+    ]
+  },
+  "conditionStates": [
+    {
+      "candidateId": "tablecheck:kintan-daikanyama-yakiniku",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "yakiniku",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    }
+  ],
+  "conditionStateComparisons": [
+    {
+      "candidateId": "tablecheck:kintan-daikanyama-yakiniku",
+      "text": "yakiniku",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_RECORDED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "HISTORICAL_DISPLAY_NOT_RECORDED"
+    }
+  ],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": {
+    "path": "/private/tmp/praxis-phase2c-mainline-integration/.eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml",
+    "sha256": "39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce"
+  },
+  "witnessFunnel": [
+    {
+      "outletName": "Nakameguro Yakiniku Togyu Mon",
+      "sourceId": "13290371",
+      "discovery": {
+        "status": "NOT_FOUND",
+        "candidateIds": [],
+        "possibleCandidateIds": [],
+        "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+      },
+      "identity": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "facts": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [],
+        "witness": "NOT_EVALUATED",
+        "observedAt": null,
+        "reason": "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
+      },
+      "presented": "NO",
+      "feasible": "NOT_EVALUATED",
+      "blocker": {
+        "stage": "NOT_EVALUATED",
+        "certainty": "HYPOTHESIS",
+        "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-nakameguro-yakiniku-20261023/attempt-1.finish.json#sha256=43a612a48d9aa5fc5bb49f0126b00526aabc707991355f55e442040d0d5003e6",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "/private/tmp/praxis-phase2c-mainline-integration/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    },
+    {
+      "outletName": "Nakameguro Sumibiyaki Horumon Manten Koukashita",
+      "sourceId": "13241250",
+      "discovery": {
+        "status": "NOT_FOUND",
+        "candidateIds": [],
+        "possibleCandidateIds": [],
+        "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+      },
+      "identity": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "facts": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [],
+        "witness": "NOT_EVALUATED",
+        "observedAt": null,
+        "reason": "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
+      },
+      "presented": "NO",
+      "feasible": "NOT_EVALUATED",
+      "blocker": {
+        "stage": "NOT_EVALUATED",
+        "certainty": "HYPOTHESIS",
+        "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-nakameguro-yakiniku-20261023/attempt-1.finish.json#sha256=43a612a48d9aa5fc5bb49f0126b00526aabc707991355f55e442040d0d5003e6",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "/private/tmp/praxis-phase2c-mainline-integration/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    },
+    {
+      "outletName": "Nakameguro Nakasei",
+      "sourceId": "13305906",
+      "discovery": {
+        "status": "NOT_FOUND",
+        "candidateIds": [],
+        "possibleCandidateIds": [],
+        "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+      },
+      "identity": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "facts": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [],
+        "witness": "NOT_EVALUATED",
+        "observedAt": null,
+        "reason": "Registered witness has no raw recheck observation; old roster slot text is not current inventory."
+      },
+      "presented": "NO",
+      "feasible": "NOT_EVALUATED",
+      "blocker": {
+        "stage": "NOT_EVALUATED",
+        "certainty": "HYPOTHESIS",
+        "reason": "Independent discovery/identity/availability Gold is incomplete; do not label an unknown stage as a confirmed bottleneck"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-nakameguro-yakiniku-20261023/attempt-1.finish.json#sha256=43a612a48d9aa5fc5bb49f0126b00526aabc707991355f55e442040d0d5003e6",
+        ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+        "/private/tmp/praxis-phase2c-mainline-integration/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+        "materializedCase.acceptance.required_claims"
+      ]
+    }
+  ],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 0,
+    "maxConsecutiveNoNewObservation": 1,
+    "noNewObservationRuns": [],
+    "sameFailureRuns": [],
+    "sameTermRuns": [
+      {
+        "key": "15b4ac0ecd7c3459:yakiniku restaurants near nakameguro, tokyo",
+        "steps": [
+          1,
+          2
+        ]
+      }
+    ],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": [
+        {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1316/rstLst/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1316/A131601/rstLst/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1316/A131601/R9966/rstLst/",
+          "count": 2,
+          "reloads": 1
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1316/A131601/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/kintan-daikanyama-yakiniku",
+          "count": 4,
+          "reloads": 3
+        },
+        {
+          "url": "https://www.tablecheck.com/en/ushimitsu-ebisuhonten",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/yakiniku-champion-honten",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/yakiniku-champion-nat",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/ebisu-ushimitsu",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/yakiniku-champion-nat/reserve",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/ebisu-ushimitsu/reserve",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/ushimitsu-ebisuhonten/reserve",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/shops/yakiniku-champion-honten/reserve",
+          "count": 1,
+          "reloads": 0
+        }
+      ]
+    },
+    "violations": [],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/private/tmp/praxis-phase2c-mainline-integration/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 0,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/private/tmp/praxis-phase2c-mainline-integration/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-nakameguro-a1.result.json.gz",
+    "sha256": "777fc1b1aedb4f0fae321b11aae89c00015150dba1977599268ddb046a03dcf5",
+    "runId": "0626c034-d867-47bd-bf82-b6cda149cce8",
+    "caseId": "p1f-novel-nakameguro-yakiniku-20261023"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "YES",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tablecheck:kintan-daikanyama-yakiniku",
+      "outletName": "Daikanyama Yakiniku Kintan",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:5564e1df2ebe30145fa534c3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:864bb793b0c231be36232c55]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:cfa1a9e8a6a962c5700dd29f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:87484c3322b9682e3713eeea]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:kintan-daikanyama-yakiniku:document:57a7355b0c30ad72]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:kintan-daikanyama-yakiniku:2026-10-11T15:50:20.102Z:tablecheck:kintan-daikanyama-yakiniku:document:57a7355b0c30ad72]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:ushimitsu-ebisuhonten",
+      "outletName": "Yakiniku Ushimitsu Ebisu Honten",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[3].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:a200cb45904c3e1513fc8474]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:052c48ec09fcde28e699378c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:8dae5266f0eba5d85caf015d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:ushimitsu-ebisuhonten:document:b90271c7910f6e43]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:ushimitsu-ebisuhonten:2026-10-11T15:50:49.351Z:tablecheck:ushimitsu-ebisuhonten:document:b90271c7910f6e43]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:yakiniku-champion-honten",
+      "outletName": "Yakiniku Champion Ebisu Honten",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[3].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:7f1384c279782a0428e4f776]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:81c7f8200927e2a504a65024]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:5d9afc885316a3475ef13d23]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:yakiniku-champion-honten:document:2433b0c8cdde0901]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:yakiniku-champion-honten:2026-10-11T15:50:57.132Z:tablecheck:yakiniku-champion-honten:document:2433b0c8cdde0901]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:yakiniku-champion-nat",
+      "outletName": "Yakiniku Champion Nakameguro Atlas Tower",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:6f8f3aa01712112e30dd368a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:f5faf623e96abaf81ac08c1d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:21cb91f00ae60f911127c98e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:yakiniku-champion-nat:document:d4ce3961c826182e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:yakiniku-champion-nat:2026-10-11T15:50:30.019Z:tablecheck:yakiniku-champion-nat:document:d4ce3961c826182e]"
+      ]
+    },
+    {
+      "candidateId": "tablecheck:ebisu-ushimitsu",
+      "outletName": "Ebisu Ushimitsu",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AVAILABILITY_RESULT_UNOBSERVED",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "EVIDENCE_INCOMPLETE",
+      "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:d1d4dc231b545b616089b47c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:a4cf9906b0b5247252c46003]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:429e2a13c99e35455177c698]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:ebisu-ushimitsu:document:2b3a6b662d99797f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:ebisu-ushimitsu:2026-10-11T15:50:39.133Z:tablecheck:ebisu-ushimitsu:document:2b3a6b662d99797f]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "SATISFIED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "candidate=tablecheck:kintan-daikanyama-yakiniku",
+        "citedEvidence=5",
+        "offers=1"
+      ],
+      "directCause": "Every presented candidate has independently linked evidence.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:5564e1df2ebe30145fa534c3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:864bb793b0c231be36232c55]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:cfa1a9e8a6a962c5700dd29f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:kintan-daikanyama-yakiniku:document:57a7355b0c30ad72]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tablecheck:kintan-daikanyama-yakiniku:2026-10-11T15:50:20.102Z:tablecheck:kintan-daikanyama-yakiniku:document:57a7355b0c30ad72]",
+        "finalSnapshot.domainState.availability[tablecheck:kintan-daikanyama-yakiniku][id=offer:tablecheck:tablecheck:kintan-daikanyama-yakiniku:2026-10-23:19:00:4]",
+        "browserTrace[sequence=589]"
+      ],
+      "downstreamImpact": "The presentation is independently supported."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "raw TableCheck snapshot sequence 589 reports AVAILABLE for the requested date, party size, and time.",
+        "executedObservations=7",
+        "applicableObservations=7",
+        "executedInvestigationVisits=10",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=0",
+        "maxConsecutiveNoNewObservation=1",
+        "sameTermSteps=1,2; 15b4ac0ecd7c3459:yakiniku restaurants near nakameguro, tokyo"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation",
+        "trajectories[6].observation",
+        "browserTrace[sequence=589]"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "SATISFIED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "presentedCandidates=1"
+      ],
+      "directCause": "Terminal presentation and independently evaluated evidence agree.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "Execution produced a qualified read-only result."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ],
+  "frozenInput": {
+    "manifestSha256": "68125e710ee1ffee5f101fd390ba4e769e2e1d67e5fa3b5f1bc3035ecbd6d1f2",
+    "fileRefs": [
+      "/private/tmp/praxis-phase2c-mainline-integration/.eval-artifacts/calibration-phase1-20261015/inputs/p1fA-nakameguro-a1.result.json.gz#sha256=777fc1b1aedb4f0fae321b11aae89c00015150dba1977599268ddb046a03dcf5"
+    ],
+    "observationContextSha256": "7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+    "observationRefs": [
+      "/private/tmp/praxis-phase2c-mainline-integration/.eval-artifacts/e1-evaluator-20261016/calibration-observations.rev2.json#sha256=7d5bf8f9f7d88212391f840ebead39cdaa25f4913d3aa4d01cb8b1e7f4acbb45",
+      "/private/tmp/praxis-phase2c-mainline-integration/.eval-artifacts/p1-f-20261011/continuation-20261011-part1/reviewed-reads.json#sha256=ea386ace126bfc2fdaff2aeb99f9c328cef7ce5d50ee9e418ee90f2956ffcfae"
+    ]
+  }
+}

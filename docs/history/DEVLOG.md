@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.273
+- Document revision: 4.274
 - Last updated: 2026-10-23
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-23-NEAR-DISPLAY-REVIEWED-MERGE
+
+例01诊断已结束并停下后，将复核9de09404合入主线4d953731，合并09b5d353；5份历史文档冲突保留双方，335份源码/Runner/配置逐字节匹配两条已复核分支，生产额外改动0。新五门禁1029默认/138本机Chromium/typecheck/arch/build全绿；先提交00ff1fa5冻结后，翻月69/69、选店5/5、校准22/22（正常声明20/20）通过。原主线TableCheck修复不变；主工作区9份文件/HEAD/状态、历史生成指标恢复核对通过。新增模型/Google/餐厅网站/Live/重跑0。最终证据提交后按用户授权推送主线，核对远端SHA后停下；原Live结果不改。 [报告](../../.eval-artifacts/near-and-condition-display-merge-20261023/report.md).
 
 ## DEV-2026-10-23-TABLECHECK-GUARD-REVIEWED-MERGE
 
