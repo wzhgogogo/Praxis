@@ -1,0 +1,29 @@
+✖ real Chromium TableCheck source observation completes inside the current 45s provider window (30028.165292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30473.082792
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-fixture.test.ts:164:5066
+✖ real Chromium TableCheck source observation completes inside the current 45s provider window (30028.165292ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-10-23T10:27:53.642Z","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0114666bc67556fa9f2dfa43"],"reasonCode":"BROWSER_TIMEOUT"}},"evidence":[{"evidenceId":"evidence:restaurant:tablecheck-entity-match:0114666bc67556fa9f2dfa43","kind":"ENTITY_MATCH","provider":"TABLECHECK","candidateId":"restaurant-1","sourceEntityId":"restaurant1","sourceUrl":"https://www.tablecheck.com/en/restaurant1","observedAt":"2026-10-23T10:27:53.642Z","requestFingerprint":"1768a07648346902cf745f424984a07d7577cc5399a1e8323c1addc936af3973","claims":{"outletName":"Restaurant 1"},"entityMatch":{"confidence":"HIGH","matchedBy":["EXACT_PHONE"]}}],"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":30006,"failureCode":"BROWSER_TIMEOUT","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:62224f68-9fdb-4335-a879-b655a83a831f","startedAt":"2026-10-23T10:27:23.732Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-f1-detection-x6852glf/src/harness/browser/browser-read-fixture.test.ts:2104:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }

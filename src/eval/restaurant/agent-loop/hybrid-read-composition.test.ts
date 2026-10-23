@@ -1,12 +1,10 @@
 import { createGoogleReadComposition, response, strictAction, ScriptedExternalModel, scriptedRetrieval, googleFixture, now, clock } from "../../../harness/restaurant-read-test-fixtures.js";
 
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
-import { cp, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import test from "node:test";
-import { fileURLToPath } from "node:url";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/model/contracts.js";
 import type { BrowserRuntime } from "../../../infrastructure/browser/browser-runtime.js";
@@ -310,95 +308,6 @@ function seededRandom(seed: number): () => number {
     return ((value ^ value >>> 14) >>> 0) / 4_294_967_296;
   };
 }
-
-const workspaceRoot = fileURLToPath(new URL("../../../../", import.meta.url));
-const hybridTestRelativePath = "src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts";
-
-async function runCopiedHybridTest(testName: string, mutation?: { relativePath: string; from: string; to: string }) {
-  const directory = await mkdtemp(join(tmpdir(), "praxis-contract-mutant-"));
-  try {
-    await cp(join(workspaceRoot, "src"), join(directory, "src"), { recursive: true });
-    await cp(join(workspaceRoot, "package.json"), join(directory, "package.json"));
-    await symlink(join(workspaceRoot, "node_modules"), join(directory, "node_modules"));
-    if (mutation) {
-      const path = join(directory, mutation.relativePath);
-      const source = await readFile(path, "utf8");
-      assert.ok(source.includes(mutation.from), `isolated mutation target was not found: ${mutation.relativePath}`);
-      await writeFile(path, source.replace(mutation.from, mutation.to), "utf8");
-    }
-    const child = await new Promise<{ code: number | null; output: string }>((resolve, reject) => {
-      const environment = { ...process.env };
-      delete environment.NODE_TEST_CONTEXT;
-      const childProcess = spawn(process.execPath, ["--import", "tsx", "--test", `--test-name-pattern=${testName}`, hybridTestRelativePath], {
-        cwd: directory, stdio: ["ignore", "pipe", "pipe"], env: environment,
-      });
-      let output = "";
-      childProcess.stdout.on("data", (chunk) => { output += String(chunk); });
-      childProcess.stderr.on("data", (chunk) => { output += String(chunk); });
-      childProcess.on("error", reject);
-      childProcess.on("close", (code) => resolve({ code, output }));
-    });
-    return child;
-  } finally {
-    await rm(directory, { recursive: true, force: true });
-  }
-}
-
-test("isolated implementation mutations are detected by passing Hybrid controls", async (t) => {
-  // Source mutations are performed only in a disposable /tmp copy. Artifact-only
-  // mutations live in diagnostic-evaluator.test.ts and likewise start from clones.
-  const mutations = [
-    {
-      name: "source mutation: a failed batch is incorrectly promoted to task failure",
-      testName: "Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool",
-      mutation: {
-        relativePath: "src/application/restaurant-execution-router.ts",
-        from: "const metadata: RestaurantReadExecutionMetadata = {\n            ...read.metadata,",
-        to: 'if (Object.values(read.availabilityChecks).every(check => check.status === "UNKNOWN")) return { route: this.availability.executionRoute, failure: { source: "PROVIDER", code: "BROWSER_TIMEOUT", reason: "mutant batch escalation", scope: "TASK", terminal: true } }; const metadata: RestaurantReadExecutionMetadata = { ...read.metadata,',
-      },
-      expectedBusinessAssertion: /local failure batch must not terminate viable candidate work/,
-    },
-    {
-      name: "M01 compiler drops an explicit party-size field",
-      testName: "Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result",
-      mutation: {
-        relativePath: "src/domains/restaurant/semantic-compiler.ts",
-        from: "patch.partySize = value.value;",
-        to: "// mutation: explicit PARTY_SIZE is silently dropped",
-      },
-      expectedBusinessAssertion: /explicit party-size must survive semantic compilation/,
-    },
-    {
-      name: "M02 reducer discards fact checks from a prior batch",
-      testName: "independent candidate reads preserve coverage and results across batch partitions and order",
-      mutation: {
-        relativePath: "src/domains/restaurant/task-definition.ts",
-        from: "...(state.factChecks ?? {}),",
-        to: "// mutation: fact checks from earlier batches are discarded",
-      },
-      expectedBusinessAssertion: /Same-scope reads repeated:/,
-    },
-    {
-      name: "source mutation: discovery truncates accepted source candidates",
-      testName: "independent source boundary controls cover zero, one, and exactly one fact-read batch",
-      mutation: {
-        relativePath: "src/integrations/google/google-places-restaurant-search.ts",
-        from: "const grounded = places.map((place) => {",
-        to: "const grounded = places.slice(0, 1).map((place) => { // mutation: discovery truncation",
-      },
-      expectedBusinessAssertion: /discovery conservation=/,
-    },
-  ] as const;
-  for (const item of mutations) await t.test(item.name, async () => {
-    const control = await runCopiedHybridTest(item.testName);
-    assert.equal(control.code, 0, `control unexpectedly failed:\n${control.output}`);
-    const mutant = await runCopiedHybridTest(item.testName, item.mutation);
-    assert.notEqual(mutant.code, 0, `mutant unexpectedly passed:\n${mutant.output}`);
-    // A compiler/import/setup error is not a killed mutant.  The selected
-    // control must fail its named business assertion after it starts.
-    assert.match(mutant.output, item.expectedBusinessAssertion, `${item.name} must fail its named business assertion:\n${mutant.output}`);
-  });
-});
 
 test("independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
   // Start/end: real Hybrid composition → independently specified Google rows → Runtime/Router/Grounding → end/presentation.

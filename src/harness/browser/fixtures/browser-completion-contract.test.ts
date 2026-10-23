@@ -1,4 +1,4 @@
-import type { BrowserSkillReadInput } from "./browser-task-executor.js";
+import type { BrowserSkillReadInput } from "../../../infrastructure/browser/browser-task-executor.js";
 
 type Completion = ReturnType<BrowserSkillReadInput["completion"]>;
 // A completed read without a bound result cannot participate in stability verification.

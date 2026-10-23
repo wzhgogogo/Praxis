@@ -1,0 +1,16 @@
+{
+  "kind": "provider-30s",
+  "command": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern=^real Chromium TableCheck source observation",
+    "src/harness/browser/browser-read-fixture.test.ts"
+  ],
+  "exitCode": 1,
+  "expectedExitCode": 1,
+  "elapsedSeconds": 30.497438833,
+  "mode": "ISOLATED_LOCAL_FIXTURE_NO_NETWORK_OR_REAL_MODEL",
+  "workingTreeProductionChanged": false
+}

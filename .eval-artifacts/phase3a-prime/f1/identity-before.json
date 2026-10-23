@@ -1,0 +1,16 @@
+{
+  "kind": "identity-before",
+  "command": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern=^explicit fixture takeover",
+    "src/harness/browser/browser-read-fixture.test.ts"
+  ],
+  "exitCode": 1,
+  "expectedExitCode": 1,
+  "elapsedSeconds": 1.004688,
+  "mode": "ISOLATED_LOCAL_FIXTURE_NO_NETWORK_OR_REAL_MODEL",
+  "workingTreeProductionChanged": false
+}

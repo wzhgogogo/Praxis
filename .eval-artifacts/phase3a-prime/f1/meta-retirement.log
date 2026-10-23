@@ -1,0 +1,234 @@
+CONTROL source mutation: a failed batch is incorrectly promoted to task failure
+✔ Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (36.815667ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 353.076291
+
+RED source mutation: a failed batch is incorrectly promoted to task failure
+✖ Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (26.53275ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 335.273
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:6:62064
+✖ Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (26.53275ms)
+  AssertionError [ERR_ASSERTION]: local failure batch must not terminate viable candidate work: {"code":"AGENT_LOOP_EXECUTION_FAILURE","message":"mutant batch escalation"}
+  + actual - expected
+  
+  + 'EXECUTION_FAILURE'
+  - 'TERMINAL'
+  
+      at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-o3XIFO/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:1367:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'EXECUTION_FAILURE',
+    expected: 'TERMINAL',
+    operator: 'strictEqual'
+  }
+
+▶ isolated implementation mutations are detected by passing Hybrid controls
+  ✔ source mutation: a failed batch is incorrectly promoted to task failure (887.915ms)
+CONTROL M01 compiler drops an explicit party-size field
+✔ Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=1000) (26.77475ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 324.483
+
+RED M01 compiler drops an explicit party-size field
+✖ Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=1000) (26.848542ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 333.749291
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:6:9791
+✖ Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=1000) (26.848542ms)
+  AssertionError [ERR_ASSERTION]: explicit party-size must survive semantic compilation
+  
+  undefined !== 2
+  
+      at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-eu2tOo/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:660:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+  ✔ M01 compiler drops an explicit party-size field (858.597959ms)
+CONTROL M02 reducer discards fact checks from a prior batch
+▶ independent candidate reads preserve coverage and results across batch partitions and order (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)
+  ✔ batch=3, reverse=false (30.468125ms)
+  ✔ batch=1, reverse=false (8.809041ms)
+  ✔ batch=3, reverse=true (5.670708ms)
+✔ independent candidate reads preserve coverage and results across batch partitions and order (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (45.34675ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 391.294208
+
+RED M02 reducer discards fact checks from a prior batch
+▶ independent candidate reads preserve coverage and results across batch partitions and order (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)
+  ✖ batch=3, reverse=false (45.555958ms)
+  ✖ batch=1, reverse=false (15.203125ms)
+  ✖ batch=3, reverse=true (13.320875ms)
+✖ independent candidate reads preserve coverage and results across batch partitions and order (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (74.599541ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 435.278792
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:6:26916
+✖ batch=3, reverse=false (45.555958ms)
+  AssertionError [ERR_ASSERTION]: Same-scope reads repeated: cafe-one, cafe-two, cafe-three, cafe-four, cafe-one, cafe-two, cafe-three, cafe-four, cafe-one, cafe-two, cafe-three, cafe-four, cafe-one, cafe-two, cafe-three, cafe-four, cafe-one, cafe-two, cafe-three; loop=TERMINAL
+  
+  4 !== 19
+  
+      at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-uhvcFD/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:902:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-uhvcFD/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:878:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 19,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:6:26916
+✖ batch=1, reverse=false (15.203125ms)
+  AssertionError [ERR_ASSERTION]: Same-scope reads repeated: cafe-one, cafe-two, cafe-one, cafe-two, cafe-one, cafe-two, cafe-one, cafe-two, cafe-one; loop=TERMINAL
+  
+  2 !== 9
+  
+      at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-uhvcFD/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:902:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-uhvcFD/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:878:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 9,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:6:26916
+✖ batch=3, reverse=true (13.320875ms)
+  AssertionError [ERR_ASSERTION]: Same-scope reads repeated: cafe-four, cafe-three, cafe-two, cafe-one, cafe-four, cafe-three, cafe-two, cafe-one, cafe-four, cafe-three, cafe-two, cafe-one, cafe-four, cafe-three, cafe-two, cafe-one, cafe-four, cafe-three, cafe-two; loop=TERMINAL
+  
+  4 !== 19
+  
+      at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-uhvcFD/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:902:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-uhvcFD/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:878:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 19,
+    operator: 'strictEqual'
+  }
+
+  ✔ M02 reducer discards fact checks from a prior batch (1036.420417ms)
+CONTROL source mutation: discovery truncates accepted source candidates
+▶ independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)
+  ✔ {"candidateCount":0,"batchSize":3,"reverse":false} (18.541417ms)
+  ✔ {"candidateCount":1,"batchSize":3,"reverse":false} (6.450583ms)
+  ✔ {"candidateCount":3,"batchSize":3,"reverse":false} (3.608959ms)
+✔ independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (28.933375ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 332.968125
+
+RED source mutation: discovery truncates accepted source candidates
+▶ independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)
+  ✔ {"candidateCount":0,"batchSize":3,"reverse":false} (16.467917ms)
+  ✔ {"candidateCount":1,"batchSize":3,"reverse":false} (6.219708ms)
+  ✖ {"candidateCount":3,"batchSize":3,"reverse":false} (4.312375ms)
+✖ independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000) (27.376458ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 330.843167
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:6:402
+✖ {"candidateCount":3,"batchSize":3,"reverse":false} (4.312375ms)
+  AssertionError [ERR_ASSERTION]: {"sequence":{"candidateCount":3,"batchSize":3,"reverse":false},"actions":["SEARCH_RESTAURANTS","INVESTIGATE_CANDIDATE_FACTS:praxis:restaurant:c3a5ac8ac653fd1ea7a6ff9b","PRESENT_RESULTS:praxis:restaurant:c3a5ac8ac653fd1ea7a6ff9b"],"details":["amber"],"loop":{"status":"TERMINAL","steps":3},"phase":"PRESENT_RESULTS"}
+  + actual - expected
+  
+  + 'discovery conservation=cafe-amber expected=cafe-amber,cafe-birch,cafe-copper'
+  - undefined
+  
+      at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-kPqOan/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:413:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-contract-mutant-kPqOan/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:411:15)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'discovery conservation=cafe-amber expected=cafe-amber,cafe-birch,cafe-copper',
+    expected: undefined,
+    operator: 'strictEqual'
+  }
+
+  ✔ source mutation: discovery truncates accepted source candidates (856.2605ms)
+✔ isolated implementation mutations are detected by passing Hybrid controls (3639.868708ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4572.639875

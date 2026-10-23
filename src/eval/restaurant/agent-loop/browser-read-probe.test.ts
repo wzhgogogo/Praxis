@@ -22,6 +22,26 @@ test("challenge precedes content and a cross-source redirect cannot yield identi
   const page = { url: input.url, title: "Just a moment...", text: "", html: '<button data-available="true" data-time="19:00">19:00</button>' };
   assert.equal(inspectProbePage(input, page).pageState, "BOT_CHALLENGE");
   assert.equal(inspectProbePage(input, { ...page, url: "https://tabelog.com/shop" }).pageState, "UNEXPECTED_PAGE");
+  // Same observed outlet and mismatched operator identity as the retired raw
+  // DOM-click demonstration. inspectProbePage is pure: a simulated click does
+  // not add evidence about Takeover. Preserve both identity control and reject.
+  const observed = { url: "https://www.tablecheck.com/en/fixture", title: "Restaurant", text: "Fixture restaurant 1-1 Tokyo Fixture Street Phone",
+    html: '<h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a>' };
+  const candidate = { restaurant: { id: "other", outletName: "Another restaurant", address: "Another address", sourceIds: { phone: "03-9999-9999" }, provenance: {} },
+    matchReasons: [], warnings: [], executionConfidence: "LOW" as const };
+  const mismatch = inspectProbePage({ url: observed.url, expectedCandidate: candidate }, observed);
+  assert.equal(mismatch.pageState, "CONTENT_OBSERVED");
+  assert.ok("identity" in mismatch);
+  assert.notEqual(mismatch.identity.confidence, "HIGH");
+  assert.equal(mismatch.availabilityConclusion, "NOT_ESTABLISHED");
+  const matching = structuredClone(candidate);
+  matching.restaurant.outletName = "Fixture restaurant";
+  matching.restaurant.address = "1-1 Tokyo Fixture Street";
+  matching.restaurant.sourceIds.phone = "03-1111-2222";
+  const control = inspectProbePage({ url: observed.url, expectedCandidate: matching }, observed);
+  assert.ok("identity" in control);
+  assert.equal(control.identity.confidence, "HIGH");
+
 });
 
 test("deadline includes session creation and late browser sessions are closed without navigation", async () => {

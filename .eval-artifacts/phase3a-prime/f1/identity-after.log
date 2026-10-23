@@ -1,0 +1,28 @@
+✖ challenge precedes content and a cross-source redirect cannot yield identity or slots (2.714292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 197.605375
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/browser-read-probe.test.ts:1:1082
+✖ challenge precedes content and a cross-source redirect cannot yield identity or slots (2.714292ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to:
+  
+  'HIGH'
+      at TestContext.<anonymous> (/private/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-f1-detection-4w40qx98/src/eval/restaurant/agent-loop/browser-read-probe.test.ts:35:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'HIGH',
+    expected: 'HIGH',
+    operator: 'notStrictEqual'
+  }

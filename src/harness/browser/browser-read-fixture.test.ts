@@ -15,7 +15,7 @@ import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtim
 import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browser/browser-runtime.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
-import { inspectProbePage, runBrowserReadProbe } from "../../eval/restaurant/agent-loop/browser-read-probe.js";
+import { runBrowserReadProbe } from "../../eval/restaurant/agent-loop/browser-read-probe.js";
 import { BrowserReadRecording } from "../../eval/restaurant/agent-loop/runners/browser-read-recording.js";
 import { traceBrowserRuntime } from "../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js";
 
@@ -1604,29 +1604,6 @@ test("real browser waits for the requested page update instead of reporting stal
   assert.equal(result.availabilityConclusion, "NOT_ESTABLISHED");
 });
 
-test("explicit fixture takeover changes the same page and rechecks identity", async () => {
-  const runtime = localFixture(`<title>Just a moment...</title><button id="human">Continue fixture</button>
-    <script>document.getElementById('human').onclick=()=>{document.title='Restaurant'; document.body.innerHTML=${JSON.stringify(identity)};};</script>`);
-  const session = await runtime.openSession({ signal: new AbortController().signal });
-  try {
-    await session.navigate(url);
-    const sessionId = session.metadata.sessionId;
-    assert.equal(inspectProbePage({ url }, await session.snapshot()).pageState, "BOT_CHALLENGE");
-    // This simulates a human only on the local Fixture; it never operates a website challenge.
-    await session.click("#human");
-    await session.waitFor("h1", 1_000);
-    const result = inspectProbePage({ url, expectedCandidate: {
-      restaurant: { id: "other", outletName: "Another restaurant", address: "Another address", sourceIds: { phone: "03-9999-9999" }, provenance: {} },
-      matchReasons: [], warnings: [], executionConfidence: "LOW",
-    } }, await session.snapshot());
-    assert.equal(session.metadata.sessionId, sessionId);
-    assert.equal(result.pageState, "CONTENT_OBSERVED");
-    assert.ok("identity" in result);
-    assert.notEqual(result.identity.confidence, "HIGH");
-    assert.equal(result.availabilityConclusion, "NOT_ESTABLISHED");
-  } finally { await session.close(); }
-});
-
 test("a requested ready marker that never appears fails within the probe deadline", async () => {
   const session = await localFixture(identity).openSession({ signal: new AbortController().signal });
   try {
@@ -2049,7 +2026,7 @@ test("TableCheck waits for its guide result and grounds exact-query empty availa
   } finally { await executor.close(); }
 });
 
-test("real Chromium TableCheck source observation crosses the retired 30s provider window but completes inside 45s", async () => {
+test("real Chromium TableCheck source observation completes inside the current 45s provider window", async () => {
   const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
   const { fixtureCandidates } = await import("../restaurant-fixtures.js");
   const { tableCheckDiscoveryUrl } = await import("../../integrations/tablecheck/tablecheck-page-parser.js");
@@ -2121,10 +2098,8 @@ test("real Chromium TableCheck source observation crosses the retired 30s provid
       return { result, elapsedMs: Date.now() - startedAt, diagnostics };
     } finally { await executor.close(); }
   };
-  const retiredWindow = await run(30_000);
-  assert.equal(retiredWindow.result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN", JSON.stringify(retiredWindow.result));
-  assert.ok(retiredWindow.elapsedMs >= 29_000, `the retired provider deadline must cut off the delayed source read, elapsed ${retiredWindow.elapsedMs}ms`);
-  assert.ok(retiredWindow.diagnostics.some(item => item.event === "OPERATION_FAILED" && item.lifecycle.failureCode === "BROWSER_TIMEOUT"), JSON.stringify(retiredWindow.diagnostics));
+  // Keep the current 31s observation as the regression; the retired 30s
+  // configuration is historical evidence, not a second product path.
   const extendedWindow = await run(45_000);
   assert.equal(extendedWindow.result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(extendedWindow.result));
   assert.ok(extendedWindow.elapsedMs >= 30_000, `the extended provider window must retain the delayed source observation, elapsed ${extendedWindow.elapsedMs}ms`);

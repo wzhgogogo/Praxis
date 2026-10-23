@@ -1,0 +1,36 @@
+{
+  "baseCommit": "2ada8a69",
+  "sourceShapeMetaTests": {
+    "removedRuntimeEntries": 5,
+    "detectionLog": "meta-retirement.log",
+    "preservedControls": [
+      "Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool",
+      "Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result",
+      "independent candidate reads preserve coverage and results across batch partitions and order",
+      "independent source boundary controls cover zero, one, and exactly one fact-read batch"
+    ],
+    "reason": "source-string replacements are one-time efficacy evidence; retained production-composition assertions test actual behavior. No guard/authorization/idempotency/S0 evaluator negative removed."
+  },
+  "compileOnly": {
+    "before": "src/infrastructure/browser/browser-completion-contract.test.ts",
+    "after": "src/harness/browser/fixtures/browser-completion-contract.test.ts",
+    "runtimeEntriesRemoved": 1,
+    "compileAssertionsPreserved": 3
+  },
+  "identityMerge": {
+    "runtimeEntriesRemoved": 1,
+    "before": "explicit fixture takeover changes the same page and rechecks identity",
+    "after": "challenge precedes content and a cross-source redirect cannot yield identity or slots",
+    "beforeDetection": "identity-before.log",
+    "afterDetection": "identity-after.log",
+    "normalControl": "default-precheck.log",
+    "input": "same Fixture restaurant HTML/phone/address with Another restaurant expected identity; adds positive exact-phone control"
+  },
+  "providerTimeout": {
+    "runtimeEntriesRemoved": 0,
+    "retiredPath": "explicit run(30000) baseline inside same test",
+    "retainedPath": "31s true Chromium observation within current run(45000), same adapter/executor/input",
+    "detection": "provider-30s.log",
+    "green": "provider-current-green.log"
+  }
+}

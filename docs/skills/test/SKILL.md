@@ -5,8 +5,8 @@ description: 为Praxis改动从合同和失效机制推导必要的功能与安�
 
 # Praxis Test
 
-- Document revision: 1.4
-- Last updated: 2026-10-15
+- Document revision: 1.5
+- Last updated: 2026-10-24
 
 Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭。质量维度、评分单位和验收门槛属于[Eval](../eval/SKILL.md)；当前产品合同、已运行证据和未覆盖项分别以链接的权威文档、[STATUS](../../STATUS.md)和[TEST-LOG](../../history/TEST-LOG.md)为准。
 
@@ -112,6 +112,8 @@ Smoke只证明启动/连接；脚本化Agent只证明选定路径可执行；模
 首次接入没有Replay时记录缺口，先做受控只读观察；合成HTML不叫Replay。真实模型、Live和数据库写入需要既有授权与预算，环境开关本身不是授权。Mock、Replay、Live Read-only和Controlled Live-write分开报告。
 
 ## 测试维护与退役
+
+每个阶段结束时做一次测试集审查，退役已替代路径和无契约意义的重复覆盖。依赖已保存站点页面的测试必须标明来源URL和页面采集日期，并维护页面旁的provenance及集中索引。
 
 新增测试前搜索既有同一行为覆盖，优先扩展所属测试，并说明它能捕获哪个现有覆盖遗漏的失败。等价数据变体使用具名参数化断言；不同故障机制不为减少数量塞进一个大测试。替换实现时同步更新有效断言、删除旧路径和重复回归；保留真实状态所需迁移验证。
 
