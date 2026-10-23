@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.24
-- Last updated: 2026-10-22
+- Document revision: 3.25
+- Last updated: 2026-10-23
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -106,3 +106,5 @@ A source may supply code-owned control hints describing observed nonstandard ele
 ### Group/window read control (2026-10-22, offline repair)
 
 The existing browser executor can advance a public time query only through a current enabled observed combobox option inside the immutable request window, using the existing action validation and budgets. It never clicks an availability/booking link. Disabled-party termination requires the current requested date and a visible, unselected disabled exact count; an old-date disabled control does not preempt calendar selection. Planning consults the same explicit source path revocations as the Guard; no rule is broadened. Prompt/action/context schemas remain unchanged; source continuation state advances to restaurant-state20/task-definition18.
+
+2026-10-23 collection parsing refinement: accept independently bound supported clock alternatives without converting unsupported numeric-hour alternatives. A missing time on a supported clock link, contradictory identity/query, newer rejected response, or no supported alternative remains UNKNOWN. No new Guard rule, model action, date interpretation, or eligibility relaxation.

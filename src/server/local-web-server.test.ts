@@ -1278,7 +1278,7 @@ test("T1 Web shared assembly keeps ownership during semantic parsing and complet
     let googleCalls = 0;
     const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url,init) => {
       googleCalls++;
-      if (JSON.parse(String(init?.body)).textQuery === "Shinjuku") return new Response(JSON.stringify({places:[{id:"fixture-station",displayName:{text:"Shinjuku"},types:["train_station"],location:{latitude:35.69,longitude:139.70}}]}),{status:200});
+      if (JSON.parse(String(init?.body)).textQuery === "Shinjuku") return new Response(JSON.stringify({places:[{id:"fixture-station",displayName:{text:"Actual source supplied location"},types:["train_station"],location:{latitude:35.69,longitude:139.70}}]}),{status:200});
       return new Response(JSON.stringify({ places: [] }), { status: 200 });
     } });
     const readAssembly = createLiveReadAssembly({ ...readLimits, packs: [googlePlacesDiscoveryPack] }, {
@@ -1308,6 +1308,14 @@ test("T1 Web shared assembly keeps ownership during semantic parsing and complet
       assert.equal(googleCalls, 2, "named-place observation and assembled general Nearby discovery follow semantic release");
       const artifact = await running.application.exportReadArtifact(created.case.caseId);
       const snapshot = artifact.finalSnapshot as { domainState: RestaurantTaskState };
+      const adopted = snapshot.domainState.searchContinuation?.locationContext;
+      assert.equal(adopted?.label, "Actual source supplied location");
+      assert.deepEqual(view.restaurant.searchLocation, adopted, "Web and exported evaluator input use the identical adopted center");
+      assert.match(view.conversation.messages.at(-1)!.content, /Searching around Actual source supplied location/);
+      const resolution = snapshot.domainState.readEvidence.find(e => e.claims.resolvedPlaceName);
+      assert.equal(resolution?.claims.resolvedPlaceName, adopted?.label);
+      assert.equal(resolution?.claims.latitude, adopted?.latitude);
+      assert.equal(resolution?.claims.longitude, adopted?.longitude);
       assert.equal(snapshot.domainState.failure, undefined);
       assert.ok(snapshot.domainState.noVerifiedResult);
       assert.notEqual(snapshot.domainState.noVerifiedResult.termination.type, "EXECUTION_FAILURE");

@@ -175,6 +175,9 @@ function eventActivity(
 }
 
 function assistantSummary(state: RestaurantTaskState): string {
+  const location = state.searchContinuation?.locationContext;
+  const prefix = location?.areaMatchBasis === "NAMED_PLACE_RADIUS" ? `Searching around ${location.label}.\n` : "";
+  return prefix + (() => {
   switch (state.phase) {
     case "NEEDS_INPUT":
       if (state.pendingUserQuestion) return state.pendingUserQuestion.question;
@@ -207,6 +210,7 @@ function assistantSummary(state: RestaurantTaskState): string {
     default:
       return `The case is now ${state.phase.toLowerCase().replaceAll("_", " ")}.`;
   }
+  })();
 }
 
 export class WorkspaceCaseNotFoundError extends Error {
@@ -1015,6 +1019,7 @@ export class PersistentRestaurantAgentApplication {
       conversation: { id: record.id, messages },
       restaurant: {
         ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
+        ...(state.searchContinuation?.locationContext ? { searchLocation: structuredClone(state.searchContinuation.locationContext) } : {}),
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
         candidates: state.candidates.map(candidate => ({ ...structuredClone(candidate), ...observedCandidateDistance(state.readEvidence, candidate.restaurant.id, snapshot.updatedAt) })),
         availability: structuredClone(state.availability),

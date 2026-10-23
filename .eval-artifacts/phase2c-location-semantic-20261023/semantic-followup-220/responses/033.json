@@ -1,0 +1,20 @@
+{
+  "call": 33,
+  "id": "EXPOSED_HOLDOUT1:p2-holdout-05:r3:after",
+  "attempt": 1,
+  "requestSha256": "264cbddd0b91397f662c3779cfefe35f8eae20c7c0fe553203bf15aac6313b39",
+  "response": {
+    "invocationId": "4d771e61-0d7f-47a6-b1c1-286336d14a2a",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Chinese restaurant near Gotanda for 4 people on Saturday, October 31 at 7 PM\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-31\", \"raw\": \"Saturday, October 31\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 4, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Gotanda\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Chinese restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"under 6,000 yen per person\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"spicy Sichuan food\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2473,
+    "providerRequestId": "95407e0e-8a3f-492b-a92b-37b8a1214330",
+    "usage": {
+      "inputTokens": 6236,
+      "outputTokens": 452,
+      "totalTokens": 6688
+    }
+  }
+}

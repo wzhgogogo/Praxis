@@ -1,0 +1,190 @@
+{
+  "schema": "phase2c-base-reconciliation@1",
+  "status": "BLOCKED_BASELINE_DECISION",
+  "recordedAt": "2026-10-22T23:41:24.307312+00:00",
+  "branch": "codex/fix-phase2c-location-semantic",
+  "requestedMain": "06703ba10d03cf7f5d3b5f2cba41a4bf92ba4414",
+  "reviewedPhase2bEvidenceCommit": "06287b6fe88e0c2b978fb353d3db243f7a57b813",
+  "phase2bAncestorOfRequestedMain": false,
+  "versions": {
+    "requestedMain": {
+      "state": {
+        "value": [
+          "16"
+        ],
+        "path": "src/domains/restaurant/contracts.ts",
+        "sha256": "7a9b2dfc3119f702a32cdec27847abe91ff7ab166d2faf9db8bbd6cc1c149e0f"
+      },
+      "evaluator": {
+        "value": [
+          "restaurant-hybrid-read-diagnostic-evaluator@29"
+        ],
+        "path": "src/eval/restaurant/agent-loop/diagnostic-evaluator.ts",
+        "sha256": "dbc7f4e7a4a191f438f6e2c35e335d007a1d6a0daf36f536c64d7b8cb14342c8"
+      },
+      "agentPrompt": {
+        "value": [
+          "25"
+        ],
+        "path": "src/domains/restaurant/agent-decision.ts",
+        "sha256": "5dbceabdf5ee84a65e8436d507533bba515813f1bcba84b11091f97021a5ba59"
+      }
+    },
+    "phase2bEvidence": {
+      "state": {
+        "value": [
+          "20"
+        ],
+        "path": "src/domains/restaurant/contracts.ts",
+        "sha256": "f5932ff5569190df632fd693d185e6aeb8e1571bcb9c64dc53d282e8543000d6"
+      },
+      "evaluator": {
+        "value": [
+          "restaurant-hybrid-read-diagnostic-evaluator@33"
+        ],
+        "path": "src/eval/restaurant/agent-loop/diagnostic-evaluator.ts",
+        "sha256": "6c078a3cc5355e68a863967e993a6c9d4cc1fa17ca7c88b48cd2625608a70741"
+      },
+      "agentPrompt": {
+        "value": [
+          "27"
+        ],
+        "path": "src/domains/restaurant/agent-decision.ts",
+        "sha256": "6ea4991ce53838bf1046ccee3739a8c99dd39c8ff9ff738e63251393825a77d8"
+      }
+    }
+  },
+  "sourceDifference": {
+    "fileCount": 98,
+    "shortstat": "98 files changed, 4950 insertions(+), 527 deletions(-)",
+    "paths": [
+      "src/application/agent-workspace.ts",
+      "src/application/persistent-restaurant-agent.ts",
+      "src/application/restaurant-presentation-evidence.test.ts",
+      "src/domains/restaurant/action-validator.test.ts",
+      "src/domains/restaurant/action-validator.ts",
+      "src/domains/restaurant/agent-context.test.ts",
+      "src/domains/restaurant/agent-context.ts",
+      "src/domains/restaurant/agent-decision.test.ts",
+      "src/domains/restaurant/agent-decision.ts",
+      "src/domains/restaurant/candidate-read-observations.ts",
+      "src/domains/restaurant/condition-policy.json",
+      "src/domains/restaurant/condition-states.test.ts",
+      "src/domains/restaurant/condition-states.ts",
+      "src/domains/restaurant/contracts.ts",
+      "src/domains/restaurant/discovery-planner.test.ts",
+      "src/domains/restaurant/discovery-planner.ts",
+      "src/domains/restaurant/failure-codes.ts",
+      "src/domains/restaurant/price-facts.ts",
+      "src/domains/restaurant/read-assessment.ts",
+      "src/domains/restaurant/read-grounding.ts",
+      "src/domains/restaurant/task-definition.ts",
+      "src/eval/restaurant/agent-loop/cases/README.md",
+      "src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+      "src/eval/restaurant/agent-loop/criterion-correspondence.ts",
+      "src/eval/restaurant/agent-loop/criterion-equivalences.ts",
+      "src/eval/restaurant/agent-loop/decision-replay.test.ts",
+      "src/eval/restaurant/agent-loop/diagnostic-evaluator-hard.test.ts",
+      "src/eval/restaurant/agent-loop/diagnostic-evaluator-hard.ts",
+      "src/eval/restaurant/agent-loop/diagnostic-evaluator-preferences.ts",
+      "src/eval/restaurant/agent-loop/diagnostic-evaluator-prices.ts",
+      "src/eval/restaurant/agent-loop/diagnostic-evaluator-record.ts",
+      "src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts",
+      "src/eval/restaurant/agent-loop/diagnostic-evaluator.ts",
+      "src/eval/restaurant/agent-loop/fixed-source-acceptance.test.ts",
+      "src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts",
+      "src/eval/restaurant/agent-loop/name-resolution-benchmark.test.ts",
+      "src/eval/restaurant/agent-loop/name-resolution-benchmark.ts",
+      "src/eval/restaurant/agent-loop/name-resolution-method-a.ts",
+      "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "src/eval/restaurant/agent-loop/native-fixed-source-pages.ts",
+      "src/eval/restaurant/agent-loop/phase2b-exit-pipeline.test.ts",
+      "src/eval/restaurant/agent-loop/run-stage-timings.ts",
+      "src/eval/restaurant/agent-loop/runners/browser-case-slice-evidence.ts",
+      "src/eval/restaurant/agent-loop/runners/run-d1-fact-judgment-controls.ts",
+      "src/eval/restaurant/agent-loop/runners/run-decision-replay.ts",
+      "src/eval/restaurant/agent-loop/runners/run-hybrid-artifact-evaluation.ts",
+      "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+      "src/eval/restaurant/agent-loop/runners/run-recorded-stage-timings.ts",
+      "src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts",
+      "src/eval/restaurant/agent-loop/selection-replay-assessment.ts",
+      "src/eval/shared/evaluator-import-rule.ts",
+      "src/harness/browser/browser-read-fixture.test.ts",
+      "src/harness/browser/fixtures/restaurant-prices/aloft-public-20261019.html",
+      "src/harness/browser/fixtures/restaurant-prices/expectations.json",
+      "src/harness/browser/fixtures/restaurant-prices/ginza-outlet-13277198.html",
+      "src/harness/browser/fixtures/restaurant-prices/ginza-outlet-13292459.html",
+      "src/harness/browser/fixtures/restaurant-prices/ginza-sushi-sendou.html",
+      "src/harness/browser/fixtures/restaurant-prices/tablecheck-recorded-menu.html",
+      "src/harness/browser/group-window.test.ts",
+      "src/harness/browser/read-network-redirect.test.ts",
+      "src/harness/restaurant-execution-router.test.ts",
+      "src/harness/restaurant-harness.test.ts",
+      "src/infrastructure/browser/browser-action-decision.test.ts",
+      "src/infrastructure/browser/browser-action-decision.ts",
+      "src/infrastructure/browser/browser-read-policy.ts",
+      "src/infrastructure/browser/browser-runtime.ts",
+      "src/infrastructure/browser/browser-task-executor.test.ts",
+      "src/infrastructure/browser/browser-task-executor.ts",
+      "src/infrastructure/browser/control-selected-state.ts",
+      "src/infrastructure/browser/playwright-browser-controls.ts",
+      "src/infrastructure/browser/playwright-read-network-guard.test.ts",
+      "src/infrastructure/browser/playwright-read-network-guard.ts",
+      "src/infrastructure/postgres/postgres-runtime.test.ts",
+      "src/integrations/restaurant-availability/availability-source-resolver.test.ts",
+      "src/integrations/restaurant-availability/availability-source-resolver.ts",
+      "src/integrations/restaurant-availability/bound-result-completion.test.ts",
+      "src/integrations/restaurant-availability/public-browser-read-network-policy.ts",
+      "src/integrations/restaurant-availability/source-price-facts.ts",
+      "src/integrations/restaurant-facts/model-fact-judgment.test.ts",
+      "src/integrations/restaurant-facts/model-fact-judgment.ts",
+      "src/integrations/restaurant-facts/native-source-facts.ts",
+      "src/integrations/restaurant-search/directory-region-selection.test.ts",
+      "src/integrations/restaurant-search/live-read-assembly.ts",
+      "src/integrations/restaurant-search/native-restaurant-search.ts",
+      "src/integrations/restaurant-search/source-packs.test.ts",
+      "src/integrations/restaurant-search/source-packs.ts",
+      "src/integrations/tabelog/tabelog-browser-availability.test.ts",
+      "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "src/integrations/tabelog/tabelog-contracts.ts",
+      "src/integrations/tabelog/tabelog-page-parser.ts",
+      "src/integrations/tabelog/tabelog-query-controls.ts",
+      "src/integrations/tablecheck/tablecheck-browser-availability.test.ts",
+      "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "src/integrations/tablecheck/tablecheck-contracts.ts",
+      "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "src/integrations/tablecheck/tablecheck-public-query.ts",
+      "src/server/local-web-server.test.ts",
+      "src/web/local-workspace-page.ts"
+    ]
+  },
+  "regressionEvidence": {
+    "commit": "06287b6fe88e0c2b978fb353d3db243f7a57b813",
+    "cachedPath": ".eval-artifacts/group-window-fix-20261022/delivery-regressions/regression-results.json",
+    "calendar": {
+      "passed": 69,
+      "total": 69
+    },
+    "selection": {
+      "passed": 5,
+      "total": 5
+    },
+    "calibrationPath": ".eval-artifacts/group-window-fix-20261022/delivery-regressions/calibration/comparison.json",
+    "calibrationResults": {
+      "matches": 22,
+      "total": 22,
+      "normalS0Declaration": {
+        "matched": 20,
+        "total": 20
+      }
+    }
+  },
+  "decisionNeeded": "Reconcile the requested mainline with the already reviewed Phase2b implementation before claiming preservation of its regression baseline. No implicit merge of 98 source-file differences.",
+  "recommendedNextStep": "Integrate the reviewed Phase2b implementation into the designated mainline, then restart this repair branch from that explicitly chosen integrated commit.",
+  "newModelCalls": 0,
+  "newGoogleRequests": 0,
+  "newRestaurantWebsiteRequests": 0,
+  "newCompleteLiveRuns": 0,
+  "productFilesChanged": 0,
+  "newHoldoutRead": false
+}

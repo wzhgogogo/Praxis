@@ -1,0 +1,31 @@
+✖ Semantic Interpreter sends the proposal schema and separates user data from system context (1.571041ms)
+✔ Semantic Interpreter preserves an existing target scope in its bounded model context (0.137333ms)
+✔ Semantic Interpreter rejects a structurally valid-looking state patch (0.098042ms)
+✔ closed-party and open-group proposals stay distinct through the semantic boundary and compiler (0.650292ms)
+✔ party-size transport preserves an enumerated or explicit count and never supplies one for an open or generic request (0.312625ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 718.390458
+
+✖ failing tests:
+
+test at src/domains/restaurant/semantic-interpreter.test.ts:1:956
+✖ Semantic Interpreter sends the proposal schema and separates user data from system context (1.571041ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'v22' !== 'v23'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/domains/restaurant/semantic-interpreter.test.ts:68:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'v22',
+    expected: 'v23',
+    operator: 'strictEqual'
+  }

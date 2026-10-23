@@ -1,0 +1,20 @@
+{
+  "call": 16,
+  "id": "DEVELOPMENT:p2l-kichijoji-tempura-20261103:r1:after",
+  "attempt": 1,
+  "requestSha256": "5fe79994ba5baa7d620a4268f85082f59d33d6d970802f2d3cba10187c346989",
+  "response": {
+    "invocationId": "c7fdaf81-30a6-441d-bc9f-2a5f92865b08",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"tempura restaurants near Kichijoji\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-03\", \"raw\": \"Tuesday, November 3\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:00\", \"latest\": \"18:00\", \"raw\": \"6 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Kichijoji\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"tempura\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 10346,
+    "providerRequestId": "03ab3601-8e37-425b-ad5f-b81b94377f79",
+    "usage": {
+      "inputTokens": 6224,
+      "outputTokens": 334,
+      "totalTokens": 6558
+    }
+  }
+}

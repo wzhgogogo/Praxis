@@ -1,0 +1,20 @@
+{
+  "call": 35,
+  "id": "EXPOSED_HOLDOUT1:p2-holdout-06:r2:after",
+  "attempt": 1,
+  "requestSha256": "747ddb00eb5a485f3c1e60a6fbddfe46ad0ca84eb94157f6a710ec7247b3ab21",
+  "response": {
+    "invocationId": "cb362958-4e1f-4ac2-821f-5c4ae272ec77",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"izakaya near Shimokitazawa\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-30\", \"raw\": \"Friday, October 30\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 5, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Shimokitazawa\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"izakaya\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2079,
+    "providerRequestId": "2be22789-e957-40aa-acd1-9d018c0ae37e",
+    "usage": {
+      "inputTokens": 6225,
+      "outputTokens": 337,
+      "totalTokens": 6562
+    }
+  }
+}

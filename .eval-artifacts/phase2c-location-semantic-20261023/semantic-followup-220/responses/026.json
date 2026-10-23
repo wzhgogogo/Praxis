@@ -1,0 +1,20 @@
+{
+  "call": 26,
+  "id": "EXPOSED_HOLDOUT1:p2-holdout-03:r2:after",
+  "attempt": 1,
+  "requestSha256": "54a1e75ec7dc01df549faf35ff99c52b7c071651bfc3de05f5fc5a3dd576a3eb",
+  "response": {
+    "invocationId": "cf2479ff-1bbe-4237-9818-1d396393b8ea",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"shabu-shabu near Akasaka with open tables\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-29\", \"raw\": \"Thursday, October 29\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:00\", \"latest\": \"20:00\", \"raw\": \"between 6 and 8 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 6, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Akasaka\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"shabu-shabu\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2162,
+    "providerRequestId": "7cee370f-ac07-4ab9-a46e-5d779da96060",
+    "usage": {
+      "inputTokens": 6233,
+      "outputTokens": 343,
+      "totalTokens": 6576
+    }
+  }
+}

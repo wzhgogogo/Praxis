@@ -1,0 +1,20 @@
+{
+  "call": 107,
+  "id": "EXPOSED_HOLDOUT2:p2b-holdout-06:r3:before",
+  "attempt": 1,
+  "requestSha256": "e34f51c9b0d8d729cc9977076cfefba083c49bc08da954565078a6fb93721a26",
+  "response": {
+    "invocationId": "624959a9-c259-4ab5-97d5-aa710f05dd3e",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Oden restaurant near Shimbashi for 8 people on Friday, October 30, between 7 and 9 PM\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-30\", \"raw\": \"Friday, October 30\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"21:00\", \"raw\": \"any time between 7 and 9 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 8, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Shimbashi\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"oden\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1783,
+    "providerRequestId": "b6fbde9a-dab3-41a6-bb7c-f5c899d6dce6",
+    "usage": {
+      "inputTokens": 5993,
+      "outputTokens": 356,
+      "totalTokens": 6349
+    }
+  }
+}

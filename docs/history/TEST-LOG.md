@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.269
+- Document revision: 4.275
 - Last updated: 2026-10-23
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,34 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-23-PHASE2C-FINAL-OFFLINE-COMPLETE
+
+Final Phase2c repair branch complete, pending independent review, no main merge. Promptv23 final54 replay passes exposed constraints; chain162/220, no more tuning. Goya3 saved-page replays and installed-Guard Chromium composition pass without widening query/identity/qualification rules. Five gates1022/137 PASS; frozen8ad2d118 replay69/69 calendar,5/5 selection and independent22/22 calibration/normal declarations20/20 PASS,0 new calls. Same06287b6f source count narrow3863/expanded6359 physical, this-chain delta0, shared constant candidates0; historical+272/+721 and exit6 NOT_SATISFIED retained. Google29/30 unchanged: Omotesando returned route, rejected; old Ebisu cause and40 missing ranked-response projections remain gaps. New continuation model54, Google0, websites/Live0. Initial5b2ea9bf remote verified; final authorized branch push follows evidence commit. [Report](../../.eval-artifacts/phase2c-location-semantic-20261023/report.md).
+
+## TEST-2026-10-23-PHASE2C-BOUND-CLOCK-COLLECTION
+
+Goya parser repaired by retaining independently bound supported clock alternatives; no extended-hour conversion or new source branch/permission. Three saved full-HTML/projection replays complete with41 supported slots including19:00 each; missing supported-time, mismatched binding, newer contradiction, all-unsupported and PENDING negatives remain UNKNOWN. Actual createLiveReadAssembly with Guard INSTALLED returns AVAILABLE/19:00 on local HAR,0 model/Google; valid before-fix composition UNKNOWN red preserved. Initial fixture setup failures explicitly excluded. Five gates all PASS:1022 default,137 Chromium, typecheck/arch/build. Production source physical delta0; formal same-scope audit and69/5/22 offline regression pending. Raw response time was not captured, so saved projection plus independent Chromium proves the mechanism, not current stock or full-task delivery. [Scope](../../.eval-artifacts/phase2c-location-semantic-20261023/goya-followup/scope.md).
+
+## TEST-2026-10-23-PHASE2C-SEMANTIC-FOLLOWUP-PASS
+
+Final one-shot promptv23 replay completed54/54 with54 new calls, no retries; chain162/220. Sit-down retained and invented with-tables removed3/3; NEGATIVE standing-counter preserved. Numeric-direction rows12/12: flexible under remains SOFT6/6, firm under/at-most existing max representation6/6. No more than/below absent from frozen18 messages, not separately sampled. Implementer read all54 paired condition lists and observed no other criterion regression; independent review pending. All30 changed full patches and original/v21/v22/v23 criteria retained, no historical inputs rewritten. No more prompt changes. [Comparison](../../.eval-artifacts/phase2c-location-semantic-20261023/semantic-followup-220/comparison.md).
+
+## TEST-2026-10-23-PHASE2C-SEMANTIC-FOLLOWUP-FREEZE
+
+User raised the chain ceiling to220 (prior108 calls) and authorized one final generic prompt revision. Promptv23 requires each modifier to correspond to user words; explicit sit-down remains allowed.54 after trials reuse the frozen54 before controls with identical captured clocks/schema/model. Valid prompt-wire red and31 semantic green retained; prepare0 network. No further prompt tuning after this batch, pass or fail. Initial5b2ea9bf repair branch pushed and remote verified. Full gates and quality replay pending. [Plan](../../.eval-artifacts/phase2c-location-semantic-20261023/semantic-followup-220/approval.json).
+
+## TEST-2026-10-23-PHASE2C-SEMANTIC-STOP
+
+Stopped Phase2c after real semantic replay failed:108/108 trials executed with108 calls, no retries; v22 still adds HARD sit-down restaurant with tables in3/3 after samples. Relevant soft-upper-bound after6/6 correct but v21 controls also correct, so no sampled improvement claim. Full next after sweep needs54 calls, projected162>150; remaining42 is insufficient, no quota extension or extra sampling. Google29/30 on30 calls; Omotesando route type left unsupported. Six saved rejected-location observations now resolve,3 recorded empty lists remain unresolved,40 old selected projections lack ranked response/types and remain NOT_EVALUATED. Goya saved query/date/party and19:00 response confirmed, collection parser rejects non-clock tail; diagnosis only, no provider-specific patch. Zero-call offline five gates1021/136, cached69/69+5/5 and independent22/22 calibration/normal declarations20/20 PASS do not override semantic failure. Site-specific lines net0 this batch; historical increase retained. Mainline integrated/pushed8ba0c54a; repair branch local only, pending user decision. New source websites/completeLive0; chain model count3634+108=3742/5000, local cap150 unchanged. [Report](../../.eval-artifacts/phase2c-location-semantic-20261023/progress-report.md).
+
+## TEST-2026-10-23-PHASE2C-SEMANTIC
+
+Phase2c semantic candidate: promptv21 to v22, schema3 and compiler unchanged. Generic entailment/polarity rule rejects invented positive prerequisites/amenities; numeric relation/direction/strictness is independent of condition strength, so a flexible ceiling remains a SOFT ceiling. Valid prompt-wire red retained,31 semantic tests pass; actual saved affected-family proposals preserved as quality red evidence. Prepared18 exposed families x3 repetitions xbefore/after=108 trials, existing schema retry envelopes frozen, real-model hard cap150. Same captured clocks on both sides;54 before system messages byte-identical to original captures. Original materialized-clock inputs retained, no historical request/Gold rewrite. Real semantic replay pending; current new Google30, source websites/Live0. [Plan](../../.eval-artifacts/phase2c-location-semantic-20261023/continuation-plan.md).
+
+## TEST-2026-10-23-PHASE2C-LOCATION
+
+Phase2c location candidate: delete spelling/suffix admission and use ranked valid geographic observations; preserve100km context and leading-three separation bound, merchant-only unresolved. Same adopted center/name exposed in Web reply and artifact; original AREA retained. Valid saved Ningyocho red and actual Web-composition display red retained; google24/24, Web production-composition1/1, typecheck/arch/default1021/build pass. Five obsolete spelling-only tests retired in favor of ranked/type/distance behavior, not skipped. Existing successful-coordinate fixture still passes. Thirty Google names were committed at e04e9700 (SHA206c368b15133eea1204ca82af026c043336ae66911e83bec9f78a34605b435d). Google/saved-response checks pending frozen execution;0 new model/Google/site/Live so far. Ebisu upstream empty-list cause remains unknown due missing raw HTTP. No invented request fallback. [Plan](../../.eval-artifacts/phase2c-location-semantic-20261023/continuation-plan.md).
 
 ## TEST-2026-10-23-PHASE2C-MAINLINE-INTEGRATION
 

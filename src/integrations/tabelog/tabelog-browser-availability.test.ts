@@ -820,3 +820,29 @@ test("Tabelog field quotations match class tokens with reordered and extra class
     assert.deepEqual(parseTabelogSourceFieldQuotes({ url, title: "Source", text: "", html }), expected);
   }
 });
+
+test("bound vacancy collections keep supported clock alternatives and never infer stock from unsupported rows", async () => {
+  const fixture=JSON.parse(await readFile(new URL('../../../.eval-artifacts/phase2c-location-semantic-20261023/goya-followup/saved-inputs.json',import.meta.url),'utf8'));
+  for(const row of fixture.rows){
+    const {snapshot,request}=row;
+    assert.equal(hasTabelogSelectedQuery(snapshot,request.date,request.partySize),true,row.id);
+    const parsed=parseTabelogAvailabilitySlots(snapshot,request);
+    assert.equal(parsed.hasExplicitSlotUi,true,row.id);
+    assert.ok(parsed.availableSlots.includes('19:00'),row.id+' retains the independently bound requested slot');
+    assert.ok(parsed.availableSlots.every((time:string)=>/^([01]\d|2[0-3]):[0-5]\d$/.test(time)));
+    assert.equal(tabelogAvailabilityCompletion(snapshot,request).complete,true,row.id);
+    const response=snapshot.responses.at(-1),body=response.body;
+    const valid=Object.values(body.selection).find((r:any)=>r.time==='19:00') as {time:string;url:string};
+    const unsupported=Object.values(body.selection).filter((r:any)=>!r.time);
+    assert.equal(unsupported.length,13);
+    const changed=(selection:unknown)=>({...snapshot,responses:[{...response,body:{...body,selection}}]});
+    for(const selection of [unsupported,[],[{url:valid.url}],[{...valid,time:'19:30'}],[{...valid,url:valid.url.replace('visit_time=1900','visit_time=2400')}],[{...valid,url:valid.url.replace('member=3','member=4')}],[valid,{...valid,url:valid.url.replace('rcd=13320164','rcd=99999999')}],[valid,{url:valid.url}]]) {
+      assert.deepEqual(parseTabelogAvailabilitySlots(changed(selection),request),{availableSlots:[],hasExplicitSlotUi:false},row.id+' ambiguous relevant rows remain UNKNOWN');
+    }
+    for(const altered of [{...body,members:4},{...body,base_date:{year:2026,month:11,day:4}}]) {
+      const stale={...response,sequence:0};
+      assert.equal(tabelogCapturedSlots({...snapshot,responses:[stale,{...response,body:altered}]},request.date,3),undefined,'never use stale inventory after a newer contradictory response');
+    }
+    assert.deepEqual(parseTabelogAvailabilitySlots({...snapshot,settlement:'PENDING'},request),{availableSlots:[],hasExplicitSlotUi:false});
+  }
+});

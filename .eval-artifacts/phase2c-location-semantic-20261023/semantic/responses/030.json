@@ -1,0 +1,20 @@
+{
+  "call": 30,
+  "id": "DEVELOPMENT:p2l-kagurazaka-kaiseki-20261105:r3:after",
+  "attempt": 1,
+  "requestSha256": "9af5d96fb3dfda27832f2ed80c326c9461468c0e8e1d4cb760b473fdc6693080",
+  "response": {
+    "invocationId": "02a50bea-0403-45b4-b110-4bd651c25e5b",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Kaiseki restaurant near Kagurazaka\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-05\", \"raw\": \"Thursday, November 5\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:30\", \"latest\": \"19:30\", \"raw\": \"7:30 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 3, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Kagurazaka\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"kaiseki restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2223,
+    "providerRequestId": "667e799a-f98c-47bc-abef-22ccca1f290f",
+    "usage": {
+      "inputTokens": 6145,
+      "outputTokens": 339,
+      "totalTokens": 6484
+    }
+  }
+}

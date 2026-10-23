@@ -1,0 +1,185 @@
+✔ ranked named geography accepts the saved spellings, keeps nearby geographic alternatives and rejects remote ambiguity (4.395584ms)
+✔ Google query is discovery-owned and does not serialize criteria into retrieval text (0.099708ms)
+✔ a positive-HARD pack query keeps only its keyword and resolved location in Text Search (0.046833ms)
+✔ a source-plan location prevents a second named-place lookup before Google discovery (0.39825ms)
+✔ a pack query without a positive HARD keyword uses Nearby Search's exact circle instead of location-only text (0.782583ms)
+✔ initial discovery reads at most two 20-result pages, dedupes stable outlets, and retains the next cursor (0.681292ms)
+✔ a second-page provider failure preserves accepted first-page candidates and records a bounded retry cursor (0.258458ms)
+✔ named-location resolution returns a bounded typed public observation with its coordinate (0.1675ms)
+✔ a named nearby place is resolved to observed coordinates and grounds candidate distance (0.368583ms)
+✖ named-place resolution rejects an unmatched suffix instead of treating address text or rank as landmark identity (1.543917ms)
+✖ named-place resolution accepts a provider-typed station suffix but rejects an administrative-area-to-station substitution (0.400167ms)
+✖ named-place resolution accepts a source-typed civic locality representation without treating stations as aliases (0.314834ms)
+✖ named-place suffix matching fails closed without a corresponding provider type and independent geographic context (0.206583ms)
+✖ only source-level duplicate exact named locations ask for disambiguation (0.383125ms)
+✔ an unrelated first search result never becomes a named nearby landmark (0.105083ms)
+✖ unresolved named-place diagnostics retain only bounded public identity observations (0.163709ms)
+✔ Google Places text search uses the explicit small field mask and stable candidate IDs (0.225875ms)
+✔ Google Places reports eval-radius decisions separately from its accepted discovery pool (0.188042ms)
+✔ Google Places request budget is mechanical and isolated by persistent read run (0.133667ms)
+✔ candidate fact investigation re-reads only the known Google place and shares discovery budget (9.137875ms)
+✔ candidate fact investigation uses Place Details by stable ID, never another text search (0.268291ms)
+✔ a fact read records exhausted shared discovery capacity without a second provider call (0.134125ms)
+✔ Google Places classifies provider failure without exposing a response body (0.081708ms)
+✔ failed sent Google requests consume the same per-run local budget and remain separately accounted (0.1085ms)
+✔ the explicit one-hundred-request debug ceiling permits work beyond the retired cap and stops only at its own run boundary (3.136459ms)
+✔ nearby defaults to 1000 meters, preserves explicit radius and admits only the exact circle (0.340458ms)
+✖ named area resolution binds bias, prefers geography and refuses distant or merchant authority (0.547ms)
+✖ P1-G named location normalization resolves the recorded colloquial area without weakening authority (1.441458ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 20
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 246.386666
+
+✖ failing tests:
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:13385
+✖ named-place resolution rejects an unmatched suffix instead of treating address text or rank as landmark identity (1.543917ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:252:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { code: 'GOOGLE_LOCATION_UNRESOLVED' },
+    operator: 'rejects'
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:14470
+✖ named-place resolution accepts a provider-typed station suffix but rejects an administrative-area-to-station substitution (0.400167ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:275:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { code: 'GOOGLE_LOCATION_UNRESOLVED' },
+    operator: 'rejects'
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:16122
+✖ named-place resolution accepts a source-typed civic locality representation without treating stations as aliases (0.314834ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:294:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { code: 'GOOGLE_LOCATION_UNRESOLVED' },
+    operator: 'rejects'
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:18285
+✖ named-place suffix matching fails closed without a corresponding provider type and independent geographic context (0.206583ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:313:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { code: 'GOOGLE_LOCATION_UNRESOLVED' },
+    operator: 'rejects'
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:19128
+✖ only source-level duplicate exact named locations ask for disambiguation (0.383125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    Comparison {
+  +   code: 'GOOGLE_LOCATION_UNRESOLVED'
+  -   code: 'GOOGLE_LOCATION_AMBIGUOUS'
+    }
+  
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:325:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: GooglePlacesError: Google Places could not resolve coordinates for the named location "Central Station". Observations: name="Central Station" address="missing-address" types="missing-types" placeId="station-a" coordinate="35.6,139.7"; name="Central Station" address="missing-address" types="missing-types" placeId="station-b" coordinate="35.7,139.8"
+        at namedLocationResolutionError (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.ts:163:24)
+        at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.ts:294:13)
+        at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.ts:355:90)
+        at async waitForActual (node:assert:565:5)
+        at async strict.rejects (node:assert:686:25)
+        at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:325:3)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:752:7),
+    expected: { code: 'GOOGLE_LOCATION_AMBIGUOUS' },
+    operator: 'rejects'
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:20545
+✖ unresolved named-place diagnostics retain only bounded public identity observations (0.163709ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:353:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:34157
+✖ named area resolution binds bias, prefers geography and refuses distant or merchant authority (0.547ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    Comparison {
+  +   code: 'GOOGLE_LOCATION_UNRESOLVED'
+  -   code: 'GOOGLE_LOCATION_AMBIGUOUS'
+    }
+  
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:610:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: GooglePlacesError: Google Places could not resolve coordinates for the named location "Recorded area". Observations: name="Recorded area" address="missing-address" types="japanese_restaurant,restaurant,food,point_of_interest,establishment" placeId="recorded-far-merchant" coordinate="26.9355755,-80.13791239999999"
+        at namedLocationResolutionError (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.ts:163:24)
+        at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.ts:294:13)
+        at async resolve (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:607:20)
+        at async waitForActual (node:assert:565:5)
+        at async strict.rejects (node:assert:686:25)
+        at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:610:3)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:752:7),
+    expected: { code: 'GOOGLE_LOCATION_AMBIGUOUS' },
+    operator: 'rejects'
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:35985
+✖ P1-G named location normalization resolves the recorded colloquial area without weakening authority (1.441458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    Comparison {
+  +   code: 'GOOGLE_LOCATION_UNRESOLVED'
+  -   code: 'GOOGLE_LOCATION_AMBIGUOUS'
+    }
+  
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:647:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: GooglePlacesError: Google Places could not resolve coordinates for the named location "Ebisu". Observations: name="Ebisu" address="missing-address" types="restaurant" placeId="merchant" coordinate="26.9355755,-80.1379124"
+        at namedLocationResolutionError (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.ts:163:24)
+        at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.ts:294:13)
+        at async waitForActual (node:assert:565:5)
+        at async strict.rejects (node:assert:686:25)
+        at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:647:3)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:752:7),
+    expected: { code: 'GOOGLE_LOCATION_AMBIGUOUS' },
+    operator: 'rejects'
+  }

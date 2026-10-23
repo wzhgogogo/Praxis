@@ -1,8 +1,8 @@
 # Agent 网站操作第二阶段 Playbook
 
 - Status: Approved（用户 2026-10-16 22:29 批准，第 9 节四项均按建议）
-- Document revision: 0.4
-- Last updated: 2026-10-22
+- Document revision: 0.5
+- Last updated: 2026-10-23
 - Evidence status: draft / not integrated；开发集已暴露，非 Clean Baseline
 - Source of truth for: 第二阶段的目标、工作包顺序、用例集、退出条件、预算与停止规则；不替代 Accepted ADR、Gold 或 Eval Skill
 - Related documents:
@@ -167,3 +167,7 @@ E1 之后，第二阶段的每次改动都可以用可信的离线测试和评�
 ### 2026-10-22 用户明确的 c17 额外补跑
 
 用户在一次已批准c17补跑因两次10秒模型TIMEOUT且零交付后，明确要求“再试一次，把模型时间留多点”。据此只额外批准c17一次，Agent/Browser决策请求上限10→30秒；整次500秒/50模型/40Google、S0停止与只读边界不变，不新增自动重试。原CAPABILITY_MISS保留，这次用户特批不追溯归类为ENV_FAILURE；预算保守再计1次正式重跑，累计仍受全阶段10次限制。新运行@33 QD、3家交付、6条件一致，H005达到2/3，其余TARGET各3/3。原C18与新配置分开冻结，见准备分支c17-timeout-retry-20261022报告。留出阶段仍按既有连续授权与机械门槛执行。
+
+## 2026-10-23 user decision: Phase2c before Phase3
+
+The user explicitly moved named-location matching, semantic fidelity and the saved Goya availability diagnosis into the present Phase2c batch. This supersedes the earlier deferral of location and ideally-under semantics; historical decisions remain verbatim. Integrate exact prep06287b6f first, retain main06703ba1 approvals, match1a715325 product bytes and pass five gates/69/5/22 before mainline push. Then implement the three scoped repairs on an isolated branch, each separately committed. Google-only30 locations and exposed semantic replay<=150 model calls are authorized; restaurant website/completeLive0. No new private holdout search or read. Stop on undecidable conflicts or a required product decision; push the repair branch only after completion/self-check, never merge it into mainline.

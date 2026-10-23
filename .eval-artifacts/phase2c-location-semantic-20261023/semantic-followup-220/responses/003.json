@@ -1,0 +1,20 @@
+{
+  "call": 3,
+  "id": "DEVELOPMENT:p2l-kf-h001-20261103:r3:after",
+  "attempt": 1,
+  "requestSha256": "8ef6a022cc37d619f2c1adbe0f49259be943605c3b1989ee6e8c4db6fa8b09cc",
+  "response": {
+    "invocationId": "fa650952-5887-4e68-80c4-66446081a6d7",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Omakase restaurant near Shibuya\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-03\", \"raw\": \"Tuesday, November 3\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Shibuya\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"omakase\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1848,
+    "providerRequestId": "c9ac33c2-ac08-436b-8e88-b2c8561c0748",
+    "usage": {
+      "inputTokens": 6224,
+      "outputTokens": 334,
+      "totalTokens": 6558
+    }
+  }
+}

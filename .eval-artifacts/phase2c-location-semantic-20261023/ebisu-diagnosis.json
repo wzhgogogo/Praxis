@@ -1,0 +1,89 @@
+{
+  "schema": "phase2c-ebisu-diagnosis@1",
+  "runs": [
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-03-attempt-1/runner/2026-10-22T20-30-45-800Z-b9a978ac-8482-454e-88db-6755dc9b684c.result.json",
+        "sha256": "f7a399e341d94c83aba339d233f5e22654e57e785fa0f66bb9d711aab71fc92c",
+        "runId": "b9a978ac-8482-454e-88db-6755dc9b684c",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Ebisu"
+      },
+      "eventId": "event:restaurant-agent:1",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+        "code": "GOOGLE_LOCATION_UNRESOLVED"
+      },
+      "observedPlaces": [],
+      "rawHttpBodySaved": false,
+      "rawHttpStatusSaved": false
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-09-attempt-1/runner/2026-10-22T21-17-21-383Z-60c026f8-95d7-4d54-902c-dc8c55d6ec43.result.json",
+        "sha256": "ed406c4c9154e929b2df0b24f79f2f784b54c589c04aad52a84f9a42da0a6315",
+        "runId": "60c026f8-95d7-4d54-902c-dc8c55d6ec43",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Ebisu"
+      },
+      "eventId": "event:restaurant-agent:1",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+        "code": "GOOGLE_LOCATION_UNRESOLVED"
+      },
+      "observedPlaces": [],
+      "rawHttpBodySaved": false,
+      "rawHttpStatusSaved": false
+    },
+    {
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-15-attempt-1/runner/2026-10-22T22-01-57-482Z-a45bf287-2aff-4872-bfbe-62acfa11a0d2.result.json",
+        "sha256": "00dd8de97671893de350e8e7ac74dff65fed2f12cbc75a9c887b77aaf5be850f",
+        "runId": "a45bf287-2aff-4872-bfbe-62acfa11a0d2",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "area": {
+        "query": "near Ebisu"
+      },
+      "eventId": "event:restaurant-agent:1",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Google Places could not resolve coordinates for the named location \"Ebisu\". Observations: no returned places",
+        "code": "GOOGLE_LOCATION_UNRESOLVED"
+      },
+      "observedPlaces": [],
+      "rawHttpBodySaved": false,
+      "rawHttpStatusSaved": false
+    }
+  ],
+  "deterministicRequestReconstruction": {
+    "method": "POST",
+    "url": "https://places.googleapis.com/v1/places:searchText",
+    "body": {
+      "textQuery": "Ebisu",
+      "pageSize": 10
+    },
+    "locationBias": "ABSENT: no task coordinates; named NEAR request does not receive the NEAR_USER evaluation fallback",
+    "regionCode": "not sent",
+    "languageCode": "not sent",
+    "evidenceStrength": "Reconstructed from captured AREA, source usage and unchanged code, not a recorded HTTP request."
+  },
+  "proven": [
+    "Each run records one namedPlaceResolution request and zero discovery/detail/reverse requests.",
+    "Each SEARCH_FAILED reason contains no returned places; resolver therefore received an empty list.",
+    "Client HTTP non-2xx, malformed JSON, timeout and network exceptions propagate as typed GooglePlacesError; they are not converted into empty lists.",
+    "A successful JSON payload with absent places and a payload with places=[] both map to the same empty list."
+  ],
+  "notProven": [
+    "Original response status/body were not captured. Cannot distinguish empty places from an absent places field.",
+    "Cannot establish why Google returned that successful empty/missing-field representation, or attribute it to spelling, bias, VPN, source coverage or quota."
+  ],
+  "fixDecision": "No request-construction defect is demonstrated. Do not add query aliases, a hardcoded city or a guessed fallback. The controlled30-place check explicitly has a Tokyo context and is not a reconstruction of the old un-biased Ebisu calls.",
+  "newRequests": 0
+}

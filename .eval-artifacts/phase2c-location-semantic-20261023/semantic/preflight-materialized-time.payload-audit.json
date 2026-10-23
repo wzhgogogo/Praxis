@@ -1,0 +1,39 @@
+{
+  "destination": "https://api.deepseek.com",
+  "paths": [
+    "/beta/chat/completions"
+  ],
+  "provider": "Existing repository DeepSeek configuration only",
+  "fields": [
+    "existing model id",
+    "system semantic contract/reference time",
+    "original exposed synthetic user request",
+    "strict semantic schema",
+    "temperature0",
+    "thinking disabled",
+    "maximum output tokens5000"
+  ],
+  "notSent": [
+    "Gold",
+    "review labels",
+    "original model answers",
+    "Google observations",
+    "restaurant pages",
+    "API keys except existing authorization header",
+    "task id/internal source provenance"
+  ],
+  "sourceCohorts": {
+    "development": 6,
+    "exposedHoldout1": 6,
+    "exposedHoldout2": 6
+  },
+  "plannedTrials": 108,
+  "preparedEnvelopes": 216,
+  "maximumRealModelCalls": 150,
+  "retryRule": "Only the existing interpreter second schema attempt, if required; all such envelopes frozen. No provider/environment retries or extra semantic trials.",
+  "restaurantWebsiteRequests": 0,
+  "GoogleRequests": 0,
+  "fullLive": 0,
+  "sourceInputSha256": "6a1c33e4f19e81313a5c3de47ebfcffbe3df03a27f23ab349a21fc523861c3ad",
+  "preparedSha256": "c6856064b28e74b0e09511d6643b559bbec02fc86b827cfeed8ad7bdeefcf961"
+}

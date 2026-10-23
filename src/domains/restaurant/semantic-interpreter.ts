@@ -256,6 +256,17 @@ Distinguish a condition on a restaurant from an instruction about investigating 
 Do not strengthen vague freshness language into a more specific restaurant property than the user expressed.
 
 Keep criterion text concise, self-contained, and faithful to the user's meaning.
+Every descriptive qualifier in a condition must correspond to words the user actually supplied.
+Retain an explicitly expressed property in its minimal expressed form. Do not
+expand it into a definition, an assumed physical arrangement, or associated
+features, even if that expansion seems typical or follows by common sense.
+Before emitting each condition, check every modifier against the original
+request and remove any modifier without a corresponding user expression.
+Every condition must be entailed by the user's words or the explicit inference
+rules in this contract. Do not turn a negative exclusion into an unstated positive prerequisite.
+Do not add implementation details or associated amenities to a requested venue
+or capability. Keep the user's exclusion as a NEGATIVE criterion; a separately
+expressed positive condition keeps its own scope and strength.
 Do not infer a taxonomy or category not expressed by the user.
 Keep a defining activity or capability in its original compact form: do not add
 "suitable for", "good for", or another evaluative framing that the user did
@@ -293,6 +304,12 @@ choose for a faithful paraphrase cannot change the strength determined from the
 original user meaning; it cannot make a defining condition optional.
 
 ## BUDGET
+
+Preserve numeric direction and strictness independently of strength. Flexibility
+does not turn an upper or lower bound into a centered target or approximation.
+A tradeable ceiling remains a SOFT ceiling with the same comparison and amount;
+only a user-expressed target or approximation is represented as such. Retain the
+comparison wording in free-text criteria; do not replace it with a different relation.
 
 Represent an approximate or target budget as one POSITIVE SOFT CRITERION.
 

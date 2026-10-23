@@ -172,23 +172,23 @@ export function tabelogCapturedSlots(snapshot: BrowserSnapshot, date: string, pa
     const d=body.base_date;
     if (`${d.year}-${String(d.month).padStart(2,"0")}-${String(d.day).padStart(2,"0")}` !== date) return undefined;
     if (!body.selection || typeof body.selection !== "object") return undefined;
-    const rows=Object.values(body.selection);
-    // Empty responses need an independent merchant binding; never infer it from the current URL alone.
-    if (!rows.length) return undefined;
     const slots = new Set<string>();
-    for (const row of rows) {
+    for (const row of Object.values(body.selection)) {
       if (!row || typeof row !== "object") return undefined;
       const value=row as {time?:unknown;url?:unknown};
-      if (typeof value.time !== "string" || !/^([01]\d|2[0-3]):[0-5]\d$/.test(value.time) || typeof value.url !== "string") return undefined;
+      if (typeof value.url !== "string") return undefined;
       let link: URL;
       try { link=new URL(value.url,snapshot.url); } catch { return undefined; }
       if (link.origin !== "https://tabelog.com" || link.pathname !== "/en/booking/form_course/new"
         || link.searchParams.get("rcd") !== outletId || link.searchParams.get("member") !== String(partySize)
-        || link.searchParams.get("visit_date") !== date.replaceAll("-","")
-        || link.searchParams.get("visit_time") !== value.time.replace(":","")) return undefined;
+        || link.searchParams.get("visit_date") !== date.replaceAll("-","")) return undefined;
+      if (typeof value.time !== "string" || !/^([01]\d|2[0-3]):[0-5]\d$/.test(value.time)) {
+        if (/^(?:2[4-9]|[3-9]\d)[0-5]\d$/.test(link.searchParams.get("visit_time") ?? "")) continue;
+        return undefined;
+      }
+      if (link.searchParams.get("visit_time") !== value.time.replace(":","")) return undefined;
       slots.add(value.time);
     }
-    return { availableSlots:[...slots].sort(),hasExplicitSlotUi:true };
+    return slots.size ? { availableSlots:[...slots].sort(),hasExplicitSlotUi:true } : undefined;
   }
-  return undefined;
 }

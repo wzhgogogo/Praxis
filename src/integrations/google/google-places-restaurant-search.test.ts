@@ -7,6 +7,28 @@ import { GooglePlacesClient } from "./google-places-client.js";
 import { buildGooglePlacesTextQuery, GooglePlacesRestaurantSearch } from "./google-places-restaurant-search.js";
 import { GOOGLE_PLACES_RESTAURANT_FIELD_MASK } from "./google-places-contracts.js";
 
+test("ranked named geography accepts the saved spellings, keeps nearby geographic alternatives and rejects remote ambiguity", async () => {
+  const captured = JSON.parse(readFileSync(new URL("./fixtures/phase2c-location-observations.json", import.meta.url), "utf8"));
+  const center = { latitude: 35.6697, longitude: 139.7670 };
+  const resolve = async (places: unknown[], query: string) => new GooglePlacesRestaurantSearch(new GooglePlacesClient({
+    apiKey: "fixture", fetchImplementation: async () => new Response(JSON.stringify({ places }), { status: 200 }),
+  }), undefined, 10, { evaluationLocation: center }).resolveNamedNearbyLocation({ intent: { ...fixtureIntent, area: { query } } }, new AbortController().signal);
+  for (const observation of captured.observations) {
+    const first = observation.places[0];
+    const result = await resolve(observation.places, observation.query);
+    assert.equal(result.location?.label, first.displayName.text);
+    assert.deepEqual({ latitude: result.location?.latitude, longitude: result.location?.longitude }, first.location);
+    assert.equal(result.evidence?.claims.locationNameExactMatch, false, "spelling correspondence is recorded, never a gate");
+  }
+  const first = captured.observations[0].places[0];
+  const second = { ...first, id: "nearby-alternative", displayName: { text: "Source supplied adjacent station" }, location: { latitude: first.location.latitude + 0.001, longitude: first.location.longitude } };
+  const clustered = await resolve([first, second], "near user supplied area");
+  assert.equal(clustered.publicLocationObservation?.placeId, first.id, "preserve source ranking inside a local cluster");
+  await assert.rejects(resolve([{ ...first, types: ["restaurant"] }], "near user supplied area"), { code: "GOOGLE_LOCATION_UNRESOLVED" });
+  await assert.rejects(resolve([{ ...first, location: { latitude: 26.9, longitude: -80.1 } }], "near user supplied area"), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+  await assert.rejects(resolve([first, { ...second, location: { latitude: 38, longitude: 141 } }], "near user supplied area"), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+});
+
 test("Google query is discovery-owned and does not serialize criteria into retrieval text", () => {
   const query = buildGooglePlacesTextQuery({ intent: fixtureIntent, retrievalHint: "Japanese wording" });
   assert.match(query, /Shinjuku/);
@@ -210,97 +232,14 @@ test("a named nearby place is resolved to observed coordinates and grounds candi
   });
 });
 
-test("named-place resolution rejects an unmatched suffix instead of treating address text or rank as landmark identity", async () => {
-  let call = 0;
-  const client = new GooglePlacesClient({
-    apiKey: "key",
-    fetchImplementation: async (_url, init) => {
-      call += 1;
-      const payload = JSON.parse(String(init?.body)) as { pageSize: number };
-      if (call === 1) {
-        assert.equal(payload.pageSize, 10, "one bounded location query sees more than the retired three-result cap");
-        return new Response(JSON.stringify({ places: [
-          { id: "unrelated", displayName: { text: "Different Station" }, location: { latitude: 35.1, longitude: 139.1 } },
-          { id: "central-east", displayName: { text: "Central Station East Entrance" }, formattedAddress: "Central Station, Tokyo", location: { latitude: 35.6, longitude: 139.7 }, types: ["transit_station"] },
-        ] }), { status: 200 });
-      }
-      return new Response(JSON.stringify({ places: [] }), { status: 200 });
-    },
-  });
-  await assert.rejects(
-    new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 }).search({
-      intent: { ...fixtureIntent, area: { query: "near Central Station" } },
-    }, new AbortController().signal),
-    { code: "GOOGLE_LOCATION_UNRESOLVED" },
-  );
-  assert.equal(call, 1);
-});
-
-test("named-place resolution accepts a provider-typed station suffix but rejects an administrative-area-to-station substitution", async () => {
-  const station = { id: "higashi-ginza", displayName: { text: "Higashi-ginza Sta." }, formattedAddress: "Chuo City, Tokyo", location: { latitude: 35.6697, longitude: 139.767 }, types: ["subway_station", "transit_station"], addressComponents: [{ longText: "Chuo City", types: ["locality"] }] };
-  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async (_url, init) => {
-    const body = JSON.parse(String(init?.body)) as { textQuery: string };
-    if (body.textQuery === "Higashi-Ginza") return new Response(JSON.stringify({ places: [station] }), { status: 200 });
-    return new Response(JSON.stringify({ places: [] }), { status: 200 });
-  } });
-  const result = await new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 }).search({ intent: { ...fixtureIntent, area: { query: "near Higashi-Ginza" } } }, new AbortController().signal);
-  assert.equal(result.evidence[0]?.claims.resolvedPlaceId, "higashi-ginza");
-
-  const ambiguousRegion = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
-    id: "tokyo-station", displayName: { text: "Tokyo Station" }, formattedAddress: "Chiyoda City, Tokyo", location: { latitude: 35.6812, longitude: 139.7671 }, types: ["train_station", "transit_station"],
-    addressComponents: [{ longText: "Tokyo", types: ["administrative_area_level_1"] }],
-  }] }), { status: 200 }) });
-  await assert.rejects(new GooglePlacesRestaurantSearch(ambiguousRegion, undefined, 10, { maxRequests: 2 }).search({ intent: { ...fixtureIntent, area: { query: "near Tokyo" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
-});
-
-test("named-place resolution accepts a source-typed civic locality representation without treating stations as aliases", async () => {
-  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
-    id: "shinjuku-city", displayName: { text: "Shinjuku City" }, formattedAddress: "Tokyo, Japan",
-    location: { latitude: 35.6938253, longitude: 139.7033559 }, types: ["locality", "political"],
-    addressComponents: [{ longText: "Shinjuku City", shortText: "Shinjuku City", types: ["locality", "political"] }],
-  }] }), { status: 200 }) });
-  const result = await new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 }).search({
-    intent: { ...fixtureIntent, area: { query: "near Shinjuku" } },
-  }, new AbortController().signal);
-  assert.equal(result.evidence[0]?.claims.resolvedPlaceId, "shinjuku-city");
-
-  const differentPlace = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
-    id: "shinjuku-city-east", displayName: { text: "Shinjuku City East" }, formattedAddress: "Tokyo, Japan",
-    location: { latitude: 35.69, longitude: 139.7 }, types: ["locality", "political"],
-    addressComponents: [{ longText: "Shinjuku City East", shortText: "Shinjuku City East", types: ["locality"] }],
-  }] }), { status: 200 }) });
-  await assert.rejects(new GooglePlacesRestaurantSearch(differentPlace, undefined, 10, { maxRequests: 2 }).search({
-    intent: { ...fixtureIntent, area: { query: "near Shinjuku" } },
-  }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
-
-  const nonCivicPlace = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
-    id: "shinjuku-city-station", displayName: { text: "Shinjuku City" }, formattedAddress: "Tokyo, Japan",
-    location: { latitude: 35.69, longitude: 139.7 }, types: ["train_station"],
-    addressComponents: [{ longText: "Shinjuku City", shortText: "Shinjuku City", types: ["locality", "political"] }],
-  }] }), { status: 200 }) });
-  await assert.rejects(new GooglePlacesRestaurantSearch(nonCivicPlace, undefined, 10, { maxRequests: 2 }).search({
-    intent: { ...fixtureIntent, area: { query: "near Shinjuku" } },
-  }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
-});
-
-test("named-place suffix matching fails closed without a corresponding provider type and independent geographic context", async () => {
-  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [
-    { id: "wrong-type", displayName: { text: "Higashi-Ginza Station" }, location: { latitude: 35.6697, longitude: 139.767 }, types: ["park"], addressComponents: [{ longText: "Chuo City", types: ["locality"] }] },
-    { id: "missing-context", displayName: { text: "Higashi-Ginza Station" }, location: { latitude: 35.6697, longitude: 139.767 }, types: ["subway_station"] },
-  ] }), { status: 200 }) });
-  await assert.rejects(new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 }).search({ intent: { ...fixtureIntent, area: { query: "near Higashi-Ginza" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_UNRESOLVED" });
-});
-
-test("only source-level duplicate exact named locations ask for disambiguation", async () => {
-  const client = new GooglePlacesClient({
-    apiKey: "key",
-    fetchImplementation: async () => new Response(JSON.stringify({ places: [
-      { id: "station-a", displayName: { text: "Central Station" }, location: { latitude: 35.6, longitude: 139.7 } },
-      { id: "station-b", displayName: { text: "Central Station" }, location: { latitude: 35.7, longitude: 139.8 } },
-    ] }), { status: 200 }),
-  });
-  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 });
-  await assert.rejects(search.search({ intent: { ...fixtureIntent, area: { query: "near Central Station" } } }, new AbortController().signal), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+test("geographic source labels require no spelling or administrative suffix inference", async () => {
+  for (const type of ["locality", "subway_station", "park"]) {
+    const place = { id: type, displayName: { text: "Actual source label" }, location: { latitude: 1, longitude: 2 }, types: [type] };
+    const client = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async () => new Response(JSON.stringify({ places: [place] }), { status: 200 }) });
+    const result = await new GooglePlacesRestaurantSearch(client).resolveNamedNearbyLocation({ intent: { ...fixtureIntent, area: { query: "near User wording" } } }, new AbortController().signal);
+    assert.equal(result.location?.label, place.displayName.text);
+    assert.deepEqual(result.evidence?.claims.resolvedPlaceTypes, [type]);
+  }
 });
 
 test("an unrelated first search result never becomes a named nearby landmark", async () => {
@@ -322,7 +261,7 @@ test("unresolved named-place diagnostics retain only bounded public identity obs
     apiKey: "key",
     fetchImplementation: async () => new Response(JSON.stringify({ places: [{
       id: "wrong", displayName: { text: "Different Station" }, formattedAddress: "not-retained-address",
-      location: { latitude: 35.6, longitude: 139.7 }, types: ["transit_station"],
+      location: { latitude: 35.6, longitude: 139.7 }, types: ["restaurant"],
       addressComponents: [{ longText: "Shinjuku City", shortText: "Shinjuku", types: ["locality"] }],
       nationalPhoneNumber: "private-phone", websiteUri: "https://private.example",
     }] }), { status: 200 }),
@@ -334,7 +273,7 @@ test("unresolved named-place diagnostics retain only bounded public identity obs
       if (!error || typeof error !== "object" || !("publicLocationObservations" in error)) return false;
       const observations = error.publicLocationObservations as Array<Record<string, unknown>>;
       assert.deepEqual(observations, [{
-        placeId: "wrong", displayName: "Different Station", types: ["transit_station"],
+        placeId: "wrong", displayName: "Different Station", types: ["restaurant"],
         addressComponents: [{ longText: "Shinjuku City", shortText: "Shinjuku", types: ["locality"] }],
         coordinates: { latitude: 35.6, longitude: 139.7 },
       }]);
@@ -585,13 +524,13 @@ test("named area resolution binds bias, prefers geography and refuses distant or
     const result = await search.resolveNamedNearbyLocation({ intent: { ...fixtureIntent, area: { query } } }, new AbortController().signal);
     return { result, body };
   };
-  await assert.rejects(resolve(recorded.places, "near Recorded area"), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+  await assert.rejects(resolve(recorded.places, "near Recorded area"), { code: "GOOGLE_LOCATION_UNRESOLVED" });
   const merchant = { id: "merchant", displayName: { text: "Example area" }, location: center, types: ["restaurant"] };
   const geographic = { id: "geographic", displayName: { text: "Example area" }, location: center, types: ["neighborhood"] };
   const mixed = await resolve([merchant, geographic]);
   assert.equal(mixed.result.publicLocationObservation?.placeId, "geographic");
   assert.deepEqual((mixed.body?.locationBias as { circle: unknown }).circle, { center, radius: 1000 });
-  await assert.rejects(resolve([merchant]), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+  await assert.rejects(resolve([merchant]), { code: "GOOGLE_LOCATION_UNRESOLVED" });
   await assert.rejects(resolve([{ ...geographic, location: { latitude: 3, longitude: 4 } }]), error => {
     assert.equal((error as { code: string }).code, "GOOGLE_LOCATION_AMBIGUOUS");
     assert.equal((error as { publicLocationObservations: unknown[] }).publicLocationObservations.length, 1);
@@ -603,7 +542,7 @@ test("named area resolution binds bias, prefers geography and refuses distant or
 });
 
 // P1-G: real failed observation and saved location projections, offline transport only.
-test("P1-G named location normalization resolves the recorded colloquial area without weakening authority", async () => {
+test("saved successful geographic observations retain their source coordinates and distance boundary", async () => {
   const fixture = JSON.parse(readFileSync(new URL("./fixtures/p1g-location-observations.json", import.meta.url), "utf8"));
   const center = { latitude: 35.6697, longitude: 139.7670 };
   const resolve = async (query: string, places: unknown[]) => {
@@ -622,8 +561,8 @@ test("P1-G named location normalization resolves the recorded colloquial area wi
     const positive = await resolve(query!, [{ id: query, displayName: { text: name }, types: [type], location: center }]);
     assert.equal(positive.location?.label, name);
   }
-  await assert.rejects(resolve("Ebisu", [{ id: "merchant", displayName: { text: "Ebisu" }, types: ["restaurant"], location: { latitude: 26.9355755, longitude: -80.1379124 } }]), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
-  await assert.rejects(resolve("Kichijoji", [fixture.kichijoji, { ...fixture.kichijoji, id: "second", location: center }]), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
+  await assert.rejects(resolve("Ebisu", [{ id: "merchant", displayName: { text: "Ebisu" }, types: ["restaurant"], location: { latitude: 26.9355755, longitude: -80.1379124 } }]), { code: "GOOGLE_LOCATION_UNRESOLVED" });
+  assert.equal((await resolve("Kichijoji", [fixture.kichijoji, { ...fixture.kichijoji, id: "second", location: center }])).location?.latitude, fixture.kichijoji.location.latitude);
   await assert.rejects(resolve("Kichijoji", [{ ...fixture.kichijoji, location: { latitude: 26.9, longitude: -80.1 } }]), { code: "GOOGLE_LOCATION_AMBIGUOUS" });
   for (const previous of fixture.regressions) {
     const result = await resolve(previous.query, [{ id: previous.query, displayName: { text: previous.name }, types: [previous.type], addressComponents: previous.addressComponents, location: { latitude: previous.latitude, longitude: previous.longitude } }]);
