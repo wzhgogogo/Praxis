@@ -1,0 +1,36 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2l-kf-h001-20261103","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/offline-rehearsal-2/B/offline-B-attempt-1/network-preflight/2026-10-23T05-13-28-485Z-541a0cfd-1827-4caa-9ab8-c013ebbc41d4.result.json","elapsedMs":1,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2l-kf-h001-20261103",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 4
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 4,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 8,
+    "browserRuntimeCalls": 8,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 4,
+      "native-discovery:VENUE_SEARCH": 4
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 1,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 38,
+      "total": 2,
+      "namedPlaceResolution": 1,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 86
+  },
+  "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/offline-rehearsal-2/B/offline-B-attempt-1/runner/2026-10-23T05-13-28-561Z-93cee0d1-a31e-4812-a768-046e7da95efd.result.json",
+  "latencyMs": 86,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
