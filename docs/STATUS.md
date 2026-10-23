@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.371
+- Document revision: 4.372
 - Last updated: 2026-10-23
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-23 PHASE2C-FINAL-OFFLINE-COMPLETE:** Final Phase2c repair branch complete, pending independent review, no main merge. Promptv23 final54 replay passes exposed constraints; chain162/220, no more tuning. Goya3 saved-page replays and installed-Guard Chromium composition pass without widening query/identity/qualification rules. Five gates1022/137 PASS; frozen8ad2d118 replay69/69 calendar,5/5 selection and independent22/22 calibration/normal declarations20/20 PASS,0 new calls. Same06287b6f source count narrow3863/expanded6359 physical, this-chain delta0, shared constant candidates0; historical+272/+721 and exit6 NOT_SATISFIED retained. Google29/30 unchanged: Omotesando returned route, rejected; old Ebisu cause and40 missing ranked-response projections remain gaps. New continuation model54, Google0, websites/Live0. Initial5b2ea9bf remote verified; final authorized branch push follows evidence commit. [Report](../.eval-artifacts/phase2c-location-semantic-20261023/report.md).
 
 - **2026-10-23 PHASE2C-BOUND-CLOCK-COLLECTION:** Goya parser repaired by retaining independently bound supported clock alternatives; no extended-hour conversion or new source branch/permission. Three saved full-HTML/projection replays complete with41 supported slots including19:00 each; missing supported-time, mismatched binding, newer contradiction, all-unsupported and PENDING negatives remain UNKNOWN. Actual createLiveReadAssembly with Guard INSTALLED returns AVAILABLE/19:00 on local HAR,0 model/Google; valid before-fix composition UNKNOWN red preserved. Initial fixture setup failures explicitly excluded. Five gates all PASS:1022 default,137 Chromium, typecheck/arch/build. Production source physical delta0; formal same-scope audit and69/5/22 offline regression pending. Raw response time was not captured, so saved projection plus independent Chromium proves the mechanism, not current stock or full-task delivery. [Scope](../.eval-artifacts/phase2c-location-semantic-20261023/goya-followup/scope.md).
 
