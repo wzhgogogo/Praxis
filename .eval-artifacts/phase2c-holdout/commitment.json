@@ -1,0 +1,23 @@
+{
+  "schema": "holdout-commitment@1",
+  "set": "Phase 2c held-out set",
+  "status": "APPROVED_BY_USER",
+  "approvedAt": "2026-10-23T12:07:00+08:00",
+  "committedBy": "independent reviewer (Claude)",
+  "textLocation": "Claude project only (holdout/PHASE-2C-HOLDOUT.md, rev 2). Published on this branch only after this commitment commit.",
+  "use": "Phase 2c exit check only, 6 cases x 3 runs. Exposed after use.",
+  "hashMethod": {
+    "file": "SHA-256 of the UTF-8, LF-terminated YAML block, header comments included, {DATE} unfilled.",
+    "case": "Split on lines consisting exactly of '---'; strip leading/trailing newlines, append one LF, SHA-256."
+  },
+  "dateRule": "{DATE} = the case weekday 7-14 days after the exit check starts. Filling the date and switching to the listed fallback place if witness certification fails are the only permitted changes; both are recorded.",
+  "fileSha256": "1602ca7a5ff860130b81235553db8e77d7d9c25d261801c38330db0a97171a1e",
+  "caseSha256": {
+    "p2c-holdout-01": "f27413783a00e4856db6cae11d155d40734662ce729645fd760ebfdf30e212e8",
+    "p2c-holdout-02": "cebf75d7b4a4448e10b399629d2a6d193d75ba3f9499146af45275b63399951e",
+    "p2c-holdout-03": "dba2c28477aebc22bef9f0524c348077b02ffc84af3a74550c63c4f2e1edf979",
+    "p2c-holdout-04": "a02d77aecec776bafcd3acaf754ab6bab9791b147ad9aa8eed4b4763cc81b9f0",
+    "p2c-holdout-05": "ddf28c8afd5dcb37b5a429df2eb412cd192874e21b0e3d7f493823f7eef2c017",
+    "p2c-holdout-06": "07845a930261da2df3bcc7016eedf90f67b3310f5ef9922a32d70dd8bb6d4506"
+  }
+}
