@@ -37,3 +37,11 @@ TableCheck 改用 `https://search-v4.production.ap-northeast-1.aws.tablecheck.ne
 在 Chromium Fetch 请求暂停边界核对浏览器保留的 `Origin`、`Access-Control-Request-*` 和 `Sec-Fetch-Mode: cors`（页面 JavaScript 不能伪造这些头）；不依赖可能缺失或迟到的 Network initiator 标记。页面 Origin `https://www.tablecheck.com`、`Access-Control-Request-Method: GET`、空请求体，以及 `Access-Control-Request-Headers` 中每个头名均属于实际观察到的 `x-api-key`。POST 预检、额外头、无对应 GET 规则、重定向或不完整观察均拒绝。代码不发起 OPTIONS，也不注入或保存 API key 的值；网站自己的请求继续使用浏览器本身提供的头。
 
 Pack、冻结的外层 reviewed-reads、Recorder 与独立 S0 网络审核同步保留该规则及无值协议事实。Playwright 的既有 route 拦截会本地应答真实浏览器预检：本地 Chromium 验证以 CDP 预检记录和后续 GET 的独立接收端为证据，不把本地应答称为网站 OPTIONS 响应。当前 sanitized HAR 未保存可忠实回放的握手，含此预检的录制如实为 NOT_REPLAYABLE；此限制不影响保留 trace。无交付资格、HARD、身份、半径、日期或库存规则变更。
+
+## 已审核 GET 的 TableCheck 浏览器预检修正（用户 2026-10-23 批准）
+
+h-14 保存的红绿诊断确认：现有 V4 主机已经放行，但菜系分面 `/search/` GET 不带 `hits`，旧必填规则连带拒绝它的真实浏览器 OPTIONS；同形请求的只读反事实成功。本轮将 `hits` 从必填改为可选，仍要求 `queryProfile`，其他字段、重复字段、主机和路径语法不扩展。
+
+对 TableCheck 已有、会被 GET 规则接纳的 fetch/xhr 公共读取（含已有默认 GET/HEAD 与静态 fetch 规则），允许绑定同一 origin、同一路径及完整查询语法的浏览器自动 CORS 预检。沿用来源 `https://www.tablecheck.com`、浏览器保留 CORS 头、目标方法 GET、无请求体和已审核 `x-api-key` 头名约束；不发起 OPTIONS、不注入 key，不记录头值。不向其他来源增加预检例外，不新增主机、路径或读取方法。永久 `/reserve` 禁止优先，所有后继路径仍禁止；本说明不恢复历史 G1 预约入口许可。
+
+Recorder 继续保留无值预检事实并如实标记未捕获握手的录制不可忠实回放。新的独立 reviewed-reads 声明供外层与评测器使用，旧冻结文件不改。验收为 h-14 原诊断 SHA、真实本地 Chromium/接收端及负向请求，不代表当前网站库存或 Live 成功。来源健康检查仅在评测 Runner 中，不能给生产 State 或交付资格增加事实。

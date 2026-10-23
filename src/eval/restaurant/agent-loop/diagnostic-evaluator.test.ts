@@ -2164,3 +2164,12 @@ test("C18 Kaga external witness support is separate from product-known display e
   artifact.finalSnapshot.domainState.presentedResults.conditionStates[kaga][0].status = "MET";
   assert.equal(evaluate().conditionStateComparisons.find(c => c.candidateId === kaga && c.text === "kaiseki")!.assessment, "S1_UNSUPPORTED");
 });
+
+test('h14 independent frozen review accepts the seven-key facet GET handshake and rejects unrelated permission',async()=>{
+ const path='.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json';
+ const reviewed=parseReviewedReads(await readFile(path),path);
+ const request={outcome:'ADMITTED',origin:'https://search-v4.production.ap-northeast-1.aws.tablecheck.net',pathname:'/search/',method:'OPTIONS',resourceType:'xhr',queryKeys:['cuisine','lat','lng','party_size','queryProfile','radius_km','scope'],corsPreflight:{initiator:'BROWSER_PREFLIGHT',secFetchMode:'cors',requestOrigin:'https://www.tablecheck.com',requestedMethod:'GET',requestedHeaderNames:['x-api-key'],bodyBytes:0}};
+ const audit=(patch:Record<string,unknown>={})=>auditReadOnlyTrace([{kind:'SESSION_OPENED',detail:{readNetworkBoundary:'INSTALLED'}},{kind:'NETWORK',networkRequests:[{...request,...patch}]}] as any,[],false,reviewed);
+ assert.equal(audit().status,'ABSENT');assert.equal(audit({method:'GET',resourceType:'fetch'}).status,'ABSENT');
+ for(const patch of [{pathname:'/other/'},{origin:'https://other.example'},{queryKeys:['queryProfile','unknown']},{queryKeys:['hits']},{origin:'https://www.tablecheck.com',pathname:'/en/shops/fixture/reserve'},{method:'DELETE'},...([{requestedMethod:'POST'},{bodyBytes:1},{requestedHeaderNames:['x-unreviewed']}].map(x=>({corsPreflight:{...request.corsPreflight,...x}})))])assert.equal(audit(patch).status,'PRESENT',JSON.stringify(patch));
+});

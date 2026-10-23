@@ -222,7 +222,7 @@ test("preflight cancels an unread response body after observing headers", async 
 });
 
 
-test("the actual hybrid runner stops at its preflight gate before it creates a Live task", async () => {
+test("the actual hybrid runner validates frozen input before source/provider preflight or a Live task", async () => {
   const directory = await artifactDirectory();
   try {
     const runner = resolve("src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts");
@@ -243,12 +243,12 @@ test("the actual hybrid runner stops at its preflight gate before it creates a L
       }),
       (error: unknown) => {
         const output = error as { stderr?: unknown };
-        return typeof output.stderr === "string" && output.stderr.includes("PREFLIGHT_PROXY_CONFIGURATION");
+        return typeof output.stderr === "string" && output.stderr.includes("ENOENT") && output.stderr.includes("e2e-cases.gold7.yaml");
       },
     );
     const preflightDirectory = join(directory, ".eval-artifacts", "live-preflight");
-    const preflightRecords = await readdir(preflightDirectory);
-    assert.equal(preflightRecords.some(path => path.endsWith(".result.json")), true);
+    await assert.rejects(readdir(preflightDirectory), /ENOENT/);
+    await assert.rejects(readdir(join(directory, ".eval-artifacts", "live-source-health")), /ENOENT/);
     await assert.rejects(readdir(join(directory, ".eval-artifacts", "restaurant-hybrid-live-read")));
   } finally {
     await rm(directory, { recursive: true, force: true });
