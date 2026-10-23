@@ -1,0 +1,55 @@
+{
+  "startedAt": "2026-10-24T00:21:25.903682+02:00",
+  "timezone": "Europe/Vienna",
+  "testedCommit": "03ffa186ed87297328846523462598fbe1251bd6",
+  "clone": "/private/tmp/praxis-f1b-portable-clone",
+  "sourceCheckout": "/private/tmp/praxis-phase3a-prime-f1",
+  "cloneMode": "depth-one Git clone, dependency symlinks dereferenced; no network download",
+  "isolation": "macOS sandbox denies directory listing and data reads in /Users and historical /private/tmp worktrees to the process and descendants. Existence metadata can remain visible. Host directories are preserved.",
+  "sourceFreezeSha256": "7ec9e1537c7525e78aa1a8c7d813cc2f3828aa2fa7b0ee0587e666961d222244",
+  "deniedReadRoots": [
+    "/Users",
+    "/private/tmp/praxis-checkpoint-c-p21c-integration-20261020",
+    "/private/tmp/praxis-checkpoint-c-prep",
+    "/private/tmp/praxis-fix-calendar-next-month",
+    "/private/tmp/praxis-fix-near-and-condition-display",
+    "/private/tmp/praxis-fix-phase2c-location-semantic",
+    "/private/tmp/praxis-location-resolution-diagnosis-20261022",
+    "/private/tmp/praxis-p2-1c-region-20261020",
+    "/private/tmp/praxis-p2-2-selection-20261019",
+    "/private/tmp/praxis-p2-3-conditions-20261019",
+    "/private/tmp/praxis-phase2b-exit-pipeline-20261022",
+    "/private/tmp/praxis-phase2c-mainline-integration",
+    "/private/tmp/praxis-phase2c-witness",
+    "/private/tmp/praxis-phase3a-prime-f1",
+    "/private/tmp/praxis-phase3a-prime-main-check",
+    "/private/tmp/praxis-semantic-v17-baseline"
+  ],
+  "visibilityProbe": [
+    {
+      "directory": "/Users",
+      "file": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/package.json",
+      "existenceMetadataVisible": true,
+      "listError": "EPERM",
+      "readError": "EPERM"
+    },
+    {
+      "directory": "/private/tmp/praxis-checkpoint-c-prep",
+      "file": "/private/tmp/praxis-checkpoint-c-prep/package.json",
+      "existenceMetadataVisible": true,
+      "listError": "EPERM",
+      "readError": "EPERM"
+    },
+    {
+      "directory": "/private/tmp/praxis-phase3a-prime-f1",
+      "file": "/private/tmp/praxis-phase3a-prime-f1/package.json",
+      "existenceMetadataVisible": true,
+      "listError": "EPERM",
+      "readError": "EPERM"
+    }
+  ],
+  "elapsedSeconds": 24.151587,
+  "exitCode": 1,
+  "gitStatusAfter": "",
+  "logSha256": "75e6fca1fe48b964385ed1f81fa609a6a98a656351ec6602e07f2ca20bc26548"
+}
