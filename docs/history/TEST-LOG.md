@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.284
+- Document revision: 4.285
 - Last updated: 2026-10-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-24-PHASE3A-PRIME-F5-STOP1B
+
+维也纳时间2026-10-24 CEST，纯设计与历史blob静态核对，不执行产品链路。原29项SHA保留、追加14项至43：两份共享动作/Executor代码、现有ADR0040/0042、旧分析runs、D2三个HTML、五张遮蔽截图和固定用户投影代码；15个地区observation及18份CONTROLS无INPUT、八站OPEN_LINK及类别CLICK按行号/trace/snapshot核对。首次抽取遇未提交HTML后改为MISSING，未补造；Q7匹配入口、真实替代和端到端时延仍为缺口。预算加总55.549/67.879秒及4/5地区页分开核验；C03最终Outcome与用户投影依据分层，不将模型理由冒充用户输出，不重评S0或历史评分。实现批红绿灯只列清单，全部NOT_RUN；五门禁typecheck/arch:check/npm test/build/test:browser:fixture本批均NOT_RUN，按Test纯文档矩阵检查SHA、引用、预算、链接、月度索引和git diff --check。产品/Runner/测试/Prompt/Schema/Gold/变体/Guard/站点目录/source-packs相对2ada8a69零差异，budget.json不动；新模型/Google/餐厅网站/Live/环境重跑均0，Mock/Replay/Live Read-only/Controlled Live-write均NOT_RUN。提交推送F5分支后停1b，不合main。[核对记录](../../.eval-artifacts/phase3a-prime/f5-analysis/verification-1b.json) · [报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#9-停止点-1b-补充)。
 
 ## TEST-2026-10-24-PHASE3A-PRIME-F5-ANALYSIS
 
