@@ -1,0 +1,67 @@
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2c-holdout-01",
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@33",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@29"
+  },
+  "runtimeContext": {
+    "commitSha": "07e06a80f671ec98d6188e09d4258a6725d93e15",
+    "worktree": "CLEAN",
+    "dataset": {
+      "version": "restaurant-read-novel-variant@1",
+      "sourcePath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/runner-input.yaml",
+      "sha256": "b3d869f9e6cf792cc34bd5425bda62e73a2c90d9fba0072d132a0ad3a5088cd7",
+      "cohort": "NOVEL_LOCATION_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/live-preflight/2026-10-23T11-21-19-757Z-96ef0f72-47ff-459e-bd23-cb2b130d3b40.result.json",
+      "elapsedMs": 3627,
+      "targetCount": 2,
+      "sourceHealthArtifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-2/source-health/source-health.json",
+      "sourceHealthAttempts": 2,
+      "reviewedReadsPath": ".eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json",
+      "reviewedReadsSha256": "4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26"
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    }
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "requestedRunCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "schemaVersion": "1",
+  "runId": "2aea6483-3129-4c05-be53-019d50157e09",
+  "startedAt": "2026-10-23T11:21:38.118Z",
+  "status": "STARTED"
+}

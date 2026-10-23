@@ -1,0 +1,357 @@
+{
+  "label": "DIAGNOSTIC_AFTER_GUARD_FIX",
+  "mainline": "4d953731163e922741ea91ccc6c1c47b53f0b0e1",
+  "rows": [
+    {
+      "label": "DIAGNOSTIC_AFTER_GUARD_FIX",
+      "run": 1,
+      "caseId": "p2c-holdout-01",
+      "startedAt": "2026-10-23T10:59:20.703Z",
+      "finishedAt": "2026-10-23T11:13:23.023Z",
+      "mainline": "4d953731163e922741ea91ccc6c1c47b53f0b0e1",
+      "exit": {
+        "code": 1,
+        "signal": null
+      },
+      "killed": null,
+      "formalRunStarted": true,
+      "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-1/runner/2026-10-23T11-04-59-001Z-dbe4cbbb-c269-4d81-a8d9-ea62ad54164f.result.json",
+      "artifactSha256": "24320f68dbedfe9c479587542f47d2677e2db500b25d461cc548096e6fb2e061",
+      "phase": "SEARCHING",
+      "deliveryCount": 0,
+      "nearDefect": false,
+      "capabilityFailureForContinuationOnly": false,
+      "next": "STOP_UNRESOLVED_NOT_AUTO_RETRY",
+      "evaluation": "DEFERRED_PENDING_INDEPENDENT_WORDING_REVIEW",
+      "original18Contribution": 0,
+      "modelCalls": 37,
+      "Google": {
+        "formal": {
+          "limit": 38,
+          "total": 3,
+          "namedPlaceResolution": 1,
+          "discovery": 2,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "preflight": 2
+      },
+      "resourceUsage": {
+        "discoveryCandidates": 28,
+        "candidatesChecked": 5,
+        "agentDecisions": 6,
+        "browserModelCalls": 22,
+        "modelCallsStarted": 37,
+        "browserRuntimeCalls": 205,
+        "browserOperationsByCandidate": {
+          "native-discovery:DIRECTORY": 41,
+          "native-discovery:VENUE_SEARCH": 28,
+          "tablecheck:kawaei": 26,
+          "tablecheck:underground-akabane": 26,
+          "praxis:restaurant:0d56ed154080df9317f9d79d": 22,
+          "praxis:restaurant:c446fe0b901cca8ffb43b42e": 14,
+          "praxis:restaurant:07b0ba0daee00150d6d202e1": 28,
+          "praxis:restaurant:f93797735808708abd68d4ed": 20
+        },
+        "pageStillLoadingWithinBound": 24,
+        "postActionWaitTotalMs": 47855,
+        "browserModelActions": 19,
+        "googleRequests": {
+          "limit": 38,
+          "total": 3,
+          "namedPlaceResolution": 1,
+          "discovery": 2,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "elapsedMs": 500111
+      },
+      "sourceHealth": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-1/source-health/source-health.json",
+      "networkPreflightPaths": [
+        "/private/tmp/praxis-phase2c-witness/.eval-artifacts/live-preflight/2026-10-23T11-04-41-155Z-1e8bb072-1fde-4688-a97e-fcc71ee99fe7.result.json"
+      ],
+      "postError": null,
+      "postStop": false,
+      "blockedMethod": {
+        "allDiagnosticOccurrences": 544,
+        "tablecheckDiagnosticOccurrences": 41,
+        "tablecheckByOrigin": {
+          "https://production.tablecheck.com/": 41
+        },
+        "tablecheckDistinctDiagnosticShapes": 2,
+        "rule": "Recursive code=BLOCKED_METHOD in diagnostics.browserTrace, same as original h07=867 all/76 TableCheck; cumulative snapshot copies may repeat. Distinct shapes are not distinct network request counts."
+      },
+      "boundaryStatus": "ABSENT",
+      "sourceHealthAttempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-10-23T10:59:21.126Z",
+          "finishedAt": "2026-10-23T10:59:31.128Z",
+          "observations": [
+            {
+              "sourceId": "tabelog",
+              "url": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+              "outcome": "UNHEALTHY",
+              "reason": "CHECK_TIMEOUT",
+              "httpStatus": 200,
+              "readNetworkBoundary": "INSTALLED",
+              "elapsedMs": 10002
+            },
+            {
+              "sourceId": "tablecheck",
+              "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+              "outcome": "HEALTHY",
+              "reason": null,
+              "httpStatus": 200,
+              "finalUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+              "readNetworkBoundary": "INSTALLED",
+              "elapsedMs": 9967
+            }
+          ]
+        },
+        {
+          "attempt": 2,
+          "startedAt": "2026-10-23T11:04:31.131Z",
+          "finishedAt": "2026-10-23T11:04:41.147Z",
+          "observations": [
+            {
+              "sourceId": "tabelog",
+              "url": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+              "outcome": "HEALTHY",
+              "reason": null,
+              "httpStatus": 200,
+              "finalUrl": "https://tabelog.com/en/tokyo/A1301/",
+              "readNetworkBoundary": "INSTALLED",
+              "elapsedMs": 10016
+            },
+            {
+              "sourceId": "tablecheck",
+              "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+              "outcome": "HEALTHY",
+              "reason": null,
+              "httpStatus": 200,
+              "finalUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+              "readNetworkBoundary": "INSTALLED",
+              "elapsedMs": 9950
+            }
+          ]
+        }
+      ],
+      "modelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 7,
+        "restaurant_discovery_retrieval": 3,
+        "browser_read_decide": 22,
+        "restaurant_fact_judgment": 4
+      },
+      "decisions": {
+        "path": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-1/runner/2026-10-23T11-04-59-001Z-dbe4cbbb-c269-4d81-a8d9-ea62ad54164f.decisions.jsonl",
+        "rows": 37
+      },
+      "recording": {
+        "path": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-1/recordings/hybrid-1792753498922",
+        "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+        "replay": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        }
+      },
+      "delivered": [],
+      "stageTimingPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-1/stage-timings.json",
+      "blockedMethodsMeasurement": "FORMAL_ARTIFACT_DIAGNOSTIC_OCCURRENCES",
+      "fourLayers": {
+        "outcome": "DEFERRED_PENDING_INDEPENDENT_WORDING_REVIEW",
+        "stages": "Raw task/trace/timing retained; no capability grade",
+        "severity": {
+          "declaration": "NOT_EVALUATED_PENDING_WORDING_REVIEW",
+          "boundary": "ABSENT"
+        },
+        "attribution": "NOT_ASSESSED_DIAGNOSTIC_ONLY"
+      }
+    },
+    {
+      "label": "DIAGNOSTIC_AFTER_GUARD_FIX",
+      "run": 2,
+      "caseId": "p2c-holdout-01",
+      "startedAt": "2026-10-23T11:15:59.237Z",
+      "finishedAt": "2026-10-23T11:30:01.198Z",
+      "mainline": "4d953731163e922741ea91ccc6c1c47b53f0b0e1",
+      "exit": {
+        "code": 1,
+        "signal": null
+      },
+      "killed": null,
+      "formalRunStarted": true,
+      "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-2/runner/2026-10-23T11-21-38-118Z-2aea6483-3129-4c05-be53-019d50157e09.result.json",
+      "artifactSha256": "11e311f245fabf47f07a1619504756bffd79bcd2f0b98fe2c80bfbbfeb366720",
+      "phase": "SEARCHING",
+      "deliveryCount": 0,
+      "nearDefect": false,
+      "capabilityFailureForContinuationOnly": false,
+      "next": "STOP_UNRESOLVED_NOT_AUTO_RETRY",
+      "evaluation": "DEFERRED_PENDING_INDEPENDENT_WORDING_REVIEW",
+      "original18Contribution": 0,
+      "modelCalls": 40,
+      "Google": {
+        "formal": {
+          "limit": 38,
+          "total": 2,
+          "namedPlaceResolution": 1,
+          "discovery": 1,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "preflight": 2
+      },
+      "resourceUsage": {
+        "discoveryCandidates": 18,
+        "candidatesChecked": 8,
+        "agentDecisions": 7,
+        "browserModelCalls": 25,
+        "modelCallsStarted": 40,
+        "browserRuntimeCalls": 254,
+        "browserOperationsByCandidate": {
+          "native-discovery:DIRECTORY": 27,
+          "native-discovery:VENUE_SEARCH": 25,
+          "tablecheck:kawaei": 19,
+          "tablecheck:underground-akabane": 26,
+          "praxis:restaurant:0d56ed154080df9317f9d79d": 37,
+          "praxis:restaurant:07b0ba0daee00150d6d202e1": 8,
+          "praxis:restaurant:a600df04d5d4276bbde78253": 29,
+          "praxis:restaurant:2ad74e4ade53243a0ca87ac7": 17,
+          "praxis:restaurant:431f523a0d8346310f337b94": 24,
+          "praxis:restaurant:eeef0764e717b448bb9ff78b": 26,
+          "praxis:restaurant:273007d00f089f90f818568b": 16
+        },
+        "pageStillLoadingWithinBound": 35,
+        "postActionWaitTotalMs": 56557,
+        "browserModelActions": 22,
+        "googleRequests": {
+          "limit": 38,
+          "total": 2,
+          "namedPlaceResolution": 1,
+          "discovery": 1,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "elapsedMs": 500075
+      },
+      "sourceHealth": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-2/source-health/source-health.json",
+      "networkPreflightPaths": [
+        "/private/tmp/praxis-phase2c-witness/.eval-artifacts/live-preflight/2026-10-23T11-21-19-757Z-96ef0f72-47ff-459e-bd23-cb2b130d3b40.result.json"
+      ],
+      "postError": null,
+      "postStop": false,
+      "blockedMethod": {
+        "allDiagnosticOccurrences": 1070,
+        "tablecheckDiagnosticOccurrences": 95,
+        "tablecheckByOrigin": {
+          "https://production.tablecheck.com/": 95
+        },
+        "tablecheckDistinctDiagnosticShapes": 1,
+        "rule": "Recursive code=BLOCKED_METHOD in diagnostics.browserTrace, same as original h07=867 all/76 TableCheck; cumulative snapshot copies may repeat. Distinct shapes are not distinct network request counts."
+      },
+      "boundaryStatus": "ABSENT",
+      "sourceHealthAttempts": [
+        {
+          "attempt": 1,
+          "startedAt": "2026-10-23T11:15:59.715Z",
+          "finishedAt": "2026-10-23T11:16:09.717Z",
+          "observations": [
+            {
+              "sourceId": "tabelog",
+              "url": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+              "outcome": "UNHEALTHY",
+              "reason": "CHECK_TIMEOUT",
+              "httpStatus": 301,
+              "readNetworkBoundary": "INSTALLED",
+              "elapsedMs": 10002
+            },
+            {
+              "sourceId": "tablecheck",
+              "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+              "outcome": "HEALTHY",
+              "reason": null,
+              "httpStatus": 200,
+              "finalUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+              "readNetworkBoundary": "INSTALLED",
+              "elapsedMs": 9956
+            }
+          ]
+        },
+        {
+          "attempt": 2,
+          "startedAt": "2026-10-23T11:21:09.722Z",
+          "finishedAt": "2026-10-23T11:21:19.748Z",
+          "observations": [
+            {
+              "sourceId": "tabelog",
+              "url": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+              "outcome": "HEALTHY",
+              "reason": null,
+              "httpStatus": 200,
+              "finalUrl": "https://tabelog.com/en/tokyo/A1301/",
+              "readNetworkBoundary": "INSTALLED",
+              "elapsedMs": 9980
+            },
+            {
+              "sourceId": "tablecheck",
+              "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+              "outcome": "HEALTHY",
+              "reason": null,
+              "httpStatus": 200,
+              "finalUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+              "readNetworkBoundary": "INSTALLED",
+              "elapsedMs": 10024
+            }
+          ]
+        }
+      ],
+      "modelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 8,
+        "restaurant_discovery_retrieval": 3,
+        "browser_read_decide": 25,
+        "restaurant_fact_judgment": 3
+      },
+      "decisions": {
+        "path": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-2/runner/2026-10-23T11-21-38-118Z-2aea6483-3129-4c05-be53-019d50157e09.decisions.jsonl",
+        "rows": 40
+      },
+      "recording": {
+        "path": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-2/recordings/hybrid-1792754498037",
+        "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+        "replay": {
+          "status": "NOT_REPLAYABLE",
+          "reason": "UNSAFE_DOCUMENT"
+        }
+      },
+      "delivered": [],
+      "stageTimingPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-2/stage-timings.json",
+      "blockedMethodsMeasurement": "FORMAL_ARTIFACT_DIAGNOSTIC_OCCURRENCES",
+      "fourLayers": {
+        "outcome": "DEFERRED_PENDING_INDEPENDENT_WORDING_REVIEW",
+        "stages": "Raw task/trace/timing retained; no capability grade",
+        "severity": {
+          "declaration": "NOT_EVALUATED_PENDING_WORDING_REVIEW",
+          "boundary": "ABSENT"
+        },
+        "attribution": "NOT_ASSESSED_DIAGNOSTIC_ONLY"
+      }
+    }
+  ],
+  "original18Contribution": 0,
+  "models": 77,
+  "fullLive": 2,
+  "environmentReruns": 0,
+  "Google": 9,
+  "ledgerTotals": {
+    "models": 4395,
+    "Live": 91,
+    "environmentReruns": 5
+  },
+  "wordingsPath": ".eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/wordings.final.json",
+  "grading": "DEFERRED",
+  "newEvaluationFiles": 0,
+  "externalCallsDuringFinalization": 0
+}
