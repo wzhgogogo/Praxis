@@ -1,8 +1,8 @@
 # Repository Naming and Version Conventions
 
 - Status: Accepted
-- Document revision: 1.7
-- Last updated: 2026-10-07
+- Document revision: 1.8
+- Last updated: 2026-10-23
 - Source of truth for: Git branch/tag、版本标识、目录、文件、Eval数据和文档命名
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Agent Instructions](../AGENTS.md)
@@ -53,7 +53,9 @@ codex/docs-repository-conventions
 - 分支名使用小写ASCII kebab-case；除固定`codex/`前缀外不增加层级。
 - 分支名不包含产品Release、State、Schema、Prompt、Dataset或Evaluator版本。
 - 不兼容Schema或架构变化通过对应Schema常量、ADR和迁移说明表达，不为此创建`-vN`分支。
-- 工作分支应在验证后进入`main`；`main`代表当前已验证集成线。只有真实并行维护的已发布Release才建立长期Release branch，Pilot前默认不建立。
+- 从第三阶段起，`main`是唯一主线。所有新工作分支均从同步后的最新`main`创建；完成验证且复核通过后合并回`main`。只有真实并行维护的已发布Release才建立长期Release branch，Pilot前默认不建立。
+- `codex/feat-live-restaurant-read-path`保留为第二阶段历史指针，对应`phase2-signoff`；不再提交新内容或合入新工作，不随`main`前移，也不再作为新工作分支的起点。
+- 用户于2026-10-23决定保留全部远端分支，不删除任何分支；此前第二阶段的分支删除提案关闭。已合并、已打tag或已退役均不构成自动清理的依据。
 - 历史检查点使用不可移动的annotated tag，例如`checkpoint/adr-0010`；产品交付使用`praxis-v<semver>`。Tag只能指向已验证提交。
 - 旧`codex/restaurant-decision-v14`至`v17`分支是历史指针，不继续承载新工作，也不据此推导当前能力。
 

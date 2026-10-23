@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.379
+- Document revision: 4.380
 - Last updated: 2026-10-23
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-23-MAIN-ONLY-WORKFLOW:** 用户决定保留全部远端分支，不删除任何分支，第二阶段删除提案关闭。从第三阶段起main为唯一主线：新工作分支从同步后的最新main创建，验证及复核通过后合并回main。codex/feat-live-restaurant-read-path保留在第二阶段phase2-signoff历史指针，不再提交、合入新工作或作为新分支起点。当前签收缺口和历史tag不变；本次仅文档整理，不修改产品或运行Live。 [唯一权威约定](REPOSITORY-CONVENTIONS.md#git分支与tag) · [已关闭的历史清单](reviews/PHASE-2-BRANCH-INVENTORY-20261023.md).
 
 - **2026-10-23-PHASE2-SIGNOFF-CLOSEOUT:** 用户于2026-10-23 19:51北京带缺口签收第二阶段；原始签收文件e9de81d6逐字合入，SHA457521eb…，不改历史判定。严格退出条件2未满足、3未完整评价、6未满足，条件4仅离线修复未经Live复验；H005两种口径并列保留。near/展示修复已在c32fe31c合并验证，源码335份逐字节未变，复用五门禁1029默认/138本机Chromium及69/5/22回归。按用户确认的分支tip创建4个历史annotated tag，最终主线另打phase2-signoff；main仅允许快进，授权原子推送后核对远端。32个远端分支清单已列，未删除任何分支，删除须逐项确认。新增模型/Google/网站/Live0；签收用量4395/5000模型、91/100 Live、5/10环境重跑，余额不转第三阶段。 [签收原文](reviews/PHASE-2-SIGNOFF-20261023.md) · [分支确认清单](reviews/PHASE-2-BRANCH-INVENTORY-20261023.md) · [收尾核对](../.eval-artifacts/phase2-signoff-20261023/report.md).
 

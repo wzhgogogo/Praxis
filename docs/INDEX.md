@@ -1,7 +1,7 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.8
+- Document revision: 1.9
 - Last updated: 2026-10-23
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -64,7 +64,7 @@ Accepted ADR
 ## 验证、阶段与历史
 
 - [第二阶段签收原文（2026-10-23）](reviews/PHASE-2-SIGNOFF-20261023.md)：用户带缺口签收的不可改写快照；当前状态见STATUS。
-- [第二阶段分支归档与删除确认清单](reviews/PHASE-2-BRANCH-INVENTORY-20261023.md)：所有远端分支、合并/tag/退役状态；删除需用户逐项确认。
+- [第二阶段分支历史快照](reviews/PHASE-2-BRANCH-INVENTORY-20261023.md)：签收时的分支、合并/tag/退役状态；删除提案已关闭，按用户决定保留全部远端分支。
 
 - [当前餐厅只读验收契约](../src/eval/restaurant/agent-loop/cases/README.md)：H001–H005的当前目标、Gold、Runner/诊断与人工审查边界；已暴露开发集，不是Clean Baseline。
 

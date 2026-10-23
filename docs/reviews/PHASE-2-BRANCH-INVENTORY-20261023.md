@@ -1,10 +1,12 @@
 # 第二阶段远端分支归档与删除确认清单
 
-- Status: Draft
-- Document revision: 1.0
+- Status: Superseded
+- Document revision: 1.1
 - Last updated: 2026-10-23
-- Evidence status: current branch inventory；删除仅为提案，尚未授权
+- Evidence status: superseded retrospective；第二阶段签收时的32分支快照，删除提案已关闭
 - Source: 全部32个远端分支及主线合并图；[机器清单](../../.eval-artifacts/phase2-signoff-20261023/remote-branches.inventory.json)
+
+**2026-10-23用户决定：保留全部远端分支，不删除任何分支。下文为第二阶段签收时的历史快照，表中“待逐项确认”和“保留正式主线”均为当时提案，不再表示当前待办或主线身份。当前唯一主线是`main`；`codex/feat-live-restaurant-read-path`作为第二阶段历史指针保留，不再提交。后续工作按[仓库约定](../REPOSITORY-CONVENTIONS.md#git分支与tag)执行。**
 
 本次收尾将主线及main快进到含原始签收文件的最终提交，并推送5个annotated tag；实际远端SHA在交付消息和推送后核对记录中确认。本表“已合并”按Git祖先关系判断，不按代码相似度；tag列只列直接指向该分支tip的历史tag。其余已合并历史亦可从phase2-signoff追溯。
 

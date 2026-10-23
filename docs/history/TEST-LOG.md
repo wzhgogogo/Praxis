@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.282
+- Document revision: 4.283
 - Last updated: 2026-10-23
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-23-MAIN-ONLY-WORKFLOW
+
+纯文档验证：核对新工作分支基于origin/main 3ecc26c3，diff仅docs，新增链接及文档版本合法，旧删除清单标为历史且关闭提案；原用户工作区9份文件及HEAD不变。按Test纯文档矩阵检查，不运行五门禁、69/5/22、模型或Live。推送后另核对远端仅main前移，全部其他分支和5个annotated tag保持不变。[约定](../REPOSITORY-CONVENTIONS.md#git分支与tag)。
 
 ## TEST-2026-10-23-PHASE2-SIGNOFF-CLOSEOUT
 
