@@ -1,0 +1,85 @@
+{
+  "mode": "SAVED_REAL_HTML_AND_PUBLIC_RESPONSE_PROJECTION",
+  "rows": [
+    {
+      "id": "h-05",
+      "parsed": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "completion": {
+        "complete": false,
+        "resultBusy": false,
+        "resultKey": "[\"https://tabelog.com/en/tokyo/A1307/A130702/13320164/\",\"2026-11-03\",3,{\"earliest\":\"19:00\",\"latest\":\"19:00\"},{\"availableSlots\":[],\"hasExplicitSlotUi\":false}]",
+        "reason": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them."
+      },
+      "source": {
+        "traceSequence": 389,
+        "ordinal": 27,
+        "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-05-attempt-1/recordings/hybrid-1792701818765/snapshot-0027.html",
+        "htmlSha256": "db8e1fa17774f539b08544d1600f2e2e2c071c6cd2bbb6430a3e697205a50fa7",
+        "originalRuntimeHtmlSha256": "c12418062bc7cb1eefdadae4422a5d41afcffe8091afb9bf000a0b21d38aa7ec"
+      },
+      "limitation": "Recorded URL projection is mechanically rehydrated; missing time strings are not invented. Saved HTML visibility is markup-only, not current site visibility."
+    },
+    {
+      "id": "h-11",
+      "parsed": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "completion": {
+        "complete": false,
+        "resultBusy": false,
+        "resultKey": "[\"https://tabelog.com/en/tokyo/A1307/A130702/13320164/\",\"2026-11-03\",3,{\"earliest\":\"19:00\",\"latest\":\"19:00\"},{\"availableSlots\":[],\"hasExplicitSlotUi\":false}]",
+        "reason": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them."
+      },
+      "source": {
+        "traceSequence": 389,
+        "ordinal": 27,
+        "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-11-attempt-1/recordings/hybrid-1792704621515/snapshot-0027.html",
+        "htmlSha256": "89fd119d1208b86d2c1cdfc4686ec3623c7a93969780fc851fc398dd997188b1",
+        "originalRuntimeHtmlSha256": "d6c63bf807b66addb2927653d849d3bdbf14cceffa389457ca5c1852f3e51440"
+      },
+      "limitation": "Recorded URL projection is mechanically rehydrated; missing time strings are not invented. Saved HTML visibility is markup-only, not current site visibility."
+    },
+    {
+      "id": "h-17",
+      "parsed": {
+        "availableSlots": [],
+        "hasExplicitSlotUi": false
+      },
+      "completion": {
+        "complete": false,
+        "resultBusy": false,
+        "resultKey": "[\"https://tabelog.com/en/tokyo/A1307/A130702/13320164/\",\"2026-11-03\",3,{\"earliest\":\"19:00\",\"latest\":\"19:00\"},{\"availableSlots\":[],\"hasExplicitSlotUi\":false}]",
+        "reason": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them."
+      },
+      "source": {
+        "traceSequence": 388,
+        "ordinal": 27,
+        "htmlPath": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-17-attempt-1/recordings/hybrid-1792707297149/snapshot-0027.html",
+        "htmlSha256": "f9db7abbd6731c79cdfef3b93e4909cbb6caedf5c5ad2c33ff035f51152a1a57",
+        "originalRuntimeHtmlSha256": "a35328ebfea3d20214ea145d8a93f47236cfc6a6f42eb2c418c0305d4c049063"
+      },
+      "limitation": "Recorded URL projection is mechanically rehydrated; missing time strings are not invented. Saved HTML visibility is markup-only, not current site visibility."
+    }
+  ],
+  "newModels": 0,
+  "Google": 0,
+  "websites": 0
+}
+node:internal/modules/run_main:105
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: All three saved pages must retain independently bound 19:00 despite unsupported alternatives
+    at file:///private/tmp/praxis-fix-phase2c-location-semantic/.eval-artifacts/phase2c-location-semantic-20261023/goya-followup/replay.mjs:15:8 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '=='
+}
+
+Node.js v24.4.1

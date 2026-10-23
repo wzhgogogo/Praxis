@@ -1,0 +1,29 @@
+✖ mixed clock alternatives pass through the Live assembly with installed Guard and exact query binding (870.88325ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1264.279542
+
+✖ failing tests:
+
+test at src/harness/browser/group-window.test.ts:5:5531
+✖ mixed clock alternatives pass through the Live assembly with installed Guard and exact query binding (870.88325ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"tabelog:en/tokyo/A1301/A130103/13292459":{"status":"UNKNOWN","checkedAt":"2026-10-23T00:00:00.000Z","evidenceIds":["evidence:restaurant:tabelog-entity-match:69d538be1e94844312dd85e8"],"reasonCode":"EXTRACTION_FAILED","sourceAttempts":[{"source":"TABELOG","outcome":"FAILED","reasonCode":"EXTRACTION_FAILED"}]}},"evidence":[{"evidenceId":"evidence:restaurant:tabelog-entity-match:69d538be1e94844312dd85e8","kind":"ENTITY_MATCH","provider":"TABELOG","candidateId":"tabelog:en/tokyo/A1301/A130103/13292459","sourceEntityId":"en/tokyo/A1301/A130103/13292459","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","observedAt":"2026-10-23T00:00:00.000Z","requestFingerprint":"7cc749b90e9fb3cd9098ae76e3f74ee5e96fc4aaf0c0aef22e5e318be76b0205","claims":{"outletName":"Window fixture"},"entityMatch":{"confidence":"HIGH","matchedBy":["NATIVE_SOURCE_ID_AND_DETAIL"]}}],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":848,"failureCode":"AVAILABILITY_SOURCES_EXHAUSTED","providerAttempts":[{"candidateId":"tabelog:en/tokyo/A1301/A130103/13292459","provider":"TABELOG","outcome":"PROVIDER_FAILURE","failureCode":"EXTRACTION_FAILED"}],"browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:ee407246-bb7c-4849-a2bd-93b52a96cc29","startedAt":"2026-10-23T03:46:08.487Z","readNetworkBoundary":"INSTALLED"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/harness/browser/group-window.test.ts:96:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }

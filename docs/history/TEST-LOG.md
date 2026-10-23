@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.273
+- Document revision: 4.274
 - Last updated: 2026-10-23
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-23-PHASE2C-BOUND-CLOCK-COLLECTION
+
+Goya parser repaired by retaining independently bound supported clock alternatives; no extended-hour conversion or new source branch/permission. Three saved full-HTML/projection replays complete with41 supported slots including19:00 each; missing supported-time, mismatched binding, newer contradiction, all-unsupported and PENDING negatives remain UNKNOWN. Actual createLiveReadAssembly with Guard INSTALLED returns AVAILABLE/19:00 on local HAR,0 model/Google; valid before-fix composition UNKNOWN red preserved. Initial fixture setup failures explicitly excluded. Five gates all PASS:1022 default,137 Chromium, typecheck/arch/build. Production source physical delta0; formal same-scope audit and69/5/22 offline regression pending. Raw response time was not captured, so saved projection plus independent Chromium proves the mechanism, not current stock or full-task delivery. [Scope](../../.eval-artifacts/phase2c-location-semantic-20261023/goya-followup/scope.md).
 
 ## TEST-2026-10-23-PHASE2C-SEMANTIC-FOLLOWUP-PASS
 
