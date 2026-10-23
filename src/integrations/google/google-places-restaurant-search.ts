@@ -98,10 +98,9 @@ type GoogleRequestUsage = {
 function namedNearbyQuery(value: string): string | undefined {
   const trimmed = value.trim();
   if (!trimmed || trimmed.toLocaleLowerCase("en-US") === "nearby") return undefined;
-  // The semantic contract deliberately keeps AREA as faithful user language.
-  // These relation words select coordinate evaluation; they are never aliases
-  // between station and administrative-area names.
-  if (!/(?:\bnear\b|nearby|附近|周辺|周边)/iu.test(trimmed)) return undefined;
+  // AREA names a place independently of whether its relation word survived
+  // semantic interpretation. Strip existing relation wording when present;
+  // only the unanchored "nearby" request needs a separate coordinate context.
   return trimmed
     .replace(/(?:\bnear\b|nearby|附近|周辺|周边)/giu, " ")
     .replace(/^[\s,，]+|[\s,，]+$/gu, "")

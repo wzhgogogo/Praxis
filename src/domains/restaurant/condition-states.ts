@@ -77,7 +77,9 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
         ? (fact.claims.restaurantTypeFacts as string[]).map(quote => ({ field: "GOOGLE_TYPE" as const, quote, sourceUrl: fact.sourceUrl! })) : []),
     ].filter(q => q.sourceUrl === fact.sourceUrl && q.quote.trim()).map(q => ({ ...q, evidenceId: fact.evidenceId })));
     const literalText = (text: string) => normalize(text).replace(/[^\p{L}\p{N}]+/gu, " ").trim();
-    const key = literalText(criterion.text).replace(/ (?:restaurant|cuisine)$/, "");
+    // A generic type descriptor is not part of the cuisine name. Keep every
+    // qualifier and require the remaining literal in a current merchant field.
+    const key = literalText(criterion.text).replace(/ (?:restaurant|cuisine|food)$/, "");
     const requestedCourseMeal = /course|menu|套餐|コース/i.test(criterion.text) ? meal : undefined;
     const accepted = fieldQuotes.filter(q => ["CATEGORY", "COURSE_TITLE", "COURSE_DESCRIPTION", "GOOGLE_TYPE"].includes(q.field)
       && (` ${literalText(q.quote)} `).includes(` ${key} `)

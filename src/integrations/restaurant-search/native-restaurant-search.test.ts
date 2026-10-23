@@ -1,5 +1,7 @@
 const fixtureRetrieval={decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Scripted retrieval control."})};
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import test from "node:test";
 
 import { GooglePlacesClient } from "../google/google-places-client.js";
@@ -53,4 +55,38 @@ test("coordinate-only address observations reach the discovery goal once and fai
     await assert.rejects(native.search({ intent, readRunId: `address-${fails}`, continuation: result.continuation! }, new AbortController().signal), { code: "DISCOVERY_PLAN_EXHAUSTED" });
     assert.equal(urls.filter(url => url.includes("geocode")).length, 1);
   }
+});
+
+
+test("saved h06 bare named location reaches native source discovery with the observed circle", async () => {
+  const root = new URL("../../../.eval-artifacts/near-and-condition-display-20261023/", import.meta.url);
+  const manifest = JSON.parse(readFileSync(new URL("inputs/manifest.json", root), "utf8"));
+  const row = manifest.runs.find((r: { runId: string }) => r.runId === "h-06");
+  const bytes = readFileSync(new URL("inputs/runs/h-06.json", root));
+  assert.equal(createHash("sha256").update(bytes).digest("hex"), row.projectionSha256);
+  const saved = JSON.parse(bytes.toString());
+  const intent = saved.events[0].event.patch;
+  assert.equal(intent.area.query, "Kitasenju", "retain the actual saved semantic output without inserting near");
+  const geo = readFileSync(new URL("inputs/h-06-google-response.json", root));
+  assert.equal(createHash("sha256").update(geo).digest("hex"), manifest.geography.sha256);
+  const observed = JSON.parse(geo.toString()).places[0];
+  const queries: string[] = [];
+  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async (_url, init) => {
+    const query = JSON.parse(String(init?.body)).textQuery;
+    queries.push(query);
+    return new Response(queries.length === 1 ? geo.toString() : JSON.stringify({ places: [] }), { status: 200 });
+  } }), () => saved.startedAt, 10, { maxRequests: 2 });
+  const native = new NativeRestaurantSearch({ openSession: async () => { throw Error("Google-only source control must not open a browser"); } }, google,
+    { decide: async () => ({ accepted: true, keyword: intent.addCriteria[0].text, criterionRef: "criterion:0", reason: "Use the saved positive HARD criterion in this offline source control." }) },
+    () => saved.startedAt, undefined, undefined, undefined, undefined,
+    { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [googlePlacesDiscoveryPack]);
+  const actualIntent = saved.requestIntent;
+  const result = await native.search({ readRunId: "saved-h06-named-place", intent: actualIntent }, new AbortController().signal);
+  assert.deepEqual(queries, [intent.area.query, `${intent.addCriteria[0].text} ${observed.displayName.text}`]);
+  assert.deepEqual(result.continuation?.locationContext, {
+    latitude: observed.location.latitude, longitude: observed.location.longitude, radiusMeters: 1000,
+    label: observed.displayName.text, areaMatchBasis: "NAMED_PLACE_RADIUS",
+  });
+  assert.equal(google.googleRequestUsage("saved-h06-named-place").namedPlaceResolution, 1);
+  assert.equal(google.googleRequestUsage("saved-h06-named-place").discovery, 1);
 });

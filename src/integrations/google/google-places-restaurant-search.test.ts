@@ -2,7 +2,12 @@ import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { fixtureIntent } from "../../harness/restaurant-fixtures.js";
+import { fixtureIntent as namedFixtureIntent } from "../../harness/restaurant-fixtures.js";
+// Transport/pagination/fact tests start with an already observed circle. Named
+// resolution is exercised separately with an explicit area (near X and X).
+const fixtureIntent = { ...namedFixtureIntent, area: { ...namedFixtureIntent.area,
+  coordinates: { latitude: 35.6, longitude: 139.7, observedAt: "2026-10-08T00:00:00Z", source: "MANUAL_PLACE" as const },
+} };
 import { GooglePlacesClient } from "./google-places-client.js";
 import { buildGooglePlacesTextQuery, GooglePlacesRestaurantSearch } from "./google-places-restaurant-search.js";
 import { GOOGLE_PLACES_RESTAURANT_FIELD_MASK } from "./google-places-contracts.js";
@@ -104,6 +109,7 @@ test("initial discovery reads at most two 20-result pages, dedupes stable outlet
     pagesRead: 2,
     exhausted: false,
     sourceRequestContext: { textQuery: buildGooglePlacesTextQuery({ intent: fixtureIntent }) },
+    locationContext: { latitude: 35.6, longitude: 139.7, radiusMeters: 1000, label: fixtureIntent.area.query, areaMatchBasis: "TASK_LOCATION_RADIUS" },
   });
   const continued = await new GooglePlacesRestaurantSearch(client).search({
     intent: fixtureIntent,
@@ -139,23 +145,31 @@ test("a second-page provider failure preserves accepted first-page candidates an
     exhausted: false,
     lastFailureCode: "GOOGLE_SERVICE_REJECTED",
     sourceRequestContext: { textQuery: buildGooglePlacesTextQuery({ intent: fixtureIntent }) },
+    locationContext: { latitude: 35.6, longitude: 139.7, radiusMeters: 1000, label: fixtureIntent.area.query, areaMatchBasis: "TASK_LOCATION_RADIUS" },
   });
 });
 
-test("named-location resolution returns a bounded typed public observation with its coordinate", async () => {
-  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
+test("named-location resolution accepts near X and bare X with the same bounded typed observation", async () => {
+  for (const query of ["near Higashi Ginza", "Higashi Ginza"]) {
+  let calls = 0;
+  const client = new GooglePlacesClient({ apiKey: "key", fetchImplementation: async (_url, init) => {
+    calls++;
+    assert.equal(JSON.parse(String(init?.body)).textQuery, "Higashi Ginza");
+    return new Response(JSON.stringify({ places: [{
     id: "higashi-ginza", displayName: { text: "Higashi Ginza" }, formattedAddress: "Tokyo",
     location: { latitude: 35.6697, longitude: 139.767 }, types: ["neighborhood", "political"],
     addressComponents: [{ longText: "Ginza", types: ["sublocality_level_1", "political"] }],
-  }] }), { status: 200 }) });
+  }] }), { status: 200 }); } });
   const result = await new GooglePlacesRestaurantSearch(client, () => "2026-10-08T00:00:00.000Z", 10, { maxRequests: 1 }).resolveNamedNearbyLocation({
-    intent: { ...fixtureIntent, area: { query: "near Higashi Ginza", radiusMeters: 1_000 } }, readRunId: "typed-public-observation",
+    intent: { ...fixtureIntent, area: { query, radiusMeters: 1_000 } }, readRunId: "typed-public-observation",
   }, new AbortController().signal);
   assert.deepEqual(result.publicLocationObservation, {
     placeId: "higashi-ginza", displayName: "Higashi Ginza", types: ["neighborhood", "political"],
     addressComponents: [{ longText: "Ginza", types: ["sublocality_level_1", "political"] }],
     coordinates: { latitude: 35.6697, longitude: 139.767 },
   });
+  assert.equal(calls, 1);
+  }
 });
 
 test("a named nearby place is resolved to observed coordinates and grounds candidate distance", async () => {
@@ -373,7 +387,7 @@ test("candidate fact investigation re-reads only the known Google place and shar
     fetchImplementation: async (_url, init) => {
       calls += 1;
       const place = {
-        id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo",
+        id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo", location: { latitude: 35.6, longitude: 139.7 },
         types: ["cafe", "food"], primaryType: "cafe",
         regularOpeningHours: { weekdayDescriptions: ["Tuesday: 10:00 AM – 6:00 PM"] },
       };
@@ -408,7 +422,7 @@ test("candidate fact investigation uses Place Details by stable ID, never anothe
     apiKey: "key",
     fetchImplementation: async (url, init) => {
       urls.push(String(url));
-      const place = { id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo", types: ["cafe"] };
+      const place = { id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo", location: { latitude: 35.6, longitude: 139.7 }, types: ["cafe"] };
       return new Response(JSON.stringify(init?.method === "GET" ? place : { places: [place] }), { status: 200 });
     },
   });
@@ -423,7 +437,7 @@ test("a fact read records exhausted shared discovery capacity without a second p
   const client = new GooglePlacesClient({
     apiKey: "key",
     fetchImplementation: async () => new Response(JSON.stringify({ places: [{
-      id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo", types: ["cafe"], primaryType: "cafe",
+      id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo", location: { latitude: 35.6, longitude: 139.7 }, types: ["cafe"], primaryType: "cafe",
     }] }), { status: 200 }),
   });
   const intent = { ...fixtureIntent, target: { goal: "RECOMMENDATION" as const, query: "cafe" } };

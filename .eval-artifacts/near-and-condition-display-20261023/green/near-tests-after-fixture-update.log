@@ -1,0 +1,35 @@
+✔ ranked named geography accepts the saved spellings, keeps nearby geographic alternatives and rejects remote ambiguity (3.980916ms)
+✔ Google query is discovery-owned and does not serialize criteria into retrieval text (0.091792ms)
+✔ a positive-HARD pack query keeps only its keyword and resolved location in Text Search (0.041083ms)
+✔ a source-plan location prevents a second named-place lookup before Google discovery (0.410209ms)
+✔ a pack query without a positive HARD keyword uses Nearby Search's exact circle instead of location-only text (0.770583ms)
+✔ initial discovery reads at most two 20-result pages, dedupes stable outlets, and retains the next cursor (0.722083ms)
+✔ a second-page provider failure preserves accepted first-page candidates and records a bounded retry cursor (0.274459ms)
+✔ named-location resolution accepts near X and bare X with the same bounded typed observation (0.32125ms)
+✔ a named nearby place is resolved to observed coordinates and grounds candidate distance (0.418417ms)
+✔ geographic source labels require no spelling or administrative suffix inference (0.261208ms)
+✔ an unrelated first search result never becomes a named nearby landmark (0.1285ms)
+✔ unresolved named-place diagnostics retain only bounded public identity observations (0.151125ms)
+✔ Google Places text search uses the explicit small field mask and stable candidate IDs (0.27375ms)
+✔ Google Places reports eval-radius decisions separately from its accepted discovery pool (0.19025ms)
+✔ Google Places request budget is mechanical and isolated by persistent read run (0.165375ms)
+✔ candidate fact investigation re-reads only the known Google place and shares discovery budget (10.668125ms)
+✔ candidate fact investigation uses Place Details by stable ID, never another text search (0.281792ms)
+✔ a fact read records exhausted shared discovery capacity without a second provider call (0.147792ms)
+✔ Google Places classifies provider failure without exposing a response body (0.081ms)
+✔ failed sent Google requests consume the same per-run local budget and remain separately accounted (0.133333ms)
+✔ the explicit one-hundred-request debug ceiling permits work beyond the retired cap and stops only at its own run boundary (3.387792ms)
+✔ nearby defaults to 1000 meters, preserves explicit radius and admits only the exact circle (0.434416ms)
+✔ named area resolution binds bias, prefers geography and refuses distant or merchant authority (0.503959ms)
+✔ saved successful geographic observations retain their source coordinates and distance boundary (0.693625ms)
+✔ native source-plan resolution is reused by the subsequent Google pack request (11.663875ms)
+✔ coordinate-only address observations reach the discovery goal once and failures keep the exact center (1.075334ms)
+✔ saved h06 bare named location reaches native source discovery with the observed circle (0.763458ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 317.477875

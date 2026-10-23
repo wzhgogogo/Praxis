@@ -292,3 +292,39 @@ test("C18 selected Utou course titles remain known when the selected statement a
   assert.equal(checked, 3);
   assert.deepEqual(statuses, Object.keys(expected).map(runId => ({ runId, status: "MET" })), "already selected complete merchant title cannot become an unknown condition");
 });
+
+test("Phase2c four observed cuisine conditions reach Router to Reducer and other saved displays stay identical", async () => {
+  const {createHash}=await import("node:crypto");
+  const root=new URL("../../",import.meta.url),dir=".eval-artifacts/near-and-condition-display-20261023";
+  const manifest=JSON.parse(await readFile(new URL(`${dir}/inputs/manifest.json`,root),"utf8"));
+  const expected:Record<string,string[]>={"h-02":["13093277","13018986","13271031"],"h-08":["13271031"]};
+  let conditions=0,unchangedRuns=0,sourceCalls=0;
+  const noRead=async()=>{sourceCalls++;throw Error("SAVED_EVENT_REPLAY_MUST_NOT_READ_SOURCES");};
+  const router=new RestaurantExecutionRouter({executionRoute:"STRUCTURED_ADAPTER",search:noRead},{executionRoute:"STRUCTURED_ADAPTER",check:noRead},{structuredReadTimeoutMs:1000,browserReadTimeoutMs:1000});
+  for(const row of manifest.runs){
+    const bytes=await readFile(new URL(row.projectionPath,root));assert.equal(createHash("sha256").update(bytes).digest("hex"),row.projectionSha256);
+    const saved=JSON.parse(bytes.toString()),ctx=(now:string)=>({taskId:saved.runId,runId:saved.runId,now,createId:(p:string)=>p});
+    let state=restaurantBookingTaskDefinition.create({},ctx(saved.startedAt));
+    for(const envelope of saved.events){if(envelope.event.type==="RESULTS_PRESENTED")break;state=restaurantBookingTaskDefinition.transition(state,envelope.event,ctx(envelope.occurredAt)).state;}
+    const original=saved.originalPresentation;
+    if(!original){assert.equal(state.presentedResults,undefined);unchangedRuns++;continue;}
+    const result=await router.execute({type:"PRESENT_RESULTS",candidateIds:original.candidateIds},state,original.presentedAt);
+    assert.equal(result.event?.type,"RESULTS_PRESENTED");
+    const shown=restaurantBookingTaskDefinition.transition(state,result.event!,ctx(original.presentedAt)).state.presentedResults!;
+    if(!expected[row.runId]){assert.deepEqual(shown,original,`${row.runId}: unrelated presentation must remain byte-equivalent as data`);unchangedRuns++;continue;}
+    const withoutChanges=structuredClone(shown);
+    for(const id of shown.candidateIds){
+      assert.ok(expected[row.runId]!.includes(id.split('/').at(-1)!));
+      const before=original.conditionStates[id][0],after=shown.conditionStates[id]![0]!;
+      assert.equal(before.status,"NOT_CHECKED");assert.equal(after.status,"MET",`${row.runId}:${id}: already observed cuisine must be displayed`);
+      const independent=saved.originalEvaluation.conditionStates.find((c:any)=>c.candidateId===id).criteria.find((c:any)=>c.goldIndex===0);
+      assert.equal(independent.status,"MET");assert.equal(after.status,independent.status);
+      assert.ok(after.sources.some(q=>["CATEGORY","COURSE_TITLE","COURSE_DESCRIPTION"].includes(q.field)));
+      for(const q of after.sources)assert.ok(restaurantCurrentFactEvidence(state,id).some(f=>f.provider!=="MODEL_JUDGMENT"&&f.sourceUrl===q.sourceUrl&&f.sourceFieldQuotes?.some(field=>field.field===q.field&&field.quote===q.quote)),"only current same-outlet raw merchant quotes reach display");
+      assert.deepEqual(shown.conditionStates[id]!.slice(1),original.conditionStates[id].slice(1),"price and other rows stay unchanged");
+      withoutChanges.conditionStates[id]![0]=before;conditions++;
+    }
+    assert.deepEqual(withoutChanges,original,"only the four cuisine rows change; citations, restaurants and time remain identical");
+  }
+  assert.equal(conditions,4);assert.equal(unchangedRuns,9);assert.equal(sourceCalls,0);
+});

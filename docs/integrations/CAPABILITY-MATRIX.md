@@ -45,6 +45,8 @@ P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、�
 | Phone-only Restaurant | 可能 | 电话 | 否 | 否 | 用户/餐厅确认 | 用户 | `unsupported`于MVP |
 
 
+2026-10-23 named-location offline repair: any nonempty named AREA except the unanchored `nearby` enters the existing bounded Google geographic resolver, whether it is written as `near X` or `X`. Existing relation-word cleanup, source types/ranking, ambiguity/context distance, exact circle, request budget and coordinate-only routing are unchanged; no new location alias list. Saved h-06 input and raw source geography plus Native→Google-pack composition pass offline. This proves the location handoff only, not current source availability, inventory or full-task delivery. [Evidence](../../.eval-artifacts/near-and-condition-display-20261023/plan.md).
+
 ## 2026-10-08 source-stage renewal evidence
 
 - Current executable／exposed development evidence；[本轮原始运行与独立评价](../history/TEST-LOG.md#test-2026-10-08-playbook-phase3-renewal)。不是Clean Baseline或完整H001验收；所有外部操作为Live Read-only。

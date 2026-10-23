@@ -1,0 +1,23 @@
+{
+  "status": "NO_NEW_BILLABLE_CALLS_OR_LIVE",
+  "sourceCommit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+  "originalPhase2LedgerPath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/execution/ledger-after.json",
+  "lastRecordedStageTotals": {
+    "modelCalls": 4318,
+    "modelLimit": 5000,
+    "fullLive": 89,
+    "liveLimit": 100,
+    "environmentReruns": 5,
+    "environmentLimit": 10
+  },
+  "taskIncrement": {
+    "modelProviderCalls": 0,
+    "websites": 0,
+    "Google": 0,
+    "fullLive": 0,
+    "environmentReruns": 0,
+    "cachedBrowserResponseReplays": 69,
+    "cachedAgentResponseDecodes": 5
+  },
+  "rule": "Do not charge original model usage, saved source observations, cached responses, or scripted Fixture completions as new provider requests. Other concurrent tasks are outside this task ledger."
+}

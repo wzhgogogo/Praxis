@@ -1,0 +1,3043 @@
+{
+  "schema": "near-condition-display-replay@1",
+  "status": "PASS",
+  "mode": "SAVED_EVENTS_CURRENT_ROUTER_REDUCER_WITH_FROZEN_INDEPENDENT_CONDITION_TRUTH",
+  "sourceCommit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+  "freezeSha256": "0cea339a8ff09488ec2ee0aabf438303b37cb41106b08beac4d144d0306c4d67",
+  "sourceRuns": 11,
+  "changedCuisineRows": 4,
+  "otherDisplaysIdentical": 9,
+  "beforeAssessments": {
+    "CONSISTENT": 29,
+    "MISSED_KNOWN_CONDITION": 4
+  },
+  "afterAssessments": {
+    "CONSISTENT": 33
+  },
+  "rows": [
+    {
+      "runId": "h-02",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-02-attempt-1/runner/2026-10-23T05-16-39-113Z-0203ad92-3a12-4aba-907e-6c04acba1c37.result.json",
+        "sha256": "b6faa85326190a884167ce3a8c5fd29c4a68ffec835f0846285830a1feb1a72a"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-02.json",
+        "sha256": "cf9ef8e57a365c4ca5b99893592c917353538c623375f3c1054a145c5bb9e121"
+      },
+      "before": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1311/A131101/13093277",
+          "tabelog:en/tokyo/A1311/A131101/13018986",
+          "tabelog:en/tokyo/A1311/A131101/13271031"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:a945bf2ada747e0d32df5802",
+          "evidence:restaurant:native-discovery:7718dfa1e199e008b129e9b8",
+          "evidence:restaurant:tabelog-availability:d684e087e82f4d16029b6963",
+          "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+          "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+          "evidence:restaurant:tabelog-entity-match:b9aed3e1171cc6a6a8927d35",
+          "evidence:restaurant:native-discovery:7dc6c56687d3310bd0717acb",
+          "evidence:restaurant:tabelog-availability:0ef9d842de66b2cc14327de6",
+          "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+          "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+          "evidence:restaurant:tabelog-entity-match:a6db9022ec921a0d38838d4b",
+          "evidence:restaurant:native-discovery:71719eb105d20f29115d1dc3",
+          "evidence:restaurant:tabelog-availability:4b77b51d79996ee8de82e221",
+          "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d",
+          "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+        ],
+        "presentedAt": "2026-10-23T05:21:06.872Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1311/A131101/13093277": [
+            {
+              "text": "Korean food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+              ],
+              "sources": [
+                {
+                  "field": "NAME",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "NAME",
+                  "quote": "Korean Izakaya Tonmakkoru Ueno ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "no more than 5,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "MET",
+              "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+              ],
+              "sources": [
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "quote": "All you can drink All-You-Can-Drink Only! 2 Hours - 120 Minutes JPY 1,500 (tax Included JPY 1,650) Reserve Set menu details JPY 1,500 （Price excluding tax）per person",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "quote": "All you can drink [6 Dishes] Samgyeopsal Course with 2H All-You-Can-Drink + All 6 Dishes ⇒ JPY 2,500 (Tax Included JPY 2,750) 3H All-You-Can-Drink ⇒ JPY 3,500 (Tax Included JPY 3,850) (Excluding Tax) 6 items ★Limited Time Offer★ Enjoy Makgeolli too! Samgyeopsal Course ⇒ 2-hour all-you-can-drink + 7 dishes for JPY 2,500 Reserve Set menu details JPY 2,500 （Price excluding tax）per person",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "quote": "All you can drink All you can eat ★Limited★【2-Hour All You Can Drink】Samgyeopsal All You Can Eat * All You Can Drink Course! JPY 3,000 (tax Included JPY 3,300) Reserve Set menu details JPY 3,000 （Price excluding tax）per person",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "quote": "JPY 2,000 - JPY 2,999",
+                  "field": "PRICE"
+                }
+              ]
+            }
+          ],
+          "tabelog:en/tokyo/A1311/A131101/13018986": [
+            {
+              "text": "Korean food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+              ],
+              "sources": [
+                {
+                  "field": "NAME",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "no more than 5,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "MET",
+              "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+              ],
+              "sources": [
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "quote": "Pork Belly Course This is a course where you can enjoy Samgyeopsal (grilled pork belly). We also offer Kimchi, Namul (seasoned vegetables), and grilled seaweed, along with Sundubu (soft tofu stew) and seafood Jeon (Korean pancakes). Please consider using this for various gatherings! Reserve Set menu details JPY 4,180 （Price excluding tax）per person Number of people 2 - 20",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "quote": "Bulgogi Hot Pot Course This is a course where you can enjoy Bulgogi hot pot. We also offer side dishes such as kimchi, namul, and grilled seaweed, along with tteokbokki and seafood pancakes. Please consider us for various banquet occasions! Reserve Set menu details JPY 4,180 （Price excluding tax）per person Number of people 2 - 20",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "quote": "Bossam Course This is a course where you can enjoy Bossam. We also offer Kimchi, Namul, and roasted seaweed, along with Sundubu and seafood Chijimi. Please feel free to use this for various gatherings! Reserve Set menu details JPY 4,180 （Price excluding tax）per person Number of people 2 - 20",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "quote": "JPY 3,000 - JPY 3,999",
+                  "field": "PRICE"
+                }
+              ]
+            }
+          ],
+          "tabelog:en/tokyo/A1311/A131101/13271031": [
+            {
+              "text": "Korean food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+              ],
+              "sources": [
+                {
+                  "field": "NAME",
+                  "quote": "Korean Ryori Bibim Ekyuto ueno ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "NAME",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "no more than 5,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "MET",
+              "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+              ],
+              "sources": [
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "All you can drink All you can eat [Terrace Exclusive × Draft Beer and Makgeolli! 2h All You Can Drink × Thick Cut Meat All You Can Eat × Authentic Korean Napa Cabbage Kimchi All You Can Eat] Aged Thick Cut Samgyeopsal All You Can Eat Course 7 items Enjoy all-you-can-drink options including Nama Biru, Makgeolli, and Chamisul! This luxurious course features all-you-can-eat Napa cabbage kimchi, thick-cut Samgyeopsal, and fresh vegetables sourced directly from Korea. Reserve Set menu details JPY 4,980 （Price including tax）per person Number of people 2 - 24",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "[Spicy Banquet × Nakko Pse Course (Food Only) × All You Can Drink Available] Authentic Korean Napa Cabbage Kimchi All You Can Eat × Choose from 6 Types of Chijimi 7 items This is a seven-dish course featuring authentic Korean napa cabbage kimchi, our signature chijimi (Korean pancakes), and nakkeopsae (spicy seafood salad). Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 2 - 20",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "[Terrace Limited Plan] Recommended Samgyeopsal Set 4 items Terrace Exclusive Samgyeopsal Course Enjoy thick-cut samgyeopsal grilled right in front of you while taking in the beautiful terrace views. This plan includes recommended dishes such as seafood jeon and cold noodles, along with many other delights. *Please note that depending on your reservation timing, there may be a wait. Thank you for your understanding. Reserve Set menu details JPY 2,780 （Price including tax）per person Number of people 2 - 24",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "JPY 2,000 - JPY 2,999",
+                  "field": "PRICE"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "after": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1311/A131101/13093277",
+          "tabelog:en/tokyo/A1311/A131101/13018986",
+          "tabelog:en/tokyo/A1311/A131101/13271031"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:a945bf2ada747e0d32df5802",
+          "evidence:restaurant:native-discovery:7718dfa1e199e008b129e9b8",
+          "evidence:restaurant:tabelog-availability:d684e087e82f4d16029b6963",
+          "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+          "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+          "evidence:restaurant:tabelog-entity-match:b9aed3e1171cc6a6a8927d35",
+          "evidence:restaurant:native-discovery:7dc6c56687d3310bd0717acb",
+          "evidence:restaurant:tabelog-availability:0ef9d842de66b2cc14327de6",
+          "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+          "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+          "evidence:restaurant:tabelog-entity-match:a6db9022ec921a0d38838d4b",
+          "evidence:restaurant:native-discovery:71719eb105d20f29115d1dc3",
+          "evidence:restaurant:tabelog-availability:4b77b51d79996ee8de82e221",
+          "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d",
+          "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+        ],
+        "presentedAt": "2026-10-23T05:21:06.872Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1311/A131101/13093277": [
+            {
+              "text": "Korean food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+                "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "no more than 5,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "MET",
+              "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+              ],
+              "sources": [
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "quote": "All you can drink All-You-Can-Drink Only! 2 Hours - 120 Minutes JPY 1,500 (tax Included JPY 1,650) Reserve Set menu details JPY 1,500 （Price excluding tax）per person",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "quote": "All you can drink [6 Dishes] Samgyeopsal Course with 2H All-You-Can-Drink + All 6 Dishes ⇒ JPY 2,500 (Tax Included JPY 2,750) 3H All-You-Can-Drink ⇒ JPY 3,500 (Tax Included JPY 3,850) (Excluding Tax) 6 items ★Limited Time Offer★ Enjoy Makgeolli too! Samgyeopsal Course ⇒ 2-hour all-you-can-drink + 7 dishes for JPY 2,500 Reserve Set menu details JPY 2,500 （Price excluding tax）per person",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "quote": "All you can drink All you can eat ★Limited★【2-Hour All You Can Drink】Samgyeopsal All You Can Eat * All You Can Drink Course! JPY 3,000 (tax Included JPY 3,300) Reserve Set menu details JPY 3,000 （Price excluding tax）per person",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                  "quote": "JPY 2,000 - JPY 2,999",
+                  "field": "PRICE"
+                }
+              ]
+            }
+          ],
+          "tabelog:en/tokyo/A1311/A131101/13018986": [
+            {
+              "text": "Korean food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+                "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "no more than 5,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "MET",
+              "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+              ],
+              "sources": [
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "quote": "Pork Belly Course This is a course where you can enjoy Samgyeopsal (grilled pork belly). We also offer Kimchi, Namul (seasoned vegetables), and grilled seaweed, along with Sundubu (soft tofu stew) and seafood Jeon (Korean pancakes). Please consider using this for various gatherings! Reserve Set menu details JPY 4,180 （Price excluding tax）per person Number of people 2 - 20",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "quote": "Bulgogi Hot Pot Course This is a course where you can enjoy Bulgogi hot pot. We also offer side dishes such as kimchi, namul, and grilled seaweed, along with tteokbokki and seafood pancakes. Please consider us for various banquet occasions! Reserve Set menu details JPY 4,180 （Price excluding tax）per person Number of people 2 - 20",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "quote": "Bossam Course This is a course where you can enjoy Bossam. We also offer Kimchi, Namul, and roasted seaweed, along with Sundubu and seafood Chijimi. Please feel free to use this for various gatherings! Reserve Set menu details JPY 4,180 （Price excluding tax）per person Number of people 2 - 20",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                  "quote": "JPY 3,000 - JPY 3,999",
+                  "field": "PRICE"
+                }
+              ]
+            }
+          ],
+          "tabelog:en/tokyo/A1311/A131101/13271031": [
+            {
+              "text": "Korean food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d",
+                "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "no more than 5,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "MET",
+              "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+              ],
+              "sources": [
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "All you can drink All you can eat [Terrace Exclusive × Draft Beer and Makgeolli! 2h All You Can Drink × Thick Cut Meat All You Can Eat × Authentic Korean Napa Cabbage Kimchi All You Can Eat] Aged Thick Cut Samgyeopsal All You Can Eat Course 7 items Enjoy all-you-can-drink options including Nama Biru, Makgeolli, and Chamisul! This luxurious course features all-you-can-eat Napa cabbage kimchi, thick-cut Samgyeopsal, and fresh vegetables sourced directly from Korea. Reserve Set menu details JPY 4,980 （Price including tax）per person Number of people 2 - 24",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "[Spicy Banquet × Nakko Pse Course (Food Only) × All You Can Drink Available] Authentic Korean Napa Cabbage Kimchi All You Can Eat × Choose from 6 Types of Chijimi 7 items This is a seven-dish course featuring authentic Korean napa cabbage kimchi, our signature chijimi (Korean pancakes), and nakkeopsae (spicy seafood salad). Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 2 - 20",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "[Terrace Limited Plan] Recommended Samgyeopsal Set 4 items Terrace Exclusive Samgyeopsal Course Enjoy thick-cut samgyeopsal grilled right in front of you while taking in the beautiful terrace views. This plan includes recommended dishes such as seafood jeon and cold noodles, along with many other delights. *Please note that depending on your reservation timing, there may be a wait. Thank you for your understanding. Reserve Set menu details JPY 2,780 （Price including tax）per person Number of people 2 - 24",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "JPY 2,000 - JPY 2,999",
+                  "field": "PRICE"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "changes": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13093277",
+          "criterionRef": "criterion:0",
+          "before": {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+            ],
+            "sources": [
+              {
+                "field": "NAME",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "NAME",
+                "quote": "Korean Izakaya Tonmakkoru Ueno ten",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          "after": {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+              "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+            ],
+            "sources": [
+              {
+                "field": "CATEGORY",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          "currentSourceEvidenceIds": [
+            "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+            "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+          ],
+          "modelSupport": [
+            {
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Korean food"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+                ]
+              }
+            }
+          ],
+          "reason": "Generic trailing food descriptor previously remained in the literal cuisine key; current same-outlet merchant field was already cited. No evidence lifecycle or quote invented."
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13018986",
+          "criterionRef": "criterion:0",
+          "before": {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+            ],
+            "sources": [
+              {
+                "field": "NAME",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          "after": {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+              "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+            ],
+            "sources": [
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CATEGORY",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          "currentSourceEvidenceIds": [
+            "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+            "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+          ],
+          "modelSupport": [
+            {
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Korean food"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+                ]
+              }
+            }
+          ],
+          "reason": "Generic trailing food descriptor previously remained in the literal cuisine key; current same-outlet merchant field was already cited. No evidence lifecycle or quote invented."
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13271031",
+          "criterionRef": "criterion:0",
+          "before": {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+            ],
+            "sources": [
+              {
+                "field": "NAME",
+                "quote": "Korean Ryori Bibim Ekyuto ueno ten",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "NAME",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          "after": {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d",
+              "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+            ],
+            "sources": [
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CATEGORY",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          "currentSourceEvidenceIds": [
+            "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d",
+            "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+          ],
+          "modelSupport": [
+            {
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Korean food"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+                ]
+              }
+            }
+          ],
+          "reason": "Generic trailing food descriptor previously remained in the literal cuisine key; current same-outlet merchant field was already cited. No evidence lifecycle or quote invented."
+        }
+      ],
+      "displayUnchanged": false,
+      "comparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13093277",
+          "text": "Korean",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Current Router→Reducer display matches unchanged previously frozen independent @33 truth; not a rescored Live outcome"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13093277",
+          "text": "no more than 5,000 yen per person",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13018986",
+          "text": "Korean",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Current Router→Reducer display matches unchanged previously frozen independent @33 truth; not a rescored Live outcome"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13018986",
+          "text": "no more than 5,000 yen per person",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13271031",
+          "text": "Korean",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Current Router→Reducer display matches unchanged previously frozen independent @33 truth; not a rescored Live outcome"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13271031",
+          "text": "no more than 5,000 yen per person",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        }
+      ],
+      "originalOutcomeUnchanged": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    },
+    {
+      "runId": "h-03",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-2/runner/2026-10-23T05-55-19-111Z-50ff3f8d-ecf7-4716-b5b6-808a7c232903.result.json",
+        "sha256": "077afcc53cb86a86600cbcc9dc7b894d1e8e7d91c579ce469e048daf287e8294"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-03.json",
+        "sha256": "a413c6ca9cec556f4f96c6741c9412306fb5d56a402bc62efe2c8e4d120725c3"
+      },
+      "before": null,
+      "after": null,
+      "changes": [],
+      "displayUnchanged": true,
+      "comparisons": [],
+      "originalOutcomeUnchanged": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    },
+    {
+      "runId": "h-04",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-04-attempt-1/runner/2026-10-23T05-26-36-863Z-4edbbaa9-ab09-4719-ba91-dbad697fdd2c.result.json",
+        "sha256": "e9ccb6cc4a4ea43243e4a0d19ef34c28a0312b94a6919525b5272bc74b2bacf8"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-04.json",
+        "sha256": "db343e3cc94ba16f3144a542d6a2ae1c81abd49696a4adfc0b0249e5b750dbe0"
+      },
+      "before": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1312/A131201/13017997",
+          "tabelog:en/tokyo/A1312/A131201/13202196",
+          "tabelog:en/tokyo/A1312/A131201/13036713"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:55854197a9639c8811d3d1d4",
+          "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c",
+          "evidence:restaurant:tabelog-availability:0f3d8d1177a90390700975d3",
+          "evidence:restaurant:tabelog-hard-criteria:d7f529073843f6743340944b",
+          "evidence:restaurant:tabelog-entity-match:d8180b4482a65250fdcd1ee1",
+          "evidence:restaurant:native-discovery:17052aa73839da560ca8d216",
+          "evidence:restaurant:tabelog-availability:96352f496cc88f36426f1f52",
+          "evidence:restaurant:tabelog-hard-criteria:39117c536ed737a858231f01",
+          "evidence:restaurant:tabelog-entity-match:726bfb7b19c212bf932119ba",
+          "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+          "evidence:restaurant:tabelog-availability:e658452f079b76182f1d41a0",
+          "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+          "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T05:30:34.764Z:tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776"
+        ],
+        "presentedAt": "2026-10-23T05:30:56.540Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1312/A131201/13017997": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:d7f529073843f6743340944b"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Yokozuna Course ◆ Great Satisfaction! Authentic Chanko Nabe, Sashimi, Popular Kirishima Chicken Wings, and 8 Dishes in Total ★",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1312/A131201/13202196": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:39117c536ed737a858231f01"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Sekiwake Course ◆ Casual ☆ Authentic Chanko Nabe Course, 6 Dishes♪",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1312/A131201/13036713": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T05:30:34.764Z:tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+                "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ]
+        }
+      },
+      "after": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1312/A131201/13017997",
+          "tabelog:en/tokyo/A1312/A131201/13202196",
+          "tabelog:en/tokyo/A1312/A131201/13036713"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:55854197a9639c8811d3d1d4",
+          "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c",
+          "evidence:restaurant:tabelog-availability:0f3d8d1177a90390700975d3",
+          "evidence:restaurant:tabelog-hard-criteria:d7f529073843f6743340944b",
+          "evidence:restaurant:tabelog-entity-match:d8180b4482a65250fdcd1ee1",
+          "evidence:restaurant:native-discovery:17052aa73839da560ca8d216",
+          "evidence:restaurant:tabelog-availability:96352f496cc88f36426f1f52",
+          "evidence:restaurant:tabelog-hard-criteria:39117c536ed737a858231f01",
+          "evidence:restaurant:tabelog-entity-match:726bfb7b19c212bf932119ba",
+          "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+          "evidence:restaurant:tabelog-availability:e658452f079b76182f1d41a0",
+          "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+          "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T05:30:34.764Z:tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776"
+        ],
+        "presentedAt": "2026-10-23T05:30:56.540Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1312/A131201/13017997": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:d7f529073843f6743340944b"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Yokozuna Course ◆ Great Satisfaction! Authentic Chanko Nabe, Sashimi, Popular Kirishima Chicken Wings, and 8 Dishes in Total ★",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1312/A131201/13202196": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:39117c536ed737a858231f01"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Sekiwake Course ◆ Casual ☆ Authentic Chanko Nabe Course, 6 Dishes♪",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1312/A131201/13036713": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T05:30:34.764Z:tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+                "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ]
+        }
+      },
+      "changes": [],
+      "displayUnchanged": true,
+      "comparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+          "text": "chanko nabe",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+          "text": "private room",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+          "text": "chanko nabe",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+          "text": "private room",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+          "text": "chanko nabe",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+          "text": "private room",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        }
+      ],
+      "originalOutcomeUnchanged": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    },
+    {
+      "runId": "h-05",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-05-attempt-1/runner/2026-10-23T06-08-23-338Z-1b96b4e1-c640-4098-9018-8258623424c0.result.json",
+        "sha256": "b125f0c66f5e5059615abc34b352fe773574566c9dfa2ce8b10947e9fac368be"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-05.json",
+        "sha256": "b777c2d31b571b2b4a16fe52d35868678a9ad2678a9b9c79091f56368e913db7"
+      },
+      "before": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1302/A130203/13181311",
+          "tabelog:en/tokyo/A1302/A130203/13214312"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:d62caf3e9d2e8b8398605ae8",
+          "evidence:restaurant:native-discovery:9325576a31d2db64d7ede571",
+          "evidence:restaurant:tabelog-availability:b30fb2f1d2749f7e8306bcd9",
+          "tabelog:en/tokyo/A1302/A130203/13181311:document:143a4620a1eea7cf",
+          "fact-judgment:tabelog:en/tokyo/A1302/A130203/13181311:2026-10-23T06:11:37.223Z:tabelog:en/tokyo/A1302/A130203/13181311:document:143a4620a1eea7cf",
+          "evidence:restaurant:tabelog-entity-match:cc10565d02b8e6c6878b6f84",
+          "evidence:restaurant:native-discovery:abc26424835d972958e1f3e7",
+          "evidence:restaurant:tabelog-availability:a62bf24c4b3852b37610571d",
+          "tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0",
+          "fact-judgment:tabelog:en/tokyo/A1302/A130203/13214312:2026-10-23T06:11:48.263Z:tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0"
+        ],
+        "presentedAt": "2026-10-23T06:12:09.390Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1302/A130203/13181311": [
+            {
+              "text": "steak restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1302/A130203/13181311:2026-10-23T06:11:37.223Z:tabelog:en/tokyo/A1302/A130203/13181311:document:143a4620a1eea7cf",
+                "tabelog:en/tokyo/A1302/A130203/13181311:document:143a4620a1eea7cf"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13181311/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1302/A130203/13214312": [
+            {
+              "text": "steak restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1302/A130203/13214312:2026-10-23T06:11:48.263Z:tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0",
+                "tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Anniversary Course - Plate Design Requests Available ◆ Starting with Meat Sushi, enjoy a variety of dishes including Sautéed Lobster, Sautéed Live Abalone, and A5 Aged Wagyu Steak, along with a celebratory dessert plate, totaling 9 dishes ◆",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ]
+        }
+      },
+      "after": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1302/A130203/13181311",
+          "tabelog:en/tokyo/A1302/A130203/13214312"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:d62caf3e9d2e8b8398605ae8",
+          "evidence:restaurant:native-discovery:9325576a31d2db64d7ede571",
+          "evidence:restaurant:tabelog-availability:b30fb2f1d2749f7e8306bcd9",
+          "tabelog:en/tokyo/A1302/A130203/13181311:document:143a4620a1eea7cf",
+          "fact-judgment:tabelog:en/tokyo/A1302/A130203/13181311:2026-10-23T06:11:37.223Z:tabelog:en/tokyo/A1302/A130203/13181311:document:143a4620a1eea7cf",
+          "evidence:restaurant:tabelog-entity-match:cc10565d02b8e6c6878b6f84",
+          "evidence:restaurant:native-discovery:abc26424835d972958e1f3e7",
+          "evidence:restaurant:tabelog-availability:a62bf24c4b3852b37610571d",
+          "tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0",
+          "fact-judgment:tabelog:en/tokyo/A1302/A130203/13214312:2026-10-23T06:11:48.263Z:tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0"
+        ],
+        "presentedAt": "2026-10-23T06:12:09.390Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1302/A130203/13181311": [
+            {
+              "text": "steak restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1302/A130203/13181311:2026-10-23T06:11:37.223Z:tabelog:en/tokyo/A1302/A130203/13181311:document:143a4620a1eea7cf",
+                "tabelog:en/tokyo/A1302/A130203/13181311:document:143a4620a1eea7cf"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13181311/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1302/A130203/13214312": [
+            {
+              "text": "steak restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1302/A130203/13214312:2026-10-23T06:11:48.263Z:tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0",
+                "tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Anniversary Course - Plate Design Requests Available ◆ Starting with Meat Sushi, enjoy a variety of dishes including Sautéed Lobster, Sautéed Live Abalone, and A5 Aged Wagyu Steak, along with a celebratory dessert plate, totaling 9 dishes ◆",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ]
+        }
+      },
+      "changes": [],
+      "displayUnchanged": true,
+      "comparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1302/A130203/13181311",
+          "text": "steak",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1302/A130203/13181311",
+          "text": "hamburg steak place",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1302/A130203/13214312",
+          "text": "steak",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1302/A130203/13214312",
+          "text": "hamburg steak place",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        }
+      ],
+      "originalOutcomeUnchanged": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    },
+    {
+      "runId": "h-06",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-06-attempt-1/runner/2026-10-23T05-36-39-904Z-4cd7f1dd-39e6-4416-83c0-73b0e862ad3f.result.json",
+        "sha256": "82439765cb975efe4ea6112ec56599c392e714a514db1fc8b1a1836700b1115c"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-06.json",
+        "sha256": "6f5977a428922e3a8e005db4850f34366a342b0f978576d6ae360a1874d78b2c"
+      },
+      "before": null,
+      "after": null,
+      "changes": [],
+      "displayUnchanged": true,
+      "comparisons": [],
+      "originalOutcomeUnchanged": {
+        "type": "INTERNAL_FAILURE",
+        "reasons": [
+          "Recorded AGENT_LOOP_NO_PROGRESS is corroborated by actual failed/rejected actions, matching terminal trajectory and system event; witness feasibility does not replace the failure cause."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState.failure",
+          "trajectories",
+          "events.AGENT_LOOP_TERMINATED"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    },
+    {
+      "runId": "h-07",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-07-attempt-1/runner/2026-10-23T06-17-39-400Z-fbe3bca6-37d2-46a9-a325-50b7fd67959c.result.json",
+        "sha256": "73daef872d23852b5871e2958a4ac75566582b7274fdeeb86bc81b51523fedbe"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-07.json",
+        "sha256": "0efc1849922cf13f5599178cc3919716d8441b9a848fc522110ecbca4d52b844"
+      },
+      "before": null,
+      "after": null,
+      "changes": [],
+      "displayUnchanged": true,
+      "comparisons": [],
+      "originalOutcomeUnchanged": {
+        "type": "CAPABILITY_MISS",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-07-attempt-1/post-run/manifest.json#sha256=113a24bbbefb8df03922e25c9d09584097a604f84a36d60dcce8596c63dc5ac5",
+          ".eval-artifacts/phase2c-holdout/exit-live-20261023/evaluation-20261023/inputs/witness-registry-view.json#sha256=3f1c4777082ba8f42f4b1a9fa2b1cde21c4bee3e10770d4631d2642778afae4e",
+          ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-07-attempt-1/post-run/13108466.body.txt#sha256=3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976",
+          ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-07-attempt-1/post-run/13108466.metadata.json#sha256=b12a71d92026b8fccd18b7854fde7c0779afcfc63ee4df9216dc0e3ef2660d36"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    },
+    {
+      "runId": "h-08",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-08-attempt-1/runner/2026-10-23T06-30-23-512Z-e4914e6c-c86f-46a5-aa75-8451ec5dd56d.result.json",
+        "sha256": "897ee0cd6782eb403f38cd141ea3cbec4dcd35fe2f179a3fc45d9e0d2b00467c"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-08.json",
+        "sha256": "3ab9e51434a0f05fd3c668735d97422d218af9c5f6a26b739744d56594408262"
+      },
+      "before": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1311/A131101/13271031"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:b6501370e74d82955600e3ee",
+          "evidence:restaurant:native-discovery:6da74d8d3cfa402b39156df5",
+          "evidence:restaurant:tabelog-availability:6603a7cea5d84cfbdad0b14f",
+          "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf",
+          "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+        ],
+        "presentedAt": "2026-10-23T06:34:46.266Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1311/A131101/13271031": [
+            {
+              "text": "Korean food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+              ],
+              "sources": [
+                {
+                  "field": "NAME",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "no more than 5,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "MET",
+              "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+              ],
+              "sources": [
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "All you can drink All you can eat [Terrace Exclusive × Draft Beer and Makgeolli! 2h All You Can Drink × Thick Cut Meat All You Can Eat × Authentic Korean Napa Cabbage Kimchi All You Can Eat] Aged Thick Cut Samgyeopsal All You Can Eat Course 7 items Enjoy all-you-can-drink options including Nama Biru, Makgeolli, and Chamisul! This luxurious course features all-you-can-eat Napa cabbage kimchi, thick-cut Samgyeopsal, and fresh vegetables sourced directly from Korea. Reserve Set menu details JPY 4,980 （Price including tax）per person Number of people 2 - 24",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "[Spicy Banquet × Nakko Pse Course (Food Only) × All You Can Drink Available] Authentic Korean Napa Cabbage Kimchi All You Can Eat × Choose from 6 Types of Chijimi 7 items This is a seven-dish course featuring authentic Korean napa cabbage kimchi, our signature chijimi (Korean pancakes), and nakkeopsae (spicy seafood salad). Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 2 - 20",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "[Terrace Limited Plan] Recommended Samgyeopsal Set 4 items Terrace Exclusive Samgyeopsal Course Enjoy thick-cut samgyeopsal grilled right in front of you while taking in the beautiful terrace views. This plan includes recommended dishes such as seafood jeon and cold noodles, along with many other delights. *Please note that depending on your reservation timing, there may be a wait. Thank you for your understanding. Reserve Set menu details JPY 2,780 （Price including tax）per person Number of people 2 - 24",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "JPY 2,000 - JPY 2,999",
+                  "field": "PRICE"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "after": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1311/A131101/13271031"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:b6501370e74d82955600e3ee",
+          "evidence:restaurant:native-discovery:6da74d8d3cfa402b39156df5",
+          "evidence:restaurant:tabelog-availability:6603a7cea5d84cfbdad0b14f",
+          "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf",
+          "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+        ],
+        "presentedAt": "2026-10-23T06:34:46.266Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1311/A131101/13271031": [
+            {
+              "text": "Korean food",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf",
+                "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Korean",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "no more than 5,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "MET",
+              "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+              "evidenceIds": [
+                "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+              ],
+              "sources": [
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "All you can drink All you can eat [Terrace Exclusive × Draft Beer and Makgeolli! 2h All You Can Drink × Thick Cut Meat All You Can Eat × Authentic Korean Napa Cabbage Kimchi All You Can Eat] Aged Thick Cut Samgyeopsal All You Can Eat Course 7 items Enjoy all-you-can-drink options including Nama Biru, Makgeolli, and Chamisul! This luxurious course features all-you-can-eat Napa cabbage kimchi, thick-cut Samgyeopsal, and fresh vegetables sourced directly from Korea. Reserve Set menu details JPY 4,980 （Price including tax）per person Number of people 2 - 24",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "[Spicy Banquet × Nakko Pse Course (Food Only) × All You Can Drink Available] Authentic Korean Napa Cabbage Kimchi All You Can Eat × Choose from 6 Types of Chijimi 7 items This is a seven-dish course featuring authentic Korean napa cabbage kimchi, our signature chijimi (Korean pancakes), and nakkeopsae (spicy seafood salad). Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 2 - 20",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "[Terrace Limited Plan] Recommended Samgyeopsal Set 4 items Terrace Exclusive Samgyeopsal Course Enjoy thick-cut samgyeopsal grilled right in front of you while taking in the beautiful terrace views. This plan includes recommended dishes such as seafood jeon and cold noodles, along with many other delights. *Please note that depending on your reservation timing, there may be a wait. Thank you for your understanding. Reserve Set menu details JPY 2,780 （Price including tax）per person Number of people 2 - 24",
+                  "field": "PRICE"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                  "quote": "JPY 2,000 - JPY 2,999",
+                  "field": "PRICE"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "changes": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13271031",
+          "criterionRef": "criterion:0",
+          "before": {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "NOT_CHECKED",
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+            ],
+            "sources": [
+              {
+                "field": "NAME",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          "after": {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf",
+              "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+            ],
+            "sources": [
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CATEGORY",
+                "quote": "Korean",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          },
+          "currentSourceEvidenceIds": [
+            "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf",
+            "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+          ],
+          "modelSupport": [
+            {
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Korean food"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+                ]
+              }
+            }
+          ],
+          "reason": "Generic trailing food descriptor previously remained in the literal cuisine key; current same-outlet merchant field was already cited. No evidence lifecycle or quote invented."
+        }
+      ],
+      "displayUnchanged": false,
+      "comparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13271031",
+          "text": "Korean",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Current Router→Reducer display matches unchanged previously frozen independent @33 truth; not a rescored Live outcome"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1311/A131101/13271031",
+          "text": "no more than 5,000 yen per person",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        }
+      ],
+      "originalOutcomeUnchanged": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    },
+    {
+      "runId": "h-09",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-09-attempt-1/runner/2026-10-23T06-40-08-617Z-1849354e-a865-4407-b25f-e90bcf8a9b21.result.json",
+        "sha256": "72dc7f784291e1d0ebe3528c307a4ac01e5f1771adc330d38a7d12e2a85b4955"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-09.json",
+        "sha256": "8cfe229e6f7edfcbcf6bfa16021bf3df136495aa75e1ca58c31820ebe5e74742"
+      },
+      "before": null,
+      "after": null,
+      "changes": [],
+      "displayUnchanged": true,
+      "comparisons": [],
+      "originalOutcomeUnchanged": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    },
+    {
+      "runId": "h-10",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-10-attempt-1/runner/2026-10-23T06-53-10-231Z-38adcdb0-cde8-4af2-86c3-cee2cb634cb2.result.json",
+        "sha256": "215e5e97be8039de597fb8acdb5bbb4a5d76cebe84d7b02571278e6481c39cbc"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-10.json",
+        "sha256": "465b8510b296fed5276427d2aa477398ded21212b17efa5c3f98cf0894229f69"
+      },
+      "before": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1312/A131201/13017997",
+          "tabelog:en/tokyo/A1312/A131201/13202196",
+          "tabelog:en/tokyo/A1312/A131201/13036713"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:2ff2b18acf6e0f1763b187cf",
+          "evidence:restaurant:native-discovery:c7ff6fc30b9b1b1d8333bddc",
+          "evidence:restaurant:tabelog-availability:4dcee047d2503c289f1e2d4f",
+          "evidence:restaurant:tabelog-hard-criteria:d68ac1b5e9ff15edc7b7cc8b",
+          "evidence:restaurant:tabelog-entity-match:bcd3e2907363d212c40050be",
+          "evidence:restaurant:native-discovery:57246875abf52a65a6a7e80c",
+          "evidence:restaurant:tabelog-availability:ee92ff643559b43f62d58cc0",
+          "evidence:restaurant:tabelog-hard-criteria:432ddcc59e9a9268056469cf",
+          "evidence:restaurant:tabelog-entity-match:70fd3c3364cf6ddcf2f832f7",
+          "evidence:restaurant:native-discovery:8de519009a7241429081f978",
+          "evidence:restaurant:tabelog-availability:5c268646ee23f04f79eb4505",
+          "tabelog:en/tokyo/A1312/A131201/13036713:document:90ed0855e494364a",
+          "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T06:56:43.656Z:tabelog:en/tokyo/A1312/A131201/13036713:document:90ed0855e494364a"
+        ],
+        "presentedAt": "2026-10-23T06:57:20.573Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1312/A131201/13017997": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:d68ac1b5e9ff15edc7b7cc8b"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Yokozuna Course ◆ Great Satisfaction! Authentic Chanko Nabe, Sashimi, Popular Kirishima Chicken Wings, and 8 Dishes in Total ★",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1312/A131201/13202196": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:432ddcc59e9a9268056469cf"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Sekiwake Course ◆ Casual ☆ Authentic Chanko Nabe Course, 6 Dishes♪",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1312/A131201/13036713": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T06:56:43.656Z:tabelog:en/tokyo/A1312/A131201/13036713:document:90ed0855e494364a",
+                "tabelog:en/tokyo/A1312/A131201/13036713:document:90ed0855e494364a"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ]
+        }
+      },
+      "after": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1312/A131201/13017997",
+          "tabelog:en/tokyo/A1312/A131201/13202196",
+          "tabelog:en/tokyo/A1312/A131201/13036713"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:2ff2b18acf6e0f1763b187cf",
+          "evidence:restaurant:native-discovery:c7ff6fc30b9b1b1d8333bddc",
+          "evidence:restaurant:tabelog-availability:4dcee047d2503c289f1e2d4f",
+          "evidence:restaurant:tabelog-hard-criteria:d68ac1b5e9ff15edc7b7cc8b",
+          "evidence:restaurant:tabelog-entity-match:bcd3e2907363d212c40050be",
+          "evidence:restaurant:native-discovery:57246875abf52a65a6a7e80c",
+          "evidence:restaurant:tabelog-availability:ee92ff643559b43f62d58cc0",
+          "evidence:restaurant:tabelog-hard-criteria:432ddcc59e9a9268056469cf",
+          "evidence:restaurant:tabelog-entity-match:70fd3c3364cf6ddcf2f832f7",
+          "evidence:restaurant:native-discovery:8de519009a7241429081f978",
+          "evidence:restaurant:tabelog-availability:5c268646ee23f04f79eb4505",
+          "tabelog:en/tokyo/A1312/A131201/13036713:document:90ed0855e494364a",
+          "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T06:56:43.656Z:tabelog:en/tokyo/A1312/A131201/13036713:document:90ed0855e494364a"
+        ],
+        "presentedAt": "2026-10-23T06:57:20.573Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1312/A131201/13017997": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:d68ac1b5e9ff15edc7b7cc8b"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Yokozuna Course ◆ Great Satisfaction! Authentic Chanko Nabe, Sashimi, Popular Kirishima Chicken Wings, and 8 Dishes in Total ★",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1312/A131201/13202196": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:432ddcc59e9a9268056469cf"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Sekiwake Course ◆ Casual ☆ Authentic Chanko Nabe Course, 6 Dishes♪",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1312/A131201/13036713": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T06:56:43.656Z:tabelog:en/tokyo/A1312/A131201/13036713:document:90ed0855e494364a",
+                "tabelog:en/tokyo/A1312/A131201/13036713:document:90ed0855e494364a"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Chanko-nabe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ]
+        }
+      },
+      "changes": [],
+      "displayUnchanged": true,
+      "comparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+          "text": "chanko nabe",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+          "text": "private room",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+          "text": "chanko nabe",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+          "text": "private room",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+          "text": "chanko nabe",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+          "text": "private room",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        }
+      ],
+      "originalOutcomeUnchanged": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    },
+    {
+      "runId": "h-11",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-11-attempt-1/runner/2026-10-23T07-01-19-605Z-3feb8d13-56b7-42c5-a410-3f33aeaeb09a.result.json",
+        "sha256": "d914a5cc34e0d9fa6f2b49b3f68d391ef5d004b7c2448adefb7bd6b43893b097"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-11.json",
+        "sha256": "810a9a9302d5a7ff7bf1a441d7b1c99d576ad3072f5dd2f2fa9600f7eca10234"
+      },
+      "before": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1302/A130203/13309824",
+          "tabelog:en/tokyo/A1302/A130203/13181311",
+          "tabelog:en/tokyo/A1302/A130203/13214312"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:61f3bd4a0d06a2646bd8595f",
+          "evidence:restaurant:native-discovery:06d671cb279edad5fe658489",
+          "evidence:restaurant:tabelog-availability:a257e7ae1a7970c56e15ad0c",
+          "tabelog:en/tokyo/A1302/A130203/13309824:document:f402f79cc524b8ae",
+          "fact-judgment:tabelog:en/tokyo/A1302/A130203/13309824:2026-10-23T07:04:12.212Z:tabelog:en/tokyo/A1302/A130203/13309824:document:f402f79cc524b8ae",
+          "evidence:restaurant:tabelog-entity-match:5658298466dbfa9f99f23765",
+          "evidence:restaurant:native-discovery:dcf14296efc022e6c239dd1a",
+          "evidence:restaurant:tabelog-availability:ec4835c8b5106a6608bf98e4",
+          "tabelog:en/tokyo/A1302/A130203/13181311:document:d59471cb9a198d87",
+          "fact-judgment:tabelog:en/tokyo/A1302/A130203/13181311:2026-10-23T07:03:55.917Z:tabelog:en/tokyo/A1302/A130203/13181311:document:d59471cb9a198d87",
+          "evidence:restaurant:tabelog-entity-match:9522685282820050f95a641b",
+          "evidence:restaurant:native-discovery:e6980e48e90822f7f86589ec",
+          "evidence:restaurant:tabelog-availability:3af76093d0fc9d8c2c9b36a0",
+          "tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0",
+          "fact-judgment:tabelog:en/tokyo/A1302/A130203/13214312:2026-10-23T07:04:01.566Z:tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0"
+        ],
+        "presentedAt": "2026-10-23T07:04:15.616Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1302/A130203/13309824": [
+            {
+              "text": "steak restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1302/A130203/13309824:2026-10-23T07:04:12.212Z:tabelog:en/tokyo/A1302/A130203/13309824:document:f402f79cc524b8ae",
+                "tabelog:en/tokyo/A1302/A130203/13309824:document:f402f79cc524b8ae"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13309824/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1302/A130203/13181311": [
+            {
+              "text": "steak restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1302/A130203/13181311:2026-10-23T07:03:55.917Z:tabelog:en/tokyo/A1302/A130203/13181311:document:d59471cb9a198d87",
+                "tabelog:en/tokyo/A1302/A130203/13181311:document:d59471cb9a198d87"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13181311/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1302/A130203/13214312": [
+            {
+              "text": "steak restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1302/A130203/13214312:2026-10-23T07:04:01.566Z:tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0",
+                "tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Anniversary Course - Plate Design Requests Available ◆ Starting with Meat Sushi, enjoy a variety of dishes including Sautéed Lobster, Sautéed Live Abalone, and A5 Aged Wagyu Steak, along with a celebratory dessert plate, totaling 9 dishes ◆",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ]
+        }
+      },
+      "after": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1302/A130203/13309824",
+          "tabelog:en/tokyo/A1302/A130203/13181311",
+          "tabelog:en/tokyo/A1302/A130203/13214312"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:61f3bd4a0d06a2646bd8595f",
+          "evidence:restaurant:native-discovery:06d671cb279edad5fe658489",
+          "evidence:restaurant:tabelog-availability:a257e7ae1a7970c56e15ad0c",
+          "tabelog:en/tokyo/A1302/A130203/13309824:document:f402f79cc524b8ae",
+          "fact-judgment:tabelog:en/tokyo/A1302/A130203/13309824:2026-10-23T07:04:12.212Z:tabelog:en/tokyo/A1302/A130203/13309824:document:f402f79cc524b8ae",
+          "evidence:restaurant:tabelog-entity-match:5658298466dbfa9f99f23765",
+          "evidence:restaurant:native-discovery:dcf14296efc022e6c239dd1a",
+          "evidence:restaurant:tabelog-availability:ec4835c8b5106a6608bf98e4",
+          "tabelog:en/tokyo/A1302/A130203/13181311:document:d59471cb9a198d87",
+          "fact-judgment:tabelog:en/tokyo/A1302/A130203/13181311:2026-10-23T07:03:55.917Z:tabelog:en/tokyo/A1302/A130203/13181311:document:d59471cb9a198d87",
+          "evidence:restaurant:tabelog-entity-match:9522685282820050f95a641b",
+          "evidence:restaurant:native-discovery:e6980e48e90822f7f86589ec",
+          "evidence:restaurant:tabelog-availability:3af76093d0fc9d8c2c9b36a0",
+          "tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0",
+          "fact-judgment:tabelog:en/tokyo/A1302/A130203/13214312:2026-10-23T07:04:01.566Z:tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0"
+        ],
+        "presentedAt": "2026-10-23T07:04:15.616Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1302/A130203/13309824": [
+            {
+              "text": "steak restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1302/A130203/13309824:2026-10-23T07:04:12.212Z:tabelog:en/tokyo/A1302/A130203/13309824:document:f402f79cc524b8ae",
+                "tabelog:en/tokyo/A1302/A130203/13309824:document:f402f79cc524b8ae"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13309824/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1302/A130203/13181311": [
+            {
+              "text": "steak restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1302/A130203/13181311:2026-10-23T07:03:55.917Z:tabelog:en/tokyo/A1302/A130203/13181311:document:d59471cb9a198d87",
+                "tabelog:en/tokyo/A1302/A130203/13181311:document:d59471cb9a198d87"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13181311/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1302/A130203/13214312": [
+            {
+              "text": "steak restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1302/A130203/13214312:2026-10-23T07:04:01.566Z:tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0",
+                "tabelog:en/tokyo/A1302/A130203/13214312:document:0da479ba05ff00e0"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Anniversary Course - Plate Design Requests Available ◆ Starting with Meat Sushi, enjoy a variety of dishes including Sautéed Lobster, Sautéed Live Abalone, and A5 Aged Wagyu Steak, along with a celebratory dessert plate, totaling 9 dishes ◆",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13214312/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ]
+        }
+      },
+      "changes": [],
+      "displayUnchanged": true,
+      "comparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1302/A130203/13309824",
+          "text": "steak",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1302/A130203/13309824",
+          "text": "hamburg steak place",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1302/A130203/13181311",
+          "text": "steak",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1302/A130203/13181311",
+          "text": "hamburg steak place",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1302/A130203/13214312",
+          "text": "steak",
+          "criterionRef": "criterion:0",
+          "matchMethod": "REVIEWED_SEMANTIC_INDEX",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1302/A130203/13214312",
+          "text": "hamburg steak place",
+          "criterionRef": "criterion:1",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        }
+      ],
+      "originalOutcomeUnchanged": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    },
+    {
+      "runId": "h-12",
+      "original": {
+        "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+        "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/B/h-12-attempt-1/runner/2026-10-23T07-07-56-612Z-40d59e69-f4db-4d1e-9a8d-594b63c9a471.result.json",
+        "sha256": "25fc42526184c848e8805ae482e667ae48078737b28bf216575862f155255e87"
+      },
+      "projection": {
+        "path": ".eval-artifacts/near-and-condition-display-20261023/inputs/runs/h-12.json",
+        "sha256": "d35374a2a382324a73ed8e0c0b7b6ad6c5dea79615ae5b2fe4683dd02fabd348"
+      },
+      "before": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1324/A132402/13164267",
+          "tabelog:en/tokyo/A1324/A132402/13318138",
+          "tabelog:en/tokyo/A1324/A132402/13196646"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:5feb1910fab6d1f6339290cc",
+          "evidence:restaurant:native-discovery:b7cf23453836abd7a16cf74b",
+          "evidence:restaurant:tabelog-availability:b70dc89381246c11b9bbcbb6",
+          "evidence:restaurant:tabelog-hard-criteria:d4a066850161134ead6467a4",
+          "evidence:restaurant:tabelog-entity-match:013a9f8cc7ccf3f4cb8309b0",
+          "evidence:restaurant:native-discovery:5f373ada4dc0c17bdb9f01d4",
+          "evidence:restaurant:tabelog-availability:8f4cdf145588b1755f28e739",
+          "tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf",
+          "fact-judgment:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-23T07:13:16.431Z:tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf",
+          "evidence:restaurant:tabelog-entity-match:d5b53e4343db2edfd0d40aad",
+          "evidence:restaurant:native-discovery:6963595543260d8fb5f3b5db",
+          "evidence:restaurant:tabelog-availability:96b406bdbb343f613b199418",
+          "tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365",
+          "fact-judgment:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-23T07:12:55.320Z:tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365"
+        ],
+        "presentedAt": "2026-10-23T07:13:24.370Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1324/A132402/13164267": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:d4a066850161134ead6467a4"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Revival \"Most Popular\" Manpuku Course - Choose from our signature mains with 【2 hours】 All-You-Can-Eat★ → Signature Motsunabe or Special Pork Shabu-Shabu ~ with 【3 hours】 All-You-Can-Drink of Draft Beer★ 7 Dishes Course",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13164267/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "* On Fridays, Saturdays, and the day before holidays, there is a strict 2-hour limit, and an additional charge of JPY 500 per person applies. ▼ Attention organizers! Earn T-Points with online reservations! ■ \"POINT 1\" Enjoy a 3-hour all-you-can-drink option at this price with this selection! ■ \"POINT 2\" Includes a total of 7 dishes!! Choose between our signature \"Hakata Motsunabe\" or \"Special Pork Shabu-Shabu\" as your main dish, with 2 hours of all-you-can-eat options! ■ \"POINT 3\" Of course, Premium Malts draft beer is included! Enjoy over 60 types of drinks in the all-you-can-drink menu!",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13164267/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Kyushu Umaka Course: All-You-Can-Drink for 3 Hours with 8 Dishes - Enjoy the Specialty! Hakata Wagyu Motsunabe, Fresh Hon-Maguro from Nagasaki, Kanefuku Mentaiko, and Miyazaki's Famous Chicken Nanban ☆☆~ Perfect for Welcome and Farewell Parties ☆",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13164267/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "suitable for an office group",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1324/A132402/13318138": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-23T07:13:16.431Z:tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Motsu-nabe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13318138/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13318138/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "suitable for an office group",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1324/A132402/13196646": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-23T07:12:55.320Z:tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Motsu-nabe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13196646/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "suitable for an office group",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ]
+        }
+      },
+      "after": {
+        "candidateIds": [
+          "tabelog:en/tokyo/A1324/A132402/13164267",
+          "tabelog:en/tokyo/A1324/A132402/13318138",
+          "tabelog:en/tokyo/A1324/A132402/13196646"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:5feb1910fab6d1f6339290cc",
+          "evidence:restaurant:native-discovery:b7cf23453836abd7a16cf74b",
+          "evidence:restaurant:tabelog-availability:b70dc89381246c11b9bbcbb6",
+          "evidence:restaurant:tabelog-hard-criteria:d4a066850161134ead6467a4",
+          "evidence:restaurant:tabelog-entity-match:013a9f8cc7ccf3f4cb8309b0",
+          "evidence:restaurant:native-discovery:5f373ada4dc0c17bdb9f01d4",
+          "evidence:restaurant:tabelog-availability:8f4cdf145588b1755f28e739",
+          "tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf",
+          "fact-judgment:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-23T07:13:16.431Z:tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf",
+          "evidence:restaurant:tabelog-entity-match:d5b53e4343db2edfd0d40aad",
+          "evidence:restaurant:native-discovery:6963595543260d8fb5f3b5db",
+          "evidence:restaurant:tabelog-availability:96b406bdbb343f613b199418",
+          "tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365",
+          "fact-judgment:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-23T07:12:55.320Z:tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365"
+        ],
+        "presentedAt": "2026-10-23T07:13:24.370Z",
+        "conditionStates": {
+          "tabelog:en/tokyo/A1324/A132402/13164267": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "MET",
+              "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:d4a066850161134ead6467a4"
+              ],
+              "sources": [
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Revival \"Most Popular\" Manpuku Course - Choose from our signature mains with 【2 hours】 All-You-Can-Eat★ → Signature Motsunabe or Special Pork Shabu-Shabu ~ with 【3 hours】 All-You-Can-Drink of Draft Beer★ 7 Dishes Course",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13164267/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "* On Fridays, Saturdays, and the day before holidays, there is a strict 2-hour limit, and an additional charge of JPY 500 per person applies. ▼ Attention organizers! Earn T-Points with online reservations! ■ \"POINT 1\" Enjoy a 3-hour all-you-can-drink option at this price with this selection! ■ \"POINT 2\" Includes a total of 7 dishes!! Choose between our signature \"Hakata Motsunabe\" or \"Special Pork Shabu-Shabu\" as your main dish, with 2 hours of all-you-can-eat options! ■ \"POINT 3\" Of course, Premium Malts draft beer is included! Enjoy over 60 types of drinks in the all-you-can-drink menu!",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13164267/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "COURSE_TITLE",
+                  "quote": "Kyushu Umaka Course: All-You-Can-Drink for 3 Hours with 8 Dishes - Enjoy the Specialty! Hakata Wagyu Motsunabe, Fresh Hon-Maguro from Nagasaki, Kanefuku Mentaiko, and Miyazaki's Famous Chicken Nanban ☆☆~ Perfect for Welcome and Farewell Parties ☆",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13164267/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "suitable for an office group",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1324/A132402/13318138": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-23T07:13:16.431Z:tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Motsu-nabe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13318138/",
+                  "meal": "UNSPECIFIED"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13318138/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "suitable for an office group",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ],
+          "tabelog:en/tokyo/A1324/A132402/13196646": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [
+                "fact-judgment:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-23T07:12:55.320Z:tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365"
+              ],
+              "sources": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Motsu-nabe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13196646/",
+                  "meal": "UNSPECIFIED"
+                }
+              ]
+            },
+            {
+              "text": "suitable for an office group",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED",
+              "criterionRef": "criterion:1",
+              "status": "NOT_CHECKED",
+              "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+              "evidenceIds": [],
+              "sources": []
+            }
+          ]
+        }
+      },
+      "changes": [],
+      "displayUnchanged": true,
+      "comparisons": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1324/A132402/13164267",
+          "text": "motsunabe",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "MET",
+          "independent": "MET",
+          "supportObservation": "PRODUCT_OBSERVED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1324/A132402/13318138",
+          "text": "motsunabe",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        },
+        {
+          "candidateId": "tabelog:en/tokyo/A1324/A132402/13196646",
+          "text": "motsunabe",
+          "criterionRef": "criterion:0",
+          "matchMethod": "NORMALIZED_TEXT",
+          "displayed": "NOT_CHECKED",
+          "independent": "NOT_CHECKED",
+          "supportObservation": "NOT_ESTABLISHED",
+          "assessment": "CONSISTENT",
+          "assessmentMethod": "Display unchanged; original independent @33 assessment retained"
+        }
+      ],
+      "originalOutcomeUnchanged": {
+        "type": "DELIVERED_UNQUALIFIED",
+        "reasons": [
+          "Recorded presentation contradicts frozen request or independently checked source support."
+        ],
+        "evidenceRefs": [
+          "materializedCase.semantic",
+          "finalSnapshot.domainState.intentDraft",
+          "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/B/h-12-attempt-1/post-run/13164267.body.txt#sha256=56ee89e7db67736a1f7218d800e2616e2c3547b80f1d2e144dcc645295b14322",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:b7cf23453836abd7a16cf74b]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:5feb1910fab6d1f6339290cc]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:d4a066850161134ead6467a4]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:b70dc89381246c11b9bbcbb6]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:17:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:17:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:18:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:18:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:18:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:18:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:19:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:19:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:19:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:19:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:20:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:20:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:20:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:20:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:21:00:8]",
+          "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/B/h-12-attempt-1/post-run/13318138.body.txt#sha256=a993f3cb95a3613001a3fe703d379478dbc9a98c38d748233e08f2d25ccd4a6a",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:5f373ada4dc0c17bdb9f01d4]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:013a9f8cc7ccf3f4cb8309b0]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:8f4cdf145588b1755f28e739]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-23T07:13:16.431Z:tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:17:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:17:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:18:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:18:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:18:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:18:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:19:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:19:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:19:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:19:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:20:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:20:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:20:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:20:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:21:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:21:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:21:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:21:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:22:00:8]",
+          "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/B/h-12-attempt-1/post-run/13196646.body.txt#sha256=3d1f63dce6d7cb4f9ae415b41c7803d697c38e065e92a89e39fc0dbec8f2426b",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:6963595543260d8fb5f3b5db]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:d5b53e4343db2edfd0d40aad]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:96b406bdbb343f613b199418]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365]",
+          "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-23T07:12:55.320Z:tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:17:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:17:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:18:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:18:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:18:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:18:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:19:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:19:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:19:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:19:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:20:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:20:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:20:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:20:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:21:00:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:21:15:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:21:30:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:21:45:8]",
+          "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:22:00:8]"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "newModelCalls": 0,
+      "sourceCalls": 0
+    }
+  ],
+  "newModelCalls": 0,
+  "newWebsiteRequests": 0,
+  "newGoogleRequests": 0,
+  "newLive": 0,
+  "sourceCalls": 0,
+  "limitations": [
+    "Counterfactual offline display only, not a new Live or historical qualification change.",
+    "Independent @33 truth from immutable source HTML evaluation is reused; no claim of new stock/source observations.",
+    "h12 extra UNSPECIFIED evaluation limitation, no-witness cases and earlier timeout adjudications are unchanged."
+  ]
+}

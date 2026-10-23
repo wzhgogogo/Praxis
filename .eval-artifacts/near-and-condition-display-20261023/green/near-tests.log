@@ -1,0 +1,167 @@
+✔ ranked named geography accepts the saved spellings, keeps nearby geographic alternatives and rejects remote ambiguity (4.171208ms)
+✔ Google query is discovery-owned and does not serialize criteria into retrieval text (0.421583ms)
+✔ a positive-HARD pack query keeps only its keyword and resolved location in Text Search (0.046292ms)
+✔ a source-plan location prevents a second named-place lookup before Google discovery (0.410083ms)
+✔ a pack query without a positive HARD keyword uses Nearby Search's exact circle instead of location-only text (0.794334ms)
+✖ initial discovery reads at most two 20-result pages, dedupes stable outlets, and retains the next cursor (0.270291ms)
+✖ a second-page provider failure preserves accepted first-page candidates and records a bounded retry cursor (0.237209ms)
+✔ named-location resolution accepts near X and bare X with the same bounded typed observation (0.373875ms)
+✔ a named nearby place is resolved to observed coordinates and grounds candidate distance (0.435875ms)
+✔ geographic source labels require no spelling or administrative suffix inference (0.277542ms)
+✔ an unrelated first search result never becomes a named nearby landmark (0.125417ms)
+✔ unresolved named-place diagnostics retain only bounded public identity observations (0.158625ms)
+✖ Google Places text search uses the explicit small field mask and stable candidate IDs (0.120083ms)
+✔ Google Places reports eval-radius decisions separately from its accepted discovery pool (0.250958ms)
+✖ Google Places request budget is mechanical and isolated by persistent read run (0.110625ms)
+✖ candidate fact investigation re-reads only the known Google place and shares discovery budget (0.130708ms)
+✖ candidate fact investigation uses Place Details by stable ID, never another text search (0.122042ms)
+✖ a fact read records exhausted shared discovery capacity without a second provider call (0.109667ms)
+✔ Google Places classifies provider failure without exposing a response body (0.070458ms)
+✖ failed sent Google requests consume the same per-run local budget and remain separately accounted (1.659209ms)
+✖ the explicit one-hundred-request debug ceiling permits work beyond the retired cap and stops only at its own run boundary (0.117959ms)
+✔ nearby defaults to 1000 meters, preserves explicit radius and admits only the exact circle (0.488667ms)
+✔ named area resolution binds bias, prefers geography and refuses distant or merchant authority (0.662709ms)
+✔ saved successful geographic observations retain their source coordinates and distance boundary (0.880417ms)
+✔ native source-plan resolution is reused by the subsequent Google pack request (12.405541ms)
+✔ coordinate-only address observations reach the discovery goal once and failures keep the exact center (1.552166ms)
+✔ saved h06 bare named location reaches native source discovery with the observed circle (0.947541ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 18
+ℹ fail 9
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 311.436083
+
+✖ failing tests:
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:5276
+✖ initial discovery reads at most two 20-result pages, dedupes stable outlets, and retains the next cursor (0.270291ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "Shinjuku". Observations: name="Restaurant a" address="Tokyo" types="restaurant" placeId="a" coordinate="35.6,139.7"; name="Restaurant b" address="Tokyo" types="restaurant" placeId="b" coordinate="35.6,139.7"
+      at namedLocationResolutionError (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:162:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:293:13)
+      at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:354:90)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.test.ts:96:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    publicLocationObservations: [ { placeId: 'a', displayName: 'Restaurant a', types: [Array], addressComponents: [], coordinates: [Object] }, { placeId: 'b', displayName: 'Restaurant b', types: [Array], addressComponents: [], coordinates: [Object] } ]
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:7293
+✖ a second-page provider failure preserves accepted first-page candidates and records a bounded retry cursor (0.237209ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "Shinjuku". Observations: name="First" address="Tokyo" types="restaurant" placeId="first" coordinate="35.6,139.7"
+      at namedLocationResolutionError (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:162:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:293:13)
+      at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:354:90)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.test.ts:130:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    publicLocationObservations: [ { placeId: 'first', displayName: 'First', types: [Array], addressComponents: [], coordinates: [Object] } ]
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:16321
+✖ Google Places text search uses the explicit small field mask and stable candidate IDs (0.120083ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "Shinjuku". Observations: name="Restaurant One" address="Tokyo" types="restaurant" placeId="place-1" coordinate="35.6,139.7"
+      at namedLocationResolutionError (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:162:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:293:13)
+      at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:354:90)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.test.ts:306:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    publicLocationObservations: [ { placeId: 'place-1', displayName: 'Restaurant One', types: [Array], addressComponents: [], coordinates: [Object] } ]
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:20245
+✖ Google Places request budget is mechanical and isolated by persistent read run (0.110625ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "Shinjuku". Observations: no returned places
+      at namedLocationResolutionError (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:162:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:293:13)
+      at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:354:90)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.test.ts:371:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    publicLocationObservations: []
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:20927
+✖ candidate fact investigation re-reads only the known Google place and shares discovery budget (0.130708ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "Shinjuku". Observations: name="Cafe One" address="Tokyo" types="cafe,food" placeId="place-1" coordinate="missing-coordinates"
+      at namedLocationResolutionError (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:162:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:293:13)
+      at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:354:90)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.test.ts:397:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    publicLocationObservations: [ { placeId: 'place-1', displayName: 'Cafe One', types: [Array], addressComponents: [] } ]
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:22517
+✖ candidate fact investigation uses Place Details by stable ID, never another text search (0.122042ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "Shinjuku". Observations: name="Cafe One" address="Tokyo" types="cafe" placeId="place-1" coordinate="missing-coordinates"
+      at namedLocationResolutionError (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:162:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:293:13)
+      at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:354:90)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.test.ts:424:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    publicLocationObservations: [ { placeId: 'place-1', displayName: 'Cafe One', types: [Array], addressComponents: [] } ]
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:23444
+✖ a fact read records exhausted shared discovery capacity without a second provider call (0.109667ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "Shinjuku". Observations: name="Cafe One" address="Tokyo" types="cafe" placeId="place-1" coordinate="missing-coordinates"
+      at namedLocationResolutionError (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:162:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:293:13)
+      at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:354:90)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.test.ts:438:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    publicLocationObservations: [ { placeId: 'place-1', displayName: 'Cafe One', types: [Array], addressComponents: [] } ]
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:24917
+✖ failed sent Google requests consume the same per-run local budget and remain separately accounted (1.659209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   discovery: 0,
+  -   discovery: 1,
+      limit: 1,
+  +   namedPlaceResolution: 1,
+  -   namedPlaceResolution: 0,
+      placeDetails: 0,
+      reverseAddressObservation: 0,
+      total: 1
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.test.ts:463:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { limit: 1, total: 1, namedPlaceResolution: 1, discovery: 0, placeDetails: 0, reverseAddressObservation: 0 },
+    expected: { limit: 1, total: 1, namedPlaceResolution: 0, discovery: 1, placeDetails: 0, reverseAddressObservation: 0 },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:25722
+✖ the explicit one-hundred-request debug ceiling permits work beyond the retired cap and stops only at its own run boundary (0.117959ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "Shinjuku". Observations: no returned places
+      at namedLocationResolutionError (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:162:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:293:13)
+      at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.ts:354:90)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.test.ts:486:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    publicLocationObservations: []
+  }

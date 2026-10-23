@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.272
+- Document revision: 4.273
 - Last updated: 2026-10-23
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -22,6 +22,18 @@ TableCheck Guard/source-health candidate complete on branch codex/fix-tablecheck
 ## DEV-2026-10-23-TABLECHECK-GUARD-HEALTH-CANDIDATE
 
 User-authorized candidate on8487a844, no main merge. h14 seven-key facet GET lacks hits; valid Chromium old-policy red retained, new GET-bound CORS green includes catalog/default GET/static fetch and rejects reserve/children, POST/manual OPTIONS, extra headers/path and absent GET. Scope audit proves unchanged origins/paths/methods/prohibited rules; only hits optional and existing TableCheck GET CORS metadata. Recorder facts and independent frozen reviewed-reads synchronized, no evaluator/Prompt/Schema/qualification change. Eval-only Hybrid health opens both known-region searches via production Guard, observes about10s, retries300000ms at most3 before formal timing/model/Google; actual Runner offline failure test confirms0 external calls/Live. Source homepage Range checks replaced only in this Runner; existing source-data checks remain. Prior CLI test assumed provider preflight before loading input; retained with new missing-input/no-preflight assertion, existing proxy unit regressions unchanged. Initial failure retained. Final five gates1026/138 PASS; source health real Chromium and unit/Runner tests pass. New models/Google/websites/Live0; freeze then69/5/22 pending. [Plan](../../.eval-artifacts/tablecheck-guard-preflight-20261023/plan.md).
+
+## DEV-2026-10-23-NEAR-CONDITION-DISPLAY-ACCEPTANCE
+
+两项生产修复分别提交44724106（具名AREA不依赖near词）与53ac158c（通用food描述与真实商家类型字段相接）。有效红灯保留，h-06保存输入向观测圆心/发现交接通过；Router→Reducer回放11份，4条菜系NOT_CHECKED→MET，与冻结@33独立真值一致，其他9份展示及价格/全局引用不变，33条对照均CONSISTENT。正式回放先提交274569c9冻结4271项，SHA0cea339a…；新五门禁1025默认/137本机Chromium/typecheck/arch/build全绿，同69点/5选店缓存真实响应回归69/69、5/5，独立校准22/22与正常声明20/20。0新真实模型/网站/Google/Live/重跑；State/Schema、Prompt、评测器、站点Guard不变，历史结果不改分。原始日志/输入SHA、四层报告和测试指标字节恢复均保留。仅推私有修复分支，不合并主线，等待复核。 [四层报告](../../.eval-artifacts/near-and-condition-display-20261023/report.md).
+
+## DEV-2026-10-23-CONDITION-DISPLAY-REPAIR
+
+第二项独立修复：当前来源与引用链未丢失，generic literal cuisine key没有去除food描述词，使已接纳的Korean food判断不能与商家Korean字段相接。沿用现有restaurant/cuisine描述处理，仅补通用food描述，保留所有菜系限定、同店同来源、当前字段、否定与餐段约束，不依赖模型标签直接判满足。有效单元与真实Router→Reducer红灯保留，修复后12/12通过：h-02三家/h-08一家MET与原@33真值一致，其他9份保存产物展示及两份价格/全局引用均不变。无Prompt/Schema/评测器变更、0新模型/网站/Live；五门禁和69/5/22正式回归待完成。 [计划](../../.eval-artifacts/near-and-condition-display-20261023/plan.md).
+
+## DEV-2026-10-23-NEAR-NAMED-LOCATION-REPAIR
+
+具名AREA（除nearby）按现有地名解析，不再要求文本含near；不加地点/关系词表，观测坐标、半径、类型、歧义、预算规则不变。保存h-06原Kitasenju输入和X/near X两条目标红灯有效；修复后Google/原生发现27/27通过。旧分页/预算Fixture补充显式观测圆心，不给生产绕过；Google-only pack回放仅证明定位向发现交接，不证明当前库存/完整Live。第一项独立提交，展示修复与全套五门禁、69/5/22仍待完成；本轮0新模型/网站/Live。 [计划](../../.eval-artifacts/near-and-condition-display-20261023/plan.md).
 
 ## DEV-2026-10-23-PHASE2C-REVIEWED-MERGE
 
