@@ -1,0 +1,21 @@
+--- unchanged/run.mjs
++++ approved/run-second.mjs
+@@ -4,15 +4,15 @@
+ import {selectionComparison} from '../../p2-1-discovery-20261016/outer/post-delivery.mjs';
+ import {auditReadOnlyTrace,parseReviewedReads} from '../../../src/eval/restaurant/agent-loop/diagnostic-evaluator-network.ts';
+ const base='.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023',get=p=>JSON.parse(fs.readFileSync(p)),sha=b=>createHash('sha256').update(b).digest('hex'),put=(p,v)=>fs.writeFileSync(p,JSON.stringify(v,null,2)+'\n',{flag:'wx'}),lines=p=>fs.existsSync(p)?fs.readFileSync(p,'utf8').trim().split('\n').filter(Boolean).map(l=>JSON.parse(l)):[];
+-const n=Number(process.argv[2]);assert.ok(n===1||n===2);const plan=get(base+'/plan.json'),freeze=get(base+'/freeze.json');for(const [p,h] of Object.entries(freeze.files))assert.equal(sha(fs.readFileSync(p)),h,'FROZEN_CHANGED:'+p);
++const n=Number(process.argv[2]);assert.ok(n===1||n===2);const plan=get(base+'/plan.json'),freeze=get(base+'/freeze-continuation.json');for(const [p,h] of Object.entries(freeze.files))assert.equal(sha(fs.readFileSync(p)),h,'FROZEN_CHANGED:'+p);
+ assert.equal(execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim(),'','WORKTREE_DIRTY');
+ assert.ok(Date.now()+1_180_000<Date.parse(plan.deadline),'INSUFFICIENT_WITNESS_TIME');
+-if(n===2){const before=get(base+'/attempt-1/summary.json');assert.equal(before.next,'CAPABILITY_NO_DELIVERY_SECOND_ALLOWED');assert.ok(Date.now()-Date.parse(before.finishedAt)>=plan.minGapMs);}
++if(n===2){const before=get(base+'/attempt-1/summary.json');const first=before.artifactPath?get(before.artifactPath):null; const boundedTimeout=!!first&&before.formalRunStarted&&before.artifactSha256===sha(fs.readFileSync(before.artifactPath))&&first.status==='FAILED'&&first.stage==='AGENT_LOOP'&&first.failureCode==='RUN_DEADLINE_EXCEEDED'&&before.resourceUsage?.elapsedMs>=500000&&before.resourceUsage.elapsedMs<=505000&&!before.nearDefect&&!before.killed&&!before.postError&&!before.postStop&&before.boundaryStatus==='ABSENT'; assert.ok(before.next==='CAPABILITY_NO_DELIVERY_SECOND_ALLOWED'||boundedTimeout,'SECOND_REQUIRES_APPROVED_CAPABILITY_FAILURE');assert.ok(Date.now()-Date.parse(before.finishedAt)>=plan.minGapMs);}
+ const directory=resolve(base,`attempt-${n}`);fs.mkdirSync(directory);
+ const ledger=get(plan.ledgerPath);assert.ok(ledger.totalModelCalls+100<=5000&&ledger.totalFullLiveRuns+2<=100);
+ const env={...process.env,CHECKPOINT_C_ATTEMPT:directory,CHECKPOINT_C_MODE:'LIVE_READ_ONLY',CHECKPOINT_C_REVIEWED_READS:resolve('.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json'),CHECKPOINT_C_DEFER_EVALUATION:'1',PRAXIS_BROWSER_ENGINE:'LOCAL_CHROMIUM',PRAXIS_ALLOW_LIVE_RESTAURANT_READ:'1',PRAXIS_ALLOW_LIVE_MODEL_EVAL:'1',PRAXIS_ALLOW_BROWSER_RUN:'1',PRAXIS_GOOGLE_API_PROXY_SERVER:'',PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER:'',PRAXIS_LOCAL_CHROMIUM_INTERACTIVE:'0',PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION:'0'};delete env.PRAXIS_EVAL_USER_LAT;delete env.PRAXIS_EVAL_USER_LNG;
+ const args=['--import','tsx',resolve(base,'child-entry.ts'),'--case-source',plan.runnerInput,'--case',plan.caseId,'--timeout-ms','500000','--max-model-calls','50','--max-google-requests','38','--record-decisions','--record-browser','--no-proxy'];
+-const startedAt=new Date().toISOString();put(directory+'/started.json',{label:plan.label,run:n,startedAt,mainline:plan.freezeMain,freezeSha256:sha(fs.readFileSync(base+'/freeze.json')),command:{node:process.execPath,args},evaluation:'DEFERRED',original18Contribution:0});
++const startedAt=new Date().toISOString();put(directory+'/started.json',{label:plan.label,run:n,startedAt,mainline:plan.freezeMain,freezeSha256:sha(fs.readFileSync(base+'/freeze-continuation.json')),command:{node:process.execPath,args},evaluation:'DEFERRED',original18Contribution:0});
+ const out=fs.openSync(directory+'/stdout.txt','wx'),err=fs.openSync(directory+'/stderr.txt','wx'),child=spawn(process.execPath,args,{env,stdio:['ignore',out,err],detached:true});let killed=null,formalAt;
+ const terminate=reason=>{if(killed)return;killed=reason;try{process.kill(-child.pid,'SIGTERM');}catch{}setTimeout(()=>{try{process.kill(-child.pid,'SIGKILL');}catch{}},3000).unref();};
+ const monitor=setInterval(()=>{

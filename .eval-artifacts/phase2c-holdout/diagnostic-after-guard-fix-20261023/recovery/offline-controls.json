@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "oldValidRed": "first actual500111ms no-delivery RUN_DEADLINE_EXCEEDED rejected by frozen model/phase-only gate",
+  "newGreen": true,
+  "negativeCases": [
+    {
+      "failureCode": "PROVIDER_REJECTED"
+    },
+    {
+      "failureCode": "DIAGNOSTIC_FAILED"
+    },
+    {
+      "status": "SUCCEEDED"
+    },
+    {
+      "nearDefect": true
+    },
+    {
+      "postStop": true
+    },
+    {
+      "boundaryStatus": "PRESENT"
+    },
+    {
+      "formalRunStarted": false
+    },
+    {
+      "postError": "GET_FAILED"
+    }
+  ],
+  "firstArtifact": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-1/runner/2026-10-23T11-04-59-001Z-dbe4cbbb-c269-4d81-a8d9-ea62ad54164f.result.json",
+  "firstArtifactSha256": "24320f68dbedfe9c479587542f47d2677e2db500b25d461cc548096e6fb2e061",
+  "originalRunSha256": "c4a3c3378b85ee4bf1100ff41aa7135beec8c5de7225202cdee33ecb5f56737e",
+  "proposedRunSha256": "6a8e2481bf71f2935a6fab6eaa5b319708866f75bc0700b28ddac6e6b73c16cc",
+  "productChanges": 0,
+  "models": 0,
+  "network": 0,
+  "newMaxFullLive": 2
+}

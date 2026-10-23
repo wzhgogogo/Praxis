@@ -1,0 +1,81 @@
+{
+  "label": "DIAGNOSTIC_AFTER_GUARD_FIX",
+  "run": 1,
+  "caseId": "p2c-holdout-01",
+  "startedAt": "2026-10-23T10:59:20.703Z",
+  "finishedAt": "2026-10-23T11:13:23.023Z",
+  "mainline": "4d953731163e922741ea91ccc6c1c47b53f0b0e1",
+  "exit": {
+    "code": 1,
+    "signal": null
+  },
+  "killed": null,
+  "formalRunStarted": true,
+  "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-1/runner/2026-10-23T11-04-59-001Z-dbe4cbbb-c269-4d81-a8d9-ea62ad54164f.result.json",
+  "artifactSha256": "24320f68dbedfe9c479587542f47d2677e2db500b25d461cc548096e6fb2e061",
+  "phase": "SEARCHING",
+  "deliveryCount": 0,
+  "nearDefect": false,
+  "capabilityFailureForContinuationOnly": false,
+  "next": "STOP_UNRESOLVED_NOT_AUTO_RETRY",
+  "evaluation": "DEFERRED_PENDING_INDEPENDENT_WORDING_REVIEW",
+  "original18Contribution": 0,
+  "modelCalls": 37,
+  "Google": {
+    "formal": {
+      "limit": 38,
+      "total": 3,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "preflight": 2
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 28,
+    "candidatesChecked": 5,
+    "agentDecisions": 6,
+    "browserModelCalls": 22,
+    "modelCallsStarted": 37,
+    "browserRuntimeCalls": 205,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 41,
+      "native-discovery:VENUE_SEARCH": 28,
+      "tablecheck:kawaei": 26,
+      "tablecheck:underground-akabane": 26,
+      "praxis:restaurant:0d56ed154080df9317f9d79d": 22,
+      "praxis:restaurant:c446fe0b901cca8ffb43b42e": 14,
+      "praxis:restaurant:07b0ba0daee00150d6d202e1": 28,
+      "praxis:restaurant:f93797735808708abd68d4ed": 20
+    },
+    "pageStillLoadingWithinBound": 24,
+    "postActionWaitTotalMs": 47855,
+    "browserModelActions": 19,
+    "googleRequests": {
+      "limit": 38,
+      "total": 3,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 500111
+  },
+  "sourceHealth": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/attempt-1/source-health/source-health.json",
+  "networkPreflightPaths": [
+    "/private/tmp/praxis-phase2c-witness/.eval-artifacts/live-preflight/2026-10-23T11-04-41-155Z-1e8bb072-1fde-4688-a97e-fcc71ee99fe7.result.json"
+  ],
+  "postError": null,
+  "postStop": false,
+  "blockedMethod": {
+    "allDiagnosticOccurrences": 544,
+    "tablecheckDiagnosticOccurrences": 41,
+    "tablecheckByOrigin": {
+      "https://production.tablecheck.com/": 41
+    },
+    "tablecheckDistinctDiagnosticShapes": 2,
+    "rule": "Recursive code=BLOCKED_METHOD in diagnostics.browserTrace, same as original h07=867 all/76 TableCheck; cumulative snapshot copies may repeat. Distinct shapes are not distinct network request counts."
+  },
+  "boundaryStatus": "ABSENT"
+}

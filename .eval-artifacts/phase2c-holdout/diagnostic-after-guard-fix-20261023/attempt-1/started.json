@@ -1,0 +1,30 @@
+{
+  "label": "DIAGNOSTIC_AFTER_GUARD_FIX",
+  "run": 1,
+  "startedAt": "2026-10-23T10:59:20.703Z",
+  "mainline": "4d953731163e922741ea91ccc6c1c47b53f0b0e1",
+  "freezeSha256": "5ae7e6e377b16f92a2f7396b5ae94c6d008f7f81ee1fdfac79e7ec9f9f39bcc3",
+  "command": {
+    "node": "/opt/homebrew/Cellar/node/24.4.1/bin/node",
+    "args": [
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023/child-entry.ts",
+      "--case-source",
+      ".eval-artifacts/phase2c-holdout/exit-live-20261023/runner-input.yaml",
+      "--case",
+      "p2c-holdout-01",
+      "--timeout-ms",
+      "500000",
+      "--max-model-calls",
+      "50",
+      "--max-google-requests",
+      "38",
+      "--record-decisions",
+      "--record-browser",
+      "--no-proxy"
+    ]
+  },
+  "evaluation": "DEFERRED",
+  "original18Contribution": 0
+}

@@ -1,0 +1,64 @@
+{
+  "version": "live-source-health@1",
+  "classification": "READY",
+  "formalRunStarted": false,
+  "modelCalls": 0,
+  "googleRequests": 0,
+  "liveRuns": 0,
+  "retryDelayMs": 300000,
+  "attempts": [
+    {
+      "attempt": 1,
+      "startedAt": "2026-10-23T10:59:21.126Z",
+      "finishedAt": "2026-10-23T10:59:31.128Z",
+      "observations": [
+        {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+          "outcome": "UNHEALTHY",
+          "reason": "CHECK_TIMEOUT",
+          "httpStatus": 200,
+          "readNetworkBoundary": "INSTALLED",
+          "elapsedMs": 10002
+        },
+        {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+          "outcome": "HEALTHY",
+          "reason": null,
+          "httpStatus": 200,
+          "finalUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+          "readNetworkBoundary": "INSTALLED",
+          "elapsedMs": 9967
+        }
+      ]
+    },
+    {
+      "attempt": 2,
+      "startedAt": "2026-10-23T11:04:31.131Z",
+      "finishedAt": "2026-10-23T11:04:41.147Z",
+      "observations": [
+        {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+          "outcome": "HEALTHY",
+          "reason": null,
+          "httpStatus": 200,
+          "finalUrl": "https://tabelog.com/en/tokyo/A1301/",
+          "readNetworkBoundary": "INSTALLED",
+          "elapsedMs": 10016
+        },
+        {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+          "outcome": "HEALTHY",
+          "reason": null,
+          "httpStatus": 200,
+          "finalUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+          "readNetworkBoundary": "INSTALLED",
+          "elapsedMs": 9950
+        }
+      ]
+    }
+  ]
+}
