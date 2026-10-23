@@ -51,3 +51,16 @@ test("soft budget strength and its upper-bound versus around meaning stay separa
  const separate=assessRestaurantConditions({...intent,criteria:[{text:"ideally under 6000 yen per person",strength:"SOFT",polarity:"POSITIVE"}],budgetPerPerson:{max:8000,currency:"JPY"}},[price]);
  assert.deepEqual(separate.map(r=>[r.strength,r.status]),[["SOFT","NOT_MET"],["HARD","MET"]],"an independently stated firm cap must not be merged into a soft target");
 });
+
+test("a generic food descriptor uses the same explicit merchant category without broadening cuisine qualifiers",()=>{
+ const criteria=[{text:"regional food",strength:"HARD" as const,polarity:"POSITIVE" as const}];
+ const current=fact([source("CATEGORY","Regional, Noodles")],"regional food");
+ const shown=assessRestaurantConditions({...intent,criteria},[current])[0]!;
+ assert.equal(shown.status,"MET");
+ assert.deepEqual(shown.sources,[source("CATEGORY","Regional, Noodles")],"display the actual merchant field, never a quote assembled from the request");
+ for(const field of ["NAME","CUSTOMER_REVIEW"]){
+  assert.equal(assessRestaurantConditions({...intent,criteria},[fact([source(field,"Regional")],"regional food")])[0]?.status,"NOT_CHECKED");
+ }
+ assert.equal(assessRestaurantConditions({...intent,criteria:[{...criteria[0]!,text:"northern regional food"}]},[fact([source("CATEGORY","Regional")],"northern regional food")])[0]?.status,"NOT_CHECKED","all cuisine qualifiers still require source text");
+ assert.equal(assessRestaurantConditions({...intent,criteria},[fact([source("CATEGORY","No regional food offered")],"regional food")])[0]?.status,"NOT_CHECKED");
+});

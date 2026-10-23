@@ -1,0 +1,50 @@
+✖ Phase2c four observed cuisine conditions reach Router to Reducer and other saved displays stay identical (9.443833ms)
+✖ a generic food descriptor uses the same explicit merchant category without broadening cuisine qualifiers (2.21875ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 279.010875
+
+✖ failing tests:
+
+test at src/application/restaurant-presentation-evidence.test.ts:1:23685
+✖ Phase2c four observed cuisine conditions reach Router to Reducer and other saved displays stay identical (9.443833ms)
+  AssertionError [ERR_ASSERTION]: h-02:tabelog:en/tokyo/A1311/A131101/13093277: already observed cuisine must be displayed
+  + actual - expected
+  
+  + 'NOT_CHECKED'
+  - 'MET'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/application/restaurant-presentation-evidence.test.ts:319:56)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_CHECKED',
+    expected: 'MET',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/condition-states.test.ts:1:5194
+✖ a generic food descriptor uses the same explicit merchant category without broadening cuisine qualifiers (2.21875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_CHECKED'
+  - 'MET'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/domains/restaurant/condition-states.test.ts:59:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_CHECKED',
+    expected: 'MET',
+    operator: 'strictEqual'
+  }

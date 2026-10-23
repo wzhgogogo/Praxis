@@ -11,6 +11,10 @@
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 
+## DEV-2026-10-23-CONDITION-DISPLAY-REPAIR
+
+第二项独立修复：当前来源与引用链未丢失，generic literal cuisine key没有去除food描述词，使已接纳的Korean food判断不能与商家Korean字段相接。沿用现有restaurant/cuisine描述处理，仅补通用food描述，保留所有菜系限定、同店同来源、当前字段、否定与餐段约束，不依赖模型标签直接判满足。有效单元与真实Router→Reducer红灯保留，修复后12/12通过：h-02三家/h-08一家MET与原@33真值一致，其他9份保存产物展示及两份价格/全局引用均不变。无Prompt/Schema/评测器变更、0新模型/网站/Live；五门禁和69/5/22正式回归待完成。 [计划](../../.eval-artifacts/near-and-condition-display-20261023/plan.md).
+
 ## DEV-2026-10-23-NEAR-NAMED-LOCATION-REPAIR
 
 具名AREA（除nearby）按现有地名解析，不再要求文本含near；不加地点/关系词表，观测坐标、半径、类型、歧义、预算规则不变。保存h-06原Kitasenju输入和X/near X两条目标红灯有效；修复后Google/原生发现27/27通过。旧分页/预算Fixture补充显式观测圆心，不给生产绕过；Google-only pack回放仅证明定位向发现交接，不证明当前库存/完整Live。第一项独立提交，展示修复与全套五门禁、69/5/22仍待完成；本轮0新模型/网站/Live。 [计划](../../.eval-artifacts/near-and-condition-display-20261023/plan.md).
