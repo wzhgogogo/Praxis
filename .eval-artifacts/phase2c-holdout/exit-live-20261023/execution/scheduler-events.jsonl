@@ -1,0 +1,25 @@
+{"type":"START","queue":"A","runId":"h-01","attempt":1,"at":"2026-10-23T05:14:50.331Z","mode":"PARALLEL"}
+{"type":"FINISH","queue":"A","runId":"h-01","attempt":1,"at":"2026-10-23T05:15:41.405Z","modelCallsCharged":0,"formalRunStarted":false}
+{"type":"START","queue":"B","runId":"h-02","attempt":1,"at":"2026-10-23T05:16:20.574Z","mode":"PARALLEL"}
+{"type":"START","queue":"A","runId":"h-01","attempt":2,"at":"2026-10-23T05:20:42.109Z","mode":"PARALLEL"}
+{"type":"FINISH","queue":"B","runId":"h-02","attempt":1,"at":"2026-10-23T05:21:11.441Z","modelCallsCharged":27,"formalRunStarted":true}
+{"type":"START","queue":"B","runId":"h-04","attempt":1,"at":"2026-10-23T05:26:12.184Z","mode":"PARALLEL"}
+{"type":"FINISH","queue":"A","runId":"h-01","attempt":2,"at":"2026-10-23T05:29:02.154Z","modelCallsCharged":40,"formalRunStarted":true}
+{"type":"FINISH","queue":"B","runId":"h-04","attempt":1,"at":"2026-10-23T05:31:02.323Z","modelCallsCharged":22,"formalRunStarted":true}
+{"type":"START","queue":"A","runId":"h-03","attempt":1,"at":"2026-10-23T05:34:03.011Z","mode":"PARALLEL"}
+{"type":"START","queue":"B","runId":"h-06","attempt":1,"at":"2026-10-23T05:36:03.280Z","mode":"PARALLEL"}
+{"type":"FINISH","queue":"B","runId":"h-06","attempt":1,"at":"2026-10-23T05:37:02.689Z","modelCallsCharged":6,"formalRunStarted":true}
+{"type":"SEQUENTIAL_FALLBACK","at":"2026-10-23T05:38:25.105Z","reason":"SOURCE_HTTP_403_503_429","detail":{"reason":"SOURCE_HTTP_403_503_429","at":"2026-10-23T05:38:25.069Z","kind":"COOLDOWN_SIGNAL","url":"https://www.tablecheck.com/en/japan/search?geo_distance=25km&sort_by=distance&geo_latitude=35.694778&geo_longitude=139.7561163&auto_geolocate=false&cuisines[]=kappo","quote":"Search is unavailable right now. Please try again."}}
+{"type":"FINISH","queue":"A","runId":"h-03","attempt":1,"at":"2026-10-23T05:39:51.223Z","modelCallsCharged":29,"formalRunStarted":true}
+{"type":"START","queue":"A","runId":"h-03","attempt":2,"at":"2026-10-23T05:54:52.281Z","mode":"SEQUENTIAL"}
+{"type":"FINISH","queue":"A","runId":"h-03","attempt":2,"at":"2026-10-23T06:02:58.665Z","modelCallsCharged":47,"formalRunStarted":true}
+{"type":"START","queue":"A","runId":"h-05","attempt":1,"at":"2026-10-23T06:07:58.742Z","mode":"SEQUENTIAL"}
+{"type":"FINISH","queue":"A","runId":"h-05","attempt":1,"at":"2026-10-23T06:12:11.668Z","modelCallsCharged":22,"formalRunStarted":true}
+{"type":"START","queue":"A","runId":"h-07","attempt":1,"at":"2026-10-23T06:17:12.452Z","mode":"SEQUENTIAL"}
+{"type":"FINISH","queue":"A","runId":"h-07","attempt":1,"at":"2026-10-23T06:24:50.625Z","modelCallsCharged":47,"formalRunStarted":true}
+{"type":"START","queue":"B","runId":"h-08","attempt":1,"at":"2026-10-23T06:29:51.572Z","mode":"SEQUENTIAL"}
+{"type":"FINISH","queue":"B","runId":"h-08","attempt":1,"at":"2026-10-23T06:34:48.845Z","modelCallsCharged":26,"formalRunStarted":true}
+{"type":"START","queue":"A","runId":"h-09","attempt":1,"at":"2026-10-23T06:39:49.407Z","mode":"SEQUENTIAL"}
+{"type":"FINISH","queue":"A","runId":"h-09","attempt":1,"at":"2026-10-23T06:47:48.287Z","modelCallsCharged":47,"formalRunStarted":true}
+{"type":"START","queue":"B","runId":"h-10","attempt":1,"at":"2026-10-23T06:52:48.905Z","mode":"SEQUENTIAL"}
+{"type":"FINISH","queue":"B","runId":"h-10","attempt":1,"at":"2026-10-23T06:57:24.267Z","modelCallsCharged":25,"formalRunStarted":true}

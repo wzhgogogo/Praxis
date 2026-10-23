@@ -1,0 +1,55 @@
+{
+  "schema": "phase2c-operational-incidents@1",
+  "evaluation": "DEFERRED_NO_CAPABILITY_RESULTS",
+  "frozenConfigurationChanged": false,
+  "incidents": [
+    {
+      "runId": "h-01",
+      "attempt": 2,
+      "type": "OUTER_500S_INTERRUPTION_WITHOUT_FINAL_RESULT",
+      "modelsStarted": 40,
+      "fullResultAvailable": false,
+      "sources": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/finish.json",
+          "sha256": "0fb88454cc414f72d341fa10a1716b7ffcf415ecc65d4bd2a045ba6ff0ef2431"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/provider-calls.jsonl",
+          "sha256": "85ec30b62cec48cae94298d479f7c96039df3596138870117b25787bbc556b5e"
+        }
+      ],
+      "effect": "Retain decisions/raw files. ORCHESTRATION_INTERRUPTED is not retryable in this batch. Exact product Google total unavailable; reported preflight counts are lower bounds, not total."
+    },
+    {
+      "runId": "h-03",
+      "attempt": 1,
+      "type": "SOURCE_BUSY_PAUSE_ENFORCEMENT_DELAY",
+      "source": "TableCheck public search",
+      "quote": "Search is unavailable right now. Please try again.",
+      "http403Confirmed": false,
+      "sourceSignalAt": "2026-10-23T05:38:25.069Z",
+      "controllerFallbackAt": "2026-10-23T05:38:25.105Z",
+      "operatorStopAt": "2026-10-23T05:39:51.209355+00:00",
+      "attemptFinishedAt": "2026-10-23T05:39:51.223Z",
+      "modelsStartedAfterSignal": 8,
+      "modelsStartedTotal": 29,
+      "lastModelStartedAt": "2026-10-23T05:39:00.127Z",
+      "sources": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/manual-stop-h03.json",
+          "sha256": "3d7c111a8424c65ae10b80208eba62cab45ce4a4c728273e323bb29788117f83"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-1/provider-calls.jsonl",
+          "sha256": "304116c71f047752cff47e11463d3c37181b9d6de453597368712a6ae4852e81"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-1/finish.json",
+          "sha256": "825a3050a9b8e017ac488b9e2b98b3a81bd1dd9cabc923db14d1417671a86ba7"
+        }
+      ],
+      "effect": "Automatic SIGTERM did not promptly end child. Operator stopped only verified child with SIGKILL, no frozen-code change. Cooldown restarts from actual finish; earliest retry2026-10-23T05:54:51.223Z. Remaining work sequential. Raw final result missing; ENV_FAILURE retained. Root cause not claimed proven."
+    }
+  ]
+}

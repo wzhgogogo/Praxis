@@ -1,0 +1,44 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2c-holdout-01","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-07-attempt-1/network-preflight/2026-10-23T06-17-12-980Z-6b35a19b-e669-4e13-8a0b-57bd018139e4.result.json","elapsedMs":4750,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2c-holdout-01",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 10
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 28,
+    "candidatesChecked": 5,
+    "agentDecisions": 10,
+    "browserModelCalls": 22,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 233,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 31,
+      "native-discovery:VENUE_SEARCH": 25,
+      "tablecheck:kawaei": 32,
+      "tablecheck:underground-akabane": 32,
+      "praxis:restaurant:0d56ed154080df9317f9d79d": 28,
+      "praxis:restaurant:c446fe0b901cca8ffb43b42e": 38,
+      "praxis:restaurant:07b0ba0daee00150d6d202e1": 32,
+      "praxis:restaurant:22cd98fb641bd813a35745af": 7,
+      "praxis:restaurant:a600df04d5d4276bbde78253": 7,
+      "praxis:restaurant:f93797735808708abd68d4ed": 1
+    },
+    "pageStillLoadingWithinBound": 33,
+    "postActionWaitTotalMs": 52494,
+    "browserModelActions": 17,
+    "googleRequests": {
+      "limit": 38,
+      "total": 9,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 6,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 429178
+  },
+  "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-07-attempt-1/runner/2026-10-23T06-17-39-400Z-fbe3bca6-37d2-46a9-a325-50b7fd67959c.result.json",
+  "latencyMs": 429178,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

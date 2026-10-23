@@ -1,0 +1,40 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2c-holdout-02","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-08-attempt-1/network-preflight/2026-10-23T06-29-52-051Z-a7c161e1-f09d-4fdd-898c-a989a47e43d8.result.json","elapsedMs":8459,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2c-holdout-02",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 6
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 5,
+    "candidatesChecked": 5,
+    "agentDecisions": 6,
+    "browserModelCalls": 12,
+    "modelCallsStarted": 26,
+    "browserRuntimeCalls": 121,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 27,
+      "tabelog:en/tokyo/A1311/A131101/13188345": 15,
+      "tabelog:en/tokyo/A1311/A131101/13093277": 26,
+      "tabelog:en/tokyo/A1311/A131101/13018986": 18,
+      "tabelog:en/tokyo/A1311/A131101/13021458": 15,
+      "tabelog:en/tokyo/A1311/A131101/13271031": 20
+    },
+    "pageStillLoadingWithinBound": 16,
+    "postActionWaitTotalMs": 24813,
+    "browserModelActions": 10,
+    "googleRequests": {
+      "limit": 38,
+      "total": 3,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 262844
+  },
+  "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-08-attempt-1/runner/2026-10-23T06-30-23-512Z-e4914e6c-c86f-46a5-aa75-8451ec5dd56d.result.json",
+  "latencyMs": 262844,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

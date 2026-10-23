@@ -1,0 +1,1903 @@
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2c-holdout-06",
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@33",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@29"
+  },
+  "runtimeContext": {
+    "commitSha": "d54c4494cbb222b96709d7d6d6b02305e1bce447",
+    "worktree": "CLEAN",
+    "dataset": {
+      "version": "restaurant-read-novel-variant@1",
+      "sourcePath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/runner-input.yaml",
+      "sha256": "b3d869f9e6cf792cc34bd5425bda62e73a2c90d9fba0072d132a0ad3a5088cd7",
+      "cohort": "NOVEL_LOCATION_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-06-attempt-1/network-preflight/2026-10-23T05-36-03-701Z-e024fb07-8ea3-44af-b60b-ddb1fd8b6cca.result.json",
+      "elapsedMs": 13136,
+      "targetCount": 3
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    }
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "requestedRunCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "schemaVersion": "1",
+  "limits": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "runCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 38,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "requestMetadata": {
+    "sha256": "fff3c95d63239edc8b99419d87cd1873ff840240f35db355c00c9814b538fc1e",
+    "characterCount": 106
+  },
+  "materializedCase": {
+    "id": "p2c-holdout-06",
+    "dataset": "restaurant-read-novel-variant@1",
+    "reference_time": "2026-10-23T00:00:00+09:00",
+    "semantic": {
+      "target": {
+        "goal": "AVAILABILITY"
+      },
+      "location": {
+        "value": "Kitasenju",
+        "relation": "NEAR"
+      },
+      "date": {
+        "expression": "Friday, October 30",
+        "value": "2026-10-30"
+      },
+      "time": {
+        "expression": "after work",
+        "type": "TIME_WINDOW",
+        "start": "17:30",
+        "end": "22:00"
+      },
+      "party_size": 8,
+      "criteria": [
+        {
+          "value": "motsunabe",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "acceptance": {
+      "required_claims": [
+        "Correct outlet within 1,000 m of the resolved Kitasenju point; source-supported motsunabe; a matching current slot for 8 on 2026-10-30 starting between 17:30 and 22:00.",
+        "'After work' is a vague time: keep it as an evening window (17:30-22:00, the same convention as H003) and do not invent an exact time; any slot found must be shown with its actual time."
+      ]
+    },
+    "materialization": {
+      "sourceReferenceTime": "2026-10-23T00:00:00+09:00",
+      "resolvedReferenceTime": "2026-10-23T05:36:39.823Z"
+    }
+  },
+  "semantic": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "motsunabe near Kitasenju for a group of 8 after work",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "value": "2026-10-30",
+            "raw": "Friday, October 30"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "daypart": "AFTER_WORK",
+            "raw": "after work"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 8,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "Kitasenju"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "motsunabe",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "12e32473-8580-4c96-83d8-1fb6ecd7dfd3",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v23",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "3"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 4278,
+        "usage": {
+          "inputTokens": 6227,
+          "outputTokens": 337,
+          "totalTokens": 6564
+        },
+        "providerRequestId": "8ac1affa-e266-4806-b0f5-80846c00f344"
+      }
+    ]
+  },
+  "modelInvocations": [
+    {
+      "invocationId": "12e32473-8580-4c96-83d8-1fb6ecd7dfd3",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 4278,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6227,
+        "outputTokens": 337,
+        "totalTokens": 6564
+      },
+      "providerRequestId": "8ac1affa-e266-4806-b0f5-80846c00f344",
+      "settledAt": "2026-10-23T05:36:44.184Z"
+    },
+    {
+      "invocationId": "9f467b02-678d-45c9-b64c-00bd9adc360a",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2890,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 3628,
+        "outputTokens": 203,
+        "totalTokens": 3831
+      },
+      "providerRequestId": "7b84b564-07e7-4cfc-af4f-33be738d5dd5",
+      "settledAt": "2026-10-23T05:36:47.085Z"
+    },
+    {
+      "invocationId": "20d187c3-0c4b-4031-beee-839dc646844d",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3235,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 3657,
+        "outputTokens": 204,
+        "totalTokens": 3861
+      },
+      "providerRequestId": "cce3c1f7-4b15-40eb-bc08-7168dbbb9ead",
+      "settledAt": "2026-10-23T05:36:50.327Z"
+    },
+    {
+      "invocationId": "41b0c687-774a-424f-ae9b-eb80824d2246",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2997,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 3674,
+        "outputTokens": 206,
+        "totalTokens": 3880
+      },
+      "providerRequestId": "feb37058-2bab-4925-a057-273a4936af6c",
+      "settledAt": "2026-10-23T05:36:53.327Z"
+    },
+    {
+      "invocationId": "170d6711-e22e-4ffd-999d-51c421b652ac",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3230,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 3691,
+        "outputTokens": 200,
+        "totalTokens": 3891
+      },
+      "providerRequestId": "706ff507-bede-47a6-bdd7-fc46e25174c0",
+      "settledAt": "2026-10-23T05:36:56.560Z"
+    },
+    {
+      "invocationId": "1488ec9a-0243-41d4-af5d-b2518437646c",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 4939,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 3708,
+        "outputTokens": 200,
+        "totalTokens": 3908
+      },
+      "providerRequestId": "e029dff2-b128-4e9b-99fa-d2cab619f6e4",
+      "settledAt": "2026-10-23T05:37:01.502Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "event:hybrid-live:p2c-holdout-06:1792733799823:semantic:1",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "motsunabe near Kitasenju for a group of 8 after work",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 8,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Kitasenju"
+          },
+          "addCriteria": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "17:30",
+            "latest": "22:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-23T05:36:39.823Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Friday, October 30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "after work",
+              "resolvedTimeWindow": {
+                "earliest": "17:30",
+                "latest": "22:00"
+              },
+              "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-10-23T05:36:44.188Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:hybrid-live:p2c-holdout-06:1792733799823:semantic:1",
+        "actor": "MODEL"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:1",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Native search requires an observed coordinate context for exact geography",
+        "code": "AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:36:47.091Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:1",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:2",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Native search requires an observed coordinate context for exact geography",
+        "code": "AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:36:50.329Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:2",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:3",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Native search requires an observed coordinate context for exact geography",
+        "code": "AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:36:53.329Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:3",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:4",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Native search requires an observed coordinate context for exact geography",
+        "code": "AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:36:56.562Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:4",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:5",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Native search requires an observed coordinate context for exact geography",
+        "code": "AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:37:01.503Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:5",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:6",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "AGENT_LOOP_TERMINATED",
+        "termination": "NO_PROGRESS",
+        "reasonCode": "AGENT_EXECUTION_FAILED",
+        "reason": "No new successful observation in 5 steps; last failure: AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:37:01.503Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:6",
+        "actor": "SYSTEM"
+      }
+    }
+  ],
+  "trajectories": [
+    {
+      "id": "trajectory:hybrid-live:p2c-holdout-06:1792733799823:1",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "stepNumber": 1,
+      "occurredAt": "2026-10-23T05:36:47.087Z",
+      "stateVersionBefore": 1,
+      "stateHashBefore": "522b63c1668dadd84f539655ade2a70700d34ca58afa3c18abd3ce4e14ae793c",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:1"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-23T05:36:44.192Z",
+        "phase": "UNDERSTANDING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "motsunabe near Kitasenju for a group of 8 after work",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "17:30",
+            "latest": "22:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-23T05:36:39.823Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Friday, October 30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "after work",
+              "resolvedTimeWindow": {
+                "earliest": "17:30",
+                "latest": "22:00"
+              },
+              "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+            }
+          },
+          "partySize": 8,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Kitasenju"
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "motsunabe restaurants near Kitasenju, Tokyo"
+      },
+      "decisionSummary": "No candidates yet; discover motsunabe outlets near Kitasenju before availability checks for 8 on 2026-10-30 17:30–22:00.",
+      "modelAttempt": {
+        "invocationId": "9f467b02-678d-45c9-b64c-00bd9adc360a",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2890,
+        "usage": {
+          "inputTokens": 3628,
+          "outputTokens": 203,
+          "totalTokens": 3831
+        },
+        "providerRequestId": "7b84b564-07e7-4cfc-af4f-33be738d5dd5"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 0,
+        "failureCode": "AGENT_EXECUTION_FAILED",
+        "googleRequests": {
+          "limit": 38,
+          "total": 0,
+          "namedPlaceResolution": 0,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY_FAILED",
+        "detail": "Native search requires an observed coordinate context for exact geography"
+      },
+      "stateVersionAfter": 2,
+      "stateHashAfter": "6bb37a381389ae1fe61ecabc492448e6e92862fc01062f956418ec009b2f64ab",
+      "stepOutcome": "EXECUTION_FAILURE"
+    },
+    {
+      "id": "trajectory:hybrid-live:p2c-holdout-06:1792733799823:2",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "stepNumber": 2,
+      "occurredAt": "2026-10-23T05:36:50.328Z",
+      "stateVersionBefore": 2,
+      "stateHashBefore": "6bb37a381389ae1fe61ecabc492448e6e92862fc01062f956418ec009b2f64ab",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:2"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-23T05:36:47.091Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "motsunabe near Kitasenju for a group of 8 after work",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "17:30",
+            "latest": "22:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-23T05:36:39.823Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Friday, October 30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "after work",
+              "resolvedTimeWindow": {
+                "earliest": "17:30",
+                "latest": "22:00"
+              },
+              "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+            }
+          },
+          "partySize": 8,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Kitasenju"
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        },
+        "failure": {
+          "code": "AGENT_EXECUTION_FAILED"
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "motsunabe restaurants near Kitasenju, Tokyo, suitable for a group of 8"
+      },
+      "decisionSummary": "No candidates exist yet after a failed provider read; search for motsunabe outlets near Kitasenju to build a candidate set before availability checks.",
+      "modelAttempt": {
+        "invocationId": "20d187c3-0c4b-4031-beee-839dc646844d",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3235,
+        "usage": {
+          "inputTokens": 3657,
+          "outputTokens": 204,
+          "totalTokens": 3861
+        },
+        "providerRequestId": "cce3c1f7-4b15-40eb-bc08-7168dbbb9ead"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 0,
+        "failureCode": "AGENT_EXECUTION_FAILED",
+        "googleRequests": {
+          "limit": 38,
+          "total": 0,
+          "namedPlaceResolution": 0,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY_FAILED",
+        "detail": "Native search requires an observed coordinate context for exact geography"
+      },
+      "stateVersionAfter": 3,
+      "stateHashAfter": "6bb37a381389ae1fe61ecabc492448e6e92862fc01062f956418ec009b2f64ab",
+      "stepOutcome": "EXECUTION_FAILURE"
+    },
+    {
+      "id": "trajectory:hybrid-live:p2c-holdout-06:1792733799823:3",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "stepNumber": 3,
+      "occurredAt": "2026-10-23T05:36:53.328Z",
+      "stateVersionBefore": 3,
+      "stateHashBefore": "6bb37a381389ae1fe61ecabc492448e6e92862fc01062f956418ec009b2f64ab",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:3"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-23T05:36:50.329Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "motsunabe near Kitasenju for a group of 8 after work",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "17:30",
+            "latest": "22:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-23T05:36:39.823Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Friday, October 30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "after work",
+              "resolvedTimeWindow": {
+                "earliest": "17:30",
+                "latest": "22:00"
+              },
+              "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+            }
+          },
+          "partySize": 8,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Kitasenju"
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        },
+        "failure": {
+          "code": "AGENT_EXECUTION_FAILED"
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "motsunabe restaurants near Kitasenju, Tokyo, suitable for a group of 8"
+      },
+      "decisionSummary": "No candidates exist yet and prior provider reads failed; search is available, so discover motsunabe outlets near Kitasenju before any availability or fact reads.",
+      "modelAttempt": {
+        "invocationId": "41b0c687-774a-424f-ae9b-eb80824d2246",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2997,
+        "usage": {
+          "inputTokens": 3674,
+          "outputTokens": 206,
+          "totalTokens": 3880
+        },
+        "providerRequestId": "feb37058-2bab-4925-a057-273a4936af6c"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 0,
+        "failureCode": "AGENT_EXECUTION_FAILED",
+        "googleRequests": {
+          "limit": 38,
+          "total": 0,
+          "namedPlaceResolution": 0,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY_FAILED",
+        "detail": "Native search requires an observed coordinate context for exact geography"
+      },
+      "stateVersionAfter": 4,
+      "stateHashAfter": "6bb37a381389ae1fe61ecabc492448e6e92862fc01062f956418ec009b2f64ab",
+      "stepOutcome": "EXECUTION_FAILURE"
+    },
+    {
+      "id": "trajectory:hybrid-live:p2c-holdout-06:1792733799823:4",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "stepNumber": 4,
+      "occurredAt": "2026-10-23T05:36:56.561Z",
+      "stateVersionBefore": 4,
+      "stateHashBefore": "6bb37a381389ae1fe61ecabc492448e6e92862fc01062f956418ec009b2f64ab",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:4"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-23T05:36:53.329Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "motsunabe near Kitasenju for a group of 8 after work",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "17:30",
+            "latest": "22:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-23T05:36:39.823Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Friday, October 30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "after work",
+              "resolvedTimeWindow": {
+                "earliest": "17:30",
+                "latest": "22:00"
+              },
+              "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+            }
+          },
+          "partySize": 8,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Kitasenju"
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        },
+        "failure": {
+          "code": "AGENT_EXECUTION_FAILED"
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "motsunabe restaurants near Kitasenju, Tokyo, suitable for a group of 8"
+      },
+      "decisionSummary": "No candidates exist yet and prior provider reads failed; restart discovery with a focused search for motsunabe near Kitasenju.",
+      "modelAttempt": {
+        "invocationId": "170d6711-e22e-4ffd-999d-51c421b652ac",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3230,
+        "usage": {
+          "inputTokens": 3691,
+          "outputTokens": 200,
+          "totalTokens": 3891
+        },
+        "providerRequestId": "706ff507-bede-47a6-bdd7-fc46e25174c0"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 0,
+        "failureCode": "AGENT_EXECUTION_FAILED",
+        "googleRequests": {
+          "limit": 38,
+          "total": 0,
+          "namedPlaceResolution": 0,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY_FAILED",
+        "detail": "Native search requires an observed coordinate context for exact geography"
+      },
+      "stateVersionAfter": 5,
+      "stateHashAfter": "6bb37a381389ae1fe61ecabc492448e6e92862fc01062f956418ec009b2f64ab",
+      "stepOutcome": "EXECUTION_FAILURE"
+    },
+    {
+      "id": "trajectory:hybrid-live:p2c-holdout-06:1792733799823:5",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "stepNumber": 5,
+      "occurredAt": "2026-10-23T05:37:01.503Z",
+      "stateVersionBefore": 5,
+      "stateHashBefore": "6bb37a381389ae1fe61ecabc492448e6e92862fc01062f956418ec009b2f64ab",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:5"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-23T05:36:56.562Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "motsunabe near Kitasenju for a group of 8 after work",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "17:30",
+            "latest": "22:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-23T05:36:39.823Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Friday, October 30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "after work",
+              "resolvedTimeWindow": {
+                "earliest": "17:30",
+                "latest": "22:00"
+              },
+              "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+            }
+          },
+          "partySize": 8,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Kitasenju"
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        },
+        "failure": {
+          "code": "AGENT_EXECUTION_FAILED"
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "motsunabe restaurants near Kitasenju, Tokyo, suitable for a group of 8"
+      },
+      "decisionSummary": "No candidates exist yet and prior provider reads failed; restart discovery with a bounded search for motsunabe near Kitasenju.",
+      "modelAttempt": {
+        "invocationId": "1488ec9a-0243-41d4-af5d-b2518437646c",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 4939,
+        "usage": {
+          "inputTokens": 3708,
+          "outputTokens": 200,
+          "totalTokens": 3908
+        },
+        "providerRequestId": "e029dff2-b128-4e9b-99fa-d2cab619f6e4"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 0,
+        "failureCode": "AGENT_EXECUTION_FAILED",
+        "googleRequests": {
+          "limit": 38,
+          "total": 0,
+          "namedPlaceResolution": 0,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY_FAILED",
+        "detail": "Native search requires an observed coordinate context for exact geography"
+      },
+      "stateVersionAfter": 6,
+      "stateHashAfter": "6bb37a381389ae1fe61ecabc492448e6e92862fc01062f956418ec009b2f64ab",
+      "stepOutcome": "EXECUTION_FAILURE"
+    },
+    {
+      "id": "trajectory:hybrid-live:p2c-holdout-06:1792733799823:6",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "stepNumber": 6,
+      "occurredAt": "2026-10-23T05:37:01.503Z",
+      "stateVersionBefore": 6,
+      "stateHashBefore": "6bb37a381389ae1fe61ecabc492448e6e92862fc01062f956418ec009b2f64ab",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:6"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "stateVersionAfter": 7,
+      "stateHashAfter": "511076af550946e1d98843681113fe021c43b3a77ac88229753524b6ec0b49e2",
+      "stepOutcome": "NO_PROGRESS"
+    }
+  ],
+  "diagnostics": {
+    "tablecheckIdentity": [],
+    "tabelogIdentity": [],
+    "tabelogUserInterventions": [],
+    "browserExecution": [],
+    "browserTrace": []
+  },
+  "finalSnapshot": {
+    "id": "hybrid-live:p2c-holdout-06:1792733799823",
+    "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "18",
+    "lifecycleState": "FAILED",
+    "domainState": {
+      "schemaVersion": "20",
+      "phase": "FAILED",
+      "searchRevision": 0,
+      "investigationRevision": 1,
+      "intentDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "motsunabe",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "motsunabe near Kitasenju for a group of 8 after work",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "17:30",
+          "latest": "22:00"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-23T05:36:39.823Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Friday, October 30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "after work",
+            "resolvedTimeWindow": {
+              "earliest": "17:30",
+              "latest": "22:00"
+            },
+            "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+          }
+        },
+        "partySize": 8,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "Kitasenju"
+        }
+      },
+      "candidates": [],
+      "availability": {},
+      "availabilityChecks": {},
+      "factChecks": {},
+      "readEvidence": [],
+      "failure": {
+        "code": "AGENT_LOOP_NO_PROGRESS",
+        "message": "No new successful observation in 5 steps; last failure: AGENT_EXECUTION_FAILED"
+      }
+    },
+    "outcome": {
+      "status": "FAILED",
+      "reason": "No new successful observation in 5 steps; last failure: AGENT_EXECUTION_FAILED"
+    },
+    "version": 7,
+    "createdAt": "2026-10-23T05:36:39.905Z",
+    "updatedAt": "2026-10-23T05:37:01.503Z"
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 5,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 6,
+    "browserRuntimeCalls": 0,
+    "browserOperationsByCandidate": {},
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 0,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 38,
+      "total": 0,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 21680
+  },
+  "searchState": {
+    "candidatesDiscovered": 0,
+    "candidatesInvestigated": 0,
+    "candidatesAvailabilityChecked": 0,
+    "remainingCandidateIds": [],
+    "remainingAvailabilityCandidateIds": [],
+    "continuationExhausted": null,
+    "nextPageTokenPresent": false
+  },
+  "termination": {
+    "scope": "TASK",
+    "code": "AGENT_LOOP_NO_PROGRESS",
+    "reason": "No new successful observation in 5 steps; last failure: AGENT_EXECUTION_FAILED"
+  },
+  "loop": {
+    "status": "NO_PROGRESS",
+    "steps": 5
+  },
+  "latencyMs": 21680,
+  "decisionCapture": {
+    "path": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-06-attempt-1/runner/2026-10-23T05-36-39-904Z-4cd7f1dd-39e6-4416-83c0-73b0e862ad3f.decisions.jsonl",
+    "sha256": "e471b3ac9cee39f1514c6a1f257468ba5f7c0f138662d0609345c44c479c47ee",
+    "callsStarted": 6,
+    "rowsWritten": 6,
+    "errors": []
+  },
+  "browserRecording": {
+    "path": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-06-attempt-1/recordings/hybrid-1792733799823",
+    "screenshot": "NOT_CAPTURED_NO_SANITIZER",
+    "replay": {
+      "status": "NOT_REPLAYABLE",
+      "reason": "NO_CAPTURED_PUBLIC_DOCUMENT"
+    }
+  },
+  "stageTimings": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 21681,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "MODEL_DECISION:restaurant_agent_decide",
+        "elapsedMs": 17291,
+        "percent": 79.75185646418524
+      },
+      {
+        "stage": "SEMANTIC",
+        "elapsedMs": 4278,
+        "percent": 19.731562197315622
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 97,
+        "percent": 0.4473963378072967
+      },
+      {
+        "stage": "SEARCH_RESTAURANTS",
+        "elapsedMs": 15,
+        "percent": 0.06918500069185
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 4278,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 2890,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 3,
+        "latencyMs": 3235,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 4,
+        "latencyMs": 2997,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 5,
+        "latencyMs": 3230,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 6,
+        "latencyMs": 4939,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  },
+  "status": "FAILED",
+  "stage": "AGENT_LOOP",
+  "failureCode": "LIVE_CASE_NOT_COMPLETED",
+  "runId": "4cd7f1dd-39e6-4416-83c0-73b0e862ad3f",
+  "startedAt": "2026-10-23T05:36:39.904Z",
+  "finishedAt": "2026-10-23T05:37:01.505Z"
+}

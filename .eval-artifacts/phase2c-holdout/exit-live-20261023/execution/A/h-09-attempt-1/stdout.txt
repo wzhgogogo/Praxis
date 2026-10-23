@@ -1,0 +1,46 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2c-holdout-03","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-09-attempt-1/network-preflight/2026-10-23T06-39-49-833Z-604ee689-c851-4ef7-b290-c60f51dfa2be.result.json","elapsedMs":4489,"targetCount":3},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":38,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2c-holdout-03",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 10
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 10,
+    "candidatesChecked": 10,
+    "agentDecisions": 10,
+    "browserModelCalls": 23,
+    "modelCallsStarted": 47,
+    "browserRuntimeCalls": 279,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 31,
+      "tabelog:en/tokyo/A1310/A131003/13242888": 25,
+      "tabelog:en/tokyo/A1310/A131003/13309169": 31,
+      "tabelog:en/tokyo/A1310/A131003/13290549": 34,
+      "tabelog:en/tokyo/A1310/A131003/13234878": 34,
+      "tabelog:en/tokyo/A1310/A131003/13254791": 30,
+      "native-discovery:VENUE_SEARCH": 17,
+      "tablecheck:qdk-cafe": 7,
+      "tablecheck:divino": 29,
+      "tablecheck:hitujiya-jimbocho": 28,
+      "tablecheck:jinbocho-gokita": 3,
+      "tablecheck:utena": 10
+    },
+    "pageStillLoadingWithinBound": 38,
+    "postActionWaitTotalMs": 62392,
+    "browserModelActions": 20,
+    "googleRequests": {
+      "limit": 38,
+      "total": 2,
+      "namedPlaceResolution": 1,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 457674
+  },
+  "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-09-attempt-1/runner/2026-10-23T06-40-08-617Z-1849354e-a865-4407-b25f-e90bcf8a9b21.result.json",
+  "latencyMs": 457674,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

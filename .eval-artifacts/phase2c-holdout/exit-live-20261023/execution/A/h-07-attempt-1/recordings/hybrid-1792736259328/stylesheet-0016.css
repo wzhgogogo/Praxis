@@ -1,0 +1,249 @@
+@charset "UTF-8";
+
+
+
+/* CSS Document */
+
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+article,
+aside,
+dialog,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+time,
+mark,
+audio,
+video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: inherit;
+	font-family: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	vertical-align: baseline;
+	max-height: 999999px;
+}
+
+body {
+	font-size: 1rem;
+	line-height: 1.875;
+	color: #2C2C2C;
+	font-family: "Noto Sans JP", "メイリオ", Meiryo, sans-serif;
+	background: url(../img/cmn/bg01.png) center top #fff;
+	word-wrap: break-word;
+	-webkit-text-size-adjust: none; /*202009 100%はiPadでサイズが変わってしまうのでnoneを使う*/
+}
+
+body.page-top,
+body.page-recruit{
+	background: #fff;
+}
+
+a {
+	margin: 0;
+	padding: 0;
+	font-size: inherit;
+	font-family: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	vertical-align: baseline;
+	color: #2C2C2C;
+	text-decoration: none;
+	max-height: 999999px;
+}
+
+a,
+button {
+	outline: 5px solid transparent;
+	outline-offset: 10px;
+	-webkit-transition: outline-offset 0.5s;
+	transition: outline-offset 0.5s;
+}
+
+a::-moz-focus-inner,
+button::-moz-focus-inner {
+	border: 0;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	vertical-align: bottom;
+}
+
+a img {
+	border: 0;
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+}
+
+a {
+	-webkit-transition: all 0.5s;
+	transition: all 0.5s;
+}
+
+a:hover { /*	color:#0000FF;*/
+	text-decoration: none;
+	-webkit-transition: all 0.5s;
+	transition: all 0.5s;
+}
+
+a:hover img,
+a:active img {
+	opacity: 0.6;
+}
+
+a:focus,
+button:focus {
+	outline: 2px solid rgba(0, 0, 0, 0.8);
+	outline-offset: 0;
+}
+
+[data-whatinput="mouse"] :focus,
+[data-whatinput="touch"] :focus,
+[data-whatinput="touch"] :hover {
+	outline-color: transparent !important;
+	text-decoration: none !important;
+}
+
+[data-whatinput="touch"] a:hover img {
+	opacity: 1 !important;
+}
+
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+	display: block;
+}
+
+li {
+	list-style-type: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+	font-size: inherit;
+	font-family: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	margin: 0;
+	outline: 0;
+	vertical-align: baseline;
+	max-height: 999999px;
+}
+
+caption,
+th,
+td {
+	text-align: inherit;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: "";
+	content: none;
+}
+
+blockquote,
+q {
+	quotes: none;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+abbr[title],
+dfn[title] {
+	border-bottom: 1px dotted #000;
+	cursor: help;
+}
+
+ins {
+	text-decoration: none;
+}
+
+mark { /*	font-style:italic;*/ /*	font-weight:bold;*/
+}
+
+@media (max-width: 768px) {
+
+body {
+	font-size: 0.75rem;
+	line-height: 1.5;
+}
+
+}
+

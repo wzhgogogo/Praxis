@@ -1,0 +1,16 @@
+/private/tmp/praxis-phase2c-witness/src/eval/restaurant/agent-loop/source-data-preflight.ts:95
+  if(failed.length)throw new SourceDataPreflightError(failed,artifactPath);
+                         ^
+
+
+SourceDataPreflightError: ENV_FAILURE: source data unavailable: tabelog
+    at runSourceDataPreflight (/private/tmp/praxis-phase2c-witness/src/eval/restaurant/agent-loop/source-data-preflight.ts:95:26)
+    at async sourcePreflight (/private/tmp/praxis-phase2c-witness/.eval-artifacts/checkpoint-c-live-20261020/transports.ts:28:13)
+    at async runHybridLiveRead (/private/tmp/praxis-phase2c-witness/.eval-artifacts/checkpoint-c-live-20261020/runner-entry.ts:238:1)
+    at async <anonymous> (/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/child-entry.ts:5:1) {
+  sourceIds: [ 'tabelog' ],
+  artifactPath: '/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-1/source-preflight/source-data-preflight.json',
+  code: 'ENV_FAILURE'
+}
+
+Node.js v24.4.1
