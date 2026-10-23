@@ -9,6 +9,8 @@
 
 - **2026-10-24-PHASE3A-PRIME-F1-COMPLETE:** 对话A/F1离线候选完成，分支codex/chore-phase3a-prime-f1，停于停止点1待与B/F5分析一起独立复核；未合入main。1175行清单覆盖1167基线执行项和8非默认探针；退役四个源码字面自检及父项5个，编译空文件迁fixture，纯身份反例合入既有probe契约且前后同破坏双红；31秒Chromium主回归保留，只去掉同例退役30秒对照。新五门禁默认1023、Chromium137，三次中位21.561452/276.823612秒，基线23.337168/307.573510；69翻月/5选店/22校准通过，正常声明20/20、历史中断未评保持。83条明确安全类清单保留、31条Live失败家族主覆盖列证据；15保存页面/控件provenance、原字节不变。194生产TypeScript逐字节无改动，目录3864/包473不增；新增模型/Live/来源调用0。 [报告](../.eval-artifacts/phase3a-prime/f1/report.md)。
 
+- **2026-10-24-PHASE3A-PRIME-F5-ANALYSIS:** 批次1B只读分析完成，停在停止点1等独立复核选方案。固定3ec38584四份完整结果171行决策及中断29行：例01 Tabelog零详情、地区未完成；两家与同义词改写实际来自TableCheck，不能仅放宽首五家规则。例03历史输入为备用Kudanshita，五店都在半径内，后续事实约148–150秒；第三次未到达。41/95为重复OPTIONS诊断，预检只支持GET而日历规则为受限POST，缺真实配对字段，分类交F3。提出两个通用层方案，优先评审权威地名约束检索；均未实施，收益待验证。产品/Runner/测试/适配器未改，新模型/Google/网站/Live0；不合并、不推送。[分析报告](../.eval-artifacts/phase3a-prime/f5-analysis/report.md)。
+
 - **2026-10-24-PHASE3A-PRIME-STOP0-APPROVED:** 用户转述独立复核00:20北京通过停止点0，行数错误在指令一侧。门槛仅两个站点目录非测试TypeScript物理行，3591→3864、目标≤3591；source-packs.ts单列当前473且站点行数不得增加，移动到pack/通用层不计减少，站点Skill排除。批准批次1：A做F1，B做F5只读分析；F1基线默认1029/23.3秒，Chromium138/307.6秒。批次0五门禁与原始统计不改，新模型/Live0。 [报告补充](../.eval-artifacts/phase3a-prime/main-check/report.md#7-停止点-0-复核补充2026-10-24-0020-北京)。
 
 - **2026-10-23-PHASE3A-PRIME-MAIN-CHECK:** 用户批准的3a′指令逐字保存并先独立提交8601233c；从main/ac571ca8建立批次0分支，不向旧开发分支提交。fetch后main与origin/main一致，包含4d953731和9de09404，旧开发分支无独有提交。五门禁与默认1029/本机Chromium138的三次耗时基线见报告。行数存在口径冲突：历史3591/约3863不含source-packs.ts，当前窄口径3864；按指令含包则3991→4337。依停止点0等待复核明确≤3591适用范围；F1/F5未启动。产品代码、测试、fixture和资格不变，新增Live/真实模型/Google/来源网站0，不合并、不推送。 [报告](../.eval-artifacts/phase3a-prime/main-check/report.md)。

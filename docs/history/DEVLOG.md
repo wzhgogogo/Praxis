@@ -11,6 +11,10 @@
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 
+## DEV-2026-10-24-PHASE3A-PRIME-F5-ANALYSIS
+
+按已批准批次1B从main/2ada8a69建立codex/chore-phase3a-prime-f5-analysis，独立工作区保留主工作树9份用户改动。只读取3ec38584的两次例01诊断、例03两份完整结果及首个中断尝试；输出六问分析、逐来源/逐页/逐模型明细、原始输入SHA与最多两个通用层方案。Tabelog地区未完成且零详情，否定“只有两家所以首五家规则没触发”的实际归因；两家和同义词来自TableCheck。例03已执行备用地点Kudanshita，五家均在范围内，约148–150秒事实追查；新输入比较口径待冻结前明确。OPTIONS只分类不修，新增窄ADR的需要在方案中明确。报告与本批同步文档可能与并行F1同文件，待复核安排合入顺序；不改产品/测试/Runner/输入/权限，不合并main、不推送，停止点1。新真实模型、Google、网站和Live均0。[报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md)。
+
 ## DEV-2026-10-23-MAIN-ONLY-WORKFLOW
 
 用户决定保留全部远端分支，不删除任何分支，第二阶段删除提案关闭。从第三阶段起main为唯一主线：新工作分支从同步后的最新main创建，验证及复核通过后合并回main。codex/feat-live-restaurant-read-path保留在第二阶段phase2-signoff历史指针，不再提交、合入新工作或作为新分支起点。当前签收缺口和历史tag不变；本次仅文档整理，不修改产品或运行Live。 在最新origin/main 3ecc26c3上创建codex/docs-main-only-workflow，仅向main推送；不更新第二阶段历史分支。[约定](../REPOSITORY-CONVENTIONS.md#git分支与tag)。
