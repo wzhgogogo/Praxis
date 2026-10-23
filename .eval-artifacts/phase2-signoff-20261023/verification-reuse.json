@@ -1,0 +1,103 @@
+{
+  "schema": "phase2-signoff-verification-reuse@1",
+  "alreadyMerged": true,
+  "mainline": "c32fe31c91497f59b5da60c30815f514248faac1",
+  "verifiedSourceFiles": 335,
+  "sourceMismatches": 0,
+  "fiveGates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 459
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 286
+    },
+    {
+      "name": "default-tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 23083
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 459
+    },
+    {
+      "name": "browser-fixtures",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 306835
+    }
+  ],
+  "counts": {
+    "default-tests": {
+      "tests": 1029,
+      "pass": 1029,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "browser-fixtures": {
+      "tests": 138,
+      "pass": 138,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "calendar": {
+    "passed": 69,
+    "total": 69,
+    "required": 68
+  },
+  "selection": {
+    "passed": 5,
+    "total": 5
+  },
+  "calibration": {
+    "passed": 22,
+    "total": 22,
+    "normalDeclaration": {
+      "matched": 20,
+      "total": 20
+    },
+    "boundary": {
+      "ABSENT": 9,
+      "PRESENT": 0,
+      "NOT_EVALUATED": 13
+    }
+  },
+  "proof": {
+    "path": ".eval-artifacts/near-and-condition-display-merge-20261023/final-verification.json",
+    "sha256": "adf4154bd7179dc5f467821b3c4fac697afc0e54fe8cf7ab8f14d55c45bbd24a"
+  },
+  "rule": "Step1 conditional: already merged, exact checked sources unchanged; documentation-only closeout reuses existing gate/regression evidence under Test Skill. No model or Live."
+}

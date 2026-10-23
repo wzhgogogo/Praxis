@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.281
+- Document revision: 4.282
 - Last updated: 2026-10-23
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-23-PHASE2-SIGNOFF-CLOSEOUT
+
+用户于2026-10-23 19:51北京带缺口签收第二阶段；原始签收文件e9de81d6逐字合入，SHA457521eb…，不改历史判定。严格退出条件2未满足、3未完整评价、6未满足，条件4仅离线修复未经Live复验；H005两种口径并列保留。near/展示修复已在c32fe31c合并验证，源码335份逐字节未变，复用五门禁1029默认/138本机Chromium及69/5/22回归。按用户确认的分支tip创建4个历史annotated tag，最终主线另打phase2-signoff；main仅允许快进，授权原子推送后核对远端。32个远端分支清单已列，未删除任何分支，删除须逐项确认。新增模型/Google/网站/Live0；签收用量4395/5000模型、91/100 Live、5/10环境重跑，余额不转第三阶段。 本次为文档与引用整理，按Test纯文档矩阵检查原文SHA、链接/命令、源码不变、diff、tag类型/目标及快进祖先关系；不重复模型质量采样和五门禁，不把复用写成新运行。[验证复用依据](../../.eval-artifacts/phase2-signoff-20261023/verification-reuse.json) · [报告](../../.eval-artifacts/phase2-signoff-20261023/report.md).
 
 ## TEST-2026-10-23-NEAR-DISPLAY-REVIEWED-MERGE
 

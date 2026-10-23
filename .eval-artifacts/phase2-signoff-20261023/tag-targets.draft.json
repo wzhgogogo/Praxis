@@ -1,0 +1,39 @@
+{
+  "schema": "phase2-signoff-tag-targets@1",
+  "status": "SUPERSEDED_RETROSPECTIVE_PROPOSAL; user confirmed approved-tag-targets.json",
+  "targets": [
+    {
+      "tag": "phase2-checkpoint-c",
+      "namedBranch": "codex/chore-checkpoint-c-prep",
+      "namedBranchTip": "40ea0c058f2f5f38551bce0f01787db5f0f6fe0f",
+      "batchEvidenceFinalCandidate": "044f7de7ddc0adf895e976d4521629f42cfe0c5f",
+      "candidateMeaning": "C18验收冻结144e939f + 检查点C复核044f7de7；H005两种口径并列",
+      "status": "AWAITING_TARGET_CLARIFICATION; NO_TAG_CREATED"
+    },
+    {
+      "tag": "phase2-holdout-1",
+      "namedBranch": "codex/holdout-phase2-exit",
+      "namedBranchTip": "b1ed99793f2d2a1de623bd7db3a28a40700f0279",
+      "batchEvidenceFinalCandidate": "17415d1cc1fad5c5da7729de125f4581e0251cb1",
+      "candidateMeaning": "旧留出集例05经批准无损YAML恢复后的最终补评",
+      "status": "AWAITING_TARGET_CLARIFICATION; NO_TAG_CREATED"
+    },
+    {
+      "tag": "phase2b-holdout",
+      "namedBranch": "codex/holdout-phase2b-exit",
+      "namedBranchTip": "da8ff090d73a93825a8c243a25e3ef39aba1c2c4",
+      "batchEvidenceFinalCandidate": "40ea0c058f2f5f38551bce0f01787db5f0f6fe0f",
+      "candidateMeaning": "18次phase2b最终评价06287b6f + 独立复核40ea0c05",
+      "status": "AWAITING_TARGET_CLARIFICATION; NO_TAG_CREATED"
+    },
+    {
+      "tag": "phase2c-holdout",
+      "namedBranch": "codex/holdout-phase2c-exit",
+      "namedBranchTip": "3ec38584555b5271b72b79f954179769e92ff9f6",
+      "batchEvidenceFinalCandidate": "3ec38584555b5271b72b79f954179769e92ff9f6",
+      "candidateMeaning": "原退出18次记录、已评价11次、暂停记录及后续两次诊断均在分支最终提交中保留",
+      "status": "AWAITING_TARGET_CLARIFICATION; NO_TAG_CREATED"
+    }
+  ],
+  "signoffTag": "phase2-signoff must point to final mainline commit containing original signoff; blocked by unavailable source file"
+}
