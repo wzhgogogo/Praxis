@@ -1,0 +1,51 @@
+{
+  "id": "09-fallback-fugu-discovery",
+  "approvedBy": "USER_PHASE2C_WITNESS_AUTHORIZATION",
+  "fallbackRecord": {
+    "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/fallback-03.json",
+    "sha256": "dab19777d24e16643622d99489ad6a3bf5b61fc25fded810072835ddfee181d4"
+  },
+  "requests": [
+    {
+      "id": "fallback-center-03",
+      "caseId": "p2c-holdout-03",
+      "kind": "GOOGLE",
+      "query": "Kudanshita Station, Tokyo, Japan",
+      "url": "https://places.googleapis.com/v1/places:searchText"
+    },
+    {
+      "id": "fallback-fugu-list-03",
+      "caseId": "p2c-holdout-03",
+      "kind": "LISTING",
+      "url": "https://tabelog.com/en/tokyo/A1310/rstLst/RC011212/",
+      "lineage": {
+        "method": "Source-exposed area and cuisine directory composition",
+        "areaSource": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-01.attempt-1.source.json",
+          "sha256": "55aa74d28a27ab70d3f7de4d247a64289ff418e9daba690b5bf5a3fdf6ae0600"
+        },
+        "areaLink": {
+          "url": "https://tabelog.com/en/tokyo/A1310/rstLst/?sk=Akabane%20kushikatsu",
+          "label": "Akihabara & Kanda & Suidobashi",
+          "rawAnchorSha256": "860b4b5ec7ae70bcefb7a166480de98c27e25c09c449a4167c7b144214d42702"
+        },
+        "genreSource": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-03.attempt-1.source.json",
+          "sha256": "bd12075497b8e9cd25f9cf55f0fe952be45394dd3e58262c16ee5b68c73c56d1"
+        },
+        "genreLink": {
+          "url": "https://tabelog.com/en/tokyo/A1309/rstLst/RC011212/",
+          "label": "English",
+          "rawAnchorSha256": "0398107fe64b1317b13c7cb671c9abba3de74e2d922959fa66d1572445450aa2"
+        }
+      }
+    },
+    {
+      "id": "fallback-fugu-google-03",
+      "caseId": "p2c-holdout-03",
+      "kind": "GOOGLE",
+      "query": "fugu restaurant near Kudanshita Station Tokyo Japan",
+      "url": "https://places.googleapis.com/v1/places:searchText"
+    }
+  ]
+}

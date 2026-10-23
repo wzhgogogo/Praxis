@@ -1,0 +1,40 @@
+{
+  "schema": "phase2c-approved-fallback@1",
+  "caseId": "p2c-holdout-03",
+  "originalPlace": "Ichigaya",
+  "usedPlace": "Kudanshita",
+  "authority": {
+    "path": ".eval-artifacts/phase2c-holdout/exit-dates.json",
+    "sha256": "6233ffac2e0730137ac1c7c92b6ff9753340cca81d4ea319dbb822c08cb9dfdf"
+  },
+  "unchanged": {
+    "date": "2026-10-31",
+    "partySize": 2,
+    "earliest": "19:30",
+    "latest": "19:30",
+    "budgetMaxJPYPerPerson": 10000
+  },
+  "reason": "No certified witness found by bounded primary source search. Nemoto matching source inventory offers17:30/18:00/18:30, no19:30; Shiose source coordinates outside1000m and no source-exposed inventory read; Google returned ten fugu candidates all outside1000m. This records searched sources, not global impossibility.",
+  "primaryEvidence": [
+    {
+      "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-03.attempt-1.body.json",
+      "sha256": "355a0d1accf56cf97628c23cb9eb05b4a73874c34548d5223e2f0df4884948b3"
+    },
+    {
+      "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-03.attempt-1.metadata.json",
+      "sha256": "6e4c1815950dda75cd67eebc45d3f0fd3570b8dd4bf5f62aba67edd1d05e9a9d"
+    },
+    {
+      "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/07-primary-fugu-search/fugu-primary-google.attempt-1.body.json",
+      "sha256": "1a1aec21b6f1477e876072c1c888f5f4611c059c8445534403906d7a4141f3c0"
+    },
+    {
+      "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/07-primary-fugu-search/ichigaya-fugu-list.attempt-1.source.json",
+      "sha256": "46091dd590e3828ed47b47b7f5e17c104b6f188dfc33672ac2d4c613b45ec231"
+    },
+    {
+      "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/08-primary-shiose-dinner/shiose-03.attempt-1.source.json",
+      "sha256": "ccda9d95b8e5066f9a6c692ae61d3305062d1cce9a0d84a72ba8be81c4a9fe96"
+    }
+  ]
+}
