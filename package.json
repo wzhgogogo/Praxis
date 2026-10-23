@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "arch:check": "node --import tsx scripts/arch-check.ts",
-    "test": "node --import tsx --test src/harness/*.test.ts src/core/*/*.test.ts src/domains/*/*.test.ts src/application/*.test.ts src/infrastructure/*/*.test.ts src/integrations/*/*.test.ts src/server/*.test.ts src/eval/restaurant/semantic/*.test.ts src/eval/restaurant/search-fixture/*.test.ts src/eval/restaurant/agent-loop/*.test.ts src/eval/shared/*.test.ts",
+    "test": "node --import ./scripts/test-filesystem-guard.mjs --import tsx --test src/harness/*.test.ts src/core/*/*.test.ts src/domains/*/*.test.ts src/application/*.test.ts src/infrastructure/*/*.test.ts src/integrations/*/*.test.ts src/server/*.test.ts src/eval/restaurant/semantic/*.test.ts src/eval/restaurant/search-fixture/*.test.ts src/eval/restaurant/agent-loop/*.test.ts src/eval/shared/*.test.ts",
     "test:probes": "PRAXIS_RUN_FROZEN_PROBES=1 node --import tsx --test src/infrastructure/postgres/postgres-runtime.test.ts",
     "dev": "node --env-file-if-exists=.env --import tsx src/server/local-web-server.ts",
     "eval:restaurant:semantic:deepseek": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/semantic/runners/run-deepseek-regression.ts",
@@ -30,7 +30,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "probe:restaurant:browser:read": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-browser-read-probe.ts",
     "probe:restaurant:source-stage": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts",
-    "test:browser:fixture": "node --import tsx --test src/harness/browser/*.test.ts"
+    "test:browser:fixture": "node --import ./scripts/test-filesystem-guard.mjs --import tsx --test --test-concurrency=4 src/harness/browser/*.test.ts"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.4",

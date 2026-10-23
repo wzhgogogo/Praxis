@@ -1,0 +1,283 @@
+{
+  "schema": "saved-restaurant-event-replay@1",
+  "source": {
+    "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+    "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-06-attempt-1/runner/2026-10-23T05-36-39-904Z-4cd7f1dd-39e6-4416-83c0-73b0e862ad3f.result.json",
+    "sha256": "82439765cb975efe4ea6112ec56599c392e714a514db1fc8b1a1836700b1115c"
+  },
+  "caseId": "p2c-holdout-06",
+  "runId": "4cd7f1dd-39e6-4416-83c0-73b0e862ad3f",
+  "startedAt": "2026-10-23T05:36:39.904Z",
+  "finishedAt": "2026-10-23T05:37:01.505Z",
+  "events": [
+    {
+      "id": "event:hybrid-live:p2c-holdout-06:1792733799823:semantic:1",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "motsunabe near Kitasenju for a group of 8 after work",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 8,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Kitasenju"
+          },
+          "addCriteria": [
+            {
+              "text": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "17:30",
+            "latest": "22:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-23T05:36:39.823Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Friday, October 30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "after work",
+              "resolvedTimeWindow": {
+                "earliest": "17:30",
+                "latest": "22:00"
+              },
+              "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-10-23T05:36:44.188Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:hybrid-live:p2c-holdout-06:1792733799823:semantic:1",
+        "actor": "MODEL"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:1",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Native search requires an observed coordinate context for exact geography",
+        "code": "AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:36:47.091Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:1",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:2",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Native search requires an observed coordinate context for exact geography",
+        "code": "AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:36:50.329Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:2",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:3",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Native search requires an observed coordinate context for exact geography",
+        "code": "AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:36:53.329Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:3",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:4",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Native search requires an observed coordinate context for exact geography",
+        "code": "AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:36:56.562Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:4",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:5",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "SEARCH_FAILED",
+        "reason": "Native search requires an observed coordinate context for exact geography",
+        "code": "AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:37:01.503Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:5",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:6",
+      "taskId": "hybrid-live:p2c-holdout-06:1792733799823",
+      "event": {
+        "type": "AGENT_LOOP_TERMINATED",
+        "termination": "NO_PROGRESS",
+        "reasonCode": "AGENT_EXECUTION_FAILED",
+        "reason": "No new successful observation in 5 steps; last failure: AGENT_EXECUTION_FAILED"
+      },
+      "occurredAt": "2026-10-23T05:37:01.503Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-06:1792733799823",
+        "correlationId": "event:restaurant-agent:6",
+        "actor": "SYSTEM"
+      }
+    }
+  ],
+  "originalPresentation": null,
+  "semantic": {
+    "target": {
+      "goal": "AVAILABILITY"
+    },
+    "location": {
+      "value": "Kitasenju",
+      "relation": "NEAR"
+    },
+    "date": {
+      "expression": "Friday, October 30",
+      "value": "2026-10-30"
+    },
+    "time": {
+      "expression": "after work",
+      "type": "TIME_WINDOW",
+      "start": "17:30",
+      "end": "22:00"
+    },
+    "party_size": 8,
+    "criteria": [
+      {
+        "value": "motsunabe",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "requestIntent": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [
+      {
+        "text": "motsunabe",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ],
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "motsunabe near Kitasenju for a group of 8 after work",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-10-30",
+    "timeWindow": {
+      "earliest": "17:30",
+      "latest": "22:00"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-10-23T05:36:39.823Z",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "Friday, October 30",
+        "resolvedDate": "2026-10-30",
+        "basis": "EXPLICIT_DATE"
+      },
+      "timeWindow": {
+        "expression": "after work",
+        "resolvedTimeWindow": {
+          "earliest": "17:30",
+          "latest": "22:00"
+        },
+        "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+      }
+    },
+    "partySize": 8,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "Kitasenju"
+    }
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 5,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 6,
+    "browserRuntimeCalls": 0,
+    "browserOperationsByCandidate": {},
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 0,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 38,
+      "total": 0,
+      "namedPlaceResolution": 0,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 21680
+  },
+  "originalEvaluation": {
+    "source": {
+      "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+      "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/evaluation-20261023/evaluations/h-06.evaluation.json",
+      "sha256": "22b6c2e741e36c325b0ca6266229a6843873003d50537b1e2750407e37471ddb"
+    },
+    "outcome": {
+      "type": "INTERNAL_FAILURE",
+      "reasons": [
+        "Recorded AGENT_LOOP_NO_PROGRESS is corroborated by actual failed/rejected actions, matching terminal trajectory and system event; witness feasibility does not replace the failure cause."
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState.failure",
+        "trajectories",
+        "events.AGENT_LOOP_TERMINATED"
+      ],
+      "capabilityDenominator": "INCLUDED",
+      "userGoalComplete": "NO"
+    },
+    "conditionStates": [],
+    "conditionStateComparisons": []
+  }
+}

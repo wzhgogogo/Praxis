@@ -5,7 +5,7 @@ description: 为Praxis改动从合同和失效机制推导必要的功能与安�
 
 # Praxis Test
 
-- Document revision: 1.5
+- Document revision: 1.6
 - Last updated: 2026-10-24
 
 Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭。质量维度、评分单位和验收门槛属于[Eval](../eval/SKILL.md)；当前产品合同、已运行证据和未覆盖项分别以链接的权威文档、[STATUS](../../STATUS.md)和[TEST-LOG](../../history/TEST-LOG.md)为准。
@@ -122,5 +122,7 @@ Smoke只证明启动/连接；脚本化Agent只证明选定路径可执行；模
 ## 运行边界与报告
 
 普通测试不加载`.env`、不调用付费模型或生产服务、不创建真实预约。`test:browser:fixture`只使用本机浏览器与本地Fixture，不读取个人profile；真实PostgreSQL只使用授权专用测试库及`PRAXIS_ALLOW_TEST_DATABASE_WRITE=1`。Controlled Live-write不得在CI运行，并记录验证与清理结果。
+
+默认测试和真实浏览器测试入口预载文件读取检查：输入必须来自当前仓库，产品层测试不得读取`.eval-artifacts`；评测测试读取归档时只使用当前仓库路径。依赖安装资源和测试自行创建的临时文件可读取，历史工作树不在允许范围。门禁脚本每项执行后检查`git status --porcelain`为空，不通过恢复已提交文件掩盖测试写入。
 
 报告通过、失败、未运行、不适用及原因，并区分执行模式、实际副作用与未覆盖边界。具体命令以`package.json`为准。

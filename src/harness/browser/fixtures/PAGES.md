@@ -31,3 +31,47 @@
 ## 证明范围
 
 片段/DOM转录会明确标明裁剪、测试脚本和布局注入；不把合成控件补丁称为原始录制。不以旧页面证明当前网站结构、库存或可预约。
+
+## F1b 模块 fixtures（2026-10-24）
+
+以下保存页面来自已提交的暴露开发记录；原始字节（或解压后字节）和 SHA 保留，来源/采集日期依据见相邻 provenance。地区链接片段仅为观察投影，不是完整页面 Replay。
+
+| Fixture | 采集日 | 来源 |
+| --- | --- | --- |
+| [snapshot-0019.html](../../../application/fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-09-attempt-2/recordings/hybrid-1792594833872/snapshot-0019.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1309/A130905/13300814/ |
+| [snapshot-0025.html](../../../application/fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0025.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1320/A132001/13282321/ |
+| [snapshot-0032.html](../../../application/fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-10-attempt-1/recordings/hybrid-1792595445891/snapshot-0032.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1320/A132001/13320287/ |
+| [snapshot-0016.html](../../../application/fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-12-attempt-1/recordings/hybrid-1792596481976/snapshot-0016.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1301/A130103/13292459/ |
+| [snapshot-0019.html](../../../application/fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-13-attempt-1/recordings/hybrid-1792596955148/snapshot-0019.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1309/A130905/13300814/ |
+| [snapshot-0029.html](../../../application/fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-14-attempt-1/recordings/hybrid-1792597629982/snapshot-0029.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1320/A132001/13192886/ |
+| [snapshot-0017.html](../../../application/fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-16-attempt-1/recordings/hybrid-1792598779679/snapshot-0017.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1301/A130101/13295658/ |
+| [snapshot-0024.html](../../../application/fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/checkpoint-c-continuation-20261021/live-results/c-16-attempt-1/recordings/hybrid-1792598779679/snapshot-0024.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1301/A130103/13292459/ |
+| [snapshot-0019.html](../../../application/fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/recordings/hybrid-1792589828211/snapshot-0019.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1309/A130905/13300814/ |
+| [snapshot-0032.html](../../../application/fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/recordings/hybrid-1792590489941/snapshot-0032.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1320/A132001/13320287/ |
+| [child.html](../../../integrations/restaurant-search/fixtures/p2-2-selection-20261019/followup/region-inputs/child.html) | 2026-10-19 | https://tabelog.com/en/tokyo/A1304/A130401/ |
+| [parent.html](../../../integrations/restaurant-search/fixtures/p2-2-selection-20261019/followup/region-inputs/parent.html) | 2026-10-19 | https://tabelog.com/en/tokyo/A1304/ |
+| [root.html](../../../integrations/restaurant-search/fixtures/p2-2-selection-20261019/followup/region-inputs/root.html) | 2026-10-19 | https://tabelog.com/en/tokyo/ |
+| [snapshot-0033.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/snapshot-0033.html) | 2026-10-21 | https://tabelog.com/cn/tokyo/A1309/A130905/13300814/ |
+| [snapshot-0034.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/snapshot-0034.html) | 2026-10-21 | https://tabelog.com/cn/tokyo/A1309/A130905/13048623/ |
+| [c-01-13225919.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13225919.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1303/A130301/13225919/ |
+| [c-01-13261619.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13261619.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1303/A130301/13261619/ |
+| [c-01-13274777.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13274777.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1303/A130301/13274777/ |
+| [c-01-13275802.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13275802.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1303/A130301/13275802/ |
+| [c-01-13298154.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13298154.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1303/A130301/13298154/ |
+| [c-01-13307953.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13307953.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1303/A130301/13307953/ |
+| [c-01-13319616.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-01-13319616.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1303/A130301/13319616/ |
+| [c-02-13189458.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13189458.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1301/A130101/13189458/ |
+| [c-02-13228975.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13228975.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1301/A130101/13228975/ |
+| [c-02-13280412.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13280412.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1301/A130101/13280412/ |
+| [c-02-13291473.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13291473.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1301/A130101/13291473/ |
+| [c-02-13292459.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13292459.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1301/A130103/13292459/ |
+| [c-02-13295658.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13295658.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1301/A130101/13295658/ |
+| [c-02-13323643.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-02-13323643.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1301/A130101/13323643/ |
+| [c-05-13048623.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13048623.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1309/A130905/13048623/ |
+| [c-05-13180712.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13180712.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1309/A130905/13180712/ |
+| [c-05-13218101.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13218101.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1309/A130905/13218101/ |
+| [c-05-13281152.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13281152.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1309/A130905/13281152/ |
+| [c-05-13300814.html](../../../integrations/tabelog/fixtures/availability/checkpoint-c-live-20261020/tabelog-query-binding-20261021/inputs/c-05-13300814.html) | 2026-10-21 | https://tabelog.com/en/tokyo/A1309/A130905/13300814/ |
+| [p1fB-h001-a1.snapshot-0045.html](../../../integrations/tabelog/fixtures/availability/p2-2-selection-20261019/followup/busy-inputs/p1fB-h001-a1.snapshot-0045.html) | 2026-10-11 | https://tabelog.com/tokyo/A1303/A130301/13293469/ |
+| [p1g-h001-a1.snapshot-0044.html](../../../integrations/tabelog/fixtures/availability/p2-2-selection-20261019/followup/busy-inputs/p1g-h001-a1.snapshot-0044.html) | 2026-10-12 | https://tabelog.com/tokyo/A1303/A130301/13293469/ |
+| [p20-h001-a1.snapshot-0033.html](../../../integrations/tabelog/fixtures/availability/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html) | 2026-10-15 | https://tabelog.com/tokyo/A1303/A130301/13293469/ |

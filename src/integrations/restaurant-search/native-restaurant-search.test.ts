@@ -59,7 +59,7 @@ test("coordinate-only address observations reach the discovery goal once and fai
 
 
 test("saved h06 bare named location reaches native source discovery with the observed circle", async () => {
-  const root = new URL("../../../.eval-artifacts/near-and-condition-display-20261023/", import.meta.url);
+  const root = new URL("./fixtures/near-and-condition-display-20261023/", import.meta.url);
   const manifest = JSON.parse(readFileSync(new URL("inputs/manifest.json", root), "utf8"));
   const row = manifest.runs.find((r: { runId: string }) => r.runId === "h-06");
   const bytes = readFileSync(new URL("inputs/runs/h-06.json", root));

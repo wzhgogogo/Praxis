@@ -38,8 +38,8 @@ test("captured kf-h001 Sen after selecting the date still has no slot result and
 });
 
 test("three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity", async () => {
-  const root = new URL("../../../", import.meta.url);
-  const manifest = JSON.parse(await readFile(new URL(".eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/manifest.json", root), "utf8"));
+  const root = new URL("./fixtures/availability/", import.meta.url);
+  const manifest = JSON.parse(await readFile(new URL("p2-2-selection-20261019/followup/busy-inputs/manifest.json", root), "utf8"));
   for (const input of manifest.inputs) {
     const html = await readFile(new URL(input.snapshots[0].html, root), "utf8");
     const title = html.match(/<title>([^<]+)<\/title>/)?.[1] ?? "";
@@ -58,7 +58,7 @@ test("three recorded Tabelog busy pages remain source-busy UNKNOWN after one wai
 });
 
 test("Tabelog busy retry can recover a known feasible control without bypassing identity", async () => {
-  const html = await readFile(new URL("../../../.eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8");
+  const html = await readFile(new URL("./fixtures/availability/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8");
   const url = "https://tabelog.com/en/tokyo/A1303/A130301/13293469/";
   const busy = { url, title: "現在アクセスが集中しています [食べログ]", text: "", html };
   const good = { url, title: "Restaurant 1", text: "予約 人数 19:00", html: '<h1 class="restaurant-name">Restaurant 1</h1><p class="restaurant-address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' };
@@ -75,7 +75,7 @@ test("Tabelog busy retry can recover a known feasible control without bypassing 
 });
 
 test("Tabelog source-busy delay cannot reset or outrun the existing provider deadline", async () => {
-  const html = await readFile(new URL("../../../.eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8");
+  const html = await readFile(new URL("./fixtures/availability/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8");
   const session = new FixtureBrowserSession([{ url: "https://tabelog.com/en/tokyo/A1303/A130301/13293469/", title: "現在アクセスが集中しています [食べログ]", text: "", html }]);
   const listed = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { googleWebsiteUri: "https://tabelog.com/tokyo/A1303/A130301/13293469/" } } };
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 10_000, maxElapsedMsPerProvider: 250, maxModelCallsTotal: 1, maxModelCallsPerCandidate: 1, maxOperationsPerCandidate: 24 });
@@ -697,7 +697,7 @@ test("Tabelog current public controls confirm selection without private hooks or
 });
 
 test("all 19 saved quick-validation selections match the independent source oracle without fabricating missing responses", async () => {
-  const root=new URL('../../../',import.meta.url),batch='.eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/';
+  const root=new URL('./fixtures/availability/',import.meta.url),batch='checkpoint-c-live-20261020/tabelog-query-binding-20261021/';
   const manifest=JSON.parse(await readFile(new URL(batch+'inputs/manifest.json',root),'utf8'));
   const oracle=JSON.parse(await readFile(new URL(batch+'independent-oracle.json',root),'utf8'));
   assert.equal(manifest.rows.length,19);assert.equal(oracle.confirmed,17);
@@ -792,7 +792,7 @@ test("Tabelog field quotations retain merchant courses separately from names/rev
   assert.ok(q.some(q=>q.field==="COURSE_TITLE"&&q.quote==="Lunch Omakase Course"&&q.meal==="LUNCH"));
   assert.ok(q.some(q=>q.field==="CATEGORY"&&q.quote==="Sushi, Japanese Cuisine"));
   assert.ok(!q.some(q=>/Review Omakase|Neighbor Omakase|Foreign Omakase|Hidden Omakase/.test(q.quote)));
-  const root=new URL("../../../.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/",import.meta.url);
+  const root=new URL("./fixtures/availability/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/recordings/hybrid-1792581432961/",import.meta.url);
   for(const [file,id,hasCourse] of [["snapshot-0033.html","13300814",true],["snapshot-0034.html","13048623",false]] as const){
     const actual=parseTabelogSourceFieldQuotes({url:`https://tabelog.com/en/tokyo/A1309/A130905/${id}/`,title:"Saved source",text:"",html:await readFile(new URL(file,root),"utf8")});
     assert.equal(actual.some(q=>q.field==="COURSE_TITLE"&&/Kaiseki/.test(q.quote)),hasCourse);
@@ -822,7 +822,7 @@ test("Tabelog field quotations match class tokens with reordered and extra class
 });
 
 test("bound vacancy collections keep supported clock alternatives and never infer stock from unsupported rows", async () => {
-  const fixture=JSON.parse(await readFile(new URL('../../../.eval-artifacts/phase2c-location-semantic-20261023/goya-followup/saved-inputs.json',import.meta.url),'utf8'));
+  const fixture=JSON.parse(await readFile(new URL('./fixtures/availability/phase2c-location-semantic-20261023/goya-followup/saved-inputs.json',import.meta.url),'utf8'));
   for(const row of fixture.rows){
     const {snapshot,request}=row;
     assert.equal(hasTabelogSelectedQuery(snapshot,request.date,request.partySize),true,row.id);

@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-24T00:04:05.817933+02:00",
+  "testedCommit": "d390b66d2f1e564fe351581f910408492e325739",
+  "command": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern=P21c recorded regional",
+    "src/harness/browser/browser-read-fixture.test.ts"
+  ],
+  "testExitCode": 0,
+  "gitStatusBefore": "",
+  "gitStatusAfter": " M .eval-artifacts/checkpoint-c-p21c-integration-20261020/region-composition-results.json\n",
+  "beforeSha256": "70f78ab6a177d002f00702851f2849b67217a4888ab52a535ef25bac197492e8",
+  "afterSha256": "92ff58d5dca588ca5b3f118fbbf0323e0a3a04a4a5218f922f5d29455b830a68",
+  "cleanlinessGateExitCode": 1,
+  "redCleanup": "After saving the observed dirty status, restore only this historical file to its exact pre-test bytes. Formal F1b gates never restore generated changes."
+}

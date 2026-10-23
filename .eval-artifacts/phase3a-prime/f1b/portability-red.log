@@ -1,0 +1,25 @@
+✖ C18 Kaga external witness support is separate from product-known display evidence (428.953833ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 643.926708
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:1:159328
+✖ C18 Kaga external witness support is separate from product-known display evidence (428.953833ms)
+  Error: Test data read outside repository or a test-created temporary directory: /private/tmp/praxis-checkpoint-c-prep/.eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/post-run/13048623.metadata.json
+      at checked (file:///private/tmp/praxis-phase3a-prime-f1/scripts/test-filesystem-guard.mjs:36:23)
+      at fs.<computed> (file:///private/tmp/praxis-phase3a-prime-f1/scripts/test-filesystem-guard.mjs:41:67)
+      at loadPostDeliveryTabelogObservation (/private/tmp/praxis-phase3a-prime-f1/src/eval/restaurant/agent-loop/diagnostic-evaluator-grounding.ts:20:38)
+      at <anonymous> (/private/tmp/praxis-phase3a-prime-f1/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:2152:94)
+      at Array.map (<anonymous>)
+      at TestContext.<anonymous> (/private/tmp/praxis-phase3a-prime-f1/src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts:2152:78)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'ERR_TEST_READ_OUTSIDE_REPOSITORY'
+  }

@@ -2149,7 +2149,16 @@ test("C18 Kaga external witness support is separate from product-known display e
   const options = {
     criterionCorrespondences: loadCriterionCorrespondences(resolve(`${dir}/display-derived-correspondences.json`)),
     hardEvidence: loadHardCriterionEvidence(`${dir}/display-derived-hard-evidence.json`, row.derivedArtifactSha256),
-    postDeliveryTabelog: post.rows.filter((r: any) => r.raw?.status === 200).map((r: any) => loadPostDeliveryTabelogObservation(r.raw.metadataPath, r.raw.bodyPath)),
+    postDeliveryTabelog: post.rows.filter((r: any) => r.raw?.status === 200).map((r: any) => {
+      // Historical metadata records its old worktree root. Read the same committed
+      // artifact from this repository; never follow the archived absolute path.
+      const repositoryPath = (recorded: string) => {
+        const marker = recorded.indexOf(".eval-artifacts/");
+        assert.notEqual(marker, -1, "post-delivery input must identify a repository artifact");
+        return resolve(recorded.slice(marker));
+      };
+      return loadPostDeliveryTabelogObservation(repositoryPath(r.raw.metadataPath), repositoryPath(r.raw.bodyPath));
+    }),
   };
   const evaluate = () => evaluateRestaurantHybridLiveArtifact(artifact, { path: row.derivedArtifactPath, sha256: row.derivedArtifactSha256 }, options);
   const kaga = "tabelog:en/tokyo/A1309/A130905/13048623";

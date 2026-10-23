@@ -1,24 +1,34 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { gunzipSync } from "node:zlib";
 import test from "node:test";
 import type { RestaurantTaskState } from "../domains/restaurant/contracts.js";
 import { restaurantCurrentFactEvidence } from "../domains/restaurant/read-assessment.js";
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
 import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 
+// Preserve the uncompressed input bytes/SHA while keeping large saved runs compact.
+async function readFixture(path: URL): Promise<Buffer>;
+async function readFixture(path: URL, encoding: "utf8"): Promise<string>;
+async function readFixture(path: URL, encoding?: "utf8"): Promise<Buffer | string> {
+  const raw = await readFile(path);
+  const bytes = path.pathname.endsWith(".gz") ? gunzipSync(raw) : raw;
+  return encoding ? bytes.toString(encoding) : bytes;
+}
+
 test("saved holdout case02 events expose five structured HARD budgets through Router to Reducer with independent price agreement", async()=>{
   const {createHash}=await import("node:crypto");
-  const root=new URL("../../",import.meta.url),dir=".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022";
-  const inputs=JSON.parse(await readFile(new URL(`${dir}/inputs.json`,root),"utf8"));let checked=0,reads=0;
+  const root=new URL("./fixtures/restaurant-presentation-evidence/",import.meta.url),dir="checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/evaluation-20261022";
+  const inputs=JSON.parse(await readFixture(new URL(`${dir}/inputs.json`,root),"utf8"));let checked=0,reads=0;
   const noRead=async()=>{reads++;throw Error("OFFLINE_PRESENTATION_MUST_NOT_READ_SOURCE");};
   const router=new RestaurantExecutionRouter({executionRoute:"STRUCTURED_ADAPTER",search:noRead},{executionRoute:"STRUCTURED_ADAPTER",check:noRead},{structuredReadTimeoutMs:1000,browserReadTimeoutMs:1000});
   for(const runId of ["h-02","h-08","h-14"]){
-    const row=inputs.runs.find((r:any)=>r.run.runId===runId),bytes=await readFile(new URL(row.originalArtifactPath,root));
+    const row=inputs.runs.find((r:any)=>r.run.runId===runId),bytes=await readFixture(new URL(row.originalArtifactPath,root));
     assert.equal(createHash("sha256").update(bytes).digest("hex"),row.originalArtifactSha256);const artifact=JSON.parse(bytes.toString());
     const ctx=(at:string)=>({taskId:artifact.runId,runId:artifact.runId,now:at,createId:(p:string)=>p});let state=restaurantBookingTaskDefinition.create({},ctx(artifact.startedAt));
     for(const envelope of artifact.events){if(envelope.event.type==="RESULTS_PRESENTED")break;state=restaurantBookingTaskDefinition.transition(state,envelope.event,ctx(envelope.occurredAt)).state;}
     assert.deepEqual(state.intentDraft?.budgetPerPerson,{max:8000,currency:"JPY"});assert.equal(state.intentDraft?.criteria.length,1);
-    const actual=artifact.finalSnapshot.domainState.presentedResults,oracle=JSON.parse(await readFile(new URL(`${dir}/evaluations-33/${runId}.evaluation.json`,root),"utf8"));
+    const actual=artifact.finalSnapshot.domainState.presentedResults,oracle=JSON.parse(await readFixture(new URL(`${dir}/evaluations-33/${runId}.evaluation.json`,root),"utf8"));
     const execution=await router.execute({type:"PRESENT_RESULTS",candidateIds:actual.candidateIds},state,actual.presentedAt);assert.equal(execution.event?.type,"RESULTS_PRESENTED");
     const shown=restaurantBookingTaskDefinition.transition(state,execution.event!,ctx(actual.presentedAt)).state.presentedResults!;
     for(const id of actual.candidateIds){
@@ -32,12 +42,12 @@ test("saved holdout case02 events expose five structured HARD budgets through Ro
   assert.equal(checked,5);assert.equal(reads,0);
 });
 
-const raw = new URL("../../.eval-artifacts/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json", import.meta.url);
+const raw = new URL("./fixtures/restaurant-presentation-evidence/checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json.gz", import.meta.url);
 const candidateId = "tabelog:en/tokyo/A1309/A130905/13048623";
 const laterFact = "evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e8fa1f";
 
 test("c05 Kaga Router to Reducer retains the later availability-read source fact", async () => {
-  const artifact = JSON.parse(await readFile(raw, "utf8"));
+  const artifact = JSON.parse(await readFixture(raw, "utf8"));
   const original: RestaurantTaskState = artifact.finalSnapshot.domainState;
   const now = original.presentedResults!.presentedAt;
   const candidateIds = [...original.presentedResults!.candidateIds];
@@ -86,14 +96,14 @@ test("C18 H002 current fact document carries same-page prices through judgment a
   const { parseTabelogPriceFacts } = await import("../integrations/tabelog/tabelog-page-parser.js");
   const { NativeSourceFactRead } = await import("../integrations/restaurant-facts/native-source-facts.js");
   const { ModelRestaurantFactJudgment } = await import("../integrations/restaurant-facts/model-fact-judgment.js");
-  const root = new URL("../../", import.meta.url);
-  const dir = new URL(".eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/", root);
-  const inputs = JSON.parse(await readFile(new URL("c18-inputs.json", dir), "utf8"));
-  const hard = JSON.parse(await readFile(new URL("hard-evidence.json", dir), "utf8"));
+  const root = new URL("./fixtures/restaurant-presentation-evidence/", import.meta.url);
+  const dir = new URL("checkpoint-c-live-20261020/c18-offline-reassessment-20261022/", root);
+  const inputs = JSON.parse(await readFixture(new URL("c18-inputs.json", dir), "utf8"));
+  const hard = JSON.parse(await readFixture(new URL("hard-evidence.json", dir), "utf8"));
   let checked = 0;
   for (const runId of ["c-12", "c-16"]) {
     const row = inputs.runs.find((r: any) => r.runId === runId);
-    const bytes = await readFile(new URL(row.artifactPath, root));
+    const bytes = await readFixture(new URL(row.artifactPath, root));
     assert.equal(createHash("sha256").update(bytes).digest("hex"), row.artifactSha256);
     const artifact = JSON.parse(bytes.toString());
     const snapshots = hard.runs.find((r: any) => r.artifactSha256 === row.artifactSha256).snapshots;
@@ -110,7 +120,7 @@ test("C18 H002 current fact document carries same-page prices through judgment a
       const current = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "RESTAURANT_FACT" && e.provider === "TABELOG")!;
       assert.ok(current && !current.priceFacts);
       const binding = snapshots.find((s: any) => s.evidenceId === current.evidenceId);
-      const html = await readFile(new URL(binding.path, dir), "utf8");
+      const html = await readFixture(new URL(binding.path, dir), "utf8");
       assert.equal(createHash("sha256").update(html).digest("hex"), binding.sha256);
       const prices = parseTabelogPriceFacts({ url: current.sourceUrl!, html, text: "", title: "" });
       assert.deepEqual([prices?.dinnerBudgetRangeYen?.min, prices?.dinnerBudgetRangeYen?.max], [8000, 9999]);
@@ -171,14 +181,14 @@ test("C18 four split tempura statements inherit their containing merchant field 
   const { createHash } = await import("node:crypto");
   const { parseTabelogSourceFieldQuotes } = await import("../integrations/tabelog/tabelog-page-parser.js");
   const { ModelRestaurantFactJudgment } = await import("../integrations/restaurant-facts/model-fact-judgment.js");
-  const root = new URL("../../", import.meta.url);
-  const dir = new URL(".eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/", root);
-  const inputs = JSON.parse(await readFile(new URL("c18-inputs.json", dir), "utf8"));
-  const hard = JSON.parse(await readFile(new URL("hard-evidence.json", dir), "utf8"));
+  const root = new URL("./fixtures/restaurant-presentation-evidence/", import.meta.url);
+  const dir = new URL("checkpoint-c-live-20261020/c18-offline-reassessment-20261022/", root);
+  const inputs = JSON.parse(await readFixture(new URL("c18-inputs.json", dir), "utf8"));
+  const hard = JSON.parse(await readFixture(new URL("hard-evidence.json", dir), "utf8"));
   const expected: Record<string, string[]> = { "c-06": ["13320287"], "c-10": ["13320287", "13282321"], "c-14": ["13192886"] };
   let checked = 0;
   for (const [runId, ids] of Object.entries(expected)) {
-    const row = inputs.runs.find((r: any) => r.runId === runId), bytes = await readFile(new URL(row.artifactPath, root));
+    const row = inputs.runs.find((r: any) => r.runId === runId), bytes = await readFixture(new URL(row.artifactPath, root));
     assert.equal(createHash("sha256").update(bytes).digest("hex"), row.artifactSha256);
     const artifact = JSON.parse(bytes.toString());
     const ctx = (now: string) => ({ taskId: artifact.runId, runId: artifact.runId, now, createId: (p: string) => p });
@@ -192,7 +202,7 @@ test("C18 four split tempura statements inherit their containing merchant field 
       const fact = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "RESTAURANT_FACT" && e.provider === "TABELOG")!;
       const identity = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "ENTITY_MATCH" && e.sourceUrl === fact.sourceUrl)!;
       const binding = hard.runs.find((r: any) => r.artifactSha256 === row.artifactSha256).snapshots.find((s: any) => s.evidenceId === fact.evidenceId);
-      const html = await readFile(new URL(binding.path, dir), "utf8");
+      const html = await readFixture(new URL(binding.path, dir), "utf8");
       assert.equal(createHash("sha256").update(html).digest("hex"), binding.sha256);
       const fields = parseTabelogSourceFieldQuotes({ url: fact.sourceUrl!, title: "", text: "", html });
       const statements = (fact.claims.restaurantTypeFacts as string[]).map((text, index) => ({ id: `selected:${index}`, text }));
@@ -232,15 +242,15 @@ test("C18 selected Utou course titles remain known when the selected statement a
   const { createHash } = await import("node:crypto");
   const { parseTabelogSourceFieldQuotes } = await import("../integrations/tabelog/tabelog-page-parser.js");
   const { ModelRestaurantFactJudgment } = await import("../integrations/restaurant-facts/model-fact-judgment.js");
-  const root = new URL("../../", import.meta.url);
-  const dir = new URL(".eval-artifacts/checkpoint-c-live-20261020/c18-offline-reassessment-20261022/", root);
-  const inputs = JSON.parse(await readFile(new URL("c18-inputs.json", dir), "utf8"));
-  const hard = JSON.parse(await readFile(new URL("hard-evidence.json", dir), "utf8"));
+  const root = new URL("./fixtures/restaurant-presentation-evidence/", import.meta.url);
+  const dir = new URL("checkpoint-c-live-20261020/c18-offline-reassessment-20261022/", root);
+  const inputs = JSON.parse(await readFixture(new URL("c18-inputs.json", dir), "utf8"));
+  const hard = JSON.parse(await readFixture(new URL("hard-evidence.json", dir), "utf8"));
   const expected: Record<string, string[]> = { "c-05": ["13300814"], "c-09": ["13300814"], "c-13": ["13300814"] };
   let checked = 0;
   const statuses: Array<{ runId: string; status: string }> = [];
   for (const [runId, ids] of Object.entries(expected)) {
-    const row = inputs.runs.find((r: any) => r.runId === runId), bytes = await readFile(new URL(row.artifactPath, root));
+    const row = inputs.runs.find((r: any) => r.runId === runId), bytes = await readFixture(new URL(row.artifactPath, root));
     assert.equal(createHash("sha256").update(bytes).digest("hex"), row.artifactSha256);
     const artifact = JSON.parse(bytes.toString());
     const ctx = (now: string) => ({ taskId: artifact.runId, runId: artifact.runId, now, createId: (p: string) => p });
@@ -254,7 +264,7 @@ test("C18 selected Utou course titles remain known when the selected statement a
       const fact = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "RESTAURANT_FACT" && e.provider === "TABELOG")!;
       const identity = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "ENTITY_MATCH" && e.sourceUrl === fact.sourceUrl)!;
       const binding = hard.runs.find((r: any) => r.artifactSha256 === row.artifactSha256).snapshots.find((s: any) => s.evidenceId === fact.evidenceId);
-      const html = await readFile(new URL(binding.path, dir), "utf8");
+      const html = await readFixture(new URL(binding.path, dir), "utf8");
       assert.equal(createHash("sha256").update(html).digest("hex"), binding.sha256);
       const fields = parseTabelogSourceFieldQuotes({ url: fact.sourceUrl!, title: "", text: "", html });
       const statements = (fact.claims.restaurantTypeFacts as string[]).map((text, index) => ({ id: `selected:${index}`, text }));
@@ -295,14 +305,14 @@ test("C18 selected Utou course titles remain known when the selected statement a
 
 test("Phase2c four observed cuisine conditions reach Router to Reducer and other saved displays stay identical", async () => {
   const {createHash}=await import("node:crypto");
-  const root=new URL("../../",import.meta.url),dir=".eval-artifacts/near-and-condition-display-20261023";
-  const manifest=JSON.parse(await readFile(new URL(`${dir}/inputs/manifest.json`,root),"utf8"));
+  const root=new URL("./fixtures/restaurant-presentation-evidence/",import.meta.url),dir="near-and-condition-display-20261023";
+  const manifest=JSON.parse(await readFixture(new URL(`${dir}/inputs/manifest.json`,root),"utf8"));
   const expected:Record<string,string[]>={"h-02":["13093277","13018986","13271031"],"h-08":["13271031"]};
   let conditions=0,unchangedRuns=0,sourceCalls=0;
   const noRead=async()=>{sourceCalls++;throw Error("SAVED_EVENT_REPLAY_MUST_NOT_READ_SOURCES");};
   const router=new RestaurantExecutionRouter({executionRoute:"STRUCTURED_ADAPTER",search:noRead},{executionRoute:"STRUCTURED_ADAPTER",check:noRead},{structuredReadTimeoutMs:1000,browserReadTimeoutMs:1000});
   for(const row of manifest.runs){
-    const bytes=await readFile(new URL(row.projectionPath,root));assert.equal(createHash("sha256").update(bytes).digest("hex"),row.projectionSha256);
+    const bytes=await readFixture(new URL(row.projectionPath,root));assert.equal(createHash("sha256").update(bytes).digest("hex"),row.projectionSha256);
     const saved=JSON.parse(bytes.toString()),ctx=(now:string)=>({taskId:saved.runId,runId:saved.runId,now,createId:(p:string)=>p});
     let state=restaurantBookingTaskDefinition.create({},ctx(saved.startedAt));
     for(const envelope of saved.events){if(envelope.event.type==="RESULTS_PRESENTED")break;state=restaurantBookingTaskDefinition.transition(state,envelope.event,ctx(envelope.occurredAt)).state;}

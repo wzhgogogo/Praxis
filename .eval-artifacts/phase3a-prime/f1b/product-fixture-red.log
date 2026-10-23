@@ -1,0 +1,24 @@
+✖ three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity (0.569125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 140.008125
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:1:3220
+✖ three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity (0.569125ms)
+  Error: Product tests must use module fixtures, not eval artifacts: /private/tmp/praxis-phase3a-prime-f1/.eval-artifacts/p2-2-selection-20261019/followup/busy-inputs/manifest.json
+      at checked (file:///private/tmp/praxis-phase3a-prime-f1/scripts/test-filesystem-guard.mjs:33:25)
+      at fsp.<computed> (file:///private/tmp/praxis-phase3a-prime-f1/scripts/test-filesystem-guard.mjs:45:74)
+      at TestContext.<anonymous> (/private/tmp/praxis-phase3a-prime-f1/src/integrations/tabelog/tabelog-browser-availability.test.ts:42:37)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    code: 'ERR_TEST_PRODUCT_EVAL_ARTIFACT'
+  }

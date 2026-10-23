@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import fsp from "node:fs/promises";
 import { syncBuiltinESMExports } from "node:module";
-import { dirname, isAbsolute, resolve, sep } from "node:path";
+import { basename, dirname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -22,13 +22,22 @@ const productTest = process.argv.some(arg => /src\/(?:integrations\/(?:tabelog|r
 // tsx's optional shared cache is outside the repository and is not fixture input.
 process.env.TSX_DISABLE_CACHE = "1";
 
+function realPath(path) {
+  try { return canonical(path); }
+  catch (error) {
+    if (error.code !== "ENOENT" || dirname(path) === path) throw error;
+    // A not-yet-created file still belongs to its canonical parent. In
+    // particular, macOS /var and /private/var identify the same temp tree.
+    return resolve(realPath(dirname(path)), basename(path));
+  }
+}
+
 function checked(path) {
   if (typeof path === "number") return path; // The descriptor's open was checked.
   const value = path instanceof URL ? fileURLToPath(path) : Buffer.isBuffer(path) ? path.toString() : path;
   if (typeof value !== "string") return path; // Let Node report invalid arguments.
   const absolute = resolve(value);
-  let real;
-  try { real = canonical(absolute); } catch { real = absolute; }
+  const real = realPath(absolute);
   if (productTest && (inside(absolute, resolve(root, ".eval-artifacts")) || inside(real, resolve(root, ".eval-artifacts")))) {
     throw Object.assign(new Error(`Product tests must use module fixtures, not eval artifacts: ${absolute}`), { code: "ERR_TEST_PRODUCT_EVAL_ARTIFACT" });
   }

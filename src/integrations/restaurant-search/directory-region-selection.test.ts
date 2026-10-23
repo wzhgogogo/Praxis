@@ -71,7 +71,7 @@ test('directory navigation timeout retains its runtime code rather than claiming
 // Projected real region links; the optional location-search/result transition
 // below is a synthetic control, not a claim that this control was recorded.
 import {readFileSync} from 'node:fs';
-const regionFragment = (name:string) => readFileSync(new URL(`../../../.eval-artifacts/p2-2-selection-20261019/followup/region-inputs/${name}.html`,import.meta.url),'utf8');
+const regionFragment = (name:string) => readFileSync(new URL(`./fixtures/p2-2-selection-20261019/followup/region-inputs/${name}.html`,import.meta.url),'utf8');
 const capturedRoot='https://tabelog.com/en/tokyo/';
 const capturedParent='https://tabelog.com/en/tokyo/A1304/';
 const capturedChild='https://tabelog.com/en/tokyo/A1304/A130401/';
@@ -139,7 +139,7 @@ test('a confirmed authoritative location search replaces a previous broad region
 import {gunzipSync} from 'node:zlib';
 import {googlePlacesDiscoveryPack} from './source-packs.js';
 import type {RestaurantSearchRead} from '../../domains/restaurant/contracts.js';
-const recordedRegions = JSON.parse(gunzipSync(readFileSync(new URL('../../../.eval-artifacts/p2-1c-region-20261020/recordings.json.gz',import.meta.url))).toString()) as Array<{
+const recordedRegions = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/p2-1c-region-20261020/recordings.json.gz',import.meta.url))).toString()) as Array<{
  caseId:string;group:string;location:NonNullable<RestaurantSearchContinuation['locationContext']>;
  googleBatch?:{detail:{read:RestaurantSearchRead}};
 }>;
