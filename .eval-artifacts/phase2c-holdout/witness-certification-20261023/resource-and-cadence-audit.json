@@ -1,0 +1,543 @@
+{
+  "status": "PASS",
+  "requestCount": 42,
+  "googleRequests": 11,
+  "googleByCase": {
+    "p2c-holdout-01": 1,
+    "p2c-holdout-02": 1,
+    "p2c-holdout-03": 6,
+    "p2c-holdout-04": 1,
+    "p2c-holdout-05": 1,
+    "p2c-holdout-06": 1
+  },
+  "restaurantSourceRequests": 31,
+  "requestsByKind": {
+    "GOOGLE": 11,
+    "LISTING": 17,
+    "MERCHANT": 5,
+    "INVENTORY": 6,
+    "COURSE": 3
+  },
+  "httpStatuses": {
+    "200": 42
+  },
+  "minFinishToNextStartGapMs": {
+    "places.googleapis.com": 30001.0,
+    "tabelog.com": 30000.0
+  },
+  "retries": 0,
+  "newModelCalls": 0,
+  "newFullLiveRuns": 0,
+  "newEnvironmentReruns": 0,
+  "reservationFormRequests": 0,
+  "slotClicks": 0,
+  "tablecheckReserveRequests": 0,
+  "browserSessions": 0,
+  "inventoryResponseLinks": "Parsed as data only; never fetched",
+  "observations": [
+    {
+      "caseId": "p2c-holdout-01",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:15:40.465Z",
+      "observedAt": "2026-10-23T04:15:42.153Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-01.attempt-1.metadata.json",
+        "sha256": "b8078f489ff9e1c52d5812e5e9ae70967a15cd229bc9093f3742355d5204cb88"
+      },
+      "responseSha256": "28562706d3b24303387f875fed6af3166dc0e81fc6e7dcb2fc20156f3e787980"
+    },
+    {
+      "caseId": "p2c-holdout-01",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:15:42.157Z",
+      "observedAt": "2026-10-23T04:15:44.797Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-01.attempt-1.metadata.json",
+        "sha256": "f19bafaeffedf302720cc8b8d4099b95933a6d269552255ea01cc7ec4261d5b5"
+      },
+      "responseSha256": "08055df2fd626c773515b7b958b879fdd5aa9de72c9e6f6141b141c2ac99bb12"
+    },
+    {
+      "caseId": "p2c-holdout-02",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:16:12.155Z",
+      "observedAt": "2026-10-23T04:16:13.784Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-02.attempt-1.metadata.json",
+        "sha256": "79f8775b8c8403b5ccd888afcdd0dc954056666334536edb4108f3a6881dcdf8"
+      },
+      "responseSha256": "964a1ef2d6def2dd93c4b39c5f3210cc13d0dc7ede3101040571f404ac1688ae"
+    },
+    {
+      "caseId": "p2c-holdout-02",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:16:14.798Z",
+      "observedAt": "2026-10-23T04:16:22.317Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-02.attempt-1.metadata.json",
+        "sha256": "c7e3f3db1b8faf42ce7f5af4bf3c75dde4d6374e4854f0d30d45d6f3281819c3"
+      },
+      "responseSha256": "ffb391d135a3738f0fb6a786051697dc4685058d52c5cb7e0cb179d22f84fa8b"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:16:43.785Z",
+      "observedAt": "2026-10-23T04:16:47.088Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-03.attempt-1.metadata.json",
+        "sha256": "04df09a30f11e85a121ee73499ef4951adbc0276d224eeeb116a2cd0c5ebf2e8"
+      },
+      "responseSha256": "ab76c95bc65a80135bf3ad48bb0bc1545de8b052b4c105272e2d566f098680c9"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:16:52.318Z",
+      "observedAt": "2026-10-23T04:16:56.386Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-03.attempt-1.metadata.json",
+        "sha256": "0f29894c61b414c772445a411a0323a8fbc7a5a777ef633021e6665bc9c1fce5"
+      },
+      "responseSha256": "78313f45e8adb40aeb1c051253bc48689da05002d6562b1452838e5849ac6ee7"
+    },
+    {
+      "caseId": "p2c-holdout-04",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:17:17.091Z",
+      "observedAt": "2026-10-23T04:17:18.376Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-04.attempt-1.metadata.json",
+        "sha256": "71bee887f499b3ede7e3549c7a3a367bd7d57ef019ea55f66b399f4259405d25"
+      },
+      "responseSha256": "f65e5c7267efea0fa5a81a0c3575bb0fb30e0d3a49e46a6ba8e64de7f90b9f6b"
+    },
+    {
+      "caseId": "p2c-holdout-04",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:17:26.388Z",
+      "observedAt": "2026-10-23T04:17:28.472Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-04.attempt-1.metadata.json",
+        "sha256": "2deb57eb4a6223052f85a22328377308ced802c832a14b120b6c9efd401ca3c6"
+      },
+      "responseSha256": "40f4f8c31a27b9e26bd6b5fd2dfc9e84792c41fef85656f224e18c9ca9265da3"
+    },
+    {
+      "caseId": "p2c-holdout-05",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:17:48.378Z",
+      "observedAt": "2026-10-23T04:17:49.590Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-05.attempt-1.metadata.json",
+        "sha256": "cbb9bdf76ceee9fbb6c4aa301ab305a2842b43463e7b886dc4034e86d3832fbe"
+      },
+      "responseSha256": "2afc4df9f1a1feca317551f2056131251c9ada23925dd02d3d221523e69d34b3"
+    },
+    {
+      "caseId": "p2c-holdout-05",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:17:58.474Z",
+      "observedAt": "2026-10-23T04:18:00.492Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-05.attempt-1.metadata.json",
+        "sha256": "2a5986f5fe3d792ee4481cde609ffd052aca27b1595746d326840b7585566f8f"
+      },
+      "responseSha256": "ff42b274d688175f2d5bada75702674ac65b23f4f31b2ceba6af434747dd2a04"
+    },
+    {
+      "caseId": "p2c-holdout-06",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:18:19.592Z",
+      "observedAt": "2026-10-23T04:18:20.810Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-06.attempt-1.metadata.json",
+        "sha256": "0c03e8ee4e39b8c7f8184860281a7a0167b1e6cd0d650685b13aaab76566e671"
+      },
+      "responseSha256": "90ae46b599c0809e0dfcec7a00c9b335c11d8e39bdcf6ee360a705a44bed35ce"
+    },
+    {
+      "caseId": "p2c-holdout-06",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:18:30.493Z",
+      "observedAt": "2026-10-23T04:18:32.513Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-06.attempt-1.metadata.json",
+        "sha256": "6b24f9cf658000166480cd1bf213e334cf5df3fc668766c18b8ca9ea27d50562"
+      },
+      "responseSha256": "20e38d1f767771ac5476e45db269e8be2f9070e907612fb3d664925f0ce35fe5"
+    },
+    {
+      "caseId": "p2c-holdout-01",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:19:02.515Z",
+      "observedAt": "2026-10-23T04:19:04.461Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-01.attempt-1.metadata.json",
+        "sha256": "54b7c467d2c87c047f5a14921ddf5b7034b22fba056ac30274dedfcc34ad7af5"
+      },
+      "responseSha256": "e414342a9cdc05c9640f5e1424cf33c559db771f345401e357bf2fec85f3219c"
+    },
+    {
+      "caseId": "p2c-holdout-02",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:19:34.462Z",
+      "observedAt": "2026-10-23T04:19:37.059Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-02.attempt-1.metadata.json",
+        "sha256": "9c4493234d395208f7281ecb07bfec0d359b3ab183088bda08a7a16ca925ce10"
+      },
+      "responseSha256": "35d1074b1641540fc276e1b9d95ba9e28545ba87c32f73f34b7bdbbdb9ff6732"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:20:07.060Z",
+      "observedAt": "2026-10-23T04:20:09.070Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-03.attempt-1.metadata.json",
+        "sha256": "f7eaf980f2bb3c2a6f66c4d2f9b7f0db2df2f82ebfe7e322f04e97e4ff0524af"
+      },
+      "responseSha256": "d47a538a4a6306b62a28d0b9ad09b2ddc538f05478ae48ca62971b75d7a23198"
+    },
+    {
+      "caseId": "p2c-holdout-04",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:20:39.071Z",
+      "observedAt": "2026-10-23T04:20:42.700Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-04.attempt-1.metadata.json",
+        "sha256": "d5921377ba5afd25c634b0a4cf0cd9193389640cecfbb1029703e75ebb4db2ef"
+      },
+      "responseSha256": "a2ecc64ce2f1181e744775b21b96e2d4462490f1c45f1de1871c22ab256cced2"
+    },
+    {
+      "caseId": "p2c-holdout-05",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:21:12.701Z",
+      "observedAt": "2026-10-23T04:21:14.635Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-05.attempt-1.metadata.json",
+        "sha256": "03a1097baf92b23fdb8e51145794db454034295b2564f2cebc1e822833d95589"
+      },
+      "responseSha256": "a12fb500629df5b94a613a4214acba7a8c2cd329dd6381c47fac84b97fb8abbc"
+    },
+    {
+      "caseId": "p2c-holdout-06",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:21:44.635Z",
+      "observedAt": "2026-10-23T04:21:46.971Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/02-area-cuisines/area-06.attempt-1.metadata.json",
+        "sha256": "58d21deeadce4f050f4036dcae926d143212144efa0e1f5c725f72e2657cdc62"
+      },
+      "responseSha256": "b8361aa90f5a45ab2c819af927dff77ef3cfca1bfb8a76f7e629bfc7b06a8a07"
+    },
+    {
+      "caseId": "p2c-holdout-01",
+      "kind": "MERCHANT",
+      "requestedAt": "2026-10-23T04:22:34.811Z",
+      "observedAt": "2026-10-23T04:22:36.685Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-01.attempt-1.metadata.json",
+        "sha256": "bdd0ca24451c3d3cfdd95d9aaf344beae2036ae382817f619e8d3b5d706e4b71"
+      },
+      "responseSha256": "033556fa77b2156312079431753552b9e9c8e2bf5a328d0fb622ffdd8aeaaf7e"
+    },
+    {
+      "caseId": "p2c-holdout-02",
+      "kind": "MERCHANT",
+      "requestedAt": "2026-10-23T04:23:06.687Z",
+      "observedAt": "2026-10-23T04:23:08.634Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-02.attempt-1.metadata.json",
+        "sha256": "5093e391f913796bbdd49eff5b2a69a0dc093f9d82872c1ef4a201197badd226"
+      },
+      "responseSha256": "cb46447dc33e7300cd47a09e96ab7536b8b536bfdba710373181c84c8feadeca"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:23:38.636Z",
+      "observedAt": "2026-10-23T04:23:40.602Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-03.attempt-1.metadata.json",
+        "sha256": "28d8809bc2638bed34d5b28887d6db00ee7ecad7ff9b19dc5d682ef9980f6b57"
+      },
+      "responseSha256": "69dc35ab1927b9932a8dd2915973ef9932fddab312551344f91329b6202e26e0"
+    },
+    {
+      "caseId": "p2c-holdout-04",
+      "kind": "MERCHANT",
+      "requestedAt": "2026-10-23T04:24:10.603Z",
+      "observedAt": "2026-10-23T04:24:12.829Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-04.attempt-1.metadata.json",
+        "sha256": "13215559d71835c3e7041cd60d422dcd46c5fd28a98b2918a1d39fba9d7d11e0"
+      },
+      "responseSha256": "905c1abd2b17743e7f95a431ee420b417704b0b31de757e3202f1d16d2880284"
+    },
+    {
+      "caseId": "p2c-holdout-05",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:24:42.831Z",
+      "observedAt": "2026-10-23T04:24:44.466Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-05.attempt-1.metadata.json",
+        "sha256": "93ff6f8ba504a44066638d87682868c42b789f20908d916fcbd5e02e0ddebdd8"
+      },
+      "responseSha256": "d39dc7f03945ede02e853edbc0f91560e5042ea43ff5388509f33869361a9a07"
+    },
+    {
+      "caseId": "p2c-holdout-06",
+      "kind": "MERCHANT",
+      "requestedAt": "2026-10-23T04:25:14.466Z",
+      "observedAt": "2026-10-23T04:25:15.888Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-06.attempt-1.metadata.json",
+        "sha256": "a3c902c34e10ace01f8f75137a737d201a26957c5b860fed220d43ff76c38ea1"
+      },
+      "responseSha256": "9351e90fc371da0e10018bab15da1e3f40b002eba5f7210663e0375685c3ab44"
+    },
+    {
+      "caseId": "p2c-holdout-01",
+      "kind": "INVENTORY",
+      "requestedAt": "2026-10-23T04:27:20.290Z",
+      "observedAt": "2026-10-23T04:27:21.927Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-01.attempt-1.metadata.json",
+        "sha256": "a9d6dcc80b5c43d03b3c0d27b6eae8f8e93293bc8c7766598a6575d6d1cba757"
+      },
+      "responseSha256": "3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976"
+    },
+    {
+      "caseId": "p2c-holdout-02",
+      "kind": "INVENTORY",
+      "requestedAt": "2026-10-23T04:27:51.927Z",
+      "observedAt": "2026-10-23T04:27:54.315Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-02.attempt-1.metadata.json",
+        "sha256": "2cc3b866d174e473af9621596a702e054d3b9567fa905143402b48877ab80619"
+      },
+      "responseSha256": "39590ada38c1b37ae8a56bd276cd06ba36107cd6367be5d1c4d774edf9e5ba92"
+    },
+    {
+      "caseId": "p2c-holdout-04",
+      "kind": "INVENTORY",
+      "requestedAt": "2026-10-23T04:28:24.315Z",
+      "observedAt": "2026-10-23T04:28:25.436Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-04.attempt-1.metadata.json",
+        "sha256": "285ebb9f893e3bfae5f084d036929b7ebca90cbb14d5e89a8988499734e10f75"
+      },
+      "responseSha256": "78973ad9e97d682e3114695bd50d13f9cf1132c591bd4d592b40986ea155825c"
+    },
+    {
+      "caseId": "p2c-holdout-06",
+      "kind": "INVENTORY",
+      "requestedAt": "2026-10-23T04:28:55.437Z",
+      "observedAt": "2026-10-23T04:29:01.071Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/inventory-06.attempt-1.metadata.json",
+        "sha256": "bdc66001e060f462d01933cda9af19af6e9a66839d0244523adeda61a2c7c6ab"
+      },
+      "responseSha256": "8ea9d6150e26a57b35350c7b8ee3c84c7ccbf82e3823657f74d4847f8b881461"
+    },
+    {
+      "caseId": "p2c-holdout-05",
+      "kind": "MERCHANT",
+      "requestedAt": "2026-10-23T04:29:31.071Z",
+      "observedAt": "2026-10-23T04:29:33.155Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/merchant-05.attempt-1.metadata.json",
+        "sha256": "e9819a69ba777728a34d737c22e16c5f713f3ec3b180909055d0baab0c914cb4"
+      },
+      "responseSha256": "7ddd418d9c5b8bad166158c386417a28ab065de8552021fcfcf2f0ae52f59e6d"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "COURSE",
+      "requestedAt": "2026-10-23T04:30:03.156Z",
+      "observedAt": "2026-10-23T04:30:05.157Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/05-fugu-dinner-evidence/merchant-03.attempt-1.metadata.json",
+        "sha256": "ca1c5bc376a15c884d062412ffc4f2f83e264cd4739249d6de482ac0bdb21f62"
+      },
+      "responseSha256": "406175cfe55f3dc1678a876a92abab2b7d0059447d70abba40b4e4833922b805"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "INVENTORY",
+      "requestedAt": "2026-10-23T04:31:12.930Z",
+      "observedAt": "2026-10-23T04:31:14.872Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-03.attempt-1.metadata.json",
+        "sha256": "6e4c1815950dda75cd67eebc45d3f0fd3570b8dd4bf5f62aba67edd1d05e9a9d"
+      },
+      "responseSha256": "355a0d1accf56cf97628c23cb9eb05b4a73874c34548d5223e2f0df4884948b3"
+    },
+    {
+      "caseId": "p2c-holdout-05",
+      "kind": "INVENTORY",
+      "requestedAt": "2026-10-23T04:31:44.874Z",
+      "observedAt": "2026-10-23T04:31:55.100Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/06-final-inventory/inventory-05.attempt-1.metadata.json",
+        "sha256": "eebf7f1feec573f1303ff2a98e79590e0a1b0a954032780bc4e6da12769db2cb"
+      },
+      "responseSha256": "f903fe96ca43d573d8ef4040f54f8935f0dc0852f35e55f43bf14b93e13097a2"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:32:43.735Z",
+      "observedAt": "2026-10-23T04:32:45.538Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/07-primary-fugu-search/fugu-primary-google.attempt-1.metadata.json",
+        "sha256": "2c7b1bafdbe77f0109bb3d946d970c3aac5d20eec586d61bff5b6215fc230c3b"
+      },
+      "responseSha256": "1a1aec21b6f1477e876072c1c888f5f4611c059c8445534403906d7a4141f3c0"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:32:45.541Z",
+      "observedAt": "2026-10-23T04:32:48.028Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/07-primary-fugu-search/ichigaya-fugu-list.attempt-1.metadata.json",
+        "sha256": "d2950d79688a055a8ef0c48f2b97cf54a1393f1e6069aef4f61e2195dda41357"
+      },
+      "responseSha256": "7b463dde1eed65928e0dc14c2c9d314554cfc81230cbcbe797bf0721048a5508"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "COURSE",
+      "requestedAt": "2026-10-23T04:33:41.251Z",
+      "observedAt": "2026-10-23T04:33:43.451Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/08-primary-shiose-dinner/shiose-03.attempt-1.metadata.json",
+        "sha256": "0f40be345e36389dffc79408efcafecb48e233fe6ac48d0a40ca4342d50133aa"
+      },
+      "responseSha256": "5d21a786dec9085f6074423c91b2c3622288a7fa92a41790efdb91360f091cda"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:35:18.356Z",
+      "observedAt": "2026-10-23T04:35:20.131Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-center-03.attempt-1.metadata.json",
+        "sha256": "558085a7bf13b88fd1c2a4200596d76fc633270bbb0e544181585631b45bba3a"
+      },
+      "responseSha256": "e52d82607df4d21182e95cf9db02c8ddfca032a7db03db28ac6b9a2dc4f70c28"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:35:20.134Z",
+      "observedAt": "2026-10-23T04:35:22.257Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-fugu-list-03.attempt-1.metadata.json",
+        "sha256": "93c4f7bcf259c67357716c392dc48310e6b187677d973f02a48c9a8ac523d480"
+      },
+      "responseSha256": "20317a5890537f0fd90a9d30b627fa625f7953ea0cc650e454ce21efe4fb264a"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:35:50.133Z",
+      "observedAt": "2026-10-23T04:35:51.889Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/09-fallback-fugu-discovery/fallback-fugu-google-03.attempt-1.metadata.json",
+        "sha256": "8a62f324cc6f83fd83d0e104cb2a7b04d1f81543c14057c7e58618f7643e1e8d"
+      },
+      "responseSha256": "8fe9494c6a288699180d5c8d259164ed82b2a7533935cf15c1dca311bd22cb08"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:37:40.692Z",
+      "observedAt": "2026-10-23T04:37:43.069Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/10-fallback-native-and-city/fallback-native-google-03.attempt-1.metadata.json",
+        "sha256": "7bf2c257d8180a463457bdc8cf7f8fdc3ad4de6d15fd714f60d8bbff6b0c3567"
+      },
+      "responseSha256": "db9816f22baa20bbc0f6411ef58629f7ecc08ed9f3fa8e08d655cfbade95dfbf"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "LISTING",
+      "requestedAt": "2026-10-23T04:37:43.071Z",
+      "observedAt": "2026-10-23T04:37:45.059Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/10-fallback-native-and-city/fallback-city-fugu-03.attempt-1.metadata.json",
+        "sha256": "7777f94a4f35c995b9843e55f3b03f99e29bfcf3df5144a1fd221514b48cfef9"
+      },
+      "responseSha256": "90bc5402a24e69f8f2647c767c54a358c4ad2883ac51d70b0acfe621353f83f6"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "GOOGLE",
+      "requestedAt": "2026-10-23T04:39:27.503Z",
+      "observedAt": "2026-10-23T04:39:29.799Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/11-fallback-circle-east-check/fallback-east-google-03.attempt-1.metadata.json",
+        "sha256": "a55ed17059d07273ef20d05f92a56af03933cfe1fe340da2f52074bf58bd85b2"
+      },
+      "responseSha256": "da19f324d7252474ffee39ab86de53493db1e3365b666aa8344c7877ae191be9"
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "kind": "COURSE",
+      "requestedAt": "2026-10-23T04:40:35.951Z",
+      "observedAt": "2026-10-23T04:40:37.802Z",
+      "status": 200,
+      "metadata": {
+        "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/12-fallback-obu-dinner/obu-03.attempt-1.metadata.json",
+        "sha256": "f05b00123bc0650bdf7ab799a285d982cb38246e095ad7cba620199ff56073b7"
+      },
+      "responseSha256": "2ad6d961fb3d629a556463a47c331ce834de2afae618430f51315b3630767a22"
+    }
+  ]
+}

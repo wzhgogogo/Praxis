@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.262
+- Document revision: 4.263
 - Last updated: 2026-10-23
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-23-PHASE2C-WITNESS-CERTIFICATION
+
+第二阶段c退出见证认证完成：5/6例各1家独立认证，唯一无见证例按承诺fallback后仍无充分来源支持，按用户预先批准排除；所有换地点与原始观察SHA保留。承诺整文件及六例SHA一致，原文/日期未改；42次只读来源请求（Google11、Tabelog31）全200、0重试，最小来源间隔30秒。0产品代码/模型/浏览器/完整Live/环境重跑；16项离线边界控制和零网络认证及独立字节/距离/库存复算通过，140项输入冻结保持。认证材料登记与报告只在私有留出分支；本轮不开始18次Live。最早保守观察为北京时间10月23日12:15:40.465，24小时截止10月24日12:15:40.465。 [报告](../../.eval-artifacts/phase2c-holdout/witness-certification-20261023/report.md).
 
 ## DEV-2026-10-23-PHASE2C-MAINLINE-INTEGRATION
 

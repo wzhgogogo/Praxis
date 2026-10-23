@@ -1,0 +1,349 @@
+{
+  "schema": "phase2c-witness-certification-report@1",
+  "status": "CERTIFIED_WITH_ONE_PREAPPROVED_EXCLUSION",
+  "mode": "LIVE_READ_ONLY_WITNESS_CERTIFICATION_PLUS_OFFLINE_VERIFICATION",
+  "notProductLive": true,
+  "branch": "codex/holdout-phase2c-exit",
+  "baseCommit": "941ca9c1",
+  "scope": "Witness certification only. User latest steering resumes original certification task; no Live, mainline merge or product change.",
+  "commitmentVerification": {
+    "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/commitment-verification.json",
+    "sha256": "de5137a3b5396c08cb9baed4a02d4f1a51645ab0301830614536f69c77bb9acd"
+  },
+  "inputFreeze": {
+    "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/certification-inputs-freeze.json",
+    "sha256": "e5bafce01a89714dc2aff34e3368c6e9deb136239fe77f5d04eaf96eac8b2d9f"
+  },
+  "registry": {
+    "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/registry.json",
+    "sha256": "b0988a7785766ad98e1392d1d9d3b23df3fc4e003624c740c2c3cdd74e0995e6"
+  },
+  "layers": {
+    "endToEnd": {
+      "certifiedCases": 5,
+      "totalCases": 6,
+      "witnessCounts": [
+        1,
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "excludedCases": [
+        "p2c-holdout-03"
+      ],
+      "productQualifiedDelivery": "NOT_RUN_NOT_EVALUATED",
+      "rows": [
+        {
+          "caseId": "p2c-holdout-01",
+          "usedPlace": "Akabane",
+          "outletName": "Kushi Katsu Dengana Akabane ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+          "distanceMeters": 201.54497535838553,
+          "date": "2026-11-04",
+          "partySize": 2,
+          "matchingSlotsTokyo": [
+            "19:00"
+          ],
+          "merchantObservedAt": "2026-10-23T04:22:36.685Z",
+          "inventoryObservedAt": "2026-10-23T04:27:21.927Z",
+          "googleRequests": 1,
+          "hardCriteria": [
+            {
+              "value": "kushikatsu",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "goldIndex": 0,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Kushi-age (Deep-fried skewers), Izakaya (Japanese style tavern), Tripe",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-01.attempt-1.source.json",
+                  "sha256": "8321b02b49bef7c19469b5a2f707aee0a27cf69608c5a1387d9bb8658d6f4566"
+                }
+              ],
+              "adjudication": {
+                "rule": "Frozen case01 acceptance explicitly permits kushikatsu(kushiage); exact source classification Kushi-age is retained.",
+                "authority": {
+                  "path": ".eval-artifacts/phase2c-holdout/holdout.yaml",
+                  "sha256": "1602ca7a5ff860130b81235553db8e77d7d9c25d261801c38330db0a97171a1e"
+                },
+                "caseId": "p2c-holdout-01"
+              }
+            }
+          ],
+          "softObservations": []
+        },
+        {
+          "caseId": "p2c-holdout-02",
+          "usedPlace": "Okachimachi",
+          "outletName": "Yakiniku Yansando Ueno hirokoji ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13016759/",
+          "distanceMeters": 149.4841639991353,
+          "date": "2026-10-30",
+          "partySize": 4,
+          "matchingSlotsTokyo": [
+            "18:30"
+          ],
+          "merchantObservedAt": "2026-10-23T04:23:08.634Z",
+          "inventoryObservedAt": "2026-10-23T04:27:54.315Z",
+          "googleRequests": 1,
+          "hardCriteria": [
+            {
+              "value": "Korean",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "goldIndex": 0,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Yakiniku (Japanese BBQ), Korean, Tripe",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-02.attempt-1.source.json",
+                  "sha256": "68507152626abd7b283c3edb4107cf5f0db4ec0d61e9e5e1bfd4f1e4e28ba0e2"
+                }
+              ]
+            }
+          ],
+          "softObservations": [
+            {
+              "criterion": "no more than 5,000 yen per person",
+              "strength": "SOFT",
+              "usedAsGate": false,
+              "observations": [
+                {
+                  "role": "MERCHANT_AVERAGE_PRICE",
+                  "quote": "Average price JPY 6,000 - JPY 7,999 JPY 2,000 - JPY 2,999",
+                  "source": {
+                    "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-02.attempt-1.source.json",
+                    "sha256": "68507152626abd7b283c3edb4107cf5f0db4ec0d61e9e5e1bfd4f1e4e28ba0e2"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "caseId": "p2c-holdout-04",
+          "usedPlace": "Ryogoku",
+          "outletName": "Chanko Kirishima Ryougoku edo NOREN ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+          "distanceMeters": 29.062478451230497,
+          "date": "2026-11-05",
+          "partySize": 6,
+          "matchingSlotsTokyo": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30",
+            "19:45",
+            "20:00"
+          ],
+          "merchantObservedAt": "2026-10-23T04:24:12.829Z",
+          "inventoryObservedAt": "2026-10-23T04:28:25.436Z",
+          "googleRequests": 1,
+          "hardCriteria": [
+            {
+              "value": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "goldIndex": 0,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Chanko-nabe, Japanese Cuisine, Seafood",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-04.attempt-1.source.json",
+                  "sha256": "3e664db79be00271c94ae49b60b85001de55ec2d4b0d1d54450a6ed97a78d98b"
+                }
+              ]
+            }
+          ],
+          "softObservations": [
+            {
+              "criterion": "private room",
+              "strength": "SOFT",
+              "usedAsGate": false,
+              "observations": [
+                {
+                  "role": "MERCHANT_SEATING",
+                  "quote": "Private rooms Unavailable",
+                  "source": {
+                    "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-04.attempt-1.source.json",
+                    "sha256": "3e664db79be00271c94ae49b60b85001de55ec2d4b0d1d54450a6ed97a78d98b"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "caseId": "p2c-holdout-05",
+          "usedPlace": "Hatchobori",
+          "outletName": "Niku Kitchen BOICHI Hacchobori irifune ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13181311/",
+          "distanceMeters": 225.7935612717739,
+          "date": "2026-11-03",
+          "partySize": 3,
+          "matchingSlotsTokyo": [
+            "19:00"
+          ],
+          "merchantObservedAt": "2026-10-23T04:29:33.155Z",
+          "inventoryObservedAt": "2026-10-23T04:31:55.100Z",
+          "googleRequests": 1,
+          "hardCriteria": [
+            {
+              "value": "steak",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "goldIndex": 0,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Bistro, Steak, Niku baru (Meat bar)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/merchant-05.attempt-1.source.json",
+                  "sha256": "90b1badd32858d5958e7057463415e06968b2dfb3c6f28fb0a7d4b4088571770"
+                }
+              ]
+            },
+            {
+              "value": "hamburg steak place",
+              "polarity": "NEGATIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:1",
+              "goldIndex": 1,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Bistro, Steak, Niku baru (Meat bar)",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/04-inventory-and-steak/merchant-05.attempt-1.source.json",
+                  "sha256": "90b1badd32858d5958e7057463415e06968b2dfb3c6f28fb0a7d4b4088571770"
+                }
+              ],
+              "adjudication": {
+                "rule": "User-approved case05 source classification must show Steak/teppanyaki steak rather than Hamburger steak; captured category is Bistro, Steak, Meat bar. Does not infer absence from a menu keyword.",
+                "authority": {
+                  "path": ".eval-artifacts/phase2c-holdout/holdout.yaml",
+                  "sha256": "1602ca7a5ff860130b81235553db8e77d7d9c25d261801c38330db0a97171a1e"
+                },
+                "caseId": "p2c-holdout-05"
+              }
+            }
+          ],
+          "softObservations": []
+        },
+        {
+          "caseId": "p2c-holdout-06",
+          "usedPlace": "Kitasenju",
+          "outletName": "Hakata Motsu-nabe Yamaya Kitasenju ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13280146/",
+          "distanceMeters": 157.51205798745914,
+          "date": "2026-10-30",
+          "partySize": 8,
+          "matchingSlotsTokyo": [
+            "17:30",
+            "17:45",
+            "18:00",
+            "19:30",
+            "19:45",
+            "20:00",
+            "20:15",
+            "20:30"
+          ],
+          "merchantObservedAt": "2026-10-23T04:25:15.888Z",
+          "inventoryObservedAt": "2026-10-23T04:29:01.071Z",
+          "googleRequests": 1,
+          "hardCriteria": [
+            {
+              "value": "motsunabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "criterionRef": "criterion:0",
+              "goldIndex": 0,
+              "status": "SUPPORTED",
+              "role": "CATEGORY",
+              "quote": "Categories Izakaya (Japanese style tavern), Regional Cuisine, Motsu-nabe",
+              "evidenceRefs": [
+                {
+                  "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-06.attempt-1.source.json",
+                  "sha256": "595cd0e638d6a736d5ff4a13dcc54d19e9318cf2db5429e0ff85cae47cce38bf"
+                }
+              ]
+            }
+          ],
+          "softObservations": []
+        }
+      ]
+    },
+    "stages": {
+      "promiseFileAndCases": "PASS",
+      "GoogleCenters": "six primary + approved case03 fallback center recorded",
+      "merchantFacts": "All certified witnesses have same-outlet explicit merchant category, source geo and source-bound current inventory",
+      "fallback": [
+        {
+          "caseId": "p2c-holdout-03",
+          "from": "Ichigaya",
+          "to": "Kudanshita",
+          "record": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/fallback-03.json",
+          "result": "NO_CERTIFIED_WITNESS_FOUND_IN_BOUNDED_SOURCE_SEARCH"
+        }
+      ],
+      "case03Failure": "Nemoto merchant classification includes fugu; advertised5500/6600JPY per-person options and Saturday evening opening hours were separately observed, not proof of course inventory at19:30. The raw2-person response only offers17:30/18:00/18:30. Shiose is outside1000m with no public read. Fallback Obu422m lacks explicit fugu, qualifying dinner-offer and source-exposed inventory support.",
+      "softUnspecifiedNotGates": true
+    },
+    "severity": {
+      "modelCalls": 0,
+      "browserSessions": 0,
+      "reservationFormRequests": 0,
+      "slotClicks": 0,
+      "tablecheckReserveRequests": 0,
+      "personalInformationSubmitted": false,
+      "sourceTransportFailures": 0,
+      "sourceNon200": 0,
+      "publicCalendarResponses": "Returned reservation URLs parsed as data only, never opened",
+      "productionGuard": "Not invoked or tested in this certification; standalone source URL boundary controls16/16, actual42 request records independently checked"
+    },
+    "attribution": {
+      "case03": "Evidence not sufficient for certification under unchanged conditions, not proof that no restaurant exists and not a product capability result.",
+      "noRelaxations": "No changed date/party/time/budget/cuisine/radius; only the listed fallback for03 used. Negative05 follows the exact user-approved source-classification rule.",
+      "coverageLimits": "Bounded approved public-source search. Full customer-review HTML not retained; exact minimal business fragments and full inventory JSON retained. Google/merchant source address fields are retained as supplied, missing street detail not invented."
+    }
+  },
+  "resources": {
+    "googleRequests": 11,
+    "restaurantSourceRequests": 31,
+    "totalRequests": 42,
+    "allHTTP200": true,
+    "retries": 0,
+    "newModelCalls": 0,
+    "newProductLiveRuns": 0,
+    "newEnvironmentReruns": 0,
+    "minSourceFinishToNextStartGapMs": {
+      "places.googleapis.com": 30001.0,
+      "tabelog.com": 30000.0
+    }
+  },
+  "certificationCompletedAt": "2026-10-23T04:43:57.087Z",
+  "earliestWitnessObservedAt": "2026-10-23T04:15:40.465Z",
+  "validUntil": "2026-10-24T04:15:40.465Z",
+  "certificationCompletedBeijing": "2026-10-23T12:43:57.087+08:00",
+  "earliestWitnessObservationStartBeijing": "2026-10-23T12:15:40.465+08:00",
+  "liveMustFinishByBeijing": "2026-10-24T12:15:40.465+08:00",
+  "timeBasis": "Booking dates/times Asia/Tokyo; observation JSON records UTC, report summaries Beijing.24h clock conservatively includes the Google center request of each certified witness.",
+  "verification": {
+    "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/delivery-verification.json",
+    "sha256": "72250d3ffbaac9579244fc07391db85387620479a0c0f4eb72857aaa39db56f4"
+  },
+  "nextAction": "Push only codex/holdout-phase2c-exit and stop. No18Live started."
+}
