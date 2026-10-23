@@ -4535,3 +4535,11 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - Delivery follow-up within prohibited-entry scope: even an initial candidate URL already prohibited by current policy now stops before acquiring a browser; identity remains unverified. Native FACTS checks the same initial boundary. Valid red-initial-entrance retained; final full five-gate rerun1014/136 PASS. Freeze the final unchanged-input offline replay before execution, then stop after report/push.
 
 - Completed on frozen bd268ee0bf45e838f70235be6e34d4ae76b72d17: all five gates1014/136 PASS; final cached calendar69/69, selection5/5; current evaluator33 calibration22/22 and normal declaration20/20. Six saved-component rows complete: Tabelog first at scheduling boundary,24 prohibited paths early unsupported, five recorded bound-empty points retain unknown remainder, c18 disabled10 stops with zero new decision/action. Original219 model calls are historical reuse, new real model/site/Google/Live0. Missing Tabelog/Google response branches remain NOT_EVALUATED; no new full-task success, S0 clearance or efficiency claim. [Final report](../../.eval-artifacts/group-window-fix-20261022/report.md).
+
+
+## DEV-2026-10-23-PHASE3A-PRIME-MAIN-CHECK
+
+- Evidence status: draft / not integrated；已暴露离线工程基线，不是 Clean Baseline。原文指令SHA-256 `451b40ef26b917812a949f3649a91e616e72709c7067f890eb9085ce8ae6cfe1`，首个独立提交8601233c；主工作树指定位置另有原样副本，既有9份用户文件和HEAD保持。
+- 仅批次0只读核对与报告。新分支从main/ac571ca8建立，fetch后main=origin/main；两个指定修复均为祖先，旧开发分支本地及远端均无独有提交。不合并、不推送，不修改产品代码、测试、fixture、Prompt、Schema、Evaluator或权限。
+- 历史目录口径3591→3863在原提交复现，当前3864；按本指令增加source-packs.ts后起点3991、当前4337，不能同时沿用历史数字。按停止点0等待复核统一后续≤3591的范围，F1/F5未启动。
+- 本批完整Live0/8，真实模型0/400，环境重跑0/2，账本entries为空。 [批次报告](../../.eval-artifacts/phase3a-prime/main-check/report.md)。

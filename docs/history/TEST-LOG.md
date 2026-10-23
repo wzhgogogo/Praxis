@@ -5249,3 +5249,11 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - Delivery follow-up within prohibited-entry scope: even an initial candidate URL already prohibited by current policy now stops before acquiring a browser; identity remains unverified. Native FACTS checks the same initial boundary. Valid red-initial-entrance retained; final full five-gate rerun1014/136 PASS. Freeze the final unchanged-input offline replay before execution, then stop after report/push.
 
 - Completed on frozen bd268ee0bf45e838f70235be6e34d4ae76b72d17: all five gates1014/136 PASS; final cached calendar69/69, selection5/5; current evaluator33 calibration22/22 and normal declaration20/20. Six saved-component rows complete: Tabelog first at scheduling boundary,24 prohibited paths early unsupported, five recorded bound-empty points retain unknown remainder, c18 disabled10 stops with zero new decision/action. Original219 model calls are historical reuse, new real model/site/Google/Live0. Missing Tabelog/Google response branches remain NOT_EVALUATED; no new full-task success, S0 clearance or efficiency claim. [Final report](../../.eval-artifacts/group-window-fix-20261022/report.md).
+
+
+## TEST-2026-10-23-PHASE3A-PRIME-MAIN-CHECK
+
+- Evidence status: draft / not integrated；已暴露离线工程基线，不是 Clean Baseline。原文指令SHA-256 `451b40ef26b917812a949f3649a91e616e72709c7067f890eb9085ce8ae6cfe1`，首个独立提交8601233c；主工作树指定位置另有原样副本，既有9份用户文件和HEAD保持。
+- 在干净main/ac571ca8的既有工作树顺序跑typecheck、arch:check、npm test、build、test:browser:fixture；两套完整测试各三次，用例数、各次完整wall time、中位数和原始日志见报告及gate-summary.json。无产品修复红灯；red.log单独保存统计口径检查差异，不冒充失败测试。
+- baseline-source-sha256.json冻结335份源码/fixture/脚本/配置；原文、执行/统计脚本SHA另存。测试生成的历史指标保存本批副本后恢复原字节。没有运行69翻月/22校准或新模型、来源网站、Google、Live；不声明S0=0或能力提升。
+- 本批完整Live0/8，真实模型0/400，环境重跑0/2，账本entries为空。 [批次报告](../../.eval-artifacts/phase3a-prime/main-check/report.md)。

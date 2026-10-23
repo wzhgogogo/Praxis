@@ -1,0 +1,171 @@
+{
+  "mode": "OFFLINE_LOCAL_FIXTURE",
+  "baselineCommit": "ac571ca8188082902f2ea20fc10d9dd05cbb2f6a",
+  "cwd": "/private/tmp/praxis-phase2c-mainline-integration",
+  "perCommandTimeoutSeconds": 600,
+  "runs": [
+    {
+      "gate": "typecheck",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAt": "2026-10-23T15:44:39.435805+00:00",
+      "log": "typecheck-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.456027,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "gate": "arch-check",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAt": "2026-10-23T15:44:39.967865+00:00",
+      "log": "arch-check-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.833966,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "gate": "npm-test",
+      "sample": 1,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAt": "2026-10-23T15:44:40.876434+00:00",
+      "log": "npm-test-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 23.337168,
+      "summary": {},
+      "logSha256": "a0063ca7df4bc6aa9e27c71e0b88d2b06c558a7c4a950cbb6085cab8980dd402"
+    },
+    {
+      "gate": "build",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-23T15:45:04.298747+00:00",
+      "log": "build-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.455981,
+      "summary": {},
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAt": "2026-10-23T15:45:04.830949+00:00",
+      "log": "browser-fixture-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 307.538626,
+      "summary": {},
+      "logSha256": "eeb37a514617e29a53127b4547d291fe3257365f9daef94ce8fd09eb21761237"
+    },
+    {
+      "gate": "npm-test",
+      "sample": 2,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAt": "2026-10-23T15:50:12.532776+00:00",
+      "log": "npm-test-2.log",
+      "exitCode": 0,
+      "elapsedSeconds": 23.196958,
+      "summary": {},
+      "logSha256": "1bebdc35640a6a9fb97538bb82441942b8abb56bd252fcb90640186b366256f6"
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 2,
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAt": "2026-10-23T15:50:35.829837+00:00",
+      "log": "browser-fixture-2.log",
+      "exitCode": 0,
+      "elapsedSeconds": 307.57351,
+      "summary": {},
+      "logSha256": "25796087039420f3997c7d9e79e256417004f65158c52be5dee27cafe2eb035f"
+    },
+    {
+      "gate": "npm-test",
+      "sample": 3,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAt": "2026-10-23T15:55:43.504488+00:00",
+      "log": "npm-test-3.log",
+      "exitCode": 0,
+      "elapsedSeconds": 24.090059,
+      "summary": {},
+      "logSha256": "9302edeae542563135cfe8221eab9a141ac4ef07a19162191b3ac078f3ab8a4a"
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 3,
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAt": "2026-10-23T15:56:07.693584+00:00",
+      "log": "browser-fixture-3.log",
+      "exitCode": 0,
+      "elapsedSeconds": 307.747521,
+      "summary": {},
+      "logSha256": "ea30d353611c9d84ee409a2a6e10274cb0d979dcd9ed1c52b6438ee543a275d8"
+    }
+  ],
+  "generatedRestorations": [
+    {
+      "gate": "browser-fixture",
+      "sample": 1,
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/region-composition-results.json",
+      "beforeSha256": "70f78ab6a177d002f00702851f2849b67217a4888ab52a535ef25bac197492e8",
+      "afterSha256": "1b42cec5542a2ad58449e80310022f6cebfb3605c3fb3ee5cb057df518df48cc",
+      "generatedCopy": "generated/browser-fixture/1/.eval-artifacts/checkpoint-c-p21c-integration-20261020/region-composition-results.json"
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 2,
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/region-composition-results.json",
+      "beforeSha256": "70f78ab6a177d002f00702851f2849b67217a4888ab52a535ef25bac197492e8",
+      "afterSha256": "41e217a2dda6e4f26c0802ba66f5e6a3231e9b22fae220a833ae6ee95e14da71",
+      "generatedCopy": "generated/browser-fixture/2/.eval-artifacts/checkpoint-c-p21c-integration-20261020/region-composition-results.json"
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 3,
+      "path": ".eval-artifacts/checkpoint-c-p21c-integration-20261020/region-composition-results.json",
+      "beforeSha256": "70f78ab6a177d002f00702851f2849b67217a4888ab52a535ef25bac197492e8",
+      "afterSha256": "83543e46474eba94782f64484b627216dbde3658a6a71243ad0b34ef72a178d6",
+      "generatedCopy": "generated/browser-fixture/3/.eval-artifacts/checkpoint-c-p21c-integration-20261020/region-composition-results.json"
+    }
+  ],
+  "medians": {
+    "npm-test": 23.337168,
+    "browser-fixture": 307.57351
+  },
+  "stopReason": null
+}

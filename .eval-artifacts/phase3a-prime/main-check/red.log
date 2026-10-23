@@ -1,0 +1,9 @@
+READ-ONLY AUDIT DISCREPANCY (not a failed product test)
+Expectation: provider non-test source + source-packs.ts reproduces 3591 -> approximately 3863.
+Observed git blobs:
+025940c5: provider directories 3591; source-packs.ts 400; sum 3991.
+main/ac571ca8: provider directories 3864; source-packs.ts 473; sum 4337.
+Historical 06287b6f provider directories independently recount to 3863.
+The historical numbers exclude source-packs.ts.
+Disposition: STOP_POINT_0 / COUNT_SCOPE_MISMATCH; review required before F1/F5.
+No production change or artificial test mutation performed.

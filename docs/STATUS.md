@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.380
-- Last updated: 2026-10-23
+- Document revision: 4.381
+- Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-23-PHASE3A-PRIME-MAIN-CHECK:** 用户批准的3a′指令逐字保存并先独立提交8601233c；从main/ac571ca8建立批次0分支，不向旧开发分支提交。fetch后main与origin/main一致，包含4d953731和9de09404，旧开发分支无独有提交。五门禁与默认1029/本机Chromium138的三次耗时基线见报告。行数存在口径冲突：历史3591/约3863不含source-packs.ts，当前窄口径3864；按指令含包则3991→4337。依停止点0等待复核明确≤3591适用范围；F1/F5未启动。产品代码、测试、fixture和资格不变，新增Live/真实模型/Google/来源网站0，不合并、不推送。 [报告](../.eval-artifacts/phase3a-prime/main-check/report.md)。
 
 - **2026-10-23-MAIN-ONLY-WORKFLOW:** 用户决定保留全部远端分支，不删除任何分支，第二阶段删除提案关闭。从第三阶段起main为唯一主线：新工作分支从同步后的最新main创建，验证及复核通过后合并回main。codex/feat-live-restaurant-read-path保留在第二阶段phase2-signoff历史指针，不再提交、合入新工作或作为新分支起点。当前签收缺口和历史tag不变；本次仅文档整理，不修改产品或运行Live。 [唯一权威约定](REPOSITORY-CONVENTIONS.md#git分支与tag) · [已关闭的历史清单](reviews/PHASE-2-BRANCH-INVENTORY-20261023.md).
 
