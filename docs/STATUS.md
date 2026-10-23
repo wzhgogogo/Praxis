@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.368
+- Document revision: 4.374
 - Last updated: 2026-10-23
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-23 Phase2c PAUSED BY USER:** No production repair. h14 first attempt recorded13 models/1Live, its reserved retry never started.14/18 slots recorded,19 attempts,11 complete Runner result files,6 interrupted formal attempts without result; h15-h18 NOT_REACHED. User-requested read-only diagnosis reproduces Guard rejection of the site-owned no-hits cuisine facet preflight; temporary diagnostic rule restores results, current production untouched. Models4318/5000,Live89/100,ENV5/10. Push all raw/result indices and blind wording for independent remote review; no capability scoring. [Report](../.eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/report.md).
 
 - **2026-10-23 Phase2c timeout retry STOPPED:** User-authorized h01/h13 retries added74 models/2Live/0ENV. h01 timed out500s; h13 under approved600s hit TableCheck search busy at402.610s. Existing case retry exhausted; h14-h18 NOT_REACHED.13 slots/11 complete artifacts, missing-result safety NOT_EVALUATED. Models4305/5000,Live88/100,ENV5/10. Product unchanged; raw freeze and blind wording packet saved, no capability scores. [Report](../.eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/report.md).
 
