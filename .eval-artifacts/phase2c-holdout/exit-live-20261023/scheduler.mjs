@@ -14,6 +14,7 @@ export async function schedule({plan,attempt,verify=()=>{},event=()=>{},receipt=
    const finished=now(),record={run:job.run,attempt:job.number,queue:q,startedAt:new Date(started).toISOString(),finishedAt:new Date(finished).toISOString(),...row};rows.push(record);receipt(q,record);ready[q]=finished+plan.minGapMs;
    event({type:'FINISH',queue:q,runId:job.run.runId,attempt:job.number,at:record.finishedAt,modelCallsCharged:record.modelCallsCharged,formalRunStarted:record.formalRunStarted});
    if(row.s0)halt('S0_PRESENT');
+   else if(row.fatal)halt('ORCHESTRATOR_ATTEMPT_FAILURE');
    else if(!stop&&row.classification==='ENV_FAILURE'){
     const used=caseRetries.get(job.run.caseId)??0;
     if(used>=plan.maxRerunsPerCase||totalReruns>=plan.maxTotalReruns)halt('ENVIRONMENT_RETRY_EXHAUSTED');

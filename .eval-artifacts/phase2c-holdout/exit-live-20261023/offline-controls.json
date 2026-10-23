@@ -1,0 +1,88 @@
+{
+  "status": "PASS",
+  "results": [
+    {
+      "name": "two queues / stagger / odd-even / isolated receipts",
+      "status": "PASS",
+      "attempts": 18,
+      "maxConcurrent": 2,
+      "totalReruns": 0
+    },
+    {
+      "name": "SOURCE_CHALLENGE",
+      "status": "PASS",
+      "attempts": 19,
+      "maxConcurrent": 1,
+      "totalReruns": 1
+    },
+    {
+      "name": "SOURCE_HTTP_403_503_429",
+      "status": "PASS",
+      "attempts": 19,
+      "maxConcurrent": 1,
+      "totalReruns": 1
+    },
+    {
+      "name": "SOURCE_BUSY",
+      "status": "PASS",
+      "attempts": 19,
+      "maxConcurrent": 1,
+      "totalReruns": 1
+    },
+    {
+      "name": "DEEPSEEK_RATE_LIMIT",
+      "status": "PASS",
+      "attempts": 19,
+      "maxConcurrent": 1,
+      "totalReruns": 1
+    },
+    {
+      "name": "PARALLEL_RESOURCE_CONFLICT",
+      "status": "PASS",
+      "attempts": 19,
+      "maxConcurrent": 1,
+      "totalReruns": 1
+    },
+    {
+      "name": "S0 stops remaining",
+      "status": "PASS",
+      "attempts": 2,
+      "maxConcurrent": 2,
+      "totalReruns": 0
+    },
+    {
+      "name": "interrupted is not retryable",
+      "status": "PASS",
+      "attempts": 18,
+      "maxConcurrent": 2,
+      "totalReruns": 0
+    },
+    {
+      "name": "frozen mismatch no launch",
+      "status": "PASS",
+      "attempts": 0,
+      "maxConcurrent": 0,
+      "totalReruns": 0
+    },
+    {
+      "name": "expired witness no launch",
+      "status": "PASS",
+      "attempts": 0,
+      "maxConcurrent": 0,
+      "totalReruns": 0
+    },
+    {
+      "name": "two actual full Runner scripted compositions and safety-only output; separate paths",
+      "status": "PASS",
+      "network": 0,
+      "models": 0,
+      "artifacts": [
+        "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/offline-rehearsal/A/offline-A-attempt-1/runner/2026-10-23T05-12-15-739Z-7c6efa3e-4752-4db8-b3fe-eba101638b04.result.json",
+        "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/offline-rehearsal/B/offline-B-attempt-1/runner/2026-10-23T05-12-15-739Z-e33e2e11-06e4-420c-924d-57fdd254e133.result.json"
+      ]
+    }
+  ],
+  "network": 0,
+  "models": 0,
+  "productLive": 0
+}

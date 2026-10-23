@@ -22,15 +22,16 @@ export async function runAttempt({run,number,queue,directory,runnerInput,registr
  const abort=()=>terminate('BATCH_SAFETY_OR_DEADLINE_STOP');signal?.addEventListener('abort',abort,{once:true});
  const deadline=setTimeout(()=>terminate('OUTER_DEADLINE'),500000),hard=setTimeout(()=>child.kill('SIGKILL'),502000);
  const seen=new Set();
- const monitor=setInterval(()=>{
+ const observe=()=>{
   const observed=lines(resolve(dir,'outer-observations.jsonl'));
   if(observed.some(r=>r.kind==='SAFETY_STOP'))terminate('SAFETY_STOP');
   if(/EADDRINUSE|SingletonLock|profile.*(?:in use|already)|EEXIST/i.test(fs.readFileSync(resolve(dir,'stderr.txt'),'utf8'))&&!parallelFailure){fallback('PARALLEL_RESOURCE_CONFLICT',{queue});parallelFailure=true;terminate('PARALLEL_FALLBACK_ENV_FAILURE');}
   for(const row of [...observed.filter(r=>r.kind==='COOLDOWN_SIGNAL').map(r=>({reason:'SOURCE_HTTP_403_503_429',...r})),...lines(resolve(dir,'parallel-signals.jsonl'))]){
    const key=JSON.stringify(row);if(seen.has(key))continue;seen.add(key);fallback(row.reason,row);parallelFailure=true;cooldown=row.reason!=='PARALLEL_RESOURCE_CONFLICT';terminate('PARALLEL_FALLBACK_ENV_FAILURE');
   }
- },200);
- let exit;try{exit=await new Promise((res,rej)=>{child.on('error',rej);child.on('exit',(code,signal)=>res({code,signal}));});}finally{clearInterval(monitor);clearTimeout(deadline);clearTimeout(hard);signal?.removeEventListener('abort',abort);fs.closeSync(out);fs.closeSync(err);}
+ };
+ const monitor=setInterval(observe,200);
+ let exit;try{exit=await new Promise((res,rej)=>{child.on('error',rej);child.on('exit',(code,signal)=>res({code,signal}));});observe();}finally{clearInterval(monitor);clearTimeout(deadline);clearTimeout(hard);signal?.removeEventListener('abort',abort);fs.closeSync(out);fs.closeSync(err);}
  const results=fs.existsSync(resolve(dir,'runner'))?fs.readdirSync(resolve(dir,'runner')).filter(p=>p.endsWith('.result.json')):[];assert.ok(results.length<=1);
  const artifactPath=results.length?resolve(dir,'runner',results[0]):null,artifact=artifactPath?json(artifactPath):null;
  const formalRunStarted=!!artifactPath||fs.existsSync(resolve(dir,'runner'));
@@ -58,5 +59,6 @@ export async function runAttempt({run,number,queue,directory,runnerInput,registr
  if(artifact&&!offline)assert.equal(counted,artifact.resourceUsage.modelCallsStarted,'PROVIDER_CALL_LEDGER_MISMATCH');
  const modelCallsCharged=offline?0:artifact?.resourceUsage?.modelCallsStarted??counted;
  assert.ok(modelCallsCharged<=50);const s0=killed==='SAFETY_STOP'||safety.evaluation.severity.S0.status==='PRESENT';
- return {artifactPath,artifactSha256:artifactPath?sha(fs.readFileSync(artifactPath)):null,formalRunStarted,modelCallsCharged,s0,cooldown,classification:parallelFailure||postFailure?'ENV_FAILURE':safety.summary.retryClassification,directory:dir,productStartedAt:artifact?.startedAt??null,productFinishedAt:artifact?.finishedAt??null,productElapsedMs:artifact?.resourceUsage?.elapsedMs??null,googleRequests:(artifact?.resourceUsage?.googleRequests?.total??0)+(fs.existsSync(resolve(dir,'network-preflight/preflight.json'))?1:0)+(fs.existsSync(resolve(dir,'source-preflight/source-data-preflight.json'))?json(resolve(dir,'source-preflight/source-data-preflight.json')).googleRequests??0:0),postFailure,offline};
+ const networkDir=resolve(dir,'network-preflight'),networkGoogle=fs.existsSync(networkDir)?fs.readdirSync(networkDir).filter(p=>p.endsWith('.result.json')).reduce((n,p)=>n+(json(resolve(networkDir,p)).attempts??[]).filter(a=>a.target==='GOOGLE').length,0):0;
+ return {artifactPath,artifactSha256:artifactPath?sha(fs.readFileSync(artifactPath)):null,formalRunStarted,modelCallsCharged,s0,cooldown,classification:parallelFailure||postFailure?'ENV_FAILURE':safety.summary.retryClassification,directory:dir,productStartedAt:artifact?.startedAt??null,productFinishedAt:artifact?.finishedAt??null,productElapsedMs:artifact?.resourceUsage?.elapsedMs??null,googleRequests:(artifact?.resourceUsage?.googleRequests?.total??0)+networkGoogle+(fs.existsSync(resolve(dir,'source-preflight/source-data-preflight.json'))?json(resolve(dir,'source-preflight/source-data-preflight.json')).googleRequests??0:0),postFailure,offline};
 }
