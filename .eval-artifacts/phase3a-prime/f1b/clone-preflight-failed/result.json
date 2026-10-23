@@ -1,0 +1,7 @@
+{
+  "status": "PREFLIGHT_FAILED_TEST_NOT_STARTED",
+  "cause": "existsSync reports host directory existence despite OS sandbox denying reads; original probe incorrectly required existence metadata to be hidden",
+  "testedCommit": "13429336",
+  "sourceScript": "run-portable-clone.py",
+  "replacement": "verify-portable-clone.py checks directory listing and known-file data reads independently of the Node test guard"
+}
