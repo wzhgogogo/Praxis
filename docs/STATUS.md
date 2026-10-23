@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.381
+- Document revision: 4.382
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-24-PHASE3A-PRIME-STOP0-APPROVED:** 用户转述独立复核00:20北京通过停止点0，行数错误在指令一侧。门槛仅两个站点目录非测试TypeScript物理行，3591→3864、目标≤3591；source-packs.ts单列当前473且站点行数不得增加，移动到pack/通用层不计减少，站点Skill排除。批准批次1：A做F1，B做F5只读分析；F1基线默认1029/23.3秒，Chromium138/307.6秒。批次0五门禁与原始统计不改，新模型/Live0。 [报告补充](../.eval-artifacts/phase3a-prime/main-check/report.md#7-停止点-0-复核补充2026-10-24-0020-北京)。
 
 - **2026-10-23-PHASE3A-PRIME-MAIN-CHECK:** 用户批准的3a′指令逐字保存并先独立提交8601233c；从main/ac571ca8建立批次0分支，不向旧开发分支提交。fetch后main与origin/main一致，包含4d953731和9de09404，旧开发分支无独有提交。五门禁与默认1029/本机Chromium138的三次耗时基线见报告。行数存在口径冲突：历史3591/约3863不含source-packs.ts，当前窄口径3864；按指令含包则3991→4337。依停止点0等待复核明确≤3591适用范围；F1/F5未启动。产品代码、测试、fixture和资格不变，新增Live/真实模型/Google/来源网站0，不合并、不推送。 [报告](../.eval-artifacts/phase3a-prime/main-check/report.md)。
 

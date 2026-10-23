@@ -82,3 +82,17 @@ python3 .eval-artifacts/phase3a-prime/main-check/count-adapter-lines.py
 ## 6. 待复核决定
 
 请明确后续 ≤3591 行针对适配器目录，还是包含站点包的源码；若包含站点包，是否继续保留3591这个门槛。未获复核前保持停止点0，F1/F5均未启动。
+
+## 7. 停止点 0 复核补充（2026-10-24 00:20 北京）
+
+用户转述独立复核：**停止点 0 通过**。此前行数口径错误在指令一侧；第1—6节保留为当时的检查与停止记录，此补充解除等待行数口径复核的停止状态。原始 `CODEX-3A-PRIME.md` 不改写。
+
+后续统一采用下列已批准口径：
+
+1. 门槛只统计 `src/integrations/tabelog` 和 `src/integrations/tablecheck` 下的非测试 TypeScript，不含 fixtures，按物理行统计。起点 **3591**，当前 **3864**，目标 **≤3591**。统一运行 `python3 .eval-artifacts/phase3a-prime/main-check/count-adapter-lines.py`，读取 `adapter-source` 总数。
+2. `src/integrations/restaurant-search/source-packs.ts` 单独记录、不设总行数门槛；站点相关行数不得增加，当前文件 **473** 行。把站点代码挪进 pack 或通用层不算减少，需同时检查迁移和新增的站点相关代码。
+3. 站点 Skill 文档不计入。
+
+批次1已获准开始：对话A执行F1测试清理，对话B执行F5只读分析。F1基线为默认测试 **1029项 / 中位23.3秒**，真实Chromium **138项 / 中位307.6秒**（原始精确中位数见第3节）。两项完成后执行停止点1，等待独立复核；没有启动Live或真实模型调用。
+
+此补充只记录已批准口径，不改变原统计脚本或历史运行、日志、输入。批次0的两个提交已按随后用户授权推送到独立分支，远端main仍为ac571ca8；此处不授权推送main。

@@ -5257,3 +5257,10 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 在干净main/ac571ca8的既有工作树顺序跑typecheck、arch:check、npm test、build、test:browser:fixture；两套完整测试各三次，用例数、各次完整wall time、中位数和原始日志见报告及gate-summary.json。无产品修复红灯；red.log单独保存统计口径检查差异，不冒充失败测试。
 - baseline-source-sha256.json冻结335份源码/fixture/脚本/配置；原文、执行/统计脚本SHA另存。测试生成的历史指标保存本批副本后恢复原字节。没有运行69翻月/22校准或新模型、来源网站、Google、Live；不声明S0=0或能力提升。
 - 本批完整Live0/8，真实模型0/400，环境重跑0/2，账本entries为空。 [批次报告](../../.eval-artifacts/phase3a-prime/main-check/report.md)。
+
+
+## TEST-2026-10-24-PHASE3A-PRIME-STOP0-APPROVED
+
+- Evidence status: current reviewed baseline；已暴露工程证据，不是Clean Baseline。用户转述00:20北京复核通过；报告追加第7节，保留此前停止记录和原始指令。3591/3864仅两个适配器目录非测试TypeScript物理行，目标≤3591；包单列473且站点相关行数不得增加，不接受转移代码抵扣；站点Skill排除。
+- F1批准基线1029/23.3秒与138/307.6秒；批次1A清理测试、B只读F5，停止点1仍有效。本次仅报告/状态/索引补充，复用已完成五门禁与三次计时，检查链接、统计字段和diff；没有新运行、Live或模型。
+- [报告补充](../../.eval-artifacts/phase3a-prime/main-check/report.md#7-停止点-0-复核补充2026-10-24-0020-北京)。
