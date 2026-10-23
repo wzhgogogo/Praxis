@@ -384,11 +384,21 @@ test('TableCheck public search JSON reaches an independent receiver while writes
 // Real cross-origin browser fetches produce the OPTIONS; no test/client code
 // sends OPTIONS or forges Access-Control-Request-* headers.
 test("TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths", async () => {
-  const { tableCheckPublicSearchReads } = await import("../../integrations/tablecheck/tablecheck-public-query.js");
+  const { tableCheckPublicReadNetworkPolicy } = await import("../../integrations/tablecheck/tablecheck-public-query.js");
   const { BrowserReadRecording } = await import("../../eval/restaurant/agent-loop/runners/browser-read-recording.js");
   const { postBodyStop } = await import(new URL("../../eval/restaurant/agent-loop/post-body-audit.mjs", import.meta.url).href);
   const { mkdtemp, readFile, rm } = await import("node:fs/promises");
   const { tmpdir } = await import("node:os"); const { join } = await import("node:path");
+  const savedRoot = '.eval-artifacts/tablecheck-guard-preflight-20261023/h14-inputs/';
+  const saved = async (name:string) => JSON.parse(await readFile(savedRoot+name,'utf8'));
+  const red = await saved('guarded-search.result.json'), green = await saved('counterfactual-search.result.json'), facet = await saved('facet-direct.result.json');
+  const facetUrl = new URL(facet.url), facetBody = await readFile(savedRoot+'facet-direct.body.json','utf8');
+  const facetKeys = [...facetUrl.searchParams.keys()].sort();
+  assert.equal(facetKeys.length,7); assert.equal(facetKeys.includes('hits'),false);
+  assert.ok(red.requests.some((r:any)=>r.method==='OPTIONS'&&r.outcome==='BLOCKED'&&JSON.stringify(r.queryKeys)===JSON.stringify(facetKeys)));
+  assert.ok(green.requests.some((r:any)=>r.method==='GET'&&r.outcome==='ADMITTED'&&JSON.stringify(r.queryKeys)===JSON.stringify(facetKeys)));
+  assert.match(await readFile(savedRoot+'guarded-search-visible.txt','utf8'),/Search is unavailable right now/);
+  assert.match(await readFile(savedRoot+'counterfactual-search-visible.txt','utf8'),/Showing 1[–-]20 of 654/);
   const arrivals: Array<{ method: string; path: string; requestedMethod: string | undefined; headerNames: string | undefined; bytes: number }> = [];
   const api = createServer(async (request, response) => {
     let bytes = 0; for await (const chunk of request) bytes += chunk.length;
@@ -399,7 +409,7 @@ test("TableCheck browser GET preflight is tied to its reviewed read and rejects 
     response.setHeader("access-control-allow-headers", "x-api-key, x-unreviewed");
     response.setHeader("access-control-max-age", "0");
     response.setHeader("content-type", "application/json");
-    response.end(request.method === "OPTIONS" ? "" : '{"root":{"children":[{"id":"fixture-one","source":"public-shop","fields":{"id":"fixture-one"}}]}}');
+    response.end(request.method === "OPTIONS" ? "" : request.url?.includes("queryProfile=venue-facet-cuisine") ? facetBody : '{"root":{"children":[{"id":"fixture-one","source":"public-shop","fields":{"id":"fixture-one"}}]}}');
   });
   const site = createServer((_request, response) => { response.setHeader("content-type", "text/html"); response.end("<h1>Public cross-origin search</h1>"); });
   for (const server of [api, site]) await new Promise<void>(resolve => server.listen(0, "127.0.0.1", resolve));
@@ -409,13 +419,15 @@ test("TableCheck browser GET preflight is tied to its reviewed read and rejects 
   let browser: import("playwright-core").Browser | undefined;
   try {
     browser = await chromium.launch({ headless: true });
-    for (const mode of ["get", "xhr", "missing-network-marker", "post", "extra-header", "other-path", "no-get-rule", "manual-options"] as const) {
+    for (const mode of ["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get", "post", "extra-header", "other-path", "no-get-rule", "manual-options", "reserve", "reserve-child"] as const) {
       const context = await browser.newContext({ serviceWorkers: "block" });
       try {
         await context.grantPermissions(["local-network-access"], { origin });
-        const reads = tableCheckPublicSearchReads.filter(rule => rule.pathname === "/search/").map(rule => ({ ...rule, origin: apiOrigin,
+        const reads = [...tableCheckPublicReadNetworkPolicy.dynamicReads,...tableCheckPublicReadNetworkPolicy.staticResources].map(rule => ({ ...rule, origin: apiOrigin,
           ...(rule.corsPreflight ? { corsPreflight: { ...rule.corsPreflight, requestOrigin: origin } } : {}),
           ...(mode === "no-get-rule" ? { methods: [] as const } : {}) }));
+        if(mode==='reserve'||mode==='reserve-child') reads.push({origin:apiOrigin,pathnamePrefix:'/en/shops/',methods:['GET'],resourceTypes:['fetch'],queryKeys:[],corsPreflight:{requestOrigin:origin,requestedHeaderNames:['x-api-key']}});
+        const target = mode==='facet-no-hits' ? facetUrl.pathname+facetUrl.search : mode==='catalog'?'/catalog.json':mode==='default-get'?'/v2/geolocation':mode==='static-get'?'/common/fixture.json':mode==='reserve'?'/en/shops/fixture/reserve':mode==='reserve-child'?'/en/shops/fixture/reserve/calendar':(mode==='other-path'?'/other/':'/search/')+'?queryProfile=public&hits=5';
         const recorder = new BrowserReadRecording({ directory, runId: mode, reviewedReads: reads });
         // A real Fetch pause can lack its Network initiator event. Remove only
         // that diagnostic stream on the Guard session; independent CDP below
@@ -426,7 +438,7 @@ test("TableCheck browser GET preflight is tied to its reviewed read and rejects 
           cdp.send = (async (method: any, params: any) => method === "Network.enable" ? {} : send(method, params)) as typeof cdp.send;
           return cdp;
         };
-        const guard = new PlaywrightReadNetworkGuard({ documentOrigins: [origin], staticResources: [], dynamicReads: reads }, 5_000, response => recorder.recordResponse(response));
+        const guard = new PlaywrightReadNetworkGuard({ documentOrigins: [origin], prohibitedPaths:[{hostname:"127.0.0.1",pathSegment:"reserve"}],staticResources: mode==="static-get"?reads:[], dynamicReads:mode==="static-get"?[]:reads }, 5_000, response => recorder.recordResponse(response));
         await guard.install(context); const page = await context.newPage(); await guard.preparePage(context, page); guard.prepareNavigation(origin + "/"); await page.goto(origin + "/");
         context.newCDPSession = openCdp;
         const metadata: unknown[] = []; const cdp = await context.newCDPSession(page);
@@ -439,21 +451,21 @@ test("TableCheck browser GET preflight is tied to its reviewed read and rejects 
           });
           try { const response = await fetch(url, { method: mode === "post" ? "POST" : mode === "manual-options" ? "OPTIONS" : "GET",
             headers: mode === "manual-options" ? { "access-control-request-method": "GET", "access-control-request-headers": "x-api-key" } : { "x-api-key": "LOCAL_FIXTURE_ONLY", ...(mode === "extra-header" ? { "x-unreviewed": "LOCAL_FIXTURE_ONLY" } : {}) } }); return response.ok; } catch { return false; }
-        }, { url: apiOrigin + (mode === "other-path" ? "/other/" : "/search/") + "?queryProfile=public&hits=5", mode });
+        }, { url: apiOrigin + target, mode });
         console.log("preflight metadata", mode, JSON.stringify(metadata));
-        assert.equal(ok, ["get", "xhr", "missing-network-marker"].includes(mode), `${mode}: browser GET handshake must reach receiver; disallowed requests must not`);
-        if (["get", "xhr", "missing-network-marker"].includes(mode)) {
+        assert.equal(ok, ["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get"].includes(mode), `${mode}: browser GET handshake must reach receiver; disallowed requests must not`);
+        if (["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get"].includes(mode)) {
           // Playwright's existing interception locally fulfills genuine browser
           // preflights. The independent receiver must observe the resulting GET;
           // a synthetic server-side OPTIONS response is not our oracle.
           assert.deepEqual(metadata, [{ type: "Other", initiator: "preflight" }]);
           assert.deepEqual(arrivals.slice(before), [
-            { method: "GET", path: "/search/?queryProfile=public&hits=5", requestedMethod: undefined, headerNames: undefined, bytes: 0 },
+            { method: "GET", path: target, requestedMethod: undefined, headerNames: undefined, bytes: 0 },
           ]);
           const preflight = guard.snapshotRequests().find(row => row.outcome === "ADMITTED" && row.method === "OPTIONS");
           assert.ok(preflight, "CDP-only browser handshake must be recorded, not silently bypassed");
           assert.deepEqual(preflight.corsPreflight, { initiator: "BROWSER_PREFLIGHT", secFetchMode: "cors", requestOrigin: origin, requestedMethod: "GET", requestedHeaderNames: ["x-api-key"], bodyBytes: 0 });
-          const reviewed = Buffer.from(JSON.stringify(reads));
+          const reviewed = Buffer.from(JSON.stringify(reads.map(rule=>({...rule,methods:rule.methods??["GET","HEAD"],queryKeyRules:rule.queryKeyRules??{required:rule.queryKeys??[]},...(rule.pathnamePrefix?{pathnamePattern:"^"+rule.pathnamePrefix+".*$"}:{})}))));
           assert.equal(postBodyStop({ kind: "NETWORK", detail: guard.snapshotRequests() }, reviewed), null, "independent outer observer accepts only the reviewed handshake");
           assert.ok(postBodyStop({ kind: "NETWORK", detail: [{ ...preflight, corsPreflight: { ...preflight.corsPreflight, requestedMethod: "POST" } }] }, reviewed));
           const { snapshotRecord, safeRecord } = await import("../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js");

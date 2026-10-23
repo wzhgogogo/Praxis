@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.83
+- Document revision: 1.84
 - Last updated: 2026-10-23
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -339,3 +339,5 @@ Harness: three prior h001 recordings retain six identical raw HTML snapshots (on
 当前读取组装把同一 source policy 交给计划和 Guard；显式禁止的入口在查位前返回 SOURCE_UNSUPPORTED，FACTS 不再重开该入口。TableCheck 公开 guide 的单餐段 EMPTY 在原日期、人数和窗口不变的前提下，最多读取四个实际观察到的合法时间选项，并保留已覆盖点和未覆盖区间；不推导整窗无位。Tabelog 等来源中，请求日期已选中而精确人数可见且 disabled 时，提前 UNKNOWN，换候选而不强选或改人数。此前菜单/预约入口历史证据不代表当前路径许可。真实本地 Chromium 与六份保存产物分别验证可执行机制和已记录状态；本批不访问来源、不运行模型或 Live，当前库存与完整交付仍未验证。
 
 2026-10-23 bound-clock collection repair (draft / not integrated): only the existing passive response parser changes. Every row keeps merchant/date/people/link binding; unsupported numeric hours cannot erase independently bound normal-clock alternatives. No supported slot remains UNKNOWN, not EMPTY; no extended-hour conversion or new network permission. Saved three-page replay and local Chromium Live assembly are the proof scope, not current website inventory.
+
+2026-10-23 TableCheck Guard candidate (draft / not integrated): V4 hits is optional within the unchanged endpoint/field whitelist; genuine bodyless browser GET preflights borrow only the matching approved TableCheck GET, retaining origin/path/query/header binding and reserve denial. h14 local Chromium regression passes; exact saved red/green observations are frozen separately. Eval-only Live source health observes both guarded search pages for approximately10 seconds, retries at300000ms at most3 attempts before formal run/model/Google work. No website/model/Live in this batch; final gates and69/5/22 required before branch delivery.

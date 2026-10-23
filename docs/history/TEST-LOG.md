@@ -1,9 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.270
-
-- Document revision: 4.276
+- Document revision: 4.280
 - Last updated: 2026-10-23
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -20,6 +18,19 @@
 ## TEST-2026-10-23-PHASE2C-WITNESS-CERTIFICATION
 
 第二阶段c退出见证认证完成：5/6例各1家独立认证，唯一无见证例按承诺fallback后仍无充分来源支持，按用户预先批准排除；所有换地点与原始观察SHA保留。承诺整文件及六例SHA一致，原文/日期未改；42次只读来源请求（Google11、Tabelog31）全200、0重试，最小来源间隔30秒。0产品代码/模型/浏览器/完整Live/环境重跑；16项离线边界控制和零网络认证及独立字节/距离/库存复算通过，140项输入冻结保持。认证材料登记与报告只在私有留出分支；本轮不开始18次Live。最早保守观察为北京时间10月23日12:15:40.465，24小时截止10月24日12:15:40.465。 [报告](../../.eval-artifacts/phase2c-holdout/witness-certification-20261023/report.md).
+
+
+## TEST-2026-10-23-TABLECHECK-GUARD-REVIEWED-MERGE
+
+Reviewed30494fba merged into8487a844 at46bd8ef9, conflicts0, product/eval source byte differences0. Fresh five gates1026/138 PASS; frozene925c8a0 calendar69/selection5/calibration22 with normal declarations20 PASS. Primary9 user files and HEAD preserved, historical generated metrics restored. Merge-slice model/Google/restaurant website/Live0. Authorized main push follows final evidence commit. Separately authorized case01 diagnostic remains excluded from original18; all qualification waits independent wording review. [Report](../../.eval-artifacts/tablecheck-guard-merge-20261023/report.md).
+
+## TEST-2026-10-23-TABLECHECK-GUARD-HEALTH-COMPLETE
+
+TableCheck Guard/source-health candidate complete on branch codex/fix-tablecheck-guard-preflight, main8487a844 unchanged. Implementation b6ac60c5; regression freeze abcf5ad9. Five gates PASS1026/138; frozen cached calendar69/69, selection5/5 and evaluator33 calibration22/22 with normal declarations20/20 PASS. h14 old-policy Chromium red and GET-bound CORS green retained; permanent reserve deny and unchanged host/path/method audit pass. Eval-only health attempts about10s concurrent, up to3 separated300000ms, before formal task/providers; actual entry failure test has0 external calls/Live. Frozen outer timing/ledger integration remains untested and needs preflight wait allowance. No new model/Google/real restaurant websites/Live. Authorized branch push follows final evidence commit, no main merge; await independent review. [Report](../../.eval-artifacts/tablecheck-guard-preflight-20261023/report.md).
+
+## TEST-2026-10-23-TABLECHECK-GUARD-HEALTH-CANDIDATE
+
+User-authorized candidate on8487a844, no main merge. h14 seven-key facet GET lacks hits; valid Chromium old-policy red retained, new GET-bound CORS green includes catalog/default GET/static fetch and rejects reserve/children, POST/manual OPTIONS, extra headers/path and absent GET. Scope audit proves unchanged origins/paths/methods/prohibited rules; only hits optional and existing TableCheck GET CORS metadata. Recorder facts and independent frozen reviewed-reads synchronized, no evaluator/Prompt/Schema/qualification change. Eval-only Hybrid health opens both known-region searches via production Guard, observes about10s, retries300000ms at most3 before formal timing/model/Google; actual Runner offline failure test confirms0 external calls/Live. Source homepage Range checks replaced only in this Runner; existing source-data checks remain. Prior CLI test assumed provider preflight before loading input; retained with new missing-input/no-preflight assertion, existing proxy unit regressions unchanged. Initial failure retained. Final five gates1026/138 PASS; source health real Chromium and unit/Runner tests pass. New models/Google/websites/Live0; freeze then69/5/22 pending. [Plan](../../.eval-artifacts/tablecheck-guard-preflight-20261023/plan.md).
 
 ## TEST-2026-10-23-PHASE2C-REVIEWED-MERGE
 
@@ -5223,31 +5234,3 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - Delivery follow-up within prohibited-entry scope: even an initial candidate URL already prohibited by current policy now stops before acquiring a browser; identity remains unverified. Native FACTS checks the same initial boundary. Valid red-initial-entrance retained; final full five-gate rerun1014/136 PASS. Freeze the final unchanged-input offline replay before execution, then stop after report/push.
 
 - Completed on frozen bd268ee0bf45e838f70235be6e34d4ae76b72d17: all five gates1014/136 PASS; final cached calendar69/69, selection5/5; current evaluator33 calibration22/22 and normal declaration20/20. Six saved-component rows complete: Tabelog first at scheduling boundary,24 prohibited paths early unsupported, five recorded bound-empty points retain unknown remainder, c18 disabled10 stops with zero new decision/action. Original219 model calls are historical reuse, new real model/site/Google/Live0. Missing Tabelog/Google response branches remain NOT_EVALUATED; no new full-task success, S0 clearance or efficiency claim. [Final report](../../.eval-artifacts/group-window-fix-20261022/report.md).
-
-### 2026-10-23 Phase2c Live preparation
-
-Reviewed mainline8487a844 merged into isolated holdout branch; product byte comparison remains identical. Witness gate5/6 with one approved exclusion, all fallback recorded; immutable source package preserved. Two queues (odd/even,90s stagger,max2) with independent artifact and ledger paths; remaining work becomes sequential on source/rate/resource signals. Eleven offline orchestration controls and the actual Runner entry with scripted transport pass,0 network/models. Evaluator33/rubric29 retained; capability evaluation deferred until wording review. Stage budget before run3796/5000 models,72/100 fullLive,3/10 environment reruns; reserve24 attempts/1200 calls. See `.eval-artifacts/phase2c-holdout/exit-live-20261023/plan-notes.md`. No new capability conclusion.
-
-### 2026-10-23 Phase2c stopped Live and blind wording handoff
-
-Approved product8487a844 unchanged. Ran13/18 slots (14 formal attempts,11 complete Runner results); h-14…h-18 NOT_REACHED. Stopped at idle boundary after proving the outer500s deadline did not promptly stop a child and one additional model call began after500s. Earlier TableCheck busy signal caused sequential fallback; delayed signal-stop8calls retained and charged. User-approved random120–240s gap handoff afterh-10 was separately tested/frozen; no in-flight run interrupted. Cumulative models4231/5000, Live86/100, environment reruns5/10. Live Google known lower bound59, exact totals missing for3 interrupted artifacts; certification Google11. Blind wording packet7entries/8pairs, original SHA/index bound; capability evaluation deferred. See `.eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/report.md`. Current stop requires reviewed/frozen outer deadline enforcement before more Live; no product fix performed.
-
-
-### 2026-10-23 Phase2c explicit timeout retry continuation
-
-用户明确授权h-01/h-13各重试一次，再执行h-14至h-18；旧记录不覆盖，两个例外单列，不改ENV配额。预算基线4231/5000模型、86/100完整Live、5/10环境重跑；7次加最多4次剩余正常环境重跑的最坏预算550调用/11Live，额度足够。顺序随机120–240秒间隔，30秒模型/500秒整单、只读与S0停批不变。评测外层仅将失效的SIGTERM宽限改为500秒SIGKILL；7项零网络/零模型控制PASS，包含真实忽略SIGTERM子进程红绿。产品/Runner/Gold/见证/评测器33/rubric29字节不变，复用既有产品门禁，不宣称新Live能力通过。范围与新冻结见 `.eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/`。
-
-
-### 2026-10-23 Phase2c timeout retry stopped
-
-Current run evidence; exposed holdout; capability evaluation deferred. User-authorized h01/h13 retry once each added74 models/2 formalLive/0 ENV reruns. h01 hit500s, no result; h13-only600s was separately frozen, initial diagnostic CLI rejection before formal start retained(0 models), corrected complete Runner hit TableCheck search busy after402.610s/33 calls. Case01 environment retry already consumed; ENVIRONMENT_RETRY_EXHAUSTED stops before h14-h18. No S0 monitor signal, but missing-result independent safety is NOT_EVALUATED, not zero. Original results/packets preserved; raw artifacts committed before blind extraction. Current freeze de7dd1c13eb3f1a913f22d019962b85702efc1540b7d411876f4ae71d188731e. Models4305/5000, Live88/100, ENV5/10; Google known lower bound65+11 witness, exact unknown. Product unchanged;7 zero-network/model controls PASS plus actual SIGTERM-red/SIGKILL-green, no new call after deadline; reviewed product gates reused by byte identity.13/18 slots recorded,11 complete artifacts, h14-h18 NOT_REACHED. [Report](../../.eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/report.md).
-
-
-### 2026-10-23 Phase2c remaining-five resume preparation
-
-User explicitly resumed h14 through h18 after the previous case01 stop. Prior results and retry use remain unchanged. Reuse frozen complete500s Runner/outer and sequential random120-240s scheduling; carry prior TableCheck cooldown until08:38:19.949Z. Budget4305/5000,88/100,5/10; worst5 original+4 still-available normalENV retries=450 models/9Live/4ENV, all within remaining695/12/5. Six zero-network/model controls PASS, including exact five selection, independent gap draws, prior cooldown, no capability retry, consumed case03 retry and immediateS0 stop. Product/Gold/witness/evaluator33/rubric29 unchanged; existing hard-stop and reviewed product gates reused by byte equality. Commit live freeze before launch, commit raw outputs before blind wording extraction, then private push/stop. [.eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/](../../.eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/)
-
-
-### 2026-10-23 Phase2c user pause and TableCheck diagnosis
-
-Current execution evidence, capability evaluation deferred. User resumed h14-h18 with random120-240s gaps; after carried15min cooldown only h14 started,13 model calls/1 formalLive, then outerENV busy stop. Its reserved retry never started and adds0ENV. User requested ping/search diagnosis: document/V4/facet GET200; unchanged production Guard blocks genuine no-hits venue-facet-cuisine OPTIONS, while a temporary diagnostic exact seven-key GET read rule restores654 source search results. Production source SHA stayed frozen. Earlier missing-host hypothesis explicitly rejected. User cancelled proposed offline repair and paused before any production edit, no furtherLive.19 attempts/17 formal/11 actual result files/6 incomplete;14 slots recorded,h15-h18 NOT_REACHED. Cumulative4318/5000 models,89/100Live,5/10ENV. Raw files committed before blind wording extraction;7 entries/8 pairs remain. No capability evaluation, no fresh product-gate PASS, no mainline edit; evidence-only hash/credential/size/diff checks and private push for independent review. [Report](../../.eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/report.md).
