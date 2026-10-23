@@ -256,6 +256,12 @@ Distinguish a condition on a restaurant from an instruction about investigating 
 Do not strengthen vague freshness language into a more specific restaurant property than the user expressed.
 
 Keep criterion text concise, self-contained, and faithful to the user's meaning.
+Every descriptive qualifier in a condition must correspond to words the user actually supplied.
+Retain an explicitly expressed property in its minimal expressed form. Do not
+expand it into a definition, an assumed physical arrangement, or associated
+features, even if that expansion seems typical or follows by common sense.
+Before emitting each condition, check every modifier against the original
+request and remove any modifier without a corresponding user expression.
 Every condition must be entailed by the user's words or the explicit inference
 rules in this contract. Do not turn a negative exclusion into an unstated positive prerequisite.
 Do not add implementation details or associated amenities to a requested venue

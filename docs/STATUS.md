@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.368
+- Document revision: 4.369
 - Last updated: 2026-10-23
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-23 PHASE2C-SEMANTIC-FOLLOWUP-FREEZE:** User raised the chain ceiling to220 (prior108 calls) and authorized one final generic prompt revision. Promptv23 requires each modifier to correspond to user words; explicit sit-down remains allowed.54 after trials reuse the frozen54 before controls with identical captured clocks/schema/model. Valid prompt-wire red and31 semantic green retained; prepare0 network. No further prompt tuning after this batch, pass or fail. Initial5b2ea9bf repair branch pushed and remote verified. Full gates and quality replay pending. [Plan](../../.eval-artifacts/phase2c-location-semantic-20261023/semantic-followup-220/approval.json).
 
 - **2026-10-23 Phase2c STOPPED / semantic not satisfied:** Stopped Phase2c after real semantic replay failed:108/108 trials executed with108 calls, no retries; v22 still adds HARD sit-down restaurant with tables in3/3 after samples. Relevant soft-upper-bound after6/6 correct but v21 controls also correct, so no sampled improvement claim. Full next after sweep needs54 calls, projected162>150; remaining42 is insufficient, no quota extension or extra sampling. Google29/30 on30 calls; Omotesando route type left unsupported. Six saved rejected-location observations now resolve,3 recorded empty lists remain unresolved,40 old selected projections lack ranked response/types and remain NOT_EVALUATED. Goya saved query/date/party and19:00 response confirmed, collection parser rejects non-clock tail; diagnosis only, no provider-specific patch. Zero-call offline five gates1021/136, cached69/69+5/5 and independent22/22 calibration/normal declarations20/20 PASS do not override semantic failure. Site-specific lines net0 this batch; historical increase retained. Mainline integrated/pushed8ba0c54a; repair branch local only, pending user decision. New source websites/completeLive0; chain model count3634+108=3742/5000, local cap150 unchanged. [Report](../.eval-artifacts/phase2c-location-semantic-20261023/progress-report.md).
 

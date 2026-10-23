@@ -65,7 +65,8 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v22");
+  assert.equal(request.promptVersion, "v23");
+  assert.match(request.messages[0]!.content, /Every descriptive qualifier in a condition must correspond to words the user actually supplied/);
   assert.deepEqual(request.outputSchema, {
     name: "restaurant-semantic-proposal",
     version: "3",
