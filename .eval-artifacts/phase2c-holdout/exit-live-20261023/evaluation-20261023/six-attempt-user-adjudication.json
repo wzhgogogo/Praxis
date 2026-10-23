@@ -1,0 +1,74 @@
+{
+  "schema": "phase2c-user-final-attempt-adjudication@1",
+  "rule": "Current user: observed busy=>ENV Guard false rejection; no-busy timeout=>capability failure. Source preflight and CLI rejection retain distinct formal-status and raw causes. No timeout converted to ENV.",
+  "attempts": [
+    {
+      "runId": "h-01",
+      "attempt": 1,
+      "classification": "CAPABILITY_FAILURE_TIMEOUT_PREFLIGHT",
+      "reason": "User rule applied conservatively: no saved TableCheck unavailable page and timeout, so no Guard ENV exclusion. Raw cause remains Tabelog transport35s source preflight;0model/0formalLive. Not added to formal full-run denominator; earlier ENV rerun spending is retained, not refunded.",
+      "rawAuditClassification": "ENV_FAILURE_SOURCE_PREFLIGHT",
+      "formalRunStarted": false,
+      "busyPageObserved": false,
+      "evidence": "six-attempt-audit.json"
+    },
+    {
+      "runId": "h-01",
+      "attempt": 2,
+      "classification": "CAPABILITY_FAILURE_TIMEOUT",
+      "reason": "Formal full-run deadline reached with no retained Search is unavailable page. User rule: capability failure; original orchestration label preserved separately.",
+      "rawAuditClassification": "CAPABILITY_FAILURE_TIMEOUT",
+      "formalRunStarted": true,
+      "busyPageObserved": false,
+      "evidence": "six-attempt-audit.json"
+    },
+    {
+      "runId": "h-13",
+      "attempt": 1,
+      "classification": "CAPABILITY_FAILURE_TIMEOUT",
+      "reason": "Formal full-run deadline reached with no retained Search is unavailable page. User rule: capability failure; original orchestration label preserved separately.",
+      "rawAuditClassification": "CAPABILITY_FAILURE_TIMEOUT",
+      "formalRunStarted": true,
+      "busyPageObserved": false,
+      "evidence": "six-attempt-audit.json"
+    },
+    {
+      "runId": "h-01",
+      "attempt": 3,
+      "classification": "CAPABILITY_FAILURE_TIMEOUT",
+      "reason": "Formal full-run deadline reached with no retained Search is unavailable page. User rule: capability failure; original orchestration label preserved separately.",
+      "rawAuditClassification": "CAPABILITY_FAILURE_TIMEOUT",
+      "formalRunStarted": true,
+      "busyPageObserved": false,
+      "evidence": "six-attempt-audit.json"
+    },
+    {
+      "runId": "h-13",
+      "attempt": 2,
+      "classification": "CONFIGURATION_STARTUP_REJECTED",
+      "reason": "Runner CLI rejected600000 above500000 before formal run; not a timeout or Guard ENV,0model/0Live.",
+      "rawAuditClassification": "CONFIGURATION_STARTUP_REJECTED",
+      "formalRunStarted": false,
+      "busyPageObserved": false,
+      "evidence": "six-attempt-audit.json"
+    },
+    {
+      "runId": "h-13",
+      "attempt": 3,
+      "classification": "ENV_FAILURE",
+      "reason": "Actual saved TableCheck Search is unavailable page; user adjudicates Guard false rejection. Generic event reason does not prove HTTP403.",
+      "rawAuditClassification": "ENV_FAILURE",
+      "formalRunStarted": true,
+      "busyPageObserved": true,
+      "evidence": "six-attempt-audit.json"
+    }
+  ],
+  "counts": {
+    "CAPABILITY_FAILURE_TIMEOUT_PREFLIGHT": 1,
+    "CAPABILITY_FAILURE_TIMEOUT": 3,
+    "CONFIGURATION_STARTUP_REJECTED": 1,
+    "ENV_FAILURE": 1
+  },
+  "newEnvironmentReruns": 0,
+  "historicalRerunChargesNotRefunded": true
+}

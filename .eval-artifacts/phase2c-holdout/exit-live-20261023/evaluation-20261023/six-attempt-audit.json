@@ -1,0 +1,549 @@
+{
+  "schema": "phase2c-six-attempt-trace-adjudication@1",
+  "authority": "Current user instruction: busy=>ENV Guard false rejection; no-busy full-run timeouts=>capability failure",
+  "attempts": [
+    {
+      "runId": "h-01",
+      "attempt": 1,
+      "directory": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-1",
+      "startedAt": "2026-10-23T05:14:50.331Z",
+      "finishedAt": "2026-10-23T05:15:41.405Z",
+      "formalRunStarted": false,
+      "modelCallsCharged": 0,
+      "originalOperationalClassification": "ENV_FAILURE",
+      "adjudicatedClassification": "ENV_FAILURE_SOURCE_PREFLIGHT",
+      "reason": "Tabelog source-data35s transport timeout before formal Runner; no TableCheck unavailable page, not a product/model full-run timeout. Existing source failure remains, not recast as Guard ENV.",
+      "busyPageObserved": false,
+      "pageObservations": [],
+      "literalMatches": [],
+      "coverage": {},
+      "scannedFiles": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-1/finish.json",
+          "sha256": "305235540c6225250d537ec7af31456f61bee20ed9e276acc4e7eb385910759d"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-1/network-preflight/2026-10-23T05-14-50-744Z-ea039fa6-0288-4b1b-8a7b-a2360b57baa4.result.json",
+          "sha256": "9923b505e93e631200f436f383a539f79ceac560a2fab3a75322d3d0dd364a05"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-1/network-preflight/2026-10-23T05-14-50-744Z-ea039fa6-0288-4b1b-8a7b-a2360b57baa4.started.json",
+          "sha256": "949e2904bc842e02b3e67aff246854d20adc4d0a1ec6cbeed98cfea2aaebc847"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-1/safety.safety-only.json",
+          "sha256": "f284cd5ea35674c65f909bd730c2fed1f7f51d5716b9c32cdde23041069e0017"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-1/source-preflight/source-data-preflight.json",
+          "sha256": "d7c24dc5a9742231903e0b4129eb8107d5034c0a23baaf02a5fa4d8a16790c3b"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-1/stderr.txt",
+          "sha256": "f418a9006f55e82366d9ee38c89047ef62a7908995d9b13953a221fb190c1202"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-1/stdout.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "finish": {
+        "exit": {
+          "code": 1,
+          "signal": null
+        },
+        "orchestration": {
+          "finish": {
+            "exitCode": {
+              "code": 1,
+              "signal": null
+            },
+            "formalRunStarted": false,
+            "preflight": {
+              "status": "FAILED"
+            }
+          },
+          "refs": [
+            "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-1/finish.json"
+          ]
+        }
+      },
+      "limits": "No result or saved full HTML after forced termination; absence means no match in all retained evidence, not proof about unsaved states. No inference from later diagnosis.",
+      "capabilityDenominator": "NOT_A_CAPABILITY_TRIAL"
+    },
+    {
+      "runId": "h-01",
+      "attempt": 2,
+      "directory": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2",
+      "startedAt": "2026-10-23T05:20:42.109Z",
+      "finishedAt": "2026-10-23T05:29:02.154Z",
+      "formalRunStarted": true,
+      "modelCallsCharged": 40,
+      "originalOperationalClassification": "ORCHESTRATION_INTERRUPTED",
+      "adjudicatedClassification": "CAPABILITY_FAILURE_TIMEOUT",
+      "reason": "Formal full-run deadline reached with no retained Search is unavailable page. User rule: capability failure; original orchestration label preserved separately.",
+      "busyPageObserved": false,
+      "pageObservations": [],
+      "literalMatches": [],
+      "coverage": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 8,
+        "restaurant_discovery_retrieval": 3,
+        "browser_read_decide": 20,
+        "restaurant_fact_judgment": 8
+      },
+      "scannedFiles": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/finish.json",
+          "sha256": "0fb88454cc414f72d341fa10a1716b7ffcf415ecc65d4bd2a045ba6ff0ef2431"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/network-preflight/2026-10-23T05-20-42-544Z-167f8375-ab35-4009-8766-15a740d04d9c.result.json",
+          "sha256": "4355ed02d0814a86fcbd29754649fc708696a8974f715664e53286dd55a994b0"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/network-preflight/2026-10-23T05-20-42-544Z-167f8375-ab35-4009-8766-15a740d04d9c.started.json",
+          "sha256": "d06636a9121a33dfaadb585e25654864be8c4bc190f6fdb3809a46410ca99383"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/provider-calls.jsonl",
+          "sha256": "85ec30b62cec48cae94298d479f7c96039df3596138870117b25787bbc556b5e"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/runner/2026-10-23T05-21-11-218Z-f508843d-ecc2-4b43-93e7-a4a3ec10c130.decisions.jsonl",
+          "sha256": "a678fc7197498e53f768fb0620b775c3bdad4aa92dfe277992b8175f460a1ffc"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/runner/2026-10-23T05-21-11-218Z-f508843d-ecc2-4b43-93e7-a4a3ec10c130.started.json",
+          "sha256": "26e9b70eafbe7c1255bedf096231caead4817038c7ce9eba0217ecac6f0f2aa6"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/safety.safety-only.json",
+          "sha256": "5b8e522e1b16d5145300b0fcca31995a77cb7e56764e326a647a542f3c7ac278"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/source-preflight/source-data-preflight.json",
+          "sha256": "4bf2683599ab454c4e1acba4792fbcf41ee18117cae828374df145127e83cb77"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/stdout.txt",
+          "sha256": "11ffffdece4c19682eca494308303472b30ef71a5a5f38d22eb06baa85aacda5"
+        }
+      ],
+      "finish": {
+        "exit": {
+          "code": null,
+          "signal": "SIGTERM"
+        },
+        "killed": "OUTER_DEADLINE",
+        "orchestration": {
+          "interruption": {
+            "status": "INTERRUPTED_BY_OUTER",
+            "reason": "OUTER_DEADLINE"
+          },
+          "finish": {
+            "exitCode": {
+              "code": null,
+              "signal": "SIGTERM"
+            },
+            "formalRunStarted": true,
+            "preflight": {
+              "status": "PASSED"
+            }
+          },
+          "refs": [
+            "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2/finish.json"
+          ]
+        }
+      },
+      "limits": "No result or saved full HTML after forced termination; absence means no match in all retained evidence, not proof about unsaved states. No inference from later diagnosis.",
+      "capabilityDenominator": "INCLUDED_FAILURE"
+    },
+    {
+      "runId": "h-13",
+      "attempt": 1,
+      "directory": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1",
+      "startedAt": "2026-10-23T07:15:45.733Z",
+      "finishedAt": "2026-10-23T07:24:07.771Z",
+      "formalRunStarted": true,
+      "modelCallsCharged": 40,
+      "originalOperationalClassification": "ORCHESTRATION_INTERRUPTED",
+      "adjudicatedClassification": "CAPABILITY_FAILURE_TIMEOUT",
+      "reason": "Formal full-run deadline reached with no retained Search is unavailable page. User rule: capability failure; original orchestration label preserved separately.",
+      "busyPageObserved": false,
+      "pageObservations": [],
+      "literalMatches": [],
+      "coverage": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 9,
+        "restaurant_discovery_retrieval": 3,
+        "browser_read_decide": 21,
+        "restaurant_fact_judgment": 5
+      },
+      "scannedFiles": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/finish.json",
+          "sha256": "693a7640e4e4b5fb62d79de43a44b82d0d5040b1d2789c1d14867fd875f624a5"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/network-preflight/2026-10-23T07-15-46-193Z-73e0ae39-fa92-4b2a-a3e0-ce56f00bc36f.result.json",
+          "sha256": "cf990c4c43ad84f79467866250db2dfce8575d8db01f78a05127cec2df8b65f4"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/network-preflight/2026-10-23T07-15-46-193Z-73e0ae39-fa92-4b2a-a3e0-ce56f00bc36f.started.json",
+          "sha256": "60a2e4ee065e4e74da1e8aa52467c866066a584ad18659c75889fcb0bcc8d3fe"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/provider-calls.jsonl",
+          "sha256": "6b76f949c3287af8acee29675ebd8302bf0d54ee7117fff6eec6db7e230743a7"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/runner/2026-10-23T07-16-16-250Z-8123333c-9697-45aa-8403-953b00d14ad3.decisions.jsonl",
+          "sha256": "b59d5c0d080bbcf775b031a16bd8d3dcf942f6cf4a77c3ec0ef7d684f2f9fc43"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/runner/2026-10-23T07-16-16-250Z-8123333c-9697-45aa-8403-953b00d14ad3.started.json",
+          "sha256": "7364007272afc1a38781b69b54b10b1af525d346bfb1bbbe85c96311359d11f8"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/safety.safety-only.json",
+          "sha256": "576a8326864ddc0fcb94db05d82001080f27241e532d4a558fca61517f6c1bfd"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/source-preflight/source-data-preflight.json",
+          "sha256": "da322d20881b1e465534a5ab981d63b8a98d21b999a40c517002cea42bae741e"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/stdout.txt",
+          "sha256": "f56a562e1dd0d8a5973508a31480334a853a1a3b29e4d43f1ed6b77c699cbb3c"
+        }
+      ],
+      "finish": {
+        "exit": {
+          "code": null,
+          "signal": "SIGKILL"
+        },
+        "killed": "OUTER_DEADLINE",
+        "orchestration": {
+          "interruption": {
+            "status": "INTERRUPTED_BY_OUTER",
+            "reason": "OUTER_DEADLINE"
+          },
+          "finish": {
+            "exitCode": {
+              "code": null,
+              "signal": "SIGKILL"
+            },
+            "formalRunStarted": true,
+            "preflight": {
+              "status": "PASSED"
+            }
+          },
+          "refs": [
+            "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1/finish.json"
+          ]
+        }
+      },
+      "limits": "No result or saved full HTML after forced termination; absence means no match in all retained evidence, not proof about unsaved states. No inference from later diagnosis.",
+      "capabilityDenominator": "INCLUDED_FAILURE"
+    },
+    {
+      "runId": "h-01",
+      "attempt": 3,
+      "directory": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3",
+      "startedAt": "2026-10-23T08:01:11.436Z",
+      "finishedAt": "2026-10-23T08:09:31.485Z",
+      "formalRunStarted": true,
+      "modelCallsCharged": 41,
+      "originalOperationalClassification": "ORCHESTRATION_INTERRUPTED",
+      "adjudicatedClassification": "CAPABILITY_FAILURE_TIMEOUT",
+      "reason": "Formal full-run deadline reached with no retained Search is unavailable page. User rule: capability failure; original orchestration label preserved separately.",
+      "busyPageObserved": false,
+      "pageObservations": [],
+      "literalMatches": [],
+      "coverage": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 7,
+        "restaurant_discovery_retrieval": 3,
+        "browser_read_decide": 23,
+        "restaurant_fact_judgment": 6
+      },
+      "scannedFiles": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/finish.json",
+          "sha256": "f4334ab50afff09f05498af101377436a2bb703e31c06009c7a73ce09f1bb491"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/network-preflight/2026-10-23T08-01-11-886Z-6731feb3-78a3-42c0-8376-fad887db8946.result.json",
+          "sha256": "f33dd76838961425daef32c4599018795a002d71fb59bac76d87d96bd5e18a2c"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/network-preflight/2026-10-23T08-01-11-886Z-6731feb3-78a3-42c0-8376-fad887db8946.started.json",
+          "sha256": "ba9a25853e6ce854ba129d80ec091b80498ca4c9640d6595fea7ae9b480090f0"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/provider-calls.jsonl",
+          "sha256": "f48fd1fedf903334cc8ee2b04b1164242f6381339d89cdfaec1f9a3b36964650"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/runner/2026-10-23T08-01-39-242Z-017e2129-8705-46aa-bca8-18064f493921.decisions.jsonl",
+          "sha256": "2619d7d0bf4388f7c2f16525172f8353889c9cd6876a47dc4755f0de3e9ae69b"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/runner/2026-10-23T08-01-39-242Z-017e2129-8705-46aa-bca8-18064f493921.started.json",
+          "sha256": "e0d0d1fecf2594b9558c0b1071b97d9a0c0eee4ed4d7922a0275b726d3e9dfe0"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/safety.safety-only.json",
+          "sha256": "2c30935c29e3a83e0fb2c058026a2618e0b8e077cc0c8e9d24f8714aaefbfce0"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/source-preflight/source-data-preflight.json",
+          "sha256": "a5758f270b3ad5c8a32a74d0f4c43c11e899b0cae4a4f43555fa890e44d743c5"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/stdout.txt",
+          "sha256": "b8c21a933f87f05953693874bc6008c93fae266f06cc158a456739d64840280c"
+        }
+      ],
+      "finish": {
+        "exit": {
+          "code": null,
+          "signal": "SIGKILL"
+        },
+        "killed": "OUTER_DEADLINE",
+        "orchestration": {
+          "interruption": {
+            "status": "INTERRUPTED_BY_OUTER",
+            "reason": "OUTER_DEADLINE"
+          },
+          "finish": {
+            "exitCode": {
+              "code": null,
+              "signal": "SIGKILL"
+            },
+            "formalRunStarted": true,
+            "preflight": {
+              "status": "PASSED"
+            }
+          },
+          "refs": [
+            "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/execution/A/h-01-attempt-3/finish.json"
+          ]
+        }
+      },
+      "limits": "No result or saved full HTML after forced termination; absence means no match in all retained evidence, not proof about unsaved states. No inference from later diagnosis.",
+      "capabilityDenominator": "INCLUDED_FAILURE"
+    },
+    {
+      "runId": "h-13",
+      "attempt": 2,
+      "directory": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/execution/A/h-13-attempt-2",
+      "startedAt": "2026-10-23T08:13:17.762Z",
+      "finishedAt": "2026-10-23T08:13:39.552Z",
+      "formalRunStarted": false,
+      "modelCallsCharged": 0,
+      "originalOperationalClassification": "DEFERRED",
+      "adjudicatedClassification": "CONFIGURATION_STARTUP_REJECTED",
+      "reason": "Runner CLI rejected600000 above500000 before formal run; not a timeout or Guard ENV,0model/0Live.",
+      "busyPageObserved": false,
+      "pageObservations": [],
+      "literalMatches": [],
+      "coverage": {},
+      "scannedFiles": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/execution/A/h-13-attempt-2/finish.json",
+          "sha256": "2c901d95a8087c21469eb7619bc8a112ad89417cabdff62ca991e83cea7ff965"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/execution/A/h-13-attempt-2/network-preflight/2026-10-23T08-13-18-244Z-187bd0d0-208a-4429-a0b6-ab4fe186e52d.result.json",
+          "sha256": "4f5fe3897c61668cc084b664d2582b34fccae29181a5bf2fcb8ca808ae199d7a"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/execution/A/h-13-attempt-2/network-preflight/2026-10-23T08-13-18-244Z-187bd0d0-208a-4429-a0b6-ab4fe186e52d.started.json",
+          "sha256": "f06a6822dfdcdc54e527628ef23b283e5ba5b5744fbe76182d1b762b148aaece"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/execution/A/h-13-attempt-2/safety.safety-only.json",
+          "sha256": "27730b4e49ad5f6b0120f610544c463d5e9bd0624e0cc11440f7328ce2d7c140"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/execution/A/h-13-attempt-2/source-preflight/source-data-preflight.json",
+          "sha256": "42f712d619cf91f8c918fb98fdc60e720ea71a913d2fbddb3a88a4819289d9d2"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/execution/A/h-13-attempt-2/stderr.txt",
+          "sha256": "32d6a326920934ace6e25a493c377c8cef22e03c56db082431f685414dc10ecb"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/execution/A/h-13-attempt-2/stdout.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "finish": {
+        "exit": {
+          "code": 1,
+          "signal": null
+        },
+        "orchestration": {
+          "finish": {
+            "exitCode": {
+              "code": 1,
+              "signal": null
+            },
+            "formalRunStarted": false,
+            "preflight": {
+              "status": "PASSED"
+            }
+          },
+          "refs": [
+            "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-continuation-20261023/execution/A/h-13-attempt-2/finish.json"
+          ]
+        }
+      },
+      "limits": "No result or saved full HTML after forced termination; absence means no match in all retained evidence, not proof about unsaved states. No inference from later diagnosis.",
+      "capabilityDenominator": "NOT_A_CAPABILITY_TRIAL"
+    },
+    {
+      "runId": "h-13",
+      "attempt": 3,
+      "directory": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3",
+      "startedAt": "2026-10-23T08:16:37.339Z",
+      "finishedAt": "2026-10-23T08:23:19.949Z",
+      "formalRunStarted": true,
+      "modelCallsCharged": 33,
+      "originalOperationalClassification": "ENV_FAILURE",
+      "adjudicatedClassification": "ENV_FAILURE",
+      "reason": "Actual saved TableCheck Search is unavailable page; user adjudicates Guard false rejection. Generic event reason does not prove HTTP403.",
+      "busyPageObserved": true,
+      "pageObservations": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/outer-observations.jsonl",
+          "sha256": "807b747bbf6049334c78c135d93364baa966135beed81c7e6296beb770e8d5bb",
+          "line": 1,
+          "at": "2026-10-23T08:23:19.904Z",
+          "observation": {
+            "at": "2026-10-23T08:23:19.904Z",
+            "kind": "COOLDOWN_SIGNAL",
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E6%96%B0%E6%99%82%E4%BB%A3+%E8%B5%A4%E7%BE%BD%E6%9C%AC%E5%BA%97&geo_latitude=35.7796812&geo_longitude=139.7212747&geo_distance=5km&auto_geolocate=false",
+            "quote": "Search is unavailable right now. Please try again."
+          }
+        }
+      ],
+      "literalMatches": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/outer-observations.jsonl",
+          "sha256": "807b747bbf6049334c78c135d93364baa966135beed81c7e6296beb770e8d5bb",
+          "lines": [
+            1
+          ],
+          "kind": "RAW_LITERAL_MATCH"
+        }
+      ],
+      "coverage": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 7,
+        "restaurant_discovery_retrieval": 3,
+        "browser_read_decide": 16,
+        "restaurant_fact_judgment": 6
+      },
+      "scannedFiles": [
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/finish.json",
+          "sha256": "78dd9f574cad5b58f9c68717a3deda6c8e8893094a4dd416a312ea7ba105fbba"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/network-preflight/2026-10-23T08-16-37-793Z-bedd96fa-66e2-4cb8-94ff-cd44df8577b6.result.json",
+          "sha256": "3cdff0633683cd9a4019540c09575bee3d53a7d83fffa6cadacf67a26741e7f2"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/network-preflight/2026-10-23T08-16-37-793Z-bedd96fa-66e2-4cb8-94ff-cd44df8577b6.started.json",
+          "sha256": "fda6a6250b36c3c98b04cb247a2f40dac3d3e95fb3ac131ca0f90108ff2927ec"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/outer-observations.jsonl",
+          "sha256": "807b747bbf6049334c78c135d93364baa966135beed81c7e6296beb770e8d5bb"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/provider-calls.jsonl",
+          "sha256": "e9e0ec7b11012a261e99fc841eb7003108e16c88ca8e95f0cf0032bf9b0b047b"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/runner/2026-10-23T08-17-00-143Z-4fc4d9df-c4a4-41f3-9014-0ce4609206ba.decisions.jsonl",
+          "sha256": "5214bb13ee3a6fb1070625819d49414075fc93935dffa5269d250ce20b2e06f2"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/runner/2026-10-23T08-17-00-143Z-4fc4d9df-c4a4-41f3-9014-0ce4609206ba.started.json",
+          "sha256": "af1673c71c43a0ce1ce0e2bbd127b642ddc384d0fecd00e8e0b21070e537eebb"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/safety.safety-only.json",
+          "sha256": "dc9034cb7ee6e5598e4caad27a979a66b677c06e55bf4a5f716a3f92c659e49a"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/source-preflight/source-data-preflight.json",
+          "sha256": "b556e8baecfbda1ffcae6b07aea949cdef2ecba1563251aa3ed4b2b5eb671fd2"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/stdout.txt",
+          "sha256": "d97e13db4d73522853c51972b3f46da882dba65cf589403894af06603b9649dc"
+        }
+      ],
+      "finish": {
+        "exit": {
+          "code": null,
+          "signal": "SIGKILL"
+        },
+        "killed": "PARALLEL_FALLBACK_ENV_FAILURE",
+        "orchestration": {
+          "interruption": {
+            "status": "INTERRUPTED_BY_OUTER",
+            "reason": "PARALLEL_FALLBACK_ENV_FAILURE"
+          },
+          "finish": {
+            "exitCode": {
+              "code": null,
+              "signal": "SIGKILL"
+            },
+            "formalRunStarted": true,
+            "preflight": {
+              "status": "PASSED"
+            }
+          },
+          "refs": [
+            "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/h13-600s-runner-continuation-20261023/execution/A/h-13-attempt-3/finish.json"
+          ]
+        }
+      },
+      "limits": "No result or saved full HTML after forced termination; absence means no match in all retained evidence, not proof about unsaved states. No inference from later diagnosis.",
+      "capabilityDenominator": "EXCLUDED_ENV"
+    }
+  ],
+  "counts": {
+    "CAPABILITY_FAILURE_TIMEOUT": 3,
+    "CONFIGURATION_STARTUP_REJECTED": 1,
+    "ENV_FAILURE": 1,
+    "ENV_FAILURE_SOURCE_PREFLIGHT": 1
+  },
+  "originalRecordsUnchanged": true,
+  "newModels": 0,
+  "newNetwork": 0,
+  "newLive": 0,
+  "newEnvironmentReruns": 0
+}

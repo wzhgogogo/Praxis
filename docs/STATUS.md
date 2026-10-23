@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.374
+- Document revision: 4.375
 - Last updated: 2026-10-23
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-23 Phase2c OFFLINE-EVALUATED:** 第二阶段c仅离线评价h-02…h-12共11份完整产物，@33/rubric29不变。8a39273e判定先登记SHA并提交9773778b，冻结e54ee607后评价：6QD、1能力miss、1内部失败、1交付不合格、2无见证未评价；例03预批准无见证排除。33条展示对照29一致/4MISSED，S0 PRESENT0但声明/越界各1未评。h12额外UNSPECIFIED按复核不对应Gold，固定评测器仍报extra冲突，单列评分限制不改判。六次追踪仅h13第3次有Search is unavailable→ENV Guard误拒；3次正式超时无该页→能力失败；h01来源预检超时按用户严格口径另记能力超时且未进入正式Live，h13参数校验拒绝非超时。原始分类与追踪均保留。0新模型/网站/Google/Live/重跑；累计4318/5000模型、89/100Live、5/10重跑，不退款/加试；Live继续暂停，推私有留出分支后等复核。 [报告](../.eval-artifacts/phase2c-holdout/exit-live-20261023/evaluation-20261023/four-layer-report.md).
 
 - **2026-10-23 Phase2c PAUSED BY USER:** No production repair. h14 first attempt recorded13 models/1Live, its reserved retry never started.14/18 slots recorded,19 attempts,11 complete Runner result files,6 interrupted formal attempts without result; h15-h18 NOT_REACHED. User-requested read-only diagnosis reproduces Guard rejection of the site-owned no-hits cuisine facet preflight; temporary diagnostic rule restores results, current production untouched. Models4318/5000,Live89/100,ENV5/10. Push all raw/result indices and blind wording for independent remote review; no capability scoring. [Report](../.eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/report.md).
 
