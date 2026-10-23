@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.12
-- Last updated: 2026-10-22
+- Document revision: 0.13
+- Last updated: 2026-10-23
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -147,3 +147,7 @@ flowchart TD
 ## 2026-10-22 时间窗与人数的未知范围
 
 公开页面只证实一个时刻无位时，在原时间窗内按页面实际给出的合法时刻有界续查，并保留已查点和未查范围；不能将局部无位说明成整窗无位。请求日期已确认而精确人数不可选时，如实保留该店人数未核验的 UNKNOWN 并换候选，不强选或改人数。受限工作流不反复打开，也不把受限当作无位。此规则的本轮证据为离线测试与保存产物回放，完整实时交付另验。
+
+## Source-resolved search area
+
+For a named nearby request, show the actual source-adopted geographic label and keep the original user location wording unchanged. The Web conversation and candidate area heading read the same source-bound continuation center that is retained in exported read artifacts. Geographic type, coordinate context and ambiguity bounds remain enforced; a different spelling alone does not fail a location. Source access or an empty lookup is not proof of a replacement location.

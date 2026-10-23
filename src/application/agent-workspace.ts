@@ -7,6 +7,7 @@ import type {
   RestaurantOutcome,
   RestaurantPhase,
   RestaurantReadEvidence,
+  RestaurantSearchContinuation,
 } from "../domains/restaurant/contracts.js";
 
 export type AgentWorkspaceMode = "FIXTURE" | "LIVE_READ";
@@ -95,6 +96,8 @@ export interface RestaurantCaseView {
   restaurant: {
     /** Current task-local request projection; coordinates are only returned to its authenticated owner. */
     intentDraft?: import("../domains/restaurant/contracts.js").RestaurantIntentDraft;
+    /** The source-observed center actually used; never a rewrite of the user's AREA. */
+    searchLocation?: RestaurantSearchContinuation["locationContext"];
     missingRequiredFields: string[];
     candidates: Array<RestaurantCandidate & { distanceObservation?: CandidateDistanceObservation }>;
     availability: Record<string, AvailabilityOffer[]>;

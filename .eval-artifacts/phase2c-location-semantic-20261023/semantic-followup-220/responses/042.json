@@ -1,0 +1,20 @@
+{
+  "call": 42,
+  "id": "EXPOSED_HOLDOUT2:p2b-holdout-02:r3:after",
+  "attempt": 1,
+  "requestSha256": "4c4f0d038be72fc41853e876613777291a5f8de0c9a8d05159baa1a21d202c6f",
+  "response": {
+    "invocationId": "963bab29-811c-4091-b6cf-129ad064853a",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Monjayaki restaurants near Kachidoki\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 4, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Kachidoki\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-30\", \"raw\": \"Friday, October 30\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:30\", \"latest\": \"18:30\", \"raw\": \"6:30 PM\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"monjayaki\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"under 4,000 yen per person\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3628,
+    "providerRequestId": "5fbfe0a6-7c83-488b-8970-0a285463b6a1",
+    "usage": {
+      "inputTokens": 6236,
+      "outputTokens": 394,
+      "totalTokens": 6630
+    }
+  }
+}

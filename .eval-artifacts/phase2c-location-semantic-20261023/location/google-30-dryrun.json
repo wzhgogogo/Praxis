@@ -1,0 +1,1817 @@
+{
+  "mode": "OFFLINE_CONTROL",
+  "inputSha256": "206c368b15133eea1204ca82af026c043336ae66911e83bec9f78a34605b435d",
+  "startedAt": "2026-10-23T00:03:49.991Z",
+  "finishedAt": "2026-10-23T00:03:50.002Z",
+  "planned": 30,
+  "attempted": 30,
+  "passed": 30,
+  "required": 29,
+  "status": "PASS",
+  "rows": [
+    {
+      "name": "Shibuya",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Shibuya",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-1",
+        "displayName": "Shibuya",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 2,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Shibuya",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "e00586e54b0a1dc9ace53cfedbafc8b041454441ca64eee54016042a0b5c00f1",
+        "places": [
+          {
+            "id": "fixture-1",
+            "displayName": {
+              "text": "Shibuya"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Shinjuku",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Shinjuku",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-2",
+        "displayName": "Shinjuku",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 1,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Shinjuku",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "bb4072d64fbc828c68e9074eae5750ca6ba5d6a1d3b8d8d1a72fb309faa51306",
+        "places": [
+          {
+            "id": "fixture-2",
+            "displayName": {
+              "text": "Shinjuku"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ikebukuro",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Ikebukuro",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-3",
+        "displayName": "Ikebukuro",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Ikebukuro",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "fda5db66b7e80dfe7ed22811d0301ff05adb51ef68331f0e81ed323b9f76cd88",
+        "places": [
+          {
+            "id": "fixture-3",
+            "displayName": {
+              "text": "Ikebukuro"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ueno",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Ueno",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-4",
+        "displayName": "Ueno",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Ueno",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "3770cd4df904429a8cd3b412ba0c42bfa6dfa61761f4b2aea092f90e6a4e6982",
+        "places": [
+          {
+            "id": "fixture-4",
+            "displayName": {
+              "text": "Ueno"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Asakusa",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Asakusa",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-5",
+        "displayName": "Asakusa",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 1,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Asakusa",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "88085c299f2551a82d1a1147264a778433920bfe44c755cd21a04b7875de9c45",
+        "places": [
+          {
+            "id": "fixture-5",
+            "displayName": {
+              "text": "Asakusa"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Akihabara",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Akihabara",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-6",
+        "displayName": "Akihabara",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Akihabara",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "61674eab3c28094e8cd761d244dc0278d7ecb63822b5601e897e665271e74a1d",
+        "places": [
+          {
+            "id": "fixture-6",
+            "displayName": {
+              "text": "Akihabara"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Kanda",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Kanda",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-7",
+        "displayName": "Kanda",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Kanda",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "e589e1aa0de61f84b961e2247b50c1300c8ce028292c5f64e88de6a55cf19f70",
+        "places": [
+          {
+            "id": "fixture-7",
+            "displayName": {
+              "text": "Kanda"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Tokyo Station",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Tokyo Station",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-8",
+        "displayName": "Tokyo Station",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Tokyo Station",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "790697f1c29580874f906e7f8119ec2ce299596fe2a6ce74fedfd1cdd8e374a8",
+        "places": [
+          {
+            "id": "fixture-8",
+            "displayName": {
+              "text": "Tokyo Station"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ginza",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Ginza",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-9",
+        "displayName": "Ginza",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Ginza",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "9d0359e9938ad8f5b2acd5cf4a9cd051cb213150f8f677557f838db8e6ec508a",
+        "places": [
+          {
+            "id": "fixture-9",
+            "displayName": {
+              "text": "Ginza"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Higashi-Ginza",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Higashi-Ginza",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-10",
+        "displayName": "Higashi-Ginza",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Higashi-Ginza",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "882cf59644852394b01a2a2b4a991adc905c6675c3ab8c703254ed8470fd2506",
+        "places": [
+          {
+            "id": "fixture-10",
+            "displayName": {
+              "text": "Higashi-Ginza"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ningyocho",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Ningyocho",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-11",
+        "displayName": "Ningyocho",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Ningyocho",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "3b9821e8eb24880d41f389210759538b43bc2e0c76429b9ca7eab21250ea767e",
+        "places": [
+          {
+            "id": "fixture-11",
+            "displayName": {
+              "text": "Ningyocho"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Nihonbashi",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Nihonbashi",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-12",
+        "displayName": "Nihonbashi",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Nihonbashi",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "986768d753349671d1d751bac70a737284e0c51b2be18b2ec80decb01821ee1e",
+        "places": [
+          {
+            "id": "fixture-12",
+            "displayName": {
+              "text": "Nihonbashi"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Shimbashi",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Shimbashi",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-13",
+        "displayName": "Shimbashi",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Shimbashi",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "b8f085f03cf5abd99ecf4945c121d99b7ad83bf5d7e4371c7a621ee698806f51",
+        "places": [
+          {
+            "id": "fixture-13",
+            "displayName": {
+              "text": "Shimbashi"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Shinbashi",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Shinbashi",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-14",
+        "displayName": "Shinbashi",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Shinbashi",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "10ac703b6ea3631c5377b1d4d31aa119e16784eee116f79fa096d80b6aa7964a",
+        "places": [
+          {
+            "id": "fixture-14",
+            "displayName": {
+              "text": "Shinbashi"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ebisu",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Ebisu",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-15",
+        "displayName": "Ebisu",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Ebisu",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "62ad26bf0777b8f9d10ffcc4fd6ea35ad21dc643e95285c5b19fc2772c6294ff",
+        "places": [
+          {
+            "id": "fixture-15",
+            "displayName": {
+              "text": "Ebisu"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Nakameguro",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Nakameguro",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-16",
+        "displayName": "Nakameguro",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Nakameguro",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "1c027f7e9d3d59ab5b7ca2188327cced27e826f37a8ce48c56b81a24abcf4cfd",
+        "places": [
+          {
+            "id": "fixture-16",
+            "displayName": {
+              "text": "Nakameguro"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Kagurazaka",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Kagurazaka",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-17",
+        "displayName": "Kagurazaka",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Kagurazaka",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "fb29b271b80d125a17c6252599ebd2469fb44df9882b806e8e8ba6527b6f3fb6",
+        "places": [
+          {
+            "id": "fixture-17",
+            "displayName": {
+              "text": "Kagurazaka"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Kichijoji",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Kichijoji",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-18",
+        "displayName": "Kichijoji",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Kichijoji",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "36a7ef97fcf6a3f62e233ec44e2df1d2631e570683fedab3845a287462a6692a",
+        "places": [
+          {
+            "id": "fixture-18",
+            "displayName": {
+              "text": "Kichijoji"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Jiyugaoka",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Jiyugaoka",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-19",
+        "displayName": "Jiyugaoka",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Jiyugaoka",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "054222f4fd4566a08e48a92ca2a8d8f228af28539183b6ad6f70edc677b1a8d5",
+        "places": [
+          {
+            "id": "fixture-19",
+            "displayName": {
+              "text": "Jiyugaoka"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Koenji",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Koenji",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-20",
+        "displayName": "Koenji",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Koenji",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "12f2f2c803c5ec8c025d093c69d2035c207a1cd31c9ddc3d2566a57410c74889",
+        "places": [
+          {
+            "id": "fixture-20",
+            "displayName": {
+              "text": "Koenji"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Shimokitazawa",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Shimokitazawa",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-21",
+        "displayName": "Shimokitazawa",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Shimokitazawa",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "33a3c3941872239598ea910e3f05a3aa18aef4ae1db3cf4e9da6cf29e4b8a3ce",
+        "places": [
+          {
+            "id": "fixture-21",
+            "displayName": {
+              "text": "Shimokitazawa"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Sangenjaya",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Sangenjaya",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-22",
+        "displayName": "Sangenjaya",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 1,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Sangenjaya",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "0da79656d6be9babc8b3760cdef9be3498b843ac3cf49e2c682cc40eb5151c69",
+        "places": [
+          {
+            "id": "fixture-22",
+            "displayName": {
+              "text": "Sangenjaya"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Gotanda",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Gotanda",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-23",
+        "displayName": "Gotanda",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Gotanda",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "5a19dd4661aff5e5d570238d666c7cb839434862083e736a089d8fa9b734be86",
+        "places": [
+          {
+            "id": "fixture-23",
+            "displayName": {
+              "text": "Gotanda"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Meguro",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Meguro",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-24",
+        "displayName": "Meguro",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Meguro",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "fc50d3df305da943ba515b6789fba3c4e519c52c076c098c6dc6b53fe7b7e759",
+        "places": [
+          {
+            "id": "fixture-24",
+            "displayName": {
+              "text": "Meguro"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Yotsuya",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Yotsuya",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-25",
+        "displayName": "Yotsuya",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Yotsuya",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "90c64247ab0029328f44521ec210461edc1283a5b6dcf60d00817f825cb54ad1",
+        "places": [
+          {
+            "id": "fixture-25",
+            "displayName": {
+              "text": "Yotsuya"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Akasaka",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Akasaka",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-26",
+        "displayName": "Akasaka",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 1,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Akasaka",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "2070806f6b387d73025d70ef27a75d4a8588452713b1168d2ebe6bc1898c7675",
+        "places": [
+          {
+            "id": "fixture-26",
+            "displayName": {
+              "text": "Akasaka"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ochanomizu",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Ochanomizu",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-27",
+        "displayName": "Ochanomizu",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Ochanomizu",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "4a5f78e9ff18e66d2eb28bac1f9682800dd419f4e2c6377d11b2dd4b1e1bb330",
+        "places": [
+          {
+            "id": "fixture-27",
+            "displayName": {
+              "text": "Ochanomizu"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Aoyama-itchome",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Aoyama-itchome",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-28",
+        "displayName": "Aoyama-itchome",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Aoyama-itchome",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "1f030f67bddfd6665305fc4e434dfd6b99b697dd2c28572d90bdbc50d0d09476",
+        "places": [
+          {
+            "id": "fixture-28",
+            "displayName": {
+              "text": "Aoyama-itchome"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Aoyama Itchome",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Aoyama Itchome",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-29",
+        "displayName": "Aoyama Itchome",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Aoyama Itchome",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "57c366ed046905b508ba15e9930fb7d42ee488b7750797799951bbcc21bcf607",
+        "places": [
+          {
+            "id": "fixture-29",
+            "displayName": {
+              "text": "Aoyama Itchome"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Omotesando",
+      "status": "RESOLVED",
+      "location": {
+        "latitude": 35.6697,
+        "longitude": 139.767,
+        "radiusMeters": 1000,
+        "label": "Omotesando",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "observation": {
+        "placeId": "fixture-30",
+        "displayName": "Omotesando",
+        "types": [
+          "neighborhood"
+        ],
+        "addressComponents": [],
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767
+        }
+      },
+      "elapsedMs": 0,
+      "wire": {
+        "method": "POST",
+        "origin": "https://places.googleapis.com",
+        "path": "/v1/places:searchText",
+        "body": {
+          "textQuery": "Omotesando",
+          "pageSize": 10,
+          "locationBias": {
+            "circle": {
+              "center": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "radius": 1000
+            }
+          }
+        },
+        "status": 200,
+        "responseSha256": "fe8dae943a21b58e5f3b25386bccd763adc0af994e486863da9be2c27ce3b0af",
+        "places": [
+          {
+            "id": "fixture-30",
+            "displayName": {
+              "text": "Omotesando"
+            },
+            "types": [
+              "neighborhood"
+            ],
+            "location": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "radiusMeters": 1000
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "realGoogleRequests": 0,
+  "modelCalls": 0,
+  "restaurantWebsiteRequests": 0,
+  "fullLive": 0
+}

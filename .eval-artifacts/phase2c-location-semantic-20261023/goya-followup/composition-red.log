@@ -1,0 +1,18 @@
+✖ mixed clock alternatives pass through the Live assembly with installed Guard and exact query binding (1068.571834ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1507.846625
+
+✖ failing tests:
+
+test at src/harness/browser/group-window.test.ts:5:5531
+✖ mixed clock alternatives pass through the Live assembly with installed Guard and exact query binding (1068.571834ms)
+  TypeError [Error]: assembly.closeBrowser is not a function
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/harness/browser/group-window.test.ts:100:26)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)

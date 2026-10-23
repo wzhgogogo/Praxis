@@ -1,0 +1,29 @@
+✖ mixed clock alternatives pass through the Live assembly with installed Guard and exact query binding (813.065625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1745.744417
+
+✖ failing tests:
+
+test at src/harness/browser/group-window.test.ts:5:5531
+✖ mixed clock alternatives pass through the Live assembly with installed Guard and exact query binding (813.065625ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"tabelog:en/tokyo/A1301/A130103/13292459":{"status":"SOURCE_UNSUPPORTED","checkedAt":"2026-10-23T00:00:00.000Z","evidenceIds":["evidence:restaurant:tabelog-entity-match:69d538be1e94844312dd85e8"],"reasonCode":"ONLINE_AVAILABILITY_UNSUPPORTED","sourceAttempts":[{"source":"TABELOG","outcome":"SOURCE_UNSUPPORTED","reasonCode":"ONLINE_AVAILABILITY_UNSUPPORTED"}]}},"evidence":[{"evidenceId":"evidence:restaurant:tabelog-entity-match:69d538be1e94844312dd85e8","kind":"ENTITY_MATCH","provider":"TABELOG","candidateId":"tabelog:en/tokyo/A1301/A130103/13292459","sourceEntityId":"en/tokyo/A1301/A130103/13292459","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130103/13292459/","observedAt":"2026-10-23T00:00:00.000Z","requestFingerprint":"7cc749b90e9fb3cd9098ae76e3f74ee5e96fc4aaf0c0aef22e5e318be76b0205","claims":{"outletName":"Window fixture"},"entityMatch":{"confidence":"HIGH","matchedBy":["NATIVE_SOURCE_ID_AND_DETAIL"]}}],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":793,"providerAttempts":[{"candidateId":"tabelog:en/tokyo/A1301/A130103/13292459","provider":"TABELOG","outcome":"SOURCE_UNSUPPORTED","failureCode":"ONLINE_AVAILABILITY_UNSUPPORTED"}],"browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:ddf6ee9f-6170-40f5-87c0-e9229b2ec044","startedAt":"2026-10-23T03:45:05.599Z","readNetworkBoundary":"INSTALLED"}}}
+  + actual - expected
+  
+  + 'SOURCE_UNSUPPORTED'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/harness/browser/group-window.test.ts:96:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'SOURCE_UNSUPPORTED',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }

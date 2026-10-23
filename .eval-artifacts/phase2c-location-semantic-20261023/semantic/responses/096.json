@@ -1,0 +1,20 @@
+{
+  "call": 96,
+  "id": "EXPOSED_HOLDOUT2:p2b-holdout-04:r3:after",
+  "attempt": 1,
+  "requestSha256": "aa966140800dbe0aaa487c0e90964bc7aeb1d85f8719e13fd2cb04b3db49f0aa",
+  "response": {
+    "invocationId": "980768a1-fa75-45ae-8ef7-ba9554a2f93d",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Thai restaurant near Ikebukuro with a table for 6 on Thursday, November 5, between 6 and 8 PM\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-05\", \"raw\": \"Thursday, November 5\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:00\", \"latest\": \"20:00\", \"raw\": \"between 6 and 8 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 6, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Ikebukuro\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Thai restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1958,
+    "providerRequestId": "d32691ba-b355-4781-a12b-c1a4cb6716ca",
+    "usage": {
+      "inputTokens": 6150,
+      "outputTokens": 358,
+      "totalTokens": 6508
+    }
+  }
+}
