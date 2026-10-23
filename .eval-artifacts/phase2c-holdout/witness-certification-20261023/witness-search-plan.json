@@ -1,0 +1,144 @@
+{
+  "schema": "phase2c-witness-search@1",
+  "approvedBy": "USER_PHASE2C_WITNESS_AUTHORIZATION",
+  "variants": [
+    {
+      "caseId": "p2c-holdout-01",
+      "place": "Akabane",
+      "fallbackPlace": "Jujo",
+      "date": "2026-11-04",
+      "partySize": 2,
+      "earliest": "19:00",
+      "latest": "19:00",
+      "criteria": [
+        {
+          "value": "kushikatsu",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "radiusMeters": 1000
+    },
+    {
+      "caseId": "p2c-holdout-02",
+      "place": "Okachimachi",
+      "fallbackPlace": "Yushima",
+      "date": "2026-10-30",
+      "partySize": 4,
+      "earliest": "18:30",
+      "latest": "18:30",
+      "criteria": [
+        {
+          "value": "Korean",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "no more than 5,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        }
+      ],
+      "radiusMeters": 1000
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "place": "Ichigaya",
+      "fallbackPlace": "Kudanshita",
+      "date": "2026-10-31",
+      "partySize": 2,
+      "earliest": "19:30",
+      "latest": "19:30",
+      "criteria": [
+        {
+          "value": "fugu",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "anniversary dinner",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED"
+        },
+        {
+          "value": "no more than 10,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "radiusMeters": 1000
+    },
+    {
+      "caseId": "p2c-holdout-04",
+      "place": "Ryogoku",
+      "fallbackPlace": "Morishita",
+      "date": "2026-11-05",
+      "partySize": 6,
+      "earliest": "18:00",
+      "latest": "20:00",
+      "criteria": [
+        {
+          "value": "chanko nabe",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "private room",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        }
+      ],
+      "radiusMeters": 1000
+    },
+    {
+      "caseId": "p2c-holdout-05",
+      "place": "Hatchobori",
+      "fallbackPlace": "Kayabacho",
+      "date": "2026-11-03",
+      "partySize": 3,
+      "earliest": "19:00",
+      "latest": "19:00",
+      "criteria": [
+        {
+          "value": "steak",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "value": "hamburg steak place",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "radiusMeters": 1000
+    },
+    {
+      "caseId": "p2c-holdout-06",
+      "place": "Kitasenju",
+      "fallbackPlace": "Minami-Senju",
+      "date": "2026-10-30",
+      "partySize": 8,
+      "earliest": "17:30",
+      "latest": "22:00",
+      "criteria": [
+        {
+          "value": "motsunabe",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "radiusMeters": 1000
+    }
+  ],
+  "sourceRules": {
+    "radiusMeters": 1000,
+    "minGapMs": 30000,
+    "cooldownMs": 900000,
+    "transportRetryMs": 120000,
+    "maxRetries": 1,
+    "maxGoogle": 24,
+    "maxSource": 120,
+    "maxMerchantCandidatesPerPlace": 6,
+    "excludeNoWitnessCasesAtMost": 1
+  }
+}
