@@ -11,6 +11,10 @@
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 
+## DEV-2026-10-23-NEAR-CONDITION-DISPLAY-ACCEPTANCE
+
+两项生产修复分别提交44724106（具名AREA不依赖near词）与53ac158c（通用food描述与真实商家类型字段相接）。有效红灯保留，h-06保存输入向观测圆心/发现交接通过；Router→Reducer回放11份，4条菜系NOT_CHECKED→MET，与冻结@33独立真值一致，其他9份展示及价格/全局引用不变，33条对照均CONSISTENT。正式回放先提交274569c9冻结4271项，SHA0cea339a…；新五门禁1025默认/137本机Chromium/typecheck/arch/build全绿，同69点/5选店缓存真实响应回归69/69、5/5，独立校准22/22与正常声明20/20。0新真实模型/网站/Google/Live/重跑；State/Schema、Prompt、评测器、站点Guard不变，历史结果不改分。原始日志/输入SHA、四层报告和测试指标字节恢复均保留。仅推私有修复分支，不合并主线，等待复核。 [四层报告](../../.eval-artifacts/near-and-condition-display-20261023/report.md).
+
 ## DEV-2026-10-23-CONDITION-DISPLAY-REPAIR
 
 第二项独立修复：当前来源与引用链未丢失，generic literal cuisine key没有去除food描述词，使已接纳的Korean food判断不能与商家Korean字段相接。沿用现有restaurant/cuisine描述处理，仅补通用food描述，保留所有菜系限定、同店同来源、当前字段、否定与餐段约束，不依赖模型标签直接判满足。有效单元与真实Router→Reducer红灯保留，修复后12/12通过：h-02三家/h-08一家MET与原@33真值一致，其他9份保存产物展示及两份价格/全局引用均不变。无Prompt/Schema/评测器变更、0新模型/网站/Live；五门禁和69/5/22正式回归待完成。 [计划](../../.eval-artifacts/near-and-condition-display-20261023/plan.md).
