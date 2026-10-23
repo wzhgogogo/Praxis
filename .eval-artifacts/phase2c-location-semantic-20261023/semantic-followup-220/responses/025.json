@@ -1,0 +1,20 @@
+{
+  "call": 25,
+  "id": "EXPOSED_HOLDOUT1:p2-holdout-03:r1:after",
+  "attempt": 1,
+  "requestSha256": "0a1610c4d1371c244954c9ee651024c454d9a19e78cde8a90e24e3c7860f7d01",
+  "response": {
+    "invocationId": "27caa5da-9193-49aa-972c-1dc7784437fc",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"shabu-shabu near Akasaka with open tables\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 6, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Akasaka\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-29\", \"raw\": \"Thursday, October 29\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:00\", \"latest\": \"20:00\", \"raw\": \"between 6 and 8 PM\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"shabu-shabu\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2642,
+    "providerRequestId": "2d9235c2-4005-4ae3-8607-e4dc464ecf36",
+    "usage": {
+      "inputTokens": 6233,
+      "outputTokens": 343,
+      "totalTokens": 6576
+    }
+  }
+}

@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.272
+- Document revision: 4.273
 - Last updated: 2026-10-23
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-23-PHASE2C-SEMANTIC-FOLLOWUP-PASS
+
+Final one-shot promptv23 replay completed54/54 with54 new calls, no retries; chain162/220. Sit-down retained and invented with-tables removed3/3; NEGATIVE standing-counter preserved. Numeric-direction rows12/12: flexible under remains SOFT6/6, firm under/at-most existing max representation6/6. No more than/below absent from frozen18 messages, not separately sampled. Implementer read all54 paired condition lists and observed no other criterion regression; independent review pending. All30 changed full patches and original/v21/v22/v23 criteria retained, no historical inputs rewritten. No more prompt changes. [Comparison](../../.eval-artifacts/phase2c-location-semantic-20261023/semantic-followup-220/comparison.md).
 
 ## TEST-2026-10-23-PHASE2C-SEMANTIC-FOLLOWUP-FREEZE
 

@@ -1,0 +1,20 @@
+{
+  "call": 19,
+  "id": "EXPOSED_HOLDOUT1:p2-holdout-01:r1:after",
+  "attempt": 1,
+  "requestSha256": "878b9bc2af2ee61758f093fc0e935ef354365a4b57e37eef0159c245250f3094",
+  "response": {
+    "invocationId": "185b2c00-4dc1-41cf-b722-a91307b161c6",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"yakitori restaurant near Ueno with a table for 3\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-04\", \"raw\": \"Wednesday, November 4\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 3, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Ueno\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"yakitori\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2549,
+    "providerRequestId": "6a899cda-163b-41b6-9013-eb6569edea8d",
+    "usage": {
+      "inputTokens": 6225,
+      "outputTokens": 336,
+      "totalTokens": 6561
+    }
+  }
+}
