@@ -109,3 +109,7 @@ source diagnostics remain; third-source zero-core-change acceptance is Phase6.
 ## 2026-10-22 approved group/window correction
 
 用户依据团体诊断复核 b180f30d 批准本次局部修正，部分替代 Decision 3 的团体加分和 Decision 5 的连续来源读取方式，以上原文保留。`supportsGroups` 静态标记不再参与排序；仍按原 base priority 和同日规则安排第一轮。当前批调查完成后，未结束来源将下一批排至其他已计划来源之后。各来源的待查入口、页游标、累计预算和已发现候选保留，合格短批交付及所有资格条件不变。此处只接受调度规则；离线与真实来源能力分别报告，不声明团体库存或当前网站已验证。
+
+## 2026-10-23 user-approved Phase2c named-location matching
+
+For named nearby areas, Google ranking establishes the place correspondence, subject to the unchanged geographic type set and coordinate checks. Select the first valid geographic observation. Names are recorded and shown, never an equality/alias gate; old normalization, civic-suffix and station-suffix inference is removed. Compare the first three valid geographic observations: separation greater than the existing100km context limit is ambiguous; close representations preserve source order. Keep the100km bound-context rejection and reject merchant-only/invalid-coordinate responses. The actual source name and center are exposed from the same durable continuation used for discovery, without rewriting the user AREA or weakening outlet identity, radius, HARD or availability qualification. This append records the explicit2026-10-23 user instruction; the original decisions and earlier appendices remain unchanged.

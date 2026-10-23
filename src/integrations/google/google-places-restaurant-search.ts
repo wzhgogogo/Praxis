@@ -108,60 +108,6 @@ function namedNearbyQuery(value: string): string | undefined {
     .trim() || undefined;
 }
 
-function sameNamedLocation(place: GooglePlacesRawPlace, query: string): boolean {
-  const value = string(place.displayName?.text);
-  if (!value) return false;
-  const normalizedValue = normalizedLocationName(value);
-  const normalizedQuery = normalizedLocationName(query);
-  // Text-search rank, a returned address, and arbitrary name suffixes do not
-  // establish that a place is the landmark the user named.  Source-provided
-  // language/alias correspondence is required before we broaden this beyond
-  // normalized public display-name equality.
-  if (normalizedValue.length > 0 && normalizedValue === normalizedQuery) return true;
-  const components = addressComponents(place) ?? [];
-  const sourceTypes = Array.isArray(place.types) && place.types.every((type) => typeof type === "string") ? place.types : [];
-  // Google can express a requested locality as its civic administrative form
-  // (for example, "Shinjuku City").  This is not a station alias: accept it
-  // only when both the display name and a typed locality/administrative
-  // component carry the same bounded civic suffix. A ranked result or a
-  // matching address string alone still has no named-place authority.
-  const civicSuffixes = new Set(["city", "ward", "district", "ku"]);
-  const sourceAdministrativeMatch = components.some((component) => {
-    const componentName = normalizedLocationName(component.longText);
-    const componentShortName = normalizedLocationName(component.shortText ?? "");
-    const typedAdministrativeArea = component.types.some((type) => type === "locality" || type.startsWith("administrative_area"));
-    const displayMatchesComponent = normalizedValue === componentName || normalizedValue === componentShortName;
-    const civicName = normalizedLocationName(component.longText);
-    const civicSuffix = civicName.slice(normalizedQuery.length);
-    return typedAdministrativeArea
-      && displayMatchesComponent
-      && civicName.startsWith(normalizedQuery)
-      && civicSuffixes.has(civicSuffix);
-  });
-  if (sourceAdministrativeMatch && sourceTypes.some((type) => type === "locality" || type.startsWith("administrative_area"))) return true;
-  const suffix = value.trim().match(/\s+(station|sta\.?|airport|park|terminal)$/iu)?.[1]?.toLocaleLowerCase("en-US");
-  if (!suffix) return false;
-  const valueCore = normalizedLocationName(value.slice(0, value.length - suffix.length).trim());
-  const supportedTypes = suffix === "station" || suffix.startsWith("sta")
-    ? ["subway_station", "transit_station", "train_station", "bus_station"]
-    : suffix === "airport" ? ["airport"]
-      : suffix === "park" ? ["park"]
-        : ["transit_station", "bus_station", "airport"];
-  const hasSupportedType = sourceTypes.some((type) => supportedTypes.includes(type));
-  const queryIsAdministrativeArea = components.some((component) =>
-    component.types.some((type) => type === "locality" || type.startsWith("administrative_area")) &&
-    (normalizedLocationName(component.longText) === normalizedQuery || normalizedLocationName(component.shortText ?? "") === normalizedQuery),
-  );
-  const hasIndependentGeographicContext = components.some((component) =>
-    component.types.some((type) => type === "locality" || type.startsWith("administrative_area")),
-  );
-  return hasSupportedType && hasIndependentGeographicContext && !queryIsAdministrativeArea && valueCore.length > 0 && valueCore === normalizedQuery;
-}
-
-function normalizedLocationName(value: string): string {
-  return value.normalize("NFKD").replace(/\p{M}+/gu, "").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "");
-}
-
 function namedLocationObservation(place: GooglePlacesRawPlace): string {
   const name = string(place.displayName?.text) ?? "missing-name";
   const address = string(place.formattedAddress) ?? "missing-address";
@@ -176,7 +122,7 @@ function namedLocationObservation(place: GooglePlacesRawPlace): string {
 
 /**
  * A bounded public projection for a failed named-place resolution.  It lets a
- * source-stage artifact explain why exact identity matching rejected the
+ * source-stage artifact explain the geographic rank/type/distance decision for the
  * response without retaining provider headers, raw result bodies, phones, or
  * website links.  It is diagnostic evidence only and never selects a place.
  */
@@ -319,22 +265,28 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const pointContext = request.intent.area.coordinates ?? this.options.evaluationLocation;
     const context = pointContext ? { latitude: pointContext.latitude, longitude: pointContext.longitude, radiusMeters: request.intent.area.radiusMeters ?? this.options.evaluationLocation?.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS } : undefined;
     const places = await this.client.textSearch({ textQuery: query, pageSize: Math.max(10, this.maxResults), ...(context ? { locationBias: context } : {}) }, signal);
-    const nameMatches = places.filter((item) => {
-      const label = string(item.displayName?.text); const point = coordinates(item);
-      return point !== undefined && label !== undefined && sameNamedLocation(item, query);
+    const geographicMatches = places.filter(item => {
+      const point = coordinates(item);
+      return geographicLocation(item) && string(item.id) && string(item.displayName?.text)
+        && point && Number.isFinite(point.latitude) && Number.isFinite(point.longitude)
+        && Math.abs(point.latitude!) <= 90 && Math.abs(point.longitude!) <= 180;
     });
-    const exactMatches = nameMatches.filter(geographicLocation);
     const sourceObservations = places.map(namedLocationObservation).join("; ") || "no returned places";
-    if (nameMatches.length && !exactMatches.length) {
-      throw namedLocationResolutionError("GOOGLE_LOCATION_AMBIGUOUS", `Only merchant matches were observed for an area request. Observations: ${sourceObservations}`, places);
+    // Search ranking, geographic type and coordinates are the source's location
+    // correspondence. Nearby geographic representations are not ambiguities.
+    // Compare only the leading three geographic results, using the existing
+    // 100km regional-separation boundary rather than a spelling or city table.
+    const leading = geographicMatches.slice(0, 3);
+    for (let i = 0; i < leading.length; i++) for (let j = i + 1; j < leading.length; j++) {
+      const first = coordinates(leading[i]!)!, second = coordinates(leading[j]!)!;
+      const separation = googleDiscoveryGeoDiagnostics({ location: first }, { evaluationLocation: {
+        latitude: second.latitude!, longitude: second.longitude!, radiusMeters: NAMED_PLACE_NEARBY_RADIUS_METERS, label: "ranked geographic observation",
+      } }).distanceMeters;
+      if (separation !== undefined && separation > MAX_NAMED_LOCATION_CONTEXT_DISTANCE_METERS) {
+        throw namedLocationResolutionError("GOOGLE_LOCATION_AMBIGUOUS", `Leading geographic results are ${Math.round(separation)} meters apart, exceeding ${MAX_NAMED_LOCATION_CONTEXT_DISTANCE_METERS}. Observations: ${sourceObservations}`, places);
+      }
     }
-    if (exactMatches.length > 1) {
-      throw namedLocationResolutionError("GOOGLE_LOCATION_AMBIGUOUS", `Google Places returned multiple coordinate-bearing matches for the named location ${JSON.stringify(query)}. Observations: ${sourceObservations}`, places);
-    }
-    // Text-search relevance is not location identity.  In particular, never
-    // turn the first unrelated result into the user's named landmark just
-    // because the exact name lookup returned nothing.
-    const place = exactMatches[0];
+    const place = geographicMatches[0];
     const placeId = place && string(place.id);
     const label = place && string(place.displayName?.text);
     const resolved = place && coordinates(place);
@@ -361,6 +313,8 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         claims: {
           locationResolutionQuery: query,
           resolvedPlaceName: label,
+          locationNameExactMatch: label === query,
+          resolvedPlaceTypes: publicNamedLocationObservations([place])[0]!.types,
           resolvedPlaceId: placeId,
           latitude: resolved.latitude!,
           longitude: resolved.longitude!,

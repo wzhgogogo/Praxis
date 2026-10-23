@@ -1,0 +1,23 @@
+✖ ranked named geography accepts the saved spellings, keeps nearby geographic alternatives and rejects remote ambiguity (2.295541ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 243.7285
+
+✖ failing tests:
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:522
+✖ ranked named geography accepts the saved spellings, keeps nearby geographic alternatives and rejects remote ambiguity (2.295541ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "Ningyocho". Observations: name="Nihonbashiningyocho" address="Nihonbashiningyocho, Chuo City, Tokyo 103-0013, Japan" types="sublocality_level_2,sublocality,political" placeId="ChIJk_FY1k-JGGARn-QTt8Cz_8E" coordinate="35.6852807,139.7843792"
+      at namedLocationResolutionError (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.ts:217:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.ts:342:13)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-phase2c-location-semantic/src/integrations/google/google-places-restaurant-search.test.ts:18:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    publicLocationObservations: [ { placeId: 'ChIJk_FY1k-JGGARn-QTt8Cz_8E', displayName: 'Nihonbashiningyocho', types: [Array], addressComponents: [], coordinates: [Object] } ]
+  }
