@@ -1,0 +1,2712 @@
+{
+  "schema": "phase2c-semantic-comparison@1",
+  "status": "NOT_SATISFIED",
+  "modelCalls": 108,
+  "plannedTrialsCompleted": 108,
+  "allProposed": true,
+  "beforeAfterPairs": 54,
+  "changedPatches": 25,
+  "numericFocus": {
+    "afterPassed": 6,
+    "afterTotal": 6,
+    "improvement": "Not demonstrated: sampled v21 controls also preserved the soft upper bound; historical bad proposals remain independently saved.",
+    "rows": [
+      {
+        "id": "EXPOSED_HOLDOUT1:p2-holdout-05:r1:after",
+        "softUpperBoundPreserved": true,
+        "criteria": {
+          "criteria": [
+            {
+              "text": "Chinese restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "under 6,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            },
+            {
+              "text": "spicy Sichuan food",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ],
+          "budgetPerPerson": null
+        }
+      },
+      {
+        "id": "EXPOSED_HOLDOUT1:p2-holdout-05:r2:after",
+        "softUpperBoundPreserved": true,
+        "criteria": {
+          "criteria": [
+            {
+              "text": "Chinese restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "under 6,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            },
+            {
+              "text": "spicy Sichuan food",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ],
+          "budgetPerPerson": null
+        }
+      },
+      {
+        "id": "EXPOSED_HOLDOUT1:p2-holdout-05:r3:after",
+        "softUpperBoundPreserved": true,
+        "criteria": {
+          "criteria": [
+            {
+              "text": "Chinese restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "under 6,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            },
+            {
+              "text": "spicy Sichuan food",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ],
+          "budgetPerPerson": null
+        }
+      },
+      {
+        "id": "EXPOSED_HOLDOUT2:p2b-holdout-02:r1:after",
+        "softUpperBoundPreserved": true,
+        "criteria": {
+          "criteria": [
+            {
+              "text": "monjayaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "under 4,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ],
+          "budgetPerPerson": null
+        }
+      },
+      {
+        "id": "EXPOSED_HOLDOUT2:p2b-holdout-02:r2:after",
+        "softUpperBoundPreserved": true,
+        "criteria": {
+          "criteria": [
+            {
+              "text": "monjayaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "ideally under 4,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ],
+          "budgetPerPerson": null
+        }
+      },
+      {
+        "id": "EXPOSED_HOLDOUT2:p2b-holdout-02:r3:after",
+        "softUpperBoundPreserved": true,
+        "criteria": {
+          "criteria": [
+            {
+              "text": "monjayaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "ideally under 4,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ],
+          "budgetPerPerson": null
+        }
+      }
+    ]
+  },
+  "addedHardFocus": {
+    "afterViolations": 3,
+    "afterTotal": 3,
+    "ids": [
+      "EXPOSED_HOLDOUT2:p2b-holdout-05:r1:after",
+      "EXPOSED_HOLDOUT2:p2b-holdout-05:r2:after",
+      "EXPOSED_HOLDOUT2:p2b-holdout-05:r3:after"
+    ],
+    "reason": "All three v22 after samples still add HARD sit-down restaurant with tables; required repair not demonstrated."
+  },
+  "otherCaseNonRegression": "Exact condition lists and all patch changes provided for review; no overall pass claimed after the mandatory failure.",
+  "rows": [
+    {
+      "caseId": "DEVELOPMENT:p2l-kagurazaka-kaiseki-20261105",
+      "repetition": 1,
+      "message": "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, November 5 at 7:30 PM.\n",
+      "referenceTime": "2026-10-21T13:37:08.211Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/runner/2026-10-21T13-37-08-280Z-2c2fb95a-15fc-4e30-9fd3-7783cb7bc448.result.json",
+        "sha256": "cbf077d27fcc65d99ae5586019e155961e96211f35b13724b3ee4ae31f7c807c",
+        "runId": "2c2fb95a-15fc-4e30-9fd3-7783cb7bc448",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kagurazaka-kaiseki-20261105",
+      "repetition": 2,
+      "message": "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, November 5 at 7:30 PM.\n",
+      "referenceTime": "2026-10-21T13:37:08.211Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/runner/2026-10-21T13-37-08-280Z-2c2fb95a-15fc-4e30-9fd3-7783cb7bc448.result.json",
+        "sha256": "cbf077d27fcc65d99ae5586019e155961e96211f35b13724b3ee4ae31f7c807c",
+        "runId": "2c2fb95a-15fc-4e30-9fd3-7783cb7bc448",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kagurazaka-kaiseki-20261105",
+      "repetition": 3,
+      "message": "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, November 5 at 7:30 PM.\n",
+      "referenceTime": "2026-10-21T13:37:08.211Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-05-attempt-2/runner/2026-10-21T13-37-08-280Z-2c2fb95a-15fc-4e30-9fd3-7783cb7bc448.result.json",
+        "sha256": "cbf077d27fcc65d99ae5586019e155961e96211f35b13724b3ee4ae31f7c807c",
+        "runId": "2c2fb95a-15fc-4e30-9fd3-7783cb7bc448",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "kaiseki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h001-20261103",
+      "repetition": 1,
+      "message": "Looking for an omakase spot near Shibuya for 2 people on Tuesday, November 3 at 7 PM.\n",
+      "referenceTime": "2026-10-21T12:47:47.532Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/runner/2026-10-21T12-47-47-598Z-40c9b8e2-b564-4617-a3cd-735bbdd3411e.result.json",
+        "sha256": "f1b820390fbe9ab4c6083895343534e68a666589b46292761642d14f9612bc4c",
+        "runId": "40c9b8e2-b564-4617-a3cd-735bbdd3411e",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Omakase restaurant near Shibuya for 2 people on Tuesday, November 3 at 7 PM",
+          "after": "Omakase restaurant near Shibuya"
+        }
+      ]
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h001-20261103",
+      "repetition": 2,
+      "message": "Looking for an omakase spot near Shibuya for 2 people on Tuesday, November 3 at 7 PM.\n",
+      "referenceTime": "2026-10-21T12:47:47.532Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/runner/2026-10-21T12-47-47-598Z-40c9b8e2-b564-4617-a3cd-735bbdd3411e.result.json",
+        "sha256": "f1b820390fbe9ab4c6083895343534e68a666589b46292761642d14f9612bc4c",
+        "runId": "40c9b8e2-b564-4617-a3cd-735bbdd3411e",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h001-20261103",
+      "repetition": 3,
+      "message": "Looking for an omakase spot near Shibuya for 2 people on Tuesday, November 3 at 7 PM.\n",
+      "referenceTime": "2026-10-21T12:47:47.532Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-01-attempt-1/runner/2026-10-21T12-47-47-598Z-40c9b8e2-b564-4617-a3cd-735bbdd3411e.result.json",
+        "sha256": "f1b820390fbe9ab4c6083895343534e68a666589b46292761642d14f9612bc4c",
+        "runId": "40c9b8e2-b564-4617-a3cd-735bbdd3411e",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "omakase",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h002-20261107",
+      "repetition": 1,
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for Saturday, November 7 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "referenceTime": "2026-10-21T12:57:13.465Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-02-attempt-1/runner/2026-10-21T12-57-13-534Z-14de2d12-6432-4b5e-a6a6-1a25ec212133.result.json",
+        "sha256": "18438d5e7d8a715633bcd1ceed4eb6871730fc2d8cd9e3c5da3d52641f041fa7",
+        "runId": "14de2d12-6432-4b5e-a6a6-1a25ec212133",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "first-date restaurant",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "hot-pot restaurants",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "suitable for a first date",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "hot-pot restaurants",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "addCriteria",
+          "before": [
+            {
+              "text": "first-date restaurant",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            },
+            {
+              "text": "around 10,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            },
+            {
+              "text": "hot-pot restaurants",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ],
+          "after": [
+            {
+              "text": "suitable for a first date",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            },
+            {
+              "text": "around 10,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            },
+            {
+              "text": "hot-pot restaurants",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h002-20261107",
+      "repetition": 2,
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for Saturday, November 7 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "referenceTime": "2026-10-21T12:57:13.465Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-02-attempt-1/runner/2026-10-21T12-57-13-534Z-14de2d12-6432-4b5e-a6a6-1a25ec212133.result.json",
+        "sha256": "18438d5e7d8a715633bcd1ceed4eb6871730fc2d8cd9e3c5da3d52641f041fa7",
+        "runId": "14de2d12-6432-4b5e-a6a6-1a25ec212133",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "first-date restaurant",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "hot-pot restaurants",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "first-date restaurant",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "hot-pot restaurants",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "addCriteria",
+          "before": [
+            {
+              "text": "first-date restaurant",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            },
+            {
+              "text": "around 10,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            },
+            {
+              "text": "hot-pot restaurants",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ],
+          "after": [
+            {
+              "text": "around 10,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            },
+            {
+              "text": "first-date restaurant",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            },
+            {
+              "text": "hot-pot restaurants",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h002-20261107",
+      "repetition": 3,
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for Saturday, November 7 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "referenceTime": "2026-10-21T12:57:13.465Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-02-attempt-1/runner/2026-10-21T12-57-13-534Z-14de2d12-6432-4b5e-a6a6-1a25ec212133.result.json",
+        "sha256": "18438d5e7d8a715633bcd1ceed4eb6871730fc2d8cd9e3c5da3d52641f041fa7",
+        "runId": "14de2d12-6432-4b5e-a6a6-1a25ec212133",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "first-date restaurant",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "hot-pot restaurants",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "around 10,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "first-date restaurant",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "hot-pot restaurants",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "addCriteria",
+          "before": [
+            {
+              "text": "first-date restaurant",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            },
+            {
+              "text": "around 10,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            },
+            {
+              "text": "hot-pot restaurants",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ],
+          "after": [
+            {
+              "text": "around 10,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            },
+            {
+              "text": "first-date restaurant",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            },
+            {
+              "text": "hot-pot restaurants",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "Sichuan/Hunan-style cuisine where spicy food is the main focus",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h003-20261106",
+      "repetition": 1,
+      "message": "Need a place for a team dinner nearby on Friday, November 6 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "referenceTime": "2026-10-21T13:22:13.535Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/runner/2026-10-21T13-22-13-597Z-fe19189c-0a9c-4609-9ed5-18c8026a36bf.result.json",
+        "sha256": "9d9eb5f335aee6a1946f15282797c764d0b434aaec426ebcefb35985187a25f4",
+        "runId": "fe19189c-0a9c-4609-9ed5-18c8026a36bf",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "suitable for a team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "suitable for a team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Team dinner venue nearby on Friday, November 6 after work",
+          "after": "Team dinner venue nearby"
+        }
+      ]
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h003-20261106",
+      "repetition": 2,
+      "message": "Need a place for a team dinner nearby on Friday, November 6 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "referenceTime": "2026-10-21T13:22:13.535Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/runner/2026-10-21T13-22-13-597Z-fe19189c-0a9c-4609-9ed5-18c8026a36bf.result.json",
+        "sha256": "9d9eb5f335aee6a1946f15282797c764d0b434aaec426ebcefb35985187a25f4",
+        "runId": "fe19189c-0a9c-4609-9ed5-18c8026a36bf",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "suitable for a team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "suitable for a team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Team dinner venue nearby on Friday, November 6 after work",
+          "after": "Team dinner venue nearby"
+        }
+      ]
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h003-20261106",
+      "repetition": 3,
+      "message": "Need a place for a team dinner nearby on Friday, November 6 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "referenceTime": "2026-10-21T13:22:13.535Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-04-attempt-1/runner/2026-10-21T13-22-13-597Z-fe19189c-0a9c-4609-9ed5-18c8026a36bf.result.json",
+        "sha256": "9d9eb5f335aee6a1946f15282797c764d0b434aaec426ebcefb35985187a25f4",
+        "runId": "fe19189c-0a9c-4609-9ed5-18c8026a36bf",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "suitable for a team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "good for drinks",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          },
+          {
+            "text": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "suitable for a team dinner",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h005-20261105",
+      "repetition": 1,
+      "message": "Any spots nearby with open tables on Thursday, November 5 at 6 PM for 4 people? Local food only, no fast food.\n",
+      "referenceTime": "2026-10-21T13:11:18.946Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-03-attempt-1/runner/2026-10-21T13-11-19-020Z-b2899a23-d1a9-4df0-ab03-25cde45fb695.result.json",
+        "sha256": "7548dd61467f04353406537abb1b4f89877434b9448d40ee4b8f537461d51896",
+        "runId": "b2899a23-d1a9-4df0-ab03-25cde45fb695",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "local food only",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "addCriteria",
+          "before": [
+            {
+              "text": "local food",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "fast food",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ],
+          "after": [
+            {
+              "text": "local food only",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "fast food",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h005-20261105",
+      "repetition": 2,
+      "message": "Any spots nearby with open tables on Thursday, November 5 at 6 PM for 4 people? Local food only, no fast food.\n",
+      "referenceTime": "2026-10-21T13:11:18.946Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-03-attempt-1/runner/2026-10-21T13-11-19-020Z-b2899a23-d1a9-4df0-ab03-25cde45fb695.result.json",
+        "sha256": "7548dd61467f04353406537abb1b4f89877434b9448d40ee4b8f537461d51896",
+        "runId": "b2899a23-d1a9-4df0-ab03-25cde45fb695",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kf-h005-20261105",
+      "repetition": 3,
+      "message": "Any spots nearby with open tables on Thursday, November 5 at 6 PM for 4 people? Local food only, no fast food.\n",
+      "referenceTime": "2026-10-21T13:11:18.946Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-03-attempt-1/runner/2026-10-21T13-11-19-020Z-b2899a23-d1a9-4df0-ab03-25cde45fb695.result.json",
+        "sha256": "7548dd61467f04353406537abb1b4f89877434b9448d40ee4b8f537461d51896",
+        "runId": "b2899a23-d1a9-4df0-ab03-25cde45fb695",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "local food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "fast food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Nearby spots with open tables for local food",
+          "after": "Nearby restaurants with open tables on Thursday, November 5 at 6 PM for 4 people, local food only, no fast food"
+        }
+      ]
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kichijoji-tempura-20261103",
+      "repetition": 1,
+      "message": "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, November 3 at 6 PM?\n",
+      "referenceTime": "2026-10-21T13:48:09.941Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/runner/2026-10-21T13-48-10-020Z-f752f89d-0914-4aeb-a554-1f3059a7de8c.result.json",
+        "sha256": "dc55446db4493821154906b98b7e7b267bbf15a78f0f292abc1a82f46f12f154",
+        "runId": "f752f89d-0914-4aeb-a554-1f3059a7de8c",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "tempura restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "tempura restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Tempura restaurants near Kichijoji with a table for 2",
+          "after": "tempura restaurants near Kichijoji with a table for 2"
+        }
+      ]
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kichijoji-tempura-20261103",
+      "repetition": 2,
+      "message": "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, November 3 at 6 PM?\n",
+      "referenceTime": "2026-10-21T13:48:09.941Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/runner/2026-10-21T13-48-10-020Z-f752f89d-0914-4aeb-a554-1f3059a7de8c.result.json",
+        "sha256": "dc55446db4493821154906b98b7e7b267bbf15a78f0f292abc1a82f46f12f154",
+        "runId": "f752f89d-0914-4aeb-a554-1f3059a7de8c",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "tempura restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "tempura restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "DEVELOPMENT:p2l-kichijoji-tempura-20261103",
+      "repetition": 3,
+      "message": "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, November 3 at 6 PM?\n",
+      "referenceTime": "2026-10-21T13:48:09.941Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/checkpoint-c-rerun-20261021/live-results/c-06-attempt-1/runner/2026-10-21T13-48-10-020Z-f752f89d-0914-4aeb-a554-1f3059a7de8c.result.json",
+        "sha256": "dc55446db4493821154906b98b7e7b267bbf15a78f0f292abc1a82f46f12f154",
+        "runId": "f752f89d-0914-4aeb-a554-1f3059a7de8c",
+        "cohort": "DEVELOPMENT"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "tempura restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "tempura restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Tempura restaurants near Kichijoji with a table for 2",
+          "after": "tempura restaurants near Kichijoji with a table for 2"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-01",
+      "repetition": 1,
+      "message": "Can you find a yakitori place near Ueno with a table for 3 on Wednesday, November 4 at 7 PM?\n",
+      "referenceTime": "2026-10-22T08:25:14.263Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-01-attempt-1/runner/2026-10-22T08-25-14-355Z-73b46e0c-e5e4-4fdb-a5d0-92e96ea8dd7b.result.json",
+        "sha256": "e5a89c1af2db1335e12862429dcd19508680925abd3a80118fa50aca15e72123",
+        "runId": "73b46e0c-e5e4-4fdb-a5d0-92e96ea8dd7b",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "yakitori",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "yakitori",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "yakitori place near Ueno with a table for 3",
+          "after": "yakitori restaurant near Ueno with a table for 3"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-01",
+      "repetition": 2,
+      "message": "Can you find a yakitori place near Ueno with a table for 3 on Wednesday, November 4 at 7 PM?\n",
+      "referenceTime": "2026-10-22T08:25:14.263Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-01-attempt-1/runner/2026-10-22T08-25-14-355Z-73b46e0c-e5e4-4fdb-a5d0-92e96ea8dd7b.result.json",
+        "sha256": "e5a89c1af2db1335e12862429dcd19508680925abd3a80118fa50aca15e72123",
+        "runId": "73b46e0c-e5e4-4fdb-a5d0-92e96ea8dd7b",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "yakitori",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "yakitori",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "yakitori place near Ueno for a table of 3",
+          "after": "yakitori restaurant near Ueno with a table for 3"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-01",
+      "repetition": 3,
+      "message": "Can you find a yakitori place near Ueno with a table for 3 on Wednesday, November 4 at 7 PM?\n",
+      "referenceTime": "2026-10-22T08:25:14.263Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-01-attempt-1/runner/2026-10-22T08-25-14-355Z-73b46e0c-e5e4-4fdb-a5d0-92e96ea8dd7b.result.json",
+        "sha256": "e5a89c1af2db1335e12862429dcd19508680925abd3a80118fa50aca15e72123",
+        "runId": "73b46e0c-e5e4-4fdb-a5d0-92e96ea8dd7b",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "yakitori",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "yakitori",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-02",
+      "repetition": 1,
+      "message": "Looking for an Italian restaurant near Sangenjaya for 2 people on Friday, October 30 at 7:30 PM, under 8,000 yen per person.\n",
+      "referenceTime": "2026-10-22T08:33:27.331Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-02-attempt-1/runner/2026-10-22T08-33-27-412Z-91a9440a-8622-41cd-96f2-526be579345b.result.json",
+        "sha256": "2df3226be31b0ba5a570dad2c37b97a87ce497747130815322b1822414042bfc",
+        "runId": "91a9440a-8622-41cd-96f2-526be579345b",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "Italian restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "Italian cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "allPatchChanges": [
+        {
+          "path": "addCriteria",
+          "before": [
+            {
+              "text": "Italian restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "after": [
+            {
+              "text": "Italian cuisine",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-02",
+      "repetition": 2,
+      "message": "Looking for an Italian restaurant near Sangenjaya for 2 people on Friday, October 30 at 7:30 PM, under 8,000 yen per person.\n",
+      "referenceTime": "2026-10-22T08:33:27.331Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-02-attempt-1/runner/2026-10-22T08-33-27-412Z-91a9440a-8622-41cd-96f2-526be579345b.result.json",
+        "sha256": "2df3226be31b0ba5a570dad2c37b97a87ce497747130815322b1822414042bfc",
+        "runId": "91a9440a-8622-41cd-96f2-526be579345b",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "Italian restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "Italian restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-02",
+      "repetition": 3,
+      "message": "Looking for an Italian restaurant near Sangenjaya for 2 people on Friday, October 30 at 7:30 PM, under 8,000 yen per person.\n",
+      "referenceTime": "2026-10-22T08:33:27.331Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-02-attempt-1/runner/2026-10-22T08-33-27-412Z-91a9440a-8622-41cd-96f2-526be579345b.result.json",
+        "sha256": "2df3226be31b0ba5a570dad2c37b97a87ce497747130815322b1822414042bfc",
+        "runId": "91a9440a-8622-41cd-96f2-526be579345b",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "Italian cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "Italian restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "allPatchChanges": [
+        {
+          "path": "addCriteria",
+          "before": [
+            {
+              "text": "Italian cuisine",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "after": [
+            {
+              "text": "Italian restaurant",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-03",
+      "repetition": 1,
+      "message": "We're 6 people looking for shabu-shabu near Akasaka on Thursday, October 29, sometime between 6 and 8 PM. Any open tables?\n",
+      "referenceTime": "2026-10-22T08:42:01.571Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/runner/2026-10-22T08-42-01-645Z-8a1e9abe-a8ba-4eed-9d7d-4e9388d374c0.result.json",
+        "sha256": "9eb22391bf9b41600ee676ddf55a0995a47b7b83711be873f3dc36bd5fac4cb3",
+        "runId": "8a1e9abe-a8ba-4eed-9d7d-4e9388d374c0",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "shabu-shabu",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "shabu-shabu",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "area.query",
+          "before": "near Akasaka",
+          "after": "Akasaka"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-03",
+      "repetition": 2,
+      "message": "We're 6 people looking for shabu-shabu near Akasaka on Thursday, October 29, sometime between 6 and 8 PM. Any open tables?\n",
+      "referenceTime": "2026-10-22T08:42:01.571Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/runner/2026-10-22T08-42-01-645Z-8a1e9abe-a8ba-4eed-9d7d-4e9388d374c0.result.json",
+        "sha256": "9eb22391bf9b41600ee676ddf55a0995a47b7b83711be873f3dc36bd5fac4cb3",
+        "runId": "8a1e9abe-a8ba-4eed-9d7d-4e9388d374c0",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "shabu-shabu",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "shabu-shabu",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-03",
+      "repetition": 3,
+      "message": "We're 6 people looking for shabu-shabu near Akasaka on Thursday, October 29, sometime between 6 and 8 PM. Any open tables?\n",
+      "referenceTime": "2026-10-22T08:42:01.571Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-03-attempt-1/runner/2026-10-22T08-42-01-645Z-8a1e9abe-a8ba-4eed-9d7d-4e9388d374c0.result.json",
+        "sha256": "9eb22391bf9b41600ee676ddf55a0995a47b7b83711be873f3dc36bd5fac4cb3",
+        "runId": "8a1e9abe-a8ba-4eed-9d7d-4e9388d374c0",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "shabu-shabu",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "shabu-shabu",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-04",
+      "repetition": 1,
+      "message": "Is there an unagi restaurant near Ningyocho that has a table for 2 on Tuesday, November 3 at 6:30 PM?\n",
+      "referenceTime": "2026-10-22T08:55:32.986Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/runner/2026-10-22T08-55-33-055Z-52866809-a474-4ee5-a11a-bdeecf2fc251.result.json",
+        "sha256": "cdf819738946725534180c6ede36b1b6b492919280f1cfaa70b0d115c39b486f",
+        "runId": "52866809-a474-4ee5-a11a-bdeecf2fc251",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "unagi restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "unagi restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Unagi restaurant near Ningyocho with a table for 2",
+          "after": "unagi restaurant near Ningyocho with a table for 2"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-04",
+      "repetition": 2,
+      "message": "Is there an unagi restaurant near Ningyocho that has a table for 2 on Tuesday, November 3 at 6:30 PM?\n",
+      "referenceTime": "2026-10-22T08:55:32.986Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/runner/2026-10-22T08-55-33-055Z-52866809-a474-4ee5-a11a-bdeecf2fc251.result.json",
+        "sha256": "cdf819738946725534180c6ede36b1b6b492919280f1cfaa70b0d115c39b486f",
+        "runId": "52866809-a474-4ee5-a11a-bdeecf2fc251",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "unagi restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "unagi restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Unagi restaurant near Ningyocho with a table for 2",
+          "after": "unagi restaurant near Ningyocho with a table for 2"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-04",
+      "repetition": 3,
+      "message": "Is there an unagi restaurant near Ningyocho that has a table for 2 on Tuesday, November 3 at 6:30 PM?\n",
+      "referenceTime": "2026-10-22T08:55:32.986Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-04-attempt-1/runner/2026-10-22T08-55-33-055Z-52866809-a474-4ee5-a11a-bdeecf2fc251.result.json",
+        "sha256": "cdf819738946725534180c6ede36b1b6b492919280f1cfaa70b0d115c39b486f",
+        "runId": "52866809-a474-4ee5-a11a-bdeecf2fc251",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "unagi restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "unagi restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Unagi restaurant near Ningyocho with a table for 2",
+          "after": "unagi restaurant near Ningyocho with a table for 2"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-05",
+      "repetition": 1,
+      "message": "Need a Chinese restaurant near Gotanda for 4 people on Saturday, October 31 at 7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.\n",
+      "referenceTime": "2026-10-22T09:01:13.130Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.result.json",
+        "sha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+        "runId": "28d5e06b-c9ab-4000-8edc-5f66376d9866",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "Chinese restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "under 6,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "spicy Sichuan food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "Chinese restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "under 6,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "spicy Sichuan food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-05",
+      "repetition": 2,
+      "message": "Need a Chinese restaurant near Gotanda for 4 people on Saturday, October 31 at 7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.\n",
+      "referenceTime": "2026-10-22T09:01:13.130Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.result.json",
+        "sha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+        "runId": "28d5e06b-c9ab-4000-8edc-5f66376d9866",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "Chinese restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "under 6,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "spicy Sichuan food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "Chinese restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "under 6,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "spicy Sichuan food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-05",
+      "repetition": 3,
+      "message": "Need a Chinese restaurant near Gotanda for 4 people on Saturday, October 31 at 7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.\n",
+      "referenceTime": "2026-10-22T09:01:13.130Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.result.json",
+        "sha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+        "runId": "28d5e06b-c9ab-4000-8edc-5f66376d9866",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "Chinese restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "under 6,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "spicy Sichuan food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "Chinese restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "under 6,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          },
+          {
+            "text": "spicy Sichuan food",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-06",
+      "repetition": 1,
+      "message": "Looking for an izakaya near Shimokitazawa for 5 people on Friday, October 30 at 7 PM.\n",
+      "referenceTime": "2026-10-22T09:09:26.670Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-06-attempt-1/runner/2026-10-22T09-09-26-737Z-26fa6d0e-0c30-431c-a5ba-2393eb7d8422.result.json",
+        "sha256": "2cc91369892fec0a92f686db5194f81493d3b01b63a4856daef2c77b4a56e3e5",
+        "runId": "26fa6d0e-0c30-431c-a5ba-2393eb7d8422",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "izakaya",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "izakaya",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-06",
+      "repetition": 2,
+      "message": "Looking for an izakaya near Shimokitazawa for 5 people on Friday, October 30 at 7 PM.\n",
+      "referenceTime": "2026-10-22T09:09:26.670Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-06-attempt-1/runner/2026-10-22T09-09-26-737Z-26fa6d0e-0c30-431c-a5ba-2393eb7d8422.result.json",
+        "sha256": "2cc91369892fec0a92f686db5194f81493d3b01b63a4856daef2c77b4a56e3e5",
+        "runId": "26fa6d0e-0c30-431c-a5ba-2393eb7d8422",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "izakaya",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "izakaya",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT1:p2-holdout-06",
+      "repetition": 3,
+      "message": "Looking for an izakaya near Shimokitazawa for 5 people on Friday, October 30 at 7 PM.\n",
+      "referenceTime": "2026-10-22T09:09:26.670Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-06-attempt-1/runner/2026-10-22T09-09-26-737Z-26fa6d0e-0c30-431c-a5ba-2393eb7d8422.result.json",
+        "sha256": "2cc91369892fec0a92f686db5194f81493d3b01b63a4856daef2c77b4a56e3e5",
+        "runId": "26fa6d0e-0c30-431c-a5ba-2393eb7d8422",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "izakaya",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "izakaya",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-01",
+      "repetition": 1,
+      "message": "Could you find a sukiyaki restaurant near Asakusa with a table for 2 on Wednesday, November 4 at 7 PM?\n",
+      "referenceTime": "2026-10-22T20:13:00.174Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-01-attempt-1/runner/2026-10-22T20-13-00-252Z-526b2b8c-342f-4a01-a8e2-b807ed5efe0f.result.json",
+        "sha256": "d0627659b5817d98eafa97877a456861d9c7800ff984dea93651b2a1b1dae898",
+        "runId": "526b2b8c-342f-4a01-a8e2-b807ed5efe0f",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "sukiyaki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "sukiyaki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-01",
+      "repetition": 2,
+      "message": "Could you find a sukiyaki restaurant near Asakusa with a table for 2 on Wednesday, November 4 at 7 PM?\n",
+      "referenceTime": "2026-10-22T20:13:00.174Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-01-attempt-1/runner/2026-10-22T20-13-00-252Z-526b2b8c-342f-4a01-a8e2-b807ed5efe0f.result.json",
+        "sha256": "d0627659b5817d98eafa97877a456861d9c7800ff984dea93651b2a1b1dae898",
+        "runId": "526b2b8c-342f-4a01-a8e2-b807ed5efe0f",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "sukiyaki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "sukiyaki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-01",
+      "repetition": 3,
+      "message": "Could you find a sukiyaki restaurant near Asakusa with a table for 2 on Wednesday, November 4 at 7 PM?\n",
+      "referenceTime": "2026-10-22T20:13:00.174Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-01-attempt-1/runner/2026-10-22T20-13-00-252Z-526b2b8c-342f-4a01-a8e2-b807ed5efe0f.result.json",
+        "sha256": "d0627659b5817d98eafa97877a456861d9c7800ff984dea93651b2a1b1dae898",
+        "runId": "526b2b8c-342f-4a01-a8e2-b807ed5efe0f",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "sukiyaki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "sukiyaki restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-02",
+      "repetition": 1,
+      "message": "We are 4 people looking for monjayaki near Kachidoki on Friday, October 30 at 6:30 PM, ideally under 4,000 yen per person.\n",
+      "referenceTime": "2026-10-22T20:21:53.488Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-02-attempt-1/runner/2026-10-22T20-21-53-560Z-f819f475-1c9b-477f-97f8-5a894c201a33.result.json",
+        "sha256": "d160d72d272ebfe0f3f07ab5b599e6fa9313cd485292a13aaf8143289a5103b6",
+        "runId": "f819f475-1c9b-477f-97f8-5a894c201a33",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "monjayaki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "under 4,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "monjayaki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "under 4,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "area.query",
+          "before": "near Kachidoki",
+          "after": "Kachidoki"
+        },
+        {
+          "path": "target.query",
+          "before": "Monjayaki restaurants near Kachidoki",
+          "after": "monjayaki near Kachidoki"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-02",
+      "repetition": 2,
+      "message": "We are 4 people looking for monjayaki near Kachidoki on Friday, October 30 at 6:30 PM, ideally under 4,000 yen per person.\n",
+      "referenceTime": "2026-10-22T20:21:53.488Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-02-attempt-1/runner/2026-10-22T20-21-53-560Z-f819f475-1c9b-477f-97f8-5a894c201a33.result.json",
+        "sha256": "d160d72d272ebfe0f3f07ab5b599e6fa9313cd485292a13aaf8143289a5103b6",
+        "runId": "f819f475-1c9b-477f-97f8-5a894c201a33",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "monjayaki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "under 4,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "monjayaki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "ideally under 4,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "addCriteria",
+          "before": [
+            {
+              "text": "monjayaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "under 4,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ],
+          "after": [
+            {
+              "text": "monjayaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "ideally under 4,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-02",
+      "repetition": 3,
+      "message": "We are 4 people looking for monjayaki near Kachidoki on Friday, October 30 at 6:30 PM, ideally under 4,000 yen per person.\n",
+      "referenceTime": "2026-10-22T20:21:53.488Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-02-attempt-1/runner/2026-10-22T20-21-53-560Z-f819f475-1c9b-477f-97f8-5a894c201a33.result.json",
+        "sha256": "d160d72d272ebfe0f3f07ab5b599e6fa9313cd485292a13aaf8143289a5103b6",
+        "runId": "f819f475-1c9b-477f-97f8-5a894c201a33",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "monjayaki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "under 4,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "monjayaki",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "ideally under 4,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "addCriteria",
+          "before": [
+            {
+              "text": "monjayaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "under 4,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ],
+          "after": [
+            {
+              "text": "monjayaki",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "ideally under 4,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ]
+        },
+        {
+          "path": "target.query",
+          "before": "Monjayaki restaurants near Kachidoki",
+          "after": "monjayaki near Kachidoki"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-03",
+      "repetition": 1,
+      "message": "Looking for a French restaurant near Ebisu for 2 on Saturday, October 31 at 7:30 PM. Our budget is at most 15,000 yen per person.\n",
+      "referenceTime": "2026-10-22T20:30:45.732Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-03-attempt-1/runner/2026-10-22T20-30-45-800Z-b9a978ac-8482-454e-88db-6755dc9b684c.result.json",
+        "sha256": "f7a399e341d94c83aba339d233f5e22654e57e785fa0f66bb9d711aab71fc92c",
+        "runId": "b9a978ac-8482-454e-88db-6755dc9b684c",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "French cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 15000,
+          "currency": "JPY"
+        }
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "French cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 15000,
+          "currency": "JPY"
+        }
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-03",
+      "repetition": 2,
+      "message": "Looking for a French restaurant near Ebisu for 2 on Saturday, October 31 at 7:30 PM. Our budget is at most 15,000 yen per person.\n",
+      "referenceTime": "2026-10-22T20:30:45.732Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-03-attempt-1/runner/2026-10-22T20-30-45-800Z-b9a978ac-8482-454e-88db-6755dc9b684c.result.json",
+        "sha256": "f7a399e341d94c83aba339d233f5e22654e57e785fa0f66bb9d711aab71fc92c",
+        "runId": "b9a978ac-8482-454e-88db-6755dc9b684c",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "French cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 15000,
+          "currency": "JPY"
+        }
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "French cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 15000,
+          "currency": "JPY"
+        }
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-03",
+      "repetition": 3,
+      "message": "Looking for a French restaurant near Ebisu for 2 on Saturday, October 31 at 7:30 PM. Our budget is at most 15,000 yen per person.\n",
+      "referenceTime": "2026-10-22T20:30:45.732Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-03-attempt-1/runner/2026-10-22T20-30-45-800Z-b9a978ac-8482-454e-88db-6755dc9b684c.result.json",
+        "sha256": "f7a399e341d94c83aba339d233f5e22654e57e785fa0f66bb9d711aab71fc92c",
+        "runId": "b9a978ac-8482-454e-88db-6755dc9b684c",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "French cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 15000,
+          "currency": "JPY"
+        }
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "French cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 15000,
+          "currency": "JPY"
+        }
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-04",
+      "repetition": 1,
+      "message": "There are 6 of us. Any Thai restaurant near Ikebukuro with a table on Thursday, November 5, sometime between 6 and 8 PM?\n",
+      "referenceTime": "2026-10-22T20:36:12.164Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-04-attempt-1/runner/2026-10-22T20-36-12-235Z-f9feab56-b5b3-4be4-8a3e-4a38d648a51b.result.json",
+        "sha256": "6679d8c30b0b08330a551fd2bb2bbaed799caa836e82e479cd09cc3ec8cc303c",
+        "runId": "f9feab56-b5b3-4be4-8a3e-4a38d648a51b",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "Thai restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "Thai restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Thai restaurant near Ikebukuro with a table for 6 on Thursday, November 5, between 6 and 8 PM",
+          "after": "Thai restaurant near Ikebukuro with a table for 6 on Thursday, November 5 between 6 and 8 PM"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-04",
+      "repetition": 2,
+      "message": "There are 6 of us. Any Thai restaurant near Ikebukuro with a table on Thursday, November 5, sometime between 6 and 8 PM?\n",
+      "referenceTime": "2026-10-22T20:36:12.164Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-04-attempt-1/runner/2026-10-22T20-36-12-235Z-f9feab56-b5b3-4be4-8a3e-4a38d648a51b.result.json",
+        "sha256": "6679d8c30b0b08330a551fd2bb2bbaed799caa836e82e479cd09cc3ec8cc303c",
+        "runId": "f9feab56-b5b3-4be4-8a3e-4a38d648a51b",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "Thai restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "Thai restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-04",
+      "repetition": 3,
+      "message": "There are 6 of us. Any Thai restaurant near Ikebukuro with a table on Thursday, November 5, sometime between 6 and 8 PM?\n",
+      "referenceTime": "2026-10-22T20:36:12.164Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-04-attempt-1/runner/2026-10-22T20-36-12-235Z-f9feab56-b5b3-4be4-8a3e-4a38d648a51b.result.json",
+        "sha256": "6679d8c30b0b08330a551fd2bb2bbaed799caa836e82e479cd09cc3ec8cc303c",
+        "runId": "f9feab56-b5b3-4be4-8a3e-4a38d648a51b",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "Thai restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "Thai restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-05",
+      "repetition": 1,
+      "message": "Is there a sit-down soba restaurant near Azabu-Juban with a table for 3 on Tuesday, November 3 at 7 PM? Not a standing soba counter.\n",
+      "referenceTime": "2026-10-22T20:43:38.765Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-05-attempt-1/runner/2026-10-22T20-43-38-839Z-2e52f0d5-3b06-4ffa-9d79-39441e048cf6.result.json",
+        "sha256": "462f7b672feb581a428e523db3101d7e53229697aa8bbafa4ca2c256a9c4cecd",
+        "runId": "2e52f0d5-3b06-4ffa-9d79-39441e048cf6",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "soba restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "sit-down restaurant with tables",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "standing soba counter",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "soba restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "sit-down restaurant with tables",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "standing soba counter",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "sit-down soba restaurant near Azabu-Juban with a table for 3",
+          "after": "Sit-down soba restaurant near Azabu-Juban with a table for 3"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-05",
+      "repetition": 2,
+      "message": "Is there a sit-down soba restaurant near Azabu-Juban with a table for 3 on Tuesday, November 3 at 7 PM? Not a standing soba counter.\n",
+      "referenceTime": "2026-10-22T20:43:38.765Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-05-attempt-1/runner/2026-10-22T20-43-38-839Z-2e52f0d5-3b06-4ffa-9d79-39441e048cf6.result.json",
+        "sha256": "462f7b672feb581a428e523db3101d7e53229697aa8bbafa4ca2c256a9c4cecd",
+        "runId": "2e52f0d5-3b06-4ffa-9d79-39441e048cf6",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "soba restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "sit-down restaurant with tables",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "standing soba counter",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "soba restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "sit-down restaurant with tables",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "standing soba counter",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-05",
+      "repetition": 3,
+      "message": "Is there a sit-down soba restaurant near Azabu-Juban with a table for 3 on Tuesday, November 3 at 7 PM? Not a standing soba counter.\n",
+      "referenceTime": "2026-10-22T20:43:38.765Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-05-attempt-1/runner/2026-10-22T20-43-38-839Z-2e52f0d5-3b06-4ffa-9d79-39441e048cf6.result.json",
+        "sha256": "462f7b672feb581a428e523db3101d7e53229697aa8bbafa4ca2c256a9c4cecd",
+        "runId": "2e52f0d5-3b06-4ffa-9d79-39441e048cf6",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "soba restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "sit-down restaurant with tables",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "standing soba counter",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "soba restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "sit-down restaurant with tables",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "standing soba counter",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Sit-down soba restaurant near Azabu-Juban with a table for 3",
+          "after": "Sit-down soba restaurant near Azabu-Juban with a table for 3 on Tuesday, November 3 at 7 PM"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-06",
+      "repetition": 1,
+      "message": "We need oden near Shimbashi for 8 people on Friday, October 30, any time between 7 and 9 PM.\n",
+      "referenceTime": "2026-10-22T20:55:22.125Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-06-attempt-1/runner/2026-10-22T20-55-22-196Z-f6df6ee3-8afe-4ac1-9e72-dac007be4ff6.result.json",
+        "sha256": "7a4447681e0ee8260d4e7ace966cf65b35b9ac13bcf61fa04e9eda991548b5d1",
+        "runId": "f6df6ee3-8afe-4ac1-9e72-dac007be4ff6",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "oden",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "oden",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": [
+        {
+          "path": "target.query",
+          "before": "Oden restaurant near Shimbashi for 8 people on Friday, October 30, between 7 and 9 PM",
+          "after": "Oden restaurant near Shimbashi for 8 people"
+        }
+      ]
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-06",
+      "repetition": 2,
+      "message": "We need oden near Shimbashi for 8 people on Friday, October 30, any time between 7 and 9 PM.\n",
+      "referenceTime": "2026-10-22T20:55:22.125Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-06-attempt-1/runner/2026-10-22T20-55-22-196Z-f6df6ee3-8afe-4ac1-9e72-dac007be4ff6.result.json",
+        "sha256": "7a4447681e0ee8260d4e7ace966cf65b35b9ac13bcf61fa04e9eda991548b5d1",
+        "runId": "f6df6ee3-8afe-4ac1-9e72-dac007be4ff6",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "oden",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "oden",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    },
+    {
+      "caseId": "EXPOSED_HOLDOUT2:p2b-holdout-06",
+      "repetition": 3,
+      "message": "We need oden near Shimbashi for 8 people on Friday, October 30, any time between 7 and 9 PM.\n",
+      "referenceTime": "2026-10-22T20:55:22.125Z",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-06-attempt-1/runner/2026-10-22T20-55-22-196Z-f6df6ee3-8afe-4ac1-9e72-dac007be4ff6.result.json",
+        "sha256": "7a4447681e0ee8260d4e7ace966cf65b35b9ac13bcf61fa04e9eda991548b5d1",
+        "runId": "f6df6ee3-8afe-4ac1-9e72-dac007be4ff6",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "before": {
+        "criteria": [
+          {
+            "text": "oden",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "after": {
+        "criteria": [
+          {
+            "text": "oden",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": null
+      },
+      "allPatchChanges": []
+    }
+  ]
+}

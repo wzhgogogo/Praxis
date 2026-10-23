@@ -1,0 +1,20 @@
+{
+  "call": 45,
+  "id": "EXPOSED_HOLDOUT1:p2-holdout-02:r2:before",
+  "attempt": 1,
+  "requestSha256": "c0989c3f5de912cd2295e8e871cf73a5d3ff3a8828c4c62b8d9dd6550fff0b60",
+  "response": {
+    "invocationId": "bb1559c8-cff0-464a-b69d-101589bd0c06",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Italian restaurant near Sangenjaya\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-30\", \"raw\": \"Friday, October 30\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:30\", \"latest\": \"19:30\", \"raw\": \"7:30 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Sangenjaya\"}}, {\"field\": \"BUDGET_PER_PERSON\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"BUDGET_PER_PERSON\", \"max\": 8000, \"currency\": \"JPY\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Italian restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2188,
+    "providerRequestId": "829b8795-6fba-4fb1-8b71-ad83583620ff",
+    "usage": {
+      "inputTokens": 6000,
+      "outputTokens": 382,
+      "totalTokens": 6382
+    }
+  }
+}

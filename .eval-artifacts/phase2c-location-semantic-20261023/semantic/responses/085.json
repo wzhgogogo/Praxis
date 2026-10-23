@@ -1,0 +1,20 @@
+{
+  "call": 85,
+  "id": "EXPOSED_HOLDOUT2:p2b-holdout-03:r1:before",
+  "attempt": 1,
+  "requestSha256": "3860be8e0ad8afed9c9ef2eea801d745b59208d8fa9f32dd5fc473ac73994853",
+  "response": {
+    "invocationId": "52c2e17b-5e8e-450e-abd3-f0c9c6ab1e3a",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"French restaurant near Ebisu\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-31\", \"raw\": \"Saturday, October 31\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:30\", \"latest\": \"19:30\", \"raw\": \"7:30 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Ebisu\"}}, {\"field\": \"BUDGET_PER_PERSON\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"BUDGET_PER_PERSON\", \"max\": 15000, \"currency\": \"JPY\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"French cuisine\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1736,
+    "providerRequestId": "ce30c607-a980-4701-87cb-c627753028e4",
+    "usage": {
+      "inputTokens": 6001,
+      "outputTokens": 378,
+      "totalTokens": 6379
+    }
+  }
+}

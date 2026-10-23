@@ -1,0 +1,20 @@
+{
+  "call": 18,
+  "id": "DEVELOPMENT:p2l-kf-h005-20261105:r3:after",
+  "attempt": 1,
+  "requestSha256": "6fedc9cad4fbaaebf2d4d34ba6527e69858d63a92b319bfebc351f4d6d0c0486",
+  "response": {
+    "invocationId": "7b4744c1-fc70-4eb8-8380-357b526b2741",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Nearby restaurants with open tables on Thursday, November 5 at 6 PM for 4 people, local food only, no fast food\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-05\", \"raw\": \"Thursday, November 5\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:00\", \"latest\": \"18:00\", \"raw\": \"6 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 4, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"nearby\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"local food\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"fast food\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2426,
+    "providerRequestId": "ca49793c-edac-4d07-b9ca-2a200f3e25b7",
+    "usage": {
+      "inputTokens": 6145,
+      "outputTokens": 402,
+      "totalTokens": 6547
+    }
+  }
+}

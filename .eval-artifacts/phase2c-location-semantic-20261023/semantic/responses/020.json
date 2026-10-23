@@ -1,0 +1,20 @@
+{
+  "call": 20,
+  "id": "DEVELOPMENT:p2l-kf-h003-20261106:r1:after",
+  "attempt": 1,
+  "requestSha256": "cee4c857cee7982fd38b0452cd5e9208ff332e6da1b6c74dfbe4b223bae3fe7a",
+  "response": {
+    "invocationId": "429faacb-d247-4ca4-8555-3b91729278eb",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Team dinner venue nearby\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-06\", \"raw\": \"Friday, November 6\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"AFTER_WORK\", \"raw\": \"after work\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 10, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"nearby\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"around 3,000 yen per person\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"good for drinks\", \"polarity\": \"POSITIVE\", \"strength\": \"UNSPECIFIED\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"private room\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"suitable for a team dinner\", \"polarity\": \"POSITIVE\", \"strength\": \"UNSPECIFIED\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2379,
+    "providerRequestId": "73c02cae-68e4-4a0a-947c-d76b92ff7eb7",
+    "usage": {
+      "inputTokens": 6156,
+      "outputTokens": 483,
+      "totalTokens": 6639
+    }
+  }
+}

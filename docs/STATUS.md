@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.367
+- Document revision: 4.368
 - Last updated: 2026-10-23
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-23 Phase2c STOPPED / semantic not satisfied:** Stopped Phase2c after real semantic replay failed:108/108 trials executed with108 calls, no retries; v22 still adds HARD sit-down restaurant with tables in3/3 after samples. Relevant soft-upper-bound after6/6 correct but v21 controls also correct, so no sampled improvement claim. Full next after sweep needs54 calls, projected162>150; remaining42 is insufficient, no quota extension or extra sampling. Google29/30 on30 calls; Omotesando route type left unsupported. Six saved rejected-location observations now resolve,3 recorded empty lists remain unresolved,40 old selected projections lack ranked response/types and remain NOT_EVALUATED. Goya saved query/date/party and19:00 response confirmed, collection parser rejects non-clock tail; diagnosis only, no provider-specific patch. Zero-call offline five gates1021/136, cached69/69+5/5 and independent22/22 calibration/normal declarations20/20 PASS do not override semantic failure. Site-specific lines net0 this batch; historical increase retained. Mainline integrated/pushed8ba0c54a; repair branch local only, pending user decision. New source websites/completeLive0; chain model count3634+108=3742/5000, local cap150 unchanged. [Report](../.eval-artifacts/phase2c-location-semantic-20261023/progress-report.md).
 
 - **2026-10-23 Phase2c semantic candidate:** Phase2c semantic candidate: promptv21 to v22, schema3 and compiler unchanged. Generic entailment/polarity rule rejects invented positive prerequisites/amenities; numeric relation/direction/strictness is independent of condition strength, so a flexible ceiling remains a SOFT ceiling. Valid prompt-wire red retained,31 semantic tests pass; actual saved affected-family proposals preserved as quality red evidence. Prepared18 exposed families x3 repetitions xbefore/after=108 trials, existing schema retry envelopes frozen, real-model hard cap150. Same captured clocks on both sides;54 before system messages byte-identical to original captures. Original materialized-clock inputs retained, no historical request/Gold rewrite. Real semantic replay pending; current new Google30, source websites/Live0. [Plan](../.eval-artifacts/phase2c-location-semantic-20261023/continuation-plan.md).
 

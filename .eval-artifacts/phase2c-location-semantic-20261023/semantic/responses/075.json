@@ -1,0 +1,20 @@
+{
+  "call": 75,
+  "id": "EXPOSED_HOLDOUT2:p2b-holdout-01:r2:before",
+  "attempt": 1,
+  "requestSha256": "78136309370f90c0387845b7536838a24c6307722ba420b4812ecd5c67225cec",
+  "response": {
+    "invocationId": "a8bcbf6a-67b6-4b34-8b23-5f7a678b2042",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Sukiyaki restaurant near Asakusa with a table for 2\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-04\", \"raw\": \"Wednesday, November 4\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Asakusa\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"sukiyaki restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2121,
+    "providerRequestId": "29d8a9c0-8349-422b-8552-36a5b14cd456",
+    "usage": {
+      "inputTokens": 5994,
+      "outputTokens": 343,
+      "totalTokens": 6337
+    }
+  }
+}

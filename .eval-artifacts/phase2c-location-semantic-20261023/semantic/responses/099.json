@@ -1,0 +1,20 @@
+{
+  "call": 99,
+  "id": "EXPOSED_HOLDOUT2:p2b-holdout-05:r2:before",
+  "attempt": 1,
+  "requestSha256": "1824ea7029d34add405d1ceae4433f3b4836ec2d01e751688fc7942e448dd518",
+  "response": {
+    "invocationId": "d3344eeb-470f-44b4-9b23-25d2df0ae829",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Sit-down soba restaurant near Azabu-Juban with a table for 3\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-03\", \"raw\": \"Tuesday, November 3\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 3, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Azabu-Juban\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"soba restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"sit-down restaurant with tables\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"standing soba counter\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2163,
+    "providerRequestId": "f8d94dd7-91eb-4a84-bf3f-f1217874d681",
+    "usage": {
+      "inputTokens": 6002,
+      "outputTokens": 452,
+      "totalTokens": 6454
+    }
+  }
+}

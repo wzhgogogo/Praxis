@@ -1,0 +1,20 @@
+{
+  "call": 81,
+  "id": "EXPOSED_HOLDOUT2:p2b-holdout-02:r2:before",
+  "attempt": 1,
+  "requestSha256": "35056425f4b33ec2e3511dd3ba0492398184d8371f23327cfb8b98ac5b75782e",
+  "response": {
+    "invocationId": "2df76fb6-35a7-4d37-a846-1e95a39fd6ea",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"monjayaki near Kachidoki\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-30\", \"raw\": \"Friday, October 30\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:30\", \"latest\": \"18:30\", \"raw\": \"6:30 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 4, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Kachidoki\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"monjayaki\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"under 4,000 yen per person\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1846,
+    "providerRequestId": "ad9961ce-25e8-4299-a4f2-606d41e67e65",
+    "usage": {
+      "inputTokens": 6002,
+      "outputTokens": 393,
+      "totalTokens": 6395
+    }
+  }
+}

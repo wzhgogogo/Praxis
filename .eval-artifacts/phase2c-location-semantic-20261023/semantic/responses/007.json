@@ -1,0 +1,20 @@
+{
+  "call": 7,
+  "id": "DEVELOPMENT:p2l-kf-h002-20261107:r1:before",
+  "attempt": 1,
+  "requestSha256": "2b73b9346eaeb9aa14b527e75a8055e2f5721eeb948aedaea96f840d4739689e",
+  "response": {
+    "invocationId": "686da944-e0a4-4848-8b1d-44446167f9af",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"First-date restaurant near Higashi-Ginza\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-07\", \"raw\": \"Saturday, November 7\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:30\", \"latest\": \"18:30\", \"raw\": \"6:30 PM\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Higashi-Ginza\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"first-date restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"UNSPECIFIED\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"around 10,000 yen per person\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"hot-pot restaurants\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Sichuan/Hunan-style cuisine where spicy food is the main focus\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2383,
+    "providerRequestId": "2985c2f2-6566-4ebf-b23b-3fb716d83bde",
+    "usage": {
+      "inputTokens": 6016,
+      "outputTokens": 469,
+      "totalTokens": 6485
+    }
+  }
+}

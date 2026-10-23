@@ -1,0 +1,20 @@
+{
+  "call": 19,
+  "id": "DEVELOPMENT:p2l-kf-h003-20261106:r1:before",
+  "attempt": 1,
+  "requestSha256": "8b0772350d44e667191433aa7d315b167cb88f6691ca7dbd6ea08a31f8f8e8cd",
+  "response": {
+    "invocationId": "91a65269-659a-4da4-8590-f8ae6b98c4b8",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Team dinner venue nearby on Friday, November 6 after work\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-06\", \"raw\": \"Friday, November 6\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"AFTER_WORK\", \"raw\": \"after work\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 10, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"nearby\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"around 3,000 yen per person\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"good for drinks\", \"polarity\": \"POSITIVE\", \"strength\": \"UNSPECIFIED\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"private room\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"suitable for a team dinner\", \"polarity\": \"POSITIVE\", \"strength\": \"UNSPECIFIED\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2620,
+    "providerRequestId": "94749881-65f5-4ebb-8f34-a69f2b817499",
+    "usage": {
+      "inputTokens": 6004,
+      "outputTokens": 491,
+      "totalTokens": 6495
+    }
+  }
+}

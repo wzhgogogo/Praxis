@@ -1,0 +1,20 @@
+{
+  "call": 57,
+  "id": "EXPOSED_HOLDOUT1:p2-holdout-04:r2:before",
+  "attempt": 1,
+  "requestSha256": "00621d516fc631aa0f5595507b7c18926ad91530bbf81045174e73f1274105dc",
+  "response": {
+    "invocationId": "2ea74d52-a264-400b-8170-ef5ee777e027",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Unagi restaurant near Ningyocho with a table for 2\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-03\", \"raw\": \"Tuesday, November 3\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:30\", \"latest\": \"18:30\", \"raw\": \"6:30 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Ningyocho\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"unagi restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1737,
+    "providerRequestId": "450e6734-c8db-41a4-92d5-98d14ca06670",
+    "usage": {
+      "inputTokens": 5995,
+      "outputTokens": 343,
+      "totalTokens": 6338
+    }
+  }
+}
