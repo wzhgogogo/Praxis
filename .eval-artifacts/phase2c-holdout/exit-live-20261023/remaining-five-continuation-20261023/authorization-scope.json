@@ -1,0 +1,24 @@
+{
+  "approvedBy": "USER",
+  "message": "Continue h14 through h18, independently random2-to4-minute finish-to-start gaps",
+  "runIds": [
+    "h-14",
+    "h-15",
+    "h-16",
+    "h-17",
+    "h-18"
+  ],
+  "supersedesPriorBatchStopOnly": true,
+  "priorFailedCaseNotRetried": true,
+  "normalEnvironmentQuotaUnchanged": true,
+  "timeoutMs": 500000,
+  "decisionTimeoutMs": 30000,
+  "intervalMs": [
+    120000,
+    240000
+  ],
+  "sourceCooldownUntil": "2026-10-23T08:38:19.949Z",
+  "capabilityEvaluation": "DEFERRED",
+  "productChanges": 0,
+  "slice": "Run the remaining five original slots sequentially; retain earlier attempts/quotas, source cooldown, safety and model/Google ceilings. Commit freeze before Live; commit raw artifacts before blind wording extraction, then private push and stop."
+}
