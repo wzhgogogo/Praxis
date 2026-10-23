@@ -1,0 +1,56 @@
+{
+  "status": "ROOT_CAUSE_REPRODUCED_WITH_READ_ONLY_COUNTERFACTUAL",
+  "productionFile": "src/integrations/tablecheck/tablecheck-public-query.ts",
+  "productionSha256": "b034338b52687d8843eaeb1e9a71b556d5f34d8fabc7e878094b4d9920f997e8",
+  "liveFreeze": {
+    "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/live-freeze.json",
+    "sha256": "b99babc38d91b491730e32c8506b1afbb22aa13ff980263f41019d31c07fb5a7"
+  },
+  "publicSearchDocument": {
+    "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/user-network-diagnosis-20261023/public-search.result.json",
+    "sha256": "51e88e511da2b2dd6f4bbf4f3797803468e4f863da0c8071823494084f8e9c46"
+  },
+  "currentSearchApi": {
+    "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/user-network-diagnosis-20261023/search-v4-query.result.json",
+    "sha256": "a9e04eeae47b2124def3936dcde42a415b7d9de7a455660b6ce1ccef831afa32"
+  },
+  "exactFacetDirectRead": {
+    "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/user-network-diagnosis-20261023/facet-direct.result.json",
+    "sha256": "b81a7a1d696af87cceebf2ff4a7931db06636b151f0cc465a820fd9c34c11101"
+  },
+  "originalGuard": {
+    "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/user-network-diagnosis-20261023/guarded-search.result.json",
+    "sha256": "d19a1d8624527dc8f66f3326560acff8831619efcdbfc8d97963bd2851928fa1"
+  },
+  "counterfactual": {
+    "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/user-network-diagnosis-20261023/counterfactual-search.result.json",
+    "sha256": "c884401854266f1fa4c15f90184419a3643a855637a38abe8582ab63e00fe528"
+  },
+  "originalBusyVisible": true,
+  "counterfactualBusyVisible": false,
+  "counterfactualSourceResultCount": 654,
+  "originalBlockedRequest": {
+    "code": "BLOCKED_METHOD",
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "method": "OPTIONS",
+    "resourceType": "xhr",
+    "queryKeys": [
+      "cuisine",
+      "lat",
+      "lng",
+      "party_size",
+      "queryProfile",
+      "radius_km",
+      "scope"
+    ]
+  },
+  "cause": "Required hits rejects genuine browser preflight for the source-owned no-hits cuisine facet GET; search main GET can200 while the page displays busy",
+  "onlyCounterfactualChange": "Transient exact seven-key source-owned GET rule with existing x-api-key CORS binding; never installed into production or Live",
+  "productionFilesChanged": 0,
+  "models": 0,
+  "googleRequests": 0,
+  "capabilityJudgments": 0,
+  "priorIncorrectHypothesis": "A missing new search host rule was suggested, then immediately rejected after full-file/SHA verification; current host is already allowed",
+  "scopeLimit": "Reproduces the exact h14 URL. Earlier busy-page attempts are not automatically relabeled."
+}
