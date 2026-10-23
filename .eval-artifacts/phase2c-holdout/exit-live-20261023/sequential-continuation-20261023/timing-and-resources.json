@@ -1,0 +1,331 @@
+{
+  "evaluation": "DEFERRED_NO_CAPABILITY_RESULTS",
+  "plannedSlots": 18,
+  "recordedSlots": 13,
+  "notReached": [
+    "h-14",
+    "h-15",
+    "h-16",
+    "h-17",
+    "h-18"
+  ],
+  "recordedAttempts": 15,
+  "formalLiveAttempts": 14,
+  "runnerResults": 11,
+  "missingRunnerResults": [
+    {
+      "runId": "h-01",
+      "attempt": 2,
+      "classification": "ORCHESTRATION_INTERRUPTED",
+      "directory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-01-attempt-2",
+      "modelCalls": 40
+    },
+    {
+      "runId": "h-03",
+      "attempt": 1,
+      "classification": "ENV_FAILURE",
+      "directory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-1",
+      "modelCalls": 29
+    },
+    {
+      "runId": "h-13",
+      "attempt": 1,
+      "classification": "ORCHESTRATION_INTERRUPTED",
+      "directory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/execution/A/h-13-attempt-1",
+      "modelCalls": 40
+    }
+  ],
+  "attempts": [
+    {
+      "runId": "h-01",
+      "attempt": 1,
+      "queue": "A",
+      "startedAt": "2026-10-23T05:14:50.331Z",
+      "finishedAt": "2026-10-23T05:15:41.405Z",
+      "elapsedOuterMs": 51074,
+      "productElapsedMs": null,
+      "modelCalls": 0,
+      "googleKnownCount": 2,
+      "googleExact": true,
+      "resultAvailable": false,
+      "gapMs": null,
+      "overlaps": []
+    },
+    {
+      "runId": "h-02",
+      "attempt": 1,
+      "queue": "B",
+      "startedAt": "2026-10-23T05:16:20.574Z",
+      "finishedAt": "2026-10-23T05:21:11.441Z",
+      "elapsedOuterMs": 290867,
+      "productElapsedMs": 267836,
+      "modelCalls": 27,
+      "googleKnownCount": 5,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": null,
+      "overlaps": [
+        {
+          "runId": "h-01",
+          "attempt": 2,
+          "queue": "A"
+        }
+      ]
+    },
+    {
+      "runId": "h-01",
+      "attempt": 2,
+      "queue": "A",
+      "startedAt": "2026-10-23T05:20:42.109Z",
+      "finishedAt": "2026-10-23T05:29:02.154Z",
+      "elapsedOuterMs": 500045,
+      "productElapsedMs": null,
+      "modelCalls": 40,
+      "googleKnownCount": 2,
+      "googleExact": false,
+      "resultAvailable": false,
+      "gapMs": null,
+      "overlaps": [
+        {
+          "runId": "h-02",
+          "attempt": 1,
+          "queue": "B"
+        },
+        {
+          "runId": "h-04",
+          "attempt": 1,
+          "queue": "B"
+        }
+      ]
+    },
+    {
+      "runId": "h-04",
+      "attempt": 1,
+      "queue": "B",
+      "startedAt": "2026-10-23T05:26:12.184Z",
+      "finishedAt": "2026-10-23T05:31:02.323Z",
+      "elapsedOuterMs": 290139,
+      "productElapsedMs": 259762,
+      "modelCalls": 22,
+      "googleKnownCount": 3,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": null,
+      "overlaps": [
+        {
+          "runId": "h-01",
+          "attempt": 2,
+          "queue": "A"
+        }
+      ]
+    },
+    {
+      "runId": "h-03",
+      "attempt": 1,
+      "queue": "A",
+      "startedAt": "2026-10-23T05:34:03.011Z",
+      "finishedAt": "2026-10-23T05:39:51.223Z",
+      "elapsedOuterMs": 348212,
+      "productElapsedMs": null,
+      "modelCalls": 29,
+      "googleKnownCount": 2,
+      "googleExact": false,
+      "resultAvailable": false,
+      "gapMs": null,
+      "overlaps": [
+        {
+          "runId": "h-06",
+          "attempt": 1,
+          "queue": "B"
+        }
+      ]
+    },
+    {
+      "runId": "h-06",
+      "attempt": 1,
+      "queue": "B",
+      "startedAt": "2026-10-23T05:36:03.280Z",
+      "finishedAt": "2026-10-23T05:37:02.689Z",
+      "elapsedOuterMs": 59409,
+      "productElapsedMs": 21680,
+      "modelCalls": 6,
+      "googleKnownCount": 2,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": null,
+      "overlaps": [
+        {
+          "runId": "h-03",
+          "attempt": 1,
+          "queue": "A"
+        }
+      ]
+    },
+    {
+      "runId": "h-03",
+      "attempt": 2,
+      "queue": "A",
+      "startedAt": "2026-10-23T05:54:52.281Z",
+      "finishedAt": "2026-10-23T06:02:58.665Z",
+      "elapsedOuterMs": 486384,
+      "productElapsedMs": 457907,
+      "modelCalls": 47,
+      "googleKnownCount": 4,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": null,
+      "overlaps": []
+    },
+    {
+      "runId": "h-05",
+      "attempt": 1,
+      "queue": "A",
+      "startedAt": "2026-10-23T06:07:58.742Z",
+      "finishedAt": "2026-10-23T06:12:11.668Z",
+      "elapsedOuterMs": 252926,
+      "productElapsedMs": 226133,
+      "modelCalls": 22,
+      "googleKnownCount": 5,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": null,
+      "overlaps": []
+    },
+    {
+      "runId": "h-07",
+      "attempt": 1,
+      "queue": "A",
+      "startedAt": "2026-10-23T06:17:12.452Z",
+      "finishedAt": "2026-10-23T06:24:50.625Z",
+      "elapsedOuterMs": 458173,
+      "productElapsedMs": 429178,
+      "modelCalls": 47,
+      "googleKnownCount": 11,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": null,
+      "overlaps": []
+    },
+    {
+      "runId": "h-08",
+      "attempt": 1,
+      "queue": "B",
+      "startedAt": "2026-10-23T06:29:51.572Z",
+      "finishedAt": "2026-10-23T06:34:48.845Z",
+      "elapsedOuterMs": 297273,
+      "productElapsedMs": 262844,
+      "modelCalls": 26,
+      "googleKnownCount": 5,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": null,
+      "overlaps": []
+    },
+    {
+      "runId": "h-09",
+      "attempt": 1,
+      "queue": "A",
+      "startedAt": "2026-10-23T06:39:49.407Z",
+      "finishedAt": "2026-10-23T06:47:48.287Z",
+      "elapsedOuterMs": 478880,
+      "productElapsedMs": 457674,
+      "modelCalls": 47,
+      "googleKnownCount": 4,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": null,
+      "overlaps": []
+    },
+    {
+      "runId": "h-10",
+      "attempt": 1,
+      "queue": "B",
+      "startedAt": "2026-10-23T06:52:48.905Z",
+      "finishedAt": "2026-10-23T06:57:24.267Z",
+      "elapsedOuterMs": 275362,
+      "productElapsedMs": 250421,
+      "modelCalls": 25,
+      "googleKnownCount": 3,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": null,
+      "overlaps": []
+    },
+    {
+      "runId": "h-11",
+      "attempt": 1,
+      "queue": "A",
+      "startedAt": "2026-10-23T07:00:59.472Z",
+      "finishedAt": "2026-10-23T07:04:18.799Z",
+      "elapsedOuterMs": 199327,
+      "productElapsedMs": 176092,
+      "modelCalls": 21,
+      "googleKnownCount": 5,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": 215000,
+      "overlaps": []
+    },
+    {
+      "runId": "h-12",
+      "attempt": 1,
+      "queue": "B",
+      "startedAt": "2026-10-23T07:07:37.023Z",
+      "finishedAt": "2026-10-23T07:13:28.269Z",
+      "elapsedOuterMs": 351246,
+      "productElapsedMs": 327837,
+      "modelCalls": 36,
+      "googleKnownCount": 4,
+      "googleExact": true,
+      "resultAvailable": true,
+      "gapMs": 198000,
+      "overlaps": []
+    },
+    {
+      "runId": "h-13",
+      "attempt": 1,
+      "queue": "A",
+      "startedAt": "2026-10-23T07:15:45.733Z",
+      "finishedAt": "2026-10-23T07:24:07.771Z",
+      "elapsedOuterMs": 502038,
+      "productElapsedMs": null,
+      "modelCalls": 40,
+      "googleKnownCount": 2,
+      "googleExact": false,
+      "resultAvailable": false,
+      "gapMs": 137000,
+      "overlaps": []
+    }
+  ],
+  "totals": {
+    "models": 4231,
+    "modelLimit": 5000,
+    "fullLiveRuns": 86,
+    "fullLiveLimit": 100,
+    "environmentReruns": 5,
+    "environmentRerunLimit": 10,
+    "newModels": 435,
+    "newFullLiveRuns": 14,
+    "newEnvironmentReruns": 2,
+    "liveGoogleKnownLowerBound": 59,
+    "liveGoogleExact": false,
+    "googleUnknownProductTotals": [
+      {
+        "runId": "h-01",
+        "attempt": 2
+      },
+      {
+        "runId": "h-03",
+        "attempt": 1
+      },
+      {
+        "runId": "h-13",
+        "attempt": 1
+      }
+    ],
+    "witnessGoogle": 11,
+    "witnessSourceHttp": 42
+  },
+  "liveFreezeSha256": "f080870439cb2f6acf7cc82b27b5dd476abef245f8799bd428f2061fb7ecab7d",
+  "previousFreezeSha256": "303b42703b70e01f94b8590b4984159ac9f8875023616cf1a6e699976b08935e"
+}

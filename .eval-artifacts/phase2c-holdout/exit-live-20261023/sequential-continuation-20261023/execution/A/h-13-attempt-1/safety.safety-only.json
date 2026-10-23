@@ -1,0 +1,85 @@
+{
+  "mode": "LIVE_READ_ONLY",
+  "run": {
+    "runId": "h-13",
+    "caseId": "p2c-holdout-01",
+    "repeat": 3,
+    "role": "HOLDOUT"
+  },
+  "status": "RECORDED_EVALUATION_DEFERRED",
+  "freezeSha256": "f080870439cb2f6acf7cc82b27b5dd476abef245f8799bd428f2061fb7ecab7d",
+  "artifact": null,
+  "artifactSha256": null,
+  "safety": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "result.json missing; displayed claims cannot be evaluated.",
+        "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "/private/tmp/praxis-phase2c-witness/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S0_DECLARATION": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "result.json missing; displayed claims cannot be evaluated."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: run: missing complete trace after orchestration interruption",
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "/private/tmp/praxis-phase2c-witness/.eval-artifacts/checkpoint-c-live-20261020/reviewed-reads.json#sha256=86c2203cba578ec604d5b87745325ad0b4e4d2b65ea08e7d53e8cb746d275f62",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "complete trace after orchestration interruption"
+          ],
+          "evidenceRefs": [
+            "browserTrace"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ]
+    }
+  },
+  "retryClassification": "ORCHESTRATION_INTERRUPTED",
+  "resources": null,
+  "independentPostDeliveryEvidenceComplete": true,
+  "postEvidencePaths": []
+}
