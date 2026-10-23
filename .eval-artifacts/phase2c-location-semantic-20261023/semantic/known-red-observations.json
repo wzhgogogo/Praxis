@@ -1,0 +1,90 @@
+{
+  "status": "EXPOSED_REVIEWED_FAILURES",
+  "evidence": "Actual saved proposals; numeric relation and added furniture requirements are compared to literal user wording, not inferred from test doubles.",
+  "rows": [
+    {
+      "id": "EXPOSED_HOLDOUT1:p2-holdout-05",
+      "message": "Need a Chinese restaurant near Gotanda for 4 people on Saturday, October 31 at 7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.\n",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/live-results/h-05-attempt-1/runner/2026-10-22T09-01-13-202Z-28d5e06b-c9ab-4000-8edc-5f66376d9866.result.json",
+        "sha256": "2992203ef83d6932e6d53eb9ae24826efbe1c8075e62333d9c1166eb5cbee86a",
+        "runId": "28d5e06b-c9ab-4000-8edc-5f66376d9866",
+        "cohort": "EXPOSED_HOLDOUT1"
+      },
+      "originalCriteria": [
+        {
+          "kind": "CRITERION",
+          "text": "Chinese restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "kind": "CRITERION",
+          "text": "under 6,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        },
+        {
+          "kind": "CRITERION",
+          "text": "spicy Sichuan food",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    {
+      "id": "EXPOSED_HOLDOUT2:p2b-holdout-02",
+      "message": "We are 4 people looking for monjayaki near Kachidoki on Friday, October 30 at 6:30 PM, ideally under 4,000 yen per person.\n",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-02-attempt-1/runner/2026-10-22T20-21-53-560Z-f819f475-1c9b-477f-97f8-5a894c201a33.result.json",
+        "sha256": "d160d72d272ebfe0f3f07ab5b599e6fa9313cd485292a13aaf8143289a5103b6",
+        "runId": "f819f475-1c9b-477f-97f8-5a894c201a33",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "originalCriteria": [
+        {
+          "kind": "CRITERION",
+          "text": "monjayaki",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "kind": "CRITERION",
+          "text": "around 4,000 yen per person or less",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        }
+      ]
+    },
+    {
+      "id": "EXPOSED_HOLDOUT2:p2b-holdout-05",
+      "message": "Is there a sit-down soba restaurant near Azabu-Juban with a table for 3 on Tuesday, November 3 at 7 PM? Not a standing soba counter.\n",
+      "source": {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/exit-live/h-05-attempt-1/runner/2026-10-22T20-43-38-839Z-2e52f0d5-3b06-4ffa-9d79-39441e048cf6.result.json",
+        "sha256": "462f7b672feb581a428e523db3101d7e53229697aa8bbafa4ca2c256a9c4cecd",
+        "runId": "2e52f0d5-3b06-4ffa-9d79-39441e048cf6",
+        "cohort": "EXPOSED_HOLDOUT2"
+      },
+      "originalCriteria": [
+        {
+          "kind": "CRITERION",
+          "text": "soba restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "kind": "CRITERION",
+          "text": "sit-down restaurant with tables",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "kind": "CRITERION",
+          "text": "standing soba counter",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ]
+    }
+  ]
+}

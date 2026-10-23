@@ -65,7 +65,7 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v21");
+  assert.equal(request.promptVersion, "v22");
   assert.deepEqual(request.outputSchema, {
     name: "restaurant-semantic-proposal",
     version: "3",
@@ -80,6 +80,9 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.match(request.messages[0]!.content, /code, not you, materializes relative dates and times/);
   assert.match(request.messages[0]!.content, /Flexibility does not\s+erase the preference it qualifies/i);
   assert.match(request.messages[0]!.content, /retain the condition with SOFT strength/i);
+  assert.match(request.messages[0]!.content, /Preserve numeric direction and strictness independently of strength/);
+  assert.match(request.messages[0]!.content, /Do not turn a negative exclusion into an unstated positive prerequisite/);
+  assert.match(request.messages[0]!.content, /Do not add implementation details or associated amenities/);
   assert.match(request.messages[0]!.content, /\{"kind":"DATE","value":"YYYY-MM-DD","raw":"the user expression"\}/);
   assert.match(request.messages[0]!.content, /\{"kind":"TIME_WINDOW","earliest":"HH:mm","latest":"HH:mm","raw":"7 PM"\}/);
   assert.match(request.messages[0]!.content, /\{"kind":"TIME_WINDOW","daypart":"AFTERNOON","relativeDay":"TODAY","raw":"this afternoon"\}/);

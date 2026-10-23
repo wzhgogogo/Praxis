@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.366
+- Document revision: 4.367
 - Last updated: 2026-10-23
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-23 Phase2c semantic candidate:** Phase2c semantic candidate: promptv21 to v22, schema3 and compiler unchanged. Generic entailment/polarity rule rejects invented positive prerequisites/amenities; numeric relation/direction/strictness is independent of condition strength, so a flexible ceiling remains a SOFT ceiling. Valid prompt-wire red retained,31 semantic tests pass; actual saved affected-family proposals preserved as quality red evidence. Prepared18 exposed families x3 repetitions xbefore/after=108 trials, existing schema retry envelopes frozen, real-model hard cap150. Same captured clocks on both sides;54 before system messages byte-identical to original captures. Original materialized-clock inputs retained, no historical request/Gold rewrite. Real semantic replay pending; current new Google30, source websites/Live0. [Plan](../.eval-artifacts/phase2c-location-semantic-20261023/continuation-plan.md).
 
 - **2026-10-23 Phase2c location candidate:** Phase2c location candidate: delete spelling/suffix admission and use ranked valid geographic observations; preserve100km context and leading-three separation bound, merchant-only unresolved. Same adopted center/name exposed in Web reply and artifact; original AREA retained. Valid saved Ningyocho red and actual Web-composition display red retained; google24/24, Web production-composition1/1, typecheck/arch/default1021/build pass. Five obsolete spelling-only tests retired in favor of ranked/type/distance behavior, not skipped. Existing successful-coordinate fixture still passes. Thirty Google names were committed at e04e9700 (SHA206c368b15133eea1204ca82af026c043336ae66911e83bec9f78a34605b435d). Google/saved-response checks pending frozen execution;0 new model/Google/site/Live so far. Ebisu upstream empty-list cause remains unknown due missing raw HTTP. No invented request fallback. [Plan](../.eval-artifacts/phase2c-location-semantic-20261023/continuation-plan.md).
 

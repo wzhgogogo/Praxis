@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.270
+- Document revision: 4.271
 - Last updated: 2026-10-23
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-23-PHASE2C-SEMANTIC
+
+Phase2c semantic candidate: promptv21 to v22, schema3 and compiler unchanged. Generic entailment/polarity rule rejects invented positive prerequisites/amenities; numeric relation/direction/strictness is independent of condition strength, so a flexible ceiling remains a SOFT ceiling. Valid prompt-wire red retained,31 semantic tests pass; actual saved affected-family proposals preserved as quality red evidence. Prepared18 exposed families x3 repetitions xbefore/after=108 trials, existing schema retry envelopes frozen, real-model hard cap150. Same captured clocks on both sides;54 before system messages byte-identical to original captures. Original materialized-clock inputs retained, no historical request/Gold rewrite. Real semantic replay pending; current new Google30, source websites/Live0. [Plan](../../.eval-artifacts/phase2c-location-semantic-20261023/continuation-plan.md).
 
 ## TEST-2026-10-23-PHASE2C-LOCATION
 
