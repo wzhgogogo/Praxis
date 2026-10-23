@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.283
-- Last updated: 2026-10-23
+- Document revision: 4.284
+- Last updated: 2026-10-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-24-PHASE3A-PRIME-F5-ANALYSIS
+
+模式为固定Git历史材料的离线分析，非新Mock/Replay/Live执行。analyze.py核对四份完整结果171行与资源模型总数一致，首个中断29行单列，75个来源作用域、1020个可配对已结束/失败操作，D2另有未结束操作与无对应开始的失败事件各1；41/95次重复BLOCKED_METHOD诊断。29份原始输入/代码/页面逐字节SHA登记，地图query值不复制。产品、Runner、测试、网站适配器相对main/2ada8a69零差异，相关生产机制相对诊断生产4d953731亦无差异；按Test文档矩阵检查引用、数值、SHA、diff与原工作区保护。五门禁本批未新运行，复用批次0默认1029/Chromium138和typecheck/arch/build历史PASS，不冒称本批绿灯或修复能力。没有产品修复，红绿灯不适用；错误地区完整HTML、新查询响应、被拒OPTIONS请求字段与中断完整trace仍缺，不用局部分析关闭实际链路缺口。新模型/Google/网站/Live0，公共额度账本无消耗条目；停止点1待复核。[报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md) · [抽取核对](../../.eval-artifacts/phase3a-prime/f5-analysis/verify.json)。
 
 ## TEST-2026-10-23-MAIN-ONLY-WORKFLOW
 

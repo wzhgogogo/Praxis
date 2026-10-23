@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.382
+- Document revision: 4.383
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-24-PHASE3A-PRIME-F5-ANALYSIS:** 批次1B只读分析完成，停在停止点1等独立复核选方案。固定3ec38584四份完整结果171行决策及中断29行：例01 Tabelog零详情、地区未完成；两家与同义词改写实际来自TableCheck，不能仅放宽首五家规则。例03历史输入为备用Kudanshita，五店都在半径内，后续事实约148–150秒；第三次未到达。41/95为重复OPTIONS诊断，预检只支持GET而日历规则为受限POST，缺真实配对字段，分类交F3。提出两个通用层方案，优先评审权威地名约束检索；均未实施，收益待验证。产品/Runner/测试/适配器未改，新模型/Google/网站/Live0；不合并、不推送。[分析报告](../.eval-artifacts/phase3a-prime/f5-analysis/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-STOP0-APPROVED:** 用户转述独立复核00:20北京通过停止点0，行数错误在指令一侧。门槛仅两个站点目录非测试TypeScript物理行，3591→3864、目标≤3591；source-packs.ts单列当前473且站点行数不得增加，移动到pack/通用层不计减少，站点Skill排除。批准批次1：A做F1，B做F5只读分析；F1基线默认1029/23.3秒，Chromium138/307.6秒。批次0五门禁与原始统计不改，新模型/Live0。 [报告补充](../.eval-artifacts/phase3a-prime/main-check/report.md#7-停止点-0-复核补充2026-10-24-0020-北京)。
 
