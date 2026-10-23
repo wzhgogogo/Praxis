@@ -1,0 +1,32 @@
+{
+  "source": "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+  "sourceSha256": "7d9b33ddc30f6c8468df2eb393a6d3c2e035779cfea0ad3e771989b989c10710",
+  "generatedSha256": "f00580206f2873791fd1fdaa6a69be370b078218b449bd716080b20724e20475",
+  "changes": [
+    {
+      "from": "evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION",
+      "to": "evaluateArtifactAfterFinish as originalEvaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION"
+    },
+    {
+      "from": "const sourceHealthDirectory=resolve('.eval-artifacts/live-source-health',`${Date.now()}-${selectedId}`);",
+      "to": "const sourceHealthDirectory=resolve(process.env.CHECKPOINT_C_ATTEMPT!, 'source-health');"
+    },
+    {
+      "from": "const sourceDataPreflightDirectory=resolve('.eval-artifacts/source-data-preflight',`${Date.now()}-${selectedId}`);",
+      "to": "const sourceDataPreflightDirectory=resolve(process.env.CHECKPOINT_C_ATTEMPT!, 'source-preflight');"
+    },
+    {
+      "from": "directory: resolve(\".eval-artifacts\", \"recordings\")",
+      "to": "directory: resolve(process.env.CHECKPOINT_C_ATTEMPT!, \"recordings\")"
+    },
+    {
+      "from": "startDiagnosticRun(resolve(\".eval-artifacts\", \"restaurant-hybrid-live-read\")",
+      "to": "startDiagnosticRun(resolve(process.env.CHECKPOINT_C_ATTEMPT!, \"runner\")"
+    },
+    {
+      "from": "browserTrace.push({ sequence, at: new Date().toISOString(), kind, detail: safeRecord(detail) });",
+      "to": "browserTrace.push({ sequence, at: new Date().toISOString(), kind, detail: safeRecord(detail) });\n  observeTrace({sequence,at:new Date().toISOString(),kind,detail:safeRecord(detail)});"
+    }
+  ],
+  "importChange": "relative import relocation only; actual production source-health retained"
+}

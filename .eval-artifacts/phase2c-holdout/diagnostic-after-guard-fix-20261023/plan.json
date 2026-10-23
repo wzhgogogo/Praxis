@@ -1,0 +1,23 @@
+{
+  "label": "DIAGNOSTIC_AFTER_GUARD_FIX",
+  "caseId": "p2c-holdout-01",
+  "maxRuns": 2,
+  "maxModels": 100,
+  "ceilings": {
+    "timeoutMs": 500000,
+    "maxModelCalls": 50,
+    "maxGoogleRequests": 38,
+    "preflightGoogleAllowance": 2
+  },
+  "deadline": "2026-10-24T04:15:40.000Z",
+  "runnerInput": ".eval-artifacts/phase2c-holdout/exit-live-20261023/runner-input.yaml",
+  "registryPath": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/registry.json",
+  "ledgerPath": ".eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/execution/ledger-after.json",
+  "minGapMs": 120000,
+  "deferEvaluation": true,
+  "rule": "One first; second only after clear no-delivery capability failure. Any delivery stops pending independent wording/qualification review; no automatic claim of QD. Known observed-coordinate-context failure stops and is not capability failure. Environment/safety/internal-other failure stops; no extra attempts.",
+  "excludedFromOriginal18": true,
+  "modelProvider": "Existing configured DeepSeek API only; same public request/page payload boundary as original exit runs",
+  "approvedBy": "USER_CURRENT_MESSAGE",
+  "freezeMain": "4d953731163e922741ea91ccc6c1c47b53f0b0e1"
+}

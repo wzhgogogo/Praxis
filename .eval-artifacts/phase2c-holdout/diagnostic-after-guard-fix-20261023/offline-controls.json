@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "cases": 8,
+  "actualRunnerImportedWithoutExecution": true,
+  "healthHook": "Actual production source-health retained; previously tested actual entry/local Chromium controls reused",
+  "deadline": "max three preflight attempts/5min waits before formal500s",
+  "baseline": {
+    "allDiagnosticOccurrences": 867,
+    "tablecheckDiagnosticOccurrences": 76,
+    "tablecheckByOrigin": {
+      "https://production.tablecheck.com/": 76
+    },
+    "tablecheckDistinctDiagnosticShapes": 2,
+    "rule": "Recursive code=BLOCKED_METHOD in diagnostics.browserTrace, same as original h07=867 all/76 TableCheck; cumulative snapshot copies may repeat. Distinct shapes are not distinct network request counts."
+  },
+  "h07": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-07-attempt-1/runner/2026-10-23T06-17-39-400Z-fbe3bca6-37d2-46a9-a325-50b7fd67959c.result.json",
+  "network": 0,
+  "models": 0,
+  "Live": 0
+}

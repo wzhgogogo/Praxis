@@ -1,0 +1,8 @@
+import fs from 'node:fs';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';import assert from 'node:assert/strict';
+const base='.eval-artifacts/phase2c-holdout/diagnostic-after-guard-fix-20261023',sha=b=>createHash('sha256').update(b).digest('hex');
+const old=JSON.parse(fs.readFileSync('.eval-artifacts/phase2c-holdout/exit-live-20261023/remaining-five-continuation-20261023/live-freeze.json')),all=execFileSync('git',['ls-files','-z'],{maxBuffer:32e6}).toString().split('\0').filter(Boolean),files={},sourceChanges=[];
+for(const [p,h]of Object.entries(old.files)){const current=sha(fs.readFileSync(p));if(current!==h){assert.ok(p.startsWith('src/'),p);sourceChanges.push({path:p,before:h,after:current});}files[p]=current;}
+for(const p of all.filter(p=>p.startsWith('src/')||p.startsWith('web-skills/')||p.startsWith('scripts/')||p.startsWith('docs/skills/')||p.startsWith(base+'/')||p==='.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json'||/^package(?:-lock)?\.json$|^tsconfig.*\.json$/.test(p)))files[p]=sha(fs.readFileSync(p));
+const plan=JSON.parse(fs.readFileSync(base+'/plan.json'));files[plan.ledgerPath]=sha(fs.readFileSync(plan.ledgerPath));
+const f={schema:'phase2c-diagnostic-after-guard-freeze@1',mainline:plan.freezeMain,commit:execFileSync('git',['rev-parse','HEAD']).toString().trim(),branch:'codex/holdout-phase2c-exit',label:plan.label,purpose:'Only case01 diagnostic; original18 unchanged; qualification deferred until wording review',sourceChanges,files};
+fs.writeFileSync(base+'/freeze.json',JSON.stringify(f,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({files:Object.keys(files).length,sha256:sha(fs.readFileSync(base+'/freeze.json')),sourceChanges:sourceChanges.length}));
