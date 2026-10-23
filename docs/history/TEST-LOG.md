@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.283
-- Last updated: 2026-10-23
+- Document revision: 4.284
+- Last updated: 2026-10-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -5273,3 +5273,7 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - 身份强制HIGH破坏使旧/新反例均失败；恢复30秒Provider上限时保留主回归在AVAILABLE断言失败，正常配置通过；源码字面自检的4个正常/4个业务断言红灯已归档。正常83条明确安全清单全部保留，31条已知Live失败家族主覆盖有原始引用。
 - 运行前提交的4315/831项冻结输入在运行后核验未变：缓存69/69翻月、5/5选店、22/22校准、正常声明20/20，历史两中断声明仍未评；没有新Live/S0=0结论。三次生成历史指标另存恢复原字节。
 - 新真实模型/Google/来源网站/见证GET/完整Live/环境重跑0；不执行预约或表单。当前停止点1，B/F5状态由另一对话报告，F2/F5实现未启动。仅独立工作分支供复核，远端main不动。 [报告与日志](../../.eval-artifacts/phase3a-prime/f1/report.md)。
+
+## TEST-2026-10-24-PHASE3A-PRIME-F1B-COMPLETE
+
+执行记录时间 2026-10-24T00:24:08.831212+02:00（Europe/Vienna）。F1复核为安全但审查未完成，按用户要求补做F1b：C18历史绝对路径重定位、产品输入迁入模块fixtures、P21c改用临时输出、运行时文件读取检查及11文件/并发4拆分。三项红绿齐全；默认1024/1024、Chromium137/137，三次中位20.469752/85.078675秒（目标≤150），九次门禁后Git状态均空且恢复0。独立克隆在OS拒绝/Users及旧工作树数据读取的条件下默认1024/1024，宿主存在性元数据仍可见；本地浏览器安装资源复制进克隆后通过。137运行名/483断言调用保留，94输入含87精确内容及7路径索引，194原非测试TS不变；69/5/22及正常声明20/20通过，目录3864/包473不增，新模型/Live0。原1175清单仅作索引，报告统一Europe/Vienna。继续F1候选分支，未合main，停于停止点1待复核。 [报告](../../.eval-artifacts/phase3a-prime/f1b/report.md)。

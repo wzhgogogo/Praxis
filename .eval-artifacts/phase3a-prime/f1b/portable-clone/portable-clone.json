@@ -1,0 +1,52 @@
+{
+  "startedAt": "2026-10-24T00:23:02.990567+02:00",
+  "timezone": "Europe/Vienna",
+  "testedCommit": "03ffa186ed87297328846523462598fbe1251bd6",
+  "clone": "/private/tmp/praxis-f1b-portable-clone",
+  "command": [
+    "sandbox-exec",
+    "-f",
+    "/private/tmp/praxis-phase3a-prime-f1/.eval-artifacts/phase3a-prime/f1b/clone-browser-install-failed/clone-isolation.sb",
+    "npm",
+    "test"
+  ],
+  "elapsedSeconds": 21.139257,
+  "exitCode": 0,
+  "summary": {
+    "tests": 1024,
+    "suites": 5,
+    "pass": 1024,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "logSha256": "df860fdfaff228aa182bb12d5b15232fb1be24ee4f53417a24f44050d972d5a4",
+  "runtimeManifestSha256": "11ade1c49dfce2e11ace4bdadfc18a5ca9fca5fe214be7438b77918306ec3e5c",
+  "isolation": "OS denies data reads and directory listings in /Users and all historical worktrees; existence metadata can remain visible; source directories preserved",
+  "isolationProbe": [
+    {
+      "directory": "/Users",
+      "file": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/package.json",
+      "existenceMetadataVisible": true,
+      "listError": "EPERM",
+      "readError": "EPERM"
+    },
+    {
+      "directory": "/private/tmp/praxis-checkpoint-c-prep",
+      "file": "/private/tmp/praxis-checkpoint-c-prep/package.json",
+      "existenceMetadataVisible": true,
+      "listError": "EPERM",
+      "readError": "EPERM"
+    },
+    {
+      "directory": "/private/tmp/praxis-phase3a-prime-f1",
+      "file": "/private/tmp/praxis-phase3a-prime-f1/package.json",
+      "existenceMetadataVisible": true,
+      "listError": "EPERM",
+      "readError": "EPERM"
+    }
+  ]
+}

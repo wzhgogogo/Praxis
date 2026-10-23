@@ -1,0 +1,216 @@
+{
+  "mode": "OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE",
+  "testedCommit": "134293367cce21c940dba7b9d95b1a9acf06352e",
+  "startedAt": "2026-10-24T00:12:35.894392+02:00",
+  "timezone": "Europe/Vienna",
+  "freezeSha256": "c9b90ca97607992955209356a1c5912eac8655785076027da0356d326d3568f7",
+  "perCommandTimeoutSeconds": 600,
+  "runs": [
+    {
+      "gate": "typecheck",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAt": "2026-10-24T00:12:35.929089+02:00",
+      "gitStatusBefore": "",
+      "log": "typecheck-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.426548,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": ""
+    },
+    {
+      "gate": "arch-check",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAt": "2026-10-24T00:12:36.420254+02:00",
+      "gitStatusBefore": "",
+      "log": "arch-check-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.310596,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": ""
+    },
+    {
+      "gate": "npm-test",
+      "sample": 1,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAt": "2026-10-24T00:12:36.795081+02:00",
+      "gitStatusBefore": "",
+      "log": "npm-test-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 20.25415,
+      "summary": {
+        "tests": 1024,
+        "suites": 5,
+        "pass": 1024,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "8da0eaba9b20ae2d000c46febfb62e6d4c62a3126a2e5862c81a33363e194479",
+      "gitStatusAfter": ""
+    },
+    {
+      "gate": "build",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-24T00:12:57.116467+02:00",
+      "gitStatusBefore": "",
+      "log": "build-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.403174,
+      "summary": {},
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusAfter": ""
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAt": "2026-10-24T00:12:57.583114+02:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 85.05558,
+      "summary": {
+        "tests": 137,
+        "suites": 0,
+        "pass": 137,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "3c0f05758fbcc83994fcf283668cbcec68a9e6eae2b9b39b2080d10590f5d5ee",
+      "gitStatusAfter": ""
+    },
+    {
+      "gate": "npm-test",
+      "sample": 2,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAt": "2026-10-24T00:14:22.703394+02:00",
+      "gitStatusBefore": "",
+      "log": "npm-test-2.log",
+      "exitCode": 0,
+      "elapsedSeconds": 20.469752,
+      "summary": {
+        "tests": 1024,
+        "suites": 5,
+        "pass": 1024,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "67d75fa1ebd32157435c8564be0c32efbb376f40b48966a9508cc4c909b2d6ba",
+      "gitStatusAfter": ""
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 2,
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAt": "2026-10-24T00:14:43.241342+02:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture-2.log",
+      "exitCode": 0,
+      "elapsedSeconds": 85.092796,
+      "summary": {
+        "tests": 137,
+        "suites": 0,
+        "pass": 137,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "fe610e0046c7f917485bfda68f65cf50c6c3a53cdb7436422c090998c61014ae",
+      "gitStatusAfter": ""
+    },
+    {
+      "gate": "npm-test",
+      "sample": 3,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAt": "2026-10-24T00:16:08.398572+02:00",
+      "gitStatusBefore": "",
+      "log": "npm-test-3.log",
+      "exitCode": 0,
+      "elapsedSeconds": 20.745268,
+      "summary": {
+        "tests": 1024,
+        "suites": 5,
+        "pass": 1024,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "15e40fe9b57faf62cde03332a85a415d906870d84d81bef6643c1735a3599ae1",
+      "gitStatusAfter": ""
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 3,
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAt": "2026-10-24T00:16:29.223218+02:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture-3.log",
+      "exitCode": 0,
+      "elapsedSeconds": 85.078675,
+      "summary": {
+        "tests": 137,
+        "suites": 0,
+        "pass": 137,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "063c5b7ca51231e117fd69a1b087ef3d89be9903479922299bec763cd00079fd",
+      "gitStatusAfter": ""
+    }
+  ],
+  "restorations": 0,
+  "freezeVerifiedAfter": true,
+  "medians": {
+    "npm-test": 20.469752,
+    "browser-fixture": 85.078675
+  },
+  "chromiumTargetSeconds": 150,
+  "stopReason": null
+}

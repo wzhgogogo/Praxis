@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.276
-- Last updated: 2026-10-23
+- Document revision: 4.277
+- Last updated: 2026-10-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -4557,3 +4557,7 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - Evidence status: frozen regression / draft not integrated；已暴露离线候选，等待独立复核，不是Clean Baseline。F1基于已复核本地main/2ada8a69；准备7fbee277、整理e0914016、运行冻结48232999；产品代码194份路径/字节不变，源目录3864/包473不增。
 - 清单1175行=默认1029+Chromium138+8非默认探针；删除4个源码字面自检及父项，保留其4个真实组合控制与正常/破坏证据；编译空文件移至嵌套fixture，typecheck保留3条编译断言；同HTML的错误身份反例合入既有契约，原始DOM点击不冒充Takeover链路。保留当前45秒配置的31秒Chromium观察，删除退役30秒对照。Test Skill增加阶段审查和页面日期两句，15份保存页/控件加来源及版本说明，未刷新页面。
 - 新真实模型/Google/来源网站/见证GET/完整Live/环境重跑0；不执行预约或表单。当前停止点1，B/F5状态由另一对话报告，F2/F5实现未启动。仅独立工作分支供复核，远端main不动。 [报告与日志](../../.eval-artifacts/phase3a-prime/f1/report.md)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F1B-COMPLETE
+
+执行记录时间 2026-10-24T00:24:08.831212+02:00（Europe/Vienna）。F1复核为安全但审查未完成，按用户要求补做F1b：C18历史绝对路径重定位、产品输入迁入模块fixtures、P21c改用临时输出、运行时文件读取检查及11文件/并发4拆分。三项红绿齐全；默认1024/1024、Chromium137/137，三次中位20.469752/85.078675秒（目标≤150），九次门禁后Git状态均空且恢复0。独立克隆在OS拒绝/Users及旧工作树数据读取的条件下默认1024/1024，宿主存在性元数据仍可见；本地浏览器安装资源复制进克隆后通过。137运行名/483断言调用保留，94输入含87精确内容及7路径索引，194原非测试TS不变；69/5/22及正常声明20/20通过，目录3864/包473不增，新模型/Live0。原1175清单仅作索引，报告统一Europe/Vienna。继续F1候选分支，未合main，停于停止点1待复核。 [报告](../../.eval-artifacts/phase3a-prime/f1b/report.md)。
