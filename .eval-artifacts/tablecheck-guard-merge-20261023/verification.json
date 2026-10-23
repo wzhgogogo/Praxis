@@ -1,0 +1,74 @@
+{
+  "status": "PASS",
+  "merge": "46bd8ef9",
+  "reviewedBranch": "30494fba",
+  "mainBaseline": "8487a844",
+  "conflicts": [],
+  "productByteDifferences": [],
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 461
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 284
+    },
+    {
+      "name": "default-tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 23702
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 664
+    },
+    {
+      "name": "browser-fixtures",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 307131
+    }
+  ],
+  "calendar": 69,
+  "selection": 5,
+  "calibration": 22,
+  "normalDeclarations": 20,
+  "frozenFiles": {
+    ".eval-artifacts/tablecheck-guard-merge-20261023/replay-freeze.json": 4200,
+    ".eval-artifacts/tablecheck-guard-merge-20261023/regressions/calibration-freeze.json": 815
+  },
+  "primaryUserFilesUnchanged": 9,
+  "calls": {
+    "models": 0,
+    "Google": 0,
+    "restaurantWebsites": 0,
+    "Live": 0
+  }
+}

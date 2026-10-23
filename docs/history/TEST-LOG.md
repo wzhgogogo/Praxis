@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.278
+- Document revision: 4.279
 - Last updated: 2026-10-23
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-23-TABLECHECK-GUARD-REVIEWED-MERGE
+
+Reviewed30494fba merged into8487a844 at46bd8ef9, conflicts0, product/eval source byte differences0. Fresh five gates1026/138 PASS; frozene925c8a0 calendar69/selection5/calibration22 with normal declarations20 PASS. Primary9 user files and HEAD preserved, historical generated metrics restored. Merge-slice model/Google/restaurant website/Live0. Authorized main push follows final evidence commit. Separately authorized case01 diagnostic remains excluded from original18; all qualification waits independent wording review. [Report](../../.eval-artifacts/tablecheck-guard-merge-20261023/report.md).
 
 ## TEST-2026-10-23-TABLECHECK-GUARD-HEALTH-COMPLETE
 
