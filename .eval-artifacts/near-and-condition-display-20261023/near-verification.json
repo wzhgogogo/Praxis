@@ -1,0 +1,29 @@
+{
+  "mode": "OFFLINE_SAVED_INPUT_WITH_RAW_GOOGLE_RESPONSE_AND_SCRIPTED_DISCOVERY_RESPONSE",
+  "sourceBase": "8487a844e2f6041f92d8ce575d3d2e1c4a7627ba",
+  "red": {
+    "targetFailures": 2,
+    "reason": "Bare location skipped and h06 native resolver throws NATIVE_LOCATION_UNRESOLVED"
+  },
+  "green": {
+    "passed": 27,
+    "total": 27
+  },
+  "fixtureMigrationFailures": {
+    "count": 9,
+    "path": ".eval-artifacts/near-and-condition-display-20261023/green/near-tests.log",
+    "reason": "Transport fixtures lacked a geographic response because bare location was previously skipped; fixed fixture coordinate precondition, no production bypass"
+  },
+  "files": {
+    "src/integrations/google/google-places-restaurant-search.ts": "6780f6abdbdcf5c86c7f67dd5780f5205f25834545a69b36d5fb7d8143b547ab",
+    "src/integrations/google/google-places-restaurant-search.test.ts": "e72e8d78fdd5d1504b5c4c023be91cc4cba9b1a96985022203d85c765b7a8122",
+    "src/integrations/restaurant-search/native-restaurant-search.test.ts": "46727e454f975c77e15aff030865f702fb21a267b72581e1c23b53280badb362",
+    ".eval-artifacts/near-and-condition-display-20261023/inputs/manifest.json": "85d89a0ac11b8e822ea934d0a738fd058a56661a20f80011756e1173769dd6e2",
+    ".eval-artifacts/near-and-condition-display-20261023/red/near-tests.log": "38c5f3deecb42eca0c4e8d92336826c9d605865c6fdd3f6cd75b778d5fddb0c5",
+    ".eval-artifacts/near-and-condition-display-20261023/green/near-tests-after-fixture-update.log": "3a764867dbfde7f39be5eee7adeefde83d72fb1bde4e1edc913209d8b8f08d57"
+  },
+  "newModelCalls": 0,
+  "newWebsiteRequests": 0,
+  "newGoogle": 0,
+  "newLive": 0
+}

@@ -1,0 +1,3820 @@
+{
+  "schema": "saved-restaurant-event-replay@1",
+  "source": {
+    "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+    "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/execution/B/h-04-attempt-1/runner/2026-10-23T05-26-36-863Z-4edbbaa9-ab09-4719-ba91-dbad697fdd2c.result.json",
+    "sha256": "e9ccb6cc4a4ea43243e4a0d19ef34c28a0312b94a6919525b5272bc74b2bacf8"
+  },
+  "caseId": "p2c-holdout-04",
+  "runId": "4edbbaa9-ab09-4719-ba91-dbad697fdd2c",
+  "startedAt": "2026-10-23T05:26:36.863Z",
+  "finishedAt": "2026-10-23T05:30:56.673Z",
+  "events": [
+    {
+      "id": "event:hybrid-live:p2c-holdout-04:1792733196784:semantic:1",
+      "taskId": "hybrid-live:p2c-holdout-04:1792733196784",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Chanko nabe restaurants near Ryogoku",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 6,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Ryogoku"
+          },
+          "addCriteria": [
+            {
+              "text": "chanko nabe",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "private room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ],
+          "date": "2026-11-05",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "20:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-23T05:26:36.784Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Thursday, November 5",
+              "resolvedDate": "2026-11-05",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "any time between 6 and 8 PM",
+              "resolvedTimeWindow": {
+                "earliest": "18:00",
+                "latest": "20:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-10-23T05:26:44.253Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-04:1792733196784",
+        "correlationId": "event:hybrid-live:p2c-holdout-04:1792733196784:semantic:1",
+        "actor": "MODEL"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:1",
+      "taskId": "hybrid-live:p2c-holdout-04:1792733196784",
+      "event": {
+        "type": "SEARCH_COMPLETED",
+        "request": {
+          "intent": {
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Chanko nabe restaurants near Ryogoku",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-11-05",
+            "timeWindow": {
+              "earliest": "18:00",
+              "latest": "20:00"
+            },
+            "partySize": 6,
+            "area": {
+              "query": "near Ryogoku"
+            },
+            "criteria": [
+              {
+                "text": "chanko nabe",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              },
+              {
+                "text": "private room",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              }
+            ]
+          },
+          "retrievalHint": "chanko nabe restaurants near Ryogoku, Tokyo",
+          "readRunId": "run:hybrid-live:p2c-holdout-04:1792733196784:investigation:1"
+        },
+        "candidates": [
+          {
+            "restaurant": {
+              "id": "tabelog:en/tokyo/A1312/A131201/13002979",
+              "outletName": "Chanko Kawasaki",
+              "address": "1300026 Tokyo Ryogoku Sumida Tokyo ",
+              "coordinates": {
+                "lat": 35.69536334871501,
+                "lng": 139.79145286450964
+              },
+              "sourceIds": {
+                "tabelog": "en/tokyo/A1312/A131201/13002979",
+                "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                "discoverySourceId": "tabelog",
+                "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/"
+              },
+              "provenance": {
+                "outletName": "evidence:restaurant:native-discovery:17a90f6f76f74aeded8999f3",
+                "address": "evidence:restaurant:native-discovery:17a90f6f76f74aeded8999f3",
+                "sourceIds": "evidence:restaurant:native-discovery:17a90f6f76f74aeded8999f3"
+              }
+            },
+            "matchReasons": [
+              "Source coordinates within 1000 m of Ryogoku"
+            ],
+            "warnings": [],
+            "executionConfidence": "MEDIUM"
+          },
+          {
+            "restaurant": {
+              "id": "tabelog:en/tokyo/A1312/A131201/13017997",
+              "outletName": "Chanko Kirishima Ryogoku honten",
+              "address": "1300026 Tokyo Ryogoku Sumida Tokyo ",
+              "coordinates": {
+                "lat": 35.69566298871487,
+                "lng": 139.79161316451257
+              },
+              "sourceIds": {
+                "tabelog": "en/tokyo/A1312/A131201/13017997",
+                "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                "discoverySourceId": "tabelog",
+                "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/"
+              },
+              "provenance": {
+                "outletName": "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c",
+                "address": "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c",
+                "sourceIds": "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c"
+              }
+            },
+            "matchReasons": [
+              "Source coordinates within 1000 m of Ryogoku"
+            ],
+            "warnings": [],
+            "executionConfidence": "MEDIUM"
+          },
+          {
+            "restaurant": {
+              "id": "tabelog:en/tokyo/A1312/A131201/13202196",
+              "outletName": "Chanko Kirishima Ryougoku edo NOREN ten",
+              "address": "1300015 Tokyo Yokoami Sumida Tokyo ",
+              "coordinates": {
+                "lat": 35.69617076871499,
+                "lng": 139.79300187451673
+              },
+              "sourceIds": {
+                "tabelog": "en/tokyo/A1312/A131201/13202196",
+                "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                "discoverySourceId": "tabelog",
+                "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/"
+              },
+              "provenance": {
+                "outletName": "evidence:restaurant:native-discovery:17052aa73839da560ca8d216",
+                "address": "evidence:restaurant:native-discovery:17052aa73839da560ca8d216",
+                "sourceIds": "evidence:restaurant:native-discovery:17052aa73839da560ca8d216"
+              }
+            },
+            "matchReasons": [
+              "Source coordinates within 1000 m of Ryogoku"
+            ],
+            "warnings": [],
+            "executionConfidence": "MEDIUM"
+          },
+          {
+            "restaurant": {
+              "id": "tabelog:en/tokyo/A1312/A131201/13036713",
+              "outletName": "Chanko Dojo Ryougoku ekimae ten",
+              "address": "1300015 Tokyo Yokoami Sumida Tokyo ",
+              "coordinates": {
+                "lat": 35.695785558715215,
+                "lng": 139.79294749451287
+              },
+              "sourceIds": {
+                "tabelog": "en/tokyo/A1312/A131201/13036713",
+                "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "discoverySourceId": "tabelog",
+                "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/"
+              },
+              "provenance": {
+                "outletName": "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+                "address": "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+                "sourceIds": "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0"
+              }
+            },
+            "matchReasons": [
+              "Source coordinates within 1000 m of Ryogoku"
+            ],
+            "warnings": [],
+            "executionConfidence": "MEDIUM"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceId": "10ebc0a76122a53fc9f4535d9c0855df953bfc4a27dd409b1b33f2c577523f74",
+            "kind": "DISCOVERY",
+            "provider": "GOOGLE_PLACES",
+            "sourceEntityId": "ChIJc7JzeEqJGGARUtbtKVoWzhw",
+            "observedAt": "2026-10-23T05:26:49.386Z",
+            "requestFingerprint": "11a4fdf7a6ed81095451e24648ba45d1d47d0e9730b4b644beeb92bf37a616d5",
+            "claims": {
+              "locationResolutionQuery": "Ryogoku",
+              "resolvedPlaceName": "Ryogoku",
+              "locationNameExactMatch": true,
+              "resolvedPlaceTypes": [
+                "sublocality_level_2",
+                "sublocality",
+                "political"
+              ],
+              "resolvedPlaceId": "ChIJc7JzeEqJGGARUtbtKVoWzhw",
+              "latitude": 35.6937752,
+              "longitude": 139.79268869999999,
+              "radiusMeters": 1000,
+              "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:native-discovery:17a90f6f76f74aeded8999f3",
+            "kind": "DISCOVERY",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13002979",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13002979",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+            "observedAt": "2026-10-23T05:27:41.781Z",
+            "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Chanko nabe restaurants near Ryogoku\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-05\\\",\\\"timeWindow\\\":{\\\"earliest\\\":\\\"18:00\\\",\\\"latest\\\":\\\"20:00\\\"},\\\"partySize\\\":6,\\\"area\\\":{\\\"query\\\":\\\"near Ryogoku\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"chanko nabe\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"},{\\\"text\\\":\\\"private room\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"SOFT\\\"}]}\",\"location\":{\"latitude\":35.6937752,\"longitude\":139.79268869999999,\"radiusMeters\":1000,\"label\":\"Ryogoku\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Ryogoku\",\"shortText\":\"Ryogoku\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Sumida City\",\"shortText\":\"Sumida City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"130-0026\",\"shortText\":\"130-0026\",\"types\":[\"postal_code\"]}]}}",
+            "claims": {
+              "sourceCategories": [
+                "Ryogoku Sta. 118m / Chanko-nabe, Yakitori (Grilled chicken skewers)"
+              ],
+              "outletName": "Chanko Kawasaki",
+              "address": "1300026 Tokyo Ryogoku Sumida Tokyo ",
+              "areaQuery": "near Ryogoku",
+              "areaMatch": true,
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "evaluationLocationLabel": "Ryogoku",
+              "distanceMeters": 209,
+              "availabilityPath": "DIRECT_SOURCE_PAGE"
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c",
+            "kind": "DISCOVERY",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13017997",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+            "observedAt": "2026-10-23T05:27:45.565Z",
+            "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Chanko nabe restaurants near Ryogoku\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-05\\\",\\\"timeWindow\\\":{\\\"earliest\\\":\\\"18:00\\\",\\\"latest\\\":\\\"20:00\\\"},\\\"partySize\\\":6,\\\"area\\\":{\\\"query\\\":\\\"near Ryogoku\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"chanko nabe\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"},{\\\"text\\\":\\\"private room\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"SOFT\\\"}]}\",\"location\":{\"latitude\":35.6937752,\"longitude\":139.79268869999999,\"radiusMeters\":1000,\"label\":\"Ryogoku\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Ryogoku\",\"shortText\":\"Ryogoku\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Sumida City\",\"shortText\":\"Sumida City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"130-0026\",\"shortText\":\"130-0026\",\"types\":[\"postal_code\"]}]}}",
+            "claims": {
+              "sourceCategories": [
+                "Ryogoku Sta. 92m / Chanko-nabe, Japanese Cuisine, Seafood"
+              ],
+              "outletName": "Chanko Kirishima Ryogoku honten",
+              "address": "1300026 Tokyo Ryogoku Sumida Tokyo ",
+              "areaQuery": "near Ryogoku",
+              "areaMatch": true,
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "evaluationLocationLabel": "Ryogoku",
+              "distanceMeters": 232,
+              "availabilityPath": "DIRECT_SOURCE_PAGE"
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:native-discovery:17052aa73839da560ca8d216",
+            "kind": "DISCOVERY",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13202196",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+            "observedAt": "2026-10-23T05:27:54.764Z",
+            "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Chanko nabe restaurants near Ryogoku\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-05\\\",\\\"timeWindow\\\":{\\\"earliest\\\":\\\"18:00\\\",\\\"latest\\\":\\\"20:00\\\"},\\\"partySize\\\":6,\\\"area\\\":{\\\"query\\\":\\\"near Ryogoku\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"chanko nabe\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"},{\\\"text\\\":\\\"private room\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"SOFT\\\"}]}\",\"location\":{\"latitude\":35.6937752,\"longitude\":139.79268869999999,\"radiusMeters\":1000,\"label\":\"Ryogoku\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Ryogoku\",\"shortText\":\"Ryogoku\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Sumida City\",\"shortText\":\"Sumida City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"130-0026\",\"shortText\":\"130-0026\",\"types\":[\"postal_code\"]}]}}",
+            "claims": {
+              "sourceCategories": [
+                "Ryogoku Sta. 48m / Chanko-nabe, Japanese Cuisine, Seafood"
+              ],
+              "outletName": "Chanko Kirishima Ryougoku edo NOREN ten",
+              "address": "1300015 Tokyo Yokoami Sumida Tokyo ",
+              "areaQuery": "near Ryogoku",
+              "areaMatch": true,
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "evaluationLocationLabel": "Ryogoku",
+              "distanceMeters": 268,
+              "availabilityPath": "DIRECT_SOURCE_PAGE"
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+            "kind": "DISCOVERY",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13036713",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+            "observedAt": "2026-10-23T05:28:05.015Z",
+            "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Chanko nabe restaurants near Ryogoku\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-05\\\",\\\"timeWindow\\\":{\\\"earliest\\\":\\\"18:00\\\",\\\"latest\\\":\\\"20:00\\\"},\\\"partySize\\\":6,\\\"area\\\":{\\\"query\\\":\\\"near Ryogoku\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"chanko nabe\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"},{\\\"text\\\":\\\"private room\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"SOFT\\\"}]}\",\"location\":{\"latitude\":35.6937752,\"longitude\":139.79268869999999,\"radiusMeters\":1000,\"label\":\"Ryogoku\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Ryogoku\",\"shortText\":\"Ryogoku\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Sumida City\",\"shortText\":\"Sumida City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"130-0026\",\"shortText\":\"130-0026\",\"types\":[\"postal_code\"]}]}}",
+            "claims": {
+              "sourceCategories": [
+                "Ryogoku Sta. 36m / Chanko-nabe, Izakaya (Japanese style tavern), Seafood"
+              ],
+              "outletName": "Chanko Dojo Ryougoku ekimae ten",
+              "address": "1300015 Tokyo Yokoami Sumida Tokyo ",
+              "areaQuery": "near Ryogoku",
+              "areaMatch": true,
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "evaluationLocationLabel": "Ryogoku",
+              "distanceMeters": 225,
+              "availabilityPath": "DIRECT_SOURCE_PAGE"
+            }
+          }
+        ],
+        "continuation": {
+          "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Chanko nabe restaurants near Ryogoku\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-11-05\",\"timeWindow\":{\"earliest\":\"18:00\",\"latest\":\"20:00\"},\"partySize\":6,\"area\":{\"query\":\"near Ryogoku\"},\"criteria\":[{\"text\":\"chanko nabe\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"},{\"text\":\"private room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}]}",
+          "discoveryPlan": {
+            "entries": [
+              {
+                "sourceId": "tabelog",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "chanko nabe",
+                      "strength": "HARD"
+                    },
+                    {
+                      "criterionRef": "criterion:1",
+                      "text": "private room",
+                      "strength": "SOFT"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6937752,
+                    "longitude": 139.79268869999999,
+                    "radiusMeters": 1000,
+                    "label": "Ryogoku",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Ryogoku",
+                        "shortText": "Ryogoku",
+                        "types": [
+                          "sublocality_level_2",
+                          "sublocality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Sumida City",
+                        "shortText": "Sumida City",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "130-0026",
+                        "shortText": "130-0026",
+                        "types": [
+                          "postal_code"
+                        ]
+                      }
+                    ]
+                  },
+                  "keyword": "chanko"
+                }
+              },
+              {
+                "sourceId": "tablecheck",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "chanko nabe",
+                      "strength": "HARD"
+                    },
+                    {
+                      "criterionRef": "criterion:1",
+                      "text": "private room",
+                      "strength": "SOFT"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6937752,
+                    "longitude": 139.79268869999999,
+                    "radiusMeters": 1000,
+                    "label": "Ryogoku",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Ryogoku",
+                        "shortText": "Ryogoku",
+                        "types": [
+                          "sublocality_level_2",
+                          "sublocality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Sumida City",
+                        "shortText": "Sumida City",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "130-0026",
+                        "shortText": "130-0026",
+                        "types": [
+                          "postal_code"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "sourceId": "google-places",
+                "query": {
+                  "category": "restaurant",
+                  "positiveCriteria": [
+                    {
+                      "criterionRef": "criterion:0",
+                      "text": "chanko nabe",
+                      "strength": "HARD"
+                    },
+                    {
+                      "criterionRef": "criterion:1",
+                      "text": "private room",
+                      "strength": "SOFT"
+                    }
+                  ],
+                  "location": {
+                    "latitude": 35.6937752,
+                    "longitude": 139.79268869999999,
+                    "radiusMeters": 1000,
+                    "label": "Ryogoku",
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                    "addressComponents": [
+                      {
+                        "longText": "Ryogoku",
+                        "shortText": "Ryogoku",
+                        "types": [
+                          "sublocality_level_2",
+                          "sublocality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Sumida City",
+                        "shortText": "Sumida City",
+                        "types": [
+                          "locality",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Tokyo",
+                        "shortText": "Tokyo",
+                        "types": [
+                          "administrative_area_level_1",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "Japan",
+                        "shortText": "JP",
+                        "types": [
+                          "country",
+                          "political"
+                        ]
+                      },
+                      {
+                        "longText": "130-0026",
+                        "shortText": "130-0026",
+                        "types": [
+                          "postal_code"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "cursor": 1
+          },
+          "deferredSources": [],
+          "currentDiscoveryBatch": {
+            "sourceId": "tabelog",
+            "candidateIds": [
+              "tabelog:en/tokyo/A1312/A131201/13002979",
+              "tabelog:en/tokyo/A1312/A131201/13017997",
+              "tabelog:en/tokyo/A1312/A131201/13202196",
+              "tabelog:en/tokyo/A1312/A131201/13036713"
+            ]
+          },
+          "usedPageTokens": [],
+          "pagesRead": 4,
+          "exhausted": false,
+          "sourceProgress": {
+            "retrieval": {
+              "rewrites": 1,
+              "regionPages": 2,
+              "retrievalPages": 2,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Search directly for the hard criterion dish, chanko nabe, in Ryogoku.",
+                    "keyword": "chanko nabe",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 34164,
+                  "parsedCount": 0
+                },
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "The exact phrase \"chanko nabe\" returned zero results; try the shorter core term \"chanko\" to broaden the search for the hard criterion.",
+                    "keyword": "chanko",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 36930,
+                  "parsedCount": 0
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "The exact phrase \"chanko nabe\" returned zero results; try the shorter core term \"chanko\" to broaden the search for the hard criterion.",
+                "keyword": "chanko",
+                "criterionRef": "criterion:0"
+              }
+            },
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1312/",
+                "observedOn": "https://tabelog.com/en/tokyo/",
+                "targetRef": "observation:2:target:35",
+                "label": "Ryogoku"
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1312/A131201/13002979",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.69536334871501,
+                    "longitude": 139.79145286450964
+                  },
+                  "distanceMeters": 209.13914058730444
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1312/A131201/13017997",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.69566298871487,
+                    "longitude": 139.79161316451257
+                  },
+                  "distanceMeters": 231.55459003801312
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1312/A131201/13202196",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.69617076871499,
+                    "longitude": 139.79300187451673
+                  },
+                  "distanceMeters": 268.1735581961127
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1312/A131201/13036713",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.695785558715215,
+                    "longitude": 139.79294749451287
+                  },
+                  "distanceMeters": 225.0128716223083
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1312/A131201/13038737",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13038737/",
+                  "outcome": "UNKNOWN"
+                }
+              ]
+            },
+            "sourceId": "tabelog",
+            "inspectedSourceIds": [
+              "en/tokyo/A1312/A131201/13002979",
+              "en/tokyo/A1312/A131201/13017997",
+              "en/tokyo/A1312/A131201/13202196",
+              "en/tokyo/A1312/A131201/13036713",
+              "en/tokyo/A1312/A131201/13038737"
+            ],
+            "detailAttempts": 5,
+            "pagesRead": 4,
+            "elapsedMs": 90018,
+            "visitedListingUrls": [
+              "https://tabelog.com/en/tokyo/",
+              "https://tabelog.com/en/tokyo/A1312/",
+              "https://tabelog.com/en/tokyo/A1312/?sw=chanko+nabe",
+              "https://tabelog.com/en/tokyo/A1312/?sw=chanko"
+            ],
+            "pendingSourceEntries": [
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131201/13279863",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13279863/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Chanko Chiyonofuji",
+                "sourceCategories": [
+                  "Kinshicho Sta. 857m / Chanko-nabe"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131201/13023529",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13023529/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Kappo Chanko Ouchi",
+                "sourceCategories": [
+                  "Ryogoku Sta. 260m / Japanese Cuisine, Chanko-nabe"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131201/13021577",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13021577/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Chanko Tomoji",
+                "sourceCategories": [
+                  "Ryogoku Sta. 163m / Chanko-nabe"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131201/13226093",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13226093/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Chanko Sakaba Edosawa Ryougoku souhonten bekkan",
+                "sourceCategories": [
+                  "Ryogoku Sta. 76m / Chanko-nabe, Izakaya (Japanese style tavern), Seafood"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131201/13226101",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13226101/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Sumo Chaya Chanko Edosawa Ryougoku souhonten",
+                "sourceCategories": [
+                  "Ryogoku Sta. 202m / Chanko-nabe, Sushi, Seafood"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131201/13007986",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13007986/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Fugu Chanko Toriyoshi Honten",
+                "sourceCategories": [
+                  "Honjo Azumabashi Sta. 908m / Chanko-nabe"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131201/13276532",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13276532/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Chanko Ryogoku",
+                "sourceCategories": [
+                  "Ryogoku Sta. 393m / Chanko-nabe, Japanese Cuisine"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131201/13277949",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13277949/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Chanko Ban Fukai",
+                "sourceCategories": [
+                  "Morishita Sta. 89m / Chanko-nabe"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131202/13074392",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131202/13074392/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Chanko Rikishi",
+                "sourceCategories": [
+                  "Nishi Ojima Sta. 377m / Chanko-nabe, Japanese Cuisine"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131202/13149672",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131202/13149672/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Hokkaido Yakitori Itadaki Kokkocchan Kameido ten",
+                "sourceCategories": [
+                  "Kameido Sta. 122m / Yakitori (Grilled chicken skewers), Izakaya (Japanese style tavern), Chicken dishes"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131202/13230984",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131202/13230984/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Chin Ki",
+                "sourceCategories": [
+                  "Kameido Sta. 349m / Chinese"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131201/13060185",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13060185/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Champ",
+                "sourceCategories": [
+                  "Kinshicho Sta. 173m / Pasta"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131201/13302716",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13302716/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Piccolina Ciaoro",
+                "sourceCategories": [
+                  "Sumiyoshi Sta. 744m / Italian"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131203/13296413",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131203/13296413/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Green Thanks Supply",
+                "sourceCategories": [
+                  "Omurai Sta. 559m / Cafe"
+                ]
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1312/A131203/13252573",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131203/13252573/",
+                "observedAt": "2026-10-23T05:27:33.034Z",
+                "outletName": "Chante Colore",
+                "sourceCategories": [
+                  "Keisei Hikifune Sta. 222m / Cake, Bread"
+                ]
+              }
+            ],
+            "pendingSourceIds": [
+              "en/tokyo/A1312/A131201/13279863",
+              "en/tokyo/A1312/A131201/13023529",
+              "en/tokyo/A1312/A131201/13021577",
+              "en/tokyo/A1312/A131201/13226093",
+              "en/tokyo/A1312/A131201/13226101",
+              "en/tokyo/A1312/A131201/13007986",
+              "en/tokyo/A1312/A131201/13276532",
+              "en/tokyo/A1312/A131201/13277949",
+              "en/tokyo/A1312/A131202/13074392",
+              "en/tokyo/A1312/A131202/13149672",
+              "en/tokyo/A1312/A131202/13230984",
+              "en/tokyo/A1312/A131201/13060185",
+              "en/tokyo/A1312/A131201/13302716",
+              "en/tokyo/A1312/A131203/13296413",
+              "en/tokyo/A1312/A131203/13252573"
+            ]
+          },
+          "locationContext": {
+            "latitude": 35.6937752,
+            "longitude": 139.79268869999999,
+            "radiusMeters": 1000,
+            "label": "Ryogoku",
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "longText": "Ryogoku",
+                "shortText": "Ryogoku",
+                "types": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              {
+                "longText": "Sumida City",
+                "shortText": "Sumida City",
+                "types": [
+                  "locality",
+                  "political"
+                ]
+              },
+              {
+                "longText": "Tokyo",
+                "shortText": "Tokyo",
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ]
+              },
+              {
+                "longText": "Japan",
+                "shortText": "JP",
+                "types": [
+                  "country",
+                  "political"
+                ]
+              },
+              {
+                "longText": "130-0026",
+                "shortText": "130-0026",
+                "types": [
+                  "postal_code"
+                ]
+              }
+            ]
+          }
+        },
+        "metadata": {
+          "provider": "TABELOG",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 91278,
+          "nativeDiscoveryFunnel": {
+            "directoryRegion": {
+              "first": {
+                "url": "https://tabelog.com/en/tokyo/A1312/",
+                "observedOn": "https://tabelog.com/en/tokyo/",
+                "targetRef": "observation:2:target:35",
+                "label": "Ryogoku"
+              },
+              "firstFive": [
+                {
+                  "sourceEntityId": "en/tokyo/A1312/A131201/13002979",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.69536334871501,
+                    "longitude": 139.79145286450964
+                  },
+                  "distanceMeters": 209.13914058730444
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1312/A131201/13017997",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.69566298871487,
+                    "longitude": 139.79161316451257
+                  },
+                  "distanceMeters": 231.55459003801312
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1312/A131201/13202196",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.69617076871499,
+                    "longitude": 139.79300187451673
+                  },
+                  "distanceMeters": 268.1735581961127
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1312/A131201/13036713",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "outcome": "WITHIN_RADIUS",
+                  "coordinates": {
+                    "latitude": 35.695785558715215,
+                    "longitude": 139.79294749451287
+                  },
+                  "distanceMeters": 225.0128716223083
+                },
+                {
+                  "sourceEntityId": "en/tokyo/A1312/A131201/13038737",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13038737/",
+                  "outcome": "UNKNOWN"
+                }
+              ]
+            },
+            "source": "TABELOG",
+            "rawSourceLinks": 20,
+            "parsedOutlets": 20,
+            "inspectedOutlets": 5,
+            "batchCap": 5,
+            "sourceDetailCap": 10,
+            "sourceDetailAttempts": 5,
+            "deferredByBatchCap": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13279863/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13023529/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13021577/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13226093/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13226101/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13007986/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13276532/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13277949/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131202/13074392/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131202/13149672/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131202/13230984/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13060185/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13302716/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131203/13296413/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131203/13252573/",
+                "reasonCode": "DETAIL_BATCH_CAP"
+              }
+            ],
+            "rejected": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13038737/",
+                "reasonCode": "BROWSER_TIMEOUT"
+              }
+            ],
+            "accepted": 4,
+            "sourcePageCap": 7,
+            "sourceElapsedCapMs": 90000,
+            "sourceElapsedMs": 90018,
+            "sourceTimeLimitReached": true,
+            "pagesRead": 4,
+            "batchLimitReached": true,
+            "sourceExhausted": false,
+            "batchEnded": true,
+            "sourceEnded": true,
+            "progressionReason": "FIRST_SOURCE_BATCH",
+            "listingObservations": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/",
+                "parsedOutlets": 20,
+                "resultCount": 139471
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/",
+                "parsedOutlets": 20,
+                "resultCount": 7729
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/",
+                "parsedOutlets": 20,
+                "resultCount": 7729
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/?sw=chanko+nabe",
+                "parsedOutlets": 0
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/?sw=chanko",
+                "parsedOutlets": 20,
+                "resultCount": 25
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/?sw=chanko",
+                "parsedOutlets": 20,
+                "resultCount": 25
+              }
+            ],
+            "retrieval": {
+              "rewrites": 1,
+              "regionPages": 2,
+              "retrievalPages": 2,
+              "history": [
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "Search directly for the hard criterion dish, chanko nabe, in Ryogoku.",
+                    "keyword": "chanko nabe",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 34164,
+                  "parsedCount": 0
+                },
+                {
+                  "selection": {
+                    "accepted": true,
+                    "reason": "The exact phrase \"chanko nabe\" returned zero results; try the shorter core term \"chanko\" to broaden the search for the hard criterion.",
+                    "keyword": "chanko",
+                    "criterionRef": "criterion:0"
+                  },
+                  "elapsedMs": 36930,
+                  "parsedCount": 0
+                }
+              ],
+              "selection": {
+                "accepted": true,
+                "reason": "The exact phrase \"chanko nabe\" returned zero results; try the shorter core term \"chanko\" to broaden the search for the hard criterion.",
+                "keyword": "chanko",
+                "criterionRef": "criterion:0"
+              }
+            },
+            "queryAdjustment": "PRE_DETAIL_RETRIEVAL_REWRITE",
+            "searchAvailabilityHint": {
+              "status": "SKIPPED",
+              "reason": "WINDOW_NOT_REPRESENTABLE",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1312/?sw=chanko",
+              "unfilteredUrl": "https://tabelog.com/en/tokyo/A1312/?sw=chanko"
+            }
+          },
+          "candidateFailures": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13038737/",
+              "reasonCode": "BROWSER_TIMEOUT"
+            }
+          ],
+          "failureScope": "CANDIDATE",
+          "googleRequests": {
+            "limit": 38,
+            "total": 1,
+            "namedPlaceResolution": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          }
+        }
+      },
+      "occurredAt": "2026-10-23T05:28:19.409Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-04:1792733196784",
+        "correlationId": "event:restaurant-agent:1",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:2",
+      "taskId": "hybrid-live:p2c-holdout-04:1792733196784",
+      "event": {
+        "type": "AVAILABILITY_CHECKED",
+        "request": {
+          "candidateIds": [
+            "tabelog:en/tokyo/A1312/A131201/13002979",
+            "tabelog:en/tokyo/A1312/A131201/13017997",
+            "tabelog:en/tokyo/A1312/A131201/13036713"
+          ],
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979",
+                "outletName": "Chanko Kawasaki",
+                "address": "1300026 Tokyo Ryogoku Sumida Tokyo ",
+                "coordinates": {
+                  "lat": 35.69536334871501,
+                  "lng": 139.79145286450964
+                },
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1312/A131201/13002979",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/"
+                },
+                "provenance": {
+                  "outletName": "evidence:restaurant:native-discovery:17a90f6f76f74aeded8999f3",
+                  "address": "evidence:restaurant:native-discovery:17a90f6f76f74aeded8999f3",
+                  "sourceIds": "evidence:restaurant:native-discovery:17a90f6f76f74aeded8999f3"
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Ryogoku"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM"
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1312/A131201/13017997",
+                "outletName": "Chanko Kirishima Ryogoku honten",
+                "address": "1300026 Tokyo Ryogoku Sumida Tokyo ",
+                "coordinates": {
+                  "lat": 35.69566298871487,
+                  "lng": 139.79161316451257
+                },
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1312/A131201/13017997",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/"
+                },
+                "provenance": {
+                  "outletName": "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c",
+                  "address": "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c",
+                  "sourceIds": "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c"
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Ryogoku"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM"
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713",
+                "outletName": "Chanko Dojo Ryougoku ekimae ten",
+                "address": "1300015 Tokyo Yokoami Sumida Tokyo ",
+                "coordinates": {
+                  "lat": 35.695785558715215,
+                  "lng": 139.79294749451287
+                },
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1312/A131201/13036713",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/"
+                },
+                "provenance": {
+                  "outletName": "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+                  "address": "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+                  "sourceIds": "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0"
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Ryogoku"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM"
+            }
+          ],
+          "date": "2026-11-05",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "20:00"
+          },
+          "partySize": 6,
+          "hardCriteria": [
+            "chanko nabe"
+          ]
+        },
+        "offers": [
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13017997:2026-11-05:18:00:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:11.348Z",
+            "displayExpiresAt": "2026-10-23T05:39:11.348Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:11.348Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13017997:2026-11-05:18:15:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:15:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:11.348Z",
+            "displayExpiresAt": "2026-10-23T05:39:11.348Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:11.348Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13017997:2026-11-05:18:30:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:30:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:11.348Z",
+            "displayExpiresAt": "2026-10-23T05:39:11.348Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:11.348Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13017997:2026-11-05:18:45:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:45:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:11.348Z",
+            "displayExpiresAt": "2026-10-23T05:39:11.348Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:11.348Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13017997:2026-11-05:19:00:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:11.348Z",
+            "displayExpiresAt": "2026-10-23T05:39:11.348Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:11.348Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13017997:2026-11-05:19:30:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:30:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:11.348Z",
+            "displayExpiresAt": "2026-10-23T05:39:11.348Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:11.348Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13017997:2026-11-05:19:45:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:45:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:11.348Z",
+            "displayExpiresAt": "2026-10-23T05:39:11.348Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:11.348Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13017997:2026-11-05:20:00:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T20:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:11.348Z",
+            "displayExpiresAt": "2026-10-23T05:39:11.348Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:11.348Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13036713:2026-11-05:18:00:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:35.365Z",
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:35.365Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13036713:2026-11-05:18:15:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:15:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:35.365Z",
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:35.365Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13036713:2026-11-05:18:30:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:30:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:35.365Z",
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:35.365Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13036713:2026-11-05:18:45:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:45:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:35.365Z",
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:35.365Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13036713:2026-11-05:19:00:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:35.365Z",
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:35.365Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13036713:2026-11-05:19:15:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:15:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:35.365Z",
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:35.365Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13036713:2026-11-05:19:30:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:30:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:35.365Z",
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:35.365Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13036713:2026-11-05:19:45:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:45:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:35.365Z",
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:35.365Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13036713:2026-11-05:20:00:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T20:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:29:35.365Z",
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:29:35.365Z"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence:restaurant:tabelog-entity-match:688a2ef52f053f58f56c210c",
+            "kind": "ENTITY_MATCH",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13002979",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13002979",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+            "observedAt": "2026-10-23T05:28:39.473Z",
+            "requestFingerprint": "cf8d54782b0d3e8f8b9a7d825e96812afe976e254d428062921fa510d6e9a58d",
+            "claims": {
+              "outletName": "Chanko Kawasaki"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:ecd18a97c8dace919b96a682",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13002979",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13002979",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+            "observedAt": "2026-10-23T05:28:39.473Z",
+            "requestFingerprint": "2c5fb18aa579f8d104d7053ecdcd09852da2157f0f6905b082657d18e3852e23",
+            "claims": {
+              "verifiedHardCriteria": []
+            },
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "listedCoursePricesYen": [],
+              "dinnerBudgetRangeYen": {
+                "min": 6000,
+                "max": 7999,
+                "quote": "JPY 6,000 - JPY 7,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/"
+              }
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-entity-match:55854197a9639c8811d3d1d4",
+            "kind": "ENTITY_MATCH",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13017997",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+            "observedAt": "2026-10-23T05:29:11.348Z",
+            "requestFingerprint": "7754a3f9f6832fb9c0c235156e84060cb96b768079ab13f59ca95849dbedffa5",
+            "claims": {
+              "outletName": "Chanko Kirishima Ryogoku honten"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:d7f529073843f6743340944b",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13017997",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+            "observedAt": "2026-10-23T05:29:11.348Z",
+            "requestFingerprint": "370b6c044641630443f6a6164cb0d8a89c612cd1b2600da157ba7343f3499009",
+            "claims": {
+              "verifiedHardCriteria": [
+                "chanko nabe"
+              ],
+              "listedCourseDetails": [
+                "[120-Minute All-You-Can-Drink Included ★ Yokozuna Course] Luxurious 8 Dishes + All-You-Can-Drink♪ — JPY 12,530 （Price including tax）per person; Number of people 2 - 60. Enjoy a rich selection of dishes, including popular chicken wing kara-age and a luxurious assortment of seven types of sashimi, along with authentic chanko stew passed down from the Mutsu stable. This course includes a 120-minute all-you-can-drink option, making it perfect for banquets!",
+                "Yokozuna Course ◆ Great Satisfaction! Authentic Chanko Nabe, Sashimi, Popular Kirishima Chicken Wings, and 8 Dishes in Total ★ — JPY 10,000 （Price including tax）per person. Enjoy a rich selection of dishes, including the popular Kara-age chicken wings and a luxurious assorted sashimi platter, along with authentic Chanko hot pot passed down from the Mutsu stable.",
+                "[120-Minute All-You-Can-Drink Included ★ Ozeki Course] 7 Dishes + All-You-Can-Drink♪ — JPY 10,230 （Price including tax）per person; Number of people 2 - 60. Enjoy a course featuring fresh sashimi, seasonal dishes, and authentic chanko, directly from the Mutsu stable. Perfect for banquets, this package includes a 120-minute all-you-can-drink option, including beer!"
+              ]
+            },
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "listedCoursePricesYen": [
+                {
+                  "amount": 12530,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "quote": "All you can drink [120-Minute All-You-Can-Drink Included ★ Yokozuna Course] Luxurious 8 Dishes + All-You-Can-Drink♪ Enjoy a rich selection of dishes, including popular chicken wing kara-age and a luxurious assortment of seven types of sashimi, along with authentic chanko stew passed down from the Mutsu stable. This course includes a 120-minute all-you-can-drink option, making it perfect for banquets! Reserve Set menu details JPY 12,530 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 10000,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "quote": "Yokozuna Course ◆ Great Satisfaction! Authentic Chanko Nabe, Sashimi, Popular Kirishima Chicken Wings, and 8 Dishes in Total ★ 8 items Enjoy a rich selection of dishes, including the popular Kara-age chicken wings and a luxurious assorted sashimi platter, along with authentic Chanko hot pot passed down from the Mutsu stable. Reserve Set menu details JPY 10,000 （Price including tax）per person",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 10230,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                  "quote": "All you can drink [120-Minute All-You-Can-Drink Included ★ Ozeki Course] 7 Dishes + All-You-Can-Drink♪ Enjoy a course featuring fresh sashimi, seasonal dishes, and authentic chanko, directly from the Mutsu stable. Perfect for banquets, this package includes a 120-minute all-you-can-drink option, including beer! Reserve Set menu details JPY 10,230 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                }
+              ],
+              "dinnerBudgetRangeYen": {
+                "min": 5000,
+                "max": 5999,
+                "quote": "JPY 5,000 - JPY 5,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/"
+              },
+              "lunchBudgetRangeYen": {
+                "min": 1000,
+                "max": 1999,
+                "quote": "JPY 1,000 - JPY 1,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/"
+              }
+            },
+            "sourceFieldQuotes": [
+              {
+                "field": "COURSE_TITLE",
+                "quote": "[120-Minute All-You-Can-Drink Included ★ Yokozuna Course] Luxurious 8 Dishes + All-You-Can-Drink♪",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Enjoy a rich selection of dishes, including popular chicken wing kara-age and a luxurious assortment of seven types of sashimi, along with authentic chanko stew passed down from the Mutsu stable. This course includes a 120-minute all-you-can-drink option, making it perfect for banquets!",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Yokozuna Course ◆ Great Satisfaction! Authentic Chanko Nabe, Sashimi, Popular Kirishima Chicken Wings, and 8 Dishes in Total ★",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Enjoy a rich selection of dishes, including the popular Kara-age chicken wings and a luxurious assorted sashimi platter, along with authentic Chanko hot pot passed down from the Mutsu stable.",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "[120-Minute All-You-Can-Drink Included ★ Ozeki Course] 7 Dishes + All-You-Can-Drink♪",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Enjoy a course featuring fresh sashimi, seasonal dishes, and authentic chanko, directly from the Mutsu stable. Perfect for banquets, this package includes a 120-minute all-you-can-drink option, including beer!",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CATEGORY",
+                "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+                "meal": "UNSPECIFIED"
+              }
+            ],
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-availability:0f3d8d1177a90390700975d3",
+            "kind": "AVAILABILITY",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13017997",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+            "observedAt": "2026-10-23T05:29:11.348Z",
+            "displayExpiresAt": "2026-10-23T05:39:11.348Z",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+            "requestFingerprint": "67ed8aeaefee9d5c84913614be178ae2e2014b78cedaeba9d728891bbd0f4f8d",
+            "claims": {
+              "date": "2026-11-05",
+              "partySize": 6,
+              "visibleSlots": [
+                "18:00",
+                "18:15",
+                "18:30",
+                "18:45",
+                "19:00",
+                "19:30",
+                "19:45",
+                "20:00"
+              ],
+              "inventoryStatus": "AVAILABLE",
+              "receptionMode": "RESERVATION_SUPPORTED"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            },
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "sha256:8fafacd3f764cee34e0dcd8a8d685d935d7e2a6409a4b84d658773d531301826"
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-entity-match:726bfb7b19c212bf932119ba",
+            "kind": "ENTITY_MATCH",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13036713",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+            "observedAt": "2026-10-23T05:29:35.365Z",
+            "requestFingerprint": "5e18d2fd5a09fe0112bce729c68d5d1073604f5f33831ce0eeabf284b3e5cd81",
+            "claims": {
+              "outletName": "Chanko Dojo Ryougoku ekimae ten"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:2795c0ee30952b4341a6d1df",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13036713",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+            "observedAt": "2026-10-23T05:29:35.365Z",
+            "requestFingerprint": "e54e3eaa8bd18d9fc35ccc2a3354ffd7adc7cb6ef1ccde5a8e09d96fed4e68b7",
+            "claims": {
+              "verifiedHardCriteria": [],
+              "listedCourseDetails": [
+                "Koyui Course 6 Dishes JPY 4290, tax Included, Food Only — JPY 4,290 （Price including tax）per person; Number of people 2 - 60. ■Perfect for those who want to enjoy our dishes easily! You can add a two-hour all-you-can-drink option for an additional JPY 2,420 (tax included)! **Please contact us directly for reservation deadlines.**",
+                "Sekiwake Course 7 Dishes JPY 5450, Tax Included, Food Only — JPY 5,450 （Price including tax）per person; Number of people 2 - 60. This is a great deal that includes grilled shrimp with salt. You can add a two-hour all-you-can-drink option for an extra JPY 2,420 (tax included)! **Please contact the restaurant directly for reservation deadlines.**",
+                "Ozeki Course 8 Dishes JPY 6600, Tax Included, Food Only — JPY 6,600 （Price including tax）per person; Number of people 2 - 60. Dessert is included, ensuring your satisfaction! You can add a two-hour all-you-can-drink option for an additional JPY 2420 (tax included)! **Please contact the restaurant directly for reservation deadlines.**"
+              ]
+            },
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "listedCoursePricesYen": [
+                {
+                  "amount": 4290,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "quote": "Most popular Koyui Course 6 Dishes JPY 4290, tax Included, Food Only 6 items ■Perfect for those who want to enjoy our dishes easily! You can add a two-hour all-you-can-drink option for an additional JPY 2,420 (tax included)! **Please contact us directly for reservation deadlines.** Reserve Set menu details JPY 4,290 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 5450,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "quote": "Recommended Sekiwake Course 7 Dishes JPY 5450, Tax Included, Food Only 7 items This is a great deal that includes grilled shrimp with salt. You can add a two-hour all-you-can-drink option for an extra JPY 2,420 (tax included)! **Please contact the restaurant directly for reservation deadlines.** Reserve Set menu details JPY 5,450 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 6600,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "quote": "Ozeki Course 8 Dishes JPY 6600, Tax Included, Food Only 8 items Dessert is included, ensuring your satisfaction! You can add a two-hour all-you-can-drink option for an additional JPY 2420 (tax included)! **Please contact the restaurant directly for reservation deadlines.** Reserve Set menu details JPY 6,600 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                }
+              ],
+              "dinnerBudgetRangeYen": {
+                "min": 4000,
+                "max": 4999,
+                "quote": "JPY 4,000 - JPY 4,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/"
+              }
+            },
+            "sourceFieldQuotes": [
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Koyui Course 6 Dishes JPY 4290, tax Included, Food Only",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "■Perfect for those who want to enjoy our dishes easily! You can add a two-hour all-you-can-drink option for an additional JPY 2,420 (tax included)! **Please contact us directly for reservation deadlines.**",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Sekiwake Course 7 Dishes JPY 5450, Tax Included, Food Only",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "This is a great deal that includes grilled shrimp with salt. You can add a two-hour all-you-can-drink option for an extra JPY 2,420 (tax included)! **Please contact the restaurant directly for reservation deadlines.**",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Ozeki Course 8 Dishes JPY 6600, Tax Included, Food Only",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Dessert is included, ensuring your satisfaction! You can add a two-hour all-you-can-drink option for an additional JPY 2420 (tax included)! **Please contact the restaurant directly for reservation deadlines.**",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CATEGORY",
+                "quote": "Chanko-nabe, Izakaya (Japanese style tavern), Seafood",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              }
+            ],
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-availability:e658452f079b76182f1d41a0",
+            "kind": "AVAILABILITY",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13036713",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+            "observedAt": "2026-10-23T05:29:35.365Z",
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+            "requestFingerprint": "46c4591f28ff568fc44da3d24b5c7aaf3e463323279c7673c42d77c8b7bfa03d",
+            "claims": {
+              "date": "2026-11-05",
+              "partySize": 6,
+              "visibleSlots": [
+                "18:00",
+                "18:15",
+                "18:30",
+                "18:45",
+                "19:00",
+                "19:15",
+                "19:30",
+                "19:45",
+                "20:00"
+              ],
+              "inventoryStatus": "AVAILABLE",
+              "receptionMode": "RESERVATION_SUPPORTED"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            },
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "sha256:0dd70fd8d639fa9d3a597b16b740a798412e9d3fa0506c1d06f6d39db57b3163"
+            }
+          }
+        ],
+        "availabilityChecks": {
+          "tabelog:en/tokyo/A1312/A131201/13002979": {
+            "status": "UNKNOWN",
+            "checkedAt": "2026-10-23T05:28:39.473Z",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:688a2ef52f053f58f56c210c",
+              "evidence:restaurant:tabelog-hard-criteria:ecd18a97c8dace919b96a682"
+            ],
+            "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+            "sourceAttempts": [
+              {
+                "source": "TABELOG",
+                "outcome": "FAILED",
+                "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+              }
+            ],
+            "sourceProvider": "TABELOG"
+          },
+          "tabelog:en/tokyo/A1312/A131201/13017997": {
+            "status": "AVAILABLE",
+            "receptionMode": "RESERVATION_SUPPORTED",
+            "checkedAt": "2026-10-23T05:29:11.348Z",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:55854197a9639c8811d3d1d4",
+              "evidence:restaurant:tabelog-hard-criteria:d7f529073843f6743340944b",
+              "evidence:restaurant:tabelog-availability:0f3d8d1177a90390700975d3"
+            ],
+            "displayExpiresAt": "2026-10-23T05:39:11.348Z",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+            "sourceAttempts": [
+              {
+                "source": "TABELOG",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "sourceProvider": "TABELOG"
+          },
+          "tabelog:en/tokyo/A1312/A131201/13036713": {
+            "status": "AVAILABLE",
+            "receptionMode": "RESERVATION_SUPPORTED",
+            "checkedAt": "2026-10-23T05:29:35.365Z",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:726bfb7b19c212bf932119ba",
+              "evidence:restaurant:tabelog-hard-criteria:2795c0ee30952b4341a6d1df",
+              "evidence:restaurant:tabelog-availability:e658452f079b76182f1d41a0"
+            ],
+            "displayExpiresAt": "2026-10-23T05:39:35.365Z",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+            "sourceAttempts": [
+              {
+                "source": "TABELOG",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "sourceProvider": "TABELOG"
+          }
+        },
+        "metadata": {
+          "provider": "TABELOG",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 69795,
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "providerAttempts": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1312/A131201/13002979",
+              "provider": "TABELOG",
+              "outcome": "PROVIDER_FAILURE",
+              "failureCode": "REQUEST_SELECTION_UNCONFIRMED"
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+              "provider": "TABELOG",
+              "outcome": "AVAILABLE"
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+              "provider": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "browser": {
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "engine": "CHROMIUM",
+            "sessionId": "local:7bc62c78-b119-4904-99c3-ed60d41d9542",
+            "startedAt": "2026-10-23T05:29:11.477Z",
+            "readNetworkBoundary": "INSTALLED"
+          }
+        },
+        "candidateFactUpdates": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13002979",
+            "matchReasons": [],
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:ecd18a97c8dace919b96a682"
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+            "matchReasons": [
+              "Verified HARD criterion from source: chanko nabe"
+            ],
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:d7f529073843f6743340944b"
+            ]
+          },
+          {
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "matchReasons": [],
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:2795c0ee30952b4341a6d1df"
+            ]
+          }
+        ]
+      },
+      "occurredAt": "2026-10-23T05:29:35.407Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-04:1792733196784",
+        "correlationId": "event:restaurant-agent:2",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:3",
+      "taskId": "hybrid-live:p2c-holdout-04:1792733196784",
+      "event": {
+        "type": "AVAILABILITY_CHECKED",
+        "request": {
+          "candidateIds": [
+            "tabelog:en/tokyo/A1312/A131201/13202196"
+          ],
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1312/A131201/13202196",
+                "outletName": "Chanko Kirishima Ryougoku edo NOREN ten",
+                "address": "1300015 Tokyo Yokoami Sumida Tokyo ",
+                "coordinates": {
+                  "lat": 35.69617076871499,
+                  "lng": 139.79300187451673
+                },
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1312/A131201/13202196",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/"
+                },
+                "provenance": {
+                  "outletName": "evidence:restaurant:native-discovery:17052aa73839da560ca8d216",
+                  "address": "evidence:restaurant:native-discovery:17052aa73839da560ca8d216",
+                  "sourceIds": "evidence:restaurant:native-discovery:17052aa73839da560ca8d216"
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Ryogoku"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM"
+            }
+          ],
+          "date": "2026-11-05",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "20:00"
+          },
+          "partySize": 6,
+          "hardCriteria": [
+            "chanko nabe"
+          ]
+        },
+        "offers": [
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13202196:2026-11-05:18:00:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:30:12.748Z",
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:30:12.748Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13202196:2026-11-05:18:15:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:15:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:30:12.748Z",
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:30:12.748Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13202196:2026-11-05:18:30:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:30:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:30:12.748Z",
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:30:12.748Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13202196:2026-11-05:18:45:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T18:45:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:30:12.748Z",
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:30:12.748Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13202196:2026-11-05:19:00:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:30:12.748Z",
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:30:12.748Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13202196:2026-11-05:19:15:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:15:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:30:12.748Z",
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:30:12.748Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13202196:2026-11-05:19:30:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:30:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:30:12.748Z",
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:30:12.748Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13202196:2026-11-05:19:45:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T19:45:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:30:12.748Z",
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:30:12.748Z"
+          },
+          {
+            "id": "offer:tabelog:tabelog:en/tokyo/A1312/A131201/13202196:2026-11-05:20:00:6",
+            "restaurantId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "source": "TABELOG",
+            "dateTime": "2026-11-05T20:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-23T05:30:12.748Z",
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-23T05:30:12.748Z"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence:restaurant:tabelog-entity-match:d8180b4482a65250fdcd1ee1",
+            "kind": "ENTITY_MATCH",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13202196",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+            "observedAt": "2026-10-23T05:30:12.748Z",
+            "requestFingerprint": "16f67f1f659236dfd054b734ae7886374db64174da16cfe6f26497c3fa156ebd",
+            "claims": {
+              "outletName": "Chanko Kirishima Ryougoku edo NOREN ten"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:39117c536ed737a858231f01",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13202196",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+            "observedAt": "2026-10-23T05:30:12.748Z",
+            "requestFingerprint": "d1e4e0ff2c79364e7983a8ed9801814582f85ee12777890c1627a0172c18d21b",
+            "claims": {
+              "verifiedHardCriteria": [
+                "chanko nabe"
+              ],
+              "listedCourseDetails": [
+                "Authentic Chanko Lunch Course — JPY 4,180 （Price including tax）per person. Enjoy a satisfying lunch course featuring Chanko Hot Pot, fresh sashimi, and our signature crispy Kirishima chicken wings. It's a perfect choice for a delightful meal!",
+                "Sekiwake Course ◆ Casual ☆ Authentic Chanko Nabe Course, 6 Dishes♪ — JPY 6,000 （Price including tax）per person. Enjoy a course featuring popular chicken wing kara-age and authentic chanko, directly taught by the Mutsu stable.",
+                "120 Minutes All-You-Can-Drink Sekiwake Course, 6 Dishes + Drink Included♪ — JPY 8,530 （Price including tax）per person; Number of people 2 - 60. Enjoy a course featuring popular chicken wing kara-age and authentic chanko, directly from the Mutsu stable. Perfect for banquets, this package includes a 120-minute all-you-can-drink option, including beer!"
+              ]
+            },
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "listedCoursePricesYen": [
+                {
+                  "amount": 4180,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "quote": "Authentic Chanko Lunch Course 6 items Enjoy a satisfying lunch course featuring Chanko Hot Pot, fresh sashimi, and our signature crispy Kirishima chicken wings. It's a perfect choice for a delightful meal! Reserve Set menu details JPY 4,180 （Price including tax）per person",
+                  "tax": "INCLUDED",
+                  "meal": "LUNCH",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 6000,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "quote": "Sekiwake Course ◆ Casual ☆ Authentic Chanko Nabe Course, 6 Dishes♪ 6 items Enjoy a course featuring popular chicken wing kara-age and authentic chanko, directly taught by the Mutsu stable. Reserve Set menu details JPY 6,000 （Price including tax）per person",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 8530,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                  "quote": "All you can drink 120 Minutes All-You-Can-Drink Sekiwake Course, 6 Dishes + Drink Included♪ Enjoy a course featuring popular chicken wing kara-age and authentic chanko, directly from the Mutsu stable. Perfect for banquets, this package includes a 120-minute all-you-can-drink option, including beer! Reserve Set menu details JPY 8,530 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                }
+              ],
+              "dinnerBudgetRangeYen": {
+                "min": 5000,
+                "max": 5999,
+                "quote": "JPY 5,000 - JPY 5,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/"
+              },
+              "lunchBudgetRangeYen": {
+                "min": 1000,
+                "max": 1999,
+                "quote": "JPY 1,000 - JPY 1,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/"
+              }
+            },
+            "sourceFieldQuotes": [
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Authentic Chanko Lunch Course",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                "meal": "LUNCH"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Enjoy a satisfying lunch course featuring Chanko Hot Pot, fresh sashimi, and our signature crispy Kirishima chicken wings. It's a perfect choice for a delightful meal!",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                "meal": "LUNCH"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Sekiwake Course ◆ Casual ☆ Authentic Chanko Nabe Course, 6 Dishes♪",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Enjoy a course featuring popular chicken wing kara-age and authentic chanko, directly taught by the Mutsu stable.",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "120 Minutes All-You-Can-Drink Sekiwake Course, 6 Dishes + Drink Included♪",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Enjoy a course featuring popular chicken wing kara-age and authentic chanko, directly from the Mutsu stable. Perfect for banquets, this package includes a 120-minute all-you-can-drink option, including beer!",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CATEGORY",
+                "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+                "meal": "UNSPECIFIED"
+              }
+            ],
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-availability:96352f496cc88f36426f1f52",
+            "kind": "AVAILABILITY",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13202196",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+            "observedAt": "2026-10-23T05:30:12.748Z",
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+            "requestFingerprint": "02df0dfeb9496df6381a1ce80ca12b6e31708a0307566821055321f73b15f92d",
+            "claims": {
+              "date": "2026-11-05",
+              "partySize": 6,
+              "visibleSlots": [
+                "18:00",
+                "18:15",
+                "18:30",
+                "18:45",
+                "19:00",
+                "19:15",
+                "19:30",
+                "19:45",
+                "20:00"
+              ],
+              "inventoryStatus": "AVAILABLE",
+              "receptionMode": "RESERVATION_SUPPORTED"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            },
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "sha256:5460f4b07728e8b391d73bf4a2391a0af9ca9b03f28279757e6df6b7333e0fe5"
+            }
+          }
+        ],
+        "availabilityChecks": {
+          "tabelog:en/tokyo/A1312/A131201/13202196": {
+            "status": "AVAILABLE",
+            "receptionMode": "RESERVATION_SUPPORTED",
+            "checkedAt": "2026-10-23T05:30:12.748Z",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:d8180b4482a65250fdcd1ee1",
+              "evidence:restaurant:tabelog-hard-criteria:39117c536ed737a858231f01",
+              "evidence:restaurant:tabelog-availability:96352f496cc88f36426f1f52"
+            ],
+            "displayExpiresAt": "2026-10-23T05:40:12.748Z",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+            "sourceAttempts": [
+              {
+                "source": "TABELOG",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "sourceProvider": "TABELOG"
+          }
+        },
+        "metadata": {
+          "provider": "TABELOG",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 34520,
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "providerAttempts": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+              "provider": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "browser": {
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "engine": "CHROMIUM",
+            "sessionId": "local:73147073-508e-4ec9-bb02-e161e2c24b2a",
+            "startedAt": "2026-10-23T05:29:38.347Z",
+            "readNetworkBoundary": "INSTALLED"
+          }
+        },
+        "candidateFactUpdates": [
+          {
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+            "matchReasons": [
+              "Verified HARD criterion from source: chanko nabe"
+            ],
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-hard-criteria:39117c536ed737a858231f01"
+            ]
+          }
+        ]
+      },
+      "occurredAt": "2026-10-23T05:30:12.787Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-04:1792733196784",
+        "correlationId": "event:restaurant-agent:3",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:4",
+      "taskId": "hybrid-live:p2c-holdout-04:1792733196784",
+      "event": {
+        "type": "CANDIDATE_FACTS_CHECKED",
+        "request": {
+          "candidateIds": [
+            "tabelog:en/tokyo/A1312/A131201/13036713",
+            "tabelog:en/tokyo/A1312/A131201/13002979"
+          ],
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713",
+                "outletName": "Chanko Dojo Ryougoku ekimae ten",
+                "address": "1300015 Tokyo Yokoami Sumida Tokyo ",
+                "coordinates": {
+                  "lat": 35.695785558715215,
+                  "lng": 139.79294749451287
+                },
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1312/A131201/13036713",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/"
+                },
+                "provenance": {
+                  "outletName": "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+                  "address": "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+                  "sourceIds": "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0"
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Ryogoku"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM"
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979",
+                "outletName": "Chanko Kawasaki",
+                "address": "1300026 Tokyo Ryogoku Sumida Tokyo ",
+                "coordinates": {
+                  "lat": 35.69536334871501,
+                  "lng": 139.79145286450964
+                },
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1312/A131201/13002979",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/"
+                },
+                "provenance": {
+                  "outletName": "evidence:restaurant:native-discovery:17a90f6f76f74aeded8999f3",
+                  "address": "evidence:restaurant:native-discovery:17a90f6f76f74aeded8999f3",
+                  "sourceIds": "evidence:restaurant:native-discovery:17a90f6f76f74aeded8999f3"
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Ryogoku"
+              ],
+              "warnings": [],
+              "executionConfidence": "MEDIUM"
+            }
+          ],
+          "intent": {
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Chanko nabe restaurants near Ryogoku",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "date": "2026-11-05",
+            "timeWindow": {
+              "earliest": "18:00",
+              "latest": "20:00"
+            },
+            "partySize": 6,
+            "area": {
+              "query": "near Ryogoku"
+            },
+            "criteria": [
+              {
+                "text": "chanko nabe",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              },
+              {
+                "text": "private room",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              }
+            ]
+          },
+          "readRunId": "run:hybrid-live:p2c-holdout-04:1792733196784:investigation:1"
+        },
+        "evidence": [
+          {
+            "evidenceId": "evidence:restaurant:native-fact-identity:b2ee26108220748b904c7ce4",
+            "kind": "ENTITY_MATCH",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13036713",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+            "observedAt": "2026-10-23T05:30:18.749Z",
+            "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1312/A131201/13036713\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1312/A131201/13036713/\"}",
+            "claims": {
+              "observationKind": "PUBLIC_PAGE",
+              "outletName": "Chanko Dojo Ryougoku ekimae ten",
+              "address": "1300015 Tokyo Yokoami Sumida Tokyo "
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13036713",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+            "observedAt": "2026-10-23T05:30:18.749Z",
+            "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776\",\"statementIds\":[\"tabelog:en/tokyo/A1312/A131201/13036713:statement:1\",\"tabelog:en/tokyo/A1312/A131201/13036713:statement:19\",\"tabelog:en/tokyo/A1312/A131201/13036713:statement:35\"]}",
+            "claims": {
+              "restaurantTypeFacts": [
+                "Chanko Dojo Ryougoku ekimae ten（ちゃんこどうじょう） - Ryogoku(Chanko-nabe)",
+                "Chanko-nabe",
+                "■A restaurant boasting nutritious Chanko Nabe, fresh sashimi, and creative dishes. Chanko, based on a soy sauce-flavored broth, is available in 7 varieties starting from JPY 2,300 (tax included)!■Enj...Read more"
+              ],
+              "sourceStatementIds": [
+                "tabelog:en/tokyo/A1312/A131201/13036713:statement:1",
+                "tabelog:en/tokyo/A1312/A131201/13036713:statement:19",
+                "tabelog:en/tokyo/A1312/A131201/13036713:statement:35"
+              ]
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            },
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776"
+            },
+            "sourceFieldQuotes": [
+              {
+                "field": "NAME",
+                "quote": "Chanko Dojo Ryougoku ekimae ten",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CATEGORY",
+                "quote": "Chanko-nabe",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              }
+            ],
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "dinnerBudgetRangeYen": {
+                "min": 4000,
+                "max": 4999,
+                "quote": "JPY 4,000 - JPY 4,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/"
+              },
+              "listedCoursePricesYen": [
+                {
+                  "amount": 4290,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "quote": "Most popular Koyui Course 6 Dishes JPY 4290, tax Included, Food Only 6 items ■Perfect for those who want to enjoy our dishes easily! You can add a two-hour all-you-can-drink option for an additional JPY 2,420 (tax included)! **Please contact us directly for reservation deadlines.** Reserve Set menu details JPY 4,290 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 5450,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "quote": "Recommended Sekiwake Course 7 Dishes JPY 5450, Tax Included, Food Only 7 items This is a great deal that includes grilled shrimp with salt. You can add a two-hour all-you-can-drink option for an extra JPY 2,420 (tax included)! **Please contact the restaurant directly for reservation deadlines.** Reserve Set menu details JPY 5,450 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 6600,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "quote": "Ozeki Course 8 Dishes JPY 6600, Tax Included, Food Only 8 items Dessert is included, ensuring your satisfaction! You can add a two-hour all-you-can-drink option for an additional JPY 2420 (tax included)! **Please contact the restaurant directly for reservation deadlines.** Reserve Set menu details JPY 6,600 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                }
+              ]
+            }
+          },
+          {
+            "evidenceId": "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T05:30:34.764Z:tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+            "kind": "RESTAURANT_FACT",
+            "provider": "MODEL_JUDGMENT",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "observedAt": "2026-10-23T05:30:34.764Z",
+            "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1312/A131201/13036713\",\"criteria\":[\"chanko nabe\"],\"cited\":[\"tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776\"]}",
+            "claims": {
+              "verifiedHardCriteria": [
+                "chanko nabe"
+              ],
+              "supportingEvidenceIds": [
+                "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:native-fact-identity:c2b94c0ecec74c9dcaf96aee",
+            "kind": "ENTITY_MATCH",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13002979",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13002979",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+            "observedAt": "2026-10-23T05:30:34.810Z",
+            "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1312/A131201/13002979\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1312/A131201/13002979/\"}",
+            "claims": {
+              "observationKind": "PUBLIC_PAGE",
+              "outletName": "Chanko Kawasaki",
+              "address": "1300026 Tokyo Ryogoku Sumida Tokyo "
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            }
+          },
+          {
+            "evidenceId": "tabelog:en/tokyo/A1312/A131201/13002979:document:49cbff0ae14a4b01",
+            "kind": "RESTAURANT_FACT",
+            "provider": "TABELOG",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13002979",
+            "sourceEntityId": "en/tokyo/A1312/A131201/13002979",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+            "observedAt": "2026-10-23T05:30:34.810Z",
+            "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1312/A131201/13002979:document:49cbff0ae14a4b01\",\"statementIds\":[\"tabelog:en/tokyo/A1312/A131201/13002979:statement:1\",\"tabelog:en/tokyo/A1312/A131201/13002979:statement:19\",\"tabelog:en/tokyo/A1312/A131201/13002979:statement:40\"]}",
+            "claims": {
+              "restaurantTypeFacts": [
+                "Chanko Kawasaki（かわさき） - Ryogoku(Chanko-nabe)",
+                "Chanko-nabe",
+                "I visited the renowned Chanko Kawasaki, a long-established chanko hot pot restaurant repre...View details"
+              ],
+              "sourceStatementIds": [
+                "tabelog:en/tokyo/A1312/A131201/13002979:statement:1",
+                "tabelog:en/tokyo/A1312/A131201/13002979:statement:19",
+                "tabelog:en/tokyo/A1312/A131201/13002979:statement:40"
+              ]
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "NATIVE_SOURCE_ID_AND_DETAIL"
+              ]
+            },
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "tabelog:en/tokyo/A1312/A131201/13002979:document:49cbff0ae14a4b01"
+            },
+            "sourceFieldQuotes": [
+              {
+                "field": "NAME",
+                "quote": "Chanko Kawasaki",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "NAME",
+                "quote": "Chanko Kawasaki",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CATEGORY",
+                "quote": "Chanko-nabe",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                "meal": "UNSPECIFIED"
+              }
+            ],
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "dinnerBudgetRangeYen": {
+                "min": 6000,
+                "max": 7999,
+                "quote": "JPY 6,000 - JPY 7,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/"
+              },
+              "listedCoursePricesYen": []
+            }
+          },
+          {
+            "evidenceId": "fact-judgment:tabelog:en/tokyo/A1312/A131201/13002979:2026-10-23T05:30:51.774Z:tabelog:en/tokyo/A1312/A131201/13002979:document:49cbff0ae14a4b01",
+            "kind": "RESTAURANT_FACT",
+            "provider": "MODEL_JUDGMENT",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13002979",
+            "observedAt": "2026-10-23T05:30:51.774Z",
+            "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1312/A131201/13002979\",\"criteria\":[\"chanko nabe\"],\"cited\":[\"tabelog:en/tokyo/A1312/A131201/13002979:document:49cbff0ae14a4b01\"]}",
+            "claims": {
+              "verifiedHardCriteria": [
+                "chanko nabe"
+              ],
+              "supportingEvidenceIds": [
+                "tabelog:en/tokyo/A1312/A131201/13002979:document:49cbff0ae14a4b01"
+              ]
+            }
+          }
+        ],
+        "factChecks": {
+          "tabelog:en/tokyo/A1312/A131201/13036713": {
+            "status": "COMPLETED",
+            "checkedAt": "2026-10-23T05:30:18.749Z",
+            "evidenceIds": [
+              "evidence:restaurant:native-fact-identity:b2ee26108220748b904c7ce4",
+              "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+              "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T05:30:34.764Z:tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776"
+            ],
+            "sourceProvider": "TABELOG"
+          },
+          "tabelog:en/tokyo/A1312/A131201/13002979": {
+            "status": "COMPLETED",
+            "checkedAt": "2026-10-23T05:30:34.810Z",
+            "evidenceIds": [
+              "evidence:restaurant:native-fact-identity:c2b94c0ecec74c9dcaf96aee",
+              "tabelog:en/tokyo/A1312/A131201/13002979:document:49cbff0ae14a4b01",
+              "fact-judgment:tabelog:en/tokyo/A1312/A131201/13002979:2026-10-23T05:30:51.774Z:tabelog:en/tokyo/A1312/A131201/13002979:document:49cbff0ae14a4b01"
+            ],
+            "sourceProvider": "TABELOG"
+          }
+        },
+        "metadata": {
+          "provider": "TABELOG",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 33062,
+          "nativeContinuity": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+              "provider": "TABELOG",
+              "expectedSourceEntityId": "en/tokyo/A1312/A131201/13036713",
+              "observedSourceEntityId": "tokyo/A1312/A131201/13036713",
+              "confirmed": true,
+              "reason": "SAME_SOURCE_OUTLET"
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1312/A131201/13002979",
+              "provider": "TABELOG",
+              "expectedSourceEntityId": "en/tokyo/A1312/A131201/13002979",
+              "observedSourceEntityId": "tokyo/A1312/A131201/13002979",
+              "confirmed": true,
+              "reason": "SAME_SOURCE_OUTLET"
+            }
+          ],
+          "modelUsage": {
+            "calls": 2,
+            "inputTokens": 0,
+            "outputTokens": 0,
+            "totalTokens": 0
+          }
+        },
+        "sourceDocuments": [
+          {
+            "id": "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+            "identityEvidenceId": "evidence:restaurant:native-fact-identity:b2ee26108220748b904c7ce4",
+            "sourceFieldQuotes": [
+              {
+                "field": "NAME",
+                "quote": "Chanko Dojo Ryougoku ekimae ten",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "Delicious Chanko Lunch for JPY 1000!",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "Casual Chanko Lunch in Ryogoku, a Se...",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "Luxurious Yokozuna Chanko Hot Pot!",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Koyui Course 6 Dishes JPY 4290, tax Included, Food Only",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "■Perfect for those who want to enjoy our dishes easily! You can add a two-hour all-you-can-drink option for an additional JPY 2,420 (tax included)! **Please contact us directly for reservation deadlines.**",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Sekiwake Course 7 Dishes JPY 5450, Tax Included, Food Only",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "This is a great deal that includes grilled shrimp with salt. You can add a two-hour all-you-can-drink option for an extra JPY 2,420 (tax included)! **Please contact the restaurant directly for reservation deadlines.**",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_TITLE",
+                "quote": "Ozeki Course 8 Dishes JPY 6600, Tax Included, Food Only",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Dessert is included, ensuring your satisfaction! You can add a two-hour all-you-can-drink option for an additional JPY 2420 (tax included)! **Please contact the restaurant directly for reservation deadlines.**",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CATEGORY",
+                "quote": "Chanko-nabe, Izakaya (Japanese style tavern), Seafood",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                "meal": "UNSPECIFIED"
+              }
+            ],
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "listedCoursePricesYen": [
+                {
+                  "amount": 4290,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "quote": "Most popular Koyui Course 6 Dishes JPY 4290, tax Included, Food Only 6 items ■Perfect for those who want to enjoy our dishes easily! You can add a two-hour all-you-can-drink option for an additional JPY 2,420 (tax included)! **Please contact us directly for reservation deadlines.** Reserve Set menu details JPY 4,290 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 5450,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "quote": "Recommended Sekiwake Course 7 Dishes JPY 5450, Tax Included, Food Only 7 items This is a great deal that includes grilled shrimp with salt. You can add a two-hour all-you-can-drink option for an extra JPY 2,420 (tax included)! **Please contact the restaurant directly for reservation deadlines.** Reserve Set menu details JPY 5,450 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                },
+                {
+                  "amount": 6600,
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+                  "quote": "Ozeki Course 8 Dishes JPY 6600, Tax Included, Food Only 8 items Dessert is included, ensuring your satisfaction! You can add a two-hour all-you-can-drink option for an additional JPY 2420 (tax included)! **Please contact the restaurant directly for reservation deadlines.** Reserve Set menu details JPY 6,600 （Price including tax）per person Number of people 2 - 60",
+                  "tax": "INCLUDED",
+                  "meal": "UNSPECIFIED",
+                  "kind": "MEAL"
+                }
+              ],
+              "dinnerBudgetRangeYen": {
+                "min": 4000,
+                "max": 4999,
+                "quote": "JPY 4,000 - JPY 4,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/"
+              }
+            },
+            "statements": [
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:0",
+                "text": "About TabelogFAQJapanese Culture and Etiquette Guide"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:1",
+                "text": "Chanko Dojo Ryougoku ekimae ten（ちゃんこどうじょう） - Ryogoku(Chanko-nabe)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:2",
+                "text": "English"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:3",
+                "text": "简体中文"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:4",
+                "text": "繁體中文"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:5",
+                "text": "한국어"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:6",
+                "text": "ไทย"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:7",
+                "text": "日本語"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:8",
+                "text": "Tabelog"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:9",
+                "text": "Tabelog  Tokyo  Tokyo Chanko-nabe  Ryogoku Chanko-nabe  Ryogoku, Kinshicho Chanko-nabe  Ryogoku Sta. Chanko-nabe  Chanko Dojo Ryougoku ekimae ten"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:10",
+                "text": "Official information"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:11",
+                "text": "Ryokoku Chanko Nabe Izakaya Sake Banquet"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:12",
+                "text": "Chanko Dojo Ryougoku ekimae ten (ちゃんこ道場 両国駅前店)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:13",
+                "text": "3.42"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:14",
+                "text": "261 reviews"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:15",
+                "text": "Nearest station："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:16",
+                "text": "Ryogoku Sta."
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:17",
+                "text": "[Tokyo]"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:18",
+                "text": "Categories："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:19",
+                "text": "Chanko-nabe"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:20",
+                "text": "Izakaya (Japanese style tavern)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:21",
+                "text": "Seafood"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:22",
+                "text": "Budget："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:23",
+                "text": "JPY 4,000 - JPY 4,999"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:24",
+                "text": "- JPY 999"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:25",
+                "text": "Restaurant information(detail)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:26",
+                "text": "Overview"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:27",
+                "text": "Seating"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:28",
+                "text": "Menu"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:29",
+                "text": "Photos"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:30",
+                "text": "730"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:31",
+                "text": "Reviews"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:32",
+                "text": "261"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:33",
+                "text": "Map"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:34",
+                "text": "【1 minute from Ryogoku Station】Hearty and delicious! Enjoy 7 varieties of chanko nabe loaded with luxurious ingredients!"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:35",
+                "text": "■A restaurant boasting nutritious Chanko Nabe, fresh sashimi, and creative dishes. Chanko, based on a soy sauce-flavored broth, is available in 7 varieties starting from JPY 2,300 (tax included)!■Enj...Read more"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:36",
+                "text": "Specialities"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:37",
+                "text": "Food"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:38",
+                "text": "\"Chanko Nabe with Homemade Tsukune for 2680 Yen!\""
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:39",
+                "text": "Food"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:40",
+                "text": "\"Sashimi Platter Starting at 1500 Yen - Enjoy Fresh Seafood\""
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:41",
+                "text": "Food"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:42",
+                "text": "\"Banquet Course Starting from 3,500 Yen - Accommodating 2 to 66 Guests!\""
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:43",
+                "text": "Drink"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:44",
+                "text": "\"Delicious Sake from All Over the Country: Sake and Shochu Pair Perfectly with Chanko Nabe\""
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:45",
+                "text": "Set menu"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:46",
+                "text": "Most popular"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:47",
+                "text": "Koyui Course 6 Dishes JPY 4290, tax Included, Food Only6 items"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:48",
+                "text": "■Perfect for those who want to enjoy our dishes easily! You can add a two-hour all-you-can-drink option for an additional JPY 2,420 (tax included)! **Please contact us directly for reservation deadlines.**"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13036713:statement:49",
+                "text": "Reserve"
+              }
+            ]
+          },
+          {
+            "id": "tabelog:en/tokyo/A1312/A131201/13002979:document:49cbff0ae14a4b01",
+            "candidateId": "tabelog:en/tokyo/A1312/A131201/13002979",
+            "identityEvidenceId": "evidence:restaurant:native-fact-identity:c2b94c0ecec74c9dcaf96aee",
+            "sourceFieldQuotes": [
+              {
+                "field": "NAME",
+                "quote": "Chanko Kawasaki",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "A Chanko Restaurant with 90 Years of...",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "The Aroma of Dashi and Culture",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CUSTOMER_REVIEW",
+                "quote": "Enjoy 80 Years of Authentic Chicken ...",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                "meal": "UNSPECIFIED"
+              },
+              {
+                "field": "CATEGORY",
+                "quote": "Chanko-nabe, Yakitori (Grilled chicken skewers)",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/",
+                "meal": "UNSPECIFIED"
+              }
+            ],
+            "priceFacts": {
+              "schemaVersion": "restaurant-price-facts@1",
+              "listedCoursePricesYen": [],
+              "dinnerBudgetRangeYen": {
+                "min": 6000,
+                "max": 7999,
+                "quote": "JPY 6,000 - JPY 7,999",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002979/"
+              }
+            },
+            "statements": [
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:0",
+                "text": "About TabelogFAQJapanese Culture and Etiquette Guide"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:1",
+                "text": "Chanko Kawasaki（かわさき） - Ryogoku(Chanko-nabe)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:2",
+                "text": "English"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:3",
+                "text": "简体中文"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:4",
+                "text": "繁體中文"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:5",
+                "text": "한국어"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:6",
+                "text": "ไทย"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:7",
+                "text": "日本語"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:8",
+                "text": "Tabelog"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:9",
+                "text": "Tabelog  Tokyo  Tokyo Chanko-nabe  Ryogoku Chanko-nabe  Ryogoku, Kinshicho Chanko-nabe  Ryogoku Sta. Chanko-nabe  Chanko Kawasaki"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:10",
+                "text": "Official information"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:11",
+                "text": "Chanko Kawasaki (ちゃんこ 川﨑)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:12",
+                "text": "3.53"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:13",
+                "text": "Very good"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:14",
+                "text": "225 reviews"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:15",
+                "text": "Nearest station："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:16",
+                "text": "Ryogoku Sta."
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:17",
+                "text": "[Tokyo]"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:18",
+                "text": "Categories："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:19",
+                "text": "Chanko-nabe"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:20",
+                "text": "Yakitori (Grilled chicken skewers)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:21",
+                "text": "Budget："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:22",
+                "text": "JPY 6,000 - JPY 7,999"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:23",
+                "text": "-"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:24",
+                "text": "Closed："
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:25",
+                "text": "Wednesday, Sunday, Public Holiday"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:26",
+                "text": "Restaurant information(detail)"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:27",
+                "text": "Overview"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:28",
+                "text": "Menu"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:29",
+                "text": "Photos"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:30",
+                "text": "1142"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:31",
+                "text": "Reviews"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:32",
+                "text": "225"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:33",
+                "text": "Map"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:34",
+                "text": "View more"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:35",
+                "text": "Review？"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:36",
+                "text": "おゆまです"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:37",
+                "text": "Review 49 posts"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:38",
+                "text": "Followers 191 people"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:39",
+                "text": "A Chanko Restaurant with 90 Years of..."
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:40",
+                "text": "I visited the renowned Chanko Kawasaki, a long-established chanko hot pot restaurant repre...View details"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:41",
+                "text": "Visited on September, 2026"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:42",
+                "text": "1 time"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:43",
+                "text": "Fluffy President"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:44",
+                "text": "Review 195 posts"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:45",
+                "text": "Followers 133 people"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:46",
+                "text": "The Aroma of Dashi and Culture"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:47",
+                "text": "If you're in Ryogoku, you must try Chanko Nabe. I made a reservation through a local frie...View details"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:48",
+                "text": "Visited on September, 2026"
+              },
+              {
+                "id": "tabelog:en/tokyo/A1312/A131201/13002979:statement:49",
+                "text": "1 time"
+              }
+            ]
+          }
+        ]
+      },
+      "occurredAt": "2026-10-23T05:30:51.810Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-04:1792733196784",
+        "correlationId": "event:restaurant-agent:4",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:5",
+      "taskId": "hybrid-live:p2c-holdout-04:1792733196784",
+      "event": {
+        "type": "RESULTS_PRESENTED",
+        "candidateIds": [
+          "tabelog:en/tokyo/A1312/A131201/13017997",
+          "tabelog:en/tokyo/A1312/A131201/13202196",
+          "tabelog:en/tokyo/A1312/A131201/13036713"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:55854197a9639c8811d3d1d4",
+          "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c",
+          "evidence:restaurant:tabelog-availability:0f3d8d1177a90390700975d3",
+          "evidence:restaurant:tabelog-hard-criteria:d7f529073843f6743340944b",
+          "evidence:restaurant:tabelog-entity-match:d8180b4482a65250fdcd1ee1",
+          "evidence:restaurant:native-discovery:17052aa73839da560ca8d216",
+          "evidence:restaurant:tabelog-availability:96352f496cc88f36426f1f52",
+          "evidence:restaurant:tabelog-hard-criteria:39117c536ed737a858231f01",
+          "evidence:restaurant:tabelog-entity-match:726bfb7b19c212bf932119ba",
+          "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+          "evidence:restaurant:tabelog-availability:e658452f079b76182f1d41a0",
+          "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+          "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T05:30:34.764Z:tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776"
+        ]
+      },
+      "occurredAt": "2026-10-23T05:30:56.540Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-04:1792733196784",
+        "correlationId": "event:restaurant-agent:5",
+        "actor": "SYSTEM"
+      }
+    }
+  ],
+  "originalPresentation": {
+    "candidateIds": [
+      "tabelog:en/tokyo/A1312/A131201/13017997",
+      "tabelog:en/tokyo/A1312/A131201/13202196",
+      "tabelog:en/tokyo/A1312/A131201/13036713"
+    ],
+    "evidenceIds": [
+      "evidence:restaurant:tabelog-entity-match:55854197a9639c8811d3d1d4",
+      "evidence:restaurant:native-discovery:fe08b477bc38afd64c3fb18c",
+      "evidence:restaurant:tabelog-availability:0f3d8d1177a90390700975d3",
+      "evidence:restaurant:tabelog-hard-criteria:d7f529073843f6743340944b",
+      "evidence:restaurant:tabelog-entity-match:d8180b4482a65250fdcd1ee1",
+      "evidence:restaurant:native-discovery:17052aa73839da560ca8d216",
+      "evidence:restaurant:tabelog-availability:96352f496cc88f36426f1f52",
+      "evidence:restaurant:tabelog-hard-criteria:39117c536ed737a858231f01",
+      "evidence:restaurant:tabelog-entity-match:726bfb7b19c212bf932119ba",
+      "evidence:restaurant:native-discovery:5c80961da0ff404276ca4fa0",
+      "evidence:restaurant:tabelog-availability:e658452f079b76182f1d41a0",
+      "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+      "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T05:30:34.764Z:tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776"
+    ],
+    "presentedAt": "2026-10-23T05:30:56.540Z",
+    "conditionStates": {
+      "tabelog:en/tokyo/A1312/A131201/13017997": [
+        {
+          "text": "chanko nabe",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "MET",
+          "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:d7f529073843f6743340944b"
+          ],
+          "sources": [
+            {
+              "field": "COURSE_TITLE",
+              "quote": "Yokozuna Course ◆ Great Satisfaction! Authentic Chanko Nabe, Sashimi, Popular Kirishima Chicken Wings, and 8 Dishes in Total ★",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "CATEGORY",
+              "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13017997/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "private room",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "NOT_CHECKED",
+          "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+          "evidenceIds": [],
+          "sources": []
+        }
+      ],
+      "tabelog:en/tokyo/A1312/A131201/13202196": [
+        {
+          "text": "chanko nabe",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "MET",
+          "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:39117c536ed737a858231f01"
+          ],
+          "sources": [
+            {
+              "field": "COURSE_TITLE",
+              "quote": "Sekiwake Course ◆ Casual ☆ Authentic Chanko Nabe Course, 6 Dishes♪",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+              "meal": "UNSPECIFIED"
+            },
+            {
+              "field": "CATEGORY",
+              "quote": "Chanko-nabe, Japanese Cuisine, Seafood",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13202196/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "private room",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "NOT_CHECKED",
+          "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+          "evidenceIds": [],
+          "sources": []
+        }
+      ],
+      "tabelog:en/tokyo/A1312/A131201/13036713": [
+        {
+          "text": "chanko nabe",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "criterionRef": "criterion:0",
+          "status": "MET",
+          "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+          "evidenceIds": [
+            "fact-judgment:tabelog:en/tokyo/A1312/A131201/13036713:2026-10-23T05:30:34.764Z:tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776",
+            "tabelog:en/tokyo/A1312/A131201/13036713:document:c7a7e09a11fc2776"
+          ],
+          "sources": [
+            {
+              "field": "CATEGORY",
+              "quote": "Chanko-nabe",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13036713/",
+              "meal": "UNSPECIFIED"
+            }
+          ]
+        },
+        {
+          "text": "private room",
+          "polarity": "POSITIVE",
+          "strength": "SOFT",
+          "criterionRef": "criterion:1",
+          "status": "NOT_CHECKED",
+          "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+          "evidenceIds": [],
+          "sources": []
+        }
+      ]
+    }
+  },
+  "semantic": {
+    "target": {
+      "goal": "AVAILABILITY"
+    },
+    "location": {
+      "value": "Ryogoku",
+      "relation": "NEAR"
+    },
+    "date": {
+      "expression": "Thursday, November 5",
+      "value": "2026-11-05"
+    },
+    "time": {
+      "expression": "between 6 and 8 PM",
+      "type": "TIME_WINDOW",
+      "start": "18:00",
+      "end": "20:00"
+    },
+    "party_size": 6,
+    "criteria": [
+      {
+        "value": "chanko nabe",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      {
+        "value": "private room",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      }
+    ]
+  },
+  "requestIntent": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [
+      {
+        "text": "chanko nabe",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      },
+      {
+        "text": "private room",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      }
+    ],
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "Chanko nabe restaurants near Ryogoku",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-11-05",
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "20:00"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-10-23T05:26:36.784Z",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "Thursday, November 5",
+        "resolvedDate": "2026-11-05",
+        "basis": "EXPLICIT_DATE"
+      },
+      "timeWindow": {
+        "expression": "any time between 6 and 8 PM",
+        "resolvedTimeWindow": {
+          "earliest": "18:00",
+          "latest": "20:00"
+        },
+        "basis": "EXPLICIT_CLOCK"
+      }
+    },
+    "partySize": 6,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "near Ryogoku"
+    }
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 4,
+    "candidatesChecked": 4,
+    "agentDecisions": 5,
+    "browserModelCalls": 12,
+    "modelCallsStarted": 22,
+    "browserRuntimeCalls": 105,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 24,
+      "tabelog:en/tokyo/A1312/A131201/13002979": 15,
+      "tabelog:en/tokyo/A1312/A131201/13017997": 21,
+      "tabelog:en/tokyo/A1312/A131201/13036713": 24,
+      "tabelog:en/tokyo/A1312/A131201/13202196": 21
+    },
+    "pageStillLoadingWithinBound": 12,
+    "postActionWaitTotalMs": 20406,
+    "browserModelActions": 11,
+    "googleRequests": {
+      "limit": 38,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 259762
+  },
+  "originalEvaluation": {
+    "source": {
+      "commit": "1a2e7c12e15e8f8475e8bff00faffcbe926906fa",
+      "path": ".eval-artifacts/phase2c-holdout/exit-live-20261023/evaluation-20261023/evaluations/h-04.evaluation.json",
+      "sha256": "954d1932e5ba51d9a157a2a591101b5fc0634de47f46e21cd06bffe281d1527e"
+    },
+    "outcome": {
+      "type": "QUALIFIED_DELIVERY",
+      "reasons": [
+        "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "capabilityDenominator": "INCLUDED",
+      "userGoalComplete": "YES"
+    },
+    "conditionStates": [
+      {
+        "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+        "criteria": [
+          {
+            "goldIndex": 0,
+            "text": "chanko nabe",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "evidenceRefs": [
+              "recordings/hybrid-1792733196784/snapshot-0023.html#sha256=fb1de5a3fb816e1c38290ecac5448c8217baa45ceab33a03ee7e4d9bc2ca35a1",
+              "recordings/hybrid-1792733196784/snapshot-0023.html#sha256=fb1de5a3fb816e1c38290ecac5448c8217baa45ceab33a03ee7e4d9bc2ca35a1"
+            ],
+            "status": "MET",
+            "basis": [
+              "COURSE_TITLE: Yokozuna Course ◆ Great Satisfaction! Authentic Chanko Nabe, Sashimi, Popular Kirishima Chicken Wings, and 8 Dishes in Total ★; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+              "CATEGORY: Chanko-nabe, Japanese Cuisine, Seafood; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+            ],
+            "supportDiagnostics": [
+              {
+                "code": "SOURCE_TEXT_ACCEPTED",
+                "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                "refs": [
+                  "recordings/hybrid-1792733196784/snapshot-0023.html#sha256=fb1de5a3fb816e1c38290ecac5448c8217baa45ceab33a03ee7e4d9bc2ca35a1",
+                  "recordings/hybrid-1792733196784/snapshot-0023.html#sha256=fb1de5a3fb816e1c38290ecac5448c8217baa45ceab33a03ee7e4d9bc2ca35a1"
+                ]
+              }
+            ],
+            "sourceScope": {
+              "kind": "RESTAURANT_OFFERING",
+              "meals": [],
+              "requestedCourseAvailability": "NOT_VERIFIED"
+            }
+          },
+          {
+            "goldIndex": 1,
+            "text": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT",
+            "supportObservation": "NOT_ESTABLISHED",
+            "evidenceRefs": [
+              "materializedCase.semantic.criteria[1]"
+            ],
+            "status": "NOT_CHECKED",
+            "basis": [
+              "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+            ]
+          }
+        ]
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+        "criteria": [
+          {
+            "goldIndex": 0,
+            "text": "chanko nabe",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "evidenceRefs": [
+              "recordings/hybrid-1792733196784/snapshot-0039.html#sha256=d8eabecd0a865fc7eb60b8c8cce4eb3ec1347dec1f49494f804df8c37c2f804d",
+              "recordings/hybrid-1792733196784/snapshot-0039.html#sha256=d8eabecd0a865fc7eb60b8c8cce4eb3ec1347dec1f49494f804df8c37c2f804d"
+            ],
+            "status": "MET",
+            "basis": [
+              "COURSE_TITLE: Sekiwake Course ◆ Casual ☆ Authentic Chanko Nabe Course, 6 Dishes♪; meal unspecified. Restaurant offering only; requested-time course availability is not established.",
+              "CATEGORY: Chanko-nabe, Japanese Cuisine, Seafood; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+            ],
+            "supportDiagnostics": [
+              {
+                "code": "SOURCE_TEXT_ACCEPTED",
+                "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                "refs": [
+                  "recordings/hybrid-1792733196784/snapshot-0039.html#sha256=d8eabecd0a865fc7eb60b8c8cce4eb3ec1347dec1f49494f804df8c37c2f804d",
+                  "recordings/hybrid-1792733196784/snapshot-0039.html#sha256=d8eabecd0a865fc7eb60b8c8cce4eb3ec1347dec1f49494f804df8c37c2f804d"
+                ]
+              }
+            ],
+            "sourceScope": {
+              "kind": "RESTAURANT_OFFERING",
+              "meals": [],
+              "requestedCourseAvailability": "NOT_VERIFIED"
+            }
+          },
+          {
+            "goldIndex": 1,
+            "text": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT",
+            "supportObservation": "NOT_ESTABLISHED",
+            "evidenceRefs": [
+              "materializedCase.semantic.criteria[1]"
+            ],
+            "status": "NOT_CHECKED",
+            "basis": [
+              "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+            ]
+          }
+        ]
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+        "criteria": [
+          {
+            "goldIndex": 0,
+            "text": "chanko nabe",
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "supportObservation": "PRODUCT_OBSERVED",
+            "evidenceRefs": [
+              "recordings/hybrid-1792733196784/snapshot-0031.html#sha256=f6a52d8b64e29cfc9fa21500b279a118a588430d0f7b6248a51231600a300235"
+            ],
+            "status": "MET",
+            "basis": [
+              "CATEGORY: Chanko-nabe, Izakaya (Japanese style tavern), Seafood; meal unspecified. Restaurant offering only; requested-time course availability is not established."
+            ],
+            "supportDiagnostics": [
+              {
+                "code": "PRESENTATION_CITATION_MISSING",
+                "reason": "Merchant text exists, but its source fact was not cited by this presentation.",
+                "refs": [
+                  "recordings/hybrid-1792733196784/snapshot-0031.html#sha256=f6a52d8b64e29cfc9fa21500b279a118a588430d0f7b6248a51231600a300235",
+                  "evidence:restaurant:tabelog-hard-criteria:2795c0ee30952b4341a6d1df"
+                ]
+              },
+              {
+                "code": "SOURCE_TEXT_ACCEPTED",
+                "reason": "Literal HARD wording occurs in cited, current same-outlet merchant course/category HTML; not in a name or review.",
+                "refs": [
+                  "recordings/hybrid-1792733196784/snapshot-0031.html#sha256=f6a52d8b64e29cfc9fa21500b279a118a588430d0f7b6248a51231600a300235"
+                ]
+              }
+            ],
+            "sourceScope": {
+              "kind": "RESTAURANT_OFFERING",
+              "meals": [],
+              "requestedCourseAvailability": "NOT_VERIFIED"
+            }
+          },
+          {
+            "goldIndex": 1,
+            "text": "private room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT",
+            "supportObservation": "NOT_ESTABLISHED",
+            "evidenceRefs": [
+              "materializedCase.semantic.criteria[1]"
+            ],
+            "status": "NOT_CHECKED",
+            "basis": [
+              "No applicable independent explicit source statement or external observation establishes this condition; linked model judgments alone do not establish its free-text semantics."
+            ]
+          }
+        ]
+      }
+    ],
+    "conditionStateComparisons": [
+      {
+        "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+        "text": "chanko nabe",
+        "criterionRef": "criterion:0",
+        "matchMethod": "NORMALIZED_TEXT",
+        "displayed": "MET",
+        "independent": "MET",
+        "supportObservation": "PRODUCT_OBSERVED",
+        "assessment": "CONSISTENT"
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1312/A131201/13017997",
+        "text": "private room",
+        "criterionRef": "criterion:1",
+        "matchMethod": "NORMALIZED_TEXT",
+        "displayed": "NOT_CHECKED",
+        "independent": "NOT_CHECKED",
+        "supportObservation": "NOT_ESTABLISHED",
+        "assessment": "CONSISTENT"
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+        "text": "chanko nabe",
+        "criterionRef": "criterion:0",
+        "matchMethod": "NORMALIZED_TEXT",
+        "displayed": "MET",
+        "independent": "MET",
+        "supportObservation": "PRODUCT_OBSERVED",
+        "assessment": "CONSISTENT"
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1312/A131201/13202196",
+        "text": "private room",
+        "criterionRef": "criterion:1",
+        "matchMethod": "NORMALIZED_TEXT",
+        "displayed": "NOT_CHECKED",
+        "independent": "NOT_CHECKED",
+        "supportObservation": "NOT_ESTABLISHED",
+        "assessment": "CONSISTENT"
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+        "text": "chanko nabe",
+        "criterionRef": "criterion:0",
+        "matchMethod": "NORMALIZED_TEXT",
+        "displayed": "MET",
+        "independent": "MET",
+        "supportObservation": "PRODUCT_OBSERVED",
+        "assessment": "CONSISTENT"
+      },
+      {
+        "candidateId": "tabelog:en/tokyo/A1312/A131201/13036713",
+        "text": "private room",
+        "criterionRef": "criterion:1",
+        "matchMethod": "NORMALIZED_TEXT",
+        "displayed": "NOT_CHECKED",
+        "independent": "NOT_CHECKED",
+        "supportObservation": "NOT_ESTABLISHED",
+        "assessment": "CONSISTENT"
+      }
+    ]
+  }
+}

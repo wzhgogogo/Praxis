@@ -1,0 +1,61 @@
+✖ named-location resolution accepts near X and bare X with the same bounded typed observation (4.872292ms)
+✖ saved h06 bare named location reaches native source discovery with the observed circle (1.085125ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 357.487542
+
+✖ failing tests:
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:8461
+✖ named-location resolution accepts near X and bare X with the same bounded typed observation (4.872292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   addressComponents: [
+  -     {
+  -       longText: 'Ginza',
+  -       types: [
+  -         'sublocality_level_1',
+  -         'political'
+  -       ]
+  -     }
+  -   ],
+  -   coordinates: {
+  -     latitude: 35.6697,
+  -     longitude: 139.767
+  -   },
+  -   displayName: 'Higashi Ginza',
+  -   placeId: 'higashi-ginza',
+  -   types: [
+  -     'neighborhood',
+  -     'political'
+  -   ]
+  - }
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/google/google-places-restaurant-search.test.ts:159:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { placeId: 'higashi-ginza', displayName: 'Higashi Ginza', types: [ 'neighborhood', 'political' ], addressComponents: [ [Object] ], coordinates: { latitude: 35.6697, longitude: 139.767 } },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/integrations/restaurant-search/native-restaurant-search.test.ts:1:4318
+✖ saved h06 bare named location reaches native source discovery with the observed circle (1.085125ms)
+  Error: Native search requires an observed coordinate context for exact geography
+      at NativeRestaurantSearch.location (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/restaurant-search/native-restaurant-search.ts:256:25)
+      at async NativeRestaurantSearch.search (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/restaurant-search/native-restaurant-search.ts:1106:44)
+      at async TestContext.<anonymous> (/private/tmp/praxis-fix-near-and-condition-display/src/integrations/restaurant-search/native-restaurant-search.test.ts:84:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'NATIVE_LOCATION_UNRESOLVED'
+  }
