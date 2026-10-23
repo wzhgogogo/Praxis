@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.270
+- Document revision: 4.271
 - Last updated: 2026-10-23
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-23-TABLECHECK-GUARD-HEALTH-COMPLETE
+
+TableCheck Guard/source-health candidate complete on branch codex/fix-tablecheck-guard-preflight, main8487a844 unchanged. Implementation b6ac60c5; regression freeze abcf5ad9. Five gates PASS1026/138; frozen cached calendar69/69, selection5/5 and evaluator33 calibration22/22 with normal declarations20/20 PASS. h14 old-policy Chromium red and GET-bound CORS green retained; permanent reserve deny and unchanged host/path/method audit pass. Eval-only health attempts about10s concurrent, up to3 separated300000ms, before formal task/providers; actual entry failure test has0 external calls/Live. Frozen outer timing/ledger integration remains untested and needs preflight wait allowance. No new model/Google/real restaurant websites/Live. Authorized branch push follows final evidence commit, no main merge; await independent review. [Report](../../.eval-artifacts/tablecheck-guard-preflight-20261023/report.md).
 
 ## DEV-2026-10-23-TABLECHECK-GUARD-HEALTH-CANDIDATE
 

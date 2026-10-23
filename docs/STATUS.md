@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.374
+- Document revision: 4.375
 - Last updated: 2026-10-23
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-23 TABLECHECK-GUARD-HEALTH-COMPLETE:** TableCheck Guard/source-health candidate complete on branch codex/fix-tablecheck-guard-preflight, main8487a844 unchanged. Implementation b6ac60c5; regression freeze abcf5ad9. Five gates PASS1026/138; frozen cached calendar69/69, selection5/5 and evaluator33 calibration22/22 with normal declarations20/20 PASS. h14 old-policy Chromium red and GET-bound CORS green retained; permanent reserve deny and unchanged host/path/method audit pass. Eval-only health attempts about10s concurrent, up to3 separated300000ms, before formal task/providers; actual entry failure test has0 external calls/Live. Frozen outer timing/ledger integration remains untested and needs preflight wait allowance. No new model/Google/real restaurant websites/Live. Authorized branch push follows final evidence commit, no main merge; await independent review. [Report](../.eval-artifacts/tablecheck-guard-preflight-20261023/report.md).
 
 - **2026-10-23 TABLECHECK-GUARD-HEALTH-CANDIDATE:** User-authorized candidate on8487a844, no main merge. h14 seven-key facet GET lacks hits; valid Chromium old-policy red retained, new GET-bound CORS green includes catalog/default GET/static fetch and rejects reserve/children, POST/manual OPTIONS, extra headers/path and absent GET. Scope audit proves unchanged origins/paths/methods/prohibited rules; only hits optional and existing TableCheck GET CORS metadata. Recorder facts and independent frozen reviewed-reads synchronized, no evaluator/Prompt/Schema/qualification change. Eval-only Hybrid health opens both known-region searches via production Guard, observes about10s, retries300000ms at most3 before formal timing/model/Google; actual Runner offline failure test confirms0 external calls/Live. Source homepage Range checks replaced only in this Runner; existing source-data checks remain. Prior CLI test assumed provider preflight before loading input; retained with new missing-input/no-preflight assertion, existing proxy unit regressions unchanged. Initial failure retained. Final five gates1026/138 PASS; source health real Chromium and unit/Runner tests pass. New models/Google/websites/Live0; freeze then69/5/22 pending. [Plan](../.eval-artifacts/tablecheck-guard-preflight-20261023/plan.md).
 
