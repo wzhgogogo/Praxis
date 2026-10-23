@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.366
+- Document revision: 4.367
 - Last updated: 2026-10-23
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -493,3 +493,5 @@ Reviewed mainline8487a844 merged into isolated holdout branch; product byte comp
 ### 2026-10-23 Phase2c stopped Live and blind wording handoff
 
 Approved product8487a844 unchanged. Ran13/18 slots (14 formal attempts,11 complete Runner results); h-14…h-18 NOT_REACHED. Stopped at idle boundary after proving the outer500s deadline did not promptly stop a child and one additional model call began after500s. Earlier TableCheck busy signal caused sequential fallback; delayed signal-stop8calls retained and charged. User-approved random120–240s gap handoff afterh-10 was separately tested/frozen; no in-flight run interrupted. Cumulative models4231/5000, Live86/100, environment reruns5/10. Live Google known lower bound59, exact totals missing for3 interrupted artifacts; certification Google11. Blind wording packet7entries/8pairs, original SHA/index bound; capability evaluation deferred. See `.eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/report.md`. Current stop requires reviewed/frozen outer deadline enforcement before more Live; no product fix performed.
+
+- **2026-10-23 Phase2c用户授权续跑：** h-01/h-13各加一次超时重试，再h-14至h-18；原13槽记录和盲措辞包保留，能力评价继续等待措辞复核。仅评测外层硬终止修正，产品不变；7项离线控制PASS，冻结后执行。

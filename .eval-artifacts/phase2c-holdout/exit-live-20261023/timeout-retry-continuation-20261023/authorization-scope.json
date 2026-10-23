@@ -1,0 +1,26 @@
+{
+  "approvedBy": "USER",
+  "message": "你把超时的两个各重试一次，然后继续14-18",
+  "explicitTimeoutRetries": [
+    "h-01",
+    "h-13"
+  ],
+  "retryLimitEach": 1,
+  "remainingRuns": [
+    "h-14",
+    "h-15",
+    "h-16",
+    "h-17",
+    "h-18"
+  ],
+  "normalEnvironmentQuotaUnchanged": true,
+  "capabilityEvaluation": "DEFERRED",
+  "productChanges": 0,
+  "timeoutMs": 500000,
+  "decisionTimeoutMs": 30000,
+  "intervalMs": [
+    120000,
+    240000
+  ],
+  "slice": "Resume exactly seven authorized attempts in order; preserve prior outputs, safety and source-stop rules; hard-stop child at original500s rather than SIGTERM grace; freeze before Live and preserve raw outputs before blind wording extraction."
+}

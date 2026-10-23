@@ -5227,3 +5227,8 @@ Reviewed mainline8487a844 merged into isolated holdout branch; product byte comp
 ### 2026-10-23 Phase2c stopped Live and blind wording handoff
 
 Approved product8487a844 unchanged. Ran13/18 slots (14 formal attempts,11 complete Runner results); h-14…h-18 NOT_REACHED. Stopped at idle boundary after proving the outer500s deadline did not promptly stop a child and one additional model call began after500s. Earlier TableCheck busy signal caused sequential fallback; delayed signal-stop8calls retained and charged. User-approved random120–240s gap handoff afterh-10 was separately tested/frozen; no in-flight run interrupted. Cumulative models4231/5000, Live86/100, environment reruns5/10. Live Google known lower bound59, exact totals missing for3 interrupted artifacts; certification Google11. Blind wording packet7entries/8pairs, original SHA/index bound; capability evaluation deferred. See `.eval-artifacts/phase2c-holdout/exit-live-20261023/sequential-continuation-20261023/report.md`. Current stop requires reviewed/frozen outer deadline enforcement before more Live; no product fix performed.
+
+
+### 2026-10-23 Phase2c explicit timeout retry continuation
+
+用户明确授权h-01/h-13各重试一次，再执行h-14至h-18；旧记录不覆盖，两个例外单列，不改ENV配额。预算基线4231/5000模型、86/100完整Live、5/10环境重跑；7次加最多4次剩余正常环境重跑的最坏预算550调用/11Live，额度足够。顺序随机120–240秒间隔，30秒模型/500秒整单、只读与S0停批不变。评测外层仅将失效的SIGTERM宽限改为500秒SIGKILL；7项零网络/零模型控制PASS，包含真实忽略SIGTERM子进程红绿。产品/Runner/Gold/见证/评测器33/rubric29字节不变，复用既有产品门禁，不宣称新Live能力通过。范围与新冻结见 `.eval-artifacts/phase2c-holdout/exit-live-20261023/timeout-retry-continuation-20261023/`。
