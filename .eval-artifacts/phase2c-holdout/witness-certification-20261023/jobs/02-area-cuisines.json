@@ -1,0 +1,133 @@
+{
+  "id": "02-area-cuisines",
+  "approvedBy": "USER_PHASE2C_WITNESS_AUTHORIZATION",
+  "note": "Root sk keyword did not narrow returned directory; use source area/cuisine routes. No merchant inferred from that root list.",
+  "requests": [
+    {
+      "id": "area-01",
+      "caseId": "p2c-holdout-01",
+      "kind": "LISTING",
+      "url": "https://tabelog.com/en/tokyo/A1323/rstLst/kushiage/",
+      "lineage": {
+        "method": "public directory area and cuisine URL composition from two source-exposed navigation links; no booking API inference",
+        "source": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-01.attempt-1.source.json",
+        "sourceSha256": "55aa74d28a27ab70d3f7de4d247a64289ff418e9daba690b5bf5a3fdf6ae0600",
+        "areaLink": {
+          "url": "https://tabelog.com/en/tokyo/A1323/rstLst/?sk=Akabane%20kushikatsu",
+          "label": "Sugamo",
+          "rawAnchorSha256": "4a57ff8e202f7c0171b19c3b66f860020ebefbe65b1a190bb00f7c0f6a0746a6"
+        },
+        "genreLink": {
+          "url": "https://tabelog.com/en/tokyo/rstLst/kushiage/?sk=Akabane%20kushikatsu",
+          "label": "Kushi-age (Deep-fried skewers)",
+          "rawAnchorSha256": "06562cc5637e03bbc9efe2bad021f5ba3edbd55cee05782371e7879c9a41d275"
+        }
+      }
+    },
+    {
+      "id": "area-02",
+      "caseId": "p2c-holdout-02",
+      "kind": "LISTING",
+      "url": "https://tabelog.com/en/tokyo/A1311/rstLst/RC04/",
+      "lineage": {
+        "method": "public directory area and cuisine URL composition from two source-exposed navigation links; no booking API inference",
+        "source": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-01.attempt-1.source.json",
+        "sourceSha256": "55aa74d28a27ab70d3f7de4d247a64289ff418e9daba690b5bf5a3fdf6ae0600",
+        "areaLink": {
+          "url": "https://tabelog.com/en/tokyo/A1311/rstLst/?sk=Akabane%20kushikatsu",
+          "label": "Ueno",
+          "rawAnchorSha256": "6a747efa108bbd4d0d5b03f65715a3a52c04d2a2b1c4da129aa1236154fce06b"
+        },
+        "genreLink": {
+          "url": "https://tabelog.com/en/tokyo/rstLst/RC04/?sk=Akabane%20kushikatsu",
+          "label": "Asian, Ethnic",
+          "rawAnchorSha256": "595976ca132bc43c206c4f115dd809ef36defc7f88da10e1aaa1eff07b0f958e"
+        }
+      }
+    },
+    {
+      "id": "area-03",
+      "caseId": "p2c-holdout-03",
+      "kind": "LISTING",
+      "url": "https://tabelog.com/en/tokyo/A1309/rstLst/seafood/",
+      "lineage": {
+        "method": "public directory area and cuisine URL composition from two source-exposed navigation links; no booking API inference",
+        "source": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-01.attempt-1.source.json",
+        "sourceSha256": "55aa74d28a27ab70d3f7de4d247a64289ff418e9daba690b5bf5a3fdf6ae0600",
+        "areaLink": {
+          "url": "https://tabelog.com/en/tokyo/A1309/rstLst/?sk=Akabane%20kushikatsu",
+          "label": "Iidabashi",
+          "rawAnchorSha256": "09413fd16d87367df72de81c6417bbe0e3a08e77fb94e6ce7863cf1d0d4d3b01"
+        },
+        "genreLink": {
+          "url": "https://tabelog.com/en/tokyo/rstLst/seafood/?sk=Akabane%20kushikatsu",
+          "label": "Seafood",
+          "rawAnchorSha256": "6e3bd21bdfa93a4afafe17a1870e8bd8e901447016b0a2e3ce287b9c7e6c73fb"
+        }
+      }
+    },
+    {
+      "id": "area-04",
+      "caseId": "p2c-holdout-04",
+      "kind": "LISTING",
+      "url": "https://tabelog.com/en/tokyo/A1312/rstLst/nabe/",
+      "lineage": {
+        "method": "public directory area and cuisine URL composition from two source-exposed navigation links; no booking API inference",
+        "source": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-01.attempt-1.source.json",
+        "sourceSha256": "55aa74d28a27ab70d3f7de4d247a64289ff418e9daba690b5bf5a3fdf6ae0600",
+        "areaLink": {
+          "url": "https://tabelog.com/en/tokyo/A1312/rstLst/?sk=Akabane%20kushikatsu",
+          "label": "Ryogoku",
+          "rawAnchorSha256": "b3f83136e018d2f6c400484446e9b63f22533470b35b90affca6b5ebbe17cf3f"
+        },
+        "genreLink": {
+          "url": "https://tabelog.com/en/tokyo/rstLst/nabe/?sk=Akabane%20kushikatsu",
+          "label": "Nabe (Japanese hot pot)",
+          "rawAnchorSha256": "d0cbc99015b5402c1f8f0e7751c6a3279281a259b61f5ab4c1733ccd593cd58a"
+        }
+      }
+    },
+    {
+      "id": "area-05",
+      "caseId": "p2c-holdout-05",
+      "kind": "LISTING",
+      "url": "https://tabelog.com/en/tokyo/A1302/rstLst/steak/",
+      "lineage": {
+        "method": "public directory area and cuisine URL composition from two source-exposed navigation links; no booking API inference",
+        "source": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-01.attempt-1.source.json",
+        "sourceSha256": "55aa74d28a27ab70d3f7de4d247a64289ff418e9daba690b5bf5a3fdf6ae0600",
+        "areaLink": {
+          "url": "https://tabelog.com/en/tokyo/A1302/rstLst/?sk=Akabane%20kushikatsu",
+          "label": "Tokyo & Nihonbashi",
+          "rawAnchorSha256": "4db581bbd6343c5d148df6f1dc6ab6addfccdee797b73fda566ae45ee30f4eb8"
+        },
+        "genreLink": {
+          "url": "https://tabelog.com/en/tokyo/rstLst/steak/?sk=Akabane%20kushikatsu",
+          "label": "Steak",
+          "rawAnchorSha256": "5e19acf004a1305235d24ec6f81592c11887b137b31556d7825ea0ea45615dbe"
+        }
+      }
+    },
+    {
+      "id": "area-06",
+      "caseId": "p2c-holdout-06",
+      "kind": "LISTING",
+      "url": "https://tabelog.com/en/tokyo/A1324/rstLst/motsu/",
+      "lineage": {
+        "method": "public directory area and cuisine URL composition from two source-exposed navigation links; no booking API inference",
+        "source": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-01.attempt-1.source.json",
+        "sourceSha256": "55aa74d28a27ab70d3f7de4d247a64289ff418e9daba690b5bf5a3fdf6ae0600",
+        "areaLink": {
+          "url": "https://tabelog.com/en/tokyo/A1324/rstLst/?sk=Akabane%20kushikatsu",
+          "label": "Senju & Ayase & Katsushika",
+          "rawAnchorSha256": "a2e5ce581eb48aa50745b828e7caae7b83bf430829bbd77bd97f319196abc0dd"
+        },
+        "genreLink": {
+          "url": "https://tabelog.com/en/tokyo/rstLst/motsu/?sk=Akabane%20kushikatsu",
+          "label": "Motsu-nabe",
+          "rawAnchorSha256": "735bc92f4d8c25cb51f30266de720c65b11019b32b83ab69e9fb8b8d57702eb9"
+        }
+      }
+    }
+  ]
+}
