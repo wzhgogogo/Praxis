@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.383
+- Document revision: 4.384
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-24-PHASE3A-PRIME-F5-STOP1B:** 用户通过停止点1、选择A拒绝B；1b设计与ADR-0043提议草稿完成，尚未实现。Q7固定D1/D2共15个地区决策、18份CONTROLS均无INPUT，错误区八站OPEN_LINK已给，D1确曾点击类别All；匹配Akabane的LOCATION／站距路径未观察，HTML仅head或缺失、截图文字遮蔽，因此范围裁定为证据不足，控件条件优先＋A后备交复核。A细化临时入口、两有效样本、代码距离／方位、与4/5共用一次换入口、UNKNOWN立即交接及预算不重置。早取样条件估算55.549秒，较深路径恢复需5地区页、超过4页，不能靠加预算完成。例03冻结Kudanshita、人工800m类别0家、环带未核对、用时只记录；历史有界无结果与零合格交付分列，不改评分。新增调用0、43项SHA、产品/测试/站点零差异、五门禁NOT_RUN；仅提交推送本分支后停1b。F1b先合main，之后重放并保留双方记录；本批不合并或推main。[当前报告](../.eval-artifacts/phase3a-prime/f5-analysis/report.md#9-停止点-1b-补充) · [ADR草稿](decisions/0043-provisional-directory-entrance-coordinate-check.md)。
 
 - **2026-10-24-PHASE3A-PRIME-F5-ANALYSIS:** 批次1B只读分析完成，停在停止点1等独立复核选方案。固定3ec38584四份完整结果171行决策及中断29行：例01 Tabelog零详情、地区未完成；两家与同义词改写实际来自TableCheck，不能仅放宽首五家规则。例03历史输入为备用Kudanshita，五店都在半径内，后续事实约148–150秒；第三次未到达。41/95为重复OPTIONS诊断，预检只支持GET而日历规则为受限POST，缺真实配对字段，分类交F3。提出两个通用层方案，优先评审权威地名约束检索；均未实施，收益待验证。产品/Runner/测试/适配器未改，新模型/Google/网站/Live0；不合并、不推送。[分析报告](../.eval-artifacts/phase3a-prime/f5-analysis/report.md)。
 
