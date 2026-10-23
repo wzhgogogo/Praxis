@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.382
+- Document revision: 4.383
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-24-PHASE3A-PRIME-F1-COMPLETE:** 对话A/F1离线候选完成，分支codex/chore-phase3a-prime-f1，停于停止点1待与B/F5分析一起独立复核；未合入main。1175行清单覆盖1167基线执行项和8非默认探针；退役四个源码字面自检及父项5个，编译空文件迁fixture，纯身份反例合入既有probe契约且前后同破坏双红；31秒Chromium主回归保留，只去掉同例退役30秒对照。新五门禁默认1023、Chromium137，三次中位21.561452/276.823612秒，基线23.337168/307.573510；69翻月/5选店/22校准通过，正常声明20/20、历史中断未评保持。83条明确安全类清单保留、31条Live失败家族主覆盖列证据；15保存页面/控件provenance、原字节不变。194生产TypeScript逐字节无改动，目录3864/包473不增；新增模型/Live/来源调用0。 [报告](../.eval-artifacts/phase3a-prime/f1/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-STOP0-APPROVED:** 用户转述独立复核00:20北京通过停止点0，行数错误在指令一侧。门槛仅两个站点目录非测试TypeScript物理行，3591→3864、目标≤3591；source-packs.ts单列当前473且站点行数不得增加，移动到pack/通用层不计减少，站点Skill排除。批准批次1：A做F1，B做F5只读分析；F1基线默认1029/23.3秒，Chromium138/307.6秒。批次0五门禁与原始统计不改，新模型/Live0。 [报告补充](../.eval-artifacts/phase3a-prime/main-check/report.md#7-停止点-0-复核补充2026-10-24-0020-北京)。
 

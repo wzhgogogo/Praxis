@@ -4550,3 +4550,10 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - Evidence status: current reviewed baseline；已暴露工程证据，不是Clean Baseline。用户转述00:20北京复核通过；报告追加第7节，保留此前停止记录和原始指令。3591/3864仅两个适配器目录非测试TypeScript物理行，目标≤3591；包单列473且站点相关行数不得增加，不接受转移代码抵扣；站点Skill排除。
 - F1批准基线1029/23.3秒与138/307.6秒；批次1A清理测试、B只读F5，停止点1仍有效。本次仅报告/状态/索引补充，复用已完成五门禁与三次计时，检查链接、统计字段和diff；没有新运行、Live或模型。
 - [报告补充](../../.eval-artifacts/phase3a-prime/main-check/report.md#7-停止点-0-复核补充2026-10-24-0020-北京)。
+
+
+## DEV-2026-10-24-PHASE3A-PRIME-F1-COMPLETE
+
+- Evidence status: frozen regression / draft not integrated；已暴露离线候选，等待独立复核，不是Clean Baseline。F1基于已复核本地main/2ada8a69；准备7fbee277、整理e0914016、运行冻结48232999；产品代码194份路径/字节不变，源目录3864/包473不增。
+- 清单1175行=默认1029+Chromium138+8非默认探针；删除4个源码字面自检及父项，保留其4个真实组合控制与正常/破坏证据；编译空文件移至嵌套fixture，typecheck保留3条编译断言；同HTML的错误身份反例合入既有契约，原始DOM点击不冒充Takeover链路。保留当前45秒配置的31秒Chromium观察，删除退役30秒对照。Test Skill增加阶段审查和页面日期两句，15份保存页/控件加来源及版本说明，未刷新页面。
+- 新真实模型/Google/来源网站/见证GET/完整Live/环境重跑0；不执行预约或表单。当前停止点1，B/F5状态由另一对话报告，F2/F5实现未启动。仅独立工作分支供复核，远端main不动。 [报告与日志](../../.eval-artifacts/phase3a-prime/f1/report.md)。

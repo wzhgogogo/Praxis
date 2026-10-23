@@ -1,0 +1,315 @@
+{
+  "scope": "Explicitly traceable known failure families; not a claim that every historical Live failure had an offline reproduction. Main guards, privacy and authorization negatives are separately inventoried.",
+  "rows": [
+    {
+      "file": "src/application/restaurant-agent-loop.test.ts",
+      "baselineLine": "72",
+      "test": "P1-G2 actual P1-F-B-h001 stop returns a user-facing outcome",
+      "protectedMechanism": "保存失败前状态、停止路径回归；原始Live不改判",
+      "historicalEvidence": ".eval-artifacts/p1-g-20261012/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "P1-G2 actual P1-F-B-h001 stop returns a user-facing outcome",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/application/restaurant-agent-loop.test.ts",
+      "baselineLine": "72",
+      "test": "P1-G2 actual P1-G-h001 stop returns a user-facing outcome",
+      "protectedMechanism": "保存失败前状态、停止路径回归；原始Live不改判",
+      "historicalEvidence": ".eval-artifacts/p1-g-20261012/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "P1-G2 actual P1-G-h001 stop returns a user-facing outcome",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/application/restaurant-agent-loop.test.ts",
+      "baselineLine": "99",
+      "test": "P1-G2 actual PROVIDER_REJECTED stays FAILED",
+      "protectedMechanism": "保存失败前状态、停止路径回归；原始Live不改判",
+      "historicalEvidence": ".eval-artifacts/p1-g-20261012/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "P1-G2 actual PROVIDER_REJECTED stays FAILED",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/application/restaurant-agent-loop.test.ts",
+      "baselineLine": "99",
+      "test": "P1-G2 actual UNCAUGHT_EXCEPTION stays FAILED",
+      "protectedMechanism": "保存失败前状态、停止路径回归；原始Live不改判",
+      "historicalEvidence": ".eval-artifacts/p1-g-20261012/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "P1-G2 actual UNCAUGHT_EXCEPTION stays FAILED",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/application/restaurant-agent-loop.test.ts",
+      "baselineLine": "115",
+      "test": "P2-0 actual h001 step-six exhausted state stops before another model proposal",
+      "protectedMechanism": "真实步骤6耗尽预算应先于下一模型提议",
+      "historicalEvidence": ".eval-artifacts/p2-0-hardening-20261015/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "P2-0 actual h001 step-six exhausted state stops before another model proposal",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/harness/browser/browser-read-fixture.test.ts",
+      "baselineLine": "1020",
+      "test": "Matsumoto selected-party 1 escapes the guest Next loop through production observation",
+      "protectedMechanism": "隐藏翻月图标/Next控制误选与当前人数",
+      "historicalEvidence": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/four-layer-report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "Matsumoto selected-party 1 escapes the guest Next loop through production observation",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/harness/browser/browser-read-fixture.test.ts",
+      "baselineLine": "1020",
+      "test": "Matsumoto selected-party 2 escapes the guest Next loop through production observation",
+      "protectedMechanism": "隐藏翻月图标/Next控制误选与当前人数",
+      "historicalEvidence": ".eval-artifacts/checkpoint-c-live-20261020/tabelog-query-binding-20261021/four-layer-report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "Matsumoto selected-party 2 escapes the guest Next loop through production observation",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/harness/browser/browser-read-fixture.test.ts",
+      "baselineLine": "2052",
+      "test": "real Chromium TableCheck source observation crosses the retired 30s provider window but completes inside 45s",
+      "protectedMechanism": "31秒来源观察在当前45秒路径完成；30秒破坏红灯",
+      "historicalEvidence": ".eval-artifacts/phase3a-prime/f1/provider-30s.log",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "same file: real Chromium TableCheck source observation completes inside the current 45s provider window",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/integrations/google/google-places-restaurant-search.test.ts",
+      "baselineLine": "152",
+      "test": "named-location resolution accepts near X and bare X with the same bounded typed observation",
+      "protectedMechanism": "具名AREA不能依赖near字面词",
+      "historicalEvidence": ".eval-artifacts/near-and-condition-display-20261023/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "named-location resolution accepts near X and bare X with the same bounded typed observation",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/application/restaurant-presentation-evidence.test.ts",
+      "baselineLine": "296",
+      "test": "Phase2c four observed cuisine conditions reach Router to Reducer and other saved displays stay identical",
+      "protectedMechanism": "已观察来源菜系通过真实Router→Reducer展示",
+      "historicalEvidence": ".eval-artifacts/near-and-condition-display-20261023/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "Phase2c four observed cuisine conditions reach Router to Reducer and other saved displays stay identical",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "baselineLine": "386",
+      "test": "TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths",
+      "protectedMechanism": "已审核GET预检及负向方法/参数/头",
+      "historicalEvidence": ".eval-artifacts/tablecheck-guard-preflight-20261023/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/domains/restaurant/discovery-planner.test.ts",
+      "baselineLine": "51",
+      "test": "group-window: inaccurate group flag cannot outrank source priority",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: inaccurate group flag cannot outrank source priority",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/domains/restaurant/discovery-planner.test.ts",
+      "baselineLine": "55",
+      "test": "group-window: unfinished source chunk rotates behind every other first batch",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: unfinished source chunk rotates behind every other first batch",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "baselineLine": "1116",
+      "test": "group-window: visible disabled requested party ends before another model decision",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: visible disabled requested party ends before another model decision",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "baselineLine": "1131",
+      "test": "group-window: party stop excludes {\"label\":\"Guests 10\",\"value\":\"10\",\"controlGroupLabel\":\"Guests\",\"disabled\":false,\"visible\":true}",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: party stop excludes {\"label\":\"Guests 10\",\"value\":\"10\",\"controlGroupLabel\":\"Guests\",\"disabled\":false,\"visible\":true}",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "baselineLine": "1131",
+      "test": "group-window: party stop excludes {\"label\":\"Guests 10\",\"value\":\"10\",\"controlGroupLabel\":\"Guests\",\"disabled\":true,\"visible\":false}",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: party stop excludes {\"label\":\"Guests 10\",\"value\":\"10\",\"controlGroupLabel\":\"Guests\",\"disabled\":true,\"visible\":false}",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "baselineLine": "1131",
+      "test": "group-window: party stop excludes {\"label\":\"Guests 10\",\"value\":\"10\",\"controlGroupLabel\":\"Guests\",\"disabled\":true,\"visible\":true,\"outsideViewport\":true}",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: party stop excludes {\"label\":\"Guests 10\",\"value\":\"10\",\"controlGroupLabel\":\"Guests\",\"disabled\":true,\"visible\":true,\"outsideViewport\":true}",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "baselineLine": "1131",
+      "test": "group-window: party stop excludes {\"label\":\"Guests 9\",\"value\":\"9\",\"controlGroupLabel\":\"Guests\",\"disabled\":true,\"visible\":true}",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: party stop excludes {\"label\":\"Guests 9\",\"value\":\"9\",\"controlGroupLabel\":\"Guests\",\"disabled\":true,\"visible\":true}",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "baselineLine": "1131",
+      "test": "group-window: party stop excludes {\"label\":\"10\",\"value\":\"10\",\"controlGroupLabel\":\"Booking time\",\"disabled\":true,\"visible\":true}",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: party stop excludes {\"label\":\"10\",\"value\":\"10\",\"controlGroupLabel\":\"Booking time\",\"disabled\":true,\"visible\":true}",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "baselineLine": "1131",
+      "test": "group-window: party stop excludes {\"label\":\"Guests 10\",\"value\":\"10\",\"controlGroupLabel\":\"Guests\",\"disabled\":true,\"visible\":true,\"selected\":true}",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: party stop excludes {\"label\":\"Guests 10\",\"value\":\"10\",\"controlGroupLabel\":\"Guests\",\"disabled\":true,\"visible\":true,\"selected\":true}",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "baselineLine": "1139",
+      "test": "group-window: disabled party is bound to selected date 2026-11-05",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: disabled party is bound to selected date 2026-11-05",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "baselineLine": "1139",
+      "test": "group-window: disabled party is bound to selected date 2026-11-06",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: disabled party is bound to selected date 2026-11-06",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/integrations/restaurant-availability/availability-source-resolver.test.ts",
+      "baselineLine": "135",
+      "test": "group-window: disabled requested party moves to next candidate rather than another query",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: disabled requested party moves to next candidate rather than another query",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/integrations/restaurant-availability/availability-source-resolver.test.ts",
+      "baselineLine": "140",
+      "test": "group-window: one unsupported source does not erase another source's UNKNOWN",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: one unsupported source does not erase another source's UNKNOWN",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.test.ts",
+      "baselineLine": "1479",
+      "test": "group-window: prohibited linked workflow is unsupported before navigation",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: prohibited linked workflow is unsupported before navigation",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.test.ts",
+      "baselineLine": "1492",
+      "test": "group-window: point empty continues to the next observed legal time",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: point empty continues to the next observed legal time",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.test.ts",
+      "baselineLine": "1510",
+      "test": "group-window: an already prohibited candidate entrance is rejected before a browser session",
+      "protectedMechanism": "时间/人数与禁止入口/局部无位范围",
+      "historicalEvidence": ".eval-artifacts/group-window-fix-20261022/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "group-window: an already prohibited candidate entrance is rejected before a browser session",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "baselineLine": "1089",
+      "test": "C2a rejects ordinary wrong-date clicks at execution even when the model ignores hints",
+      "protectedMechanism": "日期不可选不漂移；保留合法日期正例与普通越界点击负例",
+      "historicalEvidence": ".eval-artifacts/p1-c3b-20261010/independent-review.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "C2a rejects ordinary wrong-date clicks at execution even when the model ignores hints",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/harness/browser/browser-read-fixture.test.ts",
+      "baselineLine": "2471",
+      "test": "C2a recorded unavailable calendar dates are observed and cannot drift to other days",
+      "protectedMechanism": "日期不可选不漂移；保留合法日期正例与普通越界点击负例",
+      "historicalEvidence": ".eval-artifacts/p1-c3b-20261010/independent-review.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "C2a recorded unavailable calendar dates are observed and cannot drift to other days",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/harness/browser/browser-read-fixture.test.ts",
+      "baselineLine": "2493",
+      "test": "C2a selectable requested date retains authoritative click and blocks an ordinary other-date click",
+      "protectedMechanism": "日期不可选不漂移；保留合法日期正例与普通越界点击负例",
+      "historicalEvidence": ".eval-artifacts/p1-c3b-20261010/independent-review.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "C2a selectable requested date retains authoritative click and blocks an ordinary other-date click",
+      "status": "RETAINED; no original Live result reclassified"
+    },
+    {
+      "file": "src/harness/browser/browser-read-fixture.test.ts",
+      "baselineLine": "2689",
+      "test": "P21c recorded regional links reach six controlled development results through the production assembly",
+      "protectedMechanism": "已观察地区入口到真实生产组合的受控结果",
+      "historicalEvidence": ".eval-artifacts/p2-1c-region-20261020/report.md",
+      "evidenceAvailableInTree": true,
+      "afterTestName": "P21c recorded regional links reach six controlled development results through the production assembly",
+      "status": "RETAINED; no original Live result reclassified"
+    }
+  ]
+}

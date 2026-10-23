@@ -5264,3 +5264,12 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 - Evidence status: current reviewed baseline；已暴露工程证据，不是Clean Baseline。用户转述00:20北京复核通过；报告追加第7节，保留此前停止记录和原始指令。3591/3864仅两个适配器目录非测试TypeScript物理行，目标≤3591；包单列473且站点相关行数不得增加，不接受转移代码抵扣；站点Skill排除。
 - F1批准基线1029/23.3秒与138/307.6秒；批次1A清理测试、B只读F5，停止点1仍有效。本次仅报告/状态/索引补充，复用已完成五门禁与三次计时，检查链接、统计字段和diff；没有新运行、Live或模型。
 - [报告补充](../../.eval-artifacts/phase3a-prime/main-check/report.md#7-停止点-0-复核补充2026-10-24-0020-北京)。
+
+
+## TEST-2026-10-24-PHASE3A-PRIME-F1-COMPLETE
+
+- Evidence status: frozen regression / draft not integrated；已暴露离线候选，等待独立复核，不是Clean Baseline。F1基于已复核本地main/2ada8a69；准备7fbee277、整理e0914016、运行冻结48232999；产品代码194份路径/字节不变，源目录3864/包473不增。
+- 正式五门禁全绿，默认3次均1023/1023，中位21.561452秒（基线1029/23.337168）；Chromium3次均137/137，中位276.823612秒（基线138/307.573510）。所有实际测试名与逐项处理后清单精确相等；fail/skip/todo/cancelled均0。沙箱内预检EPERM保留但不充当代码红灯。
+- 身份强制HIGH破坏使旧/新反例均失败；恢复30秒Provider上限时保留主回归在AVAILABLE断言失败，正常配置通过；源码字面自检的4个正常/4个业务断言红灯已归档。正常83条明确安全清单全部保留，31条已知Live失败家族主覆盖有原始引用。
+- 运行前提交的4315/831项冻结输入在运行后核验未变：缓存69/69翻月、5/5选店、22/22校准、正常声明20/20，历史两中断声明仍未评；没有新Live/S0=0结论。三次生成历史指标另存恢复原字节。
+- 新真实模型/Google/来源网站/见证GET/完整Live/环境重跑0；不执行预约或表单。当前停止点1，B/F5状态由另一对话报告，F2/F5实现未启动。仅独立工作分支供复核，远端main不动。 [报告与日志](../../.eval-artifacts/phase3a-prime/f1/report.md)。
