@@ -1,0 +1,35 @@
+{
+  "id": "10-fallback-native-and-city",
+  "approvedBy": "USER_PHASE2C_WITNESS_AUTHORIZATION",
+  "requests": [
+    {
+      "id": "fallback-native-google-03",
+      "caseId": "p2c-holdout-03",
+      "kind": "GOOGLE",
+      "query": "九段下 ふぐ料理 東京",
+      "url": "https://places.googleapis.com/v1/places:searchText"
+    },
+    {
+      "id": "fallback-city-fugu-03",
+      "caseId": "p2c-holdout-03",
+      "kind": "LISTING",
+      "url": "https://tabelog.com/en/tokyo/C13101/rstLst/RC011212/",
+      "lineage": {
+        "method": "source-owned Chiyoda City directory plus previously observed fugu genre",
+        "areaSource": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/listing-01.attempt-1.source.json",
+          "sha256": "55aa74d28a27ab70d3f7de4d247a64289ff418e9daba690b5bf5a3fdf6ae0600"
+        },
+        "areaLink": {
+          "url": "https://tabelog.com/en/tokyo/C13101/rstLst/?sk=Akabane%20kushikatsu",
+          "label": "Chiyoda City",
+          "rawAnchorSha256": "306187fb85be58505fd091e0ba548ec19b97f1f52e51d8c39cbe60e66192f2f4"
+        },
+        "genreSource": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/03-first-merchants-and-narrow-directories/candidate-03.attempt-1.source.json",
+          "sha256": "bd12075497b8e9cd25f9cf55f0fe952be45394dd3e58262c16ee5b68c73c56d1"
+        }
+      }
+    }
+  ]
+}
