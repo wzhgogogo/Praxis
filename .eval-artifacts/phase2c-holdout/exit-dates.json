@@ -1,0 +1,48 @@
+{
+  "exitCheckStart": "2026-10-23",
+  "startBasis": "Tokyo calendar date when the exit check (witness certification) starts",
+  "rule": "{DATE} = the case weekday 7-14 days after the exit check starts. Filling the date and switching to the listed fallback place if witness certification fails are the only permitted changes; both are recorded.",
+  "cases": {
+    "p2c-holdout-01": {
+      "weekday": "Wednesday",
+      "date": "2026-11-04",
+      "content": "Wednesday, November 4",
+      "fallback_place": "Jujo"
+    },
+    "p2c-holdout-02": {
+      "weekday": "Friday",
+      "date": "2026-10-30",
+      "content": "Friday, October 30",
+      "fallback_place": "Yushima"
+    },
+    "p2c-holdout-03": {
+      "weekday": "Saturday",
+      "date": "2026-10-31",
+      "content": "Saturday, October 31",
+      "fallback_place": "Kudanshita"
+    },
+    "p2c-holdout-04": {
+      "weekday": "Thursday",
+      "date": "2026-11-05",
+      "content": "Thursday, November 5",
+      "fallback_place": "Morishita"
+    },
+    "p2c-holdout-05": {
+      "weekday": "Tuesday",
+      "date": "2026-11-03",
+      "content": "Tuesday, November 3",
+      "fallback_place": "Kayabacho"
+    },
+    "p2c-holdout-06": {
+      "weekday": "Friday",
+      "date": "2026-10-30",
+      "content": "Friday, October 30",
+      "fallback_place": "Minami-Senju"
+    }
+  },
+  "notes": [
+    "2026-11-03 (case 05) is Culture Day, a national holiday; the date rule is applied unchanged."
+  ],
+  "verifiedAgainstCommitment": true,
+  "fileSha256": "1602ca7a5ff860130b81235553db8e77d7d9c25d261801c38330db0a97171a1e"
+}
