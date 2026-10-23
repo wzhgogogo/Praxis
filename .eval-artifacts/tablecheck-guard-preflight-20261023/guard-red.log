@@ -1,0 +1,33 @@
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata facet-no-hits [{"type":"Other","initiator":"preflight"}]
+✖ TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths (709.899792ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1130.671583
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:26500
+✖ TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths (709.899792ms)
+  AssertionError [ERR_ASSERTION]: facet-no-hits: browser GET handshake must reach receiver; disallowed requests must not
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-phase2c-mainline-integration/src/harness/browser/read-network-redirect.test.ts:456:16)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

@@ -1,0 +1,8 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/live-source-health.ts(64,3): error TS2375: Type '{ sourceId: "tabelog" | "tablecheck"; url: "https://tabelog.com/en/tokyo/A1301/rstLst/" | "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza"; ... 4 more ...; elapsedMs: nu...' is not assignable to type 'LiveSourceHealthObservation' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'readNetworkBoundary' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.

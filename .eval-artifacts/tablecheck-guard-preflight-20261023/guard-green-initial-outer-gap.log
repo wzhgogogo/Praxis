@@ -1,0 +1,58 @@
+✔ H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (219.647084ms)
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata facet-no-hits [{"type":"Other","initiator":"preflight"}]
+preflight metadata catalog [{"type":"Other","initiator":"preflight"}]
+preflight metadata default-get [{"type":"Other","initiator":"preflight"}]
+✖ TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths (376.269042ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 996.116416
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:26500
+✖ TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths (376.269042ms)
+  AssertionError [ERR_ASSERTION]: independent outer observer accepts only the reviewed handshake
+  + actual - expected
+  
+  + {
+  +   code: 'ADMITTED_NON_READ_METHOD',
+  +   request: {
+  +     corsPreflight: {
+  +       bodyBytes: 0,
+  +       initiator: 'BROWSER_PREFLIGHT',
+  +       requestOrigin: 'http://127.0.0.1:59820',
+  +       requestedHeaderNames: [
+  +         'x-api-key'
+  +       ],
+  +       requestedMethod: 'GET',
+  +       secFetchMode: 'cors'
+  +     },
+  +     method: 'OPTIONS',
+  +     origin: 'http://127.0.0.1:59819',
+  +     outcome: 'ADMITTED',
+  +     pathname: '/v2/geolocation',
+  +     queryKeys: [],
+  +     resourceType: 'other'
+  +   }
+  + }
+  - null
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-phase2c-mainline-integration/src/harness/browser/read-network-redirect.test.ts:469:18)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { code: 'ADMITTED_NON_READ_METHOD', request: { outcome: 'ADMITTED', origin: 'http://127.0.0.1:59819', pathname: '/v2/geolocation', method: 'OPTIONS', resourceType: 'other', queryKeys: [], corsPreflight: [Object] } },
+    expected: null,
+    operator: 'strictEqual'
+  }

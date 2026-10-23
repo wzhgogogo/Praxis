@@ -230,7 +230,7 @@ export class PlaywrightReadNetworkGuard {
           const corsPreflight = method === "OPTIONS"
             ? { initiator: "BROWSER_PREFLIGHT" as const, secFetchMode: await request.headerValue("sec-fetch-mode") ?? "", requestOrigin: await request.headerValue("origin") ?? "",
                 requestedMethod: await request.headerValue("access-control-request-method") ?? "",
-                requestedHeaderNames: (await request.headerValue("access-control-request-headers") ?? "").split(",").map(name => name.trim().toLowerCase()),
+                requestedHeaderNames: (await request.headerValue("access-control-request-headers") ?? "").split(",").map(name => name.trim().toLowerCase()).filter(Boolean),
                 bodyBytes: Buffer.byteLength(request.postData() ?? "") } : undefined;
           const admitted = method === "OPTIONS"
             ? !isRedirect && !replay && await this.admitsPreflight(url, request, type, corsPreflight)
@@ -271,9 +271,9 @@ export class PlaywrightReadNetworkGuard {
   private async admitsPreflight(url: URL, request: Pick<Request, "headerValue" | "postData">, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {
     if (this.prohibitedRead(url) || url.username || url.password || !/^https?:$/.test(url.protocol) || !["other", "fetch", "xhr"].includes(type)
       || !facts || facts.secFetchMode !== "cors" || facts.requestedMethod !== "GET" || facts.bodyBytes !== 0) return false;
-    for (const rule of this.policy.dynamicReads) {
+    for (const rule of [...this.policy.staticResources, ...this.policy.dynamicReads]) {
       const cors = rule.corsPreflight;
-      if (!cors || !rule.methods?.includes("GET") || facts.requestOrigin !== cors.requestOrigin
+      if (!cors || !(rule.methods ?? ["GET", "HEAD"]).includes("GET") || facts.requestOrigin !== cors.requestOrigin
         || facts.requestedHeaderNames.some(name => !name || !cors.requestedHeaderNames.includes(name))) continue;
       // Check the matching GET's full endpoint/query grammar, never invent an
       // OPTIONS-only rule or admit unrelated resource types/origins.

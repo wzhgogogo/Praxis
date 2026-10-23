@@ -1,3 +1,5 @@
+import {parseReviewedReads} from "../diagnostic-evaluator-network.js";
+import {runLiveSourceHealth} from "../live-source-health.js";
 import { preflightSourceIds, runSourceDataPreflight } from "../source-data-preflight.js";
 import { restaurantRunStageTimings } from "../run-stage-timings.js";
 import { DeliveryReservedModelGateway } from "../../../../application/delivery-reserved-model-gateway.js";
@@ -27,7 +29,7 @@ import { requiresEvaluationLocation } from "../evaluation-location-selection.js"
 import { createHybridReadComposition } from "../hybrid-read-composition.js";
 import { captureHybridLiveProgress } from "../hybrid-live-artifact.js";
 import { RestaurantPartySizeSupplementResolver } from "../../../../domains/restaurant/party-size-supplement-resolver.js";
-import { evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
+import { evaluateArtifactFile, evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
 import { createRunDeadlineSignal, RUN_DEADLINE_EXCEEDED, settleAtRunDeadline } from "../live-run-deadline.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 import { safeRecord, traceBrowserRuntime, type BrowserTraceRecordingSink } from "./browser-case-slice-evidence.js";
@@ -193,7 +195,7 @@ export function createHybridDecisionCapture(resultPath: string, recording?: Brow
   };
 }
 
-async function runHybridLiveRead(): Promise<void> {
+export async function runHybridLiveRead(sourceHealthDependencies?:Parameters<typeof runLiveSourceHealth>[1]): Promise<void> {
 requiredGate("PRAXIS_ALLOW_LIVE_RESTAURANT_READ");
 requiredGate("PRAXIS_ALLOW_BROWSER_RUN");
 requiredGate("PRAXIS_ALLOW_LIVE_MODEL_EVAL");
@@ -216,12 +218,6 @@ if (manualTabelogIntervention && effectiveEnvironment.PRAXIS_LOCAL_CHROMIUM_INTE
 if (manualTabelogIntervention && !process.stdin.isTTY) {
   throw new Error("PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION=1 requires an interactive terminal");
 }
-const preflight = await runLivePreflight({
-  runner: "HYBRID_LIVE_READ",
-  targets: ["DEEPSEEK", "GOOGLE", "TABELOG", "TABLECHECK"],
-  network: effectiveNetwork,
-  timeoutMs: 10_000,
-}, effectiveEnvironment);
 const defaultSourcePath = resolve(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
 const customCaseSourcePath = caseSourceFromArgs();
 const sourcePath = customCaseSourcePath ?? defaultSourcePath;
@@ -230,9 +226,24 @@ const candidateLimit = candidateLimitFromArgs();
 const source = await loadFrozenLiveCases(sourcePath);
 const frozen = source.find((entry) => entry.id === selectedId);
 if (!frozen) throw new Error(`Unknown frozen E2E case: ${selectedId}`);
+// Eval-only health gate. No journal, model, Google or formal-run budget exists yet.
+const sourceHealthDirectory=resolve('.eval-artifacts/live-source-health',`${Date.now()}-${selectedId}`);
+let sourceHealth:Awaited<ReturnType<typeof runLiveSourceHealth>>;
+try { sourceHealth=await runLiveSourceHealth({environment:effectiveEnvironment,artifactDirectory:sourceHealthDirectory},sourceHealthDependencies); }
+catch(error) {
+  console.error(JSON.stringify({stage:'SOURCE_HEALTH_PREFLIGHT',classification:'ENV_FAILURE',formalRunStarted:false,modelCalls:0,googleRequests:0,liveRuns:0,
+    ...(error && typeof error==='object' && 'artifactPath' in error?{artifactPath:error.artifactPath}:{})}));
+  throw error;
+}
+// Source readiness uses guarded search pages, never a separate homepage Range GET.
+const preflight = await runLivePreflight({
+  runner: "HYBRID_LIVE_READ", targets: ["DEEPSEEK", "GOOGLE"], network: effectiveNetwork, timeoutMs: 10_000,
+}, effectiveEnvironment);
 const sourceDataPreflightDirectory=resolve('.eval-artifacts/source-data-preflight',`${Date.now()}-${selectedId}`);
 await mkdir(sourceDataPreflightDirectory,{recursive:true});
 await runSourceDataPreflight({sourceIds:preflightSourceIds((frozen.semantic as {target?:{goal?:string}}|undefined)?.target?.goal),environment:effectiveEnvironment,artifactDirectory:sourceDataPreflightDirectory});
+const reviewedReadsPath=resolve('.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json');
+const reviewedReads=parseReviewedReads(readFileSync(reviewedReadsPath),relative(process.cwd(),reviewedReadsPath));
 const customVariant = customCaseSourcePath !== undefined;
 const variantParent = frozen.parent;
 if (!customVariant && frozen.dataset !== RESTAURANT_READ_DEVELOPMENT_DATASET_VERSION) throw new Error("Development case dataset version does not match the Runner");
@@ -266,7 +277,7 @@ const runtimeContext = {
     baselineEligible: false,
   },
   browserEngine: effectiveEnvironment.PRAXIS_BROWSER_ENGINE ?? "AUTO",
-  preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs, targetCount: preflight.attempts.length },
+  preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs, targetCount: preflight.attempts.length, sourceHealthArtifactPath:sourceHealth.artifactPath, sourceHealthAttempts:sourceHealth.attempts.length, reviewedReadsPath:relative(process.cwd(),reviewedReadsPath), reviewedReadsSha256:reviewedReads.sha256 },
   nodeVersion: process.version,
   skillHashes: {
     browserRead: fileSha256("web-skills/browser-read/SKILL.md"),
@@ -461,7 +472,7 @@ try {
   };
   const completed = ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase) && loop.status === "TERMINAL";
   await journal.finish({ ...artifact, stageTimings: restaurantRunStageTimings({ ...artifact, startedAt: startedAt.toISOString(), finishedAt: new Date().toISOString() }), status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "LIVE_CASE_NOT_COMPLETED" });
-  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
+  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath,path=>evaluateArtifactFile(path,{reviewedReads}));
   console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
   if (!completed) process.exitCode = 1;
 } catch (error) {
@@ -481,7 +492,7 @@ try {
     ...(decisionCapture ? { decisionCapture: await decisionCapture.finish() } : {}),
     ...(await finishBrowserRecording() ? { browserRecording: browserRecordingResult } : {}),
   });
-  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath);
+  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath,path=>evaluateArtifactFile(path,{reviewedReads}));
   console.error(JSON.stringify({ failureCode, stage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath }));
   process.exitCode = 1;
 } finally {
