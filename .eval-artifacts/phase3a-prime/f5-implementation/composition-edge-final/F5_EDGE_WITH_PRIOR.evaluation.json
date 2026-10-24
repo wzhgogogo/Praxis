@@ -1,0 +1,896 @@
+{
+  "outcome": {
+    "type": "HONEST_NO_RESULT",
+    "reasons": [
+      "Actual bounded no-result scope, executed observations and disclosed unknowns agree; this does not prove investigation sufficiency, global search exhaustion or budget compliance."
+    ],
+    "evidenceRefs": [
+      "finalSnapshot.domainState.noVerifiedResult",
+      "trajectories"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "NO"
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim."
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ]
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [],
+  "conditionStateComparisons": [],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": null,
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 0,
+    "maxConsecutiveNoNewObservation": 1,
+    "noNewObservationRuns": [],
+    "sameFailureRuns": [
+      {
+        "key": "0cdfa941d583a72b:SEARCH_RESTAURANTS:TABELOG:EMPTY_SEARCH",
+        "steps": [
+          1,
+          5
+        ]
+      }
+    ],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "OBSERVED",
+      "scope": "FULL_RECORDED_NAVIGATIONS",
+      "loads": [
+        {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132201/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132201/?sw=omakase",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/tokyo/A1304/A130401/990/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/tokyo/A1304/A130401/991/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.703795&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/native-omakase-1",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://www.tablecheck.com/en/native-omakase-1?date=2026-08-19&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1323/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1323/?sw=omakase",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/tokyo/A1304/A130401/993/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/tokyo/A1304/A130401/994/",
+          "count": 1,
+          "reloads": 0
+        }
+      ]
+    },
+    "violations": [],
+    "unassessed": []
+  },
+  "effectiveResources": {
+    "status": "SATISFIED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "candidateId": "native-discovery:DIRECTORY",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 2,
+          "runModelCalls": 10,
+          "candidateRuntimeOperations": 18,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=1]",
+          "browserTrace[sequence=2]",
+          "browserTrace[sequence=3]",
+          "browserTrace[sequence=5]",
+          "browserTrace[sequence=6]",
+          "browserTrace[sequence=9]",
+          "browserTrace[sequence=12]",
+          "browserTrace[sequence=13]",
+          "browserTrace[sequence=15]",
+          "browserTrace[sequence=16]",
+          "browserTrace[sequence=17]",
+          "browserTrace[sequence=19]",
+          "browserTrace[sequence=20]",
+          "browserTrace[sequence=21]",
+          "browserTrace[sequence=23]",
+          "browserTrace[sequence=24]",
+          "browserTrace[sequence=25]",
+          "browserTrace[sequence=26]",
+          "browserTrace[sequence=27]",
+          "browserTrace[sequence=28]",
+          "browserTrace[sequence=29]",
+          "browserTrace[sequence=32]",
+          "browserTrace[sequence=33]",
+          "browserTrace[sequence=36]",
+          "browserTrace[sequence=37]",
+          "browserTrace[sequence=38]",
+          "browserTrace[sequence=40]",
+          "browserTrace[sequence=41]",
+          "browserTrace[sequence=42]",
+          "browserTrace[sequence=44]",
+          "browserTrace[sequence=45]",
+          "browserTrace[sequence=46]",
+          "browserTrace[sequence=47]",
+          "browserTrace[sequence=48]",
+          "browserTrace[sequence=49]",
+          "browserTrace[sequence=50]",
+          "browserTrace[sequence=51]",
+          "browserTrace[sequence=54]",
+          "browserTrace[sequence=55]",
+          "browserTrace[sequence=58]",
+          "browserTrace[sequence=59]",
+          "browserTrace[sequence=60]",
+          "browserTrace[sequence=62]",
+          "browserTrace[sequence=63]",
+          "browserTrace[sequence=64]",
+          "browserTrace[sequence=66]",
+          "browserTrace[sequence=67]",
+          "browserTrace[sequence=68]",
+          "browserTrace[sequence=71]",
+          "browserTrace[sequence=74]",
+          "browserTrace[sequence=75]",
+          "browserTrace[sequence=77]",
+          "browserTrace[sequence=78]",
+          "browserTrace[sequence=80]",
+          "browserTrace[sequence=83]",
+          "browserTrace[sequence=86]",
+          "browserTrace[sequence=87]",
+          "browserTrace[sequence=89]",
+          "browserTrace[sequence=90]",
+          "browserTrace[sequence=91]",
+          "browserTrace[sequence=94]",
+          "browserTrace[sequence=97]",
+          "browserTrace[sequence=98]",
+          "browserTrace[sequence=100]",
+          "browserTrace[sequence=101]",
+          "browserTrace[sequence=102]",
+          "browserTrace[sequence=103]",
+          "browserTrace[sequence=104]",
+          "browserTrace[sequence=235]",
+          "browserTrace[sequence=236]",
+          "browserTrace[sequence=237]",
+          "browserTrace[sequence=239]",
+          "browserTrace[sequence=240]",
+          "browserTrace[sequence=241]",
+          "browserTrace[sequence=242]",
+          "browserTrace[sequence=243]",
+          "browserTrace[sequence=244]",
+          "browserTrace[sequence=247]",
+          "browserTrace[sequence=250]",
+          "browserTrace[sequence=251]",
+          "browserTrace[sequence=253]",
+          "browserTrace[sequence=254]",
+          "browserTrace[sequence=255]",
+          "browserTrace[sequence=258]",
+          "browserTrace[sequence=261]",
+          "browserTrace[sequence=262]",
+          "browserTrace[sequence=264]",
+          "browserTrace[sequence=265]",
+          "browserTrace[sequence=267]",
+          "browserTrace[sequence=270]",
+          "browserTrace[sequence=273]",
+          "browserTrace[sequence=274]",
+          "browserTrace[sequence=276]",
+          "browserTrace[sequence=277]",
+          "browserTrace[sequence=278]",
+          "browserTrace[sequence=281]",
+          "browserTrace[sequence=284]",
+          "browserTrace[sequence=285]",
+          "browserTrace[sequence=287]",
+          "browserTrace[sequence=288]",
+          "browserTrace[sequence=289]",
+          "browserTrace[sequence=290]",
+          "browserTrace[sequence=291]"
+        ]
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 6,
+          "candidateRuntimeOperations": 4,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=105]",
+          "browserTrace[sequence=106]",
+          "browserTrace[sequence=107]",
+          "browserTrace[sequence=109]",
+          "browserTrace[sequence=110]",
+          "browserTrace[sequence=113]",
+          "browserTrace[sequence=116]",
+          "browserTrace[sequence=117]",
+          "browserTrace[sequence=119]",
+          "browserTrace[sequence=120]",
+          "browserTrace[sequence=121]",
+          "browserTrace[sequence=124]",
+          "browserTrace[sequence=127]",
+          "browserTrace[sequence=128]",
+          "browserTrace[sequence=130]",
+          "browserTrace[sequence=131]",
+          "browserTrace[sequence=132]",
+          "browserTrace[sequence=133]",
+          "browserTrace[sequence=134]"
+        ]
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "FACTS",
+        "candidateId": "tablecheck:native-omakase-1",
+        "limits": {
+          "maxModelCallsPerCandidate": 4,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 24,
+          "maxAutomaticElapsedMs": 45000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 2,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 10,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=135]",
+          "browserTrace[sequence=136]",
+          "browserTrace[sequence=137]",
+          "browserTrace[sequence=139]",
+          "browserTrace[sequence=140]",
+          "browserTrace[sequence=143]",
+          "browserTrace[sequence=146]",
+          "browserTrace[sequence=147]",
+          "browserTrace[sequence=149]",
+          "browserTrace[sequence=150]",
+          "browserTrace[sequence=151]",
+          "browserTrace[sequence=153]",
+          "browserTrace[sequence=154]",
+          "browserTrace[sequence=156]",
+          "browserTrace[sequence=157]",
+          "browserTrace[sequence=158]",
+          "browserTrace[sequence=160]",
+          "browserTrace[sequence=161]",
+          "browserTrace[sequence=162]",
+          "browserTrace[sequence=163]",
+          "browserTrace[sequence=164]",
+          "browserTrace[sequence=165]",
+          "browserTrace[sequence=166]",
+          "browserTrace[sequence=169]",
+          "browserTrace[sequence=170]",
+          "browserTrace[sequence=173]",
+          "browserTrace[sequence=174]",
+          "browserTrace[sequence=175]",
+          "browserTrace[sequence=177]",
+          "browserTrace[sequence=178]",
+          "browserTrace[sequence=179]",
+          "browserTrace[sequence=181]",
+          "browserTrace[sequence=182]",
+          "browserTrace[sequence=183]",
+          "browserTrace[sequence=184]",
+          "browserTrace[sequence=185]",
+          "browserTrace[sequence=186]",
+          "browserTrace[sequence=187]",
+          "browserTrace[sequence=188]",
+          "browserTrace[sequence=190]",
+          "browserTrace[sequence=191]",
+          "browserTrace[sequence=192]",
+          "browserTrace[sequence=193]"
+        ]
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "candidateId": "tablecheck:native-omakase-1",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 7,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=194]",
+          "browserTrace[sequence=195]",
+          "browserTrace[sequence=196]",
+          "browserTrace[sequence=198]",
+          "browserTrace[sequence=232]",
+          "browserTrace[sequence=233]",
+          "browserTrace[sequence=234]"
+        ]
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "candidateId": "tablecheck:native-omakase-1",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 3,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=199]",
+          "browserTrace[sequence=202]",
+          "browserTrace[sequence=205]",
+          "browserTrace[sequence=206]",
+          "browserTrace[sequence=208]",
+          "browserTrace[sequence=209]",
+          "browserTrace[sequence=210]",
+          "browserTrace[sequence=212]",
+          "browserTrace[sequence=213]"
+        ]
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "candidateId": "tablecheck:native-omakase-1",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 7,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=214]",
+          "browserTrace[sequence=217]",
+          "browserTrace[sequence=220]",
+          "browserTrace[sequence=221]",
+          "browserTrace[sequence=223]",
+          "browserTrace[sequence=224]",
+          "browserTrace[sequence=225]",
+          "browserTrace[sequence=227]",
+          "browserTrace[sequence=228]",
+          "browserTrace[sequence=229]",
+          "browserTrace[sequence=231]"
+        ]
+      }
+    ],
+    "declarationDifferences": [
+      "TABLECHECK/FACTS/tablecheck:native-omakase-1: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+      "TABLECHECK/FACTS/tablecheck:native-omakase-1: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24",
+      "TABLECHECK/FACTS: runCeilings.maxAutomaticBrowserMs=500000 != effective.maxAutomaticElapsedMs=45000"
+    ],
+    "violations": [],
+    "unassessed": []
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 0,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "F5_EDGE_WITH_PRIOR.execution.json",
+    "sha256": "d85cfaf3cdd83c2a267cc9297730fbe83873350ecb5585aa16935a31aa68953c",
+    "runId": "run:native-h001:F5_EDGE_WITH_PRIOR",
+    "caseId": "h001"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "NO",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NO_VERIFIED_RESULT"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tablecheck:native-omakase-1",
+      "outletName": "Native TableCheck 1",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[3].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:cfdd0e4855bf4a1d9735daaa]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:885f66310c6e7c63bca9217f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:ba1b28bcb8acf8b9fa0dfb71]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:ef27aaaec32cbc91035b4768]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=6",
+        "applicableObservations=6",
+        "executedInvestigationVisits=2",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=0",
+        "maxConsecutiveNoNewObservation=1"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "presentedCandidates=0"
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=NO_VERIFIED_RESULT",
+        "phase=NO_VERIFIED_RESULT",
+        "loop=TERMINAL",
+        "noVerifiedResult=recorded",
+        "failureCode=missing",
+        "Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED."
+      ],
+      "directCause": "Actual discovery/read/end scope and explicit unknowns agree; investigation sufficiency and global no-availability are NOT_EVALUATED.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "trajectories"
+      ],
+      "downstreamImpact": "Do not represent the scoped stop as a source-confirmed global negative result."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "SATISFIED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "declarationDifference=TABLECHECK/FACTS/tablecheck:native-omakase-1: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+        "declarationDifference=TABLECHECK/FACTS/tablecheck:native-omakase-1: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24",
+        "declarationDifference=TABLECHECK/FACTS: runCeilings.maxAutomaticBrowserMs=500000 != effective.maxAutomaticElapsedMs=45000"
+      ],
+      "directCause": "Readable model/operation counters remain within actual executor limits and declared run ceilings; unavailable time-limit scopes remain explicit.",
+      "rootCauseHypothesis": "Runner limit/accounting requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations",
+        "browserTrace[sequence=1]",
+        "browserTrace[sequence=2]",
+        "browserTrace[sequence=3]",
+        "browserTrace[sequence=5]",
+        "browserTrace[sequence=6]",
+        "browserTrace[sequence=9]",
+        "browserTrace[sequence=12]",
+        "browserTrace[sequence=13]",
+        "browserTrace[sequence=15]",
+        "browserTrace[sequence=16]",
+        "browserTrace[sequence=17]",
+        "browserTrace[sequence=19]",
+        "browserTrace[sequence=20]",
+        "browserTrace[sequence=21]",
+        "browserTrace[sequence=23]",
+        "browserTrace[sequence=24]",
+        "browserTrace[sequence=25]",
+        "browserTrace[sequence=26]",
+        "browserTrace[sequence=27]",
+        "browserTrace[sequence=28]",
+        "browserTrace[sequence=29]",
+        "browserTrace[sequence=32]",
+        "browserTrace[sequence=33]",
+        "browserTrace[sequence=36]",
+        "browserTrace[sequence=37]",
+        "browserTrace[sequence=38]",
+        "browserTrace[sequence=40]",
+        "browserTrace[sequence=41]",
+        "browserTrace[sequence=42]",
+        "browserTrace[sequence=44]",
+        "browserTrace[sequence=45]",
+        "browserTrace[sequence=46]",
+        "browserTrace[sequence=47]",
+        "browserTrace[sequence=48]",
+        "browserTrace[sequence=49]",
+        "browserTrace[sequence=50]",
+        "browserTrace[sequence=51]",
+        "browserTrace[sequence=54]",
+        "browserTrace[sequence=55]",
+        "browserTrace[sequence=58]",
+        "browserTrace[sequence=59]",
+        "browserTrace[sequence=60]",
+        "browserTrace[sequence=62]",
+        "browserTrace[sequence=63]",
+        "browserTrace[sequence=64]",
+        "browserTrace[sequence=66]",
+        "browserTrace[sequence=67]",
+        "browserTrace[sequence=68]",
+        "browserTrace[sequence=71]",
+        "browserTrace[sequence=74]",
+        "browserTrace[sequence=75]",
+        "browserTrace[sequence=77]",
+        "browserTrace[sequence=78]",
+        "browserTrace[sequence=80]",
+        "browserTrace[sequence=83]",
+        "browserTrace[sequence=86]",
+        "browserTrace[sequence=87]",
+        "browserTrace[sequence=89]",
+        "browserTrace[sequence=90]",
+        "browserTrace[sequence=91]",
+        "browserTrace[sequence=94]",
+        "browserTrace[sequence=97]",
+        "browserTrace[sequence=98]",
+        "browserTrace[sequence=100]",
+        "browserTrace[sequence=101]",
+        "browserTrace[sequence=102]",
+        "browserTrace[sequence=103]",
+        "browserTrace[sequence=104]",
+        "browserTrace[sequence=235]",
+        "browserTrace[sequence=236]",
+        "browserTrace[sequence=237]",
+        "browserTrace[sequence=239]",
+        "browserTrace[sequence=240]",
+        "browserTrace[sequence=241]",
+        "browserTrace[sequence=242]",
+        "browserTrace[sequence=243]",
+        "browserTrace[sequence=244]",
+        "browserTrace[sequence=247]",
+        "browserTrace[sequence=250]",
+        "browserTrace[sequence=251]",
+        "browserTrace[sequence=253]",
+        "browserTrace[sequence=254]",
+        "browserTrace[sequence=255]",
+        "browserTrace[sequence=258]",
+        "browserTrace[sequence=261]",
+        "browserTrace[sequence=262]",
+        "browserTrace[sequence=264]",
+        "browserTrace[sequence=265]",
+        "browserTrace[sequence=267]",
+        "browserTrace[sequence=270]",
+        "browserTrace[sequence=273]",
+        "browserTrace[sequence=274]",
+        "browserTrace[sequence=276]",
+        "browserTrace[sequence=277]",
+        "browserTrace[sequence=278]",
+        "browserTrace[sequence=281]",
+        "browserTrace[sequence=284]",
+        "browserTrace[sequence=285]",
+        "browserTrace[sequence=287]",
+        "browserTrace[sequence=288]",
+        "browserTrace[sequence=289]",
+        "browserTrace[sequence=290]",
+        "browserTrace[sequence=291]",
+        "browserTrace[sequence=105]",
+        "browserTrace[sequence=106]",
+        "browserTrace[sequence=107]",
+        "browserTrace[sequence=109]",
+        "browserTrace[sequence=110]",
+        "browserTrace[sequence=113]",
+        "browserTrace[sequence=116]",
+        "browserTrace[sequence=117]",
+        "browserTrace[sequence=119]",
+        "browserTrace[sequence=120]",
+        "browserTrace[sequence=121]",
+        "browserTrace[sequence=124]",
+        "browserTrace[sequence=127]",
+        "browserTrace[sequence=128]",
+        "browserTrace[sequence=130]",
+        "browserTrace[sequence=131]",
+        "browserTrace[sequence=132]",
+        "browserTrace[sequence=133]",
+        "browserTrace[sequence=134]",
+        "browserTrace[sequence=135]",
+        "browserTrace[sequence=136]",
+        "browserTrace[sequence=137]",
+        "browserTrace[sequence=139]",
+        "browserTrace[sequence=140]",
+        "browserTrace[sequence=143]",
+        "browserTrace[sequence=146]",
+        "browserTrace[sequence=147]",
+        "browserTrace[sequence=149]",
+        "browserTrace[sequence=150]",
+        "browserTrace[sequence=151]",
+        "browserTrace[sequence=153]",
+        "browserTrace[sequence=154]",
+        "browserTrace[sequence=156]",
+        "browserTrace[sequence=157]",
+        "browserTrace[sequence=158]",
+        "browserTrace[sequence=160]",
+        "browserTrace[sequence=161]",
+        "browserTrace[sequence=162]",
+        "browserTrace[sequence=163]",
+        "browserTrace[sequence=164]",
+        "browserTrace[sequence=165]",
+        "browserTrace[sequence=166]",
+        "browserTrace[sequence=169]",
+        "browserTrace[sequence=170]",
+        "browserTrace[sequence=173]",
+        "browserTrace[sequence=174]",
+        "browserTrace[sequence=175]",
+        "browserTrace[sequence=177]",
+        "browserTrace[sequence=178]",
+        "browserTrace[sequence=179]",
+        "browserTrace[sequence=181]",
+        "browserTrace[sequence=182]",
+        "browserTrace[sequence=183]",
+        "browserTrace[sequence=184]",
+        "browserTrace[sequence=185]",
+        "browserTrace[sequence=186]",
+        "browserTrace[sequence=187]",
+        "browserTrace[sequence=188]",
+        "browserTrace[sequence=190]",
+        "browserTrace[sequence=191]",
+        "browserTrace[sequence=192]",
+        "browserTrace[sequence=193]",
+        "browserTrace[sequence=194]",
+        "browserTrace[sequence=195]",
+        "browserTrace[sequence=196]",
+        "browserTrace[sequence=198]",
+        "browserTrace[sequence=232]",
+        "browserTrace[sequence=233]",
+        "browserTrace[sequence=234]",
+        "browserTrace[sequence=199]",
+        "browserTrace[sequence=202]",
+        "browserTrace[sequence=205]",
+        "browserTrace[sequence=206]",
+        "browserTrace[sequence=208]",
+        "browserTrace[sequence=209]",
+        "browserTrace[sequence=210]",
+        "browserTrace[sequence=212]",
+        "browserTrace[sequence=213]",
+        "browserTrace[sequence=214]",
+        "browserTrace[sequence=217]",
+        "browserTrace[sequence=220]",
+        "browserTrace[sequence=221]",
+        "browserTrace[sequence=223]",
+        "browserTrace[sequence=224]",
+        "browserTrace[sequence=225]",
+        "browserTrace[sequence=227]",
+        "browserTrace[sequence=228]",
+        "browserTrace[sequence=229]",
+        "browserTrace[sequence=231]"
+      ],
+      "downstreamImpact": "Recorded budget use can be reviewed."
+    }
+  ],
+  "unassessedDimensions": [
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ]
+}
