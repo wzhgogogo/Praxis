@@ -7,7 +7,7 @@ export const reference = new Date("2026-08-19T07:20:00.000Z");
 export const center = { latitude: 35.6619707, longitude: 139.703795 };
 export const date = "2026-08-19";
 
-export type SourceScenario = "TABELOG_DELIVERS" | "TABLECHECK_RECOVERS" | "BOTH_BOUNDED_EMPTY" | "OUTSIDE_RADIUS" | "TABELOG_ONE_DETAIL_FAILS" | "EARLY_END_ATTEMPT"
+export type SourceScenario = "F5_PROVISIONAL_DELIVERS" | "F5_NO_ALTERNATE" | "F5_SECOND_OUTSIDE" | "TABELOG_DELIVERS" | "TABLECHECK_RECOVERS" | "BOTH_BOUNDED_EMPTY" | "OUTSIDE_RADIUS" | "TABELOG_ONE_DETAIL_FAILS" | "EARLY_END_ATTEMPT"
   | "TABELOG_CONTINUES" | "TABLECHECK_CONTINUES" | "NATIVE_PARTIAL" | "NATIVE_TRUE_NO_RESULT" | "TABLECHECK_UNPARSED" | "TABLECHECK_EARLY_ACTIONS" | "TABELOG_BATCH_CAP" | "DYNAMIC_TABELOG_DELIVERS" | "TABLECHECK_DISCOVERY_RECOVERS" | "TABELOG_REGION_PRESERVES_QUERY" | "TABELOG_PENDING_RESTORED"
   | "TABELOG_NONEMPTY_REGION_RECOVERS" | "TABELOG_CURRENT_BATCH_DELIVERS" | "TABLECHECK_CURRENT_BATCH_DELIVERS" | "TABELOG_REOPEN_RETAINS" | "TABLECHECK_QUERY_READY" | "TABELOG_STALE_REJECTS" | "TABLECHECK_STALE_REJECTS" | "NATIVE_FACT_FOLLOWUP_DELIVERS" | "TABLECHECK_SCOPED_MENU_DELIVERS"
   | "TABELOG_RETRIEVAL_CATEGORY_DELIVERS" | "TABELOG_RESULT_PAGES_CONTINUE" | "TABELOG_REGION_REDIRECTS_ROOT" | "TABELOG_CATEGORY_REDIRECTS_ROOT" | "TABELOG_NEUTRAL_REGION_RECOVERS" | "TABELOG_REGION_HOMEPAGE_RECOVERS" | "TABELOG_REGION_HOMEPAGE_DRIFTS_NATIONAL";
@@ -178,13 +178,28 @@ export function sourcePages(
     : scenario === "TABELOG_NONEMPTY_REGION_RECOVERS" || scenario === "TABELOG_REGION_PRESERVES_QUERY" ? 1
     : scenario === "NATIVE_PARTIAL" || scenario === "TABLECHECK_CONTINUES" || scenario === "NATIVE_TRUE_NO_RESULT" || scenario === "TABLECHECK_EARLY_ACTIONS" ? 2
     : scenario === "TABLECHECK_RECOVERS" || scenario === "OUTSIDE_RADIUS" || scenario === "NATIVE_FACT_FOLLOWUP_DELIVERS" ? 1 : 0;
-  const tablecheckCount = scenario === "TABLECHECK_RECOVERS" ? 3
+  const tablecheckCount = scenario === "TABLECHECK_RECOVERS" || scenario === "F5_NO_ALTERNATE" ? 3
     : scenario === "TABLECHECK_CURRENT_BATCH_DELIVERS" ? 6
     : scenario === "TABLECHECK_CONTINUES" || scenario === "TABLECHECK_EARLY_ACTIONS" ? 2 : scenario === "NATIVE_TRUE_NO_RESULT" ? 1
     : scenario === "OUTSIDE_RADIUS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS" || scenario === "TABLECHECK_QUERY_READY" || scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" ? 1 : 0;
   const sourcePoint = scenario === "OUTSIDE_RADIUS" ? { latitude: 35.75, longitude: 139.80 } : center;
   const lookup = (url: string): BrowserSnapshot => {
     const parsed = new URL(url);
+    // Local-constructed F5 contract controls, not website Replay. Independent
+    // oracle: first two details outside; the alternate has normal H001 venues.
+    if (scenario.startsWith("F5_") && parsed.hostname === "tabelog.com") {
+      const link = (href: string, label: string) => `<a href="${href}">${label}</a>`;
+      const menu = "https://tabelog.com/en/tokyo/";
+      const parent = menu + "A1322/", child = parent + "A132201/", alternate = menu + "A1323/";
+      const path = parsed.origin + parsed.pathname;
+      if (path === menu || path === menu + "rstLst/") return page(url, link(parent,"F5 parent") + (scenario === "F5_NO_ALTERNATE" ? "" : link(alternate,"F5 alternate")), "Observed local menu");
+      if (path === parent) return page(url, link(child,"F5 child"), "Observed local child menu");
+      if (path === child || path === alternate) {
+        const ids = path === child ? [990,991,992] : scenario === "F5_SECOND_OUTSIDE" ? [993,994,995] : [100,101,102];
+        return page(url, ids.map(id => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`).join(""), "Local constructed list");
+      }
+      if (/\/99[0-5]\/$/.test(parsed.pathname)) return page(url, `<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:`Native Tabelog ${parsed.pathname.split("/").at(-2)}`,address:"Tokyo",geo:{latitude:35.63,longitude:139.68}})}</script>`, "Outside detail");
+    }
     if (parsed.hostname === "tabelog.com" && parsed.pathname.includes("/rstLst/")) {
       const listingRoot = parsed.pathname.slice(0, parsed.pathname.indexOf("/rstLst/") + "/rstLst/".length);
       const categoryUrl = (suffix: string) => `${parsed.origin}${listingRoot}${suffix.replace(/^\//, "")}`;
@@ -273,7 +288,7 @@ export function sourcePages(
       if ((scenario === "TABELOG_ONE_DETAIL_FAILS" && tabelogId === "101") || (scenario === "TABELOG_REOPEN_RETAINS" && tabelogId === "100")) throw Object.assign(new Error("One detail navigation failed"), { code: "BROWSER_TIMEOUT" });
       const name = `Native Tabelog ${tabelogId}`;
       const address = `Shibuya ${tabelogId}, Tokyo`;
-      const available = scenario === "TABELOG_DELIVERS" || scenario === "TABELOG_ONE_DETAIL_FAILS" || scenario === "TABELOG_REOPEN_RETAINS"
+      const available = scenario === "F5_PROVISIONAL_DELIVERS" || scenario === "TABELOG_DELIVERS" || scenario === "TABELOG_ONE_DETAIL_FAILS" || scenario === "TABELOG_REOPEN_RETAINS"
         || (scenario === "TABELOG_RETRIEVAL_CATEGORY_DELIVERS" && tabelogId === "101")
         || (scenario === "TABELOG_RESULT_PAGES_CONTINUE" && tabelogId === "106")
         || (scenario === "TABELOG_CURRENT_BATCH_DELIVERS" && tabelogId === "100")
@@ -299,7 +314,7 @@ export function sourcePages(
         `<h1>${name}</h1><p class="rstinfo-table__address">${address}</p>`,
         unknown ? "" : `<select name="party"><option value="2" selected>2</option></select><select name="date"><option value="${date}" selected>${date}</option></select>`,
         available ? '<button class="slot is-available" data-time="19:00">19:00</button>' : unknown ? "" : '<button class="slot is-unavailable" data-time="19:00">19:00</button>',
-      ].join(""), `${name}\n${address}\n${unknown ? "" : "予約\n"}${["TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE", "TABELOG_DELIVERS", "TABELOG_ONE_DETAIL_FAILS", "TABELOG_REOPEN_RETAINS", "TABELOG_CONTINUES", "TABLECHECK_CONTINUES", "TABLECHECK_EARLY_ACTIONS", "NATIVE_PARTIAL", "NATIVE_TRUE_NO_RESULT", "TABELOG_CURRENT_BATCH_DELIVERS", "TABELOG_NONEMPTY_REGION_RECOVERS", "TABELOG_NEUTRAL_REGION_RECOVERS"].includes(scenario) ? "Omakase course\n" : "Dinner course\n"}2 guests\n${date}\n19:00`);
+      ].join(""), `${name}\n${address}\n${unknown ? "" : "予約\n"}${["F5_PROVISIONAL_DELIVERS", "TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE", "TABELOG_DELIVERS", "TABELOG_ONE_DETAIL_FAILS", "TABELOG_REOPEN_RETAINS", "TABELOG_CONTINUES", "TABLECHECK_CONTINUES", "TABLECHECK_EARLY_ACTIONS", "NATIVE_PARTIAL", "NATIVE_TRUE_NO_RESULT", "TABELOG_CURRENT_BATCH_DELIVERS", "TABELOG_NONEMPTY_REGION_RECOVERS", "TABELOG_NEUTRAL_REGION_RECOVERS"].includes(scenario) ? "Omakase course\n" : "Dinner course\n"}2 guests\n${date}\n19:00`);
     }
     if (scenario === "NATIVE_FACT_FOLLOWUP_DELIVERS" && parsed.pathname === "/tokyo/A1304/A130401/100/menu/") {
       return page(url, `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: "Native Tabelog 100", address: "Shibuya 100, Tokyo" })}</script><link rel="canonical" href="/tokyo/A1304/A130401/100/"><h1>Native Tabelog 100</h1><p class="rstinfo-table__address">Shibuya 100, Tokyo</p><main>Omakase course</main>`, "Native Tabelog 100\nShibuya 100, Tokyo\nOmakase course");
@@ -354,7 +369,7 @@ export function sourcePages(
     if (tablecheckId) {
       const name = `Native TableCheck ${tablecheckId}`;
       const address = `Shibuya ${tablecheckId}, Tokyo`;
-      const available = scenario === "TABLECHECK_RECOVERS" || scenario === "TABLECHECK_EARLY_ACTIONS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS" || scenario === "TABLECHECK_QUERY_READY" || (scenario === "TABLECHECK_CURRENT_BATCH_DELIVERS" && tablecheckId === "1") || (scenario === "TABLECHECK_CONTINUES" && tablecheckId === "2");
+      const available = scenario === "F5_NO_ALTERNATE" || scenario === "F5_SECOND_OUTSIDE" || scenario === "TABLECHECK_RECOVERS" || scenario === "TABLECHECK_EARLY_ACTIONS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS" || scenario === "TABLECHECK_QUERY_READY" || (scenario === "TABLECHECK_CURRENT_BATCH_DELIVERS" && tablecheckId === "1") || (scenario === "TABLECHECK_CONTINUES" && tablecheckId === "2");
       const availabilityWidget = !available
         ? `<div data-testid="Venue Availability" data-selected-date="${date}" data-pax="2"></div><section data-availability-state="empty" data-date="${date}" data-pax="2"></section>`
         : !tableCheckAvailabilityRevealed.has(tablecheckId)

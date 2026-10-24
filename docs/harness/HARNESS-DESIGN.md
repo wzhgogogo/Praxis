@@ -1,8 +1,8 @@
 # Harness Design
 
 - Status: Accepted
-- Document revision: 4.1
-- Last updated: 2026-10-12
+- Document revision: 4.2
+- Last updated: 2026-10-24
 - Source of truth for: Agent Workspace、Task、Search和Browser的模拟、回放、断言与故障注入
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Golden Scenarios](GOLDEN-SCENARIOS.md), [Superseded Progressive Decision Eval](../superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md), [Test Skill](../skills/test/SKILL.md)
@@ -146,3 +146,7 @@ Record/Replay前删除PII、Cookie、Token、银行卡、验证码和可识别�
 ## 单页浏览器诊断
 
 [Browser Read Diagnostics](BROWSER-READ-DIAGNOSTICS.md)维护独立入口、证据字段与测试映射。LOCAL_CHROMIUM单独interactive使用临时profile；interactive与manual-intervention同时开启才使用ADR-0016专用持久eval profile。真实Chromium本地Fixture不等于真实来源验证；单页观察不写Task State、不产出Offer。
+
+## F5 临时入口控制（2026-10-24 CEST）
+
+沿用 directory-region-selection、native-discovery-composition 与 browser-read-discovery 既有构造。R1 使用固定 D1 链接和本地构造列表，先在旧谓词得到“详情为0”的有效红灯，再验证两外→方位反馈→集合选择→四页直接替代。真实 Interpreter／Router／Reducer 与独立 evaluator 验证接纳、UNKNOWN 和交接；真实 Chromium 本地 HAR 验证 DOM／strict wire／Guard 接线。N1–N4、无坐标、非法集合与普通 stale ref、一次总上限及原预算边界分别覆盖。合成页面不是网站 Replay，脚本模型不是新模型调用，当前网站结构、真实模型选区和实时库存仅能由批准后的 Live 证明。

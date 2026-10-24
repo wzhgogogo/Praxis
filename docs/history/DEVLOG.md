@@ -11,6 +11,13 @@
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 
+## DEV-2026-10-24-PHASE3A-PRIME-F5-IMPLEMENTATION
+
+- 时间：2026-10-24 Europe/Vienna（CEST，UTC+2）。基线f42715c2；仅codex/fix-phase3a-prime-f5-provisional-entrance，draft / not integrated，已暴露开发控制。
+- 共享层合同、生产者及全部活动调用方同步更新；无旧firstFive／旧wire兼容路径，两个站点目录与source-packs.ts零改动。
+- R1先红后绿；本地构造输入明确标注，真实组合经Interpreter→Router→Reducer产出artifact并由独立evaluator判断，正常控制与真实Chromium G3通过。适用五门禁在提交干净后运行，结果随后追加；未将定向通过当作最终门禁。
+- 例01最多10 GET（本次冻结1候选、至多2 GET），串行≥5秒、无Cookie／登录／预约表单／模型；先冻结采集脚本和SHA再执行。例03无用户观察到的≥1000m筛选URL，跳过可选GET，保留人工800m／环带未核对。全部模型／Google／Live新增0，STOP2后等复核。[报告](../../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
+
 ## DEV-2026-10-24-PHASE3A-PRIME-F5-REBASE
 
 按用户授权重放分析分支三提交到f42715c2；STATUS/DEVLOG/TEST-LOG/月度导航保留F1/F1b与F5全部记录。Accepted ADR与分析产物逐字节保留；annotated tag checkpoint/phase3a-prime-f5-stop1c保存原60d02686祖先及固定输入。新实现分支下一步从新main建立，分析本身不改产品、不运行Live。 维也纳时间2026-10-24T04:00:45+02:00；新模型/Google/网站/Live0。[核验](../../.eval-artifacts/phase3a-prime/f5-analysis/rebase-20261024.json)。
