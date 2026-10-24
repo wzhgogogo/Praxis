@@ -1,0 +1,59 @@
+✖ diagnostic DOM preserves safe rejected pages without changing replay bytes (6.864625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 129.400917
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/recording-diagnostic.test.ts:1:286
+✖ diagnostic DOM preserves safe rejected pages without changing replay bytes (6.864625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   undefined,
+  +   undefined,
+  +   undefined,
+  +   undefined,
+  +   undefined,
+  +   undefined
+  -   {
+  -     file: 'diagnostic/snapshot-0001.html',
+  -     status: 'SAVED'
+  -   },
+  -   {
+  -     file: 'diagnostic/snapshot-0002.html',
+  -     status: 'SAVED'
+  -   },
+  -   {
+  -     file: 'diagnostic/snapshot-0003.html',
+  -     status: 'SAVED'
+  -   },
+  -   {
+  -     reason: 'CHALLENGE_DOCUMENT',
+  -     status: 'OMITTED'
+  -   },
+  -   {
+  -     reason: 'UNSAFE_DOCUMENT',
+  -     status: 'OMITTED'
+  -   },
+  -   {
+  -     reason: 'DOCUMENT_SIZE_LIMIT',
+  -     status: 'OMITTED'
+  -   }
+    ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/recording-diagnostic.test.ts:17:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ undefined, undefined, undefined, undefined, undefined, undefined ],
+    expected: [ { status: 'SAVED', file: 'diagnostic/snapshot-0001.html' }, { status: 'SAVED', file: 'diagnostic/snapshot-0002.html' }, { status: 'SAVED', file: 'diagnostic/snapshot-0003.html' }, { status: 'OMITTED', reason: 'CHALLENGE_DOCUMENT' }, { status: 'OMITTED', reason: 'UNSAFE_DOCUMENT' }, { status: 'OMITTED', reason: 'DOCUMENT_SIZE_LIMIT' } ],
+    operator: 'deepStrictEqual'
+  }

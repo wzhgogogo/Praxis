@@ -13,7 +13,11 @@ export const BROWSER_READ_RECORDING_SCHEMA_VERSION = "browser-read-recording@4";
 type ReplayFailure = "NO_CAPTURED_PUBLIC_DOCUMENT" | "UNSAFE_DOCUMENT" | "CHALLENGE_DOCUMENT" | "DOCUMENT_SIZE_LIMIT" | "UNSAFE_REDIRECT" | "UNCAPTURED_DYNAMIC_RESPONSE" | "UNCAPTURED_STATIC_DEPENDENCY";
 type Replay = { status: "REPLAYABLE" | "PARTIALLY_REPLAYABLE"; reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE"; harPath: string }
   | { status: "NOT_REPLAYABLE"; reason: ReplayFailure };
-export interface RecordingPage { snapshot: number; url?: string; status: "REPLAYABLE" | "NOT_REPLAYABLE"; reason: ReplayFailure | "SANITIZED_NETWORK_AND_DOM_CAPTURE"; }
+export interface RecordingPage {
+  snapshot: number; url?: string; status: "REPLAYABLE" | "NOT_REPLAYABLE";
+  reason: ReplayFailure | "SANITIZED_NETWORK_AND_DOM_CAPTURE";
+  diagnostic: { status: "SAVED"; file: string } | { status: "OMITTED"; reason: ReplayFailure };
+}
 export interface BrowserReadRecordingResult { path: string; screenshot: "LAYOUT_ONLY_CONTENT_MASKED" | "NOT_CAPTURED_NO_SANITIZER"; replay: Replay; pages: RecordingPage[]; }
 export interface BrowserReadRecordingOptions {
   directory: string; runId: string;
@@ -133,8 +137,19 @@ export class BrowserReadRecording {
         if (request.method === "OPTIONS") failure ??= "UNCAPTURED_DYNAMIC_RESPONSE";
         if (dependency && (!requestPath || this.uncapturedResponsePaths.has(requestPath) || ![...this.responses.keys()].some(url => responsePath(url) === requestPath))) failure ??= dependency;
       }
-      return { snapshot: page.snapshot, ...(page.url ? { url: page.url } : {}), status: failure ? "NOT_REPLAYABLE" : "REPLAYABLE", reason: failure ?? "SANITIZED_NETWORK_AND_DOM_CAPTURE" };
+      return { snapshot: page.snapshot, ...(page.url ? { url: page.url } : {}), status: failure ? "NOT_REPLAYABLE" : "REPLAYABLE", reason: failure ?? "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+        diagnostic: page.html ? { status: "SAVED", file: `diagnostic/snapshot-${String(page.snapshot).padStart(4, "0")}.html` }
+          : { status: "OMITTED", reason: page.failure ?? "UNSAFE_DOCUMENT" } };
     });
+    // These are the same already-sanitized bytes used for Replay. Missing
+    // dependencies affect replay eligibility, not safe diagnostic retention.
+    // Diagnostic files never enter documents/responses or the HAR below.
+    for (const [index, snapshot] of this.documentSnapshots.entries()) {
+      const diagnostic = pages[index]!.diagnostic;
+      if (diagnostic.status !== "SAVED") continue;
+      await mkdir(resolve(path, "diagnostic"), { recursive: true });
+      await writeFile(resolve(path, diagnostic.file), snapshot.html!, { flag: "wx" });
+    }
     const qualified = this.documentSnapshots.filter((_, index) => pages[index]!.status === "REPLAYABLE");
     for (const snapshot of qualified) {
       this.documents.set(snapshot.url!, snapshot.html!);
