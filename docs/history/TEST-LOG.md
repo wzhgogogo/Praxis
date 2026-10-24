@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.285
+- Document revision: 4.286
 - Last updated: 2026-10-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5287,3 +5287,7 @@ Europe/Vienna。合入后的main/f42715c2五门禁一次全部通过：typecheck
 Europe/Vienna。最终受测442523111bb85297494af30054c3dc18a8ef56c2，576项/1039项冻结前后未变；五门禁typecheck/arch/build、默认1027/1027（20.182264秒）、真实Chromium141/141（84.761184秒）全绿，每项后Git状态空、门禁恢复0，无端口/浏览器资源冲突。首轮1026/1027的缺最终快照回归失败与修复保留，未删断言；旧统计脚本手动写入在正式门禁前另存并恢复原字节，不掩盖门禁污染。
 
 真实子进程/生产Guard/本地HAR四路径（完整、查位SIGTERM、模拟500000ms deadline、AbortSignal）记录完整且声明/边界S0均ABSENT；隔离移除中断处理在实际AVAILABILITY的SIGTERM反例失败，已展示offer错误人数注入仍被声明S0捕获。h-12 SHA25fc4252…配同一原始交付后GET重评@33/@34，其他独立维度逐字段相同，唯一规则干预解释全部派生变化；22校准全匹配、正常声明20/20，两历史中断声明仍未知。三旧录制0/74、0/109、0/56：未捕获静态依赖31/100/52，原DOM未保存43/9/4。小fixture页隔离、大小、form去action和Secret/Cookie/PII/挑战负例通过。真实模型/Google/餐厅网站/Live/环境重跑0，旧评价不覆盖；只声明离线机制与补评结果，停止点2待复核。 [报告及日志](../../.eval-artifacts/phase3a-prime/f2a/report.md)。
+
+## TEST-2026-10-24-PHASE3A-PRIME-DIAGNOSTIC-DOM
+
+2026-10-24T11:51:00.063345+02:00 Europe/Vienna。最小六页有效红绿、18/18相关回归；补丁前HAR/文档摘要逐字节相同。五门禁受测3ab2a874a3e840f327a453b66c62299c14161f85，1028/1028默认、141/141 Chromium，日志及566项冻结见报告，恢复0。 [报告](../../.eval-artifacts/phase3a-prime/f2a-diagnostic-dom/report.md)。

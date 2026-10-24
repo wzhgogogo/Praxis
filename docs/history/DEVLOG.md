@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.278
+- Document revision: 4.279
 - Last updated: 2026-10-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4571,3 +4571,7 @@ Evidence status: current reviewed baseline，开发证据已暴露。用户明�
 Evidence status: frozen regression / draft not integrated；报告时间Europe/Vienna，不是Clean Baseline。仅对话A/F2①②④a：Live CLI与离线来源共用正式执行函数，受控退出刷盘已有快照、trace、decision和recording；Evaluator34/rubric30识别中断、按已达环节报告并继续独立S0，修复额外UNSPECIFIED误判；Recorder4按页资格、1MB UTF-8上限、去除未审核form action且保留安全脱敏与缺依赖拒绝。
 
 从f42715c2建立工作分支，b0d2b900冻结输入，ef89c72d实施，c3311b61/db25bbdb冻结首轮控制，dce958f4修复默认回归捕获的缺快照未知语义并使Node子进程继承读取检查，44252311冻结最终验证。三个历史运行只重判已保存字节，不恢复缺失DOM/脚本；新增测试用最小合成来源，未向产品测试复制整份历史运行。产品Core/Domain/Adapter/Server与web-skills相对main无差异，目录3864/pack473不变。未开始F5、Live、F2③/④b或私有留出集；停止点2待复核。 [报告](../../.eval-artifacts/phase3a-prime/f2a/report.md)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-DIAGNOSTIC-DOM
+
+2026-10-24T11:51:00.063345+02:00 Europe/Vienna。诊断DOM补丁完成：安全缺脚本/OPTIONS页独立留档，危险/挑战/超大页只记原因；回放字节不变，五门禁1028/141全绿且每项后净工作树，0新增调用。仅本项获准合入main，后续F2③/④b分支待复核。 录制器复用已有脱敏结果，只加明确要求的诊断元数据；未触碰产品或共享Browser。 [报告](../../.eval-artifacts/phase3a-prime/f2a-diagnostic-dom/report.md)。
