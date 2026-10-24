@@ -20,10 +20,10 @@ async function until(check: () => boolean, detail: string) {
 }
 async function setup() {
   const hits: number[] = [];
-  const server = createServer((_request, response) => { hits.push(Date.now());setTimeout(() => response.end("public fixture"), 150); });
+  const server = createServer((_request, response) => { hits.push(Date.now());setTimeout(() => response.end("public fixture"), 70); });
   await new Promise<void>(resolve => server.listen(0, "127.0.0.1", resolve));
   const url = `http://127.0.0.1:${(server.address() as { port: number }).port}/public`;
-  const coordinator = await createEvalPacingCoordinator({ minimumIntervalMs: 120 });
+  const coordinator = await createEvalPacingCoordinator({ minimumIntervalMs: 200 });
   const children: ReturnType<typeof child>[] = [];
   return { hits, url, coordinator,
     spawn(id: string) { const run = child(coordinator.endpoint, id, url);children.push(run);return run; },
@@ -40,9 +40,9 @@ test("shared origin pacing spans two real subprocesses", { timeout: 20_000 }, as
     await until(() => [a,b].every(run => run.messages.some(m => m.stage === "DONE")), "both processes finish requests");
     assert.equal(fixture.hits.length, 4);
     const differences = fixture.hits.slice(1).map((time, index) => time - fixture.hits[index]!);
-    assert.ok(differences.every(ms => ms >= 120), `source intervals ${differences}`);
+    assert.ok(differences.every(ms => ms >= 200), `source intervals ${differences}`);
     assert.ok([a,b].some(run => Object.values(run.messages.find(m => m.stage === "DONE").usage).some((row: any) => row.waitMs > 0)));
-    t.diagnostic(JSON.stringify({ timestamps: fixture.hits, intervals: differences, configuredMs: 120, usage: fixture.coordinator.snapshot().usage }));
+    t.diagnostic(JSON.stringify({ timestamps: fixture.hits, intervals: differences, configuredMs: 200, usage: fixture.coordinator.snapshot().usage }));
   } finally { await fixture.close(); }
 });
 

@@ -6,7 +6,7 @@ has only one participating run, leases grant concurrently with waitMs zero. With
 multiple participating runs, serialize dispatch and wait the configured interval
 after the preceding response settles. No filesystem locks; disconnect removes all
 queued/held ownership. Default 1000ms is conservative eval courtesy spacing, not a
-site limit claim. Per-origin overrides are explicit configuration; fixture uses120ms.
+site limit claim. Per-origin overrides are explicit configuration; fixture uses200ms.
 
 Use the existing Chromium browserType injection boundary in eval-only bootstrap:
 wrap admitted route.fetch and native redirect/preflight CDP sends, preserving Guard
