@@ -15,36 +15,36 @@ const first = 'https://tabelog.com/en/tokyo/A1303/A130301/rstLst/';
 const second = 'https://tabelog.com/en/tokyo/A1304/A130401/rstLst/';
 const now = '2026-10-10T00:00:00.000Z';
 const intent: RestaurantSearchIntent = { timezone:'Asia/Tokyo', target:{goal:'RECOMMENDATION',query:'restaurants'}, area:{query:'nearby',radiusMeters:1000,coordinates:{latitude:35.66,longitude:139.70,observedAt:now,source:'EVALUATION'}},criteria:[] };
-function fixture(outside = true, missing = false, named = false, navigationFailure?: BrowserRuntimeError) {
+function fixture(outside = true, missing = false, named = false, navigationFailure?: BrowserRuntimeError, normalName?: string) {
   const navigations:string[]=[];let selections=0;
   const runtime:BrowserRuntime={openSession:async()=>{
     let page:BrowserSnapshot={url:root,title:'',text:'',html:''};
     const session:BrowserSession={metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now},
       navigate:async(url)=>{navigations.push(url);if(url===first&&navigationFailure)throw navigationFailure;let html='';
-        if(url===root) html=`<a href="${first}">${named?"Ueno":"First region"}</a><a href="${second}">${named?"Asakusa":"Second region"}</a>`;
+        if(url===root) html=`<a href="${first}">${normalName??(named?"Ueno":"First region")}</a><a href="${second}">${named?"Asakusa":"Second region"}</a>`;
         else if(url===first || url===second) html=Array.from({length:5},(_,n)=>{const id=(url===first?100:200)+n;return `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Outlet ${id}</a>`;}).join('') + (named && url===first?`<a href="${second}">Asakusa</a>`:'');
         else {const id=new URL(url).pathname.match(/\/(\d+)\/$/)![1]!;const name=`Outlet ${id}`,address='Tokyo';const point=outside&&Number(id)<200?{latitude:35.9,longitude:139.9}:{latitude:35.66,longitude:139.70};html=`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name,address,...(missing?{}:{geo:point})})}</script><h1>${name}</h1><p class="rstinfo-table__address">${address}</p>`;}
         page={url,title:'Restaurants',text:html.replace(/<[^>]*>/g,' '),html};},
       snapshot:async()=>page,observeControls:async()=>[...page.html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m,n)=>({id:String(n),stableKey:m[1]!,kind:'LINK' as const,role:'link',label:m[2]!,href:new URL(m[1]!,page.url).href,visible:true,disabled:false})),
       click:async()=>{throw new Error('No click permitted');},fill:async()=>{throw new Error('No fill needed');},select:async()=>[],waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{}};return session;
   }};
-  const decision:BrowserReadActionDecisionPort={decide:async(input)=>{selections++;const target=input.observation.targets.find(t=>t.href===(selections===1?first:second))!;return {type:'OPEN_LINK',targetRef:target.ref,reason:'Choose observed region'};}};
+  const decision:BrowserReadActionDecisionPort={decide:async(input)=>{selections++;if(input.regionCorrection)return {type:'SELECT_REGION_ENTRANCE',targetRef:input.regionCorrection.entrances.find(entry=>entry.href===second)!.ref,reason:'Choose retained observed region'};const target=input.observation.targets.find(t=>t.href===(selections===1?first:second))!;return {type:'OPEN_LINK',targetRef:target.ref,reason:'Choose observed region'};}};
   const google=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:async()=>{throw new Error('No extra location request');}}));
   const native=new NativeRestaurantSearch(runtime, google, fixtureRetrieval, ()=>now, undefined, decision, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
   return {native,navigations,get selections(){return selections;}};
 }
 test('directory Agent uses observed references; a proved wrong first entry is replaced once without resetting progress',async()=>{
  const f=fixture();const a=await f.native.search({intent},new AbortController().signal);const region=a.continuation!.sourceProgress!.directoryRegion!;
- assert.equal(a.candidates.length,0);assert.equal(region.first.url,first);assert.match(region.first.targetRef,/observation:\d+:target:\d+/);assert.equal(region.firstFive.length,5);assert.equal(directoryEntryReplacementAllowed(region),true);assert.equal(a.continuation!.exhausted,false);
+ assert.equal(a.candidates.length,0);assert.equal(region.first.url,first);assert.match(region.first.targetRef,/observation:\d+:target:\d+/);assert.equal(region.samples.length,5);assert.equal(directoryEntryReplacementAllowed(region),true);assert.equal(a.continuation!.exhausted,false);
  const b=await f.native.search({intent,continuation:a.continuation!},new AbortController().signal);
- assert.equal(b.candidates.length,5);assert.equal(b.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,10);assert.equal(b.continuation!.pagesRead,4);assert.ok(b.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!>=a.continuation!.sourceProgress!.elapsedMs!);assert.equal(b.metadata.nativeDiscoveryFunnel!.directoryRegion!.replacement!.url,second);assert.equal(directoryEntryReplacementAllowed(b.metadata.nativeDiscoveryFunnel!.directoryRegion),false);assert.equal(f.selections,2);
+ assert.equal(b.candidates.length,5);assert.equal(b.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,10);assert.equal(b.continuation!.pagesRead,3);assert.ok(b.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!>=a.continuation!.sourceProgress!.elapsedMs!);assert.equal(b.metadata.nativeDiscoveryFunnel!.directoryRegion!.replacement!.url,second);assert.equal(directoryEntryReplacementAllowed(b.metadata.nativeDiscoveryFunnel!.directoryRegion),false);assert.equal(f.selections,2);
 });
 test('unknown coordinates do not establish a wrong entry and cannot admit candidates',async()=>{
- const f=fixture(false,true);const a=await f.native.search({intent},new AbortController().signal);assert.equal(a.candidates.length,0);assert.ok(a.metadata.nativeDiscoveryFunnel!.directoryRegion!.firstFive.every(x=>x.outcome==='UNKNOWN'));assert.equal(directoryEntryReplacementAllowed(a.metadata.nativeDiscoveryFunnel!.directoryRegion),false);assert.equal(f.selections,1);
+ const f=fixture(false,true);const a=await f.native.search({intent},new AbortController().signal);assert.equal(a.candidates.length,0);assert.ok(a.metadata.nativeDiscoveryFunnel!.directoryRegion!.samples.every(x=>x.outcome==='UNKNOWN'));assert.equal(directoryEntryReplacementAllowed(a.metadata.nativeDiscoveryFunnel!.directoryRegion),false);assert.equal(f.selections,1);
 });
 test('only four proved outside among exactly five allow one replacement; spent deadline stays spent',async()=>{
- const region={first:{url:first,observedOn:root,targetRef:'observation:1:target:1'},firstFive:Array.from({length:5},(_,n)=>({sourceEntityId:String(n),sourceUrl:first,outcome:n<4?'OUTSIDE_RADIUS' as const:'UNKNOWN' as const}))};
- assert.equal(directoryEntryReplacementAllowed(region),true);assert.equal(directoryEntryReplacementAllowed({...region,firstFive:region.firstFive.slice(0,4)}),false);assert.equal(directoryEntryReplacementAllowed({...region,firstFive:region.firstFive.map((x,n)=>n===3?{...x,outcome:'UNKNOWN' as const}:x)}),false);assert.equal(directoryEntryReplacementAllowed({...region,replacement:{url:second,observedOn:root,targetRef:'observation:2:target:2'}}),false);
+ const region={first:{url:first,observedOn:root,targetRef:'observation:1:target:1'},samples:Array.from({length:5},(_,n)=>({sourceEntityId:String(n),sourceUrl:first,outcome:n<4?'OUTSIDE_RADIUS' as const:'UNKNOWN' as const}))};
+ assert.equal(directoryEntryReplacementAllowed(region),true);assert.equal(directoryEntryReplacementAllowed({...region,samples:region.samples.slice(0,4)}),false);assert.equal(directoryEntryReplacementAllowed({...region,samples:region.samples.map((x,n)=>n===3?{...x,outcome:'UNKNOWN' as const}:x)}),false);assert.equal(directoryEntryReplacementAllowed({...region,replacement:{url:second,observedOn:root,targetRef:'observation:2:target:2'}}),false);
  const f=fixture();const continuation:RestaurantSearchContinuation={intentFingerprint:JSON.stringify(intent),usedPageTokens:[],pagesRead:2,exhausted:false,sourceProgress:{sourceId:'tabelog',inspectedSourceIds:[],detailAttempts:5,pagesRead:2,elapsedMs:90000,pendingSourceIds:[],directoryRegion:region}};
  const result=await f.native.search({intent,continuation},new AbortController().signal);assert.equal(f.navigations.length,0);assert.equal(result.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,5);assert.ok(result.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!>=90000);
  const capped=fixture();
@@ -143,11 +143,11 @@ const recordedRegions = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/p
  caseId:string;group:string;location:NonNullable<RestaurantSearchContinuation['locationContext']>;
  googleBatch?:{detail:{read:RestaurantSearchRead}};
 }>;
-function linkedRegionFixture(caseId:string, rogue=false, failedRead=false, hard=false) {
+function linkedRegionFixture(caseId:string, rogue=false, failedRead=false, hard=false, localName?:string) {
  const record=recordedRegions.find(r=>r.group==='checkpoint-b-corrected-20261019'&&r.caseId===caseId)!;
  const references=record.googleBatch!.detail.read;
  const navigations:string[]=[];const googleKeywords:Array<string|undefined>=[];let googleCalls=0, decisions=0, planningCalls=0;
- const requested=record.location.label;
+ const requested=localName??record.location.label;
  // Only the test's independent expected pages supply this table. Production
  // receives the unchanged recorded Google links and observed root links.
  const expected=caseId.includes('kagurazaka')?'A1309':'A1317';
@@ -159,7 +159,7 @@ function linkedRegionFixture(caseId:string, rogue=false, failedRead=false, hard=
   metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now},
   navigate:async(url)=>{navigations.push(url);const current=url.includes('/tokyo/rstLst/')?capturedRoot:url;
    const path=new URL(current);path.search='';
-   const html=path.href===capturedRoot?regionFragment('root'):path.href===good?`<a class="list-rst__rst-name-target" href="${outlet}">Controlled result</a>`:current===outlet?`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Controlled result',address:'Tokyo',geo:{latitude:record.location.latitude,longitude:record.location.longitude}})}</script>`:'';
+   const html=path.href===capturedRoot?(localName?`<a href="${good}">Observed parent</a><a href="${wrong}">Unsupported parent</a>`:regionFragment('root')):path.href===good?`<a class="list-rst__rst-name-target" href="${outlet}">Controlled result</a>`:current===outlet?`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Controlled result',address:'Tokyo',geo:{latitude:record.location.latitude,longitude:record.location.longitude}})}</script>`:'';
    page={url:current,title:'Observed regions',text:html.replace(/<[^>]*>/g,' '),html};},snapshot:async()=>page,
   observeControls:async()=>[...page.html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m,n)=>({id:String(n),stableKey:m[1]!,kind:'LINK' as const,role:'link',label:m[2]!.replaceAll('&amp;','&'),href:m[1]!,visible:true,disabled:false})),
   click:async()=>{throw Error('No click');},fill:async()=>{throw Error('No invented input');},select:async()=>[],waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{},
@@ -179,7 +179,7 @@ function linkedRegionFixture(caseId:string, rogue=false, failedRead=false, hard=
  const planner={decide:async()=>{planningCalls++;return fixtureRetrieval.decide();}};
  const native=new NativeRestaurantSearch(runtime,google,planner,()=>now,undefined,decision,undefined,undefined,{maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},undefined,[tabelogDiscoveryPack,googlePlacesDiscoveryPack]);
  const inputIntent={...intent,area:{query:`near ${requested}`,radiusMeters:1000},...(hard?{criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]}:{})};
- const request={intent:inputIntent,readRunId:`region-${caseId}`,continuation:{intentFingerprint:JSON.stringify(inputIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:record.location}};
+ const request={intent:inputIntent,readRunId:`region-${caseId}`,continuation:{intentFingerprint:JSON.stringify(inputIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...record.location,label:requested}}};
  return {native,request,navigations,good,wrong,references,googleKeywords,get googleCalls(){return googleCalls;},get decisions(){return decisions;},get planningCalls(){return planningCalls;}};
 }
 test('recorded Kagurazaka and Nakameguro links constrain the first region and reach a controlled result within the unchanged budget',async()=>{
@@ -255,18 +255,28 @@ const d1Parent='https://tabelog.com/en/tokyo/A1322/';
 const d1Child='https://tabelog.com/en/tokyo/A1322/A132201/';
 const d1Alternate='https://tabelog.com/en/tokyo/A1323/';
 const akabanePoint={latitude:35.7799638,longitude:139.723053};
-function provisionalFixture() {
- const navigations:string[]=[];let steps=0;
+type LocalPoint = {latitude:number;longitude:number} | null;
+const southwest={latitude:35.75,longitude:139.70};
+function provisionalFixture(options: {points?:LocalPoint[]; replacementPoints?:LocalPoint[]; noAlternate?:boolean; invalidRef?:string; onNavigate?:(url:string)=>void; budget?:{totalModelCalls:number;maxModelCalls:number}} = {}) {
+ const navigations:string[]=[];let steps=0,corrections=0;
+ const contexts:Parameters<BrowserReadActionDecisionPort['decide']>[0][]=[];
+ const points=options.points??[akabanePoint,akabanePoint], replacements=options.replacementPoints??[akabanePoint,akabanePoint];
+ const details=new Map<string,{name:string;point:LocalPoint}>();
+ const list=(replacement:boolean)=>{
+  const values=replacement?replacements:points;
+  return values.map((point,n)=>{const href=(replacement?'https://tabelog.com/en/tokyo/A1323/A132301/':d1Child)+(13000000+(replacement?100:0)+n+1)+'/';const name=(replacement?'Replacement':'Local')+' Outlet '+(n+1);details.set(href,{name,point});return `<a class="list-rst__rst-name-target" href="${href}">${name}</a>`;}).join('');
+ };
  const runtime:BrowserRuntime={openSession:async()=>{
   let page:BrowserSnapshot={url:'about:blank',title:'Local constructed',text:'',html:''};
   return {
    metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now},
    navigate:async(url)=>{
-    navigations.push(url);const actual=url===root?d1Root:url;let html='';
-    if(actual===d1Root)html=`<a href="${d1Parent}">Itabashi &amp; Along Tobu Railway Line</a><a href="${d1Alternate}">Sugamo</a>`;
-    else if(actual===d1Parent)html=`<a href="${d1Child}">Kita-Ikebukuro &amp; Itabashi St. Area</a>`;
-    else if(actual===d1Child)html=[1,2].map(n=>`<a class="list-rst__rst-name-target" href="${d1Child}1300000${n}/">Local Outlet ${n}</a>`).join('');
-    else {const n=actual.includes('13000001')?1:2;html=`<h1>Local Outlet ${n}</h1><p class="rstinfo-table__address">Tokyo</p><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:`Local Outlet ${n}`,address:'Tokyo',geo:akabanePoint})}</script>`;}
+    navigations.push(url);options.onNavigate?.(url);const actual=url===root?d1Root:url;const path=new URL(actual);const plain=path.origin+path.pathname;let html='';
+    if(plain===d1Root)html=`<a href="${d1Parent}">Itabashi &amp; Along Tobu Railway Line</a>`+(options.noAlternate?'':`<a href="${d1Alternate}">Sugamo</a>`);
+    else if(plain===d1Parent)html=`<a href="${d1Child}">Kita-Ikebukuro &amp; Itabashi St. Area</a>`;
+    else if(plain===d1Child)html=list(false);
+    else if(plain===d1Alternate)html=list(true);
+    else {const detail=details.get(plain);assert.ok(detail,'local input did not define this page: '+plain);html=`<h1>${detail.name}</h1><p class="rstinfo-table__address">Tokyo</p><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:detail.name,address:'Tokyo',...(detail.point?{geo:detail.point}:{})})}</script>`;}
     page={url:actual,title:'Local constructed D1 control',text:html.replace(/<[^>]*>/g,' '),html};
    },
    snapshot:async()=>page,
@@ -275,17 +285,100 @@ function provisionalFixture() {
   };
  }};
  const decision:BrowserReadActionDecisionPort={decide:async input=>{
+  contexts.push(structuredClone(input));
+  if(input.regionCorrection){corrections++;const ref=options.invalidRef??input.regionCorrection.entrances.find(e=>e.href===d1Alternate)!.ref;return {type:'SELECT_REGION_ENTRANCE',targetRef:ref,reason:'Choose supplied observed entrance'};}
   steps++;const href=steps===1?d1Parent:steps===2?d1Child:undefined;
   if(href){const target=input.observation.targets.find(t=>t.href===href)!;return {type:'OPEN_LINK',targetRef:target.ref,reason:'D1 observed entrance'};}
   return steps===3?{type:'COMPLETE',reason:'Observed local list'}:{type:'REQUEST_HUMAN_HELP',reason:'Bounded old-predicate control'};
  }};
- const google=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:async()=>{throw Error('No network');}}));
- const native=new NativeRestaurantSearch(runtime,google,fixtureRetrieval,()=>now,undefined,decision,undefined,undefined,{maxAutomaticElapsedMs:500_000,maxModelCallsPerCandidate:12,maxModelCallsTotal:50,maxOperationsPerCandidate:80},undefined,[tabelogDiscoveryPack]);
+ const client=new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:async()=>{throw Error('No network');}});
+ const google=new GooglePlacesRestaurantSearch(client);
+ const native=new NativeRestaurantSearch(runtime,google,fixtureRetrieval,()=>now,undefined,decision,options.budget,undefined,{maxAutomaticElapsedMs:500_000,maxModelCallsPerCandidate:12,maxModelCallsTotal:50,maxOperationsPerCandidate:80},undefined,[tabelogDiscoveryPack]);
  const namedIntent={...intent,area:{query:'near Akabane',radiusMeters:1000}};
  const request={intent:namedIntent,continuation:{intentFingerprint:JSON.stringify(namedIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...akabanePoint,radiusMeters:1000,label:'Akabane',areaMatchBasis:'NAMED_PLACE_RADIUS' as const}}};
- return {native,request,navigations};
+ return {native,request,navigations,runtime,client,decision,contexts,get corrections(){return corrections;}};
 }
 test('R1 D1 unbound observed entrance reaches detail sampling before a place label or pointer is available',async()=>{
  const f=provisionalFixture();const result=await f.native.search(f.request,new AbortController().signal);
  assert.ok(result.metadata.nativeDiscoveryFunnel!.inspectedOutlets>0,'R1: namedEntrance must not prevent all coordinate sampling');
+});
+
+
+test('G1/G3 D1 second-level provisional samples replace once in four region pages with immutable directional feedback and no restore',async()=>{
+ const budget={totalModelCalls:20,maxModelCalls:50};const f=provisionalFixture({points:[southwest,southwest,southwest],budget});
+ const first=await f.native.search(f.request,new AbortController().signal);
+ assert.equal(first.metadata.nativeDiscoveryFunnel!.inspectedOutlets,2);assert.equal(first.metadata.nativeDiscoveryFunnel!.retrieval!.regionPages,3);
+ assert.equal(first.continuation!.sourceProgress!.directoryRegion!.provisional,true);assert.equal(directoryEntryReplacementAllowed(first.continuation!.sourceProgress!.directoryRegion),true);
+ const second=await f.native.search({...f.request,continuation:JSON.parse(JSON.stringify(first.continuation))},new AbortController().signal);
+ assert.equal(second.candidates.length,2);assert.equal(second.metadata.nativeDiscoveryFunnel!.retrieval!.regionPages,4);assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,4);
+ assert.equal(f.corrections,1);assert.equal(f.navigations.filter(url=>url===root||url===d1Root||url===d1Parent||url===d1Child).length,3,'no menu/list restoration navigation');
+ assert.equal(f.navigations.filter(url=>url===d1Alternate).length,1);assert.equal(budget.totalModelCalls,23,'shared prior20 plus two region choices and one correction');
+ const context=f.contexts.find(input=>input.regionCorrection)!.regionCorrection!;
+ assert.equal(context.samples.length,2);assert.ok(context.samples.every(sample=>sample.distanceMeters!>1000&&sample.direction==='SW'&&sample.bearingDegrees!>200&&sample.bearingDegrees!<230));
+ assert.equal(context.entrances.find(entry=>entry.href===d1Alternate)!.observedOn,d1Root);
+ assert.match(second.metadata.nativeDiscoveryFunnel!.directoryRegion!.replacement!.targetRef,/^observation:/);
+ assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceExhausted,'UNKNOWN');
+});
+
+test('C1/C2 local mixed and missing coordinates only count valid samples and never replace an in-radius entrance',async()=>{
+ for(const points of [[akabanePoint,southwest],[southwest,akabanePoint],[null,southwest,null,southwest],[{latitude:999,longitude:0},southwest,akabanePoint]] as LocalPoint[][]){
+  const f=provisionalFixture({points});const read=await f.native.search(f.request,new AbortController().signal);const region=read.metadata.nativeDiscoveryFunnel!.directoryRegion!;
+  const within=points.some(point=>point?.latitude===akabanePoint.latitude&&point?.longitude===akabanePoint.longitude);
+  assert.equal(region.verified===true,within);assert.equal(directoryEntryReplacementAllowed(region),!within&&points.filter(point=>point?.latitude===southwest.latitude).length===2);
+  assert.equal(read.candidates.length,within?1:0);assert.equal(read.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,points.length);
+ }
+});
+
+test('A3 no observed alternate ends UNKNOWN immediately without asking the model or restoring a menu',async()=>{
+ const budget={totalModelCalls:20,maxModelCalls:50};const f=provisionalFixture({points:[southwest,southwest],noAlternate:true,budget});
+ const read=await f.native.search(f.request,new AbortController().signal);
+ assert.equal(read.metadata.nativeDiscoveryFunnel!.directoryRegion!.stopReason,'NO_OBSERVED_REPLACEMENT_ENTRANCE');assert.equal(read.metadata.nativeDiscoveryFunnel!.sourceEnded,true);assert.equal(read.metadata.nativeDiscoveryFunnel!.sourceExhausted,'UNKNOWN');assert.equal(f.corrections,0);assert.equal(budget.totalModelCalls,22);
+});
+
+test('A3/G2 correct-area edge misclassification uses only one correction and retains previously admitted candidates and cumulative budget',async()=>{
+ // Independent local oracle: correct region includes the circle edge; the four outside samples are not proof the whole region is wrong.
+ const budget={totalModelCalls:20,maxModelCalls:50};const f=provisionalFixture({points:[akabanePoint,southwest,southwest,southwest,southwest],replacementPoints:[southwest,southwest,southwest],budget});
+ const first=await f.native.search(f.request,new AbortController().signal);assert.equal(first.candidates.length,1);assert.equal(directoryEntryReplacementAllowed(first.continuation!.sourceProgress!.directoryRegion),true);
+ const second=await f.native.search({...f.request,continuation:first.continuation!},new AbortController().signal);
+ assert.equal(second.metadata.nativeDiscoveryFunnel!.directoryRegion!.stopReason,'REPLACEMENT_SAMPLES_OUTSIDE_RADIUS');assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceEnded,true);assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,7);
+ assert.equal(f.corrections,1);assert.equal(first.candidates.length,1);assert.equal(new Map([...first.candidates,...second.candidates].map(candidate=>[candidate.restaurant.id,candidate])).size,1);
+ assert.equal(budget.totalModelCalls,23);assert.ok(second.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!>=first.metadata.nativeDiscoveryFunnel!.sourceElapsedMs!);assert.equal(second.metadata.nativeDiscoveryFunnel!.retrieval!.regionPages,4);
+});
+
+test('X3 retained entrance selection rejects set-external, foreign-flow and invented href refs before navigation',async()=>{
+ for(const invalidRef of ['region:outside:0','region:another-source:0','region:foreign-flow:0',d1Alternate+'R3470/']){
+  const budget={totalModelCalls:20,maxModelCalls:50};const f=provisionalFixture({points:[southwest,southwest],invalidRef,budget});
+  const first=await f.native.search(f.request,new AbortController().signal);
+  const progress=JSON.parse(JSON.stringify(first.continuation!)) as RestaurantSearchContinuation;
+  const saved=progress.sourceProgress!.regionEntrances!;saved.entries.push({...saved.entries[0]!,ref:invalidRef,...(invalidRef.includes('foreign-flow')?{flowId:'foreign-flow'}:{sourceId:'tablecheck'})});
+  const second=await f.native.search({...f.request,continuation:progress},new AbortController().signal);
+  assert.equal(second.metadata.nativeDiscoveryFunnel!.directoryRegion!.stopReason,'INVALID_OBSERVED_ENTRANCE_SELECTION');assert.equal(f.navigations.includes(d1Alternate),false);assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceEnded,true);assert.equal(budget.totalModelCalls,23);
+  assert.ok(f.contexts.find(input=>input.regionCorrection)!.regionCorrection!.entrances.every(entry=>entry.sourceId==='tabelog'));
+ }
+});
+
+test('A3 source90 deadline after sampling is not reset by a correction or source handoff',async t=>{
+ let clock=200_000;t.mock.method(Date,'now',()=>clock);const budget={totalModelCalls:20,maxModelCalls:50};
+ const f=provisionalFixture({points:[southwest,southwest],budget});const first=await f.native.search(f.request,new AbortController().signal);
+ const continuation=JSON.parse(JSON.stringify(first.continuation!)) as RestaurantSearchContinuation;
+ continuation.sourceProgress!.elapsedMs=90_000;const previousCalls=budget.totalModelCalls;const previousNavigations=f.navigations.length;clock+=90_000;
+ const second=await f.native.search({...f.request,continuation},new AbortController().signal);
+ assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceTimeLimitReached,true);assert.equal(second.metadata.nativeDiscoveryFunnel!.directoryRegion!.stopReason,'SOURCE_BUDGET_EXHAUSTED');assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,2);assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceElapsedMs,90_000);assert.equal(budget.totalModelCalls,previousCalls);assert.equal(f.navigations.length,previousNavigations);
+});
+
+// N1/N2/N4 reuse the existing behavior builder; HTML/details are local constructed.
+test('N1 N2 N4 named Shibuya Kagurazaka Higashi-Ginza controls retain original page and detail counts',async()=>{
+ for(const name of ['Shibuya','Kagurazaka','Higashi-Ginza']) {
+  const f=fixture(false,false,false,undefined,name);const namedIntent={...intent,area:{query:`near ${name}`,radiusMeters:1000}};
+  const result=await f.native.search({intent:namedIntent,continuation:{intentFingerprint:JSON.stringify(namedIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:35.66,longitude:139.70,radiusMeters:1000,label:name,areaMatchBasis:'NAMED_PLACE_RADIUS'}}},new AbortController().signal);
+  const region=result.metadata.nativeDiscoveryFunnel!.directoryRegion!;
+  assert.equal(region.provisional,false);assert.equal(region.replacement,undefined);assert.equal(f.selections,1);
+  assert.equal(result.candidates.length,5);assert.equal(result.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,5);assert.equal(result.metadata.nativeDiscoveryFunnel!.retrieval!.regionPages,2);assert.equal(f.navigations.length,7,'baseline two region pages plus five details');
+ }
+});
+
+test('N3 local Kichijoji same-source pointer control keeps a nonmatching observed label and original budget',async()=>{
+ const f=linkedRegionFixture('p2-kagurazaka-kaiseki-20261029',false,false,false,'Kichijoji');
+ const read=await f.native.search(f.request,new AbortController().signal);const region=read.metadata.nativeDiscoveryFunnel!.directoryRegion!;
+ assert.equal(read.candidates.length,1,JSON.stringify({metadata:read.metadata,nav:f.navigations}));assert.equal(region.provisional,false);assert.equal(region.replacement,undefined);assert.equal(region.first.url,f.good);assert.equal(f.decisions,1);assert.equal(f.googleCalls,1);assert.equal(read.metadata.nativeDiscoveryFunnel!.retrieval!.regionPages,2);assert.equal(read.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,1);assert.equal(f.navigations.length,3);
 });

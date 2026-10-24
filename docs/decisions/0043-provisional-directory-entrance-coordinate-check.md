@@ -1,13 +1,17 @@
 # ADR-0043: 临时目录入口的有界坐标核对
 
-- Status: Accepted（已批准，尚未实施）
+- Status: Accepted（已批准；实施记录见下）
 - Approval: 用户于 2026-10-24（维也纳 CEST）在本对话明确“我批准新的adr”；本批仍只改文档并停在 1c
-- Document revision: 1.1
+- Document revision: 1.2
 - Last updated: 2026-10-24（维也纳时间 CEST，UTC+2）
 - Evidence status: approved / not implemented；exposed development diagnostic；不是 Clean Baseline
 - Scope: 仅方案 A；补充 ADR-0040 Decision 5、6 的入口取样、同来源已观察集合和一次纠正；LOCATION／车站改动未采纳
 - Related ADRs: [ADR-0040](0040-agent-selected-directory-region-entrances.md)、[ADR-0042](0042-agent-planned-discovery-and-search-availability-hints.md)、[ADR-0036](0036-generic-public-read-network-policy.md)
 - Related evidence: [F5 停止点 1c 报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#10-停止点-1c-修订与-adr-批准)、[固定输入 SHA](../../.eval-artifacts/phase3a-prime/f5-analysis/inputs-sha256.json)
+
+## 实施记录（2026-10-24 CEST；本分支）
+
+批次2已获用户另行授权。第1–7、9、10项进入共享层实施；第8项仍未采纳。下文“尚未实施／停在1c”保留原设计批准时的时间边界，不限制本次已授权切片。当前实现及五门禁／见证状态以[F5实现报告](../../.eval-artifacts/phase3a-prime/f5-implementation/report.md)为准；Live未运行，仍需F2①和F2④a合入main后另行批准。原ADR-0040／0042未改，Accepted决策条款不变。
 
 ## Context
 

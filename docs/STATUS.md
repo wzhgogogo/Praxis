@@ -29,8 +29,11 @@
 
 - **2026-10-24-PHASE3A-PRIME-F1B-REVIEWED-MAIN:** 用户明确批准F1b/F1完成，将f42715c2快进合入main并推送，远端核验SHA为f42715c2cb34a18764b664bd175576dfe2eaabe3。合入后该精确main五门禁一次全绿，默认1024/1024、Chromium137/137，单次20.212164/85.410666秒，每项后Git状态空。随后从该main开始F2a工作分支；原主工作区9份用户文件与HEAD保留，未删除分支。 [合入与门禁](../.eval-artifacts/phase3a-prime/f2a/main-integration.json)。
 - Document revision: 4.386
+- Document revision: 4.387
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-24 CEST F5批次2实现／冻结：** 已在新main/f42715c2建立实现分支。仅共享层实现Accepted ADR0043，临时入口可取样并从已观察集合直接纠正一次；状态21／定义19，Browser上下文3／wire12／Prompt20。R1有效红灯与绿灯、四页零恢复真实Chromium、真实Router／Reducer和N1–N4定向通过。适用五门禁待执行；例01公开GET认证脚本及两例日期变体先冻结提交，当前新增外部调用0。停在停止点2前补齐结果，不运行Live，不合并main。[报告](../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-F5-REBASE:** 用户通过停止点1c，授权进入批次2实现＋Live准备。分析分支已将三提交重放到main/f42715c2，冲突保留F1/F1b及F5全部记录；分析摘要和Accepted ADR0043逐字节不变，生产代码差异0。原停止点60d02686用annotated tag保留固定Git输入可达性。仅推分析分支后，从新main建立codex/fix-phase3a-prime-f5-provisional-entrance；本记录不表示实现或Live已运行。新增模型/Google/网站/Live0。[重放核验](../.eval-artifacts/phase3a-prime/f5-analysis/rebase-20261024.json)。
 
