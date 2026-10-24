@@ -267,7 +267,7 @@ const d1Parent='https://tabelog.com/en/tokyo/A1322/';
 const d1Child='https://tabelog.com/en/tokyo/A1322/A132201/';
 const d1Alternate='https://tabelog.com/en/tokyo/A1323/';
 const akabanePoint={latitude:35.7799638,longitude:139.723053};
-type LocalPoint = {latitude:number;longitude:number} | null;
+type LocalPoint = {latitude:number|string|null;longitude:number|string|null} | null;
 const southwest={latitude:35.75,longitude:139.70};
 function provisionalFixture(options: {points?:LocalPoint[]; replacementPoints?:LocalPoint[]; noAlternate?:boolean; invalidRef?:string; onNavigate?:(url:string)=>void; budget?:{totalModelCalls:number;maxModelCalls:number}} = {}) {
  const navigations:string[]=[];let steps=0,corrections=0;
@@ -333,7 +333,7 @@ test('G1/G3 D1 second-level provisional samples replace once in four region page
 });
 
 test('C1/C2 local mixed and missing coordinates only count valid samples and never replace an in-radius entrance',async()=>{
- for(const points of [[akabanePoint,southwest],[southwest,akabanePoint],[null,southwest,null,southwest],[{latitude:999,longitude:0},southwest,akabanePoint]] as LocalPoint[][]){
+ for(const points of [[akabanePoint,southwest],[southwest,akabanePoint],[null,southwest,null,southwest],[{latitude:null,longitude:null},southwest,{latitude:"",longitude:""},southwest],[{latitude:999,longitude:0},southwest,akabanePoint]] as LocalPoint[][]){
   const f=provisionalFixture({points});const read=await f.native.search(f.request,new AbortController().signal);const region=read.metadata.nativeDiscoveryFunnel!.directoryRegion!;
   const within=points.some(point=>point?.latitude===akabanePoint.latitude&&point?.longitude===akabanePoint.longitude);
   assert.equal(region.verified===true,within);assert.equal(directoryEntryReplacementAllowed(region),!within&&points.filter(point=>point?.latitude===southwest.latitude).length===2);
