@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.287
+- Document revision: 4.288
 - Last updated: 2026-10-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5295,3 +5295,7 @@ Europe/Vienna。最终受测442523111bb85297494af30054c3dc18a8ef56c2，576项/10
 ## TEST-2026-10-24-PHASE3A-PRIME-F2C-PACING
 
 2026-10-24 Europe/Vienna。两个真实子进程70ms响应/200ms间隔有效红绿，单运行等待0、第三排队、SIGTERM/timeout/AbortSignal清理；真实Chromium原生302和fixture Google计数通过。受测dc9f12efac1d5fbef2d06db8fff40c2b1520dd6d，五门禁1028默认/147 Chromium，572项冻结及每项后净工作树见报告。 [报告](../../.eval-artifacts/phase3a-prime/f2c-pacing/report.md)。
+
+## TEST-2026-10-24-PHASE3A-PRIME-F2D-REPLAY
+
+2026-10-24 Europe/Vienna。删除CSS触发本机1次请求的有效红灯，修复后0；同一先提交的种子在OS deny network-outbound下四控制PASS。完整5页/4决策与原非空候选/交付/offer相同，独立声明及边界S0 ABSENT；删结构化响应及第3页不合格为NOT_EVALUATED。受测a5c0535a2c894c1467d02fe604aa8c3c8d0f2146五门禁1028/152、每项后净工作树、恢复0。 [报告](../../.eval-artifacts/phase3a-prime/f2d-replay/report.md)。

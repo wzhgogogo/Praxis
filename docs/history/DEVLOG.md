@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.280
+- Document revision: 4.281
 - Last updated: 2026-10-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4579,3 +4579,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-24-PHASE3A-PRIME-F2C-PACING
 
 2026-10-24 Europe/Vienna。F2③默认1000ms同源并发间隔，响应结束后计时，原预算和产品行为不变。正式批量入口复用单运行CLI权限和预检，所有接线在eval层，不改共享Browser。工作分支待复核。 [报告](../../.eval-artifacts/phase3a-prime/f2c-pacing/report.md)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F2D-REPLAY
+
+2026-10-24 Europe/Vienna。回放入口使用原始决策或REAL工厂接线，后者仅fixture验证；runtime clock平移但elapsed正常，Guard、原预算和产品Schema不变。pages诊断DOM不参与回放，原始Google响应缺失不从State补造。 [报告](../../.eval-artifacts/phase3a-prime/f2d-replay/report.md)。
