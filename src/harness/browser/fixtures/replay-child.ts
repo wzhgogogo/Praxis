@@ -30,5 +30,5 @@ const output=join(root,"output");
 const summary=await runRecordedRead({recordingDirectory:directory,decisionsPath:join(root,"decisions.jsonl"),input:JSON.parse(await readFile(join(root,"case.json"),"utf8")),modelMode:mode==="model-wiring"?"REAL":"ORIGINAL"},output,mode==="model-wiring"?factory:undefined);
 const artifact=JSON.parse(await readFile(summary.resultPath,"utf8")),evaluation=JSON.parse(await readFile(join(output,"replay.evaluation.json"),"utf8"));
 // The formal Runner may set failure exit code after the deliberate input stop.
-console.log("REPLAY_FIXTURE_RESULT="+JSON.stringify({summary,artifact,evaluation,networkAttempts,fixtureModelCalls,realModelCalls:0,realGoogleCalls:0,realWebsiteCalls:0}));
+await new Promise<void>((resolve,reject)=>process.stdout.write("REPLAY_FIXTURE_RESULT="+JSON.stringify({summary,artifact,evaluation,networkAttempts,fixtureModelCalls,realModelCalls:0,realGoogleCalls:0,realWebsiteCalls:0})+"\n",error=>error?reject(error):resolve()));
 process.exit(0);

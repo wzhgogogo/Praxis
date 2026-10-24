@@ -1,0 +1,45 @@
+✖ recorded decisions reproduce nonempty candidates and delivery under OS-denied network (3329.937542ms)
+✔ replay missing preserves source/progress and model boundaries (2092.655625ms)
+ℹ {"mode":"missing","summary":{"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"69eba1edda6be7dbfbbcea72e85fd4f17c9356d8ee5bb58d54df5cafe64bdaa3","decisionSha256":"7976400cf58f6881ae80f216a80e78ebb22488b0a0baee68a8b7b54befe462e8","liveCapabilityDenominator":"EXCLUDED","status":"REPLAY_INCOMPLETE","stop":{"snapshot":null,"origin":"https://places.googleapis.com","pathname":"/v1/places:searchNearby","reason":"MISSING_STRUCTURED_RESPONSE"},"consumedPages":0,"recordedPages":5,"consumedDecisions":2,"recordedDecisions":4,"modelTransportCalls":0,"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-l09oSx/output/execution/2026-10-24T10-09-12-002Z-3bd46abd-d97a-4b52-96fc-a0fc30e73e58.result.json"},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND","realModelCalls":0}
+✖ replay partial preserves source/progress and model boundaries (2914.953458ms)
+✖ replay model-wiring preserves source/progress and model boundaries (3272.770792ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11701.457458
+
+✖ failing tests:
+
+test at src/harness/browser/runner-replay.test.ts:1:264
+✖ recorded decisions reproduce nonempty candidates and delivery under OS-denied network (3329.937542ms)
+  SyntaxError [Error]: Unterminated string in JSON at position 65514 (line 1 column 65515)
+      at JSON.parse (<anonymous>)
+      at executeReplayFixture (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/fixtures/replay-scenario.ts:28:20)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/runner-replay.test.ts:11:66)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+
+test at src/harness/browser/runner-replay.test.ts:1:1379
+✖ replay partial preserves source/progress and model boundaries (2914.953458ms)
+  SyntaxError [Error]: Unterminated string in JSON at position 65514 (line 1 column 65515)
+      at JSON.parse (<anonymous>)
+      at executeReplayFixture (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/fixtures/replay-scenario.ts:28:20)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/runner-replay.test.ts:22:66)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/harness/browser/runner-replay.test.ts:1:1379
+✖ replay model-wiring preserves source/progress and model boundaries (3272.770792ms)
+  SyntaxError [Error]: Expected ',' or '}' after property value in JSON at position 65514 (line 1 column 65515)
+      at JSON.parse (<anonymous>)
+      at executeReplayFixture (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/fixtures/replay-scenario.ts:28:20)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/runner-replay.test.ts:22:66)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
