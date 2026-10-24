@@ -13,6 +13,8 @@
 
 ## TEST-2026-10-24-PHASE3A-PRIME-F5-IMPLEMENTATION
 
+CEST交付记录：fd7c3c70五门禁PASS，默认1037/1037、Chromium138/138，typecheck／arch／build通过，各门禁前后工作区均干净。随后加强N1–N4地点输入并加入整个集合跨readRunId拒绝，最终冻结后重跑五门禁至gates-final，不复用旧门禁冒充最终SHA。例01冻结公开GET2/10，均200、间隔5.010193秒，见证WITNESS_EXISTS；例03可选GET0/1，模型／Google／Live／环境重跑0。原始HTTP字节、SHA、无损归档及账本均保存。完整本地组合独立评价不声称综合S0=0：声明错误ABSENT，脚本来源缺网络边界记录为NOT_EVALUATED；当前网站结构及真实模型仍留待另批Live。
+
 门禁首次默认1035/1036：仅PGlite恢复断言仍为旧State20；已更新为21，并验证入口集合／样本／计数持久化。该失败保留，未跳过或反转断言。补四种收尾的本地构造200s／20calls累计控制，以及实际Router／Reducer在误判后保留已接纳附近候选；未知HARD不伪造交付。新提交后重跑五门禁。
 
 - 时间：2026-10-24 Europe/Vienna（CEST，UTC+2）。基线f42715c2；仅codex/fix-phase3a-prime-f5-provisional-entrance，draft / not integrated，已暴露开发控制。
