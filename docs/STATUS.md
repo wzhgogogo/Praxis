@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.391
+- Document revision: 4.392
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-PRIME-STOP2-GOOGLE-CAPTURE:** 停止点2复核两补丁完成：F2③静态免租约先合入main/1a736c88；F2④b在新main祖先上补正式Google原始响应HAR捕获，手工fixture追加退役，写前/落盘后扫描拒绝密钥。两项五门禁1028/148与1032/153全绿，各项后净工作树，依授权再合F2④b并推送。新增真实调用0，3864/473行不增。 [报告](../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-STOP2-PACING-FIX:** 按停止点2复核修复F2③：静态资源只计数不取租约，document/已准入动态及预检、Google API保留共享节奏。双Chromium各20个同源CSS/JS有效红绿，21次访问仍计数、租约21→1。五门禁1028/148全绿，各项后净工作树；0新增调用，按授权合入main。 [报告](../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/pacing/report.md)。
 

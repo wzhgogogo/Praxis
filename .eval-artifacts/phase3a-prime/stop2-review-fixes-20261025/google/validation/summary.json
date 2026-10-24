@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "testedCommit": "564ded2ed4a052b5005cedfb2c09f2f307929ba4",
+  "finishedAt": "2026-10-25 00:19:05 CET",
+  "timezone": "CET UTC+01:00",
+  "rows": [
+    {
+      "kind": "complete",
+      "elapsedSeconds": 1.617050625,
+      "status": "COMPLETED",
+      "stop": null,
+      "consumedPages": 5,
+      "modelTransportCalls": 0,
+      "realModelCalls": 0,
+      "networkAttempts": 0,
+      "networkPolicy": "OS_DENY_NETWORK_OUTBOUND"
+    },
+    {
+      "kind": "missing",
+      "elapsedSeconds": 0.396541958,
+      "status": "REPLAY_INCOMPLETE",
+      "stop": {
+        "snapshot": null,
+        "origin": "https://places.googleapis.com",
+        "pathname": "/v1/places:searchNearby",
+        "reason": "MISSING_STRUCTURED_RESPONSE"
+      },
+      "consumedPages": 0,
+      "modelTransportCalls": 0,
+      "realModelCalls": 0,
+      "networkAttempts": 0,
+      "networkPolicy": "OS_DENY_NETWORK_OUTBOUND"
+    },
+    {
+      "kind": "partial",
+      "elapsedSeconds": 1.2131439169999998,
+      "status": "REPLAY_INCOMPLETE",
+      "stop": {
+        "snapshot": 3,
+        "origin": "https://www.tablecheck.com",
+        "pathname": "/en/fixture",
+        "reason": "UNCAPTURED_STATIC_DEPENDENCY"
+      },
+      "consumedPages": 2,
+      "modelTransportCalls": 0,
+      "realModelCalls": 0,
+      "networkAttempts": 0,
+      "networkPolicy": "OS_DENY_NETWORK_OUTBOUND"
+    },
+    {
+      "kind": "model-wiring",
+      "elapsedSeconds": 1.5911312079999997,
+      "status": "COMPLETED",
+      "stop": null,
+      "consumedPages": 5,
+      "modelTransportCalls": 4,
+      "realModelCalls": 0,
+      "networkAttempts": 0,
+      "networkPolicy": "OS_DENY_NETWORK_OUTBOUND"
+    }
+  ],
+  "realModelCalls": 0,
+  "googleCalls": 0,
+  "websiteCalls": 0,
+  "liveRuns": 0
+}

@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.291
+- Document revision: 4.292
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5311,3 +5311,7 @@ Europe/Vienna。最终受测442523111bb85297494af30054c3dc18a8ef56c2，576项/10
 ## TEST-2026-10-25-PHASE3A-PRIME-STOP2-PACING-FIX
 
 CET UTC+01:00。未豁免时双Chromium各页21次租约而非1，有效红灯；修复后各21次来源访问仍计数且仅文档取1次租约，原队列/中断/Google与302控制通过。受测d7a3170f42dbdc40b1a1975294e9355bbd76602d，五门禁1028默认/148 Chromium，每项前后净工作树、恢复0，576项冻结匹配。新增真实模型/Google/网站/Live/环境重跑0。 [报告](../../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/pacing/report.md)。
+
+## TEST-2026-10-25-PHASE3A-PRIME-STOP2-GOOGLE-CAPTURE
+
+CET UTC+01:00。静态20资源双Chromium有效红绿：访问21仍计数、租约21到1；F2③受测d7a3170f42dbdc40b1a1975294e9355bbd76602d五门禁1028/148通过。去手工追加时MISSING_STRUCTURED_RESPONSE红灯，正式自动捕获同一冻结种子OS断网5页4决策重现同候选/交付/offer，独立声明及边界S0 ABSENT，key拒绝/写前写后污染/迟到控制通过；受测564ded2ed4a052b5005cedfb2c09f2f307929ba4五门禁1032/153通过，585项冻结匹配。两轮每项前后净工作树、恢复0；真实模型/Google/网站/Live/环境重跑0。 [报告](../../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/report.md)。
