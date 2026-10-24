@@ -1,0 +1,44 @@
+{
+  "baselineCommit": "03a9c645b591731a47fdad598d739621fcee24d6",
+  "pages": [
+    {
+      "snapshot": 1,
+      "url": "https://public.example/good",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE"
+    },
+    {
+      "snapshot": 2,
+      "url": "https://public.example/script",
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNCAPTURED_STATIC_DEPENDENCY"
+    },
+    {
+      "snapshot": 3,
+      "url": "https://public.example/options",
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNCAPTURED_DYNAMIC_RESPONSE"
+    },
+    {
+      "snapshot": 4,
+      "url": "https://www.tablecheck.com/en/challenge",
+      "status": "NOT_REPLAYABLE",
+      "reason": "CHALLENGE_DOCUMENT"
+    },
+    {
+      "snapshot": 5,
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT"
+    },
+    {
+      "snapshot": 6,
+      "url": "https://public.example/large",
+      "status": "NOT_REPLAYABLE",
+      "reason": "DOCUMENT_SIZE_LIMIT"
+    }
+  ],
+  "files": {
+    "replay.har": "1486446805d7caecf7320046f01168eee8bfa19d8ce3f23051a4cef9c404acc5",
+    "snapshot-0001.html": "9187bf6ef40826f997ecb45d426b1633d70769d66b55330f5ed04d36837b6a67"
+  }
+}
