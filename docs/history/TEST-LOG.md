@@ -13,6 +13,8 @@
 
 ## TEST-2026-10-24-PHASE3A-PRIME-F5-IMPLEMENTATION
 
+门禁首次默认1035/1036：仅PGlite恢复断言仍为旧State20；已更新为21，并验证入口集合／样本／计数持久化。该失败保留，未跳过或反转断言。补四种收尾的本地构造200s／20calls累计控制，以及实际Router／Reducer在误判后保留已接纳附近候选；未知HARD不伪造交付。新提交后重跑五门禁。
+
 - 时间：2026-10-24 Europe/Vienna（CEST，UTC+2）。基线f42715c2；仅codex/fix-phase3a-prime-f5-provisional-entrance，draft / not integrated，已暴露开发控制。
 - 共享层合同、生产者及全部活动调用方同步更新；无旧firstFive／旧wire兼容路径，两个站点目录与source-packs.ts零改动。
 - R1先红后绿；本地构造输入明确标注，真实组合经Interpreter→Router→Reducer产出artifact并由独立evaluator判断，正常控制与真实Chromium G3通过。适用五门禁在提交干净后运行，结果随后追加；未将定向通过当作最终门禁。

@@ -1,6 +1,7 @@
 const fixtureRetrieval={decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Scripted retrieval control."})};
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { BrowserTaskExecutor } from '../../infrastructure/browser/browser-task-executor.js';
 import { BrowserRuntimeError } from '../../infrastructure/browser/browser-runtime-errors.js';
 import type { BrowserReadActionDecisionPort } from '../../infrastructure/browser/browser-action-decision.js';
 import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from '../../infrastructure/browser/browser-runtime.js';
@@ -381,4 +382,28 @@ test('N3 local Kichijoji same-source pointer control keeps a nonmatching observe
  const f=linkedRegionFixture('p2-kagurazaka-kaiseki-20261029',false,false,false,'Kichijoji');
  const read=await f.native.search(f.request,new AbortController().signal);const region=read.metadata.nativeDiscoveryFunnel!.directoryRegion!;
  assert.equal(read.candidates.length,1,JSON.stringify({metadata:read.metadata,nav:f.navigations}));assert.equal(region.provisional,false);assert.equal(region.replacement,undefined);assert.equal(region.first.url,f.good);assert.equal(f.decisions,1);assert.equal(f.googleCalls,1);assert.equal(read.metadata.nativeDiscoveryFunnel!.retrieval!.regionPages,2);assert.equal(read.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,1);assert.equal(f.navigations.length,3);
+});
+
+// Local-constructed cumulative-budget control; production handoff is separately
+// exercised by F5 composition. Clock starts at run0, then200s/20calls are spent.
+test('B1 all A3 endings retain the remaining500s/50call window at the next source',async t=>{
+ let clock=0;t.mock.method(Date,'now',()=>clock);
+ for(const mode of ['no-alternate','second-outside','correct-area-misclassified','source90']) {
+  clock=0;const budget={totalModelCalls:20,maxModelCalls:50};let nextContext:any;
+  const nextSource=new BrowserTaskExecutor({openSession:async()=>{throw Error('Data-only budget control');}},{maxAutomaticElapsedMs:500000,maxModelCallsPerCandidate:6,maxModelCallsTotal:50,maxOperationsPerCandidate:24,budget,modelDecision:{decide:async input=>{nextContext=input;return {type:'SELECT_REGION_ENTRANCE',targetRef:'region:next:0',reason:'Only supplied reference'};}}});
+  clock=200000;
+  const f=provisionalFixture({points:[southwest,southwest],replacementPoints:[southwest,southwest],noAlternate:mode==='no-alternate',budget,onNavigate:()=>{clock+=1000;}});
+  let read=await f.native.search(f.request,new AbortController().signal);
+  if(mode!=='no-alternate') {
+   const continuation=JSON.parse(JSON.stringify(read.continuation)) as RestaurantSearchContinuation;
+   if(mode==='source90'){clock+=85000;continuation.sourceProgress!.elapsedMs=90000;}
+   read=await f.native.search({...f.request,continuation},new AbortController().signal);
+  }
+  const progress=read.metadata.nativeDiscoveryFunnel!;assert.equal(progress.sourceEnded,true);assert.equal(progress.sourceExhausted,'UNKNOWN');assert.ok(progress.sourceElapsedMs!>0);assert.equal(progress.sourceDetailAttempts,mode==='no-alternate'||mode==='source90'?2:4);
+  const priorCalls=budget.totalModelCalls,remainingMs=500000-clock;
+  const input={taskId:'same-run-next-source',source:'NEXT_SOURCE',stage:'DISCOVERY' as const,signal:new AbortController().signal,goal:{outlet:{name:'Restaurants'},hardCriteria:[]},regionCorrection:{sourceId:'next',flowId:'next-flow',replacementsUsed:0 as const,remainingBudget:{sourceMs:90000,details:10,regionPages:4,retrievalPages:3},entrances:[{ref:'region:next:0',sourceId:'next',flowId:'next-flow',href:'https://next.example/observed/',label:'Observed',observedOn:'https://next.example/',originalTargetRef:'observation:1:target:1',observationRevision:1}],samples:[]}};
+  assert.equal((await nextSource.selectRegionEntrance(input)).status,'SELECTED');assert.equal(budget.totalModelCalls,priorCalls+1);
+  assert.ok(nextContext.progress.includes(`remaining after this choice: ${50-priorCalls-1}`));assert.ok(nextContext.progress.includes(`window remaining: ${remainingMs} ms`));
+  clock=500000;const stopped=await nextSource.selectRegionEntrance(input);assert.equal(stopped.status,'NO_SAFE_ACTION');assert.equal(budget.totalModelCalls,priorCalls+1,'spent run deadline cannot start another model call');
+ }
 });

@@ -838,6 +838,11 @@ describe("PostgresTaskRuntime with PGlite", () => {
       const query = {category: "restaurant", positiveCriteria: [], location: {latitude: 35, longitude: 139, radiusMeters: 1000, label: "Fixture", areaMatchBasis: "NAMED_PLACE_RADIUS" as const}};
       const continuation: RestaurantSearchContinuation = {
         intentFingerprint: fingerprint, usedPageTokens: [], pagesRead: 1, exhausted: false,
+        sourceProgress: {sourceId: "directory", inspectedSourceIds: ["one", "two"], detailAttempts: 2, pagesRead: 3, elapsedMs: 30000, pendingSourceIds: [],
+          regionEntrances: {sourceId: "directory", flowId: "persisted-flow", entries: [{ref: "region:persisted-flow:0", sourceId: "directory", flowId: "persisted-flow", href: "https://directory.example/alternate/", label: "Observed alternate", observedOn: "https://directory.example/", originalTargetRef: "observation:1:target:2", observationRevision: 1}]},
+          directoryRegion: {first: {url: "https://directory.example/first/", observedOn: "https://directory.example/", targetRef: "observation:1:target:1"}, provisional: true,
+            samples: [{sourceEntityId: "one", sourceUrl: "https://directory.example/one", outcome: "UNKNOWN"}, {sourceEntityId: "two", sourceUrl: "https://directory.example/two", distanceMeters: 3400, bearingDegrees: 225, direction: "SW", outcome: "OUTSIDE_RADIUS"}]},
+        },
         discoveryPlan: {cursor: 0, entries: [{sourceId: "directory", query}, {sourceId: "structured", query}],
           regionReferenceRead: {sourceId: "structured", readRunId: "restaurant-run-1", read: {
             candidates: fixtureCandidates, evidence: [],
@@ -894,9 +899,10 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       assert.equal(restored.runId, "restaurant-run-1");
-      assert.equal(restored.domainState.schemaVersion, "20");
+      assert.equal(restored.domainState.schemaVersion, "21");
       assert.deepEqual(restored.domainState.readEvidence, [priceEvidence]);
       assert.deepEqual(restored.domainState.searchContinuation?.discoveryPlan?.regionReferenceRead, continuation.discoveryPlan!.regionReferenceRead);
+      assert.deepEqual(restored.domainState.searchContinuation?.sourceProgress, continuation.sourceProgress);
       assert.equal(restored.domainState.phase, "SEARCHING");
       assert.equal(restored.version, 2);
       assert.equal(duplicate.duplicateEvent, true);
