@@ -4,12 +4,12 @@ import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-export async function runInterruptionScenario(mode: "complete" | "signal" | "deadline" | "external", root: string) {
+export async function runInterruptionScenario(mode: "complete" | "signal" | "deadline" | "external", root: string, captureReplayFixture = false) {
   await mkdir(root, { recursive: true });
   const messages: any[] = [];
   const logs: Buffer[] = [];
   const repository = fileURLToPath(new URL("../../../../", import.meta.url));
-  const child = fork(fileURLToPath(new URL("./run-interruption.ts", import.meta.url)), [mode, root], {
+  const child = fork(fileURLToPath(new URL("./run-interruption.ts", import.meta.url)), [mode, root, ...(captureReplayFixture ? ["--capture-replay-fixture"] : [])], {
     execArgv: ["--import", join(repository, "scripts/test-filesystem-guard.mjs"), "--import", "tsx"], silent: true, cwd: repository,
     env: Object.fromEntries(Object.entries(process.env).filter(([key]) => ["PATH", "HOME", "TMPDIR", "LANG", "PLAYWRIGHT_BROWSERS_PATH"].includes(key))),
   });
@@ -64,5 +64,5 @@ export async function runInterruptionScenario(mode: "complete" | "signal" | "dea
     if (mode === "signal") assert.equal(artifact.interruption.signal, "SIGTERM");
     if (mode === "deadline") assert.ok(messages.some(row => row.stage === "SIMULATED_TIME" && row.elapsedMs === 500_000));
   }
-  return { artifact, resultPath, recording, exit, messages };
+  return { artifact, resultPath, recording, exit, messages, runRoot };
 }

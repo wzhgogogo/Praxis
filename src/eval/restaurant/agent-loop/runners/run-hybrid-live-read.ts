@@ -336,8 +336,10 @@ export async function runHybridReadDiagnostic(input: HybridReadDiagnosticInput, 
   clock?: import("../../../../core/task-runtime/contracts.js").RuntimeClock;
   signal?: AbortSignal;
   onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void;
+  evaluateArtifact?: typeof evaluateArtifactFile;
 }) {
 const { frozen, runtimeContext, limits: liveReadLimits, evaluationLocation, reviewedReads } = input;
+const executionMode = runtimeContext.executionSource === "REPLAY" ? "REPLAY" : "HYBRID_LIVE_READ";
 const startedAt = input.startedAt ?? new Date();
 const maxModelCalls = liveReadLimits.maxModelCalls;
 const candidateLimit = liveReadLimits.maxDiscoveryCandidates;
@@ -360,7 +362,7 @@ const runId = `run:${taskId}`;
 const clock = dependencies.clock ?? { now: () => new Date() };
 const modelInvocations: Array<ModelInvocationRecord & { settledAt: string }> = [];
 const journal = await startDiagnosticRun(input.directory ?? resolve(".eval-artifacts", "restaurant-hybrid-live-read"), {
-  mode: "HYBRID_LIVE_READ", caseId: materialized.id,
+  mode: executionMode, caseId: materialized.id,
   scorerStatus: "FULL_RUBRIC_NOT_INTEGRATED",
   diagnosticEvaluator: { version: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION },
   runtimeContext,
@@ -475,7 +477,7 @@ try {
   stage = "AGENT_LOOP";
   const { coordinator } = composition;
   console.log(JSON.stringify({
-    mode: "HYBRID_LIVE_READ",
+    mode: executionMode,
     caseId: materialized.id,
     browserEngine: runtimeContext.browserEngine ?? "AUTO",
     preflight: runtimeContext.preflight,
@@ -491,7 +493,7 @@ try {
   if (!finalSnapshot) throw new Error("Completed run has no runtime snapshot");
   const artifact = {
     schemaVersion: "1",
-    mode: "HYBRID_LIVE_READ",
+    mode: executionMode,
     scorerStatus: "FULL_RUBRIC_NOT_INTEGRATED",
     diagnosticEvaluator: { version: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION },
     limits: readAssembly.runCeilings,
@@ -512,7 +514,7 @@ try {
   };
   const completed = ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase) && loop.status === "TERMINAL";
   await journal.finish({ ...artifact, stageTimings: restaurantRunStageTimings({ ...artifact, startedAt: startedAt.toISOString(), finishedAt: new Date().toISOString() }), status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "LIVE_CASE_NOT_COMPLETED" });
-  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath,path=>evaluateArtifactFile(path,reviewedReads ? {reviewedReads} : {}));
+  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath,path=>(dependencies.evaluateArtifact ?? evaluateArtifactFile)(path,reviewedReads ? {reviewedReads} : {}));
   console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
   if (!completed) process.exitCode = 1;
 } catch (error) {
@@ -534,7 +536,7 @@ try {
     ...(decisionCapture ? { decisionCapture: await decisionCapture.finish(failureCode) } : {}),
     ...(await finishBrowserRecording() ? { browserRecording: browserRecordingResult } : {}),
   });
-  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath,path=>evaluateArtifactFile(path,reviewedReads ? {reviewedReads} : {}));
+  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath,path=>(dependencies.evaluateArtifact ?? evaluateArtifactFile)(path,reviewedReads ? {reviewedReads} : {}));
   console.error(JSON.stringify({ failureCode, stage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath }));
   process.exitCode = 1;
 } finally {

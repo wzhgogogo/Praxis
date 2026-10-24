@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFile, writeFile, realpath } from "node:fs/promises";
 import { isAbsolute, relative, resolve } from "node:path";
-import { chromium, type BrowserContext } from "playwright-core";
+import { chromium } from "playwright-core";
 import { LocalPlaywrightChromium } from "../../../../infrastructure/browser/local-playwright-chromium.js";
 import type { BrowserRuntime, BrowserSession } from "../../../../infrastructure/browser/browser-runtime.js";
 
@@ -35,12 +35,13 @@ export function recordedResponse(recording: ReplayRecording,url: string,method: 
 export function createRecordedBrowser(recording: ReplayRecording, stop: (reason: ReplayStop)=>void) {
   let cursor=0;
   const locate=(url:string,reason:string,snapshot:number|null=recording.pages[cursor]?.snapshot??null)=>{const parsed=new URL(url);stop({snapshot,origin:parsed.origin,pathname:parsed.pathname,reason});};
-  const runtime = new LocalPlaywrightChromium({ browserType: { async launch(options) {
+  const runtime = new LocalPlaywrightChromium({ proxyServer: "http://127.0.0.1:9", browserType: { async launch(options) {
     const browser=await chromium.launch(options),newContext=browser.newContext.bind(browser);
     browser.newContext=async options=>{
-      const context=await newContext(options),routeFromHAR=context.routeFromHAR.bind(context);
-      // Red control: a missing response currently falls through to the network.
-      context.routeFromHAR=(path,options)=>routeFromHAR(path,{...options,notFound:"fallback"});
+      const context=await newContext(options);
+      context.on("request",request=>{
+        if(!recordedResponse(recording,request.url(),request.method(),request.postData()??undefined)) locate(request.url(),"MISSING_RESPONSE");
+      });
       return context;
     };return browser;
   } } });

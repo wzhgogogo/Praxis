@@ -2,7 +2,7 @@
 // Real child process, Chromium, Interpreter/Compiler/Runtime/Agent/Router and
 // production read assembly; only model and source I/O are controlled.
 import { mock } from "node:test";
-import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { runHybridReadDiagnostic } from "../../../eval/restaurant/agent-loop/runners/run-hybrid-live-read.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../application/live-read-investigation-budget.js";
@@ -45,10 +45,15 @@ process.on("message", message => {
     deadlineFire();
   }
 });
-const google = new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => new Response(JSON.stringify({ places: [{
+const googleResponse = JSON.stringify({ places: [{
   id: "fixture", displayName: { text: "Fixture restaurant" }, formattedAddress: "1-1 Ginza, Chuo City, Tokyo", types: ["restaurant"],
   nationalPhoneNumber: "03-1111-2222", websiteUri: source, location: { latitude: 35.6697, longitude: 139.767 },
-}] }), { status: 200 }) });
+}] });
+const structuredResponses: any[] = [];
+const google = new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async (url, init) => {
+  structuredResponses.push({url:String(url),method:init?.method??"GET",body:init?.body});
+  return new Response(googleResponse, { status: 200 });
+} });
 const fixtureModel = async (request: ModelRequest) => {
   if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
     { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
@@ -98,5 +103,15 @@ const result = await runHybridReadDiagnostic({
   } },
 });
 await writeFile(join(root, "fixture-finished.json"), JSON.stringify({ ...result, externalCalls, realModelCalls: 0, snapshots, mode }));
+if (process.argv.includes("--capture-replay-fixture")) {
+  // Synthetic transport capture only. No production sanitizer is relaxed and
+  // no projected state is used to invent a missing source response.
+  const artifact = JSON.parse(await readFile(result.resultPath,"utf8"));
+  const harPath = join(artifact.browserRecording.path,"replay.har");
+  const har = JSON.parse(await readFile(harPath,"utf8"));
+  for(const request of structuredResponses)har.log.entries.push({startedDateTime:"1970-01-01T00:00:00.000Z",time:0,request:{method:request.method,url:request.url,httpVersion:"HTTP/1.1",headers:[],queryString:[],cookies:[],headersSize:-1,bodySize:0,...(request.body?{postData:{mimeType:"application/json",text:request.body}}:{})},response:{status:200,statusText:"OK",httpVersion:"HTTP/1.1",headers:[{name:"content-type",value:"application/json"}],cookies:[],content:{mimeType:"application/json",text:googleResponse,size:Buffer.byteLength(googleResponse)},redirectURL:"",headersSize:-1,bodySize:Buffer.byteLength(googleResponse)},cache:{},timings:{send:0,wait:0,receive:0}});
+  await writeFile(harPath,JSON.stringify(har));
+  await writeFile(join(root,"replay-case.json"),JSON.stringify({frozen:{...artifact.materializedCase,content:"Find restaurants nearby on October 30 at 7 pm for two."},startedAt:reference.toISOString(),runtimeContext:{mode:"SYNTHETIC_REPLAY_FIXTURE"},limits:artifact.limits,evaluationLocation:artifact.resolvedEvalLocation,packIds:["google-places"],recordBrowser:false,recordDecisions:false}));
+}
 process.send?.({ stage: "FINISHED", ...result });
 process.exit(process.exitCode ?? 0);
