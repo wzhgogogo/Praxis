@@ -1,0 +1,86 @@
+{
+  "status": "ESTIMATE_ONLY_NOT_MEASURED",
+  "parallelLimit": 2,
+  "waves15": 8,
+  "deadlineOnlyLowerBoundSeconds": 4000.0,
+  "currentKnownComplete15RecordingCoverage": false,
+  "recordingCoverageIsRequired": true,
+  "realModelCalls": 0,
+  "googleCalls": 0,
+  "websiteCalls": 0,
+  "liveRuns": 0,
+  "rows": [
+    {
+      "id": "healthy-fast",
+      "waitSecondsByOrigin": {
+        "tabelog": 13.200000000000001,
+        "tablecheck": 13.200000000000001,
+        "google": 6.6000000000000005
+      },
+      "waitSecondsPerRun": 33.0,
+      "uncappedFormalSeconds": 213.0,
+      "cappedFormalSeconds": 213.0,
+      "deadlinePressure": false,
+      "fresh15LiveAnd15ReplaySeconds": 2054.0,
+      "fresh15Minutes": 34.233333333333334,
+      "sixF5LiveAnd15ReplaySeconds": 889.0,
+      "sixF5LiveAnd15ReplayMinutes": 14.816666666666666,
+      "fullFreshReferenceUnderHour": true,
+      "currentAllowanceConditionalUnderHour": true
+    },
+    {
+      "id": "working-reference",
+      "waitSecondsByOrigin": {
+        "tabelog": 26.400000000000002,
+        "tablecheck": 26.400000000000002,
+        "google": 13.200000000000001
+      },
+      "waitSecondsPerRun": 66.0,
+      "uncappedFormalSeconds": 366.0,
+      "cappedFormalSeconds": 366.0,
+      "deadlinePressure": false,
+      "fresh15LiveAnd15ReplaySeconds": 3358.0,
+      "fresh15Minutes": 55.96666666666667,
+      "sixF5LiveAnd15ReplaySeconds": 1428.0,
+      "sixF5LiveAnd15ReplayMinutes": 23.8,
+      "fullFreshReferenceUnderHour": true,
+      "currentAllowanceConditionalUnderHour": true
+    },
+    {
+      "id": "deadline-pressure",
+      "waitSecondsByOrigin": {
+        "tabelog": 66.0,
+        "tablecheck": 66.0,
+        "google": 44.0
+      },
+      "waitSecondsPerRun": 176.0,
+      "uncappedFormalSeconds": 676.0,
+      "cappedFormalSeconds": 500,
+      "deadlinePressure": true,
+      "fresh15LiveAnd15ReplaySeconds": 4910.0,
+      "fresh15Minutes": 81.83333333333333,
+      "sixF5LiveAnd15ReplaySeconds": 2310.0,
+      "sixF5LiveAnd15ReplayMinutes": 38.5,
+      "fullFreshReferenceUnderHour": false,
+      "currentAllowanceConditionalUnderHour": true
+    },
+    {
+      "id": "third-health-attempt",
+      "waitSecondsByOrigin": {
+        "tabelog": 66.0,
+        "tablecheck": 66.0,
+        "google": 44.0
+      },
+      "waitSecondsPerRun": 176.0,
+      "uncappedFormalSeconds": 676.0,
+      "cappedFormalSeconds": 500,
+      "deadlinePressure": true,
+      "fresh15LiveAnd15ReplaySeconds": 10710.0,
+      "fresh15Minutes": 178.5,
+      "sixF5LiveAnd15ReplaySeconds": 4485.0,
+      "sixF5LiveAnd15ReplayMinutes": 74.75,
+      "fullFreshReferenceUnderHour": false,
+      "currentAllowanceConditionalUnderHour": false
+    }
+  ]
+}
