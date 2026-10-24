@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.286
+- Document revision: 4.287
 - Last updated: 2026-10-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-24-PHASE3A-PRIME-F5-REBASE
+
+纯文档重放核验：双方日志标题/状态记录集合均保留，无冲突标记；原分析产物/ADR字节差异0，产品相对f42715c2差异0，git diff --check通过。五门禁未重跑，不把F1历史绿灯称本批新运行。 维也纳时间2026-10-24T04:00:45+02:00；新模型/Google/网站/Live0。[核验](../../.eval-artifacts/phase3a-prime/f5-analysis/rebase-20261024.json)。
 
 ## TEST-2026-10-24-PHASE3A-PRIME-F5-STOP1C
 
