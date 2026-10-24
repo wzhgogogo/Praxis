@@ -311,7 +311,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     let directoryRegion = priorProgress?.sourceId === pack.meta.id && priorProgress.directoryRegion ? structuredClone(priorProgress.directoryRegion) : undefined;
     const replaceRegion = directoryEntryReplacementAllowed(directoryRegion);
     const regionEntrances: NonNullable<NativeSourceProgress["regionEntrances"]> = priorProgress?.sourceId === pack.meta.id && priorProgress.regionEntrances
-      ? structuredClone(priorProgress.regionEntrances) : {sourceId: pack.meta.id, flowId: randomUUID(), entries: []};
+      ? structuredClone(priorProgress.regionEntrances) : {sourceId: pack.meta.id, ...(request.readRunId ? {readRunId: request.readRunId} : {}), flowId: randomUUID(), entries: []};
+    const regionScopeMismatch = regionEntrances.sourceId !== pack.meta.id || regionEntrances.readRunId !== request.readRunId;
     const regionCheckpoint = () => source === "DIRECTORY" ? {regionEntrances} : {};
     const replacementEntrances = () => regionEntrances.sourceId === pack.meta.id ? regionEntrances.entries.filter(entry => entry.sourceId === pack.meta.id && entry.flowId === regionEntrances.flowId
       && pack.browser?.directory?.isRegionEntrance(entry.href) && !visitedListingUrls.some(url => sameRegion(url, entry.href)) && (!directoryRegion || !sameRegion(entry.href, directoryRegion.first.url))) : [];
@@ -647,6 +648,11 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       return {page, outlets: [...observed.values()]};
     };
     try {
+      if (source === "DIRECTORY" && regionScopeMismatch) {
+        sourceEnded = true;
+        if (directoryRegion) directoryRegion.stopReason = "INVALID_OBSERVED_ENTRANCE_SCOPE";
+        throw Object.assign(Error("Observed entrance collection belongs to another source or read run"), {code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED"});
+      }
       if (sourceTimeLimitReached) {
         if (directoryRegion) directoryRegion.stopReason = "SOURCE_BUDGET_EXHAUSTED";
         sourceEnded = true;

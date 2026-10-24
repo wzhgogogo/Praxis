@@ -382,7 +382,7 @@ export interface RestaurantSearchContinuation {
   }>;
   sourceProgress?: {
     retrieval?: { selection?: import("./discovery-retrieval.js").DiscoveryRetrievalSelection; rewrites:number; regionPages:number; retrievalPages:number; history:Array<{selection:import("./discovery-retrieval.js").DiscoveryRetrievalSelection;elapsedMs:number;parsedCount:number}> };
-    regionEntrances?: { sourceId: string; flowId: string; entries: Array<{ref: string; sourceId: string; flowId: string; href: string; label: string; observedOn: string; originalTargetRef: string; observationRevision: number}> };
+    regionEntrances?: { sourceId: string; readRunId?: string; flowId: string; entries: Array<{ref: string; sourceId: string; flowId: string; href: string; label: string; observedOn: string; originalTargetRef: string; observationRevision: number}> };
     directoryRegion?: {
       first: { url: string; observedOn: string; targetRef: string; label?: string };
       provisional?: boolean;

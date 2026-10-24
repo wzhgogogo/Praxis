@@ -839,7 +839,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
       const continuation: RestaurantSearchContinuation = {
         intentFingerprint: fingerprint, usedPageTokens: [], pagesRead: 1, exhausted: false,
         sourceProgress: {sourceId: "directory", inspectedSourceIds: ["one", "two"], detailAttempts: 2, pagesRead: 3, elapsedMs: 30000, pendingSourceIds: [],
-          regionEntrances: {sourceId: "directory", flowId: "persisted-flow", entries: [{ref: "region:persisted-flow:0", sourceId: "directory", flowId: "persisted-flow", href: "https://directory.example/alternate/", label: "Observed alternate", observedOn: "https://directory.example/", originalTargetRef: "observation:1:target:2", observationRevision: 1}]},
+          regionEntrances: {sourceId: "directory", readRunId: "restaurant-run-1:investigation:1", flowId: "persisted-flow", entries: [{ref: "region:persisted-flow:0", sourceId: "directory", flowId: "persisted-flow", href: "https://directory.example/alternate/", label: "Observed alternate", observedOn: "https://directory.example/", originalTargetRef: "observation:1:target:2", observationRevision: 1}]},
           directoryRegion: {first: {url: "https://directory.example/first/", observedOn: "https://directory.example/", targetRef: "observation:1:target:1"}, provisional: true,
             samples: [{sourceEntityId: "one", sourceUrl: "https://directory.example/one", outcome: "UNKNOWN"}, {sourceEntityId: "two", sourceUrl: "https://directory.example/two", distanceMeters: 3400, bearingDegrees: 225, direction: "SW", outcome: "OUTSIDE_RADIUS"}]},
         },

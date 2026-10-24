@@ -13,6 +13,8 @@
 
 ## DEV-2026-10-24-PHASE3A-PRIME-F5-IMPLEMENTATION
 
+交付收敛（CEST）：补齐集合与readRunId绑定，同intent跨Task/run也在导航／模型调用前拒绝。N1–N4改用各自历史圆心及吉祥寺实际观察入口，并用固定旧Native模块实际比较页面／详情数，无旧执行文件残留。采集冻结778f37ff、执行fd7c3c70；公开GET2次均200，Dengana当前身份／201.545m／Kushi-age及11月4日19:00两人库存认证通过。原始响应无损归档、逐次账本；例03可选GET0、Live0。最终输入冻结后五门禁见gates-final，停在2等复核，不合并main。
+
 - 时间：2026-10-24 Europe/Vienna（CEST，UTC+2）。基线f42715c2；仅codex/fix-phase3a-prime-f5-provisional-entrance，draft / not integrated，已暴露开发控制。
 - 共享层合同、生产者及全部活动调用方同步更新；无旧firstFive／旧wire兼容路径，两个站点目录与source-packs.ts零改动。
 - R1先红后绿；本地构造输入明确标注，真实组合经Interpreter→Router→Reducer产出artifact并由独立evaluator判断，正常控制与真实Chromium G3通过。适用五门禁在提交干净后运行，结果随后追加；未将定向通过当作最终门禁。

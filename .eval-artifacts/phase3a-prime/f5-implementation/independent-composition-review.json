@@ -1,0 +1,850 @@
+{
+  "mode": "LOCAL_CONSTRUCTED_FIXED_TRANSPORT",
+  "websiteReplay": false,
+  "realModelCalls": 0,
+  "liveRuns": 0,
+  "rows": [
+    {
+      "case": "F5_NO_ALTERNATE.evaluation",
+      "evaluation": ".eval-artifacts/phase3a-prime/f5-implementation/composition-final/F5_NO_ALTERNATE.evaluation.json",
+      "sourceArtifact": {
+        "path": "F5_NO_ALTERNATE.execution.json",
+        "sha256": "d3ea12dd52ac7c2268294a62a59fcd108aeb45ec93a02a50b679855b23fc5378",
+        "runId": "run:native-h001:F5_NO_ALTERNATE",
+        "caseId": "h001"
+      },
+      "outcome": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": [
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "run",
+              "missing": [
+                "network request records"
+              ],
+              "evidenceRefs": [
+                "browserTrace.networkRequests"
+              ]
+            },
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "session",
+              "missing": [
+                "recorded network-boundary installation"
+              ],
+              "evidenceRefs": [
+                "browserTrace.SESSION_OPENED"
+              ]
+            }
+          ]
+        }
+      },
+      "execution": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "YES",
+        "systemBehavior": "SUPPORTED_BY_EVIDENCE",
+        "externalConditions": "OBSERVED",
+        "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+        "completion": "PRESENTATION_RECORDED"
+      },
+      "conditions": [
+        {
+          "candidateId": "tablecheck:native-omakase-1",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "No artifact-bound independent HARD HTML/witness input."
+              ],
+              "supportDiagnostics": []
+            }
+          ]
+        },
+        {
+          "candidateId": "tablecheck:native-omakase-2",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "No artifact-bound independent HARD HTML/witness input."
+              ],
+              "supportDiagnostics": []
+            }
+          ]
+        },
+        {
+          "candidateId": "tablecheck:native-omakase-3",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "No artifact-bound independent HARD HTML/witness input."
+              ],
+              "supportDiagnostics": []
+            }
+          ]
+        }
+      ],
+      "presented": [
+        "tablecheck:native-omakase-1",
+        "tablecheck:native-omakase-2",
+        "tablecheck:native-omakase-3"
+      ],
+      "candidateIds": [
+        "tablecheck:native-omakase-1",
+        "tablecheck:native-omakase-2",
+        "tablecheck:native-omakase-3"
+      ],
+      "resourceUsage": {
+        "elapsedMs": 23,
+        "agentDecisions": 5,
+        "browserModelCalls": 5,
+        "modelCallsStarted": 18,
+        "googleRequests": {
+          "limit": 100,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "unassessedDimensions": [
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    },
+    {
+      "case": "F5_SECOND_OUTSIDE.evaluation",
+      "evaluation": ".eval-artifacts/phase3a-prime/f5-implementation/composition-final/F5_SECOND_OUTSIDE.evaluation.json",
+      "sourceArtifact": {
+        "path": "F5_SECOND_OUTSIDE.execution.json",
+        "sha256": "1702471d705450ebfd0bd03016039c7e3d17b4033f09654dc9bcaf76c0bb5f81",
+        "runId": "run:native-h001:F5_SECOND_OUTSIDE",
+        "caseId": "h001"
+      },
+      "outcome": {
+        "type": "HONEST_NO_RESULT",
+        "reasons": [
+          "Actual bounded no-result scope, executed observations and disclosed unknowns agree; this does not prove investigation sufficiency, global search exhaustion or budget compliance."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot.domainState.noVerifiedResult"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState",
+            "trajectories",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Saved final state and executed trajectories record no positive restaurant delivery claim."
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState",
+            "trajectories"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": [
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "run",
+              "missing": [
+                "network request records"
+              ],
+              "evidenceRefs": [
+                "browserTrace.networkRequests"
+              ]
+            },
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "session",
+              "missing": [
+                "recorded network-boundary installation"
+              ],
+              "evidenceRefs": [
+                "browserTrace.SESSION_OPENED"
+              ]
+            }
+          ]
+        }
+      },
+      "execution": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "NO",
+        "systemBehavior": "SUPPORTED_BY_EVIDENCE",
+        "externalConditions": "NOT_EVALUATED",
+        "evidenceSufficiency": "NOT_EVALUATED",
+        "completion": "NO_VERIFIED_RESULT"
+      },
+      "conditions": [],
+      "presented": [],
+      "candidateIds": [],
+      "resourceUsage": {
+        "elapsedMs": 8,
+        "agentDecisions": 4,
+        "browserModelCalls": 3,
+        "modelCallsStarted": 13,
+        "googleRequests": {
+          "limit": 100,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "unassessedDimensions": [
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    },
+    {
+      "case": "F5_PROVISIONAL_DELIVERS.evaluation",
+      "evaluation": ".eval-artifacts/phase3a-prime/f5-implementation/composition-final/F5_PROVISIONAL_DELIVERS.evaluation.json",
+      "sourceArtifact": {
+        "path": "F5_PROVISIONAL_DELIVERS.execution.json",
+        "sha256": "90b0713cdc983be7275fdb9e733ec2f6cb860af5f6ac04cd2dffa3d7d7264cfa",
+        "runId": "run:native-h001:F5_PROVISIONAL_DELIVERS",
+        "caseId": "h001"
+      },
+      "outcome": {
+        "type": "QUALIFIED_DELIVERY",
+        "reasons": [
+          "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "YES"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": [
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "run",
+              "missing": [
+                "network request records"
+              ],
+              "evidenceRefs": [
+                "browserTrace.networkRequests"
+              ]
+            },
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "session",
+              "missing": [
+                "recorded network-boundary installation"
+              ],
+              "evidenceRefs": [
+                "browserTrace.SESSION_OPENED"
+              ]
+            }
+          ]
+        }
+      },
+      "execution": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "YES",
+        "systemBehavior": "SUPPORTED_BY_EVIDENCE",
+        "externalConditions": "OBSERVED",
+        "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+        "completion": "PRESENTATION_RECORDED"
+      },
+      "conditions": [
+        {
+          "candidateId": "tabelog:tokyo/A1304/A130401/100",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "No artifact-bound independent HARD HTML/witness input."
+              ],
+              "supportDiagnostics": []
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:tokyo/A1304/A130401/101",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "No artifact-bound independent HARD HTML/witness input."
+              ],
+              "supportDiagnostics": []
+            }
+          ]
+        },
+        {
+          "candidateId": "tabelog:tokyo/A1304/A130401/102",
+          "criteria": [
+            {
+              "goldIndex": 0,
+              "text": "omakase",
+              "polarity": "POSITIVE",
+              "strength": "HARD",
+              "supportObservation": "NOT_ESTABLISHED",
+              "evidenceRefs": [],
+              "status": "NOT_CHECKED",
+              "basis": [
+                "No artifact-bound independent HARD HTML/witness input."
+              ],
+              "supportDiagnostics": []
+            }
+          ]
+        }
+      ],
+      "presented": [
+        "tabelog:tokyo/A1304/A130401/100",
+        "tabelog:tokyo/A1304/A130401/101",
+        "tabelog:tokyo/A1304/A130401/102"
+      ],
+      "candidateIds": [
+        "tabelog:tokyo/A1304/A130401/100",
+        "tabelog:tokyo/A1304/A130401/101",
+        "tabelog:tokyo/A1304/A130401/102"
+      ],
+      "resourceUsage": {
+        "elapsedMs": 65,
+        "agentDecisions": 6,
+        "browserModelCalls": 3,
+        "modelCallsStarted": 18,
+        "googleRequests": {
+          "limit": 100,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "unassessedDimensions": [
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    },
+    {
+      "case": "F5_EDGE_NO_ALTERNATE.evaluation",
+      "evaluation": ".eval-artifacts/phase3a-prime/f5-implementation/composition-edge-final/F5_EDGE_NO_ALTERNATE.evaluation.json",
+      "sourceArtifact": {
+        "path": "F5_EDGE_NO_ALTERNATE.execution.json",
+        "sha256": "00e254f4b95317cbeeca5dc5462f78440e13970a8f2599dce92fe8ecc4b7d8ea",
+        "runId": "run:native-h001:F5_EDGE_NO_ALTERNATE",
+        "caseId": "h001"
+      },
+      "outcome": {
+        "type": "HONEST_NO_RESULT",
+        "reasons": [
+          "Actual bounded no-result scope, executed observations and disclosed unknowns agree; this does not prove investigation sufficiency, global search exhaustion or budget compliance."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState.noVerifiedResult",
+          "trajectories"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState",
+            "trajectories",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Saved final state and executed trajectories record no positive restaurant delivery claim."
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState",
+            "trajectories"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": [
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "run",
+              "missing": [
+                "network request records"
+              ],
+              "evidenceRefs": [
+                "browserTrace.networkRequests"
+              ]
+            },
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "session",
+              "missing": [
+                "recorded network-boundary installation"
+              ],
+              "evidenceRefs": [
+                "browserTrace.SESSION_OPENED"
+              ]
+            }
+          ]
+        }
+      },
+      "execution": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "NO",
+        "systemBehavior": "NOT_EVALUATED",
+        "externalConditions": "OBSERVED",
+        "evidenceSufficiency": "NOT_EVALUATED",
+        "completion": "NO_VERIFIED_RESULT"
+      },
+      "conditions": [],
+      "presented": [],
+      "candidateIds": [
+        "tablecheck:native-omakase-1"
+      ],
+      "resourceUsage": {
+        "elapsedMs": 8,
+        "agentDecisions": 5,
+        "browserModelCalls": 4,
+        "modelCallsStarted": 15,
+        "googleRequests": {
+          "limit": 100,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "unassessedDimensions": [
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    },
+    {
+      "case": "F5_EDGE_WITH_PRIOR.evaluation",
+      "evaluation": ".eval-artifacts/phase3a-prime/f5-implementation/composition-edge-final/F5_EDGE_WITH_PRIOR.evaluation.json",
+      "sourceArtifact": {
+        "path": "F5_EDGE_WITH_PRIOR.execution.json",
+        "sha256": "d85cfaf3cdd83c2a267cc9297730fbe83873350ecb5585aa16935a31aa68953c",
+        "runId": "run:native-h001:F5_EDGE_WITH_PRIOR",
+        "caseId": "h001"
+      },
+      "outcome": {
+        "type": "HONEST_NO_RESULT",
+        "reasons": [
+          "Actual bounded no-result scope, executed observations and disclosed unknowns agree; this does not prove investigation sufficiency, global search exhaustion or budget compliance."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState.noVerifiedResult",
+          "trajectories"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState",
+            "trajectories",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Saved final state and executed trajectories record no positive restaurant delivery claim."
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState",
+            "trajectories"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": [
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "run",
+              "missing": [
+                "network request records"
+              ],
+              "evidenceRefs": [
+                "browserTrace.networkRequests"
+              ]
+            },
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "session",
+              "missing": [
+                "recorded network-boundary installation"
+              ],
+              "evidenceRefs": [
+                "browserTrace.SESSION_OPENED"
+              ]
+            }
+          ]
+        }
+      },
+      "execution": {
+        "status": "SUCCEEDED",
+        "stage": "AGENT_LOOP",
+        "taskProducedQualifiedResult": "NO",
+        "systemBehavior": "NOT_EVALUATED",
+        "externalConditions": "OBSERVED",
+        "evidenceSufficiency": "NOT_EVALUATED",
+        "completion": "NO_VERIFIED_RESULT"
+      },
+      "conditions": [],
+      "presented": [],
+      "candidateIds": [
+        "tablecheck:native-omakase-1"
+      ],
+      "resourceUsage": {
+        "elapsedMs": 12,
+        "agentDecisions": 6,
+        "browserModelCalls": 5,
+        "modelCallsStarted": 18,
+        "googleRequests": {
+          "limit": 100,
+          "total": 1,
+          "namedPlaceResolution": 1,
+          "discovery": 0,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        }
+      },
+      "unassessedDimensions": [
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    }
+  ]
+}
