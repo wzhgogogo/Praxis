@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.386
+- Document revision: 4.387
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-24-PHASE3A-PRIME-F2C-PACING:** F2③候选完成：共享协调进程按origin跨子进程节奏控制，固定2运行、第三FIFO排队、单运行等待0、三种中断释放；真实Chromium/Guard及fixture Google接线通过。五门禁1028/147全绿，每项后净工作树，0新增调用；未合main。 [报告](../.eval-artifacts/phase3a-prime/f2c-pacing/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-DIAGNOSTIC-DOM:** 诊断DOM补丁完成：安全缺脚本/OPTIONS页独立留档，危险/挑战/超大页只记原因；回放字节不变，五门禁1028/141全绿且每项后净工作树，0新增调用。仅本项获准合入main，后续F2③/④b分支待复核。 [报告](../.eval-artifacts/phase3a-prime/f2a-diagnostic-dom/report.md)。
 
