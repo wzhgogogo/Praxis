@@ -18,10 +18,10 @@ test("formal pacing bootstrap covers Chromium Guard routes, native redirects and
     else { response.setHeader("content-type", "text/html");response.end("<h1>Public fixture</h1>"); }
   });
   await new Promise<void>(resolve => source.listen(0, "127.0.0.1", resolve));
-  const origin = `http://127.0.0.1:${(source.address() as {port:number}).port}`, googleOrigin = new URL(GOOGLE_PLACES_TEXT_SEARCH_URL).origin;
+  const origin = `http://127.0.0.1:${(source.address() as {port:number}).port}`, googleOrigin = new URL(GOOGLE_PLACES_TEXT_SEARCH_URL).origin, geocodeOrigin = "https://geocode.googleapis.com";
   const root = await mkdtemp(join(tmpdir(), "praxis-paced-transports-")), coordinator = await createEvalPacingCoordinator();
   const originalFetch = globalThis.fetch;let googleFixtureCalls = 0;
-  globalThis.fetch = async (url,init) => { if (String(url).startsWith(googleOrigin)) { googleFixtureCalls++;return new Response('{"places":[]}', {status:200}); }return originalFetch(url,init); };
+  globalThis.fetch = async (url,init) => { if ([googleOrigin,geocodeOrigin].some(origin=>String(url).startsWith(origin))) { googleFixtureCalls++;return new Response('{"places":[],"results":[]}', {status:200}); }return originalFetch(url,init); };
   try {
     await withPacedEval(coordinator.endpoint, "transport", join(root,"usage.json"), async () => {
       const controller=new AbortController();const session=await new LocalPlaywrightChromium().openSession({signal:controller.signal,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]}});
@@ -30,11 +30,12 @@ test("formal pacing bootstrap covers Chromium Guard routes, native redirects and
         for(const path of ["/public","/redirect"]){await session.prepareNavigation?.(origin+path);await session.navigate(origin+path);}
         assert.equal((await session.snapshot()).url,origin+"/final");
         assert.deepEqual(await new GooglePlacesClient({apiKey:"fixture-only"}).textSearch({textQuery:"fixture",pageSize:1},controller.signal),[]);
+        assert.deepEqual(await new GooglePlacesClient({apiKey:"fixture-only"}).reverseAddress({latitude:35,longitude:139},controller.signal),{addressComponents:[]});
       }finally{controller.abort();await session.close();}
-    },[origin,googleOrigin]);
-    assert.deepEqual(hits,["/public","/redirect","/final"]);assert.equal(googleFixtureCalls,1);
+    },[origin,googleOrigin,geocodeOrigin]);
+    assert.deepEqual(hits,["/public","/redirect","/final"]);assert.equal(googleFixtureCalls,2);
     const usage=JSON.parse(await readFile(join(root,"usage.json"),"utf8"));
-    assert.deepEqual(usage.byOrigin,{[origin]:{requests:3,waitMs:0},[googleOrigin]:{requests:1,waitMs:0}});
+    assert.deepEqual(usage.byOrigin,{[origin]:{requests:3,waitMs:0},[googleOrigin]:{requests:1,waitMs:0},[geocodeOrigin]:{requests:1,waitMs:0}});
     assert.equal(coordinator.snapshot().heldLeases,0);t.diagnostic(JSON.stringify({hits,usage,realGoogleCalls:0}));
   }finally{globalThis.fetch=originalFetch;await coordinator.close();source.closeAllConnections();await new Promise<void>(resolve=>source.close(()=>resolve()));await rm(root,{recursive:true,force:true});}
 });

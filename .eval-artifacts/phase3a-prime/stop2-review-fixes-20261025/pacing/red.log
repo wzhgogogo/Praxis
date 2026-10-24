@@ -1,0 +1,27 @@
+✖ two Chromium runs count20 static resources each but pace only documents (2549.181917ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2650.349959
+
+✖ failing tests:
+
+test at src/harness/browser/pacing-static-resources.test.ts:1:442
+✖ two Chromium runs count20 static resources each but pace only documents (2549.181917ms)
+  AssertionError [ERR_ASSERTION]: static resources must never acquire a pacing lease
+  
+  21 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/pacing-static-resources.test.ts:36:11)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 21,
+    expected: 1,
+    operator: 'strictEqual'
+  }
