@@ -30,7 +30,7 @@ import { createHybridReadComposition } from "../hybrid-read-composition.js";
 import { captureHybridLiveProgress } from "../hybrid-live-artifact.js";
 import { RestaurantPartySizeSupplementResolver } from "../../../../domains/restaurant/party-size-supplement-resolver.js";
 import { evaluateArtifactFile, evaluateArtifactAfterFinish, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION } from "../diagnostic-evaluator.js";
-import { createRunDeadlineSignal, RUN_DEADLINE_EXCEEDED, settleAtRunDeadline } from "../live-run-deadline.js";
+import { createRunStopControl, RUN_DEADLINE_EXCEEDED, settleAtRunDeadline } from "../live-run-deadline.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 import { safeRecord, traceBrowserRuntime, type BrowserTraceRecordingSink } from "./browser-case-slice-evidence.js";
 import { BrowserReadRecording, type BrowserReadRecordingResult } from "./browser-read-recording.js";
@@ -129,6 +129,7 @@ export function createHybridDecisionCapture(resultPath: string, recording?: Brow
     ...sink,
     record: () => undefined,
     recordSnapshot(snapshot: BrowserSnapshot, sanitized: unknown) {
+      if (finished) return;
       snapshotSequence += 1;
       latestSnapshot = { url: snapshot.url, title: snapshot.title,
         visibleText: snapshot.text.replace(/\s+/g, " ").trim().slice(0, 4_000), recordingSnapshot: snapshotSequence };
@@ -180,10 +181,10 @@ export function createHybridDecisionCapture(resultPath: string, recording?: Brow
         throw error;
       }
     },
-    async finish() {
+    async finish(failureCode = RUN_DEADLINE_EXCEEDED) {
       finished = true;
       for (const index of pending.keys()) settle(index, { outputText: null, finishReason: null,
-        outcome: "FAILED", errorCode: RUN_DEADLINE_EXCEEDED, usage: null });
+        outcome: "FAILED", errorCode: failureCode, usage: null });
       await writes;
       let sha256: string | null = null;
       if (writable) {
@@ -252,19 +253,6 @@ if ((process.env.PRAXIS_EVAL_USER_LAT && !process.env.PRAXIS_EVAL_USER_LNG) || (
   throw new Error("PRAXIS_EVAL_USER_LAT and PRAXIS_EVAL_USER_LNG must be set together");
 }
 
-const startedAt = new Date();
-const recordBrowser = process.argv.includes("--record-browser");
-const browserRecording = recordBrowser
-  ? new BrowserReadRecording({ directory: resolve(".eval-artifacts", "recordings"), runId: `hybrid-${startedAt.valueOf()}` })
-  : undefined;
-let browserRecordingResult: BrowserReadRecordingResult | undefined;
-async function finishBrowserRecording(): Promise<BrowserReadRecordingResult | undefined> {
-  if (!browserRecording || browserRecordingResult) return browserRecordingResult;
-  browserRecordingResult = await browserRecording.finish();
-  return browserRecordingResult;
-}
-const materialized = materializeLiveCase(frozen, startedAt.toISOString());
-const { content: rawRequest, ...materializedCase } = materialized;
 const runtimeContext = {
   ...safeGitContext(),
   dataset: {
@@ -305,12 +293,71 @@ const liveReadLimits = {
   maxCandidateBrowserMs: runCeiling("--max-candidate-browser-ms", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxCandidateBrowserMs),
   maxProviderBrowserMs: runCeiling("--max-provider-browser-ms", LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxProviderBrowserMs),
 };
+const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG
+    ? {
+        label: "Explicit evaluation coordinate",
+        latitude: Number(process.env.PRAXIS_EVAL_USER_LAT),
+        longitude: Number(process.env.PRAXIS_EVAL_USER_LNG),
+        radiusMeters: HIGASHI_GINZA_EVALUATION_LOCATION.radiusMeters,
+        source: "PRAXIS_EVAL_USER_LAT/PRAXIS_EVAL_USER_LNG",
+      }
+    : requiresEvaluationLocation(frozen) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined;
+await runHybridReadDiagnostic({ frozen, runtimeContext, limits: liveReadLimits,
+  recordBrowser: process.argv.includes("--record-browser"), recordDecisions: process.argv.includes("--record-decisions"),
+  ...(evaluationLocation ? { evaluationLocation } : {}), reviewedReads,
+  ...(manualTabelogIntervention ? { onTabelogUserIntervention: waitForManualTabelogIntervention } : {}),
+}, {
+  createModel: observe => DeepSeekModelGateway.fromEnvironment(effectiveEnvironment, { observer: { observe } }),
+  google: new GooglePlacesClient({ apiKey: effectiveEnvironment.GOOGLE_MAPS_API_KEY ?? "", proxyServer: effectiveEnvironment.PRAXIS_GOOGLE_API_PROXY_SERVER, timeoutMs: liveReadLimits.maxStructuredReadMs }),
+  browser: browserRuntimeFromEnvironment(effectiveEnvironment),
+});
+}
+
+export interface HybridReadDiagnosticInput {
+  frozen: Awaited<ReturnType<typeof loadFrozenLiveCases>>[number];
+  runtimeContext: Record<string, unknown>;
+  limits: import("../../../../application/live-read-investigation-budget.js").LiveReadInvestigationBudget;
+  recordBrowser: boolean;
+  recordDecisions: boolean;
+  directory?: string;
+  startedAt?: Date;
+  evaluationLocation?: import("../hybrid-read-composition.js").HybridEvaluationLocation;
+  packs?: import("../../../../integrations/restaurant-search/source-packs.js").DiscoverySourcePack[];
+  reviewedReads?: import("../diagnostic-evaluator-network.js").ReviewedReads;
+  onTabelogUserIntervention?: (intervention: TabelogUserInterventionRequired) => Promise<void>;
+}
+
+/** Formal execution shared by the Live CLI and offline source transports. */
+export async function runHybridReadDiagnostic(input: HybridReadDiagnosticInput, dependencies: {
+  createModel(observe: (record: ModelInvocationRecord) => void): ModelGateway;
+  google: GooglePlacesClient;
+  browser: BrowserRuntime;
+  clock?: import("../../../../core/task-runtime/contracts.js").RuntimeClock;
+  signal?: AbortSignal;
+  onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void;
+}) {
+const { frozen, runtimeContext, limits: liveReadLimits, evaluationLocation, reviewedReads } = input;
+const startedAt = input.startedAt ?? new Date();
+const maxModelCalls = liveReadLimits.maxModelCalls;
+const candidateLimit = liveReadLimits.maxDiscoveryCandidates;
+const recordBrowser = input.recordBrowser;
+const browserRecording = recordBrowser
+  ? new BrowserReadRecording({ directory: resolve(".eval-artifacts", "recordings"), runId: `hybrid-${startedAt.valueOf()}` })
+  : undefined;
+let browserRecordingResult: BrowserReadRecordingResult | undefined;
+async function finishBrowserRecording(): Promise<BrowserReadRecordingResult | undefined> {
+  if (!browserRecording || browserRecordingResult) return browserRecordingResult;
+  browserRecordingResult = await browserRecording.finish();
+  return browserRecordingResult;
+}
+const materialized = materializeLiveCase(frozen, startedAt.toISOString());
+const { content: rawRequest, ...materializedCase } = materialized;
 let modelCallsStarted = 0;
 const taskId = `hybrid-live:${materialized.id}:${startedAt.valueOf()}`;
 const runId = `run:${taskId}`;
-const clock = { now: () => new Date() };
+const clock = dependencies.clock ?? { now: () => new Date() };
 const modelInvocations: Array<ModelInvocationRecord & { settledAt: string }> = [];
-const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-hybrid-live-read"), {
+const journal = await startDiagnosticRun(input.directory ?? resolve(".eval-artifacts", "restaurant-hybrid-live-read"), {
   mode: "HYBRID_LIVE_READ", caseId: materialized.id,
   scorerStatus: "FULL_RUBRIC_NOT_INTEGRATED",
   diagnosticEvaluator: { version: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION },
@@ -318,12 +365,12 @@ const journal = await startDiagnosticRun(resolve(".eval-artifacts", "restaurant-
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
   requestedRunCeilings: liveReadLimits,
 });
-const decisionCapture = process.argv.includes("--record-decisions")
+const decisionCapture = input.recordDecisions
   ? createHybridDecisionCapture(journal.resultPath, browserRecording) : undefined;
 // This is real elapsed time, deliberately independent of the Runtime clock
 // used to materialize business dates and evidence freshness.  It begins before
 // semantic interpretation so Parser/model setup cannot sit outside the run cap.
-const deadlineControl = createRunDeadlineSignal(liveReadLimits.maxAutomaticBrowserMs);
+const deadlineControl = createRunStopControl(liveReadLimits.maxAutomaticBrowserMs, dependencies.signal);
 const deadline = deadlineControl.signal;
 // Some browser/provider implementations leave only unref'ed work while a
 // promise is still pending. Keep this diagnostic process alive until its
@@ -343,7 +390,9 @@ const tabelogUserInterventions: TabelogUserInterventionRequired[] = [];
 const browserExecutionDiagnostics: BrowserExecutionDiagnostic[] = [];
 const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
 let browserTraceSequence = 0;
+let acceptingObservations = true;
 const recordBrowserTrace = (kind: string, detail: unknown) => {
+  if (!acceptingObservations) return browserTraceSequence;
   const sequence = ++browserTraceSequence;
   browserTrace.push({ sequence, at: new Date().toISOString(), kind, detail: safeRecord(detail) });
   browserRecording?.record(kind, detail);
@@ -371,10 +420,9 @@ function captureProgress() {
   });
 }
 try {
-  const providerModel = DeepSeekModelGateway.fromEnvironment(effectiveEnvironment, {
-    observer: { observe: (record) => { modelInvocations.push({ ...structuredClone(record), settledAt: new Date().toISOString() }); } },
-  });
+  const providerModel = dependencies.createModel(record => modelInvocations.push({ ...structuredClone(record), settledAt: new Date().toISOString() }));
   const countedModel: ModelGateway = { async complete(request) {
+    if (deadline.aborted) throw deadline.reason;
     if (modelCallsStarted >= maxModelCalls) throw Object.assign(new Error("Run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
     modelCallsStarted += 1;
     const remainingMs = liveReadLimits.maxAutomaticBrowserMs - (Date.now() - startedAt.valueOf());
@@ -387,21 +435,8 @@ try {
   } };
   const model = new DeliveryReservedModelGateway(countedModel);
   stage = "PROVIDER_SETUP";
-  const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXIS_EVAL_USER_LNG
-    ? {
-        label: "Explicit evaluation coordinate",
-        latitude: Number(process.env.PRAXIS_EVAL_USER_LAT),
-        longitude: Number(process.env.PRAXIS_EVAL_USER_LNG),
-        radiusMeters: HIGASHI_GINZA_EVALUATION_LOCATION.radiusMeters,
-        source: "PRAXIS_EVAL_USER_LAT/PRAXIS_EVAL_USER_LNG",
-      }
-    : requiresEvaluationLocation(frozen) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined;
-  const googleClient = new GooglePlacesClient({
-    apiKey: effectiveEnvironment.GOOGLE_MAPS_API_KEY ?? "",
-    proxyServer: effectiveEnvironment.PRAXIS_GOOGLE_API_PROXY_SERVER,
-    timeoutMs: liveReadLimits.maxStructuredReadMs,
-  });
-  const rawBrowser = browserRuntimeFromEnvironment(effectiveEnvironment);
+  const googleClient = dependencies.google;
+  const rawBrowser = dependencies.browser;
   // Keep the same runtime and executor path while retaining a redacted raw
   // observation sequence. The source label is descriptive only; snapshots
   // carry the actual safe origin for independent evaluation.
@@ -409,15 +444,16 @@ try {
   const recordBrowserDiagnostic = (diagnostic: BrowserExecutionDiagnostic) => {
     browserExecutionDiagnostics.push(structuredClone(diagnostic));
     recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic);
+    dependencies.onBrowserDiagnostic?.(diagnostic);
   };
-  const readAssembly = createLiveReadAssembly({ ...liveReadLimits, ...(evaluationLocation ? { evaluationLocation } : {}) }, {
+  const readAssembly = createLiveReadAssembly({ ...liveReadLimits, ...(input.packs ? { packs: input.packs } : {}), ...(evaluationLocation ? { evaluationLocation } : {}) }, {
     google: googleClient, browser, model, clock,
     onBrowserDiagnostic: recordBrowserDiagnostic,
     onTableCheckIdentityDiagnostic: diagnostic => tableCheckIdentityDiagnostics.push(diagnostic),
     onTabelogIdentityDiagnostic: diagnostic => tabelogIdentityDiagnostics.push(diagnostic),
-    ...(manualTabelogIntervention ? { onTabelogUserInterventionRequired: async (intervention: TabelogUserInterventionRequired) => {
+    ...(input.onTabelogUserIntervention ? { onTabelogUserInterventionRequired: async (intervention: TabelogUserInterventionRequired) => {
       tabelogUserInterventions.push(structuredClone(intervention));
-      await waitForManualTabelogIntervention(intervention);
+      await input.onTabelogUserIntervention!(intervention);
     } } : {}),
     remainingModelCalls: () => Math.max(0, maxModelCalls - modelCallsStarted),
   });
@@ -439,15 +475,16 @@ try {
   console.log(JSON.stringify({
     mode: "HYBRID_LIVE_READ",
     caseId: materialized.id,
-    browserEngine: effectiveEnvironment.PRAXIS_BROWSER_ENGINE ?? "AUTO",
-    preflight: { artifactPath: preflight.artifactPath, elapsedMs: preflight.elapsedMs, targetCount: preflight.attempts.length },
+    browserEngine: runtimeContext.browserEngine ?? "AUTO",
+    preflight: runtimeContext.preflight,
     candidateLimit,
-    profileMode: manualTabelogIntervention ? "PERSISTENT_EVAL" : "TEMPORARY",
+    profileMode: input.onTabelogUserIntervention ? "PERSISTENT_EVAL" : "TEMPORARY",
     limits: readAssembly.runCeilings,
     safety: "READ_ONLY_CODE_PATH",
   }));
   const loop = await settleAtRunDeadline(coordinator.run(taskId, deadline, new Date(startedAt.valueOf() + liveReadLimits.maxAutomaticBrowserMs)), deadline);
   const progress = captureProgress();
+  acceptingObservations = false;
   const { finalSnapshot, resourceUsage } = progress;
   if (!finalSnapshot) throw new Error("Completed run has no runtime snapshot");
   const artifact = {
@@ -467,17 +504,19 @@ try {
     resolvedEvalLocation: evaluationLocation,
     latencyMs: resourceUsage.elapsedMs,
     safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
+    ...(deadlineControl.interruption() ? { interruption: deadlineControl.interruption() } : {}),
     ...(decisionCapture ? { decisionCapture: await decisionCapture.finish() } : {}),
     ...(await finishBrowserRecording() ? { browserRecording: browserRecordingResult } : {}),
   };
   const completed = ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase) && loop.status === "TERMINAL";
   await journal.finish({ ...artifact, stageTimings: restaurantRunStageTimings({ ...artifact, startedAt: startedAt.toISOString(), finishedAt: new Date().toISOString() }), status: completed ? "SUCCEEDED" : "FAILED", stage: "AGENT_LOOP", failureCode: completed ? null : "LIVE_CASE_NOT_COMPLETED" });
-  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath,path=>evaluateArtifactFile(path,{reviewedReads}));
+  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath,path=>evaluateArtifactFile(path,reviewedReads ? {reviewedReads} : {}));
   console.log(JSON.stringify({ mode: artifact.mode, caseId: materialized.id, loop, resourceUsage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath, latencyMs: artifact.latencyMs, scorerStatus: artifact.scorerStatus }, null, 2));
   if (!completed) process.exitCode = 1;
 } catch (error) {
   const failureCode = diagnosticFailureCode(error);
   const progress = captureProgress();
+  acceptingObservations = false;
   const { resourceUsage } = progress;
   await journal.finish({
     status: failureCode === "CANCELLED" ? "CANCELLED" : "FAILED", stage, failureCode,
@@ -487,18 +526,21 @@ try {
     stageTimings: restaurantRunStageTimings({ ...progress, startedAt: startedAt.toISOString(), finishedAt: new Date().toISOString() }),
     termination: { scope: "TASK", code: failureCode, reason: stage === "SEMANTIC" ? "Run stopped before execution" : "Run failed or was cancelled during execution" },
     partial: true,
+    ...(deadlineControl.interruption() ? { interruption: deadlineControl.interruption() } : {}),
     downstream: stage === "SEMANTIC" ? "GOOGLE_BROWSER_AGENT_NOT_REACHED" : "SEE_EXECUTED_EVENTS",
     latencyMs: resourceUsage.elapsedMs,
-    ...(decisionCapture ? { decisionCapture: await decisionCapture.finish() } : {}),
+    ...(decisionCapture ? { decisionCapture: await decisionCapture.finish(failureCode) } : {}),
     ...(await finishBrowserRecording() ? { browserRecording: browserRecordingResult } : {}),
   });
-  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath,path=>evaluateArtifactFile(path,{reviewedReads}));
+  const evaluation = await evaluateArtifactAfterFinish(journal.resultPath,path=>evaluateArtifactFile(path,reviewedReads ? {reviewedReads} : {}));
   console.error(JSON.stringify({ failureCode, stage, artifactPath: journal.resultPath, evaluationPath: evaluation.outputPath, evaluationFailure: evaluation.evaluationFailure, evaluationFailurePath: evaluation.failurePath }));
   process.exitCode = 1;
 } finally {
   deadlineControl.dispose();
   clearInterval(lifecycleKeepAlive);
 }
+
+return { resultPath: journal.resultPath };
 
 }
 

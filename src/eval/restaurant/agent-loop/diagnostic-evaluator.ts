@@ -24,8 +24,8 @@ import { assessUserConditions, loadSoftPreferenceObservations } from "./diagnost
 import type { CandidateConditionStates, SoftPreferenceObservations } from "./diagnostic-evaluator-preferences.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@33";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@29";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@34";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@30";
 
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
 
@@ -89,6 +89,7 @@ export interface RestaurantHybridDiagnosticEvaluation {
   witnessFunnel: WitnessFunnel[];
   investigationMetrics: InvestigationMetrics;
   effectiveResources: EffectiveResourceAssessment;
+  reachedStages?: string[];
   goldCorrection: { applied: true; artifactSha256: string; rev1Sha256: string; rev2Sha256: string; refs: string[] } | null;
 }
 
@@ -278,8 +279,11 @@ function compareCriteria(expected: RequestShape, actual: RequestShape, matches: 
   const expectedByIdentity = groupCriteriaByIdentity(expectedParts);
   const actualByIdentity = groupCriteriaByIdentity(actualParts);
   const expectedOnly = expectedParts.filter((criterion) => !actualByIdentity.has(criterionIdentity(criterion)));
-  const actualOnly = actualParts.filter((criterion) => !expectedByIdentity.has(criterionIdentity(criterion)));
   const expectedTexts = new Set(expectedParts.map((criterion) => criterion.text));
+  // Additional UNSPECIFIED context adds no blocking requirement. It cannot
+  // substitute for missing Gold or change its identity/polarity/strength.
+  const actualOnly = actualParts.filter((criterion) => !expectedByIdentity.has(criterionIdentity(criterion)))
+    .filter(criterion => criterion.strength !== "UNSPECIFIED" || expectedTexts.has(criterion.text) || criterion.text.startsWith("unmatched-identity:"));
   const actualTexts = new Set(actualParts.map((criterion) => criterion.text));
   // Same text plus a changed polarity is a deterministic contradiction. Do
   // this before deciding whether unrelated wording is merely unassessed.
@@ -1235,8 +1239,25 @@ export function evaluateRestaurantHybridLiveArtifact(artifact: unknown, sourceAr
     ending.evidenceRefs.push(...classification.outcome.evidenceRefs);
     ending.directCause = "Independent terminal/source/action records corroborate an internal failure; it is not an ordinary no-result.";
   }
+  const reachedStages = classification.outcome.type === "ORCHESTRATION_INTERRUPTED" ? [...new Set([
+    ...(root.events?.some(entry => entry.event?.type?.startsWith("SEMANTIC_")) ? ["SEMANTIC"] : []),
+    ...(root.events?.some(entry => entry.event?.type === "EVALUATION_LOCATION_BOUND") ? ["LOCATION"] : []),
+    ...(root.trajectories?.length ? ["AGENT_DECISION"] : []),
+    ...(root.trajectories?.some(step => step.agentAction?.type === "SEARCH_RESTAURANTS" && step.stepOutcome === "EXECUTED") ? ["DISCOVERY"] : []),
+    ...(root.diagnostics?.browserExecution ?? []).flatMap(entry => entry.stage ? [entry.stage] : []),
+    ...(domain.presentedResults?.candidateIds?.length ? ["PRESENTATION"] : []),
+  ])] : undefined;
+  if (root.interruption && classification.outcome.type === "ORCHESTRATION_INTERRUPTED") {
+    const ending = findings.find(finding => finding.dimension === "COMPLETION_OUTCOME")!;
+    ending.status = "SATISFIED"; ending.certainty = "CONFIRMED";
+    ending.observations = [`interruption=${root.interruption.reason}`, `stage=${root.stage}`, `reached=${reachedStages!.join(",")}`];
+    ending.directCause = "The Runner saved an explicit interruption and the execution reached the recorded stages.";
+    ending.rootCauseHypothesis = "Not applicable.";
+    ending.evidenceRefs = ["interruption", "events", "trajectories", "diagnostics.browserExecution"];
+    ending.downstreamImpact = "Exclude this interrupted run from the capability denominator; displayed claims retain independent S0 assessment.";
+  }
   const goldCorrection = options.goldCorrection ? { applied: true as const, artifactSha256: options.goldCorrection.artifactSha256, rev1Sha256: options.goldCorrection.rev1Sha256, rev2Sha256: options.goldCorrection.rev2Sha256, refs: options.goldCorrection.refs } : null;
-  return { ...classification, goldCorrection, conditionStates, conditionStateComparisons, conditionEvidenceFindings, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionCorrespondence: { path: correspondences.path, sha256: correspondences.sha256, schema: correspondences.schema, matches: criterionMatches }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
+  return { ...classification, ...(reachedStages ? { reachedStages } : {}), goldCorrection, conditionStates, conditionStateComparisons, conditionEvidenceFindings, softPreferenceObservations: softPreferences ? { path: softPreferences.path, sha256: softPreferences.sha256 } : null, witnessFunnel, investigationMetrics, effectiveResources, recordReadIssues: [...readIssues, ...(externalTrace?.issues ?? [])], criterionCorrespondence: { path: correspondences.path, sha256: correspondences.sha256, schema: correspondences.schema, matches: criterionMatches }, pendingCriterionWordings: criteriaComparison.pending, schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, rubricVersion: RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION, rubricStatus: "DRAFT_DIAGNOSTIC_ONLY", sourceArtifact: { path: sourceArtifact.path, sha256: sourceArtifact.sha256, ...(asString(root.runId) ? { runId: asString(root.runId)! } : {}), ...(asString(root.caseId) ? { caseId: asString(root.caseId)! } : {}) }, execution: { status: asString(root.status) ?? null, stage: asString(root.stage) ?? null,
     // A source discovery failure is not an ordinary bounded empty result.
     // The runtime keeps that failure on the search continuation, so preserve
     // UNKNOWN rather than reclassifying the task as a verified no-result.

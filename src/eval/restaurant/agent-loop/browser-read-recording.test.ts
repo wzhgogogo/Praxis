@@ -72,7 +72,7 @@ test("browser recording preserves valid JSON-LD geo numbers while redacting its 
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
-test("browser recording keeps a Pack-reviewed public GET form action but rejects an unreviewed query action", async () => {
+test("browser recording keeps reviewed GET form actions and removes unreviewed destinations", async () => {
   const root = await mkdtemp(join(tmpdir(), "praxis-browser-recording-"));
   try {
     const reviewed = new BrowserReadRecording({ directory: root, runId: "reviewed-query-form", reviewedReads: reviewedDirectoryDocument });
@@ -93,7 +93,12 @@ test("browser recording keeps a Pack-reviewed public GET form action but rejects
       title: "Directory", text: "",
       html: '<form method="get" action="/en/tokyo/A1303/A130301/rstLst/?unknown=omakase"><input name="sw"></form>',
     });
-    assert.deepEqual((await unreviewed.finish()).replay, { status: "NOT_REPLAYABLE", reason: "UNSAFE_DOCUMENT" });
+    const stripped = await unreviewed.finish();
+    assert.equal(stripped.replay.status, "REPLAYABLE");
+    const document = await readFile(join(stripped.path, "snapshot-0001.html"), "utf8");
+    assert.match(document, /<form method="get">/);
+    assert.match(document, /name="sw"/);
+    assert.doesNotMatch(document, /action=|unknown=/);
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
@@ -197,7 +202,7 @@ test("browser recording rejects HTTP failures and preserves safe CSS visibility 
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
-test("browser recording preserves safe form semantics and rejects unsafe form actions", async () => {
+test("browser recording preserves form methods while deleting unsafe destinations", async () => {
   const root = await mkdtemp(join(tmpdir(), "praxis-browser-recording-"));
   try {
     const safe = new BrowserReadRecording({ directory: root, runId: "forms" });
@@ -213,7 +218,11 @@ test("browser recording preserves safe form semantics and rejects unsafe form ac
     assert.match(html, /method="post"/);
     const unsafe = new BrowserReadRecording({ directory: root, runId: "unsafe-form" });
     unsafe.recordSnapshot({ url: "https://public.example/menu", title: "Public", text: "", html: '<form method="post" action="/cancel?token=private"><input name="search_text"></form>' });
-    assert.deepEqual((await unsafe.finish()).replay, { status: "NOT_REPLAYABLE", reason: "UNSAFE_DOCUMENT" });
+    const stripped = await unsafe.finish();
+    assert.equal(stripped.replay.status, "REPLAYABLE");
+    const document = await readFile(join(stripped.path, "snapshot-0001.html"), "utf8");
+    assert.match(document, /method="post"/);
+    assert.doesNotMatch(document, /action=|token|private/);
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 

@@ -1,0 +1,12 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts(505,107): error TS2379: Argument of type '{ reviewedReads: ReviewedReads | undefined; }' is not assignable to parameter of type 'DiagnosticEvaluationOptions' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'reviewedReads' are incompatible.
+    Type 'ReviewedReads | undefined' is not assignable to type 'ReviewedReads'.
+      Type 'undefined' is not assignable to type 'ReviewedReads'.
+src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts(525,107): error TS2379: Argument of type '{ reviewedReads: ReviewedReads | undefined; }' is not assignable to parameter of type 'DiagnosticEvaluationOptions' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'reviewedReads' are incompatible.
+    Type 'ReviewedReads | undefined' is not assignable to type 'ReviewedReads'.
+      Type 'undefined' is not assignable to type 'ReviewedReads'.

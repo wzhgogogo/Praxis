@@ -8,9 +8,11 @@ import type { BrowserTraceRecordingSink } from "./browser-case-slice-evidence.js
 import { safeRecord, safeString } from "./browser-case-slice-evidence.js";
 
 export interface BrowserReadRecordingEntry { sequence: number; kind: string; detail: unknown; }
-type Replay = { status: "REPLAYABLE"; reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE"; harPath: string }
-  | { status: "NOT_REPLAYABLE"; reason: "NO_CAPTURED_PUBLIC_DOCUMENT" | "UNSAFE_DOCUMENT" | "UNSAFE_REDIRECT" | "UNCAPTURED_DYNAMIC_RESPONSE" | "UNCAPTURED_STATIC_DEPENDENCY" };
-export interface BrowserReadRecordingResult { path: string; screenshot: "LAYOUT_ONLY_CONTENT_MASKED" | "NOT_CAPTURED_NO_SANITIZER"; replay: Replay; }
+type ReplayFailure = "NO_CAPTURED_PUBLIC_DOCUMENT" | "UNSAFE_DOCUMENT" | "DOCUMENT_SIZE_LIMIT" | "UNSAFE_REDIRECT" | "UNCAPTURED_DYNAMIC_RESPONSE" | "UNCAPTURED_STATIC_DEPENDENCY";
+type Replay = { status: "REPLAYABLE" | "PARTIALLY_REPLAYABLE"; reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE"; harPath: string }
+  | { status: "NOT_REPLAYABLE"; reason: ReplayFailure };
+export interface RecordingPage { snapshot: number; url?: string; status: "REPLAYABLE" | "NOT_REPLAYABLE"; reason: ReplayFailure | "SANITIZED_NETWORK_AND_DOM_CAPTURE"; }
+export interface BrowserReadRecordingResult { path: string; screenshot: "LAYOUT_ONLY_CONTENT_MASKED" | "NOT_CAPTURED_NO_SANITIZER"; replay: Replay; pages: RecordingPage[]; }
 export interface BrowserReadRecordingOptions {
   directory: string; runId: string;
   /**
@@ -31,16 +33,13 @@ export class BrowserReadRecording {
   /** Recording-only exact URLs; these never change the Runtime or Guard policy. */
   private readonly loadedStylesheetRules: BrowserReadNetworkRequestRule[] = [];
   private readonly documents = new Map<string, string>();
-  private readonly documentSnapshots: Array<{ snapshot: number; url: string; html: string }> = [];
+  private readonly documentSnapshots: Array<{ snapshot: number; url?: string; html?: string; failure?: ReplayFailure; requests: readonly BrowserReadNetworkObservation[] }> = [];
   private readonly responses = new Map<string, { method: "GET" | "HEAD"; status: number; mimeType: string; text: string; redirectLocation?: string }>();
-  private readonly dynamicPaths = new Set<string>();
-  /** Admitted scripts and stylesheets are dependencies of the observed DOM and geometry. */
-  private readonly requiredStaticPaths = new Set<string>();
+  private readonly unsafeRedirectPaths = new Set<string>();
   private readonly uncapturedResponsePaths = new Set<string>();
   private readonly screenshotImages: Array<{ file: string; png: Uint8Array }> = [];
   private snapshotCount = 0;
   private readonly screenshots: Array<{ snapshot: number; status: "LAYOUT_ONLY_CONTENT_MASKED" | "OMITTED_UNSAFE_NO_LAYOUT_SANITIZER"; file?: string }> = [];
-  private replayFailure: "UNSAFE_DOCUMENT" | "UNSAFE_REDIRECT" | "UNCAPTURED_DYNAMIC_RESPONSE" | "UNCAPTURED_STATIC_DEPENDENCY" | undefined;
   private finished = false;
   constructor(private readonly options: BrowserReadRecordingOptions) {
     if (!/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,119}$/.test(options.runId)) throw new Error("Browser recording runId must be a safe artifact identifier");
@@ -71,7 +70,7 @@ export class BrowserReadRecording {
     const redirectLocation = response.redirectLocation
       ? safeReplayUrl(response.redirectLocation, this.options.reviewedStaticResources, this.options.reviewedReads)
       : undefined;
-    if (response.redirectLocation && !redirectLocation) { this.replayFailure ??= "UNSAFE_REDIRECT"; return; }
+    if (response.redirectLocation && !redirectLocation) { this.unsafeRedirectPaths.add(responsePath(response.url)); return; }
     // A public redirect's response body is not needed to faithfully preserve
     // navigation. Keep its approved status and Location even when it is empty.
     const isRecordedRedirect = response.status >= 300 && response.status < 400 && Boolean(redirectLocation);
@@ -98,26 +97,11 @@ export class BrowserReadRecording {
     if (this.finished) throw new Error("Browser recording is already finalized");
     this.snapshotCount += 1;
     const requests = snapshot.networkRequests ?? [];
-    // The current sanitized HAR has no faithful CORS handshake representation.
-    // Retain safe protocol facts in NETWORK, without claiming static replay.
-    if (requests.some(item => item.outcome === "ADMITTED" && item.method === "OPTIONS")) this.replayFailure ??= "UNCAPTURED_DYNAMIC_RESPONSE";
     this.recordNetwork(requests);
-    for (const item of requests) if (item.outcome === "ADMITTED" && /^(?:xhr|fetch)$/i.test(item.resourceType)) {
-      const path = observedRequestPath(item.origin, item.pathname);
-      if (path) this.dynamicPaths.add(path); else this.replayFailure ??= "UNCAPTURED_DYNAMIC_RESPONSE";
-    }
-    // Runtime imports do not need a top-level `<script src>` in the observed
-    // DOM. Every admitted script or stylesheet is therefore a replay dependency, including
-    // public CDN scripts whose cache-buster URL is intentionally not written.
-    for (const item of requests) if (item.outcome === "ADMITTED" && ["script", "stylesheet"].includes(item.resourceType)) {
-      const path = observedRequestPath(item.origin, item.pathname);
-      if (path) this.requiredStaticPaths.add(path); else this.replayFailure ??= "UNCAPTURED_STATIC_DEPENDENCY";
-    }
     const url = safeReplayUrl(snapshot.url, this.options.reviewedStaticResources, this.options.reviewedReads);
     const html = sanitizePublicHtml(snapshot.html, snapshot.url, [...(this.options.reviewedStaticResources ?? []), ...this.loadedStylesheetRules], this.options.reviewedReads);
-    if (!url || !html) { this.replayFailure ??= "UNSAFE_DOCUMENT"; return; }
-    this.documents.set(url, html);
-    this.documentSnapshots.push({ snapshot: this.snapshotCount, url, html });
+    this.documentSnapshots.push({ snapshot: this.snapshotCount, ...(url ? { url } : {}), ...(url && html ? { html } : {}),
+      ...(!url || !html ? { failure: Buffer.byteLength(snapshot.html) > MAX_PUBLIC_DOCUMENT_BYTES ? "DOCUMENT_SIZE_LIMIT" as const : "UNSAFE_DOCUMENT" as const } : {}), requests: structuredClone(requests) });
   }
   async captureScreenshot(png: Uint8Array, disposition?: "LAYOUT_ONLY_CONTENT_MASKED"): Promise<void> {
     if (this.finished) throw new Error("Browser recording is already finalized");
@@ -136,28 +120,48 @@ export class BrowserReadRecording {
     await mkdir(path, { recursive: true });
     let screenshot: BrowserReadRecordingResult["screenshot"] = "NOT_CAPTURED_NO_SANITIZER";
     for (const image of this.screenshotImages) await writeFile(resolve(path, image.file), image.png, { flag: "wx" });
-    for (const snapshot of this.documentSnapshots) await writeFile(resolve(path, `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html`), snapshot.html, { flag: "wx" });
+    const pages: RecordingPage[] = this.documentSnapshots.map(page => {
+      let failure = page.failure;
+      const admitted = page.requests.filter(item => item.outcome === "ADMITTED");
+      if (page.url && this.unsafeRedirectPaths.has(responsePath(page.url)) || admitted.some(item => this.unsafeRedirectPaths.has(observedRequestPath(item.origin, item.pathname) ?? "INVALID"))) failure ??= "UNSAFE_REDIRECT";
+      for (const request of admitted) {
+        const dependency = /^(?:xhr|fetch)$/i.test(request.resourceType) ? "UNCAPTURED_DYNAMIC_RESPONSE" : ["script", "stylesheet"].includes(request.resourceType) ? "UNCAPTURED_STATIC_DEPENDENCY" : undefined;
+        const requestPath = observedRequestPath(request.origin, request.pathname);
+        if (request.method === "OPTIONS") failure ??= "UNCAPTURED_DYNAMIC_RESPONSE";
+        if (dependency && (!requestPath || this.uncapturedResponsePaths.has(requestPath) || ![...this.responses.keys()].some(url => responsePath(url) === requestPath))) failure ??= dependency;
+      }
+      return { snapshot: page.snapshot, ...(page.url ? { url: page.url } : {}), status: failure ? "NOT_REPLAYABLE" : "REPLAYABLE", reason: failure ?? "SANITIZED_NETWORK_AND_DOM_CAPTURE" };
+    });
+    const qualified = this.documentSnapshots.filter((_, index) => pages[index]!.status === "REPLAYABLE");
+    for (const snapshot of qualified) {
+      this.documents.set(snapshot.url!, snapshot.html!);
+      await writeFile(resolve(path, `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html`), snapshot.html!, { flag: "wx" });
+    }
     if (this.screenshotImages.length) screenshot = "LAYOUT_ONLY_CONTENT_MASKED";
     let replay: Replay;
-    if ([...this.dynamicPaths].some(path => this.uncapturedResponsePaths.has(path) || ![...this.responses.keys()].some(url => responsePath(url) === path))) this.replayFailure ??= "UNCAPTURED_DYNAMIC_RESPONSE";
-    if ([...this.requiredStaticPaths].some(path => this.uncapturedResponsePaths.has(path) || ![...this.responses.keys()].some(url => responsePath(url) === path))) this.replayFailure ??= "UNCAPTURED_STATIC_DEPENDENCY";
-    if (this.replayFailure) replay = { status: "NOT_REPLAYABLE", reason: this.replayFailure };
-    else if (!this.documents.size) replay = { status: "NOT_REPLAYABLE", reason: "NO_CAPTURED_PUBLIC_DOCUMENT" };
-    else { const harPath = resolve(path, "replay.har"); await writeFile(harPath, JSON.stringify(sanitizedHar(this.documents, this.responses), null, 2), { flag: "wx" }); replay = { status: "REPLAYABLE", reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE", harPath }; }
+    if (!qualified.length) replay = { status: "NOT_REPLAYABLE", reason: pages[0]?.reason as ReplayFailure ?? "NO_CAPTURED_PUBLIC_DOCUMENT" };
+    else {
+      // Never resurrect a rejected document through its response body. Safe
+      // non-document dependencies and redirects remain available to good pages.
+      const responses = new Map([...this.responses].filter(([url, response]) => !/html/.test(response.mimeType) || this.documents.has(url) || response.redirectLocation && this.documents.has(response.redirectLocation)));
+      const harPath = resolve(path, "replay.har");
+      await writeFile(harPath, JSON.stringify(sanitizedHar(this.documents, responses), null, 2), { flag: "wx" });
+      replay = { status: qualified.length === pages.length ? "REPLAYABLE" : "PARTIALLY_REPLAYABLE", reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE", harPath };
+    }
     const stylesheets: Array<{ url: string; file: string; sha256: string; bytes: number }> = [];
     for (const [url, css] of this.stylesheets) {
       const file = `stylesheet-${String(stylesheets.length + 1).padStart(4, "0")}.css`;
       await writeFile(resolve(path, file), css, { flag: "wx" });
       stylesheets.push({ url, file, sha256: createHash("sha256").update(css).digest("hex"), bytes: Buffer.byteLength(css) });
     }
-    const recording = { schemaVersion: "browser-read-recording@3", stylesheets, status: "RECORDED", entries: this.entries, documents: this.documentSnapshots.map(snapshot => ({ snapshot: snapshot.snapshot, url: snapshot.url, file: `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html` })), screenshot, screenshots: this.screenshots, replay: replay.status === "REPLAYABLE" ? { ...replay, harPath: "replay.har" } : replay, contentSha256: createHash("sha256").update(JSON.stringify(this.entries)).digest("hex") };
-    await writeFile(resolve(path, "recording.json"), JSON.stringify(recording, null, 2), { flag: "wx" }); return { path, screenshot, replay };
+    const recording = { schemaVersion: "browser-read-recording@4", stylesheets, status: "RECORDED", entries: this.entries, pages, documents: qualified.map(snapshot => ({ snapshot: snapshot.snapshot, url: snapshot.url, file: `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html` })), screenshot, screenshots: this.screenshots, replay: replay.status !== "NOT_REPLAYABLE" ? { ...replay, harPath: "replay.har" } : replay, contentSha256: createHash("sha256").update(JSON.stringify(this.entries)).digest("hex") };
+    await writeFile(resolve(path, "recording.json"), JSON.stringify(recording, null, 2), { flag: "wx" }); return { path, screenshot, replay, pages };
   }
 }
 const safeQueryKeys = new Set(["date", "time", "num_people", "start_date", "start_time", "pax", "party", "guests", "visit_date", "visit_time", "member", "vac_net", "svd", "svps", "svt", "rst_id", "plan_id", "seat_only", "exclude_unavailable_time", "availability_format", "availability_mode"]);
 const MAX_PUBLIC_STATIC_CODE_BYTES = 2_500_000;
-/** The renewed Tabelog source pages measured at most 311KB after load. */
-const MAX_PUBLIC_DOCUMENT_BYTES = 400_000;
+/** Measured Tabelog 410-430KB and TableCheck 464-743KB public pages. */
+const MAX_PUBLIC_DOCUMENT_BYTES = 1_000_000;
 /** Exact admitted stylesheet metadata can retain cache-busters, never credential or PII query fields. */
 function publicStylesheetRecordingRule(value: string): BrowserReadNetworkRequestRule | undefined {
   try {
@@ -212,7 +216,7 @@ function reviewedPublicReadUrl(value: string, reviewedReads: readonly BrowserRea
 }
 function safeReplayUrl(value: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined { try { const u = new URL(value); const protocolAllowed = u.protocol === "https:" || (u.protocol === "http:" && /^(?:127\.0\.0\.1|localhost|::1)$/.test(u.hostname)); if (!protocolAllowed || u.username || u.password || (![...u.searchParams.keys()].every(key => safeQueryKeys.has(key)) && !reviewedStaticScriptUrl(u.toString(), staticResources) && !reviewedStaticStylesheetUrl(u.toString(), staticResources) && !reviewedPublicReadUrl(u.toString(), reviewedReads))) return undefined; u.hash = ""; return u.toString(); } catch { return undefined; } }
 function sanitizePublicHtml(html: string, sourceUrl: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined {
-  if (html.length > MAX_PUBLIC_DOCUMENT_BYTES) return undefined;
+  if (Buffer.byteLength(html) > MAX_PUBLIC_DOCUMENT_BYTES) return undefined;
   const preservedJsonLd: string[] = [];
   let result = html.replace(/<!--[\s\S]*?-->|<(template|iframe|object|embed|svg)\b[\s\S]*?<\/\1\s*>/gi, "")
   result = result.replace(/<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi, (whole, css) => safeReplayCss(css) ? whole : "");
@@ -240,7 +244,7 @@ function sanitizePublicHtml(html: string, sourceUrl: string, staticResources?: r
   result = result.replace(new RegExp(String.raw`<(textarea|select|button)\b(?=[^>]*${sensitiveNamedCarrier})[^>]*>[\s\S]*?<\/\1\s*>`, "gi"), "");
   // Form actions are document requests too.  Keep a Pack-reviewed public
   // search action only under the same grammar used for the document URL;
-  // unknown actions still make the document unavailable for Replay.
+  // unknown actions are removed without changing the method or form structure.
   const forms = sanitizeReplayForms(result, sourceUrl, staticResources, reviewedReads);
   if (forms === undefined) return undefined;
   result = forms;
@@ -312,20 +316,18 @@ function sanitizeReplayForms(
   staticResources?: readonly BrowserReadNetworkRequestRule[],
   reviewedReads?: readonly BrowserReadNetworkRequestRule[],
 ): string | undefined {
-  let unsafe = false;
   const result = html.replace(/<form\b([^>]*)>/gi, (_whole, attrs) => {
     const sanitized = sanitizeReplayForm(attrs, sourceUrl, staticResources, reviewedReads);
-    if (sanitized === undefined) unsafe = true;
-    return sanitized ?? "<form>";
+    return sanitized;
   });
-  return unsafe ? undefined : result;
+  return result;
 }
 function sanitizeReplayForm(
   attrs: string,
   sourceUrl: string,
   staticResources?: readonly BrowserReadNetworkRequestRule[],
   reviewedReads?: readonly BrowserReadNetworkRequestRule[],
-): string | undefined {
+): string {
   const method = attrs.match(/\bmethod\s*=\s*(["'])([^"']+)\1/i)?.[2]?.trim().toLowerCase();
   const action = attrs.match(/\baction\s*=\s*(["'])([^"']*)\1/i)?.[2];
   let safeAction: string | undefined;
@@ -336,10 +338,9 @@ function sanitizeReplayForm(
         staticResources,
         reviewedReads,
       );
-      if (!resolved || new URL(resolved).origin !== new URL(sourceUrl).origin) return undefined;
-      safeAction = resolved;
+      if (resolved && new URL(resolved).origin === new URL(sourceUrl).origin) safeAction = resolved;
     }
-    catch { return undefined; }
+    catch { /* Omit an unreviewed or malformed action destination. */ }
   }
   // Preserve all ordinary structural attributes, including id/class/data used
   // by public scripts and form ownership. The Guard still blocks a replayed

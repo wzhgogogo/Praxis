@@ -33,22 +33,10 @@ function classifyObservedRun(input: { root: RunRecord; findings: DiagnosticFindi
     S1: unknown("No independently established unmet user-need conclusion."), S2: unknown("No valid independent feasible witness supplied."),
     S3: unknown("Experience/latency thresholds belong to E2; not scored here."), S4: unknown("User-invisible retry effects are not independently established.") };
   const finish = input.orchestration?.finish;
-  const signal = finish?.exitCode?.signal ?? finish?.exit?.signal;
-  const interrupted = ["SIGKILL", "SIGTERM"].includes(signal ?? "") && input.orchestration?.interruption?.status?.startsWith("INTERRUPTED");
   const make = (type: RunOutcomeType, reason: string, evidenceRefs: string[], excluded = false): RunOutcome => ({ type, reasons: [reason], evidenceRefs,
     capabilityDenominator: excluded ? "EXCLUDED" : type === "NOT_EVALUATED" ? "NOT_EVALUATED" : "INCLUDED",
     userGoalComplete: type === "QUALIFIED_DELIVERY" ? "YES" : type === "NOT_EVALUATED" ? "NOT_EVALUATED" : "NO" });
   if (input.invalidSample) return { outcome: make("NOT_A_VALID_SAMPLE", input.invalidSample.reason, input.invalidSample.refs, true), severity };
-  if (interrupted) {
-    const outcome = make("ORCHESTRATION_INTERRUPTED", `Outer ${signal} interruption, not a source-confirmed no-result.`, input.orchestration?.refs ?? [], true);
-    // The signal classifies orchestration, not the user's result. In particular,
-    // the two approved result-less bundles cannot establish either YES or NO.
-    outcome.userGoalComplete = input.resultMissing ? "NOT_EVALUATED"
-      : stage("FINAL_CLAIM")?.status === "SATISFIED" && severity.S0.status !== "PRESENT" ? "YES"
-      : stage("FINAL_CLAIM")?.status === "NOT_SATISFIED" || !presented.length && stage("COMPLETION_OUTCOME")?.status === "SATISFIED" ? "NO" : "NOT_EVALUATED";
-    if (input.resultMissing) outcome.reasons.push("result.json missing; user-goal completion is NOT_EVALUATED.");
-    return { outcome, severity };
-  }
   if (finish?.formalRunStarted === false && finish.preflight?.status === "FAILED")
     return { outcome: make("ENV_FAILURE", "Independent outer preflight failed before formal execution.", input.orchestration?.refs ?? [], true), severity };
   if (input.resultMissing) return { outcome: make("NOT_EVALUATED", "result.json missing without sufficient outer interruption records.", input.orchestration?.refs ?? []), severity };
@@ -128,6 +116,22 @@ function classifyObservedRun(input: { root: RunRecord; findings: DiagnosticFindi
 
 export function classifyRunOutcome(input: Parameters<typeof classifyObservedRun>[0] & { reviewedReads?: ReviewedReads }): { outcome: RunOutcome; severity: RunSeverity } {
   const result = classifyObservedRun(input);
+  const finish = input.orchestration?.finish;
+  const outerSignal = finish?.exitCode?.signal ?? finish?.exit?.signal;
+  const own = input.root.interruption;
+  const ownedStop = own && Number.isFinite(Date.parse(own.at ?? "")) && (own.timeoutMs ?? 0) > 0
+    && (own.reason === "SIGNAL" && ["SIGTERM", "SIGINT"].includes(own.signal ?? "")
+      || own.reason === "TIMEOUT" && input.root.failureCode === "RUN_DEADLINE_EXCEEDED"
+      || own.reason === "EXTERNAL_STOP" && input.root.failureCode === "RUN_EXTERNAL_STOP");
+  const outerStop = ["SIGKILL", "SIGTERM"].includes(outerSignal ?? "") && input.orchestration?.interruption?.status?.startsWith("INTERRUPTED");
+  // Classify interruption only after independently auditing displayed claims.
+  if ((ownedStop || outerStop) && result.outcome.type !== "NOT_A_VALID_SAMPLE") {
+    result.outcome = { type: "ORCHESTRATION_INTERRUPTED", capabilityDenominator: "EXCLUDED",
+      userGoalComplete: input.resultMissing ? "NOT_EVALUATED" : result.outcome.type === "QUALIFIED_DELIVERY" ? "YES"
+        : result.severity.S0.status === "PRESENT" || !input.root.finalSnapshot?.domainState?.presentedResults?.candidateIds?.length ? "NO" : "NOT_EVALUATED",
+      reasons: [`Recorded ${ownedStop ? `${own!.reason}${own!.signal ? ` (${own!.signal})` : ""}` : `outer ${outerSignal}`} interruption; not a source-confirmed no-result.`, ...(input.resultMissing ? ["result.json missing; user-goal completion is NOT_EVALUATED."] : [])],
+      evidenceRefs: ownedStop ? ["interruption", "finalSnapshot", "diagnostics.browserTrace"] : input.orchestration?.refs ?? [] };
+  }
   const declaration = result.severity.S0;
   const boundary = auditReadOnlyTrace(input.trace, input.root.diagnostics?.networkRequests ?? [], input.resultMissing, input.reviewedReads);
   const assessments = [declaration, boundary];

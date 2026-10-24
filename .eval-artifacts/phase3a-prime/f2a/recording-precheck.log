@@ -1,0 +1,73 @@
+✔ browser recording writes only an in-memory sanitized public document HAR (5.965834ms)
+✔ browser recording retains a Pack-reviewed public query document within the measured bounded size (5.320458ms)
+✔ browser recording preserves valid JSON-LD geo numbers while redacting its telephone (3.1135ms)
+✖ browser recording keeps a Pack-reviewed public GET form action but rejects an unreviewed query action (4.0685ms)
+✔ browser recording refuses replay when a dynamic response was admitted without a safe captured body (1.1945ms)
+✔ browser recording refuses a snapshot-only replay when an admitted external script was not captured (0.799333ms)
+✔ browser recording keeps a captured safe external script in the replay HAR (1.960709ms)
+✔ browser recording refuses a reviewed script response containing a literal credential (0.95425ms)
+✔ browser recording persists each runtime-masked screenshot with its snapshot (1.662042ms)
+✔ browser recording adds a sanitized admitted public dynamic response to replay only in memory (1.328542ms)
+✔ browser recording rejects HTTP failures and preserves safe CSS visibility in replay documents (1.710625ms)
+✖ browser recording preserves safe form semantics and rejects unsafe form actions (1.620792ms)
+✔ browser recording preserves an admitted public document redirect for replay (1.094458ms)
+✔ recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte (3.634875ms)
+✔ Gold fidelity allows additional UNSPECIFIED context and retains original requirements (5.152292ms)
+✔ page qualification isolates omitted DOM and missing dependencies (4.652167ms)
+✔ page cap admits observed 430KB and 743KB documents and checks UTF-8 byte size (12.002084ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 15
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 158.351417
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/browser-read-recording.test.ts:1:4539
+✖ browser recording keeps a Pack-reviewed public GET form action but rejects an unreviewed query action (4.0685ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   harPath: '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-browser-recording-IbI2eR/unreviewed-query-form/replay.har',
+  +   reason: 'SANITIZED_NETWORK_AND_DOM_CAPTURE',
+  +   status: 'REPLAYABLE'
+  -   reason: 'UNSAFE_DOCUMENT',
+  -   status: 'NOT_REPLAYABLE'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/browser-read-recording.test.ts:96:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { status: 'REPLAYABLE', reason: 'SANITIZED_NETWORK_AND_DOM_CAPTURE', harPath: '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-browser-recording-IbI2eR/unreviewed-query-form/replay.har' },
+    expected: { status: 'NOT_REPLAYABLE', reason: 'UNSAFE_DOCUMENT' },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/browser-read-recording.test.ts:1:13839
+✖ browser recording preserves safe form semantics and rejects unsafe form actions (1.620792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   harPath: '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-browser-recording-XDV7wp/unsafe-form/replay.har',
+  +   reason: 'SANITIZED_NETWORK_AND_DOM_CAPTURE',
+  +   status: 'REPLAYABLE'
+  -   reason: 'UNSAFE_DOCUMENT',
+  -   status: 'NOT_REPLAYABLE'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/browser-read-recording.test.ts:216:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { status: 'REPLAYABLE', reason: 'SANITIZED_NETWORK_AND_DOM_CAPTURE', harPath: '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-browser-recording-XDV7wp/unsafe-form/replay.har' },
+    expected: { status: 'NOT_REPLAYABLE', reason: 'UNSAFE_DOCUMENT' },
+    operator: 'deepStrictEqual'
+  }

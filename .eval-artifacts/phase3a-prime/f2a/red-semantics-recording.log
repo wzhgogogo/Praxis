@@ -1,0 +1,69 @@
+✖ Gold fidelity allows additional UNSPECIFIED context and retains original requirements (4.136667ms)
+✖ page qualification isolates omitted DOM and missing dependencies (5.051875ms)
+✖ page cap admits observed 430KB and 743KB documents and checks UTF-8 byte size (3.212875ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 132.026458
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/eval-recording-repair.test.ts:1:434
+✖ Gold fidelity allows additional UNSPECIFIED context and retains original requirements (4.136667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_SATISFIED'
+  - 'SATISFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/eval-recording-repair.test.ts:18:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_SATISFIED',
+    expected: 'SATISFIED',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/eval-recording-repair.test.ts:1:1831
+✖ page qualification isolates omitted DOM and missing dependencies (5.051875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_REPLAYABLE'
+  - 'PARTIALLY_REPLAYABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/eval-recording-repair.test.ts:34:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_REPLAYABLE',
+    expected: 'PARTIALLY_REPLAYABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/eval-recording-repair.test.ts:1:3468
+✖ page cap admits observed 430KB and 743KB documents and checks UTF-8 byte size (3.212875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_REPLAYABLE'
+  - 'PARTIALLY_REPLAYABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/eval-recording-repair.test.ts:51:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_REPLAYABLE',
+    expected: 'PARTIALLY_REPLAYABLE',
+    operator: 'strictEqual'
+  }
