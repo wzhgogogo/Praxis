@@ -422,11 +422,13 @@ test('B1 all A3 endings retain the remaining500s/50call window at the next sourc
 
 
 test('X3 a whole saved collection cannot be replayed into another read run with the same intent',async()=>{
- const budget={totalModelCalls:20,maxModelCalls:50},f=provisionalFixture({points:[southwest,southwest],budget});
+ for(const points of [[southwest,southwest],[null,null,null,null,null,null,null]]) {
+ const budget={totalModelCalls:20,maxModelCalls:50},f=provisionalFixture({points,budget});
  const first=await f.native.search({...f.request,readRunId:'task-one:run-one'},new AbortController().signal);
  assert.equal(first.continuation!.sourceProgress!.regionEntrances!.readRunId,'task-one:run-one');
  const previousVisits=f.navigations.length,previousCalls=budget.totalModelCalls;
  const second=await f.native.search({...f.request,readRunId:'task-two:run-two',continuation:JSON.parse(JSON.stringify(first.continuation))},new AbortController().signal);
- assert.equal(second.metadata.nativeDiscoveryFunnel!.directoryRegion!.stopReason,'INVALID_OBSERVED_ENTRANCE_SCOPE');assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceEnded,true);assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceExhausted,'UNKNOWN');
+ assert.equal(second.metadata.nativeDiscoveryFunnel!.directoryRegion!.stopReason,'INVALID_OBSERVED_ENTRANCE_SCOPE');assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceEnded,true,'terminal scope rejection must end source despite pending details');assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceExhausted,'UNKNOWN');
  assert.equal(f.navigations.length,previousVisits);assert.equal(budget.totalModelCalls,previousCalls);assert.equal(f.corrections,0);
+ }
 });

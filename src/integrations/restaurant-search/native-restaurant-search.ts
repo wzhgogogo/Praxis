@@ -1299,7 +1299,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         const failedProgress = nativeError.nativeProgress;
         batch = { ...batch, funnel: { ...failedFunnel,
           sourceEnded: failedProgress
-            ? failedProgress.pendingSourceEntries.length === 0
+            ? !!failedProgress.directoryRegion?.stopReason
+              || failedProgress.pendingSourceEntries.length === 0
               || failedProgress.detailAttempts >= failedFunnel.sourceDetailCap
               || failedFunnel.sourceTimeLimitReached
             : failedFunnel.sourceEnded,
