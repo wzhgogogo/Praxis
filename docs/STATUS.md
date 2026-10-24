@@ -1,9 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.388
+- Document revision: 4.390
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-24-PHASE3A-PRIME-LONG-TURN-A:** 对话A长回合四项完成，按停止条件7等复核。诊断DOM补丁合入并推送main/e0e1037e；F2③与F2④b/估算分别留工作分支。四轮五门禁全绿、每项后净工作树；0真实模型/Google/网站/Live/环境重跑，3864/473行不增。完整录制齐备时额度内6次未来F5 Live加15回放约23.8分钟，未实测，F5录制验证延期。 [报告](../.eval-artifacts/phase3a-prime/long-turn-a/report.md)。
+
+- **2026-10-24-PHASE3A-PRIME-ROUND-ESTIMATE:** 15例规模耗时估算完成，未运行Live。完整录制齐备时6次未来F5 Live加15回放工作假设约23.8分钟；15次全新Live加回放约56分钟，仅规模参照且超8次Live额度。deadline或健康重试情景超过1小时，当前完整录制覆盖未证实。五门禁1028/152全绿。 [报告](../.eval-artifacts/phase3a-prime/round-estimate/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-F2D-REPLAY:** F2④b候选完成：真实Chromium/Guard使用合格文档/HAR原样重放；OS断网仍复现相同非空候选和交付，缺响应/第3页不合格明确REPLAY_INCOMPLETE，未回放部分不计pass/fail，回放排除Live分母。五门禁1028/152全绿，0新增调用，未合main；F5录制验证延期。 [报告](../.eval-artifacts/phase3a-prime/f2d-replay/report.md)。
 

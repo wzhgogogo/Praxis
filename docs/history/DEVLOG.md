@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.281
+- Document revision: 4.283
 - Last updated: 2026-10-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4583,3 +4583,11 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-24-PHASE3A-PRIME-F2D-REPLAY
 
 2026-10-24 Europe/Vienna。回放入口使用原始决策或REAL工厂接线，后者仅fixture验证；runtime clock平移但elapsed正常，Guard、原预算和产品Schema不变。pages诊断DOM不参与回放，原始Google响应缺失不从State补造。 [报告](../../.eval-artifacts/phase3a-prime/f2d-replay/report.md)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-ROUND-ESTIMATE
+
+2026-10-24 Europe/Vienna。冻结算术脚本、15例规模、同源等待及回放成本假设；采用两个固定worker队列，区分额度内未来F5组合与15次全新Live参照，不改变预算或执行授权。 [报告](../../.eval-artifacts/phase3a-prime/round-estimate/report.md)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-LONG-TURN-A
+
+2026-10-24 Europe/Vienna。F2①②按用户复核通过；补诊断DOM后第一项main快进e0e1037e127bd0264d85c6ab27708179c3f7766f并推送核验。随后完成跨进程2运行节奏与严格离线回放，均只推分支；未改产品/Prompt/产品Schema/Guard或对话B共享文件，原9份用户文件保持。四项后停止。 [报告](../../.eval-artifacts/phase3a-prime/long-turn-a/report.md)。

@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.288
+- Document revision: 4.290
 - Last updated: 2026-10-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5299,3 +5299,11 @@ Europe/Vienna。最终受测442523111bb85297494af30054c3dc18a8ef56c2，576项/10
 ## TEST-2026-10-24-PHASE3A-PRIME-F2D-REPLAY
 
 2026-10-24 Europe/Vienna。删除CSS触发本机1次请求的有效红灯，修复后0；同一先提交的种子在OS deny network-outbound下四控制PASS。完整5页/4决策与原非空候选/交付/offer相同，独立声明及边界S0 ABSENT；删结构化响应及第3页不合格为NOT_EVALUATED。受测a5c0535a2c894c1467d02fe604aa8c3c8d0f2146五门禁1028/152、每项后净工作树、恢复0。 [报告](../../.eval-artifacts/phase3a-prime/f2d-replay/report.md)。
+
+## TEST-2026-10-24-PHASE3A-PRIME-ROUND-ESTIMATE
+
+2026-10-24 Europe/Vienna。15×500/2平均公式漏算末波的红灯有效，正确8波4000秒绿灯；15条旧attempt中11条可读耗时只作历史锚点。受测d5045c61d50a5b127253d09bc03ba7644a765230五门禁1028/152，每项后净工作树、580项冻结匹配，实际一轮测量延期F5之后，0新增调用。 [报告](../../.eval-artifacts/phase3a-prime/round-estimate/report.md)。
+
+## TEST-2026-10-24-PHASE3A-PRIME-LONG-TURN-A
+
+2026-10-24 Europe/Vienna。诊断DOM、节奏、回放与估算四项各有效红绿且五门禁全绿，默认均1028、Chromium依次141/147/152/152，每项前后状态空、恢复0。OS断网5页4决策回放同候选/交付/offer、完整独立声明及边界S0 ABSENT；未回放部分NOT_EVALUATED且排除Live分母。15例规模仅估算，完整录制覆盖与F5实测仍待办；0新增外部服务调用。 [报告](../../.eval-artifacts/phase3a-prime/long-turn-a/report.md)。
