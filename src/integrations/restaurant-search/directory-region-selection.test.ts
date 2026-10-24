@@ -247,3 +247,45 @@ test('early region reference reading keeps the shared positive HARD retrieval an
  assert.equal(f.googleCalls,1);assert.equal(f.planningCalls,planningCalls);
  assert.deepEqual(f.request.intent.criteria,[{text:'omakase',polarity:'POSITIVE',strength:'HARD'}]);
 });
+
+// Local-constructed R1 control. Region labels/hrefs are projected from exposed
+// D1 decisions5–10 @3ec38584; HTML and JSON-LD are synthetic, not website Replay.
+const d1Root='https://tabelog.com/en/tokyo/';
+const d1Parent='https://tabelog.com/en/tokyo/A1322/';
+const d1Child='https://tabelog.com/en/tokyo/A1322/A132201/';
+const d1Alternate='https://tabelog.com/en/tokyo/A1323/';
+const akabanePoint={latitude:35.7799638,longitude:139.723053};
+function provisionalFixture() {
+ const navigations:string[]=[];let steps=0;
+ const runtime:BrowserRuntime={openSession:async()=>{
+  let page:BrowserSnapshot={url:'about:blank',title:'Local constructed',text:'',html:''};
+  return {
+   metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now},
+   navigate:async(url)=>{
+    navigations.push(url);const actual=url===root?d1Root:url;let html='';
+    if(actual===d1Root)html=`<a href="${d1Parent}">Itabashi &amp; Along Tobu Railway Line</a><a href="${d1Alternate}">Sugamo</a>`;
+    else if(actual===d1Parent)html=`<a href="${d1Child}">Kita-Ikebukuro &amp; Itabashi St. Area</a>`;
+    else if(actual===d1Child)html=[1,2].map(n=>`<a class="list-rst__rst-name-target" href="${d1Child}1300000${n}/">Local Outlet ${n}</a>`).join('');
+    else {const n=actual.includes('13000001')?1:2;html=`<h1>Local Outlet ${n}</h1><p class="rstinfo-table__address">Tokyo</p><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:`Local Outlet ${n}`,address:'Tokyo',geo:akabanePoint})}</script>`;}
+    page={url:actual,title:'Local constructed D1 control',text:html.replace(/<[^>]*>/g,' '),html};
+   },
+   snapshot:async()=>page,
+   observeControls:async()=>[...page.html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m,n)=>({id:String(n),stableKey:m[1]!,kind:'LINK' as const,role:'link',label:m[2]!.replaceAll('&amp;','&'),href:m[1]!,visible:true,disabled:false})),
+   click:async()=>{throw Error('No local click');},fill:async()=>{throw Error('No local fill');},select:async()=>[],waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{},
+  };
+ }};
+ const decision:BrowserReadActionDecisionPort={decide:async input=>{
+  steps++;const href=steps===1?d1Parent:steps===2?d1Child:undefined;
+  if(href){const target=input.observation.targets.find(t=>t.href===href)!;return {type:'OPEN_LINK',targetRef:target.ref,reason:'D1 observed entrance'};}
+  return steps===3?{type:'COMPLETE',reason:'Observed local list'}:{type:'REQUEST_HUMAN_HELP',reason:'Bounded old-predicate control'};
+ }};
+ const google=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:async()=>{throw Error('No network');}}));
+ const native=new NativeRestaurantSearch(runtime,google,fixtureRetrieval,()=>now,undefined,decision,undefined,undefined,{maxAutomaticElapsedMs:500_000,maxModelCallsPerCandidate:12,maxModelCallsTotal:50,maxOperationsPerCandidate:80},undefined,[tabelogDiscoveryPack]);
+ const namedIntent={...intent,area:{query:'near Akabane',radiusMeters:1000}};
+ const request={intent:namedIntent,continuation:{intentFingerprint:JSON.stringify(namedIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...akabanePoint,radiusMeters:1000,label:'Akabane',areaMatchBasis:'NAMED_PLACE_RADIUS' as const}}};
+ return {native,request,navigations};
+}
+test('R1 D1 unbound observed entrance reaches detail sampling before a place label or pointer is available',async()=>{
+ const f=provisionalFixture();const result=await f.native.search(f.request,new AbortController().signal);
+ assert.ok(result.metadata.nativeDiscoveryFunnel!.inspectedOutlets>0,'R1: namedEntrance must not prevent all coordinate sampling');
+});

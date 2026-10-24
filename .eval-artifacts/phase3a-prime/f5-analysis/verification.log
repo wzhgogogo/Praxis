@@ -1,0 +1,25 @@
+F5 offline analysis verification, 2026-10-24 Asia/Shanghai
+
+Mode: immutable Git blob reads and arithmetic extraction. No product runtime.
+
+Preparation corrections (not product regressions):
+- First ordinary-shell generation was denied by the filesystem sandbox for the managed worktree. The same authorized local write succeeded with sandbox escalation. No external call occurred.
+- The initial monthly navigation check counted only DEV-/TEST-prefixed labels, omitting older human-readable titles. Check now counts every dated row; base table counts were 259/266 while headings said260/267, and adding this record makes actual counts260/267. Historical log entries unchanged.
+- OPERATION_FAILED.detail contains an error message rather than an operation name. Extraction now pairs only a unique pending operation for the same source/candidate. A no-start failure (D2 trace155) and one unfinished operation stay explicit gaps. No time is fabricated.
+- Staging exposed the CSV writer's default CRLF as trailing whitespace. Generated CSVs now use explicit LF; staged diff check rerun after regeneration.
+
+Final static checks:
+PASS report file links22; missing0
+PASS immutable input SHA25629; mismatches0
+PASS independent literal elapsed/call controls:500111/37,500075/40,457907/47,457674/47; interrupted29
+PASS diagnostic OPTIONS occurrence controls41/95
+PASS per-source name-resolution sums115436/115695 and54144/216618ms
+PASS monthly dated table rows260/267
+PASS no credential patterns or copied map-query values in new artifacts
+PASS unchanged product/tests/runners/policy/approved instruction/budget vs main2ada8a69
+PASS git diff --check
+
+Five product gates: NOT_RUN for this analysis; reused main-check historical baseline only.
+Product repair red/green: NOT_APPLICABLE; no repair implemented.
+Mock/Replay/Live Read-only/Controlled Live-write: NOT_RUN.
+New model/Google/restaurant-website/Live calls:0/0/0/0.
