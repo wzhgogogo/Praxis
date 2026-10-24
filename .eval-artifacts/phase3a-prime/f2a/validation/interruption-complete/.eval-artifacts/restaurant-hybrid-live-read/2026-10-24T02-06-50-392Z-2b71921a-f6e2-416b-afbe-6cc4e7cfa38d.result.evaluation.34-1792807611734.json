@@ -1,0 +1,504 @@
+{
+  "outcome": {
+    "type": "QUALIFIED_DELIVERY",
+    "reasons": [
+      "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+    ],
+    "evidenceRefs": [
+      "loop",
+      "finalSnapshot.domainState.presentedResults",
+      "finalSnapshot.domainState.availability",
+      "finalSnapshot.domainState.readEvidence"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "YES"
+  },
+  "severity": {
+    "S0": {
+      "status": "ABSENT",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+        "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "ABSENT",
+      "reasons": [
+        "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+      ],
+      "evidenceRefs": [
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": []
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [
+    {
+      "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+      "criteria": []
+    }
+  ],
+  "conditionStateComparisons": [],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": null,
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 0,
+    "maxConsecutiveNoNewObservation": 1,
+    "noNewObservationRuns": [],
+    "sameFailureRuns": [],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": [
+        {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "count": 3,
+          "reloads": 2
+        }
+      ]
+    },
+    "violations": [],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "SATISFIED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [
+      {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 0,
+          "candidateRuntimeOperations": 9,
+          "elapsedMs": 1299
+        },
+        "refs": [
+          "diagnostics.browserExecution[0]",
+          "diagnostics.browserExecution[1]",
+          "diagnostics.browserExecution[2]",
+          "diagnostics.browserExecution[3]",
+          "diagnostics.browserExecution[30]",
+          "diagnostics.browserExecution[31]",
+          "diagnostics.browserExecution[32]",
+          "browserTrace[sequence=1]",
+          "browserTrace[sequence=2]",
+          "browserTrace[sequence=3]",
+          "browserTrace[sequence=5]",
+          "browserTrace[sequence=50]",
+          "browserTrace[sequence=51]",
+          "browserTrace[sequence=52]"
+        ]
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 0,
+          "candidateRuntimeOperations": 5,
+          "elapsedMs": 876
+        },
+        "refs": [
+          "diagnostics.browserExecution[4]",
+          "diagnostics.browserExecution[5]",
+          "diagnostics.browserExecution[6]",
+          "diagnostics.browserExecution[7]",
+          "diagnostics.browserExecution[8]",
+          "diagnostics.browserExecution[9]",
+          "diagnostics.browserExecution[10]",
+          "diagnostics.browserExecution[11]",
+          "diagnostics.browserExecution[12]",
+          "diagnostics.browserExecution[13]",
+          "diagnostics.browserExecution[14]",
+          "diagnostics.browserExecution[15]",
+          "diagnostics.browserExecution[16]",
+          "diagnostics.browserExecution[17]",
+          "diagnostics.browserExecution[18]",
+          "browserTrace[sequence=6]",
+          "browserTrace[sequence=9]",
+          "browserTrace[sequence=12]",
+          "browserTrace[sequence=13]",
+          "browserTrace[sequence=15]",
+          "browserTrace[sequence=16]",
+          "browserTrace[sequence=17]",
+          "browserTrace[sequence=20]",
+          "browserTrace[sequence=23]",
+          "browserTrace[sequence=24]",
+          "browserTrace[sequence=26]",
+          "browserTrace[sequence=27]",
+          "browserTrace[sequence=28]",
+          "browserTrace[sequence=30]",
+          "browserTrace[sequence=31]"
+        ]
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 0,
+          "candidateRuntimeOperations": 9,
+          "elapsedMs": 1295
+        },
+        "refs": [
+          "diagnostics.browserExecution[19]",
+          "diagnostics.browserExecution[20]",
+          "diagnostics.browserExecution[21]",
+          "diagnostics.browserExecution[22]",
+          "diagnostics.browserExecution[23]",
+          "diagnostics.browserExecution[24]",
+          "diagnostics.browserExecution[25]",
+          "diagnostics.browserExecution[26]",
+          "diagnostics.browserExecution[27]",
+          "diagnostics.browserExecution[28]",
+          "diagnostics.browserExecution[29]",
+          "browserTrace[sequence=32]",
+          "browserTrace[sequence=35]",
+          "browserTrace[sequence=38]",
+          "browserTrace[sequence=39]",
+          "browserTrace[sequence=41]",
+          "browserTrace[sequence=42]",
+          "browserTrace[sequence=43]",
+          "browserTrace[sequence=45]",
+          "browserTrace[sequence=46]",
+          "browserTrace[sequence=47]",
+          "browserTrace[sequence=49]"
+        ]
+      }
+    ],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": []
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": []
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@34",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@30",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f2a/validation/interruption-complete/.eval-artifacts/restaurant-hybrid-live-read/2026-10-24T02-06-50-392Z-2b71921a-f6e2-416b-afbe-6cc4e7cfa38d.result.json",
+    "sha256": "f0231b23552b4af699145e26ca0ca1d5e32eb2b45d3fd26e524e82f9dcbaa048",
+    "runId": "2b71921a-f6e2-416b-afbe-6cc4e7cfa38d",
+    "caseId": "interruption-fixture"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "YES",
+    "systemBehavior": "SUPPORTED_BY_EVIDENCE",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+      "outletName": "Fixture restaurant",
+      "providers": [
+        "TABLECHECK"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABLECHECK",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:a8824ff73c6a6abab0c5a757]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:a8824ff73c6a6abab0c5a757]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:69c3328dae4ace69434817fc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:5b63f7bbfb6ffc94d2767bc9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:4354c2f6a77fe37452c4f96a]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "SATISFIED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "candidate=praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "citedEvidence=5",
+        "offers=1"
+      ],
+      "directCause": "Every presented candidate has independently linked evidence.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:a8824ff73c6a6abab0c5a757]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:a8824ff73c6a6abab0c5a757]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:69c3328dae4ace69434817fc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:5b63f7bbfb6ffc94d2767bc9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:4354c2f6a77fe37452c4f96a]",
+        "finalSnapshot.domainState.availability[praxis:restaurant:f16d05ec6b29248d2c61adb1][id=offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2]",
+        "browserTrace[sequence=44]"
+      ],
+      "downstreamImpact": "The presentation is independently supported."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "raw TableCheck snapshot sequence 44 reports AVAILABLE for the requested date, party size, and time.",
+        "executedObservations=3",
+        "applicableObservations=3",
+        "executedInvestigationVisits=1",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=0",
+        "maxConsecutiveNoNewObservation=1"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "browserTrace[sequence=44]"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "SATISFIED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "presentedCandidates=1"
+      ],
+      "directCause": "Terminal presentation and independently evaluated evidence agree.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "Execution produced a qualified read-only result."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "SATISFIED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [],
+      "directCause": "Readable model/operation counters remain within actual executor limits and declared run ceilings; unavailable time-limit scopes remain explicit.",
+      "rootCauseHypothesis": "Runner limit/accounting requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations",
+        "diagnostics.browserExecution[0]",
+        "diagnostics.browserExecution[1]",
+        "diagnostics.browserExecution[2]",
+        "diagnostics.browserExecution[3]",
+        "diagnostics.browserExecution[30]",
+        "diagnostics.browserExecution[31]",
+        "diagnostics.browserExecution[32]",
+        "browserTrace[sequence=1]",
+        "browserTrace[sequence=2]",
+        "browserTrace[sequence=3]",
+        "browserTrace[sequence=5]",
+        "browserTrace[sequence=50]",
+        "browserTrace[sequence=51]",
+        "browserTrace[sequence=52]",
+        "diagnostics.browserExecution[4]",
+        "diagnostics.browserExecution[5]",
+        "diagnostics.browserExecution[6]",
+        "diagnostics.browserExecution[7]",
+        "diagnostics.browserExecution[8]",
+        "diagnostics.browserExecution[9]",
+        "diagnostics.browserExecution[10]",
+        "diagnostics.browserExecution[11]",
+        "diagnostics.browserExecution[12]",
+        "diagnostics.browserExecution[13]",
+        "diagnostics.browserExecution[14]",
+        "diagnostics.browserExecution[15]",
+        "diagnostics.browserExecution[16]",
+        "diagnostics.browserExecution[17]",
+        "diagnostics.browserExecution[18]",
+        "browserTrace[sequence=6]",
+        "browserTrace[sequence=9]",
+        "browserTrace[sequence=12]",
+        "browserTrace[sequence=13]",
+        "browserTrace[sequence=15]",
+        "browserTrace[sequence=16]",
+        "browserTrace[sequence=17]",
+        "browserTrace[sequence=20]",
+        "browserTrace[sequence=23]",
+        "browserTrace[sequence=24]",
+        "browserTrace[sequence=26]",
+        "browserTrace[sequence=27]",
+        "browserTrace[sequence=28]",
+        "browserTrace[sequence=30]",
+        "browserTrace[sequence=31]",
+        "diagnostics.browserExecution[19]",
+        "diagnostics.browserExecution[20]",
+        "diagnostics.browserExecution[21]",
+        "diagnostics.browserExecution[22]",
+        "diagnostics.browserExecution[23]",
+        "diagnostics.browserExecution[24]",
+        "diagnostics.browserExecution[25]",
+        "diagnostics.browserExecution[26]",
+        "diagnostics.browserExecution[27]",
+        "diagnostics.browserExecution[28]",
+        "diagnostics.browserExecution[29]",
+        "browserTrace[sequence=32]",
+        "browserTrace[sequence=35]",
+        "browserTrace[sequence=38]",
+        "browserTrace[sequence=39]",
+        "browserTrace[sequence=41]",
+        "browserTrace[sequence=42]",
+        "browserTrace[sequence=43]",
+        "browserTrace[sequence=45]",
+        "browserTrace[sequence=46]",
+        "browserTrace[sequence=47]",
+        "browserTrace[sequence=49]"
+      ],
+      "downstreamImpact": "Recorded budget use can be reviewed."
+    }
+  ],
+  "unassessedDimensions": [
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ]
+}

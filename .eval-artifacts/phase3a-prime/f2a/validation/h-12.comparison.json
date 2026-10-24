@@ -1,0 +1,457 @@
+{
+  "status": "PASS",
+  "inputSha256": "25fc42526184c848e8805ae482e667ae48078737b28bf216575862f155255e87",
+  "baselineCommit": "f42715c2",
+  "singleRuleExplainsEntireDelta": true,
+  "independentDimensionsUnchanged": [
+    "REQUIRED_EVIDENCE",
+    "INVESTIGATION_BEHAVIOR",
+    "RESOURCES"
+  ],
+  "changes": [
+    {
+      "path": "outcome.type",
+      "before": "DELIVERED_UNQUALIFIED",
+      "after": "QUALIFIED_DELIVERY"
+    },
+    {
+      "path": "outcome.reasons.0",
+      "before": "Recorded presentation contradicts frozen request or independently checked source support.",
+      "after": "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+    },
+    {
+      "path": "outcome.evidenceRefs.0",
+      "before": "materializedCase.semantic",
+      "after": "loop"
+    },
+    {
+      "path": "outcome.evidenceRefs.1",
+      "before": "finalSnapshot.domainState.intentDraft",
+      "after": "finalSnapshot.domainState.presentedResults"
+    },
+    {
+      "path": "outcome.evidenceRefs.2",
+      "before": ".eval-artifacts/phase3a-prime/f2a/inputs/h12-context/13164267.body.txt#sha256=56ee89e7db67736a1f7218d800e2616e2c3547b80f1d2e144dcc645295b14322",
+      "after": "finalSnapshot.domainState.availability"
+    },
+    {
+      "path": "outcome.evidenceRefs.3",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:b7cf23453836abd7a16cf74b]",
+      "after": "finalSnapshot.domainState.readEvidence"
+    },
+    {
+      "path": "outcome.evidenceRefs.4",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:5feb1910fab6d1f6339290cc]"
+    },
+    {
+      "path": "outcome.evidenceRefs.5",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:d4a066850161134ead6467a4]"
+    },
+    {
+      "path": "outcome.evidenceRefs.6",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:b70dc89381246c11b9bbcbb6]"
+    },
+    {
+      "path": "outcome.evidenceRefs.7",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:17:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.8",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:17:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.9",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:18:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.10",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:18:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.11",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:18:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.12",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:18:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.13",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:19:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.14",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:19:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.15",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:19:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.16",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:19:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.17",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:20:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.18",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:20:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.19",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:20:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.20",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:20:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.21",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13164267][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13164267:2026-10-30:21:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.22",
+      "before": ".eval-artifacts/phase3a-prime/f2a/inputs/h12-context/13318138.body.txt#sha256=a993f3cb95a3613001a3fe703d379478dbc9a98c38d748233e08f2d25ccd4a6a"
+    },
+    {
+      "path": "outcome.evidenceRefs.23",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:5f373ada4dc0c17bdb9f01d4]"
+    },
+    {
+      "path": "outcome.evidenceRefs.24",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:013a9f8cc7ccf3f4cb8309b0]"
+    },
+    {
+      "path": "outcome.evidenceRefs.25",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:8f4cdf145588b1755f28e739]"
+    },
+    {
+      "path": "outcome.evidenceRefs.26",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf]"
+    },
+    {
+      "path": "outcome.evidenceRefs.27",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-23T07:13:16.431Z:tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf]"
+    },
+    {
+      "path": "outcome.evidenceRefs.28",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:17:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.29",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:17:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.30",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:18:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.31",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:18:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.32",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:18:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.33",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:18:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.34",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:19:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.35",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:19:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.36",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:19:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.37",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:19:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.38",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:20:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.39",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:20:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.40",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:20:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.41",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:20:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.42",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:21:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.43",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:21:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.44",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:21:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.45",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:21:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.46",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13318138][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-30:22:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.47",
+      "before": ".eval-artifacts/phase3a-prime/f2a/inputs/h12-context/13196646.body.txt#sha256=3d1f63dce6d7cb4f9ae415b41c7803d697c38e065e92a89e39fc0dbec8f2426b"
+    },
+    {
+      "path": "outcome.evidenceRefs.48",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:6963595543260d8fb5f3b5db]"
+    },
+    {
+      "path": "outcome.evidenceRefs.49",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:d5b53e4343db2edfd0d40aad]"
+    },
+    {
+      "path": "outcome.evidenceRefs.50",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:96b406bdbb343f613b199418]"
+    },
+    {
+      "path": "outcome.evidenceRefs.51",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365]"
+    },
+    {
+      "path": "outcome.evidenceRefs.52",
+      "before": "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-23T07:12:55.320Z:tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365]"
+    },
+    {
+      "path": "outcome.evidenceRefs.53",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:17:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.54",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:17:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.55",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:18:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.56",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:18:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.57",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:18:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.58",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:18:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.59",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:19:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.60",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:19:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.61",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:19:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.62",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:19:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.63",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:20:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.64",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:20:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.65",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:20:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.66",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:20:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.67",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:21:00:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.68",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:21:15:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.69",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:21:30:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.70",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:21:45:8]"
+    },
+    {
+      "path": "outcome.evidenceRefs.71",
+      "before": "finalSnapshot.domainState.availability[tabelog:en/tokyo/A1324/A132402/13196646][id=offer:tabelog:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-30:22:00:8]"
+    },
+    {
+      "path": "outcome.userGoalComplete",
+      "before": "NO",
+      "after": "YES"
+    },
+    {
+      "path": "severity.S0.status",
+      "before": "NOT_EVALUATED",
+      "after": "ABSENT"
+    },
+    {
+      "path": "severity.S0.reasons.0",
+      "before": "Displayed claim lacks complete independent request/source/execution support.",
+      "after": "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+    },
+    {
+      "path": "severity.S0.evidenceRefs.0",
+      "before": ".eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+      "after": "loop"
+    },
+    {
+      "path": "severity.S0.evidenceRefs.1",
+      "before": "docs/decisions/0036-generic-public-read-network-policy.md",
+      "after": "finalSnapshot.domainState.presentedResults"
+    },
+    {
+      "path": "severity.S0.evidenceRefs.2",
+      "before": "docs/decisions/0035-browser-read-network-boundary.md",
+      "after": "finalSnapshot.domainState.availability"
+    },
+    {
+      "path": "severity.S0.evidenceRefs.3",
+      "after": "finalSnapshot.domainState.readEvidence"
+    },
+    {
+      "path": "severity.S0.evidenceRefs.4",
+      "after": ".eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26"
+    },
+    {
+      "path": "severity.S0.evidenceRefs.5",
+      "after": "docs/decisions/0036-generic-public-read-network-policy.md"
+    },
+    {
+      "path": "severity.S0.evidenceRefs.6",
+      "after": "docs/decisions/0035-browser-read-network-boundary.md"
+    },
+    {
+      "path": "severity.S0_DECLARATION.status",
+      "before": "NOT_EVALUATED",
+      "after": "ABSENT"
+    },
+    {
+      "path": "severity.S0_DECLARATION.reasons.0",
+      "before": "Displayed claim lacks complete independent request/source/execution support.",
+      "after": "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+    },
+    {
+      "path": "severity.S0_DECLARATION.evidenceRefs.0",
+      "after": "loop"
+    },
+    {
+      "path": "severity.S0_DECLARATION.evidenceRefs.1",
+      "after": "finalSnapshot.domainState.presentedResults"
+    },
+    {
+      "path": "severity.S0_DECLARATION.evidenceRefs.2",
+      "after": "finalSnapshot.domainState.availability"
+    },
+    {
+      "path": "severity.S0_DECLARATION.evidenceRefs.3",
+      "after": "finalSnapshot.domainState.readEvidence"
+    },
+    {
+      "path": "evaluatorVersion",
+      "before": "restaurant-hybrid-read-diagnostic-evaluator@33",
+      "after": "restaurant-hybrid-read-diagnostic-evaluator@34"
+    },
+    {
+      "path": "rubricVersion",
+      "before": "restaurant-hybrid-read-diagnostic-rubric@29",
+      "after": "restaurant-hybrid-read-diagnostic-rubric@30"
+    },
+    {
+      "path": "execution.taskProducedQualifiedResult",
+      "before": "NO",
+      "after": "YES"
+    },
+    {
+      "path": "execution.systemBehavior",
+      "before": "NOT_SUPPORTED",
+      "after": "SUPPORTED_BY_EVIDENCE"
+    },
+    {
+      "path": "findings.0.status",
+      "before": "NOT_SATISFIED",
+      "after": "SATISFIED"
+    },
+    {
+      "path": "findings.0.observations.0",
+      "before": "Conflicting fields: criteria extra=suitable for an office group.",
+      "after": "All independently readable applicable request fields match."
+    },
+    {
+      "path": "findings.0.directCause",
+      "before": "The recorded authoritative request conflicts with the materialized request.",
+      "after": "No conflict observed."
+    },
+    {
+      "path": "findings.0.rootCauseHypothesis",
+      "before": "Requires semantic/compiler/runtime trace review.",
+      "after": "Not applicable."
+    },
+    {
+      "path": "findings.0.downstreamImpact",
+      "before": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request.",
+      "after": "Grounding can be evaluated against one request."
+    },
+    {
+      "path": "findings.3.status",
+      "before": "NOT_SATISFIED",
+      "after": "SATISFIED"
+    },
+    {
+      "path": "findings.3.directCause",
+      "before": "Terminal presentation has conflicting or insufficient independent support.",
+      "after": "Terminal presentation and independently evaluated evidence agree."
+    },
+    {
+      "path": "findings.3.rootCauseHypothesis",
+      "before": "Verifier, serialization, or upstream execution record requires review.",
+      "after": "Not applicable."
+    },
+    {
+      "path": "findings.3.downstreamImpact",
+      "before": "No qualified completion can be claimed.",
+      "after": "Execution produced a qualified read-only result."
+    },
+    {
+      "path": "findings.4.status",
+      "before": "NOT_SATISFIED",
+      "after": "SATISFIED"
+    }
+  ]
+}
