@@ -6,9 +6,11 @@ import type { BrowserActionWireRecord } from "../../../../infrastructure/browser
 import type { BrowserReadNetworkObservation, BrowserReadNetworkRequestRule, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
 import type { BrowserTraceRecordingSink } from "./browser-case-slice-evidence.js";
 import { safeRecord, safeString } from "./browser-case-slice-evidence.js";
+import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-search/source-packs.js";
 
 export interface BrowserReadRecordingEntry { sequence: number; kind: string; detail: unknown; }
-type ReplayFailure = "NO_CAPTURED_PUBLIC_DOCUMENT" | "UNSAFE_DOCUMENT" | "DOCUMENT_SIZE_LIMIT" | "UNSAFE_REDIRECT" | "UNCAPTURED_DYNAMIC_RESPONSE" | "UNCAPTURED_STATIC_DEPENDENCY";
+export const BROWSER_READ_RECORDING_SCHEMA_VERSION = "browser-read-recording@4";
+type ReplayFailure = "NO_CAPTURED_PUBLIC_DOCUMENT" | "UNSAFE_DOCUMENT" | "CHALLENGE_DOCUMENT" | "DOCUMENT_SIZE_LIMIT" | "UNSAFE_REDIRECT" | "UNCAPTURED_DYNAMIC_RESPONSE" | "UNCAPTURED_STATIC_DEPENDENCY";
 type Replay = { status: "REPLAYABLE" | "PARTIALLY_REPLAYABLE"; reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE"; harPath: string }
   | { status: "NOT_REPLAYABLE"; reason: ReplayFailure };
 export interface RecordingPage { snapshot: number; url?: string; status: "REPLAYABLE" | "NOT_REPLAYABLE"; reason: ReplayFailure | "SANITIZED_NETWORK_AND_DOM_CAPTURE"; }
@@ -99,9 +101,10 @@ export class BrowserReadRecording {
     const requests = snapshot.networkRequests ?? [];
     this.recordNetwork(requests);
     const url = safeReplayUrl(snapshot.url, this.options.reviewedStaticResources, this.options.reviewedReads);
+    const challenge = restaurantDiscoveryPacks.some(pack => pack.documentOrigins.some(origin => { try { return new URL(snapshot.url).origin === origin; } catch { return false; } }) && pack.browser?.hasChallenge(snapshot));
     const html = sanitizePublicHtml(snapshot.html, snapshot.url, [...(this.options.reviewedStaticResources ?? []), ...this.loadedStylesheetRules], this.options.reviewedReads);
-    this.documentSnapshots.push({ snapshot: this.snapshotCount, ...(url ? { url } : {}), ...(url && html ? { html } : {}),
-      ...(!url || !html ? { failure: Buffer.byteLength(snapshot.html) > MAX_PUBLIC_DOCUMENT_BYTES ? "DOCUMENT_SIZE_LIMIT" as const : "UNSAFE_DOCUMENT" as const } : {}), requests: structuredClone(requests) });
+    this.documentSnapshots.push({ snapshot: this.snapshotCount, ...(url ? { url } : {}), ...(url && html && !challenge ? { html } : {}),
+      ...(challenge ? { failure: "CHALLENGE_DOCUMENT" as const } : !url || !html ? { failure: Buffer.byteLength(snapshot.html) > MAX_PUBLIC_DOCUMENT_BYTES ? "DOCUMENT_SIZE_LIMIT" as const : "UNSAFE_DOCUMENT" as const } : {}), requests: structuredClone(requests) });
   }
   async captureScreenshot(png: Uint8Array, disposition?: "LAYOUT_ONLY_CONTENT_MASKED"): Promise<void> {
     if (this.finished) throw new Error("Browser recording is already finalized");
@@ -154,7 +157,7 @@ export class BrowserReadRecording {
       await writeFile(resolve(path, file), css, { flag: "wx" });
       stylesheets.push({ url, file, sha256: createHash("sha256").update(css).digest("hex"), bytes: Buffer.byteLength(css) });
     }
-    const recording = { schemaVersion: "browser-read-recording@4", stylesheets, status: "RECORDED", entries: this.entries, pages, documents: qualified.map(snapshot => ({ snapshot: snapshot.snapshot, url: snapshot.url, file: `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html` })), screenshot, screenshots: this.screenshots, replay: replay.status !== "NOT_REPLAYABLE" ? { ...replay, harPath: "replay.har" } : replay, contentSha256: createHash("sha256").update(JSON.stringify(this.entries)).digest("hex") };
+    const recording = { schemaVersion: BROWSER_READ_RECORDING_SCHEMA_VERSION, stylesheets, status: "RECORDED", entries: this.entries, pages, documents: qualified.map(snapshot => ({ snapshot: snapshot.snapshot, url: snapshot.url, file: `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html` })), screenshot, screenshots: this.screenshots, replay: replay.status !== "NOT_REPLAYABLE" ? { ...replay, harPath: "replay.har" } : replay, contentSha256: createHash("sha256").update(JSON.stringify(this.entries)).digest("hex") };
     await writeFile(resolve(path, "recording.json"), JSON.stringify(recording, null, 2), { flag: "wx" }); return { path, screenshot, replay, pages };
   }
 }
@@ -328,8 +331,10 @@ function sanitizeReplayForm(
   staticResources?: readonly BrowserReadNetworkRequestRule[],
   reviewedReads?: readonly BrowserReadNetworkRequestRule[],
 ): string {
-  const method = attrs.match(/\bmethod\s*=\s*(["'])([^"']+)\1/i)?.[2]?.trim().toLowerCase();
-  const action = attrs.match(/\baction\s*=\s*(["'])([^"']*)\1/i)?.[2];
+  const methodParts = attrs.match(/(?:^|\s)method\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'<>]+))/i);
+  const actionParts = attrs.match(/(?:^|\s)action\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'<>]+))/i);
+  const method = (methodParts?.[1] ?? methodParts?.[2] ?? methodParts?.[3])?.trim().toLowerCase();
+  const action = actionParts?.[1] ?? actionParts?.[2] ?? actionParts?.[3];
   let safeAction: string | undefined;
   if (action) {
     try {
@@ -338,14 +343,14 @@ function sanitizeReplayForm(
         staticResources,
         reviewedReads,
       );
-      if (resolved && new URL(resolved).origin === new URL(sourceUrl).origin) safeAction = resolved;
+      if ((!method || method === "get") && resolved && new URL(resolved).origin === new URL(sourceUrl).origin && reviewedPublicReadUrl(resolved, reviewedReads)) safeAction = resolved;
     }
     catch { /* Omit an unreviewed or malformed action destination. */ }
   }
   // Preserve all ordinary structural attributes, including id/class/data used
   // by public scripts and form ownership. The Guard still blocks a replayed
   // non-GET submission; recording must never relabel it as GET.
-  let preserved = attrs.replace(/\s(?:action|method)\s*=\s*(["'])[^"']*\1/gi, "");
+  let preserved = attrs.replace(/\s(?:action|method)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'<>]+)/gi, "");
   if (method) preserved += ` method="${method}"`;
   if (safeAction) preserved += ` action="${safeAction}"`;
   return `<form${preserved}>`;

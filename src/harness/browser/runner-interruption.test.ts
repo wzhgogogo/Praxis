@@ -13,6 +13,7 @@ for (const mode of ["complete", "signal", "deadline", "external"] as const) test
     const evaluation = evaluateRestaurantHybridLiveArtifact(result.artifact, { path: result.resultPath, sha256: "1".repeat(64) });
     assert.ok(!evaluation.recordReadIssues.some(row => row.path === "finalSnapshot"));
     assert.equal(evaluation.severity.S0_DECLARATION.status, "ABSENT");
+    assert.equal(evaluation.severity.S0_BOUNDARY.status, "ABSENT");
     if (mode !== "complete") {
       assert.equal(evaluation.outcome.type, "ORCHESTRATION_INTERRUPTED");
       assert.equal(evaluation.outcome.capabilityDenominator, "EXCLUDED");

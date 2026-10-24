@@ -30,10 +30,11 @@ test("page qualification isolates omitted DOM and missing dependencies", async (
     recording.recordSnapshot({ url: "https://public.example/private?token=never-retain", title: "Private", text: "", html: "<h1>Unsafe URL</h1>" });
     recording.recordSnapshot({ url: "https://public.example/incomplete", title: "Incomplete", text: "", html: "<h1>Incomplete</h1>", networkRequests: [{ outcome: "ADMITTED", origin: "https://public.example", pathname: "/v2/slots", method: "GET", resourceType: "fetch", queryKeys: [] }] });
     recording.recordSnapshot({ url: "https://public.example/another", title: "Another", text: "", html: "<h1>Another public page</h1>" });
+    recording.recordSnapshot({ url: "https://www.tablecheck.com/en/challenge", title: "Just a moment", text: "Verify you are human", html: '<form method="post" action="/challenge"><input name="cf-token" value="challenge-private"></form>' });
     const result = await recording.finish();
     assert.equal(result.replay.status, "PARTIALLY_REPLAYABLE");
     const manifest = JSON.parse(await readFile(join(result.path, "recording.json"), "utf8"));
-    assert.deepEqual(manifest.pages.map((row: any) => [row.snapshot, row.status, row.reason]), [[1, "REPLAYABLE", "SANITIZED_NETWORK_AND_DOM_CAPTURE"], [2, "NOT_REPLAYABLE", "UNSAFE_DOCUMENT"], [3, "NOT_REPLAYABLE", "UNCAPTURED_DYNAMIC_RESPONSE"], [4, "REPLAYABLE", "SANITIZED_NETWORK_AND_DOM_CAPTURE"]]);
+    assert.deepEqual(manifest.pages.map((row: any) => [row.snapshot, row.status, row.reason]), [[1, "REPLAYABLE", "SANITIZED_NETWORK_AND_DOM_CAPTURE"], [2, "NOT_REPLAYABLE", "UNSAFE_DOCUMENT"], [3, "NOT_REPLAYABLE", "UNCAPTURED_DYNAMIC_RESPONSE"], [4, "REPLAYABLE", "SANITIZED_NETWORK_AND_DOM_CAPTURE"], [5, "NOT_REPLAYABLE", "CHALLENGE_DOCUMENT"]]);
     const har = JSON.parse(await readFile(join(result.path, "replay.har"), "utf8"));
     assert.deepEqual(har.log.entries.map((row: any) => row.request.url), ["https://public.example/good", "https://public.example/another"]);
     assert.doesNotMatch(JSON.stringify(manifest), /never-retain/);

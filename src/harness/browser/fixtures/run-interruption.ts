@@ -6,9 +6,10 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { runHybridReadDiagnostic } from "../../../eval/restaurant/agent-loop/runners/run-hybrid-live-read.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../application/live-read-investigation-budget.js";
-import { googlePlacesDiscoveryPack } from "../../../integrations/restaurant-search/source-packs.js";
+import { googlePlacesDiscoveryPack, discoveryPackNetworkPolicy } from "../../../integrations/restaurant-search/source-packs.js";
 import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
-import { localFixture, exactGuideAvailabilityUrl } from "../browser-read-test-fixtures.js";
+import { replayHarPages, exactGuideAvailabilityUrl } from "../browser-read-test-fixtures.js";
+import { LocalPlaywrightChromium } from "../../../infrastructure/browser/local-playwright-chromium.js";
 import { response, strictAction } from "../../restaurant-read-test-fixtures.js";
 import type { ModelRequest } from "../../../core/model/contracts.js";
 
@@ -21,7 +22,9 @@ const stopped = new AbortController();
 const reference = new Date();
 const date = "2026-10-30", source = "https://www.tablecheck.com/en/fixture";
 const html = '<h1>Fixture restaurant</h1><p class="address">1-1 Ginza, Chuo City, Tokyo</p><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-10-30" data-pax="2"><a href="/en/shops/fixture/reserve?start_date=2026-10-30&num_people=2&start_time=19:00">19:00</a></div>';
-const runtime = localFixture({ [source]: html, [exactGuideAvailabilityUrl(source, date, 2, "19:00")]: html });
+const replayHarPath = join(root, "fixture-source.har");
+await writeFile(replayHarPath, replayHarPages({ [source]: html, [exactGuideAvailabilityUrl(source, date, 2, "19:00")]: html }));
+const runtime = new LocalPlaywrightChromium();
 let snapshots = 0, notified = false, availabilityStage = false;
 let deadlineFire: (() => void) | undefined;
 if (mode === "deadline") {
@@ -75,8 +78,8 @@ const result = await runHybridReadDiagnostic({
       provider: "FIXTURE", model: "synthetic", responseFormat: request.responseFormat, outputSchema: request.outputSchema, outcome: "SUCCEEDED", latencyMs: 0 });
     return result;
   } }),
-  browser: { async openSession(input) {
-    const session = await runtime.openSession(input);
+  browser: { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", async openSession(input) {
+    const session = await runtime.openSession({ ...input, networkPolicy: discoveryPackNetworkPolicy(), replayHarPath });
     const read = session.snapshot.bind(session);
     session.snapshot = async () => {
       const snapshot = await read();

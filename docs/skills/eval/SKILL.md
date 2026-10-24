@@ -5,8 +5,8 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.10
-- Last updated: 2026-10-22
+- Document revision: 2.11
+- Last updated: 2026-10-24
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
 
@@ -171,7 +171,11 @@ npm run eval:restaurant:agent-loop:artifact -- --manifest <inputs/manifest.json>
 - `NO_VERIFIED_RESULT`可证明记录范围内的处理，不能证明搜索穷尽或用户目标完成；内部失败、取消、预算停止和未到达保留实际根因。
 - 模型选路允许多种合法顺序；固定来源未覆盖的合法调用是诊断环境缺口，不直接归因模型。重复无效动作、忽略已有证据、无支持的最终断言、错时钟或错请求、绕过安全边界，才按实际记录归因。
 
-### 7.1 Offline classification rules (evaluator@32 / rubric@28)
+### 7.1 Offline classification rules (evaluator@34 / rubric@30)
+
+Gold之外的额外UNSPECIFIED背景条件不作为缺失或冲突，不替代任何Gold条件，不放宽原条件的HARD/SOFT、polarity、multiplicity或显式identity检查。额外条件保留在原始记录中；这条规则不证明该条件的来源或满足情况。原条件及展示依据仍独立核验，依赖语义保真判定的最终结论保留相应派生变化，不覆盖历史评价。
+
+Runner保存的SIGNAL（SIGTERM/SIGINT）、TIMEOUT或EXTERNAL_STOP记录按实际中断分类并排除能力分母；按事件、轨迹和执行诊断列已到达环节，未到达不补造。分类中断前仍核验实际已展示声明的原始支持与冲突，不能用中断掩盖S0。无法捕捉的SIGKILL仍按已有外层中断包规则，不承诺退出前刷盘。
 
 The evaluator never reads result labels. Conditions correspond through an explicit criterionRef/semantic identifier, or an independently reviewed, exact-artifact-SHA-scoped Gold-index to authoritative-index binding. Historical index bindings retain immutable review refs and both original wording hashes; they never apply to another artifact or establish source truth. Text-only comparison performs generic NFKC/case/punctuation/hyphen/whitespace normalization, without synonyms, stemming, translation, or inferred index/order equivalence. Unbound or ambiguous wording stays pending review; polarity, multiplicity, and HARD strength remain independent checks. Display comparison first resolves the requested condition to its authoritative condition, then uses that condition's reference (or a unique normalized literal for a legacy display row). Missing/ambiguous display records remain unassessed. Original evaluations are immutable; a new sidecar is a reference under the new evaluator, not a retroactive gate pass.
 

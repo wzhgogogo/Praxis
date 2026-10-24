@@ -217,7 +217,7 @@ test("browser recording preserves form methods while deleting unsafe destination
     assert.match(html, /data-widget="query"/);
     assert.match(html, /method="post"/);
     const unsafe = new BrowserReadRecording({ directory: root, runId: "unsafe-form" });
-    unsafe.recordSnapshot({ url: "https://public.example/menu", title: "Public", text: "", html: '<form method="post" action="/cancel?token=private"><input name="search_text"></form>' });
+    unsafe.recordSnapshot({ url: "https://public.example/menu", title: "Public", text: "", html: '<form method=post action=/cancel?token=private><input name="search_text"></form>' });
     const stripped = await unsafe.finish();
     assert.equal(stripped.replay.status, "REPLAYABLE");
     const document = await readFile(join(stripped.path, "snapshot-0001.html"), "utf8");

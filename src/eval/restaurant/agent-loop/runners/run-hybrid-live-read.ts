@@ -20,6 +20,7 @@ import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/brow
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
+import { discoveryPackNetworkPolicy } from "../../../../integrations/restaurant-search/source-packs.js";
 import { createLiveReadAssembly } from "../../../../integrations/restaurant-search/live-read-assembly.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionRequired } from "../../../../integrations/tabelog/tabelog-contracts.js";
@@ -341,8 +342,9 @@ const startedAt = input.startedAt ?? new Date();
 const maxModelCalls = liveReadLimits.maxModelCalls;
 const candidateLimit = liveReadLimits.maxDiscoveryCandidates;
 const recordBrowser = input.recordBrowser;
+const recordingPolicy = discoveryPackNetworkPolicy();
 const browserRecording = recordBrowser
-  ? new BrowserReadRecording({ directory: resolve(".eval-artifacts", "recordings"), runId: `hybrid-${startedAt.valueOf()}` })
+  ? new BrowserReadRecording({ directory: resolve(".eval-artifacts", "recordings"), runId: `hybrid-${startedAt.valueOf()}`, reviewedReads: recordingPolicy.dynamicReads, reviewedStaticResources: recordingPolicy.staticResources })
   : undefined;
 let browserRecordingResult: BrowserReadRecordingResult | undefined;
 async function finishBrowserRecording(): Promise<BrowserReadRecordingResult | undefined> {
@@ -544,4 +546,9 @@ return { resultPath: journal.resultPath };
 
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await runHybridLiveRead();
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  await runHybridLiveRead();
+  // All immutable artifacts and evaluation sidecars have settled. The CLI
+  // owns process exit even if an interrupted provider still holds a socket.
+  process.exit(process.exitCode ?? 0);
+}
