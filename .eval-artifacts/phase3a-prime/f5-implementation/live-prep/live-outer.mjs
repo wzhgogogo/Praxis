@@ -18,6 +18,10 @@ for(const item of plan.cases){
  const delta=(Date.parse(item.date+'T00:00:00Z')-Date.parse(plan.plannedRunDateVienna+'T00:00:00Z'))/86400000;
  assert.ok(delta>=7&&delta<=14);assert.equal(new Date(item.date+'T00:00:00Z').getUTCDay(),item.weekday);
 }
+// Exercise the exact strict Runner envelope loader, not a parallel YAML parser.
+const envelopeValidation = execFileSync(process.execPath,['--import','tsx','--input-type=module','-e',
+ 'import {loadFrozenLiveCases,customLiveCaseCohort,materializeLiveCase} from "./src/eval/restaurant/agent-loop/live-case-materializer.ts"; const cases=await loadFrozenLiveCases(process.argv[1]); for(const item of cases){await customLiveCaseCohort(item);const value=materializeLiveCase(item,item.reference_time);if(value.content!==item.content)throw Error("CONTENT_CHANGED");} console.log(JSON.stringify({cases:cases.map(item=>item.id),status:"STRICT_RUNNER_INPUT_PASS"}));',plan.runnerInput],{cwd:root,encoding:'utf8'}).trim();
+assert.deepEqual(JSON.parse(envelopeValidation).cases,plan.cases.map(item=>item.id));
 const commands=plan.cases.flatMap(item=>[1,2,3].map(attempt=>({caseId:item.id,attempt,nodeArgs:['--import','tsx','src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts','--case-source',plan.runnerInput,'--case',item.id,'--timeout-ms','500000','--max-model-calls','50','--record-decisions','--record-browser','--no-proxy']})));
 if(!process.argv.includes('--run')){
  console.log(JSON.stringify({status:'OFFLINE_PREPARATION_PASS',realCalls:0,liveRuns:0,commands,requirements:plan.requirements},null,2));
