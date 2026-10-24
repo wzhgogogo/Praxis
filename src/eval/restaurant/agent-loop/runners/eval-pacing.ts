@@ -32,13 +32,12 @@ export async function createEvalPacingCoordinator(config: { minimumIntervalMs?: 
   let closing = false;
   const interval = (origin: string) => config.originIntervalsMs?.[origin] ?? minimum;
   function pump(origin: string, state: Origin) {
-    clearTimeout(state.timer); state.timer = undefined;
+    clearTimeout(state.timer); delete state.timer;
     while (state.queue.length && !closing) {
       const pending = state.queue[0]!;
       const contended = state.members.size > 1;
       if (contended && state.held.size) { pending.waited = true; return; }
-      // Red control: source arbitration is present but spacing is absent.
-      const due = Date.now();
+      const due = contended ? state.finishedAt + interval(origin) : Date.now();
       if (contended && due > Date.now()) {
         pending.waited = true;
         state.timer = setTimeout(() => pump(origin, state), due - Date.now()); return;

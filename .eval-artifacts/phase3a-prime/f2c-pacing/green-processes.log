@@ -1,0 +1,18 @@
+✔ shared origin pacing spans two real subprocesses (1046.011ms)
+ℹ {"timestamps":[1792835705021,1792835705327,1792835705606,1792835705879],"intervals":[306,279,273],"configuredMs":200,"usage":{"b":{"http://127.0.0.1:55720":{"requests":2,"waitMs":507}},"a":{"http://127.0.0.1:55720":{"requests":2,"waitMs":761}}}}
+✔ one run has exactly zero pacing wait (256.163083ms)
+ℹ {"http://127.0.0.1:55726":{"requests":2,"waitMs":0}}
+✔ third queues and SIGTERM releases in-flight ownership (1147.221667ms)
+ℹ {"stop":"SIGTERM","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:55730":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:55730":{"requests":2,"waitMs":511}},"third":{"http://127.0.0.1:55730":{"requests":2,"waitMs":757}}},"heldLeases":0}
+✔ third queues and timeout releases in-flight ownership (1166.667042ms)
+ℹ {"stop":"timeout","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:55741":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:55741":{"requests":2,"waitMs":521}},"third":{"http://127.0.0.1:55741":{"requests":2,"waitMs":749}}},"heldLeases":0}
+✔ third queues and stop releases in-flight ownership (1141.692542ms)
+ℹ {"stop":"stop","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:55750":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:55750":{"requests":2,"waitMs":506}},"third":{"http://127.0.0.1:55750":{"requests":2,"waitMs":748}}},"heldLeases":0}
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4860.66775
