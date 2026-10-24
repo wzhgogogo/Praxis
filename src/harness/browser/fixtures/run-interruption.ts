@@ -7,7 +7,7 @@ import { join } from "node:path";
 import { runHybridReadDiagnostic } from "../../../eval/restaurant/agent-loop/runners/run-hybrid-live-read.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../application/live-read-investigation-budget.js";
 import { googlePlacesDiscoveryPack, discoveryPackNetworkPolicy } from "../../../integrations/restaurant-search/source-packs.js";
-import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
+import type { GooglePlacesClientOptions } from "../../../integrations/google/google-places-client.js";
 import { replayHarPages, exactGuideAvailabilityUrl } from "../browser-read-test-fixtures.js";
 import { LocalPlaywrightChromium } from "../../../infrastructure/browser/local-playwright-chromium.js";
 import { response, strictAction } from "../../restaurant-read-test-fixtures.js";
@@ -49,9 +49,7 @@ const googleResponse = JSON.stringify({ places: [{
   id: "fixture", displayName: { text: "Fixture restaurant" }, formattedAddress: "1-1 Ginza, Chuo City, Tokyo", types: ["restaurant"],
   nationalPhoneNumber: "03-1111-2222", websiteUri: source, location: { latitude: 35.6697, longitude: 139.767 },
 }] });
-const google = new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async (url, init) => {
-  return new Response(googleResponse, { status: 200 });
-} });
+const google: GooglePlacesClientOptions = { apiKey: "fixture-only", fetchImplementation: async () => new Response(googleResponse, { status: 200, headers: { "content-type": "application/json" } }) };
 const fixtureModel = async (request: ModelRequest) => {
   if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
     { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },

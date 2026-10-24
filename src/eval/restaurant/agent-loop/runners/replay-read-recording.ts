@@ -21,8 +21,14 @@ export async function loadReplayRecording(directory: string, outputHar: string) 
     if(!pages.some(p=>p.snapshot===document.snapshot&&p.url===document.url&&p.status==="REPLAYABLE"))continue;
     await inside(document.file);allowed.add(document.url);
   }
-  const sourceHar=manifest.replay?.harPath;
-  const har=sourceHar ? JSON.parse(await readFile(await inside(sourceHar),"utf8")) : {log:{version:"1.2",creator:{name:"Praxis replay",version:"1"},entries:[]}};
+  // Structured source responses remain in the canonical HAR even if every
+  // browser page is unqualified. No diagnostic DOM is used to fill that gap.
+  let har: any;
+  try { har=JSON.parse(await readFile(await inside(manifest.replay?.harPath ?? "replay.har"),"utf8")); }
+  catch(error) {
+    if(manifest.replay?.status!=="NOT_REPLAYABLE"||!(error&&typeof error==='object'&&'code' in error&&error.code==='ENOENT'))throw error;
+    har={log:{version:"1.2",creator:{name:"Praxis replay",version:"1"},entries:[]}};
+  }
   har.log.entries=har.log.entries.filter((entry:any)=> !/html/i.test(entry.response.content.mimeType)||allowed.has(entry.request.url));
   const filtered=JSON.stringify(har);
   await writeFile(outputHar,filtered,{flag:"wx"});

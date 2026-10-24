@@ -18,7 +18,7 @@ import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browse
 import type { BrowserRuntime, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
 import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/browser/browser-task-executor.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
-import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
+import type { GooglePlacesClientOptions } from "../../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
 import { discoveryPackNetworkPolicy } from "../../../../integrations/restaurant-search/source-packs.js";
 import { createLiveReadAssembly } from "../../../../integrations/restaurant-search/live-read-assembly.js";
@@ -35,6 +35,7 @@ import { createRunStopControl, RUN_DEADLINE_EXCEEDED, settleAtRunDeadline } from
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";
 import { safeRecord, traceBrowserRuntime, type BrowserTraceRecordingSink } from "./browser-case-slice-evidence.js";
 import { BrowserReadRecording, type BrowserReadRecordingResult } from "./browser-read-recording.js";
+import { createEvalGooglePlacesClient } from "./google-places-recording.js";
 import { environmentWithEffectiveLiveNetwork, resolveEffectiveLiveNetworkConfiguration, runLivePreflight } from "../live-preflight.js";
 
 function requiredGate(key: string): void {
@@ -309,7 +310,7 @@ await runHybridReadDiagnostic({ frozen, runtimeContext, limits: liveReadLimits,
   ...(manualTabelogIntervention ? { onTabelogUserIntervention: waitForManualTabelogIntervention } : {}),
 }, {
   createModel: observe => DeepSeekModelGateway.fromEnvironment(effectiveEnvironment, { observer: { observe } }),
-  google: new GooglePlacesClient({ apiKey: effectiveEnvironment.GOOGLE_MAPS_API_KEY ?? "", proxyServer: effectiveEnvironment.PRAXIS_GOOGLE_API_PROXY_SERVER, timeoutMs: liveReadLimits.maxStructuredReadMs }),
+  google: { apiKey: effectiveEnvironment.GOOGLE_MAPS_API_KEY ?? "", proxyServer: effectiveEnvironment.PRAXIS_GOOGLE_API_PROXY_SERVER, timeoutMs: liveReadLimits.maxStructuredReadMs },
   browser: browserRuntimeFromEnvironment(effectiveEnvironment),
 });
 }
@@ -331,7 +332,7 @@ export interface HybridReadDiagnosticInput {
 /** Formal execution shared by the Live CLI and offline source transports. */
 export async function runHybridReadDiagnostic(input: HybridReadDiagnosticInput, dependencies: {
   createModel(observe: (record: ModelInvocationRecord) => void): ModelGateway;
-  google: GooglePlacesClient;
+  google: GooglePlacesClientOptions;
   browser: BrowserRuntime;
   clock?: import("../../../../core/task-runtime/contracts.js").RuntimeClock;
   signal?: AbortSignal;
@@ -439,7 +440,7 @@ try {
   } };
   const model = new DeliveryReservedModelGateway(countedModel);
   stage = "PROVIDER_SETUP";
-  const googleClient = dependencies.google;
+  const googleClient = createEvalGooglePlacesClient(dependencies.google, browserRecording ? transport => browserRecording.captureGoogleFetch(transport) : undefined);
   const rawBrowser = dependencies.browser;
   // Keep the same runtime and executor path while retaining a redacted raw
   // observation sequence. The source label is descriptive only; snapshots

@@ -2,7 +2,6 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-search/source-packs.js";
 import type { ModelGateway, ModelInvocationRecord, ModelRequest } from "../../../../core/model/contracts.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
@@ -38,11 +37,11 @@ export async function runRecordedRead(config: RecordedReadInput, output: string,
   try {
     const result=await runHybridReadDiagnostic({...input,startedAt:new Date(startedAt),packs,recordBrowser:false,recordDecisions:false,directory:resolve(output,"execution"),runtimeContext:{...input.runtimeContext,...provenance}}, {
       signal:controller.signal,browser:replay.browser,
-      google:new GooglePlacesClient({apiKey:"replay-no-network",fetchImplementation:async(url,init)=>{
+      google:{apiKey:"replay-no-network",fetchImplementation:async(url,init)=>{
         const entry=recordedResponse(recording,String(url),init?.method??"GET",init?.body);
         if(!entry){const parsed=new URL(String(url));stop({snapshot:null,origin:parsed.origin,pathname:parsed.pathname,reason:"MISSING_STRUCTURED_RESPONSE"});throw new Error("REPLAY_INCOMPLETE");}
         const content=entry.response.content;return new Response(content.encoding==="base64"?Buffer.from(content.text,"base64"):content.text,{status:entry.response.status,headers:{"content-type":content.mimeType}});
-      }}),
+      }},
       createModel:observe=>{
         if(config.modelMode==="REAL"){const model=realModelFactory!(observe);return {async complete(request){modelTransportCalls++;return model.complete(request);}};}
         return {async complete(request:ModelRequest){

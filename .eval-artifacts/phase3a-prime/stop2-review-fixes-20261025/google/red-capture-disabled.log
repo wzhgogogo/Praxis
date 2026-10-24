@@ -1,0 +1,30 @@
+✖ recorded decisions reproduce nonempty candidates and delivery under OS-denied network (2126.19025ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2218.72325
+
+✖ failing tests:
+
+test at src/harness/browser/runner-replay.test.ts:1:264
+✖ recorded decisions reproduce nonempty candidates and delivery under OS-denied network (2126.19025ms)
+  AssertionError [ERR_ASSERTION]: {"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"d66a1bd05e654b4b10cdceeb52c80a03dc6c286c0f44930a51b972c436ab1e0f","harSha256":"c55ce128ea1fa09278fc8c73d25175fae7fe1fee1e4152fe8252755e6bbfd7a4","decisionSha256":"fef1aa7bfca98a201923bee7a0862972e6b62d11d53f8e12e82dbbdcefc36354","liveCapabilityDenominator":"EXCLUDED","status":"REPLAY_INCOMPLETE","stop":{"snapshot":null,"origin":"https://places.googleapis.com","pathname":"/v1/places:searchNearby","reason":"MISSING_STRUCTURED_RESPONSE"},"consumedPages":0,"recordedPages":5,"consumedDecisions":2,"recordedDecisions":4,"modelTransportCalls":0,"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-r22g9K/output/execution/2026-10-24T23-09-04-087Z-4c979995-1639-43f0-b114-b4c35178bdd3.result.json"}
+  + actual - expected
+  
+  + 'REPLAY_INCOMPLETE'
+  - 'COMPLETED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/runner-replay.test.ts:12:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'REPLAY_INCOMPLETE',
+    expected: 'COMPLETED',
+    operator: 'strictEqual'
+  }

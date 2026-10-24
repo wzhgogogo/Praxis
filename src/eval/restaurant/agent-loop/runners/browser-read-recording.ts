@@ -7,6 +7,7 @@ import type { BrowserReadNetworkObservation, BrowserReadNetworkRequestRule, Brow
 import type { BrowserTraceRecordingSink } from "./browser-case-slice-evidence.js";
 import { safeRecord, safeString } from "./browser-case-slice-evidence.js";
 import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-search/source-packs.js";
+import { GooglePlacesHarCapture } from "./google-places-recording.js";
 
 export interface BrowserReadRecordingEntry { sequence: number; kind: string; detail: unknown; }
 export const BROWSER_READ_RECORDING_SCHEMA_VERSION = "browser-read-recording@4";
@@ -35,6 +36,9 @@ export interface BrowserReadRecordingOptions {
 /** Writes only sanitised public documents and admitted public read responses. */
 export class BrowserReadRecording {
   private readonly entries: BrowserReadRecordingEntry[] = [];
+  private readonly google = new GooglePlacesHarCapture(detail => {
+    this.entries.push({ sequence: this.entries.length + 1, kind: "GOOGLE_CAPTURE_REJECTED", detail });
+  });
   private readonly stylesheets = new Map<string, string>();
   /** Recording-only exact URLs; these never change the Runtime or Guard policy. */
   private readonly loadedStylesheetRules: BrowserReadNetworkRequestRule[] = [];
@@ -55,6 +59,7 @@ export class BrowserReadRecording {
     this.entries.push({ sequence: this.entries.length + 1, kind, detail: safeRecordingDetail(detail) });
   }
   recordWire(wire: BrowserActionWireRecord): void { this.record("MODEL_WIRE", wire); }
+  captureGoogleFetch(transport: typeof fetch): typeof fetch { return this.google.wrap(transport); }
   traceSink(): BrowserTraceRecordingSink { return { record: (kind, detail) => this.record(kind, detail), recordSnapshot: (snapshot) => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
   /** Lets a runner retain its single canonical trace while supplying captured documents to this recorder. */
   snapshotSink(): BrowserTraceRecordingSink { return { record: () => undefined, recordSnapshot: snapshot => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
@@ -122,6 +127,7 @@ export class BrowserReadRecording {
   }
   async finish(): Promise<BrowserReadRecordingResult> {
     if (this.finished) throw new Error("Browser recording is already finalized"); this.finished = true;
+    this.google.close();
     const root = resolve(this.options.directory); const path = resolve(root, this.options.runId);
     if (relative(root, path).startsWith("..")) throw new Error("Browser recording path escapes its artifact root");
     await mkdir(path, { recursive: true });
@@ -158,13 +164,17 @@ export class BrowserReadRecording {
     if (this.screenshotImages.length) screenshot = "LAYOUT_ONLY_CONTENT_MASKED";
     let replay: Replay;
     if (!qualified.length) replay = { status: "NOT_REPLAYABLE", reason: pages[0]?.reason as ReplayFailure ?? "NO_CAPTURED_PUBLIC_DOCUMENT" };
-    else {
+    else replay = { status: qualified.length === pages.length ? "REPLAYABLE" : "PARTIALLY_REPLAYABLE", reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE", harPath: resolve(path, "replay.har") };
+    if (qualified.length || this.google.entries.length) {
       // Never resurrect a rejected document through its response body. Safe
       // non-document dependencies and redirects remain available to good pages.
       const responses = new Map([...this.responses].filter(([url, response]) => !/html/.test(response.mimeType) || this.documents.has(url) || response.redirectLocation && this.documents.has(response.redirectLocation)));
       const harPath = resolve(path, "replay.har");
-      await writeFile(harPath, JSON.stringify(sanitizedHar(this.documents, responses), null, 2), { flag: "wx" });
-      replay = { status: qualified.length === pages.length ? "REPLAYABLE" : "PARTIALLY_REPLAYABLE", reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE", harPath };
+      const har = sanitizedHar(this.documents, responses);
+      const completeHar = { ...har, log: { ...har.log, entries: [...har.log.entries, ...this.google.entries] } };
+      if (this.google.hasAttempts) {
+        if (!await this.google.writeHar(harPath, completeHar)) replay = { status: "NOT_REPLAYABLE", reason: "UNSAFE_DOCUMENT" };
+      } else await writeFile(harPath, JSON.stringify(har, null, 2), { flag: "wx" });
     }
     const stylesheets: Array<{ url: string; file: string; sha256: string; bytes: number }> = [];
     for (const [url, css] of this.stylesheets) {
