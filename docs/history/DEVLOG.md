@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.278
+- Document revision: 4.279
 - Last updated: 2026-10-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F5-STOP1C
+
+维也纳时间2026-10-24 CEST。用户提供自包含1b复核并明确批准新ADR；本批完成1c设计修订，仍不实现。只做A，撤回LOCATION/车站控件修复及其无有效红灯的清单，保留不得拼造站码/类别码/URL。替代从本来源流程已观察、Pack确认的入口集合选取，模型只选集合引用，代码复核归属后直接导航，不恢复菜单。D1第5行东京菜单31地区链接保留原revision/ref/trace/snapshot；第三页取样后替代为第四页。当前Executor只接受当前DOM目标，报告列明SELECT_REGION_ENTRANCE拟议合同、输入/结果/动作/Prompt/来源进度版本接线，未绕开旧ref校验；直接NAVIGATE需显式记原页额。新增G3、集合外/跨来源或流程/拼造href反例，N1–N4优先复用既有fixture/runScenario构造。ADR-0043 revision1.1 Accepted／尚未实施，旧0040/0042正文不改。新预算57.512秒余32.488；D2慢代理87.501秒余2.499，列表能否解析未证。旧预算/验证保留为superseded retrospective。48项固定输入SHA，新增调用0，无产品/测试/站点/账本变更。仅提交推送当前F5分支后停1c；F1合main后再重放，保留双方记录。[报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#10-停止点-1c-修订与-adr-批准)。
 
 ## DEV-2026-10-24-PHASE3A-PRIME-F5-STOP1B
 

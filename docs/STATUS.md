@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.384
+- Document revision: 4.385
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-24-PHASE3A-PRIME-F5-STOP1C:** 用户明确批准ADR-0043，修订document revision 1.1为Accepted／尚未实施，仍按指令停1c不实现。范围仅A；LOCATION／车站改动未采纳，待F5 Live完整DOM后再议。替代入口改从同来源流程实际观察集合由模型选择、代码核对Pack及作用域后直接导航，不读恢复页；D1东京→A1322→A132201→替代共4地区页。已明确当前DOM targetRef合同不支持旧引用，需窄集合选择合同，普通OPEN_LINK不扩权；直接NAVIGATE须计页。补G3与集合外/跨来源/拼href反例，N1–N4优先复用既有fixture构造。历史拼接估算57.512秒，D2慢代理87.501秒，列表解析仍未证。48项固定SHA，新调用0，产品/测试/站点零差异，五门禁NOT_RUN；仅提交推送F5分支后停1c。F1先合main后本分支再重放，保留双方记录。[当前报告](../.eval-artifacts/phase3a-prime/f5-analysis/report.md#10-停止点-1c-修订与-adr-批准) · [已批准ADR](decisions/0043-provisional-directory-entrance-coordinate-check.md)。
 
 - **2026-10-24-PHASE3A-PRIME-F5-STOP1B:** 用户通过停止点1、选择A拒绝B；1b设计与ADR-0043提议草稿完成，尚未实现。Q7固定D1/D2共15个地区决策、18份CONTROLS均无INPUT，错误区八站OPEN_LINK已给，D1确曾点击类别All；匹配Akabane的LOCATION／站距路径未观察，HTML仅head或缺失、截图文字遮蔽，因此范围裁定为证据不足，控件条件优先＋A后备交复核。A细化临时入口、两有效样本、代码距离／方位、与4/5共用一次换入口、UNKNOWN立即交接及预算不重置。早取样条件估算55.549秒，较深路径恢复需5地区页、超过4页，不能靠加预算完成。例03冻结Kudanshita、人工800m类别0家、环带未核对、用时只记录；历史有界无结果与零合格交付分列，不改评分。新增调用0、43项SHA、产品/测试/站点零差异、五门禁NOT_RUN；仅提交推送本分支后停1b。F1b先合main，之后重放并保留双方记录；本批不合并或推main。[当前报告](../.eval-artifacts/phase3a-prime/f5-analysis/report.md#9-停止点-1b-补充) · [ADR草稿](decisions/0043-provisional-directory-entrance-coordinate-check.md)。
 
