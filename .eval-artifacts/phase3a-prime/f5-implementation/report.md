@@ -33,3 +33,49 @@ R1 在未修产品 c870dc4a 取得有效红灯：详情为 0，目标断言要�
 已冻结 Live 外层脚本和计划，默认只离线检查。六次正式 Live 均 NOT_RUN。正式运行要求 F2①、F2④a 合入 main 并由本分支继承、未来用户批准、运行日日期有效及 Live 前 24 小时内重新认证。逐 slot 做独立四层评价和 S0 核查，再批准下一 slot；不自动重试。
 
 停止点 2 认证不代替 Live 前复查。F5 Live 标准：例 01 至少 2/3 合格交付且不超时；例 03 如上有界无结果；全部 S0=0，原始响应独立核对，生产成功标志不作为自证。
+
+## 离线验收清单
+
+以下输入均为本地构造，D1 引用和正常地区坐标取自已保存的公开历史观察；没有把构造页面称为网站 Replay。主要入口为 `directory-region-selection.test.ts`、`native-discovery-composition.test.ts`、`browser-task-executor.test.ts` 和真实 Chromium 的 `browser-read-discovery.test.ts`。
+
+| 清单 | 断言与证据 |
+| --- | --- |
+| R1 | 未修产品 c870dc4a 的目标断言失败，详情为 0；修后同断言通过。见 r1-red.json、r1-red.log、r1-green.log。 |
+| G1 | 生产观察形成集合；临时入口恰取两有效越界详情；代码生成 SW 方位和距离；一次集合选择后，替代列表及关键词检索产出范围内候选。完整生产组合继续取得独立支持的交付。 |
+| G2、F4 | 独立本地 oracle 指定正确区域及圆心边缘，首二外仍会触发纠正；不增加运行时误判识别。来源控制及 Router/Reducer 控制覆盖第二入口仍外、没有替代，已接纳的附近候选保留。HARD 未被支持的候选仍不能变成合格交付。 |
+| G3 | D1 第二层路线由生产观察形成集合，四地区页直接换一次、恢复 0；真实 Chromium 经实际 strict wire、Executor 和 Guard 通过。 |
+| X3、Q7-X | 集合外引用、其他来源、其他 flow、自由 href／拼造站码路径均在导航前拒绝。整个集合另与 readRunId 绑定；同 intent 跨 Task/run 复制也在任何导航／模型调用前拒绝。普通 stale DOM ref 仍拒绝。 |
+| F1 | 第二入口两有效坐标仍外：REPLACEMENT_SAMPLES_OUTSIDE_RADIUS、UNKNOWN、没有第三入口或恢复页。 |
+| F2 | 无预算内已观察替代：NO_OBSERVED_REPLACEMENT_ENTRANCE、UNKNOWN，不再调用模型找菜单。 |
+| F3 | 取样后累计来源达到 90 秒：SOURCE_BUDGET_EXHAUSTED，详情数与已用调用保留，没有后续导航或模型调用。 |
+| B1 | 四种收尾分别从整单已用 200 秒／20 calls 起步；实际源读取继续计时计数，下一来源的 Executor 仍见 500−累计毫秒、50−累计调用；到原 500 秒拒绝新调用。与真实组合的来源交接、原四页／十详情和全局 50 调用反例合并验证。 |
+| C1 | 内→外、外→内均核实入口，仅地理合格店接纳，不触发临时两外规则。 |
+| C2 | 缺 geo、非法纬度、未知→外→缺→外：未知不占有效样本，开始的详情仍计数，第二个有效外才触发。 |
+| C3 | 原 4/5 与临时两外共用 replacement；后续批次不可再换，误判不获得补偿次数。 |
+| C4 | 复用既有 COMPLETE 的未满足谓词、无进展和异步加载行为回归；模型完成请求不能代替代码谓词。strict wire 拒绝额外 distanceMeters、radiusMeters、href 和权威 LOCATION 字段。 |
+| N1、N2、N4 | 涩谷、神乐坂、东银座分别使用各自历史圆心，本地具名入口和同店详情；不进入临时分支。旧／新均 2 地区页＋5 详情＝7 次页面访问，换入口 0。 |
+| N3 | 吉祥寺使用其历史圆心、实际观察到的吉祥寺父入口及本地构造同源店铺指针；标签故意不匹配地名。旧／新均 2 地区页＋1 详情＝3 次页面访问，换入口 0。 |
+
+N1–N4 复用现有行为构造并在固定 f42715c2 的旧 Native 模块上实际比较，见 normal-baseline-comparison.json／log；临时旧执行文件已删除，不留兼容路径。这些是发现阶段控制，不冒充完整四例 Live；原请求、Gold 和后续 HARD／身份／库存资格门槛不改。
+
+PGlite 恢复测试还验证集合原观察引用、样本、累计计数在 Event/Reducer 后持久化并恢复。首次默认门禁 1035/1036 的旧 State20 断言失败保留为无损 gzip，更新为 State21 后通过，没有排除测试。
+
+## 四层评价与未证明范围
+
+完整本地生产组合产物经现有独立 evaluator：正常替代和无替代后由下一来源交付各为 QUALIFIED_DELIVERY；第二入口仍外、两种误判控制为 HONEST_NO_RESULT。后两种控制保留之前已接纳的附近候选，缺失 HARD 不能伪装合格。结果来自实际最终 State、执行轨迹和原始构造来源观察，未预填合格 Evidence。
+
+逐环节：Interpreter／Compiler、地区发现、候选接纳、Router／Reducer、HARD、查位、交付或无结果均经过真实接线；真实模型选择、当前网站结构和连接能力未运行。严重程度：本地组合 S0_DECLARATION=ABSENT；其脚本来源没有网络边界记录，S0_BOUNDARY=NOT_EVALUATED，因此不声称综合 S0=0。真实 Chromium Guard 验证只证明本地控件与边界接线。归因：R1 关闭的是完成谓词阻断取样及有界纠正的本地机制，不能由此关闭 F5 Live 的用户验收。
+
+## GET 认证结果与计数
+
+冻结提交 778f37ff 在请求前已包含采集脚本、SHA、外层脚本和日期变体；执行时为 fd7c3c70，冻结文件逐字节一致。两次请求均 200，前一次完成至后一次开始间隔 5.010193 秒。
+
+例 01：Kushi Katsu Dengana Akabane ten，rst_id 13108466。当前详情 JSON-LD 身份及坐标重核通过，距冻结 Akabane Station 圆心 201.545 m；Categories 为 Kushi-age (Deep-fried skewers)，符合既有 kushikatsu/kushiage 口径。四参数响应的日期 2026-11-04、人数 2、时刻 19:00 与请求及 slot URL 一致，见证 WITNESS_EXISTS。没有打开或跟随响应里的预约表单链接。
+
+新增网站 GET：例 01 为 2/10（1 候选，详情 1＋空位 1），例 03 为 0/1；其他网站调用 0、模型 0、Google 0、Live 0、环境重跑 0。共享 budget.json 已逐次记账。原响应字节留在本地，Git 中用无损 gzip 保存，原始 SHA 与归档映射在 live-prep/certification-stop2/audit.json；certificate.json、requests.json 和逐请求 metadata 一并保留。仅用于停止点 2；Live 前 24 小时仍须重新认证。
+
+## 门禁与交付
+
+fd7c3c70 已通过五门禁：typecheck、arch:check、默认 1037/1037、build、真实 Chromium 138/138；每项前后 git status 均为空。原始日志无损归档于 gates/。最终又加强了正常地区输入和跨 run 集合拒绝，将在新提交的干净树上重跑五门禁，最终结果以 gates-final/results.json 为准。
+
+两个站点目录相对 f42715c2 全部字节相同：生产 TypeScript 3864→3864 行，source-packs.ts 473→473 行；完整文件 SHA 见 adapter-audit.json。没有 `.env` 读取或暂存，没有 main 合并或 main 推送。最终提交推送实现分支后停在停止点 2，等待复核。
