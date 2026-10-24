@@ -317,6 +317,16 @@ export interface RestaurantDiscoveryPlan {
 }
 
 /** Durable, opaque pagination state for one exact Restaurant search intent. */
+export interface RestaurantDirectorySample {
+  sourceEntityId: string;
+  sourceUrl: string;
+  coordinates?: {latitude: number; longitude: number};
+  distanceMeters?: number;
+  bearingDegrees?: number;
+  direction?: string;
+  outcome: "WITHIN_RADIUS" | "OUTSIDE_RADIUS" | "UNKNOWN";
+}
+
 export interface RestaurantSearchContinuation {
   intentFingerprint: string;
   /** Reducer-owned discovery sequence and cursor; integrations own opaque source IDs. */
@@ -372,9 +382,15 @@ export interface RestaurantSearchContinuation {
   }>;
   sourceProgress?: {
     retrieval?: { selection?: import("./discovery-retrieval.js").DiscoveryRetrievalSelection; rewrites:number; regionPages:number; retrievalPages:number; history:Array<{selection:import("./discovery-retrieval.js").DiscoveryRetrievalSelection;elapsedMs:number;parsedCount:number}> };
+    regionEntrances?: { sourceId: string; flowId: string; entries: Array<{ref: string; sourceId: string; flowId: string; href: string; label: string; observedOn: string; originalTargetRef: string; observationRevision: number}> };
     directoryRegion?: {
       first: { url: string; observedOn: string; targetRef: string; label?: string };
-      firstFive: Array<{ sourceEntityId: string; sourceUrl: string; coordinates?: { latitude: number; longitude: number }; distanceMeters?: number; outcome: "WITHIN_RADIUS" | "OUTSIDE_RADIUS" | "UNKNOWN" }>;
+      provisional?: boolean;
+      verified?: boolean;
+      samples: RestaurantDirectorySample[];
+      replacementSamples?: RestaurantDirectorySample[];
+      replacementVerified?: boolean;
+      stopReason?: string;
       replacement?: { url: string; observedOn: string; targetRef: string; label?: string };
     };
     sourceId: string;
@@ -543,6 +559,7 @@ export interface RestaurantReadExecutionMetadata {
   /** Observed native batch funnel; `exhausted` on the durable cursor includes the next source. */
   nativeDiscoveryFunnel?: {
     directoryRegion?: NonNullable<RestaurantSearchContinuation["sourceProgress"]>["directoryRegion"];
+    regionEntrances?: NonNullable<RestaurantSearchContinuation["sourceProgress"]>["regionEntrances"];
     /** Browser-pack source label; model judgments never represent a source funnel. */
     source: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">;
     rawSourceLinks: number;
@@ -726,7 +743,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "20";
+  schemaVersion: "21";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;

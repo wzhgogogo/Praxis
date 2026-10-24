@@ -4,13 +4,13 @@ import type { ModelGateway, ModelResponse } from "../../core/model/contracts.js"
 import { ModelGatewayError } from "../../core/model/errors.js";
 import type { BrowserCalendarMonth } from "./browser-runtime.js";
 
-/** The Browser observation context was previously unversioned; action wire stays @11. */
-export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "2" } as const;
-export const BROWSER_READ_DECISION_PROMPT_VERSION = "19";
+/** Scoped region correction is distinct from current DOM target actions. */
+export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "3" } as const;
+export const BROWSER_READ_DECISION_PROMPT_VERSION = "20";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
-  version: "11",
+  version: "12",
 } as const;
 
 export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
@@ -20,7 +20,7 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
   properties: {
     action: {
       type: "string",
-      enum: ["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
+      enum: ["SELECT_REGION_ENTRANCE", "OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
     },
     targetRef: { type: "string" },
     authoritativeField: { type: "string", enum: ["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"] },
@@ -30,6 +30,7 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
 };
 
 export type BrowserReadAction =
+  | { type: "SELECT_REGION_ENTRANCE"; targetRef: string; reason: string }
   | { type: "OPEN_LINK"; targetRef: string; reason: string }
   | { type: "CLICK"; targetRef: string; reason: string }
   | { type: "CLICK_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE"; reason: string }
@@ -105,7 +106,28 @@ export interface BrowserReadGoal {
   hardCriteria: string[];
 }
 
+export interface BrowserObservedRegionEntrance {
+  ref: string;
+  sourceId: string;
+  flowId: string;
+  href: string;
+  label: string;
+  observedOn: string;
+  originalTargetRef: string;
+  observationRevision: number;
+}
+
+export interface BrowserRegionCorrection {
+  sourceId: string;
+  flowId: string;
+  entrances: readonly BrowserObservedRegionEntrance[];
+  replacementsUsed: 0;
+  remainingBudget: { sourceMs: number; details: number; regionPages: number; retrievalPages: number };
+  samples: readonly { sourceUrl: string; distanceMeters?: number; bearingDegrees?: number; direction?: string; outcome: string }[];
+}
+
 export interface BrowserReadDecisionInput {
+  regionCorrection?: BrowserRegionCorrection;
   history: BrowserReadHistoryStep[];
   taskId: string;
   source: string;
@@ -264,6 +286,10 @@ export function decodeBrowserReadActionWire(value: unknown, observedTargetRefs: 
   }
   const reason = value.reason.trim();
   switch (value.action) {
+    case "SELECT_REGION_ENTRANCE":
+      targetRequired(value, observedTargetRefs);
+      if (value.authoritativeField !== "NONE" || value.requestedState !== "NONE") return rejectWire(value, observedTargetRefs, "$.authoritativeField", value.authoritativeField, "INVALID_STATE");
+      return { type: value.action, targetRef: value.targetRef, reason };
     case "OPEN_LINK":
     case "CLICK":
       targetRequired(value, observedTargetRefs);
@@ -320,7 +346,9 @@ ${BROWSER_READ_HISTORY_INSTRUCTION}
 
 Observation context ${BROWSER_READ_CONTEXT_SCHEMA.name}@${BROWSER_READ_CONTEXT_SCHEMA.version}: controlGroupLabel identifies a source-observed widget owner; Unlabelled group means ownership could not be established. controlGroupRef binds a target to its actual DOM group, including distinct groups with the same label. controlGroups.selectedValues reports positively observed selections; an empty list means no selected value was observed, never a guessed default. selected:true comes from public DOM selection state. displayedCalendarMonth is the observed month, never the requested date. A labelSource of DOM descendant text is public alternative text on an otherwise unlabelled link. These descriptions never grant an action. CALENDAR_MONTH_UNCHANGED and PARTY_SIZE_NOT_CONFIRMED are executor feedback: unrelated page changes did not confirm the requested setting.
 
-Choose one action only from the observed target references and their availableActions, except a listed pageActions action. A target's rejectionReason explains why another action is unavailable; do not override it. Never invent a target reference, selector, URL, JavaScript, shell command, credential, cookie, login step, booking submission, payment, cancellation, or personal information. The outlet identity, date, party size, time window, and HARD criteria in the goal are immutable. When selecting or filling a date or party size, select the named authoritative field and no other value. FILL_AUTHORITATIVE with RETRIEVAL is allowed only for an observed public search input and fills exactly goal.retrievalExpression; it cannot change area, HARD criteria, date, party size, or time.
+During an explicitly supplied regionCorrection, choose SELECT_REGION_ENTRANCE with exactly one supplied entrance ref. The code-owned source flow collection and sample distances/bearings are immutable. Do not provide href, change coordinates/radius, invent a reference or request another menu. This action is unavailable without regionCorrection. It only selects an entrance; code validates and navigates. Ordinary DOM actions remain bound to the current observation.
+
+Choose one action only from the observed target references and their availableActions, except a listed pageActions action or the explicitly supplied regionCorrection choice. A target's rejectionReason explains why another action is unavailable; do not override it. Never invent a target reference, selector, URL, JavaScript, shell command, credential, cookie, login step, booking submission, payment, cancellation, or personal information. The outlet identity, date, party size, time window, and HARD criteria in the goal are immutable. When selecting or filling a date or party size, select the named authoritative field and no other value. FILL_AUTHORITATIVE with RETRIEVAL is allowed only for an observed public search input and fills exactly goal.retrievalExpression; it cannot change area, HARD criteria, date, party size, or time.
 
 To open a custom BUTTON whose role is combobox, use CLICK with authoritativeField NONE. Re-observe, then use CHOOSE_OPTION on an observed OPTION with the correct ownerRef. A native SELECT already exposes its OPTION targets; choose the option directly. Match the visible label to the authoritative date, party size, or time window; an opaque option value is never a reason to guess. For targeted actions, authoritativeField and requestedState must match the action contract. Page actions ignore targetRef and inert field/state placeholders.
 
@@ -370,6 +398,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
               skills: input.skills,
               goal: input.goal,
               observation: input.observation,
+              ...(input.regionCorrection ? {regionCorrection: input.regionCorrection} : {}),
             }),
           },
         ],
@@ -394,7 +423,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
       throw new BrowserReadDecisionError("MODEL_FAILURE", modelError.code);
     }
     if (response.finishReason !== "TOOL_CALLS") throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", `finish reason ${response.finishReason}`);
-    const observedTargetRefs = new Set(input.observation.targets.map((target) => target.ref));
+    const observedTargetRefs = new Set([...input.observation.targets.map(target => target.ref), ...(input.regionCorrection?.entrances.map(entrance => entrance.ref) ?? [])]);
     try {
       const wire = JSON.parse(response.outputText);
       this.lastWireRecord = safeActionWireRecord(wire, observedTargetRefs);
