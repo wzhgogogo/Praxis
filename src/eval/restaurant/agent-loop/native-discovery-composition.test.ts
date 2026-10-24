@@ -1050,20 +1050,25 @@ test('H002 without positive HARD uses general shared retrieval and Google nearby
 // Full production interpreter -> compiler -> Router -> events/Reducer -> output.
 // Only model and source transport are local constructed; no prefilled evidence.
 test("F5 provisional discovery crosses real Router/Reducer and retains bounded handoff to the next source", async () => {
- for (const scenario of ["F5_PROVISIONAL_DELIVERS", "F5_NO_ALTERNATE", "F5_SECOND_OUTSIDE"] as const) {
-  const result = await runScenario(scenario, {packs:[tabelogDiscoveryPack,tableCheckDiscoveryPack]});
-  assert.equal(result.state.presentedResults?.candidateIds.length??0,scenario==="F5_SECOND_OUTSIDE"?0:3,JSON.stringify({scenario,state:result.state.phase,continuation:result.state.searchContinuation,nav:result.navigations}));
-  assert.equal(result.evaluation.execution.taskProducedQualifiedResult,scenario==="F5_SECOND_OUTSIDE"?"NO":"YES",JSON.stringify(result.evaluation.findings));
+ for (const scenario of ["F5_PROVISIONAL_DELIVERS", "F5_NO_ALTERNATE", "F5_SECOND_OUTSIDE", "F5_EDGE_WITH_PRIOR", "F5_EDGE_NO_ALTERNATE"] as const) {
+  const prior = scenario.startsWith("F5_EDGE_");
+  const result = await runScenario(scenario, {packs:prior?[tableCheckDiscoveryPack,tabelogDiscoveryPack]:[tabelogDiscoveryPack,tableCheckDiscoveryPack]});
+  assert.equal(result.state.presentedResults?.candidateIds.length??0,scenario==="F5_SECOND_OUTSIDE"||prior?0:3,JSON.stringify({scenario,state:result.state.phase,continuation:result.state.searchContinuation,nav:result.navigations}));
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult,scenario==="F5_SECOND_OUTSIDE"||prior?"NO":"YES",JSON.stringify(result.evaluation.findings));
   const calls=result.model.requests.filter(request=>request.purpose==="browser_read_decide").map(request=>JSON.parse(request.messages.find(message=>message.role==="user")!.content));
   const corrections=calls.filter(input=>input.regionCorrection);
-  assert.equal(corrections.length,scenario==="F5_NO_ALTERNATE"?0:1);
+  assert.equal(corrections.length,(scenario==="F5_NO_ALTERNATE"||scenario==="F5_EDGE_NO_ALTERNATE")?0:1);
   assert.equal(result.navigations.filter(url=>new URL(url).pathname==="/en/tokyo/rstLst/").length,1,"no root restore");
   assert.equal(result.navigations.filter(url=>url==="https://tabelog.com/en/tokyo/A1322/A132201/").length,1);
   const finished=result.state.searchContinuation?.deferredSources?.find(item=>item.progress.sourceId==="tabelog")?.progress ?? result.state.searchContinuation?.sourceProgress;
   assert.ok(finished?.detailAttempts!>=2);assert.ok(finished?.retrieval?.regionPages!<=4);
   if(scenario!=="F5_PROVISIONAL_DELIVERS") {
-   assert.equal(finished?.directoryRegion?.stopReason,scenario==="F5_NO_ALTERNATE"?"NO_OBSERVED_REPLACEMENT_ENTRANCE":"REPLACEMENT_SAMPLES_OUTSIDE_RADIUS");
+   assert.equal(finished?.directoryRegion?.stopReason,(scenario==="F5_NO_ALTERNATE"||scenario==="F5_EDGE_NO_ALTERNATE")?"NO_OBSERVED_REPLACEMENT_ENTRANCE":"REPLACEMENT_SAMPLES_OUTSIDE_RADIUS");
    assert.ok(result.navigations.some(url=>url.includes("tablecheck.com")),"source UNKNOWN permits the next existing source");
+  }
+  if(prior) {
+   assert.ok(result.state.candidates.some(candidate=>candidate.restaurant.id.startsWith("tablecheck:")),"the previously admitted nearby candidate survives correction; its missing HARD support cannot become a qualified delivery");
+   assert.equal(finished?.detailAttempts,scenario==="F5_EDGE_WITH_PRIOR"?4:2);
   }
   assert.ok(result.model.purposes.length<=50);assert.ok(result.artifact.resourceUsage.modelCallsStarted>=corrections.length+2);
  }
