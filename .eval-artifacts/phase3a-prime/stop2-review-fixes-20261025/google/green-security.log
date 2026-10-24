@@ -1,0 +1,27 @@
+✔ browser recording writes only an in-memory sanitized public document HAR (7.331ms)
+✔ browser recording retains a Pack-reviewed public query document within the measured bounded size (4.4315ms)
+✔ browser recording preserves valid JSON-LD geo numbers while redacting its telephone (2.07125ms)
+✔ browser recording keeps reviewed GET form actions and removes unreviewed destinations (2.380417ms)
+✔ browser recording refuses replay when a dynamic response was admitted without a safe captured body (1.278708ms)
+✔ browser recording refuses a snapshot-only replay when an admitted external script was not captured (0.880042ms)
+✔ browser recording keeps a captured safe external script in the replay HAR (1.824541ms)
+✔ browser recording refuses a reviewed script response containing a literal credential (1.309084ms)
+✔ browser recording persists each runtime-masked screenshot with its snapshot (1.893833ms)
+✔ browser recording adds a sanitized admitted public dynamic response to replay only in memory (1.456ms)
+✔ browser recording rejects HTTP failures and preserves safe CSS visibility in replay documents (1.853666ms)
+✔ browser recording preserves form methods while deleting unsafe destinations (1.71ms)
+✔ browser recording preserves an admitted public document redirect for replay (1.083042ms)
+✔ recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte (3.244166ms)
+✔ Google raw bytes survive capture without key headers/query, even with no replayable DOM (8.622083ms)
+✔ Runner Google factory keeps fixture transport and validates proxy configuration (1.242041ms)
+✔ key scans reject decoded JSON response, pre-write payload and post-write corruption (4.646959ms)
+✔ late Google responses cannot append after recorder finalization (0.127083ms)
+✔ diagnostic DOM preserves safe rejected pages without changing replay bytes (10.658541ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 401.561709

@@ -1,11 +1,11 @@
-import { readFile, unlink, writeFile } from "node:fs/promises";
+import { link, readFile, unlink, writeFile } from "node:fs/promises";
 import { ProxyAgent } from "undici";
 import { GooglePlacesClient, type GooglePlacesClientOptions } from "../../../../integrations/google/google-places-client.js";
 import { GooglePlacesError } from "../../../../integrations/google/google-places-contracts.js";
 
 type Rejection = { reason: string; stage: "RESPONSE" | "BEFORE_WRITE" | "AFTER_WRITE"; origin?: string; pathname?: string };
 const keyPattern = /(?:\bAIza[0-9A-Za-z_-]{30,}|\bsk-[A-Za-z0-9_-]{16,}|\bAKIA[A-Z0-9]{16}|\bBearer\s+[A-Za-z0-9._~-]{8,}|-----BEGIN (?:RSA )?PRIVATE KEY-----)/;
-const keyField = /^(?:key|api[_-]?key|x-goog-api-key|access[_-]?token|secret|password|private[_-]?key)$/i;
+const keyField = /^(?:key|api[_-]?key|x-goog-api-key|access[_-]?token|token|authorization|cookie|session[_-]?id|secret|password|private[_-]?key)$/i;
 function googleEndpoint(url: URL) {
   return url.protocol === "https:" && !url.username && !url.password &&
     (url.origin === "https://places.googleapis.com" && /^\/v1\/places(?::searchText|:searchNearby|\/[^/]+)?$/.test(url.pathname)
@@ -51,7 +51,7 @@ export class GooglePlacesHarCapture {
         const headers = new Headers(init?.headers ?? (input instanceof Request ? input.headers : undefined));
         for (const [name, value] of headers) if (/(?:key|authorization|cookie)/i.test(name) && value) this.credentials.add(value.replace(/^Bearer\s+/i, ""));
         for (const name of [...url.searchParams.keys()]) if (/(?:key|token|secret|authorization)/i.test(name)) {
-          const value = url.searchParams.get(name);if (value) this.credentials.add(value);url.searchParams.delete(name);
+          for (const value of url.searchParams.getAll(name)) if (value) this.credentials.add(value);url.searchParams.delete(name);
         }
         url.hash = "";
         const method = (init?.method ?? (input instanceof Request ? input.method : "GET")).toUpperCase();
@@ -77,7 +77,13 @@ export class GooglePlacesHarCapture {
   async writeHar(path: string, har: unknown): Promise<boolean> {
     const text = JSON.stringify(har, null, 2);
     if (this.unsafe(text)) { this.reject({ reason: "KEY_PATTERN_BEFORE_WRITE", stage: "BEFORE_WRITE" });return false; }
-    await writeFile(path, text, { flag: "wx" });return this.verifyWrittenHar(path);
+    const pending = path + ".pending";
+    await writeFile(pending, text, { flag: "wx" });
+    try {
+      if (!await this.verifyWrittenHar(pending)) return false;
+      // Publish precisely the scanned bytes, without overwriting an artifact.
+      await link(pending, path);await unlink(pending);return true;
+    } catch (error) { await unlink(pending).catch(() => {});throw error; }
   }
   async verifyWrittenHar(path: string): Promise<boolean> {
     const text = await readFile(path, "utf8");
