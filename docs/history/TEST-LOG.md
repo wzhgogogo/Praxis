@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.285
+- Document revision: 4.286
 - Last updated: 2026-10-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-24-PHASE3A-PRIME-F5-STOP1C
+
+维也纳时间2026-10-24 CEST，纯文档与固定Git材料静态核验，不执行产品或测试。原43项SHA不变、追加5项到48：来源进度合同、两个既有fixture构造文件、1b报告和旧预算。核对D1第5行31地区链接，含Sugamo原ref42、snapshot0004、trace51/55；仅观察摘录，不称Pack生产执行、网站回放或G3通过。按历史区间独立加总38.250+6.872+2.095+4.551+5.744=57.512秒，4地区页/0恢复页；D2慢前缀与决策合计87.501秒。当前页ref限制及NAVIGATE计页缺口按固定代码确认；实现批G3、集合边界反例均NOT_RUN。ADR批准状态与用户直接批准对应、原0040/0042不变；产品/Runner/测试/Prompt/Schema/Gold/变体/Guard/站点/source-packs相对2ada8a69零差异，budget不动，不读或暂存.env。五门禁及Mock/Replay/Live Read-only/Controlled Live-write均NOT_RUN，新模型/Google/餐厅网站/Live/环境重跑0。按Test纯文档矩阵核对SHA、链接、预算、索引261/268和git diff --check；无新S0评价，不重判历史。[静态核验](../../.eval-artifacts/phase3a-prime/f5-analysis/verification-1c.json) · [报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#10-停止点-1c-修订与-adr-批准)。
 
 ## TEST-2026-10-24-PHASE3A-PRIME-F5-STOP1B
 
