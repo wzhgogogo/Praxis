@@ -16,7 +16,7 @@ const first = 'https://tabelog.com/en/tokyo/A1303/A130301/rstLst/';
 const second = 'https://tabelog.com/en/tokyo/A1304/A130401/rstLst/';
 const now = '2026-10-10T00:00:00.000Z';
 const intent: RestaurantSearchIntent = { timezone:'Asia/Tokyo', target:{goal:'RECOMMENDATION',query:'restaurants'}, area:{query:'nearby',radiusMeters:1000,coordinates:{latitude:35.66,longitude:139.70,observedAt:now,source:'EVALUATION'}},criteria:[] };
-function fixture(outside = true, missing = false, named = false, navigationFailure?: BrowserRuntimeError, normalName?: string) {
+function fixture(outside = true, missing = false, named = false, navigationFailure?: BrowserRuntimeError, normalName?: string, normalPoint?: {latitude:number;longitude:number}) {
   const navigations:string[]=[];let selections=0;
   const runtime:BrowserRuntime={openSession:async()=>{
     let page:BrowserSnapshot={url:root,title:'',text:'',html:''};
@@ -24,7 +24,7 @@ function fixture(outside = true, missing = false, named = false, navigationFailu
       navigate:async(url)=>{navigations.push(url);if(url===first&&navigationFailure)throw navigationFailure;let html='';
         if(url===root) html=`<a href="${first}">${normalName??(named?"Ueno":"First region")}</a><a href="${second}">${named?"Asakusa":"Second region"}</a>`;
         else if(url===first || url===second) html=Array.from({length:5},(_,n)=>{const id=(url===first?100:200)+n;return `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Outlet ${id}</a>`;}).join('') + (named && url===first?`<a href="${second}">Asakusa</a>`:'');
-        else {const id=new URL(url).pathname.match(/\/(\d+)\/$/)![1]!;const name=`Outlet ${id}`,address='Tokyo';const point=outside&&Number(id)<200?{latitude:35.9,longitude:139.9}:{latitude:35.66,longitude:139.70};html=`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name,address,...(missing?{}:{geo:point})})}</script><h1>${name}</h1><p class="rstinfo-table__address">${address}</p>`;}
+        else {const id=new URL(url).pathname.match(/\/(\d+)\/$/)![1]!;const name=`Outlet ${id}`,address='Tokyo';const point=outside&&Number(id)<200?{latitude:35.9,longitude:139.9}:(normalPoint??{latitude:35.66,longitude:139.70});html=`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name,address,...(missing?{}:{geo:point})})}</script><h1>${name}</h1><p class="rstinfo-table__address">${address}</p>`;}
         page={url,title:'Restaurants',text:html.replace(/<[^>]*>/g,' '),html};},
       snapshot:async()=>page,observeControls:async()=>[...page.html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>/g)].map((m,n)=>({id:String(n),stableKey:m[1]!,kind:'LINK' as const,role:'link',label:m[2]!,href:new URL(m[1]!,page.url).href,visible:true,disabled:false})),
       click:async()=>{throw new Error('No click permitted');},fill:async()=>{throw new Error('No fill needed');},select:async()=>[],waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{}};return session;
@@ -145,16 +145,27 @@ const recordedRegions = JSON.parse(gunzipSync(readFileSync(new URL('./fixtures/p
  googleBatch?:{detail:{read:RestaurantSearchRead}};
 }>;
 function linkedRegionFixture(caseId:string, rogue=false, failedRead=false, hard=false, localName?:string) {
- const record=recordedRegions.find(r=>r.group==='checkpoint-b-corrected-20261019'&&r.caseId===caseId)!;
+ const record=structuredClone(recordedRegions.find(r=>r.group==='checkpoint-b-corrected-20261019'&&r.caseId===caseId)!);
+ if(localName)record.location={...recordedRegions.find(r=>r.caseId.includes('kichijoji'))!.location,label:localName,areaMatchBasis:'NAMED_PLACE_RADIUS'};
  const references=record.googleBatch!.detail.read;
  const navigations:string[]=[];const googleKeywords:Array<string|undefined>=[];let googleCalls=0, decisions=0, planningCalls=0;
  const requested=localName??record.location.label;
  // Only the test's independent expected pages supply this table. Production
  // receives the unchanged recorded Google links and observed root links.
- const expected=caseId.includes('kagurazaka')?'A1309':'A1317';
+ const observedLocal=localName?[...regionFragment('root').matchAll(/href="([^"]+)"[^>]*>([^<]*)</g)].find(match=>match[2]!.includes('Kichijoji'))?.[1]:undefined;
+ if(localName)assert.ok(observedLocal,'local Kichijoji uses its actual observed root entrance');
+ const expected=observedLocal?new URL(observedLocal).pathname.split('/')[3]!:caseId.includes('kagurazaka')?'A1309':'A1317';
  const good=`https://tabelog.com/en/tokyo/${expected}/`;
  const wrong=caseId.includes('kagurazaka')?capturedParent:'https://tabelog.com/en/tokyo/A1316/';
  const outlet=`${good}${expected}01/13999999/`;
+ if(localName){
+  // Explicit local-constructed routing hint at the saved Kichijoji circle;
+  // historical Google evidence is not reused as current identity/availability.
+  const candidate=structuredClone(references.candidates[0]!);
+  candidate.restaurant.coordinates={lat:record.location.latitude,lng:record.location.longitude};
+  candidate.restaurant.sourceIds.googleWebsiteUri=outlet;
+  references.candidates=[candidate];
+ }
  let page:BrowserSnapshot={url:capturedRoot,title:'Regions',text:'',html:''};
  const runtime:BrowserRuntime={openSession:async()=>({
   metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:now},
@@ -369,9 +380,10 @@ test('A3 source90 deadline after sampling is not reset by a correction or source
 
 // N1/N2/N4 reuse the existing behavior builder; HTML/details are local constructed.
 test('N1 N2 N4 named Shibuya Kagurazaka Higashi-Ginza controls retain original page and detail counts',async()=>{
- for(const name of ['Shibuya','Kagurazaka','Higashi-Ginza']) {
-  const f=fixture(false,false,false,undefined,name);const namedIntent={...intent,area:{query:`near ${name}`,radiusMeters:1000}};
-  const result=await f.native.search({intent:namedIntent,continuation:{intentFingerprint:JSON.stringify(namedIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:35.66,longitude:139.70,radiusMeters:1000,label:name,areaMatchBasis:'NAMED_PLACE_RADIUS'}}},new AbortController().signal);
+ for(const [name,caseKey] of [['Shibuya','h001'],['Kagurazaka','kagurazaka'],['Higashi-Ginza','h005']]) {
+  const point=recordedRegions.find(r=>r.caseId.includes(caseKey!))!.location;
+  const f=fixture(false,false,false,undefined,name,point);const namedIntent={...intent,area:{query:`near ${name}`,radiusMeters:1000}};
+  const result=await f.native.search({intent:namedIntent,continuation:{intentFingerprint:JSON.stringify(namedIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:point.latitude,longitude:point.longitude,radiusMeters:1000,label:name!,areaMatchBasis:'NAMED_PLACE_RADIUS'}}},new AbortController().signal);
   const region=result.metadata.nativeDiscoveryFunnel!.directoryRegion!;
   assert.equal(region.provisional,false);assert.equal(region.replacement,undefined);assert.equal(f.selections,1);
   assert.equal(result.candidates.length,5);assert.equal(result.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,5);assert.equal(result.metadata.nativeDiscoveryFunnel!.retrieval!.regionPages,2);assert.equal(f.navigations.length,7,'baseline two region pages plus five details');
@@ -406,4 +418,15 @@ test('B1 all A3 endings retain the remaining500s/50call window at the next sourc
   assert.ok(nextContext.progress.includes(`remaining after this choice: ${50-priorCalls-1}`));assert.ok(nextContext.progress.includes(`window remaining: ${remainingMs} ms`));
   clock=500000;const stopped=await nextSource.selectRegionEntrance(input);assert.equal(stopped.status,'NO_SAFE_ACTION');assert.equal(budget.totalModelCalls,priorCalls+1,'spent run deadline cannot start another model call');
  }
+});
+
+
+test('X3 a whole saved collection cannot be replayed into another read run with the same intent',async()=>{
+ const budget={totalModelCalls:20,maxModelCalls:50},f=provisionalFixture({points:[southwest,southwest],budget});
+ const first=await f.native.search({...f.request,readRunId:'task-one:run-one'},new AbortController().signal);
+ assert.equal(first.continuation!.sourceProgress!.regionEntrances!.readRunId,'task-one:run-one');
+ const previousVisits=f.navigations.length,previousCalls=budget.totalModelCalls;
+ const second=await f.native.search({...f.request,readRunId:'task-two:run-two',continuation:JSON.parse(JSON.stringify(first.continuation))},new AbortController().signal);
+ assert.equal(second.metadata.nativeDiscoveryFunnel!.directoryRegion!.stopReason,'INVALID_OBSERVED_ENTRANCE_SCOPE');assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceEnded,true);assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceExhausted,'UNKNOWN');
+ assert.equal(f.navigations.length,previousVisits);assert.equal(budget.totalModelCalls,previousCalls);assert.equal(f.corrections,0);
 });
