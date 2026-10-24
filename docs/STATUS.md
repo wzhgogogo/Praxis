@@ -1,13 +1,21 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.384
+- Document revision: 4.386
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-24-PHASE3A-PRIME-F5-REBASE:** 用户通过停止点1c，授权进入批次2实现＋Live准备。分析分支已将三提交重放到main/f42715c2，冲突保留F1/F1b及F5全部记录；分析摘要和Accepted ADR0043逐字节不变，生产代码差异0。原停止点60d02686用annotated tag保留固定Git输入可达性。仅推分析分支后，从新main建立codex/fix-phase3a-prime-f5-provisional-entrance；本记录不表示实现或Live已运行。新增模型/Google/网站/Live0。[重放核验](../.eval-artifacts/phase3a-prime/f5-analysis/rebase-20261024.json)。
 
 - **2026-10-24-PHASE3A-PRIME-F1B-COMPLETE:** F1复核为安全但审查未完成，按用户要求补做F1b：C18历史绝对路径重定位、产品输入迁入模块fixtures、P21c改用临时输出、运行时文件读取检查及11文件/并发4拆分。三项红绿齐全；默认1024/1024、Chromium137/137，三次中位20.469752/85.078675秒（目标≤150），九次门禁后Git状态均空且恢复0。独立克隆在OS拒绝/Users及旧工作树数据读取的条件下默认1024/1024，宿主存在性元数据仍可见；本地浏览器安装资源复制进克隆后通过。137运行名/483断言调用保留，94输入含87精确内容及7路径索引，194原非测试TS不变；69/5/22及正常声明20/20通过，目录3864/包473不增，新模型/Live0。原1175清单仅作索引，报告统一Europe/Vienna。继续F1候选分支，未合main，停于停止点1待复核。 [报告](../.eval-artifacts/phase3a-prime/f1b/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-F1-COMPLETE:** 对话A/F1离线候选完成，分支codex/chore-phase3a-prime-f1，停于停止点1待与B/F5分析一起独立复核；未合入main。1175行清单覆盖1167基线执行项和8非默认探针；退役四个源码字面自检及父项5个，编译空文件迁fixture，纯身份反例合入既有probe契约且前后同破坏双红；31秒Chromium主回归保留，只去掉同例退役30秒对照。新五门禁默认1023、Chromium137，三次中位21.561452/276.823612秒，基线23.337168/307.573510；69翻月/5选店/22校准通过，正常声明20/20、历史中断未评保持。83条明确安全类清单保留、31条Live失败家族主覆盖列证据；15保存页面/控件provenance、原字节不变。194生产TypeScript逐字节无改动，目录3864/包473不增；新增模型/Live/来源调用0。 [报告](../.eval-artifacts/phase3a-prime/f1/report.md)。
+
+- **2026-10-24-PHASE3A-PRIME-F5-STOP1C:** 用户明确批准ADR-0043，修订document revision 1.1为Accepted／尚未实施，仍按指令停1c不实现。范围仅A；LOCATION／车站改动未采纳，待F5 Live完整DOM后再议。替代入口改从同来源流程实际观察集合由模型选择、代码核对Pack及作用域后直接导航，不读恢复页；D1东京→A1322→A132201→替代共4地区页。已明确当前DOM targetRef合同不支持旧引用，需窄集合选择合同，普通OPEN_LINK不扩权；直接NAVIGATE须计页。补G3与集合外/跨来源/拼href反例，N1–N4优先复用既有fixture构造。历史拼接估算57.512秒，D2慢代理87.501秒，列表解析仍未证。48项固定SHA，新调用0，产品/测试/站点零差异，五门禁NOT_RUN；仅提交推送F5分支后停1c。F1先合main后本分支再重放，保留双方记录。[当前报告](../.eval-artifacts/phase3a-prime/f5-analysis/report.md#10-停止点-1c-修订与-adr-批准) · [已批准ADR](decisions/0043-provisional-directory-entrance-coordinate-check.md)。
+
+- **2026-10-24-PHASE3A-PRIME-F5-STOP1B:** 用户通过停止点1、选择A拒绝B；1b设计与ADR-0043提议草稿完成，尚未实现。Q7固定D1/D2共15个地区决策、18份CONTROLS均无INPUT，错误区八站OPEN_LINK已给，D1确曾点击类别All；匹配Akabane的LOCATION／站距路径未观察，HTML仅head或缺失、截图文字遮蔽，因此范围裁定为证据不足，控件条件优先＋A后备交复核。A细化临时入口、两有效样本、代码距离／方位、与4/5共用一次换入口、UNKNOWN立即交接及预算不重置。早取样条件估算55.549秒，较深路径恢复需5地区页、超过4页，不能靠加预算完成。例03冻结Kudanshita、人工800m类别0家、环带未核对、用时只记录；历史有界无结果与零合格交付分列，不改评分。新增调用0、43项SHA、产品/测试/站点零差异、五门禁NOT_RUN；仅提交推送本分支后停1b。F1b先合main，之后重放并保留双方记录；本批不合并或推main。[当前报告](../.eval-artifacts/phase3a-prime/f5-analysis/report.md#9-停止点-1b-补充) · [ADR草稿](decisions/0043-provisional-directory-entrance-coordinate-check.md)。
+
+- **2026-10-24-PHASE3A-PRIME-F5-ANALYSIS:** 批次1B只读分析完成，停在停止点1等独立复核选方案。固定3ec38584四份完整结果171行决策及中断29行：例01 Tabelog零详情、地区未完成；两家与同义词改写实际来自TableCheck，不能仅放宽首五家规则。例03历史输入为备用Kudanshita，五店都在半径内，后续事实约148–150秒；第三次未到达。41/95为重复OPTIONS诊断，预检只支持GET而日历规则为受限POST，缺真实配对字段，分类交F3。提出两个通用层方案，优先评审权威地名约束检索；均未实施，收益待验证。产品/Runner/测试/适配器未改，新模型/Google/网站/Live0；不合并、不推送。[分析报告](../.eval-artifacts/phase3a-prime/f5-analysis/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-STOP0-APPROVED:** 用户转述独立复核00:20北京通过停止点0，行数错误在指令一侧。门槛仅两个站点目录非测试TypeScript物理行，3591→3864、目标≤3591；source-packs.ts单列当前473且站点行数不得增加，移动到pack/通用层不计减少，站点Skill排除。批准批次1：A做F1，B做F5只读分析；F1基线默认1029/23.3秒，Chromium138/307.6秒。批次0五门禁与原始统计不改，新模型/Live0。 [报告补充](../.eval-artifacts/phase3a-prime/main-check/report.md#7-停止点-0-复核补充2026-10-24-0020-北京)。
 

@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.277
+- Document revision: 4.280
 - Last updated: 2026-10-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,22 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F5-REBASE
+
+按用户授权重放分析分支三提交到f42715c2；STATUS/DEVLOG/TEST-LOG/月度导航保留F1/F1b与F5全部记录。Accepted ADR与分析产物逐字节保留；annotated tag checkpoint/phase3a-prime-f5-stop1c保存原60d02686祖先及固定输入。新实现分支下一步从新main建立，分析本身不改产品、不运行Live。 维也纳时间2026-10-24T04:00:45+02:00；新模型/Google/网站/Live0。[核验](../../.eval-artifacts/phase3a-prime/f5-analysis/rebase-20261024.json)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F5-STOP1C
+
+维也纳时间2026-10-24 CEST。用户提供自包含1b复核并明确批准新ADR；本批完成1c设计修订，仍不实现。只做A，撤回LOCATION/车站控件修复及其无有效红灯的清单，保留不得拼造站码/类别码/URL。替代从本来源流程已观察、Pack确认的入口集合选取，模型只选集合引用，代码复核归属后直接导航，不恢复菜单。D1第5行东京菜单31地区链接保留原revision/ref/trace/snapshot；第三页取样后替代为第四页。当前Executor只接受当前DOM目标，报告列明SELECT_REGION_ENTRANCE拟议合同、输入/结果/动作/Prompt/来源进度版本接线，未绕开旧ref校验；直接NAVIGATE需显式记原页额。新增G3、集合外/跨来源或流程/拼造href反例，N1–N4优先复用既有fixture/runScenario构造。ADR-0043 revision1.1 Accepted／尚未实施，旧0040/0042正文不改。新预算57.512秒余32.488；D2慢代理87.501秒余2.499，列表能否解析未证。旧预算/验证保留为superseded retrospective。48项固定输入SHA，新增调用0，无产品/测试/站点/账本变更。仅提交推送当前F5分支后停1c；F1合main后再重放，保留双方记录。[报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#10-停止点-1c-修订与-adr-批准)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F5-STOP1B
+
+维也纳时间2026-10-24 CEST。按用户停止点1复核裁定选A拒绝B，继续原F5分支，只补设计不实现。固定3ec38584核对D1/D2地区决策15行、CONTROLS18份、head-only/缺失HTML及遮蔽截图；错误区八站已有OPEN_LINK，类别All实际被D1点击，不能归因于Schema禁止或Executor拒绝；请求匹配LOCATION/站距控件仍缺证，范围按证据不足交复核。A细化临时入口、两有效坐标、代码距离方位、与4/5共用一次纠正、四类失败有界UNKNOWN和候选/预算保留；新增ADR-0043提议草稿，不改0040/0042正文。较早交接条件算术55.549秒余34.451，深层交接后恢复需5地区页而上限4，不以增加预算实现。例03未来冻结Kudanshita，人工800m类别0家、1000m环带未核对，用时只记录；C03-2/C09有界诚实无结果与零交付分开，原评分不改。43项输入SHA，0新模型/Google/餐厅网站/Live/环境重跑；不读.env，不动账本/产品/测试/站点。同步本分支记录，提交推送本分支后停1b，F1b先合main，之后重放时保留双方记录；不合并或推main。[当前报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#9-停止点-1b-补充) · [ADR草稿](../decisions/0043-provisional-directory-entrance-coordinate-check.md)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F5-ANALYSIS
+
+按已批准批次1B从main/2ada8a69建立codex/chore-phase3a-prime-f5-analysis，独立工作区保留主工作树9份用户改动。只读取3ec38584的两次例01诊断、例03两份完整结果及首个中断尝试；输出六问分析、逐来源/逐页/逐模型明细、原始输入SHA与最多两个通用层方案。Tabelog地区未完成且零详情，否定“只有两家所以首五家规则没触发”的实际归因；两家和同义词来自TableCheck。例03已执行备用地点Kudanshita，五家均在范围内，约148–150秒事实追查；新输入比较口径待冻结前明确。OPTIONS只分类不修，新增窄ADR的需要在方案中明确。报告与本批同步文档可能与并行F1同文件，待复核安排合入顺序；不改产品/测试/Runner/输入/权限，不合并main、不推送，停止点1。新真实模型、Google、网站和Live均0。[报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md)。
 
 ## DEV-2026-10-23-MAIN-ONLY-WORKFLOW
 

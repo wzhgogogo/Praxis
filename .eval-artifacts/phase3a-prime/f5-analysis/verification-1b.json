@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "checkedAtVienna": "2026-10-24T01:09:13+02:00",
+  "mode": "static Git/blob and document verification; no product execution",
+  "checks": {
+    "inputSha256": 43,
+    "originalManifestEntriesUnchanged": 29,
+    "newFixedInputs": 14,
+    "q7DecisionContexts": 15,
+    "rawControlObservations": 18,
+    "stationTargetsPerRecordedSubarea": 8,
+    "earlyEstimateMs": 55549,
+    "earlyMarginMs": 34451,
+    "deepEstimateMs": 67879,
+    "deepRegionPages": 5,
+    "existingRegionPageLimit": 4,
+    "deepRouteVerdict": "INFEASIBLE_BY_PAGE_CAP",
+    "stationKnownProxyMs": 52642,
+    "stationUnobservedRemainderMs": 37358,
+    "requestedStationControl": "EVIDENCE_INSUFFICIENT",
+    "case03PersistedBoundedNoResult": 2,
+    "case03RenderedTranscript": "NOT_SAVED",
+    "monthlyDevRows": 260,
+    "monthlyTestRows": 267,
+    "fileLinksChecked": 39,
+    "productRunnerTestsPromptSchemaGoldVariantsGuardSitePacksDiff": 0,
+    "acceptedAdr0040And0042Diff": 0,
+    "budgetDiff": 0,
+    "gitDiffCheck": "PASS",
+    "mainHeadUnchanged": "2ada8a69a3071740423745e581c3b6ae30d9a1bd"
+  },
+  "fiveGates": {
+    "typecheck": "NOT_RUN",
+    "arch:check": "NOT_RUN",
+    "npm test": "NOT_RUN",
+    "build": "NOT_RUN",
+    "test:browser:fixture": "NOT_RUN"
+  },
+  "productRedGreen": "NOT_RUN; checklist only",
+  "executionModes": {
+    "Mock": "NOT_RUN",
+    "Replay": "NOT_RUN",
+    "Live Read-only": "NOT_RUN",
+    "Controlled Live-write": "NOT_RUN"
+  },
+  "newCalls": {
+    "model": 0,
+    "Google": 0,
+    "restaurantWebsite": 0,
+    "Live": 0,
+    "environmentRerun": 0
+  },
+  "stopPoint": "1b",
+  "implementationStarted": false,
+  "limitations": [
+    "Requested Akabane LOCATION/station-distance path not observed; saved HTML incomplete and screenshots text-redacted.",
+    "Two-detail and keyword timings are cross-case proxies, not a successful D1 intervention.",
+    "New local constructed test inputs are designs only; no new fixtures or tests were written.",
+    "No new S0 evaluation or historical rescoring; persisted outcome is not a saved rendered transcript."
+  ]
+}
