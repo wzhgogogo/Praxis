@@ -24,8 +24,9 @@ export async function loadReplayRecording(directory: string, outputHar: string) 
   const sourceHar=manifest.replay?.harPath;
   const har=sourceHar ? JSON.parse(await readFile(await inside(sourceHar),"utf8")) : {log:{version:"1.2",creator:{name:"Praxis replay",version:"1"},entries:[]}};
   har.log.entries=har.log.entries.filter((entry:any)=> !/html/i.test(entry.response.content.mimeType)||allowed.has(entry.request.url));
-  await writeFile(outputHar,JSON.stringify(har),{flag:"wx"});
-  return {pages,entries:har.log.entries as any[],harPath:outputHar,sha256:createHash("sha256").update(bytes).digest("hex"),allowed};
+  const filtered=JSON.stringify(har);
+  await writeFile(outputHar,filtered,{flag:"wx"});
+  return {pages,entries:har.log.entries as any[],harPath:outputHar,sha256:createHash("sha256").update(bytes).digest("hex"),harSha256:createHash("sha256").update(filtered).digest("hex"),allowed};
 }
 export type ReplayRecording=Awaited<ReturnType<typeof loadReplayRecording>>;
 function bodyKey(body: unknown) {return typeof body === "string" ? body : "";}
@@ -40,7 +41,9 @@ export function createRecordedBrowser(recording: ReplayRecording, stop: (reason:
     browser.newContext=async options=>{
       const context=await newContext(options);
       context.on("request",request=>{
-        if(!recordedResponse(recording,request.url(),request.method(),request.postData()??undefined)) locate(request.url(),"MISSING_RESPONSE");
+        const reason=request.resourceType()==="document"&&!recording.allowed.has(request.url())?"DOCUMENT_NOT_QUALIFIED"
+          :!recordedResponse(recording,request.url(),request.method(),request.postData()??undefined)?"MISSING_RESPONSE":undefined;
+        if(reason){locate(request.url(),reason);void context.close().catch(()=>{});}
       });
       return context;
     };return browser;

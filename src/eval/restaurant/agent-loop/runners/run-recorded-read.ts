@@ -34,7 +34,7 @@ export async function runRecordedRead(config: RecordedReadInput, output: string,
   const replay=createRecordedBrowser(recording,stop);
   const packs=config.input.packIds.map(id=>{const pack=restaurantDiscoveryPacks.find(p=>p.meta.id===id);if(!pack)throw new Error("Unknown original source pack");return pack;});
   const {packIds:_packIds,startedAt,...input}=config.input;
-  const provenance={executionSource:"REPLAY",modelMode:config.modelMode,recordingSha256:recording.sha256,decisionSha256:createHash("sha256").update(decisionBytes).digest("hex"),liveCapabilityDenominator:"EXCLUDED"};
+  const provenance={executionSource:"REPLAY",modelMode:config.modelMode,recordingSha256:recording.sha256,harSha256:recording.harSha256,decisionSha256:createHash("sha256").update(decisionBytes).digest("hex"),liveCapabilityDenominator:"EXCLUDED"};
   try {
     const result=await runHybridReadDiagnostic({...input,startedAt:new Date(startedAt),packs,recordBrowser:false,recordDecisions:false,directory:resolve(output,"execution"),runtimeContext:{...input.runtimeContext,...provenance}}, {
       signal:controller.signal,browser:replay.browser,
@@ -47,7 +47,7 @@ export async function runRecordedRead(config: RecordedReadInput, output: string,
         if(config.modelMode==="REAL"){const model=realModelFactory!(observe);return {async complete(request){modelTransportCalls++;return model.complete(request);}};}
         return {async complete(request:ModelRequest){
           const record=decisions[decisionIndex++];
-          if(!record||record.purpose!==request.purpose||record.promptVersion!==request.promptVersion||record.outputSchema?.name!==request.outputSchema.name||record.outcome!=="SUCCEEDED"||typeof record.outputText!=="string"){
+          if(!record||record.purpose!==request.purpose||record.promptVersion!==request.promptVersion||record.outputSchema?.name!==request.outputSchema.name||record.outputSchema?.version!==request.outputSchema.version||record.outcome!=="SUCCEEDED"||typeof record.outputText!=="string"){
             stop({snapshot:recording.pages[replay.consumedPages()]?.snapshot??null,origin:"",pathname:"",reason:"DECISION_SEQUENCE_DIVERGED"});throw new Error("REPLAY_INCOMPLETE");
           }
           const response={invocationId:`replayed-${decisionIndex}`,provider:"FIXTURE" as const,model:"recorded-decisions",outputText:record.outputText,finishReason:record.finishReason??"STOP",latencyMs:0};
