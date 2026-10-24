@@ -50,7 +50,7 @@ R1 在未修产品 c870dc4a 取得有效红灯：详情为 0，目标断言要�
 | F3 | 取样后累计来源达到 90 秒：SOURCE_BUDGET_EXHAUSTED，详情数与已用调用保留，没有后续导航或模型调用。 |
 | B1 | 四种收尾分别从整单已用 200 秒／20 calls 起步；实际源读取继续计时计数，下一来源的 Executor 仍见 500−累计毫秒、50−累计调用；到原 500 秒拒绝新调用。与真实组合的来源交接、原四页／十详情和全局 50 调用反例合并验证。 |
 | C1 | 内→外、外→内均核实入口，仅地理合格店接纳，不触发临时两外规则。 |
-| C2 | 缺 geo、非法纬度、未知→外→缺→外：未知不占有效样本，开始的详情仍计数，第二个有效外才触发。 |
+| C2 | 缺 geo、非法纬度、null／空字符串、未知→外→缺→外：未知不占有效样本，开始的详情仍计数，第二个有效外才触发。保留 null 被 Number 转成 0 后提前两详情换区的有效红灯；修后四详情才取得两有效样本。 |
 | C3 | 原 4/5 与临时两外共用 replacement；后续批次不可再换，误判不获得补偿次数。 |
 | C4 | 复用既有 COMPLETE 的未满足谓词、无进展和异步加载行为回归；模型完成请求不能代替代码谓词。strict wire 拒绝额外 distanceMeters、radiusMeters、href 和权威 LOCATION 字段。 |
 | N1、N2、N4 | 涩谷、神乐坂、东银座分别使用各自历史圆心，本地具名入口和同店详情；不进入临时分支。旧／新均 2 地区页＋5 详情＝7 次页面访问，换入口 0。 |
@@ -59,6 +59,8 @@ R1 在未修产品 c870dc4a 取得有效红灯：详情为 0，目标断言要�
 N1–N4 复用现有行为构造并在固定 f42715c2 的旧 Native 模块上实际比较，见 normal-baseline-comparison.json／log；临时旧执行文件已删除，不留兼容路径。这些是发现阶段控制，不冒充完整四例 Live；原请求、Gold 和后续 HARD／身份／库存资格门槛不改。
 
 PGlite 恢复测试还验证集合原观察引用、样本、累计计数在 Event/Reducer 后持久化并恢复。首次默认门禁 1035/1036 的旧 State20 断言失败保留为无损 gzip，更新为 State21 后通过，没有排除测试。
+
+收尾反例另验证：非法整集合且详情队列未空时，明确 stopReason 优先于通用队列保留，UNKNOWN 不被重新标成可继续；scope-stop-red.log.gz 保留修前目标断言失败。一般的未完成详情继续路径不受影响。
 
 ## 四层评价与未证明范围
 
@@ -79,3 +81,5 @@ PGlite 恢复测试还验证集合原观察引用、样本、累计计数在 Eve
 fd7c3c70 已通过五门禁：typecheck、arch:check、默认 1037/1037、build、真实 Chromium 138/138；每项前后 git status 均为空。原始日志无损归档于 gates/。最终又加强了正常地区输入和跨 run 集合拒绝，将在新提交的干净树上重跑五门禁，最终结果以 gates-final/results.json 为准。
 
 两个站点目录相对 f42715c2 全部字节相同：生产 TypeScript 3864→3864 行，source-packs.ts 473→473 行；完整文件 SHA 见 adapter-audit.json。没有 `.env` 读取或暂存，没有 main 合并或 main 推送。最终提交推送实现分支后停在停止点 2，等待复核。
+
+Live preparation envelope check: the real strict Runner loader rejected historical weekday/fallback_place metadata. The final envelope removes only those metadata keys; user content, dates and semantic criteria are byte-preserved. live-outer.mjs now invokes the production loader/cohort/materializer in its offline preflight. The executed collector freeze is retained separately as collector-executed-freeze.json; the GET witness inputs and collector bytes are unchanged. No request was repeated.

@@ -185,6 +185,8 @@ function pageCoordinates(page: BrowserSnapshot, outletName: string): { latitude:
         const geo = item.geo;
         if (!geo || typeof geo !== "object" || Array.isArray(geo)) continue;
         const point = geo as Record<string, unknown>;
+        const numericCoordinate = (value: unknown) => typeof value === "number" || typeof value === "string" && value.trim() !== "";
+        if (!numericCoordinate(point.latitude) || !numericCoordinate(point.longitude)) continue;
         const latitude = Number(point.latitude);
         const longitude = Number(point.longitude);
         if (Number.isFinite(latitude) && Number.isFinite(longitude) && Math.abs(latitude) <= 90 && Math.abs(longitude) <= 180) {
