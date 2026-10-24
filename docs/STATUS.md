@@ -1,9 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.384
+- Document revision: 4.385
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-24-PHASE3A-PRIME-F2A-STOP2:** 批次2对话A离线候选完成，codex/fix-phase3a-prime-f2a，停止点2待复核，不等B/F5且未合main。正式执行函数保存SIGTERM/SIGINT、AbortSignal、deadline的已有记录；真实Chromium/Guard/HAR子进程四控制与关闭处理红灯通过，声明及边界S0均ABSENT，缺最终状态保持未知。Evaluator34/rubric30修复额外UNSPECIFIED；h-12完整上下文成对与单规则干预证明其他独立判断不变、派生结论随之变化；22/22、正常声明20/20，历史两中断未知保留。Recorder4按页判定，三旧录制0/74、0/109、0/56，缺静态依赖或原DOM不补造。最终五门禁1027/141与typecheck/arch/build全绿，单次20.182264/84.761184秒，各项后Git状态空、门禁恢复0；初轮缺快照回归已修复并保留。真实模型/Google/网站/Live0，适配器3864/pack473不变，报告Europe/Vienna。 [报告](../.eval-artifacts/phase3a-prime/f2a/report.md)。
+
+- **2026-10-24-PHASE3A-PRIME-F1B-REVIEWED-MAIN:** 用户明确批准F1b/F1完成，将f42715c2快进合入main并推送，远端核验SHA为f42715c2cb34a18764b664bd175576dfe2eaabe3。合入后该精确main五门禁一次全绿，默认1024/1024、Chromium137/137，单次20.212164/85.410666秒，每项后Git状态空。随后从该main开始F2a工作分支；原主工作区9份用户文件与HEAD保留，未删除分支。 [合入与门禁](../.eval-artifacts/phase3a-prime/f2a/main-integration.json)。
 
 - **2026-10-24-PHASE3A-PRIME-F1B-COMPLETE:** F1复核为安全但审查未完成，按用户要求补做F1b：C18历史绝对路径重定位、产品输入迁入模块fixtures、P21c改用临时输出、运行时文件读取检查及11文件/并发4拆分。三项红绿齐全；默认1024/1024、Chromium137/137，三次中位20.469752/85.078675秒（目标≤150），九次门禁后Git状态均空且恢复0。独立克隆在OS拒绝/Users及旧工作树数据读取的条件下默认1024/1024，宿主存在性元数据仍可见；本地浏览器安装资源复制进克隆后通过。137运行名/483断言调用保留，94输入含87精确内容及7路径索引，194原非测试TS不变；69/5/22及正常声明20/20通过，目录3864/包473不增，新模型/Live0。原1175清单仅作索引，报告统一Europe/Vienna。继续F1候选分支，未合main，停于停止点1待复核。 [报告](../.eval-artifacts/phase3a-prime/f1b/report.md)。
 

@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.277
+- Document revision: 4.278
 - Last updated: 2026-10-24
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4561,3 +4561,13 @@ Publication-only remote merge after source completion preservesfe9b3fc and State
 ## DEV-2026-10-24-PHASE3A-PRIME-F1B-COMPLETE
 
 执行记录时间 2026-10-24T00:24:08.831212+02:00（Europe/Vienna）。F1复核为安全但审查未完成，按用户要求补做F1b：C18历史绝对路径重定位、产品输入迁入模块fixtures、P21c改用临时输出、运行时文件读取检查及11文件/并发4拆分。三项红绿齐全；默认1024/1024、Chromium137/137，三次中位20.469752/85.078675秒（目标≤150），九次门禁后Git状态均空且恢复0。独立克隆在OS拒绝/Users及旧工作树数据读取的条件下默认1024/1024，宿主存在性元数据仍可见；本地浏览器安装资源复制进克隆后通过。137运行名/483断言调用保留，94输入含87精确内容及7路径索引，194原非测试TS不变；69/5/22及正常声明20/20通过，目录3864/包473不增，新模型/Live0。原1175清单仅作索引，报告统一Europe/Vienna。继续F1候选分支，未合main，停于停止点1待复核。 [报告](../../.eval-artifacts/phase3a-prime/f1b/report.md)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F1B-REVIEWED-MAIN
+
+Evidence status: current reviewed baseline，开发证据已暴露。用户明确批准F1b/F1完成及推送main；仅将f42715c2快进至main，五门禁在合入后的该精确提交重跑一次，每项后工作树干净，再推送并核验远端。新main为f42715c2cb34a18764b664bd175576dfe2eaabe3；随后从该main开F2a。没有改写旧开发分支或用户9份文件，没有删除分支，真实模型/Live0。 [合入记录](../../.eval-artifacts/phase3a-prime/f2a/main-integration.json)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F2A-STOP2
+
+Evidence status: frozen regression / draft not integrated；报告时间Europe/Vienna，不是Clean Baseline。仅对话A/F2①②④a：Live CLI与离线来源共用正式执行函数，受控退出刷盘已有快照、trace、decision和recording；Evaluator34/rubric30识别中断、按已达环节报告并继续独立S0，修复额外UNSPECIFIED误判；Recorder4按页资格、1MB UTF-8上限、去除未审核form action且保留安全脱敏与缺依赖拒绝。
+
+从f42715c2建立工作分支，b0d2b900冻结输入，ef89c72d实施，c3311b61/db25bbdb冻结首轮控制，dce958f4修复默认回归捕获的缺快照未知语义并使Node子进程继承读取检查，44252311冻结最终验证。三个历史运行只重判已保存字节，不恢复缺失DOM/脚本；新增测试用最小合成来源，未向产品测试复制整份历史运行。产品Core/Domain/Adapter/Server与web-skills相对main无差异，目录3864/pack473不变。未开始F5、Live、F2③/④b或私有留出集；停止点2待复核。 [报告](../../.eval-artifacts/phase3a-prime/f2a/report.md)。

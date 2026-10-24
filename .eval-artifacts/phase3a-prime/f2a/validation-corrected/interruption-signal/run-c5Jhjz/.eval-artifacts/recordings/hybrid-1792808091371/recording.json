@@ -1,0 +1,1188 @@
+{
+  "schemaVersion": "browser-read-recording@4",
+  "stylesheets": [],
+  "status": "RECORDED",
+  "entries": [
+    {
+      "sequence": 1,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "CANDIDATE_STARTED",
+        "detail": "CANDIDATE_SCOPE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 2,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_STARTED",
+        "detail": "PROVIDER_SCOPE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 3,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "SESSION_OPENING",
+        "detail": "OPEN_SESSION",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 4,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "startedAt": "2026-10-24T02:14:51.498Z",
+        "readNetworkBoundary": "INSTALLED"
+      }
+    },
+    {
+      "sequence": 5,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "SESSION_OPENED",
+        "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 107,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 106,
+          "providerElapsedMs": 106,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 6,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_STARTED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 108,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 107,
+          "providerElapsedMs": 107,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 7,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://www.tablecheck.com/en/fixture",
+          {
+            "timeoutMs": 20000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 8,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 9,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 124,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 123,
+          "providerElapsedMs": 123,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 10,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled",
+        "args": [
+          {
+            "url": "",
+            "title": "",
+            "text": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0
+            },
+            "html": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0,
+              "observedStateTags": []
+            }
+          },
+          700
+        ]
+      }
+    },
+    {
+      "sequence": 11,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled",
+        "result": true
+      }
+    },
+    {
+      "sequence": 12,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "ASYNC_WAIT",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "settlement": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "pendingByType": {},
+          "oldestPendingMs": 0,
+          "blockingDataRequests": 0,
+          "busySelectors": [],
+          "visibleTextChanging": false
+        },
+        "detail": "PAGE_SETTLED",
+        "waitMs": 310,
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 434,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 433,
+          "providerElapsedMs": 433,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 13,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 434,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 433,
+          "providerElapsedMs": 433,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 14,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://www.tablecheck.com/en/fixture",
+        "title": "",
+        "textSha256": "39521a1d60d5523ed5d925b722732895ed2a543ce8bc081331200761c7b76001",
+        "textLength": 60,
+        "pageId": "page:1",
+        "htmlSha256": "447fb29980beb1835a995714e03ab1c17d00c2d7327a314062326bb83de0fa6d",
+        "htmlLength": 346,
+        "observedStateTags": [
+          {
+            "tag": "DIV",
+            "data-selected-date": "2026-10-30",
+            "data-pax": "2"
+          }
+        ],
+        "queryRegions": [
+          {
+            "markup": "<div data-testid=\"Venue Availability\"><a data-reservation-source=\"/en/shops/fixture/reserve\" data-reservation-date=\"2026-10-30\" data-reservation-party=\"2\" data-reservation-time=\"19:00\">19:00</a></div>",
+            "truncated": false,
+            "ancestorMarkupHidden": false,
+            "computedVisibility": "UNKNOWN"
+          }
+        ],
+        "priceRegions": [],
+        "responses": [],
+        "networkRequests": [
+          {
+            "outcome": "ADMITTED",
+            "origin": "https://www.tablecheck.com/",
+            "pathname": "/en/fixture",
+            "method": "GET",
+            "resourceType": "document",
+            "queryKeys": []
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 15,
+      "kind": "NETWORK",
+      "detail": [
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://www.tablecheck.com/",
+          "pathname": "/en/fixture",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": []
+        }
+      ]
+    },
+    {
+      "sequence": 16,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 497,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 496,
+          "providerElapsedMs": 496,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 17,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OBSERVED",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 497,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 496,
+          "providerElapsedMs": 496,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 18,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_STARTED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 499,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 498,
+          "providerElapsedMs": 498,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 19,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://www.tablecheck.com/en/fixture",
+          {
+            "timeoutMs": 20000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 20,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 21,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 504,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 503,
+          "providerElapsedMs": 503,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 22,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled",
+        "args": [
+          {
+            "url": "",
+            "title": "",
+            "text": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0
+            },
+            "html": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0,
+              "observedStateTags": []
+            }
+          },
+          700
+        ]
+      }
+    },
+    {
+      "sequence": 23,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled",
+        "result": true
+      }
+    },
+    {
+      "sequence": 24,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "ASYNC_WAIT",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "settlement": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "pendingByType": {},
+          "oldestPendingMs": 0,
+          "blockingDataRequests": 0,
+          "busySelectors": [],
+          "visibleTextChanging": false
+        },
+        "detail": "PAGE_SETTLED",
+        "waitMs": 306,
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 810,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 809,
+          "providerElapsedMs": 809,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 25,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 810,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 809,
+          "providerElapsedMs": 809,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 26,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://www.tablecheck.com/en/fixture",
+        "title": "",
+        "textSha256": "39521a1d60d5523ed5d925b722732895ed2a543ce8bc081331200761c7b76001",
+        "textLength": 60,
+        "pageId": "page:1",
+        "htmlSha256": "447fb29980beb1835a995714e03ab1c17d00c2d7327a314062326bb83de0fa6d",
+        "htmlLength": 346,
+        "observedStateTags": [
+          {
+            "tag": "DIV",
+            "data-selected-date": "2026-10-30",
+            "data-pax": "2"
+          }
+        ],
+        "queryRegions": [
+          {
+            "markup": "<div data-testid=\"Venue Availability\"><a data-reservation-source=\"/en/shops/fixture/reserve\" data-reservation-date=\"2026-10-30\" data-reservation-party=\"2\" data-reservation-time=\"19:00\">19:00</a></div>",
+            "truncated": false,
+            "ancestorMarkupHidden": false,
+            "computedVisibility": "UNKNOWN"
+          }
+        ],
+        "priceRegions": [],
+        "responses": [],
+        "networkRequests": [
+          {
+            "outcome": "ADMITTED",
+            "origin": "https://www.tablecheck.com/",
+            "pathname": "/en/fixture",
+            "method": "GET",
+            "resourceType": "document",
+            "queryKeys": []
+          },
+          {
+            "outcome": "ADMITTED",
+            "origin": "https://www.tablecheck.com/",
+            "pathname": "/en/fixture",
+            "method": "GET",
+            "resourceType": "document",
+            "queryKeys": []
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 27,
+      "kind": "NETWORK",
+      "detail": [
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://www.tablecheck.com/",
+          "pathname": "/en/fixture",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://www.tablecheck.com/",
+          "pathname": "/en/fixture",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": []
+        }
+      ]
+    },
+    {
+      "sequence": 28,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 865,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 864,
+          "providerElapsedMs": 864,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 29,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OBSERVED",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 865,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 864,
+          "providerElapsedMs": 864,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 30,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 866,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 865,
+          "providerElapsedMs": 865,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 5,
+          "providerRuntimeOperations": 5,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 31,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://www.tablecheck.com/en/fixture",
+        "title": "",
+        "textSha256": "39521a1d60d5523ed5d925b722732895ed2a543ce8bc081331200761c7b76001",
+        "textLength": 60,
+        "pageId": "page:1",
+        "htmlSha256": "447fb29980beb1835a995714e03ab1c17d00c2d7327a314062326bb83de0fa6d",
+        "htmlLength": 346,
+        "observedStateTags": [
+          {
+            "tag": "DIV",
+            "data-selected-date": "2026-10-30",
+            "data-pax": "2"
+          }
+        ],
+        "queryRegions": [
+          {
+            "markup": "<div data-testid=\"Venue Availability\"><a data-reservation-source=\"/en/shops/fixture/reserve\" data-reservation-date=\"2026-10-30\" data-reservation-party=\"2\" data-reservation-time=\"19:00\">19:00</a></div>",
+            "truncated": false,
+            "ancestorMarkupHidden": false,
+            "computedVisibility": "UNKNOWN"
+          }
+        ],
+        "priceRegions": [],
+        "responses": [],
+        "networkRequests": [
+          {
+            "outcome": "ADMITTED",
+            "origin": "https://www.tablecheck.com/",
+            "pathname": "/en/fixture",
+            "method": "GET",
+            "resourceType": "document",
+            "queryKeys": []
+          },
+          {
+            "outcome": "ADMITTED",
+            "origin": "https://www.tablecheck.com/",
+            "pathname": "/en/fixture",
+            "method": "GET",
+            "resourceType": "document",
+            "queryKeys": []
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 32,
+      "kind": "NETWORK",
+      "detail": [
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://www.tablecheck.com/",
+          "pathname": "/en/fixture",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://www.tablecheck.com/",
+          "pathname": "/en/fixture",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": []
+        }
+      ]
+    },
+    {
+      "sequence": 33,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 896,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 895,
+          "providerElapsedMs": 895,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 5,
+          "providerRuntimeOperations": 5,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 34,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OBSERVED",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 897,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 896,
+          "providerElapsedMs": 896,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 5,
+          "providerRuntimeOperations": 5,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 35,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_STARTED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 897,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 896,
+          "providerElapsedMs": 896,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 6,
+          "providerRuntimeOperations": 6,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 36,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://www.tablecheck.com/en/fixture",
+          {
+            "timeoutMs": 20000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 37,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 38,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 903,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 902,
+          "providerElapsedMs": 902,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 6,
+          "providerRuntimeOperations": 6,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 39,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled",
+        "args": [
+          {
+            "url": "",
+            "title": "",
+            "text": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0
+            },
+            "html": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0,
+              "observedStateTags": []
+            }
+          },
+          700
+        ]
+      }
+    },
+    {
+      "sequence": 40,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled",
+        "result": true
+      }
+    },
+    {
+      "sequence": 41,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "ASYNC_WAIT",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "settlement": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "pendingByType": {},
+          "oldestPendingMs": 0,
+          "blockingDataRequests": 0,
+          "busySelectors": [],
+          "visibleTextChanging": false
+        },
+        "detail": "PAGE_SETTLED",
+        "waitMs": 305,
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1208,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1207,
+          "providerElapsedMs": 1207,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 6,
+          "providerRuntimeOperations": 6,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 42,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1208,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1207,
+          "providerElapsedMs": 1207,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 7,
+          "providerRuntimeOperations": 7,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 43,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "CLOSED",
+        "detail": "SESSION_RETIRED",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1233,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1232,
+          "providerElapsedMs": 1232,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 7,
+          "providerRuntimeOperations": 7,
+          "runModelCalls": 0
+        }
+      }
+    },
+    {
+      "sequence": 44,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_FINISHED",
+        "detail": "PROVIDER_SCOPE",
+        "lifecycle": {
+          "outcome": "ABANDONED",
+          "candidateElapsedMs": 1232,
+          "providerElapsedMs": 1232,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 7,
+          "providerRuntimeOperations": 7,
+          "runModelCalls": 0,
+          "reason": "PARENT_ABORTED"
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1233
+      }
+    },
+    {
+      "sequence": 45,
+      "kind": "EXECUTOR_DIAGNOSTIC",
+      "detail": {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "CANDIDATE_FINISHED",
+        "detail": "CANDIDATE_SCOPE",
+        "lifecycle": {
+          "outcome": "ABANDONED",
+          "candidateElapsedMs": 1232,
+          "providerElapsedMs": 1232,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 7,
+          "providerRuntimeOperations": 7,
+          "runModelCalls": 0,
+          "reason": "PARENT_ABORTED"
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1233
+      }
+    }
+  ],
+  "pages": [
+    {
+      "snapshot": 1,
+      "url": "https://www.tablecheck.com/en/fixture",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE"
+    },
+    {
+      "snapshot": 2,
+      "url": "https://www.tablecheck.com/en/fixture",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE"
+    },
+    {
+      "snapshot": 3,
+      "url": "https://www.tablecheck.com/en/fixture",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE"
+    }
+  ],
+  "documents": [
+    {
+      "snapshot": 1,
+      "url": "https://www.tablecheck.com/en/fixture",
+      "file": "snapshot-0001.html"
+    },
+    {
+      "snapshot": 2,
+      "url": "https://www.tablecheck.com/en/fixture",
+      "file": "snapshot-0002.html"
+    },
+    {
+      "snapshot": 3,
+      "url": "https://www.tablecheck.com/en/fixture",
+      "file": "snapshot-0003.html"
+    }
+  ],
+  "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+  "screenshots": [
+    {
+      "snapshot": 1,
+      "status": "LAYOUT_ONLY_CONTENT_MASKED",
+      "file": "screenshot-0001.png"
+    },
+    {
+      "snapshot": 2,
+      "status": "LAYOUT_ONLY_CONTENT_MASKED",
+      "file": "screenshot-0002.png"
+    },
+    {
+      "snapshot": 3,
+      "status": "LAYOUT_ONLY_CONTENT_MASKED",
+      "file": "screenshot-0003.png"
+    }
+  ],
+  "replay": {
+    "status": "REPLAYABLE",
+    "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+    "harPath": "replay.har"
+  },
+  "contentSha256": "cf725cd297841a96a8afb41bbfa29ff96f622eeca244d5143aa63c3603f55167"
+}

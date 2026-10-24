@@ -1,0 +1,133 @@
+{
+  "status": "PASS",
+  "codeCommit": "442523111bb85297494af30054c3dc18a8ef56c2",
+  "freezeSha256": "40f9fc00bea0bb163534647bafab403044288e1ff1c6c19a22ba81bbb5d3b3a9",
+  "timezone": "Europe/Vienna",
+  "finishedAt": "2026-10-24 04:14:56",
+  "runs": [
+    {
+      "mode": "complete",
+      "elapsedSeconds": 1.6798802919999998,
+      "outcome": "QUALIFIED_DELIVERY",
+      "declaration": "ABSENT",
+      "boundary": "ABSENT",
+      "reachedStages": [],
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    },
+    {
+      "mode": "signal",
+      "elapsedSeconds": 1.679555292000001,
+      "outcome": "ORCHESTRATION_INTERRUPTED",
+      "declaration": "ABSENT",
+      "boundary": "ABSENT",
+      "reachedStages": [
+        "SEMANTIC",
+        "LOCATION",
+        "AGENT_DECISION",
+        "DISCOVERY",
+        "IDENTITY",
+        "AVAILABILITY"
+      ],
+      "exit": {
+        "code": 1,
+        "signal": null
+      }
+    },
+    {
+      "mode": "deadline",
+      "elapsedSeconds": 1.6478908329999995,
+      "outcome": "ORCHESTRATION_INTERRUPTED",
+      "declaration": "ABSENT",
+      "boundary": "ABSENT",
+      "reachedStages": [
+        "SEMANTIC",
+        "LOCATION",
+        "AGENT_DECISION",
+        "DISCOVERY",
+        "IDENTITY",
+        "AVAILABILITY"
+      ],
+      "exit": {
+        "code": 1,
+        "signal": null
+      }
+    },
+    {
+      "mode": "external",
+      "elapsedSeconds": 1.6740602499999986,
+      "outcome": "ORCHESTRATION_INTERRUPTED",
+      "declaration": "ABSENT",
+      "boundary": "ABSENT",
+      "reachedStages": [
+        "SEMANTIC",
+        "LOCATION",
+        "AGENT_DECISION",
+        "DISCOVERY",
+        "IDENTITY",
+        "AVAILABILITY"
+      ],
+      "exit": {
+        "code": 1,
+        "signal": null
+      }
+    }
+  ],
+  "recordings": [
+    {
+      "id": "h-01-diagnostic-1",
+      "totalPages": 74,
+      "originalRetainedDocuments": 31,
+      "replayablePages": 0,
+      "fraction": 0,
+      "reasons": {
+        "UNCAPTURED_STATIC_DEPENDENCY": 31,
+        "ORIGINAL_DOCUMENT_NOT_RETAINED": 43
+      },
+      "originalReplay": {
+        "status": "NOT_REPLAYABLE",
+        "reason": "UNSAFE_DOCUMENT"
+      },
+      "newReplay": "NOT_REPLAYABLE"
+    },
+    {
+      "id": "h-03",
+      "totalPages": 109,
+      "originalRetainedDocuments": 100,
+      "replayablePages": 0,
+      "fraction": 0,
+      "reasons": {
+        "UNCAPTURED_STATIC_DEPENDENCY": 100,
+        "ORIGINAL_DOCUMENT_NOT_RETAINED": 9
+      },
+      "originalReplay": {
+        "status": "NOT_REPLAYABLE",
+        "reason": "UNSAFE_DOCUMENT"
+      },
+      "newReplay": "NOT_REPLAYABLE"
+    },
+    {
+      "id": "h-12",
+      "totalPages": 56,
+      "originalRetainedDocuments": 52,
+      "replayablePages": 0,
+      "fraction": 0,
+      "reasons": {
+        "UNCAPTURED_STATIC_DEPENDENCY": 52,
+        "ORIGINAL_DOCUMENT_NOT_RETAINED": 4
+      },
+      "originalReplay": {
+        "status": "NOT_REPLAYABLE",
+        "reason": "UNSAFE_DOCUMENT"
+      },
+      "newReplay": "NOT_REPLAYABLE"
+    }
+  ],
+  "realModels": 0,
+  "websites": 0,
+  "googleRequests": 0,
+  "liveRuns": 0,
+  "externalCalls": 0
+}
