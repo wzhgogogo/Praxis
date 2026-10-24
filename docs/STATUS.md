@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.387
-- Last updated: 2026-10-24
+- Document revision: 4.388
+- Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-PRIME-STOP2-PACING-FIX:** 按停止点2复核修复F2③：静态资源只计数不取租约，document/已准入动态及预检、Google API保留共享节奏。双Chromium各20个同源CSS/JS有效红绿，21次访问仍计数、租约21→1。五门禁1028/148全绿，各项后净工作树；0新增调用，按授权合入main。 [报告](../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/pacing/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-F2C-PACING:** F2③候选完成：共享协调进程按origin跨子进程节奏控制，固定2运行、第三FIFO排队、单运行等待0、三种中断释放；真实Chromium/Guard及fixture Google接线通过。五门禁1028/147全绿，每项后净工作树，0新增调用；未合main。 [报告](../.eval-artifacts/phase3a-prime/f2c-pacing/report.md)。
 

@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.287
-- Last updated: 2026-10-24
+- Document revision: 4.288
+- Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -5295,3 +5295,7 @@ Europe/Vienna。最终受测442523111bb85297494af30054c3dc18a8ef56c2，576项/10
 ## TEST-2026-10-24-PHASE3A-PRIME-F2C-PACING
 
 2026-10-24 Europe/Vienna。两个真实子进程70ms响应/200ms间隔有效红绿，单运行等待0、第三排队、SIGTERM/timeout/AbortSignal清理；真实Chromium原生302和fixture Google计数通过。受测dc9f12efac1d5fbef2d06db8fff40c2b1520dd6d，五门禁1028默认/147 Chromium，572项冻结及每项后净工作树见报告。 [报告](../../.eval-artifacts/phase3a-prime/f2c-pacing/report.md)。
+
+## TEST-2026-10-25-PHASE3A-PRIME-STOP2-PACING-FIX
+
+CET UTC+01:00。未豁免时双Chromium各页21次租约而非1，有效红灯；修复后各21次来源访问仍计数且仅文档取1次租约，原队列/中断/Google与302控制通过。受测d7a3170f42dbdc40b1a1975294e9355bbd76602d，五门禁1028默认/148 Chromium，每项前后净工作树、恢复0，576项冻结匹配。新增真实模型/Google/网站/Live/环境重跑0。 [报告](../../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/pacing/report.md)。

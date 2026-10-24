@@ -8,7 +8,9 @@ for filename,entry in entries:
  s=re.sub(r'Last updated: \d{4}-\d{2}-\d{2}', 'Last updated: 2026-10-25', s, count=1)
  s=re.sub(r'(Document revision: \d+\.)(\d+)',lambda m:m[1]+str(int(m[2])+1),s,count=1)
  if filename.endswith('STATUS.md'): pos=s.index('\n- **')+1;s=s[:pos]+entry+s[pos:]
- elif '/monthly/' in filename:pos=s.index('\n- 10/')+1;s=s[:pos]+entry+s[pos:]
+ elif '/monthly/' in filename:
+  s=s.replace('截至10月24日','截至10月25日').replace('Recorded period: 2026-10-01—2026-10-24','Recorded period: 2026-10-01—2026-10-25')
+  pos=s.index('\n- 10/')+1;s=s[:pos]+entry+s[pos:]
  else:s=s.rstrip()+'\n'+entry
  p.write_text(s)
 p=Path('docs/history/monthly/2026-10-index.md');s=p.read_text();assert key not in s
