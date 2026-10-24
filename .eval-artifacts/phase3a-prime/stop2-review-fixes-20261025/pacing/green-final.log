@@ -1,0 +1,22 @@
+✔ two Chromium runs count20 static resources each but pace only documents (878.942709ms)
+ℹ {"documentTimestamps":[{"path":"/b/doc","at":1792882939854},{"path":"/a/doc","at":1792882940003}],"sourceHits":42,"perRun":[{"stage":"DONE","usage":{"http://127.0.0.1:58735":{"requests":21,"waitMs":132}},"leases":1,"text":"Public fixture"},{"stage":"DONE","usage":{"http://127.0.0.1:58735":{"requests":21,"waitMs":0}},"leases":1,"text":"Public fixture"}]}
+✔ formal pacing bootstrap covers Chromium Guard routes, native redirects and Google transport (222.51925ms)
+ℹ {"hits":["/public","/redirect","/final"],"usage":{"mode":"EVAL_PACING","runId":"transport","byOrigin":{"http://127.0.0.1:58742":{"requests":3,"waitMs":0},"https://places.googleapis.com":{"requests":1,"waitMs":0},"https://geocode.googleapis.com":{"requests":1,"waitMs":0}}},"realGoogleCalls":0}
+✔ shared origin pacing spans two real subprocesses (1072.009375ms)
+ℹ {"timestamps":[1792882939428,1792882939724,1792882940007,1792882940280],"intervals":[296,283,273],"configuredMs":200,"usage":{"a":{"http://127.0.0.1:58737":{"requests":2,"waitMs":502}},"b":{"http://127.0.0.1:58737":{"requests":2,"waitMs":760}}}}
+✔ one run has exactly zero pacing wait (244.535833ms)
+ℹ {"http://127.0.0.1:58788":{"requests":2,"waitMs":0}}
+✔ third queues and SIGTERM releases in-flight ownership (1128.682542ms)
+ℹ {"stop":"SIGTERM","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:58792":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:58792":{"requests":2,"waitMs":511}},"third":{"http://127.0.0.1:58792":{"requests":2,"waitMs":752}}},"heldLeases":0}
+✔ third queues and timeout releases in-flight ownership (1144.298875ms)
+ℹ {"stop":"timeout","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:58802":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:58802":{"requests":2,"waitMs":519}},"third":{"http://127.0.0.1:58802":{"requests":2,"waitMs":748}}},"heldLeases":0}
+✔ third queues and stop releases in-flight ownership (1145.745792ms)
+ℹ {"stop":"stop","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:58813":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:58813":{"requests":2,"waitMs":509}},"third":{"http://127.0.0.1:58813":{"requests":2,"waitMs":755}}},"heldLeases":0}
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4865.204
