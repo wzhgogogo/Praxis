@@ -89,8 +89,14 @@ class H001NativeModel implements ModelGateway {
         progress: string;
         observation: { visibleText?: string; pageActions?: string[]; targets: Array<{ ref: string; label: string; availableActions?: string[] }> };
         skills?: { source?: string };
+        regionCorrection?: { entrances: Array<{ref: string; label: string}> };
       };
       this.browserDecisionInputs.push({ objective: input.objective, progress: input.progress, observation: { targets: input.observation.targets, ...(input.observation.pageActions ? { pageActions: input.observation.pageActions } : {}) }, ...(input.skills?.source ? { skillSource: input.skills.source } : {}) });
+      if (this.scenario.startsWith("F5_")) {
+        const correction = input.regionCorrection?.entrances.find(entry => entry.label === "F5 alternate");
+        const target = input.observation.targets.find(target => /^F5 (parent|child)$/.test(target.label) && target.availableActions?.includes("OPEN_LINK"));
+        if (correction || target) return reply(JSON.stringify({action:correction ? "SELECT_REGION_ENTRANCE" : "OPEN_LINK",targetRef:(correction ?? target)!.ref,authoritativeField:"NONE",requestedState:"NONE",reason:"Use supplied observed reference; the radius remains immutable"}),request.purpose);
+      }
       if (input.objective.includes("observed public region/station")) {
         const region = input.observation.targets.find(target => target.availableActions?.includes("OPEN_LINK") && (target.label === this.areaQuery || target.label === `Restaurants in ${this.areaQuery}`));
         if (region) return reply(JSON.stringify({action:"OPEN_LINK",targetRef:region.ref,authoritativeField:"NONE",requestedState:"NONE",reason:"Choose the observed region for the unchanged location."}),request.purpose);
@@ -425,7 +431,7 @@ test("the production Router advances the default three-pack cursor and reaches G
     date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
     area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
   };
-  let state: RestaurantTaskState = { schemaVersion: "20", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
+  let state: RestaurantTaskState = { schemaVersion: "21", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
   const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
   assert.equal(first.event?.type, "SEARCH_COMPLETED");
   if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
@@ -1038,5 +1044,27 @@ test('H002 without positive HARD uses general shared retrieval and Google nearby
   assert.equal(googleRequests.length,1);assert.ok(googleRequests[0]!.url.endsWith('/places:searchNearby'));
   assert.equal(googleRequests[0]!.body.textQuery,undefined);assert.equal(sharedPlans.length,0);
   assert.deepEqual(intent,before);
+ }
+});
+
+// Full production interpreter -> compiler -> Router -> events/Reducer -> output.
+// Only model and source transport are local constructed; no prefilled evidence.
+test("F5 provisional discovery crosses real Router/Reducer and retains bounded handoff to the next source", async () => {
+ for (const scenario of ["F5_PROVISIONAL_DELIVERS", "F5_NO_ALTERNATE", "F5_SECOND_OUTSIDE"] as const) {
+  const result = await runScenario(scenario, {packs:[tabelogDiscoveryPack,tableCheckDiscoveryPack]});
+  assert.equal(result.state.presentedResults?.candidateIds.length??0,scenario==="F5_SECOND_OUTSIDE"?0:3,JSON.stringify({scenario,state:result.state.phase,continuation:result.state.searchContinuation,nav:result.navigations}));
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult,scenario==="F5_SECOND_OUTSIDE"?"NO":"YES",JSON.stringify(result.evaluation.findings));
+  const calls=result.model.requests.filter(request=>request.purpose==="browser_read_decide").map(request=>JSON.parse(request.messages.find(message=>message.role==="user")!.content));
+  const corrections=calls.filter(input=>input.regionCorrection);
+  assert.equal(corrections.length,scenario==="F5_NO_ALTERNATE"?0:1);
+  assert.equal(result.navigations.filter(url=>new URL(url).pathname==="/en/tokyo/rstLst/").length,1,"no root restore");
+  assert.equal(result.navigations.filter(url=>url==="https://tabelog.com/en/tokyo/A1322/A132201/").length,1);
+  const finished=result.state.searchContinuation?.deferredSources?.find(item=>item.progress.sourceId==="tabelog")?.progress ?? result.state.searchContinuation?.sourceProgress;
+  assert.ok(finished?.detailAttempts!>=2);assert.ok(finished?.retrieval?.regionPages!<=4);
+  if(scenario!=="F5_PROVISIONAL_DELIVERS") {
+   assert.equal(finished?.directoryRegion?.stopReason,scenario==="F5_NO_ALTERNATE"?"NO_OBSERVED_REPLACEMENT_ENTRANCE":"REPLACEMENT_SAMPLES_OUTSIDE_RADIUS");
+   assert.ok(result.navigations.some(url=>url.includes("tablecheck.com")),"source UNKNOWN permits the next existing source");
+  }
+  assert.ok(result.model.purposes.length<=50);assert.ok(result.artifact.resourceUsage.modelCallsStarted>=corrections.length+2);
  }
 });

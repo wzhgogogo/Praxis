@@ -1146,3 +1146,14 @@ for (const selectedDate of ["2026-11-05", "2026-11-06"]) test(`group-window: dis
  const result=await executor.runSkill({taskId:"date-bound-party",source:"fixture",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:["https://example.com"],goal:{outlet:{name:"Fixture",address:"Fixture"},date:"2026-11-06",partySize:10,hardCriteria:[]},objective:"Read exact date and party",completion:()=>({complete:false,reason:"No current inventory"})});
  assert.equal(result.reasonCode,selectedDate==="2026-11-06"?"PARTY_SIZE_NOT_SELECTABLE":undefined);assert.equal(models,selectedDate==="2026-11-06"?0:1);await executor.close();
 });
+
+test('region selection is data-only DISCOVERY and consumes the same global model budget without reviving other stages',async()=>{
+ let calls=0;const budget={totalModelCalls:49,maxModelCalls:50};
+ const correction={sourceId:'directory',flowId:'flow',replacementsUsed:0 as const,remainingBudget:{sourceMs:60000,details:8,regionPages:1,retrievalPages:3},entrances:[{ref:'region:flow:0',sourceId:'directory',flowId:'flow',href:'https://directory.example/area',label:'Observed',observedOn:'https://directory.example/',originalTargetRef:'observation:1:target:1',observationRevision:1}],samples:[]};
+ const executor=new BrowserTaskExecutor({openSession:async()=>{throw Error('Selection must not open or read a DOM');}},{maxAutomaticElapsedMs:500000,maxModelCallsPerCandidate:6,maxModelCallsTotal:50,maxOperationsPerCandidate:24,modelDecision:{decide:async()=>{calls++;return {type:'SELECT_REGION_ENTRANCE',targetRef:'region:flow:0',reason:'Only choose a supplied collection ref'};}},budget});
+ const input={taskId:'f5-context',source:'DIRECTORY',stage:'DISCOVERY' as const,signal:new AbortController().signal,goal:{outlet:{name:'Restaurants'},hardCriteria:[]},regionCorrection:correction};
+ const outside=await executor.selectRegionEntrance({...input,stage:'FACTS'});assert.equal(outside.status,'NO_SAFE_ACTION');assert.equal(calls,0);assert.equal(budget.totalModelCalls,49);
+ assert.equal((await executor.selectRegionEntrance({...input,regionCorrection:{...correction,entrances:correction.entrances.map(e=>({...e,flowId:'foreign-flow'}))}})).status,'NO_SAFE_ACTION');assert.equal(calls,0);
+ assert.deepEqual(await executor.selectRegionEntrance(input),{status:'SELECTED',entranceRef:'region:flow:0'});assert.equal(budget.totalModelCalls,50);
+ await assert.rejects(()=>executor.selectRegionEntrance(input),{code:'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED'});assert.equal(calls,1);assert.equal(budget.totalModelCalls,50);
+});

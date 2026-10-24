@@ -9,6 +9,7 @@ import {
   type BrowserReadActionTarget,
   type BrowserReadHistoryStep,
   type BrowserReadDecisionInput,
+  type BrowserRegionCorrection,
   browserReadActionTargetReplayFingerprint,
   type BrowserActionWireRejection,
   BrowserReadDecisionError,
@@ -105,6 +106,7 @@ export interface BrowserSkillReadInput {
   /** A source-owned, already-authorized shortcut; its effect is always post-condition checked. */
   shortcut?: { name: string; run(snapshot: BrowserSnapshot): Promise<void> };
   controlHints?(snapshot: Readonly<BrowserSnapshot>): readonly BrowserControlHint[];
+  onObservation?(value: Pick<BrowserReadDecisionInput["observation"], "revision" | "url" | "targets">): void;
   completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): BrowserCompletionAssessment;
 }
 
@@ -393,6 +395,44 @@ export class BrowserTaskExecutor {
     this.sessionAbortCleanup = () => signal.removeEventListener("abort", onSessionAbort);
     this.record({ source, stage, event: "SESSION_OPENED", detail: session.metadata.runtimeProvider });
     return session;
+  }
+
+  /** One data-only correction choice, using the same source deadline/call counters. No DOM read or navigation. */
+  async selectRegionEntrance(input: Pick<BrowserSkillReadInput, "taskId" | "source" | "stage" | "signal" | "goal" | "sourceSkillPath"> & { regionCorrection: BrowserRegionCorrection }): Promise<{status: "SELECTED"; entranceRef: string} | {status: "NO_SAFE_ACTION"; reasonCode: string}> {
+    const context = structuredClone(input.regionCorrection);
+    const entries = context.entrances.filter(entry => entry.sourceId === context.sourceId && entry.flowId === context.flowId);
+    if (input.stage !== "DISCOVERY" || context.replacementsUsed !== 0 || !entries.length || !this.options.modelDecision) return {status: "NO_SAFE_ACTION", reasonCode: "NO_OBSERVED_REPLACEMENT_ENTRANCE"};
+    if (this.budget.totalModelCalls >= Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity)) throw new BrowserRuntimeError("BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED", "Shared browser-model budget exhausted");
+    if (this.modelCalls >= this.options.maxModelCallsPerCandidate || this.remaining(1) <= 0) return {status: "NO_SAFE_ACTION", reasonCode: "READ_BUDGET_EXCEEDED"};
+    this.modelCalls++; this.budget.totalModelCalls++;
+    this.record({source: input.source, stage: input.stage, event: "MODEL_DECISION_STARTED", detail: "SELECT_REGION_ENTRANCE"});
+    let action: BrowserReadAction;
+    try {
+    action = await this.bounded(input, "MODEL_DECISION", () => this.options.modelDecision!.decide({
+      taskId: input.taskId, source: input.source, stage: input.stage, history: [], goal: input.goal,
+      objective: "Choose a different entrance once from this source flow's supplied observed collection. Do not open or restore a menu.",
+      skills: loadBrowserReadSkills(input.source, input.sourceSkillPath),
+      observation: {revision: 0, url: "", title: "Source-flow entrance selection (no current DOM)", visibleText: "", targets: [], pageActions: []},
+      regionCorrection: {...context, entrances: entries},
+      progress: `One correction remains. Shared model calls remaining after this choice: ${Math.max(0, Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity) - this.budget.totalModelCalls)}. Current execution window remaining: ${Math.max(0, this.remaining(Number.MAX_SAFE_INTEGER))} ms. Source budgets: ${JSON.stringify(context.remainingBudget)}. Sample values and goal are code-owned.`,
+    }));
+    } catch (error) {
+      const wire = this.options.modelDecision!.takeLastWireRecord?.();
+      if (wire) this.record({source: input.source, stage: input.stage, event: "MODEL_WIRE", detail: this.replayWireDetail(wire, [])});
+      this.recordLifecycleFailure(input.source, input.stage, "MODEL_DECISION_FAILED", error);
+      if (error instanceof BrowserRuntimeError || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
+      this.record({source: input.source, stage: input.stage, event: "REJECTED", detail: "INVALID_OBSERVED_ENTRANCE_SELECTION"});
+      return {status: "NO_SAFE_ACTION", reasonCode: "INVALID_OBSERVED_ENTRANCE_SELECTION"};
+    }
+    const wire = this.options.modelDecision!.takeLastWireRecord?.();
+    if (wire) this.record({source: input.source, stage: input.stage, event: "MODEL_WIRE", detail: this.replayWireDetail(wire, [])});
+    this.record({source: input.source, stage: input.stage, event: "MODEL_ACTION", detail: `MODEL_${action.type}`});
+    this.record({source: input.source, stage: input.stage, event: "MODEL_DECISION_FINISHED", detail: "SELECT_REGION_ENTRANCE"});
+    if (action.type !== "SELECT_REGION_ENTRANCE" || !entries.some(entry => entry.ref === action.targetRef)) {
+      this.record({source: input.source, stage: input.stage, event: "REJECTED", detail: "INVALID_OBSERVED_ENTRANCE_SELECTION"});
+      return {status: "NO_SAFE_ACTION", reasonCode: "INVALID_OBSERVED_ENTRANCE_SELECTION"};
+    }
+    return {status: "SELECTED", entranceRef: action.targetRef};
   }
 
   async navigate(
@@ -707,6 +747,10 @@ export class BrowserTaskExecutor {
         continue;
       }
       if (action.type === "REQUEST_HUMAN_HELP") return { status: "REQUESTED_HUMAN_HELP", snapshot, controls: observation.controls };
+      if (action.type === "SELECT_REGION_ENTRANCE") {
+        this.record({source: input.source, stage: input.stage, event: "REJECTED", detail: "REGION_CORRECTION_NOT_ACTIVE"});
+        return {status: "NO_SAFE_ACTION", reasonCode: "REGION_CORRECTION_NOT_ACTIVE", snapshot, controls: observation.controls};
+      }
       const target = action.type === "WAIT" || action.type === "PRESS_ESCAPE" ? undefined : observation.targets.get(action.targetRef);
       if (!target && action.type !== "WAIT" && action.type !== "PRESS_ESCAPE") {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: "STALE_OR_UNKNOWN_TARGET_REF" });
@@ -937,7 +981,9 @@ export class BrowserTaskExecutor {
     const controls = input.session.observeControls
       ? await this.operation(input, "OBSERVE_CONTROLS", () => input.session.observeControls!(input.controlHints?.(snapshot)))
       : [];
-    return { revision: this.observationRevision, snapshot, controls, targets: toObservedTargets(controls, this.observationRevision) };
+    const observation = { revision: this.observationRevision, snapshot, controls, targets: toObservedTargets(controls, this.observationRevision) };
+    input.onObservation?.({revision: observation.revision, url: snapshot.url, targets: [...observation.targets.values()].map(target => ({...target, ...this.actionHints(input, observation, target, false)}))});
+    return observation;
   }
 
   private optionSelectionObserved(target: ObservedTarget, controls: BrowserPageControl[]): boolean {
@@ -1088,7 +1134,7 @@ export class BrowserTaskExecutor {
     }
   }
 
-  private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" }>): Promise<void> {
+  private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" | "SELECT_REGION_ENTRANCE" }>): Promise<void> {
     if (action.type === "WAIT") {
       await this.waitForSettled(input, observation.snapshot);
       return;
