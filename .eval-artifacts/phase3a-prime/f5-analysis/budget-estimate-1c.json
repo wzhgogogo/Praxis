@@ -1,0 +1,73 @@
+{
+  "evidenceStatus": "current design arithmetic; not implemented or a timing promise",
+  "supersededEstimate": {
+    "revision": "29f6328fd5c01efde5aff9a452fba46a5a5cb83a",
+    "path": ".eval-artifacts/phase3a-prime/f5-analysis/budget-estimate.json"
+  },
+  "segments": {
+    "selectDeep": {
+      "startTrace": 2,
+      "endTrace": 122,
+      "startAtVienna": "2026-10-23T13:05:07.492+02:00",
+      "endAtVienna": "2026-10-23T13:05:45.742+02:00",
+      "wallMs": 38250
+    },
+    "twoDetailsProxy": {
+      "startTrace": 116,
+      "endTrace": 138,
+      "startAtVienna": "2026-10-23T07:56:21.743+02:00",
+      "endAtVienna": "2026-10-23T07:56:28.615+02:00",
+      "wallMs": 6872
+    },
+    "oneSelectionProxy": {
+      "run": "D1",
+      "decisionLine": 7,
+      "snapshot": 6,
+      "wallMs": 2095,
+      "startedAtVienna": "2026-10-23T13:05:39.095+02:00",
+      "meaning": "One model choice proxy only; historical action was a child-region link, not retained-entrance selection."
+    },
+    "directNavigationAndListProxy": {
+      "startTrace": 107,
+      "endTrace": 122,
+      "startAtVienna": "2026-10-23T13:05:41.191+02:00",
+      "endAtVienna": "2026-10-23T13:05:45.742+02:00",
+      "wallMs": 4551
+    },
+    "keywordProxy": {
+      "startTrace": 80,
+      "endTrace": 92,
+      "startAtVienna": "2026-10-23T07:56:06.149+02:00",
+      "endAtVienna": "2026-10-23T07:56:11.893+02:00",
+      "wallMs": 5744
+    }
+  },
+  "directDeep": {
+    "wallMs": 57512,
+    "marginTo90000Ms": 32488,
+    "regionPages": 4,
+    "restoreMenuPages": 0,
+    "path": [
+      "Tokyo observed menu",
+      "A1322",
+      "A132201",
+      "one model-selected previously observed different region entrance"
+    ]
+  },
+  "withConservativeScopeDifference": {
+    "additionalMs": 1981,
+    "wallMs": 59493,
+    "marginTo90000Ms": 30507
+  },
+  "slowerD2PrefixAndSelectionProxy": {
+    "wallMs": 87501,
+    "marginTo90000Ms": 2499
+  },
+  "locationStationRoute": "NOT_ADOPTED; defer until F5 Live provides complete DOM evidence",
+  "limitations": [
+    "Retained-entrance action and scoped provenance contract do not exist yet.",
+    "Two details and keyword timings use C03-2 proxies.",
+    "Direct NAVIGATE is estimated with historical OPEN_LINK/observe time; no real new destination was visited.",
+    "D1 target HTML is incomplete; parseable lists and a useful alternate region remain unproven."
+  ]
+}

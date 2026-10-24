@@ -1,0 +1,138 @@
+{
+  "attempts": [
+    {
+      "run": {
+        "runId": "h-03",
+        "caseId": "p2c-holdout-03",
+        "repeat": 1,
+        "role": "HOLDOUT"
+      },
+      "attempt": 1,
+      "queue": "A",
+      "startedAt": "2026-10-23T05:34:03.011Z",
+      "finishedAt": "2026-10-23T05:39:51.223Z",
+      "artifactPath": null,
+      "artifactSha256": null,
+      "formalRunStarted": true,
+      "modelCallsCharged": 29,
+      "s0": false,
+      "cooldown": true,
+      "classification": "ENV_FAILURE",
+      "directory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-1",
+      "productStartedAt": null,
+      "productFinishedAt": null,
+      "productElapsedMs": null,
+      "googleRequests": 2,
+      "postFailure": false,
+      "offline": false
+    },
+    {
+      "run": {
+        "runId": "h-03",
+        "caseId": "p2c-holdout-03",
+        "repeat": 1,
+        "role": "HOLDOUT"
+      },
+      "attempt": 2,
+      "queue": "A",
+      "startedAt": "2026-10-23T05:54:52.281Z",
+      "finishedAt": "2026-10-23T06:02:58.665Z",
+      "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-2/runner/2026-10-23T05-55-19-111Z-50ff3f8d-ecf7-4716-b5b6-808a7c232903.result.json",
+      "artifactSha256": "077afcc53cb86a86600cbcc9dc7b894d1e8e7d91c579ce469e048daf287e8294",
+      "formalRunStarted": true,
+      "modelCallsCharged": 47,
+      "s0": false,
+      "cooldown": false,
+      "classification": "DEFERRED",
+      "directory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-2",
+      "productStartedAt": "2026-10-23T05:55:19.111Z",
+      "productFinishedAt": "2026-10-23T06:02:57.235Z",
+      "productElapsedMs": 457907,
+      "googleRequests": 4,
+      "postFailure": false,
+      "offline": false
+    },
+    {
+      "run": {
+        "runId": "h-09",
+        "caseId": "p2c-holdout-03",
+        "repeat": 2,
+        "role": "HOLDOUT"
+      },
+      "attempt": 1,
+      "queue": "A",
+      "startedAt": "2026-10-23T06:39:49.407Z",
+      "finishedAt": "2026-10-23T06:47:48.287Z",
+      "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-09-attempt-1/runner/2026-10-23T06-40-08-617Z-1849354e-a865-4407-b25f-e90bcf8a9b21.result.json",
+      "artifactSha256": "72dc7f784291e1d0ebe3528c307a4ac01e5f1771adc330d38a7d12e2a85b4955",
+      "formalRunStarted": true,
+      "modelCallsCharged": 47,
+      "s0": false,
+      "cooldown": false,
+      "classification": "DEFERRED",
+      "directory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-09-attempt-1",
+      "productStartedAt": "2026-10-23T06:40:08.617Z",
+      "productFinishedAt": "2026-10-23T06:47:46.494Z",
+      "productElapsedMs": 457674,
+      "googleRequests": 4,
+      "postFailure": false,
+      "offline": false
+    }
+  ],
+  "userExplicitTimeoutRetries": [],
+  "plannedRuns": [
+    {
+      "run": {
+        "runId": "h-03",
+        "caseId": "p2c-holdout-03",
+        "repeat": 1,
+        "role": "HOLDOUT"
+      },
+      "status": "RECORDED",
+      "attempts": [
+        {
+          "attempt": 1,
+          "artifactPath": null,
+          "artifactSha256": null,
+          "directory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-1"
+        },
+        {
+          "attempt": 2,
+          "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-2/runner/2026-10-23T05-55-19-111Z-50ff3f8d-ecf7-4716-b5b6-808a7c232903.result.json",
+          "artifactSha256": "077afcc53cb86a86600cbcc9dc7b894d1e8e7d91c579ce469e048daf287e8294",
+          "directory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-2"
+        }
+      ],
+      "latestAttemptDirectory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-03-attempt-2"
+    },
+    {
+      "run": {
+        "runId": "h-09",
+        "caseId": "p2c-holdout-03",
+        "repeat": 2,
+        "role": "HOLDOUT"
+      },
+      "status": "RECORDED",
+      "attempts": [
+        {
+          "attempt": 1,
+          "artifactPath": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-09-attempt-1/runner/2026-10-23T06-40-08-617Z-1849354e-a865-4407-b25f-e90bcf8a9b21.result.json",
+          "artifactSha256": "72dc7f784291e1d0ebe3528c307a4ac01e5f1771adc330d38a7d12e2a85b4955",
+          "directory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-09-attempt-1"
+        }
+      ],
+      "latestAttemptDirectory": "/private/tmp/praxis-phase2c-witness/.eval-artifacts/phase2c-holdout/exit-live-20261023/execution/A/h-09-attempt-1"
+    },
+    {
+      "run": {
+        "runId": "h-15",
+        "caseId": "p2c-holdout-03",
+        "repeat": 3,
+        "role": "HOLDOUT"
+      },
+      "status": "NOT_REACHED",
+      "attempts": [],
+      "latestAttemptDirectory": null
+    }
+  ]
+}

@@ -1,0 +1,994 @@
+{
+  "diagnostic-1": [
+    {
+      "step": 1,
+      "source": "TABELOG",
+      "rawSourceLinks": 20,
+      "parsedOutlets": 0,
+      "inspectedOutlets": 0,
+      "batchCap": 5,
+      "sourceDetailCap": 10,
+      "sourceDetailAttempts": 0,
+      "deferredByBatchCap": [],
+      "rejected": [],
+      "accepted": 0,
+      "sourcePageCap": 7,
+      "sourceElapsedCapMs": 90000,
+      "sourceElapsedMs": 80866,
+      "sourceTimeLimitReached": false,
+      "pagesRead": 5,
+      "batchLimitReached": false,
+      "sourceExhausted": "UNKNOWN",
+      "batchEnded": true,
+      "sourceEnded": true,
+      "progressionReason": "SOURCE_FAILURE",
+      "listingObservations": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/",
+          "parsedOutlets": 20,
+          "resultCount": 139472
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1322/",
+          "parsedOutlets": 0,
+          "resultCount": 3840
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132201/",
+          "parsedOutlets": 0,
+          "resultCount": 541
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/rstLst/",
+          "parsedOutlets": 20,
+          "resultCount": 906595,
+          "nextPageUrl": "https://tabelog.com/en/rstLst/2/"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/",
+          "parsedOutlets": 0,
+          "resultCount": 139472
+        }
+      ],
+      "retrieval": {
+        "rewrites": 0,
+        "regionPages": 5,
+        "retrievalPages": 0,
+        "history": []
+      }
+    },
+    {
+      "step": 2,
+      "source": "TABLECHECK",
+      "rawSourceLinks": 4,
+      "parsedOutlets": 2,
+      "inspectedOutlets": 2,
+      "batchCap": 5,
+      "sourceDetailCap": 10,
+      "sourceDetailAttempts": 2,
+      "deferredByBatchCap": [],
+      "rejected": [],
+      "accepted": 2,
+      "sourcePageCap": 3,
+      "sourceElapsedCapMs": 90000,
+      "sourceElapsedMs": 45919,
+      "sourceTimeLimitReached": false,
+      "pagesRead": 3,
+      "batchLimitReached": false,
+      "sourceExhausted": "UNKNOWN",
+      "batchEnded": true,
+      "sourceEnded": true,
+      "progressionReason": "FIRST_SOURCE_BATCH_ENDED",
+      "listingObservations": [
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E3%82%AB%E3%83%84",
+          "parsedOutlets": 0
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E6%8F%9A%E3%81%92",
+          "parsedOutlets": 0
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E6%8F%9A%E3%81%92",
+          "parsedOutlets": 2
+        }
+      ],
+      "retrieval": {
+        "selection": {
+          "accepted": true,
+          "reason": "Both prior terms returned only 2 results; 串揚げ is a materially different term (the broader dish name) that may surface additional Akabane listings.",
+          "keyword": "串揚げ",
+          "criterionRef": "criterion:0"
+        },
+        "rewrites": 2,
+        "regionPages": 0,
+        "retrievalPages": 3,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Retrieve restaurants matching the hard criterion kushikatsu in Akabane.",
+              "keyword": "kushikatsu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 5721,
+            "parsedCount": 2
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "The English keyword returned only 2 results; retry the hard criterion using the Japanese term 串カツ, which is materially different from the attempted term and may match more listings.",
+              "keyword": "串カツ",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 8383,
+            "parsedCount": 2
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Both prior terms returned only 2 results; 串揚げ is a materially different term (the broader dish name) that may surface additional Akabane listings.",
+              "keyword": "串揚げ",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 17579,
+            "parsedCount": 2
+          }
+        ]
+      },
+      "queryAdjustment": "PRE_DETAIL_RETRIEVAL_REWRITE",
+      "searchAvailabilityHint": {
+        "status": "SKIPPED",
+        "reason": "FILTER_TRANSPORT_NOT_REVIEWED",
+        "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E6%8F%9A%E3%81%92",
+        "unfilteredUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E6%8F%9A%E3%81%92"
+      }
+    }
+  ],
+  "diagnostic-2": [
+    {
+      "step": 1,
+      "source": "TABELOG",
+      "rawSourceLinks": 20,
+      "parsedOutlets": 0,
+      "inspectedOutlets": 0,
+      "batchCap": 5,
+      "sourceDetailCap": 10,
+      "sourceDetailAttempts": 0,
+      "deferredByBatchCap": [],
+      "rejected": [],
+      "accepted": 0,
+      "sourcePageCap": 7,
+      "sourceElapsedCapMs": 90000,
+      "sourceElapsedMs": 90021,
+      "sourceTimeLimitReached": true,
+      "pagesRead": 4,
+      "batchLimitReached": false,
+      "sourceExhausted": "UNKNOWN",
+      "batchEnded": true,
+      "sourceEnded": true,
+      "progressionReason": "SOURCE_FAILURE",
+      "listingObservations": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/",
+          "parsedOutlets": 20,
+          "resultCount": 139472
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1322/",
+          "parsedOutlets": 0,
+          "resultCount": 3840
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132201/",
+          "parsedOutlets": 0,
+          "resultCount": 541
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/",
+          "parsedOutlets": 0,
+          "resultCount": 139472
+        }
+      ],
+      "retrieval": {
+        "rewrites": 0,
+        "regionPages": 4,
+        "retrievalPages": 0,
+        "history": []
+      }
+    },
+    {
+      "step": 2,
+      "source": "TABLECHECK",
+      "rawSourceLinks": 4,
+      "parsedOutlets": 2,
+      "inspectedOutlets": 2,
+      "batchCap": 5,
+      "sourceDetailCap": 10,
+      "sourceDetailAttempts": 2,
+      "deferredByBatchCap": [],
+      "rejected": [],
+      "accepted": 2,
+      "sourcePageCap": 3,
+      "sourceElapsedCapMs": 90000,
+      "sourceElapsedMs": 28990,
+      "sourceTimeLimitReached": false,
+      "pagesRead": 3,
+      "batchLimitReached": false,
+      "sourceExhausted": "UNKNOWN",
+      "batchEnded": true,
+      "sourceEnded": true,
+      "progressionReason": "FIRST_SOURCE_BATCH_ENDED",
+      "listingObservations": [
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E3%82%AB%E3%83%84",
+          "parsedOutlets": 0
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E6%8F%9A%E3%81%92",
+          "parsedOutlets": 0
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E6%8F%9A%E3%81%92",
+          "parsedOutlets": 2
+        }
+      ],
+      "retrieval": {
+        "selection": {
+          "accepted": true,
+          "reason": "Both prior terms returned only 2 results; 串揚げ is a materially different term (the broader dish name) that may surface additional Akabane listings.",
+          "keyword": "串揚げ",
+          "criterionRef": "criterion:0"
+        },
+        "rewrites": 2,
+        "regionPages": 0,
+        "retrievalPages": 3,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Retrieve restaurants matching the hard criterion kushikatsu in Akabane.",
+              "keyword": "kushikatsu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 6805,
+            "parsedCount": 2
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "The English keyword returned only 2 results; retry the hard criterion using the Japanese term 串カツ, which is materially different from the attempted term and may match more listings.",
+              "keyword": "串カツ",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 9572,
+            "parsedCount": 2
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Both prior terms returned only 2 results; 串揚げ is a materially different term (the broader dish name) that may surface additional Akabane listings.",
+              "keyword": "串揚げ",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 18126,
+            "parsedCount": 2
+          }
+        ]
+      },
+      "queryAdjustment": "PRE_DETAIL_RETRIEVAL_REWRITE",
+      "searchAvailabilityHint": {
+        "status": "SKIPPED",
+        "reason": "FILTER_TRANSPORT_NOT_REVIEWED",
+        "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E6%8F%9A%E3%81%92",
+        "unfilteredUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E6%8F%9A%E3%81%92"
+      }
+    }
+  ],
+  "case03-h03": [
+    {
+      "step": 1,
+      "directoryRegion": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "observedOn": "https://tabelog.com/en/tokyo/A1310/",
+          "targetRef": "observation:3:target:16",
+          "label": "Jinbocho & Suidobashi"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13242888",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13242888/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.701171748699934,
+              "longitude": 139.7556923645934
+            },
+            "distanceMeters": 754.681267854006
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13309169",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13309169/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.70131033869904,
+              "longitude": 139.75317791459653
+            },
+            "distanceMeters": 674.1509578952631
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13290549",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.69618014060937,
+              "longitude": 139.75870898136256
+            },
+            "distanceMeters": 687.3940074173021
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13234878",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13234878/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.696809628704266,
+              "longitude": 139.7605962045459
+            },
+            "distanceMeters": 866.3056562921571
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13254791",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13254791/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.6994210287004,
+              "longitude": 139.7536571645771
+            },
+            "distanceMeters": 493.468331470154
+          }
+        ]
+      },
+      "source": "TABELOG",
+      "rawSourceLinks": 20,
+      "parsedOutlets": 20,
+      "inspectedOutlets": 5,
+      "batchCap": 5,
+      "sourceDetailCap": 10,
+      "sourceDetailAttempts": 5,
+      "deferredByBatchCap": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13208682/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13298192/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13255323/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13215490/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13317409/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13206739/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13029544/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13102126/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13282834/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13180134/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13251014/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13224811/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13212433/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13189860/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13146028/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        }
+      ],
+      "rejected": [],
+      "accepted": 5,
+      "sourcePageCap": 7,
+      "sourceElapsedCapMs": 90000,
+      "sourceElapsedMs": 74869,
+      "sourceTimeLimitReached": false,
+      "pagesRead": 6,
+      "batchLimitReached": true,
+      "sourceExhausted": false,
+      "batchEnded": true,
+      "sourceEnded": false,
+      "progressionReason": "FIRST_SOURCE_BATCH",
+      "listingObservations": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/",
+          "parsedOutlets": 20,
+          "resultCount": 139471
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/",
+          "parsedOutlets": 20,
+          "resultCount": 4347
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "parsedOutlets": 20,
+          "resultCount": 1265
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "parsedOutlets": 20,
+          "resultCount": 1265
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu",
+          "parsedOutlets": 0
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu+cuisine",
+          "parsedOutlets": 0
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "parsedOutlets": 20,
+          "resultCount": 1265
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "parsedOutlets": 20,
+          "resultCount": 1265
+        }
+      ],
+      "retrieval": {
+        "rewrites": 2,
+        "regionPages": 3,
+        "retrievalPages": 3,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Search directly for the hard criterion: fugu restaurant.",
+              "keyword": "fugu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 40250,
+            "parsedCount": 0
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "The \"fugu\" search returned an explicit empty result in the Jinbocho & Suidobashi area; try a materially different phrasing for the hard fugu criterion.",
+              "keyword": "fugu cuisine",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 42196,
+            "parsedCount": 0
+          },
+          {
+            "selection": {
+              "accepted": false,
+              "rejectionReason": "REPEATED_RETRIEVAL_EXPRESSION",
+              "reason": "Use the general list after a repeated retrieval expression."
+            },
+            "elapsedMs": 46956,
+            "parsedCount": 0
+          }
+        ],
+        "selection": {
+          "accepted": false,
+          "rejectionReason": "REPEATED_RETRIEVAL_EXPRESSION",
+          "reason": "Use the general list after a repeated retrieval expression."
+        }
+      },
+      "queryAdjustment": "PRE_DETAIL_RETRIEVAL_REWRITE",
+      "searchAvailabilityHint": {
+        "status": "SKIPPED",
+        "reason": "QUERY_NOT_REPRESENTABLE",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/",
+        "unfilteredUrl": "https://tabelog.com/en/tokyo/A1310/A131003/"
+      }
+    },
+    {
+      "step": 6,
+      "source": "TABLECHECK",
+      "rawSourceLinks": 22,
+      "parsedOutlets": 20,
+      "inspectedOutlets": 5,
+      "batchCap": 5,
+      "sourceDetailCap": 10,
+      "sourceDetailAttempts": 5,
+      "deferredByBatchCap": [
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/seto",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/alterego",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/wineshochu208",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/ebimaru",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-beltempo",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/yohshoku",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-fourgrain",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-bar-carousel",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-hirakawa-yamahiko-umihiko",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/midtown-bbq-tokyo",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/sombreuil-restaurant",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/grandpyramid",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/bistro-feve",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/kyohantei",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/lart-et-mikuni",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        }
+      ],
+      "rejected": [],
+      "accepted": 5,
+      "sourcePageCap": 3,
+      "sourceElapsedCapMs": 90000,
+      "sourceElapsedMs": 27341,
+      "sourceTimeLimitReached": false,
+      "pagesRead": 1,
+      "batchLimitReached": true,
+      "sourceExhausted": false,
+      "batchEnded": true,
+      "sourceEnded": false,
+      "progressionReason": "FIRST_SOURCE_BATCH_ENDED",
+      "listingObservations": [
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6954816&geo_longitude=139.7511544&geo_distance=1km&auto_geolocate=false&search_text=fugu",
+          "parsedOutlets": 20
+        }
+      ],
+      "retrieval": {
+        "selection": {
+          "accepted": true,
+          "reason": "Retrieve fugu restaurants near Kudanshita Station for the hard criterion.",
+          "keyword": "fugu",
+          "criterionRef": "criterion:0"
+        },
+        "rewrites": 0,
+        "regionPages": 0,
+        "retrievalPages": 1,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Retrieve fugu restaurants near Kudanshita Station for the hard criterion.",
+              "keyword": "fugu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 11191,
+            "parsedCount": 20
+          }
+        ]
+      },
+      "searchAvailabilityHint": {
+        "status": "SKIPPED",
+        "reason": "FILTER_TRANSPORT_NOT_REVIEWED",
+        "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6954816&geo_longitude=139.7511544&geo_distance=1km&auto_geolocate=false&search_text=fugu",
+        "unfilteredUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6954816&geo_longitude=139.7511544&geo_distance=1km&auto_geolocate=false&search_text=fugu"
+      }
+    }
+  ],
+  "case03-h09": [
+    {
+      "step": 1,
+      "directoryRegion": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "observedOn": "https://tabelog.com/en/tokyo/A1310/",
+          "targetRef": "observation:3:target:16",
+          "label": "Jinbocho & Suidobashi"
+        },
+        "firstFive": [
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13242888",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13242888/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.701171748699934,
+              "longitude": 139.7556923645934
+            },
+            "distanceMeters": 754.681267854006
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13309169",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13309169/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.70131033869904,
+              "longitude": 139.75317791459653
+            },
+            "distanceMeters": 674.1509578952631
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13290549",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.69618014060937,
+              "longitude": 139.75870898136256
+            },
+            "distanceMeters": 687.3940074173021
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13234878",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13234878/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.696809628704266,
+              "longitude": 139.7605962045459
+            },
+            "distanceMeters": 866.3056562921571
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13254791",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13254791/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.6994210287004,
+              "longitude": 139.7536571645771
+            },
+            "distanceMeters": 493.468331470154
+          }
+        ]
+      },
+      "source": "TABELOG",
+      "rawSourceLinks": 20,
+      "parsedOutlets": 20,
+      "inspectedOutlets": 5,
+      "batchCap": 5,
+      "sourceDetailCap": 10,
+      "sourceDetailAttempts": 5,
+      "deferredByBatchCap": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13208682/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13298192/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13255323/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13215490/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13317409/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13206739/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13029544/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13102126/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13282834/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13180134/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13251014/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13224811/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13212433/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13189860/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13146028/",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        }
+      ],
+      "rejected": [],
+      "accepted": 5,
+      "sourcePageCap": 7,
+      "sourceElapsedCapMs": 90000,
+      "sourceElapsedMs": 75975,
+      "sourceTimeLimitReached": false,
+      "pagesRead": 6,
+      "batchLimitReached": true,
+      "sourceExhausted": false,
+      "batchEnded": true,
+      "sourceEnded": false,
+      "progressionReason": "FIRST_SOURCE_BATCH",
+      "listingObservations": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/",
+          "parsedOutlets": 20,
+          "resultCount": 139470
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/",
+          "parsedOutlets": 20,
+          "resultCount": 4347
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "parsedOutlets": 20,
+          "resultCount": 1265
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "parsedOutlets": 20,
+          "resultCount": 1265
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu",
+          "parsedOutlets": 0
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu+cuisine",
+          "parsedOutlets": 0
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "parsedOutlets": 20,
+          "resultCount": 1265
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "parsedOutlets": 20,
+          "resultCount": 1265
+        }
+      ],
+      "retrieval": {
+        "rewrites": 2,
+        "regionPages": 3,
+        "retrievalPages": 3,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Search directly for the hard criterion: fugu restaurant.",
+              "keyword": "fugu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 38121,
+            "parsedCount": 0
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "The \"fugu\" search returned an explicit empty result in the Jinbocho & Suidobashi area; try a materially different phrasing for the hard fugu criterion.",
+              "keyword": "fugu cuisine",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 41182,
+            "parsedCount": 0
+          },
+          {
+            "selection": {
+              "accepted": false,
+              "rejectionReason": "REPEATED_RETRIEVAL_EXPRESSION",
+              "reason": "Use the general list after a repeated retrieval expression."
+            },
+            "elapsedMs": 46500,
+            "parsedCount": 0
+          }
+        ],
+        "selection": {
+          "accepted": false,
+          "rejectionReason": "REPEATED_RETRIEVAL_EXPRESSION",
+          "reason": "Use the general list after a repeated retrieval expression."
+        }
+      },
+      "queryAdjustment": "PRE_DETAIL_RETRIEVAL_REWRITE",
+      "searchAvailabilityHint": {
+        "status": "SKIPPED",
+        "reason": "QUERY_NOT_REPRESENTABLE",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/",
+        "unfilteredUrl": "https://tabelog.com/en/tokyo/A1310/A131003/"
+      }
+    },
+    {
+      "step": 6,
+      "source": "TABLECHECK",
+      "rawSourceLinks": 22,
+      "parsedOutlets": 20,
+      "inspectedOutlets": 5,
+      "batchCap": 5,
+      "sourceDetailCap": 10,
+      "sourceDetailAttempts": 5,
+      "deferredByBatchCap": [
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/seto",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/alterego",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/wineshochu208",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/ebimaru",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-beltempo",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/yohshoku",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-fourgrain",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-bar-carousel",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-hirakawa-yamahiko-umihiko",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/midtown-bbq-tokyo",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/sombreuil-restaurant",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/grandpyramid",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/bistro-feve",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/kyohantei",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        },
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/lart-et-mikuni",
+          "reasonCode": "DETAIL_BATCH_CAP"
+        }
+      ],
+      "rejected": [],
+      "accepted": 5,
+      "sourcePageCap": 3,
+      "sourceElapsedCapMs": 90000,
+      "sourceElapsedMs": 20080,
+      "sourceTimeLimitReached": false,
+      "pagesRead": 1,
+      "batchLimitReached": true,
+      "sourceExhausted": false,
+      "batchEnded": true,
+      "sourceEnded": false,
+      "progressionReason": "FIRST_SOURCE_BATCH_ENDED",
+      "listingObservations": [
+        {
+          "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6954816&geo_longitude=139.7511544&geo_distance=1km&auto_geolocate=false&search_text=fugu",
+          "parsedOutlets": 20
+        }
+      ],
+      "retrieval": {
+        "selection": {
+          "accepted": true,
+          "reason": "Retrieve fugu restaurants near Kudanshita Station for the hard criterion.",
+          "keyword": "fugu",
+          "criterionRef": "criterion:0"
+        },
+        "rewrites": 0,
+        "regionPages": 0,
+        "retrievalPages": 1,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Retrieve fugu restaurants near Kudanshita Station for the hard criterion.",
+              "keyword": "fugu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 5917,
+            "parsedCount": 20
+          }
+        ]
+      },
+      "searchAvailabilityHint": {
+        "status": "SKIPPED",
+        "reason": "FILTER_TRANSPORT_NOT_REVIEWED",
+        "sourceUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6954816&geo_longitude=139.7511544&geo_distance=1km&auto_geolocate=false&search_text=fugu",
+        "unfilteredUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6954816&geo_longitude=139.7511544&geo_distance=1km&auto_geolocate=false&search_text=fugu"
+      }
+    }
+  ]
+}

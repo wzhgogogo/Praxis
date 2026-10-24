@@ -11,6 +11,22 @@
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 
+## TEST-2026-10-24-PHASE3A-PRIME-F5-REBASE
+
+纯文档重放核验：双方日志标题/状态记录集合均保留，无冲突标记；原分析产物/ADR字节差异0，产品相对f42715c2差异0，git diff --check通过。五门禁未重跑，不把F1历史绿灯称本批新运行。 维也纳时间2026-10-24T04:00:45+02:00；新模型/Google/网站/Live0。[核验](../../.eval-artifacts/phase3a-prime/f5-analysis/rebase-20261024.json)。
+
+## TEST-2026-10-24-PHASE3A-PRIME-F5-STOP1C
+
+维也纳时间2026-10-24 CEST，纯文档与固定Git材料静态核验，不执行产品或测试。原43项SHA不变、追加5项到48：来源进度合同、两个既有fixture构造文件、1b报告和旧预算。核对D1第5行31地区链接，含Sugamo原ref42、snapshot0004、trace51/55；仅观察摘录，不称Pack生产执行、网站回放或G3通过。按历史区间独立加总38.250+6.872+2.095+4.551+5.744=57.512秒，4地区页/0恢复页；D2慢前缀与决策合计87.501秒。当前页ref限制及NAVIGATE计页缺口按固定代码确认；实现批G3、集合边界反例均NOT_RUN。ADR批准状态与用户直接批准对应、原0040/0042不变；产品/Runner/测试/Prompt/Schema/Gold/变体/Guard/站点/source-packs相对2ada8a69零差异，budget不动，不读或暂存.env。五门禁及Mock/Replay/Live Read-only/Controlled Live-write均NOT_RUN，新模型/Google/餐厅网站/Live/环境重跑0。按Test纯文档矩阵核对SHA、链接、预算、索引261/268和git diff --check；无新S0评价，不重判历史。[静态核验](../../.eval-artifacts/phase3a-prime/f5-analysis/verification-1c.json) · [报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#10-停止点-1c-修订与-adr-批准)。
+
+## TEST-2026-10-24-PHASE3A-PRIME-F5-STOP1B
+
+维也纳时间2026-10-24 CEST，纯设计与历史blob静态核对，不执行产品链路。原29项SHA保留、追加14项至43：两份共享动作/Executor代码、现有ADR0040/0042、旧分析runs、D2三个HTML、五张遮蔽截图和固定用户投影代码；15个地区observation及18份CONTROLS无INPUT、八站OPEN_LINK及类别CLICK按行号/trace/snapshot核对。首次抽取遇未提交HTML后改为MISSING，未补造；Q7匹配入口、真实替代和端到端时延仍为缺口。预算加总55.549/67.879秒及4/5地区页分开核验；C03最终Outcome与用户投影依据分层，不将模型理由冒充用户输出，不重评S0或历史评分。实现批红绿灯只列清单，全部NOT_RUN；五门禁typecheck/arch:check/npm test/build/test:browser:fixture本批均NOT_RUN，按Test纯文档矩阵检查SHA、引用、预算、链接、月度索引和git diff --check。产品/Runner/测试/Prompt/Schema/Gold/变体/Guard/站点目录/source-packs相对2ada8a69零差异，budget.json不动；新模型/Google/餐厅网站/Live/环境重跑均0，Mock/Replay/Live Read-only/Controlled Live-write均NOT_RUN。提交推送F5分支后停1b，不合main。[核对记录](../../.eval-artifacts/phase3a-prime/f5-analysis/verification-1b.json) · [报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#9-停止点-1b-补充)。
+
+## TEST-2026-10-24-PHASE3A-PRIME-F5-ANALYSIS
+
+模式为固定Git历史材料的离线分析，非新Mock/Replay/Live执行。analyze.py核对四份完整结果171行与资源模型总数一致，首个中断29行单列，75个来源作用域、1020个可配对已结束/失败操作，D2另有未结束操作与无对应开始的失败事件各1；41/95次重复BLOCKED_METHOD诊断。29份原始输入/代码/页面逐字节SHA登记，地图query值不复制。产品、Runner、测试、网站适配器相对main/2ada8a69零差异，相关生产机制相对诊断生产4d953731亦无差异；按Test文档矩阵检查引用、数值、SHA、diff与原工作区保护。五门禁本批未新运行，复用批次0默认1029/Chromium138和typecheck/arch/build历史PASS，不冒称本批绿灯或修复能力。没有产品修复，红绿灯不适用；错误地区完整HTML、新查询响应、被拒OPTIONS请求字段与中断完整trace仍缺，不用局部分析关闭实际链路缺口。新模型/Google/网站/Live0，公共额度账本无消耗条目；停止点1待复核。[报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md) · [抽取核对](../../.eval-artifacts/phase3a-prime/f5-analysis/verify.json)。
+
 ## TEST-2026-10-23-MAIN-ONLY-WORKFLOW
 
 纯文档验证：核对新工作分支基于origin/main 3ecc26c3，diff仅docs，新增链接及文档版本合法，旧删除清单标为历史且关闭提案；原用户工作区9份文件及HEAD不变。按Test纯文档矩阵检查，不运行五门禁、69/5/22、模型或Live。推送后另核对远端仅main前移，全部其他分支和5个annotated tag保持不变。[约定](../REPOSITORY-CONVENTIONS.md#git分支与tag)。
