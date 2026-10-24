@@ -6,11 +6,11 @@ import {gunzipSync} from 'node:zlib';
 import {createHash,randomUUID} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
-const dir='.eval-artifacts/phase3a-prime/f2a',out=`${dir}/validation`;
+const dir='.eval-artifacts/phase3a-prime/f2a',suffix=process.argv[2]??'',out=`${dir}/validation${suffix}`;
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const read=async p=>JSON.parse(await fs.readFile(p));
 const put=async(p,v)=>fs.writeFile(p,JSON.stringify(v,null,2)+'\n',{flag:'wx'});
-const freeze=await read(`${dir}/validation-freeze.json`);
+const freeze=await read(`${dir}/validation-freeze${suffix}.json`);
 const verify=async()=>{for(const[p,h]of Object.entries(freeze.files))assert.equal(sha(await fs.readFile(p)),h,`FROZEN_CHANGED:${p}`);};
 await verify();await fs.mkdir(out,{recursive:false});
 let externalCalls=0;globalThis.fetch=()=>{externalCalls++;throw Error('OFFLINE_VALIDATION_NO_EXTERNAL_REQUEST');};
@@ -32,6 +32,8 @@ try{
   await fs.mkdir(path.join(isolate,'src/harness/browser/fixtures'),{recursive:true});
   for(const name of ['run-interruption.ts','run-interruption-scenario.ts'])await fs.copyFile(`src/harness/browser/fixtures/${name}`,path.join(isolate,'src/harness/browser/fixtures',name));
   await fs.copyFile('package.json',path.join(isolate,'package.json'));
+  await fs.mkdir(path.join(isolate,'scripts'));
+  await fs.copyFile('scripts/test-filesystem-guard.mjs',path.join(isolate,'scripts/test-filesystem-guard.mjs'));
   await fs.symlink(path.resolve('node_modules'),path.join(isolate,'node_modules'),'dir');
   const evalDir='src/eval/restaurant/agent-loop';
   for(const name of ['diagnostic-evaluator.ts','diagnostic-evaluator-outcome.ts','diagnostic-evaluator-record.ts'])await fs.writeFile(path.join(isolate,evalDir,name),execFileSync('git',['show',`f42715c2:${evalDir}/${name}`]));
@@ -99,5 +101,5 @@ for(const entry of manifest.recordings){
  await put(`${out}/recordings/${entry.id}.qualification.json`,row);recordings.push(row);
 }
 await verify();assert.equal(externalCalls,0);
-await put(`${out}/summary.json`,{status:'PASS',codeCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),freezeSha256:sha(await fs.readFile(`${dir}/validation-freeze.json`)),timezone:'Europe/Vienna',finishedAt:new Date().toLocaleString('sv-SE',{timeZone:'Europe/Vienna'}),runs,recordings:recordings.map(({pages,...r})=>r),realModels:0,websites:0,googleRequests:0,liveRuns:0,externalCalls});
+await put(`${out}/summary.json`,{status:'PASS',codeCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),freezeSha256:sha(await fs.readFile(`${dir}/validation-freeze${suffix}.json`)),timezone:'Europe/Vienna',finishedAt:new Date().toLocaleString('sv-SE',{timeZone:'Europe/Vienna'}),runs,recordings:recordings.map(({pages,...r})=>r),realModels:0,websites:0,googleRequests:0,liveRuns:0,externalCalls});
 console.log(JSON.stringify({status:'PASS',runs:runs.length,recordings:recordings.map(({id,totalPages,replayablePages,reasons})=>({id,totalPages,replayablePages,reasons})),externalCalls}));

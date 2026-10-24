@@ -127,7 +127,7 @@ export function classifyRunOutcome(input: Parameters<typeof classifyObservedRun>
   // Classify interruption only after independently auditing displayed claims.
   if ((ownedStop || outerStop) && result.outcome.type !== "NOT_A_VALID_SAMPLE") {
     result.outcome = { type: "ORCHESTRATION_INTERRUPTED", capabilityDenominator: "EXCLUDED",
-      userGoalComplete: input.resultMissing ? "NOT_EVALUATED" : result.outcome.type === "QUALIFIED_DELIVERY" ? "YES"
+      userGoalComplete: input.resultMissing || !input.root.finalSnapshot?.domainState?.phase ? "NOT_EVALUATED" : result.outcome.type === "QUALIFIED_DELIVERY" ? "YES"
         : result.severity.S0.status === "PRESENT" || !input.root.finalSnapshot?.domainState?.presentedResults?.candidateIds?.length ? "NO" : "NOT_EVALUATED",
       reasons: [`Recorded ${ownedStop ? `${own!.reason}${own!.signal ? ` (${own!.signal})` : ""}` : `outer ${outerSignal}`} interruption; not a source-confirmed no-result.`, ...(input.resultMissing ? ["result.json missing; user-goal completion is NOT_EVALUATED."] : [])],
       evidenceRefs: ownedStop ? ["interruption", "finalSnapshot", "diagnostics.browserTrace"] : input.orchestration?.refs ?? [] };

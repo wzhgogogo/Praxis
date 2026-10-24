@@ -493,6 +493,8 @@ test("E1 actual SIGKILL bundles classify as orchestration interruption, not an i
   assert.equal(saved.outcome.userGoalComplete, "YES", "a supported saved delivery is not erased by an outer signal label");
   delete result.finalSnapshot;
   assert.equal(evaluateRestaurantHybridLiveArtifact(result, source, { orchestration }).outcome.userGoalComplete, "NOT_EVALUATED");
+  result.finalSnapshot = { domainState: {} };
+  assert.equal(evaluateRestaurantHybridLiveArtifact(result, source, { orchestration }).outcome.userGoalComplete, "NOT_EVALUATED", "an empty serialized state cannot decide the goal either");
 });
 
 test("E1 result types and severity use observed claims and attempts, never human labels or failure tags alone", async () => {

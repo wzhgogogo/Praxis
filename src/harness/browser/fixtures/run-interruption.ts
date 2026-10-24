@@ -2,7 +2,7 @@
 // Real child process, Chromium, Interpreter/Compiler/Runtime/Agent/Router and
 // production read assembly; only model and source I/O are controlled.
 import { mock } from "node:test";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { runHybridReadDiagnostic } from "../../../eval/restaurant/agent-loop/runners/run-hybrid-live-read.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../application/live-read-investigation-budget.js";
@@ -13,8 +13,11 @@ import { LocalPlaywrightChromium } from "../../../infrastructure/browser/local-p
 import { response, strictAction } from "../../restaurant-read-test-fixtures.js";
 import type { ModelRequest } from "../../../core/model/contracts.js";
 
-const mode = process.argv[2]!, root = process.argv[3]!;
-await mkdir(root, { recursive: true });
+const mode = process.argv[2]!, parentRoot = process.argv[3]!;
+await mkdir(parentRoot, { recursive: true });
+// Registered by the same preloaded read guard as both test suites. The child
+// owns its generated inputs instead of accepting arbitrary external fixtures.
+const root = await mkdtemp(join(parentRoot, "run-"));
 process.chdir(root);
 let externalCalls = 0;
 globalThis.fetch = async () => { externalCalls++; throw new Error("OFFLINE_FIXTURE_NO_NETWORK"); };

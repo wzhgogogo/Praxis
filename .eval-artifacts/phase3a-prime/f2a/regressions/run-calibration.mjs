@@ -1,9 +1,10 @@
 import fs from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';
-const dir='.eval-artifacts/phase3a-prime/f2a/regressions',mode=process.argv[2],sha=b=>createHash('sha256').update(b).digest('hex'),read=async p=>JSON.parse(await fs.readFile(p)),put=async(p,v)=>fs.writeFile(p,JSON.stringify(v,null,2)+'\n',{flag:'wx'});
+const dir=process.argv[3]??'.eval-artifacts/phase3a-prime/f2a/regressions',mode=process.argv[2],sha=b=>createHash('sha256').update(b).digest('hex'),read=async p=>JSON.parse(await fs.readFile(p)),put=async(p,v)=>fs.writeFile(p,JSON.stringify(v,null,2)+'\n',{flag:'wx'});
 let externalCalls=0;globalThis.fetch=()=>{externalCalls++;throw Error('OFFLINE_CALIBRATION_NO_NETWORK_OR_MODEL');};
 const manifestPath='.eval-artifacts/calibration-phase1-20261015/inputs/manifest.json',labelsPath='.eval-artifacts/calibration-phase1-20261015/labels.yaml';
 if(mode==='prepare'){
@@ -16,7 +17,7 @@ if(mode==='prepare'){
  for(const e of witness.entries){await add(e.manifestPath);await add(e.registryPath);if(e.rawDirectory)await walk(e.rawDirectory);else{
    const m=await read(e.manifestPath);for(const r of m.rows??[]){for(const key of ['bodyPath','metadataPath'])if(r[key]){const p=path.isAbsolute(r[key])?path.join(path.dirname(e.manifestPath),path.basename(r[key])):path.resolve(path.dirname(e.manifestPath),r[key]);await add(p);}}
  }}
- for(const p of [manifestPath,labelsPath,`${dir}/run-calibration.mjs`])files[p]=sha(await fs.readFile(p));
+ for(const p of [manifestPath,labelsPath,path.relative(process.cwd(),fileURLToPath(import.meta.url))])files[p]=sha(await fs.readFile(p));
  await put(`${dir}/calibration-freeze.json`,{schema:'budget-condition-calibration-freeze@1',codeCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),rule:'Labels frozen for separate comparison only; automatic outputs saved before label read. Exposed calibration, not Clean or a real model run.',files});
  console.log(JSON.stringify({stage:'CALIBRATION_FROZEN',files:Object.keys(files).length,sha256:sha(await fs.readFile(`${dir}/calibration-freeze.json`))}));
 }else{

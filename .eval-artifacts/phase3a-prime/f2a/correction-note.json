@@ -1,0 +1,16 @@
+{
+  "status": "frozen regression / correction after default-gate failure",
+  "initialTestedCommit": "43a04b94",
+  "initialDefault": {
+    "pass": 1026,
+    "total": 1027,
+    "fail": 1,
+    "gitStatusAfter": ""
+  },
+  "failure": "Legacy saved result with missing finalSnapshot was classified userGoalComplete=NO rather than NOT_EVALUATED",
+  "repair": "Require a recorded final-state phase before deciding the interrupted user goal; preserve displayed-claim S0 checks",
+  "testBoundary": "Real child process now preloads existing filesystem guard and creates its own registered temporary input directory",
+  "inputsChanged": false,
+  "orchestrationChanged": "Add separate immutable output/freeze suffix for corrected verification; inherit filesystem guard in isolated red control too",
+  "previousValidation": "validation/ and regressions/ are retained evidence for their original SHA, not the final corrected candidate"
+}

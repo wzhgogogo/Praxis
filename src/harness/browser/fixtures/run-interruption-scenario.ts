@@ -8,8 +8,9 @@ export async function runInterruptionScenario(mode: "complete" | "signal" | "dea
   await mkdir(root, { recursive: true });
   const messages: any[] = [];
   const logs: Buffer[] = [];
+  const repository = fileURLToPath(new URL("../../../../", import.meta.url));
   const child = fork(fileURLToPath(new URL("./run-interruption.ts", import.meta.url)), [mode, root], {
-    execArgv: ["--import", "tsx"], silent: true,
+    execArgv: ["--import", join(repository, "scripts/test-filesystem-guard.mjs"), "--import", "tsx"], silent: true, cwd: repository,
     env: Object.fromEntries(Object.entries(process.env).filter(([key]) => ["PATH", "HOME", "TMPDIR", "LANG", "PLAYWRIGHT_BROWSERS_PATH"].includes(key))),
   });
   child.stdout!.on("data", data => logs.push(Buffer.from(data)));
@@ -31,13 +32,16 @@ export async function runInterruptionScenario(mode: "complete" | "signal" | "dea
   }).finally(() => { clearTimeout(timeout); clearTimeout(stopGrace); });
   await writeFile(join(root, "child.log"), Buffer.concat(logs));
   await writeFile(join(root, "process.json"), JSON.stringify({ mode, exit, messages }, null, 2));
-  const directory = join(root, ".eval-artifacts/restaurant-hybrid-live-read");
+  const roots = (await readdir(root, { withFileTypes: true })).filter(entry => entry.isDirectory() && entry.name.startsWith("run-"));
+  assert.equal(roots.length, 1);
+  const runRoot = join(root, roots[0]!.name);
+  const directory = join(runRoot, ".eval-artifacts/restaurant-hybrid-live-read");
   const files = await readdir(directory).catch(() => []);
   const results = files.filter(file => file.endsWith(".result.json"));
   assert.equal(results.length, 1, `expected a flushed result after ${mode}; exit=${JSON.stringify(exit)}; log=${Buffer.concat(logs).toString().slice(-1500)}`);
   const resultPath = resolve(directory, results[0]!);
   const artifact = JSON.parse(await readFile(resultPath, "utf8"));
-  const finished = JSON.parse(await readFile(join(root, "fixture-finished.json"), "utf8"));
+  const finished = JSON.parse(await readFile(join(runRoot, "fixture-finished.json"), "utf8"));
   assert.equal(finished.externalCalls, 0);
   assert.equal(finished.realModelCalls, 0);
   assert.ok(artifact.finalSnapshot);

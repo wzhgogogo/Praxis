@@ -6,13 +6,14 @@ from zoneinfo import ZoneInfo
 parser = argparse.ArgumentParser()
 parser.add_argument('--worktree', type=Path, default=Path(__file__).resolve().parents[3])
 parser.add_argument('--output', type=Path, required=True)
+parser.add_argument('--freeze', type=Path, default=Path('.eval-artifacts/phase3a-prime/f2a/validation-freeze.json'))
 args = parser.parse_args()
 root, out = args.worktree.resolve(), args.output.resolve()
 assert not out.is_relative_to(root), 'gate output must be outside the tested checkout'
 out.mkdir(parents=True, exist_ok=False)
 git = lambda *a: subprocess.check_output(['git', '-C', str(root), *a]).decode()
 commit = git('rev-parse', 'HEAD').strip()
-freeze_path = root / '.eval-artifacts/phase3a-prime/f2a/validation-freeze.json'
+freeze_path = root / args.freeze
 freeze_bytes = freeze_path.read_bytes()
 freeze = json.loads(freeze_bytes)
 def verify_freeze():
