@@ -1,0 +1,70 @@
+{
+  "status": "estimate only; no new execution",
+  "segments": {
+    "selectEarly": {
+      "run": "diagnostic-1",
+      "startTrace": 2,
+      "endTrace": 78,
+      "startAtVienna": "2026-10-23T13:05:07.492+02:00",
+      "endAtVienna": "2026-10-23T13:05:33.412+02:00",
+      "wallMs": 25920
+    },
+    "selectDeep": {
+      "run": "diagnostic-1",
+      "startTrace": 2,
+      "endTrace": 122,
+      "startAtVienna": "2026-10-23T13:05:07.492+02:00",
+      "endAtVienna": "2026-10-23T13:05:45.742+02:00",
+      "wallMs": 38250
+    },
+    "twoDetailsProxy": {
+      "run": "case03-h03",
+      "startTrace": 116,
+      "endTrace": 138,
+      "startAtVienna": "2026-10-23T07:56:21.743+02:00",
+      "endAtVienna": "2026-10-23T07:56:28.615+02:00",
+      "wallMs": 6872
+    },
+    "replaceWithRestoreProxy": {
+      "run": "diagnostic-1",
+      "startTrace": 63,
+      "endTrace": 107,
+      "startAtVienna": "2026-10-23T13:05:28.729+02:00",
+      "endAtVienna": "2026-10-23T13:05:41.191+02:00",
+      "wallMs": 12462
+    },
+    "newListProxy": {
+      "run": "diagnostic-1",
+      "startTrace": 107,
+      "endTrace": 122,
+      "startAtVienna": "2026-10-23T13:05:41.191+02:00",
+      "endAtVienna": "2026-10-23T13:05:45.742+02:00",
+      "wallMs": 4551
+    },
+    "keywordProxy": {
+      "run": "case03-h03",
+      "startTrace": 80,
+      "endTrace": 92,
+      "startAtVienna": "2026-10-23T07:56:06.149+02:00",
+      "endAtVienna": "2026-10-23T07:56:11.893+02:00",
+      "wallMs": 5744
+    }
+  },
+  "earlyProvisional": {
+    "wallMs": 55549,
+    "marginTo90000Ms": 34451,
+    "regionPagesIncludingRestore": 4,
+    "condition": "First selected broad entrance actually exposes a parseable current public list; historical head-only HTML cannot prove this."
+  },
+  "deepProvisionalWithRestore": {
+    "wallMs": 67879,
+    "timeMarginTo90000Ms": 22121,
+    "regionPagesIncludingRestore": 5,
+    "verdict": "INFEASIBLE at existing 4-region-page cap even if wall-time sum fits"
+  },
+  "stationConditional": {
+    "knownProxyMs": 52642,
+    "remainingForUnobservedRevealMs": 37358,
+    "unknown": "Requested Akabane station + distance controls / LOCATION revelation and interaction; no observed matching route or timing."
+  }
+}
