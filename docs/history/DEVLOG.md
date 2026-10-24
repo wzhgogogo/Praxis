@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.283
-- Last updated: 2026-10-24
+- Document revision: 4.284
+- Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -4591,3 +4591,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-24-PHASE3A-PRIME-LONG-TURN-A
 
 2026-10-24 Europe/Vienna。F2①②按用户复核通过；补诊断DOM后第一项main快进e0e1037e127bd0264d85c6ab27708179c3f7766f并推送核验。随后完成跨进程2运行节奏与严格离线回放，均只推分支；未改产品/Prompt/产品Schema/Guard或对话B共享文件，原9份用户文件保持。四项后停止。 [报告](../../.eval-artifacts/phase3a-prime/long-turn-a/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-STOP2-PACING-FIX
+
+2026-10-25复核任务，CET UTC+01:00。eval层按资源类型区分租约和计数，原统计字段、默认1000ms、两运行及预算不变；不改产品、共享Browser/restaurant-search、Prompt、Schema、Guard。估算在显式类型拆分假设下重算：6次未来F5 Live加15回放约22分钟，15次全新Live参照约51.3分钟，均非实测。 [报告](../../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/pacing/report.md)。

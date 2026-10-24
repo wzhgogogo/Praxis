@@ -1,0 +1,15 @@
+{
+  "status":"revised estimate; no new Live measurement",
+  "cases":15,
+  "parallelLimit":2,
+  "intervalSeconds":1,
+  "assumedPeerResponseSeconds":0.2,
+  "fixedSeconds":30,
+  "scenarios":[
+    {"id":"healthy-fast","baseLiveSeconds":180,"preflightSeconds":20,"replaySeconds":20,"requests":{"tabelog":{"document":1,"dynamic":1,"static":4},"tablecheck":{"document":1,"dynamic":1,"static":4},"google":{"api":3}}},
+    {"id":"working-reference","baseLiveSeconds":300,"preflightSeconds":20,"replaySeconds":30,"requests":{"tabelog":{"document":2,"dynamic":2,"static":8},"tablecheck":{"document":2,"dynamic":2,"static":8},"google":{"api":6}}},
+    {"id":"deadline-pressure","baseLiveSeconds":500,"preflightSeconds":20,"replaySeconds":90,"requests":{"tabelog":{"document":4,"dynamic":6,"static":20},"tablecheck":{"document":4,"dynamic":6,"static":20},"google":{"api":20}}},
+    {"id":"third-health-attempt","baseLiveSeconds":500,"preflightSeconds":745,"replaySeconds":90,"requests":{"tabelog":{"document":4,"dynamic":6,"static":20},"tablecheck":{"document":4,"dynamic":6,"static":20},"google":{"api":20}}}
+  ],
+  "limitations":"Resource type splits are explicit assumptions; previous inputs had no measured static/dynamic breakdown. Keep total requests constant to isolate exemption effect. Actual coverage/cost needs F5. 15 fresh Live runs exceed current allowance."
+}

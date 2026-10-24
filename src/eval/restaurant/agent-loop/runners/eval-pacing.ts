@@ -78,8 +78,14 @@ export async function createEvalPacingCoordinator(config: { minimumIntervalMs?: 
       }
       if (!peer.active) throw new Error("Run has not entered");
       if (message.type === "stats") { send(socket, { id: message.id, usage: peer.usage });return; }
-      if (message.type === "acquire") {
+      if (message.type === "acquire" || message.type === "count") {
         const parsed = new URL(message.origin);if (parsed.origin !== message.origin || !["http:", "https:"].includes(parsed.protocol)) throw new Error("Expected origin only");
+        // Static assets are counted without joining source arbitration or
+        // extending another run's spacing window.
+        if (message.type === "count") {
+          (peer.usage[parsed.origin] ??= { requests: 0, waitMs: 0 }).requests++;
+          send(socket, { id: message.id, counted: true });return;
+        }
         const state = origins.get(parsed.origin) ?? { members: new Set<Peer>(), held: new Map<string, Peer>(), queue: [], finishedAt: 0 };
         origins.set(parsed.origin, state);state.members.add(peer);peer.origins.add(parsed.origin);
         state.queue.push({ peer, id: message.id, queuedAt: Date.now(), waited: false });pump(parsed.origin, state);return;
@@ -112,6 +118,7 @@ export async function connectEvalPacing(endpoint: EvalPacingEndpoint, runId: str
   const close = () => socket.destroy();signal?.addEventListener("abort", close, { once: true });
   try { await rpc("enter", { token: endpoint.token, runId }); } catch (error) { close();throw error; }
   return {
+    async count(url: string) { await rpc("count", { origin: new URL(url).origin }); },
     async acquire(url: string) {
       const { lease } = await rpc("acquire", { origin: new URL(url).origin });let released = false;
       return async () => { if (!released && !socket.destroyed) { released = true;await rpc("release", { lease }); } };

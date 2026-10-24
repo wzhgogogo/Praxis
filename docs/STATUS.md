@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.390
-- Last updated: 2026-10-24
+- Document revision: 4.391
+- Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-PRIME-STOP2-PACING-FIX:** 按停止点2复核修复F2③：静态资源只计数不取租约，document/已准入动态及预检、Google API保留共享节奏。双Chromium各20个同源CSS/JS有效红绿，21次访问仍计数、租约21→1。五门禁1028/148全绿，各项后净工作树；0新增调用，按授权合入main。 [报告](../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/pacing/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-LONG-TURN-A:** 对话A长回合四项完成，按停止条件7等复核。诊断DOM补丁合入并推送main/e0e1037e；F2③与F2④b/估算分别留工作分支。四轮五门禁全绿、每项后净工作树；0真实模型/Google/网站/Live/环境重跑，3864/473行不增。完整录制齐备时额度内6次未来F5 Live加15回放约23.8分钟，未实测，F5录制验证延期。 [报告](../.eval-artifacts/phase3a-prime/long-turn-a/report.md)。
 

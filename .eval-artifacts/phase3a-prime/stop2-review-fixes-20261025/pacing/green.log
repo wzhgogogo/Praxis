@@ -1,0 +1,22 @@
+✔ two Chromium runs count20 static resources each but pace only documents (889.131958ms)
+ℹ {"documentTimestamps":[{"path":"/a/doc","at":1792882764923},{"path":"/b/doc","at":1792882765072}],"sourceHits":42,"perRun":[{"stage":"DONE","usage":{"http://127.0.0.1:58599":{"requests":21,"waitMs":0}},"leases":1,"text":"Public fixture"},{"stage":"DONE","usage":{"http://127.0.0.1:58599":{"requests":21,"waitMs":144}},"leases":1,"text":"Public fixture"}]}
+✔ formal pacing bootstrap covers Chromium Guard routes, native redirects and Google transport (176.39475ms)
+ℹ {"hits":["/public","/redirect","/final"],"usage":{"mode":"EVAL_PACING","runId":"transport","byOrigin":{"http://127.0.0.1:58605":{"requests":3,"waitMs":0},"https://places.googleapis.com":{"requests":1,"waitMs":0}}},"realGoogleCalls":0}
+✔ shared origin pacing spans two real subprocesses (1091.277042ms)
+ℹ {"timestamps":[1792882764504,1792882764798,1792882765080,1792882765352],"intervals":[294,282,272],"configuredMs":200,"usage":{"a":{"http://127.0.0.1:58598":{"requests":2,"waitMs":497}},"b":{"http://127.0.0.1:58598":{"requests":2,"waitMs":761}}}}
+✔ one run has exactly zero pacing wait (255.283291ms)
+ℹ {"http://127.0.0.1:58646":{"requests":2,"waitMs":0}}
+✔ third queues and SIGTERM releases in-flight ownership (1137.994542ms)
+ℹ {"stop":"SIGTERM","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:58652":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:58652":{"requests":2,"waitMs":511}},"third":{"http://127.0.0.1:58652":{"requests":2,"waitMs":754}}},"heldLeases":0}
+✔ third queues and timeout releases in-flight ownership (1156.026666ms)
+ℹ {"stop":"timeout","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:58660":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:58660":{"requests":2,"waitMs":517}},"third":{"http://127.0.0.1:58660":{"requests":2,"waitMs":743}}},"heldLeases":0}
+✔ third queues and stop releases in-flight ownership (1142.086833ms)
+ℹ {"stop":"stop","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:58671":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:58671":{"requests":2,"waitMs":509}},"third":{"http://127.0.0.1:58671":{"requests":2,"waitMs":752}}},"heldLeases":0}
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4904.81225

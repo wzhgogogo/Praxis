@@ -1,0 +1,20 @@
+{
+  "status": "draft estimate; no Live execution; conditional on complete qualified recording inputs",
+  "cases": 15,
+  "parallelLimit": 2,
+  "originIntervalSeconds": 1,
+  "assumedPeerResponseSeconds": 0.2,
+  "fixedRoundSeconds": 30,
+  "scenarios": [
+    {"id":"healthy-fast", "baseLiveSeconds":180,"healthyPreflightSeconds":20,"sharedRequestsByOrigin":{"tabelog":6,"tablecheck":6,"google":3},"replaySeconds":20},
+    {"id":"working-reference", "baseLiveSeconds":300,"healthyPreflightSeconds":20,"sharedRequestsByOrigin":{"tabelog":12,"tablecheck":12,"google":6},"replaySeconds":30},
+    {"id":"deadline-pressure", "baseLiveSeconds":500,"healthyPreflightSeconds":20,"sharedRequestsByOrigin":{"tabelog":30,"tablecheck":30,"google":20},"replaySeconds":90},
+    {"id":"third-health-attempt", "baseLiveSeconds":500,"healthyPreflightSeconds":745,"sharedRequestsByOrigin":{"tabelog":30,"tablecheck":30,"google":20},"replaySeconds":90}
+  ],
+  "interpretation": {
+    "fullFreshReference": "15 Live runs + 15 original-decision replays; reference scale only; exceeds current 8-Live allowance and is not an execution authorization",
+    "withinCurrentAllowance": "6 future F5 Live runs (cases01/03, three each) + up to15 regression replays, only if full recording coverage exists; current old recordings do not establish that coverage",
+    "budgets": "500 seconds includes pacing waits; preflight is outside; timeout completion does not imply delivery",
+    "unknowns": "source request counts, peer response latency, realistic replay cost and complete recording coverage need F5 measurements"
+  }
+}
