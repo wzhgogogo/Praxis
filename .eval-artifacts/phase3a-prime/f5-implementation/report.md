@@ -83,3 +83,13 @@ fd7c3c70 已通过五门禁：typecheck、arch:check、默认 1037/1037、build�
 两个站点目录相对 f42715c2 全部字节相同：生产 TypeScript 3864→3864 行，source-packs.ts 473→473 行；完整文件 SHA 见 adapter-audit.json。没有 `.env` 读取或暂存，没有 main 合并或 main 推送。最终提交推送实现分支后停在停止点 2，等待复核。
 
 Live preparation envelope check: the real strict Runner loader rejected historical weekday/fallback_place metadata. The final envelope removes only those metadata keys; user content, dates and semantic criteria are byte-preserved. live-outer.mjs now invokes the production loader/cohort/materializer in its offline preflight. The executed collector freeze is retained separately as collector-executed-freeze.json; the GET witness inputs and collector bytes are unchanged. No request was repeated.
+
+## 停止点2最终签出（2026-10-24 CEST）
+
+最终源码／测试冻结提交：d771aa5191669093149b310ae978e5a1e8b2ec0e。五门禁全绿：typecheck、arch:check、默认1038/1038、build、Chromium138/138。gates-final/results.json逐项保存退出码、时间、原日志SHA和前后空git status；日志无损gzip可还原。验证后只新增报告、历史记录与证据归档，源码／测试／脚本输入保持冻结。
+
+最终完整组合五个产物位于composition-stop2，独立四层汇总为independent-stop2-review.json：2个QUALIFIED_DELIVERY、3个HONEST_NO_RESULT；5个S0_DECLARATION均ABSENT，脚本来源边界NOT_EVALUATED的限制保留。验证总收据为verification.json，文件SHA索引为delivery-sha256.json。
+
+最终Runner准备包已重新冻结：实际严格Loader／Cohort／Materializer离线通过；这次只修运行信封元字段，正文与选定日期、见证输入和采集脚本不改。GET执行时的原freeze另存collector-executed-freeze.json，并由原执行提交fd7c3c70逐字节校验；不伪称后改信封已在请求前冻结，也没有再次请求网站。
+
+新增调用保持：例01公开GET2、例03可选GET0、其他网站0、模型0、Google0、Live0、环境重跑0。原始响应SHA、串行间隔及逐次预算一致；两个站点目录与source-packs仍对f42715c2零差异。git diff --check通过。ADR0043实现切片和Live准备结束，停在停止点2；不合并main，不启动Live。F5Live仍需F2①／F2④a合入main、继承／重放并冻结最终代码、有效日期及24h内GET复查、用户另行批准。

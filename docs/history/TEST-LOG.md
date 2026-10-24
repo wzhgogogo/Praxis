@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.288
+- Document revision: 4.289
 - Last updated: 2026-10-24
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -12,6 +12,8 @@
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 
 ## TEST-2026-10-24-PHASE3A-PRIME-F5-IMPLEMENTATION
+
+最终门禁：d771aa5191669093149b310ae978e5a1e8b2ec0e，typecheck／arch:check／test1038/1038／build／Chromium138/138全部PASS，5次statusBefore/statusAfter均空。gates-final/results.json和无损原日志齐；最终源码与测试冻结SHA不变。scope-stop、null-coordinate及Runner信封启动红灯均保留且对应绿灯通过。例01仅2 GET、例03 0 GET、其他来源／模型／Google／Live0。完整最终组合产物及独立核验见composition-stop2与independent-stop2-review.json；不是网站Replay或真实模型验收。
 
 CEST交付记录：fd7c3c70五门禁PASS，默认1037/1037、Chromium138/138，typecheck／arch／build通过，各门禁前后工作区均干净。随后加强N1–N4地点输入并加入整个集合跨readRunId拒绝，最终冻结后重跑五门禁至gates-final，不复用旧门禁冒充最终SHA。例01冻结公开GET2/10，均200、间隔5.010193秒，见证WITNESS_EXISTS；例03可选GET0/1，模型／Google／Live／环境重跑0。原始HTTP字节、SHA、无损归档及账本均保存。完整本地组合独立评价不声称综合S0=0：声明错误ABSENT，脚本来源缺网络边界记录为NOT_EVALUATED；当前网站结构及真实模型仍留待另批Live。
 

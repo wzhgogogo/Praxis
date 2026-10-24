@@ -1,0 +1,136 @@
+{
+  "status": "OFFLINE_PREPARATION_PASS",
+  "realCalls": 0,
+  "liveRuns": 0,
+  "commands": [
+    {
+      "caseId": "p2c-holdout-01",
+      "attempt": 1,
+      "nodeArgs": [
+        "--import",
+        "tsx",
+        "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+        "--case-source",
+        ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/runner-input.yaml",
+        "--case",
+        "p2c-holdout-01",
+        "--timeout-ms",
+        "500000",
+        "--max-model-calls",
+        "50",
+        "--record-decisions",
+        "--record-browser",
+        "--no-proxy"
+      ]
+    },
+    {
+      "caseId": "p2c-holdout-01",
+      "attempt": 2,
+      "nodeArgs": [
+        "--import",
+        "tsx",
+        "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+        "--case-source",
+        ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/runner-input.yaml",
+        "--case",
+        "p2c-holdout-01",
+        "--timeout-ms",
+        "500000",
+        "--max-model-calls",
+        "50",
+        "--record-decisions",
+        "--record-browser",
+        "--no-proxy"
+      ]
+    },
+    {
+      "caseId": "p2c-holdout-01",
+      "attempt": 3,
+      "nodeArgs": [
+        "--import",
+        "tsx",
+        "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+        "--case-source",
+        ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/runner-input.yaml",
+        "--case",
+        "p2c-holdout-01",
+        "--timeout-ms",
+        "500000",
+        "--max-model-calls",
+        "50",
+        "--record-decisions",
+        "--record-browser",
+        "--no-proxy"
+      ]
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "attempt": 1,
+      "nodeArgs": [
+        "--import",
+        "tsx",
+        "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+        "--case-source",
+        ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/runner-input.yaml",
+        "--case",
+        "p2c-holdout-03",
+        "--timeout-ms",
+        "500000",
+        "--max-model-calls",
+        "50",
+        "--record-decisions",
+        "--record-browser",
+        "--no-proxy"
+      ]
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "attempt": 2,
+      "nodeArgs": [
+        "--import",
+        "tsx",
+        "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+        "--case-source",
+        ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/runner-input.yaml",
+        "--case",
+        "p2c-holdout-03",
+        "--timeout-ms",
+        "500000",
+        "--max-model-calls",
+        "50",
+        "--record-decisions",
+        "--record-browser",
+        "--no-proxy"
+      ]
+    },
+    {
+      "caseId": "p2c-holdout-03",
+      "attempt": 3,
+      "nodeArgs": [
+        "--import",
+        "tsx",
+        "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
+        "--case-source",
+        ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/runner-input.yaml",
+        "--case",
+        "p2c-holdout-03",
+        "--timeout-ms",
+        "500000",
+        "--max-model-calls",
+        "50",
+        "--record-decisions",
+        "--record-browser",
+        "--no-proxy"
+      ]
+    }
+  ],
+  "requirements": [
+    "Separate explicit Live approval after F2① and F2④a are merged into main and inherited by this branch; rebase and refreeze code before Live",
+    "New dates must remain weekday-matched7–14days from actual run day; refreeze DATE-only variants if stale",
+    "Repeat same public GET witness certification within24h before Live; stop2 certification alone does not authorize Live",
+    "Case03 optional >=1000m GET is NOT_RUN: no user-observed URL supplied; never invent station/category codes or paths",
+    "Each slot serial, independent four-layer evaluation and S0 check before next; all requests/calls/Live usage reconciled into shared ledger, including failures",
+    "No automatic retry/environment rerun; max6 planned formal slots, each500s/50modelcalls with original per-source budgets",
+    "Independent S0 uses raw public responses and trace; production success flags do not establish truth; annotation remains separate from scorer classification"
+  ]
+}
