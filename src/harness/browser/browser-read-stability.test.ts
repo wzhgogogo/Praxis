@@ -135,8 +135,8 @@ test('model full-page OPEN_LINK allows slow DOMContentLoaded and times out only 
   const navigationBudgets:number[]=[];
   const raw=new LocalPlaywrightChromium();
   const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',async openSession(input){
-   const opened=await raw.openSession(input),navigate=opened.navigate.bind(opened);
-   opened.navigate=async(target,options)=>{if(target.endsWith('/next'))navigationBudgets.push(options?.timeoutMs??-1);return navigate(target,options);};return opened;
+   const opened=await raw.openSession(input),openLink=opened.openLink!.bind(opened);
+   opened.openLink=async(target,href,options)=>{navigationBudgets.push(options?.timeoutMs??-1);return openLink(target,href,options);};return opened;
   }};
   const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:30_000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){calls++;if(mode==='budget')clock=25_000;return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.label==='Public result')!.ref,reason:'Read observed public page'};}}});
   const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY');
