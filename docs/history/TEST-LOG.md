@@ -11,6 +11,12 @@
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 
+## TEST-2026-10-25-F5-LIVE-PREPARED
+
+固定CET UTC+01:00。F5重放到main4d927958，旧763a2262保留tag；源码0冲突，双方文档记录及共享账本A7＋B2全部保留。355a5547五门禁1046/154及type/arch/build全绿，5次前后净树；包8b39bd76固定348项SHA，严格Loader、子进程、分析器离线导入通过。日期正文原字节不改，10-25运行窗口+10/+13天。先提交后2GET复查Dengana，类别/201.545m/11-04 19:00两人WITNESS_EXISTS，响应及SHA无损归档，账本新增2、共享GET4。CET下元数据与UTC证据并存。
+
+自动审批拒绝主工作树.env加载（即使仅布尔检查），因旧禁止读取限制；未执行，没有密钥读取/展示/复制/暂存。六slot执行包、独立S0 gate、逐店GET与F2原样回放入口已准备，凭据方式待用户明确许可；不绕过拒绝，六slot NOT_RUN，新增模型/Google/Live0，尚未停止点3。[报告](../../.eval-artifacts/phase3a-prime/f5-live/report.md)。
+
 ## TEST-2026-10-24-PHASE3A-PRIME-F5-IMPLEMENTATION
 
 最终门禁：d771aa5191669093149b310ae978e5a1e8b2ec0e，typecheck／arch:check／test1038/1038／build／Chromium138/138全部PASS，5次statusBefore/statusAfter均空。gates-final/results.json和无损原日志齐；最终源码与测试冻结SHA不变。scope-stop、null-coordinate及Runner信封启动红灯均保留且对应绿灯通过。例01仅2 GET、例03 0 GET、其他来源／模型／Google／Live0。完整最终组合产物及独立核验见composition-stop2与independent-stop2-review.json；不是网站Replay或真实模型验收。
