@@ -58,7 +58,7 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 | [0040](0040-agent-selected-directory-region-entrances.md) | Accepted; 用户批准 2026-10-10 | Agent选择已观察目录地区入口，权威LOCATION、坐标半径兜底与一次换入口；实现/发现探测待独立复核 |
 | [0042](0042-agent-planned-discovery-and-search-availability-hints.md) | Accepted; 用户批准 2026-10-17 | Agent有界检索规划与搜索级空位线索；P2-1a离线实施，来源实测与P2-1b待后续 |
 
-| [0044](0044-recommendation-availability-boundary.md) | Proposed; draft / not integrated | 推荐/查位两个语义锚点、灰区模型判断与 goalBasis 当前消息引用核验；待用户批准 |
+| [0044](0044-recommendation-availability-boundary.md) | Accepted; 用户批准 2026-10-25，批次 2 实施中 | 推荐/查位两个语义锚点、灰区模型判断与 goalBasis 当前消息引用核验；仅提议保存依据，不升 State/TaskDefinition |
 
 ## 规则
 

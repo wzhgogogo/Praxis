@@ -1,18 +1,27 @@
 {
   "schema": "phase3a-boundary-budget@1",
-  "status": "draft / not integrated",
-  "asOf": "2026-10-25T09:57:55+01:00",
+  "status": "current executable authorization / batch2 offline",
+  "asOf": "2026-10-25T10:11:36+01:00",
   "timezone": "CET UTC+01:00",
   "limits": {
-    "realModelCalls": 0,
+    "realModelCalls": 144,
     "fullLive": 0,
     "googleRequests": 0,
     "restaurantWebsiteRequests": 0
   },
-  "approval": "Batch 1 documentation only; ADR and real model ceiling pending user approval",
+  "approval": "User stop-1 approval 2026-10-25; independent 144 real model calls; batch2 offline only; stop2 review required before batch3",
   "entries": [
     {
       "slice": "batch1 Proposed ADR and inventories",
+      "realModelCalls": 0,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "slice": "stop1 approval / batch2 start",
+      "approvedRealModelCalls": 144,
+      "chargedToPrime400": 0,
       "realModelCalls": 0,
       "fullLive": 0,
       "googleRequests": 0,
@@ -24,5 +33,7 @@
     "fullLive": 0,
     "googleRequests": 0,
     "restaurantWebsiteRequests": 0
-  }
+  },
+  "chargedToPhase3aPrime400": false,
+  "approvedBatch3LogicalTurns": 72
 }

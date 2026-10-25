@@ -1,19 +1,19 @@
 # ADR-0044: Recommendation and availability boundary
 
-- Status: Proposed
-- Document revision: 0.1
+- Status: Accepted
+- Document revision: 1.0
 - Last updated: 2026-10-25
-- Source of truth for: 待批准的推荐/查位目标边界与 goalBasis 引用核验；draft / not integrated
-- Proposed supersession: 仅部分取代 [ADR-0026](0026-concrete-visit-goal-and-reception-semantics.md) Decision 第 1 条的目标分类；第 2–5 条继续有效
+- Source of truth for: 推荐/查位目标边界与 goalBasis 当前消息引用核验；用户已批准，批次 2 实施中
+- Supersedes in part: 仅部分取代 [ADR-0026](0026-concrete-visit-goal-and-reception-semantics.md) Decision 第 1 条的目标分类；第 2–5 条继续有效
 - Related ADRs: [ADR-0020](0020-goal-driven-restaurant-read-path.md)、[ADR-0009](0009-semantic-strength-and-clean-holdout-baseline.md)
 - Related documents: [Restaurant Booking](../domains/RESTAURANT-BOOKING.md)、[批次报告](../../.eval-artifacts/phase3a-boundary/report.md)
-- Direction approved: 用户 2026-10-25 已批准方向；本 ADR 尚未 Accepted，未实施
+- Direction approved: 用户 2026-10-25 已批准方向；用户在停止点 1 明确批准 ADR 为 Accepted；批次 2 仅实施与离线验证
 
 ## Context
 
 当前 TARGET Prompt 把人数和 planned dining occasion/time or broad time period 组合为 AVAILABILITY，可能把宽下午见朋友的咖啡馆找店强制变成查位。目标应决定交付所需证据，不替代每次找店，也不使查位或预约成为默认副作用。H003 与 KF-H004 的旧目标不因本草案被回写或重新判分。
 
-## Decision (Proposed)
+## Decision
 
 ### 概念与目标（指令 §0.1 原文）
 
@@ -29,7 +29,7 @@
 - **RECOMMENDATION**：展示符合条件的门店，需要营业时间等事实支持；查位只是可选的附加证据。
 
 
-### 已批准方向（指令 §0.3 原文；ADR 仍待批准）
+### 已批准方向（指令 §0.3 原文）
 
 用户的原则：**少加硬编码规则，尽量让模型自己判断**（包括推断人数）。
 
@@ -59,7 +59,7 @@
    - 灰区用例每例跑 3 次，报告目标的一致率。
 
 
-### 最小落地方案，提交停止点 1 复核
+### 停止点 1 已批准的最小落地方案
 
 - 新增 goalBasis 到 Semantic Proposal 的 TARGET value，包含 `type`、非空 `reason`、非空 `quotes[]`。每次 ASSERT/CORRECT 新目标都带依据；没有新 TARGET 的修正 turn 继续携带原权威目标，不重新生成引用，不把旧消息作为当前引用。
 - 在 Interpreter 已有模型输出验证处以当前可信 `input.message` 核对引用。只折叠空白、trim、大小写归一后做连续子串包含；不做同义、标点、翻译、订位关键词或目标合理性判断。任一空/不存在引用拒绝整份提议，走现有 INVALID_MODEL_OUTPUT → SEMANTIC_INTERPRETATION_FAILED 路径。不得改写引用、猜目标或降级为推荐。
@@ -86,3 +86,7 @@
 停止点 1 只交付草案、路径与 Gold 标注清单、评测器方案和调用估算。批次 2 要有无效/空引用、两种有效目标、后续改目标拒绝及推荐可无人数/无 slot 交付的独立红绿证据与五门禁；批次 3 要另获真实模型额度。
 
 需复核确认：TARGET 内 goalBasis 的位置与仅提议保存方案、多轮 CONTEXT_CARRY、相对分钟偏移按灰区标注、评测 sidecar/旧 Gold 比较边界，以及是否加入公开已暴露 Holdout。任何追加生产持久字段的方案先协调 F5 版本，不以 Proposed ADR 直接施工。
+
+## Stop 1 approval — 2026-10-25 CET
+
+用户已批准本 ADR、goalBasis 仅在提议/静态评测结果保存、CONTEXT_CARRY 和相对时间灰区三个细化。真实模型总上限 144，独立于 3a′ 的 400；批次 2 不调用真实模型，完成推送后停在停止点 2。审批原文及范围见 batch2/approval.md。SR03-T02 的旧 Gold 保持不变，停止点 3 再确认。
