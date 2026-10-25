@@ -1,11 +1,11 @@
 {
   "schema": "f5-rerun-freeze@1",
-  "phase": "COLLECTOR_FROZEN_BEFORE_GET",
+  "phase": "FINAL_LIVE_FROZEN_BEFORE_SLOT1",
   "newMain": "b5db5700fa4c868a5c94f245bc3ef9689eecb4e4",
   "gateCommit": "b195c176e314f6282e686a44b04c2076afde87f3",
   "files": {
     ".eval-artifacts/p2-1-discovery-20261016/outer/post-delivery.mjs": "a23d475c3ede0cfbf9ce10b909b131e63adc63fd9e416bae51b155097567e7b8",
-    ".eval-artifacts/phase3a-prime/f5-live-rerun/analyze.mjs": "7a501e2b82b52022ba1c5eec39938659c2a5394128ed28d3b4b9ef3b0868fcaf",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/analyze.mjs": "4076eb8eb72a80d47d0d4cb26320ac765533c093d3d815aa55f3b05fce88b55d",
     ".eval-artifacts/phase3a-prime/f5-live-rerun/build-witness.py": "372840d8da57cd94afa430b2b2e53f790466cb74662c1f1a0d7b5459b8c66e7e",
     ".eval-artifacts/phase3a-prime/f5-live-rerun/config.json": "2c65f79490e61c3190e68a79f9263e1e643d5b99c9fef33bf994d5a9ed4adfaf",
     ".eval-artifacts/phase3a-prime/f5-live-rerun/control.py": "f334bf20ac67348372efdb812d983addcb55d7f491319a09d6684f17aa949452",
@@ -368,6 +368,26 @@
     "tsconfig.json": "be0b1166202a3b6848e90dc8b58107e05493e591492e56fb2dac5cee851b5eab",
     "web-skills/browser-read/SKILL.md": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
     "web-skills/tabelog/SKILL.md": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2",
-    "web-skills/tablecheck/SKILL.md": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b"
+    "web-skills/tablecheck/SKILL.md": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/collector-freeze.json": "317d0f2d62162db7df26fd2141629467843fbb54175bd7debc5bf207cf10d53d",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/witness-manifest.json": "1a80ba623d6b4d98bd08620c6732c28d5838b5d67c0de897620805cbf433f8e4",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/witness-registry.json": "3037d373867b2ec87a056eb36bf8869de0908371277c422ca27c665da55d5bce",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/01-13108466-detail.metadata.json": "5b5d5812bf2267bae3dda028414bd12cd7137433dceee292d345f4cddc87d524",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/02-13108466-vacancy.metadata.json": "9e7ed5754d25082e9c5231317ad52386cd6406717722a26ce1b26717ea151c90",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/vacancy.normalized.json": "25c7cd82707952b8c862090dfd863c678e6a8afd447bf3870efc770330c01f7a",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/certificate.json": "a747b0d75bddfd0c8bc69c3d6b8dc55797d8330b782180e17bf343a264b65dc6",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/requests.json": "5ccc27079d4f2060462f414d7dfb59debc4e14b82985ee603a3b3c45d4f9aea3",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/02-13108466-vacancy.body": "3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/01-13108466-detail.body.gz": "204cfb1a9f0c526903ab406d5711599ed51c2a69eb5e1c1057eb1e476ef6315e"
+  },
+  "collectorFreezeSha256": "317d0f2d62162db7df26fd2141629467843fbb54175bd7debc5bf207cf10d53d",
+  "preLiveAmendments": [
+    "Analyzer rawDirectory explicitly points to certification; before any formal Live. Collector script/input remained unchanged during the two GET."
+  ],
+  "rawResponseArchive": {
+    "originalPath": ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/01-13108466-detail.body",
+    "originalSha256": "1e8834207ac67350217dd94b31a8654f50946106899aae0056422e4e89725c2c",
+    "losslessGzip": ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/01-13108466-detail.body.gz",
+    "gzipSha256": "204cfb1a9f0c526903ab406d5711599ed51c2a69eb5e1c1057eb1e476ef6315e"
   }
 }

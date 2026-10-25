@@ -1,0 +1,57 @@
+{
+  "schema": "f5-witness-identity@2",
+  "status": "frozen regression / exposed; fresh certification applies only in its recorded window",
+  "validUntil": "2026-10-26T09:36:37.440003+01:00",
+  "variants": [
+    {
+      "variantId": "f5-case01-rerun-20261104",
+      "center": {
+        "latitude": 35.777745100000004,
+        "longitude": 139.7210653,
+        "radiusMeters": 1000,
+        "placeId": "ChIJWX3QWB2TGGARPRJlTdnE96Q",
+        "name": "Akabane Station",
+        "source": {
+          "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-01.attempt-1.body.json",
+          "sha256": "28562706d3b24303387f875fed6af3166dc0e81fc6e7dcb2fc20156f3e787980"
+        },
+        "usedPlace": "Akabane"
+      },
+      "classification": "KNOWN_FEASIBLE_SUPPORTED",
+      "request": "2026-11-04 19:00 x2 Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 4 at 7 PM?",
+      "witnesses": [
+        {
+          "outletName": "Kushi Katsu Dengana Akabane ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+          "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+          "distanceMeters": 201.54497535834238,
+          "hardEvidence": [
+            {
+              "criterion": "kushikatsu",
+              "quote": "Categories Kushi-age (Deep-fried skewers), Izakaya (Japanese style tavern), Tripe"
+            }
+          ],
+          "observedSourceIdentities": [
+            {
+              "outletName": "Dengana Akabane",
+              "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F"
+            }
+          ],
+          "identityAudit": {
+            "publicFullAddress": "東京都北区赤羽1-15-1 新仲ビル1F",
+            "houseBuildingFloor": "1-15-1 新仲ビル 1F",
+            "publicDetailSource": {
+              "gitBlob": "a691f7ddbce7a4fc32829508993a1ef49b269fd2:.eval-artifacts/phase3a-prime/f5-live/certification-prelive/01-13108466-detail.body.gz",
+              "decodedSha256": "b4e0b00f3d919ec558ff5fed65b15eb4367056399418f34787544861ca729fe1"
+            },
+            "publicPhone": "03-5249-4011",
+            "pointSeparationMeters": 1.2509349781045576,
+            "aliasSource": "a691f7ddbce7a4fc32829508993a1ef49b269fd2:.eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+            "basis": "Public detail phone + complete house/building/floor + coordinates; names share Dengana/Akabane. Google strings are exposed historical routing labels, not new certification.",
+            "freshPublicDetailSha256": "1e8834207ac67350217dd94b31a8654f50946106899aae0056422e4e89725c2c"
+          }
+        }
+      ]
+    }
+  ]
+}

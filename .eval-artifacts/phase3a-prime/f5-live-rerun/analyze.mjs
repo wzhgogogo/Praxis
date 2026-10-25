@@ -29,7 +29,7 @@ for(const [i,row]of post.rows.entries())if(row.bodyPath&&row.httpStatus===200&&!
  observations.push(loadPostDeliveryTabelogObservation(meta,row.bodyPath));
 }
 const cfg=read(resolve(here,'config.json'));
-const witnessOracle=loadWitnessOracle({manifestPath:resolve(here,'witness-manifest.json'),registryPath:resolve(here,'witness-registry.json'),variantId:cfg.witnessVariant,artifactSha256:sha(bytes)});
+const witnessOracle=loadWitnessOracle({manifestPath:resolve(here,'witness-manifest.json'),registryPath:resolve(here,'witness-registry.json'),rawDirectory:resolve(here,'certification'),variantId:cfg.witnessVariant,artifactSha256:sha(bytes)});
 const reviewedPath=resolve(root,'.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json');
 const result=await evaluateArtifactFile(summary.artifactPath,{postDeliveryTabelog:observations,witnessOracle,reviewedReads:parseReviewedReads(fs.readFileSync(reviewedPath),reviewedPath)});
 put(resolve(directory,'independent-evaluation.json'),{evaluationPath:result.outputPath,evaluatorVersion:result.evaluation.evaluatorVersion,artifactSha256:sha(bytes),outcome:result.evaluation.outcome,severity:result.evaluation.severity,witnessFunnel:result.evaluation.witnessFunnel,findings:result.evaluation.findings,candidateSummaries:result.evaluation.candidateSummaries,unassessedDimensions:result.evaluation.unassessedDimensions});
