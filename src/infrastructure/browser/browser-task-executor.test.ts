@@ -445,7 +445,8 @@ test("a runtime navigation failure retires its session before the next candidate
   await executor.close();
 });
 
-test("a stuck old close cannot delay cancellation or overwrite the next candidate", async () => {
+test("a stuck old close cannot delay cancellation or overwrite the next candidate", async t => {
+  t.mock.timers.enable({apis:['Date','setTimeout'],now:0});
   const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }]);
   failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
   let finishClose: (() => void) | undefined;
@@ -511,7 +512,8 @@ test("BrowserTaskExecutor aborts an in-flight operation, closes once asynchronou
   await executor.close();
 });
 
-test("BrowserTaskExecutor bounds a late session acquisition without leaking its deadline into the next candidate", async () => {
+test("BrowserTaskExecutor bounds a late session acquisition without leaking its deadline into the next candidate", async t => {
+  t.mock.timers.enable({apis:['Date','setTimeout'],now:0});
   const late = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "late", text: "", html: "" }]);
   const next = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "next", text: "", html: "" }]);
   let resolveLate: ((session: BrowserSession) => void) | undefined;
@@ -522,7 +524,8 @@ test("BrowserTaskExecutor bounds a late session acquisition without leaking its 
     return next;
   } }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });
   executor.beginCandidate("first");
-  await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), { code: "BROWSER_TIMEOUT" });
+  const rejected=assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), { code: "BROWSER_TIMEOUT" });
+  await new Promise(resolve=>setImmediate(resolve));t.mock.timers.tick(10);await rejected;
   resolveLate!(late);
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(late.closed, 1, "a session that resolves after its candidate deadline is closed rather than cached");
@@ -532,7 +535,8 @@ test("BrowserTaskExecutor bounds a late session acquisition without leaking its 
   await executor.close();
 });
 
-test("BrowserTaskExecutor times out a hanging snapshot, closes that session, and permits the next candidate", async () => {
+test("BrowserTaskExecutor times out a hanging snapshot, closes that session, and permits the next candidate", async t => {
+  t.mock.timers.enable({apis:['Date','setTimeout'],now:0});
   const stuck = new FixtureSession([{ url: "https://www.tablecheck.com/en/stuck", title: "stuck", text: "", html: "" }]);
   stuck.snapshot = async () => new Promise<BrowserSnapshot>(() => {});
   const next = new FixtureSession([{ url: "https://www.tablecheck.com/en/next", title: "next", text: "", html: "" }]);
@@ -540,7 +544,8 @@ test("BrowserTaskExecutor times out a hanging snapshot, closes that session, and
   const executor = new BrowserTaskExecutor({ openSession: async () => (++opens === 1 ? stuck : next) }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });
   executor.beginCandidate("stuck");
   const first = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
-  await assert.rejects(executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: new AbortController().signal, session: first }), { code: "BROWSER_TIMEOUT" });
+  const rejected=assert.rejects(executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: new AbortController().signal, session: first }), { code: "BROWSER_TIMEOUT" });
+  await new Promise(resolve=>setImmediate(resolve));t.mock.timers.tick(10);await rejected;
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(stuck.closed, 1);
   executor.beginCandidate("next");

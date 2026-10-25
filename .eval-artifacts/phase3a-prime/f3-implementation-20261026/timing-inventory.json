@@ -3,6 +3,31 @@
   "scannedTestFiles": 113,
   "tests": [
     {
+      "file": "src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts",
+      "line": 948,
+      "name": "\"E1 outer post-run check captures each registered witness once for an actual zero-delivery run\"",
+      "mechanisms": [
+        "mock.method(globalThis"
+      ],
+      "injectedClock": false,
+      "timingLines": []
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts",
+      "line": 990,
+      "name": "\"E1 outer witness scope skips deliveries and unregistered cases, and blocks request/source drift\"",
+      "mechanisms": [
+        "mock.method(globalThis"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 1028,
+          "text": "loop: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000,  status: \"TERMINAL\" }, resourceUsage: { elapsedMs: 100, agentDecisions: 3, browserModelCalls: 2 },"
+        }
+      ]
+    },
+    {
       "file": "src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts",
       "line": 85,
       "name": "\"a frozen business clock cannot freeze the real outer deadline or admit a late model result\"",
@@ -126,6 +151,16 @@
           "text": "return { postAvailabilityDiscovery, callsBeforeDiscovery, networkRequests, semantic, loop, state: snapshot.domainState, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, googleCalls, model, evaluation, trajectories: composition.trajectories.steps, elapsedMs: Date.now() - startedAt, artifact };"
         }
       ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "line": 390,
+      "name": "\"native source session acquisition consumes the remaining source window and retains an unstarted detail entrance\"",
+      "mechanisms": [
+        "mock.method(Date"
+      ],
+      "injectedClock": true,
+      "timingLines": []
     },
     {
       "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
@@ -438,6 +473,7 @@
       "line": 122,
       "name": "'model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget'",
       "mechanisms": [
+        "mock.method(Date",
         "setTimeout",
         "Date.now()"
       ],
@@ -453,7 +489,7 @@
         },
         {
           "line": 139,
-          "text": "opened.navigate=async(target,options)=>{if(target.endsWith('/next'))navigationBudgets.push(options?.timeoutMs??-1);return navigate(target,options);};return opened;"
+          "text": "opened.openLink=async(target,href,options)=>{navigationBudgets.push(options?.timeoutMs??-1);return openLink(target,href,options);};return opened;"
         },
         {
           "line": 141,
@@ -811,6 +847,115 @@
       ]
     },
     {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 448,
+      "name": "\"a stuck old close cannot delay cancellation or overwrite the next candidate\"",
+      "mechanisms": [
+        "mock.timers",
+        "setTimeout",
+        "maxElapsedMsPerCandidate: 40"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 449,
+          "text": "t.mock.timers.enable({apis:['Date','setTimeout'],now:0});"
+        },
+        {
+          "line": 458,
+          "text": "maxElapsedMsPerCandidate: 40, onDiagnostic: diagnostic => diagnostics.push(diagnostic),"
+        }
+      ]
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 476,
+      "name": "\"a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline\"",
+      "mechanisms": [
+        "mock.method(Date",
+        "maxElapsedMsPerCandidate: 15"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 482,
+          "text": "const executor = new BrowserTaskExecutor({ openSession: async () => failed }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 15 });"
+        }
+      ]
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 515,
+      "name": "\"BrowserTaskExecutor bounds a late session acquisition without leaking its deadline into the next candidate\"",
+      "mechanisms": [
+        "mock.timers",
+        "setTimeout",
+        "maxElapsedMsPerCandidate: 10"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 516,
+          "text": "t.mock.timers.enable({apis:['Date','setTimeout'],now:0});"
+        },
+        {
+          "line": 525,
+          "text": "} }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });"
+        }
+      ]
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 538,
+      "name": "\"BrowserTaskExecutor times out a hanging snapshot, closes that session, and permits the next candidate\"",
+      "mechanisms": [
+        "mock.timers",
+        "setTimeout",
+        "maxElapsedMsPerCandidate: 10"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 539,
+          "text": "t.mock.timers.enable({apis:['Date','setTimeout'],now:0});"
+        },
+        {
+          "line": 544,
+          "text": "const executor = new BrowserTaskExecutor({ openSession: async () => (++opens === 1 ? stuck : next) }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });"
+        }
+      ]
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 1122,
+      "name": "\"group-window: visible disabled requested party ends before another model decision\"",
+      "mechanisms": [
+        "maxAutomaticElapsedMs:1000"
+      ],
+      "injectedClock": false,
+      "timingLines": []
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 1137,
+      "name": "`group-window: party stop excludes ${JSON.stringify(control)}`",
+      "mechanisms": [
+        "maxAutomaticElapsedMs:1000"
+      ],
+      "injectedClock": false,
+      "timingLines": []
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 1145,
+      "name": "`group-window: disabled party is bound to selected date ${selectedDate}`",
+      "mechanisms": [
+        "maxAutomaticElapsedMs:1000"
+      ],
+      "injectedClock": false,
+      "timingLines": []
+    },
+    {
       "file": "src/infrastructure/browser/playwright-read-network-guard.test.ts",
       "line": 1,
       "name": "<shared timing helpers>",
@@ -843,6 +988,26 @@
           "text": "assert.ok(Date.now() - startedAt >= 5_900, \"the controlled public read actually waited beyond the 5s action cap\");"
         }
       ]
+    },
+    {
+      "file": "src/integrations/restaurant-search/directory-region-selection.test.ts",
+      "line": 371,
+      "name": "'A3 source90 deadline after sampling is not reset by a correction or source handoff'",
+      "mechanisms": [
+        "mock.method(Date"
+      ],
+      "injectedClock": true,
+      "timingLines": []
+    },
+    {
+      "file": "src/integrations/restaurant-search/directory-region-selection.test.ts",
+      "line": 398,
+      "name": "'B1 all A3 endings retain the remaining500s/50call window at the next source'",
+      "mechanisms": [
+        "mock.method(Date"
+      ],
+      "injectedClock": true,
+      "timingLines": []
     },
     {
       "file": "src/integrations/tabelog/tabelog-browser-availability.test.ts",

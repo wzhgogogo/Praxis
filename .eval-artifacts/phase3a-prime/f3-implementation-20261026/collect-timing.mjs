@@ -9,7 +9,7 @@ for(const file of files){
  const starts=[{index:0,1:'<shared timing helpers>'},...raw.matchAll(/\b(?:test|it)\s*\(\s*("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g)];
  for(const [index,node] of starts.entries()){
    const text=raw.slice(node.index,starts[index+1]?.index??raw.length);
-   const patterns=[...text.matchAll(/setTimeout|setInterval|Date\.now\(\)|performance\.now\(\)|waitForTimeout|await\s+(?:delay|sleep|wait)\(/g)];
+   const patterns=[...text.matchAll(/setTimeout|setInterval|Date\.now\(\)|performance\.now\(\)|waitForTimeout|mock\.timers|mock\.method\s*\(\s*(?:globalThis|Date)|(?:maxElapsedMsPerCandidate|maxAutomaticElapsedMs)\s*:\s*(?:[0-9]{1,3}|[12]_?\d{3})(?![\d_])|await\s+(?:delay|sleep|wait)\(/g)];
    if(patterns.length){
     const line=raw.slice(0,node.index).split('\n').length;
     rows.push({file,line,name:node[1],mechanisms:[...new Set(patterns.map(match=>match[0]))],
