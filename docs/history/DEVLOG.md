@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.301
+- Document revision: 4.302
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -14,6 +14,12 @@
 ## 2026-10-26复核：F3脚本读取与预检（执行CET10-25）
 
 开发按批准的ADR-0036第1–7条实施；共享脚本类型、真实预检投影、实际完整POST分离。旧生产两个有效红灯已存，修后真实本地Chromium绿；独立接收端/body审计与Recorder留证，相关154项离线回归通过。五门禁在28963ca8干净提交执行，默认1054／Chromium161全绿、每项前后status为空；完整收据见[报告](../../.eval-artifacts/phase3a-prime/f3-guard/report.md)。保护文件、预算零差异，站点行数不增加；无.env、无新增真实调用。route留3f、F6未实施，未知POST/CORS回放不伪报已覆盖。
+
+<a id="dev-2026-10-26-adr0045-median"></a>
+
+## 2026-10-26复核：ADR0045中位数与部分结果修订（CET10-25）
+
+只修改Draft，F6未实施。固定Git下62样本中位数与20s门槛核算完成；核对现有逐店checkpoint、事件和Reducer，明确搜索父取消仍丢内部完成结果的接线缺口及代价，新增100s查位正常准入和取消保留A/未知B控制。F6红绿灯NOT_RUN，现有五门禁按用户要求另跑，不能代替F6产品验收。源码/预算不变、真实调用0。[报告](../../.eval-artifacts/phase3a-prime/f6-draft-revision/report.md)。
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 

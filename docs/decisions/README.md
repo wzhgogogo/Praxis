@@ -71,4 +71,4 @@ Accepted supplement [ADR-0036 G1](0036-tablecheck-reserve-read-supplement.md) ad
 - [ADR-0036脚本类型与预检补充](0036-script-request-types-and-preflight-draft.md)：第1–7条Accepted并离线实施；地点类型关联项未批准，留3f。当前来源reserve永久拒绝不变。
 
 以下仅草案，不改变当前Accepted合同或权限：
-- [ADR-0045收尾时间预留](0045-bounded-read-conclusion-reserve.md)。0044在并行架构分支占号，本目录不补造其批准状态。
+- [ADR-0045收尾时间预留](0045-bounded-read-conclusion-reserve.md)：Draft0.2，20s加动作中位数及完整子结果交接细节待批准，未实施。0044在并行架构分支占号，本目录不补造其批准状态。

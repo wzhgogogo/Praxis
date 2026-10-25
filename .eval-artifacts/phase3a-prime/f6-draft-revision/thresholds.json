@@ -1,0 +1,99 @@
+{
+  "mode": "OFFLINE_ARITHMETIC_NOT_RUNTIME",
+  "fixedReserveMs": 20000,
+  "timingInput": {
+    "git": "afd9c4e1aa78a21aaa6a6363089f218cc6d679e3",
+    "path": ".eval-artifacts/phase3a-prime/f3/timing-evidence.json",
+    "sha256": "c85f8efd39110375d1f56dc491b55c87229d5a583b0c90fe76b9553f6a194ff3"
+  },
+  "completedSamples": 62,
+  "rightCensoredExcluded": 3,
+  "actions": {
+    "CHECK_AVAILABILITY": {
+      "n": 23,
+      "medianMs": 46453,
+      "admissionMs": 66453,
+      "middleRows": [
+        {
+          "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+          "trajectory": 2,
+          "action": "CHECK_AVAILABILITY",
+          "durationMs": 46453,
+          "stepOutcome": "EXECUTED"
+        }
+      ]
+    },
+    "INVESTIGATE_CANDIDATE_FACTS": {
+      "n": 16,
+      "medianMs": 30383.5,
+      "admissionMs": 50383.5,
+      "middleRows": [
+        {
+          "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+          "trajectory": 4,
+          "action": "INVESTIGATE_CANDIDATE_FACTS",
+          "durationMs": 30016,
+          "stepOutcome": "EXECUTED"
+        },
+        {
+          "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+          "trajectory": 4,
+          "action": "INVESTIGATE_CANDIDATE_FACTS",
+          "durationMs": 30751,
+          "stepOutcome": "EXECUTED"
+        }
+      ]
+    },
+    "SEARCH_RESTAURANTS": {
+      "n": 23,
+      "medianMs": 45154,
+      "admissionMs": 65154,
+      "middleRows": [
+        {
+          "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+          "trajectory": 2,
+          "action": "SEARCH_RESTAURANTS",
+          "durationMs": 45154,
+          "stepOutcome": "EXECUTED"
+        }
+      ]
+    }
+  },
+  "eventModelInputs": [
+    {
+      "git": "afd9c4e1aa78a21aaa6a6363089f218cc6d679e3",
+      "path": "src/application/restaurant-execution-router.ts",
+      "sha256": "61927018a23a0df2d03a17e2aca8aba7c04500dc5a2e1ebb3047aeb009e3643e"
+    },
+    {
+      "git": "afd9c4e1aa78a21aaa6a6363089f218cc6d679e3",
+      "path": "src/application/restaurant-agent-loop.ts",
+      "sha256": "684c9fa9d137b4ee2a71ee7ec1313c60078f97573b383241d7100b2164518bbe"
+    },
+    {
+      "git": "afd9c4e1aa78a21aaa6a6363089f218cc6d679e3",
+      "path": "src/domains/restaurant/contracts.ts",
+      "sha256": "5b13a296c338043b4724f7db00758cfd0389d5c29c6b18fa947019baa96da000"
+    },
+    {
+      "git": "afd9c4e1aa78a21aaa6a6363089f218cc6d679e3",
+      "path": "src/domains/restaurant/task-definition.ts",
+      "sha256": "d045adfe3a79ab77501644ad69c252eeffad741946389f426fdaffa7055efe2c"
+    },
+    {
+      "git": "afd9c4e1aa78a21aaa6a6363089f218cc6d679e3",
+      "path": "src/integrations/restaurant-availability/availability-source-resolver.ts",
+      "sha256": "b4651d12af1bdb77c5a55e96c78fca4fe006b33eed1d14038c07bd8cf9d8bc28"
+    },
+    {
+      "git": "afd9c4e1aa78a21aaa6a6363089f218cc6d679e3",
+      "path": "src/integrations/restaurant-search/native-restaurant-search.ts",
+      "sha256": "044f0962c8447ec793f5f8772e81f987935e1d879d53ea665d9986cbcb02f746"
+    },
+    {
+      "git": "afd9c4e1aa78a21aaa6a6363089f218cc6d679e3",
+      "path": "src/harness/restaurant-execution-router.test.ts",
+      "sha256": "b0ca12cff878685d9ed51ebddd943691e82bb409b551cd31f107208170adbf8c"
+    }
+  ]
+}

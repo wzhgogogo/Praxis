@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.408
+- Document revision: 4.409
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-ADR0045-REVISED（执行CET10-25）:** F6仍仅草案、待批准。按62个完成样本改准入为20s+动作中位数：搜索65.154s／事实50.3835s／查位66.453s，撤回190s门槛并加100s正常控制。事件可表达部分结果，现有逐店事实/查位checkpoint可复用，搜索父取消交接仍有缺口及明确实施代价；完整子结果继续原资格/新鲜度核对。源码与预算0差异，新增真实调用0。[草案](decisions/0045-bounded-read-conclusion-reserve.md)／[收据](../.eval-artifacts/phase3a-prime/f6-draft-revision/report.md)。
 
 - **2026-10-26-F3-SCRIPT-READ-IMPLEMENTED（执行CET10-25）:** 用户批准ADR-0036补充第1–7条；fetch/xhr共享脚本读取与实际GET/HEAD/POST投影预检已实现，完整POST仍独立核body。真实Chromium两个有效红灯转绿，Recorder@5／Evaluator@36／Rubric@31及来源声明同片同步。TableCheck reserve永久拒绝不变，route未批准留3f；F5例01仍已知限制。新增真实调用0，保护目录/Pack及预算不变；五门禁全绿（默认1054／Chromium161，各项前后净树），结果见[报告](../.eval-artifacts/phase3a-prime/f3-guard/report.md)。
 
