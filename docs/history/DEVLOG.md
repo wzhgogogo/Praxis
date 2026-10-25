@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.288
+- Document revision: 4.289
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,11 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-25-PHASE3A-BOUNDARY-BATCH3-PREFLIGHT
+
+- CET UTC+1；draft / not integrated，真实执行NOT_RUN。保存停止点2批准原文、72轮输入选择与停批计划。未改生产源码、Prompt、Schema、Scorer、Gold。595旧冻结文件匹配，灰区双轮不重复前缀，公开12例不重物化，Wednesday不作Gold。
+- 任务进程与launchd均无DeepSeek凭据/模型配置。原指令禁读.env，未回退读取；已请求安全环境注入/已有启动入口。独立额度0/144，3a′400不扣；尚未完成/冻结真实调用外层，不把准备报告为停止点3或模型失败。 [报告](../../.eval-artifacts/phase3a-boundary/report.md)。
 
 ## DEV-2026-10-25-PHASE3A-BOUNDARY-BATCH2
 

@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.395
+- Document revision: 4.396
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-BOUNDARY-BATCH3-PREFLIGHT:** 停止点2用户复核通过（独立1051/1051、净工作树），授权72逻辑轮/144独立真实调用。595冻结文件与72轮输入预检通过；任务和launchd均缺DeepSeek凭据/模型环境配置，遵守禁止读取.env，真实执行NOT_RUN、0/144，不占3a′400；Google/网站/Live0。只保存准备证据，未到停止点3、不合main；须先取得安全环境注入/既有启动入口。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
 
 - **2026-10-25-PHASE3A-BOUNDARY-BATCH2:** ADR-0044 已 Accepted；本分支实现 Prompt@24、Semantic Proposal@4 与 scorer/report@4。新目标依据只核对当前消息引用；无新TARGET修正沿用原目标，State@20/TaskDefinition@18 和旧Gold不变。有效引用/评分/冲突红灯已保存，真实handler、Reducer、推荐展示与可选slot组合离线通过。c9fe3039冻结后离线15/15、五门禁1051默认/154本机Chromium全绿，每项后净工作树，独立复核非目标字段不变；真实模型0/144，独立额度不占3a′400，网站/Google/Live0。交付证据提交后按授权只推本分支并停停止点2，不合main。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
 

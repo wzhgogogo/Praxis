@@ -1,7 +1,7 @@
 {
   "schema": "phase3a-boundary-budget@1",
-  "status": "batch2 offline verified / STOP_2 pending review",
-  "asOf": "2026-10-25T10:59:54+01:00",
+  "status": "batch3 approved / WAITING_CREDENTIALS / NOT_RUN",
+  "asOf": "2026-10-25T20:43:24+01:00",
   "timezone": "CET UTC+01:00",
   "limits": {
     "realModelCalls": 144,
@@ -9,7 +9,7 @@
     "googleRequests": 0,
     "restaurantWebsiteRequests": 0
   },
-  "approval": "User stop-1 approval 2026-10-25; independent 144 real model calls; batch2 offline only; stop2 review required before batch3",
+  "approval": "User stop-1 approval 2026-10-25; independent 144 real model calls; batch2 offline only; stop2 review required before batch3; user stop2 review passed; batch3 real semantic regression authorized, same total ceiling144",
   "entries": [
     {
       "slice": "batch1 Proposed ADR and inventories",
@@ -30,6 +30,16 @@
     {
       "slice": "batch2 stop2 offline verification",
       "sourceCommit": "c9fe30391881e9b61382c71c0953527f9b3f3da0",
+      "realModelCalls": 0,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "slice": "batch3 input and credential preflight",
+      "reviewedTip": "c014d4818817cc7c2ce3f9d9273788b0e3186afa",
+      "logicalTurnsPlanned": 72,
+      "status": "WAITING_CREDENTIALS / NOT_RUN",
       "realModelCalls": 0,
       "fullLive": 0,
       "googleRequests": 0,

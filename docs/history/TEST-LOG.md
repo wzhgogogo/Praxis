@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.295
+- Document revision: 4.296
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,11 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-25-PHASE3A-BOUNDARY-BATCH3-PREFLIGHT
+
+- CET UTC+1；静态输入预检，已暴露开发配置，非Clean Baseline。node --import tsx .eval-artifacts/phase3a-boundary/batch3/preflight-inputs.mjs：595旧冻结文件匹配，15/42/12/3共72轮消息/来源SHA及会话关联通过，公开12例无{DATE}。
+- 没有调用任何模型；任务/launchd环境仅布尔检查均未配置DeepSeek key/model。真实模型0/144，Google/网站/Live0，.env/私有Holdout未读。产品源码未变，复用停止点2既有离线证据；真实语义/一致率/严重程度/端到端结果均未评价。不把凭据缺失归因为模型失败。 [预检](../../.eval-artifacts/phase3a-boundary/batch3/preflight.json) · [报告](../../.eval-artifacts/phase3a-boundary/report.md)。
 
 ## TEST-2026-10-25-PHASE3A-BOUNDARY-BATCH2
 
