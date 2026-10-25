@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.295
+- Document revision: 4.296
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5331,3 +5331,7 @@ efb78d84旧实现两条目标红灯；d067bf7f相关25项与真实Chromium/Guard
 ## TEST-2026-10-25-PHASE3A-PRIME-REPLAY-PORTABILITY
 
 Linux0c1f75d9原4项spawn sandbox-exec ENOENT红灯；c7210882修复后4/4/0skip，普通UID501真实unshare netns隔离父HTTP服务（200→curl7，0子请求），隐藏unshare明确失败。原断言SHA2f44c1aeecde529c09fb6bd131566f92af74e8299b248a582711e34f19bb6c76不变。b1573c5a macOS五门禁1037/154全绿，单次21.725409/94.521591秒，每项status空、恢复0，冻结SHA相同。真实调用0，Linux VM已清理；报告宿主CET，Guest原始墙钟偏移保留说明。 [报告](../../.eval-artifacts/phase3a-prime/stop3-replay-portability-20261025/report.md)。
+
+## TEST-2026-10-25-PHASE3A-PRIME-HEALTH-FIXTURE-STABILITY
+
+macOS五门禁绿：默认1037/1037；完整四路Chromium三次154/154，162.592849、162.502505、162.429266s，中位162.502505s。Linux前四门禁绿/default1037，完整四路三次154、154、153/154（162.383431、162.145540、161.989294s），三连绿NOT_SATISFIED；第三轮为独立E1 Failed to fetch，目标健康六轮均绿。精确slow反事实红/原实现绿。原E1断言固定两组四进程诊断6绿2红，非门禁替代；所有门禁后status空、恢复0、604输入前后核对。新调用0，VM已删除；本批停止，未合main。 [报告](../../.eval-artifacts/phase3a-prime/stop3-health-fixture-stability-20261025/report.md)。

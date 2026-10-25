@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.288
+- Document revision: 4.289
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4615,3 +4615,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-25-PHASE3A-PRIME-REPLAY-PORTABILITY
 
 仅修回放子进程的OS隔离选择及错误诊断，macOS保留原策略，Linux用unshare -rn --，原30秒上限与4项断言不变。CI因既有PAT缺workflow权限未启动，转临时Lima/VZ Ubuntu22 ARM64，冻结源归档/脚本，禁宿主挂载与凭据转发，证据取回后清理VM与缓存。并发进入main的4份robots证据保留，实际基线7165f8a2；无产品/Schema/Prompt/Guard/站点改动。 [报告](../../.eval-artifacts/phase3a-prime/stop3-replay-portability-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-HEALTH-FIXTURE-STABILITY
+
+只改健康Harness测试普通模式窗口1500→10000ms，slow1000/800/220与生产实现不变。冻结源1d8c7c96、604项输入与外层脚本；macOS三轮154/154，Linux第三轮独立E1失败。只读固定八次原断言诊断两次fetch/xhr差异BLOCKED_METHOD；没有改Guard或E1文件，草案未应用未测试。触发用户长回合§2.6停止，分支留复核、main保持0a254f05。Linux真实VM、依赖路径映射/时钟/失败记录透明保留，资源清理完成，0新增真实调用。 [报告](../../.eval-artifacts/phase3a-prime/stop3-health-fixture-stability-20261025/report.md)。

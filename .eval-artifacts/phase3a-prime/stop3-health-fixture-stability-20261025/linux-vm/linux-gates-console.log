@@ -1,0 +1,15 @@
+{"platform": "Linux-6.1.0-53-cloud-arm64-aarch64-with-glibc2.36", "uid": 501, "isolation": ["unshare", "-rn"], "at": "2026-10-25T11:11:13.507721+01:00", "status": "PASS", "parentNamespace": "net:[4026531840]", "childNamespace": "net:[4026532282]", "parentHttpStatus": 200, "isolatedCurlExit": 7, "isolatedSourceHits": 0, "realModelCalls": 0, "realGoogleCalls": 0, "realWebsiteCalls": 0, "liveRuns": 0}
+START typecheck 1
+END typecheck 1 0 0.41862 {} clean=True
+START arch-check 1
+END arch-check 1 0 0.223789 {} clean=True
+START npm-test 1
+END npm-test 1 0 34.918243 {'tests': 1037, 'suites': 5, 'pass': 1037, 'fail': 0, 'cancelled': 0, 'skipped': 0, 'todo': 0} clean=True
+START build 1
+END build 1 0 0.366484 {} clean=True
+START browser-fixture 1
+END browser-fixture 1 0 162.383431 {'tests': 154, 'suites': 0, 'pass': 154, 'fail': 0, 'cancelled': 0, 'skipped': 0, 'todo': 0} clean=True
+START browser-fixture 2
+END browser-fixture 2 0 162.14554 {'tests': 154, 'suites': 0, 'pass': 154, 'fail': 0, 'cancelled': 0, 'skipped': 0, 'todo': 0} clean=True
+START browser-fixture 3
+END browser-fixture 3 1 161.989294 {'tests': 154, 'suites': 0, 'pass': 153, 'fail': 1, 'cancelled': 0, 'skipped': 0, 'todo': 0} clean=True
