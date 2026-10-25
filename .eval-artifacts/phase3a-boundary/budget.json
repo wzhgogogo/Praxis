@@ -1,7 +1,7 @@
 {
   "schema": "phase3a-boundary-budget@1",
-  "status": "batch3 credential authorization recorded / READY_TO_FREEZE / actual0",
-  "asOf": "2026-10-25T20:54:38+01:00",
+  "status": "STOP_3_REVIEW_REQUIRED",
+  "asOf": "2026-10-25T21:04:18+01:00",
   "timezone": "CET UTC+01:00",
   "limits": {
     "realModelCalls": 144,
@@ -53,10 +53,22 @@
       "fullLive": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0
+    },
+    {
+      "slice": "batch3 real semantic regression",
+      "sourceCommit": "f0cc436a6633909b2fb8444e9f2e142390cef428",
+      "realModelCalls": 1,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "status": "STOP_3_REVIEW_REQUIRED",
+      "stopReason": "SR01-T01 non-target criterion strength UNSPECIFIED -> HARD",
+      "providerSucceeded": 1,
+      "retries": 0
     }
   ],
   "cumulative": {
-    "realModelCalls": 0,
+    "realModelCalls": 1,
     "fullLive": 0,
     "googleRequests": 0,
     "restaurantWebsiteRequests": 0

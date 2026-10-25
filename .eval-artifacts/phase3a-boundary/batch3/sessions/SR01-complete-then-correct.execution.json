@@ -1,0 +1,195 @@
+{
+  "selectedSession": {
+    "cohort": "DEVELOPMENT",
+    "id": "SR01-complete-then-correct",
+    "repetition": 1,
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "turns": [
+      {
+        "id": "SR01-T01",
+        "message": "Tomorrow between 19:00 and 19:30 in Shinjuku for two people, yakiniku under 5000 JPY per person.",
+        "originalExpectedDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "Shinjuku"
+          },
+          "criteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          }
+        },
+        "annotation": {
+          "sessionId": "SR01-complete-then-correct",
+          "turnId": "SR01-T01",
+          "messageSha256": "3a68b3d64a3b66f5b72aef32e83ace3d82a4ca96e875d5e3d364c7efd4af3db9",
+          "category": "B",
+          "contextCarry": false
+        },
+        "source": {
+          "path": "src/eval/restaurant/semantic/fixtures.ts",
+          "sha256": "fa4a8e52a82806af6d507a06f4ba16426e6c28376936363c777c4e981cf3ca72"
+        }
+      },
+      {
+        "id": "SR01-T02",
+        "message": "Actually make it three people in Shibuya, and remove yakiniku.",
+        "originalExpectedDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "partySize": 3,
+          "area": {
+            "query": "Shibuya"
+          },
+          "criteria": [],
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          }
+        },
+        "annotation": {
+          "sessionId": "SR01-complete-then-correct",
+          "turnId": "SR01-T02",
+          "messageSha256": "44cb397c4c9c7e2fd76ae9a40249dcd19fa0323001b0f19ca0a7300cf4bda564",
+          "category": "B",
+          "contextCarry": true
+        },
+        "source": {
+          "path": "src/eval/restaurant/semantic/fixtures.ts",
+          "sha256": "fa4a8e52a82806af6d507a06f4ba16426e6c28376936363c777c4e981cf3ca72"
+        }
+      }
+    ]
+  },
+  "report": {
+    "evaluatorVersion": "4",
+    "datasetId": "restaurant-semantic-regression-v3",
+    "datasetVersion": "3",
+    "mode": "REAL_MODEL_MOCK_WORLD",
+    "attributionLevel": "DEVELOPMENT_STAGE_ORACLES",
+    "status": "COMPLETED",
+    "turns": [
+      {
+        "sessionId": "SR01-complete-then-correct",
+        "turnId": "SR01-T01",
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "modelStatus": "PROPOSED",
+        "errors": [
+          "Semantic Proposal does not match the development-stage interpretation oracle"
+        ],
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "Yakiniku restaurant in Shinjuku for two people tomorrow 19:00-19:30 under 5000 JPY per person",
+                "goalBasis": {
+                  "type": "SPECIFIC_TIME_MEAL",
+                  "reason": "Explicit clock range for a sit-down meal with a known party size",
+                  "quotes": [
+                    "between 19:00 and 19:30",
+                    "for two people"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "between 19:00 and 19:30"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "BUDGET_PER_PERSON",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "BUDGET_PER_PERSON",
+                "max": 5000,
+                "currency": "JPY"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sessionId": "SR01-complete-then-correct",
+        "turnId": "SR01-T02",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "errors": []
+      }
+    ],
+    "summary": {
+      "totalTurns": 2,
+      "modelEvaluatedTurns": 1,
+      "passedTurns": 0,
+      "blockedTurns": 1,
+      "firstFailureStages": {
+        "SEMANTIC_INTERPRETER": 1
+      }
+    }
+  }
+}

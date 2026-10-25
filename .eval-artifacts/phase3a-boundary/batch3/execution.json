@@ -1,0 +1,362 @@
+{
+  "startedAtCET": "2026-10-25T20:57:51.316+01:00",
+  "sourceCommit": "f0cc436a6633909b2fb8444e9f2e142390cef428",
+  "model": "deepseek-v4-flash",
+  "credentialStatus": "已加载",
+  "independentlyReadCredentialFile": false,
+  "mode": "REAL_MODEL_MOCK_WORLD / SEMANTIC_ONLY",
+  "executionFreezeSha256": "b04d93212fe22bf15787221684533b244ba15ab96fed64bd51e870e0853d46ad",
+  "logicalTurnsPlanned": 72,
+  "hardRealCallCeiling": 144,
+  "chargedToPrime400": 0,
+  "finishedAtCET": "2026-10-25T20:57:55.580+01:00",
+  "status": "STOPPED",
+  "stop": {
+    "reason": "FIRST_FAILED_OR_UNASSESSED_SEMANTIC_COMPARISON",
+    "turnId": "SR01-T01",
+    "firstFailureStage": "SEMANTIC_INTERPRETER",
+    "sessionId": "SR01-complete-then-correct"
+  },
+  "actualModelCalls": 1,
+  "logicalTurnsReached": 1,
+  "sessionsCompleted": 1,
+  "sessions": [
+    {
+      "sessionId": "SR01-complete-then-correct",
+      "cohort": "DEVELOPMENT",
+      "report": {
+        "evaluatorVersion": "4",
+        "datasetId": "restaurant-semantic-regression-v3",
+        "datasetVersion": "3",
+        "mode": "REAL_MODEL_MOCK_WORLD",
+        "attributionLevel": "DEVELOPMENT_STAGE_ORACLES",
+        "status": "COMPLETED",
+        "turns": [
+          {
+            "sessionId": "SR01-complete-then-correct",
+            "turnId": "SR01-T01",
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "modelStatus": "PROPOSED",
+            "errors": [
+              "Semantic Proposal does not match the development-stage interpretation oracle"
+            ],
+            "proposal": {
+              "schemaVersion": "4",
+              "facts": [
+                {
+                  "field": "TARGET",
+                  "operation": "ASSERT",
+                  "value": {
+                    "kind": "TARGET",
+                    "goal": "AVAILABILITY",
+                    "query": "Yakiniku restaurant in Shinjuku for two people tomorrow 19:00-19:30 under 5000 JPY per person",
+                    "goalBasis": {
+                      "type": "SPECIFIC_TIME_MEAL",
+                      "reason": "Explicit clock range for a sit-down meal with a known party size",
+                      "quotes": [
+                        "between 19:00 and 19:30",
+                        "for two people"
+                      ]
+                    },
+                    "selectionScope": "OPEN_ENDED"
+                  }
+                },
+                {
+                  "field": "DATE",
+                  "operation": "ASSERT",
+                  "value": {
+                    "kind": "DATE",
+                    "relativeDay": "TOMORROW",
+                    "raw": "Tomorrow"
+                  }
+                },
+                {
+                  "field": "TIME_WINDOW",
+                  "operation": "ASSERT",
+                  "value": {
+                    "kind": "TIME_WINDOW",
+                    "earliest": "19:00",
+                    "latest": "19:30",
+                    "raw": "between 19:00 and 19:30"
+                  }
+                },
+                {
+                  "field": "PARTY_SIZE",
+                  "operation": "ASSERT",
+                  "value": {
+                    "kind": "PARTY_SIZE",
+                    "value": 2,
+                    "source": "EXPLICIT"
+                  }
+                },
+                {
+                  "field": "AREA",
+                  "operation": "ASSERT",
+                  "value": {
+                    "kind": "AREA",
+                    "query": "Shinjuku"
+                  }
+                },
+                {
+                  "field": "BUDGET_PER_PERSON",
+                  "operation": "ASSERT",
+                  "value": {
+                    "kind": "BUDGET_PER_PERSON",
+                    "max": 5000,
+                    "currency": "JPY"
+                  }
+                },
+                {
+                  "field": "CRITERION",
+                  "operation": "ASSERT",
+                  "value": {
+                    "kind": "CRITERION",
+                    "text": "yakiniku",
+                    "polarity": "POSITIVE",
+                    "strength": "HARD"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "sessionId": "SR01-complete-then-correct",
+            "turnId": "SR01-T02",
+            "status": "BLOCKED_BY_UPSTREAM",
+            "errors": []
+          }
+        ],
+        "summary": {
+          "totalTurns": 2,
+          "modelEvaluatedTurns": 1,
+          "passedTurns": 0,
+          "blockedTurns": 1,
+          "firstFailureStages": {
+            "SEMANTIC_INTERPRETER": 1
+          }
+        }
+      },
+      "evaluation": {
+        "selectedSessionId": "SR01-complete-then-correct",
+        "cohort": "DEVELOPMENT",
+        "repetition": 1,
+        "turns": [
+          {
+            "turnId": "SR01-T01",
+            "status": "FAIL",
+            "category": "B",
+            "oldGoldGoal": "UNANNOTATED",
+            "actualGoal": "AVAILABILITY",
+            "goalBoundary": {
+              "category": "B",
+              "status": "SATISFIED",
+              "actualGoal": "AVAILABILITY",
+              "basis": {
+                "type": "SPECIFIC_TIME_MEAL",
+                "reason": "Explicit clock range for a sit-down meal with a known party size",
+                "quotes": [
+                  "between 19:00 and 19:30",
+                  "for two people"
+                ]
+              },
+              "errors": []
+            },
+            "authoritativeDraftStatus": "NOT_REACHED",
+            "stageDifferences": [
+              {
+                "path": "nonTargetProposalFacts",
+                "expected": [
+                  {
+                    "field": "DATE",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "DATE",
+                      "value": "2026-08-06",
+                      "raw": "2026-08-06"
+                    }
+                  },
+                  {
+                    "field": "TIME_WINDOW",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "TIME_WINDOW",
+                      "earliest": "19:00",
+                      "latest": "19:30",
+                      "raw": "19:00-19:30"
+                    }
+                  },
+                  {
+                    "field": "PARTY_SIZE",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "PARTY_SIZE",
+                      "value": 2
+                    }
+                  },
+                  {
+                    "field": "AREA",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "AREA",
+                      "query": "Shinjuku"
+                    }
+                  },
+                  {
+                    "field": "CRITERION",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "CRITERION",
+                      "text": "yakiniku",
+                      "polarity": "POSITIVE",
+                      "strength": "UNSPECIFIED"
+                    }
+                  },
+                  {
+                    "field": "BUDGET_PER_PERSON",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "BUDGET_PER_PERSON",
+                      "max": 5000,
+                      "currency": "JPY"
+                    }
+                  }
+                ],
+                "actual": [
+                  {
+                    "field": "DATE",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "DATE",
+                      "relativeDay": "TOMORROW",
+                      "raw": "Tomorrow"
+                    }
+                  },
+                  {
+                    "field": "TIME_WINDOW",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "TIME_WINDOW",
+                      "earliest": "19:00",
+                      "latest": "19:30",
+                      "raw": "between 19:00 and 19:30"
+                    }
+                  },
+                  {
+                    "field": "PARTY_SIZE",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "PARTY_SIZE",
+                      "value": 2,
+                      "source": "EXPLICIT"
+                    }
+                  },
+                  {
+                    "field": "AREA",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "AREA",
+                      "query": "Shinjuku"
+                    }
+                  },
+                  {
+                    "field": "BUDGET_PER_PERSON",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "BUDGET_PER_PERSON",
+                      "max": 5000,
+                      "currency": "JPY"
+                    }
+                  },
+                  {
+                    "field": "CRITERION",
+                    "operation": "ASSERT",
+                    "value": {
+                      "kind": "CRITERION",
+                      "text": "yakiniku",
+                      "polarity": "POSITIVE",
+                      "strength": "HARD"
+                    }
+                  }
+                ]
+              }
+            ],
+            "firstFailureStage": "SEMANTIC_INTERPRETER"
+          },
+          {
+            "turnId": "SR01-T02",
+            "status": "BLOCKED_BY_UPSTREAM",
+            "category": "CONTEXT_CARRY",
+            "oldGoldGoal": "UNANNOTATED",
+            "authoritativeDraftStatus": "NOT_REACHED",
+            "stageDifferences": []
+          }
+        ]
+      }
+    }
+  ],
+  "notReachedSessionIds": [
+    "SR02-incremental-completion",
+    "SR03-named-target-then-complete",
+    "SR04-simple-complete",
+    "SR05-relative-time-hard-soft-and-party-inference",
+    "SR06-approximate-budget-is-soft",
+    "SR07-relative-offset-time",
+    "SR08-criterion-removal",
+    "SR09-relative-location-overwrite",
+    "SR10-hard-budget",
+    "G017-repeat-1",
+    "G023-repeat-1",
+    "G024-repeat-1",
+    "G030-repeat-1",
+    "G053-repeat-1",
+    "G054-repeat-1",
+    "G063-repeat-1",
+    "G064-repeat-1",
+    "G065-repeat-1",
+    "G066-repeat-1",
+    "G068-repeat-1",
+    "G070-repeat-1",
+    "G017-repeat-2",
+    "G023-repeat-2",
+    "G024-repeat-2",
+    "G030-repeat-2",
+    "G053-repeat-2",
+    "G054-repeat-2",
+    "G063-repeat-2",
+    "G064-repeat-2",
+    "G065-repeat-2",
+    "G066-repeat-2",
+    "G068-repeat-2",
+    "G070-repeat-2",
+    "G017-repeat-3",
+    "G023-repeat-3",
+    "G024-repeat-3",
+    "G030-repeat-3",
+    "G053-repeat-3",
+    "G054-repeat-3",
+    "G063-repeat-3",
+    "G064-repeat-3",
+    "G065-repeat-3",
+    "G066-repeat-3",
+    "G068-repeat-3",
+    "G070-repeat-3",
+    "p2-holdout-01",
+    "p2-holdout-02",
+    "p2-holdout-03",
+    "p2-holdout-04",
+    "p2-holdout-05",
+    "p2-holdout-06",
+    "p2b-holdout-01",
+    "p2b-holdout-02",
+    "p2b-holdout-03",
+    "p2b-holdout-04",
+    "p2b-holdout-05",
+    "p2b-holdout-06",
+    "wednesday-cafes-1",
+    "wednesday-cafes-2",
+    "wednesday-cafes-3"
+  ],
+  "goldChanged": false,
+  "promptChanged": false
+}

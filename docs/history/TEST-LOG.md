@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.296
+- Document revision: 4.297
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,13 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-25-PHASE3A-BOUNDARY-STOP3
+
+- 受测冻结f0cc436a6633909b2fb8444e9f2e142390cef428；CET20:55:30–20:57:27离线外层15轮正控制、2早停控制、双灰区目标/预算/公开字段控制与五门禁1051默认/154本机Chromium/typecheck/arch/build全绿，每项后空git status，无凭据文件加载、0真实模型。
+- 随后仅受控Node按窄授权加载主检出.env、显式deepseek-v4-flash；未独立读取/打印/复制/暂存文件，凭据日志仅已加载。真实20:57:51.316–20:57:55.580，1次provider成功、0重试，6860输入/458输出/7318总tokens，4241ms；独立账本1/144，3a′400扣0，Google/网站/Live0。
+- SR01-T01非目标yakiniku.strength由UNSPECIFIED变HARD触发原阶段oracle首失败，原模型响应/会话执行先保存，再写独立核对与72轮对照。目标与当前消息引用成立；时间数值/人数/地点/预算未变，DATE/RAW/source不同但权威State未到达。后续SR01-T02上游阻断，另70未到达；灰区额外0/45，一致率不可算。
+- 602冻结项运行后仍匹配；生产Prompt/Schema/Scorer/State/Gold未改。四层：真实用户交付/来源S0/严重程度未评价；可确认Proposal首偏离，未隔离模型与Prompt根因。无Judge、无修Prompt/Gold、无额外调用。SR03-T02等清单待逐条确认，停STOP_3、不合main。 [报告](../../.eval-artifacts/phase3a-boundary/report.md) · [独立核对](../../.eval-artifacts/phase3a-boundary/batch3/independent-review.json)。
 
 ## TEST-2026-10-25-PHASE3A-BOUNDARY-BATCH3-PREFLIGHT
 

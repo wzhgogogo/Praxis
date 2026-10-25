@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.396
+- Document revision: 4.397
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-BOUNDARY-STOP3:** 本分支f0cc436a冻结后五门禁1051/154全绿、各项后净工作树；按用户窄授权仅受控Node加载指定凭据、显式deepseek-v4-flash。首个真实调用SR01-T01目标B→AVAILABILITY且引用成立，但yakiniku强度UNSPECIFIED→HARD，按规则立即停批：1/144（余143），另71轮未调用；Compiler/权威Draft未到达，灰区一致率不可算。生产源码/Prompt/Gold未改，602项冻结匹配，3a′400扣减0；Google/网站/Live0。SR03-T02等Gold清单待用户逐条确认，停STOP_3，按授权推本分支、不合main。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
 
 - **2026-10-25-PHASE3A-BOUNDARY-BATCH3-PREFLIGHT:** 停止点2用户复核通过（独立1051/1051、净工作树），授权72逻辑轮/144独立真实调用。595冻结文件与72轮输入预检通过；任务和launchd均缺DeepSeek凭据/模型环境配置，遵守禁止读取.env，真实执行NOT_RUN、0/144，不占3a′400；Google/网站/Live0。只保存准备证据，未到停止点3、不合main；须先取得安全环境注入/既有启动入口。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
 

@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.289
+- Document revision: 4.290
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,12 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-25-PHASE3A-BOUNDARY-STOP3
+
+- CET UTC+1；draft / not integrated into main，已暴露开发诊断。用户直接窄授权仅受控Node通过--env-file加载主检出凭据，显式deepseek-v4-flash；授权记录先提交，未独立读取文件，不输出密钥。薄外层逐原会话复用现有开发回归，预先冻结602项与全72轮选择，逐请求先记账再派发。
+- f0cc436a自检/五门禁全绿后真实1次即SR01-T01停止。目标B→AVAILABILITY与两引用成立；yakiniku强度UNSPECIFIED→HARD，独立原Gold/原输出复核确认。日期/时间raw和人数来源表示另记，不当作最终日期错误；Compiler/Reducer未达。71轮无请求，其中1上游阻断、70未到达；不改Prompt/Gold，不补跑。
+- 预算1/144独立、3a′400扣0，来源/Google/Live0。原State@20/TaskDefinition@18与生产源码保持原样。SR03-T02、14灰区及13未标target候选列后继Gold待确认清单，不回写历史。新Wednesday非Gold。停STOP_3，推本分支不合main。 [报告](../../.eval-artifacts/phase3a-boundary/report.md)。
 
 ## DEV-2026-10-25-PHASE3A-BOUNDARY-BATCH3-PREFLIGHT
 
