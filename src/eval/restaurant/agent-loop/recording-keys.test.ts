@@ -66,12 +66,13 @@ test('an owned credential in a document rejects the whole recording before any c
 test('pre-registered model credentials and owned Google response/trace leaks all reject the complete recording',async()=>{
  const root=await mkdtemp(join(tmpdir(),'recording-own-boundaries-'));
  try{
-  for(const location of ['ENCODED_URL','GOOGLE_RESPONSE','TRACE']){
+  for(const location of ['ENCODED_URL','GOOGLE_RESPONSE','TRACE','FOREIGN_RESPONSE_OWN_BODY']){
    const owned='synthetic-own-model-value',recorder=new BrowserReadRecording({directory:root,runId:location,ownCredentials:[owned]});
    recorder.recordSnapshot({url:'https://public.example/safe',html:'<h1>Safe</h1>',text:'Safe',title:'Safe'});
    if(location==='ENCODED_URL')recorder.recordSnapshot({url:'https://public.example/map',html:`<p>100% public</p><img data-src="https://maps.googleapis.com/map?key=%73ynthetic-own-model-value">`,text:'Map',title:'Map'});
    if(location==='GOOGLE_RESPONSE')await recorder.captureGoogleFetch(async()=>new Response(JSON.stringify({metadata:{value:owned}}),{headers:{'content-type':'application/json'}}))('https://places.googleapis.com/v1/places:searchText',{method:'POST',body:'{"textQuery":"fixture"}'});
    if(location==='TRACE')recorder.record('MODEL_WIRE',{text:owned});
+   if(location==='FOREIGN_RESPONSE_OWN_BODY')await recorder.captureGoogleFetch(async()=>new Response(JSON.stringify({metadata:{value:publicKey}}),{headers:{'content-type':'application/json'}}))('https://places.googleapis.com/v1/places:searchText',{method:'POST',body:JSON.stringify({textQuery:owned})});
    const result=await recorder.finish();assert.equal(result.replay.status,'NOT_REPLAYABLE',location);
    assert.deepEqual(await readdir(result.path),['recording.json'],location);assert.ok(!(await persisted(result.path)).includes(owned),location);
   }
