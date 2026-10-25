@@ -1158,9 +1158,9 @@ test('F3-034 rejected empty-list rewrites never navigate an implicit general lis
   const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {model,browser,google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async()=>{throw Error('No external API');}}),clock:{now:()=>reference}});
   const intent={timezone:'Asia/Tokyo' as const,area:{query:'Shibuya'},criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]};
   const read=await assembly.search.search({intent,readRunId:'f3-034-'+mode,continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...center,label:'Shibuya',radiusMeters:1000,areaMatchBasis:'NAMED_PLACE_RADIUS'}}},new AbortController().signal);
-  assert.equal(proposals,2,'one initial and one rejected rewrite; no model repair loop');
   assert.ok(JSON.parse(requests[1]!.messages.find(x=>x.role==='user')!.content).observation.explicitEmpty,'the rejection follows an actually parsed empty list');
   assert.equal(navigations.some(url=>new URL(url).pathname==='/en/tokyo/A1303/A130301/rstLst/'&&!new URL(url).searchParams.get('sw')),false,`${mode}: rejected retrieval must not clear the keyword and navigate a general list`);
+  assert.equal(proposals,2,'one initial and one rejected rewrite; no model repair loop');
   assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceExhausted,'UNKNOWN');
   assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceEnded,true);
   assert.equal(read.candidates.length,0);assert.deepEqual(intent.criteria,[{text:'omakase',polarity:'POSITIVE',strength:'HARD'}]);
