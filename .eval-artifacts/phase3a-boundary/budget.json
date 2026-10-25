@@ -1,7 +1,7 @@
 {
   "schema": "phase3a-boundary-budget@1",
-  "status": "STOP_3_REVIEW_REQUIRED",
-  "asOf": "2026-10-25T21:04:18+01:00",
+  "status": "CONTINUATION_AUTHORIZED_MAIN72_CONTROLS15",
+  "asOf": "2026-10-25T23:35:27+01:00",
   "timezone": "CET UTC+01:00",
   "limits": {
     "realModelCalls": 144,
@@ -65,6 +65,17 @@
       "stopReason": "SR01-T01 non-target criterion strength UNSPECIFIED -> HARD",
       "providerSucceeded": 1,
       "retries": 0
+    },
+    {
+      "slice": "user revised stop rule and v23 control authorization",
+      "recordedAtCET": "2026-10-25T23:35:27+01:00",
+      "primaryLogicalTurns": 72,
+      "controlLogicalMaximum": 15,
+      "previouslyUsedRealCalls": 1,
+      "realModelCalls": 0,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
     }
   ],
   "cumulative": {
@@ -74,5 +85,7 @@
     "restaurantWebsiteRequests": 0
   },
   "chargedToPhase3aPrime400": false,
-  "approvedBatch3LogicalTurns": 72
+  "approvedBatch3LogicalTurns": 72,
+  "approvedControlLogicalTurnsMaximum": 15,
+  "approvedLogicalMaximumIncludingControls": 87
 }
