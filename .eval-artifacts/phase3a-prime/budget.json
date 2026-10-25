@@ -4,7 +4,7 @@
   "limits": {
     "fullLive": 8,
     "realModelCalls": 400,
-    "environmentReruns": 2,
+    "environmentReruns": 4,
     "f5PublicWitnessGET": {
       "case01": 10,
       "case03Optional": 1,
@@ -259,5 +259,22 @@
   "asOf": "2026-10-25T02:34:48.919823+01:00",
   "timezone": "CET UTC+01:00 per user",
   "f5PublicGetApproval": "Explicit user correction,2026-10-24 Europe/Vienna: case01 public detail+four-param vacancy GET permitted; noCookie/login/form/model; commit scripts first; repeat within24h before approved Live.",
-  "f5Stop3Approval": "User stop2 review approved six serial F5 Live runs; direct user subsequently authorized only these six controlled Runner processes to load existing server credentials from the named primary-worktree .env without display/copy/staging; see f5-live/credential-authorization.json."
+  "f5Stop3Approval": "User stop2 review approved six serial F5 Live runs; direct user subsequently authorized only these six controlled Runner processes to load existing server credentials from the named primary-worktree .env without display/copy/staging; see f5-live/credential-authorization.json.",
+  "additionalApprovals": [
+    {
+      "id": "f5-case01-rerun-20261025",
+      "kind": "DIRECT_USER_APPROVAL",
+      "fullLive": 3,
+      "realModelCallsMaximum": 150,
+      "environmentRerunsAdditional": 2,
+      "priorEnvironmentLimit": 2,
+      "effectiveEnvironmentLimit": 4,
+      "perSlot": {
+        "elapsedMs": 500000,
+        "modelCalls": 50,
+        "googleRequests": 40
+      },
+      "stop": "STOP_3B; no main merge"
+    }
+  ]
 }

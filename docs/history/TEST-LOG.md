@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.297
+- Document revision: 4.298
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-25-F5-RERUN-PREPARE
+
+2026-10-25 CET。按复核批准重放本分支到main b5db5700，31提交源码无冲突，双方文档记录保留；索引聚合条数标题不作为记录丢失，原记录锚点逐一核验。预算主线7/本分支18条并集18条，旧累计5Live/218模型/30Google/2环境重跑/5评测GET保持，新增授权2环境重跑使总上限4。旧HEAD留annotated checkpoint。五门禁将在干净提交运行。本轮3个受控Runner凭据加载另获直接窄授权，不展示/复制/暂存；尚未加载。无新增模型/网站/Live调用，不合main。[计划](../../.eval-artifacts/phase3a-prime/f5-live-rerun/plan.md)。
 
 ## TEST-2026-10-25-F5C-OFFLINE
 
