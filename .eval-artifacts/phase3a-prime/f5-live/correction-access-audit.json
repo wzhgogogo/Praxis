@@ -1,0 +1,456 @@
+{
+  "kind": "OFFLINE_POST_RUN_CONTROL_FLOW_AUDIT",
+  "reviewedAtCET": "2026-10-25T02:10:09.052590+01:00",
+  "scope": "No production/prompt/schema/evaluator change; no network/model; audit only saved actual contexts",
+  "runs": [
+    {
+      "slot": 1,
+      "artifactSha256": "2c60ab3a3c67baf42280ab9ac04032b482885fd97dacbf5e9acff45bc75206b8",
+      "actualContexts": [
+        {
+          "trajectory": 1,
+          "at": "2026-10-25T00:31:54.012Z",
+          "searchAvailability": {
+            "available": true
+          },
+          "searchLegal": true,
+          "factInvestigableCount": 0,
+          "availabilityCheckableCount": 0,
+          "observationType": "DISCOVERY",
+          "observationDetail": "0 candidates discovered; 0 newly accepted"
+        },
+        {
+          "trajectory": 2,
+          "at": "2026-10-25T00:32:52.907Z",
+          "searchAvailability": {
+            "available": true
+          },
+          "searchLegal": true,
+          "factInvestigableCount": 0,
+          "availabilityCheckableCount": 0,
+          "observationType": "DISCOVERY",
+          "observationDetail": "2 candidates discovered; 2 newly accepted"
+        },
+        {
+          "trajectory": 3,
+          "at": "2026-10-25T00:33:31.551Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 2,
+          "availabilityCheckableCount": 2,
+          "observationType": "AVAILABILITY",
+          "observationDetail": "0 offers observed"
+        },
+        {
+          "trajectory": 4,
+          "at": "2026-10-25T00:33:47.734Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 2,
+          "availabilityCheckableCount": 0,
+          "observationType": "CANDIDATE_FACTS",
+          "observationDetail": "2 candidate fact read(s) completed"
+        },
+        {
+          "trajectory": 5,
+          "at": "2026-10-25T00:34:43.954Z",
+          "searchAvailability": {
+            "available": true
+          },
+          "searchLegal": true,
+          "factInvestigableCount": 0,
+          "availabilityCheckableCount": 0,
+          "observationType": "DISCOVERY",
+          "observationDetail": "26 candidates discovered; 26 newly accepted"
+        },
+        {
+          "trajectory": 6,
+          "at": "2026-10-25T00:34:46.718Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 26,
+          "availabilityCheckableCount": 26,
+          "observationType": "AVAILABILITY",
+          "observationDetail": "0 offers observed"
+        },
+        {
+          "trajectory": 7,
+          "at": "2026-10-25T00:37:13.322Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 26,
+          "availabilityCheckableCount": 23,
+          "observationType": null,
+          "observationDetail": null
+        },
+        {
+          "trajectory": 8,
+          "at": "2026-10-25T00:37:16.192Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 26,
+          "availabilityCheckableCount": 23,
+          "observationType": "AVAILABILITY",
+          "observationDetail": "0 offers observed"
+        }
+      ],
+      "finalPlan": {
+        "entries": [
+          "tabelog",
+          "tablecheck",
+          "google-places",
+          "tabelog"
+        ],
+        "cursor": 3,
+        "currentBatchSource": "google-places",
+        "currentBatchCandidates": 26
+      },
+      "deferredTabelog": [
+        {
+          "elapsedMs": 49616,
+          "regionPages": 2,
+          "detailAttempts": 2,
+          "samples": [
+            {
+              "sourceEntityId": "en/tokyo/A1322/A132202/13155817",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.73236921866393,
+                "longitude": 139.70486078494415
+              },
+              "bearingDegrees": 197.2384868672463,
+              "direction": "S",
+              "distanceMeters": 5547.116372577523
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1322/A132203/13168736",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132203/13168736/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.74923654865233,
+                "longitude": 139.7020477451165
+              },
+              "bearingDegrees": 209.02296324520773,
+              "direction": "SW",
+              "distanceMeters": 3911.367533853191
+            }
+          ],
+          "observedEntrances": 39
+        }
+      ],
+      "modelRegionCorrectionSequences": []
+    },
+    {
+      "slot": 2,
+      "artifactSha256": "c9c75de904849d688936dedffb950bd6ced8787e557907d6e492618af0c485b8",
+      "actualContexts": [
+        {
+          "trajectory": 1,
+          "at": "2026-10-25T00:54:31.875Z",
+          "searchAvailability": {
+            "available": true
+          },
+          "searchLegal": true,
+          "factInvestigableCount": 0,
+          "availabilityCheckableCount": 0,
+          "observationType": "DISCOVERY",
+          "observationDetail": "0 candidates discovered; 0 newly accepted"
+        },
+        {
+          "trajectory": 2,
+          "at": "2026-10-25T00:55:30.391Z",
+          "searchAvailability": {
+            "available": true
+          },
+          "searchLegal": true,
+          "factInvestigableCount": 0,
+          "availabilityCheckableCount": 0,
+          "observationType": "DISCOVERY",
+          "observationDetail": "2 candidates discovered; 2 newly accepted"
+        },
+        {
+          "trajectory": 3,
+          "at": "2026-10-25T00:56:19.850Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 2,
+          "availabilityCheckableCount": 2,
+          "observationType": "AVAILABILITY",
+          "observationDetail": "0 offers observed"
+        },
+        {
+          "trajectory": 4,
+          "at": "2026-10-25T00:56:40.354Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 2,
+          "availabilityCheckableCount": 0,
+          "observationType": "CANDIDATE_FACTS",
+          "observationDetail": "2 candidate fact read(s) completed"
+        },
+        {
+          "trajectory": 5,
+          "at": "2026-10-25T00:57:38.020Z",
+          "searchAvailability": {
+            "available": true
+          },
+          "searchLegal": true,
+          "factInvestigableCount": 0,
+          "availabilityCheckableCount": 0,
+          "observationType": "DISCOVERY",
+          "observationDetail": "26 candidates discovered; 26 newly accepted"
+        },
+        {
+          "trajectory": 6,
+          "at": "2026-10-25T00:57:41.182Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 26,
+          "availabilityCheckableCount": 26,
+          "observationType": "AVAILABILITY",
+          "observationDetail": "0 offers observed"
+        },
+        {
+          "trajectory": 7,
+          "at": "2026-10-25T01:00:02.445Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 26,
+          "availabilityCheckableCount": 23,
+          "observationType": null,
+          "observationDetail": null
+        },
+        {
+          "trajectory": 8,
+          "at": "2026-10-25T01:00:05.239Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 26,
+          "availabilityCheckableCount": 23,
+          "observationType": "AVAILABILITY",
+          "observationDetail": "1 offers observed"
+        },
+        {
+          "trajectory": 9,
+          "at": "2026-10-25T01:02:23.844Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 26,
+          "availabilityCheckableCount": 20,
+          "observationType": "CANDIDATE_FACTS",
+          "observationDetail": "3 candidate fact read(s) completed"
+        },
+        {
+          "trajectory": 10,
+          "at": "2026-10-25T01:02:46.006Z",
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "searchLegal": false,
+          "factInvestigableCount": 23,
+          "availabilityCheckableCount": 20,
+          "observationType": "READ_ENDED",
+          "observationDetail": "AGENT_LOOP_TIMEOUT: Agent loop exceeded 500000ms while awaiting a decision"
+        }
+      ],
+      "finalPlan": {
+        "entries": [
+          "tabelog",
+          "tablecheck",
+          "google-places",
+          "tabelog"
+        ],
+        "cursor": 3,
+        "currentBatchSource": "google-places",
+        "currentBatchCandidates": 26
+      },
+      "deferredTabelog": [
+        {
+          "elapsedMs": 52966,
+          "regionPages": 2,
+          "detailAttempts": 2,
+          "samples": [
+            {
+              "sourceEntityId": "en/tokyo/A1322/A132202/13155817",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.73236921866393,
+                "longitude": 139.70486078494415
+              },
+              "bearingDegrees": 197.2384868672463,
+              "direction": "S",
+              "distanceMeters": 5547.116372577523
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1322/A132203/13168736",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132203/13168736/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.74923654865233,
+                "longitude": 139.7020477451165
+              },
+              "bearingDegrees": 209.02296324520773,
+              "direction": "SW",
+              "distanceMeters": 3911.367533853191
+            }
+          ],
+          "observedEntrances": 39
+        }
+      ],
+      "modelRegionCorrectionSequences": []
+    },
+    {
+      "slot": 3,
+      "artifactSha256": "61999c5fffbb2b0cf257d7bb6d1c3e72bb2006fba6ebfb11a367ed091b9af3de",
+      "actualContexts": [
+        {
+          "trajectory": 1,
+          "searchLegal": true,
+          "searchAvailability": {
+            "available": true
+          },
+          "observation": "DISCOVERY"
+        },
+        {
+          "trajectory": 2,
+          "searchLegal": true,
+          "searchAvailability": {
+            "available": true
+          },
+          "observation": "DISCOVERY"
+        },
+        {
+          "trajectory": 3,
+          "searchLegal": false,
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "observation": "AVAILABILITY"
+        },
+        {
+          "trajectory": 4,
+          "searchLegal": false,
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "observation": "CANDIDATE_FACTS"
+        },
+        {
+          "trajectory": 5,
+          "searchLegal": false,
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "observation": "CANDIDATE_FACTS"
+        },
+        {
+          "trajectory": 6,
+          "searchLegal": true,
+          "searchAvailability": {
+            "available": true
+          },
+          "observation": "DISCOVERY"
+        },
+        {
+          "trajectory": 7,
+          "searchLegal": false,
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "observation": "AVAILABILITY"
+        },
+        {
+          "trajectory": 8,
+          "searchLegal": false,
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "observation": null
+        },
+        {
+          "trajectory": 9,
+          "searchLegal": false,
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "observation": "AVAILABILITY"
+        },
+        {
+          "trajectory": 10,
+          "searchLegal": false,
+          "searchAvailability": {
+            "available": false,
+            "reason": "NATIVE_FIRST_BATCH_PENDING"
+          },
+          "observation": "CANDIDATE_FACTS_UNKNOWN"
+        },
+        {
+          "trajectory": 11,
+          "searchLegal": false,
+          "searchAvailability": {
+            "available": false,
+            "reason": "MODEL_CALL_RESERVE"
+          },
+          "observation": "READ_ENDED"
+        }
+      ],
+      "finalPlan": {
+        "entries": [
+          "tabelog",
+          "tablecheck",
+          "google-places",
+          "tabelog"
+        ],
+        "cursor": 3
+      },
+      "regionCorrectionContexts": 0
+    }
+  ],
+  "conclusion": {
+    "confirmed": "First native Tabelog call takes2 outside samples, leaves replacement pending. Search plan places another Tabelog entry after Google. After Google batch is accepted, actual decisionContext.legalActions.search=false / NATIVE_FIRST_BATCH_PENDING blocks returning to deferred correction until batch investigation is completed. No regionCorrection model context was issued.",
+    "notProven": "Whether unblocking that return would deliver a qualified restaurant; no counterfactual intervention and no source change. Other outlet identity/availability failures remain separate.",
+    "correctionToEarlierHypothesis": "This establishes a legal-action/scheduling obstruction to the correction stage. Do not blame model refusal to use directional feedback, which it never received."
+  }
+}
