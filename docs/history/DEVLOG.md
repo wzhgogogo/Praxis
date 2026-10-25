@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.285
+- Document revision: 4.286
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4599,3 +4599,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-25-PHASE3A-PRIME-STOP2-GOOGLE-CAPTURE
 
 2026-10-25 CET UTC+01:00。保留旧623d与新main/1a736c历史并在合并后源码上重放验收。正式Runner自动捕获Google URL/方法/原始JSON body与响应，去请求头及key类query；HAR pending回读扫描后发布，命中记录安全原因，迟到响应隔离。录制/评分/产品Schema与Guard不改。整份HAR对公开地图key模式也严格拒绝，真实F5覆盖仍待验证。 [报告](../../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-STOP3-HEALTH
+
+保留固定10秒观察、五分钟重试和三次上限，修复最后快照与截止竞争导致已就绪误拒绝；未完成快照结束时刻null，迟到结果不覆写。最小输入摘自F5已保存公开页，原SHA与采集日登记；产品/Guard/站点不改。 [报告](../../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/health/report.md)。

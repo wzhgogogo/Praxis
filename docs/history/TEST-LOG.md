@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.292
+- Document revision: 4.293
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5315,3 +5315,7 @@ CET UTC+01:00。未豁免时双Chromium各页21次租约而非1，有效红灯�
 ## TEST-2026-10-25-PHASE3A-PRIME-STOP2-GOOGLE-CAPTURE
 
 CET UTC+01:00。静态20资源双Chromium有效红绿：访问21仍计数、租约21到1；F2③受测d7a3170f42dbdc40b1a1975294e9355bbd76602d五门禁1028/148通过。去手工追加时MISSING_STRUCTURED_RESPONSE红灯，正式自动捕获同一冻结种子OS断网5页4决策重现同候选/交付/offer，独立声明及边界S0 ABSENT，key拒绝/写前写后污染/迟到控制通过；受测564ded2ed4a052b5005cedfb2c09f2f307929ba4五门禁1032/153通过，585项冻结匹配。两轮每项前后净工作树、恢复0；真实模型/Google/网站/Live/环境重跑0。 [报告](../../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/report.md)。
+
+## TEST-2026-10-25-PHASE3A-PRIME-STOP3-HEALTH
+
+先e46a4158冻结220ms反例，旧入口ENV_FAILURE；修复后READY、无快照/空快照仍拒绝。真实Chromium/Guard保持晚到繁忙、403、挑战拒绝。5e0692f8五门禁全绿：默认1034、浏览器153，20.426752/92.906001秒单次，各门禁后status空、恢复0、冻结SHA一致。新增真实模型/Google/网站/Live/环境重跑0；不重判历史Live。 [报告](../../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/health/report.md)。
