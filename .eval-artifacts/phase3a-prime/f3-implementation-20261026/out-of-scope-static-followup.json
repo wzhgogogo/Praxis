@@ -1,0 +1,16 @@
+{
+  "status": "STATIC_FINDING_NOT_EXECUTED_NOT_FIXED",
+  "sourceCommit": "9993a9a5f26216f0a6d0950f9e5316e683775fe9",
+  "finding": "Canonical reviewedReadsPath now uses src/.../cases/reviewed-public-reads.json; superviseEvalChild applies insideArtifacts to this path, which rejects paths outside .eval-artifacts.",
+  "derivedConsequence": "INVALID_ARTIFACT_REFERENCE and NOT_EVALUATED, fail closed; not an observed Live/S0 result",
+  "references": {
+    "runner": "run-hybrid-live-read.ts:259-281",
+    "consumer": "eval-post-exit.ts:19-22,50-54"
+  },
+  "sourceSha256": {
+    "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts": "8a016a2c9120e6b5ac9b9589ac7d74d3c6ba5d078a28df59c17024b5248a43cc",
+    "src/eval/restaurant/agent-loop/runners/eval-post-exit.ts": "ce160871394ad1e5c87404cbfbd4fc18c77f3a99cf59c7c1dc2846062f2b15a7"
+  },
+  "scopeDecision": "Do not change eval non-test infrastructure during parser/control-only batch. Separate follow-up needed before another Live uses this default catalog.",
+  "newRealCalls": 0
+}

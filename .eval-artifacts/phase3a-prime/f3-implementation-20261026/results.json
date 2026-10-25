@@ -1,0 +1,209 @@
+{
+  "status": "STOPPED_FOR_REVIEW_TARGET_NOT_ACHIEVED",
+  "timeCET": "2026-10-26T00:45:22.535185+01:00",
+  "timezone": "Vienna CET UTC+1 per user",
+  "siteBaseline": 3864,
+  "siteCurrent": 3847,
+  "siteTarget": 3591,
+  "actualReduction": 17,
+  "remainingGap": 256,
+  "sourcePackLines": 473,
+  "timingHygiene": "COMPLETED",
+  "items": [
+    {
+      "id": "L1",
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "reviewedRange": [
+        32,
+        83
+      ],
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "estimatedNetRemoval": 38,
+      "actualNetRemoval": 0,
+      "siteLinesBefore": 3864,
+      "siteLinesAfter": 3864,
+      "sourcePackLines": 473,
+      "redGreen": "NOT_RUN_NO_IMPLEMENTATION",
+      "fiveGates": "NOT_CLAIMED_FOR_DEFERRED_CHANGE",
+      "reason": "CLOSED/FULL/PHONE_ONLY 来自日历状态 class；现有日期控件只含 calendarDate/disabled/selected，不区分终态。删掉扫描会丢失已测状态。"
+    },
+    {
+      "id": "L2",
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "reviewedRange": [
+        85,
+        154
+      ],
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "estimatedNetRemoval": 52,
+      "actualNetRemoval": 0,
+      "siteLinesBefore": 3864,
+      "siteLinesAfter": 3864,
+      "sourcePackLines": 473,
+      "redGreen": "NOT_RUN_NO_IMPLEMENTATION",
+      "fiveGates": "NOT_CLAIMED_FOR_DEFERRED_CHANGE",
+      "reason": "同样的选中数字可能属于人数或时间/其他组；源归属与隐藏人数输入一致性仍需当前 DOM 父链。现有扁平控件不是全部这些检查的等价替代。"
+    },
+    {
+      "id": "L3",
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "reviewedRange": [
+        5,
+        20
+      ],
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "estimatedNetRemoval": 8,
+      "actualNetRemoval": 0,
+      "siteLinesBefore": 3864,
+      "siteLinesAfter": 3864,
+      "sourcePackLines": 473,
+      "redGreen": "NOT_RUN_NO_IMPLEMENTATION",
+      "fiveGates": "NOT_CLAIMED_FOR_DEFERRED_CHANGE",
+      "reason": "三个提示提供当前源日期/人数标签与仅观察的时间；受限文案还必须和禁用人数、无日期控件及日历终态联合。没有现有观察可取代这一组合，不删除或改 Prompt。"
+    },
+    {
+      "id": "L4",
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "reviewedRange": [
+        196,
+        230
+      ],
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "estimatedNetRemoval": 23,
+      "actualNetRemoval": 0,
+      "siteLinesBefore": 3864,
+      "siteLinesAfter": 3864,
+      "sourcePackLines": 473,
+      "redGreen": "NOT_RUN_NO_IMPLEMENTATION",
+      "fiveGates": "NOT_CLAIMED_FOR_DEFERRED_CHANGE",
+      "reason": "当前已保留正反例区分明确可用/不可用 class；并非每条路径都有捕获响应或同请求链接，删除将改变正例输出。"
+    },
+    {
+      "id": "L5",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "reviewedRange": [
+        487,
+        559
+      ],
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "estimatedNetRemoval": 55,
+      "actualNetRemoval": 0,
+      "siteLinesBefore": 3864,
+      "siteLinesAfter": 3864,
+      "sourcePackLines": 473,
+      "redGreen": "NOT_RUN_NO_IMPLEMENTATION",
+      "fiveGates": "NOT_CLAIMED_FOR_DEFERRED_CHANGE",
+      "reason": "相同页面值可能分布在两个不同请求组件；只有一个当前源 widget 的归属才确认日期人数，扁平共现不能替代。"
+    },
+    {
+      "id": "L6",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "reviewedRange": [
+        635,
+        658
+      ],
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "estimatedNetRemoval": 24,
+      "actualNetRemoval": 0,
+      "siteLinesBefore": 3864,
+      "siteLinesAfter": 3864,
+      "sourcePackLines": 473,
+      "redGreen": "NOT_RUN_NO_IMPLEMENTATION",
+      "fiveGates": "NOT_CLAIMED_FOR_DEFERRED_CHANGE",
+      "reason": "隐藏祖先内的当前日期链接与可见旧日期链接具有相同公开文本。没有已有带祖先可见性和链接绑定的结果观察；移除过滤会接受隐藏库存。"
+    },
+    {
+      "id": "L7",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "reviewedRange": [
+        568,
+        586
+      ],
+      "status": "IMPLEMENTED_EQUIVALENT_DEDUPLICATION",
+      "estimatedNetRemoval": 13,
+      "actualNetRemoval": 2,
+      "siteLinesBefore": 3864,
+      "siteLinesAfter": 3862,
+      "sourcePackLines": 473,
+      "redGreen": "VALID_ASSERTION_RED_AND_GREEN",
+      "fiveGates": "l7/gates/gates.json",
+      "reason": "保留原核验与断言，仅原文件内合并重复计算。"
+    },
+    {
+      "id": "L8",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "reviewedRange": [
+        737,
+        757
+      ],
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "estimatedNetRemoval": 15,
+      "actualNetRemoval": 0,
+      "siteLinesBefore": 3862,
+      "siteLinesAfter": 3862,
+      "sourcePackLines": 473,
+      "redGreen": "NOT_RUN_NO_IMPLEMENTATION",
+      "fiveGates": "NOT_CLAIMED_FOR_DEFERRED_CHANGE",
+      "reason": "当前 parser 的现有明确 slot class 正反例仍有用途；不能删掉正例，或把无响应/链接的结果默默改成 UNKNOWN 以计减行。"
+    },
+    {
+      "id": "L9a",
+      "file": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "reviewedRange": [
+        126,
+        139
+      ],
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "estimatedNetRemoval": 14,
+      "actualNetRemoval": 0,
+      "siteLinesBefore": 3862,
+      "siteLinesAfter": 3862,
+      "sourcePackLines": 473,
+      "redGreen": "NOT_RUN_NO_IMPLEMENTATION",
+      "fiveGates": "NOT_CLAIMED_FOR_DEFERRED_CHANGE",
+      "reason": "selectedDateField/PartyField 仍用于 Tabelog 的原生 SELECT 快路，并核验实际选中返回值。当前 BrowserPageControl.structure 没有 DOM id，SELECT 默认标签也不保证携带字段语义；id 是不透明 ref，不解析 ref 造字段。未证明现有同一观察可以保留此快路。"
+    },
+    {
+      "id": "L9b",
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "reviewedRange": [
+        216,
+        225
+      ],
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "estimatedNetRemoval": 10,
+      "actualNetRemoval": 0,
+      "siteLinesBefore": 3862,
+      "siteLinesAfter": 3862,
+      "sourcePackLines": 473,
+      "redGreen": "NOT_RUN_NO_IMPLEMENTATION",
+      "fiveGates": "NOT_CLAIMED_FOR_DEFERRED_CHANGE",
+      "reason": "TableCheck shortcut 目前只收到 snapshot；控制观察不在其入参，且兼容原生 SELECT fixture 没有等价语义观察。改变共享执行器/Browser 接口或引入新解析器不属于此批已审核替代；保留同请求核对和确定性选择。"
+    },
+    {
+      "id": "L10",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "reviewedRange": [
+        112,
+        242
+      ],
+      "status": "IMPLEMENTED_EQUIVALENT_DEDUPLICATION",
+      "estimatedNetRemoval": 54,
+      "actualNetRemoval": 15,
+      "siteLinesBefore": 3862,
+      "siteLinesAfter": 3847,
+      "sourcePackLines": 473,
+      "redGreen": "VALID_ASSERTION_RED_AND_GREEN",
+      "fiveGates": "l10/gates/gates.json",
+      "reason": "保留原核验与断言，仅原文件内合并重复计算。"
+    }
+  ],
+  "implementationMainSha": "9993a9a5f26216f0a6d0950f9e5316e683775fe9",
+  "newRealCalls": {
+    "model": 0,
+    "google": 0,
+    "restaurantWebsite": 0,
+    "live": 0,
+    "environmentRerun": 0
+  }
+}

@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.415
+- Document revision: 4.416
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-F3-A-STOP:** F3 A停止等复核：时序卫生完成；11范围中L7/L10净减17，九项因等价替代观察不足延期；站点3847、Pack473，≤3591目标未达（差256）。已实施批次五门禁全绿并推main，新增真实调用0。 [报告](../.eval-artifacts/phase3a-prime/f3-implementation-20261026/report.md)。
 
 - **2026-10-26-F3-L10:** F3 L10 原遍历直接收集菜单scope，红绿和严格五门禁全绿；站点3862→3847，合计减17、Pack473，仍高于3591目标256行。九项替代证据不足延期。 [报告](../.eval-artifacts/phase3a-prime/f3-implementation-20261026/l10/report.md)。
 
