@@ -1,0 +1,49 @@
+name: Replay portability
+
+on:
+  push:
+    branches: [main, codex/fix-phase3a-prime-replay-portability]
+    paths:
+      - src/harness/browser/**
+      - scripts/replay-network-ci.py
+      - .github/workflows/replay-portability.yml
+      - package-lock.json
+  pull_request:
+    paths:
+      - src/harness/browser/**
+      - scripts/replay-network-ci.py
+      - .github/workflows/replay-portability.yml
+      - package-lock.json
+
+permissions:
+  contents: read
+
+jobs:
+  linux-replay:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24.4.1
+      - run: npm ci
+      - run: npx playwright-core install --with-deps chromium
+      - name: Prove non-privileged network isolation
+        run: python3 scripts/replay-network-ci.py --output "$RUNNER_TEMP/replay-portability/isolation.json"
+      - name: Original four Runner replay assertions
+        run: |
+          set -o pipefail
+          node --import ./scripts/test-filesystem-guard.mjs --import tsx --test src/harness/browser/runner-replay.test.ts 2>&1 | tee "$RUNNER_TEMP/replay-portability/runner-replay.log"
+      - name: Missing isolator fails explicitly
+        run: node --import ./scripts/test-filesystem-guard.mjs --import tsx src/harness/browser/fixtures/replay-missing-isolator.ts "$RUNNER_TEMP/replay-portability/missing-isolator.json"
+      - name: Checkout remains clean
+        if: always()
+        run: test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: linux-replay-${{ github.sha }}
+          path: ${{ runner.temp }}/replay-portability/
