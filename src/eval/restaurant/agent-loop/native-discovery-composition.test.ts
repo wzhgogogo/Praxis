@@ -1066,7 +1066,7 @@ test("F5c Agent loop corrects within its Tabelog call despite TableCheck 2 and G
   const pending = decisions.find(context => context.candidates?.length === 28);
   assert.ok(pending, "the real Agent must observe all 2 TableCheck + 26 Google candidates");
   assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.id.startsWith("tablecheck:")).length, 2);
-  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.sourceIds.googlePlaceId).length, 26);
+  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.sourceIds.googlePlaces).length, 26);
   assert.equal(pending.searchAvailability.reason, "NATIVE_FIRST_BATCH_PENDING");
   assert.equal(pending.legalActions.search, false, "retain production SEARCH gating rather than bypassing it");
   const alternate = result.navigations.indexOf("https://tabelog.com/en/tokyo/A1323/");
