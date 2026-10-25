@@ -35,9 +35,9 @@ for(const mode of ["missing","partial","model-wiring"] as const)test(`replay ${m
  }finally{await rm(root,{recursive:true,force:true});}
 });
 
-async function redirectedReplayInput(root: string, origin: string, kind: 'qualified' | 'unqualified' | 'missing-hop' | 'cycle', unrecorded?: 'blocked' | 'admitted') {
+async function redirectedReplayInput(root: string, origin: string, kind: 'qualified' | 'unqualified' | 'missing-hop' | 'cycle', unrecorded?: 'blocked' | 'admitted' | 'optional-image') {
  const final=origin+'/final',first=origin+'/first',middle=origin+'/middle';
- const html='<html><head><title>Recorded final</title></head><body><h1>Qualified recorded final</h1>'+(unrecorded?`<script>fetch('/not-recorded',{method:'${unrecorded==='blocked'?'POST':'GET'}'}).catch(()=>{});</script>`:'')+'</body></html>';
+ const html='<html><head><title>Recorded final</title></head><body><h1>Qualified recorded final</h1>'+(unrecorded==='optional-image'?'<img src="/not-recorded">':unrecorded?`<script>fetch('/not-recorded',{method:'${unrecorded==='blocked'?'POST':'GET'}'}).catch(()=>{});</script>`:'')+'</body></html>';
  const entry=(url:string,status:number,location?:string)=>({startedDateTime:'1970-01-01T00:00:00.000Z',time:0,request:{method:'GET',url,httpVersion:'HTTP/1.1',headers:[],queryString:[],cookies:[],headersSize:-1,bodySize:-1},response:{status,statusText:status===200?'OK':'RECORDED',httpVersion:'HTTP/1.1',headers:[{name:'content-type',value:'text/html'},...(location?[{name:'location',value:location}]:[])],cookies:[],content:{mimeType:'text/html',text:status===200?html:'',size:status===200?Buffer.byteLength(html):0},redirectURL:location??'',headersSize:-1,bodySize:-1},cache:{},timings:{send:0,wait:0,receive:0}});
  const entries=[entry(first,301,kind==='qualified'||kind==='unqualified'?final:middle),...(kind==='cycle'?[entry(middle,302,first)]:[]),entry(final,200)];
  await writeFile(join(root,'snapshot-0001.html'),html);
@@ -63,6 +63,22 @@ test('recorded document redirects reach the qualified final snapshot through rea
   const snapshot=await session.snapshot();assert.equal(snapshot.url,final);assert.match(snapshot.text,/Qualified recorded final/);
   assert.equal(replay.consumedPages(),1);assert.equal(arrivals,0,'original receiver must remain untouched');
   assert.ok(recording.entries.some(entry=>entry.request.url===first&&entry.response.status===301),'retain the original recorded redirect, never synthesize a200');
+ }finally{await session?.close();server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));await rm(root,{recursive:true,force:true});}
+});
+
+test('a missing optional image fails and is recorded without inventing bytes or rejecting a qualified document',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'replay-optional-'));let session:BrowserSession|undefined,arrivals=0;
+ const server=createServer((_request,response)=>{arrivals++;response.end('NETWORK_MUST_NOT_BE_USED');});
+ await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));const address=server.address();assert.ok(address&&typeof address!=='string');
+ try{
+  const origin=`http://127.0.0.1:${address.port}`,{first,recording}=await redirectedReplayInput(root,origin,'qualified','optional-image');
+  const stops:unknown[]=[],replay=createRecordedBrowser(recording,reason=>stops.push(reason));
+  session=await replay.browser.openSession({signal:new AbortController().signal,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]}});
+  await session.prepareNavigation!(first);await session.navigate(first).catch(()=>{});
+  let snapshot:unknown;try{snapshot=await session.snapshot();}catch{}
+  assert.deepEqual(stops,[],'image bytes are not a required page qualification and must never be fabricated');
+  assert.ok(snapshot);assert.equal(replay.consumedPages(),1);assert.equal(arrivals,0);
+  assert.deepEqual((replay as any).missingRequests(),[{snapshot:1,origin,pathname:'/not-recorded',reason:'MISSING_RESPONSE',method:'GET',resourceType:'image'}]);
  }finally{await session?.close();server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));await rm(root,{recursive:true,force:true});}
 });
 
