@@ -83,10 +83,12 @@ test('replay checks missing responses after Guard admission, retaining denial an
    session=await replay.browser.openSession({signal:new AbortController().signal,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]}});
    await session.prepareNavigation!(first);
    await session.navigate(first).catch(()=>{});
+   let snapshot:Awaited<ReturnType<BrowserSession['snapshot']>>|undefined,snapshotError:unknown;
+   try{snapshot=await session.snapshot();}catch(error){snapshotError=error;}
    if(mode==='blocked'){
     assert.deepEqual(stops,[],'a Guard-denied telemetry request is not a missing admitted recording');
-    const snapshot=await session.snapshot();assert.equal(replay.consumedPages(),1);
-    assert.ok(snapshot.networkRequests?.some(row=>row.method==='POST'&&row.pathname==='/not-recorded'&&row.outcome==='BLOCKED'),'the unchanged Guard must actually deny the POST');
+    assert.equal(snapshotError,undefined);assert.equal(replay.consumedPages(),1);
+    assert.ok(snapshot?.networkRequests?.some(row=>row.method==='POST'&&row.pathname==='/not-recorded'&&row.outcome==='BLOCKED'),'the unchanged Guard must actually deny the POST');
    }else assert.deepEqual(stops.map(row=>row.reason),['MISSING_RESPONSE'],'an admitted missing GET must still fail closed');
   }finally{await session?.close();await rm(root,{recursive:true,force:true});}
  }
