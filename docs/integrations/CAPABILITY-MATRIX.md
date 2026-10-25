@@ -1,13 +1,19 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.86
-- Last updated: 2026-10-24
+- Document revision: 1.88
+- Last updated: 2026-10-26
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
 
+2026-10-26 CET，F3-034共享发现改为显式观察列表引用或有界UNKNOWN；非法/重复检索不隐式清词，Google-only同样拒绝无效提议的空查询。当前State@22／TaskDefinition@20、retrieval Schema@3／Prompt@6，资格/预算不改。两来源目录及Pack原字节保留，本地正常通用入口5家与误用拒绝控制通过，新增真实调用0。[报告](../../.eval-artifacts/phase3a-prime/f3-034/report.md)。
+
+以下2026-10-24段为当时实施记录，版本号和分支状态不是当前状态。
+
 2026-10-24 CEST，ADR-0043 共享层实现（本分支，尚未合入 main）：无具名标签／同源指针的已观察地区入口可先取坐标样本，首两个有效坐标均越界时，只从本来源流程实际观察且经 Pack 校验的入口集合选择一次。Browser 新动作 `SELECT_REGION_ENTRANCE` 只选集合引用，来源组合核对后直接导航；普通 DOM ref 仍绑定当前观察。与原4/5规则共用一次上限，最多4地区页，无恢复菜单；失败UNKNOWN、候选及累计预算保留。当前版本为 restaurant-state@21、TaskDefinition@19、browser-read-context@3、browser-read-action@12、browser-read-prompt@20；旧进度 firstFive 路径已移除，全部活动构造更新，历史 artifact 不改写。没有需保留的生产 Task 数据，本批不迁移／重置数据库。离线证据与 Live 缺口见 [F5 报告](../../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
+
+2026-10-25 CET（停止点4复核编号20261026）：ADR-0036脚本类型补充第1–7条获批并完成离线实现。fetch/xhr在共享Guard和独立审计中为同一页面脚本类，两来源声明列出两种表示；自动CORS只匹配已批准GET/HEAD/POST的origin/path/query、真实Origin、请求方法和header名称投影，实际POST仍核四个字符串字段，非法实际请求0到达。Recorder@5保留原始类型采用路径和外层body哈希绑定，非完整CORS/POST录制仍NOT_REPLAYABLE。TableCheck reserve及子路径继续永久拒绝；route/Omotesando未获批。真实网站/模型/Google/Live新增0，当前站点连接和库存未验证。[本地证据](../../.eval-artifacts/phase3a-prime/f3-guard/report.md)。
 
 状态：`verified`表示官方文档确认；`assumed`表示设计假设待实测；`requires partnership`表示存在能力但访问条件未取得；`unsupported`表示当前不纳入。
 

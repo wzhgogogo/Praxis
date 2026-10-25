@@ -1,0 +1,976 @@
+{
+  "kind": "OFFLINE_TIMING_FROM_FIXED_LIVE_BLOBS",
+  "runs": 8,
+  "completedActionLatency": {
+    "CHECK_AVAILABILITY": {
+      "n": 23,
+      "minMs": 10345,
+      "medianMs": 46453,
+      "p90NearestRankMs": 143773,
+      "p95NearestRankMs": 149826,
+      "maxMs": 157425
+    },
+    "INVESTIGATE_CANDIDATE_FACTS": {
+      "n": 16,
+      "minMs": 0,
+      "medianMs": 30383.5,
+      "p90NearestRankMs": 72653,
+      "p95NearestRankMs": 90038,
+      "maxMs": 90038
+    },
+    "SEARCH_RESTAURANTS": {
+      "n": 23,
+      "minMs": 0,
+      "medianMs": 45154,
+      "p90NearestRankMs": 87303,
+      "p95NearestRankMs": 91198,
+      "maxMs": 91453
+    }
+  },
+  "rootDecisionLatency": {
+    "n": 74,
+    "minMs": 1367,
+    "medianMs": 3373.5,
+    "p90NearestRankMs": 5242,
+    "p95NearestRankMs": 6388,
+    "maxMs": 12212
+  },
+  "closingObserved": [
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 47,
+      "action": "END_READ",
+      "modelMs": 3785,
+      "afterModelUntilArtifactEndMs": 346
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 47,
+      "action": "END_READ",
+      "modelMs": 3400,
+      "afterModelUntilArtifactEndMs": 364
+    }
+  ],
+  "completedActionRows": [
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "trajectory": 1,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 91453,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "trajectory": 2,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 45154,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "trajectory": 3,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 20485,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "trajectory": 4,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 25923,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "trajectory": 5,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 28871,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "trajectory": 6,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 1,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "trajectory": 7,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 149826,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "trajectory": 1,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 91198,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "trajectory": 2,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 51138,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "trajectory": 3,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 14739,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "trajectory": 4,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 30751,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "trajectory": 5,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 0,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "trajectory": 6,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 157425,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "trajectory": 1,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 87303,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "trajectory": 2,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 23916,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "trajectory": 3,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 16147,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "trajectory": 4,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 53169,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "trajectory": 5,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 0,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "trajectory": 6,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 136155,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "trajectory": 7,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 129164,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "trajectory": 1,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 52226,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "trajectory": 2,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 35012,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "trajectory": 3,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 13123,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "trajectory": 4,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 54151,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "trajectory": 5,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 0,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "trajectory": 6,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 141161,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "trajectory": 8,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 143071,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "trajectory": 1,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 54327,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "trajectory": 2,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 45623,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "trajectory": 3,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 17059,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "trajectory": 4,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 55585,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "trajectory": 5,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 0,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "trajectory": 6,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 136642,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "trajectory": 8,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 134533,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "trajectory": 9,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 20742,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "trajectory": 1,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 34362,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "trajectory": 2,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 22288,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "trajectory": 3,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 13093,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "trajectory": 4,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 30016,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "trajectory": 5,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 30012,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "trajectory": 6,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 0,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "trajectory": 7,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 113493,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "trajectory": 9,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 102244,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "trajectory": 10,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 0,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "trajectory": 1,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 75360,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "trajectory": 2,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 46453,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "trajectory": 3,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 32969,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "trajectory": 4,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 90038,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "trajectory": 5,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 60022,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "trajectory": 6,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 49079,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "trajectory": 7,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 17347,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "trajectory": 8,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 10345,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "trajectory": 9,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 5222,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "trajectory": 1,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 47609,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "trajectory": 2,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 55695,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "trajectory": 3,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 18641,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "trajectory": 4,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 11508,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "trajectory": 5,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 51325,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "trajectory": 6,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 26172,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "trajectory": 7,
+      "action": "SEARCH_RESTAURANTS",
+      "durationMs": 0,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "trajectory": 8,
+      "action": "CHECK_AVAILABILITY",
+      "durationMs": 143773,
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "trajectory": 9,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "durationMs": 72653,
+      "stepOutcome": "EXECUTED"
+    }
+  ],
+  "rootDecisionRows": [
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "decisionLine": 2,
+      "latencyMs": 2519
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "decisionLine": 8,
+      "latencyMs": 2822
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "decisionLine": 11,
+      "latencyMs": 3998
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "decisionLine": 12,
+      "latencyMs": 3537
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "decisionLine": 17,
+      "latencyMs": 1614
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "decisionLine": 21,
+      "latencyMs": 4645
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "decisionLine": 22,
+      "latencyMs": 5297
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "decisionLine": 36,
+      "latencyMs": 12212
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "decisionLine": 37,
+      "latencyMs": 4520
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "decisionLine": 2,
+      "latencyMs": 1929
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "decisionLine": 9,
+      "latencyMs": 3366
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "decisionLine": 14,
+      "latencyMs": 4812
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "decisionLine": 15,
+      "latencyMs": 5357
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "decisionLine": 22,
+      "latencyMs": 6388
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "decisionLine": 23,
+      "latencyMs": 4687
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "decisionLine": 30,
+      "latencyMs": 3801
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "decisionLine": 2,
+      "latencyMs": 1872
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "decisionLine": 8,
+      "latencyMs": 2868
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "decisionLine": 11,
+      "latencyMs": 2918
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "decisionLine": 12,
+      "latencyMs": 3045
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "decisionLine": 21,
+      "latencyMs": 2075
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "decisionLine": 22,
+      "latencyMs": 2593
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "decisionLine": 28,
+      "latencyMs": 3838
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "decisionLine": 39,
+      "latencyMs": 4909
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "decisionLine": 2,
+      "latencyMs": 1672
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "decisionLine": 6,
+      "latencyMs": 6658
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "decisionLine": 9,
+      "latencyMs": 3621
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "decisionLine": 10,
+      "latencyMs": 2995
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "decisionLine": 19,
+      "latencyMs": 2055
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "decisionLine": 20,
+      "latencyMs": 2743
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "decisionLine": 33,
+      "latencyMs": 5379
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "decisionLine": 34,
+      "latencyMs": 2854
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "decisionLine": 43,
+      "latencyMs": 3489
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "decisionLine": 2,
+      "latencyMs": 1367
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "decisionLine": 6,
+      "latencyMs": 4180
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "decisionLine": 9,
+      "latencyMs": 3825
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "decisionLine": 10,
+      "latencyMs": 3381
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "decisionLine": 17,
+      "latencyMs": 2067
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "decisionLine": 18,
+      "latencyMs": 3143
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "decisionLine": 28,
+      "latencyMs": 4517
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "decisionLine": 29,
+      "latencyMs": 2778
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "decisionLine": 36,
+      "latencyMs": 3932
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "decisionLine": 42,
+      "latencyMs": 1401
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 2,
+      "latencyMs": 1898
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 6,
+      "latencyMs": 2931
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 9,
+      "latencyMs": 2965
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 10,
+      "latencyMs": 4420
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 15,
+      "latencyMs": 3042
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 20,
+      "latencyMs": 4302
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 21,
+      "latencyMs": 4795
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 36,
+      "latencyMs": 4571
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 37,
+      "latencyMs": 2630
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 44,
+      "latencyMs": 5164
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "decisionLine": 47,
+      "latencyMs": 3785
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 2,
+      "latencyMs": 3203
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 9,
+      "latencyMs": 3694
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 16,
+      "latencyMs": 2005
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 21,
+      "latencyMs": 3337
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 35,
+      "latencyMs": 1985
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 42,
+      "latencyMs": 3186
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 43,
+      "latencyMs": 5242
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 44,
+      "latencyMs": 7656
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 45,
+      "latencyMs": 3736
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "decisionLine": 47,
+      "latencyMs": 3400
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "decisionLine": 2,
+      "latencyMs": 2009
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "decisionLine": 9,
+      "latencyMs": 3107
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "decisionLine": 10,
+      "latencyMs": 4223
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "decisionLine": 11,
+      "latencyMs": 3457
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "decisionLine": 12,
+      "latencyMs": 3998
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "decisionLine": 21,
+      "latencyMs": 3187
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "decisionLine": 26,
+      "latencyMs": 1671
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "decisionLine": 27,
+      "latencyMs": 2607
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "decisionLine": 33,
+      "latencyMs": 2348
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "decisionLine": 37,
+      "latencyMs": 3392
+    }
+  ],
+  "rightCensoredActions": [
+    {
+      "slot": 1,
+      "kind": "CHECK_AVAILABILITY",
+      "observedTailToArtifactEndMs": 93620,
+      "remainingAtActionStartMs": 92961,
+      "decisionLine": 37,
+      "reason": "Unpersisted/right-censored tail to artifact end; includes cleanup, not a completed action duration or exact operation lower bound."
+    },
+    {
+      "slot": 2,
+      "kind": "CHECK_AVAILABILITY",
+      "observedTailToArtifactEndMs": 121086,
+      "remainingAtActionStartMs": 120484,
+      "decisionLine": 30,
+      "reason": "Unpersisted/right-censored tail to artifact end; includes cleanup, not a completed action duration or exact operation lower bound."
+    },
+    {
+      "slot": 3,
+      "kind": "CHECK_AVAILABILITY",
+      "observedTailToArtifactEndMs": 27292,
+      "remainingAtActionStartMs": 26596,
+      "decisionLine": 39,
+      "reason": "Unpersisted/right-censored tail to artifact end; includes cleanup, not a completed action duration or exact operation lower bound."
+    }
+  ],
+  "inputs": [
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "sha256": "3458550c3a54f9e640020cb86d9c0b58c635425f1d9a1f85325ed75a49961fd0"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.decisions.jsonl.gz",
+      "sha256": "e95c65570b8461d20b417e31d1254a48ad0c89a556d4be4b9d8f5845c500a576"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "sha256": "af01f1b3a30a06ea1e9b958472c42c3843d6c7c159d3a4a0eee51e998c18c715"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.decisions.jsonl.gz",
+      "sha256": "03631c97f8af0b4ea0ca0d89605a09819a2ea510b6b9f9c9dacd3295d8240cf4"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "sha256": "0df4b6de4e7d4cf6adff9d6f21051edad82eda452050d8cb75ddf2b2b612d0e9"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.decisions.jsonl.gz",
+      "sha256": "a527abf6ee40bdce26cd3a4496154a53189a013a5ebe59c02ba8d698eb82f696"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "sha256": "1093d9ec0327b301b7660df00c3987496fc361063781514a7b45925c31395999"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.decisions.jsonl.gz",
+      "sha256": "523545894d4b1133ab5ef6f702d7719bb9b2e8930371cb48b70898d499e68cab"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "sha256": "ee9076664ca732c7167e13c8dc8034020134aa1f3294bbc08e3a64a68df99628"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.decisions.jsonl.gz",
+      "sha256": "b56dc895bc177816fc8cc1cd65c1ca13d1d3f509ab1c2faa370fa5a4b76bcbf4"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "sha256": "0aae4c214ce0e0d480a7a1c52282d7a4deb6956f1834c394422180ece522774f"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.decisions.jsonl.gz",
+      "sha256": "c482fa4cbc451f1d4467a5bff74d16aadfac4953ecffb99ad0c2e9cfb4117932"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "sha256": "ecd923b7ad51e0151a9dae7b3d9177e9bf17798e5f6a1d11e3c54bb92cfeaa09"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.decisions.jsonl.gz",
+      "sha256": "07a91f41d57b056a7f5ec20a4517f51e5a7e90c3db4c14192e615a17fa582220"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "sha256": "fa1e44d1d1707789232b2e0ffe8081810e64008e325800ea6429d718968f1bb5"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.decisions.jsonl.gz",
+      "sha256": "83b84dcf1bd43c78f35b8c0165efd82019c0c79a2c52f3e5f9bfe03bc103542f"
+    },
+    {
+      "ref": "e169e606b41e1ef97f408efde834112810dd467d",
+      "path": ".eval-artifacts/phase3a-prime/f5-live-rerun/aggregate.json",
+      "sha256": "52572ea10cbe2f5d8f7bd8877535996d18ea1da63c773ea3c68bfcb3c6120f04"
+    }
+  ],
+  "newRealCalls": 0
+}

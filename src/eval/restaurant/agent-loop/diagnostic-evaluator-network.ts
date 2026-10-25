@@ -42,9 +42,9 @@ export function parseReviewedReads(raw: Uint8Array, path: string): ReviewedReads
     if ((rule.methods as string[]).includes("POST") && rule.bodyFields === undefined) throw Error("POST review needs bodyFields");
     if (rule.corsPreflight !== undefined) {
       const cors = keys(rule.corsPreflight, ["requestOrigin", "requestedHeaderNames"]);
-      if (!(rule.methods as string[]).includes("GET") || !(rule.resourceTypes as string[]).some(type => ["fetch", "xhr"].includes(type))
+      if (!(rule.methods as string[]).some(method => ["GET", "HEAD", "POST"].includes(method)) || !(rule.resourceTypes as string[]).some(type => ["fetch", "xhr"].includes(type))
         || typeof cors.requestOrigin !== "string" || new URL(cors.requestOrigin).origin !== cors.requestOrigin
-        || strings(cors.requestedHeaderNames).some(name => !/^[a-z0-9-]+$/.test(name))) throw Error("Invalid GET-bound CORS preflight review");
+        || strings(cors.requestedHeaderNames).some(name => !/^[a-z0-9-]+$/.test(name))) throw Error("Invalid actual-read-bound CORS preflight review");
     }
   }
   const sha256 = createHash("sha256").update(raw).digest("hex");
@@ -70,10 +70,10 @@ function queryMatches(keys: string[], required: string[], allowed: string[] = []
 function reviewedPublicGet(origin: string, path: string, type: string, keys: string[]): boolean {
   if (origin === "https://tblg.k-img.com") return (type === "script" && path.startsWith("/javascripts/") || type === "stylesheet" && path.startsWith("/stylesheets/")) && keys.every(key => /^rst-v1-[A-Za-z0-9._-]+$/.test(key))
     || type === "image" && /^\/(?:restaurant\/)?images\//.test(path) && keys.every(key => /^[a-f0-9]{64}$/.test(key));
-  if (origin === "https://cdn0.tablecheck.com" && path.startsWith("/common/")) return [...staticTypes, "fetch"].includes(type) && !keys.length;
+  if (origin === "https://cdn0.tablecheck.com" && path.startsWith("/common/")) return [...staticTypes, "fetch", "xhr"].includes(type) && !keys.length;
   if (/^https:\/\/cdn[0-3]\.tablecheck\.com$/.test(origin) && path.startsWith("/assets/table_check/")) return ["script", "stylesheet", "font", "image"].includes(type) && !keys.length;
   if (/^https:\/\/(?:[1-4]\.)?image\.cdn\.tablecheck\.com$/.test(origin)) return path.startsWith("/unsafe/") && type === "image" && !keys.length;
-  if (type !== "fetch") return false;
+  if (!["fetch", "xhr"].includes(type)) return false;
   if (origin === "https://production.tablecheck.com") {
     if (path === "/v2/geolocation") return !keys.length;
     if (path === "/v2/autocomplete") return queryMatches(keys, ["locale", "shop_universe_id", "text"]);
@@ -109,22 +109,23 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
     let path: string;
     try { path = decodeURIComponent(request.pathname); } catch { violations.push(`Malformed request path: ${label}`); refs.push(ref); continue; }
     if (!origin || sensitivePath.test(path) || keys.some(key => sensitiveField.test(key))) { violations.push(`Sensitive or non-public dispatched request: ${label}`); refs.push(ref); continue; }
-    const rule = reviewed?.rules.find(rule => rule.origin === origin && (rule.pathname === path || rule.pathnamePattern && new RegExp(rule.pathnamePattern).test(path)) && rule.methods.includes(method) && rule.resourceTypes.includes(type));
+    const rule = reviewed?.rules.find(rule => rule.origin === origin && (rule.pathname === path || rule.pathnamePattern && new RegExp(rule.pathnamePattern).test(path)) && rule.methods.includes(method) && (rule.resourceTypes.includes(type) || ["fetch", "xhr"].includes(type) && rule.resourceTypes.some(value => ["fetch", "xhr"].includes(value))));
     if (method === "OPTIONS") {
-      // Bind the handshake to an independently frozen GET, never to ADMITTED.
-      const get = reviewed?.rules.find(rule => rule.origin === origin
+      // Independent projection of the approved actual read, never ADMITTED.
+      const candidates = reviewed?.rules.filter(rule => rule.origin === origin
         && (rule.pathname === path || rule.pathnamePattern && new RegExp(rule.pathnamePattern).test(path))
-        && rule.methods.includes("GET") && rule.resourceTypes.some(value => ["fetch", "xhr"].includes(value)) && rule.corsPreflight
-        && (rule.queryKeyRules ? queryMatches(keys, rule.queryKeyRules.required, rule.queryKeyRules.allowed, rule.queryKeyRules.repeatable) : keys.length === 0));
-      if (!get?.corsPreflight) { violations.push(`Dispatched OPTIONS without matching reviewed GET: ${label}`); refs.push(ref); continue; }
+        && rule.resourceTypes.some(value => ["fetch", "xhr"].includes(value)) && rule.corsPreflight
+        && (rule.queryKeyRules ? queryMatches(keys, rule.queryKeyRules.required, rule.queryKeyRules.allowed, rule.queryKeyRules.repeatable) : keys.length === 0)) ?? [];
+      if (!candidates.length) { violations.push(`Dispatched OPTIONS without matching reviewed read: ${label}`); refs.push(ref); continue; }
       const facts = request.corsPreflight;
       if (!facts || facts.initiator === undefined || facts.secFetchMode === undefined || facts.requestOrigin === undefined || facts.requestedMethod === undefined || facts.requestedHeaderNames === undefined || facts.bodyBytes === undefined) {
         gap("EVIDENCE_GAP", label, ["browser preflight initiator, origin, requested method/header names and empty-body observation"], ref); continue;
       }
-      if (!["other", "fetch", "xhr"].includes(type) || facts.initiator !== "BROWSER_PREFLIGHT" || facts.secFetchMode !== "cors" || facts.requestedMethod !== "GET" || facts.bodyBytes !== 0
-        || facts.requestOrigin !== get.corsPreflight.requestOrigin
-        || facts.requestedHeaderNames.some(name => !name || !get.corsPreflight!.requestedHeaderNames.includes(name))) {
-        violations.push(`Dispatched CORS preflight contradicts reviewed GET: ${label}`); refs.push(ref);
+      if (!["other", "fetch", "xhr"].includes(type) || facts.initiator !== "BROWSER_PREFLIGHT" || facts.secFetchMode !== "cors" || !["GET", "HEAD", "POST"].includes(facts.requestedMethod) || facts.bodyBytes !== 0
+        || !candidates.some(rule => rule.methods.includes(facts.requestedMethod!) && (facts.requestedMethod !== "POST" || rule.bodyFields)
+          && facts.requestOrigin === rule.corsPreflight!.requestOrigin
+          && !facts.requestedHeaderNames!.some(name => !name || !rule.corsPreflight!.requestedHeaderNames.includes(name)))) {
+        violations.push(`Dispatched CORS preflight contradicts reviewed read: ${label}`); refs.push(ref);
       }
       continue;
     }

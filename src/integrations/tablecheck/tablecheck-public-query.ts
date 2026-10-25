@@ -37,7 +37,7 @@ export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
   staticResources: [
     ...[0, 1, 2, 3].map(cdn => ({ origin: `https://cdn${cdn}.tablecheck.com`, pathnamePrefix: "/assets/table_check/", resourceTypes: ["script", "stylesheet", "font", "image"] as const, methods: ["GET", "HEAD"] as const })),
     { origin: "https://www.tablecheck.com", pathnamePrefix: "/portal/assets/", resourceTypes: ["script", "stylesheet"] },
-    { origin: "https://cdn0.tablecheck.com", pathnamePrefix: "/common/", resourceTypes: ["script", "stylesheet", "font", "image", "fetch"], corsPreflight: tableCheckGetPreflight },
+    { origin: "https://cdn0.tablecheck.com", pathnamePrefix: "/common/", resourceTypes: ["script", "stylesheet", "font", "image", "fetch", "xhr"], corsPreflight: tableCheckGetPreflight },
     ...["https://image.cdn.tablecheck.com", "https://1.image.cdn.tablecheck.com", "https://2.image.cdn.tablecheck.com", "https://3.image.cdn.tablecheck.com", "https://4.image.cdn.tablecheck.com"].map(origin => ({ origin, pathnamePrefix: "/unsafe/", resourceTypes: ["image"] as const })),
   ],
   dynamicReads: [...tableCheckPublicSearchReads, {
@@ -60,7 +60,7 @@ export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
     // inventory, or qualification result.
     origin: "https://production.tablecheck.com",
     pathname: "/v2/hub/public_shop_lists",
-    resourceTypes: ["fetch"], corsPreflight: tableCheckGetPreflight,
+    resourceTypes: ["fetch", "xhr"], corsPreflight: tableCheckGetPreflight,
     queryKeyRules: {
       required: ["limit", "sort_by"],
       allowed: ["shop_ids[]"],
@@ -69,20 +69,20 @@ export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
   }, {
     origin: "https://production.tablecheck.com",
     pathname: "/v2/hub/availability_calendar_v2",
-    resourceTypes: ["fetch"], methods: ["POST"],
+    resourceTypes: ["fetch", "xhr"], methods: ["POST"], corsPreflight: { requestOrigin: "https://www.tablecheck.com", requestedHeaderNames: ["content-type"] },
     bodyFields: { locale: "string", start_at: "string", shop_id: "string", num_people: "string" },
   }, {
     // The guarded search-contract capture observed this prerequisite before a
     // query result. It has no public query fields and is not inventory.
     origin: "https://production.tablecheck.com",
     pathname: "/v2/geolocation",
-    resourceTypes: ["fetch"], queryKeys: [], corsPreflight: tableCheckGetPreflight,
+    resourceTypes: ["fetch", "xhr"], queryKeys: [], corsPreflight: tableCheckGetPreflight,
   }, {
     // The same capture observed this exact public suggestion grammar. It is a
     // prerequisite read, never a result or inventory assertion.
     origin: "https://production.tablecheck.com",
     pathname: "/v2/autocomplete",
-    resourceTypes: ["fetch"], queryKeys: ["locale", "shop_universe_id", "text"], corsPreflight: tableCheckGetPreflight,
+    resourceTypes: ["fetch", "xhr"], queryKeys: ["locale", "shop_universe_id", "text"], corsPreflight: tableCheckGetPreflight,
   }, {
     // CIt always adds the source's universe and include-ID fields. The search
     // builder and pagination add the remaining public keys only when relevant.
@@ -90,7 +90,7 @@ export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
     // therefore only its public `cuisines[]` key may repeat.
     origin: "https://search-api.ai.ingress.production.tablecheck.com",
     pathname: "/ai_search",
-    resourceTypes: ["fetch"], corsPreflight: tableCheckGetPreflight,
+    resourceTypes: ["fetch", "xhr"], corsPreflight: tableCheckGetPreflight,
     queryKeyRules: {
       required: ["shop_universe_id", "include_ids"],
       allowed: ["service_mode", "sort_by", "venue_type", "search_text", "geo_latitude", "geo_longitude", "geo_distance", "auto_geolocate", "cuisines[]", "budget_dinner_avg_min", "budget_dinner_avg_max", "search_after", "per_page", "randomize_geo"],
@@ -101,7 +101,7 @@ export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
     // source-owned query grammar and uses the same reviewed read boundary.
     origin: "https://production.tablecheck.com",
     pathname: "/v2/shop_search",
-    resourceTypes: ["fetch"], corsPreflight: tableCheckGetPreflight,
+    resourceTypes: ["fetch", "xhr"], corsPreflight: tableCheckGetPreflight,
     queryKeyRules: {
       required: ["shop_universe_id", "include_ids"],
       allowed: ["service_mode", "sort_by", "venue_type", "search_text", "geo_latitude", "geo_longitude", "geo_distance", "auto_geolocate", "cuisines[]", "budget_dinner_avg_min", "budget_dinner_avg_max", "search_after", "per_page", "randomize_geo"],

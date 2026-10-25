@@ -1,7 +1,7 @@
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
-import type { BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
+import type { BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadResourceTypeObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
 
 type NetworkDiagnosticCode = "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT";
 type NetworkDiagnostic = { code: NetworkDiagnosticCode; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[] };
@@ -21,9 +21,16 @@ function matchesPath(rule: BrowserReadNetworkRequestRule, url: URL): boolean {
   return Boolean(rule.pathnamePrefix && url.pathname.startsWith(rule.pathnamePrefix));
 }
 
-async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request, "headerValue" | "postData">, url: URL, method: string, resourceType: string): Promise<boolean> {
+// fetch and XHR are the same page-script class; static/document/Other remain distinct.
+function resourceTypeMatches(rule: BrowserReadNetworkRequestRule, type: string): boolean {
+  return rule.resourceTypes.includes(type as never)
+    || ["fetch", "xhr"].includes(type) && rule.resourceTypes.some(value => ["fetch", "xhr"].includes(value));
+}
+
+/** The observable endpoint/method/query projection, before a future POST body exists. */
+function matchesReadProjection(rule: BrowserReadNetworkRequestRule, url: URL, method: string, resourceType: string): boolean {
   if (url.origin !== rule.origin || !matchesPath(rule, url)) return false;
-  if (!rule.resourceTypes.includes(resourceType as never)) return false;
+  if (!resourceTypeMatches(rule, resourceType)) return false;
   if (!(rule.methods ?? ["GET", "HEAD"]).includes(method as "GET" | "HEAD" | "POST")) return false;
   const actual = [...url.searchParams.keys()];
   if (rule.queryKeyRules) {
@@ -41,6 +48,11 @@ async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request
     const sorted = [...actual].sort();
     if (sorted.length !== expected.length || !sorted.every((key, index) => key === expected[index])) return false;
   }
+  return true;
+}
+
+async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request, "headerValue" | "postData">, url: URL, method: string, resourceType: string): Promise<boolean> {
+  if (!matchesReadProjection(rule, url, method, resourceType)) return false;
   if (method !== "POST") return true;
   if (!rule.bodyFields || !/application\/json/i.test(await request.headerValue("content-type") ?? "")) return false;
   try {
@@ -57,7 +69,7 @@ async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request
 function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resourceType: string): boolean {
   return url.origin === rule.origin
     && matchesPath(rule, url)
-    && rule.resourceTypes.includes(resourceType as never);
+    && resourceTypeMatches(rule, resourceType);
 }
 
 /**
@@ -83,6 +95,8 @@ export class PlaywrightReadNetworkGuard {
   private readonly genericOrigins = new Set<string>();
   private readonly diagnostics: NetworkDiagnostic[] = [];
   private readonly requests: BrowserReadNetworkObservation[] = [];
+  // CDP and Playwright facts are separate observations, never paired by URL/order.
+  private readonly resourceTypes: BrowserReadResourceTypeObservation[] = [];
   private requestTimeoutMs: number;
   private readonly redirectSessions = new WeakMap<Page, Promise<void>>();
   private readonly redirectReady = new WeakSet<Page>();
@@ -191,7 +205,11 @@ export class PlaywrightReadNetworkGuard {
       on("Fetch.requestPaused", event => {
         const process = async () => {
           const url = new URL(event.request.url), method = event.request.method;
-          const type = String(networkTypes.get(event.networkId) ?? event.resourceType).toLowerCase();
+          const network = networkTypes.get(event.networkId);
+          const type = String(network ?? event.resourceType).toLowerCase();
+          const resourceTypeDetails = { selectedFrom: network ? "NETWORK" as const : "FETCH" as const,
+            ...(network ? { network } : {}), fetch: String(event.resourceType) };
+          this.resourceTypes.push({ origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails });
           const request = { headerValue: async (name: string) => Object.entries(event.request.headers as Record<string, string>).find(([key]) => key.toLowerCase() === name.toLowerCase())?.[1] ?? null, postData: () => event.request.postData ?? (event.request.hasPostData ? "BODY_UNAVAILABLE" : null) };
           if (event.responseStatusCode !== undefined) {
             const entry = redirected.get(event.requestId);
@@ -233,7 +251,7 @@ export class PlaywrightReadNetworkGuard {
                 requestedHeaderNames: (await request.headerValue("access-control-request-headers") ?? "").split(",").map(name => name.trim().toLowerCase()).filter(Boolean),
                 bodyBytes: Buffer.byteLength(request.postData() ?? "") } : undefined;
           const admitted = method === "OPTIONS"
-            ? !isRedirect && !replay && await this.admitsPreflight(url, request, type, corsPreflight)
+            ? !isRedirect && !replay && await this.admitsPreflight(url, type, corsPreflight)
             : await this.admitsRedirectRequest(url, request, method, type);
           if (!admitted) {
             this.blocked(isRedirect ? "BLOCKED_REDIRECT" : ["GET", "HEAD"].includes(method) ? "BLOCKED_ENDPOINT" : "BLOCKED_METHOD", url, method, type);
@@ -268,16 +286,16 @@ export class PlaywrightReadNetworkGuard {
     await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); });
   }
 
-  private async admitsPreflight(url: URL, request: Pick<Request, "headerValue" | "postData">, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {
+  private async admitsPreflight(url: URL, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {
     if (this.prohibitedRead(url) || url.username || url.password || !/^https?:$/.test(url.protocol) || !["other", "fetch", "xhr"].includes(type)
-      || !facts || facts.secFetchMode !== "cors" || facts.requestedMethod !== "GET" || facts.bodyBytes !== 0) return false;
+      || !facts || facts.secFetchMode !== "cors" || !["GET", "HEAD", "POST"].includes(facts.requestedMethod) || facts.bodyBytes !== 0) return false;
     for (const rule of [...this.policy.staticResources, ...this.policy.dynamicReads]) {
       const cors = rule.corsPreflight;
-      if (!cors || !(rule.methods ?? ["GET", "HEAD"]).includes("GET") || facts.requestOrigin !== cors.requestOrigin
+      if (!cors || facts.requestedMethod === "POST" && !rule.bodyFields || facts.requestOrigin !== cors?.requestOrigin
         || facts.requestedHeaderNames.some(name => !name || !cors.requestedHeaderNames.includes(name))) continue;
-      // Check the matching GET's full endpoint/query grammar, never invent an
-      // OPTIONS-only rule or admit unrelated resource types/origins.
-      for (const resource of ["fetch", "xhr"]) if (await allows(rule, request, url, "GET", resource)) return true;
+      // Only the approved actual read's projection is available now. Its full
+      // body is checked separately when the actual POST reaches this boundary.
+      if (matchesReadProjection(rule, url, facts.requestedMethod, "fetch")) return true;
     }
     return false;
   }
@@ -334,6 +352,7 @@ export class PlaywrightReadNetworkGuard {
 
   snapshotDiagnostics(): NetworkDiagnostic[] { return [...this.diagnostics]; }
   snapshotRequests(): BrowserReadNetworkObservation[] { return [...this.requests]; }
+  snapshotResourceTypes(): BrowserReadResourceTypeObservation[] { return [...this.resourceTypes]; }
 
   private blocked(code: NetworkDiagnosticCode, url: URL, method: string, resourceType: string): void {
     const request = { origin: url.origin, pathname: url.pathname, method, resourceType, queryKeys: [...new Set(url.searchParams.keys())].sort() };
@@ -374,12 +393,12 @@ export class PlaywrightReadNetworkGuard {
     // admission preserves the same policy in replay and lets routeFromHAR abort
     // every missing entry without a route.fetch network escape.
     if (replay) {
-      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort() });
+      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort() });
       await route.fallback();
       return;
     }
     try {
-      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort() });
+      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort() });
       const response = await route.fetch({ maxRedirects: 0, timeout: this.requestTimeoutMs });
       if (response.status() >= 300 && response.status() < 400) {
         let target: URL | undefined;
@@ -407,7 +426,7 @@ export class PlaywrightReadNetworkGuard {
     } catch (error) {
       const code = error instanceof Error && error.name === "TimeoutError" ? "READ_TIMEOUT" : "READ_REQUEST_FAILED";
       this.blocked(code, url, method, type);
-      this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort() };
+      this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort() };
       await route.abort("failed");
     }
   }

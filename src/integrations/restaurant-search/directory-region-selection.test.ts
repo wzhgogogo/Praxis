@@ -1,4 +1,4 @@
-const fixtureRetrieval={decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Scripted retrieval control."})};
+const fixtureRetrieval={decide:async(input?:{current?:unknown})=>input?.current?{accepted:true,keep:true,reason:"Retain current observed query."}:{accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Scripted retrieval control."}};
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { BrowserTaskExecutor } from '../../infrastructure/browser/browser-task-executor.js';
@@ -187,7 +187,7 @@ function linkedRegionFixture(caseId:string, rogue=false, failedRead=false, hard=
  }};
  const google=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async()=>{throw Error('No network');}}));
  google.search=async request=>{googleCalls++;googleKeywords.push(request.discoveryQuery?.keyword);if(failedRead)throw Object.assign(Error('Controlled provider failure'),{code:'GOOGLE_NETWORK_FAILED'});return {...structuredClone(references),continuation:{...structuredClone(references.continuation!),intentFingerprint:JSON.stringify(request.intent)}};};
- const planner={decide:async()=>{planningCalls++;return fixtureRetrieval.decide();}};
+ const planner={decide:async(input:Parameters<import("./discovery-retrieval-planner.js").DiscoveryRetrievalPlanner["decide"]>[0])=>{planningCalls++;return fixtureRetrieval.decide(input);}};
  const native=new NativeRestaurantSearch(runtime,google,planner,()=>now,undefined,decision,undefined,undefined,{maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},undefined,[tabelogDiscoveryPack,googlePlacesDiscoveryPack]);
  const inputIntent={...intent,area:{query:`near ${requested}`,radiusMeters:1000},...(hard?{criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]}:{})};
  const request={intent:inputIntent,readRunId:`region-${caseId}`,continuation:{intentFingerprint:JSON.stringify(inputIntent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...record.location,label:requested}}};

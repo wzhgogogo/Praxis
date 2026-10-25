@@ -10,7 +10,7 @@ import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-se
 import { GooglePlacesHarCapture } from "./google-places-recording.js";
 
 export interface BrowserReadRecordingEntry { sequence: number; kind: string; detail: unknown; }
-export const BROWSER_READ_RECORDING_SCHEMA_VERSION = "browser-read-recording@4";
+export const BROWSER_READ_RECORDING_SCHEMA_VERSION = "browser-read-recording@5";
 type ReplayFailure = "NO_CAPTURED_PUBLIC_DOCUMENT" | "UNSAFE_DOCUMENT" | "CHALLENGE_DOCUMENT" | "DOCUMENT_SIZE_LIMIT" | "UNSAFE_REDIRECT" | "UNCAPTURED_DYNAMIC_RESPONSE" | "UNCAPTURED_STATIC_DEPENDENCY";
 type Replay = { status: "REPLAYABLE" | "PARTIALLY_REPLAYABLE"; reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE"; harPath: string }
   | { status: "NOT_REPLAYABLE"; reason: ReplayFailure };
@@ -67,7 +67,7 @@ export class BrowserReadRecording {
   traceSink(): BrowserTraceRecordingSink { return { record: (kind, detail) => this.record(kind, detail), recordSnapshot: (snapshot) => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
   /** Lets a runner retain its single canonical trace while supplying captured documents to this recorder. */
   snapshotSink(): BrowserTraceRecordingSink { return { record: () => undefined, recordSnapshot: snapshot => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
-  recordNetwork(requests: readonly BrowserReadNetworkObservation[]): void { this.record("NETWORK", requests.map(item => ({ outcome: item.outcome, origin: item.origin, pathname: item.pathname, method: item.method, resourceType: item.resourceType, queryKeys: [...item.queryKeys], ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}) }))); }
+  recordNetwork(requests: readonly BrowserReadNetworkObservation[]): void { this.record("NETWORK", requests.map(item => ({ outcome: item.outcome, origin: item.origin, pathname: item.pathname, method: item.method, resourceType: item.resourceType, queryKeys: [...item.queryKeys], ...(item.resourceTypeDetails ? { resourceTypeDetails: { ...item.resourceTypeDetails } } : {}), ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}), ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}), ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}) }))); }
   async recordResponse(response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }): Promise<void> {
     if (this.finished) throw new Error("Browser recording is already finalized");
     this.google.observeOwnCredentials([response.url,response.redirectLocation]);
@@ -116,6 +116,7 @@ export class BrowserReadRecording {
     this.snapshotCount += 1;
     const requests = snapshot.networkRequests ?? [];
     this.recordNetwork(requests);
+    if (snapshot.networkResourceTypes?.length) this.record("NETWORK_RESOURCE_TYPES", snapshot.networkResourceTypes);
     const url = safeReplayUrl(snapshot.url, this.options.reviewedStaticResources, this.options.reviewedReads);
     const challenge = restaurantDiscoveryPacks.some(pack => pack.documentOrigins.some(origin => { try { return new URL(snapshot.url).origin === origin; } catch { return false; } }) && pack.browser?.hasChallenge(snapshot));
     const sanitized = sanitizePublicHtml(snapshot.html, snapshot.url, [...(this.options.reviewedStaticResources ?? []), ...this.loadedStylesheetRules], this.options.reviewedReads);

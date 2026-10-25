@@ -256,7 +256,7 @@ const preflight = await runLivePreflight({
 const sourceDataPreflightDirectory=resolve('.eval-artifacts/source-data-preflight',`${Date.now()}-${selectedId}`);
 await mkdir(sourceDataPreflightDirectory,{recursive:true});
 await runSourceDataPreflight({sourceIds:preflightSourceIds((frozen.semantic as {target?:{goal?:string}}|undefined)?.target?.goal),environment:effectiveEnvironment,artifactDirectory:sourceDataPreflightDirectory});
-const reviewedReadsPath=resolve('.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json');
+const reviewedReadsPath=resolve('src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json');
 const reviewedReads=parseReviewedReads(readFileSync(reviewedReadsPath),relative(process.cwd(),reviewedReadsPath));
 const customVariant = customCaseSourcePath !== undefined;
 const variantParent = frozen.parent;
