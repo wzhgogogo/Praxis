@@ -5,11 +5,20 @@ import {
 } from "./contracts.js";
 
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
-export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v23";
+export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v24";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
   name: "restaurant-semantic-proposal",
-  version: "3",
+  version: "4",
 } as const;
+
+export const RESTAURANT_GOAL_BASIS_TYPES = ["BOOKING_WORDING", "SPECIFIC_TIME_MEAL", "JUDGMENT"] as const;
+
+/** Untrusted current-message justification, never part of persistent RestaurantTarget. */
+export interface RestaurantGoalBasis {
+  type: (typeof RESTAURANT_GOAL_BASIS_TYPES)[number];
+  reason: string;
+  quotes: string[];
+}
 
 export const RESTAURANT_SEMANTIC_FIELDS = [
   "TARGET",
@@ -33,7 +42,7 @@ export const RESTAURANT_SEMANTIC_OPERATIONS = [
 export type RestaurantSemanticOperation = (typeof RESTAURANT_SEMANTIC_OPERATIONS)[number];
 
 export type RestaurantSemanticValue =
-  | { kind: "TARGET"; goal: RestaurantReadGoal; query: string; selectionScope?: RestaurantSelectionScope; requestedResultCount?: number }
+  | { kind: "TARGET"; goal: RestaurantReadGoal; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: RestaurantSelectionScope; requestedResultCount?: number }
   // Explicit calendar/clock values are copied from the user. Relative terms
   // remain semantic directives; the compiler materializes them against its
   // trusted Tokyo reference time.
@@ -60,7 +69,7 @@ export interface RestaurantSemanticFact {
  * Event, readiness assessment, command, action proposal, or a record of real-world facts.
  */
 export interface RestaurantSemanticProposal {
-  schemaVersion: "3";
+  schemaVersion: "4";
   facts: RestaurantSemanticFact[];
 }
 
@@ -121,11 +130,20 @@ function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
     case "TARGET":
       // The strict transport does not support minLength. The local Domain
       // validator below remains authoritative for non-blank strings.
-      return { anyOf: [
-        strictObject({ kind, goal: { type: "string", enum: ["RECOMMENDATION", "AVAILABILITY"] }, query: { type: "string" } }),
-        strictObject({ kind, goal: { type: "string", enum: ["RECOMMENDATION", "AVAILABILITY"] }, query: { type: "string" }, selectionScope: { type: "string", enum: ["OPEN_ENDED", "SPECIFIC_OUTLET"] } }),
-        strictObject({ kind, goal: { type: "string", enum: ["RECOMMENDATION", "AVAILABILITY"] }, query: { type: "string" }, selectionScope: { type: "string", enum: ["OPEN_ENDED"] }, requestedResultCount: { type: "integer", minimum: 1, maximum: 10 } }),
-      ] };
+      {
+        const target = {
+          kind, goal: { type: "string", enum: ["RECOMMENDATION", "AVAILABILITY"] }, query: { type: "string" },
+          goalBasis: strictObject({
+            type: { type: "string", enum: RESTAURANT_GOAL_BASIS_TYPES },
+            reason: { type: "string" }, quotes: { type: "array", items: { type: "string" } },
+          }),
+        };
+        return { anyOf: [
+          strictObject(target),
+          strictObject({ ...target, selectionScope: { type: "string", enum: ["OPEN_ENDED", "SPECIFIC_OUTLET"] } }),
+          strictObject({ ...target, selectionScope: { type: "string", enum: ["OPEN_ENDED"] }, requestedResultCount: { type: "integer", minimum: 1, maximum: 10 } }),
+        ] };
+      }
     case "AREA":
       return strictObject({ kind, query: { type: "string" } });
     case "DATE":
@@ -189,7 +207,7 @@ const COLLECTION_FIELDS = ["CRITERION"] as const satisfies readonly RestaurantSe
 /** Complete provider-transport schema; the runtime validator below remains authoritative. */
 export const RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA: Readonly<Record<string, unknown>> =
   strictObject({
-    schemaVersion: { type: "string", enum: ["3"] },
+    schemaVersion: { type: "string", enum: ["4"] },
     facts: {
       type: "array",
       items: {
@@ -206,14 +224,21 @@ export const RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA: Readonly<Record<string, u
     },
   });
 
+function isGoalBasis(value: unknown): value is RestaurantGoalBasis {
+  return isRecord(value) && hasOnlyKeys(value, ["type", "reason", "quotes"])
+    && RESTAURANT_GOAL_BASIS_TYPES.includes(value.type as RestaurantGoalBasis["type"])
+    && isNonBlankString(value.reason) && Array.isArray(value.quotes)
+    && value.quotes.length > 0 && value.quotes.every(isNonBlankString);
+}
+
 function valueMatchesField(field: RestaurantSemanticField, value: unknown): boolean {
   if (!isRecord(value) || typeof value.kind !== "string" || value.kind !== field) return false;
   switch (field) {
     case "TARGET":
-      return (hasOnlyKeys(value, ["kind", "goal", "query"]) ||
-        (hasOnlyKeys(value, ["kind", "goal", "query", "selectionScope"]) && (value.selectionScope === "OPEN_ENDED" || value.selectionScope === "SPECIFIC_OUTLET")) ||
-        (hasOnlyKeys(value, ["kind", "goal", "query", "selectionScope", "requestedResultCount"]) && value.selectionScope === "OPEN_ENDED" && Number.isSafeInteger(value.requestedResultCount) && (value.requestedResultCount as number) >= 1 && (value.requestedResultCount as number) <= 10)) &&
-        (value.goal === "RECOMMENDATION" || value.goal === "AVAILABILITY") && isNonBlankString(value.query);
+      return (hasOnlyKeys(value, ["kind", "goal", "query", "goalBasis"]) ||
+        (hasOnlyKeys(value, ["kind", "goal", "query", "goalBasis", "selectionScope"]) && (value.selectionScope === "OPEN_ENDED" || value.selectionScope === "SPECIFIC_OUTLET")) ||
+        (hasOnlyKeys(value, ["kind", "goal", "query", "goalBasis", "selectionScope", "requestedResultCount"]) && value.selectionScope === "OPEN_ENDED" && Number.isSafeInteger(value.requestedResultCount) && (value.requestedResultCount as number) >= 1 && (value.requestedResultCount as number) <= 10)) &&
+        (value.goal === "RECOMMENDATION" || value.goal === "AVAILABILITY") && isNonBlankString(value.query) && isGoalBasis(value.goalBasis);
     case "AREA":
       return hasOnlyKeys(value, ["kind", "query"]) && isNonBlankString(value.query);
     case "DATE":
@@ -294,18 +319,30 @@ function validateFact(input: unknown, index: number): string[] {
 
 export function validateRestaurantSemanticProposal(
   input: unknown,
+  currentMessage?: string,
 ): RestaurantSemanticProposalValidationResult {
   if (!isRecord(input)) return { valid: false, errors: ["Semantic proposal must be an object"] };
   const errors: string[] = [];
   if (!hasOnlyKeys(input, ["schemaVersion", "facts"])) {
     errors.push("Semantic proposal contains unsupported fields");
   }
-  if (input.schemaVersion !== "3") errors.push("schemaVersion must be 3");
+  if (input.schemaVersion !== "4") errors.push("schemaVersion must be 4");
   if (!Array.isArray(input.facts)) {
     errors.push("facts must be an array");
   } else {
     input.facts.forEach((fact, index) => errors.push(...validateFact(fact, index)));
   }
   if (errors.length > 0) return { valid: false, errors };
-  return { valid: true, value: structuredClone(input) as unknown as RestaurantSemanticProposal };
+  const proposal = structuredClone(input) as unknown as RestaurantSemanticProposal;
+  if (currentMessage !== undefined) {
+    const normalize = (value: string) => value.trim().replace(/\s+/g, " ").toLowerCase();
+    const message = normalize(currentMessage);
+    proposal.facts.forEach((fact, factIndex) => {
+      if (fact.value?.kind !== "TARGET") return;
+      fact.value.goalBasis.quotes.forEach((quote, quoteIndex) => {
+        if (!message.includes(normalize(quote))) errors.push(`facts[${factIndex}].value.goalBasis.quotes[${quoteIndex}] must occur in the current user message`);
+      });
+    });
+  }
+  return errors.length ? { valid: false, errors } : { valid: true, value: proposal };
 }
