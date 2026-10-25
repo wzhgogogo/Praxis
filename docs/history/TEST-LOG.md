@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.296
+- Document revision: 4.297
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -13,7 +13,7 @@
 
 ## TEST-2026-10-25-F5C-OFFLINE
 
-模式：本地构造模型/HTTP/页面边界的真实Agent循环与真实本地Chromium；固定Git blob诊断分析。没有新Replay/Live或真实模型调用。有效红灯冻结821c3858，产品与a691f7dd相同：先验证TC2/Google26与真实search=false/NATIVE_FIRST_BATCH_PENDING，再因替代入口未访问失败；修后同一断言通过，首次Tabelog SEARCH元数据已含replacement/4详情/4地区页。旧两调用fixture按新合同退役，不把其设置失败当成目标红灯。G1/G3、N1–N4、F1–F4/B1、未知坐标、集合外/跨来源/拼造href、跨run及普通stale-ref回归保留；原生产80操作上限未增加。见证成对身份正例与楼层/名称反例通过。目标213/213、Chromium G3 1/1，五门禁目前NOT_RUN，须干净提交逐项前后核对。
+模式：本地构造模型/HTTP/页面边界的真实Agent循环与真实本地Chromium；固定Git blob诊断分析。没有新Replay/Live或真实模型调用。有效红灯冻结821c3858，产品与a691f7dd相同：先验证TC2/Google26与真实search=false/NATIVE_FIRST_BATCH_PENDING，再因替代入口未访问失败；修后同一断言通过，首次Tabelog SEARCH元数据已含replacement/4详情/4地区页。旧两调用fixture按新合同退役，不把其设置失败当成目标红灯。G1/G3、N1–N4、F1–F4/B1、未知坐标、集合外/跨来源/拼造href、跨run及普通stale-ref回归保留；原生产80操作上限未增加。见证成对身份正例与楼层/名称反例通过。目标213/213、Chromium G3 1/1；a9d8aeba于03:27:22–03:29:20 CET五门禁全绿：类型、架构、默认1048/1048、构建、Chromium154/154，每项前后git status均为空。收据与原始日志无损gzip/SHA已留档，门禁后只有文档证据差异。
 
 保护目录及Pack字节相同3864/473，预算文件SHA相同，历史评价与冻结证据无差异；输入blob/解压/DOM成员SHA单列。槽5测量复核总500.496秒：页面202.848、读页31.366、等待37.707、模型108.174、其他2.180、缺口118.221；保留缺口。原5正式槽S0=0不重算，本批S0 Live NOT_RUN；局部回归不代替新的Live合格率。[报告](../../.eval-artifacts/phase3a-prime/f5c/report.md)。
 

@@ -1,11 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.396
+- Document revision: 4.397
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
 
-- **2026-10-25-F5C-OFFLINE:** 同次 Tabelog 来源调用内完成两样本纠正，保留真实根 Agent 的 NATIVE_FIRST_BATCH_PENDING 门禁；TC2/Google26 本地全链路在旧代码上有效红灯、修后同断言绿灯。213条目标回归及真实本地Chromium G3通过，五门禁待干净提交运行。见证冻结补公开完整地址及经公开电话/门牌楼层/坐标核对的来源名称地址对，Evaluator35、rubric30，历史评价不改。槽5后续跨来源查位143.773秒、事实72.653秒，另一次未持久化查位执行38.513秒撞截止；无F5纠正，Tabelog三空检索后无通用列表回读。0新增外部调用、不读.env，保护目录3864/Pack473字节相同。离线交付后停止；新Live等对话A健康/录制修复合入、重放和用户另批额度，不合main。[报告](../.eval-artifacts/phase3a-prime/f5c/report.md)。
+- **2026-10-25-F5C-OFFLINE:** 同次 Tabelog 来源调用内完成两样本纠正，保留真实根 Agent 的 NATIVE_FIRST_BATCH_PENDING 门禁；TC2/Google26 本地全链路在旧代码上有效红灯、修后同断言绿灯。213条目标回归及真实本地Chromium G3通过，a9d8aeba五门禁1048/154及类型/架构/构建全绿，每项前后净树。见证冻结补公开完整地址及经公开电话/门牌楼层/坐标核对的来源名称地址对，Evaluator35、rubric30，历史评价不改。槽5后续跨来源查位143.773秒、事实72.653秒，另一次未持久化查位执行38.513秒撞截止；无F5纠正，Tabelog三空检索后无通用列表回读。0新增外部调用、不读.env，保护目录3864/Pack473字节相同。离线交付后停止；新Live等对话A健康/录制修复合入、重放和用户另批额度，不合main。[报告](../.eval-artifacts/phase3a-prime/f5c/report.md)。
 
 - **2026-10-25-F5-LIVE-STOP3-INCOMPLETE:** 六个受控Runner均已调用，正式Live仅5/6；槽6预检TabelogHTTP200/CHECK_TIMEOUT，环境重跑2/2已用完，按F5_ENV_RETRY_LIMIT停止，无额外重试。例01合格交付0/3；例03一次439.498秒有界无结果经独立复核通过、一次超时、一次NOT_RUN。5正式槽S0声明/边界均ABSENT；槽6预检边界证据缺口NOT_EVALUATED。218真实模型/30Google，评测侧GET累计5（含新用户另批直连1），五份原样回放均INCOMPLETE。348冻结项、原9条账本及25份gzip/5份录制SHA核验通过；源码相对门禁355a5547零新增差异，复用重放后的五门禁1046/154全绿。未完成完整停止点3，F5验收不通过，停止等待复核，不合main。[报告](../.eval-artifacts/phase3a-prime/f5-live/report.md)。
 
