@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.402
+- Document revision: 4.403
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-PRIME-HEALTH-4S-F5-VERIFIED:** 健康4秒在最新F5/e096ba35组合完成验收：10c6ecc0冻结后双平台各三轮完整155项，健康6/6、其他失败0；macOS三轮155全绿，中位103.289713秒；Linux154(E1原始exit1)、155、155，中位102.677879秒，按用户已登记例外通过。默认两平台1053全过、其余门禁绿，609输入不变、各项后净树。E1/Guard不改，旧草案不采纳转F3；新真实调用0。按授权合main后继续其余三项。 [报告](../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/post-f5-main/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-HEALTH-F5-INTEGRATION-PREP:** 健康4秒合入前发现main已推进F5/e096ba35；正在同步并重跑双平台完整三次。此前1037/154的六轮仅为F5同步前frozen regression，不计新main验收。双方历史/预算保留，源码合并冲突0、五份文档保留全部F5记录及三个健康记录；本切片相对新main仍只改健康测试。E1/Guard不改、真实调用0。 [报告](../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/post-f5-main/report.md)。
 

@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.302
+- Document revision: 4.303
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5414,3 +5414,7 @@ macOS五门禁绿/default1037，完整四路Chromium三次154/154：102.962288�
 ## TEST-2026-10-25-PHASE3A-PRIME-HEALTH-F5-INTEGRATION-PREP
 
 旧2e184c2f六轮1037默认/154Chromium全绿、102.96/102.64秒，只是F5合入前回归；新main已有1053默认/155Chromium和实际共享层变化，不复用旧轮次宣称新main全绿。最终新组合三次/平台与五门禁均待运行，E1例外维持原复核范围。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/post-f5-main/report.md)。
+
+## TEST-2026-10-25-PHASE3A-PRIME-HEALTH-4S-F5-VERIFIED
+
+最终10c6ecc0双平台五门禁：type/arch/default1053/build全PASS；macOS Chromium155/155×3，101.996769/103.289713/103.933828秒，中位103.289713。Linux完整三次分别154/155（E1 same Failed to fetch）、155/155、155/155，105.128263/102.399538/102.677879秒，中位102.677879；外层原始exit1保留并标用户授权例外，健康6/6、其他失败0、无skip。609冻结SHA/净树前后一致、恢复0；Linux588增量逐字核对，未用旧基线六轮替代，新调用0。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/post-f5-main/report.md)。
