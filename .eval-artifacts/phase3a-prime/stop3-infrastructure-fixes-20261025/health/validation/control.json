@@ -1,0 +1,239 @@
+{
+  "status": "PASS",
+  "mode": "LOCAL_CONSTRUCTED_TIMING_CONTROL_NOT_LIVE",
+  "timezone": "CET UTC+1",
+  "fixtureTimeoutMs": 1000,
+  "productionTimeoutMs": 10000,
+  "realCalls": {
+    "model": 0,
+    "google": 0,
+    "website": 0,
+    "live": 0,
+    "environmentRerun": 0
+  },
+  "network": 0,
+  "outputs": [
+    {
+      "mode": "FAST_SNAPSHOT",
+      "artifactPath": "fast-last-snapshot/source-health.json",
+      "delayed": 0,
+      "observations": [
+        {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+          "outcome": "HEALTHY",
+          "reason": null,
+          "httpStatus": 200,
+          "finalUrl": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+          "readNetworkBoundary": "INSTALLED",
+          "elapsedMs": 1001,
+          "snapshots": [
+            {
+              "startedAt": "2026-10-25T02:09:03.713Z",
+              "finishedAt": "2026-10-25T02:09:03.713Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:03.815Z",
+              "finishedAt": "2026-10-25T02:09:03.815Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:03.917Z",
+              "finishedAt": "2026-10-25T02:09:03.917Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.019Z",
+              "finishedAt": "2026-10-25T02:09:04.019Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.121Z",
+              "finishedAt": "2026-10-25T02:09:04.121Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.223Z",
+              "finishedAt": "2026-10-25T02:09:04.223Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.324Z",
+              "finishedAt": "2026-10-25T02:09:04.324Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.424Z",
+              "finishedAt": "2026-10-25T02:09:04.424Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.525Z",
+              "finishedAt": "2026-10-25T02:09:04.525Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.626Z",
+              "finishedAt": "2026-10-25T02:09:04.626Z"
+            }
+          ]
+        },
+        {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+          "outcome": "HEALTHY",
+          "reason": null,
+          "httpStatus": 200,
+          "finalUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+          "readNetworkBoundary": "INSTALLED",
+          "elapsedMs": 1002,
+          "snapshots": [
+            {
+              "startedAt": "2026-10-25T02:09:03.713Z",
+              "finishedAt": "2026-10-25T02:09:03.714Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:03.815Z",
+              "finishedAt": "2026-10-25T02:09:03.815Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:03.917Z",
+              "finishedAt": "2026-10-25T02:09:03.917Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.020Z",
+              "finishedAt": "2026-10-25T02:09:04.020Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.121Z",
+              "finishedAt": "2026-10-25T02:09:04.121Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.224Z",
+              "finishedAt": "2026-10-25T02:09:04.224Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.325Z",
+              "finishedAt": "2026-10-25T02:09:04.325Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.426Z",
+              "finishedAt": "2026-10-25T02:09:04.426Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.527Z",
+              "finishedAt": "2026-10-25T02:09:04.527Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.627Z",
+              "finishedAt": "2026-10-25T02:09:04.627Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "LAST_SNAPSHOT_220MS",
+      "artifactPath": "slow-last-snapshot/source-health.json",
+      "delayed": 1,
+      "observations": [
+        {
+          "sourceId": "tabelog",
+          "url": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+          "outcome": "HEALTHY",
+          "reason": null,
+          "httpStatus": 200,
+          "finalUrl": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+          "readNetworkBoundary": "INSTALLED",
+          "elapsedMs": 1001,
+          "snapshots": [
+            {
+              "startedAt": "2026-10-25T02:09:04.717Z",
+              "finishedAt": "2026-10-25T02:09:04.717Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.818Z",
+              "finishedAt": "2026-10-25T02:09:04.818Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.919Z",
+              "finishedAt": "2026-10-25T02:09:04.919Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.019Z",
+              "finishedAt": "2026-10-25T02:09:05.019Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.120Z",
+              "finishedAt": "2026-10-25T02:09:05.120Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.222Z",
+              "finishedAt": "2026-10-25T02:09:05.222Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.323Z",
+              "finishedAt": "2026-10-25T02:09:05.323Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.424Z",
+              "finishedAt": "2026-10-25T02:09:05.424Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.525Z",
+              "finishedAt": null
+            }
+          ]
+        },
+        {
+          "sourceId": "tablecheck",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+          "outcome": "HEALTHY",
+          "reason": null,
+          "httpStatus": 200,
+          "finalUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+          "readNetworkBoundary": "INSTALLED",
+          "elapsedMs": 1001,
+          "snapshots": [
+            {
+              "startedAt": "2026-10-25T02:09:04.717Z",
+              "finishedAt": "2026-10-25T02:09:04.717Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.818Z",
+              "finishedAt": "2026-10-25T02:09:04.818Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:04.919Z",
+              "finishedAt": "2026-10-25T02:09:04.919Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.019Z",
+              "finishedAt": "2026-10-25T02:09:05.019Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.120Z",
+              "finishedAt": "2026-10-25T02:09:05.120Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.222Z",
+              "finishedAt": "2026-10-25T02:09:05.222Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.323Z",
+              "finishedAt": "2026-10-25T02:09:05.323Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.424Z",
+              "finishedAt": "2026-10-25T02:09:05.424Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.525Z",
+              "finishedAt": "2026-10-25T02:09:05.525Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.627Z",
+              "finishedAt": "2026-10-25T02:09:05.627Z"
+            },
+            {
+              "startedAt": "2026-10-25T02:09:05.718Z",
+              "finishedAt": "2026-10-25T02:09:05.718Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
