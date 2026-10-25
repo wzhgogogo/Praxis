@@ -1,0 +1,39 @@
+✖ recorded document redirects reach the qualified final snapshot through real Chromium and Guard (124.606416ms)
+✔ redirect qualification cannot promote an unqualified final page, missing hop or cycle (3.302167ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 417.198708
+
+✖ failing tests:
+
+test at src/harness/browser/runner-replay.test.ts:1:4578
+✖ recorded document redirects reach the qualified final snapshot through real Chromium and Guard (124.606416ms)
+  AssertionError [ERR_ASSERTION]: a recorded301 to a qualified final document must not be rejected before snapshot1
+  + actual - expected
+  
+  + [
+  +   {
+  +     origin: 'http://127.0.0.1:60053',
+  +     pathname: '/first',
+  +     reason: 'DOCUMENT_NOT_QUALIFIED',
+  +     snapshot: 1
+  +   }
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/runner-replay.test.ts:61:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ { snapshot: 1, origin: 'http://127.0.0.1:60053', pathname: '/first', reason: 'DOCUMENT_NOT_QUALIFIED' } ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }

@@ -1,0 +1,42 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)",
+    "node",
+    "--import",
+    "tsx",
+    "src/eval/restaurant/agent-loop/runners/run-recorded-read.ts",
+    "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/inputs/config.json",
+    "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/f5-red"
+  ],
+  "exitCode": 1,
+  "startedAtCET": "2026-10-25T21:41:30.418231+01:00",
+  "testedCommit": "7db749470c8e49c1515e098609b03fcda71b0941",
+  "orchestrationSha256": "ee00dd697eaad8a22b2472fa640017429b32923b555ae4f8ca976183b1beccf7",
+  "configSha256": "beb94b009c018444392b94c767e5caa213bf023c173f0cb5af503f4f57f2e96c",
+  "summary": {
+    "executionSource": "REPLAY",
+    "modelMode": "ORIGINAL",
+    "recordingSha256": "06d2a89045a4ac6b6a729b89428b72989d003339ab0ee8b755dfeab1d4aca7c7",
+    "harSha256": "194fb4eb5fc721dedfbfdfb88d89ff5dc0b464aee7a76d839b15c34c0afb429f",
+    "decisionSha256": "394abf748feda1788466fd38634124a63416ccccdf8bc88ea019f4482b9d0603",
+    "liveCapabilityDenominator": "EXCLUDED",
+    "status": "REPLAY_INCOMPLETE",
+    "stop": {
+      "snapshot": 1,
+      "origin": "https://tabelog.com",
+      "pathname": "/en/tokyo/rstLst/",
+      "reason": "DOCUMENT_NOT_QUALIFIED"
+    },
+    "consumedPages": 0,
+    "recordedPages": 94,
+    "consumedDecisions": 2,
+    "recordedDecisions": 39,
+    "modelTransportCalls": 0,
+    "resultPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/f5-red/execution/2026-10-25T08-40-47-142Z-ba0fe2a2-8da9-4478-a7c2-d1afd396e77d.result.json"
+  },
+  "realModelCalls": 0,
+  "realGoogleCalls": 0,
+  "realWebsiteCalls": 0
+}

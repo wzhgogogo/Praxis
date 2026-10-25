@@ -29,6 +29,31 @@ export async function loadReplayRecording(directory: string, outputHar: string) 
     if(manifest.replay?.status!=="NOT_REPLAYABLE"||!(error&&typeof error==='object'&&'code' in error&&error.code==='ENOENT'))throw error;
     har={log:{version:"1.2",creator:{name:"Praxis replay",version:"1"},entries:[]}};
   }
+  // A document request may reach its qualified snapshot through recorded
+  // redirects. Only complete, unambiguous HAR chains may inherit eligibility;
+  // diagnostic DOMs and arbitrary HAR documents never become qualifications.
+  const redirects=new Map<string,string>(),ambiguous=new Set<string>();
+  for(const entry of har.log.entries){
+    if(entry.request.method!=="GET"||![301,302,303,307,308].includes(entry.response.status))continue;
+    const location=entry.response.headers?.find((header:any)=>String(header.name).toLowerCase()==="location")?.value;
+    if(typeof location!=="string"||!location)continue;
+    try{
+      const target=new URL(location,entry.request.url);
+      if(!/^https?:$/.test(target.protocol)||target.username||target.password)continue;
+      const destination=target.toString(),from=entry.request.url;
+      if(entry.response.redirectURL&&new URL(entry.response.redirectURL,from).toString()!==destination
+        ||redirects.has(from)&&redirects.get(from)!==destination){ambiguous.add(from);continue;}
+      redirects.set(from,destination);
+    }catch{/* Invalid recorded redirects cannot confer document eligibility. */}
+  }
+  for(const url of ambiguous)redirects.delete(url);
+  const reachable=new Set([...allowed].filter(url=>!redirects.has(url)&&!ambiguous.has(url)));
+  for(let remaining=redirects.size;remaining>0;remaining--){
+    const previous=reachable.size;
+    for(const [from,to] of redirects)if(reachable.has(to))reachable.add(from);
+    if(reachable.size===previous)break;
+  }
+  for(const url of reachable)allowed.add(url);
   har.log.entries=har.log.entries.filter((entry:any)=> !/html/i.test(entry.response.content.mimeType)||allowed.has(entry.request.url));
   const filtered=JSON.stringify(har);
   await writeFile(outputHar,filtered,{flag:"wx"});
