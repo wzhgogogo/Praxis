@@ -1,0 +1,546 @@
+{
+  "schema": "f5-slot-metrics@1",
+  "method": "Timestamped span partition; models override nested browser intervals. UNATTRIBUTED is not invented.",
+  "elapsedMs": 500338,
+  "wallTimePartitionMs": {
+    "UNATTRIBUTED": 83886,
+    "MODEL:restaurant_semantic_interpret": 3474,
+    "MODEL:restaurant_agent_decide": 31466,
+    "PAGE_LOAD": 164702,
+    "WAIT": 74819,
+    "MODEL:restaurant_discovery_retrieval": 18551,
+    "MODEL:browser_read_decide": 105034,
+    "MODEL:restaurant_fact_judgment": 16095,
+    "OTHER_BROWSER": 2311
+  },
+  "modelPurposeLatencyMs": {
+    "restaurant_semantic_interpret": 3474,
+    "restaurant_agent_decide": 31466,
+    "restaurant_discovery_retrieval": 18551,
+    "browser_read_decide": 108129,
+    "restaurant_fact_judgment": 16095
+  },
+  "stageTimings": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 500338,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "MODEL_DECISION:browser_read_decide",
+        "elapsedMs": 105034,
+        "percent": 20.992608996318488
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:22cd98fb641bd813a35745af:RESOLUTION",
+        "elapsedMs": 36194,
+        "percent": 7.2339098769232
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_agent_decide",
+        "elapsedMs": 31466,
+        "percent": 6.288948670698607
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:0d56ed154080df9317f9d79d:RESOLUTION",
+        "elapsedMs": 27008,
+        "percent": 5.39795098513405
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:07b0ba0daee00150d6d202e1:RESOLUTION",
+        "elapsedMs": 23761,
+        "percent": 4.748989682974309
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:0d56ed154080df9317f9d79d:RESOLUTION",
+        "elapsedMs": 21780,
+        "percent": 4.353057333242727
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:f93797735808708abd68d4ed:RESOLUTION",
+        "elapsedMs": 20003,
+        "percent": 3.997897421343172
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:c446fe0b901cca8ffb43b42e:RESOLUTION",
+        "elapsedMs": 19993,
+        "percent": 3.9958987724298374
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:eeef0764e717b448bb9ff78b:RESOLUTION",
+        "elapsedMs": 18621,
+        "percent": 3.7216841415203326
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+        "elapsedMs": 18551,
+        "percent": 3.7076935991269906
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+        "elapsedMs": 17066,
+        "percent": 3.4108942354968046
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+        "elapsedMs": 16803,
+        "percent": 3.3583297690761045
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:DETAIL",
+        "elapsedMs": 16151,
+        "percent": 3.2280178599266893
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_fact_judgment",
+        "elapsedMs": 16095,
+        "percent": 3.2168254260120164
+      },
+      {
+        "stage": "FACTS:TABLECHECK:tablecheck:kawaei",
+        "elapsedMs": 15334,
+        "percent": 3.064728243707254
+      },
+      {
+        "stage": "FACTS:TABLECHECK:tablecheck:underground-akabane",
+        "elapsedMs": 15186,
+        "percent": 3.035148239789902
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:730456c8617b43baf817287d:RESOLUTION",
+        "elapsedMs": 9706,
+        "percent": 1.939888635282549
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:22cd98fb641bd813a35745af:RESOLUTION",
+        "elapsedMs": 8913,
+        "percent": 1.7813957764551165
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:f93797735808708abd68d4ed:RESOLUTION",
+        "elapsedMs": 7812,
+        "percent": 1.5613445310969785
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:eeef0764e717b448bb9ff78b:RESOLUTION",
+        "elapsedMs": 6329,
+        "percent": 1.2649448972494595
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:c446fe0b901cca8ffb43b42e:RESOLUTION",
+        "elapsedMs": 6057,
+        "percent": 1.2105816468067587
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:SEARCH",
+        "elapsedMs": 5429,
+        "percent": 1.0850664950493467
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+        "elapsedMs": 5328,
+        "percent": 1.0648801410246673
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:07b0ba0daee00150d6d202e1:RESOLUTION",
+        "elapsedMs": 4195,
+        "percent": 0.8384332191438587
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:730456c8617b43baf817287d:RESOLUTION",
+        "elapsedMs": 4036,
+        "percent": 0.8066547014218389
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:underground-akabane:REQUEST_AND_RESULT",
+        "elapsedMs": 3915,
+        "percent": 0.7824710495704903
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:kawaei:REQUEST_AND_RESULT",
+        "elapsedMs": 3852,
+        "percent": 0.7698795614164824
+      },
+      {
+        "stage": "SEMANTIC",
+        "elapsedMs": 3474,
+        "percent": 0.6943306324924351
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:730456c8617b43baf817287d:REQUEST_AND_RESULT",
+        "elapsedMs": 3356,
+        "percent": 0.670746575315087
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:kawaei:RESOLUTION",
+        "elapsedMs": 2718,
+        "percent": 0.5432327746443404
+      },
+      {
+        "stage": "SEARCH_RESTAURANTS",
+        "elapsedMs": 2656,
+        "percent": 0.530841151381666
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:underground-akabane:RESOLUTION",
+        "elapsedMs": 2637,
+        "percent": 0.5270437184463302
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 354,
+        "percent": 0.07075217153204434
+      },
+      {
+        "stage": "CHECK_AVAILABILITY",
+        "elapsedMs": 177,
+        "percent": 0.03537608576602217
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+        "elapsedMs": 126,
+        "percent": 0.025182976308015782
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+        "elapsedMs": 126,
+        "percent": 0.025182976308015782
+      },
+      {
+        "stage": "FACTS",
+        "elapsedMs": 96,
+        "percent": 0.019187029568012024
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 3474,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 1672,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 3,
+        "latencyMs": 2610,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 4,
+        "latencyMs": 5015,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 5,
+        "latencyMs": 3218,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 6,
+        "latencyMs": 6658,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 7,
+        "latencyMs": 7933,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 8,
+        "latencyMs": 4790,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 9,
+        "latencyMs": 3621,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 10,
+        "latencyMs": 2995,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 11,
+        "latencyMs": 2262,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 12,
+        "latencyMs": 2093,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 13,
+        "latencyMs": 4227,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 14,
+        "latencyMs": 3989,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 15,
+        "latencyMs": 1663,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 16,
+        "latencyMs": 2359,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 17,
+        "latencyMs": 3227,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 18,
+        "latencyMs": 3729,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 19,
+        "latencyMs": 2055,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 20,
+        "latencyMs": 2743,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 21,
+        "latencyMs": 5085,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 22,
+        "latencyMs": 3150,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 23,
+        "latencyMs": 2979,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 24,
+        "latencyMs": 5152,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 25,
+        "latencyMs": 6298,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 26,
+        "latencyMs": 3379,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 27,
+        "latencyMs": 4586,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 28,
+        "latencyMs": 2545,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 29,
+        "latencyMs": 2821,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 30,
+        "latencyMs": 3895,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 31,
+        "latencyMs": 6672,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 32,
+        "latencyMs": 3877,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 33,
+        "latencyMs": 5379,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 34,
+        "latencyMs": 2854,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 35,
+        "latencyMs": 14127,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 36,
+        "latencyMs": 2541,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 37,
+        "latencyMs": 2137,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 38,
+        "latencyMs": 6697,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 39,
+        "latencyMs": 2680,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 40,
+        "latencyMs": 3931,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 41,
+        "latencyMs": 7668,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 42,
+        "latencyMs": 5440,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 43,
+        "latencyMs": 3489,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  },
+  "firstQualifiedEvidenceAt": null,
+  "firstQualifiedDefinition": "Earliest completion of independently supported presented proof set; not a claim about unpresented candidates. Raw supported truth checked independently; timestamps only locate observations.",
+  "presentedAt": null,
+  "witnessFunnel": [
+    {
+      "outletName": "Kushi Katsu Dengana Akabane ten",
+      "sourceId": "13108466",
+      "discovery": {
+        "status": "NOT_FOUND",
+        "candidateIds": [],
+        "possibleCandidateIds": [],
+        "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+      },
+      "identity": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "facts": {
+        "status": "NOT_EVALUATED",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [],
+        "witness": "AVAILABLE",
+        "observedAt": "2026-10-25T01:07:23.132653+01:00",
+        "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+      },
+      "presented": "NO",
+      "feasible": "SUPPORTED",
+      "blocker": {
+        "stage": "DISCOVERY",
+        "certainty": "HYPOTHESIS",
+        "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+      },
+      "evidenceRefs": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+        ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+      ]
+    }
+  ],
+  "replayability": {
+    "total": 101,
+    "replayable": 7,
+    "ratio": 0.06930693069306931,
+    "reasonDistribution": {
+      "SANITIZED_NETWORK_AND_DOM_CAPTURE": 7,
+      "UNCAPTURED_STATIC_DEPENDENCY": 92,
+      "UNSAFE_DOCUMENT": 2
+    }
+  },
+  "uncapturedScriptOriginPaths": [
+    "https://assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+    "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+    "https://tblg.k-img.com/javascripts/s_code.js",
+    "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+    "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+    "https://umami-next.post.tablecheck.com/script.js",
+    "https://www.tablecheck.com/portal/assets/index-DUt7bgp8.js",
+    "https://www.tablecheck.com/portal/assets/index-m1GDPVCL.js"
+  ],
+  "akabaneControls": [],
+  "unusedAkabaneControls": []
+}
