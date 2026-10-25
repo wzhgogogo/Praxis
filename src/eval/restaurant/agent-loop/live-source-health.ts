@@ -14,6 +14,7 @@ type Check=typeof checks[number];
 export interface LiveSourceHealthObservation {
  sourceId:string;url:string;outcome:'HEALTHY'|'UNHEALTHY';reason:string|null;httpStatus:number|null;
  finalUrl?:string;readNetworkBoundary?:string;elapsedMs?:number;networkDiagnostics?:BrowserSnapshot['networkDiagnostics'];
+ snapshots?:Array<{startedAt:string;finishedAt:string|null}>;
 }
 interface Dependencies {
  runtime?:BrowserRuntime;
@@ -37,9 +38,25 @@ export function liveSourcePageIssue(sourceId:string,page:BrowserSnapshot,status:
 async function observe(check:Check,runtime:BrowserRuntime,timeoutMs:number):Promise<LiveSourceHealthObservation>{
  const started=Date.now(),controller=new AbortController();let session:Awaited<ReturnType<BrowserRuntime['openSession']>>|undefined;
  let httpStatus:number|null=null,failedStatus:number|null=null;
- const aborted=new Promise<never>((_resolve,reject)=>controller.signal.addEventListener('abort',()=>reject(Error('SOURCE_CHECK_TIMEOUT')),{once:true}));
- const timer=setTimeout(()=>controller.abort(),timeoutMs);
+ let page:BrowserSnapshot|undefined,readyFromPage=false;
+ const snapshots:NonNullable<LiveSourceHealthObservation['snapshots']>=[];
  const base={sourceId:check.sourceId,url:check.url};
+ const observation=(failure?:string):LiveSourceHealthObservation=>{
+  const status=failedStatus??httpStatus;
+  const reason=failure??(page?liveSourcePageIssue(check.sourceId,page,status)
+   ??(status!==null&&status>=200&&status<300&&readyFromPage?null:'RESULT_NOT_OBSERVED'):'CHECK_TIMEOUT');
+  return {...base,outcome:reason?'UNHEALTHY':'HEALTHY',reason,httpStatus:status,
+   ...(page?{finalUrl:page.url,networkDiagnostics:page.networkDiagnostics}:{}),
+   ...(session?.metadata.readNetworkBoundary?{readNetworkBoundary:session.metadata.readNetworkBoundary}:{}),
+   elapsedMs:Date.now()-started,snapshots:structuredClone(snapshots)};
+ };
+ // The hard deadline settles from completed observations before aborting any
+ // in-flight snapshot. A late snapshot cannot turn known ready content into a
+ // timeout, and it cannot extend the observation window or overwrite its result.
+ let timer:ReturnType<typeof setTimeout>;
+ const deadline=new Promise<LiveSourceHealthObservation>(resolve=>{timer=setTimeout(()=>{
+  resolve(observation());controller.abort();
+ },timeoutMs);});
  try{
   return await Promise.race([(async()=>{
    session=await runtime.openSession({signal:controller.signal,networkPolicy:restaurantPublicReadNetworkPolicy,recordResponse:r=>{
@@ -52,22 +69,23 @@ async function observe(check:Check,runtime:BrowserRuntime,timeoutMs:number):Prom
    await session.navigate(check.url,{waitUntil:'domcontentloaded',timeoutMs});
    const pack=restaurantDiscoveryPacks.find(p=>p.meta.id===check.sourceId)!;
    while(!controller.signal.aborted){
-    const page=await session.snapshot(),reason=liveSourcePageIssue(check.sourceId,page,failedStatus??httpStatus);
-    if(reason)return {...base,outcome:'UNHEALTHY' as const,reason,httpStatus:failedStatus??httpStatus,finalUrl:page.url,readNetworkBoundary:session.metadata.readNetworkBoundary,networkDiagnostics:page.networkDiagnostics,elapsedMs:Date.now()-started};
-    // A result can precede a later failed facet. Keep observing for the whole
-    // bounded window rather than declaring health at the first visible card.
-    if(Date.now()-started>=Math.max(1,timeoutMs-100)){
-     const ready=httpStatus!==null&&httpStatus>=200&&httpStatus<300
-       &&(pack.parseListing(page).outlets.length>0||pack.browser!.isExplicitEmptyListing?.(page));
-     return {...base,outcome:ready?'HEALTHY' as const:'UNHEALTHY' as const,reason:ready?null:'RESULT_NOT_OBSERVED',httpStatus,finalUrl:page.url,readNetworkBoundary:session.metadata.readNetworkBoundary,elapsedMs:Date.now()-started};
-    }
-    await delay(Math.min(100,Math.max(1,timeoutMs-100-(Date.now()-started))),undefined,{signal:controller.signal});
+    const timing={startedAt:new Date().toISOString(),finishedAt:null as string|null};snapshots.push(timing);
+    let next:BrowserSnapshot;
+    try{next=await session.snapshot();}catch(error){if(!controller.signal.aborted)timing.finishedAt=new Date().toISOString();throw error;}
+    if(controller.signal.aborted)throw Error('SOURCE_CHECK_TIMEOUT');
+    timing.finishedAt=new Date().toISOString();page=next;
+    const reason=liveSourcePageIssue(check.sourceId,page,failedStatus??httpStatus);
+    if(reason)return observation(reason);
+    // Evaluate every completed snapshot, retaining the full window to detect
+    // later busy/challenge/HTTP failures instead of accepting the first card.
+    readyFromPage=Boolean(pack.parseListing(page).outlets.length>0||pack.browser!.isExplicitEmptyListing?.(page));
+    await delay(Math.min(100,Math.max(1,timeoutMs-(Date.now()-started))),undefined,{signal:controller.signal});
    }
    throw Error('SOURCE_CHECK_TIMEOUT');
-  })(),aborted]);
+  })(),deadline]);
  }catch{
-  return {...base,outcome:'UNHEALTHY',reason:controller.signal.aborted?'CHECK_TIMEOUT':'BROWSER_READ_FAILED',httpStatus:failedStatus??httpStatus,...(session?.metadata.readNetworkBoundary?{readNetworkBoundary:session.metadata.readNetworkBoundary}:{}),elapsedMs:Date.now()-started};
- }finally{clearTimeout(timer);controller.abort();await session?.close();}
+  return observation(controller.signal.aborted?'CHECK_TIMEOUT':'BROWSER_READ_FAILED');
+ }finally{clearTimeout(timer!);controller.abort();await session?.close();}
 }
 
 /** Three pre-run checks at most, five minutes apart. No model, Google, or formal Live work. */
