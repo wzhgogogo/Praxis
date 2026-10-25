@@ -129,10 +129,8 @@ interface MenuMarkupNode {
 }
 
 function isMenuContainer(markup: string): boolean {
-  const classes = (markupAttribute(markup, "class") ?? "").split(/\s+/).filter(Boolean);
-  // `menu-item-data` is metadata inside the outer menu item; labels such as
-  // `menu-item-title` and `menu-item-description` are siblings, not scopes.
-  return classes.some((value) => value.toLowerCase() === "menu-item");
+  // Metadata/title/description classes belong inside the outer `menu-item`.
+  return /(?:^|\s)menu-item(?:\s|$)/i.test(markupAttribute(markup, "class") ?? "");
 }
 
 /** Remove markup that browsers do not expose as DOM menu content, preserving offsets. */
@@ -177,60 +175,47 @@ export function parseTableCheckScopedMenuSourcePartition(
   snapshot: BrowserSnapshot,
   controls: readonly BrowserPageControl[],
 ): TableCheckScopedMenuSourcePartition {
-  if (!isTableCheckUrl(snapshot.url)) return { scoped: [], unscopedText: sourceText(tableCheckDomMarkup(snapshot.html)) };
-  const scopes = observedTableCheckServiceScopes(controls);
-  if (!scopes.size) return { scoped: [], unscopedText: sourceText(tableCheckDomMarkup(snapshot.html)) };
   const html = tableCheckDomMarkup(snapshot.html);
+  if (!isTableCheckUrl(snapshot.url)) return { scoped: [], unscopedText: sourceText(html) };
+  const scopes = observedTableCheckServiceScopes(controls);
+  if (!scopes.size) return { scoped: [], unscopedText: sourceText(html) };
   const nodes: MenuMarkupNode[] = [];
-  const completed: Array<MenuMarkupNode & { end: number }> = [];
+  const excerpts = new Map<string, TableCheckScopedMenuExcerpt>();
+  const scopedRanges: Array<{ start: number; end: number }> = [];
   const voidTags = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]);
   const tags = /<\s*(\/?)\s*([a-z][\w-]*)\b[^>]*>/gi;
   for (let match = tags.exec(html); match; match = tags.exec(html)) {
-    const closing = match[1] === "/";
     const name = match[2]!.toLowerCase();
     const markup = match[0];
-    if (!closing) {
-      const categories = menuCategoryValues(markup);
-      if (categories.length) {
-        const owner = [...nodes].reverse().find((item) => item.menuContainer);
-        if (owner) categories.forEach((value) => owner.categories.add(value));
-      }
+    if (match[1] !== "/") {
+      const owner = nodes.findLast(item => item.menuContainer);
+      for (const value of menuCategoryValues(markup)) owner?.categories.add(value);
       if (!voidTags.has(name) && !/\/\s*>$/.test(markup)) {
         nodes.push({ name, start: match.index, contentStart: tags.lastIndex, menuContainer: isMenuContainer(markup), categories: new Set<string>() });
       }
       continue;
     }
-    const index = nodes.map((node) => node.name).lastIndexOf(name);
+    const index = nodes.findLastIndex(node => node.name === name);
     if (index < 0) continue;
-    // A closing ancestor also closes any malformed unclosed descendants. Drop
-    // those descendants rather than letting their categories leak into the
-    // next sibling menu item.
-    const [node] = nodes.splice(index, nodes.length - index);
-    if (node?.menuContainer && node.categories.size) completed.push({ ...node, end: match.index });
-  }
-  const excerpts: TableCheckScopedMenuExcerpt[] = [];
-  const scopedRanges: Array<{ start: number; end: number }> = [];
-  const seen = new Set<string>();
-  for (const item of completed) {
-    const text = sourceText(html.slice(item.contentStart, item.end));
+    // Drop malformed descendants when their ancestor closes; they must not
+    // carry category ownership into a later sibling.
+    const [node] = nodes.splice(index);
+    if (!node?.menuContainer || !node.categories.size) continue;
+    const text = sourceText(html.slice(node.contentStart, match.index));
     if (!text) continue;
-    let hasObservedScope = false;
-    for (const value of item.categories) {
-      const serviceScope = scopes.get(value);
-      if (!serviceScope) continue;
-      hasObservedScope = true;
+    const observed = [...node.categories].map(value => scopes.get(value))
+      .filter((scope): scope is RestaurantServiceScope => scope !== undefined);
+    for (const serviceScope of observed) {
       const fingerprint = `${serviceScope.field}\u0000${serviceScope.group}\u0000${serviceScope.value}\u0000${text}`;
-      if (seen.has(fingerprint)) continue;
-      seen.add(fingerprint);
-      excerpts.push({ serviceScope, text });
+      excerpts.set(fingerprint, { serviceScope, text });
     }
-    if (hasObservedScope) scopedRanges.push({ start: item.start, end: item.end });
+    if (observed.length) scopedRanges.push({ start: node.start, end: match.index });
   }
   let unscopedMarkup = html;
   for (const range of scopedRanges.sort((left, right) => right.start - left.start)) {
     unscopedMarkup = `${unscopedMarkup.slice(0, range.start)}${" ".repeat(range.end - range.start)}${unscopedMarkup.slice(range.end)}`;
   }
-  return { scoped: excerpts, unscopedText: sourceText(unscopedMarkup) };
+  return { scoped: [...excerpts.values()], unscopedText: sourceText(unscopedMarkup) };
 }
 
 export function parseTableCheckScopedMenuExcerpts(
