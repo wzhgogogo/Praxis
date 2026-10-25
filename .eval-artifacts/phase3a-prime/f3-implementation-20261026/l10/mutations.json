@@ -1,0 +1,18 @@
+[
+  {
+    "id": "menu-container-is-not-title-prefix",
+    "testPath": "src/integrations/tablecheck/tablecheck-browser-availability.test.ts",
+    "pattern": "TableCheck reads scoped menu text only",
+    "sourceMutations": [
+      {
+        "path": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+        "replacements": [
+          [
+            "return classes.some((value) => value.toLowerCase() === \"menu-item\");",
+            "return classes.some((value) => value.toLowerCase().startsWith(\"menu-item\"));"
+          ]
+        ]
+      }
+    ]
+  }
+]

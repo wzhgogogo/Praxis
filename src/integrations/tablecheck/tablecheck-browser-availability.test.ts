@@ -219,6 +219,7 @@ test("TableCheck reads scoped menu text only from a real outer menu item", () =>
   const scoped = '<article class="menu-item"><h3 class="menu-item-title">Sushi Omakase</h3><div class="menu-item-data" data-service-categories="[&quot;sushi&quot;]"></div><p class="menu-item-description">Twelve pieces</p><input name="irrelevant"></article>';
   const snapshot = (html: string): BrowserSnapshot => ({ url: "https://www.tablecheck.com/en/shops/example/reserve", title: "Example", text: "", html });
   assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped), [scopeControl]).map((item) => ({ value: item.serviceScope.value, text: item.text })), [{ value: "sushi", text: "Sushi Omakase\nTwelve pieces" }]);
+  assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped.replace('class="menu-item"', 'class="menu-item-title"')), [scopeControl]), [], "a title class prefix is not an outer menu container");
   for (const hiddenMarkup of [
     `<!-- ${scoped} -->`,
     `<style>${scoped}</style>`,
