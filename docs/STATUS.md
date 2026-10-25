@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.392
+- Document revision: 4.393
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-F5-LIVE-PREPARED:** 用户批准六次串行F5 Live；实现分支已重放到最新main/4d927958，双方账本9条并集、历史记录保留，五门禁1046/154全绿且每项前后净树。348项SHA包已提交冻结，实际Runner Loader校验通过；日期11-04/11-07仍有效，Dengana公开GET2次再认证通过，共享累计网站GET4。凭据检查被自动审批按旧“不读.env”限制拒绝，未读密钥，已请求这6次Runner的加载例外；六slot均NOT_RUN，模型/Google/Live新增0，尚未到停止点3，不合并main。[报告](../.eval-artifacts/phase3a-prime/f5-live/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-STOP2-GOOGLE-CAPTURE:** 停止点2复核两补丁完成：F2③静态免租约先合入main/1a736c88；F2④b在新main祖先上补正式Google原始响应HAR捕获，手工fixture追加退役，写前/落盘后扫描拒绝密钥。两项五门禁1028/148与1032/153全绿，各项后净工作树，依授权再合F2④b并推送。新增真实调用0，3864/473行不增。 [报告](../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/report.md)。
 

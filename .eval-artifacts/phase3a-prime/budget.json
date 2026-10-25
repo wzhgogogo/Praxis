@@ -10,6 +10,13 @@
       "case03Optional": 1,
       "maxCandidates": 5,
       "minSerialGapSeconds": 5
+    },
+    "f5Stop3": {
+      "fullLive": 6,
+      "realModelCalls": 300,
+      "environmentReruns": 2,
+      "preLiveWitnessGET": 2,
+      "postDeliveryGET": "One approved four-parameter GET per actually displayed Tabelog request binding"
     }
   },
   "entries": [
@@ -101,15 +108,48 @@
       "error": null,
       "sha256": "3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976",
       "finishedAtVienna": "2026-10-24T04:33:46.901350+02:00"
+    },
+    {
+      "id": "f5-certification-prelive-get-1",
+      "kind": "WITNESS_PUBLIC_GET",
+      "startedAtVienna": "2026-10-25T01:07:13.210231+01:00",
+      "websiteGET": 1,
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "requestMetadata": ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/01-13108466-detail.metadata.json",
+      "status": "FINISHED",
+      "httpStatus": 200,
+      "error": null,
+      "sha256": "b4e0b00f3d919ec558ff5fed65b15eb4367056399418f34787544861ca729fe1",
+      "finishedAtVienna": "2026-10-25T01:07:16.259418+01:00"
+    },
+    {
+      "id": "f5-certification-prelive-get-2",
+      "kind": "WITNESS_PUBLIC_GET",
+      "startedAtVienna": "2026-10-25T01:07:21.269600+01:00",
+      "websiteGET": 1,
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "requestMetadata": ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.metadata.json",
+      "status": "FINISHED",
+      "httpStatus": 200,
+      "error": null,
+      "sha256": "3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976",
+      "finishedAtVienna": "2026-10-25T01:07:23.132653+01:00"
     }
   ],
   "cumulative": {
-    "websiteGET": 2,
+    "websiteGET": 4,
     "environmentReruns": 0,
     "fullLive": 0,
     "realModelCalls": 0
   },
-  "asOf": "2026-10-25T00:51:51.796341+01:00",
+  "asOf": "2026-10-25T01:07:23.133930+01:00",
   "timezone": "CET UTC+01:00 per user",
-  "f5PublicGetApproval": "Explicit user correction,2026-10-24 Europe/Vienna: case01 public detail+four-param vacancy GET permitted; noCookie/login/form/model; commit scripts first; repeat within24h before approved Live."
+  "f5PublicGetApproval": "Explicit user correction,2026-10-24 Europe/Vienna: case01 public detail+four-param vacancy GET permitted; noCookie/login/form/model; commit scripts first; repeat within24h before approved Live.",
+  "f5Stop3Approval": "User stop2 review approved six serial F5 Live runs, current CET date2026-10-25; credential env-file exception remains pending after automatic rejection."
 }
