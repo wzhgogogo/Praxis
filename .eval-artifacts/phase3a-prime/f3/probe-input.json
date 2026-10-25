@@ -1,0 +1,124 @@
+{
+  "schema": "f3-offline-observation-input@1",
+  "sourceBase": "e096ba35dbc77d6852fa4875dbeadaae92835ffe",
+  "network": "fixture maps abort all missing requests; type probe uses loopback only; no credentials/profile/model",
+  "classCases": [
+    {
+      "file": "src/harness/browser/fixtures/tabelog-teppen-calendar-20260929.html",
+      "provenance": "src/harness/browser/fixtures/tabelog-teppen-calendar-20260929.html.provenance.json",
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13308491/",
+      "capturedOn": "2026-09-29",
+      "source": "TABELOG"
+    },
+    {
+      "file": "src/harness/browser/fixtures/tabelog-sen-no-slots-20261010.html",
+      "provenance": "src/harness/browser/fixtures/tabelog-sen-no-slots-20261010.html.provenance.json",
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+      "capturedOn": "2026-10-10",
+      "source": "TABELOG"
+    },
+    {
+      "file": "src/harness/browser/fixtures/tablecheck-search-control-20260929.html",
+      "provenance": "src/harness/browser/fixtures/tablecheck-search-control-20260929.html.provenance.json",
+      "url": "https://www.tablecheck.com/en/japan",
+      "capturedOn": "2026-09-29",
+      "source": "TABLECHECK"
+    },
+    {
+      "file": "src/harness/browser/fixtures/tablecheck-ginza-card-20260929.html",
+      "provenance": "src/harness/browser/fixtures/tablecheck-ginza-card-20260929.html.provenance.json",
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.65860374437126&geo_longitude=139.74541383382513&search_text=omakase+ginza",
+      "capturedOn": "2026-09-29",
+      "source": "TABLECHECK"
+    }
+  ],
+  "dateStates": [
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01"
+  ],
+  "availabilityRequests": [
+    {
+      "date": "2026-10-22",
+      "partySize": 2,
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:00"
+      }
+    },
+    {
+      "date": "2026-09-29",
+      "partySize": 2,
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:00"
+      }
+    }
+  ],
+  "typeCases": [
+    {
+      "id": "fetch-natural",
+      "type": "fetch",
+      "types": [
+        "fetch"
+      ],
+      "deferNetwork": false,
+      "method": "POST",
+      "extraField": false
+    },
+    {
+      "id": "fetch-deferred",
+      "type": "fetch",
+      "types": [
+        "fetch"
+      ],
+      "deferNetwork": true,
+      "method": "POST",
+      "extraField": false
+    },
+    {
+      "id": "dual-deferred-control",
+      "type": "fetch",
+      "types": [
+        "fetch",
+        "xhr"
+      ],
+      "deferNetwork": true,
+      "method": "POST",
+      "extraField": false
+    },
+    {
+      "id": "xhr-fetch-only",
+      "type": "xhr",
+      "types": [
+        "fetch"
+      ],
+      "deferNetwork": false,
+      "method": "POST",
+      "extraField": false
+    },
+    {
+      "id": "dual-extra-field-denied",
+      "type": "fetch",
+      "types": [
+        "fetch",
+        "xhr"
+      ],
+      "deferNetwork": true,
+      "method": "POST",
+      "extraField": true
+    },
+    {
+      "id": "dual-put-denied",
+      "type": "fetch",
+      "types": [
+        "fetch",
+        "xhr"
+      ],
+      "deferNetwork": true,
+      "method": "PUT",
+      "extraField": false
+    }
+  ]
+}
