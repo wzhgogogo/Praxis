@@ -1,0 +1,31 @@
+✖ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (7824.817625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8123.197667
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-stability.test.ts:6:7419
+✖ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (7824.817625ms)
+  AssertionError [ERR_ASSERTION]: timeout must exercise OPEN_LINK with its remaining navigation budget, not expire during setup
+  + actual - expected
+  
+  + []
+  - [
+  -   5000
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/browser-read-stability.test.ts:149:71)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 5000 ],
+    operator: 'deepStrictEqual'
+  }

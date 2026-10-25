@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.407
-- Last updated: 2026-10-25
+- Document revision: 4.408
+- Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-PHASE3A-F3-TIMING-HYGIENE:** F3对话A时序卫生完成：113测试文件、58候选逐项处理，小候选预算注入时钟/计时器，实际OPEN_LINK保留6.5秒正常与精确5秒余量超时；严格五门禁1054/161全绿，站点3864/Pack473不变，真实调用0。 [报告](../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/report.md)。
 
 - **2026-10-25-PHASE3A-POST-EXIT-EVALUATION-COMPLETE:** 每槽退出即由父进程独立评价及S0核查；单槽CLI和并行Runner均接线，非零退出仍评价，缺产物/规则SHA错误明确未评价。两平台五门禁全绿，默认1054、Chromium161，真实调用0。 [报告](../.eval-artifacts/phase3a-prime/post-exit-evaluation-20261025/report.md)。
 

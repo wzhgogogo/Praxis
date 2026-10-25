@@ -1,0 +1,23 @@
+{
+  "validRedEvidence": "challenges/summary.json",
+  "excludedAttempts": [
+    {
+      "kind": "unfrozen execution after collector failure",
+      "log": "unfrozen-attempt.log",
+      "countAsValidRed": false
+    },
+    {
+      "kind": "collector used unsupported installed TypeScript compiler API",
+      "evidence": "Tool output TypeError: ScriptTarget.Latest unavailable; no raw file saved",
+      "countAsValidRed": false
+    },
+    {
+      "kind": "observed navigate instead of actual openLink port",
+      "logs": [
+        "red.log",
+        "targeted-green.log"
+      ],
+      "countAsValidRed": false
+    }
+  ]
+}

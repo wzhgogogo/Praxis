@@ -1,0 +1,28 @@
+✖ real Chromium protects dedicated-worker fetch redirects (120.852459ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 409.334625
+
+✖ failing tests:
+
+test at .eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/challenges/worker-guard-required/challenge.test.ts:1:18809
+✖ real Chromium protects dedicated-worker fetch redirects (120.852459ms)
+  AssertionError [ERR_ASSERTION]: {"requests":[],"diagnostics":[],"arrivals":["A/page","A/worker.js","A/asset","A/asset-hop","B/forbidden"]}
+  
+  'done' !== 'blocked'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/challenges/worker-guard-required/challenge.test.ts:306:10)
+      at async fixture (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/challenges/worker-guard-required/challenge.test.ts:217:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'done',
+    expected: 'blocked',
+    operator: 'strictEqual'
+  }

@@ -1,8 +1,8 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.300
-- Last updated: 2026-10-25
+- Document revision: 4.301
+- Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -4714,3 +4714,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-25-PHASE3A-POST-EXIT-EVALUATION-COMPLETE
 
 验证源码ce82a545，新增eval父进程监督器；journal提前IPC关联产物，父进程在各槽exit事件重读原产物及冻结独立reviewed-reads，不等整批或stdio关闭。既有授权、预检、节奏上限2、来源90秒/整单500秒预算不改；原F5冻结脚本保留。父进程不改写运行产物，SHA前后核对；评价失败及没有产物明确NOT_EVALUATED。 [报告](../../.eval-artifacts/phase3a-prime/post-exit-evaluation-20261025/report.md)。
+
+## DEV-2026-10-26-PHASE3A-F3-TIMING-HYGIENE
+
+源码d83ff50c；不改生产预算与对话B四文件，E1块原字节保持。40/15/10ms候选与1ms来源余额改为逻辑时钟；非期限目标观察留余量，父就绪30s与外层45s配套。健康slow精确时序、真实31s来源观察和各类真实尺度机制控制保留；行数项独立继续，未冒称达成3591。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/report.md)。
