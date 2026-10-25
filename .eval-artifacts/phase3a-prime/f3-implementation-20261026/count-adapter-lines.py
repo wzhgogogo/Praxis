@@ -1,13 +1,13 @@
 from pathlib import Path
-import subprocess,json,hashlib
+import subprocess,json,hashlib,sys
 
 def git(*args): return subprocess.check_output(['git',*args])
 rows=[]
-for ref in ['025940c5','main']:
+for ref in (sys.argv[1:] or ['025940c5','main']):
  paths=git('ls-tree','-r','--name-only',ref,'src/integrations/tabelog','src/integrations/tablecheck','src/integrations/restaurant-search/source-packs.ts','web-skills/tabelog','web-skills/tablecheck').decode().splitlines()
  entries=[]
  for path in paths:
-  if path.startswith(('src/integrations/tabelog/','src/integrations/tablecheck/')) and path.endswith('.ts') and not path.endswith('.test.ts'): scope='adapter-source'
+  if path.startswith(('src/integrations/tabelog/','src/integrations/tablecheck/')) and path.endswith('.ts') and not path.endswith('.test.ts') and 'fixtures' not in Path(path).parts: scope='adapter-source'
   elif path=='src/integrations/restaurant-search/source-packs.ts': scope='site-pack-source'
   elif path.startswith('web-skills/'): scope='site-skill-document'
   else: continue
