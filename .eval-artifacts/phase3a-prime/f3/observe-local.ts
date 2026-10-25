@@ -55,7 +55,7 @@ for(const spec of input.classCases){
    if(mode==='renamed')transforms.push(...await page.evaluate(()=>{
     const tokens=[...new Set([...document.querySelectorAll('[class]')].flatMap(e=>[...e.classList]))].sort();const map=new Map(tokens.map((s,i)=>[s,`f3_private_${i}`]));
     for(const style of document.querySelectorAll('style')){let text=style.textContent??'';for(const [old,next] of map){const escaped=old.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');text=text.replace(new RegExp('\\.'+escaped+'(?![\\w-])','g'),'.'+next);}style.textContent=text;}
-    for(const node of document.querySelectorAll('[class]'))node.className=[...node.classList].map(s=>map.get(s)??s).join(' ');
+    for(const node of document.querySelectorAll('[class]'))node.setAttribute('class',[...node.classList].map(s=>map.get(s)??s).join(' '));
     return [...map].map(([old,next])=>({old,next}));
    }));
    const after=await page.evaluate(()=>document.body.innerText);assert.equal(after,before,'Class-only transform must preserve visible text');
