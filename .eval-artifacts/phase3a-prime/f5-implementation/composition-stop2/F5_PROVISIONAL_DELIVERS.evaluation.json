@@ -1,0 +1,1300 @@
+{
+  "outcome": {
+    "type": "QUALIFIED_DELIVERY",
+    "reasons": [
+      "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+    ],
+    "evidenceRefs": [
+      "loop",
+      "finalSnapshot.domainState.presentedResults",
+      "finalSnapshot.domainState.availability",
+      "finalSnapshot.domainState.readEvidence"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "YES"
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ]
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/100",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/101",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/102",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "omakase",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    }
+  ],
+  "conditionStateComparisons": [
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/100",
+      "text": "omakase",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_CHECKED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "CONSISTENT"
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/101",
+      "text": "omakase",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_CHECKED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "CONSISTENT"
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/102",
+      "text": "omakase",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "NOT_CHECKED",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "CONSISTENT"
+    }
+  ],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": null,
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 0,
+    "maxConsecutiveNoNewObservation": 1,
+    "noNewObservationRuns": [],
+    "sameFailureRuns": [],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "OBSERVED",
+      "scope": "FULL_RECORDED_NAVIGATIONS",
+      "loads": [
+        {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132201/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132201/?sw=omakase",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/tokyo/A1304/A130401/990/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/tokyo/A1304/A130401/991/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6619707&geo_longitude=139.703795&geo_distance=1km&auto_geolocate=false&search_text=omakase",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1323/",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1323/?sw=omakase",
+          "count": 1,
+          "reloads": 0
+        },
+        {
+          "url": "https://tabelog.com/tokyo/A1304/A130401/100/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/tokyo/A1304/A130401/101/",
+          "count": 3,
+          "reloads": 2
+        },
+        {
+          "url": "https://tabelog.com/tokyo/A1304/A130401/102/",
+          "count": 3,
+          "reloads": 2
+        }
+      ]
+    },
+    "violations": [],
+    "unassessed": []
+  },
+  "effectiveResources": {
+    "status": "SATISFIED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "candidateId": "native-discovery:DIRECTORY",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 2,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 18,
+          "elapsedMs": 12
+        },
+        "refs": [
+          "browserTrace[sequence=1]",
+          "browserTrace[sequence=2]",
+          "browserTrace[sequence=3]",
+          "browserTrace[sequence=5]",
+          "browserTrace[sequence=6]",
+          "browserTrace[sequence=9]",
+          "browserTrace[sequence=12]",
+          "browserTrace[sequence=13]",
+          "browserTrace[sequence=15]",
+          "browserTrace[sequence=16]",
+          "browserTrace[sequence=17]",
+          "browserTrace[sequence=19]",
+          "browserTrace[sequence=20]",
+          "browserTrace[sequence=21]",
+          "browserTrace[sequence=23]",
+          "browserTrace[sequence=24]",
+          "browserTrace[sequence=25]",
+          "browserTrace[sequence=26]",
+          "browserTrace[sequence=27]",
+          "browserTrace[sequence=28]",
+          "browserTrace[sequence=29]",
+          "browserTrace[sequence=32]",
+          "browserTrace[sequence=33]",
+          "browserTrace[sequence=36]",
+          "browserTrace[sequence=37]",
+          "browserTrace[sequence=38]",
+          "browserTrace[sequence=40]",
+          "browserTrace[sequence=41]",
+          "browserTrace[sequence=42]",
+          "browserTrace[sequence=44]",
+          "browserTrace[sequence=45]",
+          "browserTrace[sequence=46]",
+          "browserTrace[sequence=47]",
+          "browserTrace[sequence=48]",
+          "browserTrace[sequence=49]",
+          "browserTrace[sequence=50]",
+          "browserTrace[sequence=51]",
+          "browserTrace[sequence=54]",
+          "browserTrace[sequence=55]",
+          "browserTrace[sequence=58]",
+          "browserTrace[sequence=59]",
+          "browserTrace[sequence=60]",
+          "browserTrace[sequence=62]",
+          "browserTrace[sequence=63]",
+          "browserTrace[sequence=64]",
+          "browserTrace[sequence=66]",
+          "browserTrace[sequence=67]",
+          "browserTrace[sequence=68]",
+          "browserTrace[sequence=71]",
+          "browserTrace[sequence=74]",
+          "browserTrace[sequence=75]",
+          "browserTrace[sequence=77]",
+          "browserTrace[sequence=78]",
+          "browserTrace[sequence=80]",
+          "browserTrace[sequence=83]",
+          "browserTrace[sequence=86]",
+          "browserTrace[sequence=87]",
+          "browserTrace[sequence=89]",
+          "browserTrace[sequence=90]",
+          "browserTrace[sequence=91]",
+          "browserTrace[sequence=94]",
+          "browserTrace[sequence=97]",
+          "browserTrace[sequence=98]",
+          "browserTrace[sequence=100]",
+          "browserTrace[sequence=101]",
+          "browserTrace[sequence=102]",
+          "browserTrace[sequence=103]",
+          "browserTrace[sequence=104]",
+          "browserTrace[sequence=124]",
+          "browserTrace[sequence=125]",
+          "browserTrace[sequence=126]",
+          "browserTrace[sequence=128]",
+          "browserTrace[sequence=129]",
+          "browserTrace[sequence=130]",
+          "browserTrace[sequence=131]",
+          "browserTrace[sequence=132]",
+          "browserTrace[sequence=133]",
+          "browserTrace[sequence=136]",
+          "browserTrace[sequence=139]",
+          "browserTrace[sequence=140]",
+          "browserTrace[sequence=142]",
+          "browserTrace[sequence=143]",
+          "browserTrace[sequence=144]",
+          "browserTrace[sequence=147]",
+          "browserTrace[sequence=150]",
+          "browserTrace[sequence=151]",
+          "browserTrace[sequence=153]",
+          "browserTrace[sequence=154]",
+          "browserTrace[sequence=156]",
+          "browserTrace[sequence=159]",
+          "browserTrace[sequence=162]",
+          "browserTrace[sequence=163]",
+          "browserTrace[sequence=165]",
+          "browserTrace[sequence=166]",
+          "browserTrace[sequence=167]",
+          "browserTrace[sequence=170]",
+          "browserTrace[sequence=173]",
+          "browserTrace[sequence=174]",
+          "browserTrace[sequence=176]",
+          "browserTrace[sequence=177]",
+          "browserTrace[sequence=178]",
+          "browserTrace[sequence=181]",
+          "browserTrace[sequence=184]",
+          "browserTrace[sequence=185]",
+          "browserTrace[sequence=187]",
+          "browserTrace[sequence=188]",
+          "browserTrace[sequence=189]",
+          "browserTrace[sequence=190]",
+          "browserTrace[sequence=191]"
+        ]
+      },
+      {
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "candidateId": "native-discovery:VENUE_SEARCH",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 6,
+          "candidateRuntimeOperations": 2,
+          "elapsedMs": 0
+        },
+        "refs": [
+          "browserTrace[sequence=105]",
+          "browserTrace[sequence=106]",
+          "browserTrace[sequence=107]",
+          "browserTrace[sequence=109]",
+          "browserTrace[sequence=110]",
+          "browserTrace[sequence=113]",
+          "browserTrace[sequence=116]",
+          "browserTrace[sequence=117]",
+          "browserTrace[sequence=119]",
+          "browserTrace[sequence=120]",
+          "browserTrace[sequence=121]",
+          "browserTrace[sequence=122]",
+          "browserTrace[sequence=123]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "FACTS",
+        "candidateId": "tabelog:tokyo/A1304/A130401/100",
+        "limits": {
+          "maxModelCallsPerCandidate": 4,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 24,
+          "maxAutomaticElapsedMs": 45000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 3,
+          "elapsedMs": 3
+        },
+        "refs": [
+          "browserTrace[sequence=192]",
+          "browserTrace[sequence=193]",
+          "browserTrace[sequence=194]",
+          "browserTrace[sequence=196]",
+          "browserTrace[sequence=197]",
+          "browserTrace[sequence=200]",
+          "browserTrace[sequence=203]",
+          "browserTrace[sequence=204]",
+          "browserTrace[sequence=206]",
+          "browserTrace[sequence=207]",
+          "browserTrace[sequence=208]",
+          "browserTrace[sequence=210]",
+          "browserTrace[sequence=211]",
+          "browserTrace[sequence=212]",
+          "browserTrace[sequence=213]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "FACTS",
+        "candidateId": "tabelog:tokyo/A1304/A130401/101",
+        "limits": {
+          "maxModelCallsPerCandidate": 4,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 24,
+          "maxAutomaticElapsedMs": 45000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 3,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=214]",
+          "browserTrace[sequence=215]",
+          "browserTrace[sequence=216]",
+          "browserTrace[sequence=218]",
+          "browserTrace[sequence=219]",
+          "browserTrace[sequence=222]",
+          "browserTrace[sequence=225]",
+          "browserTrace[sequence=226]",
+          "browserTrace[sequence=228]",
+          "browserTrace[sequence=229]",
+          "browserTrace[sequence=230]",
+          "browserTrace[sequence=232]",
+          "browserTrace[sequence=233]",
+          "browserTrace[sequence=234]",
+          "browserTrace[sequence=235]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "FACTS",
+        "candidateId": "tabelog:tokyo/A1304/A130401/102",
+        "limits": {
+          "maxModelCallsPerCandidate": 4,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 24,
+          "maxAutomaticElapsedMs": 45000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 3,
+          "elapsedMs": 0
+        },
+        "refs": [
+          "browserTrace[sequence=236]",
+          "browserTrace[sequence=237]",
+          "browserTrace[sequence=238]",
+          "browserTrace[sequence=240]",
+          "browserTrace[sequence=241]",
+          "browserTrace[sequence=244]",
+          "browserTrace[sequence=247]",
+          "browserTrace[sequence=248]",
+          "browserTrace[sequence=250]",
+          "browserTrace[sequence=251]",
+          "browserTrace[sequence=252]",
+          "browserTrace[sequence=254]",
+          "browserTrace[sequence=255]",
+          "browserTrace[sequence=256]",
+          "browserTrace[sequence=257]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "DISCOVERY",
+        "candidateId": "tabelog:tokyo/A1304/A130401/100",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 5,
+          "elapsedMs": 2
+        },
+        "refs": [
+          "browserTrace[sequence=258]",
+          "browserTrace[sequence=259]",
+          "browserTrace[sequence=260]",
+          "browserTrace[sequence=262]",
+          "browserTrace[sequence=292]",
+          "browserTrace[sequence=293]",
+          "browserTrace[sequence=294]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "IDENTITY",
+        "candidateId": "tabelog:tokyo/A1304/A130401/100",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 2,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=263]",
+          "browserTrace[sequence=266]",
+          "browserTrace[sequence=269]",
+          "browserTrace[sequence=270]",
+          "browserTrace[sequence=272]",
+          "browserTrace[sequence=273]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "AVAILABILITY",
+        "candidateId": "tabelog:tokyo/A1304/A130401/100",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 5,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=274]",
+          "browserTrace[sequence=277]",
+          "browserTrace[sequence=280]",
+          "browserTrace[sequence=281]",
+          "browserTrace[sequence=284]",
+          "browserTrace[sequence=287]",
+          "browserTrace[sequence=288]",
+          "browserTrace[sequence=290]",
+          "browserTrace[sequence=291]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "DISCOVERY",
+        "candidateId": "tabelog:tokyo/A1304/A130401/101",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 5,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=295]",
+          "browserTrace[sequence=296]",
+          "browserTrace[sequence=297]",
+          "browserTrace[sequence=299]",
+          "browserTrace[sequence=329]",
+          "browserTrace[sequence=330]",
+          "browserTrace[sequence=331]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "IDENTITY",
+        "candidateId": "tabelog:tokyo/A1304/A130401/101",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 2,
+          "elapsedMs": 0
+        },
+        "refs": [
+          "browserTrace[sequence=300]",
+          "browserTrace[sequence=303]",
+          "browserTrace[sequence=306]",
+          "browserTrace[sequence=307]",
+          "browserTrace[sequence=309]",
+          "browserTrace[sequence=310]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "AVAILABILITY",
+        "candidateId": "tabelog:tokyo/A1304/A130401/101",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 5,
+          "elapsedMs": 1
+        },
+        "refs": [
+          "browserTrace[sequence=311]",
+          "browserTrace[sequence=314]",
+          "browserTrace[sequence=317]",
+          "browserTrace[sequence=318]",
+          "browserTrace[sequence=321]",
+          "browserTrace[sequence=324]",
+          "browserTrace[sequence=325]",
+          "browserTrace[sequence=327]",
+          "browserTrace[sequence=328]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "DISCOVERY",
+        "candidateId": "tabelog:tokyo/A1304/A130401/102",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 5,
+          "elapsedMs": 0
+        },
+        "refs": [
+          "browserTrace[sequence=332]",
+          "browserTrace[sequence=333]",
+          "browserTrace[sequence=334]",
+          "browserTrace[sequence=336]",
+          "browserTrace[sequence=366]",
+          "browserTrace[sequence=367]",
+          "browserTrace[sequence=368]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "IDENTITY",
+        "candidateId": "tabelog:tokyo/A1304/A130401/102",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 2,
+          "elapsedMs": 0
+        },
+        "refs": [
+          "browserTrace[sequence=337]",
+          "browserTrace[sequence=340]",
+          "browserTrace[sequence=343]",
+          "browserTrace[sequence=344]",
+          "browserTrace[sequence=346]",
+          "browserTrace[sequence=347]"
+        ]
+      },
+      {
+        "source": "TABELOG",
+        "stage": "AVAILABILITY",
+        "candidateId": "tabelog:tokyo/A1304/A130401/102",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 8,
+          "candidateRuntimeOperations": 5,
+          "elapsedMs": 0
+        },
+        "refs": [
+          "browserTrace[sequence=348]",
+          "browserTrace[sequence=351]",
+          "browserTrace[sequence=354]",
+          "browserTrace[sequence=355]",
+          "browserTrace[sequence=358]",
+          "browserTrace[sequence=361]",
+          "browserTrace[sequence=362]",
+          "browserTrace[sequence=364]",
+          "browserTrace[sequence=365]"
+        ]
+      }
+    ],
+    "declarationDifferences": [
+      "TABELOG/FACTS/tabelog:tokyo/A1304/A130401/100: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+      "TABELOG/FACTS/tabelog:tokyo/A1304/A130401/100: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24",
+      "TABELOG/FACTS: runCeilings.maxAutomaticBrowserMs=500000 != effective.maxAutomaticElapsedMs=45000",
+      "TABELOG/FACTS/tabelog:tokyo/A1304/A130401/101: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+      "TABELOG/FACTS/tabelog:tokyo/A1304/A130401/101: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24",
+      "TABELOG/FACTS/tabelog:tokyo/A1304/A130401/102: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+      "TABELOG/FACTS/tabelog:tokyo/A1304/A130401/102: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24"
+    ],
+    "violations": [],
+    "unassessed": []
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 0,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@33",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@29",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "F5_PROVISIONAL_DELIVERS.execution.json",
+    "sha256": "83d1a28a6bec5d057e3a435d833823354f549e3c4b50b7ee354d9d2427e29b25",
+    "runId": "run:native-h001:F5_PROVISIONAL_DELIVERS",
+    "caseId": "h001"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "YES",
+    "systemBehavior": "SUPPORTED_BY_EVIDENCE",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/100",
+      "outletName": "Native Tabelog 100",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:d9e519c1837c340798b582e8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:233f64b073782f04ceadf5f8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/100:document:541a5a016d298591]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/100:document:541a5a016d298591]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:abaa9c2c43668dd0af7b5ae8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:1e8e6300b2ffdeea8de9473e]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/101",
+      "outletName": "Native Tabelog 101",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:79a8ea2bfba6b57c3102fe23]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:6acfd3d26c14681666a3c3b6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/101:document:91b782f189356b88]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/101:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/101:document:91b782f189356b88]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:478358b573c0608be88d990b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:faa20e8d35c85c9f97278ca0]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/102",
+      "outletName": "Native Tabelog 102",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:3da92b93da6a551cbae7537c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:c7aae74e0591c8b1ea7db7ff]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/102:document:753bc2e427fdadee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/102:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/102:document:753bc2e427fdadee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:ff33cf7fa5a20f373dffedec]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:4729f87563cf36afb87cc3a9]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "SATISFIED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "raw Tabelog response supports AVAILABLE at requested date/party/time",
+        "candidate=tabelog:tokyo/A1304/A130401/100",
+        "citedEvidence=6",
+        "offers=1",
+        "raw Tabelog response supports AVAILABLE at requested date/party/time",
+        "candidate=tabelog:tokyo/A1304/A130401/101",
+        "citedEvidence=6",
+        "offers=1",
+        "raw Tabelog response supports AVAILABLE at requested date/party/time",
+        "candidate=tabelog:tokyo/A1304/A130401/102",
+        "citedEvidence=6",
+        "offers=1"
+      ],
+      "directCause": "Every presented candidate has independently linked evidence.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "browserTrace[sequence=289].responses",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:d9e519c1837c340798b582e8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:233f64b073782f04ceadf5f8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/100:document:541a5a016d298591]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/100:document:541a5a016d298591]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:abaa9c2c43668dd0af7b5ae8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:1e8e6300b2ffdeea8de9473e]",
+        "finalSnapshot.domainState.availability[tabelog:tokyo/A1304/A130401/100][id=offer:tabelog:tabelog:tokyo/A1304/A130401/100:2026-08-19:19:00:2]",
+        "browserTrace[sequence=326].responses",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:79a8ea2bfba6b57c3102fe23]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:6acfd3d26c14681666a3c3b6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/101:document:91b782f189356b88]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/101:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/101:document:91b782f189356b88]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:478358b573c0608be88d990b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:faa20e8d35c85c9f97278ca0]",
+        "finalSnapshot.domainState.availability[tabelog:tokyo/A1304/A130401/101][id=offer:tabelog:tabelog:tokyo/A1304/A130401/101:2026-08-19:19:00:2]",
+        "browserTrace[sequence=363].responses",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:3da92b93da6a551cbae7537c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:c7aae74e0591c8b1ea7db7ff]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/102:document:753bc2e427fdadee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/102:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/102:document:753bc2e427fdadee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:ff33cf7fa5a20f373dffedec]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:4729f87563cf36afb87cc3a9]",
+        "finalSnapshot.domainState.availability[tabelog:tokyo/A1304/A130401/102][id=offer:tabelog:tabelog:tokyo/A1304/A130401/102:2026-08-19:19:00:2]"
+      ],
+      "downstreamImpact": "The presentation is independently supported."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=6",
+        "applicableObservations=6",
+        "executedInvestigationVisits=6",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=0",
+        "maxConsecutiveNoNewObservation=1"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "SATISFIED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "presentedCandidates=3"
+      ],
+      "directCause": "Terminal presentation and independently evaluated evidence agree.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "Execution produced a qualified read-only result."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "SATISFIED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "declarationDifference=TABELOG/FACTS/tabelog:tokyo/A1304/A130401/100: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+        "declarationDifference=TABELOG/FACTS/tabelog:tokyo/A1304/A130401/100: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24",
+        "declarationDifference=TABELOG/FACTS: runCeilings.maxAutomaticBrowserMs=500000 != effective.maxAutomaticElapsedMs=45000",
+        "declarationDifference=TABELOG/FACTS/tabelog:tokyo/A1304/A130401/101: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+        "declarationDifference=TABELOG/FACTS/tabelog:tokyo/A1304/A130401/101: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24",
+        "declarationDifference=TABELOG/FACTS/tabelog:tokyo/A1304/A130401/102: runCeilings.maxBrowserModelCallsPerCandidate=20 != effective.maxModelCallsPerCandidate=4",
+        "declarationDifference=TABELOG/FACTS/tabelog:tokyo/A1304/A130401/102: runCeilings.maxBrowserOperationsPerCandidate=80 != effective.maxOperationsPerCandidate=24"
+      ],
+      "directCause": "Readable model/operation counters remain within actual executor limits and declared run ceilings; unavailable time-limit scopes remain explicit.",
+      "rootCauseHypothesis": "Runner limit/accounting requires review.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "resourceUsage",
+        "runCeilings",
+        "modelInvocations",
+        "browserTrace[sequence=1]",
+        "browserTrace[sequence=2]",
+        "browserTrace[sequence=3]",
+        "browserTrace[sequence=5]",
+        "browserTrace[sequence=6]",
+        "browserTrace[sequence=9]",
+        "browserTrace[sequence=12]",
+        "browserTrace[sequence=13]",
+        "browserTrace[sequence=15]",
+        "browserTrace[sequence=16]",
+        "browserTrace[sequence=17]",
+        "browserTrace[sequence=19]",
+        "browserTrace[sequence=20]",
+        "browserTrace[sequence=21]",
+        "browserTrace[sequence=23]",
+        "browserTrace[sequence=24]",
+        "browserTrace[sequence=25]",
+        "browserTrace[sequence=26]",
+        "browserTrace[sequence=27]",
+        "browserTrace[sequence=28]",
+        "browserTrace[sequence=29]",
+        "browserTrace[sequence=32]",
+        "browserTrace[sequence=33]",
+        "browserTrace[sequence=36]",
+        "browserTrace[sequence=37]",
+        "browserTrace[sequence=38]",
+        "browserTrace[sequence=40]",
+        "browserTrace[sequence=41]",
+        "browserTrace[sequence=42]",
+        "browserTrace[sequence=44]",
+        "browserTrace[sequence=45]",
+        "browserTrace[sequence=46]",
+        "browserTrace[sequence=47]",
+        "browserTrace[sequence=48]",
+        "browserTrace[sequence=49]",
+        "browserTrace[sequence=50]",
+        "browserTrace[sequence=51]",
+        "browserTrace[sequence=54]",
+        "browserTrace[sequence=55]",
+        "browserTrace[sequence=58]",
+        "browserTrace[sequence=59]",
+        "browserTrace[sequence=60]",
+        "browserTrace[sequence=62]",
+        "browserTrace[sequence=63]",
+        "browserTrace[sequence=64]",
+        "browserTrace[sequence=66]",
+        "browserTrace[sequence=67]",
+        "browserTrace[sequence=68]",
+        "browserTrace[sequence=71]",
+        "browserTrace[sequence=74]",
+        "browserTrace[sequence=75]",
+        "browserTrace[sequence=77]",
+        "browserTrace[sequence=78]",
+        "browserTrace[sequence=80]",
+        "browserTrace[sequence=83]",
+        "browserTrace[sequence=86]",
+        "browserTrace[sequence=87]",
+        "browserTrace[sequence=89]",
+        "browserTrace[sequence=90]",
+        "browserTrace[sequence=91]",
+        "browserTrace[sequence=94]",
+        "browserTrace[sequence=97]",
+        "browserTrace[sequence=98]",
+        "browserTrace[sequence=100]",
+        "browserTrace[sequence=101]",
+        "browserTrace[sequence=102]",
+        "browserTrace[sequence=103]",
+        "browserTrace[sequence=104]",
+        "browserTrace[sequence=124]",
+        "browserTrace[sequence=125]",
+        "browserTrace[sequence=126]",
+        "browserTrace[sequence=128]",
+        "browserTrace[sequence=129]",
+        "browserTrace[sequence=130]",
+        "browserTrace[sequence=131]",
+        "browserTrace[sequence=132]",
+        "browserTrace[sequence=133]",
+        "browserTrace[sequence=136]",
+        "browserTrace[sequence=139]",
+        "browserTrace[sequence=140]",
+        "browserTrace[sequence=142]",
+        "browserTrace[sequence=143]",
+        "browserTrace[sequence=144]",
+        "browserTrace[sequence=147]",
+        "browserTrace[sequence=150]",
+        "browserTrace[sequence=151]",
+        "browserTrace[sequence=153]",
+        "browserTrace[sequence=154]",
+        "browserTrace[sequence=156]",
+        "browserTrace[sequence=159]",
+        "browserTrace[sequence=162]",
+        "browserTrace[sequence=163]",
+        "browserTrace[sequence=165]",
+        "browserTrace[sequence=166]",
+        "browserTrace[sequence=167]",
+        "browserTrace[sequence=170]",
+        "browserTrace[sequence=173]",
+        "browserTrace[sequence=174]",
+        "browserTrace[sequence=176]",
+        "browserTrace[sequence=177]",
+        "browserTrace[sequence=178]",
+        "browserTrace[sequence=181]",
+        "browserTrace[sequence=184]",
+        "browserTrace[sequence=185]",
+        "browserTrace[sequence=187]",
+        "browserTrace[sequence=188]",
+        "browserTrace[sequence=189]",
+        "browserTrace[sequence=190]",
+        "browserTrace[sequence=191]",
+        "browserTrace[sequence=105]",
+        "browserTrace[sequence=106]",
+        "browserTrace[sequence=107]",
+        "browserTrace[sequence=109]",
+        "browserTrace[sequence=110]",
+        "browserTrace[sequence=113]",
+        "browserTrace[sequence=116]",
+        "browserTrace[sequence=117]",
+        "browserTrace[sequence=119]",
+        "browserTrace[sequence=120]",
+        "browserTrace[sequence=121]",
+        "browserTrace[sequence=122]",
+        "browserTrace[sequence=123]",
+        "browserTrace[sequence=192]",
+        "browserTrace[sequence=193]",
+        "browserTrace[sequence=194]",
+        "browserTrace[sequence=196]",
+        "browserTrace[sequence=197]",
+        "browserTrace[sequence=200]",
+        "browserTrace[sequence=203]",
+        "browserTrace[sequence=204]",
+        "browserTrace[sequence=206]",
+        "browserTrace[sequence=207]",
+        "browserTrace[sequence=208]",
+        "browserTrace[sequence=210]",
+        "browserTrace[sequence=211]",
+        "browserTrace[sequence=212]",
+        "browserTrace[sequence=213]",
+        "browserTrace[sequence=214]",
+        "browserTrace[sequence=215]",
+        "browserTrace[sequence=216]",
+        "browserTrace[sequence=218]",
+        "browserTrace[sequence=219]",
+        "browserTrace[sequence=222]",
+        "browserTrace[sequence=225]",
+        "browserTrace[sequence=226]",
+        "browserTrace[sequence=228]",
+        "browserTrace[sequence=229]",
+        "browserTrace[sequence=230]",
+        "browserTrace[sequence=232]",
+        "browserTrace[sequence=233]",
+        "browserTrace[sequence=234]",
+        "browserTrace[sequence=235]",
+        "browserTrace[sequence=236]",
+        "browserTrace[sequence=237]",
+        "browserTrace[sequence=238]",
+        "browserTrace[sequence=240]",
+        "browserTrace[sequence=241]",
+        "browserTrace[sequence=244]",
+        "browserTrace[sequence=247]",
+        "browserTrace[sequence=248]",
+        "browserTrace[sequence=250]",
+        "browserTrace[sequence=251]",
+        "browserTrace[sequence=252]",
+        "browserTrace[sequence=254]",
+        "browserTrace[sequence=255]",
+        "browserTrace[sequence=256]",
+        "browserTrace[sequence=257]",
+        "browserTrace[sequence=258]",
+        "browserTrace[sequence=259]",
+        "browserTrace[sequence=260]",
+        "browserTrace[sequence=262]",
+        "browserTrace[sequence=292]",
+        "browserTrace[sequence=293]",
+        "browserTrace[sequence=294]",
+        "browserTrace[sequence=263]",
+        "browserTrace[sequence=266]",
+        "browserTrace[sequence=269]",
+        "browserTrace[sequence=270]",
+        "browserTrace[sequence=272]",
+        "browserTrace[sequence=273]",
+        "browserTrace[sequence=274]",
+        "browserTrace[sequence=277]",
+        "browserTrace[sequence=280]",
+        "browserTrace[sequence=281]",
+        "browserTrace[sequence=284]",
+        "browserTrace[sequence=287]",
+        "browserTrace[sequence=288]",
+        "browserTrace[sequence=290]",
+        "browserTrace[sequence=291]",
+        "browserTrace[sequence=295]",
+        "browserTrace[sequence=296]",
+        "browserTrace[sequence=297]",
+        "browserTrace[sequence=299]",
+        "browserTrace[sequence=329]",
+        "browserTrace[sequence=330]",
+        "browserTrace[sequence=331]",
+        "browserTrace[sequence=300]",
+        "browserTrace[sequence=303]",
+        "browserTrace[sequence=306]",
+        "browserTrace[sequence=307]",
+        "browserTrace[sequence=309]",
+        "browserTrace[sequence=310]",
+        "browserTrace[sequence=311]",
+        "browserTrace[sequence=314]",
+        "browserTrace[sequence=317]",
+        "browserTrace[sequence=318]",
+        "browserTrace[sequence=321]",
+        "browserTrace[sequence=324]",
+        "browserTrace[sequence=325]",
+        "browserTrace[sequence=327]",
+        "browserTrace[sequence=328]",
+        "browserTrace[sequence=332]",
+        "browserTrace[sequence=333]",
+        "browserTrace[sequence=334]",
+        "browserTrace[sequence=336]",
+        "browserTrace[sequence=366]",
+        "browserTrace[sequence=367]",
+        "browserTrace[sequence=368]",
+        "browserTrace[sequence=337]",
+        "browserTrace[sequence=340]",
+        "browserTrace[sequence=343]",
+        "browserTrace[sequence=344]",
+        "browserTrace[sequence=346]",
+        "browserTrace[sequence=347]",
+        "browserTrace[sequence=348]",
+        "browserTrace[sequence=351]",
+        "browserTrace[sequence=354]",
+        "browserTrace[sequence=355]",
+        "browserTrace[sequence=358]",
+        "browserTrace[sequence=361]",
+        "browserTrace[sequence=362]",
+        "browserTrace[sequence=364]",
+        "browserTrace[sequence=365]"
+      ],
+      "downstreamImpact": "Recorded budget use can be reviewed."
+    }
+  ],
+  "unassessedDimensions": [
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ]
+}

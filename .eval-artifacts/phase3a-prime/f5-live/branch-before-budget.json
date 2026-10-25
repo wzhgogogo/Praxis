@@ -1,0 +1,57 @@
+{
+  "schema": "phase3a-prime-budget@1",
+  "approval": "CODEX-3A-PRIME.md version 1.0; user-approved 2026-10-23 23:34 Asia/Shanghai",
+  "limits": {
+    "fullLive": 8,
+    "realModelCalls": 400,
+    "environmentReruns": 2,
+    "f5PublicWitnessGET": {
+      "case01": 10,
+      "case03Optional": 1,
+      "maxCandidates": 5,
+      "minSerialGapSeconds": 5
+    }
+  },
+  "entries": [
+    {
+      "id": "f5-certification-stop2-get-1",
+      "kind": "WITNESS_PUBLIC_GET",
+      "startedAtVienna": "2026-10-24T04:33:36.999435+02:00",
+      "websiteGET": 1,
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "requestMetadata": ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/certification-stop2/01-13108466-detail.metadata.json",
+      "status": "FINISHED",
+      "httpStatus": 200,
+      "error": null,
+      "sha256": "934446468b8c6ed04ada1d1f81bd69d15539fc419f3423a5701c04d8f21bc0be",
+      "finishedAtVienna": "2026-10-24T04:33:39.993958+02:00"
+    },
+    {
+      "id": "f5-certification-stop2-get-2",
+      "kind": "WITNESS_PUBLIC_GET",
+      "startedAtVienna": "2026-10-24T04:33:45.004151+02:00",
+      "websiteGET": 1,
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "requestMetadata": ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/certification-stop2/02-13108466-vacancy.metadata.json",
+      "status": "FINISHED",
+      "httpStatus": 200,
+      "error": null,
+      "sha256": "3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976",
+      "finishedAtVienna": "2026-10-24T04:33:46.901350+02:00"
+    }
+  ],
+  "cumulative": {
+    "fullLive": 0,
+    "realModelCalls": 0,
+    "environmentReruns": 0,
+    "websiteGET": 2
+  },
+  "asOf": "2026-10-24T04:37:14.893316+02:00",
+  "f5PublicGetApproval": "Explicit user correction,2026-10-24 Europe/Vienna: case01 public detail+four-param vacancy GET permitted; noCookie/login/form/model; commit scripts first; repeat within24h before approved Live."
+}

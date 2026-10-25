@@ -1,0 +1,84 @@
+{
+  "mode": "OFFLINE_ONLY",
+  "commit": "34c8b4f2189213ee6fa9ea971ac81e17c01608fe",
+  "startedAtCET": "2026-10-25T20:50:17.206023+01:00",
+  "scriptSha256": "bac1a8e30ddfa5d67c4a6d35b39b3441beadafdbcc480ce572e13ee6a4b96c96",
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-25T20:50:17.241860+01:00",
+      "finishedAtCET": "2026-10-25T20:50:17.710490+01:00",
+      "elapsedSeconds": 0.469,
+      "exitCode": 0,
+      "statusBefore": "",
+      "statusAfter": "",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-25T20:50:17.747973+01:00",
+      "finishedAtCET": "2026-10-25T20:50:17.958817+01:00",
+      "elapsedSeconds": 0.211,
+      "exitCode": 0,
+      "statusBefore": "",
+      "statusAfter": "",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-25T20:50:17.996439+01:00",
+      "finishedAtCET": "2026-10-25T20:50:38.759331+01:00",
+      "elapsedSeconds": 20.763,
+      "exitCode": 0,
+      "statusBefore": "",
+      "statusAfter": "",
+      "logSha256": "80921a5d4d17b3c1f91160cf90e12af82bfd9cfec45a6b37fbabe8ff698b7ea4"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-25T20:50:38.789334+01:00",
+      "finishedAtCET": "2026-10-25T20:50:39.200523+01:00",
+      "elapsedSeconds": 0.411,
+      "exitCode": 0,
+      "statusBefore": "",
+      "statusAfter": "",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "chromium",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-25T20:50:39.229737+01:00",
+      "finishedAtCET": "2026-10-25T20:52:15.528424+01:00",
+      "elapsedSeconds": 96.299,
+      "exitCode": 0,
+      "statusBefore": "",
+      "statusAfter": "",
+      "logSha256": "b6249bb9578855b22174546172b1b8eb9d8a24057a04ac6cbd8a3972e0fef1e3"
+    }
+  ],
+  "finishedAtCET": "2026-10-25T20:52:15.528647+01:00",
+  "allPass": true
+}

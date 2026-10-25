@@ -48,7 +48,7 @@ test('P21 discovery uses DOM category links despite CSS and rejects foreign regi
   const raw=new LocalPlaywrightChromium();
   const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async input=>{
     const session=await raw.openSession({...input,replayHarPath:harPath});
-    return new Proxy(session,{get(target,key){if(key==='navigate')return async(...args:Parameters<typeof session.navigate>)=>{navigations.push(args[0]);return target.navigate(...args);};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});
+    return new Proxy(session,{get(target,key){if(key==='openLink')return async(...args:Parameters<NonNullable<typeof session.openLink>>)=>{navigations.push(args[1]!);return target.openLink!(...args);};if(key==='navigate')return async(...args:Parameters<typeof session.navigate>)=>{navigations.push(args[0]);return target.navigate(...args);};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});
   }};
   const model:import('../../core/model/contracts.js').ModelGateway={complete:async request=>{
     const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);requests.push({purpose:request.purpose,body});let result:unknown;
@@ -234,4 +234,41 @@ test('P21c recorded regional links reach six controlled development results thro
  const outputDirectory=await mkdtemp(join(tmpdir(),'p21c-results-'));
  try { await writeFile(join(outputDirectory,'region-composition-results.json'),JSON.stringify({mode:'LOCAL_CHROMIUM_HAR_FIXTURE_WITH_SCRIPTED_MODEL',realModelCalls:0,externalNetworkCalls:0,results},null,2)+'\n'); }
  finally { await rm(outputDirectory,{recursive:true,force:true}); }
+});
+
+// Local-constructed G3 pages: observed D1 hrefs, synthetic lists/JSON-LD.
+// Real Chromium + production assembly/wire/Executor; no current website Replay.
+test('F5 G3 Chromium follows four observed region pages and directly selects the retained entrance without restoring a menu',async()=>{
+ const {createLiveReadAssembly}=await import('../../integrations/restaurant-search/live-read-assembly.js');
+ const {LIVE_READ_DEBUG_INVESTIGATION_BUDGET}=await import('../../application/live-read-investigation-budget.js');
+ const {GooglePlacesClient}=await import('../../integrations/google/google-places-client.js');
+ const {tabelogDiscoveryPack}=await import('../../integrations/restaurant-search/source-packs.js');
+ const center={latitude:35.7799638,longitude:139.723053};
+ const root='https://tabelog.com/en/tokyo/rstLst/',parent='https://tabelog.com/en/tokyo/A1322/',child=parent+'A132201/',alternate='https://tabelog.com/en/tokyo/A1323/';
+ const detail=(n:number)=>'https://tabelog.com/en/tokyo/A1322/A132201/'+(13000000+n)+'/';
+ const list=(ids:number[])=>ids.map(id=>`<a class="list-rst__rst-name-target" href="${detail(id)}">Constructed venue ${id}</a>`).join('');
+ const pages:Record<string,string>={[root]:`<a href="${parent}">Itabashi</a><a href="${alternate}">Sugamo</a>`,[parent]:`<a href="${child}">Itabashi ward</a>`,[child]:list([1,2,3]),[alternate]:list([4,5])};
+ for(const id of [1,2,3,4,5])pages[detail(id)]=`<h1>Constructed venue ${id}</h1><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:`Constructed venue ${id}`,address:'Tokyo',geo:id<4?{latitude:35.75,longitude:139.70}:center})}</script>`;
+ const folder=await mkdtemp(join(tmpdir(),'praxis-f5-g3-')),harPath=join(folder,'constructed.har');await writeFile(harPath,replayHarPages(pages));
+ const raw=new LocalPlaywrightChromium();const navigations:string[]=[],corrections:any[]=[];let decisions=0;
+ const browser:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async input=>{
+  const session=await raw.openSession({...input,replayHarPath:harPath});
+  return new Proxy(session,{get(target,key){if(key==='openLink')return async(...args:Parameters<NonNullable<typeof session.openLink>>)=>{navigations.push(args[1]!);return target.openLink!(...args);};if(key==='navigate')return async(...args:Parameters<typeof session.navigate>)=>{navigations.push(args[0]);return target.navigate(...args);};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});
+ }};
+ const model:import('../../core/model/contracts.js').ModelGateway={complete:async request=>{
+  decisions++;assert.equal(request.purpose,'browser_read_decide');const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);
+  const correction=body.regionCorrection;if(correction)corrections.push(structuredClone(correction));
+  const target=correction?correction.entrances.find((entry:any)=>entry.href===alternate):body.observation.targets.find((target:any)=>target.href===(body.observation.url===root?parent:child));assert.ok(target);
+  return {invocationId:'local-f5',provider:'FIXTURE',model:'scripted',finishReason:'TOOL_CALLS',latencyMs:0,outputText:JSON.stringify({action:correction?'SELECT_REGION_ENTRANCE':'OPEN_LINK',targetRef:target.ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Choose supplied observed ref; no href'})};
+ }};
+ const google=new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:async()=>{throw Error('No external Google request');}});
+ const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxBrowserOperationsPerCandidate:80,packs:[tabelogDiscoveryPack]}, {browser,model,google,clock:{now:()=>new Date('2026-10-24T00:00:00Z')}});
+ const intent={timezone:'Asia/Tokyo' as const,target:{goal:'RECOMMENDATION' as const,query:'restaurants'},area:{query:'near Akabane',radiusMeters:1000},criteria:[]};
+ const initial={intent,readRunId:'f5-local-chromium',continuation:{intentFingerprint:JSON.stringify(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...center,radiusMeters:1000,label:'Akabane',areaMatchBasis:'NAMED_PLACE_RADIUS' as const}}};
+ try {
+  const second=await assembly.search.search(initial,AbortSignal.timeout(30000));
+  assert.equal(second.candidates.length,2,JSON.stringify(second.metadata));assert.equal(second.metadata.nativeDiscoveryFunnel!.retrieval!.regionPages,4);assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,4);
+  assert.deepEqual(navigations.filter(url=>[root,parent,child,alternate].includes(url)),[root,parent,child,alternate]);assert.equal(corrections.length,1);assert.equal(decisions,3);
+  assert.equal(corrections[0].entrances.find((entry:any)=>entry.href===alternate).observedOn,root);assert.ok(corrections[0].samples.every((sample:any)=>sample.direction==='SW'&&sample.distanceMeters>1000));assert.equal(corrections[0].remainingBudget.regionPages,1);
+ } finally {await rm(folder,{recursive:true,force:true});}
 });

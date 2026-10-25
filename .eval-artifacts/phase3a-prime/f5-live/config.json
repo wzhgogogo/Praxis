@@ -1,0 +1,48 @@
+{
+  "schema": "f5-live-config@1",
+  "newMain": "4d9279583299e798f43cace277b84700617635ce",
+  "timeZone": "CET UTC+01:00 per user",
+  "runnerInput": ".eval-artifacts/phase3a-prime/f5-live/runner-input.yaml",
+  "slots": [
+    {
+      "slot": 1,
+      "caseId": "p2c-holdout-01"
+    },
+    {
+      "slot": 2,
+      "caseId": "p2c-holdout-01"
+    },
+    {
+      "slot": 3,
+      "caseId": "p2c-holdout-01"
+    },
+    {
+      "slot": 4,
+      "caseId": "p2c-holdout-03"
+    },
+    {
+      "slot": 5,
+      "caseId": "p2c-holdout-03"
+    },
+    {
+      "slot": 6,
+      "caseId": "p2c-holdout-03"
+    }
+  ],
+  "maxLive": 6,
+  "maxModels": 300,
+  "maxEnvironmentReruns": 2,
+  "slotLimits": {
+    "elapsedMs": 500000,
+    "modelCalls": 50,
+    "googleRequestsIncludingPreflight": 40
+  },
+  "credentialPolicy": "No .env access without a fresh explicit user approval after auto-review rejection. Do not record values.",
+  "certificate": ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+  "dates": {
+    "p2c-holdout-01": "2026-11-04",
+    "p2c-holdout-03": "2026-11-07"
+  },
+  "sourceScopeCase03": "Kudanshita; manual800m only;800-1000m unknown; no witness",
+  "order": "One official single-case CLI process at a time; independent slot gate before next. No batch/parallel entry point."
+}

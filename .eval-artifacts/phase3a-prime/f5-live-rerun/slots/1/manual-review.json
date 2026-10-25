@@ -1,0 +1,63 @@
+{
+  "kind": "INDEPENDENT_CODEX_FOUR_LAYER_REVIEW",
+  "artifactSha256": "5cffb9b4a97270dcbee98b3d6963f0fade55286840d22f2adb20424ec2d713b7",
+  "layers": {
+    "endToEnd": {
+      "status": "FAIL_TIMEOUT",
+      "elapsedMs": 500659,
+      "qualifiedDelivered": 0,
+      "plannedDenominator": 3,
+      "genericEvaluatorExclusionDoesNotRemovePlannedFailure": true
+    },
+    "steps": {
+      "correctionInSameSourceCall": true,
+      "regionCorrectionInputs": 1,
+      "SELECT_REGION_ENTRANCE": 1,
+      "replacement": {
+        "url": "https://tabelog.com/en/tokyo/A1322/A132201/",
+        "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+        "targetRef": "observation:3:target:17",
+        "label": "Kita-Ikebukuro & Itabashi St. Area"
+      },
+      "replacementSamples": [
+        {
+          "sourceEntityId": "en/tokyo/A1322/A132201/13239336",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132201/13239336/",
+          "outcome": "OUTSIDE_RADIUS",
+          "coordinates": {
+            "latitude": 35.743881718663964,
+            "longitude": 139.72791609504424
+          },
+          "bearingDegrees": 173.75714712172146,
+          "direction": "S",
+          "distanceMeters": 4040.596729355775
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1322/A132201/13157173",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132201/13157173/",
+          "outcome": "UNKNOWN"
+        }
+      ],
+      "sourceStop": "SOURCE_BUDGET_EXHAUSTED",
+      "denganaNative": false,
+      "denganaGoogleWitnessMatch": "FOUND",
+      "denganaAttemptInTrace": true,
+      "attemptNote": "Final state has no completed availability check; raw trace shows Dengana Tabelog discovery attempt and WEBSITE fallback at cutoff. Do not infer no attempt from missing final check."
+    },
+    "severity": {
+      "S0_DECLARATION": "ABSENT",
+      "S0_BOUNDARY": "ABSENT",
+      "S2": "PRESENT",
+      "postDeliveryGET": 0
+    },
+    "attribution": {
+      "confirmed": "Correction executed in the first Tabelog invocation; alternate sample still4.04km south, source90s stops. Task500s expired in later availability batch containing Dengana.",
+      "hypothesis": "Entry selection and downstream broad-candidate investigation latency prevent feasible delivery; no counterfactual speed claim."
+    }
+  },
+  "captureGaps": [
+    "DECISION_SNAPSHOT_MISMATCH retained in stderr; does not create a false success.",
+    "Frozen auto station-control audit uses historical row.input shape; use direct decision.messages review if needed."
+  ],
+  "timeMeasurementCaution": "Frozen wall-time measure includes unmatched starts bounded at cutoff; not all are proved in-flight throughout. Conservative paired-only partition will be reported separately without modifying frozen metrics."
+}

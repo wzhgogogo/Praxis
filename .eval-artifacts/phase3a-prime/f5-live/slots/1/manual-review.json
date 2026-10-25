@@ -1,0 +1,509 @@
+{
+  "schema": "f5-independent-manual-review@1",
+  "reviewer": "Codex primary agent, separate raw-evidence review; no model judge or new network",
+  "reviewedAtCET": "2026-10-25T01:43:10.282154+01:00",
+  "artifactSha256": "2c60ab3a3c67baf42280ab9ac04032b482885fd97dacbf5e9acff45bc75206b8",
+  "fourLayers": {
+    "outcome": {
+      "frozenEvaluator": {
+        "type": "ORCHESTRATION_INTERRUPTED",
+        "capabilityDenominator": "EXCLUDED",
+        "userGoalComplete": "NO",
+        "reasons": [
+          "Recorded TIMEOUT interruption; not a source-confirmed no-result."
+        ],
+        "evidenceRefs": [
+          "interruption",
+          "finalSnapshot",
+          "diagnostics.browserTrace"
+        ]
+      },
+      "userAcceptance": "FAIL_TIMEOUT_NO_DELIVERY",
+      "note": "Evaluator excludes saved TIMEOUT from generic capability denominator. Frozen F5 planned-slot acceptance retains this started slot as timeout/fail."
+    },
+    "stages": {
+      "semantic": "PASS: raw input and final intent agree date/time/party/Akabane/kushikatsu HARD",
+      "location": "Raw Google-ranked Akabane sublocality center35.7799638,139.723053;radius1000; differs from witness station center, both preserved",
+      "nativeDiscovery": "Two JSON-LD outside samples at provisional A1322;0 accepted; correction not executed by final snapshot; deferred elapsed49.616s,2regionpages/2details",
+      "witnessDiscovery": "FOUND_MANUAL_NAME_ADDRESS: Dengana Akabane1-chome15-1/Shinnaka1F matches raw witness1-15-1 新仲ビル1F. Coordinates agree. Automated NOT_FOUND retained: frozen witness row omits full address, strict name+address matcher cannot match. Phone only corroborates.",
+      "witnessIdentityFacts": "Correctness NOT_EVALUATED: no adopted same-store Tabelog identity/fact proof for Dengana",
+      "witnessAvailability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T00:37:07.923Z",
+        "evidenceIds": [],
+        "reasonCode": "BROWSER_TIMEOUT",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      },
+      "agentDecisions": "Sequence reviewed; no per-step acceptable-action Gold, optimality NOT_EVALUATED. Google availability precedes deferred correction.",
+      "delivery": "No presentedResults or positive delivered claim in saved state/trajectories"
+    },
+    "severity": {
+      "S0": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ]
+      },
+      "S1": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No independently established unmet user-need conclusion."
+        ],
+        "evidenceRefs": []
+      },
+      "S2": {
+        "status": "PRESENT",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+          ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+        ]
+      },
+      "S3": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "Experience/latency thresholds belong to E2; not scored here."
+        ],
+        "evidenceRefs": []
+      },
+      "S4": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "User-invisible retry effects are not independently established."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "S0_BOUNDARY": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    "attribution": {
+      "confirmed": "500000ms task timeout; two outside Tabelog samples remain deferred. Google Dengana candidate checked but BROWSER_TIMEOUT, no output.",
+      "firstNativeDeviation": "Initial chosen region geographically wrong: JSON-LD5.55kmS/3.91kmSW",
+      "causalStatus": "HYPOTHESIS: delayed revisit and outlet resolution consume time; no counterfactual injection."
+    }
+  },
+  "S0Review": {
+    "declaration": "ABSENT: no positive delivery; postGET plan empty",
+    "boundary": "ABSENT for captured request facts under independent frozen ADR35/36 rules; evaluator gaps[]; guard verdict not oracle",
+    "preflight": "One READY attempt; both known public probes healthy200; no health retry. Credentials not output/copied/staged.",
+    "postDeliveryGET": 0
+  },
+  "nativeProgress": [
+    {
+      "retrieval": {
+        "rewrites": 0,
+        "regionPages": 2,
+        "retrievalPages": 1,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Direct keyword search for the hard criterion kushikatsu in the Akabane area.",
+              "keyword": "kushikatsu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 33414,
+            "parsedCount": 9
+          }
+        ],
+        "selection": {
+          "accepted": true,
+          "reason": "Direct keyword search for the hard criterion kushikatsu in the Akabane area.",
+          "keyword": "kushikatsu",
+          "criterionRef": "criterion:0"
+        }
+      },
+      "directoryRegion": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1322/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:25",
+          "label": "Itabashi & Along Tobu Railway Line"
+        },
+        "provisional": true,
+        "samples": [
+          {
+            "sourceEntityId": "en/tokyo/A1322/A132202/13155817",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.73236921866393,
+              "longitude": 139.70486078494415
+            },
+            "bearingDegrees": 197.2384868672463,
+            "direction": "S",
+            "distanceMeters": 5547.116372577523
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1322/A132203/13168736",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132203/13168736/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.74923654865233,
+              "longitude": 139.7020477451165
+            },
+            "bearingDegrees": 209.02296324520773,
+            "direction": "SW",
+            "distanceMeters": 3911.367533853191
+          }
+        ]
+      },
+      "sourceId": "tabelog",
+      "inspectedSourceIds": [
+        "en/tokyo/A1322/A132202/13155817",
+        "en/tokyo/A1322/A132203/13168736"
+      ],
+      "detailAttempts": 2,
+      "pagesRead": 3,
+      "elapsedMs": 49616,
+      "visitedListingUrls": [
+        "https://tabelog.com/en/tokyo/",
+        "https://tabelog.com/en/tokyo/A1322/",
+        "https://tabelog.com/en/tokyo/A1322/?sw=kushikatsu"
+      ],
+      "pendingSourceEntries": [],
+      "pendingSourceIds": []
+    }
+  ],
+  "controlAudit": {
+    "method": "Supplementary audit uses actual top-level decision.messages; frozen analyzer input/request lookup misses this shape, so empty automated array is not absence proof.",
+    "contexts": 23,
+    "availableActionOccurrences": {
+      "OPEN_LINK": 812,
+      "CLICK": 184,
+      "FILL_AUTHORITATIVE:DATE": 5,
+      "CLICK_AUTHORITATIVE:PARTY_SIZE": 3
+    },
+    "legalLOCATION": [],
+    "AkabaneStationOpenLinks": [],
+    "regionCorrectionContexts": [],
+    "decisionObservationRefs": [
+      {
+        "sequence": 4,
+        "url": "https://tabelog.com/en/tokyo/",
+        "revision": 2,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0001.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0002.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0003.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0054.html"
+        ]
+      },
+      {
+        "sequence": 13,
+        "url": "https://www.tablecheck.com/en/kawaei",
+        "revision": 3,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0017.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0019.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0020.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0029.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0030.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0031.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0032.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0033.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0034.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0035.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0046.html"
+        ]
+      },
+      {
+        "sequence": 17,
+        "url": "https://www.tablecheck.com/en/underground-akabane",
+        "revision": 3,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0018.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0024.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0025.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0036.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0037.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0038.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0039.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0040.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0041.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0042.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0047.html"
+        ]
+      },
+      {
+        "sequence": 21,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kushiman%20Akabane",
+        "revision": 3,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0051.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0052.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0053.html"
+        ]
+      },
+      {
+        "sequence": 22,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kushiman%20Akabane",
+        "revision": 4,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0051.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0052.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0053.html"
+        ]
+      },
+      {
+        "sequence": 23,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kushiman%20Akabane",
+        "revision": 5,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0051.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0052.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0053.html"
+        ]
+      },
+      {
+        "sequence": 24,
+        "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+        "revision": 4,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0060.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0061.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0062.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0063.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0064.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0065.html"
+        ]
+      },
+      {
+        "sequence": 25,
+        "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+        "revision": 5,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0060.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0061.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0062.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0063.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0064.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0065.html"
+        ]
+      },
+      {
+        "sequence": 26,
+        "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+        "revision": 7,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0060.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0061.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0062.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0063.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0064.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0065.html"
+        ]
+      },
+      {
+        "sequence": 27,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+        "revision": 3,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0069.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0070.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0071.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0072.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0073.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0074.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0075.html"
+        ]
+      },
+      {
+        "sequence": 28,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+        "revision": 4,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0069.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0070.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0071.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0072.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0073.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0074.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0075.html"
+        ]
+      },
+      {
+        "sequence": 29,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+        "revision": 6,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0069.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0070.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0071.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0072.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0073.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0074.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0075.html"
+        ]
+      },
+      {
+        "sequence": 30,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+        "revision": 7,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0069.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0070.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0071.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0072.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0073.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0074.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0075.html"
+        ]
+      },
+      {
+        "sequence": 31,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+        "revision": 8,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0069.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0070.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0071.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0072.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0073.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0074.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0075.html"
+        ]
+      },
+      {
+        "sequence": 32,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+        "revision": 9,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0069.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0070.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0071.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0072.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0073.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0074.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0075.html"
+        ]
+      },
+      {
+        "sequence": 35,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kaburaya+Akabane+2+Goten&geo_latitude=35.7794782&geo_longitude=139.7213779&geo_distance=5km&auto_geolocate=false",
+        "revision": 2,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0084.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0085.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0086.html"
+        ]
+      },
+      {
+        "sequence": 36,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7794782&geo_longitude=139.7213779&geo_distance=5km&num_people=2&availability_mode=same_meal_time",
+        "revision": 3,
+        "diagnosticDOM": []
+      },
+      {
+        "sequence": 37,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7794782&geo_longitude=139.7213779&geo_distance=5km&num_people=2&availability_mode=same_meal_time",
+        "revision": 5,
+        "diagnosticDOM": []
+      },
+      {
+        "sequence": 38,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaburaya%20Akabane%201",
+        "revision": 3,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0092.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0093.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0094.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0095.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0096.html"
+        ]
+      },
+      {
+        "sequence": 39,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaburaya%20Akabane%201",
+        "revision": 4,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0092.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0093.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0094.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0095.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0096.html"
+        ]
+      },
+      {
+        "sequence": 40,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaburaya%20Akabane%201",
+        "revision": 6,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0092.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0093.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0094.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0095.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0096.html"
+        ]
+      },
+      {
+        "sequence": 41,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaburaya%20Akabane%201",
+        "revision": 7,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0092.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0093.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0094.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0095.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0096.html"
+        ]
+      },
+      {
+        "sequence": 42,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaburaya%20Akabane%201",
+        "revision": 8,
+        "diagnosticDOM": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0092.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0093.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0094.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0095.html",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792888308850/diagnostic/snapshot-0096.html"
+        ]
+      }
+    ],
+    "DOMReview": "Snapshot73+ regional select offers Tokyo group regions; city/station selects hidden and empty. Snapshot60–65 Akabane Station mentions access prose. No observed bindable Akabane LOCATION or Akabane Sta link in actual decision targets; limitation: captured flow only."
+  }
+}

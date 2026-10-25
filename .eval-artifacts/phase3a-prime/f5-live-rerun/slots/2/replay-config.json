@@ -1,0 +1,421 @@
+{
+  "recordingDirectory": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792918550990",
+  "decisionsPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.decisions.jsonl",
+  "input": {
+    "frozen": {
+      "id": "p2c-holdout-01",
+      "dataset": "restaurant-read-novel-variant@1",
+      "reference_time": "2026-10-25T00:00:00+09:00",
+      "content": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 4 at 7 PM?\n",
+      "semantic": {
+        "target": {
+          "goal": "AVAILABILITY"
+        },
+        "location": {
+          "value": "Akabane",
+          "relation": "NEAR"
+        },
+        "date": {
+          "expression": "Wednesday, November 4",
+          "value": "2026-11-04"
+        },
+        "time": {
+          "value": "19:00"
+        },
+        "party_size": 2,
+        "criteria": [
+          {
+            "value": "kushikatsu",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ]
+      },
+      "acceptance": {
+        "required_claims": [
+          "Correct outlet within 1,000 m of the resolved Akabane point; source-supported kushikatsu (kushiage); a matching current slot on Wednesday, November 4 at 19:00 for 2."
+        ]
+      }
+    },
+    "runtimeContext": {
+      "commitSha": "0bce4ecde46fe836e2172c61e563b757554f806a",
+      "worktree": "DIRTY",
+      "dataset": {
+        "version": "restaurant-read-novel-variant@1",
+        "sourcePath": ".eval-artifacts/phase3a-prime/f5-live-rerun/runner-input.yaml",
+        "sha256": "79f466da0e2106d080528b3bcbbd40794270923059305965ffe72ccbffd50231",
+        "cohort": "NOVEL_LOCATION_DIAGNOSTIC",
+        "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+        "baselineEligible": false
+      },
+      "browserEngine": "LOCAL_CHROMIUM",
+      "preflight": {
+        "artifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-25T08-55-32-300Z-308af42a-f555-42a4-bf2d-950f263bc6f9.result.json",
+        "elapsedMs": 3219,
+        "targetCount": 2,
+        "sourceHealthArtifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/live-source-health/1792918522282-p2c-holdout-01/source-health.json",
+        "sourceHealthAttempts": 1,
+        "reviewedReadsPath": ".eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json",
+        "reviewedReadsSha256": "4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26"
+      },
+      "nodeVersion": "v24.4.1",
+      "skillHashes": {
+        "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+        "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+        "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+      }
+    },
+    "limits": {
+      "maxModelCalls": 50,
+      "maxDiscoveryCandidates": 10,
+      "maxGoogleRequests": 40,
+      "maxStructuredReadMs": 30000,
+      "maxAvailabilitySourceBrowserSessions": 3,
+      "maxAvailabilitySourceCandidateMatches": 3,
+      "maxAvailabilityReads": 20,
+      "maxBrowserRuntimeFallbacks": 1,
+      "maxBrowserModelCallsPerCandidate": 20,
+      "maxBrowserModelCallsTotal": 120,
+      "maxBrowserOperationsPerCandidate": 80,
+      "maxFactModelCallsPerCandidate": 4,
+      "maxFactBrowserOperationsPerCandidate": 24,
+      "maxFactBrowserMs": 45000,
+      "maxFactProviderMs": 30000,
+      "maxCandidateBrowserMs": 60000,
+      "maxProviderBrowserMs": 45000,
+      "maxAutomaticBrowserMs": 500000,
+      "maxAgentSteps": 30,
+      "maxRejectedActions": 5
+    },
+    "recordBrowser": false,
+    "recordDecisions": false,
+    "startedAt": "2026-10-25T08:55:51.000Z",
+    "reviewedReads": {
+      "rules": [
+        {
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "pathname": "/catalog.json",
+          "methods": [
+            "GET"
+          ],
+          "resourceTypes": [
+            "fetch",
+            "xhr"
+          ],
+          "queryKeyRules": {
+            "required": []
+          },
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "pathname": "/search/",
+          "methods": [
+            "GET"
+          ],
+          "resourceTypes": [
+            "fetch",
+            "xhr"
+          ],
+          "queryKeyRules": {
+            "required": [
+              "queryProfile"
+            ],
+            "allowed": [
+              "hits",
+              "scope",
+              "lat",
+              "lng",
+              "radius_km",
+              "party_size",
+              "cuisine",
+              "sort",
+              "offset",
+              "id",
+              "open_day",
+              "service_mode"
+            ]
+          },
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "origin": "https://production.tablecheck.com",
+          "pathname": "/v2/hub/availability_calendar_v2",
+          "resourceTypes": [
+            "fetch"
+          ],
+          "methods": [
+            "POST"
+          ],
+          "bodyFields": {
+            "locale": "string",
+            "start_at": "string",
+            "shop_id": "string",
+            "num_people": "string"
+          }
+        },
+        {
+          "origin": "https://tabelog.com",
+          "pathnamePattern": "^/en/tokyo/.*$",
+          "methods": [
+            "GET"
+          ],
+          "resourceTypes": [
+            "document"
+          ],
+          "queryKeyRules": {
+            "required": [],
+            "allowed": [
+              "sw",
+              "vac_net",
+              "svd",
+              "svt",
+              "svps"
+            ]
+          },
+          "strictQueryKeys": [
+            "vac_net",
+            "svd",
+            "svt",
+            "svps"
+          ]
+        },
+        {
+          "origin": "https://www.tablecheck.com",
+          "pathname": "/en/japan/search",
+          "methods": [
+            "GET"
+          ],
+          "resourceTypes": [
+            "document"
+          ],
+          "queryKeyRules": {
+            "required": [
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate"
+            ],
+            "allowed": [
+              "search_text",
+              "date",
+              "time",
+              "num_people",
+              "availability_mode"
+            ]
+          },
+          "strictQueryKeys": [
+            "date",
+            "time",
+            "num_people",
+            "availability_mode"
+          ]
+        },
+        {
+          "origin": "https://production.tablecheck.com",
+          "pathname": "/v2/geolocation",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "resourceTypes": [
+            "fetch"
+          ],
+          "queryKeyRules": {
+            "required": []
+          },
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "origin": "https://production.tablecheck.com",
+          "pathname": "/v2/autocomplete",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "resourceTypes": [
+            "fetch"
+          ],
+          "queryKeyRules": {
+            "required": [
+              "locale",
+              "shop_universe_id",
+              "text"
+            ]
+          },
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "origin": "https://production.tablecheck.com",
+          "pathname": "/v2/hub/public_shop_lists",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "resourceTypes": [
+            "fetch"
+          ],
+          "queryKeyRules": {
+            "required": [
+              "limit",
+              "sort_by"
+            ],
+            "allowed": [
+              "shop_ids[]"
+            ],
+            "repeatable": [
+              "shop_ids[]"
+            ]
+          },
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+          "pathname": "/ai_search",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "resourceTypes": [
+            "fetch"
+          ],
+          "queryKeyRules": {
+            "required": [
+              "shop_universe_id",
+              "include_ids"
+            ],
+            "allowed": [
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "search_text",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate",
+              "cuisines[]",
+              "budget_dinner_avg_min",
+              "budget_dinner_avg_max",
+              "search_after",
+              "per_page",
+              "randomize_geo"
+            ],
+            "repeatable": [
+              "cuisines[]"
+            ]
+          },
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "origin": "https://production.tablecheck.com",
+          "pathname": "/v2/shop_search",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "resourceTypes": [
+            "fetch"
+          ],
+          "queryKeyRules": {
+            "required": [
+              "shop_universe_id",
+              "include_ids"
+            ],
+            "allowed": [
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "search_text",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate",
+              "cuisines[]",
+              "budget_dinner_avg_min",
+              "budget_dinner_avg_max",
+              "search_after",
+              "per_page",
+              "randomize_geo"
+            ],
+            "repeatable": [
+              "cuisines[]"
+            ]
+          },
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "origin": "https://cdn0.tablecheck.com",
+          "pathnamePattern": "^/common/.*$",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "resourceTypes": [
+            "script",
+            "stylesheet",
+            "font",
+            "image",
+            "fetch"
+          ],
+          "queryKeyRules": {
+            "required": []
+          },
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        }
+      ],
+      "sha256": "4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+      "refs": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26"
+      ]
+    },
+    "packIds": [
+      "tabelog",
+      "tablecheck",
+      "google-places"
+    ]
+  },
+  "modelMode": "ORIGINAL"
+}

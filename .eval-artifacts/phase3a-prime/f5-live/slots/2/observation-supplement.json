@@ -1,0 +1,1919 @@
+{
+  "kind": "SUPPLEMENTARY_OFFLINE_OBSERVATION",
+  "artifactSha256": "c9c75de904849d688936dedffb950bd6ced8787e557907d6e492618af0c485b8",
+  "reviewedAtCET": "2026-10-25T02:02:54.094012+01:00",
+  "timing": {
+    "method": "Pair actual OPERATION_STARTED/FINISHED/FAILED by source/candidate/stage/type; model intervals override. Original frozen metrics retained.",
+    "elapsedMs": 500333.0,
+    "wallTimePartitionMs": {
+      "UNATTRIBUTED": 51677.0,
+      "MODEL:restaurant_semantic_interpret": 4485.0,
+      "MODEL:restaurant_agent_decide": 30591.0,
+      "PAGE_LOAD": 240728.0,
+      "READ_PAGE": 28748.0,
+      "MODEL:restaurant_discovery_retrieval": 15721.0,
+      "WAIT": 50574.0,
+      "MODEL:browser_read_decide": 56581.0,
+      "PAGE_OPERATION": 4150.0,
+      "MODEL:restaurant_fact_judgment": 17078.0
+    },
+    "operationCounts": {
+      "NAVIGATE": 47,
+      "SNAPSHOT": 107,
+      "OBSERVE_CONTROLS": 65,
+      "WAIT_FOR_SETTLED": 27,
+      "OPEN_LINK": 3,
+      "VERIFY_RESULT_STABILITY": 7,
+      "CLICK": 8,
+      "CLICK_AUTHORITATIVE": 1
+    },
+    "modelCallsByPurpose": {
+      "restaurant_semantic_interpret": 1,
+      "restaurant_agent_decide": 10,
+      "restaurant_discovery_retrieval": 4,
+      "browser_read_decide": 19,
+      "restaurant_fact_judgment": 8
+    },
+    "modelPurposeLatencyMs": {
+      "restaurant_agent_decide": 30591,
+      "restaurant_semantic_interpret": 4485,
+      "restaurant_fact_judgment": 17078,
+      "browser_read_decide": 56581,
+      "restaurant_discovery_retrieval": 15721
+    },
+    "navigations": 49,
+    "repeatExactURLNavigations": 26,
+    "gaps": [
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 414
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 637
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1421
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1433
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 409,
+        "operation": "WAIT_FOR_SETTLED"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 632,
+        "operation": "OPEN_LINK"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1418,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1430,
+        "operation": "NAVIGATE"
+      }
+    ],
+    "sessionOpening": "Unmeasured separately; within UNATTRIBUTED"
+  },
+  "controls": {
+    "method": "Read actual top-level decision.messages; frozen analyzer input/request lookup misses this shape. Raw DOM manual audit still required.",
+    "contexts": 19,
+    "availableActionOccurrences": {
+      "OPEN_LINK": 749,
+      "CLICK": 146,
+      "CLICK_AUTHORITATIVE:PARTY_SIZE": 2,
+      "CLICK_AUTHORITATIVE:DATE": 1
+    },
+    "legalLOCATION": [],
+    "AkabaneStationOpenLinks": [
+      {
+        "sequence": 31,
+        "target": {
+          "ref": "observation:5:target:29",
+          "kind": "LINK",
+          "role": "link",
+          "label": "Akabane Sta. Izakaya (Japanese style tavern)",
+          "controlGroupLabel": "Unlabelled group",
+          "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/rstLst/izakaya/",
+          "availableActions": [
+            "OPEN_LINK"
+          ]
+        },
+        "diagnosticDOM": [
+          {
+            "snapshot": 78,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0078.html"
+          },
+          {
+            "snapshot": 81,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0081.html"
+          },
+          {
+            "snapshot": 82,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0082.html"
+          },
+          {
+            "snapshot": 83,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0083.html"
+          },
+          {
+            "snapshot": 84,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0084.html"
+          },
+          {
+            "snapshot": 85,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0085.html"
+          },
+          {
+            "snapshot": 86,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0086.html"
+          },
+          {
+            "snapshot": 87,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0087.html"
+          }
+        ],
+        "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:80\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to November 2026 to reach requested date.\"}"
+      },
+      {
+        "sequence": 31,
+        "target": {
+          "ref": "observation:5:target:31",
+          "kind": "LINK",
+          "role": "link",
+          "label": "Akabane Sta.",
+          "controlGroupLabel": "Nearest station：",
+          "controlGroupRef": "observation:5:group:4",
+          "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/",
+          "availableActions": [
+            "OPEN_LINK"
+          ]
+        },
+        "diagnosticDOM": [
+          {
+            "snapshot": 78,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0078.html"
+          },
+          {
+            "snapshot": 81,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0081.html"
+          },
+          {
+            "snapshot": 82,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0082.html"
+          },
+          {
+            "snapshot": 83,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0083.html"
+          },
+          {
+            "snapshot": 84,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0084.html"
+          },
+          {
+            "snapshot": 85,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0085.html"
+          },
+          {
+            "snapshot": 86,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0086.html"
+          },
+          {
+            "snapshot": 87,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0087.html"
+          }
+        ],
+        "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:80\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to November 2026 to reach requested date.\"}"
+      },
+      {
+        "sequence": 32,
+        "target": {
+          "ref": "observation:6:target:52",
+          "kind": "LINK",
+          "role": "link",
+          "label": "Akabane Sta. Izakaya (Japanese style tavern)",
+          "controlGroupLabel": "Unlabelled group",
+          "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/rstLst/izakaya/",
+          "availableActions": [
+            "OPEN_LINK"
+          ]
+        },
+        "diagnosticDOM": [
+          {
+            "snapshot": 78,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0078.html"
+          },
+          {
+            "snapshot": 81,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0081.html"
+          },
+          {
+            "snapshot": 82,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0082.html"
+          },
+          {
+            "snapshot": 83,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0083.html"
+          },
+          {
+            "snapshot": 84,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0084.html"
+          },
+          {
+            "snapshot": 85,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0085.html"
+          },
+          {
+            "snapshot": 86,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0086.html"
+          },
+          {
+            "snapshot": 87,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0087.html"
+          }
+        ],
+        "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:6:target:4\", \"authoritativeField\": \"DATE\", \"requestedState\": \"NONE\", \"reason\": \"Select requested date 2026-11-04; guests 2 already selected.\"}"
+      },
+      {
+        "sequence": 32,
+        "target": {
+          "ref": "observation:6:target:54",
+          "kind": "LINK",
+          "role": "link",
+          "label": "Akabane Sta.",
+          "controlGroupLabel": "Nearest station：",
+          "controlGroupRef": "observation:6:group:4",
+          "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/",
+          "availableActions": [
+            "OPEN_LINK"
+          ]
+        },
+        "diagnosticDOM": [
+          {
+            "snapshot": 78,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0078.html"
+          },
+          {
+            "snapshot": 81,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0081.html"
+          },
+          {
+            "snapshot": 82,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0082.html"
+          },
+          {
+            "snapshot": 83,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0083.html"
+          },
+          {
+            "snapshot": 84,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0084.html"
+          },
+          {
+            "snapshot": 85,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0085.html"
+          },
+          {
+            "snapshot": 86,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0086.html"
+          },
+          {
+            "snapshot": 87,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0087.html"
+          }
+        ],
+        "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:6:target:4\", \"authoritativeField\": \"DATE\", \"requestedState\": \"NONE\", \"reason\": \"Select requested date 2026-11-04; guests 2 already selected.\"}"
+      }
+    ],
+    "regionCorrectionContexts": [],
+    "observations": [
+      {
+        "sequence": 4,
+        "url": "https://tabelog.com/en/tokyo/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 1,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0001.html"
+          },
+          {
+            "snapshot": 2,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0002.html"
+          },
+          {
+            "snapshot": 3,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0003.html"
+          },
+          {
+            "snapshot": 69,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0069.html"
+          },
+          {
+            "snapshot": 102,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0102.html"
+          }
+        ]
+      },
+      {
+        "sequence": 13,
+        "url": "https://www.tablecheck.com/en/kawaei",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 18,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0018.html"
+          },
+          {
+            "snapshot": 20,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0020.html"
+          },
+          {
+            "snapshot": 21,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0021.html"
+          },
+          {
+            "snapshot": 31,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0031.html"
+          },
+          {
+            "snapshot": 32,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0032.html"
+          },
+          {
+            "snapshot": 33,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0033.html"
+          },
+          {
+            "snapshot": 34,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0034.html"
+          },
+          {
+            "snapshot": 35,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0035.html"
+          },
+          {
+            "snapshot": 45,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0045.html"
+          }
+        ]
+      },
+      {
+        "sequence": 19,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kushiman+Akabane&geo_latitude=35.779830499999996&geo_longitude=139.72060969999998&geo_distance=5km&auto_geolocate=false",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 41,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0041.html"
+          },
+          {
+            "snapshot": 42,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0042.html"
+          },
+          {
+            "snapshot": 43,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0043.html"
+          }
+        ]
+      },
+      {
+        "sequence": 20,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kushiman%20Akabane",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 47,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0047.html"
+          },
+          {
+            "snapshot": 48,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0048.html"
+          },
+          {
+            "snapshot": 49,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0049.html"
+          },
+          {
+            "snapshot": 50,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0050.html"
+          }
+        ]
+      },
+      {
+        "sequence": 21,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kushiman%20Akabane",
+        "revision": 5,
+        "diagnosticDOM": [
+          {
+            "snapshot": 47,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0047.html"
+          },
+          {
+            "snapshot": 48,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0048.html"
+          },
+          {
+            "snapshot": 49,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0049.html"
+          },
+          {
+            "snapshot": 50,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0050.html"
+          }
+        ]
+      },
+      {
+        "sequence": 22,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kushiman%20Akabane",
+        "revision": 7,
+        "diagnosticDOM": [
+          {
+            "snapshot": 47,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0047.html"
+          },
+          {
+            "snapshot": 48,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0048.html"
+          },
+          {
+            "snapshot": 49,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0049.html"
+          },
+          {
+            "snapshot": 50,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0050.html"
+          }
+        ]
+      },
+      {
+        "sequence": 23,
+        "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 58,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0058.html"
+          },
+          {
+            "snapshot": 59,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0059.html"
+          },
+          {
+            "snapshot": 60,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0060.html"
+          },
+          {
+            "snapshot": 61,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0061.html"
+          },
+          {
+            "snapshot": 62,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0062.html"
+          }
+        ]
+      },
+      {
+        "sequence": 24,
+        "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+        "revision": 6,
+        "diagnosticDOM": [
+          {
+            "snapshot": 58,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0058.html"
+          },
+          {
+            "snapshot": 59,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0059.html"
+          },
+          {
+            "snapshot": 60,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0060.html"
+          },
+          {
+            "snapshot": 61,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0061.html"
+          },
+          {
+            "snapshot": 62,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0062.html"
+          }
+        ]
+      },
+      {
+        "sequence": 25,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 66,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0066.html"
+          },
+          {
+            "snapshot": 67,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0067.html"
+          },
+          {
+            "snapshot": 68,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0068.html"
+          }
+        ]
+      },
+      {
+        "sequence": 26,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 66,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0066.html"
+          },
+          {
+            "snapshot": 67,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0067.html"
+          },
+          {
+            "snapshot": 68,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0068.html"
+          }
+        ]
+      },
+      {
+        "sequence": 27,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+        "revision": 5,
+        "diagnosticDOM": [
+          {
+            "snapshot": 66,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0066.html"
+          },
+          {
+            "snapshot": 67,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0067.html"
+          },
+          {
+            "snapshot": 68,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0068.html"
+          }
+        ]
+      },
+      {
+        "sequence": 30,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E3%82%84%E3%81%8D%E3%81%A8%E3%82%93%E5%A4%A7%E7%8E%8B+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.780183199999996&geo_longitude=139.7208911&geo_distance=5km&auto_geolocate=false",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 73,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0073.html"
+          },
+          {
+            "snapshot": 74,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0074.html"
+          },
+          {
+            "snapshot": 75,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0075.html"
+          }
+        ]
+      },
+      {
+        "sequence": 31,
+        "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+        "revision": 5,
+        "diagnosticDOM": [
+          {
+            "snapshot": 78,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0078.html"
+          },
+          {
+            "snapshot": 81,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0081.html"
+          },
+          {
+            "snapshot": 82,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0082.html"
+          },
+          {
+            "snapshot": 83,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0083.html"
+          },
+          {
+            "snapshot": 84,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0084.html"
+          },
+          {
+            "snapshot": 85,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0085.html"
+          },
+          {
+            "snapshot": 86,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0086.html"
+          },
+          {
+            "snapshot": 87,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0087.html"
+          }
+        ]
+      },
+      {
+        "sequence": 32,
+        "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+        "revision": 6,
+        "diagnosticDOM": [
+          {
+            "snapshot": 78,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0078.html"
+          },
+          {
+            "snapshot": 81,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0081.html"
+          },
+          {
+            "snapshot": 82,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0082.html"
+          },
+          {
+            "snapshot": 83,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0083.html"
+          },
+          {
+            "snapshot": 84,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0084.html"
+          },
+          {
+            "snapshot": 85,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0085.html"
+          },
+          {
+            "snapshot": 86,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0086.html"
+          },
+          {
+            "snapshot": 87,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0087.html"
+          }
+        ]
+      },
+      {
+        "sequence": 33,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaburaya%20Akabane%202%20Goten",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 99,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0099.html"
+          },
+          {
+            "snapshot": 100,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0100.html"
+          },
+          {
+            "snapshot": 101,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0101.html"
+          }
+        ]
+      },
+      {
+        "sequence": 34,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaburaya%20Akabane%202%20Goten",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 99,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0099.html"
+          },
+          {
+            "snapshot": 100,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0100.html"
+          },
+          {
+            "snapshot": 101,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0101.html"
+          }
+        ]
+      },
+      {
+        "sequence": 35,
+        "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaburaya%20Akabane%202%20Goten",
+        "revision": 5,
+        "diagnosticDOM": [
+          {
+            "snapshot": 99,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0099.html"
+          },
+          {
+            "snapshot": 100,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0100.html"
+          },
+          {
+            "snapshot": 101,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0101.html"
+          }
+        ]
+      },
+      {
+        "sequence": 37,
+        "url": "https://www.1bangai.org/daioh",
+        "revision": 1,
+        "diagnosticDOM": [
+          {
+            "snapshot": 106,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0106.html"
+          },
+          {
+            "snapshot": 107,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0107.html"
+          }
+        ]
+      },
+      {
+        "sequence": 38,
+        "url": "https://www.1bangai.org/daioh",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 106,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0106.html"
+          },
+          {
+            "snapshot": 107,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0107.html"
+          }
+        ]
+      }
+    ]
+  },
+  "nativeProgress": [
+    {
+      "retrieval": {
+        "rewrites": 0,
+        "regionPages": 2,
+        "retrievalPages": 1,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Direct keyword search for the hard criterion kushikatsu in the Akabane area.",
+              "keyword": "kushikatsu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 42678,
+            "parsedCount": 9
+          }
+        ],
+        "selection": {
+          "accepted": true,
+          "reason": "Direct keyword search for the hard criterion kushikatsu in the Akabane area.",
+          "keyword": "kushikatsu",
+          "criterionRef": "criterion:0"
+        }
+      },
+      "directoryRegion": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1322/",
+          "observedOn": "https://tabelog.com/en/tokyo/",
+          "targetRef": "observation:2:target:25",
+          "label": "Itabashi & Along Tobu Railway Line"
+        },
+        "provisional": true,
+        "samples": [
+          {
+            "sourceEntityId": "en/tokyo/A1322/A132202/13155817",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.73236921866393,
+              "longitude": 139.70486078494415
+            },
+            "bearingDegrees": 197.2384868672463,
+            "direction": "S",
+            "distanceMeters": 5547.116372577523
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1322/A132203/13168736",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132203/13168736/",
+            "outcome": "OUTSIDE_RADIUS",
+            "coordinates": {
+              "latitude": 35.74923654865233,
+              "longitude": 139.7020477451165
+            },
+            "bearingDegrees": 209.02296324520773,
+            "direction": "SW",
+            "distanceMeters": 3911.367533853191
+          }
+        ]
+      },
+      "sourceId": "tabelog",
+      "inspectedSourceIds": [
+        "en/tokyo/A1322/A132202/13155817",
+        "en/tokyo/A1322/A132203/13168736"
+      ],
+      "detailAttempts": 2,
+      "pagesRead": 3,
+      "elapsedMs": 52966,
+      "visitedListingUrls": [
+        "https://tabelog.com/en/tokyo/",
+        "https://tabelog.com/en/tokyo/A1322/",
+        "https://tabelog.com/en/tokyo/A1322/?sw=kushikatsu"
+      ],
+      "pendingSourceEntries": [],
+      "pendingSourceIds": [],
+      "observedEntranceCount": 39
+    },
+    {
+      "retrieval": {
+        "selection": {
+          "accepted": true,
+          "reason": "Both prior terms returned only unrelated results (2 items: eel restaurant, beer bar). No categories supplied, so try a materially different Japanese term for the same hard criterion: 串揚げ (kushiage), the broader fried-skewer term often used interchangeably with kushikatsu.",
+          "keyword": "串揚げ",
+          "criterionRef": "criterion:0"
+        },
+        "rewrites": 2,
+        "regionPages": 0,
+        "retrievalPages": 3,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Retrieve restaurants matching the hard criterion kushikatsu in Akabane.",
+              "keyword": "kushikatsu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 5629,
+            "parsedCount": 2
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "The English keyword returned only 2 unrelated results; retry the hard criterion using the Japanese term 串カツ, which is materially different from the attempted term.",
+              "keyword": "串カツ",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 10671,
+            "parsedCount": 2
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Both prior terms returned only unrelated results (2 items: eel restaurant, beer bar). No categories supplied, so try a materially different Japanese term for the same hard criterion: 串揚げ (kushiage), the broader fried-skewer term often used interchangeably with kushikatsu.",
+              "keyword": "串揚げ",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 19577,
+            "parsedCount": 2
+          }
+        ]
+      },
+      "sourceId": "tablecheck",
+      "inspectedSourceIds": [
+        "kawaei",
+        "underground-akabane"
+      ],
+      "detailAttempts": 2,
+      "pagesRead": 3,
+      "elapsedMs": 45593,
+      "visitedListingUrls": [
+        "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E3%82%AB%E3%83%84",
+        "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=%E4%B8%B2%E6%8F%9A%E3%81%92"
+      ],
+      "pendingSourceEntries": [],
+      "pendingSourceIds": [],
+      "observedEntranceCount": 0
+    }
+  ],
+  "candidateLedger": [
+    {
+      "restaurant": {
+        "id": "tablecheck:kawaei",
+        "outletName": "Kawaei",
+        "address": "115-0045 Tokyo Kita 1-19-16 Akabane",
+        "coordinates": {
+          "lat": 35.780913,
+          "lng": 139.7211376
+        },
+        "sourceIds": {
+          "tablecheck": "kawaei",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/kawaei",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/kawaei"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:b5ba79bcdf587f36fb8050cc",
+          "address": "evidence:restaurant:native-discovery:b5ba79bcdf587f36fb8050cc",
+          "sourceIds": "evidence:restaurant:native-discovery:b5ba79bcdf587f36fb8050cc"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T00:56:40.358Z",
+        "evidenceIds": [],
+        "reasonCode": "BROWSER_TIMEOUT",
+        "sourceProvider": "TABLECHECK",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tablecheck-hard-criteria:7362a7496d7331286ce15d4e",
+          "evidence:restaurant:tablecheck-hard-criteria:50942d2dd67eac881e1ead7f"
+        ]
+      },
+      "availability": {
+        "status": "UNAVAILABLE",
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "checkedAt": "2026-10-25T00:56:26.133Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:0077007381d951bb9ebc37a4",
+          "evidence:restaurant:tablecheck-hard-criteria:7362a7496d7331286ce15d4e",
+          "evidence:restaurant:tablecheck-availability:8b1d03006edb06da8d2a375b",
+          "evidence:restaurant:tablecheck-entity-match:b2f084b18718cc2c650262e3",
+          "evidence:restaurant:tablecheck-hard-criteria:50942d2dd67eac881e1ead7f"
+        ],
+        "reasonCode": "NO_MATCHING_SLOT",
+        "displayExpiresAt": "2026-10-25T01:06:26.133Z",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "timeWindowCoverage": {
+          "date": "2026-11-04",
+          "partySize": 2,
+          "requestedWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "covered": [
+            {
+              "earliest": "19:00",
+              "latest": "19:00",
+              "status": "EMPTY"
+            }
+          ],
+          "uncovered": [],
+          "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+        },
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "UNAVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tablecheck:underground-akabane",
+        "outletName": "UNDERGROUND Akabane",
+        "address": "115-0045 Tokyo Kita 1-66-5 Akabane Green Co-op Ⅱ",
+        "coordinates": {
+          "lat": 35.7808382,
+          "lng": 139.7194816
+        },
+        "sourceIds": {
+          "tablecheck": "underground-akabane",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/underground-akabane",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/underground-akabane"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:6d18e94572a07f779724ac0c",
+          "address": "evidence:restaurant:native-discovery:6d18e94572a07f779724ac0c",
+          "sourceIds": "evidence:restaurant:native-discovery:6d18e94572a07f779724ac0c"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T00:57:10.372Z",
+        "evidenceIds": [
+          "evidence:restaurant:native-fact-identity:8ad557b74f336f6fe4d7df9f",
+          "tablecheck:underground-akabane:document:6eb4c42e488a83fa"
+        ],
+        "sourceProvider": "TABLECHECK",
+        "reasonCode": "NATIVE_HARD_FACTS_UNCONFIRMED",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tablecheck-hard-criteria:140b3b9f44ee3fa4c0b24fe7",
+          "evidence:restaurant:tablecheck-hard-criteria:4c472fc2d871a7220c8523e6"
+        ]
+      },
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T00:56:26.158Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:46df0b7dbc317c00a836659d",
+          "evidence:restaurant:tablecheck-hard-criteria:140b3b9f44ee3fa4c0b24fe7",
+          "evidence:restaurant:tablecheck-hard-criteria:4c472fc2d871a7220c8523e6"
+        ],
+        "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+        "timeWindowCoverage": {
+          "date": "2026-11-04",
+          "partySize": 2,
+          "requestedWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "covered": [
+            {
+              "earliest": "19:00",
+              "latest": "19:00",
+              "status": "EMPTY"
+            }
+          ],
+          "uncovered": [],
+          "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+        },
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+        "outletName": "やきとん大王 赤羽店",
+        "sourceIds": {
+          "googlePlaces": "ChIJD2M-Jx2TGGARYC8xs1rxXxY",
+          "phone": "03-5939-7750",
+          "googleWebsiteUri": "https://www.1bangai.org/daioh",
+          "googleMapsUri": "https://maps.google.com/?cid=1612272563477622624&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−23−６ 三晃ビル 1・2F",
+        "coordinates": {
+          "lat": 35.780183199999996,
+          "lng": 139.7208911
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:a3c58e8b1a1a6740f6900384",
+          "address": "evidence:restaurant:google-discovery:a3c58e8b1a1a6740f6900384",
+          "sourceIds": "evidence:restaurant:google-discovery:a3c58e8b1a1a6740f6900384"
+        }
+      },
+      "facts": {
+        "status": "COMPLETED",
+        "checkedAt": "2026-10-25T01:02:25.114Z",
+        "evidenceIds": [
+          "evidence:restaurant:google-entity:b14dce9f4d2fddf482a0c565",
+          "evidence:restaurant:google-facts:724153d4ecb9c73916efc5ab"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "GOOGLE_PLACES",
+            "outcome": "COMPLETED"
+          },
+          {
+            "source": "RESTAURANT_WEBSITE",
+            "outcome": "UNKNOWN",
+            "reasonCode": "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED"
+          }
+        ],
+        "reasonCode": "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED",
+        "sourceProvider": "GOOGLE_PLACES",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:google-facts:daf7d31171c057f9050fe949"
+        ]
+      },
+      "availability": {
+        "status": "AVAILABLE",
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "checkedAt": "2026-10-25T01:00:59.938Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:365d52dd83057916baeb22b7",
+          "evidence:restaurant:tabelog-hard-criteria:b1f6bb548ee3dfb33ddea89b",
+          "evidence:restaurant:tabelog-availability:ae3f43c5b629d7cd72d74188"
+        ],
+        "displayExpiresAt": "2026-10-25T01:10:59.938Z",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+        "outletName": "Dengana Akabane",
+        "sourceIds": {
+          "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+          "phone": "03-5249-4011",
+          "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+          "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+        "coordinates": {
+          "lat": 35.7795476,
+          "lng": 139.7211442
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:68946beaea41877399edc27a",
+          "address": "evidence:restaurant:google-discovery:68946beaea41877399edc27a",
+          "sourceIds": "evidence:restaurant:google-discovery:68946beaea41877399edc27a"
+        }
+      },
+      "facts": null,
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T00:59:20.771Z",
+        "evidenceIds": [],
+        "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:0d56ed154080df9317f9d79d",
+        "outletName": "Kushiman Akabane",
+        "sourceIds": {
+          "googlePlaces": "ChIJDVEhIh2TGGARendyY0svlKw",
+          "phone": "03-3598-8240",
+          "googleWebsiteUri": "http://www.marche.co.jp/",
+          "googleMapsUri": "https://maps.google.com/?cid=12435616471914280826&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−17−８ 杵扇ビル１Ｆ",
+        "coordinates": {
+          "lat": 35.779830499999996,
+          "lng": 139.72060969999998
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:e5d436d1b7a03a2abf786cd5",
+          "address": "evidence:restaurant:google-discovery:e5d436d1b7a03a2abf786cd5",
+          "sourceIds": "evidence:restaurant:google-discovery:e5d436d1b7a03a2abf786cd5"
+        }
+      },
+      "facts": {
+        "status": "COMPLETED",
+        "checkedAt": "2026-10-25T01:02:36.299Z",
+        "evidenceIds": [
+          "evidence:restaurant:google-entity:b9338790e07725ef396f23ca",
+          "evidence:restaurant:google-facts:23f0f721585568feeb69ed84"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "GOOGLE_PLACES",
+            "outcome": "COMPLETED"
+          },
+          {
+            "source": "RESTAURANT_WEBSITE",
+            "outcome": "UNKNOWN",
+            "reasonCode": "WEBSITE_FACT_READ_FAILED"
+          }
+        ],
+        "reasonCode": "WEBSITE_FACT_READ_FAILED",
+        "sourceProvider": "GOOGLE_PLACES",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:google-facts:05495b60868e8c794b4e5165"
+        ]
+      },
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T00:58:41.203Z",
+        "evidenceIds": [],
+        "reasonCode": "BROWSER_TIMEOUT",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:22cd98fb641bd813a35745af",
+        "outletName": "Nonki",
+        "sourceIds": {
+          "googlePlaces": "ChIJIZ3yVQyTGGARZQ1tzJElcfY",
+          "phone": "03-6860-8910",
+          "googleWebsiteUri": "https://next-gf.com/",
+          "googleMapsUri": "https://maps.google.com/?cid=17758016113828760933&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-19-16 Akabane, Kita City, Tokyo 115-0045, Japan",
+        "coordinates": {
+          "lat": 35.780090699999995,
+          "lng": 139.7201665
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:e0d2611ff99ab851a9f383d3",
+          "address": "evidence:restaurant:google-discovery:e0d2611ff99ab851a9f383d3",
+          "sourceIds": "evidence:restaurant:google-discovery:e0d2611ff99ab851a9f383d3"
+        }
+      },
+      "facts": null,
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:01:06.623Z",
+        "evidenceIds": [],
+        "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:f93797735808708abd68d4ed",
+        "outletName": "Kaburaya Akabane 2 Goten",
+        "sourceIds": {
+          "googlePlaces": "ChIJeXK-Nh2TGGAReNdgP3H3hWI",
+          "phone": "03-5939-7387",
+          "googleWebsiteUri": "http://www.kaburaya.bz/shop/post-22/",
+          "googleMapsUri": "https://maps.google.com/?cid=7099352453386131320&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-12-2 Akabane, Kita City, Tokyo 115-0045, Japan",
+        "coordinates": {
+          "lat": 35.7794782,
+          "lng": 139.7213779
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:e8b4f572e7a0712060fc0bff",
+          "address": "evidence:restaurant:google-discovery:e8b4f572e7a0712060fc0bff",
+          "sourceIds": "evidence:restaurant:google-discovery:e8b4f572e7a0712060fc0bff"
+        }
+      },
+      "facts": null,
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:01:46.516Z",
+        "evidenceIds": [],
+        "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+        "outletName": "Kaburaya Akabane 1",
+        "sourceIds": {
+          "googlePlaces": "ChIJIzZAOh2TGGAR6SlXpJHzFOc",
+          "phone": "03-5939-4960",
+          "googleWebsiteUri": "http://www.kaburaya.bz/shop/post-21/",
+          "googleMapsUri": "https://maps.google.com/?cid=16651201529148549609&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-15-1 Akabane, Kita City, Tokyo 115-0045, Japan",
+        "coordinates": {
+          "lat": 35.7794464,
+          "lng": 139.72112479999998
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:72bae414facb680cf9b76f66",
+          "address": "evidence:restaurant:google-discovery:72bae414facb680cf9b76f66",
+          "sourceIds": "evidence:restaurant:google-discovery:72bae414facb680cf9b76f66"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:a600df04d5d4276bbde78253",
+        "outletName": "新時代 赤羽本店",
+        "sourceIds": {
+          "googlePlaces": "ChIJ-WY2ZwCTGGARXFSZIWHqXDg",
+          "phone": "03-5939-7475",
+          "googleWebsiteUri": "https://www.hotpepper.jp/strJ004493249/",
+          "googleMapsUri": "https://maps.google.com/?cid=4061378666877768796&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−23−２ 亀屋ビル 2F",
+        "coordinates": {
+          "lat": 35.7796812,
+          "lng": 139.7212747
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:76468eaa43c89099b027666e",
+          "address": "evidence:restaurant:google-discovery:76468eaa43c89099b027666e",
+          "sourceIds": "evidence:restaurant:google-discovery:76468eaa43c89099b027666e"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:599e0d36c008523886c7af6c",
+        "outletName": "Maruyoshi",
+        "sourceIds": {
+          "googlePlaces": "ChIJwUnGVR2TGGARagmZ4Ge2KVk",
+          "phone": "03-3901-8859",
+          "googleMapsUri": "https://maps.google.com/?cid=6424866900686735722&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-2-4 Akabane, 北区 Kita City, Tokyo 115-0045, Japan",
+        "coordinates": {
+          "lat": 35.7783109,
+          "lng": 139.7214812
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:94a18853b4bebef04c111f30",
+          "address": "evidence:restaurant:google-discovery:94a18853b4bebef04c111f30",
+          "sourceIds": "evidence:restaurant:google-discovery:94a18853b4bebef04c111f30"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:730456c8617b43baf817287d",
+        "outletName": "たくみろまん亭 YAMASHO",
+        "sourceIds": {
+          "googlePlaces": "ChIJI3h5NEGTGGAR_rrdBnSmsqY",
+          "phone": "03-5939-6090",
+          "googleWebsiteUri": "https://takumiromantic.owst.jp/",
+          "googleMapsUri": "https://maps.google.com/?cid=12011846173412145918&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−27−８ ナシャードマンション 1F",
+        "coordinates": {
+          "lat": 35.780681,
+          "lng": 139.7219174
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:3bb4d0ffdd16598063114d7b",
+          "address": "evidence:restaurant:google-discovery:3bb4d0ffdd16598063114d7b",
+          "sourceIds": "evidence:restaurant:google-discovery:3bb4d0ffdd16598063114d7b"
+        }
+      },
+      "facts": {
+        "status": "COMPLETED",
+        "checkedAt": "2026-10-25T01:02:42.388Z",
+        "evidenceIds": [
+          "evidence:restaurant:google-entity:d903698e5c6d5c0dd3d8e4c0",
+          "evidence:restaurant:google-facts:f308499de5ad799df5aa3ef5"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "GOOGLE_PLACES",
+            "outcome": "COMPLETED"
+          },
+          {
+            "source": "RESTAURANT_WEBSITE",
+            "outcome": "UNKNOWN",
+            "reasonCode": "WEBSITE_FACT_READ_FAILED"
+          }
+        ],
+        "reasonCode": "WEBSITE_FACT_READ_FAILED",
+        "sourceProvider": "GOOGLE_PLACES",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:google-facts:b59ec7280c2d731cda521c16"
+        ]
+      },
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T00:59:13.626Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:6a324963152ea54959fbaa37",
+          "evidence:restaurant:tabelog-hard-criteria:6136b1ac653d02e1d80ad92d"
+        ],
+        "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:11793f8f5f66939a880ddeb6",
+        "outletName": "YAKITORI Torikizoku Akabane East Exit Mae Store",
+        "sourceIds": {
+          "googlePlaces": "ChIJqSiLUh2TGGARlIf2CNXBwNc",
+          "phone": "03-5939-9866",
+          "googleWebsiteUri": "https://map.torikizoku.co.jp/store/409?utm_source=gmb&utm_medium=maps&utm_campaign=gmb",
+          "googleMapsUri": "https://maps.google.com/?cid=15546639034405521300&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−8−４ 赤羽商事ビル ６階",
+        "coordinates": {
+          "lat": 35.7787022,
+          "lng": 139.721644
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:bbfc0dbb769aae77d1ef1f68",
+          "address": "evidence:restaurant:google-discovery:bbfc0dbb769aae77d1ef1f68",
+          "sourceIds": "evidence:restaurant:google-discovery:bbfc0dbb769aae77d1ef1f68"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:9d55e45d0ece4c03e1f8f12d",
+        "outletName": "Tetsuichi",
+        "sourceIds": {
+          "googlePlaces": "ChIJS6d3Oh2TGGARsEfX6D79WrM",
+          "phone": "03-5249-3200",
+          "googleWebsiteUri": "https://www.dengana.jp/group",
+          "googleMapsUri": "https://maps.google.com/?cid=12923920527329281968&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ Shinnaka Building, 1F",
+        "coordinates": {
+          "lat": 35.7795207,
+          "lng": 139.72097159999998
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:69f0dcdadc4266922b35423f",
+          "address": "evidence:restaurant:google-discovery:69f0dcdadc4266922b35423f",
+          "sourceIds": "evidence:restaurant:google-discovery:69f0dcdadc4266922b35423f"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:dec0ebcce9240a0e472b39cc",
+        "outletName": "Sakura-shoten 603",
+        "sourceIds": {
+          "googlePlaces": "ChIJDwe-Tv2SGGARYy7BOvSu_-Q",
+          "googleMapsUri": "https://maps.google.com/?cid=16501099923689778787&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0044 Tokyo, Kita City, Akabaneminami, 1-chōme−8−７ 錦水会館",
+        "coordinates": {
+          "lat": 35.7776889,
+          "lng": 139.72218329999998
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:8f669e74d37e4ebb7aaefd1a",
+          "address": "evidence:restaurant:google-discovery:8f669e74d37e4ebb7aaefd1a",
+          "sourceIds": "evidence:restaurant:google-discovery:8f669e74d37e4ebb7aaefd1a"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:534815276a386b013ed89e28",
+        "outletName": "アミューズダイニング金太郎",
+        "sourceIds": {
+          "googlePlaces": "ChIJLbQqJx2TGGARiMpi0ywY5vA",
+          "phone": "050-5597-0627",
+          "googleMapsUri": "https://maps.google.com/?cid=17358588394550250120&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-22-8 Akabane, Kita City, Tokyo 115-0045, Japan",
+        "coordinates": {
+          "lat": 35.7799688,
+          "lng": 139.7208308
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:56687b21562afc146b4ce302",
+          "address": "evidence:restaurant:google-discovery:56687b21562afc146b4ce302",
+          "sourceIds": "evidence:restaurant:google-discovery:56687b21562afc146b4ce302"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:a0679a7158c91f1b15607aab",
+        "outletName": "Katsuya Akabane Store",
+        "sourceIds": {
+          "googlePlaces": "ChIJrf9NNh2TGGARl5az37JPswQ",
+          "phone": "03-5939-9331",
+          "googleWebsiteUri": "https://shop.arclandservice.co.jp/ae-shop/spot/detail?code=777",
+          "googleMapsUri": "https://maps.google.com/?cid=338702026658780823&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−13−３ 丸久ビル 1Ｆ",
+        "coordinates": {
+          "lat": 35.779325899999996,
+          "lng": 139.7212873
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:722513e5427170be80750cdd",
+          "address": "evidence:restaurant:google-discovery:722513e5427170be80750cdd",
+          "sourceIds": "evidence:restaurant:google-discovery:722513e5427170be80750cdd"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:bc8254fcd008f4427aeda3d6",
+        "outletName": "七ガ瀬",
+        "sourceIds": {
+          "googlePlaces": "ChIJmWyKEuKSGGAR1wLwq1DJvlw",
+          "phone": "03-5993-6168",
+          "googleWebsiteUri": "https://www.facebook.com/omotenashinagase",
+          "googleMapsUri": "https://maps.google.com/?cid=6683000245383594711&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-28-5 Akabanenishi, Kita City, Tokyo 115-0055, Japan",
+        "coordinates": {
+          "lat": 35.776104499999995,
+          "lng": 139.7178099
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:84df7c8c2ba855675f1be822",
+          "address": "evidence:restaurant:google-discovery:84df7c8c2ba855675f1be822",
+          "sourceIds": "evidence:restaurant:google-discovery:84df7c8c2ba855675f1be822"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:c26d9299f30b6cd6b0b6fb3d",
+        "outletName": "Ikoi",
+        "sourceIds": {
+          "googlePlaces": "ChIJVce7Ov2SGGARRqo4hR-4AsY",
+          "phone": "03-5939-7609",
+          "googleWebsiteUri": "https://twitter.com/tachinomi__ikoi",
+          "googleMapsUri": "https://maps.google.com/?cid=14268169014981732934&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0044 Tokyo, Kita City, Akabaneminami, 1-chōme−5−７ クレアシオン赤羽ビル 1F",
+        "coordinates": {
+          "lat": 35.7769845,
+          "lng": 139.7225113
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:349a70b87336f6e345c8f5f1",
+          "address": "evidence:restaurant:google-discovery:349a70b87336f6e345c8f5f1",
+          "sourceIds": "evidence:restaurant:google-discovery:349a70b87336f6e345c8f5f1"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:f01ca063552e73171d2b0395",
+        "outletName": "Yamachan",
+        "sourceIds": {
+          "googlePlaces": "ChIJN5wOTTOTGGARYyQ-kEk27YI",
+          "phone": "03-6903-8422",
+          "googleWebsiteUri": "https://www.yamachan.co.jp/shop/tokyo/akabane.php",
+          "googleMapsUri": "https://maps.google.com/?cid=9434256483991561315&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−5−４ 新丸久ビル ドン・キホーテ赤羽店2階",
+        "coordinates": {
+          "lat": 35.7784846,
+          "lng": 139.7221352
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:21c96a3295d793fe47c05513",
+          "address": "evidence:restaurant:google-discovery:21c96a3295d793fe47c05513",
+          "sourceIds": "evidence:restaurant:google-discovery:21c96a3295d793fe47c05513"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:273007d00f089f90f818568b",
+        "outletName": "赤羽居酒屋 大衆酒場 れもん 赤羽店",
+        "sourceIds": {
+          "googlePlaces": "ChIJM29esV-TGGAR1L_e0o1jIPk",
+          "phone": "080-4947-6249",
+          "googleWebsiteUri": "https://cmm2018.jp/?utm_source=google&utm_medium=organic&utm_campaign=gbp_41147854101263574159",
+          "googleMapsUri": "https://maps.google.com/?cid=17951457575478149076&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-12-6 Akabane, Kita City, Tokyo 115-0045, Japan",
+        "coordinates": {
+          "lat": 35.779576999999996,
+          "lng": 139.7215888
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:c9f8fd674bfb7ce84c40161a",
+          "address": "evidence:restaurant:google-discovery:c9f8fd674bfb7ce84c40161a",
+          "sourceIds": "evidence:restaurant:google-discovery:c9f8fd674bfb7ce84c40161a"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:431f523a0d8346310f337b94",
+        "outletName": "Tori Mero Akabane Station East Exit Front /yakitori izakaya",
+        "sourceIds": {
+          "googlePlaces": "ChIJnRPyUh2TGGAR_4SCTFJgbHM",
+          "phone": "050-1882-4085",
+          "googleWebsiteUri": "https://torimero.com/akabanehigashi/?utm_source=google&utm_medium=map",
+          "googleMapsUri": "https://maps.google.com/?cid=8317128518433670399&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−8−４ 赤羽商事ビル 7F",
+        "coordinates": {
+          "lat": 35.7787219,
+          "lng": 139.7216564
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:39b3bae12bab90869c055ae2",
+          "address": "evidence:restaurant:google-discovery:39b3bae12bab90869c055ae2",
+          "sourceIds": "evidence:restaurant:google-discovery:39b3bae12bab90869c055ae2"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:b5cdba546654a472fb14c5fa",
+        "outletName": "満天酒場 赤羽店",
+        "sourceIds": {
+          "googlePlaces": "ChIJVVWBrOKSGGAR4y6NsasVslw",
+          "phone": "03-3598-3360",
+          "googleWebsiteUri": "https://search.daisyo.co.jp/shop.php?shop_cd=5325",
+          "googleMapsUri": "https://maps.google.com/?cid=6679425024506277603&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−2−１ 赤羽南大野ビル 1階",
+        "coordinates": {
+          "lat": 35.7779439,
+          "lng": 139.72163640000002
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:0b49bd45bc8c37ded1f548ea",
+          "address": "evidence:restaurant:google-discovery:0b49bd45bc8c37ded1f548ea",
+          "sourceIds": "evidence:restaurant:google-discovery:0b49bd45bc8c37ded1f548ea"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:2ad74e4ade53243a0ca87ac7",
+        "outletName": "Shinjidai",
+        "sourceIds": {
+          "googlePlaces": "ChIJQTzOoneTGGARsdILrqP3OOM",
+          "phone": "03-3598-0101",
+          "googleWebsiteUri": "https://www.phads.jp/shop_search/",
+          "googleMapsUri": "https://maps.google.com/?cid=16373108727677178545&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−3−７ 大澤ビル １階",
+        "coordinates": {
+          "lat": 35.7784501,
+          "lng": 139.72191569999998
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:0af95e2e6ddcbc6d99548952",
+          "address": "evidence:restaurant:google-discovery:0af95e2e6ddcbc6d99548952",
+          "sourceIds": "evidence:restaurant:google-discovery:0af95e2e6ddcbc6d99548952"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:3633f267d2be47f6abd760c9",
+        "outletName": "Takumi Izakaya Restaurant",
+        "sourceIds": {
+          "googlePlaces": "ChIJBcrZ2uKSGGARZ9mv9nueVJw",
+          "phone": "03-5993-4488",
+          "googleWebsiteUri": "https://takumi1999.owst.jp/",
+          "googleMapsUri": "https://maps.google.com/?cid=11264802823217338727&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0055 Tokyo, Kita City, Akabanenishi, 1-chōme−2−14-1F ＭＹビル",
+        "coordinates": {
+          "lat": 35.776268,
+          "lng": 139.721108
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:6417af8265593340026b6787",
+          "address": "evidence:restaurant:google-discovery:6417af8265593340026b6787",
+          "sourceIds": "evidence:restaurant:google-discovery:6417af8265593340026b6787"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:271ae3c5dbffba00f5fbd9cc",
+        "outletName": "Yoshikura Akabane",
+        "sourceIds": {
+          "googlePlaces": "ChIJVVV5q-KSGGARo9NN2azyN3w",
+          "phone": "050-5590-9320",
+          "googleWebsiteUri": "https://www.hotpepper.jp/strJ001145797/",
+          "googleMapsUri": "https://maps.google.com/?cid=8950889608616203171&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−2−１ 赤羽南大野ビル ５F",
+        "coordinates": {
+          "lat": 35.7779573,
+          "lng": 139.7216341
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:8de02fdbc9c6862846f4c9fa",
+          "address": "evidence:restaurant:google-discovery:8de02fdbc9c6862846f4c9fa",
+          "sourceIds": "evidence:restaurant:google-discovery:8de02fdbc9c6862846f4c9fa"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:89fc6f3ad7704643f1cf516b",
+        "outletName": "Sanchù Cafeteria",
+        "sourceIds": {
+          "googlePlaces": "ChIJSWaqmR2TGGARzgbk5XDtP1c",
+          "phone": "03-3900-7455",
+          "googleMapsUri": "https://maps.google.com/?cid=6287004673981548238&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-37-1 Akabanenishi, Kita City, Tokyo 115-0055, Japan",
+        "coordinates": {
+          "lat": 35.7780276,
+          "lng": 139.7187734
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:b03904288a665b2b6c1af6a2",
+          "address": "evidence:restaurant:google-discovery:b03904288a665b2b6c1af6a2",
+          "sourceIds": "evidence:restaurant:google-discovery:b03904288a665b2b6c1af6a2"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:09e0bcad96fe615e09aa01d9",
+        "outletName": "Osaka Ohsho Beans Akabane branch",
+        "sourceIds": {
+          "googlePlaces": "ChIJAXHjTxyTGGARq7-7s_WCZJM",
+          "phone": "03-5249-3100",
+          "googleWebsiteUri": "https://www.osaka-ohsho.com/store/detail.php?area=tokyo&id=akabane",
+          "googleMapsUri": "https://maps.google.com/?cid=10620757813040496555&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−1−１ ビーンズ",
+        "coordinates": {
+          "lat": 35.7788456,
+          "lng": 139.72030669999998
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:9e2eebfd79a1f45b8096bdb1",
+          "address": "evidence:restaurant:google-discovery:9e2eebfd79a1f45b8096bdb1",
+          "sourceIds": "evidence:restaurant:google-discovery:9e2eebfd79a1f45b8096bdb1"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:cc2044844a7b146b41e9a226",
+        "outletName": "Nihonichi Fuji Garden Akabane Store",
+        "sourceIds": {
+          "googlePlaces": "ChIJFcDkbxyTGGARRvM9FA2ADLU",
+          "phone": "03-5948-5226",
+          "googleWebsiteUri": "https://www.nihonichi.jp/store/store-450",
+          "googleMapsUri": "https://maps.google.com/?cid=13045943014248018758&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-67-58 Akabane, Kita City, Tokyo 115-0045, Japan",
+        "coordinates": {
+          "lat": 35.779308799999995,
+          "lng": 139.7195452
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:c251d7f841c4f98885695c32",
+          "address": "evidence:restaurant:google-discovery:c251d7f841c4f98885695c32",
+          "sourceIds": "evidence:restaurant:google-discovery:c251d7f841c4f98885695c32"
+        }
+      },
+      "facts": null,
+      "availability": null
+    }
+  ],
+  "termination": null,
+  "interruption": null,
+  "presented": null,
+  "googleCaptureRejections": [
+    {
+      "sequence": 1544,
+      "kind": "GOOGLE_CAPTURE_REJECTED",
+      "detail": {
+        "reason": "KEY_PATTERN_BEFORE_WRITE",
+        "stage": "BEFORE_WRITE"
+      }
+    }
+  ],
+  "replayHarExists": false,
+  "diagnosticDOMStatusCounts": {
+    "SAVED": 105,
+    "OMITTED": 2
+  },
+  "diagnosticDOMGaps": [
+    {
+      "snapshot": 44,
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT",
+      "diagnostic": {
+        "status": "OMITTED",
+        "reason": "UNSAFE_DOCUMENT"
+      }
+    },
+    {
+      "snapshot": 76,
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT",
+      "diagnostic": {
+        "status": "OMITTED",
+        "reason": "UNSAFE_DOCUMENT"
+      }
+    }
+  ],
+  "recordingCredentialLiteralPatternCounts": {
+    "GOOGLE_KEY": 0,
+    "MODEL_KEY": 0,
+    "AWS_KEY": 0,
+    "BEARER": 0,
+    "PRIVATE_KEY": 0
+  }
+}

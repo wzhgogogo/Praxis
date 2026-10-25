@@ -1,0 +1,135 @@
+{
+  "schema": "f5-independent-manual-review@1",
+  "reviewedAtCET": "2026-10-25T02:13:38.791011+01:00",
+  "reviewer": "Codex primary agent separate raw-evidence audit",
+  "artifactSha256": "61999c5fffbb2b0cf257d7bb6d1c3e72bb2006fba6ebfb11a367ed091b9af3de",
+  "fourLayers": {
+    "outcome": {
+      "frozenEvaluator": {
+        "type": "CAPABILITY_MISS",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+          ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "userAcceptance": "FAIL_NO_QUALIFIED_DELIVERY",
+      "elapsedSeconds": 399.728,
+      "timeout": "No outer interruption or trajectory TIMEOUT; final READ_ENDED bounded without grounded result"
+    },
+    "stages": {
+      "semantic": "Frozen date/time/party/Akabane/kushikatsu HARD preserved",
+      "location": "Raw Google Akabane center35.7799638,139.723053 radius1000; original station witness kept separately",
+      "discovery": "Two outside JSON-LD samples; no regionCorrection context issued; deferredTabelog elapsed33.204s/2details/2regionpages/39observed entrances",
+      "witness": "Google same name/address Dengana found; frozen automated NOT_FOUND retained (oracle lacks full address), manual raw-name/address comparison as earlier slots",
+      "identityFacts": "Witness outlet resolver not independently established in Tabelog; no source fact correctness pass claimed",
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:09:58.484Z",
+        "evidenceIds": [],
+        "reasonCode": "BROWSER_TIMEOUT",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+      },
+      "agent": "Actual legal search suppressed by NATIVE_FIRST_BATCH_PENDING after Google batch. Per-step optimality lacks separate acceptable-action Gold.",
+      "delivery": "NO_VERIFIED_RESULT with no presentedResults; bounded no delivery does not satisfy feasible case01"
+    },
+    "severity": {
+      "S0": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ]
+      },
+      "S1": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No independently established unmet user-need conclusion."
+        ],
+        "evidenceRefs": []
+      },
+      "S2": {
+        "status": "PRESENT",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+          ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+        ]
+      },
+      "S3": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "Experience/latency thresholds belong to E2; not scored here."
+        ],
+        "evidenceRefs": []
+      },
+      "S4": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "User-invisible retry effects are not independently established."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "S0_BOUNDARY": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    "attribution": {
+      "confirmed": "Deferred correction never reached; source batch rule blocks further search after Google batch; outlet matching failures separately observed.",
+      "unproven": "Unblocking return has no counterfactual success proof; cannot claim full delivery fix or single confirmed root cause."
+    }
+  },
+  "S0Review": {
+    "declaration": "ABSENT: no positive delivery; saved state/trajectory support; postGET rows[]",
+    "boundary": "ABSENT: independent frozen rules against raw request facts, evaluator gaps[]",
+    "postDeliveryGET": 0,
+    "health": "One READY attempt,0 environment retries"
+  },
+  "controlEvidence": "unused-control-audit.json",
+  "supplement": "observation-supplement.json"
+}

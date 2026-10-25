@@ -1,0 +1,38 @@
+{
+  "oldTestedCandidate": "2e184c2fb1d6b02d3cb49455d97cda30e3603b59",
+  "oldBase": "0a254f056e19e7207318360a3ec46439950c01a5",
+  "newMain": "e096ba35dbc77d6852fa4875dbeadaae92835ffe",
+  "oldEvidenceStatus": "Frozen regression before approved F5 integration; not final acceptance on new main",
+  "sourceConflicts": 0,
+  "documentResolutions": [
+    {
+      "path": "docs/STATUS.md",
+      "strategy": "Preserve entire approved upstream document and append three unique health records",
+      "healthRecordsPreserved": 3
+    },
+    {
+      "path": "docs/history/DEVLOG.md",
+      "strategy": "Preserve entire approved upstream document and append three unique health records",
+      "healthRecordsPreserved": 3
+    },
+    {
+      "path": "docs/history/TEST-LOG.md",
+      "strategy": "Preserve entire approved upstream document and append three unique health records",
+      "healthRecordsPreserved": 3
+    },
+    {
+      "path": "docs/history/monthly/2026-10.md",
+      "strategy": "Preserve entire approved upstream document and append three unique health records",
+      "healthRecordsPreserved": 3
+    },
+    {
+      "path": "docs/history/monthly/2026-10-index.md",
+      "strategy": "Preserve entire approved upstream document and append three unique health records",
+      "healthRecordsPreserved": 3
+    }
+  ],
+  "ourExecutableDiffAgainstNewMain": [
+    "src/harness/browser/live-source-health.test.ts"
+  ],
+  "required": "Rerun five gates and three full Chromium samples per OS on integrated source"
+}

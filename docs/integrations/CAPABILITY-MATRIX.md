@@ -1,11 +1,13 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.85
-- Last updated: 2026-10-23
+- Document revision: 1.86
+- Last updated: 2026-10-24
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
+
+2026-10-24 CEST，ADR-0043 共享层实现（本分支，尚未合入 main）：无具名标签／同源指针的已观察地区入口可先取坐标样本，首两个有效坐标均越界时，只从本来源流程实际观察且经 Pack 校验的入口集合选择一次。Browser 新动作 `SELECT_REGION_ENTRANCE` 只选集合引用，来源组合核对后直接导航；普通 DOM ref 仍绑定当前观察。与原4/5规则共用一次上限，最多4地区页，无恢复菜单；失败UNKNOWN、候选及累计预算保留。当前版本为 restaurant-state@21、TaskDefinition@19、browser-read-context@3、browser-read-action@12、browser-read-prompt@20；旧进度 firstFive 路径已移除，全部活动构造更新，历史 artifact 不改写。没有需保留的生产 Task 数据，本批不迁移／重置数据库。离线证据与 Live 缺口见 [F5 报告](../../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
 
 状态：`verified`表示官方文档确认；`assumed`表示设计假设待实测；`requires partnership`表示存在能力但访问条件未取得；`unsupported`表示当前不纳入。
 

@@ -1,0 +1,1262 @@
+{
+  "schema": "f5-rerun-slot-metrics@1",
+  "measurement": {
+    "method": "Actual Executor operation pairs; model intervals override; unfinished operations bounded by observed cutoff; unpaired/unattributed time stays explicit.",
+    "elapsedMs": 500696,
+    "wallTimePartitionMs": {
+      "UNATTRIBUTED": 26357,
+      "MODEL:restaurant_semantic_interpret": 3173,
+      "MODEL:restaurant_agent_decide": 24118,
+      "PAGE_LOAD": 286804,
+      "READ_PAGE": 33662,
+      "MODEL:restaurant_discovery_retrieval": 12913,
+      "WAIT": 38233,
+      "MODEL:browser_read_decide": 61249,
+      "MODEL:restaurant_fact_judgment": 13598,
+      "PAGE_OPERATION": 589
+    },
+    "modelCallsByPurpose": {
+      "restaurant_semantic_interpret": 1,
+      "restaurant_agent_decide": 8,
+      "restaurant_discovery_retrieval": 5,
+      "browser_read_decide": 19,
+      "restaurant_fact_judgment": 6
+    },
+    "modelPurposeLatencyMs": {
+      "restaurant_semantic_interpret": 3173,
+      "restaurant_agent_decide": 24118,
+      "restaurant_discovery_retrieval": 12913,
+      "browser_read_decide": 61249,
+      "restaurant_fact_judgment": 13598
+    },
+    "operationCounts": {
+      "NAVIGATE": 56,
+      "SNAPSHOT": 111,
+      "OBSERVE_CONTROLS": 66,
+      "WAIT_FOR_SETTLED": 27,
+      "OPEN_LINK": 4,
+      "VERIFY_RESULT_STABILITY": 7,
+      "CLICK": 9
+    },
+    "pairingGaps": [
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 753
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 944
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1390
+      },
+      {
+        "kind": "OPEN_AT_CUTOFF",
+        "sequence": 748,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "OPEN_AT_CUTOFF",
+        "sequence": 941,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "OPEN_AT_CUTOFF",
+        "sequence": 1385,
+        "operation": "NAVIGATE"
+      }
+    ],
+    "correction": {
+      "regionCorrectionInputs": 1,
+      "selectRegionEntranceOutputs": 1,
+      "observations": [
+        {
+          "decisionLine": 6,
+          "at": "2026-10-25T09:17:09.898Z",
+          "samples": [
+            {
+              "sourceEntityId": "en/tokyo/A1322/A132202/13155817",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.73236921866393,
+                "longitude": 139.70486078494415
+              },
+              "bearingDegrees": 197.2384868672463,
+              "direction": "S",
+              "distanceMeters": 5547.116372577523
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1322/A132203/13168736",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132203/13168736/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.74923654865233,
+                "longitude": 139.7020477451165
+              },
+              "bearingDegrees": 209.02296324520773,
+              "direction": "SW",
+              "distanceMeters": 3911.367533853191
+            }
+          ],
+          "remainingBudget": {
+            "sourceMs": 55866,
+            "details": 8,
+            "regionPages": 2,
+            "retrievalPages": 2
+          },
+          "entrances": [
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:0",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1308/",
+              "label": "Akasaka & Nagata-Cho & Tameike",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:13",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:1",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1310/",
+              "label": "Akihabara & Kanda & Suidobashi",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:14",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:2",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1318/",
+              "label": "Along Keio and Odakyu Railway Line",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:15",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:3",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1321/",
+              "label": "Along Seibu Railway Line",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:16",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:4",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1317/",
+              "label": "Along Tokyu Railway Line",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:17",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:5",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1326/",
+              "label": "Chofu & Fuchu & Komae",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:18",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:6",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1330/",
+              "label": "Fussa & Ome Area",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:19",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:7",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1301/",
+              "label": "Ginza & Shimbashi & Yurakucho",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:20",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:8",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1314/",
+              "label": "Hamamatsucho & Tamachi & Shinagawa",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:21",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:9",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1306/",
+              "label": "Harajuku & Omotesando & Aoyama",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:22",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:10",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1309/",
+              "label": "Iidabashi",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:23",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:11",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1305/",
+              "label": "Ikebukuro–Takadanobaba & Waseda",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:24",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:13",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1331/",
+              "label": "Izu Islands & Ogasawara",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:26",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:14",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1320/",
+              "label": "Kichijoji & Mitaka & Musashi-Sakai",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:27",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:15",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1325/",
+              "label": "Koganei & Kokubunji & Kunitachi",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:28",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:16",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1327/",
+              "label": "Machida & Inagi & Tama",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:29",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:17",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1316/",
+              "label": "Meguro & Shirogane & Gotanda",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:30",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:18",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1319/",
+              "label": "Nakano–Nishi-Ogikubo",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:31",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:19",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1328/",
+              "label": "Nishi-Tokyo City Area",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:32",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:20",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1315/",
+              "label": "Oimachi & Kamata",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:33",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:21",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1307/",
+              "label": "Roppongi",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:34",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:22",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1312/",
+              "label": "Ryogoku",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:35",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:23",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1324/",
+              "label": "Senju & Ayase & Katsushika",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:36",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:24",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1303/",
+              "label": "Shibuya & Ebisu & Daikanyama",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:37",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:25",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1304/",
+              "label": "Shinjuku & Yoyogi & Okubo",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:38",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:26",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1323/",
+              "label": "Sugamo",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:39",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:27",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1329/",
+              "label": "Tachikawa & Hachioji City Area",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:40",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:28",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1302/",
+              "label": "Tokyo & Nihonbashi",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:41",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:29",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1313/",
+              "label": "Tsukiji & Wangan & Odaiba",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:42",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:30",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1311/",
+              "label": "Ueno",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "originalTargetRef": "observation:1:target:43",
+              "observationRevision": 1
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:31",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1322/A132204/",
+              "label": "Akatsuka & Narimasu",
+              "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+              "originalTargetRef": "observation:3:target:14",
+              "observationRevision": 3
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:32",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1322/A132205/",
+              "label": "Itabashikuyakushomae– (Toei Mita Line)",
+              "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+              "originalTargetRef": "observation:3:target:15",
+              "observationRevision": 3
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:33",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1322/A132202/",
+              "label": "Kanamecho–Heiwadai (Yurakucho Line)",
+              "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+              "originalTargetRef": "observation:3:target:16",
+              "observationRevision": 3
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:34",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1322/A132201/",
+              "label": "Kita-Ikebukuro & Itabashi St. Area",
+              "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+              "originalTargetRef": "observation:3:target:17",
+              "observationRevision": 3
+            },
+            {
+              "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:35",
+              "sourceId": "tabelog",
+              "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+              "href": "https://tabelog.com/en/tokyo/A1322/A132203/",
+              "label": "Oyama–Tobunerima (Tobu Tojo Line)",
+              "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+              "originalTargetRef": "observation:3:target:18",
+              "observationRevision": 3
+            }
+          ],
+          "output": {
+            "action": "SELECT_REGION_ENTRANCE",
+            "targetRef": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:34",
+            "authoritativeField": "NONE",
+            "requestedState": "NONE",
+            "reason": "Kita-Ikebukuro & Itabashi St. Area is the closest observed entrance to Akabane in Kita City."
+          },
+          "selectedEntrance": {
+            "ref": "region:c28b2f55-fc0a-4710-93e4-0f6a6ac15946:34",
+            "sourceId": "tabelog",
+            "flowId": "c28b2f55-fc0a-4710-93e4-0f6a6ac15946",
+            "href": "https://tabelog.com/en/tokyo/A1322/A132201/",
+            "label": "Kita-Ikebukuro & Itabashi St. Area",
+            "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+            "originalTargetRef": "observation:3:target:17",
+            "observationRevision": 3
+          }
+        }
+      ],
+      "regions": [
+        {
+          "trajectory": 1,
+          "region": {
+            "first": {
+              "url": "https://tabelog.com/en/tokyo/A1322/",
+              "observedOn": "https://tabelog.com/en/tokyo/",
+              "targetRef": "observation:2:target:25",
+              "label": "Itabashi & Along Tobu Railway Line"
+            },
+            "provisional": true,
+            "samples": [
+              {
+                "sourceEntityId": "en/tokyo/A1322/A132202/13155817",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.73236921866393,
+                  "longitude": 139.70486078494415
+                },
+                "bearingDegrees": 197.2384868672463,
+                "direction": "S",
+                "distanceMeters": 5547.116372577523
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1322/A132203/13168736",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132203/13168736/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.74923654865233,
+                  "longitude": 139.7020477451165
+                },
+                "bearingDegrees": 209.02296324520773,
+                "direction": "SW",
+                "distanceMeters": 3911.367533853191
+              }
+            ],
+            "replacement": {
+              "url": "https://tabelog.com/en/tokyo/A1322/A132201/",
+              "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+              "targetRef": "observation:3:target:17",
+              "label": "Kita-Ikebukuro & Itabashi St. Area"
+            },
+            "replacementSamples": [
+              {
+                "sourceEntityId": "en/tokyo/A1322/A132201/13239336",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132201/13239336/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.743881718663964,
+                  "longitude": 139.72791609504424
+                },
+                "bearingDegrees": 173.75714712172146,
+                "direction": "S",
+                "distanceMeters": 4040.596729355775
+              },
+              {
+                "sourceEntityId": "en/tokyo/A1322/A132201/13157173",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132201/13157173/",
+                "outcome": "OUTSIDE_RADIUS",
+                "coordinates": {
+                  "latitude": 35.74402060866418,
+                  "longitude": 139.72887624504497
+                },
+                "bearingDegrees": 172.50884214455414,
+                "direction": "S",
+                "distanceMeters": 4035.6090277497333
+              }
+            ],
+            "stopReason": "REPLACEMENT_SAMPLES_OUTSIDE_RADIUS"
+          },
+          "sourceElapsedMs": 86151
+        }
+      ]
+    },
+    "denganaNativeCandidateIds": [],
+    "timeoutAction": {
+      "lastRootDecisionLine": 39,
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:22cd98fb641bd813a35745af",
+          "praxis:restaurant:eeef0764e717b448bb9ff78b",
+          "praxis:restaurant:599e0d36c008523886c7af6c"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "No eligible candidates yet; prior fact/availability paths on TableCheck and Tabelog were unproductive. Proceeding with bounded availability reads on unchecked nearby Akabane izakaya candidates to obtain request-bound slots plus source facts."
+      },
+      "persisted": false,
+      "responseAt": "2026-10-25T09:24:22.991Z",
+      "remainingRunMsAtActionStart": 26596,
+      "elapsedUntilArtifactEndMs": 27292,
+      "remainingAtCutoffMs": 0,
+      "lastTrace": [
+        {
+          "sequence": 1485,
+          "at": "2026-10-25T09:24:49.149Z",
+          "kind": "SESSION_RETURN",
+          "detail": {
+            "method": "navigate"
+          }
+        },
+        {
+          "sequence": 1486,
+          "at": "2026-10-25T09:24:49.149Z",
+          "kind": "EXECUTOR_DIAGNOSTIC",
+          "detail": {
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "OPERATION_FINISHED",
+            "detail": "NAVIGATE",
+            "effectiveLimits": {
+              "maxAutomaticElapsedMs": 500000,
+              "maxModelCallsPerCandidate": 20,
+              "maxModelCallsTotal": 120,
+              "maxOperationsPerCandidate": 80
+            },
+            "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+            "elapsedMs": 2173,
+            "lifecycle": {
+              "outcome": "FINISHED",
+              "candidateElapsedMs": 2173,
+              "providerElapsedMs": 2173,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 1,
+              "providerRuntimeOperations": 1,
+              "runModelCalls": 24
+            }
+          }
+        },
+        {
+          "sequence": 1487,
+          "at": "2026-10-25T09:24:49.149Z",
+          "kind": "SESSION_CALL",
+          "detail": {
+            "method": "waitForSettled",
+            "args": [
+              {
+                "url": "",
+                "title": "",
+                "text": {
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "length": 0
+                },
+                "html": {
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "length": 0,
+                  "observedStateTags": []
+                }
+              },
+              700
+            ]
+          }
+        },
+        {
+          "sequence": 1488,
+          "at": "2026-10-25T09:24:49.588Z",
+          "kind": "EXECUTOR_DIAGNOSTIC",
+          "detail": {
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "CLOSED",
+            "detail": "SESSION_RETIRED",
+            "effectiveLimits": {
+              "maxAutomaticElapsedMs": 500000,
+              "maxModelCallsPerCandidate": 20,
+              "maxModelCallsTotal": 120,
+              "maxOperationsPerCandidate": 80
+            },
+            "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+            "elapsedMs": 2612,
+            "lifecycle": {
+              "outcome": "FINISHED",
+              "candidateElapsedMs": 2612,
+              "providerElapsedMs": 2612,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 1,
+              "providerRuntimeOperations": 1,
+              "runModelCalls": 24
+            }
+          }
+        },
+        {
+          "sequence": 1489,
+          "at": "2026-10-25T09:24:49.588Z",
+          "kind": "EXECUTOR_DIAGNOSTIC",
+          "detail": {
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "detail": "PROVIDER_SCOPE",
+            "lifecycle": {
+              "outcome": "ABANDONED",
+              "candidateElapsedMs": 2612,
+              "providerElapsedMs": 2612,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 1,
+              "providerRuntimeOperations": 1,
+              "runModelCalls": 24,
+              "reason": "PARENT_ABORTED"
+            },
+            "effectiveLimits": {
+              "maxAutomaticElapsedMs": 500000,
+              "maxModelCallsPerCandidate": 20,
+              "maxModelCallsTotal": 120,
+              "maxOperationsPerCandidate": 80
+            },
+            "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+            "elapsedMs": 2612
+          }
+        },
+        {
+          "sequence": 1490,
+          "at": "2026-10-25T09:24:49.588Z",
+          "kind": "EXECUTOR_DIAGNOSTIC",
+          "detail": {
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "CANDIDATE_FINISHED",
+            "detail": "CANDIDATE_SCOPE",
+            "lifecycle": {
+              "outcome": "ABANDONED",
+              "candidateElapsedMs": 2612,
+              "providerElapsedMs": 2612,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 1,
+              "providerRuntimeOperations": 1,
+              "runModelCalls": 24,
+              "reason": "PARENT_ABORTED"
+            },
+            "effectiveLimits": {
+              "maxAutomaticElapsedMs": 500000,
+              "maxModelCallsPerCandidate": 20,
+              "maxModelCallsTotal": 120,
+              "maxOperationsPerCandidate": 80
+            },
+            "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+            "elapsedMs": 2612
+          }
+        }
+      ]
+    }
+  },
+  "method": "Timestamped span partition; models override nested browser intervals. UNATTRIBUTED is not invented.",
+  "elapsedMs": 500696,
+  "wallTimePartitionMs": {
+    "UNATTRIBUTED": 26357,
+    "MODEL:restaurant_semantic_interpret": 3173,
+    "MODEL:restaurant_agent_decide": 24118,
+    "PAGE_LOAD": 286804,
+    "READ_PAGE": 33662,
+    "MODEL:restaurant_discovery_retrieval": 12913,
+    "WAIT": 38233,
+    "MODEL:browser_read_decide": 61249,
+    "MODEL:restaurant_fact_judgment": 13598,
+    "PAGE_OPERATION": 589
+  },
+  "modelPurposeLatencyMs": {
+    "restaurant_semantic_interpret": 3173,
+    "restaurant_agent_decide": 24118,
+    "restaurant_discovery_retrieval": 12913,
+    "browser_read_decide": 61249,
+    "restaurant_fact_judgment": 13598
+  },
+  "stageTimings": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 500696,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "MODEL_DECISION:browser_read_decide",
+        "elapsedMs": 61249,
+        "percent": 12.232771981401887
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:f93797735808708abd68d4ed:RESOLUTION",
+        "elapsedMs": 36130,
+        "percent": 7.215955390096986
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:273007d00f089f90f818568b:RESOLUTION",
+        "elapsedMs": 35154,
+        "percent": 7.021026730790739
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:c446fe0b901cca8ffb43b42e:RESOLUTION",
+        "elapsedMs": 31271,
+        "percent": 6.245506255292633
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:0d56ed154080df9317f9d79d:RESOLUTION",
+        "elapsedMs": 27334,
+        "percent": 5.459200792496845
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:REGION_OR_HOME",
+        "elapsedMs": 26621,
+        "percent": 5.316799015770048
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_agent_decide",
+        "elapsedMs": 24118,
+        "percent": 4.816894882323805
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:DETAIL",
+        "elapsedMs": 21770,
+        "percent": 4.347947656861648
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:0d56ed154080df9317f9d79d:RESOLUTION",
+        "elapsedMs": 20636,
+        "percent": 4.121462923610334
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:07b0ba0daee00150d6d202e1:RESOLUTION",
+        "elapsedMs": 20004,
+        "percent": 3.9952386278300605
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:22cd98fb641bd813a35745af:RESOLUTION",
+        "elapsedMs": 19063,
+        "percent": 3.807300238068608
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:SEARCH",
+        "elapsedMs": 17906,
+        "percent": 3.57622189911643
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:730456c8617b43baf817287d:RESOLUTION",
+        "elapsedMs": 17111,
+        "percent": 3.4174429194561173
+      },
+      {
+        "stage": "FACTS:TABLECHECK:tablecheck:underground-akabane",
+        "elapsedMs": 15938,
+        "percent": 3.183169028712033
+      },
+      {
+        "stage": "FACTS:TABLECHECK:tablecheck:kawaei",
+        "elapsedMs": 15737,
+        "percent": 3.1430249093262175
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:SEARCH",
+        "elapsedMs": 13753,
+        "percent": 2.746776487129915
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_fact_judgment",
+        "elapsedMs": 13598,
+        "percent": 2.7158195791458293
+      },
+      {
+        "stage": "MODEL_DECISION:restaurant_discovery_retrieval",
+        "elapsedMs": 12913,
+        "percent": 2.5790100180548676
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:c446fe0b901cca8ffb43b42e:REQUEST_AND_RESULT",
+        "elapsedMs": 8830,
+        "percent": 1.7635451451579403
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:c446fe0b901cca8ffb43b42e:RESOLUTION",
+        "elapsedMs": 6527,
+        "percent": 1.3035854091105181
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:DETAIL",
+        "elapsedMs": 5645,
+        "percent": 1.1274306165817183
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:730456c8617b43baf817287d:RESOLUTION",
+        "elapsedMs": 5005,
+        "percent": 0.9996085449054914
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:kawaei:REQUEST_AND_RESULT",
+        "elapsedMs": 4906,
+        "percent": 0.9798360681930752
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:22cd98fb641bd813a35745af:RESOLUTION",
+        "elapsedMs": 4862,
+        "percent": 0.9710483007653348
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:273007d00f089f90f818568b:RESOLUTION",
+        "elapsedMs": 4821,
+        "percent": 0.9628596992985764
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:underground-akabane:REQUEST_AND_RESULT",
+        "elapsedMs": 4132,
+        "percent": 0.8252512502596386
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:07b0ba0daee00150d6d202e1:RESOLUTION",
+        "elapsedMs": 3979,
+        "percent": 0.7946937862495406
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:kawaei:RESOLUTION",
+        "elapsedMs": 3804,
+        "percent": 0.7597424385255724
+      },
+      {
+        "stage": "AVAILABILITY:TABELOG:praxis:restaurant:730456c8617b43baf817287d:REQUEST_AND_RESULT",
+        "elapsedMs": 3322,
+        "percent": 0.6634764407944141
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:tablecheck:underground-akabane:RESOLUTION",
+        "elapsedMs": 3303,
+        "percent": 0.6596817230415262
+      },
+      {
+        "stage": "SEMANTIC",
+        "elapsedMs": 3173,
+        "percent": 0.6337178647322926
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:f93797735808708abd68d4ed:RESOLUTION",
+        "elapsedMs": 2911,
+        "percent": 0.5813907041398374
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:eeef0764e717b448bb9ff78b:RESOLUTION",
+        "elapsedMs": 2612,
+        "percent": 0.5216738300286002
+      },
+      {
+        "stage": "SEARCH_RESTAURANTS",
+        "elapsedMs": 1196,
+        "percent": 0.23886749644494865
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 802,
+        "percent": 0.16017703356927157
+      },
+      {
+        "stage": "CHECK_AVAILABILITY",
+        "elapsedMs": 224,
+        "percent": 0.04473772508667934
+      },
+      {
+        "stage": "DISCOVERY:VENUE_SEARCH:UNCLASSIFIED",
+        "elapsedMs": 123,
+        "percent": 0.024565804400274817
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+        "elapsedMs": 122,
+        "percent": 0.024366082413280716
+      },
+      {
+        "stage": "FACTS",
+        "elapsedMs": 91,
+        "percent": 0.018174700816463482
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 3173,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 1872,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 3,
+        "latencyMs": 2377,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 4,
+        "latencyMs": 2487,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 5,
+        "latencyMs": 3054,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 6,
+        "latencyMs": 8695,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 7,
+        "latencyMs": 3118,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 8,
+        "latencyMs": 2868,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 9,
+        "latencyMs": 2731,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_discovery_retrieval",
+        "sequence": 10,
+        "latencyMs": 1633,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 11,
+        "latencyMs": 2918,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 12,
+        "latencyMs": 3045,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 13,
+        "latencyMs": 1486,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 14,
+        "latencyMs": 1567,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 15,
+        "latencyMs": 5093,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 16,
+        "latencyMs": 2973,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 17,
+        "latencyMs": 2684,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 18,
+        "latencyMs": 2019,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 19,
+        "latencyMs": 2728,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_fact_judgment",
+        "sequence": 20,
+        "latencyMs": 2869,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 21,
+        "latencyMs": 2075,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 22,
+        "latencyMs": 2593,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 23,
+        "latencyMs": 4875,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 24,
+        "latencyMs": 3195,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 25,
+        "latencyMs": 3962,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 26,
+        "latencyMs": 3580,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 27,
+        "latencyMs": 1919,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 28,
+        "latencyMs": 3838,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 29,
+        "latencyMs": 2736,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 30,
+        "latencyMs": 2120,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 31,
+        "latencyMs": 2113,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 32,
+        "latencyMs": 4533,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 33,
+        "latencyMs": 1979,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 34,
+        "latencyMs": 2335,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 35,
+        "latencyMs": 2795,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 36,
+        "latencyMs": 2214,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 37,
+        "latencyMs": 1771,
+        "placed": true
+      },
+      {
+        "purpose": "browser_read_decide",
+        "sequence": 38,
+        "latencyMs": 2119,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 39,
+        "latencyMs": 4909,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  },
+  "firstQualifiedEvidenceAt": null,
+  "firstQualifiedDefinition": "Earliest completion of independently supported presented proof set; not a claim about unpresented candidates. Raw supported truth checked independently; timestamps only locate observations.",
+  "presentedAt": null,
+  "witnessFunnel": [
+    {
+      "outletName": "Kushi Katsu Dengana Akabane ten",
+      "sourceId": "13108466",
+      "discovery": {
+        "status": "FOUND",
+        "candidateIds": [
+          "praxis:restaurant:07b0ba0daee00150d6d202e1"
+        ],
+        "possibleCandidateIds": [],
+        "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+      },
+      "identity": {
+        "status": "OBSERVED",
+        "evidenceIds": [
+          "evidence:restaurant:google-entity:9fbd0f71644df5cada738f10"
+        ]
+      },
+      "facts": {
+        "status": "NOT_READ",
+        "evidenceIds": []
+      },
+      "availability": {
+        "recorded": [
+          {
+            "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+            "status": "UNKNOWN",
+            "reasonCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "witness": "AVAILABLE",
+        "observedAt": "2026-10-25T09:36:37.438893+01:00",
+        "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+      },
+      "presented": "NO",
+      "feasible": "SUPPORTED",
+      "blocker": {
+        "stage": "FACTS",
+        "certainty": "HYPOTHESIS",
+        "reason": "Candidate bottleneck at FACTS; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+      },
+      "evidenceRefs": [
+        ".eval-artifacts/phase3a-prime/f5-live-rerun/witness-manifest.json#sha256=1a80ba623d6b4d98bd08620c6732c28d5838b5d67c0de897620805cbf433f8e4",
+        ".eval-artifacts/phase3a-prime/f5-live-rerun/witness-registry.json#sha256=3037d373867b2ec87a056eb36bf8869de0908371277c422ca27c665da55d5bce",
+        ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/02-13108466-vacancy.body#sha256=3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976",
+        ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/vacancy.normalized.json#sha256=25c7cd82707952b8c862090dfd863c678e6a8afd447bf3870efc770330c01f7a"
+      ]
+    }
+  ],
+  "replayability": {
+    "total": 111,
+    "replayable": 12,
+    "ratio": 0.10810810810810811,
+    "reasonDistribution": {
+      "SANITIZED_NETWORK_AND_DOM_CAPTURE": 12,
+      "UNCAPTURED_STATIC_DEPENDENCY": 99
+    }
+  },
+  "uncapturedScriptOriginPaths": [
+    "https://assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+    "https://umami-next.post.tablecheck.com/script.js",
+    "https://www.tablecheck.com/portal/assets/index-DUt7bgp8.js"
+  ],
+  "akabaneControls": [],
+  "unusedAkabaneControls": []
+}

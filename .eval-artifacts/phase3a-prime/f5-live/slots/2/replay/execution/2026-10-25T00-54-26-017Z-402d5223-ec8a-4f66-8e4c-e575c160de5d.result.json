@@ -1,0 +1,1232 @@
+{
+  "mode": "REPLAY",
+  "caseId": "p2c-holdout-01",
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@34",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@30"
+  },
+  "runtimeContext": {
+    "commitSha": "98d2b77cb5a062e411a39daa94a5589baa5d9b22",
+    "worktree": "DIRTY",
+    "dataset": {
+      "version": "restaurant-read-novel-variant@1",
+      "sourcePath": ".eval-artifacts/phase3a-prime/f5-live/runner-input.yaml",
+      "sha256": "6ff6948dc08b047a3e6d1471d6bc92df1bbacd899ad156c5bd592d75e9a28c63",
+      "cohort": "NOVEL_LOCATION_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-25T00-54-07-520Z-c13ba5d7-f343-425d-baf0-7e3da323e34e.result.json",
+      "elapsedMs": 3125,
+      "targetCount": 2,
+      "sourceHealthArtifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/live-source-health/1792889017471-p2c-holdout-01/source-health.json",
+      "sourceHealthAttempts": 3,
+      "reviewedReadsPath": ".eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json",
+      "reviewedReadsSha256": "4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26"
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    },
+    "executionSource": "REPLAY",
+    "modelMode": "ORIGINAL",
+    "recordingSha256": "4a988b3e8a13a52754bb6f74000664cc3821350c9e7f78853d1617963180b2d3",
+    "harSha256": "8da4f044864e6f0869fabcf15aaed911bbb7f6df71f23c48894979639a26a552",
+    "decisionSha256": "cdf9d9eecec4ca06a375f032b7e6428d1ddb93392c90cb9d630b65d4c2654c41",
+    "liveCapabilityDenominator": "EXCLUDED"
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "requestedRunCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 40,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "status": "FAILED",
+  "stage": "AGENT_LOOP",
+  "failureCode": "RUN_EXTERNAL_STOP",
+  "materializedCase": {
+    "id": "p2c-holdout-01",
+    "dataset": "restaurant-read-novel-variant@1",
+    "reference_time": "2026-10-25T00:00:00+09:00",
+    "semantic": {
+      "target": {
+        "goal": "AVAILABILITY"
+      },
+      "location": {
+        "value": "Akabane",
+        "relation": "NEAR"
+      },
+      "date": {
+        "expression": "Wednesday, November 4",
+        "value": "2026-11-04"
+      },
+      "time": {
+        "value": "19:00"
+      },
+      "party_size": 2,
+      "criteria": [
+        {
+          "value": "kushikatsu",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "acceptance": {
+      "required_claims": [
+        "Correct outlet within 1,000 m of the resolved Akabane point; source-supported kushikatsu (kushiage); a matching current slot on Wednesday, November 4 at 19:00 for 2."
+      ]
+    },
+    "materialization": {
+      "sourceReferenceTime": "2026-10-25T00:00:00+09:00",
+      "resolvedReferenceTime": "2026-10-25T00:54:26.009Z"
+    }
+  },
+  "semanticStatus": "PROPOSED",
+  "modelInvocations": [
+    {
+      "invocationId": "replayed-1",
+      "taskId": "hybrid-live:p2c-holdout-01:1792889666009",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "FIXTURE",
+      "model": "recorded-decisions",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3",
+        "jsonSchema": {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "string",
+              "enum": [
+                "3"
+              ]
+            },
+            "facts": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TARGET"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TARGET"
+                                ]
+                              },
+                              "goal": {
+                                "type": "string",
+                                "enum": [
+                                  "RECOMMENDATION",
+                                  "AVAILABILITY"
+                                ]
+                              },
+                              "query": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "goal",
+                              "query"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TARGET"
+                                ]
+                              },
+                              "goal": {
+                                "type": "string",
+                                "enum": [
+                                  "RECOMMENDATION",
+                                  "AVAILABILITY"
+                                ]
+                              },
+                              "query": {
+                                "type": "string"
+                              },
+                              "selectionScope": {
+                                "type": "string",
+                                "enum": [
+                                  "OPEN_ENDED",
+                                  "SPECIFIC_OUTLET"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "goal",
+                              "query",
+                              "selectionScope"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TARGET"
+                                ]
+                              },
+                              "goal": {
+                                "type": "string",
+                                "enum": [
+                                  "RECOMMENDATION",
+                                  "AVAILABILITY"
+                                ]
+                              },
+                              "query": {
+                                "type": "string"
+                              },
+                              "selectionScope": {
+                                "type": "string",
+                                "enum": [
+                                  "OPEN_ENDED"
+                                ]
+                              },
+                              "requestedResultCount": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 10
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "goal",
+                              "query",
+                              "selectionScope",
+                              "requestedResultCount"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TARGET"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "DATE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "DATE"
+                                ]
+                              },
+                              "value": {
+                                "type": "string",
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "DATE"
+                                ]
+                              },
+                              "relativeDay": {
+                                "type": "string",
+                                "enum": [
+                                  "TODAY",
+                                  "TOMORROW"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "relativeDay",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "DATE"
+                                ]
+                              },
+                              "weekday": {
+                                "type": "string",
+                                "enum": [
+                                  "SUNDAY",
+                                  "MONDAY",
+                                  "TUESDAY",
+                                  "WEDNESDAY",
+                                  "THURSDAY",
+                                  "FRIDAY",
+                                  "SATURDAY"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "weekday",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "DATE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TIME_WINDOW"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "earliest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "latest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "earliest",
+                              "latest",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "earliest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "latest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "raw": {
+                                "type": "string"
+                              },
+                              "alternativeEarliest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "alternativeLatest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "alternativeRaw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "earliest",
+                              "latest",
+                              "raw",
+                              "alternativeEarliest",
+                              "alternativeLatest",
+                              "alternativeRaw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "daypart": {
+                                "type": "string",
+                                "enum": [
+                                  "AFTERNOON",
+                                  "AFTER_WORK",
+                                  "EVENING"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "daypart",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "daypart": {
+                                "type": "string",
+                                "enum": [
+                                  "AFTERNOON"
+                                ]
+                              },
+                              "relativeDay": {
+                                "type": "string",
+                                "enum": [
+                                  "TODAY"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "daypart",
+                              "relativeDay",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "relativeOffsetMinutes": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10080
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "relativeOffsetMinutes",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TIME_WINDOW"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "PARTY_SIZE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "PARTY_SIZE"
+                                ]
+                              },
+                              "value": {
+                                "type": "integer",
+                                "minimum": 1
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "PARTY_SIZE"
+                                ]
+                              },
+                              "value": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "source": {
+                                "type": "string",
+                                "enum": [
+                                  "EXPLICIT",
+                                  "INFERRED_CLOSED_PARTY"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value",
+                              "source"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "PARTY_SIZE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "AREA"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "AREA"
+                            ]
+                          },
+                          "query": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "query"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "AREA"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "BUDGET_PER_PERSON"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "BUDGET_PER_PERSON"
+                            ]
+                          },
+                          "max": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "currency": {
+                            "type": "string",
+                            "enum": [
+                              "JPY"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "max",
+                          "currency"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "BUDGET_PER_PERSON"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "CRITERION"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT",
+                          "NEGATE"
+                        ]
+                      },
+                      "value": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "CRITERION"
+                            ]
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "polarity": {
+                            "type": "string",
+                            "enum": [
+                              "POSITIVE",
+                              "NEGATIVE"
+                            ]
+                          },
+                          "strength": {
+                            "type": "string",
+                            "enum": [
+                              "HARD",
+                              "SOFT",
+                              "UNSPECIFIED"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "text",
+                          "polarity",
+                          "strength"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "facts"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "settledAt": "2026-10-25T00:54:26.019Z"
+    },
+    {
+      "invocationId": "replayed-2",
+      "taskId": "hybrid-live:p2c-holdout-01:1792889666009",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "FIXTURE",
+      "model": "recorded-decisions",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4",
+        "jsonSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "question",
+            "relatedFields",
+            "retrievalHint",
+            "candidateIds",
+            "candidateId",
+            "offerId",
+            "decisionSummary"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "ASK_USER",
+                "SEARCH_RESTAURANTS",
+                "INVESTIGATE_CANDIDATE_FACTS",
+                "CHECK_AVAILABILITY",
+                "PRESENT_RESULTS",
+                "END_READ",
+                "SELECT_CANDIDATE",
+                "BOOK_RESERVATION"
+              ]
+            },
+            "question": {
+              "type": "string"
+            },
+            "relatedFields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "retrievalHint": {
+              "type": "string"
+            },
+            "candidateIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "candidateId": {
+              "type": "string"
+            },
+            "offerId": {
+              "type": "string"
+            },
+            "decisionSummary": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "settledAt": "2026-10-25T00:54:26.021Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "event:hybrid-live:p2c-holdout-01:1792889666009:semantic:1",
+      "taskId": "hybrid-live:p2c-holdout-01:1792889666009",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "kushikatsu restaurant near Akabane with a table for 2",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "area": {
+            "query": "near Akabane"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "addCriteria": [
+            {
+              "text": "kushikatsu",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "date": "2026-11-04",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-25T00:54:26.009Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Wednesday, November 4",
+              "resolvedDate": "2026-11-04",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-10-25T00:54:26.020Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-01:1792889666009",
+        "correlationId": "event:hybrid-live:p2c-holdout-01:1792889666009:semantic:1",
+        "actor": "MODEL"
+      }
+    }
+  ],
+  "trajectories": [],
+  "diagnostics": {
+    "tablecheckIdentity": [],
+    "tabelogIdentity": [],
+    "tabelogUserInterventions": [],
+    "browserExecution": [],
+    "browserTrace": []
+  },
+  "finalSnapshot": {
+    "id": "hybrid-live:p2c-holdout-01:1792889666009",
+    "runId": "run:hybrid-live:p2c-holdout-01:1792889666009",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "19",
+    "lifecycleState": "CREATED",
+    "domainState": {
+      "schemaVersion": "21",
+      "phase": "UNDERSTANDING",
+      "searchRevision": 0,
+      "investigationRevision": 1,
+      "intentDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "kushikatsu",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "kushikatsu restaurant near Akabane with a table for 2",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-11-04",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-25T00:54:26.009Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Wednesday, November 4",
+            "resolvedDate": "2026-11-04",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Akabane"
+        }
+      },
+      "candidates": [],
+      "availability": {},
+      "availabilityChecks": {},
+      "factChecks": {},
+      "readEvidence": []
+    },
+    "outcome": null,
+    "version": 1,
+    "createdAt": "2026-10-25T00:54:26.018Z",
+    "updatedAt": "2026-10-25T00:54:26.020Z"
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 0,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 2,
+    "browserRuntimeCalls": 0,
+    "browserOperationsByCandidate": {},
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 0,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 14
+  },
+  "searchState": {
+    "candidatesDiscovered": 0,
+    "candidatesInvestigated": 0,
+    "candidatesAvailabilityChecked": 0,
+    "remainingCandidateIds": [],
+    "remainingAvailabilityCandidateIds": [],
+    "continuationExhausted": null,
+    "nextPageTokenPresent": false
+  },
+  "stageTimings": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 14,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 14,
+        "percent": 100
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 0,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 0,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  },
+  "termination": {
+    "scope": "TASK",
+    "code": "RUN_EXTERNAL_STOP",
+    "reason": "Run failed or was cancelled during execution"
+  },
+  "partial": true,
+  "interruption": {
+    "reason": "EXTERNAL_STOP",
+    "at": "2026-10-25T00:54:26.023Z",
+    "timeoutMs": 500000
+  },
+  "downstream": "SEE_EXECUTED_EVENTS",
+  "latencyMs": 14,
+  "schemaVersion": "1",
+  "runId": "402d5223-ec8a-4f66-8e4c-e575c160de5d",
+  "startedAt": "2026-10-25T00:54:26.017Z",
+  "finishedAt": "2026-10-25T00:54:26.023Z"
+}

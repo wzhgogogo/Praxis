@@ -1,0 +1,40 @@
+{
+  "schema": "f5-public-get-audit@1",
+  "collectorInitialFreezeCommit": "778f37ff6067268af79e533300059aec623288c5",
+  "collectorExecutionCommit": "fd7c3c703c261397902c4a16f85889ce18226566",
+  "freezeSha256": "97461eddc9127f14807317c58a991cef7148c9a7a0418d926ee9f4c083530a00",
+  "case01GET": 2,
+  "case01Limit": 10,
+  "case03GET": 0,
+  "case03Limit": 1,
+  "serialGapSeconds": 5.010193,
+  "httpStatuses": [
+    200,
+    200
+  ],
+  "modelCalls": 0,
+  "googleCalls": 0,
+  "liveRuns": 0,
+  "environmentReruns": 0,
+  "loginCookieOrForm": false,
+  "certificationStatus": "WITNESS_EXISTS",
+  "scope": "STOP2_ONLY; repeat within24h before separately approved Live",
+  "archives": [
+    {
+      "rawBodyPath": ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/certification-stop2/01-13108466-detail.body",
+      "rawSha256": "934446468b8c6ed04ada1d1f81bd69d15539fc419f3423a5701c04d8f21bc0be",
+      "rawBytes": 141493,
+      "archivedBodyPath": ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/certification-stop2/01-13108466-detail.body.gz",
+      "archiveSha256": "5b00778f29e178d5505843e80ed7b06f7be73c47103e2298cbc8d41656e84722"
+    },
+    {
+      "rawBodyPath": ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/certification-stop2/02-13108466-vacancy.body",
+      "rawSha256": "3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976",
+      "rawBytes": 5198,
+      "archivedBodyPath": ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/certification-stop2/02-13108466-vacancy.body.gz",
+      "archiveSha256": "3410ef75c86ba32958185117f8a9a30cef8106d38fda12b34e291e6813ec82b8"
+    }
+  ],
+  "executedFreezeArchivePath": ".eval-artifacts/phase3a-prime/f5-implementation/live-prep/collector-executed-freeze.json",
+  "postCertificationPreparationChange": "Runner envelope dropped weekday/fallback_place metadata; user content/date and collector/witness inputs unchanged. No new GET."
+}

@@ -1,0 +1,309 @@
+{
+  "outcome": {
+    "type": "NOT_EVALUATED",
+    "capabilityDenominator": "EXCLUDED",
+    "userGoalComplete": "NOT_EVALUATED",
+    "reasons": [
+      "REPLAY_INCOMPLETE: remaining execution is unavailable, neither pass nor fail."
+    ],
+    "evidenceRefs": [
+      "replay-stop"
+    ]
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim."
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ]
+    }
+  },
+  "reachedStages": [
+    "SEMANTIC"
+  ],
+  "goldCorrection": null,
+  "conditionStates": [],
+  "conditionStateComparisons": [],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": null,
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 0,
+    "maxConsecutiveNoNewObservation": 0,
+    "noNewObservationRuns": [],
+    "sameFailureRuns": [],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": []
+    },
+    "violations": [],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": []
+  },
+  "pendingCriterionWordings": [
+    {
+      "goldText": "fugu",
+      "systemText": "fugu restaurant",
+      "goldPolarity": "POSITIVE",
+      "systemPolarity": "POSITIVE"
+    },
+    {
+      "goldText": "anniversary dinner",
+      "systemText": "fugu restaurant",
+      "goldPolarity": "POSITIVE",
+      "systemPolarity": "POSITIVE"
+    },
+    {
+      "goldText": "no more than 10 000 yen per person",
+      "systemText": "fugu restaurant",
+      "goldPolarity": "POSITIVE",
+      "systemPolarity": "POSITIVE"
+    }
+  ],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@34",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@30",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/slots/4/replay/execution/2026-10-25T01-14-35-058Z-94bd0aff-0aed-41db-b4dd-b0998e30bc28.result.json",
+    "sha256": "b3abfa06c4bf32f590216a50ab3d4a148d78cbd00105189d168963b7e9fe4979",
+    "runId": "94bd0aff-0aed-41db-b4dd-b0998e30bc28",
+    "caseId": "p2c-holdout-03"
+  },
+  "execution": {
+    "status": "FAILED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "UNKNOWN",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "NOT_EVALUATED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NOT_EVALUATED"
+  },
+  "candidateSummaries": [],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "NOT_EVALUATED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "Criterion text differs without an explicit criterion identity or normalized literal match; independent semantic review is required.",
+      "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "NOT_EVALUATED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "The Runner saved an explicit interruption and the execution reached the recorded stages.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "interruption",
+        "events",
+        "trajectories",
+        "diagnostics.browserExecution"
+      ],
+      "downstreamImpact": "Exclude this interrupted run from the capability denominator; displayed claims retain independent S0 assessment."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "limits",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+    "Criterion text differs without explicit identity or normalized literal correspondence; no LLM judge was used and independent semantic review is required."
+  ],
+  "executionSource": "REPLAY",
+  "modelMode": "ORIGINAL",
+  "recordingSha256": "9afec713873032bfc5146ef21002b37415b805d0f51263116b8a41c552239d6d",
+  "harSha256": "8da4f044864e6f0869fabcf15aaed911bbb7f6df71f23c48894979639a26a552",
+  "decisionSha256": "03c4ea9d21dfd52b2cece3449354e85c03d78deefd083a90f2442ba4e9b8b9f1",
+  "liveCapabilityDenominator": "EXCLUDED",
+  "replayStatus": "REPLAY_INCOMPLETE",
+  "stop": {
+    "snapshot": null,
+    "origin": "https://places.googleapis.com",
+    "pathname": "/v1/places:searchText",
+    "reason": "MISSING_STRUCTURED_RESPONSE"
+  }
+}

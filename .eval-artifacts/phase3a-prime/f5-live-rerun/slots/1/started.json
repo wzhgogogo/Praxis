@@ -1,0 +1,25 @@
+{
+  "command": [
+    "node",
+    "--env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+    "--import",
+    "tsx",
+    "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live-rerun/slot-child.ts",
+    "--case-source",
+    ".eval-artifacts/phase3a-prime/f5-live-rerun/runner-input.yaml",
+    "--case",
+    "p2c-holdout-01",
+    "--timeout-ms",
+    "500000",
+    "--max-model-calls",
+    "50",
+    "--max-google-requests",
+    "40",
+    "--record-decisions",
+    "--record-browser",
+    "--no-proxy"
+  ],
+  "startedAtCET": "2026-10-25T09:40:15.103917+01:00",
+  "sourceFreeze": "2e2a68c0cd045066d0d14dca873f7517b2e4f081feb38afd67ddfdb8d9b5b3df",
+  "policy": "SERIAL_SINGLE_CASE; independent gate before next; no retry"
+}

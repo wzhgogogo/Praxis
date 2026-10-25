@@ -89,8 +89,14 @@ class H001NativeModel implements ModelGateway {
         progress: string;
         observation: { visibleText?: string; pageActions?: string[]; targets: Array<{ ref: string; label: string; availableActions?: string[] }> };
         skills?: { source?: string };
+        regionCorrection?: { entrances: Array<{ref: string; label: string}> };
       };
       this.browserDecisionInputs.push({ objective: input.objective, progress: input.progress, observation: { targets: input.observation.targets, ...(input.observation.pageActions ? { pageActions: input.observation.pageActions } : {}) }, ...(input.skills?.source ? { skillSource: input.skills.source } : {}) });
+      if (this.scenario.startsWith("F5_")) {
+        const correction = input.regionCorrection?.entrances.find(entry => entry.label === "F5 alternate");
+        const target = input.observation.targets.find(target => /^F5 (parent|child)$/.test(target.label) && target.availableActions?.includes("OPEN_LINK"));
+        if (correction || target) return reply(JSON.stringify({action:correction ? "SELECT_REGION_ENTRANCE" : "OPEN_LINK",targetRef:(correction ?? target)!.ref,authoritativeField:"NONE",requestedState:"NONE",reason:"Use supplied observed reference; the radius remains immutable"}),request.purpose);
+      }
       if (input.objective.includes("observed public region/station")) {
         const region = input.observation.targets.find(target => target.availableActions?.includes("OPEN_LINK") && (target.label === this.areaQuery || target.label === `Restaurants in ${this.areaQuery}`));
         if (region) return reply(JSON.stringify({action:"OPEN_LINK",targetRef:region.ref,authoritativeField:"NONE",requestedState:"NONE",reason:"Choose the observed region for the unchanged location."}),request.purpose);
@@ -185,6 +191,14 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
   const googleClient = new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async (_url, init) => {
     const query = JSON.parse(String(init?.body)) as { textQuery: string };
     googleCalls.push({ query: query.textQuery });
+    // 本地构造，数量参照槽 1；保留真实两页读取与根 Agent 合法动作计算。
+    if (scenario === "F5_PENDING_CORRECTION" && /omakase/i.test(query.textQuery ?? "")) {
+      const second = (query as {pageToken?: string}).pageToken === "local-second-page";
+      return new Response(JSON.stringify({places: Array.from({length: second ? 6 : 20}, (_, index) => ({
+        id: `f5-pending-google-${index + (second ? 20 : 0)}`, displayName: {text: `Local Google ${index + (second ? 20 : 0)}`},
+        formattedAddress: "Shibuya, Tokyo", location: center, types: ["restaurant"], businessStatus: "OPERATIONAL",
+      })), ...(!second ? {nextPageToken: "local-second-page"} : {})}), {status: 200});
+    }
     const requested = options.areaQuery ?? "Shibuya";
     return new Response(JSON.stringify({ places: options.unresolvedLocation ? [] : [{ id: `${requested.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-landmark`, displayName: { text: requested },
       formattedAddress: `${requested}, Tokyo`, location: center, types: ["locality", "political"],
@@ -221,7 +235,9 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
       return sequence;
     }, options.decisionCapture?.snapshotSink,
   ) };
-  const native = createLiveReadAssembly({ ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET, packs: options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack] }, {
+  const native = createLiveReadAssembly({ ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
+    ...(scenario === "F5_PENDING_CORRECTION" ? {maxAgentSteps: 6} : {}),
+    packs: options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack] }, {
     google: googleClient, browser, model: gateway, clock: { now: () => reference },
     onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: reference.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); },
   });
@@ -425,7 +441,7 @@ test("the production Router advances the default three-pack cursor and reaches G
     date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
     area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
   };
-  let state: RestaurantTaskState = { schemaVersion: "20", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
+  let state: RestaurantTaskState = { schemaVersion: "21", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
   const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
   assert.equal(first.event?.type, "SEARCH_COMPLETED");
   if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
@@ -1038,5 +1054,54 @@ test('H002 without positive HARD uses general shared retrieval and Google nearby
   assert.equal(googleRequests.length,1);assert.ok(googleRequests[0]!.url.endsWith('/places:searchNearby'));
   assert.equal(googleRequests[0]!.body.textQuery,undefined);assert.equal(sharedPlans.length,0);
   assert.deepEqual(intent,before);
+ }
+});
+
+// Full production interpreter -> compiler -> Router -> events/Reducer -> output.
+// Only model and source transport are local constructed; no prefilled evidence.
+test("F5c Agent loop corrects within its Tabelog call despite TableCheck 2 and Google 26 pending candidates", async () => {
+  const result = await runScenario("F5_PENDING_CORRECTION", {packs: restaurantDiscoveryPacks});
+  const decisions = result.model.requests.filter(request => request.purpose === "restaurant_agent_decide")
+    .map(request => JSON.parse(request.messages.find(message => message.role === "user")!.content).context);
+  const pending = decisions.find(context => context.candidates?.length === 28);
+  assert.ok(pending, "the real Agent must observe all 2 TableCheck + 26 Google candidates");
+  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.id.startsWith("tablecheck:")).length, 2);
+  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.sourceIds.googlePlaces).length, 26);
+  assert.equal(pending.searchAvailability.reason, "NATIVE_FIRST_BATCH_PENDING");
+  assert.equal(pending.legalActions.search, false, "retain production SEARCH gating rather than bypassing it");
+  const alternate = result.navigations.indexOf("https://tabelog.com/en/tokyo/A1323/");
+  assert.ok(alternate >= 0, "F5c: correction must happen before the root Agent can queue other sources");
+  assert.ok(alternate < result.navigations.findIndex(url => url.includes("tablecheck.com")), "correction belongs to the first Tabelog source invocation");
+  const firstCall = result.trajectories[0]!.executionMetadata!.nativeDiscoveryFunnel!;
+  assert.equal(firstCall.directoryRegion!.replacement!.url, "https://tabelog.com/en/tokyo/A1323/");
+  assert.equal(firstCall.sourceDetailAttempts, 4);
+  assert.equal(firstCall.retrieval!.regionPages, 4);
+  assert.equal(result.model.requests.filter(request => request.purpose === "browser_read_decide"
+    && JSON.parse(request.messages.find(message => message.role === "user")!.content).regionCorrection).length, 1);
+  assert.equal(result.navigations.filter(url => /\/99[0-5]\/$/.test(url)).length, 4, "two first samples and two replacement samples share the source budget");
+});
+
+test("F5 provisional discovery crosses real Router/Reducer and retains bounded handoff to the next source", async () => {
+ for (const scenario of ["F5_PROVISIONAL_DELIVERS", "F5_NO_ALTERNATE", "F5_SECOND_OUTSIDE", "F5_EDGE_WITH_PRIOR", "F5_EDGE_NO_ALTERNATE"] as const) {
+  const prior = scenario.startsWith("F5_EDGE_");
+  const result = await runScenario(scenario, {packs:prior?[tableCheckDiscoveryPack,tabelogDiscoveryPack]:[tabelogDiscoveryPack,tableCheckDiscoveryPack]});
+  assert.equal(result.state.presentedResults?.candidateIds.length??0,scenario==="F5_SECOND_OUTSIDE"||prior?0:3,JSON.stringify({scenario,state:result.state.phase,continuation:result.state.searchContinuation,nav:result.navigations}));
+  assert.equal(result.evaluation.execution.taskProducedQualifiedResult,scenario==="F5_SECOND_OUTSIDE"||prior?"NO":"YES",JSON.stringify(result.evaluation.findings));
+  const calls=result.model.requests.filter(request=>request.purpose==="browser_read_decide").map(request=>JSON.parse(request.messages.find(message=>message.role==="user")!.content));
+  const corrections=calls.filter(input=>input.regionCorrection);
+  assert.equal(corrections.length,(scenario==="F5_NO_ALTERNATE"||scenario==="F5_EDGE_NO_ALTERNATE")?0:1);
+  assert.equal(result.navigations.filter(url=>new URL(url).pathname==="/en/tokyo/rstLst/").length,1,"no root restore");
+  assert.equal(result.navigations.filter(url=>url==="https://tabelog.com/en/tokyo/A1322/A132201/").length,1);
+  const finished=result.state.searchContinuation?.deferredSources?.find(item=>item.progress.sourceId==="tabelog")?.progress ?? result.state.searchContinuation?.sourceProgress;
+  assert.ok(finished?.detailAttempts!>=2);assert.ok(finished?.retrieval?.regionPages!<=4);
+  if(scenario!=="F5_PROVISIONAL_DELIVERS") {
+   assert.equal(finished?.directoryRegion?.stopReason,(scenario==="F5_NO_ALTERNATE"||scenario==="F5_EDGE_NO_ALTERNATE")?"NO_OBSERVED_REPLACEMENT_ENTRANCE":"REPLACEMENT_SAMPLES_OUTSIDE_RADIUS");
+   assert.ok(result.navigations.some(url=>url.includes("tablecheck.com")),"source UNKNOWN permits the next existing source");
+  }
+  if(prior) {
+   assert.ok(result.state.candidates.some(candidate=>candidate.restaurant.id.startsWith("tablecheck:")),"the previously admitted nearby candidate survives correction; its missing HARD support cannot become a qualified delivery");
+   assert.equal(finished?.detailAttempts,scenario==="F5_EDGE_WITH_PRIOR"?4:2);
+  }
+  assert.ok(result.model.purposes.length<=50);assert.ok(result.artifact.resourceUsage.modelCallsStarted>=corrections.length+2);
  }
 });
