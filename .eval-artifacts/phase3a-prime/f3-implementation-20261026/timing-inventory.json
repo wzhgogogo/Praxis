@@ -32,6 +32,21 @@
     },
     {
       "file": "src/eval/restaurant/agent-loop/live-source-health.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 8,
+          "text": "import {setTimeout as delay} from 'node:timers/promises';"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/live-source-health.test.ts",
       "line": 11,
       "name": "'health deadline accepts the last completed ready snapshot when the final snapshot is 220ms late'",
       "mechanisms": [
@@ -85,22 +100,30 @@
         },
         {
           "line": 58,
-          "text": "assert.ok(performance.now()-start<2000,'three fixture windows must terminate without extending the deadline');"
+          "text": "assert.ok(performance.now()-start<5000,'three fixture windows must terminate without extending the deadline');"
         }
       ]
     },
     {
       "file": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
-      "line": 390,
-      "name": "\"native source session acquisition consumes the remaining source window and retains an unstarted detail entrance\"",
+      "line": 1,
+      "name": "<shared timing helpers>",
       "mechanisms": [
-        "setTimeout"
+        "Date.now()"
       ],
-      "injectedClock": false,
+      "injectedClock": true,
       "timingLines": [
         {
-          "line": 394,
-          "text": "await new Promise<void>((resolve) => setTimeout(resolve, 20));"
+          "line": 183,
+          "text": "const startedAt = Date.now();"
+        },
+        {
+          "line": 278,
+          "text": "resourceUsage: { elapsedMs: Date.now() - startedAt, agentDecisions: model.purposes.filter((item) => item === \"restaurant_agent_decide\").length,"
+        },
+        {
+          "line": 297,
+          "text": "return { postAvailabilityDiscovery, callsBeforeDiscovery, networkRequests, semantic, loop, state: snapshot.domainState, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, googleCalls, model, evaluation, trajectories: composition.trajectories.steps, elapsedMs: Date.now() - startedAt, artifact };"
         }
       ]
     },
@@ -349,7 +372,7 @@
         },
         {
           "line": 24,
-          "text": "const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxModelCallsPerCandidate:4,maxOperationsPerCandidate:40,maxElapsedMsPerCandidate:8000,modelDecision:{async decide(value){calls++;if(calls===1)return {type:\"CLICK_AUTHORITATIVE\",field:\"DATE\",targetRef:value.observation.targets.find(x=>x.label==='Date 2026-10-23')!.ref,reason:\"Select requested date\"};pendingHint=value.progress.includes('still loading');const guests=value.observation.targets.find(x=>x.label==='Guests 10');return guests?{type:\"CLICK_AUTHORITATIVE\",field:\"PARTY_SIZE\",targetRef:guests.ref,reason:\"Select requested party\"}:{type:\"REQUEST_HUMAN_HELP\",reason:\"Loading has not settled\"};}}});"
+          "text": "const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxModelCallsPerCandidate:4,maxOperationsPerCandidate:40,maxElapsedMsPerCandidate:20_000,modelDecision:{async decide(value){calls++;if(calls===1)return {type:\"CLICK_AUTHORITATIVE\",field:\"DATE\",targetRef:value.observation.targets.find(x=>x.label==='Date 2026-10-23')!.ref,reason:\"Select requested date\"};pendingHint=value.progress.includes('still loading');const guests=value.observation.targets.find(x=>x.label==='Guests 10');return guests?{type:\"CLICK_AUTHORITATIVE\",field:\"PARTY_SIZE\",targetRef:guests.ref,reason:\"Select requested party\"}:{type:\"REQUEST_HUMAN_HELP\",reason:\"Loading has not settled\"};}}});"
         }
       ]
     },
@@ -368,7 +391,7 @@
         },
         {
           "line": 42,
-          "text": "const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10_000, onDiagnostic: d => diagnostics.push(d), modelDecision: { async decide() { return { type: \"REQUEST_HUMAN_HELP\", reason: \"Pending Fixture must not complete\" }; } } });"
+          "text": "const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 20_000, onDiagnostic: d => diagnostics.push(d), modelDecision: { async decide() { return { type: \"REQUEST_HUMAN_HELP\", reason: \"Pending Fixture must not complete\" }; } } });"
         }
       ]
     },
@@ -387,7 +410,7 @@
         },
         {
           "line": 85,
-          "text": "const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:12000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(){return {type:\"REQUEST_HUMAN_HELP\",reason:\"Incomplete current result\"};}}});"
+          "text": "const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:20_000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(){return {type:\"REQUEST_HUMAN_HELP\",reason:\"Incomplete current result\"};}}});"
         }
       ]
     },
@@ -406,7 +429,7 @@
         },
         {
           "line": 114,
-          "text": "assert.equal(snapshot.settlement,'SETTLED');assert.ok(Date.now()-started<1500);"
+          "text": "assert.equal(snapshot.settlement,'SETTLED');assert.ok(Date.now()-started<5000);"
         }
       ]
     },
@@ -421,32 +444,28 @@
       "injectedClock": true,
       "timingLines": [
         {
-          "line": 128,
+          "line": 127,
           "text": "const delays=new Set<ReturnType<typeof setTimeout>>();"
         },
         {
-          "line": 132,
-          "text": "const timer=setTimeout(()=>{delays.delete(timer);response.end('<title>Destination</title><h1>Loaded destination</h1>');},(mode==='slow'?6500:5000)*budgetScale);delays.add(timer);response.on('close',()=>{clearTimeout(timer);delays.delete(timer);});"
+          "line": 131,
+          "text": "const timer=setTimeout(()=>{delays.delete(timer);response.end('<title>Destination</title><h1>Loaded destination</h1>');},6500);delays.add(timer);response.on('close',()=>{clearTimeout(timer);delays.delete(timer);});"
         },
         {
-          "line": 140,
+          "line": 139,
           "text": "opened.navigate=async(target,options)=>{if(target.endsWith('/next'))navigationBudgets.push(options?.timeoutMs??-1);return navigate(target,options);};return opened;"
         },
         {
-          "line": 142,
-          "text": "const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:(mode==='slow'?15000:2000)*budgetScale,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){calls++;return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.label==='Public result')!.ref,reason:'Read observed public page'};}}});"
+          "line": 141,
+          "text": "const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:30_000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){calls++;if(mode==='budget')clock=25_000;return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.label==='Public result')!.ref,reason:'Read observed public page'};}}});"
         },
         {
-          "line": 145,
+          "line": 144,
           "text": "await executor.navigate({source:'FIXTURE',stage:'DISCOVERY',session,signal,allowedOrigins:[origin],url:origin+'/start'});const started=Date.now();"
         },
         {
-          "line": 148,
+          "line": 147,
           "text": "if(mode==='slow'){const read=await reading;assert.equal(read.status,'COMPLETED');assert.ok(Date.now()-started>=6000);assert.equal(read.snapshot.url,origin+'/next');}"
-        },
-        {
-          "line": 149,
-          "text": "else{await assert.rejects(reading,{code:'BROWSER_TIMEOUT'});assert.deepEqual(navigationBudgets,[5000],'timeout must exercise OPEN_LINK with its remaining navigation budget, not expire during setup');assert.ok(Date.now()-started<5000*budgetScale);assert.ok(diagnostics.some(d=>d.event==='OPERATION_FAILED'&&d.lifecycle.failureCode==='BROWSER_TIMEOUT'));}"
         }
       ]
     },
@@ -596,6 +615,21 @@
     },
     {
       "file": "src/harness/browser/live-source-health.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 11,
+          "text": "import {setTimeout as delay} from 'node:timers/promises';"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/live-source-health.test.ts",
       "line": 13,
       "name": "'Live source health uses real Guard and observes a busy error arriving after visible results; 403/challenge never start a Live'",
       "mechanisms": [
@@ -625,6 +659,21 @@
     },
     {
       "file": "src/harness/browser/pacing-static-resources.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 5,
+          "text": "import { setTimeout as delay } from \"node:timers/promises\";"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/pacing-static-resources.test.ts",
       "line": 9,
       "name": "\"two Chromium runs count20 static resources each but pace only documents\"",
       "mechanisms": [
@@ -644,7 +693,7 @@
         },
         {
           "line": 27,
-          "text": "const until=async(check:()=>boolean,reason:string)=>{const deadline=Date.now()+15_000;while(!check()&&Date.now()<deadline)await delay(5);assert.ok(check(),reason+JSON.stringify(children.map(c=>({messages:c.messages,error:Buffer.concat(c.errors).toString()}))));};"
+          "text": "const until=async(check:()=>boolean,reason:string)=>{const deadline=Date.now()+30_000;while(!check()&&Date.now()<deadline)await delay(5);assert.ok(check(),reason+JSON.stringify(children.map(c=>({messages:c.messages,error:Buffer.concat(c.errors).toString()}))));};"
         }
       ]
     },
@@ -687,19 +736,24 @@
       "line": 274,
       "name": "\"real Chromium protects popup navigation before its first redirect\"",
       "mechanisms": [
+        "performance.now()",
         "setTimeout"
       ],
       "injectedClock": false,
       "timingLines": [
         {
           "line": 279,
-          "text": "for (let i = 0; i < 100 && !guard.snapshotRequests().some(r => r.outcome === \"REDIRECT_BLOCKED\"); i++) await new Promise(resolve => setTimeout(resolve, 10));"
+          "text": "const deadline=performance.now()+10_000;"
+        },
+        {
+          "line": 280,
+          "text": "while(performance.now()<deadline&&!guard.snapshotRequests().some(r=>r.outcome==='REDIRECT_BLOCKED'))await new Promise(resolve=>setTimeout(resolve,10));"
         }
       ]
     },
     {
       "file": "src/harness/browser/read-network-redirect.test.ts",
-      "line": 299,
+      "line": 300,
       "name": "\"real Chromium protects dedicated-worker fetch redirects\"",
       "mechanisms": [
         "setTimeout"
@@ -707,8 +761,37 @@
       "injectedClock": false,
       "timingLines": [
         {
-          "line": 303,
-          "text": "const timer = setTimeout(() => { worker.terminate(); resolve(\"worker-timeout\"); }, 2_000);"
+          "line": 304,
+          "text": "const timer = setTimeout(() => { worker.terminate(); resolve(\"worker-timeout\"); }, 10_000);"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/runner-pacing.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout",
+        "Date.now()",
+        "await delay("
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 6,
+          "text": "import { setTimeout as delay } from \"node:timers/promises\";"
+        },
+        {
+          "line": 17,
+          "text": "const deadline = Date.now() + 30_000;"
+        },
+        {
+          "line": 18,
+          "text": "while (!check() && Date.now() < deadline) await delay(5);"
+        },
+        {
+          "line": 23,
+          "text": "const server = createServer((_request, response) => { hits.push(Date.now());setTimeout(() => response.end(\"public fixture\"), 70); });"
         }
       ]
     },
@@ -728,21 +811,17 @@
       ]
     },
     {
-      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
-      "line": 475,
-      "name": "\"a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline\"",
+      "file": "src/infrastructure/browser/playwright-read-network-guard.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
       "mechanisms": [
         "setTimeout"
       ],
       "injectedClock": false,
       "timingLines": [
         {
-          "line": 480,
-          "text": "const executor = new BrowserTaskExecutor({ openSession: async () => failed }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 15 });"
-        },
-        {
-          "line": 487,
-          "text": "await new Promise(resolve => setTimeout(resolve, 20));"
+          "line": 37,
+          "text": "await new Promise<void>(resolve => setTimeout(resolve, elapsed));"
         }
       ]
     },
@@ -781,6 +860,45 @@
         {
           "line": 70,
           "text": "assert.ok(performance.now() - started >= 900, \"the source retry waits before its second navigation\");"
+        }
+      ]
+    },
+    {
+      "file": "src/server/local-web-server.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 109,
+          "text": "agentLoopOptions: options.readAssembly?.loop ?? { maxSteps: readLimits.maxAgentSteps, maxRejectedActions: readLimits.maxRejectedActions, timeoutMs: readLimits.maxAutomaticBrowserMs },"
+        },
+        {
+          "line": 206,
+          "text": "if (request.purpose === \"restaurant_semantic_interpret\") await new Promise<void>((resolve) => setTimeout(resolve, this.delayMs));"
+        },
+        {
+          "line": 288,
+          "text": "async function withinTestTimeout<T>(promise: Promise<T>, label: string, timeoutMs = 1_000): Promise<T> {"
+        },
+        {
+          "line": 289,
+          "text": "let timer: ReturnType<typeof setTimeout> | undefined;"
+        },
+        {
+          "line": 294,
+          "text": "timer = setTimeout(() => reject(new Error(`Timed out waiting for ${label}`)), timeoutMs);"
+        },
+        {
+          "line": 364,
+          "text": "async function nextCaseEvent(reader: ReadableStreamDefaultReader<Uint8Array>, decoder: TextDecoder, timeoutMs = 1_000): Promise<RestaurantCaseView> {"
+        },
+        {
+          "line": 378,
+          "text": "})(), \"next SSE event\", timeoutMs);"
         }
       ]
     }

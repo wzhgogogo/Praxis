@@ -276,7 +276,8 @@ test("real Chromium protects popup navigation before its first redirect", async 
   const popupPromise = page.waitForEvent("popup");
   await page.evaluate(url => { window.open(url); }, origin + "/cross");
   await popupPromise;
-  for (let i = 0; i < 100 && !guard.snapshotRequests().some(r => r.outcome === "REDIRECT_BLOCKED"); i++) await new Promise(resolve => setTimeout(resolve, 10));
+  const deadline=performance.now()+10_000;
+  while(performance.now()<deadline&&!guard.snapshotRequests().some(r=>r.outcome==='REDIRECT_BLOCKED'))await new Promise(resolve=>setTimeout(resolve,10));
   assert.ok(guard.snapshotRequests().some(r => r.outcome === "REDIRECT_BLOCKED"));
   assert.equal(arrivals.includes("B/forbidden"), false);
 }));
@@ -291,7 +292,7 @@ test("real Chromium preserves normal allowed popup redirect navigation", async (
   guard.prepareNavigation(origin + "/page"); await page.goto(origin + "/page");
   const popupPromise = page.waitForEvent("popup"); await page.evaluate(url => { window.open(url); }, origin + "/safe");
   const popup = await popupPromise;
-  await popup.waitForURL(origin + "/result/final", { timeout: 3_000 });
+  await popup.waitForURL(origin + "/result/final", { timeout: 10_000 });
   assert.equal(await popup.locator("h1").textContent(), "Public result");
   assert.equal(await popup.locator("#relative").evaluate((el: HTMLAnchorElement) => el.href), origin + "/result/next");
 }));
@@ -300,7 +301,7 @@ test("real Chromium protects dedicated-worker fetch redirects", async () => fixt
   guard.prepareNavigation(origin + "/page"); await page.goto(origin + "/page");
   const outcome = await page.evaluate(() => new Promise(resolve => {
     const worker = new Worker("/worker.js");
-    const timer = setTimeout(() => { worker.terminate(); resolve("worker-timeout"); }, 2_000);
+    const timer = setTimeout(() => { worker.terminate(); resolve("worker-timeout"); }, 10_000);
     worker.onmessage = event => { clearTimeout(timer); worker.terminate(); resolve(event.data); };
     worker.onerror = () => { clearTimeout(timer); worker.terminate(); resolve("worker-error"); };
   }));

@@ -387,11 +387,12 @@ test("H001 never admits stale busy discovery cards or an old explicit empty stat
   }
 });
 
-test("native source session acquisition consumes the remaining source window and retains an unstarted detail entrance", async () => {
+test("native source session acquisition consumes the remaining source window and retains an unstarted detail entrance", async t => {
+  let elapsed=0;t.mock.method(Date,'now',()=>elapsed);
   const navigations: string[] = [];
   const delayed = sourcePages("TABELOG_DELIVERS", navigations);
   const browser = { openSession: async (input: { signal: AbortSignal }) => {
-    await new Promise<void>((resolve) => setTimeout(resolve, 20));
+    elapsed+=20;
     return delayed.openSession(input);
   } };
   const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => {

@@ -6,7 +6,7 @@ for(const file of files){
  const raw=readFileSync(file,'utf8');
  // Inventory source spans, not runtime test counts. Shared helpers following a
  // declaration remain in that candidate's span and are assessed explicitly.
- const starts=[...raw.matchAll(/\b(?:test|it)\s*\(\s*("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g)];
+ const starts=[{index:0,1:'<shared timing helpers>'},...raw.matchAll(/\b(?:test|it)\s*\(\s*("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g)];
  for(const [index,node] of starts.entries()){
    const text=raw.slice(node.index,starts[index+1]?.index??raw.length);
    const patterns=[...text.matchAll(/setTimeout|setInterval|Date\.now\(\)|performance\.now\(\)|waitForTimeout|await\s+(?:delay|sleep|wait)\(/g)];

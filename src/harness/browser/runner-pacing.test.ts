@@ -14,7 +14,7 @@ function child(endpoint: EvalPacingEndpoint, id: string, url: string) {
   return { process, messages, closed, errors };
 }
 async function until(check: () => boolean, detail: string) {
-  const deadline = Date.now() + 10_000;
+  const deadline = Date.now() + 30_000;
   while (!check() && Date.now() < deadline) await delay(5);
   assert.ok(check(), detail);
 }

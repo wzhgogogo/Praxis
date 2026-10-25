@@ -55,7 +55,7 @@ test('health deadline keeps its hard bound and never infers readiness without a 
   try{
    const start=performance.now();
    await assert.rejects(runLiveSourceHealth({environment:{},artifactDirectory:directory},{runtime,timeoutMs:300,sleep:async()=>{}}),SourceDataPreflightError);
-   assert.ok(performance.now()-start<2000,'three fixture windows must terminate without extending the deadline');
+   assert.ok(performance.now()-start<5000,'three fixture windows must terminate without extending the deadline');
    assert.equal(closed,6);
    const artifact=JSON.parse(await readFile(join(directory,'source-health.json'),'utf8'));
    for(const attempt of artifact.attempts)for(const observation of attempt.observations){

@@ -472,7 +472,8 @@ test("a stuck old close cannot delay cancellation or overwrite the next candidat
   await executor.close();
 });
 
-test("a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline", async () => {
+test("a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline", async t => {
+  let clock=0;t.mock.method(Date,'now',()=>clock);
   const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }]);
   failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
   let finishClose: (() => void) | undefined;
@@ -484,7 +485,7 @@ test("a stuck runtime cleanup does not hold a canceled read or reset its candida
   const navigation = executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", signal: controller.signal, session, url: "https://www.tablecheck.com/fail", allowedOrigins: ["https://www.tablecheck.com"] });
   controller.abort();
   await assert.rejects(navigation, { code: "BROWSER_ABORTED" });
-  await new Promise(resolve => setTimeout(resolve, 20));
+  clock=20;
   await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "IDENTITY"), { code: "BROWSER_TIMEOUT" });
   finishClose?.();
 });

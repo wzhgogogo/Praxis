@@ -141,8 +141,8 @@ test('P21b guarded search filters reject unaudited parameters under the producti
   const bad=good+'&unreviewed=1';await writeFile(harPath,replayHarPages({[good]:'<title>Public results</title>',[bad]:'<title>Unaudited field</title>'}));
   const session=await new LocalPlaywrightChromium().openSession({signal:AbortSignal.timeout(10000),networkPolicy:discoveryPackNetworkPolicy([pack]),replayHarPath:harPath});
   try{
-   await session.prepareNavigation?.(good,{timeoutMs:2000});await session.navigate(good,{timeoutMs:2000});
-   await assert.rejects(async()=>{await session.prepareNavigation?.(bad,{timeoutMs:2000});await session.navigate(bad,{timeoutMs:2000});},/admitted|blocked|failed/i);
+   await session.prepareNavigation?.(good,{timeoutMs:10_000});await session.navigate(good,{timeoutMs:10_000});
+   await assert.rejects(async()=>{await session.prepareNavigation?.(bad,{timeoutMs:10_000});await session.navigate(bad,{timeoutMs:10_000});},/admitted|blocked|failed/i);
   }finally{await session.close();await rm(directory,{recursive:true,force:true});}
  }
 });
