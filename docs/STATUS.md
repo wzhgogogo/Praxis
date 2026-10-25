@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.409
-- Last updated: 2026-10-25
+- Document revision: 4.410
+- Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-F3-034-EXPLICIT-GENERAL:** 关闭非法提议、稀疏KEEP和重复检索后隐式清词扩查；来源有界UNKNOWN。GENERAL只选同来源/地区实际观察的列表引用，代码核对；真实Chromium明确选择后读到5家，URL冒充/跨来源/无观察拒绝。共享文本的Native/Google-only实际调用方同步，拒绝时外部传输0；候选/HARD/预算保留。retrieval Schema@3／Prompt@6、State@22／TaskDefinition@20，无旧输出兼容；保护来源目录/Pack与budget零差异，新增真实调用0。F6仍待批准、route留3f。[报告](../.eval-artifacts/phase3a-prime/f3-034/report.md)。
 
 - **2026-10-26-ADR0045-REVISED（执行CET10-25）:** F6仍仅草案、待批准。按62个完成样本改准入为20s+动作中位数：搜索65.154s／事实50.3835s／查位66.453s，撤回190s门槛并加100s正常控制。事件可表达部分结果，现有逐店事实/查位checkpoint可复用，搜索父取消交接仍有缺口及明确实施代价；完整子结果继续原资格/新鲜度核对。源码与预算0差异，新增真实调用0。 五门禁1054／161全绿，各项前后净树。[草案](decisions/0045-bounded-read-conclusion-reserve.md)／[收据](../.eval-artifacts/phase3a-prime/f6-draft-revision/report.md)。
 

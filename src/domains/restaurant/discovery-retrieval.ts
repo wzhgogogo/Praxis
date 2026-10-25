@@ -8,6 +8,8 @@ export interface PositiveDiscoveryCriterion {
 export interface DiscoveryRetrievalSelection {
   keyword?: string;
   categoryUrl?: string;
+  /** Opaque code-owned reference to a general list actually observed in this source flow. */
+  generalRef?: string;
   criterionRef?: string;
   reason: string;
   accepted: boolean;
@@ -29,18 +31,22 @@ export function validateDiscoveryRetrieval(
   intent: RestaurantSearchIntent,
   locationName: string,
   observedCategoryUrls: readonly string[],
-  observation?: {parsedCount: number; rewrites: number},
+  observation?: {parsedCount: number; rewrites: number; generalListRefs: readonly string[]},
 ): DiscoveryRetrievalSelection {
   const rejected = (rejectionReason: string): DiscoveryRetrievalSelection => ({
-    accepted: false, reason: 'Use a general list after rejected retrieval proposal.', rejectionReason,
+    accepted: false, reason: 'Retrieval was rejected; source remains bounded UNKNOWN.', rejectionReason,
   });
   if (!value || typeof value !== 'object' || Array.isArray(value)) return rejected('INVALID_PROPOSAL');
   const proposal = value as Record<string, unknown>;
-  if (Object.keys(proposal).some(key => !['choice', 'keyword', 'criterionRef', 'categoryUrl', 'reason'].includes(key))
+  if (Object.keys(proposal).some(key => !['choice', 'keyword', 'criterionRef', 'categoryUrl', 'generalRef', 'reason'].includes(key))
       || !['KEYWORD', 'CATEGORY', 'COMBINED', 'GENERAL', 'KEEP'].includes(String(proposal.choice))
-      || !['keyword', 'criterionRef', 'categoryUrl', 'reason'].every(key => typeof proposal[key] === 'string')) {
+      || !['keyword', 'criterionRef', 'categoryUrl', 'generalRef', 'reason'].every(key => typeof proposal[key] === 'string')) {
     return rejected('INVALID_PROPOSAL');
   }
+  const generalRef = String(proposal.generalRef);
+  if (proposal.choice === 'GENERAL' && observation && !observation.generalListRefs.includes(generalRef)) return rejected('UNOBSERVED_GENERAL_LIST');
+  if (proposal.choice !== 'GENERAL' && generalRef || !observation && generalRef) return rejected('UNUSED_RETRIEVAL_FIELDS');
+  if (proposal.choice === 'KEEP' && !observation) return rejected('NO_CURRENT_RETRIEVAL');
   const keyword = String(proposal.keyword).trim();
   if (proposal.choice === 'KEEP' && !discoveryRetrievalKeepAllowed(observation?.parsedCount, observedCategoryUrls.length, observation?.rewrites ?? 0)) {
     return rejected('SPARSE_LIST_KEEP_NOT_ALLOWED');
@@ -75,5 +81,6 @@ export function validateDiscoveryRetrieval(
     accepted: true, reason: String(proposal.reason),
     ...(withKeyword ? { keyword, criterionRef } : {}), ...(withCategory ? { categoryUrl } : {}),
     ...(proposal.choice === 'KEEP' ? { keep: true } : {}),
+    ...(proposal.choice === 'GENERAL' && observation ? { generalRef } : {}),
   };
 }

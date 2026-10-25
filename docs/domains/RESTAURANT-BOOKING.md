@@ -1,11 +1,15 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.23
-- Last updated: 2026-10-24
+- Document revision: 3.24
+- Last updated: 2026-10-26
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
+
+2026-10-26 CET，F3-034当前合同：检索提议拒绝后不自动清词或改读通用列表。模型可选代码提供的同来源/地区已观察generalRef，代码核对后导航，否则来源UNKNOWN；HARD、候选接纳、原预算和展示资格不改。Native与Google-only拒绝无效共享文本提议，不发通用查询。当前State@22／TaskDefinition@20、retrieval Schema@3／Prompt@6；旧输出退役，无生产迁移/重置，历史artifact不改。[ADR补充](../decisions/0042-explicit-observed-general-list-supplement.md)。
+
+以下2026-10-24段为当时实施记录，其版本号不是当前版本。
 
 2026-10-24 CEST，ADR-0043 共享层实现（本分支，尚未合入 main）：无具名标签／同源指针的已观察地区入口可先取坐标样本，首两个有效坐标均越界时，只从本来源流程实际观察且经 Pack 校验的入口集合选择一次。Browser 新动作 `SELECT_REGION_ENTRANCE` 只选集合引用，来源组合核对后直接导航；普通 DOM ref 仍绑定当前观察。与原4/5规则共用一次上限，最多4地区页，无恢复菜单；失败UNKNOWN、候选及累计预算保留。当前版本为 restaurant-state@21、TaskDefinition@19、browser-read-context@3、browser-read-action@12、browser-read-prompt@20；旧进度 firstFive 路径已移除，全部活动构造更新，历史 artifact 不改写。没有需保留的生产 Task 数据，本批不迁移／重置数据库。离线证据与 Live 缺口见 [F5 报告](../../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
 

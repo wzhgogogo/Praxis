@@ -524,14 +524,40 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       const scope = (current: BrowserSnapshot) => !directory || sameRegionListing(current.url)
         || directory.isSameObservedRegionHomepage?.(initial.url, current.url) === true
           && (initialHomepage || directory.isObservedRegionHomepageListing?.(current, initial.url) === true);
+      // Only actual page/link observations enter this collection. URL grammar
+      // is checked by the source-owned Pack; generated URLs are never options.
+      const generalLists = new Map<string, {ref: string; url: string; label: string; observedOn: string}>();
+      const observeGeneralLists = async () => {
+        const general = (url: string) => {
+          try {
+            const parsed = new URL(url);
+            if (parsed.origin !== new URL(initial.url).origin || (pack.browser!.retrievalExpression(url) ?? '') !== '') return false;
+            if (directory) return directory.isRegionEntrance(url) && parsed.search === '' && (sameRegionListing(url) && parsed.pathname === directory.listingRoot(url)
+              || url === page.url && directory.isObservedRegionHomepageListing?.(page, initial.url) === true);
+            const {keyword: _keyword, ...plainQuery} = query;
+            return url === pack.buildQuery(plainQuery).url;
+          } catch { return false; }
+        };
+        const links = directory ? directory.links(page) : (await session!.observeControls?.() ?? [])
+          .flatMap(control => control.kind === 'LINK' && control.href ? [{url: control.href, label: control.label}] : []);
+        for (const option of [{url:page.url,label:page.title}, ...links]) if (general(option.url) && !generalLists.has(option.url)) {
+          generalLists.set(option.url, {ref: `general:${pack.meta.id}:${generalLists.size + 1}`, url:option.url, label:option.label, observedOn:page.url});
+        }
+        return [...generalLists.values()];
+      };
+      const rejectedRetrieval = (reason: string): never => {
+        sourceEnded = true; queryAdjustment = reason;
+        throw Object.assign(Error(`Retrieval remains UNKNOWN: ${reason}`), {code:'DISCOVERY_SOURCE_INCOMPLETE'});
+      };
       const attemptedRetrievals = () => retrieval.history
         .filter(item => !item.selection.keep)
         .map(({selection}) => ({
-          keyword: selection.keyword ?? '', categoryUrl: selection.categoryUrl ?? '',
+          keyword: selection.keyword ?? '', categoryUrl: selection.categoryUrl ?? '', generalRef: selection.generalRef ?? '',
         }));
-      const expressionKey = (selection: Pick<import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection, 'keyword' | 'categoryUrl'>) => JSON.stringify([
+      const expressionKey = (selection: Pick<import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection, 'keyword' | 'categoryUrl' | 'generalRef'>) => JSON.stringify([
         (selection.keyword ?? '').normalize('NFKC').toLowerCase().replace(/\s+/gu, ' ').trim(),
         selection.categoryUrl ? directory?.withoutRetrievalExpression(selection.categoryUrl) ?? selection.categoryUrl : '',
+        selection.generalRef ?? '',
       ]);
       const decide = async () => {
         const observedCategories=categories();
@@ -542,19 +568,24 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         observation: {
           url: page.url, title: page.title, text: page.text,
           parsedCount,
-          explicitEmpty: pack.browser!.isExplicitEmptyListing(page), categories: observedCategories,
+          explicitEmpty: pack.browser!.isExplicitEmptyListing(page), categories: observedCategories, generalLists: await observeGeneralLists(),
         },
         ...(retrieval.selection ? {current: retrieval.selection} : {}),
         attemptedRetrievals: attemptedRetrievals(), rewrites: retrieval.rewrites,
         });
         return selected.keep && !discoveryRetrievalKeepAllowed(parsedCount,observedCategories.length,retrieval.rewrites)
-          ? {accepted:false,reason:'Use the general list after a rejected KEEP proposal.',rejectionReason:'SPARSE_LIST_KEEP_NOT_ALLOWED'} : selected;
+          ? {accepted:false,reason:'Rejected KEEP leaves this source bounded UNKNOWN.',rejectionReason:'SPARSE_LIST_KEEP_NOT_ALLOWED'} : selected;
       };
       const apply = async (selection: import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection) => {
+        if (!selection.accepted) rejectedRetrieval(selection.rejectionReason ?? 'INVALID_RETRIEVAL_PROPOSAL');
         const oldUrl = page.url;
+        const general = selection.generalRef && [...generalLists.values()].find(item => item.ref === selection.generalRef);
+        if (selection.generalRef && !general) rejectedRetrieval('UNOBSERVED_GENERAL_LIST');
         let url: string;
-        if (directory) {
+        if (general) url = general.url;
+        else if (directory) {
           const base = selection.categoryUrl ?? page.url;
+          if (!selection.keyword && !selection.categoryUrl && (pack.browser!.retrievalExpression(base) ?? '') !== '') rejectedRetrieval('GENERAL_LIST_REQUIRES_OBSERVED_REFERENCE');
           url = selection.keyword ? directory.withRetrievalExpression(base, selection.keyword) : directory.withoutRetrievalExpression(base);
         } else {
           const {keyword: _old, ...rest} = query;
@@ -617,13 +648,17 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         retrieval.selection = selection;
       };
       if (!retrieval.selection) {
-        const selected = eligible ? await decide() : {accepted: true, reason: 'General listing: no positive retrieval input.'};
-        const selection = selected.keep ? {accepted: true, reason: selected.reason} : selected;
-        await apply(selection);
+        const selected: import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection = eligible ? await decide() : {accepted: true, keep:true, reason: 'Retain observed listing: no positive retrieval input.'};
+        const selection = selected;
+        if (!selection.accepted) { retrieval.history.push({selection,elapsedMs:sourceElapsedMs(),parsedCount:pack.parseListing(page).outlets.length}); rejectedRetrieval(selection.rejectionReason ?? 'INVALID_RETRIEVAL_PROPOSAL'); }
+        if (selection.keep && selection.accepted) { retrieval.selection = selection; retrieval.retrievalPages ||= 1; }
+        else await apply(selection);
         retrieval.history.push({selection, elapsedMs: sourceElapsedMs(), parsedCount: pack.parseListing(page).outlets.length});
       } else if (replaceRegion) {
-        const {categoryUrl: _old, ...selection} = retrieval.selection;
-        await apply(selection);
+        // Old-region references cannot authorize a new-region strategy.
+        const selection: import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection = retrieval.selection.keyword ? {accepted:true,keyword:retrieval.selection.keyword,...(retrieval.selection.criterionRef?{criterionRef:retrieval.selection.criterionRef}:{}),reason:retrieval.selection.reason} : !eligible ? {accepted:true,keep:true,reason:'Retain observed listing: no positive retrieval input.'} : await decide();
+        if (selection.keep && selection.accepted) retrieval.selection = selection;
+        else await apply(selection);
       } else if (retrieval.retrievalPages === 0) retrieval.retrievalPages = 1;
       if (!retrieval.history.length && retrieval.selection) {
         retrieval.history.push({selection: retrieval.selection, elapsedMs: sourceElapsedMs(), parsedCount: pack.parseListing(page).outlets.length});
@@ -635,12 +670,12 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         let selection = await decide();
         const attempted = new Set(attemptedRetrievals().map(expressionKey));
         if (!selection.keep && attempted.has(expressionKey(selection))) {
-          selection = {accepted: false, rejectionReason: 'REPEATED_RETRIEVAL_EXPRESSION', reason: 'Use the general list after a repeated retrieval expression.'};
+          selection = {accepted: false, rejectionReason: 'REPEATED_RETRIEVAL_EXPRESSION', reason: 'Repeated retrieval leaves this source bounded UNKNOWN.'};
         }
         retrieval.history.push({selection, elapsedMs: sourceElapsedMs(), parsedCount: pack.parseListing(page).outlets.length});
+        if (!selection.accepted) rejectedRetrieval(selection.rejectionReason ?? 'INVALID_RETRIEVAL_PROPOSAL');
         if (selection.keep) break;
         retrieval.rewrites++;
-        if (selection.rejectionReason === 'REPEATED_RETRIEVAL_EXPRESSION' && attempted.has(expressionKey(selection))) break;
         const previous = page.url;
         await apply(selection);
         for (const outlet of pack.parseListing(page).outlets) if (!observed.has(outlet.sourceEntityId)) observed.set(outlet.sourceEntityId, outlet);
@@ -1272,6 +1307,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         progressionReason: source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" : "FIRST_SOURCE_BATCH_ENDED", listingObservations: [] } };
     let failureCode: RestaurantFailureCode | undefined;
     try {
+      if (discoveryPlan.textRetrieval?.accepted === false) throw Object.assign(Error('Rejected shared retrieval; bounded UNKNOWN'), {code:'DISCOVERY_SOURCE_INCOMPLETE'});
       const referenceEntry = discoveryPlan.entries.slice(discoveryPlan.cursor + 1)
         .find(e => !nativeSourceForPack(this.packs.find(p => p.meta.id === e.sourceId)));
       const loadReferenceRead = referenceEntry ? async (remainingMs: number) => {
@@ -1281,6 +1317,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         }
         const boundedSignal = AbortSignal.any([signal, AbortSignal.timeout(Math.max(1, Math.floor(remainingMs)))]);
         await prepareTextRetrieval(remainingMs);
+        if (discoveryPlan.textRetrieval?.accepted === false) throw Object.assign(Error('Rejected shared retrieval; bounded UNKNOWN'), {code:'DISCOVERY_SOURCE_INCOMPLETE'});
         const {continuation: _prior, ...freshRequest} = request;
         const readStarted = Date.now();
         let read: RestaurantSearchRead;
@@ -1383,7 +1420,10 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     if (saved && (saved.sourceId !== sourceId || saved.readRunId !== request.readRunId)) {
       throw Object.assign(Error('Saved source read belongs to a different source or run'), {code: 'GOOGLE_MALFORMED_RESPONSE'});
     }
-    const read = saved ? saved.read : await this.locality.search({ ...freshRequest, retrievalHint, discoveryQuery: plan.entries[plan.cursor]!.query, ...(continuation ? { continuation } : {}) }, signal);
+    const read: RestaurantSearchRead = plan.textRetrieval?.accepted === false
+      ? {candidates:[], evidence:[], continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:continuation?.usedPageTokens??[],pagesRead:continuation?.pagesRead??0,exhausted:true,lastFailureCode:'DISCOVERY_SOURCE_INCOMPLETE'},
+        metadata:{provider:'GOOGLE_PLACES',route:'STRUCTURED_ADAPTER',latencyMs:0,failureCode:'DISCOVERY_SOURCE_INCOMPLETE'}}
+      : saved ? saved.read : await this.locality.search({ ...freshRequest, retrievalHint, discoveryQuery: plan.entries[plan.cursor]!.query, ...(continuation ? { continuation } : {}) }, signal);
     delete plan.regionReferenceRead;
     if (!read.continuation) throw Object.assign(new Error("Google discovery did not return a bounded cursor"), { code: "GOOGLE_MALFORMED_RESPONSE" });
     const googleContinuation = read.continuation;

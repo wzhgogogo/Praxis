@@ -299,7 +299,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
     assert.ok(++modelCalls <= 50, "the formal local composition retains its total model-call ceiling");
     if (request.purpose === "restaurant_discovery_retrieval") {
       const input = JSON.parse(request.messages.find(item => item.role === "user")!.content);
-      return reply(JSON.stringify({ choice: input.current ? "KEEP" : "KEYWORD", keyword: input.current ? "" : "omakase", criterionRef: input.current ? "" : "criterion:0", categoryUrl: "", reason: "Controlled retrieval; preserve the current sparse source result." }), request.purpose);
+      return reply(JSON.stringify({ choice: input.current ? "KEEP" : "KEYWORD", keyword: input.current ? "" : "omakase", criterionRef: input.current ? "" : "criterion:0", generalRef:'',categoryUrl: "", reason: "Controlled retrieval; preserve the current sparse source result." }), request.purpose);
     }
     if (request.purpose === "restaurant_semantic_interpret") return reply(JSON.stringify({ schemaVersion: "3", facts: [
       { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase spot", selectionScope: "OPEN_ENDED" } },

@@ -1,8 +1,8 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.309
-- Last updated: 2026-10-25
+- Document revision: 4.310
+- Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -20,6 +20,12 @@
 ## 2026-10-26复核：ADR0045中位数与部分结果修订（CET10-25）
 
 只修改Draft，F6未实施。固定Git下62样本中位数与20s门槛核算完成；核对现有逐店checkpoint、事件和Reducer，明确搜索父取消仍丢内部完成结果的接线缺口及代价，新增100s查位正常准入和取消保留A/未知B控制。F6红绿灯NOT_RUN，现有五门禁按用户要求另跑，不能代替F6产品验收。 五门禁1054／161全绿，各项前后净树。源码/预算不变、真实调用0。[报告](../../.eval-artifacts/phase3a-prime/f6-draft-revision/report.md)。
+
+<a id="test-2026-10-26-f3-034"></a>
+
+## 2026-10-26 CET：F3-034显式观察通用列表
+
+未修生产组合非法关键词/稀疏KEEP/重复表达式三项有效导航红灯，修后同断言通过；真实本地Chromium明确选择观察ref后5家候选，集合外/跨来源/href冒充/无观察均拒绝。当前共享文本Native和Google-only同片有界失败，原合法改写与候选保留交付控制保持。Schema@3／Prompt@6、State@22／TaskDefinition@20及全部活动fixture同步，不留旧回退。63项相关与默认1060预检查全绿，五门禁提交后另附净树收据。两个来源目录、Pack、budget零差异，真实调用0，F6/route不实施。[报告](../../.eval-artifacts/phase3a-prime/f3-034/report.md)。
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 

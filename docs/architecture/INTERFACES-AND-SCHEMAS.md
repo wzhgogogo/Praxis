@@ -1,13 +1,15 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 3.10
-- Last updated: 2026-10-20
+- Document revision: 3.11
+- Last updated: 2026-10-26
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
 
 接口必须逐项标记状态，不得用局部原型暗示完整API或平台能力已经存在。
+
+F3-034当前未发布合同（2026-10-26 CET）：restaurant_discovery_retrieval@3／Prompt@6要求generalRef字段，GENERAL只选代码提供的观察引用，旧五字段输出拒绝；持久检索选择语义更新为restaurant-state@22、TaskDefinition@20。全部活动构造已同步，不增加旧路径适配或自动迁移/重置；无需保留的生产Task数据。资格/Runtime权限不变。[窄ADR补充](../decisions/0042-explicit-observed-general-list-supplement.md)。
 
 ## Implementation Status
 

@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.19
-- Last updated: 2026-10-25
+- Document revision: 1.20
+- Last updated: 2026-10-26
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
@@ -65,6 +65,8 @@ ADR一经Accepted不得静默重写Decision。改变决策时新增ADR，并将�
 
 
 Accepted supplement [ADR-0036 G1](0036-tablecheck-reserve-read-supplement.md) admits only the fixed public reservation-entry GET document. [ADR-0039](0039-immediate-thirty-minute-window.md) changes immediate time semantics; neither grants reservation submission rights.
+
+- [ADR-0042显式观察通用列表补充](0042-explicit-observed-general-list-supplement.md)：Accepted，关闭F3-034隐式回退；原ADR正文和历史评价保留。
 
 ## F3／F6补充
 

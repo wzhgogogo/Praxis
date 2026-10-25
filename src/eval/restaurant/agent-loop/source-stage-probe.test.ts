@@ -210,7 +210,7 @@ test("live source-stage discovery delegates to the production NativeRestaurantSe
     apiKey: "fixture-only",
     fetchImplementation: async () => { throw new Error("coordinates avoid named-place resolution"); },
   }), () => reference.toISOString(), 10, { maxRequests: 2 });
-  const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,reason:"Fixed source general control"})},
+  const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,keep:true,reason:"Retain current observed source query"})},
     pack: tabelogDiscoveryPack,
     modelDecision: { decide: async input => ({type:"OPEN_LINK",targetRef:input.observation.targets.find(t=>t.label==="Shibuya")!.ref,reason:"Use observed region"}) },
     runtime,
@@ -240,7 +240,7 @@ test("source-stage discovery keeps a parsed list without any frozen-radius candi
   const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
     apiKey: "fixture-only", fetchImplementation: async () => { throw new Error("coordinates avoid named-place resolution"); },
   }), () => reference.toISOString(), 10, { maxRequests: 2 });
-  const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,reason:"Fixed source general control"})},
+  const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,keep:true,reason:"Retain current observed source query"})},
     pack: tabelogDiscoveryPack,
     modelDecision: { decide: async input => ({type:"OPEN_LINK",targetRef:input.observation.targets.find(t=>t.label==="Shibuya")!.ref,reason:"Use observed region"}) },
     runtime: sourcePages("OUTSIDE_RADIUS", []),
