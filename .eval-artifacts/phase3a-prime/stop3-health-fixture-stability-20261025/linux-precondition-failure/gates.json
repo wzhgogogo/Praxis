@@ -1,0 +1,74 @@
+{
+  "mode": "OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE",
+  "testedCommit": "e6badd00e9599abc19e1215bb4f8009e6c9e6c39",
+  "startedAt": "2026-10-25T11:08:28.147617+01:00",
+  "platform": "Linux-6.1.0-53-cloud-arm64-aarch64-with-glibc2.36",
+  "cpuCount": 4,
+  "nodeVersion": "v24.4.1",
+  "timezone": "CET UTC+01:00 (user review)",
+  "orchestrationSha256": "5e71348ee12aba1b8e9125215147f8d548a09f6ce38d49f2139cc0e1f00e4b83",
+  "freezeSha256": "7f9bead6e11d8108a96ed7abe0cacb429b04cb5acab31e3fb1b7caf1576c857e",
+  "perCommandTimeoutSeconds": 600,
+  "runs": [
+    {
+      "gate": "typecheck",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAt": "2026-10-25T11:08:28.151548+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.418372,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": ""
+    },
+    {
+      "gate": "arch-check",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAt": "2026-10-25T11:08:28.575236+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.165243,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": ""
+    },
+    {
+      "gate": "npm-test",
+      "sample": 1,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAt": "2026-10-25T11:08:28.744406+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test-1.log",
+      "exitCode": 1,
+      "elapsedSeconds": 35.023358,
+      "summary": {
+        "tests": 1037,
+        "suites": 5,
+        "pass": 1036,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "5eda8a3e929a5ba8d33de2cd9e41a88008113a226ae61eb31949d46bf90492db",
+      "gitStatusAfter": ""
+    }
+  ],
+  "restorations": 0,
+  "stopReason": "GATE_FAILED"
+}
