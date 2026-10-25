@@ -18,7 +18,7 @@
 - scorer/report@4消费SHA绑定的独立类别标注；A/B、无时间、灰区与CONTEXT_CARRY分开评价。旧Gold及旧evaluation不覆盖；非目标Proposal/Patch/Draft严格比较，保留逐阶段oracle。原Compiler回归调用方式保持不变；相对时间或诊断的差异仍须报告，不能以灰区豁免。
 - 实际语义handler/Reducer、Agent严格动作Schema、生产读取组合推荐展示和可选slot回归已扩展；无语义后改目标写路径，保留既有权限与证据规则。State@20/TaskDefinition@18不升版，Guard、来源、站点目录、source-packs.ts及预约实现不改。
 - 未来72逻辑turn输入选择冻结：15开发＋14灰区各3次＋公开已物化12例＋Wednesday新开发输入3次；私有Holdout和.env不读。本批真实调用0，停止点2复核前不执行批次3；SR03-T02列停止点3清单不改Gold。
-- 正式离线评价与五门禁结果见[报告](../../.eval-artifacts/phase3a-boundary/report.md)，完成后按授权推本分支并停下。
+- 实现冻结c9fe3039：离线15/15与五门禁1051/154全绿，原文/State/TaskDefinition/Gold字节不变；首轮额外时间诊断失败证据保留，收敛修复未放宽评分。结果见[报告](../../.eval-artifacts/phase3a-boundary/report.md)，完成后按授权推本分支并停下。
 
 ## DEV-2026-10-23-MAIN-ONLY-WORKFLOW
 

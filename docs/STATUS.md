@@ -5,7 +5,7 @@
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
 
-- **2026-10-25-PHASE3A-BOUNDARY-BATCH2:** ADR-0044 已 Accepted；本分支实现 Prompt@24、Semantic Proposal@4 与 scorer/report@4。新目标依据只核对当前消息引用；无新TARGET修正沿用原目标，State@20/TaskDefinition@18 和旧Gold不变。有效引用/评分/冲突红灯已保存，真实handler、Reducer、推荐展示与可选slot组合离线通过。正式冻结与五门禁待完成；真实模型0/144，独立额度不占3a′400，网站/Google/Live0。完成后只推本分支并停停止点2，不合main。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
+- **2026-10-25-PHASE3A-BOUNDARY-BATCH2:** ADR-0044 已 Accepted；本分支实现 Prompt@24、Semantic Proposal@4 与 scorer/report@4。新目标依据只核对当前消息引用；无新TARGET修正沿用原目标，State@20/TaskDefinition@18 和旧Gold不变。有效引用/评分/冲突红灯已保存，真实handler、Reducer、推荐展示与可选slot组合离线通过。c9fe3039冻结后离线15/15、五门禁1051默认/154本机Chromium全绿，每项后净工作树，独立复核非目标字段不变；真实模型0/144，独立额度不占3a′400，网站/Google/Live0。交付证据提交后按授权只推本分支并停停止点2，不合main。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-STOP3-RECORDING:** 停止点3两项修复完成：健康检查已合main/28216ae3；录制器先替换第三方URL key/signature/client值，再保留原扫描，普通命中按页/条目拒绝，自有凭据命中整份拒绝且不提前发布DOM。槽1最小元素真实Chromium录制/回放到首个不合格页，0来源请求；五门禁1037/154全绿，各项后净工作树，真实调用0。自有请求体短路边界补充红绿后，05991efd最终五门禁1037/154全绿、净工作树；按授权合main并停止等复核。 [报告](../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/recording/report.md)。
 

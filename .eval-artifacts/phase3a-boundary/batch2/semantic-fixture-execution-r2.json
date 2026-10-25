@@ -1,0 +1,1715 @@
+{
+  "evidenceStatus": "exposed development / offline fixture / not Clean Baseline",
+  "realModelCalls": 0,
+  "report": {
+    "evaluatorVersion": "4",
+    "datasetId": "restaurant-semantic-regression-v3",
+    "datasetVersion": "3",
+    "mode": "FIXTURE",
+    "attributionLevel": "DEVELOPMENT_STAGE_ORACLES",
+    "status": "COMPLETED",
+    "turns": [
+      {
+        "sessionId": "SR01-complete-then-correct",
+        "turnId": "SR01-T01",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "Shinjuku"
+          },
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "restaurant search",
+                "goalBasis": {
+                  "type": "SPECIFIC_TIME_MEAL",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "Tomorrow between 19:00 and 19:30 in Shinjuku for two people, yakiniku under 5000 JPY per person."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-06",
+                "raw": "2026-08-06"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "19:00-19:30"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            },
+            {
+              "field": "BUDGET_PER_PERSON",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "BUDGET_PER_PERSON",
+                "max": 5000,
+                "currency": "JPY"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurant search"
+          },
+          "partySize": 2,
+          "partySizeSource": null,
+          "area": {
+            "query": "Shinjuku"
+          },
+          "addCriteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          },
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          }
+        },
+        "goalBoundary": {
+          "category": "B",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "basis": {
+            "type": "SPECIFIC_TIME_MEAL",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "Tomorrow between 19:00 and 19:30 in Shinjuku for two people, yakiniku under 5000 JPY per person."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR01-complete-then-correct",
+        "turnId": "SR01-T02",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "partySize": 3,
+          "area": {
+            "query": "Shibuya"
+          },
+          "criteria": [],
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "PARTY_SIZE",
+              "operation": "CORRECT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 3
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "CORRECT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shibuya"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "NEGATE",
+              "value": {
+                "kind": "CRITERION",
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "partySize": 3,
+          "partySizeSource": null,
+          "area": {
+            "query": "Shibuya"
+          },
+          "removeCriteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ]
+        },
+        "goalBoundary": {
+          "category": "CONTEXT_CARRY",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR02-incremental-completion",
+        "turnId": "SR02-T01",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "Shinjuku"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "restaurant search",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "I need a table in Shinjuku for two people."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "area": {
+            "query": "Shinjuku"
+          },
+          "partySize": 2,
+          "partySizeSource": null
+        },
+        "goalBoundary": {
+          "category": "NO_TIME",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "I need a table in Shinjuku for two people."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR02-incremental-completion",
+        "turnId": "SR02-T02",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurant search"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "Shinjuku"
+          },
+          "criteria": [],
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "restaurant search",
+                "goalBasis": {
+                  "type": "SPECIFIC_TIME_MEAL",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "Tomorrow between 19:00 and 19:30."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-06",
+                "raw": "2026-08-06"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "19:00-19:30"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          }
+        },
+        "goalBoundary": {
+          "category": "B",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "basis": {
+            "type": "SPECIFIC_TIME_MEAL",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "Tomorrow between 19:00 and 19:30."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR03-named-target-then-complete",
+        "turnId": "SR03-T01",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "I want Sushi Dai."
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai"
+          }
+        },
+        "goalBoundary": {
+          "category": "NO_TIME",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "I want Sushi Dai."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": "RECOMMENDATION",
+        "errors": []
+      },
+      {
+        "sessionId": "SR03-named-target-then-complete",
+        "turnId": "SR03-T02",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Sushi Dai"
+          },
+          "criteria": [],
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "Tsukiji"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "CORRECT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "Sushi Dai",
+                "goalBasis": {
+                  "type": "SPECIFIC_TIME_MEAL",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "Tomorrow between 19:00 and 19:30 for two people in Tsukiji."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-06",
+                "raw": "2026-08-06"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "19:00-19:30"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Tsukiji"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Sushi Dai"
+          },
+          "partySize": 2,
+          "partySizeSource": null,
+          "area": {
+            "query": "Tsukiji"
+          },
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          }
+        },
+        "goalBoundary": {
+          "category": "B",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "basis": {
+            "type": "SPECIFIC_TIME_MEAL",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "Tomorrow between 19:00 and 19:30 for two people in Tsukiji."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": "RECOMMENDATION",
+        "errors": []
+      },
+      {
+        "sessionId": "SR04-simple-complete",
+        "turnId": "SR04-T01",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "Japanese food",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "18:30"
+          },
+          "partySize": 4,
+          "area": {
+            "query": "Ginza"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "restaurant search",
+                "goalBasis": {
+                  "type": "SPECIFIC_TIME_MEAL",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "Tomorrow between 18:00 and 18:30 in Ginza for four people, Japanese food."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-06",
+                "raw": "2026-08-06"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "18:00",
+                "latest": "18:30",
+                "raw": "18:00-18:30"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 4
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Ginza"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "Japanese food",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurant search"
+          },
+          "partySize": 4,
+          "partySizeSource": null,
+          "area": {
+            "query": "Ginza"
+          },
+          "addCriteria": [
+            {
+              "text": "Japanese food",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "18:30"
+          }
+        },
+        "goalBoundary": {
+          "category": "B",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "basis": {
+            "type": "SPECIFIC_TIME_MEAL",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "Tomorrow between 18:00 and 18:30 in Ginza for four people, Japanese food."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR05-relative-time-hard-soft-and-party-inference",
+        "turnId": "SR05-T01",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "smoking",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "quiet room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ],
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-07",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "21:00"
+          },
+          "partySize": 4,
+          "area": {
+            "query": "near our office"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "restaurant search",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "This Friday evening near our office for three colleagues and me; no smoking is essential, and a quiet room would be nice."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-07",
+                "raw": "2026-08-07"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "18:00",
+                "latest": "21:00",
+                "raw": "18:00-21:00"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 4
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "near our office"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "smoking",
+                "polarity": "NEGATIVE",
+                "strength": "HARD"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "quiet room",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "partySize": 4,
+          "partySizeSource": null,
+          "area": {
+            "query": "near our office"
+          },
+          "addCriteria": [
+            {
+              "text": "smoking",
+              "polarity": "NEGATIVE",
+              "strength": "HARD"
+            },
+            {
+              "text": "quiet room",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ],
+          "date": "2026-08-07",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "21:00"
+          }
+        },
+        "goalBoundary": {
+          "category": "GRAY",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "This Friday evening near our office for three colleagues and me; no smoking is essential, and a quiet room would be nice."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR06-approximate-budget-is-soft",
+        "turnId": "SR06-T01",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "around 3,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ],
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "13:00",
+            "latest": "17:00"
+          },
+          "partySize": 3,
+          "area": {
+            "query": "nearby"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "restaurant search",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "Tomorrow afternoon nearby for my parents and me. Around 3,000 yen per person would be ideal."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-06",
+                "raw": "2026-08-06"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "13:00",
+                "latest": "17:00",
+                "raw": "13:00-17:00"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 3
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "nearby"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "around 3,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "partySize": 3,
+          "partySizeSource": null,
+          "area": {
+            "query": "nearby"
+          },
+          "addCriteria": [
+            {
+              "text": "around 3,000 yen per person",
+              "polarity": "POSITIVE",
+              "strength": "SOFT"
+            }
+          ],
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "13:00",
+            "latest": "17:00"
+          }
+        },
+        "goalBoundary": {
+          "category": "GRAY",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "Tomorrow afternoon nearby for my parents and me. Around 3,000 yen per person would be ideal."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR07-relative-offset-time",
+        "turnId": "SR07-T01",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "Korean food",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-05",
+          "timeWindow": {
+            "earliest": "09:30",
+            "latest": "09:30"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near me"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "restaurant search",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "In about 30 minutes near me for two people, Korean food."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-05",
+                "raw": "2026-08-05"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "09:30",
+                "latest": "09:30",
+                "raw": "09:30-09:30"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "near me"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "Korean food",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "partySize": 2,
+          "partySizeSource": null,
+          "area": {
+            "query": "near me"
+          },
+          "addCriteria": [
+            {
+              "text": "Korean food",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "date": "2026-08-05",
+          "timeWindow": {
+            "earliest": "09:30",
+            "latest": "09:30"
+          }
+        },
+        "goalBoundary": {
+          "category": "GRAY",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "In about 30 minutes near me for two people, Korean food."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR08-criterion-removal",
+        "turnId": "SR08-T01",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "sushi",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            },
+            {
+              "text": "omakase",
+              "polarity": "NEGATIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-05",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "21:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "Ginza"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "restaurant search",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "Tonight at dinner in Ginza for two. I need sushi, but not omakase."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-05",
+                "raw": "2026-08-05"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "18:00",
+                "latest": "21:00",
+                "raw": "18:00-21:00"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Ginza"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "sushi",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "omakase",
+                "polarity": "NEGATIVE",
+                "strength": "UNSPECIFIED"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "partySize": 2,
+          "partySizeSource": null,
+          "area": {
+            "query": "Ginza"
+          },
+          "addCriteria": [
+            {
+              "text": "sushi",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            },
+            {
+              "text": "omakase",
+              "polarity": "NEGATIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "date": "2026-08-05",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "21:00"
+          }
+        },
+        "goalBoundary": {
+          "category": "GRAY",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "Tonight at dinner in Ginza for two. I need sushi, but not omakase."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR08-criterion-removal",
+        "turnId": "SR08-T02",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-05",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "21:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "Ginza"
+          },
+          "criteria": [
+            {
+              "text": "sushi",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ]
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "CRITERION",
+              "operation": "NEGATE",
+              "value": {
+                "kind": "CRITERION",
+                "text": "omakase",
+                "polarity": "NEGATIVE",
+                "strength": "UNSPECIFIED"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "sushi",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "removeCriteria": [
+            {
+              "text": "omakase",
+              "polarity": "NEGATIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "addCriteria": [
+            {
+              "text": "sushi",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ]
+        },
+        "goalBoundary": {
+          "category": "CONTEXT_CARRY",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR09-relative-location-overwrite",
+        "turnId": "SR09-T01",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [
+            {
+              "text": "Italian food",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-08",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "22:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near my hotel"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "restaurant search",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "This Saturday night near my hotel for two people, Italian food."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-08",
+                "raw": "2026-08-08"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "22:00",
+                "raw": "19:00-22:00"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "near my hotel"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "Italian food",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "partySize": 2,
+          "partySizeSource": null,
+          "area": {
+            "query": "near my hotel"
+          },
+          "addCriteria": [
+            {
+              "text": "Italian food",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "date": "2026-08-08",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "22:00"
+          }
+        },
+        "goalBoundary": {
+          "category": "GRAY",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "This Saturday night near my hotel for two people, Italian food."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR09-relative-location-overwrite",
+        "turnId": "SR09-T02",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-08",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "22:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "near our office"
+          },
+          "criteria": [
+            {
+              "text": "Italian food",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ]
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "AREA",
+              "operation": "CORRECT",
+              "value": {
+                "kind": "AREA",
+                "query": "near our office"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "area": {
+            "query": "near our office"
+          }
+        },
+        "goalBoundary": {
+          "category": "CONTEXT_CARRY",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      },
+      {
+        "sessionId": "SR10-hard-budget",
+        "turnId": "SR10-T01",
+        "status": "PASS",
+        "modelStatus": "PROPOSED",
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "20:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "Shinjuku"
+          },
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "restaurant search",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Controlled frozen development interpretation.",
+                  "quotes": [
+                    "Tomorrow after work in Shinjuku for two. The 5,000 yen maximum is firm."
+                  ]
+                }
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-06",
+                "raw": "2026-08-06"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "18:00",
+                "latest": "20:00",
+                "raw": "18:00-20:00"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "BUDGET_PER_PERSON",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "BUDGET_PER_PERSON",
+                "max": 5000,
+                "currency": "JPY"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "restaurant search"
+          },
+          "partySize": 2,
+          "partySizeSource": null,
+          "area": {
+            "query": "Shinjuku"
+          },
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          },
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "18:00",
+            "latest": "20:00"
+          }
+        },
+        "goalBoundary": {
+          "category": "GRAY",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "Controlled frozen development interpretation.",
+            "quotes": [
+              "Tomorrow after work in Shinjuku for two. The 5,000 yen maximum is firm."
+            ]
+          },
+          "errors": []
+        },
+        "oldGoldGoal": null,
+        "errors": []
+      }
+    ],
+    "summary": {
+      "totalTurns": 15,
+      "modelEvaluatedTurns": 15,
+      "passedTurns": 15,
+      "blockedTurns": 0,
+      "firstFailureStages": {}
+    }
+  }
+}

@@ -1,14 +1,14 @@
 # 推荐与查位边界：停止点 2
 
-Evidence status: current executable candidate / exposed development，非 Clean Baseline。全部新时间用 CET UTC+1。停止点1原报告逐字节保存在 [batch1-report.md](batch1-report.md)，旧 manifest / evaluation 不改写。
+Evidence status: draft / not integrated into main；本分支已离线验证 / exposed development，非 Clean Baseline。全部新时间用 CET UTC+1。停止点1原报告逐字节保存在 [batch1-report.md](batch1-report.md)，旧 manifest / evaluation 不改写。
 
 ## 1. 范围与提交
 
 - 分支 `codex/adr-0044-recommendation-availability-boundary`，main 基点 `7165f8a20fd86e105ea3219100061699c03197a1`，停止点1 `cca576ece21ace1184c95d34f8d0308534926282`。本批不合 main。
-- `3ec5d9fd` 接受 ADR 与独立额度；`8b6fafb9` / `661a1b5e` 冻结检错测试；`cd443a8c` 为 schema4 有效正控制下的引用红灯基点。首轮冻结 dc434286；收敛后的实现冻结提交和正式结果随后补记。
+- `3ec5d9fd` 接受 ADR 与独立额度；`8b6fafb9` / `661a1b5e` 冻结检错测试；`cd443a8c` 为 schema4 有效正控制下的引用红灯基点。首轮冻结 dc434286；最终实现冻结 `c9fe30391881e9b61382c71c0953527f9b3f3da0`；最终提交仅增加交付文档/证据，与受测源码逐字节一致。
 - 批次2只实施与离线验证：Prompt@24、Semantic Proposal@4、scorer/report@4；不保留旧 Proposal 兼容。新 TARGET 必须给出结构有效的 goalBasis，各引用来自当前消息；无新 TARGET 的修正沿用原目标。
 - goalBasis 只在提议/静态评测结果，Compiler 显式摘取 goal/query/scope/count；持久 State@20、TaskDefinition@18、原 Gold、原始用户指令逐字节不变。SR03-T02 不改 Gold。
-- 新评分配置绑定原文 SHA，仅目标维度使用已批准类别；其余 Proposal/Patch/Draft 字段与 operation 严格比较。真实模型入口保留逐阶段 oracle。输入配置先提交冻结，再运行评价。
+- 新评分配置绑定原文 SHA，仅目标维度使用已批准类别；其余 Proposal/Patch/Draft 字段与 operation 严格比较。真实模型入口保留逐阶段 oracle。输入配置先提交冻结，再运行评价；当前 [input-sha256-r2.json](batch2/input-sha256-r2.json) 绑定595个文件，SHA-256 `c03916fdc31130947c73415f1ee20099f9de0605e4027a8628f9cf3567ae3ad0`。
 
 ## 2. 改动、红绿证据与未覆盖范围
 
@@ -29,7 +29,20 @@ Evidence status: current executable candidate / exposed development，非 Clean 
 
 ## 3. 五门禁结果
 
-待在干净、已提交冻结上运行：typecheck、arch:check、npm test、build、test:browser:fixture。每项后 git status --porcelain 必须为空；原日志、退出码、时间和状态保存在 batch2/gates/。不恢复文件掩盖测试写入。离线15轮执行产物另存 semantic-fixture-execution.json，并独立核对原文 SHA、目标和非目标字段。
+受测提交 `c9fe30391881e9b61382c71c0953527f9b3f3da0`，2026-10-25 **10:56:01–10:57:55 CET**，Node 24.4.1 / npm 11.4.2。原日志字节不改，测试内部业务参考时间和原生时间格式照存。
+
+| 检查 | 结果 | 耗时 | 结束后工作树 |
+| --- | --- | --- | --- |
+| 离线语义回归（实际Interpreter fixture → Compiler → Runtime/Reducer） | 15/15，无阻断 | 0.099s | 干净 |
+| npm run typecheck | PASS | 0.366s | 干净 |
+| npm run arch:check | PASS | 0.166s | 干净 |
+| npm test | 1051/1051 | 20.048s | 干净 |
+| npm run build | PASS | 0.365s | 干净 |
+| npm run test:browser:fixture | 154/154 | 92.825s | 干净 |
+
+每门禁退出0且git status --porcelain为空，没有恢复文件掩盖测试写入。[逐项记录](batch2/verification-r2.json)保存命令、CET时间、原日志SHA和实际状态。原日志在 [gates-r2/](batch2/gates-r2/)。
+
+完整[执行产物](batch2/semantic-fixture-execution-r2.json)与[独立复核](batch2/independent-evaluation.json)分开。独立核对直接读取未改变的Gold数据与实际Draft/Proposal，未调用生产评分器或新标注加载器：15轮类别/引用/沿用成立，所有非目标Gold字段相等；13轮未标目标维度另列。SR03-T02新规则为AVAILABILITY，旧Gold仍RECOMMENDATION。未把fixture选择的目标当作真实模型质量或三次一致率。
 
 ## 4. 模型调用与来源访问
 
@@ -45,6 +58,6 @@ Evidence status: current executable candidate / exposed development，非 Clean 
 
 ## 6. 待复核事项
 
-- 正式五门禁全绿并推本分支后停 **STOP_2**，等复核再运行批次3；不合 main。
+- 正式五门禁全绿；提交交付证据后按授权推本分支并用ls-remote核对，停 **STOP_2**。等复核再运行批次3；不合 main。
 - SR03-T02：规则B要求AVAILABILITY，旧Gold为RECOMMENDATION；静态输出保留并列，停止点3逐条确认，本批不改。
 - 真实模型锚点准确性、灰区三次一致率和其他语义差异尚未测量。以后观察到非目标变化或A/B推荐，保存并报告，不修Prompt/Gold抹平。
