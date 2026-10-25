@@ -1,0 +1,81 @@
+{
+  "scope": "BOUNDED_DIAGNOSTIC_ONLY_NOT_FULL_SUITE",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--import",
+    "./.eval-artifacts/phase3a-prime/stop3-health-fixture-stability-20261025/linux-diagnostic/observer.ts",
+    "--test",
+    "--test-name-pattern",
+    "^E1 outer body observer",
+    "src/harness/browser/read-network-redirect.test.ts"
+  ],
+  "waves": 2,
+  "processesPerWave": 4,
+  "sourceTestSha256": "a5ad97ee60bf03494b0bd1df279a13ba19e6a55db1b24c98edb66e45800f318c",
+  "observerSha256": "0f86b89ca84119932f80d7eb412eb7c47a9d1da1dda413c00f436598a0820618",
+  "runnerSha256": "be06a6ed75c8cfd292504d1f673c2a50fb6b2e5e81c9bbc8b64eab9b8dd39c86",
+  "sourceAndAssertionsChanged": false,
+  "runs": [
+    {
+      "sample": 1,
+      "exitCode": 0,
+      "elapsedSeconds": 3.970228,
+      "logSha256": "0fd3660db9cc5848ddc78d2f837976a848c963a5b0adaedfbd5eaf9a2a14fe8e",
+      "failedRequestEvent": false
+    },
+    {
+      "sample": 2,
+      "exitCode": 1,
+      "elapsedSeconds": 0.700957,
+      "logSha256": "63361584a2c0e660902505e272de9cd389c379259a5c69c97b5900269aba4843",
+      "failedRequestEvent": true
+    },
+    {
+      "sample": 3,
+      "exitCode": 0,
+      "elapsedSeconds": 3.984669,
+      "logSha256": "a19dd2485a316179ed0249576fdecf3fe598ca2192e2dfbeb7294dbbc7f00d08",
+      "failedRequestEvent": false
+    },
+    {
+      "sample": 4,
+      "exitCode": 0,
+      "elapsedSeconds": 4.016463,
+      "logSha256": "c7908570dc161db08cf868bf729b1b81bb15cb9fc26ced8362303edfe97dc005",
+      "failedRequestEvent": false
+    },
+    {
+      "sample": 5,
+      "exitCode": 0,
+      "elapsedSeconds": 3.980427,
+      "logSha256": "e0f3e16c35dac6f2c73821de0c69de451846cd9de4b31061f86161984ccecdbc",
+      "failedRequestEvent": false
+    },
+    {
+      "sample": 6,
+      "exitCode": 0,
+      "elapsedSeconds": 4.034526,
+      "logSha256": "0a5840042b31c5bf6447c0c5a124cb131a09308fa3a978493fb3baf4b7df070f",
+      "failedRequestEvent": false
+    },
+    {
+      "sample": 7,
+      "exitCode": 1,
+      "elapsedSeconds": 0.738132,
+      "logSha256": "3fbee798053a0283b0d2fc1e5a983de277fce91632f50a00ed421d9878647a7a",
+      "failedRequestEvent": true
+    },
+    {
+      "sample": 8,
+      "exitCode": 0,
+      "elapsedSeconds": 3.997098,
+      "logSha256": "5092585f044d26ae4008e1676b0b29c2651dab3806220c959b8158735d8d7913",
+      "failedRequestEvent": false
+    }
+  ],
+  "realCalls": 0
+}
