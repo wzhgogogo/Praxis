@@ -1060,7 +1060,11 @@ test('H002 without positive HARD uses general shared retrieval and Google nearby
 // Full production interpreter -> compiler -> Router -> events/Reducer -> output.
 // Only model and source transport are local constructed; no prefilled evidence.
 test("F5c Agent loop corrects within its Tabelog call despite TableCheck 2 and Google 26 pending candidates", async () => {
-  const result = await runScenario("F5_PENDING_CORRECTION", {packs: restaurantDiscoveryPacks});
+  const directory=await mkdtemp(resolve('.eval-artifacts','flow-decision-capture-'));
+  const recording=new BrowserReadRecording({directory,runId:'browser'});
+  const capture=createHybridDecisionCapture(resolve(directory,'offline.result.json'),recording);
+  try{
+  const result = await runScenario("F5_PENDING_CORRECTION", {packs: restaurantDiscoveryPacks,decisionCapture:capture});
   const decisions = result.model.requests.filter(request => request.purpose === "restaurant_agent_decide")
     .map(request => JSON.parse(request.messages.find(message => message.role === "user")!.content).context);
   const pending = decisions.find(context => context.candidates?.length === 28);
@@ -1079,6 +1083,32 @@ test("F5c Agent loop corrects within its Tabelog call despite TableCheck 2 and G
   assert.equal(result.model.requests.filter(request => request.purpose === "browser_read_decide"
     && JSON.parse(request.messages.find(message => message.role === "user")!.content).regionCorrection).length, 1);
   assert.equal(result.navigations.filter(url => /\/99[0-5]\/$/.test(url)).length, 4, "two first samples and two replacement samples share the source budget");
+  const metadata=result.artifact.decisionCapture!;
+  assert.deepEqual(metadata.errors,[],'flow selection has no current DOM by contract and must not be a snapshot mismatch');
+  const rows=(await readFile(metadata.path,'utf8')).trim().split('\n').map(line=>JSON.parse(line));
+  const flowRows=rows.filter(row=>row.browser?.observationKind==='SOURCE_FLOW_ENTRANCE_SELECTION');
+  assert.equal(flowRows.length,1);
+  const row=flowRows[0],context=JSON.parse(row.messages.find((message:any)=>message.role==='user').content);
+  assert.equal(row.browser.recordingSnapshot,null,'never fabricate a current DOM for collected entrances');
+  assert.deepEqual(row.browser.sourceFlow,{sourceId:context.regionCorrection.sourceId,flowId:context.regionCorrection.flowId,entrances:context.regionCorrection.entrances.map(({ref,originalTargetRef,observationRevision,observedOn}:any)=>({ref,originalTargetRef,observationRevision,observedOn}))});
+  assert.deepEqual(row.messages,result.model.requests[row.sequence-1]!.messages,'capture may annotate provenance but never rewrite model input');
+  }finally{await recording.finish();await rm(directory,{recursive:true,force:true});}
+});
+
+test('decision capture still diagnoses a mismatching DOM and an unbound empty observation',async t=>{
+ const directory=await mkdtemp(resolve('.eval-artifacts','capture-dom-mismatch-'));
+ t.mock.method(console,'error',()=>{});
+ try{
+  for(const empty of [false,true]){
+   const recording=new BrowserReadRecording({directory,runId:`browser-${empty}`});
+   const capture=createHybridDecisionCapture(resolve(directory,`${empty}.result.json`),recording);
+   capture.snapshotSink.recordSnapshot!({url:'https://example.test/current',title:'Current',text:'Current document',html:'<h1>Current document</h1>'},{});
+   const request:ModelRequest={taskId:'offline',purpose:'browser_read_decide',promptVersion:'fixture',messages:[{role:'user',content:JSON.stringify({observation:{revision:empty?0:7,url:empty?'':'https://example.test/other',title:empty?'':'Other',visibleText:'',targets:[],pageActions:[]}})}],outputSchema:{name:'browser-read-action',version:'1'},responseFormat:'JSON_SCHEMA',timeoutMs:100,fallback:'FAIL_CLOSED'};
+   await capture.complete(request,async()=>reply('{}',request.purpose));
+   assert.deepEqual((await capture.finish()).errors,[{operation:'SNAPSHOT_LINK',errorCode:'DECISION_SNAPSHOT_MISMATCH'}]);
+   await recording.finish();
+  }
+ }finally{await rm(directory,{recursive:true,force:true});}
 });
 
 test("F5 provisional discovery crosses real Router/Reducer and retains bounded handoff to the next source", async () => {
