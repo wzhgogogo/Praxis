@@ -1,6 +1,6 @@
 """Five gate groups; three consecutive four-worker Chromium samples; fail immediately."""
 from pathlib import Path
-import argparse, datetime, hashlib, json, os, re, signal, statistics, subprocess, time
+import argparse, datetime, hashlib, json, os, re, signal, statistics, subprocess, time, platform
 from zoneinfo import ZoneInfo
 
 parser = argparse.ArgumentParser()
@@ -23,7 +23,7 @@ verify_freeze()
 assert not git('status', '--porcelain'), 'checkout must start clean'
 result = {'mode': 'OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE', 'testedCommit': commit,
           'startedAt': datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=1), 'CET')).isoformat(),
-          'timezone': 'CET UTC+01:00 (user review)' , 'orchestrationSha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'freezeSha256': hashlib.sha256(freeze_bytes).hexdigest(),
+          'platform': platform.platform(), 'cpuCount': os.cpu_count(), 'nodeVersion': subprocess.check_output(['node','--version'],text=True).strip(), 'timezone': 'CET UTC+01:00 (user review)' , 'orchestrationSha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'freezeSha256': hashlib.sha256(freeze_bytes).hexdigest(),
           'perCommandTimeoutSeconds': 600, 'runs': [], 'restorations': 0}
 def save():
     (out / 'gates.json').write_text(json.dumps(result, indent=2) + '\n')
