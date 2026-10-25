@@ -27,3 +27,5 @@
 两个有效红灯在未修Guard的6bfc852b之前测试候选d50e28eb取得；最初缺node_modules的启动失败已排除，不计红灯。两个同断言真实Chromium本地fixture绿灯见green.log。五门禁以提交后的干净候选执行，结果另附gates.json；每门禁前后git status须为空。
 
 page-parser/query-controls与Pack、budget SHA按baseline.json复核，来源声明修改不增加两站点行数。真实模型／Google／餐厅网站／Live新增0；不读取.env。Mock、本地真实Chromium不证明当前网站连接、空位或F5合格率。历史OPTIONS41/95仍缺当时协议事实，不能追认全部误拦；Linux原事件顺序未录，机制关闭不等于历史归因完全确定。POST/CORS完整重放未实现，录制如实NOT_REPLAYABLE，不补网。
+
+最终验收：提交`28963ca8`的五门禁全部PASS，默认1054／Chromium161；每项前后status为空，日志与`gates.json`在本目录。`git diff --check`通过；两来源只改声明、增删行相抵；四个保护文件与budget SHA一致。此后仅归档日志／文档，不改已验证源码。按用户批准合main并推送工作分支，远端以实际ls-remote核对。

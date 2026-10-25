@@ -5,7 +5,7 @@
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
 
-- **2026-10-26-F3-SCRIPT-READ-IMPLEMENTED（执行CET10-25）:** 用户批准ADR-0036补充第1–7条；fetch/xhr共享脚本读取与实际GET/HEAD/POST投影预检已实现，完整POST仍独立核body。真实Chromium两个有效红灯转绿，Recorder@5／Evaluator@36／Rubric@31及来源声明同片同步。TableCheck reserve永久拒绝不变，route未批准留3f；F5例01仍已知限制。新增真实调用0，保护目录/Pack及预算不变；提交后运行五门禁，结果见[报告](../.eval-artifacts/phase3a-prime/f3-guard/report.md)。
+- **2026-10-26-F3-SCRIPT-READ-IMPLEMENTED（执行CET10-25）:** 用户批准ADR-0036补充第1–7条；fetch/xhr共享脚本读取与实际GET/HEAD/POST投影预检已实现，完整POST仍独立核body。真实Chromium两个有效红灯转绿，Recorder@5／Evaluator@36／Rubric@31及来源声明同片同步。TableCheck reserve永久拒绝不变，route未批准留3f；F5例01仍已知限制。新增真实调用0，保护目录/Pack及预算不变；五门禁全绿（默认1054／Chromium161，各项前后净树），结果见[报告](../.eval-artifacts/phase3a-prime/f3-guard/report.md)。
 
 - **2026-10-25-PHASE3A-POST-EXIT-EVALUATION-COMPLETE:** 每槽退出即由父进程独立评价及S0核查；单槽CLI和并行Runner均接线，非零退出仍评价，缺产物/规则SHA错误明确未评价。两平台五门禁全绿，默认1054、Chromium161，真实调用0。 [报告](../.eval-artifacts/phase3a-prime/post-exit-evaluation-20261025/report.md)。
 
