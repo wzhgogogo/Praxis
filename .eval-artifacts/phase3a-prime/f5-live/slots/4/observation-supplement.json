@@ -1,0 +1,1931 @@
+{
+  "kind": "SUPPLEMENTARY_OFFLINE_OBSERVATION",
+  "artifactSha256": "98040518b895216a3300cf8b649f0134b31bf3dcf36c9f7b22fda6e3b9ab637a",
+  "reviewedAtCET": "2026-10-25T02:22:52.774846+01:00",
+  "timing": {
+    "method": "Pair actual OPERATION_STARTED/FINISHED/FAILED by source/candidate/stage/type; model intervals override. Original frozen metrics retained.",
+    "elapsedMs": 439498.0,
+    "wallTimePartitionMs": {
+      "UNATTRIBUTED": 41290.0,
+      "MODEL:restaurant_semantic_interpret": 4634.0,
+      "MODEL:restaurant_agent_decide": 37444.0,
+      "PAGE_LOAD": 144786.0,
+      "READ_PAGE": 76188.0,
+      "MODEL:restaurant_discovery_retrieval": 10071.0,
+      "WAIT": 24861.0,
+      "MODEL:browser_read_decide": 81386.0,
+      "PAGE_OPERATION": 2794.0,
+      "MODEL:restaurant_fact_judgment": 16044.0
+    },
+    "operationCounts": {
+      "NAVIGATE": 35,
+      "SNAPSHOT": 105,
+      "OBSERVE_CONTROLS": 65,
+      "WAIT_FOR_SETTLED": 35,
+      "OPEN_LINK": 13,
+      "CLICK": 5,
+      "CLICK_AUTHORITATIVE": 5,
+      "VERIFY_RESULT_STABILITY": 4
+    },
+    "modelCallsByPurpose": {
+      "restaurant_semantic_interpret": 1,
+      "restaurant_agent_decide": 10,
+      "restaurant_discovery_retrieval": 4,
+      "browser_read_decide": 25,
+      "restaurant_fact_judgment": 7
+    },
+    "modelPurposeLatencyMs": {
+      "browser_read_decide": 81386,
+      "restaurant_fact_judgment": 16044,
+      "restaurant_agent_decide": 37444,
+      "restaurant_semantic_interpret": 4634,
+      "restaurant_discovery_retrieval": 10071
+    },
+    "navigations": 35,
+    "repeatExactURLNavigations": 22,
+    "gaps": [
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 842
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 933
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1013
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1089
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1403
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 837,
+        "operation": "OPEN_LINK"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 929,
+        "operation": "SNAPSHOT"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1009,
+        "operation": "SNAPSHOT"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1084,
+        "operation": "WAIT_FOR_SETTLED"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1402,
+        "operation": "NAVIGATE"
+      }
+    ],
+    "sessionOpening": "Unmeasured separately; within UNATTRIBUTED"
+  },
+  "controls": {
+    "method": "Read actual top-level decision.messages; frozen analyzer input/request lookup misses this shape. Raw DOM manual audit still required.",
+    "contexts": 25,
+    "availableActionOccurrences": {
+      "CLICK": 562,
+      "OPEN_LINK": 1689,
+      "CLICK_AUTHORITATIVE:DATE": 5
+    },
+    "legalLOCATION": [],
+    "AkabaneStationOpenLinks": [],
+    "regionCorrectionContexts": [],
+    "observations": [
+      {
+        "sequence": 4,
+        "url": "https://tabelog.com/en/tokyo/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 1,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0001.html"
+          },
+          {
+            "snapshot": 2,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0002.html"
+          },
+          {
+            "snapshot": 3,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0003.html"
+          }
+        ]
+      },
+      {
+        "sequence": 5,
+        "url": "https://tabelog.com/en/tokyo/A1310/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 4,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0004.html"
+          }
+        ]
+      },
+      {
+        "sequence": 10,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13255323/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 11,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0011.html"
+          },
+          {
+            "snapshot": 14,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0014.html"
+          },
+          {
+            "snapshot": 15,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0015.html"
+          },
+          {
+            "snapshot": 16,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0016.html"
+          },
+          {
+            "snapshot": 17,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0017.html"
+          },
+          {
+            "snapshot": 18,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0018.html"
+          },
+          {
+            "snapshot": 19,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0019.html"
+          },
+          {
+            "snapshot": 20,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0020.html"
+          },
+          {
+            "snapshot": 49,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0049.html"
+          },
+          {
+            "snapshot": 50,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0050.html"
+          },
+          {
+            "snapshot": 51,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0051.html"
+          }
+        ]
+      },
+      {
+        "sequence": 11,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13255323/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 11,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0011.html"
+          },
+          {
+            "snapshot": 14,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0014.html"
+          },
+          {
+            "snapshot": 15,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0015.html"
+          },
+          {
+            "snapshot": 16,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0016.html"
+          },
+          {
+            "snapshot": 17,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0017.html"
+          },
+          {
+            "snapshot": 18,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0018.html"
+          },
+          {
+            "snapshot": 19,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0019.html"
+          },
+          {
+            "snapshot": 20,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0020.html"
+          },
+          {
+            "snapshot": 49,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0049.html"
+          },
+          {
+            "snapshot": 50,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0050.html"
+          },
+          {
+            "snapshot": 51,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0051.html"
+          }
+        ]
+      },
+      {
+        "sequence": 12,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 13,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0013.html"
+          },
+          {
+            "snapshot": 21,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0021.html"
+          },
+          {
+            "snapshot": 22,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0022.html"
+          },
+          {
+            "snapshot": 23,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0023.html"
+          },
+          {
+            "snapshot": 24,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0024.html"
+          },
+          {
+            "snapshot": 25,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0025.html"
+          },
+          {
+            "snapshot": 26,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0026.html"
+          },
+          {
+            "snapshot": 27,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0027.html"
+          },
+          {
+            "snapshot": 54,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0054.html"
+          },
+          {
+            "snapshot": 55,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0055.html"
+          },
+          {
+            "snapshot": 56,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0056.html"
+          },
+          {
+            "snapshot": 59,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0059.html"
+          }
+        ]
+      },
+      {
+        "sequence": 13,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 13,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0013.html"
+          },
+          {
+            "snapshot": 21,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0021.html"
+          },
+          {
+            "snapshot": 22,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0022.html"
+          },
+          {
+            "snapshot": 23,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0023.html"
+          },
+          {
+            "snapshot": 24,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0024.html"
+          },
+          {
+            "snapshot": 25,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0025.html"
+          },
+          {
+            "snapshot": 26,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0026.html"
+          },
+          {
+            "snapshot": 27,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0027.html"
+          },
+          {
+            "snapshot": 54,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0054.html"
+          },
+          {
+            "snapshot": 55,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0055.html"
+          },
+          {
+            "snapshot": 56,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0056.html"
+          },
+          {
+            "snapshot": 59,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0059.html"
+          }
+        ]
+      },
+      {
+        "sequence": 14,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13242888/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 9,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0009.html"
+          },
+          {
+            "snapshot": 28,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0028.html"
+          },
+          {
+            "snapshot": 29,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0029.html"
+          },
+          {
+            "snapshot": 30,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0030.html"
+          },
+          {
+            "snapshot": 31,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0031.html"
+          },
+          {
+            "snapshot": 32,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0032.html"
+          },
+          {
+            "snapshot": 33,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0033.html"
+          },
+          {
+            "snapshot": 34,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0034.html"
+          },
+          {
+            "snapshot": 60,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0060.html"
+          },
+          {
+            "snapshot": 61,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0061.html"
+          },
+          {
+            "snapshot": 62,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0062.html"
+          },
+          {
+            "snapshot": 63,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0063.html"
+          }
+        ]
+      },
+      {
+        "sequence": 15,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13242888/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 9,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0009.html"
+          },
+          {
+            "snapshot": 28,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0028.html"
+          },
+          {
+            "snapshot": 29,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0029.html"
+          },
+          {
+            "snapshot": 30,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0030.html"
+          },
+          {
+            "snapshot": 31,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0031.html"
+          },
+          {
+            "snapshot": 32,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0032.html"
+          },
+          {
+            "snapshot": 33,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0033.html"
+          },
+          {
+            "snapshot": 34,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0034.html"
+          },
+          {
+            "snapshot": 60,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0060.html"
+          },
+          {
+            "snapshot": 61,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0061.html"
+          },
+          {
+            "snapshot": 62,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0062.html"
+          },
+          {
+            "snapshot": 63,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0063.html"
+          }
+        ]
+      },
+      {
+        "sequence": 17,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13234878/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 10,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0010.html"
+          },
+          {
+            "snapshot": 35,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0035.html"
+          },
+          {
+            "snapshot": 36,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0036.html"
+          },
+          {
+            "snapshot": 37,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0037.html"
+          },
+          {
+            "snapshot": 38,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0038.html"
+          },
+          {
+            "snapshot": 39,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0039.html"
+          },
+          {
+            "snapshot": 40,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0040.html"
+          },
+          {
+            "snapshot": 41,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0041.html"
+          },
+          {
+            "snapshot": 65,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0065.html"
+          },
+          {
+            "snapshot": 66,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0066.html"
+          },
+          {
+            "snapshot": 67,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0067.html"
+          }
+        ]
+      },
+      {
+        "sequence": 18,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13234878/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 10,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0010.html"
+          },
+          {
+            "snapshot": 35,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0035.html"
+          },
+          {
+            "snapshot": 36,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0036.html"
+          },
+          {
+            "snapshot": 37,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0037.html"
+          },
+          {
+            "snapshot": 38,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0038.html"
+          },
+          {
+            "snapshot": 39,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0039.html"
+          },
+          {
+            "snapshot": 40,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0040.html"
+          },
+          {
+            "snapshot": 41,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0041.html"
+          },
+          {
+            "snapshot": 65,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0065.html"
+          },
+          {
+            "snapshot": 66,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0066.html"
+          },
+          {
+            "snapshot": 67,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0067.html"
+          }
+        ]
+      },
+      {
+        "sequence": 19,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13309169/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 12,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0012.html"
+          },
+          {
+            "snapshot": 42,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0042.html"
+          },
+          {
+            "snapshot": 43,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0043.html"
+          },
+          {
+            "snapshot": 44,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0044.html"
+          },
+          {
+            "snapshot": 45,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0045.html"
+          },
+          {
+            "snapshot": 46,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0046.html"
+          },
+          {
+            "snapshot": 47,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0047.html"
+          },
+          {
+            "snapshot": 48,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0048.html"
+          },
+          {
+            "snapshot": 69,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0069.html"
+          },
+          {
+            "snapshot": 70,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0070.html"
+          },
+          {
+            "snapshot": 71,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0071.html"
+          }
+        ]
+      },
+      {
+        "sequence": 20,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13309169/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 12,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0012.html"
+          },
+          {
+            "snapshot": 42,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0042.html"
+          },
+          {
+            "snapshot": 43,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0043.html"
+          },
+          {
+            "snapshot": 44,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0044.html"
+          },
+          {
+            "snapshot": 45,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0045.html"
+          },
+          {
+            "snapshot": 46,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0046.html"
+          },
+          {
+            "snapshot": 47,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0047.html"
+          },
+          {
+            "snapshot": 48,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0048.html"
+          },
+          {
+            "snapshot": 69,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0069.html"
+          },
+          {
+            "snapshot": 70,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0070.html"
+          },
+          {
+            "snapshot": 71,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0071.html"
+          }
+        ]
+      },
+      {
+        "sequence": 23,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13255323/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 11,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0011.html"
+          },
+          {
+            "snapshot": 14,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0014.html"
+          },
+          {
+            "snapshot": 15,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0015.html"
+          },
+          {
+            "snapshot": 16,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0016.html"
+          },
+          {
+            "snapshot": 17,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0017.html"
+          },
+          {
+            "snapshot": 18,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0018.html"
+          },
+          {
+            "snapshot": 19,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0019.html"
+          },
+          {
+            "snapshot": 20,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0020.html"
+          },
+          {
+            "snapshot": 49,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0049.html"
+          },
+          {
+            "snapshot": 50,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0050.html"
+          },
+          {
+            "snapshot": 51,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0051.html"
+          }
+        ]
+      },
+      {
+        "sequence": 24,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13255323/party/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 52,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0052.html"
+          }
+        ]
+      },
+      {
+        "sequence": 25,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13255323/dtlmenu/",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 53,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0053.html"
+          }
+        ]
+      },
+      {
+        "sequence": 27,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 13,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0013.html"
+          },
+          {
+            "snapshot": 21,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0021.html"
+          },
+          {
+            "snapshot": 22,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0022.html"
+          },
+          {
+            "snapshot": 23,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0023.html"
+          },
+          {
+            "snapshot": 24,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0024.html"
+          },
+          {
+            "snapshot": 25,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0025.html"
+          },
+          {
+            "snapshot": 26,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0026.html"
+          },
+          {
+            "snapshot": 27,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0027.html"
+          },
+          {
+            "snapshot": 54,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0054.html"
+          },
+          {
+            "snapshot": 55,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0055.html"
+          },
+          {
+            "snapshot": 56,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0056.html"
+          },
+          {
+            "snapshot": 59,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0059.html"
+          }
+        ]
+      },
+      {
+        "sequence": 28,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/party/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 57,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0057.html"
+          }
+        ]
+      },
+      {
+        "sequence": 29,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/dtlmenu/",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 58,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0058.html"
+          }
+        ]
+      },
+      {
+        "sequence": 30,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/",
+        "revision": 5,
+        "diagnosticDOM": [
+          {
+            "snapshot": 13,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0013.html"
+          },
+          {
+            "snapshot": 21,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0021.html"
+          },
+          {
+            "snapshot": 22,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0022.html"
+          },
+          {
+            "snapshot": 23,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0023.html"
+          },
+          {
+            "snapshot": 24,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0024.html"
+          },
+          {
+            "snapshot": 25,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0025.html"
+          },
+          {
+            "snapshot": 26,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0026.html"
+          },
+          {
+            "snapshot": 27,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0027.html"
+          },
+          {
+            "snapshot": 54,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0054.html"
+          },
+          {
+            "snapshot": 55,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0055.html"
+          },
+          {
+            "snapshot": 56,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0056.html"
+          },
+          {
+            "snapshot": 59,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0059.html"
+          }
+        ]
+      },
+      {
+        "sequence": 33,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13242888/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 9,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0009.html"
+          },
+          {
+            "snapshot": 28,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0028.html"
+          },
+          {
+            "snapshot": 29,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0029.html"
+          },
+          {
+            "snapshot": 30,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0030.html"
+          },
+          {
+            "snapshot": 31,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0031.html"
+          },
+          {
+            "snapshot": 32,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0032.html"
+          },
+          {
+            "snapshot": 33,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0033.html"
+          },
+          {
+            "snapshot": 34,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0034.html"
+          },
+          {
+            "snapshot": 60,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0060.html"
+          },
+          {
+            "snapshot": 61,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0061.html"
+          },
+          {
+            "snapshot": 62,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0062.html"
+          },
+          {
+            "snapshot": 63,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0063.html"
+          }
+        ]
+      },
+      {
+        "sequence": 34,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13242888/party/",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 64,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0064.html"
+          }
+        ]
+      },
+      {
+        "sequence": 37,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13234878/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 10,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0010.html"
+          },
+          {
+            "snapshot": 35,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0035.html"
+          },
+          {
+            "snapshot": 36,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0036.html"
+          },
+          {
+            "snapshot": 37,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0037.html"
+          },
+          {
+            "snapshot": 38,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0038.html"
+          },
+          {
+            "snapshot": 39,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0039.html"
+          },
+          {
+            "snapshot": 40,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0040.html"
+          },
+          {
+            "snapshot": 41,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0041.html"
+          },
+          {
+            "snapshot": 65,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0065.html"
+          },
+          {
+            "snapshot": 66,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0066.html"
+          },
+          {
+            "snapshot": 67,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0067.html"
+          }
+        ]
+      },
+      {
+        "sequence": 38,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13234878/party/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 68,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0068.html"
+          }
+        ]
+      },
+      {
+        "sequence": 40,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13309169/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 12,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0012.html"
+          },
+          {
+            "snapshot": 42,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0042.html"
+          },
+          {
+            "snapshot": 43,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0043.html"
+          },
+          {
+            "snapshot": 44,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0044.html"
+          },
+          {
+            "snapshot": 45,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0045.html"
+          },
+          {
+            "snapshot": 46,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0046.html"
+          },
+          {
+            "snapshot": 47,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0047.html"
+          },
+          {
+            "snapshot": 48,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0048.html"
+          },
+          {
+            "snapshot": 69,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0069.html"
+          },
+          {
+            "snapshot": 70,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0070.html"
+          },
+          {
+            "snapshot": 71,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0071.html"
+          }
+        ]
+      },
+      {
+        "sequence": 41,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13309169/party/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 72,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792890875039/diagnostic/snapshot-0072.html"
+          }
+        ]
+      }
+    ]
+  },
+  "nativeProgress": [
+    {
+      "retrieval": {
+        "rewrites": 2,
+        "regionPages": 3,
+        "retrievalPages": 3,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Search directly for the hard criterion: fugu restaurant.",
+              "keyword": "fugu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 41405,
+            "parsedCount": 0
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "The \"fugu\" search returned an explicit empty result in this area; try a materially different term for the hard criterion (fugu cuisine) rather than a synonym of the same string.",
+              "keyword": "fugu ryori",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 43262,
+            "parsedCount": 0
+          },
+          {
+            "selection": {
+              "accepted": false,
+              "rejectionReason": "REPEATED_RETRIEVAL_EXPRESSION",
+              "reason": "Use the general list after a repeated retrieval expression."
+            },
+            "elapsedMs": 47876,
+            "parsedCount": 0
+          }
+        ],
+        "selection": {
+          "accepted": false,
+          "rejectionReason": "REPEATED_RETRIEVAL_EXPRESSION",
+          "reason": "Use the general list after a repeated retrieval expression."
+        }
+      },
+      "directoryRegion": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "observedOn": "https://tabelog.com/en/tokyo/A1310/",
+          "targetRef": "observation:3:target:16",
+          "label": "Jinbocho & Suidobashi"
+        },
+        "provisional": false,
+        "samples": [
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13242888",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13242888/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.701171748699934,
+              "longitude": 139.7556923645934
+            },
+            "bearingDegrees": 32.9282053618993,
+            "direction": "NE",
+            "distanceMeters": 754.681267854006
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13234878",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13234878/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.696809628704266,
+              "longitude": 139.7605962045459
+            },
+            "bearingDegrees": 80.1714781436753,
+            "direction": "E",
+            "distanceMeters": 866.3056562921571
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13255323",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13255323/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.700728838699476,
+              "longitude": 139.75335409459055
+            },
+            "bearingDegrees": 18.800066950699602,
+            "direction": "N",
+            "distanceMeters": 617.0469808162832
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13309169",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13309169/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.70131033869904,
+              "longitude": 139.75317791459653
+            },
+            "bearingDegrees": 15.74414280145561,
+            "direction": "N",
+            "distanceMeters": 674.1509578952631
+          },
+          {
+            "sourceEntityId": "en/tokyo/A1310/A131003/13290549",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/",
+            "outcome": "WITHIN_RADIUS",
+            "coordinates": {
+              "latitude": 35.69618014060937,
+              "longitude": 139.75870898136256
+            },
+            "bearingDegrees": 83.50227026661082,
+            "direction": "E",
+            "distanceMeters": 687.3940074173021
+          }
+        ],
+        "verified": true
+      },
+      "sourceId": "tabelog",
+      "inspectedSourceIds": [
+        "en/tokyo/A1310/A131003/13242888",
+        "en/tokyo/A1310/A131003/13234878",
+        "en/tokyo/A1310/A131003/13255323",
+        "en/tokyo/A1310/A131003/13309169",
+        "en/tokyo/A1310/A131003/13290549"
+      ],
+      "detailAttempts": 5,
+      "pagesRead": 6,
+      "elapsedMs": 73777,
+      "visitedListingUrls": [
+        "https://tabelog.com/en/tokyo/",
+        "https://tabelog.com/en/tokyo/A1310/",
+        "https://tabelog.com/en/tokyo/A1310/A131003/",
+        "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu",
+        "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu+ryori"
+      ],
+      "pendingSourceEntries": [
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13282834",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13282834/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "ANIKU",
+          "sourceCategories": [
+            "Suidobashi Sta. 318m / Yakiniku (Japanese BBQ), Izakaya (Japanese style tavern), Steak"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13206739",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13206739/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Hamayaki Seafood Izakaya Daisho Suisan Suidoubashi ten",
+          "sourceCategories": [
+            "Suidobashi Sta. 310m / Izakaya (Japanese style tavern), Seafood, Sushi"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13208682",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13208682/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "TOKYO MERCATO Toukyou doomu shiti ten",
+          "sourceCategories": [
+            "Suidobashi Sta. 58m / Italian, Beer garden, Izakaya (Japanese style tavern)"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13215490",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13215490/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Wa Dining Sato",
+          "sourceCategories": [
+            "Jimbocho Sta. 102m / Japanese Cuisine, Izakaya (Japanese style tavern), Regional Cuisine"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13240031",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13240031/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Yakiton Sankichi Suidoubashi ten",
+          "sourceCategories": [
+            "Suidobashi Sta. 253m / Izakaya (Japanese style tavern), Grilled tripe, Yakitori (Grilled chicken skewers)"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13263598",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13263598/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Jinbocho Sushi Wasabi",
+          "sourceCategories": [
+            "Takebashi Sta. 357m / Sushi, Izakaya (Japanese style tavern), Japanese Cuisine"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13298192",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13298192/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Unatori Sakaba",
+          "sourceCategories": [
+            "Suidobashi Sta. 304m / Unagi (Eel), Izakaya (Japanese style tavern), Yakitori (Grilled chicken skewers)"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13247960",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13247960/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Sumibi Kushiyaki Hiyoku no Tori Suidoubashi ten",
+          "sourceCategories": [
+            "Suidobashi Sta. 327m / Yakitori (Grilled chicken skewers), Meat dishes, Japanese sake bar"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13251014",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13251014/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Yakiniku Akira Hongou honten",
+          "sourceCategories": [
+            "Suidobashi Sta. 246m / Yakiniku (Japanese BBQ), Tripe, Beef dishes"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13224811",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13224811/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "folk burgers &amp; beers",
+          "sourceCategories": [
+            "Jimbocho Sta. 250m / Hamburger, Beer bar, Pub"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13273257",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13273257/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Nikumori Horumon",
+          "sourceCategories": [
+            "Suidobashi Sta. 252m / Yakiniku (Japanese BBQ), Tripe, Izakaya (Japanese style tavern)"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13322321",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13322321/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Chinese Izakaya Kyu",
+          "sourceCategories": [
+            "Suidobashi Sta. 345m / Chinese, Izakaya (Japanese style tavern), Sichuan"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13306496",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13306496/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Okonomiyaki Monjayaki All you can eat Okonomi Monja Suidoubashi ten",
+          "sourceCategories": [
+            "Suidobashi Sta. 312m / Okonomiyaki (Japanese savory pancake), Monjyayaki, Teppanyaki"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13228388",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13228388/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Hakata Kawaya Suidoubashi ten",
+          "sourceCategories": [
+            "Suidobashi Sta. 456m / Izakaya (Japanese style tavern), Motsu-nabe, Yakitori (Grilled chicken skewers)"
+          ]
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13318354",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13318354/",
+          "observedAt": "2026-10-25T01:15:35.689Z",
+          "outletName": "Private room Izakaya Homare",
+          "sourceCategories": [
+            "Suidobashi Sta. 284m / Izakaya (Japanese style tavern), Yakitori (Grilled chicken skewers), Kushiyaki"
+          ]
+        }
+      ],
+      "pendingSourceIds": [
+        "en/tokyo/A1310/A131003/13282834",
+        "en/tokyo/A1310/A131003/13206739",
+        "en/tokyo/A1310/A131003/13208682",
+        "en/tokyo/A1310/A131003/13215490",
+        "en/tokyo/A1310/A131003/13240031",
+        "en/tokyo/A1310/A131003/13263598",
+        "en/tokyo/A1310/A131003/13298192",
+        "en/tokyo/A1310/A131003/13247960",
+        "en/tokyo/A1310/A131003/13251014",
+        "en/tokyo/A1310/A131003/13224811",
+        "en/tokyo/A1310/A131003/13273257",
+        "en/tokyo/A1310/A131003/13322321",
+        "en/tokyo/A1310/A131003/13306496",
+        "en/tokyo/A1310/A131003/13228388",
+        "en/tokyo/A1310/A131003/13318354"
+      ],
+      "observedEntranceCount": 44
+    }
+  ],
+  "candidateLedger": [
+    {
+      "restaurant": {
+        "id": "tabelog:en/tokyo/A1310/A131003/13242888",
+        "outletName": "Yakiniku Story Suidoubashi ten",
+        "address": "1010061 Tokyo  ",
+        "coordinates": {
+          "lat": 35.701171748699934,
+          "lng": 139.7556923645934
+        },
+        "sourceIds": {
+          "tabelog": "en/tokyo/A1310/A131003/13242888",
+          "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1310/A131003/13242888/",
+          "discoverySourceId": "tabelog",
+          "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1310/A131003/13242888/"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:fe569d607398ccec64f3d93d",
+          "address": "evidence:restaurant:native-discovery:fe569d607398ccec64f3d93d",
+          "sourceIds": "evidence:restaurant:native-discovery:fe569d607398ccec64f3d93d"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:18:26.943Z",
+        "evidenceIds": [],
+        "reasonCode": "BROWSER_TIMEOUT",
+        "sourceProvider": "TABELOG",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:13260b3ec7e92d74a8deef0e"
+        ]
+      },
+      "availability": {
+        "status": "AVAILABLE",
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "checkedAt": "2026-10-25T01:16:48.473Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:13a8d63885a50b0a45eacb1d",
+          "evidence:restaurant:tabelog-hard-criteria:13260b3ec7e92d74a8deef0e",
+          "evidence:restaurant:tabelog-availability:a761d005a614c6bd4c55af73"
+        ],
+        "displayExpiresAt": "2026-10-25T01:26:48.473Z",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tabelog:en/tokyo/A1310/A131003/13234878",
+        "outletName": "Maguro no Shimahara",
+        "address": "1010052 Tokyo Kanda Ogawamachi Chiyoda Tokyo ",
+        "coordinates": {
+          "lat": 35.696809628704266,
+          "lng": 139.7605962045459
+        },
+        "sourceIds": {
+          "tabelog": "en/tokyo/A1310/A131003/13234878",
+          "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1310/A131003/13234878/",
+          "discoverySourceId": "tabelog",
+          "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1310/A131003/13234878/"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:ea742ec50c5b3355b09a364e",
+          "address": "evidence:restaurant:native-discovery:ea742ec50c5b3355b09a364e",
+          "sourceIds": "evidence:restaurant:native-discovery:ea742ec50c5b3355b09a364e"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:18:58.958Z",
+        "evidenceIds": [],
+        "reasonCode": "BROWSER_TIMEOUT",
+        "sourceProvider": "TABELOG",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:99588f3697d3513608a8e256"
+        ]
+      },
+      "availability": {
+        "status": "AVAILABLE",
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "checkedAt": "2026-10-25T01:17:05.772Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:adf928511797c0dfdcaed4d2",
+          "evidence:restaurant:tabelog-hard-criteria:99588f3697d3513608a8e256",
+          "evidence:restaurant:tabelog-availability:5d0531e2baa0aa5cda121263"
+        ],
+        "displayExpiresAt": "2026-10-25T01:27:05.772Z",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tabelog:en/tokyo/A1310/A131003/13255323",
+        "outletName": "Maguro no Shimahara Suidoubashi ten",
+        "address": "1010061 Tokyo  ",
+        "coordinates": {
+          "lat": 35.700728838699476,
+          "lng": 139.75335409459055
+        },
+        "sourceIds": {
+          "tabelog": "en/tokyo/A1310/A131003/13255323",
+          "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1310/A131003/13255323/",
+          "discoverySourceId": "tabelog",
+          "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1310/A131003/13255323/"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:172dc0e8c0f4ac96159f3ea1",
+          "address": "evidence:restaurant:native-discovery:172dc0e8c0f4ac96159f3ea1",
+          "sourceIds": "evidence:restaurant:native-discovery:172dc0e8c0f4ac96159f3ea1"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:17:26.916Z",
+        "evidenceIds": [],
+        "reasonCode": "BROWSER_TIMEOUT",
+        "sourceProvider": "TABELOG",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:c61b101e221ea23a824eb7a4"
+        ]
+      },
+      "availability": {
+        "status": "AVAILABLE",
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "checkedAt": "2026-10-25T01:16:15.222Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:cbe9bf3e30be43d59c8f59e4",
+          "evidence:restaurant:tabelog-hard-criteria:c61b101e221ea23a824eb7a4",
+          "evidence:restaurant:tabelog-availability:513047074d4dede8beae6852"
+        ],
+        "displayExpiresAt": "2026-10-25T01:26:15.222Z",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tabelog:en/tokyo/A1310/A131003/13309169",
+        "outletName": "SUSHI PLANET SUIDOBASHI",
+        "address": "1010061 Tokyo  ",
+        "coordinates": {
+          "lat": 35.70131033869904,
+          "lng": 139.75317791459653
+        },
+        "sourceIds": {
+          "tabelog": "en/tokyo/A1310/A131003/13309169",
+          "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1310/A131003/13309169/",
+          "discoverySourceId": "tabelog",
+          "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1310/A131003/13309169/"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:9cb69b573172e8797d54433a",
+          "address": "evidence:restaurant:native-discovery:9cb69b573172e8797d54433a",
+          "sourceIds": "evidence:restaurant:native-discovery:9cb69b573172e8797d54433a"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:19:28.972Z",
+        "evidenceIds": [],
+        "reasonCode": "BROWSER_TIMEOUT",
+        "sourceProvider": "TABELOG",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:a80ed21b57bfd10f8609cda3"
+        ]
+      },
+      "availability": {
+        "status": "AVAILABLE",
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "checkedAt": "2026-10-25T01:17:23.523Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:ec2e5dc144ea5ee5fe1f1dd2",
+          "evidence:restaurant:tabelog-hard-criteria:a80ed21b57bfd10f8609cda3",
+          "evidence:restaurant:tabelog-availability:e728906d313b5060111dc7b3"
+        ],
+        "displayExpiresAt": "2026-10-25T01:27:23.523Z",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tabelog:en/tokyo/A1310/A131003/13290549",
+        "outletName": "Sake to Sakana Umigami-UMIGAMI-",
+        "address": "1010051 Tokyo Kanda Jinbocho Chiyoda Tokyo ",
+        "coordinates": {
+          "lat": 35.69618014060937,
+          "lng": 139.75870898136256
+        },
+        "sourceIds": {
+          "tabelog": "en/tokyo/A1310/A131003/13290549",
+          "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/",
+          "discoverySourceId": "tabelog",
+          "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1310/A131003/13290549/"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:45ddce62fcf535203328f9a0",
+          "address": "evidence:restaurant:native-discovery:45ddce62fcf535203328f9a0",
+          "sourceIds": "evidence:restaurant:native-discovery:45ddce62fcf535203328f9a0"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:17:56.927Z",
+        "evidenceIds": [],
+        "reasonCode": "BROWSER_TIMEOUT",
+        "sourceProvider": "TABELOG",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:cb1ffda589d4b3dfec9279fe"
+        ]
+      },
+      "availability": {
+        "status": "AVAILABLE",
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "checkedAt": "2026-10-25T01:16:34.456Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:9c081c553fdd4f94ae836347",
+          "evidence:restaurant:tabelog-hard-criteria:cb1ffda589d4b3dfec9279fe",
+          "evidence:restaurant:tabelog-availability:6a2a1b9327bed9e52dbc9e68"
+        ],
+        "displayExpiresAt": "2026-10-25T01:26:34.456Z",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tablecheck:qdk-cafe",
+        "outletName": "VMG CAFE Kudan Kaikan Terrace",
+        "address": "102-0074 Tokyo Chiyoda-ku 1-6-5 Kudanminami Kudan Kaikan Terrace 5F",
+        "coordinates": {
+          "lat": 35.6942243,
+          "lng": 139.7514087
+        },
+        "sourceIds": {
+          "tablecheck": "qdk-cafe",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/qdk-cafe",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/qdk-cafe"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:607449b1393eac6205e7192d",
+          "address": "evidence:restaurant:native-discovery:607449b1393eac6205e7192d",
+          "sourceIds": "evidence:restaurant:native-discovery:607449b1393eac6205e7192d"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:21:35.753Z",
+        "evidenceIds": [],
+        "reasonCode": "NATIVE_FACT_READ_FAILED",
+        "sourceProvider": "TABLECHECK",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tablecheck-hard-criteria:318e2456d16aef9309aabeba"
+        ]
+      },
+      "availability": {
+        "status": "SOURCE_UNSUPPORTED",
+        "checkedAt": "2026-10-25T01:20:59.674Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:f7f7294697fe901701e7f9f7",
+          "evidence:restaurant:tablecheck-entity-match:a1088b5ca2868d188652cfc3",
+          "evidence:restaurant:tablecheck-hard-criteria:318e2456d16aef9309aabeba"
+        ],
+        "reasonCode": "SOURCE_UNSUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "SOURCE_UNSUPPORTED",
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tablecheck:divino",
+        "outletName": "divino",
+        "address": "101-0061 Tokyo Chiyoda 3-10-22 Kanda Misaki-cho WHARF Kandamisakicho Bldg. 2F",
+        "coordinates": {
+          "lat": 35.6990329,
+          "lng": 139.7523218
+        },
+        "sourceIds": {
+          "tablecheck": "divino",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/divino",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/divino"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:123bbe38851862a8858563b4",
+          "address": "evidence:restaurant:native-discovery:123bbe38851862a8858563b4",
+          "sourceIds": "evidence:restaurant:native-discovery:123bbe38851862a8858563b4"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:21:35.753Z",
+        "evidenceIds": [],
+        "reasonCode": "RESERVE_REACHED",
+        "sourceProvider": "TABLECHECK",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tablecheck-hard-criteria:aec8cae03977e0479d662a08",
+          "evidence:restaurant:tablecheck-hard-criteria:fc2aeb1a0838a0661039f7ba"
+        ]
+      },
+      "availability": {
+        "status": "UNAVAILABLE",
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "checkedAt": "2026-10-25T01:21:06.548Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:3c9efd1b3e999d57538ec306",
+          "evidence:restaurant:tablecheck-hard-criteria:aec8cae03977e0479d662a08",
+          "evidence:restaurant:tablecheck-availability:0eafdf14e4f112b3210e03c8",
+          "evidence:restaurant:tablecheck-entity-match:0bbd36d9a21ba76dae7ca748",
+          "evidence:restaurant:tablecheck-hard-criteria:fc2aeb1a0838a0661039f7ba"
+        ],
+        "reasonCode": "NO_MATCHING_SLOT",
+        "displayExpiresAt": "2026-10-25T01:31:06.548Z",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "timeWindowCoverage": {
+          "date": "2026-11-07",
+          "partySize": 2,
+          "requestedWindow": {
+            "earliest": "19:30",
+            "latest": "19:30"
+          },
+          "covered": [
+            {
+              "earliest": "19:30",
+              "latest": "19:30",
+              "status": "EMPTY"
+            }
+          ],
+          "uncovered": [],
+          "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+        },
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "UNAVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tablecheck:hitujiya-jimbocho",
+        "outletName": "Genso Bistro Hitsujiya Jimbocho Branch",
+        "address": "101-0065 Tokyo Chiyoda 2-4-3 Nishikanda Takaoka Bldg. 1F",
+        "coordinates": {
+          "lat": 35.6978132,
+          "lng": 139.7546776
+        },
+        "sourceIds": {
+          "tablecheck": "hitujiya-jimbocho",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/hitujiya-jimbocho",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/hitujiya-jimbocho"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:592d714d9d2f8755e90c6a42",
+          "address": "evidence:restaurant:native-discovery:592d714d9d2f8755e90c6a42",
+          "sourceIds": "evidence:restaurant:native-discovery:592d714d9d2f8755e90c6a42"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:21:35.753Z",
+        "evidenceIds": [],
+        "reasonCode": "RESERVE_REACHED",
+        "sourceProvider": "TABLECHECK",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tablecheck-hard-criteria:213c919c955e5b931a749a06",
+          "evidence:restaurant:tablecheck-hard-criteria:3b4d3c7cb391583c8e2b50d9"
+        ]
+      },
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:21:06.576Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:ebd91025fc0a609844fa77c5",
+          "evidence:restaurant:tablecheck-hard-criteria:213c919c955e5b931a749a06",
+          "evidence:restaurant:tablecheck-hard-criteria:3b4d3c7cb391583c8e2b50d9"
+        ],
+        "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+        "timeWindowCoverage": {
+          "date": "2026-11-07",
+          "partySize": 2,
+          "requestedWindow": {
+            "earliest": "19:30",
+            "latest": "19:30"
+          },
+          "covered": [
+            {
+              "earliest": "19:30",
+              "latest": "19:30",
+              "status": "EMPTY"
+            }
+          ],
+          "uncovered": [],
+          "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+        },
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tablecheck:jinbocho-gokita",
+        "outletName": "Jinbocho Gokita",
+        "address": "101-0065 Tokyo Chiyoda 2-4-9 Nishikanda Daini Kinsui Bldg. 1F",
+        "coordinates": {
+          "lat": 35.6983669,
+          "lng": 139.7543259
+        },
+        "sourceIds": {
+          "tablecheck": "jinbocho-gokita",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/jinbocho-gokita",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/jinbocho-gokita"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:54260dcd52a0d5fe9cc28cd1",
+          "address": "evidence:restaurant:native-discovery:54260dcd52a0d5fe9cc28cd1",
+          "sourceIds": "evidence:restaurant:native-discovery:54260dcd52a0d5fe9cc28cd1"
+        }
+      },
+      "facts": null,
+      "availability": {
+        "status": "SOURCE_UNSUPPORTED",
+        "checkedAt": "2026-10-25T01:21:24.622Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:c0cedff88dd3082b1959192b",
+          "evidence:restaurant:tablecheck-entity-match:dd6bba8824d0ebd6d1103aa3",
+          "evidence:restaurant:tablecheck-hard-criteria:c5a1997dbd0011d90005d7b6"
+        ],
+        "reasonCode": "SOURCE_UNSUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "SOURCE_UNSUPPORTED",
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tablecheck:utena",
+        "outletName": "台-UTENA-",
+        "address": "101-0003 Tokyo Chiyoda 2-6-6 Hitotsubashi",
+        "coordinates": {
+          "lat": 35.694778,
+          "lng": 139.7561163
+        },
+        "sourceIds": {
+          "tablecheck": "utena",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/utena",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/utena"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:d744f0881d47740e49101da5",
+          "address": "evidence:restaurant:native-discovery:d744f0881d47740e49101da5",
+          "sourceIds": "evidence:restaurant:native-discovery:d744f0881d47740e49101da5"
+        }
+      },
+      "facts": null,
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:21:24.643Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:3201c86e575e28523ab609bb",
+          "evidence:restaurant:tablecheck-hard-criteria:a614e3f36e9fb2b649ebe69f",
+          "evidence:restaurant:tablecheck-hard-criteria:36b3989ada1d2d2e4beddab0"
+        ],
+        "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+        "timeWindowCoverage": {
+          "date": "2026-11-07",
+          "partySize": 2,
+          "requestedWindow": {
+            "earliest": "19:30",
+            "latest": "19:30"
+          },
+          "covered": [
+            {
+              "earliest": "19:30",
+              "latest": "19:30",
+              "status": "EMPTY"
+            }
+          ],
+          "uncovered": [],
+          "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+        },
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    }
+  ],
+  "termination": null,
+  "interruption": null,
+  "presented": null,
+  "googleCaptureRejections": [
+    {
+      "sequence": 1580,
+      "kind": "GOOGLE_CAPTURE_REJECTED",
+      "detail": {
+        "reason": "KEY_PATTERN_BEFORE_WRITE",
+        "stage": "BEFORE_WRITE"
+      }
+    }
+  ],
+  "replayHarExists": false,
+  "diagnosticDOMStatusCounts": {
+    "SAVED": 105
+  },
+  "diagnosticDOMGaps": [],
+  "recordingCredentialLiteralPatternCounts": {
+    "GOOGLE_KEY": 0,
+    "MODEL_KEY": 0,
+    "AWS_KEY": 0,
+    "BEARER": 0,
+    "PRIVATE_KEY": 0
+  }
+}
