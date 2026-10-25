@@ -156,6 +156,8 @@ test("E1 outer body observer captures real Chromium POST bytes independently of 
     }
     assert.ok(typeEvents.some(row => row.event === "Network.requestWillBeSent" && row.type === "Fetch"));
     assert.ok(typeEvents.some(row => row.event === "Fetch.requestPaused" && row.type === "XHR"));
+    assert.ok(guard.snapshotResourceTypes().some(row => row.pathname === postRule.pathname && row.resourceTypeDetails.selectedFrom === "FETCH" && row.resourceTypeDetails.fetch === "XHR" && !row.resourceTypeDetails.network), "cache-missing adoption path stays explicit");
+    assert.ok(guard.snapshotRequests().some(row => row.method === "POST" && row.resourceTypeDetails?.playwright === "fetch"));
     assert.equal(received.length, 2, "independent local receiver must observe both actual request bodies");
     assert.deepEqual(received.map(bytes => bytes.toString()), [normal, wrong]);
     assert.deepEqual(rows.map(row => row.detail.status), ["MATCH", "MISMATCH"]);
@@ -490,7 +492,7 @@ test("TableCheck browser preflight is tied to its reviewed GET or POST and rejec
             ...(calendar ? { body: calendarBody } : {}) }); return response.ok; } catch { return false; }
         }, { url: apiOrigin + target, mode, calendar, calendarBody });
         console.log("preflight metadata", mode, JSON.stringify(metadata));
-        assert.equal(ok, ["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get", "calendar-post", "calendar-xhr"].includes(mode), `${mode}: browser GET handshake must reach receiver; disallowed requests must not`);
+        assert.equal(ok, ["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get", "calendar-post", "calendar-xhr"].includes(mode), `${mode}: browser read handshake must reach receiver; disallowed requests must not`);
         if (["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get", "calendar-post", "calendar-xhr"].includes(mode)) {
           // Playwright's existing interception locally fulfills genuine browser
           // preflights. The independent receiver must observe the resulting GET;
@@ -510,7 +512,7 @@ test("TableCheck browser preflight is tied to its reviewed GET or POST and rejec
           assert.equal(postBodyStop({ kind: "NETWORK", detail: guard.snapshotRequests() }, reviewed), null, "independent outer observer accepts only the reviewed handshake");
           assert.ok(postBodyStop({ kind: "NETWORK", detail: [{ ...preflight, corsPreflight: { ...preflight.corsPreflight, requestedMethod: "PUT" } }] }, reviewed));
           const { snapshotRecord, safeRecord } = await import("../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js");
-          const snapshot = { url: page.url(), title: "Search", html: await page.content(), text: "Public cross-origin search", networkRequests: guard.snapshotRequests() };
+          const snapshot = { url: page.url(), title: "Search", html: await page.content(), text: "Public cross-origin search", networkRequests: guard.snapshotRequests(), networkResourceTypes: guard.snapshotResourceTypes() };
           const traced = safeRecord(snapshotRecord(snapshot)) as any;
           assert.deepEqual(traced.networkRequests.find((row: any) => row.method === "OPTIONS").corsPreflight, preflight.corsPreflight, "Live trace sanitization retains independent handshake facts");
           assert.equal(postBodyStop({ kind: "NETWORK", detail: traced.networkRequests }, reviewed), null);
@@ -518,6 +520,7 @@ test("TableCheck browser preflight is tied to its reviewed GET or POST and rejec
           const result = await recorder.finish(); const stored = JSON.parse(await readFile(join(result.path, "recording.json"), "utf8"));
           const storedRequest = stored.entries.flatMap((entry: any) => entry.kind === "NETWORK" ? entry.detail : []).find((request: any) => request.method === "OPTIONS");
           assert.deepEqual(storedRequest.corsPreflight, preflight.corsPreflight);
+          assert.deepEqual(stored.entries.find((entry: any) => entry.kind === "NETWORK_RESOURCE_TYPES").detail.map((row: any) => ({ ...row, origin: new URL(row.origin).origin })), guard.snapshotResourceTypes());
           assert.equal(postBodyStop({ kind: "NETWORK", detail: stored.entries.flatMap((entry: any) => entry.kind === "NETWORK" ? entry.detail : []) }, reviewed), null, "recording retains method, handshake and independent POST body binding");
           assert.equal(JSON.stringify(stored).includes("LOCAL_FIXTURE_ONLY"), false, "record no actual header values");
           assert.equal(result.replay.status, "NOT_REPLAYABLE", "CORS transport without faithful handshake capture cannot claim replayability");

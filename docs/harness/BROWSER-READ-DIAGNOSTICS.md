@@ -1,10 +1,12 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.18
+- Document revision: 0.19
 - Last updated: 2026-10-15
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
+
+当前Recorder为`browser-read-recording@5`：NETWORK保留值为空的资源类型、预检事实及独立外层POST的body哈希/字段类型/请求绑定；NETWORK_RESOURCE_TYPES分别保存CDP Network、Fetch原始类型和采用路径。Playwright原始类型随普通route记录，未按URL/顺序将两个事件流伪配对。fetch/xhr属于同一页面脚本读取类，非脚本类型仍独立。CORS只证明握手投影；缺未来POST body或完整录制时仍未知／NOT_REPLAYABLE。历史录制原字节保留，不写回升级。[ADR补充](../decisions/0036-script-request-types-and-preflight-draft.md)。
 
 ## 当前切片
 

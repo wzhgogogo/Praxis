@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.18
+- Document revision: 1.19
 - Last updated: 2026-10-25
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
@@ -66,9 +66,9 @@ ADR一经Accepted不得静默重写Decision。改变决策时新增ADR，并将�
 
 Accepted supplement [ADR-0036 G1](0036-tablecheck-reserve-read-supplement.md) admits only the fixed public reservation-entry GET document. [ADR-0039](0039-immediate-thirty-minute-window.md) changes immediate time semantics; neither grants reservation submission rights.
 
-## F3／F6提议，待用户批准
+## F3／F6补充
+
+- [ADR-0036脚本类型与预检补充](0036-script-request-types-and-preflight-draft.md)：第1–7条Accepted并离线实施；地点类型关联项未批准，留3f。当前来源reserve永久拒绝不变。
 
 以下仅草案，不改变当前Accepted合同或权限：
-
-- [ADR-0036脚本类型与预检补充草案](0036-script-request-types-and-preflight-draft.md)。
 - [ADR-0045收尾时间预留](0045-bounded-read-conclusion-reserve.md)。0044在并行架构分支占号，本目录不补造其批准状态。

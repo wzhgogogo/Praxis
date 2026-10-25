@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.307
+- Document revision: 4.308
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-26-f3-script-read"></a>
+
+## 2026-10-26复核：F3脚本读取与预检（执行CET10-25）
+
+验证按批准的ADR-0036第1–7条实施；共享脚本类型、真实预检投影、实际完整POST分离。旧生产两个有效红灯已存，修后真实本地Chromium绿；独立接收端/body审计与Recorder留证，相关154项离线回归通过。五门禁在干净提交执行并逐项检查状态，完整收据见[报告](../../.eval-artifacts/phase3a-prime/f3-guard/report.md)。保护文件、预算零差异，站点行数不增加；无.env、无新增真实调用。route留3f、F6未实施，未知POST/CORS回放不伪报已覆盖。
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 

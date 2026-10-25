@@ -22,7 +22,7 @@ export interface BrowserReadNetworkRequestRule {
   /** Presence of one of these fields requires the full reviewed query grammar,
    * including under generic public GET admission. Values stay source-owned. */
   strictQueryKeys?: readonly string[];
-  /** Browser-generated, bodyless GET CORS handshake; never a standalone OPTIONS permission. */
+  /** Browser-generated, bodyless projection of an approved GET/HEAD/POST; actual POST body is checked separately. */
   corsPreflight?: { requestOrigin: string; requestedHeaderNames: readonly string[] };
   /** Exact flat public JSON shape for an independently reviewed read query. */
   bodyFields?: Readonly<Record<string, "string" | "number">>;
@@ -57,6 +57,11 @@ export interface BrowserReadCorsPreflightObservation {
   bodyBytes: number;
 }
 
+export interface BrowserReadResourceTypeObservation {
+  origin: string; pathname: string; method: string; resourceType: string;
+  resourceTypeDetails: { selectedFrom: "PLAYWRIGHT" | "NETWORK" | "FETCH"; playwright?: string; network?: string; fetch?: string };
+}
+
 /** A value-free request shape captured by an installed read boundary. */
 export interface BrowserReadNetworkObservation {
   outcome: "ADMITTED" | "BLOCKED" | "REDIRECT_BLOCKED" | "FAILED" | "TIMED_OUT";
@@ -66,6 +71,10 @@ export interface BrowserReadNetworkObservation {
   resourceType: string;
   queryKeys: string[];
   corsPreflight?: BrowserReadCorsPreflightObservation;
+  resourceTypeDetails?: BrowserReadResourceTypeObservation["resourceTypeDetails"];
+  /** Independent outer observer binding; never a production admission input. */
+  outerRequestId?: string;
+  bodyObservation?: { bodySha256: string; contentType: string; fieldTypes: Record<string, string> };
 }
 
 export interface BrowserSettlementDiagnostics {
@@ -107,6 +116,8 @@ export interface BrowserSnapshot {
   }>;
   /** Value-free Guard request chronology for optional Record and PolicyDraft evidence. */
   networkRequests?: BrowserReadNetworkObservation[];
+  /** Raw CDP type observations, not admissions or inventory evidence. */
+  networkResourceTypes?: BrowserReadResourceTypeObservation[];
 }
 
 /** Code-owned descriptions of nonstandard source controls. Never accepted from a model. */

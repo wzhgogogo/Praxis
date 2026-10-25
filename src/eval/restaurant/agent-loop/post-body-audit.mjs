@@ -4,10 +4,12 @@ import { createHash } from 'node:crypto';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const fieldsMatch = (fields, expected) => fields && Object.keys(fields).sort().join() === Object.keys(expected).sort().join()
   && Object.keys(expected).every(key => fields[key] === expected[key]);
+const scriptTypeMatches = (types, type) => types.includes(type)
+  || ['fetch', 'xhr'].includes(type) && types.some(value => ['fetch', 'xhr'].includes(value));
 function endpoint(request, reviewedBytes) {
   const url = new URL(request.url);
   const rules = JSON.parse(reviewedBytes);
-  const ruleIndex = rules.findIndex(rule => rule.methods?.includes('POST') && url.origin === rule.origin && url.pathname === rule.pathname && rule.resourceTypes.includes(request.resourceType));
+  const ruleIndex = rules.findIndex(rule => rule.methods?.includes('POST') && url.origin === rule.origin && url.pathname === rule.pathname && scriptTypeMatches(rule.resourceTypes, request.resourceType));
   return { url, rules, ruleIndex, rule: rules[ruleIndex] };
 }
 export function inspectReviewedPost(request, reviewedBytes) {
@@ -40,12 +42,12 @@ export function recordedPostMatches(request, reviewedBytes) {
 export function recordedPreflightMatches(request, reviewedBytes) {
   const facts = request.corsPreflight;
   if (request.method !== 'OPTIONS' || !['other', 'fetch', 'xhr'].includes(request.resourceType) || !request.origin || !request.pathname
-    || !facts || facts.initiator !== 'BROWSER_PREFLIGHT' || facts.secFetchMode !== 'cors' || facts.requestedMethod !== 'GET' || facts.bodyBytes !== 0
+    || !facts || facts.initiator !== 'BROWSER_PREFLIGHT' || facts.secFetchMode !== 'cors' || !['GET', 'HEAD', 'POST'].includes(facts.requestedMethod) || facts.bodyBytes !== 0
     || !Array.isArray(facts.requestedHeaderNames) || !Array.isArray(request.queryKeys)) return false;
   let origin; try { origin = new URL(request.origin).origin; } catch { return false; }
   return JSON.parse(reviewedBytes).some(rule => {
     const cors = rule.corsPreflight, keys = request.queryKeys, query = rule.queryKeyRules;
-    if (!cors || !rule.methods?.includes('GET') || !rule.resourceTypes?.some(type => ['fetch', 'xhr'].includes(type))
+    if (!cors || !rule.methods?.includes(facts.requestedMethod) || facts.requestedMethod === 'POST' && !rule.bodyFields || !rule.resourceTypes?.some(type => ['fetch', 'xhr'].includes(type))
       || rule.origin !== origin || !(rule.pathname === request.pathname || rule.pathnamePattern && new RegExp(rule.pathnamePattern).test(request.pathname))
       || cors.requestOrigin !== facts.requestOrigin || facts.requestedHeaderNames.some(name => !name || !cors.requestedHeaderNames.includes(name))) return false;
     return query ? query.required.every(key => keys.includes(key))

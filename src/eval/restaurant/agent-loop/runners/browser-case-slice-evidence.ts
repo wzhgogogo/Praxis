@@ -366,9 +366,13 @@ export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknow
       code: item.code, origin: item.origin, pathname: item.pathname,
       method: item.method, resourceType: item.resourceType, queryKeys: item.queryKeys,
     })) } : {}),
+    ...(snapshot.networkResourceTypes?.length ? { networkResourceTypes: snapshot.networkResourceTypes } : {}),
     ...(snapshot.networkRequests?.length ? { networkRequests: snapshot.networkRequests.map(item => ({
       outcome: item.outcome, origin: item.origin, pathname: item.pathname,
       method: item.method, resourceType: item.resourceType, queryKeys: item.queryKeys,
+      ...(item.resourceTypeDetails ? { resourceTypeDetails: item.resourceTypeDetails } : {}),
+      ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}),
+      ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}),
       ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}),
     })) } : {}) };
 }
