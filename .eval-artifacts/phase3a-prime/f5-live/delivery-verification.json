@@ -1,0 +1,124 @@
+{
+  "schema": "f5-delivery-verification@1",
+  "asOfCET": "2026-10-25T02:49:03.940725+01:00",
+  "status": "INCOMPLETE_WAIT_REVIEW",
+  "codeBaseline": "355a5547f4bd4815efee7bd430c531fd586d75ac",
+  "sourceDiff": [],
+  "frozenItems": 348,
+  "sourceFreezeSHA256": "0201de495ab4b5ad994bb9ce6c321a36a7044387f8b4a258dfbc6d0b3308269a",
+  "rawGzipContentsVerified": 25,
+  "recordingTarsVerified": 5,
+  "gates": [
+    {
+      "command": "npm run typecheck",
+      "sha256Verified": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": null,
+        "pass": null,
+        "fail": null,
+        "skipped": null
+      },
+      "statusBefore": "",
+      "statusAfter": ""
+    },
+    {
+      "command": "npm run arch:check",
+      "sha256Verified": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": null,
+        "pass": null,
+        "fail": null,
+        "skipped": null
+      },
+      "statusBefore": "",
+      "statusAfter": ""
+    },
+    {
+      "command": "npm run test",
+      "sha256Verified": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 1046,
+        "pass": 1046,
+        "fail": 0,
+        "skipped": 0
+      },
+      "statusBefore": "",
+      "statusAfter": ""
+    },
+    {
+      "command": "npm run build",
+      "sha256Verified": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": null,
+        "pass": null,
+        "fail": null,
+        "skipped": null
+      },
+      "statusBefore": "",
+      "statusAfter": ""
+    },
+    {
+      "command": "npm run test:browser:fixture",
+      "sha256Verified": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 154,
+        "pass": 154,
+        "fail": 0,
+        "skipped": 0
+      },
+      "statusBefore": "",
+      "statusAfter": ""
+    }
+  ],
+  "changedScopeLinksVerified": 33,
+  "missingChangedScopeLinks": [],
+  "linkScope": "Final report plus newly added status/log/index sections; unrelated historical links not changed.",
+  "safeGateSequence": [
+    {
+      "from": 1,
+      "to": 2,
+      "reviewBeforeNext": true
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "reviewBeforeNext": true
+    },
+    {
+      "from": 3,
+      "to": 4,
+      "reviewBeforeNext": true
+    },
+    {
+      "from": 4,
+      "to": 5,
+      "reviewBeforeNext": true
+    },
+    {
+      "from": 5,
+      "to": 6,
+      "reviewBeforeNext": true
+    }
+  ],
+  "serialExecutionsVerified": true,
+  "budget": {
+    "fullLive": 5,
+    "googleRequests": 30,
+    "environmentReruns": 2,
+    "websiteGET": 5,
+    "realModelCalls": 218
+  },
+  "originalLedgerRowsPreserved": 9,
+  "authorizedEnvFileRunnerInvocations": 6,
+  "additionalCredentialReadsOrSeventhInvocation": 0,
+  "formalOutcome": "5/6 formal; case01 0/3; case03 1 bounded pass,1 timeout,1 NOT_RUN",
+  "S0": "5 formal declaration/boundary ABSENT; slot6 preformal boundary NOT_EVALUATED",
+  "replays": "5/5 ORIGINAL attempted,allINCOMPLETE;no real model/networkfallback",
+  "gitDiffCheck": "PASS before commit",
+  "finalCleanAndPush": "Recorded separately after evidence commit"
+}

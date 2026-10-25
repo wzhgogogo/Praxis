@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.287
+- Document revision: 4.288
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,12 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-25-F5-LIVE-STOP3-INCOMPLETE
+
+2026-10-25固定CET。用户窄授权6个受控Runner加载既有.env，未展示/复制/暂存运行凭据。六次进程调用、五次正式Live，最后一次预检HTTP200/CHECK_TIMEOUT且环境重跑余额0，未启动正式任务；严格停止，无第7次调用。例01为0/3合格交付（500.338秒外层超时、500.333秒轨迹AGENT_LOOP_TIMEOUT、399.728秒有界未交付）；例03为439.498秒有界无结果、500.496秒超时、最后NOT_RUN。自动Evaluator34/rubric30产物及历史分母保留；例03首轮另按实际冻结请求/未知范围做独立输出复核，不冒充自动绿灯。
+
+确认例01两坐标样本均越界后，纠正仍排在Google之后，真实legalActions.search=false/NATIVE_FIRST_BATCH_PENDING阻断返回；没有regionCorrection提示或SELECT动作，不能归因为模型拒绝方位反馈。源页面实际观察到Akabane Sta链接在查位阶段未用，精确决策/DOM另存，未据此暗改LOCATION范围。五份HAR均在写前扫描拒绝后缺Google结构化响应，F2④b禁网原样回放全部INCOMPLETE。用户另批单次公开直连GET，3.658948秒HTTP200；零网络本地计时控制证明末次快照竞争可造成CHECK_TIMEOUT，但缺现场snapshot计时，根因仍HYPOTHESIS。未改生产/Runner/Prompt/Schema/Guard/站点或预算，不进入F3/3b修复。原9账本条目并集、348冻结项、原始压缩证据完整保留。实际5Live/218模型/30Google/2环境重跑；停止点3未完成，停止等复核，不合main。[完整报告](../../.eval-artifacts/phase3a-prime/f5-live/report.md)。
 
 ## DEV-2026-10-25-F5-LIVE-RUNNING
 
