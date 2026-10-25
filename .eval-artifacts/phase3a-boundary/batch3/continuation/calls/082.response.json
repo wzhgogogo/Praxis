@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "546a6d8e-35f0-4f6c-abc2-cac2139c47ed",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Italian restaurant near my hotel for Saturday night\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"weekday\": \"SATURDAY\", \"raw\": \"This Saturday\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"EVENING\", \"raw\": \"Saturday night\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near my hotel\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Italian food\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2494,
+    "providerRequestId": "d6aabc7c-3c2f-4c42-9f27-432b3f8e9dc4",
+    "usage": {
+      "inputTokens": 6210,
+      "outputTokens": 319,
+      "totalTokens": 6529
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "546a6d8e-35f0-4f6c-abc2-cac2139c47ed",
+      "taskId": "boundary-continuation:SR09-relative-location-overwrite",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2494,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6210,
+        "outputTokens": 319,
+        "totalTokens": 6529
+      },
+      "providerRequestId": "d6aabc7c-3c2f-4c42-9f27-432b3f8e9dc4"
+    }
+  ],
+  "atCET": "2026-10-25T23:43:02.640+01:00"
+}

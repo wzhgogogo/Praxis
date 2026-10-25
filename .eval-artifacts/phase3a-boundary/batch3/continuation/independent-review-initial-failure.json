@@ -1,0 +1,9 @@
+{
+  "status": "INDEPENDENT_CHECKER_ASSERTION_FAILED_THEN_CORRECTED",
+  "recordedAtCET": "2026-10-26T00:06:25+01:00",
+  "initialExitCode": 1,
+  "initialAssumption": "response.model must literally equal requested deepseek-v4-flash",
+  "observed": "All84 provider responses report deepseek-flash; allrequests configured deepseek-v4-flash",
+  "correction": "Record requested and reported model names separately and verify parity across conditions; no inputs, model responses, semantic scores, Prompt or Gold changed",
+  "finalReview": "independent-review.json"
+}

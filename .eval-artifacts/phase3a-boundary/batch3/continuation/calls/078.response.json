@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "531af518-cebd-4795-ad30-8e4474a4c4dd",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Restaurants nearby for tomorrow afternoon with parents\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"AFTERNOON\", \"raw\": \"afternoon\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 3, \"source\": \"INFERRED_CLOSED_PARTY\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"nearby\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"around 3,000 yen per person\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2878,
+    "providerRequestId": "bf0c197f-b18d-4006-b65f-3469a2300821",
+    "usage": {
+      "inputTokens": 6218,
+      "outputTokens": 331,
+      "totalTokens": 6549
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "531af518-cebd-4795-ad30-8e4474a4c4dd",
+      "taskId": "boundary-continuation:SR06-approximate-budget-is-soft",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2878,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6218,
+        "outputTokens": 331,
+        "totalTokens": 6549
+      },
+      "providerRequestId": "bf0c197f-b18d-4006-b65f-3469a2300821"
+    }
+  ],
+  "atCET": "2026-10-25T23:42:53.700+01:00"
+}

@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.397
+- Document revision: 4.398
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-BOUNDARY-CONTINUATION-COMPLETE:** 用户修正规则后本分支09bf7214冻结618项、五门禁1051/154全绿且各项后净工作树，完成72主轮（旧001复用）＋11单次v23控制，实际累计84/144余60（含1次Schema重试），3a′400扣0。目标/依据69/72满足；SR02-T01无时间却查位、SR02-T02缺新TARGET依据、SR08-T02集合CONFIRM无效待确认。14灰区额外3次及Wednesday3次均推荐、每组3/3；不固定Gold。10有效控制均仍偏离旧Gold，9份与v24请求值相同，1具名query两者均丢Sushi Dai；另1控制同样合同无效，不能作因果定论。生产Prompt/Scorer/State/Gold未改，全部差异/未评单列；Google/来源/Live0。停STOP_3，推同分支不合main。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
 
 - **2026-10-25-PHASE3A-BOUNDARY-STOP3:** 本分支f0cc436a冻结后五门禁1051/154全绿、各项后净工作树；按用户窄授权仅受控Node加载指定凭据、显式deepseek-v4-flash。首个真实调用SR01-T01目标B→AVAILABILITY且引用成立，但yakiniku强度UNSPECIFIED→HARD，按规则立即停批：1/144（余143），另71轮未调用；Compiler/权威Draft未到达，灰区一致率不可算。生产源码/Prompt/Gold未改，602项冻结匹配，3a′400扣减0；Google/网站/Live0。SR03-T02等Gold清单待用户逐条确认，停STOP_3，按授权推本分支、不合main。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
 

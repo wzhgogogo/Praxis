@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "f2822c00-2ead-4e4f-88be-aa3bbfeac545",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Korean food near me\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"relativeOffsetMinutes\": 30, \"raw\": \"in about 30 minutes\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near me\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Korean food\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2298,
+    "providerRequestId": "e8beb2c1-99ea-4d36-9af7-8508e3f36230",
+    "usage": {
+      "inputTokens": 6211,
+      "outputTokens": 277,
+      "totalTokens": 6488
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "f2822c00-2ead-4e4f-88be-aa3bbfeac545",
+      "taskId": "boundary-continuation:SR07-relative-offset-time",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2298,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6211,
+        "outputTokens": 277,
+        "totalTokens": 6488
+      },
+      "providerRequestId": "e8beb2c1-99ea-4d36-9af7-8508e3f36230"
+    }
+  ],
+  "atCET": "2026-10-25T23:42:56.034+01:00"
+}

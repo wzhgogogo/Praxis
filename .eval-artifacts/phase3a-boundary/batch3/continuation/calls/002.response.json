@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "c14c9391-9b2b-4ebd-b91f-6f95238ea641",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"PARTY_SIZE\", \"operation\": \"CORRECT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 3, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"CORRECT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shibuya\"}}, {\"field\": \"CRITERION\", \"operation\": \"NEGATE\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"yakiniku\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3453,
+    "providerRequestId": "ea850ae3-38ba-42e6-bd4e-0218a192e5c8",
+    "usage": {
+      "inputTokens": 6980,
+      "outputTokens": 182,
+      "totalTokens": 7162
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "c14c9391-9b2b-4ebd-b91f-6f95238ea641",
+      "taskId": "boundary-continuation:SR01-complete-then-correct",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3453,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6980,
+        "outputTokens": 182,
+        "totalTokens": 7162
+      },
+      "providerRequestId": "ea850ae3-38ba-42e6-bd4e-0218a192e5c8"
+    }
+  ],
+  "atCET": "2026-10-25T23:39:00.083+01:00"
+}

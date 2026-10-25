@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "c90fd316-8fe6-4a41-9789-cf2e01c23689",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Place for a team dinner nearby\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"Broad request for a place for a team dinner with no explicit booking wording or clock time\", \"quotes\": [\"Need a place for a team dinner nearby\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-06\", \"raw\": \"Friday, November 6\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"AFTER_WORK\", \"raw\": \"after work\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 10, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"nearby\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"around 3,000 yen per person\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"good for drinks\", \"polarity\": \"POSITIVE\", \"strength\": \"UNSPECIFIED\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"private room\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"suitable for a team dinner\", \"polarity\": \"POSITIVE\", \"strength\": \"UNSPECIFIED\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3322,
+    "providerRequestId": "a3e1dbe5-e397-44d8-b8ec-37d818b4178b",
+    "usage": {
+      "inputTokens": 6872,
+      "outputTokens": 538,
+      "totalTokens": 7410
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "c90fd316-8fe6-4a41-9789-cf2e01c23689",
+      "taskId": "boundary-continuation:G017-repeat-1",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3322,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6872,
+        "outputTokens": 538,
+        "totalTokens": 7410
+      },
+      "providerRequestId": "a3e1dbe5-e397-44d8-b8ec-37d818b4178b"
+    }
+  ],
+  "atCET": "2026-10-25T23:39:39.298+01:00"
+}

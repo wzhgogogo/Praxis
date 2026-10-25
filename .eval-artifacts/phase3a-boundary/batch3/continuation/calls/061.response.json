@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "7de920f8-917d-4b8f-87df-95ad0da2f683",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"shabu-shabu near Akasaka with open tables\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User asks about open tables for a specific date and time range\", \"quotes\": [\"Any open tables?\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-29\", \"raw\": \"Thursday, October 29\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:00\", \"latest\": \"20:00\", \"raw\": \"between 6 and 8 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 6, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Akasaka\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"shabu-shabu\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2816,
+    "providerRequestId": "b2384fe7-1f9e-492b-be9d-a75d432b047c",
+    "usage": {
+      "inputTokens": 6867,
+      "outputTokens": 386,
+      "totalTokens": 7253
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "7de920f8-917d-4b8f-87df-95ad0da2f683",
+      "taskId": "boundary-continuation:p2-holdout-03",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2816,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6867,
+        "outputTokens": 386,
+        "totalTokens": 7253
+      },
+      "providerRequestId": "b2384fe7-1f9e-492b-be9d-a75d432b047c"
+    }
+  ],
+  "atCET": "2026-10-25T23:41:59.548+01:00"
+}

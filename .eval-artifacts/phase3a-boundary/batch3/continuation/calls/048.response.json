@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "609dcad5-3f5b-4307-9810-b8ac413ab2fd",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Good cafes nearby to meet up with a friend\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"Exploratory request for cafe options with no booking wording or explicit clock time\", \"quotes\": [\"Good cafes nearby to meet up with a friend\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-27\", \"raw\": \"Tuesday, October 27\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"AFTERNOON\", \"raw\": \"afternoon\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"INFERRED_CLOSED_PARTY\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"nearby\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"cafe\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"good\", \"polarity\": \"POSITIVE\", \"strength\": \"UNSPECIFIED\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"suitable for meeting up with a friend\", \"polarity\": \"POSITIVE\", \"strength\": \"UNSPECIFIED\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2804,
+    "providerRequestId": "f794e193-246e-46ba-b672-f528e696e675",
+    "usage": {
+      "inputTokens": 6851,
+      "outputTokens": 489,
+      "totalTokens": 7340
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "609dcad5-3f5b-4307-9810-b8ac413ab2fd",
+      "taskId": "boundary-continuation:G030-repeat-3",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2804,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6851,
+        "outputTokens": 489,
+        "totalTokens": 7340
+      },
+      "providerRequestId": "f794e193-246e-46ba-b672-f528e696e675"
+    }
+  ],
+  "atCET": "2026-10-25T23:41:20.617+01:00"
+}

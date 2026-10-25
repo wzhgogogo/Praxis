@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "2900fec4-9f73-4009-8f35-4dee8f5d0f86",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Korean food near me\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"Relative offset with no booking wording or explicit clock time; user wants nearby Korean options\", \"quotes\": [\"In about 30 minutes near me\", \"Korean food\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"relativeOffsetMinutes\": 30, \"raw\": \"In about 30 minutes\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near me\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Korean food\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2418,
+    "providerRequestId": "1fa1f4ee-4aee-4257-a209-89ac6e67948a",
+    "usage": {
+      "inputTokens": 6844,
+      "outputTokens": 332,
+      "totalTokens": 7176
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "2900fec4-9f73-4009-8f35-4dee8f5d0f86",
+      "taskId": "boundary-continuation:G065-repeat-2",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2418,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6844,
+        "outputTokens": 332,
+        "totalTokens": 7176
+      },
+      "providerRequestId": "1fa1f4ee-4aee-4257-a209-89ac6e67948a"
+    }
+  ],
+  "atCET": "2026-10-25T23:40:54.473+01:00"
+}

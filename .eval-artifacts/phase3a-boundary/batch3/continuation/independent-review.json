@@ -1,0 +1,32 @@
+{
+  "status": "COMPLETED / STOP_3_REVIEW_REQUIRED",
+  "checkedAtCET": "2026-10-25T23:54:10+01:00",
+  "method": "Independent Python reads raw receipts, frozen category/message bindings and original Gold; no production scorer/model judge used for goal/quote or request-value equality cross-checks.",
+  "sourceCommit": "09bf72149e94bab3c321cf3814a1ca7a2fae1dc6",
+  "executionSha256": "dc12b5f55796f5638c9c150af5e98845716efe9493c4bcfd187c482dfe037073",
+  "freezeSha256": "b811adfe7a11d2eb74decf1dc9241d841db408f01e1f6f1f3e04ea75a907805a",
+  "frozenFilesVerified": 618,
+  "primaryRowsChecked": 72,
+  "independentGoalMatchesProducer": 72,
+  "goalSatisfied": 69,
+  "stateGoalBasisAbsent": true,
+  "nonGoalValueEqualityCheckedOnAllAvailableDevelopmentDrafts": true,
+  "pairedInputContextReferenceTimeAndUserMessageMatch": 11,
+  "receiptGlobalIds": "1..84, distinct; prior1 reused once; all83 new starts have successful responses",
+  "cumulativeCalls": 84,
+  "controlRequestsExactlyOneEach": 11,
+  "unknownDispatches": 0,
+  "rawGoldPreserved": true,
+  "productionPromptAndSchemaUnchanged": true,
+  "requestedModel": "deepseek-v4-flash",
+  "all84ReportedModel": "deepseek-flash",
+  "providerAliasMeaning": "Recorded literally, backend release equivalence not independently inferred",
+  "fourLayers": {
+    "endToEnd": "NOT_EVALUATED: semantic-only model run; no source or product delivery",
+    "steps": "72 semantic observations;69 goal/basis checks satisfied; all field differences/unassessed dimensions retained; controls separate",
+    "severity": "No S0 stop recorded; independent State/goal checks verified. Real source claims/external-write/user S0-S4 effects NOT_EVALUATED",
+    "attribution": "Ten valid v23 controls also differ from Gold; nine have same request values; one named-query variant also loses Sushi Dai; one invalid contract repeated. Single selective pairs with schema package difference cannot establish causal Prompt impact."
+  },
+  "credentialStatement": "未独立读取文件; only authorized Node --env-file; no key value available to this independent reviewer",
+  "goldDateIssue": "G030 original October 27:null retained. Date-object fidelity unassessed; its recorded criterion conflict remains independently reviewable."
+}

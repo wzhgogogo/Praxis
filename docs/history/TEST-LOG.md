@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.297
+- Document revision: 4.298
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-25-PHASE3A-BOUNDARY-CONTINUATION-COMPLETE
+
+- 受测提交09bf72149e94bab3c321cf3814a1ca7a2fae1dc6，618冻结项。CET23:35:43–23:37:40：4×15继续控制（正常/非目标/错误目标/无效输出）、网络停批、额度/S0、首轮重放、旧契约隔离及同输入控制通过；typecheck/arch/build、默认1051/1051、本机Chromium154/154全绿，各项后空git status，离线未加载凭据/0真实调用。
+- 真实CET23:38:56.599–23:43:07.827，72主轮＋11单次v23控制完成；旧001复用，累计84次provider成功、0网络失败/不确定、1主Schema重试，余额60/144；独立共享账本记84、3a′400扣0。输入570105/输出31059/总601164 tokens，provider latency合计252003ms（含旧001），不估价。请求模型deepseek-v4-flash，全部响应deepseek-flash，两标识不混淆。
+- 主轮目标/依据69/72（新目标61/63，carry8/9），71合法提议/1最终无效。非目标状态11匹配/51不同/10未评；原严格诊断38FAIL未覆盖或抹去。42灰区额外＋Wednesday3全为推荐，每组3/3，2carry组标注依赖。公开7例措辞对应不足未评，G030日期异常保留，不修Gold。
+- 开发非目标差异11轮各1次旧Prompt控制（原v23+Schema3，完全相同消息/参考时间/时区/pre-turn Draft），10有效均有Gold差异，其中9份请求值与v24同；具名query两者都丢Sushi Dai；1控制集合CONFIRM同样无效，无控制重试。控制不入69/72，单配对/定向选择/Schema差别不作因果定论。
+- 独立Python从原始响应、原Gold和固定类别核对72目标/引用及可评价请求值，11输入配对、请求全局ID1..84无重复，618项运行后不变；所有Draft无goalBasis，编译目标未被后续改写。真实交付、来源声明/外写S0与用户严重程度未评价。所有差异/未评逐条列出，不改Prompt/Gold，停STOP_3不合main。 [报告](../../.eval-artifacts/phase3a-boundary/report.md) · [独立核对](../../.eval-artifacts/phase3a-boundary/batch3/continuation/independent-review.json)。
 
 ## TEST-2026-10-25-PHASE3A-BOUNDARY-STOP3
 

@@ -1,95 +1,100 @@
-# 推荐与查位边界：停止点3
+# 推荐与查位边界：完整主回归与v23对照，停止点3
 
-- Evidence status: draft / not integrated into main；已暴露开发诊断，非Clean Baseline。
-- **按规定提前停批：真实调用1/144，剩余143。SR01-T01的yakiniku强度由旧Gold的UNSPECIFIED变为HARD。没有继续调用后续71轮，没有修Prompt或Gold。**
-- 本次真实运行：2026-10-25 **20:57:51.316–20:57:55.580 CET（UTC+1）**。所有报告/账本新时间使用CET；原输入业务参考时间及原生测试日志时间保留原字节。
+- Evidence status: **frozen regression / exposed development，未合main，非Clean Baseline**。
+- 用户修正规则后，已完成原计划 **72轮主回归＋11个v23单次对照**。累计模型请求 **84/144，余额60**：包含此前1次、剩余71主轮中的1次Schema校验重试；没有额外重跑。
+- 主轮目标/依据口径 **69/72满足**，3项待复核；这不代表其他语义字段或产品任务通过。14个灰区各额外3次及Wednesday3次均RECOMMENDATION，15组均3/3；对照完全排除在新规则通过率外。
 
-## 1. 范围与提交
+## 1. 范围、授权与冻结提交
 
-分支 `codex/adr-0044-recommendation-availability-boundary`，不合main。停止点2复核通过基点c014d481；零调用准备9695a732；本次真实执行冻结提交 **f0cc436a6633909b2fb8444e9f2e142390cef428**。受控Runner、模型配置、授权和602项输入/源码SHA先提交，再运行离线门禁和真实调用。[执行冻结](batch3/execution-freeze.json) SHA-256：b04d93212fe22bf15787221684533b244ba15ab96fed64bd51e870e0853d46ad。
+分支 `codex/adr-0044-recommendation-availability-boundary`；本次执行冻结提交 **09bf72149e94bab3c321cf3814a1ca7a2fae1dc6**。新停止规则、72轮原输入、控制选择规则、同输入/时间/上下文约束、历史v23参考、凭据范围及618项SHA均先提交，之后才执行。[授权原文](batch3/continuation/approval.md) · [配置](batch3/continuation/config.json) · [冻结清单](batch3/continuation/freeze.json)，SHA-256 `b811adfe7a11d2eb74decf1dc9241d841db408f01e1f6f1f3e04ea75a907805a`。
 
-计划72逻辑轮：开发15、额外灰区42、公开已暴露留出集12、新Wednesday开发输入3。后者仍非Gold，私有Holdout未读取。原生产源码、Prompt@24、Proposal@4、scorer/report@4、State@20、TaskDefinition@18和旧Gold保持原样。后续交付提交仅保存结果/文档，与受测源码逐字节一致。
+继续执行于 **2026-10-25 23:38:56.599–23:43:07.827 CET（UTC+1）**。SR01-T01保留20:57的已确认真实输出，离线重放到Compiler/Runtime作为SR01-T02的实际上下文，没有再次调用该轮。原先提前停止的执行和评价不改写；[此前报告原文](batch3/continuation/pre-continuation-report.md)和原始001响应仍保留。
 
-[停止点2原报告](batch2/report.md)、[此前零调用预检原文](batch3/preflight-report.md)与历史manifest/evaluation均保留；本报告不回填旧结果。
+生产Prompt@24、Proposal@4、Scorer@4、State@20、TaskDefinition@18及所有Gold均未改。v23对照使用cca576ec的原Prompt渲染函数及配套Schema3/原验证器，仅在隔离的评测reference目录使用；当前生产契约仍拒绝Schema3，不增加兼容路径。所有源码和618项运行配置在结束后仍匹配。
 
-## 2. 结果、检错证据与未覆盖范围
+## 2. 结果、差异、检错与限制
 
-### 首个真实输出
+### 主轮结果
 
-SR01-T01：`Tomorrow between 19:00 and 19:30 in Shinjuku for two people, yakiniku under 5000 JPY per person.`
+| 队列 | 完成 | 目标/依据满足 | 非目标值匹配 | 非目标差异 | 未评价 |
+| --- | --- | --- | --- | --- | --- |
+| 开发语义回归 | 15 | 12 | 4 | 11 | 0 |
+| 灰区额外重复 | 42 | 42 | 2 | 40 | 0 |
+| 已暴露留出集 | 12 | 12 | 5 | 0 | 7 |
+| Wednesday新开发输入 | 3 | 3 | 无Gold | — | 3 |
+| 合计 | 72 | **69** | 11 | 51 | 10 |
 
-- 类别B；模型提议AVAILABILITY。旧开发Gold此轮未标target，明确记UNANNOTATED，不补造“旧目标”。
-- goalBasis.type=`SPECIFIC_TIME_MEAL`；reason=`Explicit clock range for a sit-down meal with a known party size`；quotes=`between 19:00 and 19:30`、`for two people`。独立核对两条引用均来自当前消息，目标规则在Proposal层满足。
-- 非目标语义差异：`yakiniku`的文字/POSITIVE保持，但强度从**UNSPECIFIED→HARD**。独立读取未变的Gold与实际原始模型输出确认，触发停批。
+主轮71份合法提议、1轮最终输出无效；69/72是冻结目标规则与引用/沿用判定，不是全语义通过率。新目标判断61/63，CONTEXT_CARRY 8/9；旧严格Scorer诊断仍有38项FAIL，保留在每轮记录，未被新指标覆盖。非目标值比较不把raw或未标注诊断当作请求值，但这些差异全部另列。公开留出7例条件措辞/结构未建立完整对应，未自动判语义保真；新Wednesday没有语义Gold。
 
-| 字段 | 原Gold/阶段oracle | 实际提议 | 结论边界 |
-| --- | --- | --- | --- |
-| yakiniku.strength | UNSPECIFIED | HARD | 确认的非目标差异，停批 |
-| DATE | 显式2026-08-06/raw=2026-08-06 | relativeDay=TOMORROW/raw=Tomorrow | 表示不同；最终物化日期未评价 |
-| TIME_WINDOW | 19:00–19:30/raw=19:00-19:30 | 19:00–19:30/raw=between 19:00 and 19:30 | 钟点未变，raw不同 |
-| PARTY_SIZE | 2，无source标注 | 2/source=EXPLICIT | 人数未变，新增诊断 |
-| AREA | Shinjuku | Shinjuku | 未变 |
-| BUDGET_PER_PERSON | JPY5000上限 | JPY5000上限 | 未变 |
-| TARGET.query/scope | 此轮旧Gold未标TARGET | 实际完整提议已保存 | 不冒充有旧Gold可比 |
+三项目标/合同未通过：
 
-首偏离为开发阶段的SEMANTIC_INTERPRETER oracle比对。**Compiler/Reducer及权威Draft未到达**，不能将上述表示差异说成最终日期或时段错误，也不把Proposal的正确目标冒充权威State结果。
+1. **SR02-T01**：没有到访时间，模型仍因“I need a table”给AVAILABILITY；冻结NO_TIME期望RECOMMENDATION。
+2. **SR02-T02**：沿用的目标值是AVAILABILITY，但没有新TARGET/依据；按冻结B类新目标标注未满足。不能误报为模型选了RECOMMENDATION。
+3. **SR08-T02**：两次均输出集合`CRITERION CONFIRM`并带value，现有合同拒绝，保留旧Draft。按修正规则继续后续轮次，没有把无效提议写入State。
 
-原始静态[调用记录](batch3/calls/001.started.json)、[模型响应/用量](batch3/calls/001.response.json)、[会话执行](batch3/sessions/SR01-complete-then-correct.execution.json)先保存；随后写[逐会话评价](batch3/sessions/SR01-complete-then-correct.evaluation.json)及[独立复核](batch3/independent-review.json)。独立复核未调用生产Scorer或模型Judge。全72轮旧/新目标、类别、basis及未到达状态见[对照表](batch3/comparison.md) / [JSON](batch3/comparison.json)。
+开发非目标差异覆盖条件强度/文字、时段和具名目标query，逐字段保留；包括：SR01-T01 yakiniku UNSPECIFIED→HARD、SR03-T02丢失Sushi Dai、SR05 smoking→no smoking及EVENING窗口、SR06下午13:00→12:00、SR08禁止项移除失败/旧上下文保留、SR09窗口19:00–22:00→18:00–23:00、SR10 after-work 18:00–20:00→17:30–22:00。字面差异、时间物化口径与旧Gold不匹配不自动等于同一种语义错误；继承上下文的差异也单列，不全归于当前轮。
 
-| 队列 | 计划轮次 | 实际模型触达 | 上游阻断 | 未到达 |
-| --- | --- | --- | --- | --- |
-| 开发语义回归 | 15 | 1（非目标差异） | 1 | 13 |
-| 14灰区额外各3次 | 42 | 0 | 0 | 42 |
-| 两份公开已暴露留出集 | 12 | 0 | 0 | 12 |
-| Wednesday新开发输入 | 3 | 0 | 0 | 3 |
-| 合计 | 72 | 1 | 1 | 70 |
+[全部72轮对照](batch3/continuation/comparison.md) / [原文、basis、旧新字段JSON](batch3/continuation/comparison.json) · [逐轮原始记录](batch3/continuation/rows/) · [独立复核](batch3/continuation/independent-review.json)。13轮旧开发Gold未标TARGET，实际query/scope等字段保持未标注身份，不补造旧值。G030异常日期键原样保留，日期对象完整性未评价，已观察的条件差异仍记录。
 
-其余71轮均没有模型请求：SR01-T02为上游阻断，其他70轮未到达。所有额外灰区重复未运行，**一致率不可计算**，不将缺测当一致；[分组计数](batch3/gray-consistency.json)保留14组×3与新候选×3的分母及NOT_EVALUATED。
+### 灰区额外三次
 
-| 本批变化/边界 | 检错与正控制 | 实际结果 | 未覆盖 |
-| --- | --- | --- | --- |
-| 按原会话串行，失败后不调用下一会话 | 外层自检：开发fixture15轮正控制；注入party=99或B推荐均只解释1轮即停 | 真实SR01-T01后停，调用文件只有001，无002 | 未运行完整72轮，不能推断泛化 |
-| 灰区目标变化不单独停批 | 同一灰区fixture两种合法目标均继续 | 本次未到灰区 | 三次一致率未评价 |
-| 预算及逐请求落盘 | 143→144允许，144后拒绝；真实请求先记账再派发，原响应另存 | 1 started / 1 response / 1 provider成功 / 0失败 / 0重试 / 0不确定 | 不推断模型长期可靠性或价格 |
-| 公开非目标比较 | 原语义Gold经仅目标叠加的评价投影，沿用hybrid evaluator@34语义字段核对；正常与人数错误对照通过 | 未运行到公开额外输入；原Gold结构原样保留 | G030历史Gold异常不能自动修成通过 |
+14组各3次共42次，加Wednesday3次，共45次均为RECOMMENDATION且目标/引用有效；每组多数计数 **3/3**，无效0、缺测0。只用额外3次，不混入开发回归第一次。G067/G069是上下文沿用，其一致性不能当独立目标决策。[分组结果](batch3/continuation/gray-consistency.md) / [JSON](batch3/continuation/gray-consistency.json)。一致率只报告，未将GRAY改成固定推荐，Wednesday仍非Gold。
 
-四层报告：端到端用户交付NOT_EVALUATED；逐环节为Proposal目标/引用通过、条件强度不同，后续NOT_REACHED；真实S0/来源声明/越界及用户S1–S4未评价；首偏离环节可确认，但仅本次对旧Gold，不足以区分Prompt影响与模型波动等根因。离线检错或零网站调用不替代S0独立现实证据。
+### v23定向单次控制
 
-## 3. 五门禁结果
+72轮完成后按预先提交规则选择11个有非目标值差异的开发轮次，每轮恰好1次。消息、参考时间、时区和该轮pre-turn currentDraft与v24完全相同；不重新跑前缀、不改变上下文。控制使用原v23+Schema3，主轮为v24+Schema4，这个契约包差别及定向采样限制明确保留。
 
-受测提交f0cc436a；2026-10-25 **20:55:30–20:57:27 CET**。离线阶段没有加载凭据文件、没有真实模型调用。
+- 10份控制合同有效，全部仍偏离旧Gold；其中9份非目标请求值与v24相同。
+- SR03-T02的泛化query措辞不同，但两者都丢失具名Sushi Dai。
+- SR08-T02旧Prompt也给集合CONFIRM，单次即合同无效；未追加重试。
+- SR01-T01的yakiniku HARD在旧Prompt控制也出现。没有有效配对呈现“v23完整贴合旧Gold、仅v24出现非目标差异”。
 
-| 命令 | 结果 | 结束后git status |
-| --- | --- | --- |
-| 外层离线自检 | 15轮正控制、2个早停控制、双灰区目标、预算与公开字段控制通过 | 空 |
-| npm run typecheck | PASS | 空 |
-| npm run arch:check | PASS | 空 |
-| npm test | 1051/1051 | 空 |
-| npm run build | PASS | 空 |
-| npm run test:browser:fixture | 154/154，本机Chromium | 空 |
+因此这些观察**不是v24独有**，与既有模型行为、旧Gold/当前时间物化口径等差异相容；一次配对、继承上下文和Schema3/4差别仍不足以严格区分新Prompt影响与模型波动等根因。不能拿定向11例估算v23全量成功率。控制完全不计入69/72。[控制对照表](batch3/continuation/controls-comparison.md) / [逐字段JSON](batch3/continuation/controls-comparison.json)。
 
-每项退出0；[逐项命令/时间/原日志SHA](batch3/offline-verification.json)和[原日志目录](batch3/offline-gates/)保留。未恢复文件掩盖测试写入。真实调用发生于门禁通过之后；账本写入属于预先声明的运行结果，不是修改评测配置。运行后602项冻结仍全部匹配，交付文档不会改变受测代码。
+### 检错与四层边界
 
-## 4. 模型、凭据与来源访问
+外层离线4×15轮控制分别覆盖正常、非目标差异、错误目标和无效输出，均继续全部15轮；网络失败停止，144额度和State/basis边界检查通过；历史Schema3只在控制中接受。实际运行完成72＋11，未触发基础设施/额度/S0停止记录。
 
-- `deepseek-v4-flash`，真实调用**1/144**，余额143；provider成功1，额外尝试/重试0。输入6860、输出458、共7318 tokens；记录latencyMs=4241。未配置价格，不估算费用。
-- 独立[账本](budget.json)累计1；[3a′共享账本](../phase3a-prime/budget.json)记externalActualRealModelCalls=1，chargedToThis400CallBudget=0，不扣其400次。
-- 凭据仅由受控Node Runner通过用户指定绝对路径的--env-file加载；模型名命令行显式指定。[credential-authorization.json](batch3/credential-authorization.json)在调用前已提交，记录路径、窄范围及**“未独立读取文件”**；未cat/grep/打印/复制/暂存文件，未输出或记录密钥值。凭据日志仅“已加载”；加载授权不扩展到其他进程/批次。
-- 模式分开：本机fixture/离线控制0真实调用；本次REAL_MODEL_MOCK_WORLD语义诊断1；本批Replay、来源Live Read-only、Google/餐厅网站、Full Live、Controlled Live-write均0；私有Holdout未读取。
+四层：端到端产品交付NOT_EVALUATED；逐环节为69目标规则满足、全部字段差异与未评项如上，主轮合法提议经原Compiler/Runtime/Reducer继续，1无效提议走原失败事件；独立核对所有实际Draft没有goalBasis，显式编译目标未被后续改写。来源声明/外写与真实用户S0–S4效果仍未评价，未用零网站调用或生产guard标签冒充现实S0证明。归因只到已观察环节和上述配对证据，不宣布唯一根因。
 
-## 5. 偏离与实施说明
+## 3. 离线验证与五门禁
 
-未越出授权范围。72轮未跑满，是首轮即命中用户规定的非目标差异停止条件；余额未继续消耗。没有调Prompt、改Gold或补跑填分母。
+受测提交09bf7214；**2026-10-25 23:35:43–23:37:40 CET**，各项退出0且结束后git status为空，没有恢复文件掩盖测试写入：
 
-标准npm真实回归入口会在一会话失败后继续其他会话，故以已提交薄外层逐原会话调用同一现有函数、保持原时间与阶段oracle，再在会话返回后停批；同一会话失败后的后续轮本来即BLOCKED，不增加请求。额外公开输入的接线与原始Gold/目标叠加说明已在调用前冻结，但本次未到达，不能报告它们真实通过。
+| 检查 | 结果 |
+| --- | --- |
+| 新外层离线自检 | 4×15继续、网络停批、首轮重放、额度/S0、同输入旧Prompt及旧Schema隔离通过 |
+| typecheck / arch:check / build | PASS |
+| npm test | 1051/1051 |
+| test:browser:fixture | 154/154，本机Chromium |
 
-另有预选G030历史Gold日期对象含`October 27: null`异常键，原样保存并在配置中标出；未执行到该例，未修复或算作本批模型失败。
+[逐项命令/时间/原日志SHA](batch3/continuation/offline-verification.json) · [原日志](batch3/continuation/offline-gates/)。离线阶段未加载凭据、无真实模型调用。门禁之后才运行受控Node；运行结果及两账本允许按预先声明写入，输入/配置未改。后续提交仅结果/文档，受测生产源码不变。
 
-## 6. 停止点3待逐条确认
+## 4. 调用、模型标识与凭据
 
-已停在**STOP_3，等待用户/复核者决定**。不合main、不继续调用、不修改Gold。
+- 主轮逻辑72（复用旧1＋新71），控制逻辑11，合计83≤87；主轮Schema校验多1次，所以累计实际请求 **84/144，余60**。其中先前1、本次新83；主轮物理请求73、控制11。84份provider成功响应，0网络失败、0不确定派发；每个控制恰好1次。
+- 请求模型命令行始终`deepseek-v4-flash`；84份响应（含旧001、全部主轮和控制）均报告`deepseek-flash`。两种标识原样记录，不独立推断后台发布版本或别名等价关系。
+初次独立核对将请求名与响应名误当同一字段，断言失败边车保存在independent-review-initial-failure.json；复核已分别记录两种名称并确认84份响应一致，未改原始执行数据或语义评分。
 
-- [Gold待确认清单](batch3/pending-gold-review.md) / [逐条JSON](batch3/pending-gold-review.json)：保留SR03-T02旧RECOMMENDATION→新规则B AVAILABILITY；本次未到该例，不冒充新实测。
-- 14个灰区输入（对应22份历史来源记录）的后继标注规则，以及13轮旧开发Gold未标TARGET的补齐候选，逐条列出。来源文件和旧evaluation保持冻结，批准后的后继数据集另行升版。
-- SR01-T01强度漂移只记录，不提议把旧Gold改为HARD迁就输出。Wednesday仍只是新开发输入，不提议转Gold。灰区无本次额外重复数据，不能据此选择固定目标。
-- 完成结果/文档提交后按授权推本分支，并以ls-remote核对。后续动作等待停止点3复核。
+- 累计inputTokens570105、outputTokens31059、totalTokens601164；provider latency合计252003ms（包含旧001）。没有价格配置，不估价。
+- [本批独立账本](budget.json)累计84；[3a′共享账本](../phase3a-prime/budget.json) externalActual=84，chargeTo400=0，未占其400。
+- 仅受控Node以指定主检出绝对路径`--env-file`加载凭据；[沿用窄授权记录](batch3/continuation/credential-authorization.json)声明**未独立读取文件**。没有cat/grep/打印/复制/暂存凭据文件或输出密钥值；凭据日志只有“已加载”。独立复核进程没有加载该文件。
+- 模式分列：离线fixture/门禁0真实调用；真实模型静态语义主轮＋控制84请求；本批来源Replay、Google、餐厅网站、Full Live、Controlled Live-write均0；私有Holdout未读。
+
+## 5. 修正规则与偏离说明
+
+本次是用户明确修订停止规则后的新冻结，旧提前停批记录完整保留。语义不一致或合同无效不再停整批，仅基础设施、额度或S0停；没有新增重试，继续使用主Interpreter既有最多2次输出尝试，控制只有1次。
+
+原开发Harness把Gold比较作为Compiler之前的门，故仅取消外层停批仍会阻断后续上下文。新外层将比较保留为观测，合法提议仍经未变的Compiler（使用可信冻结参考时间）与Runtime/Reducer形成后续真实上下文；无效提议按原失败事件保留旧Draft，后续照常解释。这是外层接线/评价配置变化，不是修改生产Prompt、Gold或Scorer，也没有用预期Gold给模型补上下文。
+
+非目标请求值与raw/provenance/未标字段分开记录，原严格评分保留。控制选择按冻结的请求值差异，包含SR08-T02因无效输出保留旧状态的差异；所有控制均使用主轮实际pre-turn上下文，因此继承问题不能全归当前Prompt。历史v23仅是当前批准控制的隔离参考，不是产品兼容层。
+
+## 6. 停止点3逐条确认
+
+已完成并停 **STOP_3**，等复核，不再调用，不改Prompt/Gold，不合main。
+
+[全部差异及未评项逐条清单](batch3/continuation/pending-confirmations.md) / [详细JSON](batch3/continuation/pending-confirmations.json)含72行观察；其中未标字段/诊断/未知不等于72个语义错误。SR01-T01强度、三项目标/合同未通过、11个开发非目标差异、42灰区复测中的字段差异、公开7例未评及G030日期异常均保留。
+
+SR03-T02旧Gold目标RECOMMENDATION→新规则B AVAILABILITY继续单独待确认；具名Sushi Dai丢失是另一个问题，不能通过把Gold改成泛化query消除。原14灰区/22份来源及13未标TARGET的后继标注候选仍保留原指针，确认后另行升版，历史输入/evaluation不覆盖。Wednesday不转Gold，灰区不因3次推荐擅自固定目标。所有差异只记录，下一步由用户逐条决定。
+
+完成结果提交后按授权推送本分支，并以ls-remote核对完整SHA。主线未合并。

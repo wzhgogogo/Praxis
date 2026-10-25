@@ -1,7 +1,7 @@
 {
   "schema": "phase3a-boundary-budget@1",
-  "status": "CONTINUATION_AUTHORIZED_MAIN72_CONTROLS15",
-  "asOf": "2026-10-25T23:35:27+01:00",
+  "status": "STOP_3_COMPLETE_REVIEW_REQUIRED",
+  "asOf": "2026-10-25T23:59:41+01:00",
   "timezone": "CET UTC+01:00",
   "limits": {
     "realModelCalls": 144,
@@ -76,10 +76,26 @@
       "fullLive": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0
+    },
+    {
+      "slice": "batch3 revised-stop continuation and v23 controls",
+      "sourceCommit": "09bf72149e94bab3c321cf3814a1ca7a2fae1dc6",
+      "realModelCalls": 83,
+      "primaryNewCalls": 72,
+      "controlCalls": 11,
+      "reusedPriorRealOutputs": 1,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "status": "STOP_3_COMPLETE_REVIEW_REQUIRED",
+      "completedPrimaryLogicalTurns": 72,
+      "completedControlLogicalTurns": 11,
+      "primarySchemaRetryRequests": 1,
+      "remainingCumulativeAllowance": 60
     }
   ],
   "cumulative": {
-    "realModelCalls": 1,
+    "realModelCalls": 84,
     "fullLive": 0,
     "googleRequests": 0,
     "restaurantWebsiteRequests": 0

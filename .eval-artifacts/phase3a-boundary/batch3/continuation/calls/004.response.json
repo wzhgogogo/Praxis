@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "9ec83ec3-178a-40ca-a280-86c9df21cb72",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:30\", \"raw\": \"between 19:00 and 19:30\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1793,
+    "providerRequestId": "423c65c4-b826-4ca7-8528-6d59b182429f",
+    "usage": {
+      "inputTokens": 6891,
+      "outputTokens": 153,
+      "totalTokens": 7044
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "9ec83ec3-178a-40ca-a280-86c9df21cb72",
+      "taskId": "boundary-continuation:SR02-incremental-completion",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1793,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6891,
+        "outputTokens": 153,
+        "totalTokens": 7044
+      },
+      "providerRequestId": "423c65c4-b826-4ca7-8528-6d59b182429f"
+    }
+  ],
+  "atCET": "2026-10-25T23:39:03.672+01:00"
+}

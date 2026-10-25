@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.290
+- Document revision: 4.291
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-25-PHASE3A-BOUNDARY-CONTINUATION-COMPLETE
+
+- 用户将非目标差异改为只记录，基础设施/额度/S0才停；允许72主轮后最多15个开发差异v23单次控制，累计144不变、已用001复用。09bf7214先冻结新外层、输入/控制选择、原v23+Schema3参考和618项SHA；原提前停批结果未改。
+- 外层将Gold比较与执行分开，合法当前提议经原Compiler可信冻结时间与Runtime/Reducer推进实际上下文；无效输出走原失败事件保留Draft，不用Gold代填上下文。主Prompt@24/Schema4、Scorer4、State20/TaskDefinition18、Gold均未改。v23旧契约仅隔离评测参考，不是生产兼容路径。
+- CET23:38:56.599–23:43:07.827完成72＋11，累计84/144（旧1＋新83，含1Schema重试），余60、不占3a′400。目标/依据69/72，灰区额外45样本全推荐、每组3/3，2个carry组不作独立判定。全部值/raw/诊断/未标字段及未评问题逐行保留，Gold不自动修改。
+- 10有效控制都仍偏离旧Gold，9份非目标值与v24相同；SR03泛化query不同但共同丢具名目标；SR08旧控制同样集合CONFIRM无效。定向单配对/继承上下文/Schema包差别不足因果识别，不将控制计入新规则。请求名deepseek-v4-flash，84响应均deepseek-flash，原样双列。
+- 凭据仅受控Node按沿用窄授权加载，未独立读取文件，不输出密钥。来源/Google/Live0、私有Holdout未读。差异逐条确认清单含SR01及SR03-T02，停STOP_3，按授权推本分支，不合main。 [报告](../../.eval-artifacts/phase3a-boundary/report.md)。
 
 ## DEV-2026-10-25-PHASE3A-BOUNDARY-STOP3
 

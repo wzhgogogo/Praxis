@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "9ab37314-74ad-46ae-9d82-fae6d3ba3d6c",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Restaurants near our office for Friday evening with four colleagues\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"weekday\": \"FRIDAY\", \"raw\": \"This Friday\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"EVENING\", \"raw\": \"evening\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 4, \"source\": \"INFERRED_CLOSED_PARTY\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near our office\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"no smoking\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"quiet room\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2790,
+    "providerRequestId": "9f472d1f-d27d-4d89-bd88-cfe5ef270e18",
+    "usage": {
+      "inputTokens": 6222,
+      "outputTokens": 380,
+      "totalTokens": 6602
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "9ab37314-74ad-46ae-9d82-fae6d3ba3d6c",
+      "taskId": "boundary-continuation:SR05-relative-time-hard-soft-and-party-inference",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2790,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6222,
+        "outputTokens": 380,
+        "totalTokens": 6602
+      },
+      "providerRequestId": "9f472d1f-d27d-4d89-bd88-cfe5ef270e18"
+    }
+  ],
+  "atCET": "2026-10-25T23:42:50.790+01:00"
+}

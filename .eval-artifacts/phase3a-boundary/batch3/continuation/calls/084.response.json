@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "6ba2fc0b-1aaf-4a42-a988-4383901d9fb8",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Restaurants in Shinjuku for tomorrow after work for two, up to 5,000 yen per person\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"AFTER_WORK\", \"raw\": \"after work\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shinjuku\"}}, {\"field\": \"BUDGET_PER_PERSON\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"BUDGET_PER_PERSON\", \"max\": 5000, \"currency\": \"JPY\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2980,
+    "providerRequestId": "69932568-c532-4856-9e4a-29804248ca72",
+    "usage": {
+      "inputTokens": 6217,
+      "outputTokens": 330,
+      "totalTokens": 6547
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "6ba2fc0b-1aaf-4a42-a988-4383901d9fb8",
+      "taskId": "boundary-continuation:SR10-hard-budget",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2980,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6217,
+        "outputTokens": 330,
+        "totalTokens": 6547
+      },
+      "providerRequestId": "69932568-c532-4856-9e4a-29804248ca72"
+    }
+  ],
+  "atCET": "2026-10-25T23:43:07.826+01:00"
+}

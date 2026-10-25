@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "ad190150-c488-4e02-9911-a92d1881384a",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Restaurants near our office for a Friday evening meal with colleagues\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"Exploratory request for places near the office with no booking wording or explicit clock time\", \"quotes\": [\"This Friday evening near our office\", \"for three colleagues and me\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"weekday\": \"FRIDAY\", \"raw\": \"This Friday\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"EVENING\", \"raw\": \"This Friday evening\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 4, \"source\": \"INFERRED_CLOSED_PARTY\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near our office\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"no smoking\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"quiet room\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3344,
+    "providerRequestId": "03537177-bd48-4a7a-b21b-71488c96cd71",
+    "usage": {
+      "inputTokens": 6855,
+      "outputTokens": 438,
+      "totalTokens": 7293
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "ad190150-c488-4e02-9911-a92d1881384a",
+      "taskId": "boundary-continuation:SR05-relative-time-hard-soft-and-party-inference",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3344,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6855,
+        "outputTokens": 438,
+        "totalTokens": 7293
+      },
+      "providerRequestId": "03537177-bd48-4a7a-b21b-71488c96cd71"
+    }
+  ],
+  "atCET": "2026-10-25T23:39:14.768+01:00"
+}

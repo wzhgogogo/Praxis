@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "5cfc816b-ed63-42c8-a11c-92f412b4698e",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"French restaurant near Ebisu\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Sit-down dinner at an explicit clock time with a stated party of 2\", \"quotes\": [\"French restaurant near Ebisu\", \"for 2\", \"at 7:30 PM\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-31\", \"raw\": \"Saturday, October 31\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:30\", \"latest\": \"19:30\", \"raw\": \"7:30 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Ebisu\"}}, {\"field\": \"BUDGET_PER_PERSON\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"BUDGET_PER_PERSON\", \"max\": 15000, \"currency\": \"JPY\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"French cuisine\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3412,
+    "providerRequestId": "0d756ce3-6da8-4b12-ac38-e119d36dfa6b",
+    "usage": {
+      "inputTokens": 6869,
+      "outputTokens": 440,
+      "totalTokens": 7309
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "5cfc816b-ed63-42c8-a11c-92f412b4698e",
+      "taskId": "boundary-continuation:p2b-holdout-03",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3412,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6869,
+        "outputTokens": 440,
+        "totalTokens": 7309
+      },
+      "providerRequestId": "0d756ce3-6da8-4b12-ac38-e119d36dfa6b"
+    }
+  ],
+  "atCET": "2026-10-25T23:42:20.598+01:00"
+}

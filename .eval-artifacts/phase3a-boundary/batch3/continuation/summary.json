@@ -1,0 +1,168 @@
+{
+  "schema": "phase3a-boundary-continuation-summary@1",
+  "status": "COMPLETED / STOP_3_REVIEW_REQUIRED",
+  "evidenceStatus": "frozen regression / exposed development / not Clean Baseline",
+  "sourceCommit": "09bf72149e94bab3c321cf3814a1ca7a2fae1dc6",
+  "startedAtCET": "2026-10-25T23:38:56.599+01:00",
+  "finishedAtCET": "2026-10-25T23:43:07.827+01:00",
+  "requestedModel": "deepseek-v4-flash",
+  "reportedModels": [
+    "deepseek-flash"
+  ],
+  "primary": {
+    "logicalTurns": 72,
+    "reusedEarlierRealOutputs": 1,
+    "freshLogicalTurns": 71,
+    "validProposals": 71,
+    "invalidFinalOutputs": 1,
+    "goalSatisfied": 69,
+    "goalNotSatisfied": 3,
+    "goalRate": "69/72",
+    "newTargetDecisions": {
+      "satisfied": 61,
+      "total": 63
+    },
+    "contextCarry": {
+      "satisfied": 8,
+      "total": 9
+    },
+    "nonTargetValueStatus": {
+      "NOT_SATISFIED": 51,
+      "SATISFIED": 11,
+      "NOT_EVALUATED": 10
+    },
+    "strictLegacyDiagnostic": {
+      "FAIL": 38
+    },
+    "cohorts": [
+      {
+        "cohort": "DEVELOPMENT",
+        "turns": 15,
+        "goalSatisfied": 12,
+        "valueStatus": {
+          "NOT_SATISFIED": 11,
+          "SATISFIED": 4
+        },
+        "contractStatus": {
+          "PROPOSED": 14,
+          "INVALID_MODEL_OUTPUT": 1
+        }
+      },
+      {
+        "cohort": "GRAY_EXTRA",
+        "turns": 42,
+        "goalSatisfied": 42,
+        "valueStatus": {
+          "NOT_SATISFIED": 40,
+          "SATISFIED": 2
+        },
+        "contractStatus": {
+          "PROPOSED": 42
+        }
+      },
+      {
+        "cohort": "EXPOSED_HOLDOUT",
+        "turns": 12,
+        "goalSatisfied": 12,
+        "valueStatus": {
+          "SATISFIED": 5,
+          "NOT_EVALUATED": 7
+        },
+        "contractStatus": {
+          "PROPOSED": 12
+        }
+      },
+      {
+        "cohort": "NEW_DEVELOPMENT",
+        "turns": 3,
+        "goalSatisfied": 3,
+        "valueStatus": {
+          "NOT_EVALUATED": 3
+        },
+        "contractStatus": {
+          "PROPOSED": 3
+        }
+      }
+    ]
+  },
+  "grayExtra": {
+    "existingGroups": 14,
+    "existingRepeatedTurns": 42,
+    "newDevelopmentGroups": 1,
+    "newRepeatedTurns": 3,
+    "actualTurns": 45,
+    "allGoalSatisfied": true,
+    "allRecommendation": true,
+    "allGroupsConsistency": "3/3",
+    "independentDecisionWarning": "G067/G069 are context carry, not fresh independent goal decisions"
+  },
+  "controls": {
+    "selectedAndAttempted": 11,
+    "contractValid": 10,
+    "contractInvalid": 1,
+    "identicalNonTargetValuesToPrimary": 9,
+    "differentWordedQueryButBothLoseNamedTarget": 1,
+    "invalidSameCollectionConfirm": 1,
+    "excludedFromPrimaryRate": true,
+    "singlePairOnly": true,
+    "schemaPackageDifference": "v23+Schema3 versus v24+Schema4"
+  },
+  "modelRequests": {
+    "prior": 1,
+    "new": 83,
+    "cumulative": 84,
+    "primaryRequestsIncludingRetry": 73,
+    "controls": 11,
+    "primarySchemaRetryRequests": 1,
+    "transportFailures": 0,
+    "unresolvedAttempts": 0,
+    "ceiling": 144,
+    "remaining": 60,
+    "logicalPlanUsed": 83,
+    "logicalPlanMaximum": 87
+  },
+  "usage": {
+    "inputTokens": 570105,
+    "outputTokens": 31059,
+    "totalTokens": 601164
+  },
+  "totalProviderLatencyMs": 252003,
+  "cost": "NOT_CONFIGURED / not estimated",
+  "chargedToPrime400": 0,
+  "goalIssues": [
+    {
+      "logicalIndex": 3,
+      "turnId": "SR02-T01",
+      "category": "NO_TIME",
+      "actual": "AVAILABILITY",
+      "errors": [
+        "target.goal violates frozen NO_TIME annotation"
+      ],
+      "interpretStatus": "PROPOSED"
+    },
+    {
+      "logicalIndex": 4,
+      "turnId": "SR02-T02",
+      "category": "B",
+      "actual": "AVAILABILITY",
+      "errors": [
+        "target.goal must match every new TARGET"
+      ],
+      "interpretStatus": "PROPOSED"
+    },
+    {
+      "logicalIndex": 12,
+      "turnId": "SR08-T02",
+      "category": "CONTEXT_CARRY",
+      "actual": "RECOMMENDATION",
+      "errors": [
+        "goal evaluation requires semantic proposal schema 4"
+      ],
+      "interpretStatus": "INVALID_MODEL_OUTPUT"
+    }
+  ],
+  "privateHoldout": "NOT_READ",
+  "sourceRequests": 0,
+  "promptFilesChanged": [],
+  "goldFilesChanged": []
+}

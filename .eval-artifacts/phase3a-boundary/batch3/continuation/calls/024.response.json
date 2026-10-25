@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "c73df74a-1d1a-4656-8324-7c7fcff10893",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Nearby restaurant for tomorrow afternoon with parents\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"Broad daypart with a party but no booking wording or explicit clock time; user wants options\", \"quotes\": [\"Tomorrow afternoon nearby for my parents and me\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"AFTERNOON\", \"raw\": \"Tomorrow afternoon\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 3, \"source\": \"INFERRED_CLOSED_PARTY\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"nearby\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"around 3,000 yen per person\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3295,
+    "providerRequestId": "26c3aed6-3601-4e4b-8a81-f455dce447a0",
+    "usage": {
+      "inputTokens": 6851,
+      "outputTokens": 383,
+      "totalTokens": 7234
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "c73df74a-1d1a-4656-8324-7c7fcff10893",
+      "taskId": "boundary-continuation:G064-repeat-1",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3295,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6851,
+        "outputTokens": 383,
+        "totalTokens": 7234
+      },
+      "providerRequestId": "26c3aed6-3601-4e4b-8a81-f455dce447a0"
+    }
+  ],
+  "atCET": "2026-10-25T23:40:03.883+01:00"
+}
