@@ -18,10 +18,8 @@ export class GooglePlacesHarCapture {
   private readonly credentials = new Set<string>();
   private ownedCredentialLeak = false;
   private open = true;
-  private attempted = false;
   constructor(private readonly reject: (reason: Rejection) => void) {}
   get entries(): readonly unknown[] { return this.captured; }
-  get hasAttempts(): boolean { return this.attempted; }
   get rejectsRecording(): boolean { return this.ownedCredentialLeak; }
   registerCredentials(values: readonly string[]): void { for (const value of values) if (value) this.credentials.add(value); }
   close(): void { this.open = false; }
@@ -65,7 +63,6 @@ export class GooglePlacesHarCapture {
       const started = Date.now();
       const response = await transport(input, init);
       if (!this.open) return response;
-      this.attempted = true;
       let url: URL;
       try { url = new URL(typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url); }
       catch { this.reject({ reason: "INVALID_REQUEST_URL", stage: "RESPONSE" });return response; }

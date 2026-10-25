@@ -5,7 +5,7 @@ import { relative, resolve } from "node:path";
 import type { BrowserActionWireRecord } from "../../../../infrastructure/browser/browser-action-decision.js";
 import type { BrowserReadNetworkObservation, BrowserReadNetworkRequestRule, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
 import type { BrowserTraceRecordingSink } from "./browser-case-slice-evidence.js";
-import { safeRecord, safeString } from "./browser-case-slice-evidence.js";
+import { safeRecord } from "./browser-case-slice-evidence.js";
 import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-search/source-packs.js";
 import { GooglePlacesHarCapture } from "./google-places-recording.js";
 

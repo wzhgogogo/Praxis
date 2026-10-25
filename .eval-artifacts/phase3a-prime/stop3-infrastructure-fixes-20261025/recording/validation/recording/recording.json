@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "browser-read-recording@4",
+  "stylesheets": [],
+  "status": "RECORDED",
+  "entries": [
+    {
+      "sequence": 1,
+      "kind": "NETWORK",
+      "detail": [
+        {
+          "outcome": "ADMITTED",
+          "origin": "http://127.0.0.1:50933/",
+          "pathname": "/map",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": []
+        }
+      ]
+    },
+    {
+      "sequence": 2,
+      "kind": "NETWORK",
+      "detail": [
+        {
+          "outcome": "ADMITTED",
+          "origin": "http://127.0.0.1:50933/",
+          "pathname": "/map",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "http://127.0.0.1:50933/",
+          "pathname": "/next",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": []
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "http://127.0.0.1:50933/",
+          "pathname": "/uncaptured.js",
+          "method": "GET",
+          "resourceType": "script",
+          "queryKeys": []
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "snapshot": 1,
+      "url": "http://127.0.0.1:50933/map",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0001.html"
+      }
+    },
+    {
+      "snapshot": 2,
+      "url": "http://127.0.0.1:50933/next",
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0002.html"
+      }
+    }
+  ],
+  "documents": [
+    {
+      "snapshot": 1,
+      "url": "http://127.0.0.1:50933/map",
+      "file": "snapshot-0001.html"
+    }
+  ],
+  "screenshot": "NOT_CAPTURED_NO_SANITIZER",
+  "screenshots": [],
+  "replay": {
+    "status": "PARTIALLY_REPLAYABLE",
+    "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+    "harPath": "replay.har"
+  },
+  "contentSha256": "93324e139793a03b4589397c1a784d357cfc261618da9147336b5a9997addbda"
+}

@@ -1,0 +1,52 @@
+{
+  "status": "REPLAY_INCOMPLETE",
+  "executionSource": "REPLAY",
+  "liveCapabilityDenominator": "EXCLUDED",
+  "pages": [
+    {
+      "snapshot": 1,
+      "url": "http://127.0.0.1:50933/map",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0001.html"
+      }
+    },
+    {
+      "snapshot": 2,
+      "url": "http://127.0.0.1:50933/next",
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0002.html"
+      }
+    }
+  ],
+  "consumedPages": 1,
+  "stop": {
+    "snapshot": 2,
+    "origin": "http://127.0.0.1:50933",
+    "pathname": "/next",
+    "reason": "UNCAPTURED_STATIC_DEPENDENCY"
+  },
+  "originalLocalRequests": 3,
+  "replaySourceRequests": 0,
+  "fixtureGoogleTransports": 1,
+  "realCalls": {
+    "model": 0,
+    "google": 0,
+    "website": 0,
+    "live": 0,
+    "environmentRerun": 0
+  },
+  "recordingFiles": [
+    "diagnostic/snapshot-0001.html",
+    "diagnostic/snapshot-0002.html",
+    "recording.json",
+    "replay.har",
+    "snapshot-0001.html"
+  ],
+  "unreplayedQuality": "NOT_EVALUATED"
+}
