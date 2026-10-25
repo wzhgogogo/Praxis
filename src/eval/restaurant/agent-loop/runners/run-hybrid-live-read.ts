@@ -384,6 +384,12 @@ const journal = await startDiagnosticRun(input.directory ?? resolve(".eval-artif
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
   requestedRunCeilings: liveReadLimits,
 });
+// Announce the immutable result location before model execution, including runs
+// that will later be interrupted. IPC carries no source content or credentials.
+if(process.send&&process.connected){
+  try{process.send({type:"PRAXIS_EVAL_ARTIFACT_STARTED",artifactPath:journal.resultPath},error=>{if(error)console.error(JSON.stringify({artifactNotification:"IPC_SEND_FAILED"}));});}
+  catch{console.error(JSON.stringify({artifactNotification:"IPC_SEND_FAILED"}));}
+}
 const decisionCapture = input.recordDecisions
   ? createHybridDecisionCapture(journal.resultPath, browserRecording) : undefined;
 // This is real elapsed time, deliberately independent of the Runtime clock

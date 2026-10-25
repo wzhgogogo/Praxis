@@ -1,4 +1,4 @@
-import { fork } from "node:child_process";
+import { fork, type ChildProcess, type ForkOptions } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -6,10 +6,10 @@ import { createEvalPacingCoordinator } from "./eval-pacing.js";
 
 export interface PacedEvalBatch { minimumIntervalMs?: number; originIntervalsMs?: Record<string, number>; runs: Array<{ id: string; args: string[] }> }
 /** Frozen manifest + unchanged per-run CLI gates; this function never grants Live authorization. */
-export async function runPacedHybridBatch(manifest: PacedEvalBatch, output: string) {
+export async function runPacedHybridBatch(manifest: PacedEvalBatch, output: string, dependencies: {forkChild?:(path:string,args:string[],options:ForkOptions)=>ChildProcess} = {}) {
   if (!manifest.runs.length || manifest.runs.some(r => !/^[\w.-]{1,120}$/.test(r.id) || r.args.some(a => typeof a !== "string")) || new Set(manifest.runs.map(r => r.id)).size !== manifest.runs.length) throw new Error("Invalid paced eval manifest");
   await mkdir(output, { recursive: true });const coordinator = await createEvalPacingCoordinator(manifest);
-  const children = manifest.runs.map(run => ({ run, child: fork(fileURLToPath(new URL("./run-paced-hybrid-read-child.ts", import.meta.url)), run.args, {
+  const children = manifest.runs.map(run => ({ run, child: (dependencies.forkChild??fork)(fileURLToPath(new URL("./run-paced-hybrid-read-child.ts", import.meta.url)), run.args, {
     execArgv: ["--import", "tsx"], env: { ...process.env, PRAXIS_EVAL_PACING_ENDPOINT: JSON.stringify(coordinator.endpoint), PRAXIS_EVAL_PACING_RUN_ID: run.id, PRAXIS_EVAL_PACING_STATS_PATH: resolve(output, `${run.id}.pacing.json`) },
   }) }));
   let grace: ReturnType<typeof setTimeout> | undefined;
