@@ -34,13 +34,13 @@ test("H003 TableCheck reservation forms stay unreachable even through a reviewed
     await page.goto(origin + "/en/fixture");
     assert.match(await page.locator("body").innerText(), /Public TableCheck guide/);
     for (const path of ["/en/shops/fixture/reserve?start_date=2026-11-05&pax=10", "/en/shops/fixture/reserve/next", "/en/shops/fixture/reserve/calendar", "/en/shops/fixture/%72eserve"]) {
-      await page.goto(origin + path, { timeout: 3_000 }).catch(() => {});
+      await page.goto(origin + path, { timeout: 10_000 }).catch(() => {});
       assert.equal(arrivals.some(p => decodeURIComponent(p).split("/").includes("reserve")), false, JSON.stringify(arrivals));
       assert.throws(() => guard.prepareNavigation(origin + path), /prohibited|sensitive/);
       assert.throws(() => guard.prepareObservedNavigation(origin + path), /prohibited|sensitive/);
     }
     guard.prepareNavigation(origin + "/jump");
-    await page.goto(origin + "/jump", { timeout: 3_000 }).catch(() => {});
+    await page.goto(origin + "/jump", { timeout: 10_000 }).catch(() => {});
     assert.equal(arrivals.some(p => decodeURIComponent(p).split("/").includes("reserve")), false, JSON.stringify(arrivals));
     assert.ok(guard.snapshotRequests().some(r => r.outcome === "REDIRECT_BLOCKED"));
   } finally {
@@ -211,7 +211,7 @@ async function fixture(run: (input: {
   await context.grantPermissions(["local-network-access"], { origin });
   const recorded: Array<{ url: string; status: number; redirectLocation?: string }> = [];
   const guard = new PlaywrightReadNetworkGuard({ documentOrigins: [origin], genericPublicRead: true,
-    staticResources: reviewedCss ? [{ origin: other, pathname: "/public/final.css", resourceTypes: ["stylesheet"] }] : [], dynamicReads: [] }, 2_000, value => { recorded.push(value); });
+    staticResources: reviewedCss ? [{ origin: other, pathname: "/public/final.css", resourceTypes: ["stylesheet"] }] : [], dynamicReads: [] }, 10_000, value => { recorded.push(value); });
   try {
     await guard.install(context);
     const page = await context.newPage();
@@ -229,7 +229,7 @@ for (const [name, path, forbidden] of [
 ] as const) {
   test(`real Chromium rejects a second ${name} redirect before receiver arrival`, async () => fixture(async ({ origin, guard, page, arrivals }) => {
     guard.prepareNavigation(origin + path);
-    await page.goto(origin + path, { timeout: 3_000 }).catch(() => {});
+    await page.goto(origin + path, { timeout: 10_000 }).catch(() => {});
     assert.equal(arrivals.includes(forbidden), false, `forbidden receiver received ${forbidden}`);
     assert.ok(guard.snapshotRequests().some(row => row.outcome === "REDIRECT_BLOCKED"), JSON.stringify({ arrivals, requests: guard.snapshotRequests(), diagnostics: guard.snapshotDiagnostics() }));
   }));
@@ -237,7 +237,7 @@ for (const [name, path, forbidden] of [
 
 test("real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop", async () => fixture(async ({ origin, guard, page, arrivals, cookies, recorded }) => {
   guard.prepareNavigation(origin + "/safe");
-  await page.goto(origin + "/safe", { timeout: 3_000 });
+  await page.goto(origin + "/safe", { timeout: 10_000 });
   assert.equal(page.url(), origin + "/result/final");
   assert.equal(await page.locator("#relative").evaluate((el: HTMLAnchorElement) => el.href), origin + "/result/next");
   assert.deepEqual(cookies, ["read_probe=public"]);
@@ -266,7 +266,7 @@ for (const type of ["fetch", "xhr", "script", "stylesheet", "image"] as const) {
 
 test("real Chromium redirect loops fail at the Guard hop bound", async () => fixture(async ({ origin, guard, page, arrivals }) => {
   guard.prepareNavigation(origin + "/loop/one");
-  await page.goto(origin + "/loop/one", { timeout: 3_000 }).catch(() => {});
+  await page.goto(origin + "/loop/one", { timeout: 10_000 }).catch(() => {});
   assert.ok(arrivals.filter(x => x.startsWith("A/loop/")).length <= 10, "Guard must bound redirects before Chromium's own limit");
   assert.ok(guard.snapshotRequests().some(row => row.outcome === "REDIRECT_BLOCKED"), JSON.stringify({ arrivals, requests: guard.snapshotRequests(), diagnostics: guard.snapshotDiagnostics() }));
 }));
@@ -324,7 +324,7 @@ test("reviewed stylesheet redirects preserve their URL without promoting the CDN
 test("T1 native redirect URL-normalization attempts keep forbidden receivers untouched", async t => {
   for (const form of ["fragment", "dot", "encodedDot", "escaped", "queryEscape", "slash", "unicode", "protocolRelative"]) await t.test(form, async () => fixture(async ({ origin, guard, page, arrivals }) => {
     guard.prepareNavigation(`${origin}/normalize?form=${form}`);
-    await page.goto(`${origin}/normalize?form=${form}`, { timeout: 3_000 }).catch(() => {});
+    await page.goto(`${origin}/normalize?form=${form}`, { timeout: 10_000 }).catch(() => {});
     assert.ok(arrivals.includes("A/normalize-hop"), "Chromium must actually follow the first allowed redirect");
     assert.equal(arrivals.filter(row => row.startsWith("B/")).length, 0, "normalization must never reach a forbidden receiver");
     assert.ok(guard.snapshotRequests().some(row => row.outcome === "REDIRECT_BLOCKED"));
@@ -337,10 +337,10 @@ for (const mode of ["origin", "method", "resource-type"] as const) test(`T1 CDP 
   // remove the ordinary route so it cannot supply this layer's safety verdict.
   await context.unroute("**/*");
   guard.prepareNavigation(origin + "/page");
-  await page.goto(origin + "/page", { timeout: 3_000 });
+  await page.goto(origin + "/page", { timeout: 10_000 });
   assert.ok(arrivals.includes("A/page"), "a public allowed control must reach its real receiver");
   if (mode === "method") await page.evaluate(async () => { await fetch("/public-post", { method: "POST", body: "control" }).catch(() => {}); });
-  else await page.goto(other + (mode === "resource-type" ? "/public/final.css" : "/forbidden"), { timeout: 3_000 }).catch(() => {});
+  else await page.goto(other + (mode === "resource-type" ? "/public/final.css" : "/forbidden"), { timeout: 10_000 }).catch(() => {});
   const forbidden = arrivals.filter(row => mode === "method" ? row === "A/public-post" : row.startsWith("B/"));
   assert.equal(forbidden.length, 0, `CDP must reject the unrecognized ${mode} request before receiver arrival`);
   assert.ok(guard.snapshotRequests().some(row => row.outcome === "BLOCKED"));

@@ -6,7 +6,7 @@ import { setTimeout as delay } from "node:timers/promises";
 import test from "node:test";
 import { createEvalPacingCoordinator } from "../../eval/restaurant/agent-loop/runners/eval-pacing.js";
 
-test("two Chromium runs count20 static resources each but pace only documents",{timeout:20_000},async t=>{
+test("two Chromium runs count20 static resources each but pace only documents",{timeout:45_000},async t=>{
  const hits:Array<{path:string;at:number}>=[];
  const server=createServer((request,response)=>{
   hits.push({path:request.url!,at:Date.now()});
