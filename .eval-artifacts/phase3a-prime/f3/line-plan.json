@@ -1,0 +1,134 @@
+{
+  "baselineSiteProductionLines": 3864,
+  "packLinesSeparate": 473,
+  "target": 3591,
+  "estimatedNetRemoval": 306,
+  "estimatedRemaining": 3558,
+  "marginLines": 33,
+  "actualChangeThisBatch": 0,
+  "noRelocationCredit": true,
+  "items": [
+    {
+      "id": "L1",
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "start": 32,
+      "end": 83,
+      "removeEstimate": 52,
+      "addEstimate": 14,
+      "netEstimate": 38,
+      "proposal": "替代class日期状态扫描，沿当前可见日期/状态引用核对；无法保留语义则延期",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    },
+    {
+      "id": "L2",
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "start": 85,
+      "end": 154,
+      "removeEstimate": 70,
+      "addEstimate": 18,
+      "netEstimate": 52,
+      "proposal": "删除第二套HTML queryElements/people-group遍历，复用当前控件归属和选中观察；仍核对日期人数",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    },
+    {
+      "id": "L3",
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "start": 5,
+      "end": 20,
+      "removeEstimate": 16,
+      "addEstimate": 8,
+      "netEstimate": 8,
+      "proposal": "收敛私有class控件提示与专属受限文案，保留UNKNOWN",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    },
+    {
+      "id": "L4",
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "start": 196,
+      "end": 230,
+      "removeEstimate": 35,
+      "addEstimate": 12,
+      "netEstimate": 23,
+      "proposal": "删除class驱动slot/不可用推断，保留已捕获公开响应及同请求链接依据",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    },
+    {
+      "id": "L5",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "start": 487,
+      "end": 559,
+      "removeEstimate": 73,
+      "addEstimate": 18,
+      "netEstimate": 55,
+      "proposal": "删除私有widget/testid扫描，复用已有结果区域观察而非迁移代码",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    },
+    {
+      "id": "L6",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "start": 635,
+      "end": 658,
+      "removeEstimate": 24,
+      "addEstimate": 0,
+      "netEstimate": 24,
+      "proposal": "退役第二套隐藏DOM重建，消费已存在的可见结果观察；不新建拷贝助手",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    },
+    {
+      "id": "L7",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "start": 568,
+      "end": 586,
+      "removeEstimate": 19,
+      "addEstimate": 6,
+      "netEstimate": 13,
+      "proposal": "收敛表单选中字段重复解析，精确日期人数检查保持",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    },
+    {
+      "id": "L8",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "start": 737,
+      "end": 757,
+      "removeEstimate": 21,
+      "addEstimate": 6,
+      "netEstimate": 15,
+      "proposal": "去掉宽class slot正则兜底，保留明确同query库存证据",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    },
+    {
+      "id": "L9a",
+      "file": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "start": 126,
+      "end": 139,
+      "removeEstimate": 14,
+      "addEstimate": 0,
+      "netEstimate": 14,
+      "proposal": "删除重复selectedDate/Party HTML字段函数，复用同一观察，不删除请求核对",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    },
+    {
+      "id": "L9b",
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "start": 216,
+      "end": 225,
+      "removeEstimate": 10,
+      "addEstimate": 0,
+      "netEstimate": 10,
+      "proposal": "同上；两实际使用者，无新通用框架",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    },
+    {
+      "id": "L10",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "start": 112,
+      "end": 242,
+      "removeEstimate": 131,
+      "addEstimate": 77,
+      "netEstimate": 54,
+      "proposal": "精简重复菜单容器HTML扫描，复用已有控件scope及逐字段引用；不混合午/晚餐菜单",
+      "status": "ESTIMATE_ONLY_PENDING_APPROVAL_AND_RED_GREEN"
+    }
+  ],
+  "condition": "Only retire after same-page class counterexample and positive request/identity/HARD regressions pass. Missing replacement evidence means defer, not weaken. Estimates are not achieved reductions."
+}
