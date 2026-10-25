@@ -1,0 +1,121 @@
+{
+  "kind": "SUPPLEMENTARY_OFFLINE_OBSERVATION",
+  "artifactSha256": "8e33362db9cf95fd361fdd7ca20ff8a3fcd697b841ca079c9bafc78c1a9e1802",
+  "method": "Only paired actual Executor operations and recorded model intervals. Unmatched starts are gaps, not assumed ongoing to task cutoff. Additive post-run measurement; frozen metrics/evaluation unchanged.",
+  "elapsedMs": 500696,
+  "wallTimePartitionMs": {
+    "UNATTRIBUTED": 72968,
+    "MODEL:restaurant_semantic_interpret": 3173,
+    "MODEL:restaurant_agent_decide": 24118,
+    "PAGE_LOAD": 240193,
+    "READ_PAGE": 33662,
+    "MODEL:restaurant_discovery_retrieval": 12913,
+    "WAIT": 38233,
+    "MODEL:browser_read_decide": 61249,
+    "MODEL:restaurant_fact_judgment": 13598,
+    "PAGE_OPERATION": 589
+  },
+  "pairingGaps": [
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 753
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 944
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 1390
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 748,
+      "operation": "NAVIGATE"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 941,
+      "operation": "NAVIGATE"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 1385,
+      "operation": "NAVIGATE"
+    }
+  ],
+  "rawGoogleHarEntryIndices": [
+    65,
+    66,
+    67
+  ],
+  "googleHarResponses": 3,
+  "controlsFromActualDecisionMessages": [
+    {
+      "decisionLine": 26,
+      "kind": "STATION",
+      "label": "Akabane Sta. Izakaya (Japanese style tavern)",
+      "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/rstLst/izakaya/",
+      "proposedUse": false,
+      "objective": "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
+      "diagnosticDOM": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0065.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0068.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0069.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0070.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0071.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0072.html"
+      ]
+    },
+    {
+      "decisionLine": 26,
+      "kind": "STATION",
+      "label": "Akabane Sta.",
+      "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/",
+      "proposedUse": false,
+      "objective": "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
+      "diagnosticDOM": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0065.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0068.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0069.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0070.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0071.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0072.html"
+      ]
+    },
+    {
+      "decisionLine": 27,
+      "kind": "STATION",
+      "label": "Akabane Sta. Izakaya (Japanese style tavern)",
+      "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/rstLst/izakaya/",
+      "proposedUse": false,
+      "objective": "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
+      "diagnosticDOM": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0065.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0068.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0069.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0070.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0071.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0072.html"
+      ]
+    },
+    {
+      "decisionLine": 27,
+      "kind": "STATION",
+      "label": "Akabane Sta.",
+      "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/",
+      "proposedUse": false,
+      "objective": "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
+      "diagnosticDOM": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0065.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0068.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0069.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0070.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0071.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792919789577/diagnostic/snapshot-0072.html"
+      ]
+    }
+  ],
+  "originalMetricsRetained": true,
+  "newCalls": 0
+}
