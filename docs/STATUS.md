@@ -11,6 +11,8 @@
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
 
+- **2026-10-25-F5-LIVE-RUNNING:** 用户直接批准仅本批6次受控Runner加载既有.env，未展示／复制／暂存凭据。slot1正式500.338秒TIMEOUT、0交付，43模型／5Google；独立声明与边界S0均ABSENT，原始证据与四层安全门已提交。两有效越界样本已取，纠正仍在deferred来源队列；Google已发现Dengana但查位超时。F2原样回放REPLAY_INCOMPLETE（Google HAR写前扫描拒绝）。slot2预检Tabelog两次CHECK_TIMEOUT，正等待第三次健康检查，实际环境重跑2；未正式启动。其余4槽未运行，原门槛不变、未到停止点3，不改冻结代码、不合main。[报告](../.eval-artifacts/phase3a-prime/f5-live/report.md)。
+
 - **2026-10-25-F5-LIVE-PREPARED:** 用户批准六次串行F5 Live；实现分支已重放到最新main/4d927958，双方账本9条并集、历史记录保留，五门禁1046/154全绿且每项前后净树。348项SHA包已提交冻结，实际Runner Loader校验通过；日期11-04/11-07仍有效，Dengana公开GET2次再认证通过，共享累计网站GET4。凭据检查被自动审批按旧“不读.env”限制拒绝，未读密钥，已请求这6次Runner的加载例外；六slot均NOT_RUN，模型/Google/Live新增0，尚未到停止点3，不合并main。[报告](../.eval-artifacts/phase3a-prime/f5-live/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-STOP2-GOOGLE-CAPTURE:** 停止点2复核两补丁完成：F2③静态免租约先合入main/1a736c88；F2④b在新main祖先上补正式Google原始响应HAR捕获，手工fixture追加退役，写前/落盘后扫描拒绝密钥。两项五门禁1028/148与1032/153全绿，各项后净工作树，依授权再合F2④b并推送。新增真实调用0，3864/473行不增。 [报告](../.eval-artifacts/phase3a-prime/stop2-review-fixes-20261025/report.md)。

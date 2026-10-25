@@ -1,0 +1,136 @@
+{
+  "artifactSha256": "c9c75de904849d688936dedffb950bd6ced8787e557907d6e492618af0c485b8",
+  "unusedObservedStationLinks": [
+    {
+      "sequence": 31,
+      "stage": "AVAILABILITY",
+      "source": "TABELOG",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+      "revision": 5,
+      "target": {
+        "ref": "observation:5:target:29",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Akabane Sta. Izakaya (Japanese style tavern)",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/rstLst/izakaya/",
+        "availableActions": [
+          "OPEN_LINK"
+        ]
+      },
+      "actualOutput": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:80\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to November 2026 to reach requested date.\"}",
+      "used": false,
+      "DOM": [
+        {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0084.html",
+          "sha256": "9ddd0f7a1e7ef8658cd2b1625237de5ecfc5d190e34303d5242c65e34f75c6dd",
+          "snapshot": 84
+        }
+      ]
+    },
+    {
+      "sequence": 31,
+      "stage": "AVAILABILITY",
+      "source": "TABELOG",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+      "revision": 5,
+      "target": {
+        "ref": "observation:5:target:31",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Akabane Sta.",
+        "controlGroupLabel": "Nearest station：",
+        "controlGroupRef": "observation:5:group:4",
+        "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/",
+        "availableActions": [
+          "OPEN_LINK"
+        ]
+      },
+      "actualOutput": "{\"action\": \"CLICK\", \"targetRef\": \"observation:5:target:80\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Advance calendar to November 2026 to reach requested date.\"}",
+      "used": false,
+      "DOM": [
+        {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0084.html",
+          "sha256": "9ddd0f7a1e7ef8658cd2b1625237de5ecfc5d190e34303d5242c65e34f75c6dd",
+          "snapshot": 84
+        }
+      ]
+    },
+    {
+      "sequence": 32,
+      "stage": "AVAILABILITY",
+      "source": "TABELOG",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+      "revision": 6,
+      "target": {
+        "ref": "observation:6:target:52",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Akabane Sta. Izakaya (Japanese style tavern)",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/rstLst/izakaya/",
+        "availableActions": [
+          "OPEN_LINK"
+        ]
+      },
+      "actualOutput": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:6:target:4\", \"authoritativeField\": \"DATE\", \"requestedState\": \"NONE\", \"reason\": \"Select requested date 2026-11-04; guests 2 already selected.\"}",
+      "used": false,
+      "DOM": [
+        {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0085.html",
+          "sha256": "040e241dfd024c73bdf2e0c46df342f62453f5074c94239f376b291126533afb",
+          "snapshot": 85
+        }
+      ]
+    },
+    {
+      "sequence": 32,
+      "stage": "AVAILABILITY",
+      "source": "TABELOG",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+      "revision": 6,
+      "target": {
+        "ref": "observation:6:target:54",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Akabane Sta.",
+        "controlGroupLabel": "Nearest station：",
+        "controlGroupRef": "observation:6:group:4",
+        "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/",
+        "availableActions": [
+          "OPEN_LINK"
+        ]
+      },
+      "actualOutput": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:6:target:4\", \"authoritativeField\": \"DATE\", \"requestedState\": \"NONE\", \"reason\": \"Select requested date 2026-11-04; guests 2 already selected.\"}",
+      "used": false,
+      "DOM": [
+        {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792889665999/diagnostic/snapshot-0085.html",
+          "sha256": "040e241dfd024c73bdf2e0c46df342f62453f5074c94239f376b291126533afb",
+          "snapshot": 85
+        }
+      ]
+    }
+  ],
+  "conclusion": "Two distinct source-observed Akabane Sta links,4 occurrences in AVAILABILITY, not used; model instead advanced calendar/selected DATE. No LOCATION binding target. These do not prove initial DISCOVERY context omitted available controls; distance option800/1000 not observed. No codes or URLs constructed.",
+  "diagnosticGaps": [
+    {
+      "snapshot": 44,
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT",
+      "diagnostic": {
+        "status": "OMITTED",
+        "reason": "UNSAFE_DOCUMENT"
+      }
+    },
+    {
+      "snapshot": 76,
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT",
+      "diagnostic": {
+        "status": "OMITTED",
+        "reason": "UNSAFE_DOCUMENT"
+      }
+    }
+  ]
+}
