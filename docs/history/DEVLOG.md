@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.299
+- Document revision: 4.300
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4710,3 +4710,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-25-PHASE3A-DECISION-FLOW-BINDING-COMPLETE
 
 在独立分支从main5aa9394c修复eval capture的来源flow关联，验证源码5e073ae6。复用完整F5c产品流程测试，保留全部产品断言；只增加录制关联验证，不改模型输入、产品Schema、Guard、Prompt、站点。原三槽单行最小证据及来源SHA冻结，不复制整份历史运行。 [报告](../../.eval-artifacts/phase3a-prime/decision-snapshot-binding-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-POST-EXIT-EVALUATION-COMPLETE
+
+验证源码ce82a545，新增eval父进程监督器；journal提前IPC关联产物，父进程在各槽exit事件重读原产物及冻结独立reviewed-reads，不等整批或stdio关闭。既有授权、预检、节奏上限2、来源90秒/整单500秒预算不改；原F5冻结脚本保留。父进程不改写运行产物，SHA前后核对；评价失败及没有产物明确NOT_EVALUATED。 [报告](../../.eval-artifacts/phase3a-prime/post-exit-evaluation-20261025/report.md)。

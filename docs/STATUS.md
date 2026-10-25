@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.406
+- Document revision: 4.407
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-POST-EXIT-EVALUATION-COMPLETE:** 每槽退出即由父进程独立评价及S0核查；单槽CLI和并行Runner均接线，非零退出仍评价，缺产物/规则SHA错误明确未评价。两平台五门禁全绿，默认1054、Chromium161，真实调用0。 [报告](../.eval-artifacts/phase3a-prime/post-exit-evaluation-20261025/report.md)。
 
 - **2026-10-25-PHASE3A-DECISION-FLOW-BINDING-COMPLETE:** 三槽 DECISION_SNAPSHOT_MISMATCH 根因为 ADR0043 无当前DOM入口选择被误作当前DOM决策；eval元数据现保留原flow观察引用，三槽复验通过，正常DOM仍严格匹配，真实调用0。 [报告](../.eval-artifacts/phase3a-prime/decision-snapshot-binding-20261025/report.md)。
 

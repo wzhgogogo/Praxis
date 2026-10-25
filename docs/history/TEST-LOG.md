@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.306
+- Document revision: 4.307
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5430,3 +5430,7 @@ macOS 默认1053/1053、Chromium159/159（103.489690秒）；Linux 默认1053/10
 ## TEST-2026-10-25-PHASE3A-DECISION-FLOW-BINDING-COMPLETE
 
 先红后绿：完整F5c流程原来误报一次，修后无误报；三槽原始决策各35条入口观察引用完整保留且不伪造DOM；正常DOM不匹配、无flow空观察仍报错。macOS默认1054/1054、Chromium159/159（104.839900秒）；Linux默认1054/1054、Chromium158/159（104.595121秒），仅E1已批准偶发，原始exit1保留归F3。其余门禁全绿、逐门禁净树、615输入SHA一致，站点3864/pack473，真实调用0。 [报告](../../.eval-artifacts/phase3a-prime/decision-snapshot-binding-20261025/report.md)。
+
+## TEST-2026-10-25-PHASE3A-POST-EXIT-EVALUATION-COMPLETE
+
+有效红灯0839e430：第二真实Chromium子进程在第一退出后等20秒无receipt而断言失败。绿灯证明第二退出前已读到第一独立结果；退出7仍评价、无产物9未评价；受控人数矛盾由父评价发现，子评价原ABSENT；规则SHA不符未评价。首次绿灯fixture数组形状错误已修，失败日志保留。macOS/Linux默认1054/1054、Chromium161/161（104.495244/104.986921秒）、其余门禁全绿，逐门禁净树，612输入SHA一致。E1本项未复现，既有偶发仍留F3且fixture/Guard未改；站点3864/pack473，真实调用0。专用VM和下载运行时已清理。 [报告](../../.eval-artifacts/phase3a-prime/post-exit-evaluation-20261025/report.md)。
