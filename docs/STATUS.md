@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.404
+- Document revision: 4.405
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-REPLAY-REDIRECT-COMPLETE:** 回放文档重定向资格修复完成；原始 F5 槽1系统断网越过前两个合格快照，不补造页面，随后 snapshot3 仍 REPLAY_INCOMPLETE。两平台门禁完成，Linux 唯一 E1 偶发按用户批准归 F3，其他全绿，真实调用0。 [报告](../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-REPLAY-URL-RED-PREP:** 健康4秒已合main70db9152，独立回放URL修复准备：原HAR有rstLst到tokyo的301，最终页面合格；当前loader过滤原HTML重定向并拒绝初始URL。最小真实Chromium/Guard正例、缺hop/环/不合格终点控制和F5槽1原输入先提交取红灯。诊断DOM不参与，0真实调用。 [报告](../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。
 

@@ -1,0 +1,284 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)",
+    "node",
+    "--import",
+    "tsx",
+    "src/eval/restaurant/agent-loop/runners/run-recorded-read.ts",
+    "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/inputs/config.json",
+    "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/f5-qualified"
+  ],
+  "exitCode": 1,
+  "startedAtCET": "2026-10-25T21:50:52.046385+01:00",
+  "testedCommit": "278302bf06ced05d50812dc9c984c836a01587f4",
+  "orchestrationSha256": "ee00dd697eaad8a22b2472fa640017429b32923b555ae4f8ca976183b1beccf7",
+  "configSha256": "beb94b009c018444392b94c767e5caa213bf023c173f0cb5af503f4f57f2e96c",
+  "summary": {
+    "executionSource": "REPLAY",
+    "modelMode": "ORIGINAL",
+    "recordingSha256": "06d2a89045a4ac6b6a729b89428b72989d003339ab0ee8b755dfeab1d4aca7c7",
+    "harSha256": "5aa813af26e739ff1d3e37eea20f4b5e7eca2b51971d2e0c68275bb4ed42b7fd",
+    "decisionSha256": "394abf748feda1788466fd38634124a63416ccccdf8bc88ea019f4482b9d0603",
+    "liveCapabilityDenominator": "EXCLUDED",
+    "status": "REPLAY_INCOMPLETE",
+    "stop": {
+      "snapshot": 3,
+      "origin": "",
+      "pathname": "",
+      "reason": "DECISION_SEQUENCE_DIVERGED"
+    },
+    "consumedPages": 2,
+    "recordedPages": 94,
+    "consumedDecisions": 5,
+    "recordedDecisions": 39,
+    "modelTransportCalls": 0,
+    "missingRequests": [
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/images/inbound/logo/logo_tabelog_inbound.svg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/images/shared/loader/loader_gray_ss.gif",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/239075/320x320_square_f56b035122f6fee93768271198de8691.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/images/award/badge/pc/square_2026_bronze.png",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/images/inbound/hyakumeiten/badge/lst_hyakumeiten_en.svg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/138371/320x320_square_138371991.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/233266/320x320_square_5c5a6c9c91db9202dbfa071dd2dea09e.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/185387/320x320_square_5a142bdd193ebd0b0b7c6d2cc6fb96dd.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/368004/320x320_square_d24c376735d530458ed6a4889721c70a.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/263764/320x320_square_4b5bf4476d2e6c64f810008aba1b89bc.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/239084/320x320_square_e3226f1c8762d205927836a69004d327.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/243410/320x320_square_28f26e63ae7801f2f8d35e45aa190db0.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/309542/320x320_square_6f556cc0650339c6d6ae38c084bbbe5b.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/232151/320x320_square_05c4ad96abc3fd0d1a7bc55bb5aa8830.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/images/inbound/hyakumeiten/badge/lst_hyakumeiten_sushi_en.svg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/382029/320x320_square_a32e777707f9f7b59cb92db422261e7e.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/241802/320x320_square_f257953c2c96bbdbbb5a2dc1d12d6cdf.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/173381/320x320_square_e6df097ba8df3cd2697be6efc77d070d.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/387530/320x320_square_cebf331b269fc4f9731e9a3c12aa66d8.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/357051/320x320_square_ada97ccbcbeed9d2e0699019f29d4a2d.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/242766/320x320_square_1e6e6742080bf6899399fe2629001957.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/images/award/badge/pc/square_2026_silver.png",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/92190/320x320_square_92190305.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/311639/320x320_square_01d1dbf8b73056a36521316e1a2e059b.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/205739/320x320_square_766b9559994da3acb711c65b0b93ac8b.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/262767/320x320_square_502ee2709615401b01f2de36c4f514c0.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/images/inbound/restaurant/web_to_app/footer_webtoapp_bg.png",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/239075/320x320_square_f56b035122f6fee93768271198de8691.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/239079/320x320_square_bdd7a99f9e2c85416392d21220b78d43.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      },
+      {
+        "snapshot": 1,
+        "origin": "https://tblg.k-img.com",
+        "pathname": "/restaurant/images/Rvw/296438/320x320_square_1db462ff7ade202668cd5b90525a9843.jpg",
+        "reason": "MISSING_RESPONSE",
+        "method": "GET",
+        "resourceType": "image"
+      }
+    ],
+    "resultPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/f5-qualified/execution/2026-10-25T08-40-47-142Z-09edb3e8-8477-4463-8193-a6f6d540921d.result.json"
+  },
+  "realModelCalls": 0,
+  "realGoogleCalls": 0,
+  "realWebsiteCalls": 0
+}

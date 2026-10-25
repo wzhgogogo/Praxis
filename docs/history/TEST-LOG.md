@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.304
+- Document revision: 4.305
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5422,3 +5422,7 @@ macOS五门禁绿/default1037，完整四路Chromium三次154/154：102.962288�
 ## TEST-2026-10-25-PHASE3A-PRIME-REPLAY-URL-RED-PREP
 
 新测试typecheck通过，目标红灯待运行：真实Chromium须沿已有301抵达合格最终snapshot；缺hop、循环、不合格终点不得提升资格。F5槽1要求至少消费前两个原合格snapshot，余部仍INCOMPLETE。先冻结输入/脚本SHA；后续完整五门禁按已登记E1例外如实保留原始失败。 [报告](../../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。
+
+## TEST-2026-10-25-PHASE3A-REPLAY-REDIRECT-COMPLETE
+
+macOS 默认1053/1053、Chromium159/159（103.489690秒）；Linux 默认1053/1053、Chromium158/159（104.029268秒），唯一失败为 E1 outer body observer 的 Failed to fetch，原始exit1和日志保留，按已批准已知偶发交 F3，未扩大 postRule 或修改 Guard。其余门禁全绿，各门禁后净树，637输入 SHA 一致，四个最小行为回归先红后绿，原始 F5 同输入系统断网从0页到2页。站点3864/pack473，真实调用0。 [报告](../../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。

@@ -1,0 +1,129 @@
+{
+  "mode": "OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE",
+  "testedCommit": "f098a5ec94177def9d183eb2761aa99f4bdef6c1",
+  "startedAtCET": "2026-10-25T21:51:49.863156+01:00",
+  "platform": "Linux-6.1.0-53-cloud-arm64-aarch64-with-glibc2.36",
+  "cpuCount": 4,
+  "nodeVersion": "v24.4.1",
+  "orchestrationSha256": "d8b8bb1e096b1e2649f7babe7ec0eeae1bb0faee91f23e53dc1e21e87bfcad2a",
+  "freezeSha256": "c417f1076dc29e8964094b4b3a6cfa4fc22fa98cbf4d4435a7f056889337b96d",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-25T21:51:49.870643+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.6189,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "arch-check",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-25T21:51:50.496537+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.367507,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "npm-test",
+      "sample": 1,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-25T21:51:50.873529+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 40.374685,
+      "summary": {
+        "tests": 1053,
+        "suites": 5,
+        "pass": 1053,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "6ea33c33ba43c7997c38a5b659f59de214e5105eaf42f883f3b9114d971ed5fa",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "build",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-25T21:52:31.256501+01:00",
+      "gitStatusBefore": "",
+      "log": "build-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.41876,
+      "summary": {},
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-25T21:52:31.679896+01:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture-1.log",
+      "exitCode": 1,
+      "elapsedSeconds": 104.029268,
+      "summary": {
+        "tests": 159,
+        "suites": 0,
+        "pass": 158,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "e9c1921bdf6d4acb7f1a53fe063a7adb947570fb8233a324b612e2b1136cf112",
+      "gitStatusAfter": "",
+      "outcome": "KNOWN_E1_DEFERRED_TO_F3",
+      "healthPassed": true
+    }
+  ],
+  "restorations": 0,
+  "knownE1Authorization": "User review 2026-10-26 client date: unchanged E1 deferred to F3; same Failed to fetch only",
+  "chromiumConcurrency": 4,
+  "freezeVerifiedAfter": true,
+  "browserMedianSeconds": 104.029268,
+  "knownE1Samples": [
+    1
+  ],
+  "stopReason": null,
+  "acceptance": "SATISFIED_WITH_REGISTERED_E1",
+  "finishedAtCET": "2026-10-25T21:54:15.751880+01:00"
+}

@@ -1,0 +1,340 @@
+{
+  "outcome": {
+    "type": "NOT_EVALUATED",
+    "capabilityDenominator": "EXCLUDED",
+    "userGoalComplete": "NOT_EVALUATED",
+    "reasons": [
+      "REPLAY_INCOMPLETE: remaining execution is unavailable, neither pass nor fail."
+    ],
+    "evidenceRefs": [
+      "replay-stop"
+    ]
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+        "EVIDENCE_GAP: run: missing network request records"
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No independently established unmet user-need conclusion."
+      ],
+      "evidenceRefs": []
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Saved final state and executed trajectories record no positive restaurant delivery claim."
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState",
+        "trajectories"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: run: missing network request records"
+      ],
+      "evidenceRefs": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        }
+      ]
+    }
+  },
+  "reachedStages": [
+    "SEMANTIC",
+    "DISCOVERY"
+  ],
+  "goldCorrection": null,
+  "conditionStates": [],
+  "conditionStateComparisons": [],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": null,
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 0,
+    "maxConsecutiveNoNewObservation": 0,
+    "noNewObservationRuns": [],
+    "sameFailureRuns": [],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": [
+        {
+          "url": "https://tabelog.com/en/tokyo/rstLst/",
+          "count": 1,
+          "reloads": 0
+        }
+      ]
+    },
+    "violations": [],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "SATISFIED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "candidateId": "native-discovery:DIRECTORY",
+        "limits": {
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80,
+          "maxAutomaticElapsedMs": 500000
+        },
+        "observedMaximums": {
+          "candidateModelCalls": 0,
+          "runModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "elapsedMs": 191
+        },
+        "refs": [
+          "diagnostics.browserExecution[0]",
+          "diagnostics.browserExecution[1]",
+          "diagnostics.browserExecution[2]",
+          "diagnostics.browserExecution[3]",
+          "diagnostics.browserExecution[4]",
+          "diagnostics.browserExecution[5]",
+          "diagnostics.browserExecution[6]",
+          "diagnostics.browserExecution[7]",
+          "browserTrace[sequence=1]",
+          "browserTrace[sequence=2]",
+          "browserTrace[sequence=3]",
+          "browserTrace[sequence=5]",
+          "browserTrace[sequence=6]",
+          "browserTrace[sequence=8]",
+          "browserTrace[sequence=9]",
+          "browserTrace[sequence=10]"
+        ]
+      }
+    ],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": []
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 0,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@35",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@30",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/f5-green/execution/2026-10-25T08-40-47-141Z-c23dca45-a663-4c6d-baec-0a09a0ea15f0.result.json",
+    "sha256": "e179a19681307e6413002f4256388d0ca150a42a2bacebc99781a3b830e20681",
+    "runId": "c23dca45-a663-4c6d-baec-0a09a0ea15f0",
+    "caseId": "p2c-holdout-01"
+  },
+  "execution": {
+    "status": "FAILED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "UNKNOWN",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "NOT_EVALUATED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "NOT_EVALUATED"
+  },
+  "candidateSummaries": [],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "NOT_EVALUATED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "NOT_EVALUATED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "No terminal presentation was executed.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "The Runner saved an explicit interruption and the execution reached the recorded stages.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "interruption",
+        "events",
+        "trajectories",
+        "diagnostics.browserExecution"
+      ],
+      "downstreamImpact": "Exclude this interrupted run from the capability denominator; displayed claims retain independent S0 assessment."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "Partial Replay: no stage pass/fail is claimed by this evaluation."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "limits",
+        "modelInvocations",
+        "diagnostics.browserExecution[0]",
+        "diagnostics.browserExecution[1]",
+        "diagnostics.browserExecution[2]",
+        "diagnostics.browserExecution[3]",
+        "diagnostics.browserExecution[4]",
+        "diagnostics.browserExecution[5]",
+        "diagnostics.browserExecution[6]",
+        "diagnostics.browserExecution[7]",
+        "browserTrace[sequence=1]",
+        "browserTrace[sequence=2]",
+        "browserTrace[sequence=3]",
+        "browserTrace[sequence=5]",
+        "browserTrace[sequence=6]",
+        "browserTrace[sequence=8]",
+        "browserTrace[sequence=9]",
+        "browserTrace[sequence=10]"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ],
+  "executionSource": "REPLAY",
+  "modelMode": "ORIGINAL",
+  "recordingSha256": "06d2a89045a4ac6b6a729b89428b72989d003339ab0ee8b755dfeab1d4aca7c7",
+  "harSha256": "5aa813af26e739ff1d3e37eea20f4b5e7eca2b51971d2e0c68275bb4ed42b7fd",
+  "decisionSha256": "394abf748feda1788466fd38634124a63416ccccdf8bc88ea019f4482b9d0603",
+  "liveCapabilityDenominator": "EXCLUDED",
+  "replayStatus": "REPLAY_INCOMPLETE",
+  "stop": {
+    "snapshot": 1,
+    "origin": "https://sentry.io",
+    "pathname": "/api/1728946/envelope/",
+    "reason": "MISSING_RESPONSE"
+  }
+}
