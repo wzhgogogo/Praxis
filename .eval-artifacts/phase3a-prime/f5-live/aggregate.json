@@ -1,0 +1,1508 @@
+{
+  "schema": "f5-live-stop3-incomplete@1",
+  "asOfCET": "2026-10-25T02:41:15.046407+01:00",
+  "status": "INCOMPLETE_WAIT_REVIEW",
+  "newMain": "4d9279583299e798f43cace277b84700617635ce",
+  "gateSourceCommit": "355a5547f4bd4815efee7bd430c531fd586d75ac",
+  "freezeSha256": "0201de495ab4b5ad994bb9ce6c321a36a7044387f8b4a258dfbc6d0b3308269a",
+  "frozenFiles": 348,
+  "planned": 6,
+  "controlledInvocations": 6,
+  "formalStarted": 5,
+  "formalFinishedOrInterrupted": 5,
+  "case01": {
+    "qualified": 0,
+    "planned": 3,
+    "acceptance": "FAIL"
+  },
+  "case03": {
+    "boundedNegativeManualPass": 1,
+    "timeout": 1,
+    "notStarted": 1,
+    "acceptance": "NOT_SATISFIED_INCOMPLETE"
+  },
+  "formalS0": {
+    "declarationAbsent": 5,
+    "boundaryAbsent": 5,
+    "present": 0
+  },
+  "preformalS0": {
+    "slot": 6,
+    "declaration": "ABSENT",
+    "boundary": "NOT_EVALUATED"
+  },
+  "budgetCumulative": {
+    "fullLive": 5,
+    "googleRequests": 30,
+    "environmentReruns": 2,
+    "websiteGET": 5,
+    "realModelCalls": 218
+  },
+  "serialVerified": true,
+  "fiveGateChecks": "PASS on clean355a5547, source byte-identical since then; not rerun for output-only changes",
+  "frozenErrors": [],
+  "rawGzipFilesVerified": 25,
+  "recordingTarsVerified": 5,
+  "originalLedgerEntryCounts": [
+    7,
+    2
+  ],
+  "originalLedgerRowsPreserved": 9,
+  "adapterAudit": [
+    {
+      "path": "src/integrations/restaurant-search/source-packs.ts",
+      "lines": 473,
+      "sha256": "ee9ee42b04447b617161d6cd6f7b2caed6376135763d89463790ef1bdd0e749b",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "lines": 704,
+      "sha256": "1805a2bdfc44ff01765ec7f79cdfa6568a872f5ef6fcaf63d613c38825a01caa",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-contracts.ts",
+      "lines": 155,
+      "sha256": "466540c0e98e9a2ca2503c989fd752c9618e2b77d968e4cb92f201df540f2a3c",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-entity-resolver.ts",
+      "lines": 146,
+      "sha256": "3a411d34a8ea6808faf56607d1faed28b00134d409d0e896308b2578b7b9bd8f",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "lines": 319,
+      "sha256": "1e18b516fa4ec9c0c3211dfee414e92fa643bef497d9e044c8f6632237aacc0e",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-public-query.ts",
+      "lines": 81,
+      "sha256": "c58af8646647b7e363dbec46fd820d12e7a74e22a34ff672914756184f87ae9b",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "lines": 194,
+      "sha256": "9f2c159006b1939a8e868040d8fd16f40878a4eddad34f894ed34082768107ff",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-availability-response.ts",
+      "lines": 76,
+      "sha256": "8638c223266af36200d48a8dae90e3ef9f25cbf2ff6541000ef3e768cdaa416b",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "lines": 1009,
+      "sha256": "71512eac04142475659c7ab1581127067ca737f068ca7b360bc9dae411497422",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-contracts.ts",
+      "lines": 104,
+      "sha256": "cfaab2cb50592980ef216a2f6b5ca6c41749cbd3bf9a614b82536c4ccff9b0b1",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-entity-resolver.ts",
+      "lines": 64,
+      "sha256": "ca269e851e9258001ab040a362c895f4db1ce8b49a0fdea5558d22354fc21299",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "lines": 901,
+      "sha256": "101a31042b32fc97e1f822b0a72864bc28c30f7ad6e4f0737a7cdaf6279053d6",
+      "byteEqualNewMain": true
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-public-query.ts",
+      "lines": 111,
+      "sha256": "0444c5ef44492791478f6fe7982eba9accab1d8bae6610cbdcbde74be5eb436a",
+      "byteEqualNewMain": true
+    }
+  ],
+  "runs": [
+    {
+      "slot": 1,
+      "caseId": "p2c-holdout-01",
+      "controlStartedAtCET": "2026-10-25T01:31:19.492060+01:00",
+      "controlFinishedAtCET": "2026-10-25T01:40:09.673666+01:00",
+      "outerElapsedSeconds": 530.168669125,
+      "usage": {
+        "modelCallsStarted": 43,
+        "googleRequests": 5,
+        "healthRetries": 0,
+        "browserResponses": 1053,
+        "errorCode": null
+      },
+      "formalRunStarted": true,
+      "artifactSha256": "2c60ab3a3c67baf42280ab9ac04032b482885fd97dacbf5e9acff45bc75206b8",
+      "review": ".eval-artifacts/phase3a-prime/f5-live/slots/1/manual-review.json",
+      "formalStartedAt": "2026-10-25T00:31:48.860Z",
+      "formalFinishedAt": "2026-10-25T00:40:09.198Z",
+      "formalElapsedSeconds": 500.338,
+      "preflightSeconds": 29.36794,
+      "automaticOutcome": {
+        "type": "ORCHESTRATION_INTERRUPTED",
+        "capabilityDenominator": "EXCLUDED",
+        "userGoalComplete": "NO",
+        "reasons": [
+          "Recorded TIMEOUT interruption; not a source-confirmed no-result."
+        ],
+        "evidenceRefs": [
+          "interruption",
+          "finalSnapshot",
+          "diagnostics.browserTrace"
+        ]
+      },
+      "manualOutcome": {
+        "frozenEvaluator": {
+          "type": "ORCHESTRATION_INTERRUPTED",
+          "capabilityDenominator": "EXCLUDED",
+          "userGoalComplete": "NO",
+          "reasons": [
+            "Recorded TIMEOUT interruption; not a source-confirmed no-result."
+          ],
+          "evidenceRefs": [
+            "interruption",
+            "finalSnapshot",
+            "diagnostics.browserTrace"
+          ]
+        },
+        "userAcceptance": "FAIL_TIMEOUT_NO_DELIVERY",
+        "note": "Evaluator excludes saved TIMEOUT from generic capability denominator. Frozen F5 planned-slot acceptance retains this started slot as timeout/fail."
+      },
+      "timeout": true,
+      "phase": "SEARCHING",
+      "presentedAt": null,
+      "firstQualifiedEvidenceAt": null,
+      "noResultAt": null,
+      "noResultTermination": null,
+      "wallTimePartitionMs": {
+        "UNATTRIBUTED": 76227.0,
+        "MODEL:restaurant_semantic_interpret": 3474.0,
+        "MODEL:restaurant_agent_decide": 31466.0,
+        "PAGE_LOAD": 164711.0,
+        "READ_PAGE": 30181.0,
+        "MODEL:restaurant_discovery_retrieval": 18551.0,
+        "WAIT": 48754.0,
+        "MODEL:browser_read_decide": 105034.0,
+        "PAGE_OPERATION": 5845.0,
+        "MODEL:restaurant_fact_judgment": 16095.0
+      },
+      "modelPurposeLatencyMs": {
+        "restaurant_semantic_interpret": 3474,
+        "restaurant_agent_decide": 31466,
+        "restaurant_discovery_retrieval": 18551,
+        "browser_read_decide": 108129,
+        "restaurant_fact_judgment": 16095
+      },
+      "modelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 9,
+        "restaurant_discovery_retrieval": 4,
+        "browser_read_decide": 23,
+        "restaurant_fact_judgment": 6
+      },
+      "navigationCount": 42,
+      "recordedURLStringRepeatCount": 24,
+      "timingGapCount": 11,
+      "replayability": {
+        "total": 101,
+        "replayable": 7,
+        "ratio": 0.06930693069306931,
+        "reasonDistribution": {
+          "SANITIZED_NETWORK_AND_DOM_CAPTURE": 7,
+          "UNCAPTURED_STATIC_DEPENDENCY": 92,
+          "UNSAFE_DOCUMENT": 2
+        }
+      },
+      "diagnosticDOMStatusCounts": {
+        "SAVED": 99,
+        "OMITTED": 2
+      },
+      "replay": {
+        "executionSource": "REPLAY",
+        "modelMode": "ORIGINAL",
+        "recordingSha256": "71212eb488d8cd1d137df737f32a99c3681d1fe84cf1a5a0a0425cca586c907e",
+        "harSha256": "8da4f044864e6f0869fabcf15aaed911bbb7f6df71f23c48894979639a26a552",
+        "decisionSha256": "fbe4bda2d2a5135c9aa0639f80d964bec5f8d960069ddc179a35f3d79bfacb93",
+        "liveCapabilityDenominator": "EXCLUDED",
+        "status": "REPLAY_INCOMPLETE",
+        "stop": {
+          "snapshot": null,
+          "origin": "https://places.googleapis.com",
+          "pathname": "/v1/places:searchText",
+          "reason": "MISSING_STRUCTURED_RESPONSE"
+        },
+        "consumedPages": 0,
+        "recordedPages": 101,
+        "consumedDecisions": 2,
+        "recordedDecisions": 43,
+        "modelTransportCalls": 0,
+        "resultPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/slots/1/replay/execution/2026-10-25T00-31-48-869Z-827e5a12-d570-4dab-9380-3b906544def5.result.json"
+      },
+      "scriptOriginPaths": [
+        "https://assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+        "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+        "https://tblg.k-img.com/javascripts/s_code.js",
+        "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+        "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+        "https://umami-next.post.tablecheck.com/script.js",
+        "https://www.tablecheck.com/portal/assets/index-DUt7bgp8.js",
+        "https://www.tablecheck.com/portal/assets/index-m1GDPVCL.js"
+      ],
+      "severity": {
+        "S0": "ABSENT",
+        "S1": "NOT_EVALUATED",
+        "S2": "PRESENT",
+        "S3": "NOT_EVALUATED",
+        "S4": "NOT_EVALUATED",
+        "S0_DECLARATION": "ABSENT",
+        "S0_BOUNDARY": "ABSENT"
+      },
+      "witnessFunnelAutomatic": [
+        {
+          "outletName": "Kushi Katsu Dengana Akabane ten",
+          "sourceId": "13108466",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-25T01:07:23.132653+01:00",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+            ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+          ]
+        }
+      ],
+      "candidateResultDistribution": {
+        "UNAVAILABLE": 1,
+        "EVIDENCE_INCOMPLETE": 3,
+        "NOT_CHECKED": 20,
+        "BUDGET_OR_TIMEOUT": 3,
+        "REQUEST_NOT_CONFIRMED": 1
+      },
+      "furthestRecordedCandidate": {
+        "summary": {
+          "candidateId": "tablecheck:kawaei",
+          "outletName": "Kawaei",
+          "providers": [
+            "TABLECHECK"
+          ],
+          "providerAttempts": [
+            {
+              "provider": "TABLECHECK",
+              "outcome": "UNAVAILABLE",
+              "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[0]"
+            }
+          ],
+          "result": "UNAVAILABLE",
+          "reasonCode": "NO_MATCHING_SLOT",
+          "evidenceRefs": [
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:4da9a20c02f5291726666dc2]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:9585d4bc0443dbd266dd5ca0]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-hard-criteria:5dcce09574940f75e823f623]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:6a9f26da4e3d2a1f92e422cb]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:10e2bd73d5b446e7bc18825f]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-hard-criteria:d8935979b79024953187c218]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:ff3927451a3f1f541c1de009]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=tablecheck:kawaei:document:dd590cce25a0acbd]"
+          ]
+        },
+        "currentFactCheckDescriptiveOnly": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-25T00:33:47.738Z",
+          "evidenceIds": [
+            "evidence:restaurant:native-fact-identity:ff3927451a3f1f541c1de009",
+            "tablecheck:kawaei:document:dd590cce25a0acbd"
+          ],
+          "sourceProvider": "TABLECHECK",
+          "reasonCode": "NATIVE_HARD_FACTS_UNCONFIRMED",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tablecheck-hard-criteria:5dcce09574940f75e823f623",
+            "evidence:restaurant:tablecheck-hard-criteria:d8935979b79024953187c218"
+          ]
+        },
+        "currentAvailabilityCheckDescriptiveOnly": {
+          "status": "UNAVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-25T00:33:38.125Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:9585d4bc0443dbd266dd5ca0",
+            "evidence:restaurant:tablecheck-hard-criteria:5dcce09574940f75e823f623",
+            "evidence:restaurant:tablecheck-availability:6a9f26da4e3d2a1f92e422cb",
+            "evidence:restaurant:tablecheck-entity-match:10e2bd73d5b446e7bc18825f",
+            "evidence:restaurant:tablecheck-hard-criteria:d8935979b79024953187c218"
+          ],
+          "reasonCode": "NO_MATCHING_SLOT",
+          "displayExpiresAt": "2026-10-25T00:43:38.125Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "timeWindowCoverage": {
+            "date": "2026-11-04",
+            "partySize": 2,
+            "requestedWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "covered": [
+              {
+                "earliest": "19:00",
+                "latest": "19:00",
+                "status": "EMPTY"
+              }
+            ],
+            "uncovered": [],
+            "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+          },
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "UNAVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABLECHECK",
+          "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+        }
+      },
+      "unassessedDimensions": [
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    },
+    {
+      "slot": 2,
+      "caseId": "p2c-holdout-01",
+      "controlStartedAtCET": "2026-10-25T01:43:37.150830+01:00",
+      "controlFinishedAtCET": "2026-10-25T02:02:47.264554+01:00",
+      "outerElapsedSeconds": 1150.098985584,
+      "usage": {
+        "modelCallsStarted": 42,
+        "googleRequests": 8,
+        "healthRetries": 2,
+        "browserResponses": 1608,
+        "errorCode": null
+      },
+      "formalRunStarted": true,
+      "artifactSha256": "c9c75de904849d688936dedffb950bd6ced8787e557907d6e492618af0c485b8",
+      "review": ".eval-artifacts/phase3a-prime/f5-live/slots/2/manual-review.json",
+      "formalStartedAt": "2026-10-25T00:54:26.009Z",
+      "formalFinishedAt": "2026-10-25T01:02:46.342Z",
+      "formalElapsedSeconds": 500.333,
+      "preflightSeconds": 648.85817,
+      "automaticOutcome": {
+        "type": "CAPABILITY_MISS",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+          ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "manualOutcome": {
+        "frozenEvaluator": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+            ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "userAcceptance": "FAIL_TIMEOUT_NO_DELIVERY",
+        "timeoutEvidence": "trajectories[9].observation.detail and .termination.type=TIMEOUT,reasonCode=AGENT_LOOP_TIMEOUT; outer SUCCEEDED/interruption absent does not mean no timeout",
+        "elapsedSeconds": 500.333
+      },
+      "timeout": true,
+      "phase": "NO_VERIFIED_RESULT",
+      "presentedAt": null,
+      "firstQualifiedEvidenceAt": null,
+      "noResultAt": "2026-10-25T01:02:46.012Z",
+      "noResultTermination": {
+        "type": "TIMEOUT",
+        "reasonCode": "AGENT_LOOP_TIMEOUT",
+        "isSystemReason": false,
+        "initiator": "SYSTEM"
+      },
+      "wallTimePartitionMs": {
+        "UNATTRIBUTED": 51677.0,
+        "MODEL:restaurant_semantic_interpret": 4485.0,
+        "MODEL:restaurant_agent_decide": 30591.0,
+        "PAGE_LOAD": 240728.0,
+        "READ_PAGE": 28748.0,
+        "MODEL:restaurant_discovery_retrieval": 15721.0,
+        "WAIT": 50574.0,
+        "MODEL:browser_read_decide": 56581.0,
+        "PAGE_OPERATION": 4150.0,
+        "MODEL:restaurant_fact_judgment": 17078.0
+      },
+      "modelPurposeLatencyMs": {
+        "restaurant_semantic_interpret": 4485,
+        "restaurant_agent_decide": 30591,
+        "restaurant_discovery_retrieval": 15721,
+        "browser_read_decide": 56581,
+        "restaurant_fact_judgment": 17078
+      },
+      "modelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 10,
+        "restaurant_discovery_retrieval": 4,
+        "browser_read_decide": 19,
+        "restaurant_fact_judgment": 8
+      },
+      "navigationCount": 49,
+      "recordedURLStringRepeatCount": 26,
+      "timingGapCount": 8,
+      "replayability": {
+        "total": 107,
+        "replayable": 7,
+        "ratio": 0.06542056074766354,
+        "reasonDistribution": {
+          "SANITIZED_NETWORK_AND_DOM_CAPTURE": 7,
+          "UNCAPTURED_STATIC_DEPENDENCY": 98,
+          "UNSAFE_DOCUMENT": 2
+        }
+      },
+      "diagnosticDOMStatusCounts": {
+        "SAVED": 105,
+        "OMITTED": 2
+      },
+      "replay": {
+        "executionSource": "REPLAY",
+        "modelMode": "ORIGINAL",
+        "recordingSha256": "4a988b3e8a13a52754bb6f74000664cc3821350c9e7f78853d1617963180b2d3",
+        "harSha256": "8da4f044864e6f0869fabcf15aaed911bbb7f6df71f23c48894979639a26a552",
+        "decisionSha256": "cdf9d9eecec4ca06a375f032b7e6428d1ddb93392c90cb9d630b65d4c2654c41",
+        "liveCapabilityDenominator": "EXCLUDED",
+        "status": "REPLAY_INCOMPLETE",
+        "stop": {
+          "snapshot": null,
+          "origin": "https://places.googleapis.com",
+          "pathname": "/v1/places:searchText",
+          "reason": "MISSING_STRUCTURED_RESPONSE"
+        },
+        "consumedPages": 0,
+        "recordedPages": 107,
+        "consumedDecisions": 2,
+        "recordedDecisions": 42,
+        "modelTransportCalls": 0,
+        "resultPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/slots/2/replay/execution/2026-10-25T00-54-26-017Z-402d5223-ec8a-4f66-8e4c-e575c160de5d.result.json"
+      },
+      "scriptOriginPaths": [
+        "https://assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+        "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+        "https://tblg.k-img.com/javascripts/s_code.js",
+        "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+        "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+        "https://umami-next.post.tablecheck.com/script.js",
+        "https://www.tablecheck.com/portal/assets/index-DUt7bgp8.js",
+        "https://www.tablecheck.com/portal/assets/index-m1GDPVCL.js",
+        "https://static.parastorage.com/unpkg/react@18.3.1/umd/react.production.min.js",
+        "https://static.parastorage.com/services/pro-gallery-tpa/1.1535.0/WixProGalleryViewerWidget.bundle.min.js",
+        "https://static.parastorage.com/unpkg/react-dom@18.3.1/umd/react-dom.production.min.js",
+        "https://static.parastorage.com/unpkg/lodash@4.18.1/lodash.min.js",
+        "https://static.parastorage.com/services/wix-thunderbolt/dist/thunderbolt-commons.edd84710.bundle.min.js",
+        "https://static.parastorage.com/services/wix-thunderbolt/dist/main.693e1c6a.bundle.min.js",
+        "https://static.parastorage.com/services/wix-thunderbolt/dist/main.renderer.b325a058.bundle.min.js",
+        "https://static.parastorage.com/services/tag-manager-client/1.1075.0/siteTags.bundle.min.js",
+        "https://www.1bangai.org/_partials/wix-thunderbolt/dist/clientWorker.1634c378.bundle.min.js",
+        "https://browser.sentry-cdn.com/6.18.2/bundle.min.js"
+      ],
+      "severity": {
+        "S0": "ABSENT",
+        "S1": "NOT_EVALUATED",
+        "S2": "PRESENT",
+        "S3": "NOT_EVALUATED",
+        "S4": "NOT_EVALUATED",
+        "S0_DECLARATION": "ABSENT",
+        "S0_BOUNDARY": "ABSENT"
+      },
+      "witnessFunnelAutomatic": [
+        {
+          "outletName": "Kushi Katsu Dengana Akabane ten",
+          "sourceId": "13108466",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-25T01:07:23.132653+01:00",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+            ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+          ]
+        }
+      ],
+      "candidateResultDistribution": {
+        "UNAVAILABLE": 1,
+        "EVIDENCE_INCOMPLETE": 4,
+        "OFFER_GROUNDED": 1,
+        "BUDGET_OR_TIMEOUT": 1,
+        "NOT_CHECKED": 20,
+        "REQUEST_NOT_CONFIRMED": 1
+      },
+      "furthestRecordedCandidate": {
+        "summary": {
+          "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+          "outletName": "やきとん大王 赤羽店",
+          "providers": [
+            "TABLECHECK",
+            "TABELOG"
+          ],
+          "providerAttempts": [
+            {
+              "provider": "TABLECHECK",
+              "outcome": "PROVIDER_FAILURE",
+              "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN",
+              "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[0]"
+            },
+            {
+              "provider": "TABELOG",
+              "outcome": "AVAILABLE",
+              "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[1]"
+            }
+          ],
+          "result": "OFFER_GROUNDED",
+          "evidenceRefs": [
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:a3c58e8b1a1a6740f6900384]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:a3c58e8b1a1a6740f6900384]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:daf7d31171c057f9050fe949]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:365d52dd83057916baeb22b7]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:b1f6bb548ee3dfb33ddea89b]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:ae3f43c5b629d7cd72d74188]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b14dce9f4d2fddf482a0c565]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:724153d4ecb9c73916efc5ab]"
+          ]
+        },
+        "currentFactCheckDescriptiveOnly": {
+          "status": "COMPLETED",
+          "checkedAt": "2026-10-25T01:02:25.114Z",
+          "evidenceIds": [
+            "evidence:restaurant:google-entity:b14dce9f4d2fddf482a0c565",
+            "evidence:restaurant:google-facts:724153d4ecb9c73916efc5ab"
+          ],
+          "sourceAttempts": [
+            {
+              "source": "GOOGLE_PLACES",
+              "outcome": "COMPLETED"
+            },
+            {
+              "source": "RESTAURANT_WEBSITE",
+              "outcome": "UNKNOWN",
+              "reasonCode": "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED"
+            }
+          ],
+          "reasonCode": "WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED",
+          "sourceProvider": "GOOGLE_PLACES",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:google-facts:daf7d31171c057f9050fe949"
+          ]
+        },
+        "currentAvailabilityCheckDescriptiveOnly": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-25T01:00:59.938Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:365d52dd83057916baeb22b7",
+            "evidence:restaurant:tabelog-hard-criteria:b1f6bb548ee3dfb33ddea89b",
+            "evidence:restaurant:tabelog-availability:ae3f43c5b629d7cd72d74188"
+          ],
+          "displayExpiresAt": "2026-10-25T01:10:59.938Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "FAILED",
+              "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+            },
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+          "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+        }
+      },
+      "unassessedDimensions": [
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    },
+    {
+      "slot": 3,
+      "caseId": "p2c-holdout-01",
+      "controlStartedAtCET": "2026-10-25T02:04:57.298573+01:00",
+      "controlFinishedAtCET": "2026-10-25T02:12:07.990441+01:00",
+      "outerElapsedSeconds": 430.677358292,
+      "usage": {
+        "modelCallsStarted": 47,
+        "googleRequests": 6,
+        "healthRetries": 0,
+        "browserResponses": 1132,
+        "errorCode": null
+      },
+      "formalRunStarted": true,
+      "artifactSha256": "61999c5fffbb2b0cf257d7bb6d1c3e72bb2006fba6ebfb11a367ed091b9af3de",
+      "review": ".eval-artifacts/phase3a-prime/f5-live/slots/3/manual-review.json",
+      "formalStartedAt": "2026-10-25T01:05:27.488Z",
+      "formalFinishedAt": "2026-10-25T01:12:07.216Z",
+      "formalElapsedSeconds": 399.728,
+      "preflightSeconds": 30.189427,
+      "automaticOutcome": {
+        "type": "CAPABILITY_MISS",
+        "reasons": [
+          "No delivery despite independent request-matching feasible witness; cause is classified separately."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+          ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+        ],
+        "capabilityDenominator": "INCLUDED",
+        "userGoalComplete": "NO"
+      },
+      "manualOutcome": {
+        "frozenEvaluator": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+            ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "userAcceptance": "FAIL_NO_QUALIFIED_DELIVERY",
+        "elapsedSeconds": 399.728,
+        "timeout": "No outer interruption or trajectory TIMEOUT; final READ_ENDED bounded without grounded result"
+      },
+      "timeout": false,
+      "phase": "NO_VERIFIED_RESULT",
+      "presentedAt": null,
+      "firstQualifiedEvidenceAt": null,
+      "noResultAt": "2026-10-25T01:12:06.878Z",
+      "noResultTermination": {
+        "type": "END_READ",
+        "reasonCode": "AGENT_END_READ",
+        "isSystemReason": false,
+        "initiator": "AGENT"
+      },
+      "wallTimePartitionMs": {
+        "UNATTRIBUTED": 78645.0,
+        "MODEL:restaurant_semantic_interpret": 3172.0,
+        "MODEL:restaurant_agent_decide": 40503.0,
+        "PAGE_LOAD": 103729.0,
+        "READ_PAGE": 30178.0,
+        "MODEL:restaurant_discovery_retrieval": 9190.0,
+        "WAIT": 39880.0,
+        "MODEL:browser_read_decide": 78852.0,
+        "PAGE_OPERATION": 5210.0,
+        "MODEL:restaurant_fact_judgment": 10369.0
+      },
+      "modelPurposeLatencyMs": {
+        "restaurant_semantic_interpret": 3172,
+        "restaurant_agent_decide": 40503,
+        "restaurant_discovery_retrieval": 9190,
+        "browser_read_decide": 81725,
+        "restaurant_fact_judgment": 10369
+      },
+      "modelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 11,
+        "restaurant_discovery_retrieval": 4,
+        "browser_read_decide": 27,
+        "restaurant_fact_judgment": 4
+      },
+      "navigationCount": 41,
+      "recordedURLStringRepeatCount": 23,
+      "timingGapCount": 10,
+      "replayability": {
+        "total": 103,
+        "replayable": 7,
+        "ratio": 0.06796116504854369,
+        "reasonDistribution": {
+          "SANITIZED_NETWORK_AND_DOM_CAPTURE": 7,
+          "UNCAPTURED_STATIC_DEPENDENCY": 96
+        }
+      },
+      "diagnosticDOMStatusCounts": {
+        "SAVED": 103
+      },
+      "replay": {
+        "executionSource": "REPLAY",
+        "modelMode": "ORIGINAL",
+        "recordingSha256": "179ee5b3a5ad5efb913e9c4aa14b6c5c5a2065d0d03b8047951056d226712207",
+        "harSha256": "8da4f044864e6f0869fabcf15aaed911bbb7f6df71f23c48894979639a26a552",
+        "decisionSha256": "cb0196c5244c5ad2851c81988a57f7f8bdfc43b6276253e727463e999fbeef54",
+        "liveCapabilityDenominator": "EXCLUDED",
+        "status": "REPLAY_INCOMPLETE",
+        "stop": {
+          "snapshot": null,
+          "origin": "https://places.googleapis.com",
+          "pathname": "/v1/places:searchText",
+          "reason": "MISSING_STRUCTURED_RESPONSE"
+        },
+        "consumedPages": 0,
+        "recordedPages": 103,
+        "consumedDecisions": 2,
+        "recordedDecisions": 47,
+        "modelTransportCalls": 0,
+        "resultPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/slots/3/replay/execution/2026-10-25T01-05-27-497Z-e1b9a741-5ca7-4451-a81e-0e444c743d31.result.json"
+      },
+      "scriptOriginPaths": [
+        "https://assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+        "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+        "https://tblg.k-img.com/javascripts/s_code.js",
+        "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+        "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+        "https://umami-next.post.tablecheck.com/script.js",
+        "https://www.tablecheck.com/portal/assets/index-DUt7bgp8.js",
+        "https://www.tablecheck.com/portal/assets/index-m1GDPVCL.js",
+        "https://static.parastorage.com/unpkg/react@18.3.1/umd/react.production.min.js",
+        "https://static.parastorage.com/services/pro-gallery-tpa/1.1535.0/WixProGalleryViewerWidget.bundle.min.js",
+        "https://static.parastorage.com/unpkg/react-dom@18.3.1/umd/react-dom.production.min.js",
+        "https://static.parastorage.com/unpkg/lodash@4.18.1/lodash.min.js",
+        "https://static.parastorage.com/services/wix-thunderbolt/dist/thunderbolt-commons.edd84710.bundle.min.js",
+        "https://static.parastorage.com/services/wix-thunderbolt/dist/main.693e1c6a.bundle.min.js",
+        "https://static.parastorage.com/services/wix-thunderbolt/dist/main.renderer.b325a058.bundle.min.js",
+        "https://static.parastorage.com/services/tag-manager-client/1.1075.0/siteTags.bundle.min.js",
+        "https://www.1bangai.org/_partials/wix-thunderbolt/dist/clientWorker.1634c378.bundle.min.js",
+        "https://browser.sentry-cdn.com/6.18.2/bundle.min.js"
+      ],
+      "severity": {
+        "S0": "ABSENT",
+        "S1": "NOT_EVALUATED",
+        "S2": "PRESENT",
+        "S3": "NOT_EVALUATED",
+        "S4": "NOT_EVALUATED",
+        "S0_DECLARATION": "ABSENT",
+        "S0_BOUNDARY": "ABSENT"
+      },
+      "witnessFunnelAutomatic": [
+        {
+          "outletName": "Kushi Katsu Dengana Akabane ten",
+          "sourceId": "13108466",
+          "discovery": {
+            "status": "NOT_FOUND",
+            "candidateIds": [],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "facts": {
+            "status": "NOT_EVALUATED",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-25T01:07:23.132653+01:00",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "DISCOVERY",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at DISCOVERY; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/certification-prelive/certificate.json",
+            ".eval-artifacts/phase3a-prime/f5-live/certification-prelive/02-13108466-vacancy.body"
+          ]
+        }
+      ],
+      "candidateResultDistribution": {
+        "UNAVAILABLE": 1,
+        "EVIDENCE_INCOMPLETE": 3,
+        "OFFER_GROUNDED": 1,
+        "BUDGET_OR_TIMEOUT": 2,
+        "NOT_CHECKED": 20,
+        "REQUEST_NOT_CONFIRMED": 1
+      },
+      "furthestRecordedCandidate": {
+        "summary": {
+          "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+          "outletName": "やきとん大王 赤羽店",
+          "providers": [
+            "TABLECHECK",
+            "TABELOG"
+          ],
+          "providerAttempts": [
+            {
+              "provider": "TABLECHECK",
+              "outcome": "PROVIDER_FAILURE",
+              "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN",
+              "evidenceRef": "trajectories[8].executionMetadata.providerAttempts[0]"
+            },
+            {
+              "provider": "TABELOG",
+              "outcome": "AVAILABLE",
+              "evidenceRef": "trajectories[8].executionMetadata.providerAttempts[1]"
+            }
+          ],
+          "result": "OFFER_GROUNDED",
+          "evidenceRefs": [
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:60aadb509f0990f5a2e810ce]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:60aadb509f0990f5a2e810ce]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:40c379f3114e032ec224ab3f]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:51e08d174fa5a1075fad553f]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:1a60080513dd685d20148012]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:1a6ed1077184baad00ae8fe8]"
+          ]
+        },
+        "currentFactCheckDescriptiveOnly": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-25T01:11:53.230Z",
+          "evidenceIds": [],
+          "reasonCode": "RESERVE_REACHED",
+          "sourceProvider": "GOOGLE_PLACES",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:google-facts:40c379f3114e032ec224ab3f"
+          ]
+        },
+        "currentAvailabilityCheckDescriptiveOnly": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-25T01:10:45.955Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:51e08d174fa5a1075fad553f",
+            "evidence:restaurant:tabelog-hard-criteria:1a60080513dd685d20148012",
+            "evidence:restaurant:tabelog-availability:1a6ed1077184baad00ae8fe8"
+          ],
+          "displayExpiresAt": "2026-10-25T01:20:45.955Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "FAILED",
+              "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+            },
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+          "requestFingerprint": "{\"date\":\"2026-11-04\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+        }
+      },
+      "unassessedDimensions": [
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    },
+    {
+      "slot": 4,
+      "caseId": "p2c-holdout-03",
+      "controlStartedAtCET": "2026-10-25T02:14:02.632882+01:00",
+      "controlFinishedAtCET": "2026-10-25T02:21:55.204273+01:00",
+      "outerElapsedSeconds": 472.556957125,
+      "usage": {
+        "modelCallsStarted": 47,
+        "googleRequests": 4,
+        "healthRetries": 0,
+        "browserResponses": 1594,
+        "errorCode": null
+      },
+      "formalRunStarted": true,
+      "artifactSha256": "98040518b895216a3300cf8b649f0134b31bf3dcf36c9f7b22fda6e3b9ab637a",
+      "review": ".eval-artifacts/phase3a-prime/f5-live/slots/4/manual-review.json",
+      "formalStartedAt": "2026-10-25T01:14:35.049Z",
+      "formalFinishedAt": "2026-10-25T01:21:54.547Z",
+      "formalElapsedSeconds": 439.498,
+      "preflightSeconds": 32.416118,
+      "automaticOutcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "manualOutcome": {
+        "frozenEvaluator": {
+          "type": "NOT_EVALUATED",
+          "reasons": [
+            "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+          ],
+          "evidenceRefs": [
+            "trajectories",
+            "finalSnapshot"
+          ],
+          "capabilityDenominator": "NOT_EVALUATED",
+          "userGoalComplete": "NOT_EVALUATED"
+        },
+        "manualConclusion": "HONEST_BOUNDED_NO_RESULT",
+        "userNegativeCaseAcceptance": "PASS",
+        "elapsedSeconds": 439.498,
+        "scope": "Recorded Runner output, no UI rendering experiment. Honest no verified result in investigated scope; not certified globally no fugu within1000m."
+      },
+      "timeout": false,
+      "phase": "NO_VERIFIED_RESULT",
+      "presentedAt": null,
+      "firstQualifiedEvidenceAt": null,
+      "noResultAt": "2026-10-25T01:21:54.193Z",
+      "noResultTermination": {
+        "type": "END_READ",
+        "reasonCode": "AGENT_END_READ",
+        "isSystemReason": false,
+        "initiator": "AGENT"
+      },
+      "wallTimePartitionMs": {
+        "UNATTRIBUTED": 41290.0,
+        "MODEL:restaurant_semantic_interpret": 4634.0,
+        "MODEL:restaurant_agent_decide": 37444.0,
+        "PAGE_LOAD": 144786.0,
+        "READ_PAGE": 76188.0,
+        "MODEL:restaurant_discovery_retrieval": 10071.0,
+        "WAIT": 24861.0,
+        "MODEL:browser_read_decide": 81386.0,
+        "PAGE_OPERATION": 2794.0,
+        "MODEL:restaurant_fact_judgment": 16044.0
+      },
+      "modelPurposeLatencyMs": {
+        "restaurant_semantic_interpret": 4634,
+        "restaurant_agent_decide": 37444,
+        "restaurant_discovery_retrieval": 10071,
+        "browser_read_decide": 81386,
+        "restaurant_fact_judgment": 16044
+      },
+      "modelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 10,
+        "restaurant_discovery_retrieval": 4,
+        "browser_read_decide": 25,
+        "restaurant_fact_judgment": 7
+      },
+      "navigationCount": 35,
+      "recordedURLStringRepeatCount": 22,
+      "timingGapCount": 10,
+      "replayability": {
+        "total": 105,
+        "replayable": 72,
+        "ratio": 0.6857142857142857,
+        "reasonDistribution": {
+          "SANITIZED_NETWORK_AND_DOM_CAPTURE": 72,
+          "UNCAPTURED_STATIC_DEPENDENCY": 33
+        }
+      },
+      "diagnosticDOMStatusCounts": {
+        "SAVED": 105
+      },
+      "replay": {
+        "executionSource": "REPLAY",
+        "modelMode": "ORIGINAL",
+        "recordingSha256": "9afec713873032bfc5146ef21002b37415b805d0f51263116b8a41c552239d6d",
+        "harSha256": "8da4f044864e6f0869fabcf15aaed911bbb7f6df71f23c48894979639a26a552",
+        "decisionSha256": "03c4ea9d21dfd52b2cece3449354e85c03d78deefd083a90f2442ba4e9b8b9f1",
+        "liveCapabilityDenominator": "EXCLUDED",
+        "status": "REPLAY_INCOMPLETE",
+        "stop": {
+          "snapshot": null,
+          "origin": "https://places.googleapis.com",
+          "pathname": "/v1/places:searchText",
+          "reason": "MISSING_STRUCTURED_RESPONSE"
+        },
+        "consumedPages": 0,
+        "recordedPages": 105,
+        "consumedDecisions": 2,
+        "recordedDecisions": 47,
+        "modelTransportCalls": 0,
+        "resultPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/slots/4/replay/execution/2026-10-25T01-14-35-058Z-94bd0aff-0aed-41db-b4dd-b0998e30bc28.result.json"
+      },
+      "scriptOriginPaths": [
+        "https://assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+        "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+        "https://tblg.k-img.com/javascripts/s_code.js",
+        "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+        "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/menu.js",
+        "https://umami-next.post.tablecheck.com/script.js",
+        "https://www.tablecheck.com/portal/assets/index-DUt7bgp8.js",
+        "https://www.tablecheck.com/portal/assets/index-m1GDPVCL.js"
+      ],
+      "severity": {
+        "S0": "ABSENT",
+        "S1": "NOT_EVALUATED",
+        "S2": "NOT_EVALUATED",
+        "S3": "NOT_EVALUATED",
+        "S4": "NOT_EVALUATED",
+        "S0_DECLARATION": "ABSENT",
+        "S0_BOUNDARY": "ABSENT"
+      },
+      "witnessFunnelAutomatic": [],
+      "candidateResultDistribution": {
+        "OFFER_GROUNDED": 5,
+        "SOURCE_UNSUPPORTED": 2,
+        "UNAVAILABLE": 1,
+        "EVIDENCE_INCOMPLETE": 2
+      },
+      "furthestRecordedCandidate": {
+        "summary": {
+          "candidateId": "tabelog:en/tokyo/A1310/A131003/13242888",
+          "outletName": "Yakiniku Story Suidoubashi ten",
+          "providers": [
+            "TABELOG"
+          ],
+          "providerAttempts": [
+            {
+              "provider": "TABELOG",
+              "outcome": "AVAILABLE",
+              "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[2]"
+            }
+          ],
+          "result": "OFFER_GROUNDED",
+          "evidenceRefs": [
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:fe569d607398ccec64f3d93d]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:13a8d63885a50b0a45eacb1d]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:13260b3ec7e92d74a8deef0e]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:a761d005a614c6bd4c55af73]"
+          ]
+        },
+        "currentFactCheckDescriptiveOnly": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-10-25T01:18:26.943Z",
+          "evidenceIds": [],
+          "reasonCode": "BROWSER_TIMEOUT",
+          "sourceProvider": "TABELOG",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:tabelog-hard-criteria:13260b3ec7e92d74a8deef0e"
+          ]
+        },
+        "currentAvailabilityCheckDescriptiveOnly": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-25T01:16:48.473Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:13a8d63885a50b0a45eacb1d",
+            "evidence:restaurant:tabelog-hard-criteria:13260b3ec7e92d74a8deef0e",
+            "evidence:restaurant:tabelog-availability:a761d005a614c6bd4c55af73"
+          ],
+          "displayExpiresAt": "2026-10-25T01:26:48.473Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+        }
+      },
+      "unassessedDimensions": [
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without explicit identity or normalized literal correspondence; no LLM judge was used and independent semantic review is required."
+      ]
+    },
+    {
+      "slot": 5,
+      "caseId": "p2c-holdout-03",
+      "controlStartedAtCET": "2026-10-25T02:24:39.318154+01:00",
+      "controlFinishedAtCET": "2026-10-25T02:33:24.622359+01:00",
+      "outerElapsedSeconds": 525.279926417,
+      "usage": {
+        "modelCallsStarted": 39,
+        "googleRequests": 7,
+        "healthRetries": 0,
+        "browserResponses": 1428,
+        "errorCode": null
+      },
+      "formalRunStarted": true,
+      "artifactSha256": "5b123c79b5fb3a1d4d167a75562ab18d23857be2e50a13af4527c2595d833c95",
+      "review": ".eval-artifacts/phase3a-prime/f5-live/slots/5/manual-review.json",
+      "formalStartedAt": "2026-10-25T01:25:03.549Z",
+      "formalFinishedAt": "2026-10-25T01:33:24.045Z",
+      "formalElapsedSeconds": 500.496,
+      "preflightSeconds": 24.230846,
+      "automaticOutcome": {
+        "type": "ORCHESTRATION_INTERRUPTED",
+        "capabilityDenominator": "EXCLUDED",
+        "userGoalComplete": "NO",
+        "reasons": [
+          "Recorded TIMEOUT interruption; not a source-confirmed no-result."
+        ],
+        "evidenceRefs": [
+          "interruption",
+          "finalSnapshot",
+          "diagnostics.browserTrace"
+        ]
+      },
+      "manualOutcome": {
+        "frozenEvaluator": {
+          "type": "ORCHESTRATION_INTERRUPTED",
+          "capabilityDenominator": "EXCLUDED",
+          "userGoalComplete": "NO",
+          "reasons": [
+            "Recorded TIMEOUT interruption; not a source-confirmed no-result."
+          ],
+          "evidenceRefs": [
+            "interruption",
+            "finalSnapshot",
+            "diagnostics.browserTrace"
+          ]
+        },
+        "userNegativeCaseAcceptance": "FAIL_TIMEOUT",
+        "elapsedSeconds": 500.496,
+        "note": "Generic evaluator excludes interruption; frozen F5 no-timeout test keeps this planned slot as fail. No completed no-result output exists."
+      },
+      "timeout": true,
+      "phase": "SEARCHING",
+      "presentedAt": null,
+      "firstQualifiedEvidenceAt": null,
+      "noResultAt": null,
+      "noResultTermination": null,
+      "wallTimePartitionMs": {
+        "UNATTRIBUTED": 118221.0,
+        "MODEL:restaurant_semantic_interpret": 4228.0,
+        "MODEL:restaurant_agent_decide": 29999.0,
+        "PAGE_LOAD": 202848.0,
+        "READ_PAGE": 31366.0,
+        "MODEL:restaurant_discovery_retrieval": 9149.0,
+        "WAIT": 37707.0,
+        "MODEL:browser_read_decide": 45969.0,
+        "PAGE_OPERATION": 2180.0,
+        "MODEL:restaurant_fact_judgment": 18829.0
+      },
+      "modelPurposeLatencyMs": {
+        "restaurant_semantic_interpret": 4228,
+        "restaurant_agent_decide": 29999,
+        "restaurant_discovery_retrieval": 9149,
+        "browser_read_decide": 45969,
+        "restaurant_fact_judgment": 18829
+      },
+      "modelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 10,
+        "restaurant_discovery_retrieval": 4,
+        "browser_read_decide": 15,
+        "restaurant_fact_judgment": 9
+      },
+      "navigationCount": 65,
+      "recordedURLStringRepeatCount": 32,
+      "timingGapCount": 11,
+      "replayability": {
+        "total": 113,
+        "replayable": 9,
+        "ratio": 0.07964601769911504,
+        "reasonDistribution": {
+          "SANITIZED_NETWORK_AND_DOM_CAPTURE": 9,
+          "UNCAPTURED_STATIC_DEPENDENCY": 104
+        }
+      },
+      "diagnosticDOMStatusCounts": {
+        "SAVED": 113
+      },
+      "replay": {
+        "executionSource": "REPLAY",
+        "modelMode": "ORIGINAL",
+        "recordingSha256": "d0386faddd5269763a11996fe1d317f0562b609e74840be4f953c7520d3e2f3a",
+        "harSha256": "8da4f044864e6f0869fabcf15aaed911bbb7f6df71f23c48894979639a26a552",
+        "decisionSha256": "25fe3f411ace923300314481522092f411a7dd80cb0b28567af8784cd06596df",
+        "liveCapabilityDenominator": "EXCLUDED",
+        "status": "REPLAY_INCOMPLETE",
+        "stop": {
+          "snapshot": null,
+          "origin": "https://places.googleapis.com",
+          "pathname": "/v1/places:searchText",
+          "reason": "MISSING_STRUCTURED_RESPONSE"
+        },
+        "consumedPages": 0,
+        "recordedPages": 113,
+        "consumedDecisions": 2,
+        "recordedDecisions": 39,
+        "modelTransportCalls": 0,
+        "resultPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/slots/5/replay/execution/2026-10-25T01-25-03-558Z-fbaf6203-0a02-4fcb-bf70-0c7068c55e46.result.json"
+      },
+      "scriptOriginPaths": [
+        "https://assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+        "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+        "https://tblg.k-img.com/javascripts/s_code.js",
+        "https://umami-next.post.tablecheck.com/script.js",
+        "https://www.tablecheck.com/portal/assets/index-DUt7bgp8.js",
+        "https://www.tablecheck.com/portal/assets/index-m1GDPVCL.js",
+        "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+        "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+        "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js"
+      ],
+      "severity": {
+        "S0": "ABSENT",
+        "S1": "NOT_EVALUATED",
+        "S2": "NOT_EVALUATED",
+        "S3": "NOT_EVALUATED",
+        "S4": "NOT_EVALUATED",
+        "S0_DECLARATION": "ABSENT",
+        "S0_BOUNDARY": "ABSENT"
+      },
+      "witnessFunnelAutomatic": [],
+      "candidateResultDistribution": {
+        "SOURCE_UNSUPPORTED": 2,
+        "UNAVAILABLE": 1,
+        "EVIDENCE_INCOMPLETE": 3,
+        "REQUEST_NOT_CONFIRMED": 1,
+        "NOT_CHECKED": 8,
+        "OFFER_GROUNDED": 1
+      },
+      "furthestRecordedCandidate": {
+        "summary": {
+          "candidateId": "praxis:restaurant:5d12d8e1bad44d492c4ec5a7",
+          "outletName": "Jidai Sushi",
+          "providers": [
+            "TABLECHECK",
+            "TABELOG"
+          ],
+          "providerAttempts": [
+            {
+              "provider": "TABLECHECK",
+              "outcome": "PROVIDER_FAILURE",
+              "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN",
+              "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[4]"
+            },
+            {
+              "provider": "TABELOG",
+              "outcome": "AVAILABLE",
+              "evidenceRef": "trajectories[7].executionMetadata.providerAttempts[5]"
+            }
+          ],
+          "result": "OFFER_GROUNDED",
+          "evidenceRefs": [
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:22c4f75e1d44716f21ab589d]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:22c4f75e1d44716f21ab589d]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:00ca81754a8a156e46459286]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:426222a5f911a4a4dcf530e7]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:f614210b6f39f49e1f21b07a]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:cbaef24c6cdeea917b440bb8]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:15fd9beea0fb049003377ac3]",
+            "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:0b2c0e190cecf2ef6c01fda8]"
+          ]
+        },
+        "currentFactCheckDescriptiveOnly": {
+          "status": "COMPLETED",
+          "checkedAt": "2026-10-25T01:31:30.765Z",
+          "evidenceIds": [
+            "evidence:restaurant:google-entity:15fd9beea0fb049003377ac3",
+            "evidence:restaurant:google-facts:0b2c0e190cecf2ef6c01fda8"
+          ],
+          "sourceAttempts": [
+            {
+              "source": "GOOGLE_PLACES",
+              "outcome": "COMPLETED"
+            },
+            {
+              "source": "RESTAURANT_WEBSITE",
+              "outcome": "UNKNOWN",
+              "reasonCode": "WEBSITE_FACT_READ_FAILED"
+            }
+          ],
+          "reasonCode": "WEBSITE_FACT_READ_FAILED",
+          "sourceProvider": "GOOGLE_PLACES",
+          "supersededEvidenceIds": [
+            "evidence:restaurant:google-facts:00ca81754a8a156e46459286"
+          ]
+        },
+        "currentAvailabilityCheckDescriptiveOnly": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-25T01:31:27.074Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:426222a5f911a4a4dcf530e7",
+            "evidence:restaurant:tabelog-hard-criteria:f614210b6f39f49e1f21b07a",
+            "evidence:restaurant:tabelog-availability:cbaef24c6cdeea917b440bb8"
+          ],
+          "displayExpiresAt": "2026-10-25T01:41:27.074Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "FAILED",
+              "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+            },
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+          "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+        }
+      },
+      "unassessedDimensions": [
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose.",
+        "Criterion text differs without explicit identity or normalized literal correspondence; no LLM judge was used and independent semantic review is required."
+      ]
+    },
+    {
+      "slot": 6,
+      "caseId": "p2c-holdout-03",
+      "controlStartedAtCET": "2026-10-25T02:34:38.316215+01:00",
+      "controlFinishedAtCET": "2026-10-25T02:34:48.918554+01:00",
+      "outerElapsedSeconds": 10.610559125,
+      "usage": {
+        "modelCallsStarted": 0,
+        "googleRequests": 0,
+        "healthRetries": 0,
+        "browserResponses": 28,
+        "errorCode": "F5_ENV_RETRY_LIMIT"
+      },
+      "formalRunStarted": false,
+      "artifactSha256": null,
+      "review": ".eval-artifacts/phase3a-prime/f5-live/slots/6/manual-review.json",
+      "automaticOutcome": {
+        "type": "ENV_FAILURE",
+        "capabilityDenominator": "NOT_STARTED"
+      },
+      "manualOutcome": {
+        "type": "ENV_FAILURE",
+        "capabilityDenominator": "NOT_STARTED",
+        "userGoalComplete": "NOT_EVALUATED",
+        "frozenF5Slot": "NOT_RUN",
+        "reason": "TabelogHTTP200/CHECK_TIMEOUT; environment retry balance0 => F5_ENV_RETRY_LIMIT; no formal task was started"
+      },
+      "timeout": null,
+      "severity": {
+        "S0_DECLARATION": "ABSENT",
+        "S0_BOUNDARY": "NOT_EVALUATED"
+      },
+      "replay": {
+        "status": "NOT_RUN_NO_RECORDING"
+      }
+    }
+  ],
+  "allUncapturedScriptOriginPaths": [
+    "https://assets.adobedtm.com/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+    "https://browser.sentry-cdn.com/6.18.2/bundle.min.js",
+    "https://static.parastorage.com/services/pro-gallery-tpa/1.1535.0/WixProGalleryViewerWidget.bundle.min.js",
+    "https://static.parastorage.com/services/tag-manager-client/1.1075.0/siteTags.bundle.min.js",
+    "https://static.parastorage.com/services/wix-thunderbolt/dist/main.693e1c6a.bundle.min.js",
+    "https://static.parastorage.com/services/wix-thunderbolt/dist/main.renderer.b325a058.bundle.min.js",
+    "https://static.parastorage.com/services/wix-thunderbolt/dist/thunderbolt-commons.edd84710.bundle.min.js",
+    "https://static.parastorage.com/unpkg/lodash@4.18.1/lodash.min.js",
+    "https://static.parastorage.com/unpkg/react-dom@18.3.1/umd/react-dom.production.min.js",
+    "https://static.parastorage.com/unpkg/react@18.3.1/umd/react.production.min.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/menu.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+    "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+    "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+    "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+    "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+    "https://tblg.k-img.com/javascripts/s_code.js",
+    "https://umami-next.post.tablecheck.com/script.js",
+    "https://www.1bangai.org/_partials/wix-thunderbolt/dist/clientWorker.1634c378.bundle.min.js",
+    "https://www.tablecheck.com/portal/assets/index-DUt7bgp8.js",
+    "https://www.tablecheck.com/portal/assets/index-m1GDPVCL.js"
+  ],
+  "replaySummary": {
+    "recordings": 5,
+    "originalReplayAttempts": 5,
+    "complete": 0,
+    "incomplete": 5,
+    "realModelCalls": 0,
+    "networkFallback": 0
+  },
+  "limits": "No retries, seventh controlled env load, source/prompt/schema/guard change, or main merge after preflight stop."
+}
