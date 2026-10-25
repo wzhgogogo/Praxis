@@ -1,0 +1,83 @@
+{
+  "schema": "f5-preformal-independent-review@1",
+  "reviewer": "Codex primary agent",
+  "reviewedAtCET": "2026-10-25T02:38:03.325170+01:00",
+  "formalArtifact": null,
+  "formalRunStarted": false,
+  "fourLayers": {
+    "outcome": {
+      "type": "ENV_FAILURE",
+      "capabilityDenominator": "NOT_STARTED",
+      "userGoalComplete": "NOT_EVALUATED",
+      "frozenF5Slot": "NOT_RUN",
+      "reason": "TabelogHTTP200/CHECK_TIMEOUT; environment retry balance0 => F5_ENV_RETRY_LIMIT; no formal task was started"
+    },
+    "stages": {
+      "readiness": "FAILED_PRECHECK",
+      "semantic": "NOT_RUN",
+      "location": "NOT_RUN",
+      "discovery": "NOT_RUN",
+      "identityFactsAvailability": "NOT_RUN",
+      "delivery": "NOT_RUN"
+    },
+    "severity": {
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "basis": "No formal task/model/agent output; stdout empty and actual formal start absent"
+      },
+      "S0_BOUNDARY": {
+        "status": "NOT_EVALUATED",
+        "basis": "Preflight retains response origin/path/method only, not complete dispatched request parameters/headers or browser trace. Do not use GuardINSTALLED as independent oracle. No positive violation observed."
+      },
+      "S1_S2_S3_S4": "NOT_EVALUATED"
+    },
+    "attribution": {
+      "confirmed": "Initial Tabelog health probeHTTP200 times out at10001ms,TableCheckhealthy9972ms. Frozen counter refuses another300s sleep because shared2environment retries used in slot2.",
+      "hypothesis": "Same final-snapshot/deadline contention demonstrated locally can explain the health false negative; exact live snapshot timings absent."
+    }
+  },
+  "resources": {
+    "modelCallsStarted": 0,
+    "googleRequests": 0,
+    "healthRetries": 0,
+    "browserResponses": 28,
+    "errorCode": "F5_ENV_RETRY_LIMIT"
+  },
+  "responseFacts": {
+    "count": 28,
+    "methods": {
+      "GET": 24,
+      "OPTIONS": 4
+    },
+    "notTotalRequestCount": true
+  },
+  "healthSource": {
+    "originalPath": ".eval-artifacts/live-source-health/1792892078641-p2c-holdout-03/attempt-1.json",
+    "copiedPath": ".eval-artifacts/phase3a-prime/f5-live/slots/6/source-health-attempt-1.json",
+    "sha256": "c6889ed81f88f816dd94c6f5493d78424f31c8a0bd491bce43ea8a84d31f0670",
+    "observations": [
+      {
+        "sourceId": "tabelog",
+        "url": "https://tabelog.com/en/tokyo/A1301/rstLst/",
+        "outcome": "UNHEALTHY",
+        "reason": "CHECK_TIMEOUT",
+        "httpStatus": 200,
+        "readNetworkBoundary": "INSTALLED",
+        "elapsedMs": 10001
+      },
+      {
+        "sourceId": "tablecheck",
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+        "outcome": "HEALTHY",
+        "reason": null,
+        "httpStatus": 200,
+        "finalUrl": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.67123&geo_longitude=139.765&geo_distance=1km&auto_geolocate=false&search_text=Ginza",
+        "readNetworkBoundary": "INSTALLED",
+        "elapsedMs": 9972
+      }
+    ]
+  },
+  "recording": "NOT_CREATED_BEFORE_FORMAL_RUN",
+  "F2OriginalReplay": "NOT_RUN_NO_RECORDING",
+  "nextAction": "Stop at exhausted environment allowance; no automatic retry or seventh credential load. Complete remaining offline audit and submit incomplete batch for review."
+}

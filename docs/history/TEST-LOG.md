@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.294
+- Document revision: 4.295
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-25-F5-LIVE-STOP3-INCOMPLETE
+
+模式分开：Live Read-only正式5次、预检终止1次；独立Evaluator34/rubric30加Codex原始材料复核；F2④b ORIGINAL回放5次（OS禁网，真实模型0，全部MISSING_STRUCTURED_RESPONSE/INCOMPLETE）；用户另批公开GET直连1次；本地构造计时控制快/慢各3观察，非网站回放，网络/模型/Live0。没有Controlled Live-write。
+
+例01 0/3合格；槽2不能被SUCCEEDED外层遮蔽AGENT_LOOP_TIMEOUT；例03仅首轮满足有界负例、不超时、无非fugu HARD声明，自动NOT_EVALUATED保留，次轮超时，末轮NOT_RUN。5正式槽独立S0两项ABSENT；末轮预检只留响应摘要，S0边界NOT_EVALUATED，不补0。所有实际交付为0，所以post-delivery GET计划为空，原始预认证WITNESS_EXISTS保留。每槽模型≤47/50、Google≤8/40，累计218/300 F5模型、5/6正式Live、环境重跑2/2；评测侧GET累计5含旧认证2+本批认证2+用户另批诊断1。
+
+五门禁在重放后355a5547已全绿（默认1046、Chromium154，typecheck/arch/build通过），每项前后净树；后续只评测产物和文档，源码相对门禁提交无新增差异，不重复冒称新门禁。348项HEAD/当前SHA、25份原始gzip、5份录制tar逐文件SHA、串行与安全门顺序、原9条账本、站点3864/pack473字节相同核验通过。录制按页资格与整包回放分开；脚本origin+path无query、危险DOM缺口、精确未用车站控件、时间分解/模型用途/首次合格/展示/见证漏斗均在报告。完整停止点3和业务门槛未达成，按额度停止，无源码修复。[报告](../../.eval-artifacts/phase3a-prime/f5-live/report.md) · [机器汇总](../../.eval-artifacts/phase3a-prime/f5-live/aggregate.json)。
 
 ## TEST-2026-10-25-F5-LIVE-RUNNING
 
