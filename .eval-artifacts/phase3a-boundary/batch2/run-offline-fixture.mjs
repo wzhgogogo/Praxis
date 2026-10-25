@@ -6,7 +6,7 @@ import { runRestaurantSemanticRegression } from "../../../src/eval/restaurant/se
 const report = await runRestaurantSemanticRegression(new RestaurantSemanticRegressionFixtureInterpreter(), {
   mode: "FIXTURE", attributionLevel: "DEVELOPMENT_STAGE_ORACLES", dataset: restaurantSemanticRegressionV3,
 });
-writeFileSync(new URL("semantic-fixture-execution.json", import.meta.url), JSON.stringify({
+writeFileSync(new URL("semantic-fixture-execution-r2.json", import.meta.url), JSON.stringify({
   evidenceStatus: "exposed development / offline fixture / not Clean Baseline", realModelCalls: 0, report,
 }, null, 2) + "\n");
 console.log(JSON.stringify(report.summary));

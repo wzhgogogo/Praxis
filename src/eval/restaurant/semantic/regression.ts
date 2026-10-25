@@ -224,10 +224,9 @@ export async function runRestaurantSemanticRegression(
         blocked = true;
         continue;
       }
-      const temporalContext = { referenceTime: dataset.referenceTime, timezone: "Asia/Tokyo" as const };
-      const compiled = compile(interpreted.proposal, temporalContext);
+      const compiled = compile(interpreted.proposal);
       const expectedCompilation = expectedProposal
-        ? compileRestaurantSemanticProposal(expectedProposal, temporalContext)
+        ? compileRestaurantSemanticProposal(expectedProposal)
         : undefined;
       if (expectedCompilation?.status === "CONFLICT") {
         throw new Error(`Development-stage Proposal oracle conflicts for ${turn.id}`);

@@ -5,7 +5,7 @@ Evidence status: current executable candidate / exposed development，非 Clean 
 ## 1. 范围与提交
 
 - 分支 `codex/adr-0044-recommendation-availability-boundary`，main 基点 `7165f8a20fd86e105ea3219100061699c03197a1`，停止点1 `cca576ece21ace1184c95d34f8d0308534926282`。本批不合 main。
-- `3ec5d9fd` 接受 ADR 与独立额度；`8b6fafb9` / `661a1b5e` 冻结检错测试；`cd443a8c` 为 schema4 有效正控制下的引用红灯基点。实现冻结提交和正式结果随后补记。
+- `3ec5d9fd` 接受 ADR 与独立额度；`8b6fafb9` / `661a1b5e` 冻结检错测试；`cd443a8c` 为 schema4 有效正控制下的引用红灯基点。首轮冻结 dc434286；收敛后的实现冻结提交和正式结果随后补记。
 - 批次2只实施与离线验证：Prompt@24、Semantic Proposal@4、scorer/report@4；不保留旧 Proposal 兼容。新 TARGET 必须给出结构有效的 goalBasis，各引用来自当前消息；无新 TARGET 的修正沿用原目标。
 - goalBasis 只在提议/静态评测结果，Compiler 显式摘取 goal/query/scope/count；持久 State@20、TaskDefinition@18、原 Gold、原始用户指令逐字节不变。SR03-T02 不改 Gold。
 - 新评分配置绑定原文 SHA，仅目标维度使用已批准类别；其余 Proposal/Patch/Draft 字段与 operation 严格比较。真实模型入口保留逐阶段 oracle。输入配置先提交冻结，再运行评价。
@@ -40,7 +40,7 @@ Evidence status: current executable candidate / exposed development，非 Clean 
 ## 5. 偏离与实施说明
 
 - 无外部范围或授权偏离。当前相关 Compiler 发现相同query双goal被去重，先取红灯再修；无语义后目标写路径可删除。Guard、来源、站点目录、source-packs.ts、预约实现不改。
-- 评价编译传入冻结 Tokyo 参考时间，让支持的相对时间经生产 Compiler 物化；物化后的日期/时段/诊断差异仍严格记录。探索中的“忽略未标诊断”及真实模型简化归因在冻结前撤销，保留批准的非目标严格比较/逐阶段oracle。
+- 首轮冻结 dc434286 的离线15轮因新增编译参考时间而产生旧Gold未标注的temporalResolution：2通过、10失败、3上游阻断，未继续五门禁。原执行、日志、verification和输入manifest均保留。已撤回这项额外改动，维持原Compiler回归调用方式并重新冻结；不修改Gold或放宽评分。探索中的“忽略未标诊断”及真实模型简化归因也已撤销，保留批准的非目标严格比较/逐阶段oracle。
 - STATUS、Domain、Eval规则、DEVLOG、TEST-LOG、月度索引同步本批实现事实；停止点3才确认Gold变更及相应最终事实。旧报告和评价保持历史身份，不追改分数。
 
 ## 6. 待复核事项
