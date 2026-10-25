@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.305
+- Document revision: 4.306
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4744,3 +4744,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-26-PHASE3A-F3-TIMING-MAIN-REBASE-PREP
 
 在卫生分支合并已批准并行main，原红绿SHA历史保留；取main文档全量再恢复本轮历史条目，不把旧main门禁用于新源码组合。站点解析文件未改；接下来冻结新组合并重跑五门禁。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/rebased-main/report.md)。
+
+## DEV-2026-10-26-PHASE3A-F3-TIMING-MAIN-REBASE-VERIFIED
+
+继承B已批准Guard/预检、Evaluator36及显式通用列表修改，不由A编辑对方文件。卫生源码差异仅9个测试文件；解析/控件与Pack原样。当前快照新增网络类型事实不补齐行数计划所需的日期状态/结果scope观察，后续仍须逐条核验。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/rebased-main/report.md)。

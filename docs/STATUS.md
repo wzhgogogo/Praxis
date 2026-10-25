@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.412
+- Document revision: 4.413
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-PHASE3A-F3-TIMING-MAIN-REBASE-VERIFIED:** 卫生在并行main/c5ec9ddf上重冻605项，a84c0922严格五门禁1060/161全绿、逐门禁净树；B四文件与upstream字节相同，源冲突0，双方文档记录保留。旧1054/161仅历史，0新增真实调用，按授权合main再继续行数项。 [报告](../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/rebased-main/report.md)。
 
 - **2026-10-26-PHASE3A-F3-TIMING-MAIN-REBASE-PREP:** 卫生合入前main已推进c5ec9ddf；保留并行Guard/显式通用列表及评测器36内容，源码冲突0、五份文档双方记录完整保留。旧main上1054/161仅作冻结回归，新组合五门禁待运行；不编辑B四文件，0新增真实调用。 [报告](../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/rebased-main/report.md)。
 
