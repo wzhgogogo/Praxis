@@ -1,0 +1,10 @@
+{
+  "key": "PHASE3A-PRIME-STOP3-RECORDING",
+  "item": "stop3-infrastructure-fixes-20261025/recording",
+  "text": "停止点3两项修复完成：健康检查已合main/28216ae3；录制器先替换第三方URL key/signature/client值，再保留原扫描，普通命中按页/条目拒绝，自有凭据命中整份拒绝且不提前发布DOM。槽1最小元素真实Chromium录制/回放到首个不合格页，0来源请求；五门禁1037/154全绿，各项后净工作树，真实调用0。按授权合main并停止等复核。",
+  "development": "录制/诊断共用第三方URL固定占位脱敏，原扫描表达式不变；实际CLI预登记Google/模型自有凭据，原始输入先检查，任何自有命中只留安全拒绝记录。普通模式按页/响应/条目隔离，Google原始安全JSON字节不改；保留写前与落盘后扫描，退役无Google时绕过扫描的旧分支。槽1第6页只提取必要img元素，来源/日期/SHA可追溯，原key改为合成marker。",
+  "verification": "efb78d84旧实现两条目标红灯；d067bf7f相关25项与真实Chromium/Guard绿灯：安全地图写HAR，第2页缺静态响应明确REPLAY_INCOMPLETE，回放来源0。5de17530五门禁1037/154全绿，单次19.900391/92.930660秒，每门禁status空、恢复0；原扫描表达式不变，凭据/写后控制保持严格，来源输入和编排SHA冻结。产品/Guard/站点/pack不改，真实模型/Google/网站/Live/环境重跑0。未重跑历史F5。",
+  "initialGateCommit": "5de17530120ad71ba9a155228e89f2cc25e66c01",
+  "finalGateCommit": "05991efd39903d2fae094e209c9bf973381223c5",
+  "finalVerification": "Owned request body checked independently after foreign response rejection; final five gates 1037/154 green, each status clean; samples 22.949792/93.159010 seconds."
+}

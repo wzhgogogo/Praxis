@@ -4609,3 +4609,5 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 录制/诊断共用第三方URL固定占位脱敏，原扫描表达式不变；实际CLI预登记Google/模型自有凭据，原始输入先检查，任何自有命中只留安全拒绝记录。普通模式按页/响应/条目隔离，Google原始安全JSON字节不改；保留写前与落盘后扫描，退役无Google时绕过扫描的旧分支。槽1第6页只提取必要img元素，来源/日期/SHA可追溯，原key改为合成marker。 [报告](../../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/recording/report.md)。
 
 交付开发补充：5cb751e3冻结“第三方响应命中且请求体含自有凭据”反例，旧路径REPLAYABLE红灯；请求体与响应独立扫描后7/7局部绿灯。首轮5de17530五门禁产物保留，最终候选将完整复跑五门禁后才合入。
+
+最终复跑完成（2026-10-25T03:31:14.348284+01:00 CET）：精确候选05991efd39903d2fae094e209c9bf973381223c5五门禁全绿，默认1037、真实Chromium154，单次22.949792/93.159010秒，每项后status空、恢复0；原5de17530五门禁完整保留，新增真实调用仍0。最终输入/编排与当前实现SHA一致，按授权合入推送后停。

@@ -1,0 +1,50 @@
+✔ browser recording writes only an in-memory sanitized public document HAR (27.850667ms)
+✔ browser recording retains a Pack-reviewed public query document within the measured bounded size (29.27025ms)
+✔ browser recording preserves valid JSON-LD geo numbers while redacting its telephone (28.521667ms)
+✔ browser recording keeps reviewed GET form actions and removes unreviewed destinations (9.639666ms)
+✔ browser recording refuses replay when a dynamic response was admitted without a safe captured body (4.123416ms)
+✔ browser recording refuses a snapshot-only replay when an admitted external script was not captured (2.851208ms)
+✔ browser recording keeps a captured safe external script in the replay HAR (5.953334ms)
+✔ browser recording refuses a reviewed script response containing a literal credential (2.702083ms)
+✔ browser recording persists each runtime-masked screenshot with its snapshot (6.026ms)
+✔ browser recording adds a sanitized admitted public dynamic response to replay only in memory (4.873708ms)
+✔ browser recording rejects HTTP failures and preserves safe CSS visibility in replay documents (10.051334ms)
+✔ browser recording preserves form methods while deleting unsafe destinations (7.011416ms)
+✔ browser recording preserves an admitted public document redirect for replay (4.116208ms)
+✔ recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte (13.259708ms)
+✔ Gold fidelity allows additional UNSPECIFIED context and retains original requirements (5.317791ms)
+✔ page qualification isolates omitted DOM and missing dependencies (42.434333ms)
+✔ page cap admits observed 430KB and 743KB documents and checks UTF-8 byte size (43.138875ms)
+✔ Google raw bytes survive capture without key headers/query, even with no replayable DOM (12.8035ms)
+✔ Runner Google factory keeps fixture transport and validates proxy configuration (1.255708ms)
+✖ key scans reject decoded JSON response, pre-write payload and post-write corruption (2.352041ms)
+✔ late Google responses cannot append after recorder finalization (0.309083ms)
+✔ diagnostic DOM preserves safe rejected pages without changing replay bytes (22.290167ms)
+✔ slot1 public map URL is redacted while residual key patterns omit only their page or response (30.134708ms)
+✔ an owned credential in a document rejects the whole recording before any content file is published (5.45625ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 23
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 648.436375
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/google-places-recording.test.ts:1:3762
+✖ key scans reject decoded JSON response, pre-write payload and post-write corruption (2.352041ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/google-places-recording.test.ts:51:47)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }

@@ -1,0 +1,53 @@
+✔ browser recording writes only an in-memory sanitized public document HAR (20.942417ms)
+✔ browser recording retains a Pack-reviewed public query document within the measured bounded size (25.860792ms)
+✔ browser recording preserves valid JSON-LD geo numbers while redacting its telephone (7.989625ms)
+✔ browser recording keeps reviewed GET form actions and removes unreviewed destinations (8.186792ms)
+✔ browser recording refuses replay when a dynamic response was admitted without a safe captured body (3.253542ms)
+✔ browser recording refuses a snapshot-only replay when an admitted external script was not captured (2.573458ms)
+✔ browser recording keeps a captured safe external script in the replay HAR (5.992042ms)
+✔ browser recording refuses a reviewed script response containing a literal credential (3.347708ms)
+✔ browser recording persists each runtime-masked screenshot with its snapshot (7.835916ms)
+✔ browser recording adds a sanitized admitted public dynamic response to replay only in memory (4.316ms)
+✔ browser recording rejects HTTP failures and preserves safe CSS visibility in replay documents (7.731417ms)
+✔ browser recording preserves form methods while deleting unsafe destinations (6.162583ms)
+✔ browser recording preserves an admitted public document redirect for replay (2.48125ms)
+✔ recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte (4.978333ms)
+✔ Gold fidelity allows additional UNSPECIFIED context and retains original requirements (10.993709ms)
+✔ page qualification isolates omitted DOM and missing dependencies (16.244459ms)
+✔ page cap admits observed 430KB and 743KB documents and checks UTF-8 byte size (35.473459ms)
+✔ Google raw bytes survive capture without key headers/query, even with no replayable DOM (13.9595ms)
+✔ Runner Google factory keeps fixture transport and validates proxy configuration (1.189875ms)
+✔ strict key scans isolate foreign entries before/after writing and reject owned credentials globally (3.077625ms)
+✔ late Google responses cannot append after recorder finalization (0.092708ms)
+✔ diagnostic DOM preserves safe rejected pages without changing replay bytes (20.831209ms)
+✖ slot1 public map URL is redacted while residual key patterns omit only their page or response (17.032417ms)
+✔ an owned credential in a document rejects the whole recording before any content file is published (5.668958ms)
+✔ pre-registered model credentials and owned Google response/trace leaks all reject the complete recording (11.349458ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 24
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 647.438167
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/recording-keys.test.ts:1:1124
+✖ slot1 public map URL is redacted while residual key patterns omit only their page or response (17.032417ms)
+  AssertionError [ERR_ASSERTION]: the safe map page and Google response must survive; old writer rejected the whole HAR
+  + actual - expected
+  
+  + 'NOT_REPLAYABLE'
+  - 'PARTIALLY_REPLAYABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/recording-keys.test.ts:33:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_REPLAYABLE',
+    expected: 'PARTIALLY_REPLAYABLE',
+    operator: 'strictEqual'
+  }
