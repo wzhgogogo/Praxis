@@ -11,6 +11,12 @@
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 
+## DEV-2026-10-25-F5-LIVE-PREPARED
+
+固定CET UTC+01:00。F5重放到main4d927958，旧763a2262保留tag；源码0冲突，双方文档记录及共享账本A7＋B2全部保留。355a5547五门禁1046/154及type/arch/build全绿，5次前后净树；包8b39bd76固定348项SHA，严格Loader、子进程、分析器离线导入通过。日期正文原字节不改，10-25运行窗口+10/+13天。先提交后2GET复查Dengana，类别/201.545m/11-04 19:00两人WITNESS_EXISTS，响应及SHA无损归档，账本新增2、共享GET4。CET下元数据与UTC证据并存。
+
+自动审批拒绝主工作树.env加载（即使仅布尔检查），因旧禁止读取限制；未执行，没有密钥读取/展示/复制/暂存。六slot执行包、独立S0 gate、逐店GET与F2原样回放入口已准备，凭据方式待用户明确许可；不绕过拒绝，六slot NOT_RUN，新增模型/Google/Live0，尚未停止点3。[报告](../../.eval-artifacts/phase3a-prime/f5-live/report.md)。
+
 ## DEV-2026-10-24-PHASE3A-PRIME-F5-IMPLEMENTATION
 
 最终收尾（CEST）：d771aa51完成全部实现，五门禁PASS（1038／138），每门禁前后均干净。明确stopReason不被未空队列复活；JSON-LD null／空串不转为0有效坐标。实际Runner严格加载器预检通过；仅移除不兼容的信封元字段，用户正文／日期／GET输入未改，执行时旧freeze单独保留。最终仅归档及文档提交，源码不再变化，停2等复核。
