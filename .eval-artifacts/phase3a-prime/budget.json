@@ -187,16 +187,31 @@
       "finishedAtCET": "2026-10-25T01:51:53.439109+01:00",
       "sha256": "eccb06debf943d1114c83bbd3900ec3a88cb5f71046431fe3108bcb53c4a6bbd",
       "metadata": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/direct-diagnostic/response.metadata.json"
+    },
+    {
+      "id": "f5-live-slot-3",
+      "kind": "F5_LIVE_SLOT",
+      "slot": 3,
+      "caseId": "p2c-holdout-01",
+      "status": "FINISHED",
+      "fullLive": 1,
+      "realModelCalls": 47,
+      "googleRequests": 6,
+      "environmentReruns": 0,
+      "startedAtCET": "2026-10-25T02:04:57.289638+01:00",
+      "codeCommit": "fc6c6fcc0c66748a198e0e9af66623f96cb187c0",
+      "finishedAtCET": "2026-10-25T02:12:07.991217+01:00",
+      "summary": ".eval-artifacts/phase3a-prime/f5-live/slots/3/summary.json"
     }
   ],
   "cumulative": {
-    "fullLive": 2,
-    "googleRequests": 13,
-    "websiteGET": 5,
     "environmentReruns": 2,
-    "realModelCalls": 85
+    "googleRequests": 19,
+    "fullLive": 3,
+    "realModelCalls": 132,
+    "websiteGET": 5
   },
-  "asOf": "2026-10-25T02:02:47.265653+01:00",
+  "asOf": "2026-10-25T02:12:07.991588+01:00",
   "timezone": "CET UTC+01:00 per user",
   "f5PublicGetApproval": "Explicit user correction,2026-10-24 Europe/Vienna: case01 public detail+four-param vacancy GET permitted; noCookie/login/form/model; commit scripts first; repeat within24h before approved Live.",
   "f5Stop3Approval": "User stop2 review approved six serial F5 Live runs; direct user subsequently authorized only these six controlled Runner processes to load existing server credentials from the named primary-worktree .env without display/copy/staging; see f5-live/credential-authorization.json."
