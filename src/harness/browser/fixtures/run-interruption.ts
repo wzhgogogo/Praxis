@@ -3,7 +3,8 @@
 // production read assembly; only model and source I/O are controlled.
 import { mock } from "node:test";
 import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { join,relative } from "node:path";
+import {createHash} from 'node:crypto';
 import { runHybridReadDiagnostic } from "../../../eval/restaurant/agent-loop/runners/run-hybrid-live-read.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../application/live-read-investigation-budget.js";
 import { googlePlacesDiscoveryPack, discoveryPackNetworkPolicy } from "../../../integrations/restaurant-search/source-packs.js";
@@ -15,6 +16,9 @@ import type { ModelRequest } from "../../../core/model/contracts.js";
 
 const mode = process.argv[2]!, parentRoot = process.argv[3]!;
 if(process.argv.includes('--exit-before-artifact'))process.exit(9);
+const repositoryRoot=process.cwd(),reviewedArgument=process.argv.find(arg=>arg.startsWith('--independent-reviewed-reads='));
+const reviewedPath=reviewedArgument?.slice('--independent-reviewed-reads='.length);
+const preflight=reviewedPath?{reviewedReadsPath:relative(repositoryRoot,reviewedPath),reviewedReadsSha256:process.argv.includes('--invalid-reviewed-sha')?'0'.repeat(64):createHash('sha256').update(await readFile(reviewedPath)).digest('hex')}:undefined;
 await mkdir(parentRoot, { recursive: true });
 // Registered by the same preloaded read guard as both test suites. The child
 // owns its generated inputs instead of accepting arbitrary external fixtures.
@@ -71,7 +75,7 @@ const fixtureModel = async (request: ModelRequest) => {
 const result = await runHybridReadDiagnostic({
   frozen: { id: "interruption-fixture", dataset: "synthetic-interruption@1", reference_time: reference.toISOString(), content: "Find restaurants nearby on October 30 at 7 pm for two.",
     semantic: { target: { goal: "AVAILABILITY" }, date: { value: date }, time: { start: "19:00", end: "19:00" }, party_size: 2, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [] } as any },
-  startedAt: reference, runtimeContext: { browserEngine: "LOCAL_CHROMIUM", mode: "OFFLINE_SYNTHETIC_SOURCE", realModelCalls: 0 },
+  startedAt: reference, runtimeContext: { browserEngine: "LOCAL_CHROMIUM", mode: "OFFLINE_SYNTHETIC_SOURCE", realModelCalls: 0, ...(preflight?{preflight}:{}) },
   limits: { ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET }, packs: [googlePlacesDiscoveryPack], recordBrowser: true, recordDecisions: true,
   evaluationLocation: { label: "Public synthetic center", latitude: 35.6697, longitude: 139.767, radiusMeters: 1000, source: "FIXTURE" },
 }, {

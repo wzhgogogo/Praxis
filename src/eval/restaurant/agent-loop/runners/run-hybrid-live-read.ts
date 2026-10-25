@@ -570,6 +570,11 @@ return { resultPath: journal.resultPath };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  if(!process.send){
+    const {runSupervisedEvalCli,postExitFailed}=await import('./eval-post-exit.js');
+    const result=await runSupervisedEvalCli(fileURLToPath(import.meta.url),process.argv.slice(2),resolve('.eval-artifacts/restaurant-hybrid-live-read-post-exit'));
+    process.exit(postExitFailed(result)?result.exit.code||1:0);
+  }
   await runHybridLiveRead();
   // All immutable artifacts and evaluation sidecars have settled. The CLI
   // owns process exit even if an interrupted provider still holds a socket.

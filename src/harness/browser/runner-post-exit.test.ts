@@ -6,15 +6,17 @@ import {resolve,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import {runPacedHybridBatch} from '../../eval/restaurant/agent-loop/runners/run-paced-hybrid-read.js';
+import {runSupervisedEvalCli,postExitFailed} from '../../eval/restaurant/agent-loop/runners/eval-post-exit.js';
 
 test('each exited slot is independently evaluated before another slot exits, including nonzero and missing artifacts',{timeout:45_000},async t=>{
  const root=await mkdtemp(resolve('.eval-artifacts','post-exit-batch-')),output=join(root,'batch'),children:ChildProcess[]=[],messages:Array<{id:string;message:any}>=[];
  const fixture=fileURLToPath(new URL('./fixtures/run-interruption.ts',import.meta.url));
  const logs:Record<string,Buffer[]>={};
+ const reviewedPath=join(root,'reviewed-reads.json');await writeFile(reviewedPath,JSON.stringify({rules:[]}));
  try{
   const summary:any=await runPacedHybridBatch({runs:[
-   {id:'first',args:['complete',join(root,'first'),'--fixture-exit-code=7']},
-   {id:'second',args:['complete',join(root,'second'),`--wait-for-receipt=${join(output,'first.post-exit.json')}`,'--contradict-displayed-party']},
+   {id:'first',args:['complete',join(root,'first'),'--fixture-exit-code=7',`--independent-reviewed-reads=${reviewedPath}`]},
+   {id:'second',args:['complete',join(root,'second'),`--wait-for-receipt=${join(output,'first.post-exit.json')}`,'--contradict-displayed-party',`--independent-reviewed-reads=${reviewedPath}`]},
    {id:'missing',args:['complete',join(root,'missing'),'--exit-before-artifact']},
   ]},output,{forkChild:(_entry,args,options)=>{
    const id=args[1]!.split('/').at(-1)!,chunks:Buffer[]=[];logs[id]=chunks;
@@ -31,6 +33,7 @@ test('each exited slot is independently evaluated before another slot exits, inc
   assert.equal(missing.status,'NOT_EVALUATED');assert.equal(missing.failureCode,'MISSING_ARTIFACT');assert.equal(missing.s0.S0_DECLARATION.status,'NOT_EVALUATED');assert.equal(missing.s0.S0_BOUNDARY.status,'NOT_EVALUATED');
   for(const receipt of [first,second]){
    assert.ok(receipt.exitToEvaluationStartMs>=0);assert.equal(receipt.sourceArtifact.sha256,createHash('sha256').update(await readFile(receipt.sourceArtifact.path)).digest('hex'));
+   assert.equal(receipt.reviewedReadsSha256,createHash('sha256').update(await readFile(reviewedPath)).digest('hex'));assert.ok(postExitFailed(receipt));
    const notices=messages.filter(row=>row.id===receipt.id),notice=notices.findIndex(row=>row.message.type==='PRAXIS_EVAL_ARTIFACT_STARTED'),finished=notices.findIndex(row=>row.message.stage==='FINISHED');assert.ok(notice>=0&&finished>notice);
   }
   const secondRoot=join(root,'second',(await readdir(join(root,'second'))).find(name=>name.startsWith('run-'))!);
@@ -45,4 +48,15 @@ test('each exited slot is independently evaluated before another slot exits, inc
   for(const [id,chunks] of Object.entries(logs))await writeFile(join(root,`${id}.log`),Buffer.concat(chunks));
   if(process.env.PRAXIS_KEEP_POST_EXIT_FIXTURE!=='1')await rm(root,{recursive:true,force:true});else console.log(JSON.stringify({postExitFixture:root}));
  }
+});
+
+test('single-slot CLI supervisor immediately reports independent review hash failure instead of S0 absence',{timeout:20_000},async t=>{
+ const root=await mkdtemp(resolve('.eval-artifacts','post-exit-cli-'));
+ try{
+  const reviewed=join(root,'reviewed-reads.json');await writeFile(reviewed,JSON.stringify({rules:[]}));
+  const receipt=await runSupervisedEvalCli(fileURLToPath(new URL('./fixtures/run-interruption.ts',import.meta.url)),['complete',root,`--independent-reviewed-reads=${reviewed}`,'--invalid-reviewed-sha'],join(root,'receipts'));
+  assert.equal(receipt.exit.code,0);assert.equal(receipt.status,'NOT_EVALUATED');assert.equal(receipt.failureCode,'REVIEWED_READS_SHA_MISMATCH');
+  assert.equal(receipt.s0.S0_DECLARATION.status,'NOT_EVALUATED');assert.equal(receipt.s0.S0_BOUNDARY.status,'NOT_EVALUATED');assert.equal(postExitFailed(receipt),true);
+  t.diagnostic(JSON.stringify({receipt,realCalls:0}));
+ }finally{if(process.env.PRAXIS_KEEP_POST_EXIT_FIXTURE!=='1')await rm(root,{recursive:true,force:true});else console.log(JSON.stringify({postExitCliFixture:root}));}
 });
