@@ -1,0 +1,74 @@
+{
+  "kind": "SUPPLEMENTARY_OFFLINE_OBSERVATION",
+  "artifactSha256": "a06b2df0f79510d7e132a712fc4665f9169b230e36817f30f38bd2547201c5e3",
+  "method": "Only paired actual Executor operations and recorded model intervals. Unmatched starts are gaps, not assumed ongoing to task cutoff. Additive post-run measurement; frozen metrics/evaluation unchanged.",
+  "elapsedMs": 500602,
+  "wallTimePartitionMs": {
+    "UNATTRIBUTED": 81946,
+    "MODEL:restaurant_semantic_interpret": 3774,
+    "MODEL:restaurant_agent_decide": 30340,
+    "PAGE_LOAD": 191262,
+    "READ_PAGE": 27582,
+    "MODEL:restaurant_discovery_retrieval": 22528,
+    "WAIT": 50064,
+    "MODEL:browser_read_decide": 74796,
+    "PAGE_OPERATION": 557,
+    "MODEL:restaurant_fact_judgment": 17753
+  },
+  "pairingGaps": [
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 169
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 660
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 796
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 928
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 1209
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 164,
+      "operation": "NAVIGATE"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 657,
+      "operation": "NAVIGATE"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 791,
+      "operation": "NAVIGATE"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 923,
+      "operation": "NAVIGATE"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 1204,
+      "operation": "NAVIGATE"
+    }
+  ],
+  "rawGoogleHarEntryIndices": [
+    55,
+    56,
+    57
+  ],
+  "googleHarResponses": 3,
+  "controlsFromActualDecisionMessages": [],
+  "originalMetricsRetained": true,
+  "newCalls": 0
+}
