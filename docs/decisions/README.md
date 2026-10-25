@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.17
-- Last updated: 2026-10-10
+- Document revision: 1.18
+- Last updated: 2026-10-25
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
@@ -57,6 +57,7 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 | [0039](0039-immediate-thirty-minute-window.md) | Accepted | 零偏移现在的30分钟窗口、Gold@7默认与页面营业事实的有界提前结束 |
 | [0040](0040-agent-selected-directory-region-entrances.md) | Accepted; 用户批准 2026-10-10 | Agent选择已观察目录地区入口，权威LOCATION、坐标半径兜底与一次换入口；实现/发现探测待独立复核 |
 | [0042](0042-agent-planned-discovery-and-search-availability-hints.md) | Accepted; 用户批准 2026-10-17 | Agent有界检索规划与搜索级空位线索；P2-1a离线实施，来源实测与P2-1b待后续 |
+| [0043](0043-provisional-directory-entrance-coordinate-check.md) | Accepted | 临时入口、两样本与共享一次纠正；机制已Live验证，例01能力未达成并转已知限制 |
 
 ## 规则
 
@@ -64,3 +65,10 @@ ADR一经Accepted不得静默重写Decision。改变决策时新增ADR，并将�
 
 
 Accepted supplement [ADR-0036 G1](0036-tablecheck-reserve-read-supplement.md) admits only the fixed public reservation-entry GET document. [ADR-0039](0039-immediate-thirty-minute-window.md) changes immediate time semantics; neither grants reservation submission rights.
+
+## F3／F6提议，待用户批准
+
+以下仅草案，不改变当前Accepted合同或权限：
+
+- [ADR-0036脚本类型与预检补充草案](0036-script-request-types-and-preflight-draft.md)。
+- [ADR-0045收尾时间预留](0045-bounded-read-conclusion-reserve.md)。0044在并行架构分支占号，本目录不补造其批准状态。

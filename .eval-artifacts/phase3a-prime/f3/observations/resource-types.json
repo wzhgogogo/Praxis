@@ -1,0 +1,485 @@
+[
+  {
+    "id": "fetch-natural",
+    "inputOrigin": "LOCAL_CONSTRUCTED",
+    "policyControlOnly": false,
+    "deferredGuardCallback": false,
+    "outcome": {
+      "ok": true
+    },
+    "received": [
+      {
+        "method": "POST",
+        "body": "{\"locale\":\"en\",\"start_at\":\"2026-10-26\",\"shop_id\":\"LOCAL_CONSTRUCTED\",\"num_people\":\"2\"}"
+      }
+    ],
+    "events": [
+      {
+        "sequence": 1,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84129.2",
+        "type": "Fetch",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 2,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84129.2",
+        "type": "Fetch",
+        "phase": "DELIVERED_TO_GUARD"
+      },
+      {
+        "sequence": 3,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84129.2",
+        "resourceType": "XHR",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 4,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84129.2",
+        "resourceType": "XHR",
+        "phase": "DELIVERED_TO_GUARD"
+      },
+      {
+        "sequence": 5,
+        "method": "PLAYWRIGHT_REQUEST",
+        "type": "fetch",
+        "httpMethod": "POST"
+      }
+    ],
+    "diagnostics": [],
+    "guardRequests": [
+      {
+        "outcome": "ADMITTED",
+        "origin": "http://127.0.0.1:57937",
+        "pathname": "/",
+        "method": "GET",
+        "resourceType": "document",
+        "queryKeys": []
+      },
+      {
+        "outcome": "ADMITTED",
+        "origin": "http://127.0.0.1:57937",
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "method": "POST",
+        "resourceType": "fetch",
+        "queryKeys": []
+      }
+    ]
+  },
+  {
+    "id": "fetch-deferred",
+    "inputOrigin": "LOCAL_CONSTRUCTED",
+    "policyControlOnly": false,
+    "deferredGuardCallback": true,
+    "outcome": {
+      "ok": false,
+      "error": "TypeError: Failed to fetch"
+    },
+    "received": [],
+    "events": [
+      {
+        "sequence": 1,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84133.2",
+        "type": "Fetch",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 2,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84133.2",
+        "resourceType": "XHR",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 3,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84133.2",
+        "resourceType": "XHR",
+        "phase": "DELIVERED_TO_GUARD"
+      },
+      {
+        "sequence": 4,
+        "method": "PLAYWRIGHT_REQUEST",
+        "type": "fetch",
+        "httpMethod": "POST"
+      },
+      {
+        "sequence": 5,
+        "method": "PLAYWRIGHT_FAILED",
+        "type": "fetch",
+        "failure": {
+          "errorText": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+        }
+      },
+      {
+        "sequence": 6,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84133.2",
+        "type": "Fetch",
+        "phase": "DELIVERED_TO_GUARD"
+      }
+    ],
+    "diagnostics": [
+      {
+        "code": "BLOCKED_METHOD",
+        "origin": "http://127.0.0.1:57939",
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "method": "POST",
+        "resourceType": "xhr",
+        "queryKeys": []
+      }
+    ],
+    "guardRequests": [
+      {
+        "outcome": "ADMITTED",
+        "origin": "http://127.0.0.1:57939",
+        "pathname": "/",
+        "method": "GET",
+        "resourceType": "document",
+        "queryKeys": []
+      },
+      {
+        "outcome": "BLOCKED",
+        "origin": "http://127.0.0.1:57939",
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "method": "POST",
+        "resourceType": "xhr",
+        "queryKeys": []
+      }
+    ]
+  },
+  {
+    "id": "dual-deferred-control",
+    "inputOrigin": "LOCAL_CONSTRUCTED",
+    "policyControlOnly": true,
+    "deferredGuardCallback": true,
+    "outcome": {
+      "ok": true
+    },
+    "received": [
+      {
+        "method": "POST",
+        "body": "{\"locale\":\"en\",\"start_at\":\"2026-10-26\",\"shop_id\":\"LOCAL_CONSTRUCTED\",\"num_people\":\"2\"}"
+      }
+    ],
+    "events": [
+      {
+        "sequence": 1,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84137.2",
+        "type": "Fetch",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 2,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84137.2",
+        "resourceType": "XHR",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 3,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84137.2",
+        "resourceType": "XHR",
+        "phase": "DELIVERED_TO_GUARD"
+      },
+      {
+        "sequence": 4,
+        "method": "PLAYWRIGHT_REQUEST",
+        "type": "fetch",
+        "httpMethod": "POST"
+      },
+      {
+        "sequence": 5,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84137.2",
+        "type": "Fetch",
+        "phase": "DELIVERED_TO_GUARD"
+      }
+    ],
+    "diagnostics": [],
+    "guardRequests": [
+      {
+        "outcome": "ADMITTED",
+        "origin": "http://127.0.0.1:57941",
+        "pathname": "/",
+        "method": "GET",
+        "resourceType": "document",
+        "queryKeys": []
+      },
+      {
+        "outcome": "ADMITTED",
+        "origin": "http://127.0.0.1:57941",
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "method": "POST",
+        "resourceType": "fetch",
+        "queryKeys": []
+      }
+    ]
+  },
+  {
+    "id": "xhr-fetch-only",
+    "inputOrigin": "LOCAL_CONSTRUCTED",
+    "policyControlOnly": false,
+    "deferredGuardCallback": false,
+    "outcome": {
+      "ok": false
+    },
+    "received": [],
+    "events": [
+      {
+        "sequence": 1,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84141.2",
+        "type": "XHR",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 2,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84141.2",
+        "type": "XHR",
+        "phase": "DELIVERED_TO_GUARD"
+      },
+      {
+        "sequence": 3,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84141.2",
+        "resourceType": "XHR",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 4,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84141.2",
+        "resourceType": "XHR",
+        "phase": "DELIVERED_TO_GUARD"
+      },
+      {
+        "sequence": 5,
+        "method": "PLAYWRIGHT_REQUEST",
+        "type": "xhr",
+        "httpMethod": "POST"
+      },
+      {
+        "sequence": 6,
+        "method": "PLAYWRIGHT_FAILED",
+        "type": "xhr",
+        "failure": {
+          "errorText": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+        }
+      }
+    ],
+    "diagnostics": [
+      {
+        "code": "BLOCKED_METHOD",
+        "origin": "http://127.0.0.1:57943",
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "method": "POST",
+        "resourceType": "xhr",
+        "queryKeys": []
+      }
+    ],
+    "guardRequests": [
+      {
+        "outcome": "ADMITTED",
+        "origin": "http://127.0.0.1:57943",
+        "pathname": "/",
+        "method": "GET",
+        "resourceType": "document",
+        "queryKeys": []
+      },
+      {
+        "outcome": "BLOCKED",
+        "origin": "http://127.0.0.1:57943",
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "method": "POST",
+        "resourceType": "xhr",
+        "queryKeys": []
+      }
+    ]
+  },
+  {
+    "id": "dual-extra-field-denied",
+    "inputOrigin": "LOCAL_CONSTRUCTED",
+    "policyControlOnly": true,
+    "deferredGuardCallback": true,
+    "outcome": {
+      "ok": false,
+      "error": "TypeError: Failed to fetch"
+    },
+    "received": [],
+    "events": [
+      {
+        "sequence": 1,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84146.2",
+        "type": "Fetch",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 2,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84146.2",
+        "resourceType": "XHR",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 3,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84146.2",
+        "resourceType": "XHR",
+        "phase": "DELIVERED_TO_GUARD"
+      },
+      {
+        "sequence": 4,
+        "method": "PLAYWRIGHT_REQUEST",
+        "type": "fetch",
+        "httpMethod": "POST"
+      },
+      {
+        "sequence": 5,
+        "method": "PLAYWRIGHT_FAILED",
+        "type": "fetch",
+        "failure": {
+          "errorText": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+        }
+      },
+      {
+        "sequence": 6,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84146.2",
+        "type": "Fetch",
+        "phase": "DELIVERED_TO_GUARD"
+      }
+    ],
+    "diagnostics": [
+      {
+        "code": "BLOCKED_METHOD",
+        "origin": "http://127.0.0.1:57945",
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "method": "POST",
+        "resourceType": "xhr",
+        "queryKeys": []
+      }
+    ],
+    "guardRequests": [
+      {
+        "outcome": "ADMITTED",
+        "origin": "http://127.0.0.1:57945",
+        "pathname": "/",
+        "method": "GET",
+        "resourceType": "document",
+        "queryKeys": []
+      },
+      {
+        "outcome": "BLOCKED",
+        "origin": "http://127.0.0.1:57945",
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "method": "POST",
+        "resourceType": "xhr",
+        "queryKeys": []
+      }
+    ]
+  },
+  {
+    "id": "dual-put-denied",
+    "inputOrigin": "LOCAL_CONSTRUCTED",
+    "policyControlOnly": true,
+    "deferredGuardCallback": true,
+    "outcome": {
+      "ok": false,
+      "error": "TypeError: Failed to fetch"
+    },
+    "received": [],
+    "events": [
+      {
+        "sequence": 1,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84158.2",
+        "type": "Fetch",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 2,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84158.2",
+        "resourceType": "XHR",
+        "phase": "RAW_RECEIVED"
+      },
+      {
+        "sequence": 3,
+        "method": "Fetch.requestPaused",
+        "requestId": "interception-job-3.0",
+        "networkId": "84158.2",
+        "resourceType": "XHR",
+        "phase": "DELIVERED_TO_GUARD"
+      },
+      {
+        "sequence": 4,
+        "method": "PLAYWRIGHT_REQUEST",
+        "type": "fetch",
+        "httpMethod": "PUT"
+      },
+      {
+        "sequence": 5,
+        "method": "PLAYWRIGHT_FAILED",
+        "type": "fetch",
+        "failure": {
+          "errorText": "net::ERR_BLOCKED_BY_CLIENT.Inspector"
+        }
+      },
+      {
+        "sequence": 6,
+        "method": "Network.requestWillBeSent",
+        "requestId": "84158.2",
+        "type": "Fetch",
+        "phase": "DELIVERED_TO_GUARD"
+      }
+    ],
+    "diagnostics": [
+      {
+        "code": "BLOCKED_METHOD",
+        "origin": "http://127.0.0.1:57949",
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "method": "PUT",
+        "resourceType": "xhr",
+        "queryKeys": []
+      }
+    ],
+    "guardRequests": [
+      {
+        "outcome": "ADMITTED",
+        "origin": "http://127.0.0.1:57949",
+        "pathname": "/",
+        "method": "GET",
+        "resourceType": "document",
+        "queryKeys": []
+      },
+      {
+        "outcome": "BLOCKED",
+        "origin": "http://127.0.0.1:57949",
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "method": "PUT",
+        "resourceType": "xhr",
+        "queryKeys": []
+      }
+    ]
+  }
+]

@@ -22,6 +22,11 @@
 - **2026-10-25-PHASE3A-PRIME-E1-KNOWN-F3:** 用户复核已确认健康目标修好，普通模式现调整4秒以恢复150秒内；双平台各3轮待运行。E1原fixture/断言保持，fetch/xhr差异交对话B的F3 Guard审计，不采纳历史草案；仅同名Failed to fetch登记为本批已知偶发，其余失败仍阻断。 [报告](../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-HEALTH-FIXTURE-STABILITY:** 停止点3健康fixture窗口修复停等复核：普通模式10秒、slow精确时序及红灯保留，生产10秒不改；目标健康用例六次完整运行均通过。macOS五门禁/完整三连绿154；Linux前四门禁1037全绿，Chromium154、154、153，独立E1 POST的fetch/xhr类型差异阻断三连绿。有界诊断2/8重现，仅留未应用一行fixture草案；按范围停止条件不合main。真实调用0，临时VM已清理。 [报告](../.eval-artifacts/phase3a-prime/stop3-health-fixture-stability-20261025/report.md)。
+- Document revision: 4.401
+- Last updated: 2026-10-25
+- Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-F3-AUDIT-STOP4:** F5已按用户批准带已知限制合入并推送main/e096ba35：ADR-0043 机制已在 Live 验证；例 01 能力未达成，转 3b 店名解析与 F6。F3从该main只做审计：38项（11严格保护、27其他），固定Linux类型差异及本地6对照证明CDP类型缓存回退可误拒；历史Linux事件先后未录，Tabelog同源GET有通用后备，不能全归此因。OPTIONS41/95是重复诊断且独立GET-only预检缺口；4保存页class改名，2Tabelog观察/绑定变、2TC控制不变。Ebisu旧0响应根因未知、Omotesando route合同拒绝、首10秒无完成快照缺证均分别记录。站点现3864/Pack473，预计净删306至3558仅计划未实现；Guard补充与ADR0045固定20秒收尾仅草案。8份原Live计时只读，所有新增真实调用0，budget原字节不变。不改产品/测试/Runner/Prompt/Schema/Guard，不实施F3/F6。停止点4待复核，当前审计分支仅本地提交，不合main、不推送。 时间2026-10-25T21:18:52.344054+01:00（CET；26为复核编号）。[报告](../.eval-artifacts/phase3a-prime/f3/report.md)。
 
 - **2026-10-26-F5-REVIEWED-CLOSEOUT:** 用户停止点3b复核确认：F5按完成标准FAIL（例01 0/3），结束F5；**ADR-0043机制已在Live验证；例01能力未达成，转3b店名解析与F6**。这是带已知限制合入，不把纠正3/3执行写成找店能力通过。按批准重放最新main 0a254f05，双方历史记录与预算并集保留，23条账本／累计8Live、334模型、45Google、3环境重跑、7评测GET均不变；原始F5产物逐字节不变。旧e169e606留annotated checkpoint。完成验证：34c8b4f2重放后的五门禁全部PASS（默认1053／Chromium155），每项前后status均为空。后续仅归档与文档，源码不变；合入前最终净树复核通过，按用户授权快进main并推送，远端结果另以实际Git收据核对。新增真实调用0。 新增真实调用0，不加载.env。时间2026-10-25T20:49:53.718394+01:00，CET。 [合入记录](../.eval-artifacts/phase3a-prime/f5-closeout-20261026/report.md)。
 
