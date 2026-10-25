@@ -46,7 +46,7 @@ test('Live source health uses real Guard and observes a busy error arriving afte
     const healthy=['healthy','slow-last-snapshot'].includes(mode);
     // Only the late-snapshot control needs a tight deadline. Normal page
     // states must tolerate Chromium startup/scheduling under four-file load.
-    const work=async()=>{await runLiveSourceHealth({environment:{},artifactDirectory:dir},{runtime,timeoutMs:mode==='slow-last-snapshot'?1000:10_000,sleep:async ms=>{waits.push(ms);}});formalRuns++;};
+    const work=async()=>{await runLiveSourceHealth({environment:{},artifactDirectory:dir},{runtime,timeoutMs:mode==='slow-last-snapshot'?1000:4_000,sleep:async ms=>{waits.push(ms);}});formalRuns++;};
     if(healthy)await assert.doesNotReject(work,mode);else await assert.rejects(work(),SourceDataPreflightError);
     const result=JSON.parse(await readFile(join(dir,'source-health.json'),'utf8'));assert.equal(formalRuns,healthy?1:0);assert.equal(result.liveRuns,0);assert.equal(result.modelCalls,0);assert.equal(result.googleRequests,0);
     assert.equal(result.classification,healthy?'READY':'ENV_FAILURE');assert.deepEqual(waits,healthy?[]:[300_000,300_000],mode);
