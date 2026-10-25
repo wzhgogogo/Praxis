@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.294
+- Document revision: 4.295
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5327,3 +5327,7 @@ efb78d84旧实现两条目标红灯；d067bf7f相关25项与真实Chromium/Guard
 交付验证补充：5cb751e3冻结“第三方响应命中且请求体含自有凭据”反例，旧路径REPLAYABLE红灯；请求体与响应独立扫描后7/7局部绿灯。首轮5de17530五门禁产物保留，最终候选将完整复跑五门禁后才合入。
 
 最终复跑完成（2026-10-25T03:31:14.348284+01:00 CET）：精确候选05991efd39903d2fae094e209c9bf973381223c5五门禁全绿，默认1037、真实Chromium154，单次22.949792/93.159010秒，每项后status空、恢复0；原5de17530五门禁完整保留，新增真实调用仍0。最终输入/编排与当前实现SHA一致，按授权合入推送后停。
+
+## TEST-2026-10-25-PHASE3A-PRIME-REPLAY-PORTABILITY
+
+Linux0c1f75d9原4项spawn sandbox-exec ENOENT红灯；c7210882修复后4/4/0skip，普通UID501真实unshare netns隔离父HTTP服务（200→curl7，0子请求），隐藏unshare明确失败。原断言SHA2f44c1aeecde529c09fb6bd131566f92af74e8299b248a582711e34f19bb6c76不变。b1573c5a macOS五门禁1037/154全绿，单次21.725409/94.521591秒，每项status空、恢复0，冻结SHA相同。真实调用0，Linux VM已清理；报告宿主CET，Guest原始墙钟偏移保留说明。 [报告](../../.eval-artifacts/phase3a-prime/stop3-replay-portability-20261025/report.md)。

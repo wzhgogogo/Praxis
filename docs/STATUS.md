@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.394
+- Document revision: 4.395
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-PRIME-REPLAY-PORTABILITY:** 停止点3补充完成：回放Harness按平台使用macOS sandbox-exec/Linux非特权unshare -rn，不可用明确失败、不skip或联网回退。Ubuntu22.04 ARM64 UID501先原4项ENOENT红、后4/4绿，缺工具控制与真实netns/curl7见证通过；macOS五门禁1037/154全绿，每项后净工作树。原四项断言SHA不变，真实调用0，临时VM已清理；按授权合main后停等复核。 [报告](../.eval-artifacts/phase3a-prime/stop3-replay-portability-20261025/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-STOP3-RECORDING:** 停止点3两项修复完成：健康检查已合main/28216ae3；录制器先替换第三方URL key/signature/client值，再保留原扫描，普通命中按页/条目拒绝，自有凭据命中整份拒绝且不提前发布DOM。槽1最小元素真实Chromium录制/回放到首个不合格页，0来源请求；五门禁1037/154全绿，各项后净工作树，真实调用0。自有请求体短路边界补充红绿后，05991efd最终五门禁1037/154全绿、净工作树；按授权合main并停止等复核。 [报告](../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/recording/report.md)。
 
