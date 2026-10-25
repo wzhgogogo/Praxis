@@ -1,0 +1,181 @@
+{
+  "status": "PASS",
+  "sourceCapabilities": "Current parsers must distinguish these source states; deleting the distinguishing input without an existing equivalent observation cannot preserve the positive/negative contracts.",
+  "rows": [
+    {
+      "id": "L1",
+      "mode": "SYNTHETIC_CONTRACT_DISTINCTION",
+      "inputs": {
+        "a": {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "html": "<div class=\"p-booking-calendar\"><table class=\"p-booking-calendar__calendar\"><caption><em>Nov 2026</em></caption><tr><td><span class=\"p-booking-calendar__day-num p-booking-calendar__day-num--closed\">3</span></td></tr></table></div>",
+          "text": "Nov 2026 3",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        },
+        "b": {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "html": "<div class=\"p-booking-calendar\"><table class=\"p-booking-calendar__calendar\"><caption><em>Nov 2026</em></caption><tr><td><span class=\"p-booking-calendar__day-num p-booking-calendar__day-num--full\">3</span></td></tr></table></div>",
+          "text": "Nov 2026 3",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        }
+      },
+      "actualA": "CLOSED",
+      "actualB": "FULL",
+      "sameRemainingObservationAfterRetirement": true,
+      "realCalls": 0
+    },
+    {
+      "id": "L2/L3",
+      "mode": "SYNTHETIC_CONTRACT_DISTINCTION",
+      "inputs": {
+        "a": {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "html": "<div class=\"p-booking-calendar\"><button class=\"is-selected\" data-year=\"2026\" data-month=\"11\" data-day=\"3\">3</button><div class=\"p-booking-calendar__people-button-box\"><button class=\"is-selected\" data-value=\"2\">2</button></div><div class=\"other\"><button class=\"is-selected\" data-value=\"4\">4</button></div></div>",
+          "text": "3 2 4",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        },
+        "b": {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "html": "<div class=\"p-booking-calendar\"><button class=\"is-selected\" data-year=\"2026\" data-month=\"11\" data-day=\"3\">3</button><div class=\"other\"><button class=\"is-selected\" data-value=\"2\">2</button></div><div class=\"p-booking-calendar__people-button-box\"><button class=\"is-selected\" data-value=\"4\">4</button></div></div>",
+          "text": "3 2 4",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        }
+      },
+      "actualA": true,
+      "actualB": false,
+      "sameRemainingObservationAfterRetirement": true,
+      "realCalls": 0
+    },
+    {
+      "id": "L4",
+      "mode": "SYNTHETIC_CONTRACT_DISTINCTION",
+      "inputs": {
+        "a": {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "html": "<section data-selected-date=\"2026-11-03\" data-pax=\"2\" data-query-state=\"complete\"><button class=\"time-slot is-available\" data-time=\"19:00\">19:00</button></section>",
+          "text": "19:00",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        },
+        "b": {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "html": "<section data-selected-date=\"2026-11-03\" data-pax=\"2\" data-query-state=\"complete\"><button class=\"time-slot unavailable\" data-time=\"19:00\">19:00</button></section>",
+          "text": "19:00",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        }
+      },
+      "actualA": [
+        "19:00"
+      ],
+      "actualB": [],
+      "sameRemainingObservationAfterRetirement": true,
+      "realCalls": 0
+    },
+    {
+      "id": "L5",
+      "mode": "SYNTHETIC_CONTRACT_DISTINCTION",
+      "inputs": {
+        "a": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "html": "<div data-testid=\"Venue Availability\"><form><button data-testid=\"day\" data-date=\"2026-11-03\" aria-selected=\"true\">3</button><div data-testid=\"Venue Pax Select\" id=\"pax-2\"></div><div data-testid=\"Venue Time Select\" id=\"time-19:00\"></div></form></div><div><form><button data-testid=\"day\" data-date=\"2026-11-04\" aria-selected=\"true\">3</button><div data-testid=\"Venue Pax Select\" id=\"pax-4\"></div><div data-testid=\"Venue Time Select\" id=\"time-19:00\"></div></form></div>",
+          "text": "3 3",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        },
+        "b": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "html": "<div><form><button data-testid=\"day\" data-date=\"2026-11-03\" aria-selected=\"true\">3</button><div data-testid=\"Venue Pax Select\" id=\"pax-2\"></div><div data-testid=\"Venue Time Select\" id=\"time-19:00\"></div></form></div><div data-testid=\"Venue Availability\"><form><button data-testid=\"day\" data-date=\"2026-11-04\" aria-selected=\"true\">3</button><div data-testid=\"Venue Pax Select\" id=\"pax-4\"></div><div data-testid=\"Venue Time Select\" id=\"time-19:00\"></div></form></div>",
+          "text": "3 3",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        }
+      },
+      "actualA": true,
+      "actualB": false,
+      "sameRemainingObservationAfterRetirement": true,
+      "realCalls": 0
+    },
+    {
+      "id": "L6",
+      "mode": "SYNTHETIC_CONTRACT_DISTINCTION",
+      "inputs": {
+        "a": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "html": "<div hidden><a href=\"/en/shops/fixture/reserve?start_date=2026-11-03&amp;num_people=2&amp;start_time=19:00\">19:00</a></div><div><a href=\"/en/shops/fixture/reserve?start_date=2026-11-04&amp;num_people=2&amp;start_time=19:00\">19:00</a></div>",
+          "text": "19:00",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        },
+        "b": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "html": "<div><a href=\"/en/shops/fixture/reserve?start_date=2026-11-03&amp;num_people=2&amp;start_time=19:00\">19:00</a></div><div hidden><a href=\"/en/shops/fixture/reserve?start_date=2026-11-04&amp;num_people=2&amp;start_time=19:00\">19:00</a></div>",
+          "text": "19:00",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        }
+      },
+      "actualA": [],
+      "actualB": [
+        "19:00"
+      ],
+      "sameRemainingObservationAfterRetirement": true,
+      "realCalls": 0
+    },
+    {
+      "id": "L8",
+      "mode": "SYNTHETIC_CONTRACT_DISTINCTION",
+      "inputs": {
+        "a": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "html": "<section data-selected-date=\"2026-11-03\" data-pax=\"2\" data-query-state=\"complete\"><button class=\"time-slot is-available\" data-time=\"19:00\">19:00</button></section>",
+          "text": "19:00",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        },
+        "b": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "html": "<section data-selected-date=\"2026-11-03\" data-pax=\"2\" data-query-state=\"complete\"><button class=\"time-slot unavailable\" data-time=\"19:00\">19:00</button></section>",
+          "text": "19:00",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        }
+      },
+      "actualA": [
+        "19:00"
+      ],
+      "actualB": [],
+      "sameRemainingObservationAfterRetirement": true,
+      "realCalls": 0
+    },
+    {
+      "id": "L10-retained-container-boundary",
+      "mode": "SYNTHETIC_CONTRACT_DISTINCTION",
+      "inputs": {
+        "a": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "html": "<article class=\"menu-item\"><h3>Sushi Omakase</h3><div data-service-categories='[\"sushi\"]'></div><p>JPY12,000 Dinner course</p></article>",
+          "text": "Sushi Omakase JPY12,000 Dinner course",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        },
+        "b": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "html": "<article class=\"menu-item-title\"><h3>Sushi Omakase</h3><div data-service-categories='[\"sushi\"]'></div><p>JPY12,000 Dinner course</p></article>",
+          "text": "Sushi Omakase JPY12,000 Dinner course",
+          "title": "Synthetic source",
+          "interactiveState": ""
+        }
+      },
+      "actualA": 1,
+      "actualB": 0,
+      "sameRemainingObservationAfterRetirement": true,
+      "realCalls": 0
+    }
+  ],
+  "newRealCalls": 0
+}

@@ -83,6 +83,7 @@ test("TableCheck reservation form binds the selected date and adult count withou
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 9, changed), true);
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, [controls[0]!, { ...controls[1]!, options: [{ value: "10", label: "10", selected: false, disabled: false }] }]), false);
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, [{ ...controls[0]!, value: "2026-09-24" }, controls[1]!]), false);
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, [controls[0]!, { ...controls[1]!, options: [{ value: "9", label: "9", selected: true, disabled: false }] }]), false, "a selected option conflicting with the live adult value cannot bind the request");
   assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: form.replace('value="2026-09-25"', 'value="2026-09-24"') }, "2026-09-25", 10, controls), true, "live input value must take precedence over an old HTML attribute");
   const japanesePage = { ...snapshot, url: snapshot.url.replace("/en/shops/", "/ja/shops/"), html: form.replace("<form>", '<form data-selected-date="2026-09-25" data-pax="10">') };
   assert.equal(hasTableCheckSelectedRequest(japanesePage, "2026-09-25", 10, changed), false, "Japanese reservation forms must not accept stale HTML after a live 10→9 change");
