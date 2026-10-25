@@ -1,7 +1,7 @@
 # Phase3a boundary — batch 1 / stop 1
 
 - Status: draft / not integrated; awaiting review and explicit ADR acceptance.
-- Updated: 2026-10-25T09:57:55+01:00，维也纳 CET（UTC+1）。
+- Updated: 2026-10-25T10:03:42+01:00，维也纳 CET（UTC+1）。
 - Contamination: PUBLIC_INPUT_AND_RESULT_EXPOSED; baselineEligible:false. Private Holdout not read.
 
 ## 1 范围与提交
@@ -30,7 +30,17 @@ State 合同协调：main @20 / TaskDefinition@18；F5 实际 @21/@19。建议�
 
 ## 3 五门禁结果
 
-待在本批文档冻结提交后的净工作树运行：typecheck、arch:check、npm test、build、test:browser:fixture。用户指令要求本批五门禁，虽无源码改动仍按要求执行。每项保存原始日志、退出码、CET 起止与实际 git status；不得靠恢复 tracked 文件隐藏测试写入。当前尚未报告通过，详见最终 verification.json。
+文档冻结提交 `7db6ecc3c22e7342b2572a7afa329ff667131cc4` 后串行运行五门禁；完整原始日志与退出/净树记录见 [verification.json](verification.json)，独立提交范围核对见 [post-change-verification.json](post-change-verification.json)。
+
+| 门禁 | 结果 | 耗时（秒） | 结束后 git status | 原始日志 |
+| --- | --- | ---: | --- | --- |
+| npm run typecheck | PASS | 4.034 | EMPTY / clean | [typecheck](gates/typecheck.log) |
+| npm run arch:check | PASS | 0.273 | EMPTY / clean | [arch](gates/arch.log) |
+| npm test | PASS 1037/1037 | 20.897 | EMPTY / clean | [test](gates/test.log) |
+| npm run build | PASS | 0.424 | EMPTY / clean | [build](gates/build.log) |
+| npm run test:browser:fixture | PASS 154/154 | 93.863 | EMPTY / clean | [browser](gates/browser.log) |
+
+五项全部退出 0，每项后真实 `git status --porcelain` 为空；没有恢复 tracked 文件或修改代码以掩盖写入。81 份冻结输入 SHA 与生产 src tree 均保持一致。检查只证明既有实现/离线 Fixture；本批没有新规则红绿证据，也没有真实语义模型结果。
 
 新语义契约测试、Mock 新规则、真实模型、Replay 新契约、Live Read-only、Controlled Live-write 均未运行；当前五门禁也不构成这些模式的通过。
 
