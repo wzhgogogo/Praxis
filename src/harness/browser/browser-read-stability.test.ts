@@ -119,24 +119,34 @@ test("C3b Chromium ignores an outstanding image once data has completed", async 
 
 
 
-test('model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget',async()=>{
+test('model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget',async t=>{
  for(const mode of ['slow','budget'] as const){
   // Keep slow navigation at its real 6.5s scale; scale only the candidate-deadline control.
   const budgetScale=mode==='slow'?1:0.5;
+  let clock=0;
+  if(mode==='budget')t.mock.method(Date,'now',()=>clock);
   const delays=new Set<ReturnType<typeof setTimeout>>();
   const server=createServer((request,response)=>{
    if(request.url==='/start'){response.end('<title>Fixture</title><a href="/next">Public result</a>');return;}
+   if(mode==='budget')return; // The source cannot finish before the navigation budget expires.
    const timer=setTimeout(()=>{delays.delete(timer);response.end('<title>Destination</title><h1>Loaded destination</h1>');},(mode==='slow'?6500:5000)*budgetScale);delays.add(timer);response.on('close',()=>{clearTimeout(timer);delays.delete(timer);});
   });
   await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));const address=server.address() as {port:number};const origin=`http://127.0.0.1:${address.port}`;
   const diagnostics:BrowserExecutionDiagnostic[]=[];let calls=0;
-  const executor=new BrowserTaskExecutor(new LocalPlaywrightChromium(),{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:(mode==='slow'?15000:2000)*budgetScale,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){calls++;return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.label==='Public result')!.ref,reason:'Read observed public page'};}}});
+  const navigationBudgets:number[]=[];
+  const raw=new LocalPlaywrightChromium();
+  const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',async openSession(input){
+   const opened=await raw.openSession(input),navigate=opened.navigate.bind(opened);
+   opened.navigate=async(target,options)=>{if(target.endsWith('/next'))navigationBudgets.push(options?.timeoutMs??-1);return navigate(target,options);};return opened;
+  }};
+  const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:(mode==='slow'?15000:2000)*budgetScale,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){calls++;return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.label==='Public result')!.ref,reason:'Read observed public page'};}}});
   const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY');
   try{
    await executor.navigate({source:'FIXTURE',stage:'DISCOVERY',session,signal,allowedOrigins:[origin],url:origin+'/start'});const started=Date.now();
+   if(mode==='budget')clock=1500; // Deterministic setup/load cost; no machine-speed dependency.
    const reading=executor.runSkill({taskId:'slow-navigation',source:'FIXTURE',stage:'DISCOVERY',session,signal,allowedOrigins:[origin],goal:{outlet:{name:'Fixture'},hardCriteria:[]},objective:'Read public result',completion:page=>({complete:page.text.includes('Loaded destination'),resultKey:page.url,resultBusy:false,reason:'Observe destination document'})});
    if(mode==='slow'){const read=await reading;assert.equal(read.status,'COMPLETED');assert.ok(Date.now()-started>=6000);assert.equal(read.snapshot.url,origin+'/next');}
-   else{await assert.rejects(reading,{code:'BROWSER_TIMEOUT'});assert.ok(Date.now()-started<5000*budgetScale);assert.ok(diagnostics.some(d=>d.event==='OPERATION_FAILED'&&d.lifecycle.failureCode==='BROWSER_TIMEOUT'));}
+   else{await assert.rejects(reading,{code:'BROWSER_TIMEOUT'});assert.deepEqual(navigationBudgets,[5000],'timeout must exercise OPEN_LINK with its remaining navigation budget, not expire during setup');assert.ok(Date.now()-started<5000*budgetScale);assert.ok(diagnostics.some(d=>d.event==='OPERATION_FAILED'&&d.lifecycle.failureCode==='BROWSER_TIMEOUT'));}
    assert.equal(calls,1);
   }finally{await executor.close();for(const timer of delays)clearTimeout(timer);server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));}
   assert.equal(diagnostics.filter(d=>d.event==='CLOSED').length,1,'the owned session closes once, including timeout');
