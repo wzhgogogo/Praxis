@@ -71,11 +71,19 @@ export function createRecordedBrowser(recording: ReplayRecording, stop: (reason:
     const browser=await chromium.launch(options),newContext=browser.newContext.bind(browser);
     browser.newContext=async options=>{
       const context=await newContext(options);
-      context.on("request",request=>{
-        const reason=request.resourceType()==="document"&&!recording.allowed.has(request.url())?"DOCUMENT_NOT_QUALIFIED"
-          :!recordedResponse(recording,request.url(),request.method(),request.postData()??undefined)?"MISSING_RESPONSE":undefined;
-        if(reason){locate(request.url(),reason);void context.close().catch(()=>{});}
-      });
+      const routeFromHAR=context.routeFromHAR.bind(context);
+      context.routeFromHAR=async(...args)=>{
+        await routeFromHAR(...args);
+        // Guard is installed next and runs first. Only admitted requests reach
+        // this check, then the original HAR router; denied telemetry stays denied.
+        await context.route("**/*",async route=>{
+          const request=route.request();
+          const reason=request.resourceType()==="document"&&!recording.allowed.has(request.url())?"DOCUMENT_NOT_QUALIFIED"
+            :!recordedResponse(recording,request.url(),request.method(),request.postData()??undefined)?"MISSING_RESPONSE":undefined;
+          if(reason){locate(request.url(),reason);await route.abort("blockedbyclient").catch(()=>{});void context.close().catch(()=>{});}
+          else await route.fallback();
+        });
+      };
       return context;
     };return browser;
   } } });
