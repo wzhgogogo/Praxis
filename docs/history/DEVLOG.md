@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.296
+- Document revision: 4.297
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4698,3 +4698,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-25-PHASE3A-PRIME-HEALTH-4S-F5-VERIFIED
 
 合入前发现F5主线e096ba35，保留旧六轮为pre-integration frozen regression，零源码冲突整合并保存双方历史/预算。相对新main仍仅健康测试源变化，四普通模式4秒、slow精确/生产10秒不变。新组合两平台完整三次满足≤150秒，批准E1例外原始计数不改；后续回放、决策关联和退出即评价各自新main分支实施。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/post-f5-main/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-REPLAY-URL-RED-PREP
+
+从新main70db9152创建独立回放修复分支。仅准备所属行为测试和ORIGINAL系统断网脚本，loader尚未修。原录制逐字核对，仅提取HAR、清单及19个合格文档；原39条模型决策重放，不补造页面。原HTML空白和字节保留，diff检查只排除该原始inputs目录。 [报告](../../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。

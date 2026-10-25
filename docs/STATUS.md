@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.403
+- Document revision: 4.404
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-PRIME-REPLAY-URL-RED-PREP:** 健康4秒已合main70db9152，独立回放URL修复准备：原HAR有rstLst到tokyo的301，最终页面合格；当前loader过滤原HTML重定向并拒绝初始URL。最小真实Chromium/Guard正例、缺hop/环/不合格终点控制和F5槽1原输入先提交取红灯。诊断DOM不参与，0真实调用。 [报告](../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-HEALTH-4S-F5-VERIFIED:** 健康4秒在最新F5/e096ba35组合完成验收：10c6ecc0冻结后双平台各三轮完整155项，健康6/6、其他失败0；macOS三轮155全绿，中位103.289713秒；Linux154(E1原始exit1)、155、155，中位102.677879秒，按用户已登记例外通过。默认两平台1053全过、其余门禁绿，609输入不变、各项后净树。E1/Guard不改，旧草案不采纳转F3；新真实调用0。按授权合main后继续其余三项。 [报告](../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/post-f5-main/report.md)。
 
