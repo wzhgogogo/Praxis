@@ -14,7 +14,7 @@ for file in results:
   if d['purpose']!='restaurant_agent_decide':continue
   duration=d.get('latencyMs');
   if isinstance(duration,(int,float)):calls.append({'artifact':file,'decisionLine':line,'latencyMs':duration})
-  try:action=json.loads(d.get('outputText') or '{}').get('action',{});action=action.get('type') if isinstance(action,dict) else action
+  try:proposal=json.loads(d.get('outputText') or '{}');action=proposal.get('type',proposal.get('action',{}));action=action.get('type') if isinstance(action,dict) else action
   except ValueError:action=None
   if action in ['END_READ','PRESENT_RESTAURANTS'] and d.get('latencyMs') is not None:closing.append({'artifact':file,'decisionLine':line,'action':action,'modelMs':d['latencyMs'],'afterModelUntilArtifactEndMs':round(ms(a['finishedAt'])-(ms(d['startedAt'])+d['latencyMs']))})
 def stats(values):
