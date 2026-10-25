@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.313
+- Document revision: 4.314
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5468,3 +5468,7 @@ macOS 默认1053/1053、Chromium159/159（103.489690秒）；Linux 默认1053/10
 ## TEST-2026-10-26-PHASE3A-F3-TIMING-MAIN-REBASE-VERIFIED
 
 新组合a84c0922 typecheck、arch:check、默认1060、build、真实Chromium161（106.432668秒）全部exit0，每项前后净树，605冻结SHA一致。旧main上的有效红绿独立保留，未拿旧门禁给新组合背书；Linux/Live本轮未运行，站点3864/Pack473，真实调用0。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/rebased-main/report.md)。
+
+## TEST-2026-10-26-F3-L7
+
+c041b234 的隔离 option/value 核验变异为有效 AssertionError 红灯；458c6cb6 相关测试绿。严格五门禁默认1060/1060、Chromium161/161（4路、106.290秒），每门禁前后git status为空，无E1例外；新main时序候选仍58/113文件。新增真实调用0，维也纳CET。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/l7/report.md)。

@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.306
+- Document revision: 4.307
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4748,3 +4748,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-26-PHASE3A-F3-TIMING-MAIN-REBASE-VERIFIED
 
 继承B已批准Guard/预检、Evaluator36及显式通用列表修改，不由A编辑对方文件。卫生源码差异仅9个测试文件；解析/控件与Pack原样。当前快照新增网络类型事实不补齐行数计划所需的日期状态/结果scope观察，后续仍须逐条核验。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/rebased-main/report.md)。
+
+## DEV-2026-10-26-F3-L7
+
+日期/人数字段共用扫描，保留同一表单归属、唯一启用 live 控件、精确值与 selected option 一致性；仅原地去重，净减2行，不采用压行或迁移。九个计划项的证据缺口逐项列出，七组最小对照冻结后通过。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/l7/report.md)。
