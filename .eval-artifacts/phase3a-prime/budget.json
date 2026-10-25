@@ -140,15 +140,31 @@
       "error": null,
       "sha256": "3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976",
       "finishedAtVienna": "2026-10-25T01:07:23.132653+01:00"
+    },
+    {
+      "id": "f5-live-slot-1",
+      "kind": "F5_LIVE_SLOT",
+      "slot": 1,
+      "caseId": "p2c-holdout-01",
+      "status": "FINISHED",
+      "fullLive": 1,
+      "realModelCalls": 43,
+      "googleRequests": 5,
+      "environmentReruns": 0,
+      "startedAtCET": "2026-10-25T01:31:19.483845+01:00",
+      "codeCommit": "8bde838302801f30198dad8db03dbfd25e7d516d",
+      "finishedAtCET": "2026-10-25T01:40:09.674429+01:00",
+      "summary": ".eval-artifacts/phase3a-prime/f5-live/slots/1/summary.json"
     }
   ],
   "cumulative": {
-    "websiteGET": 4,
+    "realModelCalls": 43,
     "environmentReruns": 0,
-    "fullLive": 0,
-    "realModelCalls": 0
+    "googleRequests": 5,
+    "fullLive": 1,
+    "websiteGET": 4
   },
-  "asOf": "2026-10-25T01:07:23.133930+01:00",
+  "asOf": "2026-10-25T01:40:09.674712+01:00",
   "timezone": "CET UTC+01:00 per user",
   "f5PublicGetApproval": "Explicit user correction,2026-10-24 Europe/Vienna: case01 public detail+four-param vacancy GET permitted; noCookie/login/form/model; commit scripts first; repeat within24h before approved Live.",
   "f5Stop3Approval": "User stop2 review approved six serial F5 Live runs; direct user subsequently authorized only these six controlled Runner processes to load existing server credentials from the named primary-worktree .env without display/copy/staging; see f5-live/credential-authorization.json."
