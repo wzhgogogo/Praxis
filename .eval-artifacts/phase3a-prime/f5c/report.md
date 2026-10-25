@@ -1,8 +1,8 @@
 # F5c：同次来源调用内完成纠正
 
-- Document revision: 1.0
+- Document revision: 1.1
 - 时间：2026-10-25，维也纳 CET（UTC+1）。
-- 状态：draft / not integrated；已暴露离线开发证据，不是 Clean Baseline。
+- 状态：current executable（本分支）/ frozen regression（离线证据）；未合入 main，待复核，不是 Clean Baseline。
 - 基线：`a691f7ddbce7a4fc32829508993a1ef49b269fd2`；分支 `codex/fix-phase3a-prime-f5-provisional-entrance`。本批不重放、不合并 main、不运行 Live。
 
 ## 1 结论与范围
@@ -42,7 +42,7 @@
 | N1–N4 | 复用具名涩谷、神乐坂、东银座及吉祥寺同源指针 builder；不进入临时分支，页面/详情/选择数不增加 | PASS |
 | 见证身份 | 固定公开完整地址 + 成对来源表记，Google 候选 FOUND；楼层冲突、仅地址、未登记名称均拒绝 | PASS |
 
-目标默认回归 **213/213**，见 [targeted-all.log](targeted-all.log)；目标 Chromium **1/1**，见 [targeted-chromium.log](targeted-chromium.log)。五门禁将在干净提交上运行，目前 **NOT_RUN**，不得把局部通过当作最终门禁。
+目标默认回归 **213/213**，见 [targeted-all.log](targeted-all.log)；目标 Chromium **1/1**，见 [targeted-chromium.log](targeted-chromium.log)。干净提交 `a9d8aeba` 的五门禁已全部通过，默认 **1048/1048**、Chromium **154/154**，详见第 6 节。
 
 四层解释：
 
@@ -123,8 +123,19 @@ Tabelog 第一次入口是 Jinbocho & Suidobashi（`A1310/A131003`），`provisi
 
 ## 6 交付验证与停止
 
-- `git diff --check`：PASS（最终提交前再检查）。
+- `git diff --check`：PASS。
 - 全部保护目录/Pack 字节不变；历史冻结包/评价/预算无差异，见 scope audit。
-- 五门禁：NOT_RUN，待在干净提交上顺序运行并记录每项前后 status。
+- 五门禁在干净提交 **a9d8aeba** 上顺序执行，03:27:22–03:29:20 CET 全部 PASS；每项前后 `git status --porcelain` 均为空。见 [原始门禁收据](gates/receipt.json)，原始日志以无损 gzip 保存并核对收据 SHA。
+
+| 命令 | 结果 |
+| --- | --- |
+| `npm run typecheck` | PASS |
+| `npm run arch:check` | PASS |
+| `npm test` | **1048/1048 PASS** |
+| `npm run build` | PASS |
+| `npm run test:browser:fixture` | **154/154 PASS** |
+
+门禁后只同步报告、历史索引和验证证据，产品/fixture/Prompt/Schema/评测器与该门禁提交字节相同；最终交付工作树检查见 [delivery-audit.json](delivery-audit.json)。本批没有重跑历史 Live 评价或运行新的 Live，局部和全量离线门禁不替代真实网站验收。
+
 - 当前分支尚未合并 main；本批 Live、网络见证复查、原样回放、环境重跑均 NOT_RUN。
 - 后续停止：交付离线修复后停下。新 Live 须等对话 A 健康检查与录制器修复合入 main、重放到新 main，再由用户批准额度与运行。
