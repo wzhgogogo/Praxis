@@ -1,0 +1,17 @@
+{
+  "mode": "REAL_CHROMIUM_LOCAL_FIXTURE",
+  "candidate": "d50e28eba05833a17347d2d46ec7bf5b9a96f7bc",
+  "exitCode": 1,
+  "tests": 2,
+  "targetFailures": [
+    "E1 reviewed POST must reach receiver when CDP falls back from Network Fetch to Fetch XHR",
+    "calendar-post: browser GET handshake must reach receiver"
+  ],
+  "rawTypes": {
+    "Network.requestWillBeSent": "Fetch",
+    "Fetch.requestPaused": "XHR"
+  },
+  "networkCacheDelayMs": 80,
+  "realCalls": 0,
+  "logSha256": "dc024605e394d09e8c15a124d426024949b6fbd72a71f0d8272158ee5c22a5da"
+}
