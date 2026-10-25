@@ -568,21 +568,19 @@ function isReservationFormPage(snapshot: BrowserSnapshot): boolean {
 function reservationFormSelectedRequest(snapshot: BrowserSnapshot, date: string, partySize: number, controls: readonly BrowserPageControl[] | undefined): boolean {
   if (!controls) return false;
   const attribute = (tag: string, name: string) => tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, "i"))?.[1];
-  let matchingForms = 0;
-  for (const form of snapshot.html.matchAll(/<form\b[^>]*>([\s\S]*?)<\/form>/gi)) {
-    const html = form[1] ?? "";
-    const dateInputs = [...html.matchAll(/<input\b[^>]*>/gi)].map((item) => item[0])
-      .filter((tag) => attribute(tag, "name") === "reservation[start_date]");
-    const adultSelects = [...html.matchAll(/<select\b[^>]*>([\s\S]*?)<\/select>/gi)]
-      .filter((item) => attribute(item[0], "name") === "reservation[num_people_adult]");
-    if (dateInputs.length === 1 && adultSelects.length === 1) matchingForms += 1;
-  }
-  if (matchingForms !== 1) return false;
-  const dates = controls.filter((item) => item.visible && !item.disabled && item.kind === "INPUT" && item.structure?.name === "reservation[start_date]");
-  const adults = controls.filter((item) => item.visible && !item.disabled && item.kind === "SELECT" && item.structure?.name === "reservation[num_people_adult]");
-  if (dates.length !== 1 || adults.length !== 1 || dates[0]!.value !== date || adults[0]!.value !== String(partySize)) return false;
-  const selected = adults[0]!.options?.filter((option) => option.selected) ?? [];
-  return selected.length === 1 && selected[0]!.value === String(partySize);
+  const fields = [
+    { name: "reservation[start_date]", kind: "INPUT", value: date, markup: /<input\b[^>]*>/gi },
+    { name: "reservation[num_people_adult]", kind: "SELECT", value: String(partySize), markup: /<select\b[^>]*>([\s\S]*?)<\/select>/gi },
+  ];
+  const forms = [...snapshot.html.matchAll(/<form\b[^>]*>([\s\S]*?)<\/form>/gi)];
+  if (forms.filter(form => fields.every(field => [...(form[1] ?? "").matchAll(field.markup)]
+    .filter(tag => attribute(tag[0], "name") === field.name).length === 1)).length !== 1) return false;
+  return fields.every(field => {
+    const matches = controls.filter(item => item.visible && !item.disabled && item.kind === field.kind && item.structure?.name === field.name);
+    if (matches.length !== 1 || matches[0]!.value !== field.value) return false;
+    const selected = matches[0]!.options?.filter(option => option.selected) ?? [];
+    return field.kind === "INPUT" || selected.length === 1 && selected[0]!.value === field.value;
+  });
 }
 
 export function hasTableCheckSelectedRequest(snapshot: BrowserSnapshot, date: string, partySize: number, controls?: readonly BrowserPageControl[]): boolean {
