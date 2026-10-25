@@ -12,7 +12,7 @@ test('each exited slot is independently evaluated before another slot exits, inc
  const root=await mkdtemp(resolve('.eval-artifacts','post-exit-batch-')),output=join(root,'batch'),children:ChildProcess[]=[],messages:Array<{id:string;message:any}>=[];
  const fixture=fileURLToPath(new URL('./fixtures/run-interruption.ts',import.meta.url));
  const logs:Record<string,Buffer[]>={};
- const reviewedPath=join(root,'reviewed-reads.json');await writeFile(reviewedPath,JSON.stringify({rules:[]}));
+ const reviewedPath=join(root,'reviewed-reads.json');await writeFile(reviewedPath,JSON.stringify([]));
  try{
   const summary:any=await runPacedHybridBatch({runs:[
    {id:'first',args:['complete',join(root,'first'),'--fixture-exit-code=7',`--independent-reviewed-reads=${reviewedPath}`]},
@@ -53,7 +53,7 @@ test('each exited slot is independently evaluated before another slot exits, inc
 test('single-slot CLI supervisor immediately reports independent review hash failure instead of S0 absence',{timeout:20_000},async t=>{
  const root=await mkdtemp(resolve('.eval-artifacts','post-exit-cli-'));
  try{
-  const reviewed=join(root,'reviewed-reads.json');await writeFile(reviewed,JSON.stringify({rules:[]}));
+  const reviewed=join(root,'reviewed-reads.json');await writeFile(reviewed,JSON.stringify([]));
   const receipt=await runSupervisedEvalCli(fileURLToPath(new URL('./fixtures/run-interruption.ts',import.meta.url)),['complete',root,`--independent-reviewed-reads=${reviewed}`,'--invalid-reviewed-sha'],join(root,'receipts'));
   assert.equal(receipt.exit.code,0);assert.equal(receipt.status,'NOT_EVALUATED');assert.equal(receipt.failureCode,'REVIEWED_READS_SHA_MISMATCH');
   assert.equal(receipt.s0.S0_DECLARATION.status,'NOT_EVALUATED');assert.equal(receipt.s0.S0_BOUNDARY.status,'NOT_EVALUATED');assert.equal(postExitFailed(receipt),true);
