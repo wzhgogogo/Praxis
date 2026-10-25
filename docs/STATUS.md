@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.397
+- Document revision: 4.398
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-PRIME-HEALTH-4S:** 健康4秒调整完成：生产10秒和slow1000/800/220不变，E1/Guard原样，旧fetch+xhr草案不采纳并转F3。macOS/Linux完整四路各三次均154/154，中位102.962288/102.636218秒；两平台五门禁默认1037全绿，608输入不变、各项后净树、真实调用0。按授权合main后继续回放修复。 [报告](../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-E1-KNOWN-F3:** 用户复核已确认健康目标修好，普通模式现调整4秒以恢复150秒内；双平台各3轮待运行。E1原fixture/断言保持，fetch/xhr差异交对话B的F3 Guard审计，不采纳历史草案；仅同名Failed to fetch登记为本批已知偶发，其余失败仍阻断。 [报告](../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/report.md)。
 

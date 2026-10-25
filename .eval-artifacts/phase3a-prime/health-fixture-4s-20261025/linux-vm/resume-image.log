@@ -1,0 +1,72 @@
+Image part 40 verified length 4194304
+Image part 38 verified length 4194304
+Image part 29 verified length 4194304
+Image part 41 verified length 4194304
+Image part 42 verified length 4194304
+Image part 43 verified length 4194304
+Image part 44 verified length 4194304
+Image part 45 verified length 4194304
+Image part 46 verified length 4194304
+Image part 39 verified length 4194304
+Image part 47 verified length 4194304
+Retry one image part 50
+Image part 48 verified length 4194304
+Retry one image part 52
+Image part 51 verified length 4194304
+Image part 50 verified length 4194304
+Image part 52 verified length 4194304
+Image part 53 verified length 4194304
+Image part 54 verified length 4194304
+Image part 55 verified length 4194304
+Image part 57 verified length 4194304
+Image part 56 verified length 4194304
+Image part 58 verified length 4194304
+Image part 59 verified length 4194304
+Image part 60 verified length 4194304
+Image part 61 verified length 4194304
+Image part 62 verified length 4194304
+Image part 63 verified length 4194304
+Image part 64 verified length 4194304
+Image part 66 verified length 4194304
+Image part 67 verified length 4194304
+Image part 68 verified length 4194304
+Retry one image part 69
+Image part 65 verified length 4194304
+Retry one image part 49
+Image part 71 verified length 4194304
+Image part 70 verified length 4194304
+Image part 69 verified length 4194304
+Image part 72 verified length 4194304
+Image part 74 verified length 4194304
+Image part 75 verified length 4194304
+Image part 73 verified length 4194304
+Image part 76 verified length 4194304
+Image part 77 verified length 4194304
+Image part 78 verified length 4194304
+Image part 79 verified length 4194304
+Image part 81 verified length 851968
+Image part 80 verified length 4194304
+Traceback (most recent call last):
+  File "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/linux-vm/resume-image.py", line 33, in <module>
+    list(pool.map(download, range(count)))
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 608, in result_iterator
+    yield fs.pop().result()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 445, in result
+    return self.__get_result()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 390, in __get_result
+    raise self._exception
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/thread.py", line 52, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/linux-vm/resume-image.py", line 23, in download
+    data = response.read()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/client.py", line 472, in read
+    s = self._safe_read(self.length)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/client.py", line 613, in _safe_read
+    data = self.fp.read(amt)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ssl.py", line 1241, in recv_into
+    return self.read(nbytes, buffer)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ssl.py", line 1099, in read
+    return self._sslobj.read(len, buffer)
+socket.timeout: The read operation timed out

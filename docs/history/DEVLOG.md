@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.290
+- Document revision: 4.291
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4623,3 +4623,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-25-PHASE3A-PRIME-E1-KNOWN-F3
 
 按用户复核继续现有健康分支，4个普通模式10000→4000ms，精确slow1000/800/220与生产10秒不变；不改E1、Guard或站点。后续按独立分支修回放URL映射、决策快照绑定和逐槽退出即评价，均0真实调用。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-HEALTH-4S
+
+仅将四种普通健康fixture观察窗10000→4000ms；真实生产10秒不动，精确slow和原契约不减少。E1已知偶发按用户复核登记并交对话B/F3，源/Guard和历史草案不实施。冻结2e184c2f后双平台六轮全绿，中位回到≤150秒；独立后续分支从合入的新main开始。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/report.md)。

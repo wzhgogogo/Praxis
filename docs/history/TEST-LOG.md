@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.297
+- Document revision: 4.298
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5339,3 +5339,7 @@ macOS五门禁绿：默认1037/1037；完整四路Chromium三次154/154，162.59
 ## TEST-2026-10-25-PHASE3A-PRIME-E1-KNOWN-F3
 
 KNOWN_INTERMITTENT / DEFERRED_TO_F3：E1 outer body observer同一JS fetch在Playwright为fetch、Guard CDP有时为xhr，偶发BLOCKED_METHOD/Failed to fetch；复核指出生产按类型规则也可能误拒绝，未当作无害fixture修复关闭。E1原测试完整执行不skip，仅明确同名同错误可单列；原始exit1/153计数保留，其他错误不豁免。健康4秒新验收未运行，旧slow红绿已获复核认可。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/report.md)。
+
+## TEST-2026-10-25-PHASE3A-PRIME-HEALTH-4S
+
+macOS五门禁绿/default1037，完整四路Chromium三次154/154：102.962288、103.002452、102.611106秒，中位102.962288。真实Linux4核普通UID501五门禁绿/default1037，完整三次154/154：102.699376、102.429711、102.636218秒，中位102.636218。目标健康6/6，E1未出现，无skip/其他失败；每门禁后status空，608输入/脚本SHA一致、恢复0。旧162.502505秒性能红灯和已复核slow红绿复用；新真实调用0，临时VM本回合复用后统一清理。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/report.md)。
