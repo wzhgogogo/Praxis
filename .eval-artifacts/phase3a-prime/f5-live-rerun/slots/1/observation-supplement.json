@@ -1,0 +1,119 @@
+{
+  "kind": "SUPPLEMENTARY_OFFLINE_OBSERVATION",
+  "artifactSha256": "5cffb9b4a97270dcbee98b3d6963f0fade55286840d22f2adb20424ec2d713b7",
+  "method": "Only paired actual Executor operations and recorded model intervals. Unmatched starts are gaps, not assumed ongoing to task cutoff. Additive post-run measurement; frozen metrics/evaluation unchanged.",
+  "elapsedMs": 500659,
+  "wallTimePartitionMs": {
+    "UNATTRIBUTED": 72072,
+    "MODEL:restaurant_semantic_interpret": 3944,
+    "MODEL:restaurant_agent_decide": 41164,
+    "PAGE_LOAD": 211462,
+    "READ_PAGE": 26828,
+    "MODEL:restaurant_discovery_retrieval": 16053,
+    "WAIT": 49644,
+    "MODEL:browser_read_decide": 65407,
+    "MODEL:restaurant_fact_judgment": 12803,
+    "PAGE_OPERATION": 1282
+  },
+  "pairingGaps": [
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 147
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 1053
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 1073
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 1095
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 1106
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 1210
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 142,
+      "operation": "NAVIGATE"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 1050,
+      "operation": "CLICK"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 1070,
+      "operation": "CLICK"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 1090,
+      "operation": "SUBMIT_PUBLIC_QUERY"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 1103,
+      "operation": "NAVIGATE"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 1205,
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "kind": "UNPAIRED_START_NOT_ATTRIBUTED",
+      "sequence": 1273,
+      "operation": "NAVIGATE"
+    }
+  ],
+  "rawGoogleHarEntryIndices": [
+    61,
+    62,
+    63
+  ],
+  "googleHarResponses": 3,
+  "controlsFromActualDecisionMessages": [
+    {
+      "decisionLine": 38,
+      "kind": "STATION",
+      "label": "Akabane Sta. Izakaya (Japanese style tavern)",
+      "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/rstLst/izakaya/",
+      "proposedUse": false,
+      "objective": "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
+      "diagnosticDOM": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792917647123/diagnostic/snapshot-0083.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792917647123/diagnostic/snapshot-0086.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792917647123/diagnostic/snapshot-0087.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792917647123/diagnostic/snapshot-0088.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792917647123/diagnostic/snapshot-0089.html"
+      ]
+    },
+    {
+      "decisionLine": 38,
+      "kind": "STATION",
+      "label": "Akabane Sta.",
+      "href": "https://tabelog.com/en/tokyo/A1323/A132305/R134/",
+      "proposedUse": false,
+      "objective": "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
+      "diagnosticDOM": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792917647123/diagnostic/snapshot-0083.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792917647123/diagnostic/snapshot-0086.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792917647123/diagnostic/snapshot-0087.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792917647123/diagnostic/snapshot-0088.html",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792917647123/diagnostic/snapshot-0089.html"
+      ]
+    }
+  ],
+  "originalMetricsRetained": true,
+  "newCalls": 0
+}
