@@ -1,0 +1,881 @@
+{
+  "classification": "superseded retrospective / exposed; analysis only, not a new evaluation",
+  "revision": "a691f7ddbce7a4fc32829508993a1ef49b269fd2",
+  "artifactSha256": "5b123c79b5fb3a1d4d167a75562ab18d23857be2e50a13af4527c2595d833c95",
+  "startedAtCET": "2026-10-25T02:25:03.549000+01:00",
+  "finishedAtCET": "2026-10-25T02:33:24.045000+01:00",
+  "elapsedMs": 500496,
+  "resourceUsage": {
+    "discoveryCandidates": 16,
+    "candidatesChecked": 8,
+    "agentDecisions": 9,
+    "browserModelCalls": 15,
+    "modelCallsStarted": 39,
+    "browserRuntimeCalls": 267,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 21,
+      "native-discovery:VENUE_SEARCH": 17,
+      "tablecheck:qdk-cafe": 7,
+      "tablecheck:divino": 23,
+      "tablecheck:hitujiya-jimbocho": 29,
+      "tablecheck:jinbocho-gokita": 7,
+      "tablecheck:utena": 23,
+      "praxis:restaurant:e5284ca33d1d8491686421ee": 36,
+      "praxis:restaurant:28de014562cd22fea161e81b": 42,
+      "praxis:restaurant:5d12d8e1bad44d492c4ec5a7": 35,
+      "praxis:restaurant:ede6be75efed9e9a6fa5dc3a": 24,
+      "praxis:restaurant:0cbeaa651a6c010215276905": 3
+    },
+    "pageStillLoadingWithinBound": 63,
+    "postActionWaitTotalMs": 79536,
+    "browserModelActions": 10,
+    "googleRequests": {
+      "limit": 40,
+      "total": 5,
+      "namedPlaceResolution": 1,
+      "discovery": 1,
+      "placeDetails": 3,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 500018
+  },
+  "timing": {
+    "basis": "Retained supplementary partition checked against raw duration and decision totals. Unattributed time stays a gap.",
+    "wallTimePartitionMs": {
+      "UNATTRIBUTED": 118221.0,
+      "MODEL:restaurant_semantic_interpret": 4228.0,
+      "MODEL:restaurant_agent_decide": 29999.0,
+      "PAGE_LOAD": 202848.0,
+      "READ_PAGE": 31366.0,
+      "MODEL:restaurant_discovery_retrieval": 9149.0,
+      "WAIT": 37707.0,
+      "MODEL:browser_read_decide": 45969.0,
+      "PAGE_OPERATION": 2180.0,
+      "MODEL:restaurant_fact_judgment": 18829.0
+    },
+    "modelCallsByPurpose": {
+      "restaurant_semantic_interpret": 1,
+      "restaurant_agent_decide": 10,
+      "restaurant_discovery_retrieval": 4,
+      "browser_read_decide": 15,
+      "restaurant_fact_judgment": 9
+    },
+    "modelPurposeLatencyMs": {
+      "restaurant_semantic_interpret": 4228,
+      "restaurant_agent_decide": 29999,
+      "restaurant_discovery_retrieval": 9149,
+      "browser_read_decide": 45969,
+      "restaurant_fact_judgment": 18829
+    },
+    "pairingGaps": [
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 431
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 688
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1301
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1313
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1325
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 430,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 687,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1298,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1310,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1322,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1477,
+        "operation": "NAVIGATE"
+      }
+    ]
+  },
+  "completedActions": [
+    {
+      "trajectory": 1,
+      "action": "SEARCH_RESTAURANTS",
+      "startedAtCET": "2026-10-25T02:25:09.801000+01:00",
+      "completedAtCET": "2026-10-25T02:25:57.412000+01:00",
+      "latencyMs": 47609,
+      "executionMetadataRef": "trajectories[0].executionMetadata",
+      "candidateIds": []
+    },
+    {
+      "trajectory": 2,
+      "action": "SEARCH_RESTAURANTS",
+      "startedAtCET": "2026-10-25T02:26:00.524000+01:00",
+      "completedAtCET": "2026-10-25T02:26:56.222000+01:00",
+      "latencyMs": 55695,
+      "executionMetadataRef": "trajectories[1].executionMetadata",
+      "candidateIds": [
+        "tablecheck:qdk-cafe",
+        "tablecheck:divino",
+        "tablecheck:hitujiya-jimbocho",
+        "tablecheck:jinbocho-gokita",
+        "tablecheck:utena"
+      ]
+    },
+    {
+      "trajectory": 3,
+      "action": "CHECK_AVAILABILITY",
+      "startedAtCET": "2026-10-25T02:27:00.451000+01:00",
+      "completedAtCET": "2026-10-25T02:27:19.165000+01:00",
+      "latencyMs": 18641,
+      "executionMetadataRef": "trajectories[2].executionMetadata",
+      "candidateIds": [
+        "tablecheck:qdk-cafe",
+        "tablecheck:divino",
+        "tablecheck:hitujiya-jimbocho"
+      ]
+    },
+    {
+      "trajectory": 4,
+      "action": "CHECK_AVAILABILITY",
+      "startedAtCET": "2026-10-25T02:27:22.631000+01:00",
+      "completedAtCET": "2026-10-25T02:27:34.190000+01:00",
+      "latencyMs": 11508,
+      "executionMetadataRef": "trajectories[3].executionMetadata",
+      "candidateIds": [
+        "tablecheck:jinbocho-gokita",
+        "tablecheck:utena"
+      ]
+    },
+    {
+      "trajectory": 5,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "startedAtCET": "2026-10-25T02:27:38.194000+01:00",
+      "completedAtCET": "2026-10-25T02:28:29.522000+01:00",
+      "latencyMs": 51325,
+      "executionMetadataRef": "trajectories[4].executionMetadata",
+      "candidateIds": [
+        "tablecheck:qdk-cafe",
+        "tablecheck:hitujiya-jimbocho",
+        "tablecheck:utena"
+      ]
+    },
+    {
+      "trajectory": 6,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "startedAtCET": "2026-10-25T02:28:32.717000+01:00",
+      "completedAtCET": "2026-10-25T02:28:58.892000+01:00",
+      "latencyMs": 26172,
+      "executionMetadataRef": "trajectories[5].executionMetadata",
+      "candidateIds": [
+        "tablecheck:divino",
+        "tablecheck:jinbocho-gokita"
+      ]
+    },
+    {
+      "trajectory": 7,
+      "action": "SEARCH_RESTAURANTS",
+      "startedAtCET": "2026-10-25T02:29:00.571000+01:00",
+      "completedAtCET": "2026-10-25T02:29:00.576000+01:00",
+      "latencyMs": 0,
+      "executionMetadataRef": "trajectories[6].executionMetadata",
+      "candidateIds": [
+        "praxis:restaurant:e5284ca33d1d8491686421ee",
+        "praxis:restaurant:28de014562cd22fea161e81b",
+        "praxis:restaurant:9efebfe1fdd5b09e9ab90b58",
+        "praxis:restaurant:0cbeaa651a6c010215276905",
+        "praxis:restaurant:9e307bf5ee7957b7f98ccbb8",
+        "praxis:restaurant:b0d97dea7a28493ec8fa3503",
+        "praxis:restaurant:5d12d8e1bad44d492c4ec5a7",
+        "praxis:restaurant:08b89341e3bf93ce44640758",
+        "praxis:restaurant:879bb2dc956e3d28d1d723fd",
+        "praxis:restaurant:ede6be75efed9e9a6fa5dc3a",
+        "praxis:restaurant:601f528dbe7345e68bfc5214"
+      ]
+    },
+    {
+      "trajectory": 8,
+      "action": "CHECK_AVAILABILITY",
+      "startedAtCET": "2026-10-25T02:29:03.193000+01:00",
+      "completedAtCET": "2026-10-25T02:31:27.115000+01:00",
+      "latencyMs": 143773,
+      "executionMetadataRef": "trajectories[7].executionMetadata",
+      "candidateIds": [
+        "praxis:restaurant:e5284ca33d1d8491686421ee",
+        "praxis:restaurant:28de014562cd22fea161e81b",
+        "praxis:restaurant:5d12d8e1bad44d492c4ec5a7"
+      ]
+    },
+    {
+      "trajectory": 9,
+      "action": "INVESTIGATE_CANDIDATE_FACTS",
+      "startedAtCET": "2026-10-25T02:31:29.472000+01:00",
+      "completedAtCET": "2026-10-25T02:32:42.131000+01:00",
+      "latencyMs": 72653,
+      "executionMetadataRef": "trajectories[8].executionMetadata",
+      "candidateIds": [
+        "praxis:restaurant:5d12d8e1bad44d492c4ec5a7",
+        "praxis:restaurant:e5284ca33d1d8491686421ee",
+        "praxis:restaurant:28de014562cd22fea161e81b"
+      ]
+    }
+  ],
+  "decisionReferences": [
+    {
+      "line": 2,
+      "sequence": 2,
+      "purpose": "restaurant_agent_decide",
+      "startedAtCET": "2026-10-25T02:25:07.789000+01:00",
+      "latencyMs": 2009,
+      "output": {
+        "type": "SEARCH_RESTAURANTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "fugu restaurant near Kudanshita, anniversary dinner, 2 people, 19:30",
+        "candidateIds": [],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "No candidates yet; search for fugu restaurants near Kudanshita to build a candidate set before availability checks."
+      },
+      "observationURL": null
+    },
+    {
+      "line": 3,
+      "sequence": 3,
+      "purpose": "restaurant_discovery_retrieval",
+      "startedAtCET": "2026-10-25T02:25:16.120000+01:00",
+      "latencyMs": 2302,
+      "output": {
+        "choice": "KEYWORD",
+        "keyword": "fugu",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Retrieve fugu restaurants near Kudanshita Station to satisfy the hard criterion."
+      },
+      "observationURL": null
+    },
+    {
+      "line": 6,
+      "sequence": 6,
+      "purpose": "restaurant_discovery_retrieval",
+      "startedAtCET": "2026-10-25T02:25:41.072000+01:00",
+      "latencyMs": 3047,
+      "output": {
+        "choice": "KEYWORD",
+        "keyword": "fugu",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Search directly for the hard criterion: fugu restaurant."
+      },
+      "observationURL": "https://tabelog.com/en/tokyo/A1310/A131003/"
+    },
+    {
+      "line": 7,
+      "sequence": 7,
+      "purpose": "restaurant_discovery_retrieval",
+      "startedAtCET": "2026-10-25T02:25:46.818000+01:00",
+      "latencyMs": 1865,
+      "output": {
+        "choice": "KEYWORD",
+        "keyword": "fugu cuisine",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "The \"fugu\" search returned an explicit empty result set with no categories supplied, so I try a materially different keyword for the hard criterion rather than a synonym of the same term."
+      },
+      "observationURL": "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu"
+    },
+    {
+      "line": 8,
+      "sequence": 8,
+      "purpose": "restaurant_discovery_retrieval",
+      "startedAtCET": "2026-10-25T02:25:50.873000+01:00",
+      "latencyMs": 1935,
+      "output": {
+        "choice": "KEYWORD",
+        "keyword": "torafugu",
+        "criterionRef": "criterion:0",
+        "categoryUrl": "",
+        "reason": "Both prior fugu-related searches returned explicit empty results with no categories supplied; I try a materially different term (torafugu, the specific fugu species name) for the hard criterion rather than another synonym of \"fugu cuisine\"."
+      },
+      "observationURL": "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu+cuisine"
+    },
+    {
+      "line": 9,
+      "sequence": 9,
+      "purpose": "restaurant_agent_decide",
+      "startedAtCET": "2026-10-25T02:25:57.414000+01:00",
+      "latencyMs": 3107,
+      "output": {
+        "type": "SEARCH_RESTAURANTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "fugu restaurant near Kudanshita, anniversary dinner, 2 people, 19:30",
+        "candidateIds": [],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "No candidates discovered yet; run a bounded discovery search for fugu restaurants near Kudanshita to build the candidate set before availability checks."
+      },
+      "observationURL": null
+    },
+    {
+      "line": 10,
+      "sequence": 10,
+      "purpose": "restaurant_agent_decide",
+      "startedAtCET": "2026-10-25T02:26:56.225000+01:00",
+      "latencyMs": 4223,
+      "output": {
+        "type": "CHECK_AVAILABILITY",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "tablecheck:qdk-cafe",
+          "tablecheck:divino",
+          "tablecheck:hitujiya-jimbocho"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "AVAILABILITY goal with no fresh slots yet; check the three nearest direct-source candidates for 2026-11-07 19:30, party of 2, which also returns source facts for the fugu HARD criterion."
+      },
+      "observationURL": null
+    },
+    {
+      "line": 11,
+      "sequence": 11,
+      "purpose": "restaurant_agent_decide",
+      "startedAtCET": "2026-10-25T02:27:19.168000+01:00",
+      "latencyMs": 3457,
+      "output": {
+        "type": "CHECK_AVAILABILITY",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "tablecheck:jinbocho-gokita",
+          "tablecheck:utena"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "First availability batch yielded no qualifying slot (one unsupported, one unavailable, one unobserved). Check the two remaining unchecked candidates for the 2026-11-07 19:30 party of 2 request."
+      },
+      "observationURL": null
+    },
+    {
+      "line": 12,
+      "sequence": 12,
+      "purpose": "restaurant_agent_decide",
+      "startedAtCET": "2026-10-25T02:27:34.192000+01:00",
+      "latencyMs": 3998,
+      "output": {
+        "type": "INVESTIGATE_CANDIDATE_FACTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "tablecheck:qdk-cafe",
+          "tablecheck:hitujiya-jimbocho",
+          "tablecheck:utena"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "No candidate has verified fugu (HARD) evidence; availability reads are exhausted for now (checkAvailability empty). Investigate the three candidates whose availability outcome was unknown/unobserved for source facts on the fugu criterion before any further availability work."
+      },
+      "observationURL": null
+    },
+    {
+      "line": 21,
+      "sequence": 21,
+      "purpose": "restaurant_agent_decide",
+      "startedAtCET": "2026-10-25T02:28:29.524000+01:00",
+      "latencyMs": 3187,
+      "output": {
+        "type": "INVESTIGATE_CANDIDATE_FACTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "tablecheck:divino",
+          "tablecheck:jinbocho-gokita"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "No candidate has fresh evidenced availability yet; the only legal reads are fact investigations on divino and Jinbocho Gokita, which may establish the HARD fugu criterion and budget facts."
+      },
+      "observationURL": null
+    },
+    {
+      "line": 26,
+      "sequence": 26,
+      "purpose": "restaurant_agent_decide",
+      "startedAtCET": "2026-10-25T02:28:58.896000+01:00",
+      "latencyMs": 1671,
+      "output": {
+        "type": "SEARCH_RESTAURANTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "fugu restaurant near Kudanshita, Tokyo",
+        "candidateIds": [],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "All five discovered candidates lack any evidence of the HARD fugu criterion and none has fresh matching availability; no fact or availability reads remain legal. Search again with a fugu-focused hint to find candidates that can satisfy the HARD criterion."
+      },
+      "observationURL": null
+    },
+    {
+      "line": 27,
+      "sequence": 27,
+      "purpose": "restaurant_agent_decide",
+      "startedAtCET": "2026-10-25T02:29:00.582000+01:00",
+      "latencyMs": 2607,
+      "output": {
+        "type": "CHECK_AVAILABILITY",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:e5284ca33d1d8491686421ee",
+          "praxis:restaurant:28de014562cd22fea161e81b",
+          "praxis:restaurant:5d12d8e1bad44d492c4ec5a7"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "Native TableCheck candidates yielded no fresh matching slot and no confirmed fugu facts. Proceeding with bounded availability reads on the nearest seafood/sushi-oriented Google candidates (Kakuya 443m, Jidai Sushi 486m, Kaneichi 825m) to obtain request-bound slots plus source facts."
+      },
+      "observationURL": null
+    },
+    {
+      "line": 33,
+      "sequence": 33,
+      "purpose": "restaurant_agent_decide",
+      "startedAtCET": "2026-10-25T02:31:27.119000+01:00",
+      "latencyMs": 2348,
+      "output": {
+        "type": "INVESTIGATE_CANDIDATE_FACTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:5d12d8e1bad44d492c4ec5a7",
+          "praxis:restaurant:e5284ca33d1d8491686421ee",
+          "praxis:restaurant:28de014562cd22fea161e81b"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "Jidai Sushi has a fresh matching 19:30 slot for 2 but lacks evidence for the HARD fugu criterion; read facts on it plus the two seafood/Japanese candidates to try to ground the fugu requirement."
+      },
+      "observationURL": null
+    },
+    {
+      "line": 37,
+      "sequence": 37,
+      "purpose": "restaurant_agent_decide",
+      "startedAtCET": "2026-10-25T02:32:42.140000+01:00",
+      "latencyMs": 3392,
+      "output": {
+        "type": "CHECK_AVAILABILITY",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:ede6be75efed9e9a6fa5dc3a",
+          "praxis:restaurant:0cbeaa651a6c010215276905",
+          "praxis:restaurant:9e307bf5ee7957b7f98ccbb8"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "No eligible candidates yet; Jidai Sushi has a slot but no fugu evidence. Continue bounded availability reads on unchecked in-radius candidates (nearest first) to find fugu-capable outlets with a matching 19:30 slot for 2."
+      },
+      "observationURL": null
+    }
+  ],
+  "diagnosticDOM": [
+    {
+      "snapshot": 6,
+      "diagnosticDOM": "hybrid-1792891503539/diagnostic/snapshot-0006.html",
+      "sha256": "5a19e8ce76302d6dd696b975f90857758dba1df0341b35c10e1de7b0141fb03d",
+      "traceSequences": [
+        88
+      ],
+      "url": "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu",
+      "restaurantCardAnchors": 0,
+      "emptyQuote": "No restaurants match \"Jinbocho & Suidobashi fugu\"."
+    },
+    {
+      "snapshot": 7,
+      "diagnosticDOM": "hybrid-1792891503539/diagnostic/snapshot-0007.html",
+      "sha256": "bf8a593cd50db2e5cebf743e790a93c31e0be9e103a2ce1972edf1c1b6ff674b",
+      "traceSequences": [
+        100
+      ],
+      "url": "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu+cuisine",
+      "restaurantCardAnchors": 0,
+      "emptyQuote": "No restaurants match \"Jinbocho & Suidobashi fugu cuisine\"."
+    },
+    {
+      "snapshot": 8,
+      "diagnosticDOM": "hybrid-1792891503539/diagnostic/snapshot-0008.html",
+      "sha256": "e58d3b3a4da921cc4574ff512d096821cd52d83fab1a3dabe7783f9c9431c66e",
+      "traceSequences": [
+        112
+      ],
+      "url": "https://tabelog.com/en/tokyo/A1310/A131003/?sw=torafugu",
+      "restaurantCardAnchors": 0,
+      "emptyQuote": "No restaurants match \"Jinbocho & Suidobashi torafugu\"."
+    },
+    {
+      "snapshot": 9,
+      "diagnosticDOM": "hybrid-1792891503539/diagnostic/snapshot-0009.html",
+      "sha256": "964edee1f7096bd258969c06d4c973c065618e8a5f64b2e64b57618afdea2cbf",
+      "traceSequences": [
+        132
+      ],
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6954816&geo_longitude=139.7511544&geo_distance=1km&auto_geolocate=false&search_text=fugu",
+      "restaurantCardAnchors": 0,
+      "emptyQuote": null
+    },
+    {
+      "snapshot": 65,
+      "diagnosticDOM": "hybrid-1792891503539/diagnostic/snapshot-0065.html",
+      "sha256": "cbab3db75c78a4539b6909ce4da0d114b2caf8af47320e0c9e3b6479d89b95d6",
+      "traceSequences": [
+        849
+      ],
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kakuya",
+      "restaurantCardAnchors": 20,
+      "emptyQuote": null
+    },
+    {
+      "snapshot": 77,
+      "diagnosticDOM": "hybrid-1792891503539/diagnostic/snapshot-0077.html",
+      "sha256": "d5577b596d6f75ea03744cbef5bb4b1c479ef4f6f55da8619e1ead8a01c0890a",
+      "traceSequences": [
+        990
+      ],
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaneichi",
+      "restaurantCardAnchors": 20,
+      "emptyQuote": null
+    },
+    {
+      "snapshot": 91,
+      "diagnosticDOM": "hybrid-1792891503539/diagnostic/snapshot-0091.html",
+      "sha256": "a435f915b0c26e08e0f02f7d9fd7158c3a3eb6c372342cbf1d5032f814ab08b2",
+      "traceSequences": [
+        1171
+      ],
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Jidai%20Sushi",
+      "restaurantCardAnchors": 3,
+      "emptyQuote": null
+    },
+    {
+      "snapshot": 107,
+      "diagnosticDOM": "hybrid-1792891503539/diagnostic/snapshot-0107.html",
+      "sha256": "6b8f2d3b0a018d502586b4186fd0a9736ab1e2a6fd47d58a1b865e0402c83adb",
+      "traceSequences": [
+        1391
+      ],
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=VMG%20Caf%C3%A9%20Kudan%20Kaikan%20Terrace",
+      "restaurantCardAnchors": 1,
+      "emptyQuote": null
+    },
+    {
+      "snapshot": 113,
+      "diagnosticDOM": "hybrid-1792891503539/diagnostic/snapshot-0113.html",
+      "sha256": "714d229623ac23b3d651d434e19a93ef73171420f2a0eb2e88cdd37c0929a080",
+      "traceSequences": [
+        1474
+      ],
+      "url": "https://tabelog.com/en/tokyo/A1310/A131003/13154986/",
+      "restaurantCardAnchors": 0,
+      "emptyQuote": null
+    }
+  ],
+  "tabelog": {
+    "sourceElapsedMs": 46358,
+    "directoryRegion": {
+      "first": {
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/",
+        "observedOn": "https://tabelog.com/en/tokyo/A1310/",
+        "targetRef": "observation:3:target:16",
+        "label": "Jinbocho & Suidobashi"
+      },
+      "provisional": false,
+      "samples": []
+    },
+    "retrieval": {
+      "rewrites": 2,
+      "regionPages": 3,
+      "retrievalPages": 3,
+      "history": [
+        {
+          "selection": {
+            "accepted": true,
+            "reason": "Search directly for the hard criterion: fugu restaurant.",
+            "keyword": "fugu",
+            "criterionRef": "criterion:0"
+          },
+          "elapsedMs": 35783,
+          "parsedCount": 0
+        },
+        {
+          "selection": {
+            "accepted": true,
+            "reason": "The \"fugu\" search returned an explicit empty result set with no categories supplied, so I try a materially different keyword for the hard criterion rather than a synonym of the same term.",
+            "keyword": "fugu cuisine",
+            "criterionRef": "criterion:0"
+          },
+          "elapsedMs": 37651,
+          "parsedCount": 0
+        },
+        {
+          "selection": {
+            "accepted": true,
+            "reason": "Both prior fugu-related searches returned explicit empty results with no categories supplied; I try a materially different term (torafugu, the specific fugu species name) for the hard criterion rather than another synonym of \"fugu cuisine\".",
+            "keyword": "torafugu",
+            "criterionRef": "criterion:0"
+          },
+          "elapsedMs": 41777,
+          "parsedCount": 0
+        }
+      ],
+      "selection": {
+        "accepted": true,
+        "reason": "Both prior fugu-related searches returned explicit empty results with no categories supplied; I try a materially different term (torafugu, the specific fugu species name) for the hard criterion rather than another synonym of \"fugu cuisine\".",
+        "keyword": "torafugu",
+        "criterionRef": "criterion:0"
+      }
+    },
+    "detailAttempts": 0,
+    "unfilteredAfterFirstEmpty": [],
+    "sameSourcePointers": [
+      {
+        "outletName": "Egushi",
+        "url": "https://tabelog.com/tokyo/A1310/A131003/13154986/"
+      }
+    ]
+  },
+  "tablecheck": {
+    "sourceElapsedMs": 55646,
+    "retrieval": {
+      "selection": {
+        "accepted": true,
+        "reason": "Retrieve fugu restaurants near Kudanshita Station to satisfy the hard criterion.",
+        "keyword": "fugu",
+        "criterionRef": "criterion:0"
+      },
+      "rewrites": 0,
+      "regionPages": 0,
+      "retrievalPages": 1,
+      "history": [
+        {
+          "selection": {
+            "accepted": true,
+            "reason": "Retrieve fugu restaurants near Kudanshita Station to satisfy the hard criterion.",
+            "keyword": "fugu",
+            "criterionRef": "criterion:0"
+          },
+          "elapsedMs": 6967,
+          "parsedCount": 20
+        }
+      ]
+    },
+    "parsedOutlets": 20,
+    "detailAttempts": 5
+  },
+  "f5": {
+    "regionCorrectionInputs": 0,
+    "selectRegionEntranceOutputs": 0
+  },
+  "interruptedAction": {
+    "decisionLine": 37,
+    "action": {
+      "type": "CHECK_AVAILABILITY",
+      "question": "",
+      "relatedFields": [],
+      "retrievalHint": "",
+      "candidateIds": [
+        "praxis:restaurant:ede6be75efed9e9a6fa5dc3a",
+        "praxis:restaurant:0cbeaa651a6c010215276905",
+        "praxis:restaurant:9e307bf5ee7957b7f98ccbb8"
+      ],
+      "candidateId": "",
+      "offerId": "",
+      "decisionSummary": "No eligible candidates yet; Jidai Sushi has a slot but no fugu evidence. Continue bounded availability reads on unchecked in-radius candidates (nearest first) to find fugu-capable outlets with a matching 19:30 slot for 2."
+    },
+    "candidateNames": [
+      "VMG Café Kudan Kaikan Terrace",
+      "Egushi",
+      "Wa Dining 30"
+    ],
+    "executionStartedAtCET": "2026-10-25T02:32:45.532000+01:00",
+    "untilArtifactEndMs": 38513,
+    "persistedTrajectory": false,
+    "lastTrace": [
+      {
+        "sequence": 1477,
+        "at": "2026-10-25T01:33:20.809Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABELOG",
+          "stage": "IDENTITY",
+          "event": "OPERATION_STARTED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:0cbeaa651a6c010215276905",
+          "elapsedMs": 3290,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 3290,
+            "providerElapsedMs": 3290,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 19
+          }
+        }
+      },
+      {
+        "sequence": 1478,
+        "at": "2026-10-25T01:33:20.809Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "navigate",
+          "args": [
+            "https://tabelog.com/en/tokyo/A1310/A131003/13154986/",
+            {
+              "timeoutMs": 20000,
+              "waitUntil": "domcontentloaded"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 1479,
+        "at": "2026-10-25T01:33:23.552Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABELOG",
+          "stage": "DISCOVERY",
+          "event": "CLOSED",
+          "detail": "SESSION_RETIRED",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:0cbeaa651a6c010215276905",
+          "elapsedMs": 6033,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 6033,
+            "providerElapsedMs": 6033,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 19
+          }
+        }
+      },
+      {
+        "sequence": 1480,
+        "at": "2026-10-25T01:33:23.552Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABELOG",
+          "stage": "DISCOVERY",
+          "event": "PROVIDER_FINISHED",
+          "detail": "PROVIDER_SCOPE",
+          "lifecycle": {
+            "outcome": "ABANDONED",
+            "candidateElapsedMs": 6033,
+            "providerElapsedMs": 6033,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 19,
+            "reason": "PARENT_ABORTED"
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:0cbeaa651a6c010215276905",
+          "elapsedMs": 6033
+        }
+      },
+      {
+        "sequence": 1481,
+        "at": "2026-10-25T01:33:23.552Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABELOG",
+          "stage": "DISCOVERY",
+          "event": "CANDIDATE_FINISHED",
+          "detail": "CANDIDATE_SCOPE",
+          "lifecycle": {
+            "outcome": "ABANDONED",
+            "candidateElapsedMs": 6033,
+            "providerElapsedMs": 6033,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 19,
+            "reason": "PARENT_ABORTED"
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:0cbeaa651a6c010215276905",
+          "elapsedMs": 6033
+        }
+      }
+    ]
+  },
+  "termination": {
+    "scope": "TASK",
+    "code": "RUN_DEADLINE_EXCEEDED",
+    "reason": "Run failed or was cancelled during execution"
+  },
+  "interruption": {
+    "reason": "TIMEOUT",
+    "at": "2026-10-25T01:33:23.551Z",
+    "timeoutMs": 500000
+  }
+}

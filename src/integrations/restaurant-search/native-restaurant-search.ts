@@ -311,7 +311,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const sourceElapsedBefore = priorProgress?.sourceId === pack.meta.id ? priorProgress.elapsedMs ?? 0 : 0;
     const sourceElapsedRemaining = Math.max(0, NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedBefore);
     let directoryRegion = priorProgress?.sourceId === pack.meta.id && priorProgress.directoryRegion ? structuredClone(priorProgress.directoryRegion) : undefined;
-    const replaceRegion = directoryEntryReplacementAllowed(directoryRegion);
+    let replaceRegion = directoryEntryReplacementAllowed(directoryRegion);
     const regionEntrances: NonNullable<NativeSourceProgress["regionEntrances"]> = priorProgress?.sourceId === pack.meta.id && priorProgress.regionEntrances
       ? structuredClone(priorProgress.regionEntrances) : {sourceId: pack.meta.id, ...(request.readRunId ? {readRunId: request.readRunId} : {}), flowId: randomUUID(), entries: []};
     const regionScopeMismatch = regionEntrances.sourceId !== pack.meta.id || regionEntrances.readRunId !== request.readRunId;
@@ -383,7 +383,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       },
       takeLastWireRecord: () => this.discoveryDecision!.takeLastWireRecord?.(),
     } : undefined;
-    const retainedEntries = replaceRegion ? [] : retainedPendingEntries(pack, priorProgress);
+    let retainedEntries = replaceRegion ? [] : retainedPendingEntries(pack, priorProgress);
     let nextListing = !replaceRegion && priorProgress?.sourceId === pack.meta.id ? priorProgress.nextListing : undefined;
     const visitedListingUrls = priorProgress?.sourceId === pack.meta.id ? [...(priorProgress.visitedListingUrls ?? [])] : [];
     const listingObservations: Array<{ sourceUrl: string; parsedOutlets: number; resultCount?: number; nextPageUrl?: string }> = [];
@@ -673,16 +673,20 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             pagesRead: sourcePagesBefore, elapsedMs: sourceElapsedBefore, visitedListingUrls, pendingSourceEntries: [], pendingSourceIds: [] },
           funnel: funnel() };
       }
-      if (source === "DIRECTORY" && replaceRegion && (retrieval.regionPages >= 4 || sourceDetailAttemptsBefore >= NATIVE_DETAIL_SOURCE_CAP)) {
-        sourceEnded = true; if (directoryRegion) directoryRegion.stopReason = "SOURCE_BUDGET_EXHAUSTED";
-        throw Object.assign(Error("No budget for a replacement entrance"), {code: "READ_BUDGET_EXCEEDED"});
-      }
       // Session acquisition is source work.  Keeping it in the existing
       // Executor makes the source's remaining deadline apply before the
       // first listing navigation and to a replacement session alike.
       session = await executor.acquire(signal, source, "DISCOVERY", this.networkPolicy);
       if (source === "DIRECTORY") {
         const directory = pack.browser!.directory!;
+        // Correction belongs to this source invocation. Returning it as a
+        // future SEARCH can strand it behind other sources' pending batches.
+        // Reuse this Executor, deadline, observed references and all counters.
+        do {
+        if (replaceRegion && (retrieval.regionPages >= 4 || sourceDetailAttemptsBefore + inspected >= NATIVE_DETAIL_SOURCE_CAP || sourceElapsedMs() >= NATIVE_SOURCE_ELAPSED_CAP_MS)) {
+          directoryRegion!.stopReason = "SOURCE_BUDGET_EXHAUSTED"; sourceEnded = true;
+          throw Object.assign(Error("No budget for a replacement entrance"), {code: "READ_BUDGET_EXCEEDED"});
+        }
         const retainedOutlets: ReturnType<DiscoverySourcePack["parseListing"]>["outlets"] = retainedEntries.map((entry) => ({
           sourceEntityId: entry.sourceEntityId,
           sourceUrl: entry.sourceUrl,
@@ -712,7 +716,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           const selected = await executor.selectRegionEntrance({taskId: `browser-read:native-discovery:${source}`, source, stage: "DISCOVERY", signal, ...(sourceSkillPath ? {sourceSkillPath} : {}),
             goal: {outlet: {name: keyword, address: request.intent.area.query}, location: discoveryGoalLocation, hardCriteria: request.intent.criteria.filter(item => item.polarity === "POSITIVE" && item.strength === "HARD").map(item => item.text)},
             regionCorrection: {sourceId: pack.meta.id, flowId: regionEntrances.flowId, entrances: entries, samples: directoryRegion.samples, replacementsUsed: 0,
-              remainingBudget: {sourceMs: Math.max(0, sourceElapsedRemaining - (Date.now() - batchStartedAt)), details: NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore, regionPages: 4 - retrieval.regionPages, retrievalPages: 3 - retrieval.retrievalPages}}});
+              remainingBudget: {sourceMs: Math.max(0, sourceElapsedRemaining - (Date.now() - batchStartedAt)), details: NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore - inspected, regionPages: 4 - retrieval.regionPages, retrievalPages: 3 - retrieval.retrievalPages}}});
           const entry = selected.status === "SELECTED" ? replacementEntrances().find(entry => entry.ref === selected.entranceRef) : undefined;
           if (!entry) {
             directoryRegion.stopReason = selected.status === "NO_SAFE_ACTION" ? selected.reasonCode : "INVALID_OBSERVED_ENTRANCE_SELECTION"; sourceEnded = true;
@@ -917,8 +921,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         const outlets = [...new Map([...retainedOutlets, ...observedOutlets].map((outlet) => [outlet.sourceEntityId, outlet])).values()];
         raw = page ? rawSourceLinks(page, pack) : 0;
         parsed = outlets.length;
-        const remainingDetailBudget = Math.max(0, NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore);
-        const unseenOutlets = outlets.filter((outlet) => !priorInspected.has(outlet.sourceEntityId));
+        const remainingDetailBudget = Math.max(0, NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore - inspected);
+        const unseenOutlets = outlets.filter((outlet) => !inspectedSourceIds.includes(outlet.sourceEntityId));
         const chunk = unseenOutlets.slice(0, Math.min(NATIVE_DETAIL_BATCH_CAP, remainingDetailBudget));
         const pendingOutlets = unseenOutlets.slice(chunk.length);
         // Keep the selected chunk persisted until each detail attempt actually
@@ -1009,6 +1013,12 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           }
           if (directoryEntryReplacementAllowed(directoryRegion)) break;
         }
+        replaceRegion = directoryEntryReplacementAllowed(directoryRegion);
+        if (replaceRegion) {
+          retainedEntries = []; pendingSourceEntries = []; nextListing = undefined;
+          deferredByBatchCap.length = 0;
+        }
+        } while (replaceRegion);
       } else {
         let page: BrowserSnapshot | undefined;
         let links = retainedEntries.map((entry) => entry.sourceUrl);
@@ -1143,10 +1153,6 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       sourceTimeLimitReached = sourceElapsedMs() >= NATIVE_SOURCE_ELAPSED_CAP_MS;
       // A batch selection is not consumption.  Recompute after the loop so a
       // navigation/session interruption retains all entries it never began.
-      if (directoryEntryReplacementAllowed(directoryRegion)) {
-        pendingSourceEntries = []; nextListing = undefined;
-        if (!replacementEntrances().length) directoryRegion!.stopReason = "NO_OBSERVED_REPLACEMENT_ENTRANCE";
-      }
       if (directoryRegion && (sourceTimeLimitReached || sourceDetailAttemptsBefore + inspected >= NATIVE_DETAIL_SOURCE_CAP)) directoryRegion.stopReason = "SOURCE_BUDGET_EXHAUSTED";
       sourceEnded = !!directoryRegion?.stopReason || (!directoryEntryReplacementAllowed(directoryRegion)
           && pendingSourceEntries.length === 0
@@ -1170,6 +1176,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       sourceTimeLimitReached = sourceDeadlineExceeded || sourceElapsedMs() >= NATIVE_SOURCE_ELAPSED_CAP_MS;
       if (sourceTimeLimitReached) { sourceEnded = true; if (directoryRegion) directoryRegion.stopReason = "SOURCE_BUDGET_EXHAUSTED"; }
       if (error && typeof error === "object") Object.assign(error, {
+        // A failed correction may stop the source, but cannot revoke qualified
+        // candidates already grounded during this same invocation.
+        ...(source === "DIRECTORY" && (replaceRegion || directoryRegion?.replacement) ? {nativeAccepted: [...admitted.values()]} : {}),
         nativeFunnel: funnel(true),
         nativeProgress: {
           ...regionCheckpoint(), retrieval,
@@ -1310,6 +1319,10 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       }
       if (error && typeof error === "object" && "nativeProgress" in error && error.nativeProgress) {
         batch = { ...batch, progress: error.nativeProgress as typeof batch.progress };
+      }
+      if (error && typeof error === "object" && "nativeAccepted" in error) {
+        const accepted = error.nativeAccepted as Array<{candidate: RestaurantCandidate; evidence: RestaurantReadEvidence}>;
+        batch = {...batch, candidates: accepted.map(item => item.candidate), evidence: accepted.map(item => item.evidence)};
       }
       failureCode = error && typeof error === "object" && "code" in error && typeof error.code === "string"
         ? restaurantFailureCode(error.code, "SEARCH_FAILED") : restaurantFailureCode(`${source}_NATIVE_DISCOVERY_FAILED`, "SEARCH_FAILED");

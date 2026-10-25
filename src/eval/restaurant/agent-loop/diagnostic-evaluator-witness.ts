@@ -6,7 +6,9 @@ import type { PostDeliveryTabelogObservation } from "./diagnostic-evaluator-grou
 import type { RunRecord } from "./diagnostic-evaluator-record.js";
 
 export interface WitnessOutlet {
-  outletName: string; sourceId: string; address?: string; distanceMeters?: number;
+  outletName: string; sourceId: string; distanceMeters?: number;
+  /** Independently frozen name/address pairs; never synthesize aliases from a candidate. */
+  identities: Array<{outletName: string; address?: string}>;
   hardEvidence: Array<{ criterion: string; quote: string }>;
   observation?: PostDeliveryTabelogObservation;
   certifiedRequest?: { date: string; time: string; partySize: number; text: string };
@@ -38,6 +40,13 @@ const tokens = (value: string) => value.normalize("NFKD").replace(/\p{M}/gu, "")
 const name = (value: string) => tokens(value).sort().join(" ");
 const address = (value: string) => tokens(value).join(" "); // keep house/floor numbers and ordering
 const id = (value: string) => value.split("/").filter(Boolean).at(-1);
+const identities = (original: Record<string, unknown> | undefined, outletName: string): WitnessOutlet["identities"] => [
+  {outletName, ...(typeof original?.address === "string" ? {address: text(original.address)} : {})},
+  ...array(original?.observedSourceIdentities ?? []).map(value => {
+    const identity = record(value);
+    return {outletName: text(identity.outletName), address: text(identity.address)};
+  }),
+];
 
 /** Existing independently registered roster + original raw recheck, no labels. */
 export function loadWitnessOracle(input: { manifestPath: string; registryPath: string; variantId: string; artifactSha256: string; rawDirectory?: string }): WitnessOracle {
@@ -69,7 +78,8 @@ export function loadWitnessOracle(input: { manifestPath: string; registryPath: s
     const hardEvidence = original && Array.isArray(original.hardEvidence) ? original.hardEvidence.map(value => {
       const entry = record(value); return { criterion: text(entry.criterion), quote: text(entry.quote) };
     }) : [];
-    return { outletName: text(row.name ?? original?.outletName), sourceId, ...(typeof original?.address === "string" ? { address: original.address } : {}),
+    const outletName = text(row.name ?? original?.outletName);
+    return { outletName, sourceId, identities: identities(original, outletName),
       ...(typeof original?.distanceMeters === "number" ? { distanceMeters: original.distanceMeters } : {}), hardEvidence, observation,
       ...(original && certifiedRequest ? { certifiedRequest } : {}),
       refs: [manifestRef, registryRef, `${relative(process.cwd(), bodyPath)}#sha256=${observation.sha256}`, `${relative(process.cwd(), metadataPath)}#sha256=${hash(readFileSync(metadataPath))}`] };
@@ -83,7 +93,7 @@ export function loadWitnessOracle(input: { manifestPath: string; registryPath: s
       const entry = record(value); return { criterion: text(entry.criterion), quote: text(entry.quote) };
     }) : [];
     rows.push({ outletName: text(original.outletName), sourceId,
-      ...(typeof original.address === "string" ? { address: original.address } : {}),
+      identities: identities(original, text(original.outletName)),
       ...(typeof original.distanceMeters === "number" ? { distanceMeters: original.distanceMeters } : {}),
       ...(certifiedRequest ? { certifiedRequest } : {}), hardEvidence, refs: [manifestRef, registryRef] });
   }
@@ -127,15 +137,16 @@ export function buildWitnessFunnel(root: RunRecord, sourceSha256: string, oracle
     && candidates.every(candidate => candidate.restaurant?.id && discovered.has(candidate.restaurant.id))
     && [...discovered].every(candidateId => candidates.some(candidate => candidate.restaurant?.id === candidateId));
   return oracle.rows.map(witness => {
-    const names = candidates.filter(candidate => name(candidate.restaurant?.outletName ?? "") === name(witness.outletName));
+    const matchingIdentities = (candidate: typeof candidates[number]) => witness.identities.filter(identity => name(candidate.restaurant?.outletName ?? "") === name(identity.outletName));
+    const names = candidates.filter(candidate => matchingIdentities(candidate).length);
     const direct = names.filter(candidate => candidate.restaurant?.id?.startsWith("tabelog:") && id(candidate.restaurant.sourceIds?.tabelog ?? candidate.restaurant.id.slice(8)) === witness.sourceId);
-    const matched = names.filter(candidate => witness.address && candidate.restaurant?.address && address(witness.address) === address(candidate.restaurant.address));
+    const matched = names.filter(candidate => candidate.restaurant?.address && matchingIdentities(candidate).some(identity => identity.address && address(identity.address) === address(candidate.restaurant!.address!)));
     const exact = [...new Set([...direct, ...matched])];
     // A same-source ID cannot override an explicit address/floor conflict.
-    const accepted = exact.filter(candidate => !witness.address || !candidate.restaurant?.address || address(witness.address) === address(candidate.restaurant.address));
+    const accepted = exact.filter(candidate => matchingIdentities(candidate).some(identity => !identity.address || !candidate.restaurant?.address || address(identity.address) === address(candidate.restaurant.address)));
     const candidateIds = accepted.flatMap(candidate => candidate.restaurant?.id ?? []);
     const possibleCandidateIds = names.flatMap(candidate => candidate.restaurant?.id ?? []).filter(candidateId => !candidateIds.includes(candidateId));
-    const unknownAddress = names.length > 0 && !accepted.length && (!witness.address || names.some(candidate => !candidate.restaurant?.address));
+    const unknownAddress = names.length > 0 && !accepted.length && names.some(candidate => !candidate.restaurant?.address || matchingIdentities(candidate).some(identity => !identity.address));
     const status = !applicable || !knownScope || unknownAddress ? "NOT_EVALUATED" : accepted.length ? "FOUND" : "NOT_FOUND";
     const observed = new Set((reads ?? []).filter(read => read.applicableRequest && read.candidateIds.some(candidateId => candidateIds.includes(candidateId))).flatMap(read => read.evidenceIds));
     const associated = evidence.filter(entry => candidateIds.includes(entry.candidateId ?? "") && observed.has(entry.evidenceId ?? ""));
