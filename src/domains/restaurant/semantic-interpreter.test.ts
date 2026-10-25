@@ -212,7 +212,7 @@ test("ADR-0044 current-message quotes admit both goals without persisting their 
         type: "JUDGMENT", reason: "The request expresses a visit.", quotes: ["CAFES  nearby", "Wednesday afternoon"],
       } } }],
     };
-    const gateway = new QueuedGateway([response(JSON.stringify(proposal))]);
+    const gateway = new QueuedGateway([response(JSON.stringify(proposal)), response(JSON.stringify(proposal))]);
     const result = await new RestaurantSemanticInterpreter(gateway).interpret({
       taskId: "goal-basis", message: "Good cafes nearby on Wednesday afternoon.", referenceTime: "2026-10-25T09:00:00+09:00", timezone: "Asia/Tokyo",
     });

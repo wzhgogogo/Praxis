@@ -177,3 +177,19 @@ test("ADR-0044 scoring permits either grounded gray goal but rejects fabricated 
     assert.equal(scoreRestaurantSemanticTurn(input).status, sample.pass ? "PASS" : "FAIL", JSON.stringify(sample));
   }
 });
+
+for (const category of ["GRAY", "A", "B"] as const) {
+  test(`ADR-0044 independently rejects ${category === "GRAY" ? "ungrounded gray basis" : `${category} recommendation`}`, () => {
+    const draft: RestaurantIntentDraft = { schemaVersion: "3", timezone: "Asia/Tokyo", target: { goal: "RECOMMENDATION", query: "cafes" }, criteria: [] };
+    const input = {
+      actualProposal: { schemaVersion: "3" as const, facts: [{ field: "TARGET" as const, operation: "ASSERT" as const,
+        value: { kind: "TARGET" as const, goal: "RECOMMENDATION" as const, query: "cafes", goalBasis: {
+          type: "JUDGMENT", reason: "Controlled score.", quotes: [category === "GRAY" ? "invented quote" : "cafes"],
+        } },
+      }] },
+      actualDraft: draft, expectedDraft: draft,
+      goalBoundary: { category, message: "Good cafes this afternoon." },
+    };
+    assert.equal(scoreRestaurantSemanticTurn(input).status, "FAIL");
+  });
+}
