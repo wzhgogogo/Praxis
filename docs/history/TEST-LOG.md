@@ -25,7 +25,7 @@
 
 ## 2026-10-26 CET：F3-034显式观察通用列表
 
-未修生产组合非法关键词/稀疏KEEP/重复表达式三项有效导航红灯，修后同断言通过；真实本地Chromium明确选择观察ref后5家候选，集合外/跨来源/href冒充/无观察均拒绝。当前共享文本Native和Google-only同片有界失败，原合法改写与候选保留交付控制保持。Schema@3／Prompt@6、State@22／TaskDefinition@20及全部活动fixture同步，不留旧回退。63项相关与默认1060预检查全绿，五门禁提交后另附净树收据。两个来源目录、Pack、budget零差异，真实调用0，F6/route不实施。[报告](../../.eval-artifacts/phase3a-prime/f3-034/report.md)。
+未修生产组合非法关键词/稀疏KEEP/重复表达式三项有效导航红灯，修后同断言通过；真实本地Chromium明确选择观察ref后5家候选，集合外/跨来源/href冒充/无观察均拒绝。当前共享文本Native和Google-only同片有界失败，原合法改写与候选保留交付控制保持。Schema@3／Prompt@6、State@22／TaskDefinition@20及全部活动fixture同步，不留旧回退。63项相关与五门禁全绿（e85e2a81，默认1060／Chromium161、每项前后净树），完整收据已归档。两个来源目录、Pack、budget零差异，真实调用0，F6/route不实施。[报告](../../.eval-artifacts/phase3a-prime/f3-034/report.md)。
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 

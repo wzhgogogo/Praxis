@@ -31,3 +31,5 @@ retrieval Schema@3／Prompt@6，State@22／TaskDefinition@20。generalRef为新w
 ## 保护与预算
 
 scope.json记录新main基线和受保护文件SHA：两个来源目录、page-parser/query-controls及source-packs.ts相对基线零差异，因此不增加站点行数；共享Native/Planner与调用方改变。budget.json原字节不变，新增模型/Google/餐厅网站/Live均0。git diff --check通过；外部网络只有授权Git推送，不计生产读取。
+
+最终验收：候选e85e2a81五门禁全PASS（默认1060／Chromium161），每项前后status为空，日志和gates.json在本目录；git diff --check通过。随后仅归档文档/日志，已验证源码不变。保护目录和budget原字节复核一致。三项按独立分支验收、顺序合main并推送，集成收据见batch4-integration.json，最终远端另以ls-remote核对。到此停止，F6仍仅Draft待批准，新增真实调用0。

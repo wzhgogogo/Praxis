@@ -1,0 +1,37 @@
+{
+  "timeCET": "2026-10-26T00:08:41.020898+01:00",
+  "mode": "OFFLINE_ONLY",
+  "newRealCalls": 0,
+  "integrationOrder": [
+    {
+      "branch": "codex/fix-phase3a-prime-script-read-boundary",
+      "verifiedOriginTip": "afd9c4e1aa78a21aaa6a6363089f218cc6d679e3",
+      "gatedCandidate": "28963ca8407dede9ac574148cc1eee094d14ca55",
+      "fiveGates": "PASS",
+      "defaultTests": 1054,
+      "chromiumTests": 161
+    },
+    {
+      "branch": "codex/docs-adr-0045-median-read-reserve",
+      "verifiedOriginTip": "0bbc10941237c44f88cec0e92e88dd2c891e9cde",
+      "gatedCandidate": "be57660f",
+      "fiveGates": "PASS",
+      "defaultTests": 1054,
+      "chromiumTests": 161,
+      "f6Implemented": false
+    },
+    {
+      "branch": "codex/fix-phase3a-prime-explicit-general-retrieval",
+      "gatedCandidate": "e85e2a81f45998c88d4fb944b4d4346f1e83c24e",
+      "fiveGates": "PASS",
+      "defaultTests": 1060,
+      "chromiumTests": 161,
+      "mainBeforeIntegration": "0bbc10941237c44f88cec0e92e88dd2c891e9cde"
+    }
+  ],
+  "budgetSha256": "2b8f8a39a40d901b7a425d5c635b5378aaa9eb9a6dbe9aaef4d4fd3bbda2be49",
+  "protectedFilesUnchanged": true,
+  "docsAndBudgetConflicts": "NONE after import; approved audit docs were union-preserved with both histories",
+  "noLive": true,
+  "stop": "Batch4 complete; ADR0045 revised details await approval; no F6 or route implementation"
+}
