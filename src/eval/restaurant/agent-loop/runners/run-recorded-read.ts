@@ -67,7 +67,7 @@ export async function runRecordedRead(config: RecordedReadInput, output: string,
         await writeFile(outputPath,JSON.stringify({...evaluation,...provenance,replayStatus:stopped?"REPLAY_INCOMPLETE":"COMPLETED",stop:stopped??null},null,2),{flag:"wx"});return {evaluation,outputPath};
       },
     });
-    const summary={...provenance,status:stopped?"REPLAY_INCOMPLETE":"COMPLETED",stop:stopped??null,consumedPages:replay.consumedPages(),recordedPages:recording.pages.length,consumedDecisions:decisionIndex,recordedDecisions:decisions.length,modelTransportCalls,resultPath:result.resultPath};
+    const summary={...provenance,status:stopped?"REPLAY_INCOMPLETE":"COMPLETED",stop:stopped??null,consumedPages:replay.consumedPages(),recordedPages:recording.pages.length,consumedDecisions:decisionIndex,recordedDecisions:decisions.length,modelTransportCalls,missingRequests:replay.missingRequests(),resultPath:result.resultPath};
     await writeFile(resolve(output,"replay.json"),JSON.stringify(summary,null,2)+"\n",{flag:"wx"});return summary;
   }finally{controller.abort();restoreClock();}
 }

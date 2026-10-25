@@ -78,7 +78,7 @@ test('a missing optional image fails and is recorded without inventing bytes or 
   let snapshot:unknown;try{snapshot=await session.snapshot();}catch{}
   assert.deepEqual(stops,[],'image bytes are not a required page qualification and must never be fabricated');
   assert.ok(snapshot);assert.equal(replay.consumedPages(),1);assert.equal(arrivals,0);
-  assert.deepEqual((replay as any).missingRequests(),[{snapshot:1,origin,pathname:'/not-recorded',reason:'MISSING_RESPONSE',method:'GET',resourceType:'image'}]);
+  assert.deepEqual(replay.missingRequests(),[{snapshot:1,origin,pathname:'/not-recorded',reason:'MISSING_RESPONSE',method:'GET',resourceType:'image'}]);
  }finally{await session?.close();server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));await rm(root,{recursive:true,force:true});}
 });
 

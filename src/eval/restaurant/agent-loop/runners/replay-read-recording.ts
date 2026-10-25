@@ -66,6 +66,7 @@ export function recordedResponse(recording: ReplayRecording,url: string,method: 
 }
 export function createRecordedBrowser(recording: ReplayRecording, stop: (reason: ReplayStop)=>void) {
   let cursor=0;
+  const missingRequests:Array<ReplayStop&{method:string;resourceType:string}>=[];
   const locate=(url:string,reason:string,snapshot:number|null=recording.pages[cursor]?.snapshot??null)=>{const parsed=new URL(url);stop({snapshot,origin:parsed.origin,pathname:parsed.pathname,reason});};
   const runtime = new LocalPlaywrightChromium({ proxyServer: "http://127.0.0.1:9", browserType: { async launch(options) {
     const browser=await chromium.launch(options),newContext=browser.newContext.bind(browser);
@@ -80,7 +81,17 @@ export function createRecordedBrowser(recording: ReplayRecording, stop: (reason:
           const request=route.request();
           const reason=request.resourceType()==="document"&&!recording.allowed.has(request.url())?"DOCUMENT_NOT_QUALIFIED"
             :!recordedResponse(recording,request.url(),request.method(),request.postData()??undefined)?"MISSING_RESPONSE":undefined;
-          if(reason){locate(request.url(),reason);await route.abort("blockedbyclient").catch(()=>{});void context.close().catch(()=>{});}
+          if(reason){
+            const parsed=new URL(request.url());
+            if(reason==="MISSING_RESPONSE")missingRequests.push({snapshot:recording.pages[cursor]?.snapshot??null,origin:parsed.origin,pathname:parsed.pathname,reason,method:request.method(),resourceType:request.resourceType()});
+            // Recorder qualification requires documents, code and dynamic reads,
+            // not image/font/media bytes. Missing optional bytes still fail closed
+            // and remain observable; never serve placeholders or use the network.
+            const required=reason!=="MISSING_RESPONSE"||!["image","font","media"].includes(request.resourceType());
+            if(required)locate(request.url(),reason);
+            await route.abort("blockedbyclient").catch(()=>{});
+            if(required)void context.close().catch(()=>{});
+          }
           else await route.fallback();
         });
       };
@@ -101,5 +112,5 @@ export function createRecordedBrowser(recording: ReplayRecording, stop: (reason:
       const value=Reflect.get(target,property);return typeof value==="function"?value.bind(target):value;
     }});
   }};
-  return {browser,consumedPages:()=>cursor};
+  return {browser,consumedPages:()=>cursor,missingRequests:()=>structuredClone(missingRequests)};
 }
