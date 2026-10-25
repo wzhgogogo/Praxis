@@ -202,16 +202,31 @@
       "codeCommit": "fc6c6fcc0c66748a198e0e9af66623f96cb187c0",
       "finishedAtCET": "2026-10-25T02:12:07.991217+01:00",
       "summary": ".eval-artifacts/phase3a-prime/f5-live/slots/3/summary.json"
+    },
+    {
+      "id": "f5-live-slot-4",
+      "kind": "F5_LIVE_SLOT",
+      "slot": 4,
+      "caseId": "p2c-holdout-03",
+      "status": "FINISHED",
+      "fullLive": 1,
+      "realModelCalls": 47,
+      "googleRequests": 4,
+      "environmentReruns": 0,
+      "startedAtCET": "2026-10-25T02:14:02.624522+01:00",
+      "codeCommit": "192acf0c76ad1b7222f7883e1ee4e06f967b72a0",
+      "finishedAtCET": "2026-10-25T02:21:55.208692+01:00",
+      "summary": ".eval-artifacts/phase3a-prime/f5-live/slots/4/summary.json"
     }
   ],
   "cumulative": {
+    "googleRequests": 23,
+    "fullLive": 4,
     "environmentReruns": 2,
-    "googleRequests": 19,
-    "fullLive": 3,
-    "realModelCalls": 132,
-    "websiteGET": 5
+    "websiteGET": 5,
+    "realModelCalls": 179
   },
-  "asOf": "2026-10-25T02:12:07.991588+01:00",
+  "asOf": "2026-10-25T02:21:55.209133+01:00",
   "timezone": "CET UTC+01:00 per user",
   "f5PublicGetApproval": "Explicit user correction,2026-10-24 Europe/Vienna: case01 public detail+four-param vacancy GET permitted; noCookie/login/form/model; commit scripts first; repeat within24h before approved Live.",
   "f5Stop3Approval": "User stop2 review approved six serial F5 Live runs; direct user subsequently authorized only these six controlled Runner processes to load existing server credentials from the named primary-worktree .env without display/copy/staging; see f5-live/credential-authorization.json."
