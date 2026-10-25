@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.314
+- Document revision: 4.315
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5472,3 +5472,7 @@ macOS 默认1053/1053、Chromium159/159（103.489690秒）；Linux 默认1053/10
 ## TEST-2026-10-26-F3-L7
 
 c041b234 的隔离 option/value 核验变异为有效 AssertionError 红灯；458c6cb6 相关测试绿。严格五门禁默认1060/1060、Chromium161/161（4路、106.290秒），每门禁前后git status为空，无E1例外；新main时序候选仍58/113文件。新增真实调用0，维也纳CET。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/l7/report.md)。
+
+## TEST-2026-10-26-F3-L10
+
+1f3f881d 的标题前缀误作菜单容器变异产生有效AssertionError红灯；dbabf096相关2/2绿。严格五门禁默认1060/1060、真实Chromium161/161（4路、106.473秒），每门禁前后git status为空，无E1例外。新增真实调用0，维也纳CET。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/l10/report.md)。

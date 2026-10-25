@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.307
+- Document revision: 4.308
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4752,3 +4752,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-26-F3-L7
 
 日期/人数字段共用扫描，保留同一表单归属、唯一启用 live 控件、精确值与 selected option 一致性；仅原地去重，净减2行，不采用压行或迁移。九个计划项的证据缺口逐项列出，七组最小对照冻结后通过。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/l7/report.md)。
+
+## DEV-2026-10-26-F3-L10
+
+删除 completed 中间集合及第二遍菜单处理，保留完整外层容器、观察到的RADIO scope、去重、畸形闭合及scoped/unscoped文本隔离，未迁移代码。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/l10/report.md)。
