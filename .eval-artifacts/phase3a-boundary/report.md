@@ -1,3 +1,5 @@
+> 更新：用户已窄授权受控Node Runner通过--env-file加载指定凭据文件，并显式指定deepseek-v4-flash。未独立读取文件。当前正在冻结执行配置；真实结果随后单独记录。以下为此前零调用预检原文，原样快照另存batch3/preflight-report.md。
+
 # 推荐与查位边界：批次3准备状态
 
 Evidence status: draft / not integrated；真实模型执行 NOT_RUN。时间为维也纳CET UTC+1。停止点2已获用户复核通过；[停止点2原报告](batch2/report.md)逐字节保留。

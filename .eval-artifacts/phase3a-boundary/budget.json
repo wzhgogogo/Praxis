@@ -1,7 +1,7 @@
 {
   "schema": "phase3a-boundary-budget@1",
-  "status": "batch3 approved / WAITING_CREDENTIALS / NOT_RUN",
-  "asOf": "2026-10-25T20:43:24+01:00",
+  "status": "batch3 credential authorization recorded / READY_TO_FREEZE / actual0",
+  "asOf": "2026-10-25T20:54:38+01:00",
   "timezone": "CET UTC+01:00",
   "limits": {
     "realModelCalls": 144,
@@ -40,6 +40,15 @@
       "reviewedTip": "c014d4818817cc7c2ce3f9d9273788b0e3186afa",
       "logicalTurnsPlanned": 72,
       "status": "WAITING_CREDENTIALS / NOT_RUN",
+      "realModelCalls": 0,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "slice": "batch3 narrow credential authorization",
+      "authorizationFile": ".eval-artifacts/phase3a-boundary/batch3/credential-authorization.json",
+      "model": "deepseek-v4-flash",
       "realModelCalls": 0,
       "fullLive": 0,
       "googleRequests": 0,
