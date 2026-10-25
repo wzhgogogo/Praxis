@@ -1135,3 +1135,35 @@ test("F5 provisional discovery crosses real Router/Reducer and retains bounded h
   assert.ok(result.model.purposes.length<=50);assert.ok(result.artifact.resourceUsage.modelCallsStarted>=corrections.length+2);
  }
 });
+
+// Local constructed pages/model transport, not a website replay. Production
+// assembly, planner validation, Native search, Guard and budgets stay in place.
+test('F3-034 rejected empty-list rewrites never navigate an implicit general list', async t => {
+ for (const mode of ['invalid-keyword','sparse-keep','repeated-keyword'] as const) await t.test(mode, async () => {
+  const navigations:string[]=[], requests:ModelRequest[]=[];
+  const base=new H001NativeModel('BOTH_BOUNDED_EMPTY');
+  let proposals=0;
+  const model:ModelGateway={complete:async request=>{
+   if(request.purpose!=='restaurant_discovery_retrieval')return base.complete(request);
+   requests.push(request);proposals++;
+   return reply(JSON.stringify({choice:proposals===1?'KEYWORD':mode==='sparse-keep'?'KEEP':'KEYWORD',
+    keyword:proposals===1||mode==='repeated-keyword'?'omakase':mode==='invalid-keyword'?'Shibuya 2':'',
+    criterionRef:proposals===1||mode!=='sparse-keep'?'criterion:0':'',categoryUrl:'',reason:'Local rejected rewrite control'}),request.purpose);
+  }};
+  const raw=sourcePages('BOTH_BOUNDED_EMPTY',navigations,[],[],[],{guardedReadBoundary:true});
+  const browser={readNetworkBoundaryCapability:raw.readNetworkBoundaryCapability,openSession:async(input:Parameters<typeof raw.openSession>[0])=>{
+   const session=await raw.openSession(input);
+   return new Proxy(session,{get(target,key){if(key==='snapshot')return async()=>{const p=await target.snapshot();return mode==='sparse-keep'&&p.url.includes('/A130301/rstLst/')?{...p,html:p.html+'<a href="https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/">Observed sushi</a>'}:p;};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});
+  }};
+  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {model,browser,google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async()=>{throw Error('No external API');}}),clock:{now:()=>reference}});
+  const intent={timezone:'Asia/Tokyo' as const,area:{query:'Shibuya'},criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]};
+  const read=await assembly.search.search({intent,readRunId:'f3-034-'+mode,continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...center,label:'Shibuya',radiusMeters:1000,areaMatchBasis:'NAMED_PLACE_RADIUS'}}},new AbortController().signal);
+  assert.equal(proposals,2,'one initial and one rejected rewrite; no model repair loop');
+  assert.ok(JSON.parse(requests[1]!.messages.find(x=>x.role==='user')!.content).observation.explicitEmpty,'the rejection follows an actually parsed empty list');
+  assert.equal(navigations.some(url=>new URL(url).pathname==='/en/tokyo/A1303/A130301/rstLst/'&&!new URL(url).searchParams.get('sw')),false,`${mode}: rejected retrieval must not clear the keyword and navigate a general list`);
+  assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceExhausted,'UNKNOWN');
+  assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceEnded,true);
+  assert.equal(read.candidates.length,0);assert.deepEqual(intent.criteria,[{text:'omakase',polarity:'POSITIVE',strength:'HARD'}]);
+ }
+ );
+});
