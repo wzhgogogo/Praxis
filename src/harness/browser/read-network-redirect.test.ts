@@ -122,6 +122,23 @@ test("E1 outer body observer captures real Chromium POST bytes independently of 
     await context.grantPermissions(["local-network-access"], { origin });
     // A deliberately broader TEST_ONLY source rule challenges the OUTER
     // checker: production Guard code is unchanged and is not the audit oracle.
+    // Local constructed timing: Network calls this a Fetch while the Fetch
+    // interceptor reports XHR. Defer only the Guard's Network cache callback.
+    const typeEvents: Array<{ event: string; type: string }> = [];
+    const openCdp = context.newCDPSession.bind(context);
+    context.newCDPSession = async (...args) => {
+      const cdp = await openCdp(...args), on = cdp.on.bind(cdp);
+      cdp.on = ((event: string, listener: (...params: any[]) => void) => on(event as any, (value: any) => {
+        const endpoint = value.request?.url?.includes(postRule.pathname);
+        if (endpoint && event === "Network.requestWillBeSent") {
+          typeEvents.push({ event, type: value.type }); setTimeout(() => listener(value), 80);
+        } else {
+          if (endpoint && event === "Fetch.requestPaused") typeEvents.push({ event, type: value.resourceType });
+          listener(value);
+        }
+      })) as typeof cdp.on;
+      return cdp;
+    };
     const guard = new PlaywrightReadNetworkGuard({ documentOrigins: [origin], genericPublicRead: true, staticResources: [], dynamicReads: [postRule,
       { ...postRule, bodyFields: { ...postRule.bodyFields, email: "string" } }] }, 15_000);
     await guard.install(context);
@@ -129,9 +146,16 @@ test("E1 outer body observer captures real Chromium POST bytes independently of 
     await page.goto(origin + "/", { timeout: 15_000 });
     const normal = '{ "locale":"en", "start_at":"2026-10-16", "shop_id":"TEST_ONLY", "num_people":"2" }';
     const wrong = '{"locale":"en","start_at":"2026-10-16","shop_id":"TEST_ONLY","num_people":"2","email":"NEVER_SAVE_THIS_VALUE"}';
-    for (const body of [normal, wrong]) await page.evaluate(async ({ path, body }) => {
-      await fetch(path, { method: "POST", headers: { "content-type": "application/json" }, body });
-    }, { path: postRule.pathname, body });
+    for (const body of [normal, wrong]) {
+      const reached = await page.evaluate(async ({ path, body }) => {
+        try { return (await fetch(path, { method: "POST", headers: { "content-type": "application/json" }, body })).ok; }
+        catch { return false; }
+      }, { path: postRule.pathname, body });
+      console.log("E1 type observations", JSON.stringify(typeEvents));
+      assert.equal(reached, true, "E1 reviewed POST must reach receiver when CDP falls back from Network Fetch to Fetch XHR");
+    }
+    assert.ok(typeEvents.some(row => row.event === "Network.requestWillBeSent" && row.type === "Fetch"));
+    assert.ok(typeEvents.some(row => row.event === "Fetch.requestPaused" && row.type === "XHR"));
     assert.equal(received.length, 2, "independent local receiver must observe both actual request bodies");
     assert.deepEqual(received.map(bytes => bytes.toString()), [normal, wrong]);
     assert.deepEqual(rows.map(row => row.detail.status), ["MATCH", "MISMATCH"]);
@@ -383,10 +407,10 @@ test('TableCheck public search JSON reaches an independent receiver while writes
 
 // Real cross-origin browser fetches produce the OPTIONS; no test/client code
 // sends OPTIONS or forges Access-Control-Request-* headers.
-test("TableCheck browser GET preflight is tied to its reviewed read and rejects other methods, headers and paths", async () => {
+test("TableCheck browser preflight is tied to its reviewed GET or POST and rejects unknown methods, headers, paths and bodies", async () => {
   const { tableCheckPublicReadNetworkPolicy } = await import("../../integrations/tablecheck/tablecheck-public-query.js");
   const { BrowserReadRecording } = await import("../../eval/restaurant/agent-loop/runners/browser-read-recording.js");
-  const { postBodyStop } = await import(new URL("../../eval/restaurant/agent-loop/post-body-audit.mjs", import.meta.url).href);
+  const { postBodyStop, installReviewedPostObserver, recordedPostMatches } = await import(new URL("../../eval/restaurant/agent-loop/post-body-audit.mjs", import.meta.url).href);
   const { mkdtemp, readFile, rm } = await import("node:fs/promises");
   const { tmpdir } = await import("node:os"); const { join } = await import("node:path");
   const savedRoot = '.eval-artifacts/tablecheck-guard-preflight-20261023/h14-inputs/';
@@ -405,8 +429,8 @@ test("TableCheck browser GET preflight is tied to its reviewed read and rejects 
     arrivals.push({ method: request.method!, path: request.url!, requestedMethod: request.headers["access-control-request-method"] as string | undefined,
       headerNames: request.headers["access-control-request-headers"] as string | undefined, bytes });
     response.setHeader("access-control-allow-origin", "*");
-    response.setHeader("access-control-allow-methods", "GET, POST");
-    response.setHeader("access-control-allow-headers", "x-api-key, x-unreviewed");
+    response.setHeader("access-control-allow-methods", "GET, POST, PUT");
+    response.setHeader("access-control-allow-headers", "x-api-key, content-type, x-unreviewed");
     response.setHeader("access-control-max-age", "0");
     response.setHeader("content-type", "application/json");
     response.end(request.method === "OPTIONS" ? "" : request.url?.includes("queryProfile=venue-facet-cuisine") ? facetBody : '{"root":{"children":[{"id":"fixture-one","source":"public-shop","fields":{"id":"fixture-one"}}]}}');
@@ -419,15 +443,25 @@ test("TableCheck browser GET preflight is tied to its reviewed read and rejects 
   let browser: import("playwright-core").Browser | undefined;
   try {
     browser = await chromium.launch({ headless: true });
-    for (const mode of ["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get", "post", "extra-header", "other-path", "no-get-rule", "manual-options", "reserve", "reserve-child"] as const) {
+    for (const mode of ["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get", "post", "extra-header", "other-path", "no-get-rule", "manual-options", "reserve", "reserve-child", "calendar-post", "calendar-xhr", "calendar-extra-field", "calendar-wrong-type", "calendar-missing-field", "calendar-extra-header", "calendar-put", "calendar-other-path", "calendar-query"] as const) {
       const context = await browser.newContext({ serviceWorkers: "block" });
+      let restorePost: (() => void) | undefined;
       try {
         await context.grantPermissions(["local-network-access"], { origin });
         const reads = [...tableCheckPublicReadNetworkPolicy.dynamicReads,...tableCheckPublicReadNetworkPolicy.staticResources].map(rule => ({ ...rule, origin: apiOrigin,
           ...(rule.corsPreflight ? { corsPreflight: { ...rule.corsPreflight, requestOrigin: origin } } : {}),
           ...(mode === "no-get-rule" ? { methods: [] as const } : {}) }));
         if(mode==='reserve'||mode==='reserve-child') reads.push({origin:apiOrigin,pathnamePrefix:'/en/shops/',methods:['GET'],resourceTypes:['fetch'],queryKeys:[],corsPreflight:{requestOrigin:origin,requestedHeaderNames:['x-api-key']}});
-        const target = mode==='facet-no-hits' ? facetUrl.pathname+facetUrl.search : mode==='catalog'?'/catalog.json':mode==='default-get'?'/v2/geolocation':mode==='static-get'?'/common/fixture.json':mode==='reserve'?'/en/shops/fixture/reserve':mode==='reserve-child'?'/en/shops/fixture/reserve/calendar':(mode==='other-path'?'/other/':'/search/')+'?queryProfile=public&hits=5';
+        const calendar = mode.startsWith("calendar-");
+        const bodyFields: Record<string, unknown> = { locale: "en", start_at: "2026-11-04", shop_id: "LOCAL_FIXTURE", num_people: "2" };
+        if (mode === "calendar-extra-field") bodyFields.extra = "LOCAL_UNREVIEWED_FIELD";
+        if (mode === "calendar-wrong-type") bodyFields.num_people = 2;
+        if (mode === "calendar-missing-field") delete bodyFields.shop_id;
+        const calendarBody = JSON.stringify(bodyFields);
+        const target = calendar ? (mode === "calendar-other-path" ? "/v2/hub/unknown_calendar" : "/v2/hub/availability_calendar_v2") + (mode === "calendar-query" ? "?unreviewed=1" : "") : mode==='facet-no-hits' ? facetUrl.pathname+facetUrl.search : mode==='catalog'?'/catalog.json':mode==='default-get'?'/v2/geolocation':mode==='static-get'?'/common/fixture.json':mode==='reserve'?'/en/shops/fixture/reserve':mode==='reserve-child'?'/en/shops/fixture/reserve/calendar':(mode==='other-path'?'/other/':'/search/')+'?queryProfile=public&hits=5';
+        const reviewed = Buffer.from(JSON.stringify(reads.map(rule => ({ ...rule, methods: rule.methods ?? ["GET", "HEAD"], queryKeyRules: rule.queryKeyRules ?? { required: rule.queryKeys ?? [] }, ...(rule.pathnamePrefix ? { pathnamePattern: "^" + rule.pathnamePrefix + ".*$" } : {}) }))));
+        const outerRows: any[] = [];
+        restorePost = installReviewedPostObserver(PlaywrightReadNetworkGuard, reviewed, (row: any) => outerRows.push(row));
         const recorder = new BrowserReadRecording({ directory, runId: mode, reviewedReads: reads });
         // A real Fetch pause can lack its Network initiator event. Remove only
         // that diagnostic stream on the Guard session; independent CDP below
@@ -444,30 +478,37 @@ test("TableCheck browser GET preflight is tied to its reviewed read and rejects 
         const metadata: unknown[] = []; const cdp = await context.newCDPSession(page);
         cdp.on("Network.requestWillBeSent", event => { if (event.request.method === "OPTIONS") metadata.push({ type: event.type, initiator: event.initiator.type }); }); await cdp.send("Network.enable");
         const before = arrivals.length;
-        const ok = await page.evaluate(async ({ url, mode }) => {
-          if (mode === "xhr") return new Promise<boolean>(resolve => {
-            const request = new XMLHttpRequest(); request.open("GET", url); request.setRequestHeader("x-api-key", "LOCAL_FIXTURE_ONLY"); request.timeout = 5_000;
-            request.onload = () => resolve(request.status === 200); request.onerror = request.ontimeout = () => resolve(false); request.send();
+        const ok = await page.evaluate(async ({ url, mode, calendar, calendarBody }) => {
+          if (mode === "xhr" || mode === "calendar-xhr") return new Promise<boolean>(resolve => {
+            const request = new XMLHttpRequest(); request.open(calendar ? "POST" : "GET", url);
+            request.setRequestHeader(calendar ? "content-type" : "x-api-key", calendar ? "application/json" : "LOCAL_FIXTURE_ONLY"); request.timeout = 5_000;
+            request.onload = () => resolve(request.status === 200); request.onerror = request.ontimeout = () => resolve(false); request.send(calendar ? calendarBody : undefined);
           });
-          try { const response = await fetch(url, { method: mode === "post" ? "POST" : mode === "manual-options" ? "OPTIONS" : "GET",
-            headers: mode === "manual-options" ? { "access-control-request-method": "GET", "access-control-request-headers": "x-api-key" } : { "x-api-key": "LOCAL_FIXTURE_ONLY", ...(mode === "extra-header" ? { "x-unreviewed": "LOCAL_FIXTURE_ONLY" } : {}) } }); return response.ok; } catch { return false; }
-        }, { url: apiOrigin + target, mode });
+          try { const response = await fetch(url, { method: mode === "calendar-put" ? "PUT" : calendar || mode === "post" ? "POST" : mode === "manual-options" ? "OPTIONS" : "GET",
+            headers: calendar ? { "content-type": "application/json", ...(mode === "calendar-extra-header" ? { "x-unreviewed": "LOCAL_FIXTURE_ONLY" } : {}) }
+              : mode === "manual-options" ? { "access-control-request-method": "GET", "access-control-request-headers": "x-api-key" } : { "x-api-key": "LOCAL_FIXTURE_ONLY", ...(mode === "extra-header" ? { "x-unreviewed": "LOCAL_FIXTURE_ONLY" } : {}) },
+            ...(calendar ? { body: calendarBody } : {}) }); return response.ok; } catch { return false; }
+        }, { url: apiOrigin + target, mode, calendar, calendarBody });
         console.log("preflight metadata", mode, JSON.stringify(metadata));
-        assert.equal(ok, ["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get"].includes(mode), `${mode}: browser GET handshake must reach receiver; disallowed requests must not`);
-        if (["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get"].includes(mode)) {
+        assert.equal(ok, ["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get", "calendar-post", "calendar-xhr"].includes(mode), `${mode}: browser GET handshake must reach receiver; disallowed requests must not`);
+        if (["get", "xhr", "missing-network-marker", "facet-no-hits", "catalog", "default-get", "static-get", "calendar-post", "calendar-xhr"].includes(mode)) {
           // Playwright's existing interception locally fulfills genuine browser
           // preflights. The independent receiver must observe the resulting GET;
           // a synthetic server-side OPTIONS response is not our oracle.
           assert.deepEqual(metadata, [{ type: "Other", initiator: "preflight" }]);
           assert.deepEqual(arrivals.slice(before), [
-            { method: "GET", path: target, requestedMethod: undefined, headerNames: undefined, bytes: 0 },
+            { method: calendar ? "POST" : "GET", path: target, requestedMethod: undefined, headerNames: undefined, bytes: calendar ? Buffer.byteLength(calendarBody) : 0 },
           ]);
           const preflight = guard.snapshotRequests().find(row => row.outcome === "ADMITTED" && row.method === "OPTIONS");
           assert.ok(preflight, "CDP-only browser handshake must be recorded, not silently bypassed");
-          assert.deepEqual(preflight.corsPreflight, { initiator: "BROWSER_PREFLIGHT", secFetchMode: "cors", requestOrigin: origin, requestedMethod: "GET", requestedHeaderNames: ["x-api-key"], bodyBytes: 0 });
-          const reviewed = Buffer.from(JSON.stringify(reads.map(rule=>({...rule,methods:rule.methods??["GET","HEAD"],queryKeyRules:rule.queryKeyRules??{required:rule.queryKeys??[]},...(rule.pathnamePrefix?{pathnamePattern:"^"+rule.pathnamePrefix+".*$"}:{})}))));
+          assert.deepEqual(preflight.corsPreflight, { initiator: "BROWSER_PREFLIGHT", secFetchMode: "cors", requestOrigin: origin, requestedMethod: calendar ? "POST" : "GET", requestedHeaderNames: [calendar ? "content-type" : "x-api-key"], bodyBytes: 0 });
+          if (calendar) {
+            assert.equal(outerRows.length, 1);
+            assert.equal(outerRows[0].detail.status, "MATCH");
+            assert.equal(recordedPostMatches(guard.snapshotRequests().find(row => row.method === "POST" && row.outcome === "ADMITTED"), reviewed), true);
+          }
           assert.equal(postBodyStop({ kind: "NETWORK", detail: guard.snapshotRequests() }, reviewed), null, "independent outer observer accepts only the reviewed handshake");
-          assert.ok(postBodyStop({ kind: "NETWORK", detail: [{ ...preflight, corsPreflight: { ...preflight.corsPreflight, requestedMethod: "POST" } }] }, reviewed));
+          assert.ok(postBodyStop({ kind: "NETWORK", detail: [{ ...preflight, corsPreflight: { ...preflight.corsPreflight, requestedMethod: "PUT" } }] }, reviewed));
           const { snapshotRecord, safeRecord } = await import("../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js");
           const snapshot = { url: page.url(), title: "Search", html: await page.content(), text: "Public cross-origin search", networkRequests: guard.snapshotRequests() };
           const traced = safeRecord(snapshotRecord(snapshot)) as any;
@@ -477,10 +518,11 @@ test("TableCheck browser GET preflight is tied to its reviewed read and rejects 
           const result = await recorder.finish(); const stored = JSON.parse(await readFile(join(result.path, "recording.json"), "utf8"));
           const storedRequest = stored.entries.flatMap((entry: any) => entry.kind === "NETWORK" ? entry.detail : []).find((request: any) => request.method === "OPTIONS");
           assert.deepEqual(storedRequest.corsPreflight, preflight.corsPreflight);
+          assert.equal(postBodyStop({ kind: "NETWORK", detail: stored.entries.flatMap((entry: any) => entry.kind === "NETWORK" ? entry.detail : []) }, reviewed), null, "recording retains method, handshake and independent POST body binding");
           assert.equal(JSON.stringify(stored).includes("LOCAL_FIXTURE_ONLY"), false, "record no actual header values");
           assert.equal(result.replay.status, "NOT_REPLAYABLE", "CORS transport without faithful handshake capture cannot claim replayability");
         } else assert.equal(arrivals.length, before, `${mode}: no forbidden handshake or request reaches receiver`);
-      } finally { await context.close(); }
+      } finally { restorePost?.(); await context.close(); }
     }
   } finally {
     await browser?.close(); for (const server of [api, site]) await new Promise<void>(resolve => { server.close(() => resolve()); server.closeAllConnections(); });
