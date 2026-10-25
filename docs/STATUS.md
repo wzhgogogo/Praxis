@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.397
+- Document revision: 4.398
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-F5-RERUN-PREPARE:** F5c复核通过，批准例01串行3次与追加2环境重跑；重放b5db5700，31提交源码无冲突，双方文档与预算18条保留。累计5Live/218模型/2环境重跑不变，环境总上限4。五门禁待运行；本轮3受控Runner窄凭据加载已获直接授权，未读取凭据。尚无新网站/模型/Live，不合main。[计划](../.eval-artifacts/phase3a-prime/f5-live-rerun/plan.md)。
 
 - **2026-10-25-PHASE3A-PRIME-STOP3-RECORDING:** 停止点3两项修复完成：健康检查已合main/28216ae3；录制器先替换第三方URL key/signature/client值，再保留原扫描，普通命中按页/条目拒绝，自有凭据命中整份拒绝且不提前发布DOM。槽1最小元素真实Chromium录制/回放到首个不合格页，0来源请求；五门禁1037/154全绿，各项后净工作树，真实调用0。自有请求体短路边界补充红绿后，05991efd最终五门禁1037/154全绿、净工作树；按授权合main并停止等复核。 [报告](../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/recording/report.md)。
 
