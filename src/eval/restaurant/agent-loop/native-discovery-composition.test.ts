@@ -191,6 +191,14 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
   const googleClient = new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async (_url, init) => {
     const query = JSON.parse(String(init?.body)) as { textQuery: string };
     googleCalls.push({ query: query.textQuery });
+    // 本地构造，数量参照槽 1；保留真实两页读取与根 Agent 合法动作计算。
+    if (scenario === "F5_PENDING_CORRECTION" && /omakase/i.test(query.textQuery ?? "")) {
+      const second = (query as {pageToken?: string}).pageToken === "local-second-page";
+      return new Response(JSON.stringify({places: Array.from({length: second ? 6 : 20}, (_, index) => ({
+        id: `f5-pending-google-${index + (second ? 20 : 0)}`, displayName: {text: `Local Google ${index + (second ? 20 : 0)}`},
+        formattedAddress: "Shibuya, Tokyo", location: center, types: ["restaurant"], businessStatus: "OPERATIONAL",
+      })), ...(!second ? {nextPageToken: "local-second-page"} : {})}), {status: 200});
+    }
     const requested = options.areaQuery ?? "Shibuya";
     return new Response(JSON.stringify({ places: options.unresolvedLocation ? [] : [{ id: `${requested.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-landmark`, displayName: { text: requested },
       formattedAddress: `${requested}, Tokyo`, location: center, types: ["locality", "political"],
@@ -227,7 +235,9 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
       return sequence;
     }, options.decisionCapture?.snapshotSink,
   ) };
-  const native = createLiveReadAssembly({ ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET, packs: options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack] }, {
+  const native = createLiveReadAssembly({ ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,
+    ...(scenario === "F5_PENDING_CORRECTION" ? {maxAgentSteps: 6} : {}),
+    packs: options.packs ?? [tabelogDiscoveryPack, tableCheckDiscoveryPack] }, {
     google: googleClient, browser, model: gateway, clock: { now: () => reference },
     onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: reference.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); },
   });
@@ -1049,6 +1059,24 @@ test('H002 without positive HARD uses general shared retrieval and Google nearby
 
 // Full production interpreter -> compiler -> Router -> events/Reducer -> output.
 // Only model and source transport are local constructed; no prefilled evidence.
+test("F5c Agent loop corrects within its Tabelog call despite TableCheck 2 and Google 26 pending candidates", async () => {
+  const result = await runScenario("F5_PENDING_CORRECTION", {packs: restaurantDiscoveryPacks});
+  const decisions = result.model.requests.filter(request => request.purpose === "restaurant_agent_decide")
+    .map(request => JSON.parse(request.messages.find(message => message.role === "user")!.content).context);
+  const pending = decisions.find(context => context.candidates?.length === 28);
+  assert.ok(pending, "the real Agent must observe all 2 TableCheck + 26 Google candidates");
+  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.id.startsWith("tablecheck:")).length, 2);
+  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.sourceIds.googlePlaceId).length, 26);
+  assert.equal(pending.searchAvailability.reason, "NATIVE_FIRST_BATCH_PENDING");
+  assert.equal(pending.legalActions.search, false, "retain production SEARCH gating rather than bypassing it");
+  const alternate = result.navigations.indexOf("https://tabelog.com/en/tokyo/A1323/");
+  assert.ok(alternate >= 0, "F5c: correction must happen before the root Agent can queue other sources");
+  assert.ok(alternate < result.navigations.findIndex(url => url.includes("tablecheck.com")), "correction belongs to the first Tabelog source invocation");
+  assert.equal(result.model.requests.filter(request => request.purpose === "browser_read_decide"
+    && JSON.parse(request.messages.find(message => message.role === "user")!.content).regionCorrection).length, 1);
+  assert.equal(result.navigations.filter(url => /\/99[0-5]\/$/.test(url)).length, 4, "two first samples and two replacement samples share the source budget");
+});
+
 test("F5 provisional discovery crosses real Router/Reducer and retains bounded handoff to the next source", async () => {
  for (const scenario of ["F5_PROVISIONAL_DELIVERS", "F5_NO_ALTERNATE", "F5_SECOND_OUTSIDE", "F5_EDGE_WITH_PRIOR", "F5_EDGE_NO_ALTERNATE"] as const) {
   const prior = scenario.startsWith("F5_EDGE_");

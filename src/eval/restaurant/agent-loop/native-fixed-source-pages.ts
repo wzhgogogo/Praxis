@@ -7,7 +7,7 @@ export const reference = new Date("2026-08-19T07:20:00.000Z");
 export const center = { latitude: 35.6619707, longitude: 139.703795 };
 export const date = "2026-08-19";
 
-export type SourceScenario = "F5_EDGE_WITH_PRIOR" | "F5_EDGE_NO_ALTERNATE" | "F5_PROVISIONAL_DELIVERS" | "F5_NO_ALTERNATE" | "F5_SECOND_OUTSIDE" | "TABELOG_DELIVERS" | "TABLECHECK_RECOVERS" | "BOTH_BOUNDED_EMPTY" | "OUTSIDE_RADIUS" | "TABELOG_ONE_DETAIL_FAILS" | "EARLY_END_ATTEMPT"
+export type SourceScenario = "F5_PENDING_CORRECTION" | "F5_EDGE_WITH_PRIOR" | "F5_EDGE_NO_ALTERNATE" | "F5_PROVISIONAL_DELIVERS" | "F5_NO_ALTERNATE" | "F5_SECOND_OUTSIDE" | "TABELOG_DELIVERS" | "TABLECHECK_RECOVERS" | "BOTH_BOUNDED_EMPTY" | "OUTSIDE_RADIUS" | "TABELOG_ONE_DETAIL_FAILS" | "EARLY_END_ATTEMPT"
   | "TABELOG_CONTINUES" | "TABLECHECK_CONTINUES" | "NATIVE_PARTIAL" | "NATIVE_TRUE_NO_RESULT" | "TABLECHECK_UNPARSED" | "TABLECHECK_EARLY_ACTIONS" | "TABELOG_BATCH_CAP" | "DYNAMIC_TABELOG_DELIVERS" | "TABLECHECK_DISCOVERY_RECOVERS" | "TABELOG_REGION_PRESERVES_QUERY" | "TABELOG_PENDING_RESTORED"
   | "TABELOG_NONEMPTY_REGION_RECOVERS" | "TABELOG_CURRENT_BATCH_DELIVERS" | "TABLECHECK_CURRENT_BATCH_DELIVERS" | "TABELOG_REOPEN_RETAINS" | "TABLECHECK_QUERY_READY" | "TABELOG_STALE_REJECTS" | "TABLECHECK_STALE_REJECTS" | "NATIVE_FACT_FOLLOWUP_DELIVERS" | "TABLECHECK_SCOPED_MENU_DELIVERS"
   | "TABELOG_RETRIEVAL_CATEGORY_DELIVERS" | "TABELOG_RESULT_PAGES_CONTINUE" | "TABELOG_REGION_REDIRECTS_ROOT" | "TABELOG_CATEGORY_REDIRECTS_ROOT" | "TABELOG_NEUTRAL_REGION_RECOVERS" | "TABELOG_REGION_HOMEPAGE_RECOVERS" | "TABELOG_REGION_HOMEPAGE_DRIFTS_NATIONAL";
@@ -178,7 +178,7 @@ export function sourcePages(
     : scenario === "TABELOG_NONEMPTY_REGION_RECOVERS" || scenario === "TABELOG_REGION_PRESERVES_QUERY" ? 1
     : scenario === "NATIVE_PARTIAL" || scenario === "TABLECHECK_CONTINUES" || scenario === "NATIVE_TRUE_NO_RESULT" || scenario === "TABLECHECK_EARLY_ACTIONS" ? 2
     : scenario === "TABLECHECK_RECOVERS" || scenario === "OUTSIDE_RADIUS" || scenario === "NATIVE_FACT_FOLLOWUP_DELIVERS" ? 1 : 0;
-  const tablecheckCount = scenario === "F5_EDGE_WITH_PRIOR" || scenario === "F5_EDGE_NO_ALTERNATE" ? 1 : scenario === "TABLECHECK_RECOVERS" || scenario === "F5_NO_ALTERNATE" ? 3
+  const tablecheckCount = scenario === "F5_PENDING_CORRECTION" ? 2 : scenario === "F5_EDGE_WITH_PRIOR" || scenario === "F5_EDGE_NO_ALTERNATE" ? 1 : scenario === "TABLECHECK_RECOVERS" || scenario === "F5_NO_ALTERNATE" ? 3
     : scenario === "TABLECHECK_CURRENT_BATCH_DELIVERS" ? 6
     : scenario === "TABLECHECK_CONTINUES" || scenario === "TABLECHECK_EARLY_ACTIONS" ? 2 : scenario === "NATIVE_TRUE_NO_RESULT" ? 1
     : scenario === "OUTSIDE_RADIUS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS" || scenario === "TABLECHECK_QUERY_READY" || scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" ? 1 : 0;
@@ -195,7 +195,7 @@ export function sourcePages(
       if (path === menu || path === menu + "rstLst/") return page(url, link(parent,"F5 parent") + ((scenario === "F5_NO_ALTERNATE" || scenario === "F5_EDGE_NO_ALTERNATE") ? "" : link(alternate,"F5 alternate")), "Observed local menu");
       if (path === parent) return page(url, link(child,"F5 child"), "Observed local child menu");
       if (path === child || path === alternate) {
-        const ids = path === child ? [990,991,992] : (scenario === "F5_SECOND_OUTSIDE" || scenario === "F5_EDGE_WITH_PRIOR") ? [993,994,995] : [100,101,102];
+        const ids = path === child ? [990,991,992] : (scenario === "F5_PENDING_CORRECTION" || scenario === "F5_SECOND_OUTSIDE" || scenario === "F5_EDGE_WITH_PRIOR") ? [993,994,995] : [100,101,102];
         return page(url, ids.map(id => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`).join(""), "Local constructed list");
       }
       if (/\/99[0-5]\/$/.test(parsed.pathname)) return page(url, `<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:`Native Tabelog ${parsed.pathname.split("/").at(-2)}`,address:"Tokyo",geo:{latitude:35.63,longitude:139.68}})}</script>`, "Outside detail");
