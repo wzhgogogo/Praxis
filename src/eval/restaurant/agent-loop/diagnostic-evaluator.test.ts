@@ -1842,7 +1842,7 @@ test("a later HARD criterion cannot reuse an old UNSPECIFIED observation", () =>
     criteria: [{ text: "omakase", polarity: "POSITIVE" as const, strength: "HARD" as const }],
   };
   const applyProposal = (current: RestaurantIntentDraft, strength: "UNSPECIFIED" | "HARD") => {
-    const parsed = validateRestaurantSemanticProposal({ schemaVersion: "3", facts: [{
+    const parsed = validateRestaurantSemanticProposal({ schemaVersion: "4", facts: [{
       field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "quiet", polarity: "POSITIVE", strength },
     }] });
     assert.equal(parsed.valid, true);

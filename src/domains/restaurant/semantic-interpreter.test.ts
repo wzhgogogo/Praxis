@@ -35,7 +35,7 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   const gateway = new QueuedGateway([
     response(
       JSON.stringify({
-        schemaVersion: "3",
+        schemaVersion: "4",
         facts: [
           {
             field: "PARTY_SIZE",
@@ -65,11 +65,11 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v23");
+  assert.equal(request.promptVersion, "v24");
   assert.match(request.messages[0]!.content, /Every descriptive qualifier in a condition must correspond to words the user actually supplied/);
   assert.deepEqual(request.outputSchema, {
     name: "restaurant-semantic-proposal",
-    version: "3",
+    version: "4",
     jsonSchema: RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
   });
   assert.equal(request.responseFormat, "JSON_SCHEMA");
@@ -96,7 +96,7 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
 });
 
 test("Semantic Interpreter preserves an existing target scope in its bounded model context", async () => {
-  const gateway = new QueuedGateway([response(JSON.stringify({ schemaVersion: "3", facts: [] }))]);
+  const gateway = new QueuedGateway([response(JSON.stringify({ schemaVersion: "4", facts: [] }))]);
   const result = await new RestaurantSemanticInterpreter(gateway).interpret({
     taskId: "target-context",
     message: "Keep the same request.",
@@ -115,8 +115,8 @@ test("Semantic Interpreter preserves an existing target scope in its bounded mod
 
 test("Semantic Interpreter rejects a structurally valid-looking state patch", async () => {
   const gateway = new QueuedGateway([
-    response(JSON.stringify({ schemaVersion: "3", facts: [], statePatch: { phase: "SEARCHING" } })),
-    response(JSON.stringify({ schemaVersion: "3", facts: [], statePatch: { phase: "SEARCHING" } })),
+    response(JSON.stringify({ schemaVersion: "4", facts: [], statePatch: { phase: "SEARCHING" } })),
+    response(JSON.stringify({ schemaVersion: "4", facts: [], statePatch: { phase: "SEARCHING" } })),
   ]);
   const interpreter = new RestaurantSemanticInterpreter(gateway);
 
@@ -139,7 +139,7 @@ test("closed-party and open-group proposals stay distinct through the semantic b
   // infer either case correctly. Real-model quality remains a separately
   // authorized evaluation concern.
   const closedGateway = new QueuedGateway([response(JSON.stringify({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "INFERRED_CLOSED_PARTY" } }],
   }))]);
   const closed = await new RestaurantSemanticInterpreter(closedGateway).interpret({
@@ -158,7 +158,7 @@ test("closed-party and open-group proposals stay distinct through the semantic b
   assert.match(prompt, /do not add\s+"suitable for"/i);
   assert.match(prompt, /paraphrase cannot change the strength determined from the\s+original user meaning/i);
 
-  const openGateway = new QueuedGateway([response(JSON.stringify({ schemaVersion: "3", facts: [] }))]);
+  const openGateway = new QueuedGateway([response(JSON.stringify({ schemaVersion: "4", facts: [] }))]);
   const open = await new RestaurantSemanticInterpreter(openGateway).interpret({
     taskId: "open-group", message: "Find somewhere for a team dinner in Shibuya.", referenceTime: "2026-09-18T09:00:00+09:00", timezone: "Asia/Tokyo",
   });
@@ -181,7 +181,7 @@ test("party-size transport preserves an enumerated or explicit count and never s
   ] as const;
 
   for (const item of cases) {
-    const gateway = new QueuedGateway([response(JSON.stringify({ schemaVersion: "3", facts: item.facts }))]);
+    const gateway = new QueuedGateway([response(JSON.stringify({ schemaVersion: "4", facts: item.facts }))]);
     const result = await new RestaurantSemanticInterpreter(gateway).interpret({
       taskId: item.id,
       message: item.message,

@@ -1,0 +1,84 @@
+✖ ADR-0044 current-message quotes admit both goals without persisting their basis (1.967542ms)
+✖ ADR-0044 fabricated or prior-turn quotes fail through the existing semantic failure path (0.267875ms)
+✖ ADR-0044 TARGET requires a nonempty structural basis without judging goal rationale (2.523459ms)
+✖ ADR-0044 scoring permits either grounded gray goal but rejects fabricated basis and wrong anchors (1.520125ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 135.803375
+
+✖ failing tests:
+
+test at src/domains/restaurant/semantic-interpreter.test.ts:1:8953
+✖ ADR-0044 current-message quotes admit both goals without persisting their basis (1.967542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'PROPOSED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/domains/restaurant/semantic-interpreter.test.ts:219:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'PROPOSED',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/semantic-interpreter.test.ts:1:10176
+✖ ADR-0044 fabricated or prior-turn quotes fail through the existing semantic failure path (0.267875ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /goalBasis.*current (?:user )?message/. Input:
+  
+  'facts[0].value must match TARGET'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/domains/restaurant/semantic-interpreter.test.ts:245:58)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'facts[0].value must match TARGET',
+    expected: /goalBasis.*current (?:user )?message/,
+    operator: 'match'
+  }
+
+test at src/domains/restaurant/semantic-proposal.test.ts:1:4620
+✖ ADR-0044 TARGET requires a nonempty structural basis without judging goal rationale (2.523459ms)
+  AssertionError [ERR_ASSERTION]: a fresh target needs a basis
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/domains/restaurant/semantic-proposal.test.ts:152:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/semantic/scorer.test.ts:1:4014
+✖ ADR-0044 scoring permits either grounded gray goal but rejects fabricated basis and wrong anchors (1.520125ms)
+  AssertionError [ERR_ASSERTION]: {"category":"GRAY","goal":"AVAILABILITY","quote":"cafes nearby","pass":true}
+  
+  'FAIL' !== 'PASS'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/semantic/scorer.test.ts:177:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FAIL',
+    expected: 'PASS',
+    operator: 'strictEqual'
+  }

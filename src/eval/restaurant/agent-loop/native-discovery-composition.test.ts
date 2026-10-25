@@ -1,3 +1,4 @@
+import { fixtureGoalBasis } from "../../../harness/restaurant-read-test-fixtures.js";
 const fixtureRetrieval={decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Scripted retrieval control."})};
 import { runDiscoveryProbe } from "./discovery-probe.js";
 import assert from "node:assert/strict";
@@ -65,8 +66,8 @@ class H001NativeModel implements ModelGateway {
       const useCategory=category&&['TABELOG_RETRIEVAL_CATEGORY_DELIVERS','TABELOG_RESULT_PAGES_CONTINUE','TABELOG_CATEGORY_REDIRECTS_ROOT'].includes(this.scenario)&&(input.current||this.scenario==='TABELOG_RESULT_PAGES_CONTINUE');
       return reply(JSON.stringify({choice:useCategory?'CATEGORY':input.current?'KEEP':'KEYWORD',keyword:useCategory||input.current?'':'omakase',criterionRef:useCategory||input.current?'':'criterion:0',categoryUrl:useCategory?category.url:'',reason:'Scripted retrieval for independent controlled source.'}),request.purpose);
     }
-    if (request.purpose === "restaurant_semantic_interpret") return reply(JSON.stringify({ schemaVersion: "3", facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase spot", selectionScope: "OPEN_ENDED" } },
+    if (request.purpose === "restaurant_semantic_interpret") return reply(JSON.stringify({ schemaVersion: "4", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "AVAILABILITY", query: "omakase spot", selectionScope: "OPEN_ENDED" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: `near ${this.areaQuery}` } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: date, raw: "tonight" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM" } },

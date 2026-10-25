@@ -11,7 +11,7 @@
 
 ## Context
 
-当前 TARGET Prompt 把人数和 planned dining occasion/time or broad time period 组合为 AVAILABILITY，可能把宽下午见朋友的咖啡馆找店强制变成查位。目标应决定交付所需证据，不替代每次找店，也不使查位或预约成为默认副作用。H003 与 KF-H004 的旧目标不因本草案被回写或重新判分。
+当前 TARGET Prompt 把人数和 planned dining occasion/time or broad time period 组合为 AVAILABILITY，可能把宽下午见朋友的咖啡馆找店强制变成查位。目标应决定交付所需证据，不替代每次找店，也不使查位或预约成为默认副作用。H003 与 KF-H004 的旧目标不因本决策被回写或重新判分。
 
 ## Decision
 
@@ -64,7 +64,7 @@
 - 新增 goalBasis 到 Semantic Proposal 的 TARGET value，包含 `type`、非空 `reason`、非空 `quotes[]`。每次 ASSERT/CORRECT 新目标都带依据；没有新 TARGET 的修正 turn 继续携带原权威目标，不重新生成引用，不把旧消息作为当前引用。
 - 在 Interpreter 已有模型输出验证处以当前可信 `input.message` 核对引用。只折叠空白、trim、大小写归一后做连续子串包含；不做同义、标点、翻译、订位关键词或目标合理性判断。任一空/不存在引用拒绝整份提议，走现有 INVALID_MODEL_OUTPUT → SEMANTIC_INTERPRETATION_FAILED 路径。不得改写引用、猜目标或降级为推荐。
 - 保留现有最多 2 次输出校验尝试；不新增重试、模型或来源调用。无效依据不得通过 Compiler/Reducer 写入 State。
-- 建议 goalBasis 先只作为提议中的语义依据及已存在静态评测 Proposal 记录，不加入权威 Draft/State，不复制到普通产品日志。Compiler 只转译已验证 goal/query，不把理由当状态、许可或事实。此方案无需抢占 F5 的 State@21/TaskDefinition@19。若复核要求持久化依据，先另列合同范围并由复核者安排合入顺序，不在本草案预占下一编号。
+- goalBasis 只作为提议中的语义依据及静态评测 Proposal 记录，不加入权威 Draft/State，不复制到普通产品日志。Compiler 只转译已验证 goal/query，不把理由当状态、许可或事实。State@20/TaskDefinition@18 保持不变，不占用 F5 的 @21/@19。后续若要持久化依据，须另列合同范围并协调合入顺序。
 - 多轮类别按累计用户请求标注；新增或改目标的依据引用必须在当前消息中。完全无时间的新请求走 RECOMMENDATION。仅修正地区/条件的 turn 保持原目标；当前消息没有时间不等于会话中的已知到访时间消失。
 - 语义后 Agent、Router、展示均消费权威目标。后续用户明确表达的新目标仍必须重新经过正式语义链；这不属于 Agent 的目标改写。
 
@@ -72,7 +72,7 @@
 
 目标、事实支持、营业时间、当前同店同请求库存、接待方式、授权和现实预约继续分离。灰区两种目标可通过语义目标评价，但不豁免非目标语义字段、引用有效性或实际交付证据。目标一致率不是产品成功率。
 
-本批只起草与盘点；Prompt、Schema、Gold、生产代码、Guard、来源、站点目录、source-packs.ts、预约代码均不变，真实模型/Google/餐厅网站/Live 为 0。草案获批和调用额度获批分别必要。ADR-0026 原文未修改；Accepted 之前它仍是当前决策。
+本决策已获批准；批次 2 只实现语义 Prompt/Proposal、引用核验与离线评价。Gold 留待停止点 3 逐条确认；Guard、来源、站点目录、source-packs.ts 和预约代码不在本切片。ADR-0026 仅在头部记录部分取代关系，其余决策原文保留。
 
 ## Alternatives considered
 
@@ -83,9 +83,9 @@
 
 ## Acceptance and remaining decisions
 
-停止点 1 只交付草案、路径与 Gold 标注清单、评测器方案和调用估算。批次 2 要有无效/空引用、两种有效目标、后续改目标拒绝及推荐可无人数/无 slot 交付的独立红绿证据与五门禁；批次 3 要另获真实模型额度。
+停止点 1 已通过。批次 2 须完成引用无效/为空、两种有效目标、后续改目标拒绝及推荐可无人数/无 slot 交付的离线证据与五门禁，推送后停在停止点 2。真实模型额度虽已批准，批次 3 仍等待停止点 2 复核。
 
-需复核确认：TARGET 内 goalBasis 的位置与仅提议保存方案、多轮 CONTEXT_CARRY、相对分钟偏移按灰区标注、评测 sidecar/旧 Gold 比较边界，以及是否加入公开已暴露 Holdout。任何追加生产持久字段的方案先协调 F5 版本，不以 Proposed ADR 直接施工。
+多轮 CONTEXT_CARRY、相对分钟偏移灰区、公开已暴露 Holdout 的物化日期输入及 Wednesday 新开发输入均已批准。SR03-T02（旧 RECOMMENDATION、新规则 B）保留到停止点 3 确认，当前不改 Gold。
 
 ## Stop 1 approval — 2026-10-25 CET
 

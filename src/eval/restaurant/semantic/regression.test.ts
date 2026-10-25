@@ -28,6 +28,16 @@ test("semantic regression runs Proposal, Compiler, and Runtime/Reducer in order"
   assert.deepEqual(report.turns.map((turn) => turn.status), Array(15).fill("PASS"));
   assert.equal(interpreter.inputs[1]?.currentDraft?.partySize, 2);
   assert.equal(interpreter.inputs[1]?.currentDraft?.area?.query, "Shinjuku");
+  assert.equal(report.evaluatorVersion, "4");
+  assert.equal(report.turns.every(turn => turn.goalBoundary?.status === "SATISFIED"), true);
+  const namedFollowup = report.turns.find(turn => turn.turnId === "SR03-T02")!;
+  assert.equal(namedFollowup.oldGoldGoal, "RECOMMENDATION");
+  assert.equal(namedFollowup.actualDraft?.target?.goal, "AVAILABILITY");
+  assert.equal(namedFollowup.goalBoundary?.category, "B");
+  assert.equal(restaurantSemanticRegressionV3.sessions[2]?.turns[1]?.expectedDraft.target?.goal, "RECOMMENDATION", "old Gold remains frozen for stop 3");
+  assert.equal(JSON.stringify(namedFollowup.actualDraft).includes("goalBasis"), false);
+  assert.ok(namedFollowup.proposal, "passing static results retain the actual proposal and basis");
+  for (const id of ["SR01-T02", "SR08-T02", "SR09-T02"]) assert.equal(report.turns.find(turn => turn.turnId === id)?.goalBoundary?.category, "CONTEXT_CARRY");
 });
 
 test("development attribution stops at Compiler before Reducer", async () => {

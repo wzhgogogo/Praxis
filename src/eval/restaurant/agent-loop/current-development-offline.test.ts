@@ -43,7 +43,7 @@ const PLANS: readonly Plan[] = [
     id: "h001", referenceTime: "2026-08-19T16:20:00+08:00",
     goal: "AVAILABILITY", area: "near Shibuya", date: "2026-08-19", timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya", selectionScope: "OPEN_ENDED" } },
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["omakase"] }, kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-19", raw: "tonight" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM" } },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "EXPLICIT" } },
@@ -56,7 +56,7 @@ const PLANS: readonly Plan[] = [
     id: "h002", referenceTime: "2026-08-19T16:22:00+08:00",
     goal: "AVAILABILITY", area: "near Higashi-Ginza", date: "2026-08-22", timeWindow: { earliest: "18:30", latest: "18:30" }, partySize: 2,
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "first date restaurant near Higashi-Ginza", selectionScope: "OPEN_ENDED" } },
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["first"] }, kind: "TARGET", goal: "AVAILABILITY", query: "first date restaurant near Higashi-Ginza", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-22", raw: "this Saturday" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "18:30", latest: "18:30", raw: "6:30 PM" } },
       // Closed first-date-party inference, not a rewrite of the source message.
@@ -77,7 +77,7 @@ const PLANS: readonly Plan[] = [
     id: "h003", retrievalChoice:"GENERAL", referenceTime: "2026-08-19T16:38:00+08:00",
     goal: "AVAILABILITY", area: "nearby", date: "2026-08-21", timeWindow: { earliest: "17:30", latest: "22:00" }, partySize: 10,
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "team dinner nearby", selectionScope: "OPEN_ENDED" } },
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["team"] }, kind: "TARGET", goal: "AVAILABILITY", query: "team dinner nearby", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", weekday: "FRIDAY", raw: "this Friday" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTER_WORK", raw: "after work" } },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 10, source: "EXPLICIT" } },
@@ -93,7 +93,7 @@ const PLANS: readonly Plan[] = [
     id: "h004", referenceTime: "2026-08-19T12:00:00+08:00",
     goal: "RECOMMENDATION", area: "nearby", date: "2026-08-19", timeWindow: { earliest: "12:00", latest: "17:00" },
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "cafes nearby", selectionScope: "OPEN_ENDED" } },
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["cafes"] }, kind: "TARGET", goal: "RECOMMENDATION", query: "cafes nearby", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TODAY", raw: "this afternoon" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", relativeDay: "TODAY", raw: "this afternoon" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
@@ -106,7 +106,7 @@ const PLANS: readonly Plan[] = [
     id: "h005", retrievalChoice:"GENERAL", referenceTime: "2026-08-19T16:00:00+08:00",
     goal: "AVAILABILITY", area: "nearby", date: "2026-08-19", timeWindow: { earliest: "17:00", latest: "17:30" }, partySize: 4,
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "open tables nearby", selectionScope: "OPEN_ENDED" } },
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["open"] }, kind: "TARGET", goal: "AVAILABILITY", query: "open tables nearby", selectionScope: "OPEN_ENDED" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", relativeOffsetMinutes: 0, raw: "right now" } },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 4, source: "EXPLICIT" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
@@ -132,7 +132,7 @@ const NEW_VEGETARIAN_LUNCH_PLAN: Plan = {
   id: "new-vegetarian-lunch", referenceTime: "2026-08-19T16:00:00+08:00",
   goal: "AVAILABILITY", area: "near Shibuya", date: "2026-08-20", timeWindow: { earliest: "12:30", latest: "12:30" }, partySize: 3,
   facts: [
-    { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "vegetarian lunch near Shibuya" } },
+    { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["vegetarian"] }, kind: "TARGET", goal: "AVAILABILITY", query: "vegetarian lunch near Shibuya" } },
     { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-20", raw: "tomorrow" } },
     { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "12:30", latest: "12:30", raw: "12:30 PM" } },
     { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 3 } },
@@ -152,7 +152,7 @@ const EXPLICIT_TWO_OMAKASE_PLAN: Plan = {
   goal: "AVAILABILITY", area: "near Shibuya", date: "2026-08-19", timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
   candidateBatchSize: 3, selectedCandidateCount: 2,
   facts: [
-    { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 2 } },
+    { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["omakase"] }, kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 2 } },
     { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-19", raw: "tonight" } },
     { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM" } },
     { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "EXPLICIT" } },
@@ -181,7 +181,7 @@ class FixedCurrentCaseModel implements ModelGateway {
     if(request.purpose==='restaurant_discovery_retrieval')return this.plan.retrievalChoice==='GENERAL'?modelResponse(JSON.stringify({choice:'GENERAL',keyword:'',criterionRef:'',categoryUrl:'',reason:'Controlled general source retrieval, not a quality oracle'}),'fixture-retrieval'):scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       assert.ok(request.messages.some((message) => message.content.includes(this.rawContent)), "semantic model must receive the exact frozen user message");
-      return modelResponse(JSON.stringify({ schemaVersion: "3", facts: this.plan.facts }), `semantic:${this.plan.id}`);
+      return modelResponse(JSON.stringify({ schemaVersion: "4", facts: this.plan.facts }), `semantic:${this.plan.id}`);
     }
     if (request.purpose === "restaurant_fact_judgment") {
       const payload = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as {
@@ -237,7 +237,7 @@ class TwoTurnStrengthUpgradeModel implements ModelGateway {
       this.semanticTurn += 1;
       const facts = this.semanticTurn === 1
         ? [
-            { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "vegetarian lunch near Shibuya" } },
+            { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["vegetarian"] }, kind: "TARGET", goal: "AVAILABILITY", query: "vegetarian lunch near Shibuya" } },
             { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-20", raw: "tomorrow" } },
             { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "12:30", latest: "12:30", raw: "12:30 PM" } },
             { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 3, source: "EXPLICIT" } },
@@ -245,7 +245,7 @@ class TwoTurnStrengthUpgradeModel implements ModelGateway {
             { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "vegetarian restaurant", polarity: "POSITIVE", strength: "UNSPECIFIED" } },
           ]
         : [{ field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "vegetarian restaurant", polarity: "POSITIVE", strength: "HARD" } }];
-      return modelResponse(JSON.stringify({ schemaVersion: "3", facts }), `semantic:strength-upgrade:${this.semanticTurn}`);
+      return modelResponse(JSON.stringify({ schemaVersion: "4", facts }), `semantic:strength-upgrade:${this.semanticTurn}`);
     }
     if (request.purpose === "restaurant_fact_judgment") {
       assert.equal(this.control, "current-hard-evidence", "only the normal control may request new HARD fact judgment");

@@ -1,4 +1,5 @@
 import type { ModelGateway, ModelRequest, ModelResponse } from "../core/model/contracts.js";
+import type { RestaurantGoalBasis } from "../domains/restaurant/semantic-proposal.js";
 import type { BrowserRuntime } from "../infrastructure/browser/browser-runtime.js";
 import { GooglePlacesClient } from "../integrations/google/google-places-client.js";
 import { createLiveReadAssembly, type LiveReadAssemblyConfig, type LiveReadTransports } from "../integrations/restaurant-search/live-read-assembly.js";
@@ -8,6 +9,13 @@ import { createHybridReadComposition, type HybridReadCompositionOptions } from "
 
 export const now = new Date("2026-09-16T03:00:00.000Z");
 export const clock = { now: () => new Date(now) };
+
+/** Current-schema model-double evidence; does not classify the supplied fixture goal. */
+export function fixtureGoalBasis(request: ModelRequest): RestaurantGoalBasis {
+  const content = request.messages.find((message) => message.role === "user")!.content;
+  const message: string = JSON.parse(content.slice("User restaurant message as JSON string: ".length));
+  return { type: "JUDGMENT", reason: "Controlled fixture target for the supplied request.", quotes: [message] };
+}
 
 type GoogleFixture = GooglePlacesClient | { client: GooglePlacesClient; maxGoogleRequests: number };
 interface GoogleReadFixtureOptions extends Pick<HybridReadCompositionOptions, "taskId" | "runId" | "clock" | "model"> {
@@ -71,9 +79,9 @@ export class ScriptedExternalModel implements ModelGateway {
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       return response(JSON.stringify({
-        schemaVersion: "3",
+        schemaVersion: "4",
         facts: [
-          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "afternoon cafes" } },
+          { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "RECOMMENDATION", query: "afternoon cafes" } },
           { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } },
           { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", raw: "tomorrow afternoon" } },
           { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
@@ -113,9 +121,9 @@ export class PermittedAlternativeTimeModel extends ScriptedExternalModel {
     }
     if (request.purpose !== "restaurant_semantic_interpret") return super.complete(request);
     return response(JSON.stringify({
-      schemaVersion: "3",
+      schemaVersion: "4",
       facts: [
-        { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table" } },
+        { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "AVAILABILITY", query: "find a table" } },
         { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
         { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM", alternativeEarliest: "18:30", alternativeLatest: "19:30", alternativeRaw: "30 minutes either side is fine" } },
         { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },

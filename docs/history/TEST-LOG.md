@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.294
+- Document revision: 4.295
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,14 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-25-PHASE3A-BOUNDARY-BATCH2
+
+- 模式：Unit/模型替身/实际生产composition离线；已暴露开发集，非Clean Baseline。真实模型/Google/餐厅网站/Live均0，144次独立额度未使用；.env与私有Holdout不读。
+- 原合同/独立评分红灯、schema4有效正控制下的伪造/历史引用红灯、相同query双goal冲突红灯保存于[batch2](../../.eval-artifacts/phase3a-boundary/batch2/)。初次迁移失败和无效测试设置不冒充目标检错证据，原日志保留。
+- green-boundary-integration.log 11/11与green-regression-unit.log 4/4通过；最近严格评分收敛与Schema旧版拒绝断言待正式门禁覆盖。推荐无人数且有/无日期时段两条实际组合走到展示，无slot不阻断；可选slot由受控端口原始观察进入Grounding，仅证明该端口/Router/Reducer边界，不证明真实网站。
+- 正式冻结后离线15轮、typecheck、arch:check、npm test、build、test:browser:fixture结果待录入；每门禁后核对空git status，不恢复文件掩盖写入。浏览器Fixture仅本机Chromium，不等同来源Live。
+- 未覆盖：真实模型的A/B与灰区判断、三次一致率、当前网站/真实库存及用户端到端实际完成。S0来源声明/越界不由这些离线测试推为通过。 [六节报告](../../.eval-artifacts/phase3a-boundary/report.md)。
 
 ## TEST-2026-10-23-MAIN-ONLY-WORKFLOW
 

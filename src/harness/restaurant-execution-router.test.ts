@@ -1,5 +1,6 @@
+import { fixtureGoalBasis } from "./restaurant-read-test-fixtures.js";
 import {scriptedRetrieval} from "./restaurant-read-test-fixtures.js";
-import { createRouterFixtureComposition, response, strictAction, PermittedAlternativeTimeModel, googleFixture, now, clock } from "./restaurant-read-test-fixtures.js";
+import { createRouterFixtureComposition, response, strictAction, ScriptedExternalModel, PermittedAlternativeTimeModel, googleFixture, now, clock } from "./restaurant-read-test-fixtures.js";
 import type { ModelGateway } from "../core/model/contracts.js";
 import type { BrowserRuntime } from "../infrastructure/browser/browser-runtime.js";
 import { GooglePlacesClient } from "../integrations/google/google-places-client.js";
@@ -280,6 +281,49 @@ test("Execution Router binds a fact-only read to known candidates and the author
   });
 });
 
+test("ADR-0044 Router may add a current slot to a recommendation without changing its goal", async () => {
+  class OptionalSlotModel extends ScriptedExternalModel {
+    private checked = false;
+    override async complete(request: import("../core/model/contracts.js").ModelRequest) {
+      if (request.purpose === "restaurant_agent_decide") {
+        const { context } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
+        if (!this.checked && !context.factInvestigableCandidateIds?.length && context.checkableCandidateIds?.length) {
+          this.checked = true;
+          this.requests.push(request);
+          return response(JSON.stringify(strictAction("CHECK_AVAILABILITY", context.checkableCandidateIds.slice(0, 1))), "optional-slot");
+        }
+      }
+      return super.complete(request);
+    }
+  }
+  let slotReads = 0;
+  const model = new OptionalSlotModel();
+  const taskId = "goal:optional-slot";
+  const composition = createRouterFixtureComposition({ taskId, runId: taskId, clock, model,
+    google: googleFixture([], { maxRequests: 10 }, ["one"]),
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 1_000 },
+    unitAvailability: { executionRoute: "GENERIC_BROWSER", async check(request) {
+      slotReads += 1;
+      const candidate = request.candidates[0]!;
+      const read = groundTableCheckAvailability(candidate, request, {
+        candidateId: candidate.restaurant.id, sourceEntityId: "tablecheck:optional-slot", sourceUrl: "https://www.tablecheck.com/en/fixture-optional-slot",
+        observedAt: now.toISOString(), requestedDate: request.date, requestedPartySize: request.partySize,
+        entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: "AVAILABLE", visibleSlots: ["13:00"],
+      }, now.toISOString());
+      return { offers: read.offers, availabilityChecks: { [candidate.restaurant.id]: read.check }, evidence: read.evidence,
+        metadata: { provider: "TABLECHECK", route: "GENERIC_BROWSER", latencyMs: 0 } };
+    } },
+  });
+  assert.equal((await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION)).status, "PROPOSED");
+  assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL");
+  const after = composition.runtime.snapshot(taskId).domainState;
+  assert.equal(after.phase, "PRESENT_RESULTS");
+  assert.equal(after.intentDraft?.target?.goal, "RECOMMENDATION");
+  assert.equal(slotReads, 1);
+  assert.ok(Object.values(after.availability).flat().some(offer => offer.dateTime === "2026-09-17T13:00:00+09:00"));
+  assert.ok(after.readEvidence.some(evidence => evidence.kind === "AVAILABILITY"));
+});
+
 test("Execution Router keeps a shared browser startup failure candidate-scoped after all requested candidates fail", async () => {
   const router = new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { return { candidates: fixtureCandidates, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; } },
@@ -398,8 +442,8 @@ test("Router partial-port contract: fresh request-bound inventory can receive mi
   const actions: string[] = [];
   const model: ModelGateway = { async complete(request) {
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
-    if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "cafes", selectionScope: "OPEN_ENDED" } },
+    if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "4", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "AVAILABILITY", query: "cafes", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "13:00", latest: "13:00", raw: "1 pm" } },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
@@ -469,8 +513,8 @@ test("Router partial-port contract: default delivery keeps a produced source-bac
   const actions: string[] = [];
   const model: ModelGateway = { async complete(input) {
     if(input.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(input)!;
-    if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED" } },
+    if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "4", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(input), kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
@@ -551,8 +595,8 @@ test("Router partial-port contract: model-call delivery reserve presents a sourc
       const contexts: Array<{ remaining: number; checks: number }> = [];
       const provider: ModelGateway = { async complete(input) {
     if(input.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(input)!;
-        if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED", ...(mode === "explicit-count" ? { requestedResultCount: 3 } : {}) } },
+        if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "4", facts: [
+          { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(input), kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED", ...(mode === "explicit-count" ? { requestedResultCount: 3 } : {}) } },
           { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
           { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
           { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
@@ -640,8 +684,8 @@ test("Router partial-port contract: C0b reserves the last four calls inside a pr
       const contexts: Array<{ remaining: number; checks: number }> = [];
       const provider: ModelGateway = { async complete(input) {
     if(input.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(input)!;
-        if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED",  } },
+        if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "4", facts: [
+          { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(input), kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED",  } },
           { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
           { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
           { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
@@ -730,8 +774,8 @@ test("Router partial-port contract: C6a observed public hours end the immediate 
     const taskId=`hours:${mode}`;let inventoryReads=0;
     const provider:ModelGateway={async complete(input){
     if(input.purpose==='restaurant_discovery_retrieval')return Promise.resolve(scriptedRetrieval(input)!);
-      if(input.purpose==='restaurant_semantic_interpret')return response(JSON.stringify({schemaVersion:'3',facts:[
-        {field:'TARGET',operation:'ASSERT',value:{kind:'TARGET',goal:'AVAILABILITY',query:'restaurants',selectionScope:'OPEN_ENDED'}},
+      if(input.purpose==='restaurant_semantic_interpret')return response(JSON.stringify({schemaVersion:'4',facts:[
+        {field:'TARGET',operation:'ASSERT',value:{goalBasis:fixtureGoalBasis(input),kind:'TARGET',goal:'AVAILABILITY',query:'restaurants',selectionScope:'OPEN_ENDED'}},
         {field:'TIME_WINDOW',operation:'ASSERT',value:mode==='explicit-time'?{kind:'TIME_WINDOW',earliest:'12:00',latest:'12:30',raw:'noon'}:{kind:'TIME_WINDOW',relativeOffsetMinutes:0,raw:'right now'}},
         {field:'DATE',operation:'ASSERT',value:{kind:'DATE',relativeDay:'TODAY',raw:'today'}},
         {field:'PARTY_SIZE',operation:'ASSERT',value:{kind:'PARTY_SIZE',value:2}},
@@ -774,8 +818,8 @@ test("Router partial-port contract: reserve checkpoints retain completed outlets
     const search=googleFixture([],{maxRequests:100},["one","two","three",...(mode==="availability-time"?["four"]:[])]);
     const delegate:ModelGateway={async complete(input){
     if(input.purpose==='restaurant_discovery_retrieval')return Promise.resolve(scriptedRetrieval(input)!);
-      if(input.purpose==="restaurant_semantic_interpret")return response(JSON.stringify({schemaVersion:"3",facts:[
-        {field:"TARGET",operation:"ASSERT",value:{kind:"TARGET",goal:mode==="facts-call"?"RECOMMENDATION":"AVAILABILITY",query:"nearby restaurants",selectionScope:"OPEN_ENDED"}},
+      if(input.purpose==="restaurant_semantic_interpret")return response(JSON.stringify({schemaVersion:"4",facts:[
+        {field:"TARGET",operation:"ASSERT",value:{ goalBasis: fixtureGoalBasis(input),kind:"TARGET",goal:mode==="facts-call"?"RECOMMENDATION":"AVAILABILITY",query:"nearby restaurants",selectionScope:"OPEN_ENDED"}},
         {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:"2026-09-17",raw:"tomorrow"}},
         {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:00",raw:"7pm"}},
         {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:2}},
