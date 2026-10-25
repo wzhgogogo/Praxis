@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.288
+- Document revision: 4.289
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,12 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-25-F5C-OFFLINE
+
+2026-10-25 CET，基线a691f7dd。按停止点3复核只修共享来源循环：不再把两有效越界样本的纠正留给后续SEARCH，在原Executor/deadline/详情/地区预算内立即给方位反馈、选观察引用、导航与继续详情；一次替换及错误收尾不变。已接纳候选在本次纠正失败时也保留。真实Interpreter→Agent合法动作→Router→Reducer本地控制，TC2与Google26已排队且search=false，旧代码目标断言失败，修后通过；G1/G3、N1–N4、F1–F4等复用fixture改为单次调用，不保留延期旧路径。
+
+完整公开地址“東京都北区赤羽1-15-1 新仲ビル1F”冻结于新F5c目录。仅地址无法解决两来源名称/地址表记不同，因此把公开电话、完整门牌楼层、1.251m坐标核对支持的精确来源身份对一并冻结；当前WitnessOutlet统一identities、Evaluator35/rubric30、所有当前TS调用方同步，Browser Prompt/Schema不变。旧冻结内联分析脚本仅基线绑定retrospective，不作为新入口。原Live评价/证书/变体不改。槽5只用固定blob分析：三次Tabelog检索明确为空、没有回读通用列表，F5临时分支未执行；第37行根决策的下一批查位在截止时仍运行，不能把最后持久化facts动作当作中断位置。213目标/1 Chromium通过，五门禁待提交后运行。新增模型/Google/GET/Live/环境重跑0，不读.env，预算及站点保护字节不变。[报告](../../.eval-artifacts/phase3a-prime/f5c/report.md)。
 
 ## DEV-2026-10-25-F5-LIVE-STOP3-INCOMPLETE
 

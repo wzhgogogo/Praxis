@@ -1072,6 +1072,10 @@ test("F5c Agent loop corrects within its Tabelog call despite TableCheck 2 and G
   const alternate = result.navigations.indexOf("https://tabelog.com/en/tokyo/A1323/");
   assert.ok(alternate >= 0, "F5c: correction must happen before the root Agent can queue other sources");
   assert.ok(alternate < result.navigations.findIndex(url => url.includes("tablecheck.com")), "correction belongs to the first Tabelog source invocation");
+  const firstCall = result.trajectories[0]!.executionMetadata!.nativeDiscoveryFunnel!;
+  assert.equal(firstCall.directoryRegion!.replacement!.url, "https://tabelog.com/en/tokyo/A1323/");
+  assert.equal(firstCall.sourceDetailAttempts, 4);
+  assert.equal(firstCall.retrieval!.regionPages, 4);
   assert.equal(result.model.requests.filter(request => request.purpose === "browser_read_decide"
     && JSON.parse(request.messages.find(message => message.role === "user")!.content).regionCorrection).length, 1);
   assert.equal(result.navigations.filter(url => /\/99[0-5]\/$/.test(url)).length, 4, "two first samples and two replacement samples share the source budget");
