@@ -1,0 +1,30 @@
+{"decisionCaptureError":{"operation":"SNAPSHOT_LINK","errorCode":"DECISION_SNAPSHOT_MISMATCH"}}
+node:internal/modules/run_main:105
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ [
++   {
++     errorCode: 'DECISION_SNAPSHOT_MISMATCH',
++     operation: 'SNAPSHOT_LINK'
++   }
++ ]
+- []
+
+    at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/decision-snapshot-binding-20261025/verify-slots.ts:17:9) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    {
+      operation: 'SNAPSHOT_LINK',
+      errorCode: 'DECISION_SNAPSHOT_MISMATCH'
+    }
+  ],
+  expected: [],
+  operator: 'deepStrictEqual'
+}
+
+Node.js v24.4.1

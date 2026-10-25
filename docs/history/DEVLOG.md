@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.298
+- Document revision: 4.299
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4706,3 +4706,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-25-PHASE3A-REPLAY-REDIRECT-COMPLETE
 
 仅 eval 回放器和最小 Chromium 回归：完整 HAR 重定向链映射到合格最终文档；缺失检查置于真实 Guard 准入后；可选媒体缺失拒绝并记录，关键响应缺失仍停止。产品、Guard、Prompt、产品 Schema、站点代码未改。验证源码278302bf，原始 F5 输入及脚本 SHA 冻结，后续快照不完整不冒充完整回放。 [报告](../../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-DECISION-FLOW-BINDING-COMPLETE
+
+在独立分支从main5aa9394c修复eval capture的来源flow关联，验证源码5e073ae6。复用完整F5c产品流程测试，保留全部产品断言；只增加录制关联验证，不改模型输入、产品Schema、Guard、Prompt、站点。原三槽单行最小证据及来源SHA冻结，不复制整份历史运行。 [报告](../../.eval-artifacts/phase3a-prime/decision-snapshot-binding-20261025/report.md)。

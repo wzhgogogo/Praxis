@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.405
+- Document revision: 4.406
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-DECISION-FLOW-BINDING-COMPLETE:** 三槽 DECISION_SNAPSHOT_MISMATCH 根因为 ADR0043 无当前DOM入口选择被误作当前DOM决策；eval元数据现保留原flow观察引用，三槽复验通过，正常DOM仍严格匹配，真实调用0。 [报告](../.eval-artifacts/phase3a-prime/decision-snapshot-binding-20261025/report.md)。
 
 - **2026-10-25-PHASE3A-REPLAY-REDIRECT-COMPLETE:** 回放文档重定向资格修复完成；原始 F5 槽1系统断网越过前两个合格快照，不补造页面，随后 snapshot3 仍 REPLAY_INCOMPLETE。两平台门禁完成，Linux 唯一 E1 偶发按用户批准归 F3，其他全绿，真实调用0。 [报告](../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。
 

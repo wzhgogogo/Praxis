@@ -1,0 +1,8 @@
+{
+  "date":"2026-10-25",
+  "key":"PHASE3A-DECISION-FLOW-BINDING-COMPLETE",
+  "item":"decision-snapshot-binding-20261025",
+  "text":"三槽 DECISION_SNAPSHOT_MISMATCH 根因为 ADR0043 无当前DOM入口选择被误作当前DOM决策；eval元数据现保留原flow观察引用，三槽复验通过，正常DOM仍严格匹配，真实调用0。",
+  "development":"在独立分支从main5aa9394c修复eval capture的来源flow关联，验证源码5e073ae6。复用完整F5c产品流程测试，保留全部产品断言；只增加录制关联验证，不改模型输入、产品Schema、Guard、Prompt、站点。原三槽单行最小证据及来源SHA冻结，不复制整份历史运行。",
+  "verification":"先红后绿：完整F5c流程原来误报一次，修后无误报；三槽原始决策各35条入口观察引用完整保留且不伪造DOM；正常DOM不匹配、无flow空观察仍报错。macOS默认1054/1054、Chromium159/159（104.839900秒）；Linux默认1054/1054、Chromium158/159（104.595121秒），仅E1已批准偶发，原始exit1保留归F3。其余门禁全绿、逐门禁净树、615输入SHA一致，站点3864/pack473，真实调用0。"
+}

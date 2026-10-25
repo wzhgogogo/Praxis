@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.305
+- Document revision: 4.306
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5426,3 +5426,7 @@ macOS五门禁绿/default1037，完整四路Chromium三次154/154：102.962288�
 ## TEST-2026-10-25-PHASE3A-REPLAY-REDIRECT-COMPLETE
 
 macOS 默认1053/1053、Chromium159/159（103.489690秒）；Linux 默认1053/1053、Chromium158/159（104.029268秒），唯一失败为 E1 outer body observer 的 Failed to fetch，原始exit1和日志保留，按已批准已知偶发交 F3，未扩大 postRule 或修改 Guard。其余门禁全绿，各门禁后净树，637输入 SHA 一致，四个最小行为回归先红后绿，原始 F5 同输入系统断网从0页到2页。站点3864/pack473，真实调用0。 [报告](../../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。
+
+## TEST-2026-10-25-PHASE3A-DECISION-FLOW-BINDING-COMPLETE
+
+先红后绿：完整F5c流程原来误报一次，修后无误报；三槽原始决策各35条入口观察引用完整保留且不伪造DOM；正常DOM不匹配、无flow空观察仍报错。macOS默认1054/1054、Chromium159/159（104.839900秒）；Linux默认1054/1054、Chromium158/159（104.595121秒），仅E1已批准偶发，原始exit1保留归F3。其余门禁全绿、逐门禁净树、615输入SHA一致，站点3864/pack473，真实调用0。 [报告](../../.eval-artifacts/phase3a-prime/decision-snapshot-binding-20261025/report.md)。
