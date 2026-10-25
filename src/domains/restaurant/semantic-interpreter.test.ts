@@ -3,7 +3,7 @@ import { test } from "node:test";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model/contracts.js";
 import { RESTAURANT_SEMANTIC_REQUEST_TIMEOUT_MS, RestaurantSemanticInterpreter } from "./semantic-interpreter.js";
-import { RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA } from "./semantic-proposal.js";
+import { RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA, RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA } from "./semantic-proposal.js";
 import { compileRestaurantSemanticProposal } from "./semantic-compiler.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 
@@ -200,5 +200,49 @@ test("party-size transport preserves an enumerated or explicit count and never s
     );
     assert.equal(draft.partySize, item.expected, item.id);
     assert.equal(draft.partySizeSource, item.source, item.id);
+  }
+});
+
+
+test("ADR-0044 current-message quotes admit both goals without persisting their basis", async () => {
+  for (const goal of ["RECOMMENDATION", "AVAILABILITY"] as const) {
+    const proposal = {
+      schemaVersion: RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA.version,
+      facts: [{ field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal, query: "cafes", goalBasis: {
+        type: "JUDGMENT", reason: "The request expresses a visit.", quotes: ["CAFES  nearby", "Wednesday afternoon"],
+      } } }],
+    };
+    const gateway = new QueuedGateway([response(JSON.stringify(proposal))]);
+    const result = await new RestaurantSemanticInterpreter(gateway).interpret({
+      taskId: "goal-basis", message: "Good cafes nearby on Wednesday afternoon.", referenceTime: "2026-10-25T09:00:00+09:00", timezone: "Asia/Tokyo",
+    });
+    assert.equal(result.status, "PROPOSED");
+    if (result.status !== "PROPOSED") continue;
+    const compiled = compileRestaurantSemanticProposal(result.proposal);
+    assert.equal(compiled.status, "COMPILED");
+    if (compiled.status !== "COMPILED") continue;
+    const draft = applyRestaurantIntentPatch(undefined, compiled.patch);
+    assert.equal(draft.target?.goal, goal);
+    assert.equal(JSON.stringify(draft).includes("goalBasis"), false);
+    const carry = applyRestaurantIntentPatch(draft, { schemaVersion: "3", area: { query: "Ginza" } });
+    assert.equal(carry.target?.goal, goal);
+  }
+});
+
+test("ADR-0044 fabricated or prior-turn quotes fail through the existing semantic failure path", async () => {
+  for (const quotes of [["book a table"], ["cafes nearby", "a nonexistent sentence"], ["a table for two yesterday"]]) {
+    const wire = JSON.stringify({ schemaVersion: RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA.version, facts: [{
+      field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "cafes", goalBasis: {
+        type: "JUDGMENT", reason: "Controlled bad quote.", quotes,
+      } },
+    }] });
+    const gateway = new QueuedGateway([response(wire), response(wire)]);
+    const result = await new RestaurantSemanticInterpreter(gateway).interpret({
+      taskId: "bad-basis", message: "Good cafes nearby on Wednesday afternoon.", referenceTime: "2026-10-25T09:00:00+09:00", timezone: "Asia/Tokyo",
+      currentDraft: { schemaVersion: "3", timezone: "Asia/Tokyo", target: { goal: "RECOMMENDATION", query: "a table for two yesterday" }, criteria: [] },
+    });
+    assert.equal(result.status, "INVALID_MODEL_OUTPUT");
+    if (result.status === "INVALID_MODEL_OUTPUT") assert.match(result.errors.join(" "), /goalBasis.*current (?:user )?message/);
+    assert.equal(gateway.calls.length, 2, "no attempt beyond the existing bound");
   }
 });

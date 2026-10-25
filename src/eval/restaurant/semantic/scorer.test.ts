@@ -155,3 +155,25 @@ test("stage scorer treats unordered criteria and facts with case/whitespace-only
   });
   assert.deepEqual(score, { status: "PASS" });
 });
+
+
+test("ADR-0044 scoring permits either grounded gray goal but rejects fabricated basis and wrong anchors", () => {
+  const message = "Good cafes nearby on Wednesday afternoon.";
+  const draft = (goal: "RECOMMENDATION" | "AVAILABILITY"): RestaurantIntentDraft => ({ schemaVersion: "3", timezone: "Asia/Tokyo", target: { goal, query: "cafes" }, criteria: [] });
+  for (const sample of [
+    { category: "GRAY", goal: "RECOMMENDATION", quote: "cafes nearby", pass: true },
+    { category: "GRAY", goal: "AVAILABILITY", quote: "cafes nearby", pass: true },
+    { category: "GRAY", goal: "RECOMMENDATION", quote: "book a table", pass: false },
+    { category: "A", goal: "RECOMMENDATION", quote: "cafes nearby", pass: false },
+    { category: "B", goal: "RECOMMENDATION", quote: "cafes nearby", pass: false },
+  ] as const) {
+    const input = {
+      actualProposal: { schemaVersion: "3" as const, facts: [{ field: "TARGET" as const, operation: "ASSERT" as const,
+        value: { kind: "TARGET" as const, goal: sample.goal, query: "cafes", goalBasis: { type: "JUDGMENT", reason: "Controlled score.", quotes: [sample.quote] } },
+      }] },
+      actualDraft: draft(sample.goal), expectedDraft: draft("RECOMMENDATION"),
+      goalBoundary: { category: sample.category, message },
+    };
+    assert.equal(scoreRestaurantSemanticTurn(input).status, sample.pass ? "PASS" : "FAIL", JSON.stringify(sample));
+  }
+});

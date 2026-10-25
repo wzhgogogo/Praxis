@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import {
   RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
+  RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
   validateRestaurantSemanticProposal,
 } from "./semantic-proposal.js";
 
@@ -137,4 +138,21 @@ test("explicit date and clock values require the raw user expression promised by
       "facts[1].value must match TIME_WINDOW",
     ]);
   }
+});
+
+
+test("ADR-0044 TARGET requires a nonempty structural basis without judging goal rationale", () => {
+  const proposal = (goalBasis?: unknown) => ({
+    schemaVersion: RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA.version,
+    facts: [{ field: "TARGET", operation: "ASSERT", value: {
+      kind: "TARGET", goal: "RECOMMENDATION", query: "cafes",
+      ...(goalBasis === undefined ? {} : { goalBasis }),
+    } }],
+  });
+  assert.equal(validateRestaurantSemanticProposal(proposal()).valid, false, "a fresh target needs a basis");
+  for (const quotes of [[], ["   "], ["cafes", ""]]) {
+    assert.equal(validateRestaurantSemanticProposal(proposal({ type: "JUDGMENT", reason: "User seeks places.", quotes })).valid, false);
+  }
+  assert.equal(validateRestaurantSemanticProposal(proposal({ type: "JUDGMENT", reason: "User seeks places.", quotes: ["cafes"] })).valid, true);
+  assert.equal(validateRestaurantSemanticProposal(proposal({ type: "BOOKING_WORDING", reason: "A fixture need not justify the goal to code.", quotes: ["cafes"] })).valid, true);
 });
