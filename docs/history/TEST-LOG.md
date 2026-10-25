@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.293
+- Document revision: 4.294
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5319,3 +5319,9 @@ CET UTC+01:00。静态20资源双Chromium有效红绿：访问21仍计数、租�
 ## TEST-2026-10-25-PHASE3A-PRIME-STOP3-HEALTH
 
 先e46a4158冻结220ms反例，旧入口ENV_FAILURE；修复后READY、无快照/空快照仍拒绝。真实Chromium/Guard保持晚到繁忙、403、挑战拒绝。5e0692f8五门禁全绿：默认1034、浏览器153，20.426752/92.906001秒单次，各门禁后status空、恢复0、冻结SHA一致。新增真实模型/Google/网站/Live/环境重跑0；不重判历史Live。 [报告](../../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/health/report.md)。
+
+## TEST-2026-10-25-PHASE3A-PRIME-STOP3-RECORDING
+
+efb78d84旧实现两条目标红灯；d067bf7f相关25项与真实Chromium/Guard绿灯：安全地图写HAR，第2页缺静态响应明确REPLAY_INCOMPLETE，回放来源0。5de17530五门禁1037/154全绿，单次19.900391/92.930660秒，每门禁status空、恢复0；原扫描表达式不变，凭据/写后控制保持严格，来源输入和编排SHA冻结。产品/Guard/站点/pack不改，真实模型/Google/网站/Live/环境重跑0。未重跑历史F5。 [报告](../../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/recording/report.md)。
+
+交付验证补充：5cb751e3冻结“第三方响应命中且请求体含自有凭据”反例，旧路径REPLAYABLE红灯；请求体与响应独立扫描后7/7局部绿灯。首轮5de17530五门禁产物保留，最终候选将完整复跑五门禁后才合入。

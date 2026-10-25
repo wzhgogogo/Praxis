@@ -1,0 +1,29 @@
+✖ pre-registered model credentials and owned Google response/trace leaks all reject the complete recording (10.771125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 160.766416
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/recording-keys.test.ts:1:5518
+✖ pre-registered model credentials and owned Google response/trace leaks all reject the complete recording (10.771125ms)
+  AssertionError [ERR_ASSERTION]: FOREIGN_RESPONSE_OWN_BODY
+  + actual - expected
+  
+  + 'REPLAYABLE'
+  - 'NOT_REPLAYABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/recording-keys.test.ts:76:48)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'REPLAYABLE',
+    expected: 'NOT_REPLAYABLE',
+    operator: 'strictEqual'
+  }

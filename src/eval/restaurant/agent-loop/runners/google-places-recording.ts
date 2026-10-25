@@ -80,7 +80,9 @@ export class GooglePlacesHarCapture {
         if (body !== undefined && body !== null && typeof body !== "string") { this.reject({ ...ref, reason: "UNSUPPORTED_REQUEST_BODY", stage: "RESPONSE" });return response; }
         const raw = await response.clone().text();
         if (!this.open) return response;
-        if (!this.accept(raw,"RESPONSE",ref) || body && !this.accept(body,"RESPONSE",ref)) return response;
+        const responseSafe = this.accept(raw,"RESPONSE",ref);
+        const bodySafe = !body || this.accept(body,"RESPONSE",ref);
+        if (!responseSafe || !bodySafe) return response;
         try { JSON.parse(raw);if (body) JSON.parse(body); } catch { this.reject({ ...ref, reason: "INVALID_JSON", stage: "RESPONSE" });return response; }
         const mimeType = response.headers.get("content-type")?.split(";", 1)[0] ?? "application/json";
         const entry = { startedDateTime: new Date(started).toISOString(), time: Date.now() - started,

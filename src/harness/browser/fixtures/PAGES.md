@@ -1,7 +1,7 @@
 # 已保存站点页面 fixture 索引
 
 - Evidence status: frozen regression；已暴露开发页面，不是Clean Baseline。
-- 检查日期：2026-10-24。只补来源，不更新页面、不访问网站。物理HTML/保存JSON原字节保持。
+- 检查日期：2026-10-25。只补来源，不更新页面、不访问网站。物理HTML/保存JSON原字节保持。
 - `capturedOn` 是采集日；旧provenance中的请求日期不作为采集日期。精确时间未保留的标明日期精度与依据。
 - 本表含13份HTML和2份保存的页面/控件JSON；其余合成内联HTML不是站点采集页，编译fixture不是页面。
 - 每份页面旁的 `*.provenance.json` 记录URL、采集日、来源版本/投影限制及SHA。历史eval录制由原始recording/started/输入manifest按snapshot序号追溯，不复制原文或改写冻结清单。
@@ -26,7 +26,7 @@
 
 ## 超过30天的页面
 
-无。最早采集日2026-09-29，至检查日25天；日期来自现有fixture/捕获目录及登记证据，没有重新采集。
+无。最早采集日2026-09-29，至检查日26天；日期来自现有fixture/捕获目录及登记证据，没有重新采集。
 
 ## 证明范围
 
@@ -76,6 +76,11 @@
 | [p1g-h001-a1.snapshot-0044.html](../../../integrations/tabelog/fixtures/availability/p2-2-selection-20261019/followup/busy-inputs/p1g-h001-a1.snapshot-0044.html) | 2026-10-12 | https://tabelog.com/tokyo/A1303/A130301/13293469/ |
 | [p20-h001-a1.snapshot-0033.html](../../../integrations/tabelog/fixtures/availability/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html) | 2026-10-15 | https://tabelog.com/tokyo/A1303/A130301/13293469/ |
 
-| [health-deadline-listing.html](../../../eval/restaurant/agent-loop/fixtures/health-deadline-listing.html) | 2026-10-25 | https://tabelog.com/en/tokyo/A1301/ | [来源与最小提取](../../../eval/restaurant/agent-loop/fixtures/health-deadline-listing.provenance.json) |
+## 2026-10-25：Eval 最小摘录
 
+以下2份为已保存页面的必要元素摘录，含明确合成替值与页面外壳，不是完整站点回放。原始来源及SHA保留在各自provenance中。
+
+| fixture | 采集日 | 来源URL | provenance |
+| --- | --- | --- | --- |
+| [health-deadline-listing.html](../../../eval/restaurant/agent-loop/fixtures/health-deadline-listing.html) | 2026-10-25 | https://tabelog.com/en/tokyo/A1301/ | [来源与最小提取](../../../eval/restaurant/agent-loop/fixtures/health-deadline-listing.provenance.json) |
 | [slot1-public-map.html](../../../eval/restaurant/agent-loop/fixtures/slot1-public-map.html) | 2026-10-25 | https://tabelog.com/en/tokyo/A1322/A132202/13155817/ | [槽1最小提取与合成替值](../../../eval/restaurant/agent-loop/fixtures/slot1-public-map.provenance.json) |

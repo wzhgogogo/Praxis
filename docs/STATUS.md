@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.393
+- Document revision: 4.394
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-25-PHASE3A-PRIME-STOP3-RECORDING:** 停止点3两项修复完成：健康检查已合main/28216ae3；录制器先替换第三方URL key/signature/client值，再保留原扫描，普通命中按页/条目拒绝，自有凭据命中整份拒绝且不提前发布DOM。槽1最小元素真实Chromium录制/回放到首个不合格页，0来源请求；五门禁1037/154全绿，各项后净工作树，真实调用0。交付检查补齐Google响应拒绝后仍检查自有请求体凭据的短路边界，最终五门禁复跑中，尚未合入本项。 [报告](../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/recording/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-STOP3-HEALTH:** 停止点3健康检查修复完成：每次完成快照立即形成就绪判定，10秒截止采用已完成观察，保留后来繁忙/403/挑战拒绝并记录快照起止。220ms原构造红绿与真实Chromium通过；五门禁1034/153全绿，每项后净工作树，真实调用0。按授权合入main。 [报告](../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/health/report.md)。
 
