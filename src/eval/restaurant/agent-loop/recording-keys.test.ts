@@ -24,21 +24,25 @@ test('slot1 public map URL is redacted while residual key patterns omit only the
   const recorder=new BrowserReadRecording({directory:root,runId:'map'});await google(recorder);
   const saved=await readFile(new URL('./fixtures/slot1-public-map.html',import.meta.url),'utf8');
   const html=saved.replaceAll('__PUBLIC_MAP_KEY__',publicKey).replaceAll('__PUBLIC_SIGNATURE__',signature)
-   +`<img data-hires-src="//maps.googleapis.com/maps/api/staticmap?key=${publicKey}&amp;signature=${signature}&amp;client=${client}" srcset="https://maps.googleapis.com/maps/api/staticmap?key=${publicKey} 1x, https://maps.googleapis.com/maps/api/staticmap?client=${client} 2x">`;
+   +`<img src="https://maps.googleapis.com/maps/api/staticmap?key=${publicKey}" data-hires-src="//maps.googleapis.com/maps/api/staticmap?key=${publicKey}&amp;signature=${signature}&amp;client=${client}" srcset="https://maps.googleapis.com/maps/api/staticmap?key=${publicKey} 1x, https://maps.googleapis.com/maps/api/staticmap?client=${client} 2x"><a href='https://maps.googleapis.com/map?key=${publicKey}'>Map</a><img data-src=https://maps.googleapis.com/map?key=${publicKey}><source data-srcset="https://maps.googleapis.com/map?signature=${signature} 1x,https://maps.googleapis.com/map?client=${client} 2x">`;
   recorder.recordSnapshot({url:'https://public.example/map',html,text:'Saved public map',title:'Map'});
   const badUrl='https://public.example/bad';
   recorder.recordSnapshot({url:badUrl,html:`<p>${publicKey}</p>`,text:'Residual credential pattern',title:'Bad'});
   await recorder.recordResponse({url:'https://public.example/data',method:'GET',resourceType:'fetch',status:200,contentType:'application/json',body:Buffer.from(JSON.stringify({publicNote:publicKey}))});
+  recorder.recordSnapshot({url:'https://public.example/dependent',html:'<h1>Dependent page</h1>',text:'Dependent',title:'Dependent',
+   networkRequests:[{outcome:'ADMITTED',origin:'https://public.example',pathname:'/data',method:'GET',resourceType:'fetch',queryKeys:[]}]});
   const result=await recorder.finish();
   assert.equal(result.replay.status,'PARTIALLY_REPLAYABLE','the safe map page and Google response must survive; old writer rejected the whole HAR');
   assert.equal(result.pages[0]!.status,'REPLAYABLE');assert.equal(result.pages[1]!.reason,'UNSAFE_DOCUMENT');
   assert.equal(result.pages[1]!.diagnostic.status,'OMITTED');
+  assert.equal(result.pages[2]!.reason,'UNCAPTURED_DYNAMIC_RESPONSE');assert.equal(result.pages[2]!.diagnostic.status,'SAVED');
   const har=JSON.parse(await readFile(join(result.path,'replay.har'),'utf8'));
   assert.ok(har.log.entries.some((entry:any)=>entry.request.url==='https://public.example/map'));
   assert.ok(har.log.entries.some((entry:any)=>entry.request.url.includes('places.googleapis.com')));
   assert.ok(!har.log.entries.some((entry:any)=>entry.request.url===badUrl||entry.request.url==='https://public.example/data'));
   const diagnostic=await readFile(join(result.path,'diagnostic/snapshot-0001.html'),'utf8');
   assert.match(diagnostic,/data-lazy-src=/);assert.match(diagnostic,/key=REDACTED/);assert.match(diagnostic,/signature=REDACTED/);assert.match(diagnostic,/client=REDACTED/);
+  assert.match(diagnostic,/data-src=https:\/\/maps.googleapis.com\/map\?key=REDACTED/);assert.match(diagnostic,/data-srcset=/);
   const all=await persisted(result.path);
   for(const secret of [publicKey,signature,client,'synthetic-owned-google-key'])assert.ok(!all.includes(secret),'no credential literal may survive in any recording file');
   assert.doesNotMatch(all,/\bAIza[0-9A-Za-z_-]{30,}/);
@@ -56,5 +60,20 @@ test('an owned credential in a document rejects the whole recording before any c
   await assert.rejects(access(join(result.path,'replay.har')));
   assert.deepEqual(await readdir(result.path),['recording.json']);
   assert.ok(!(await persisted(result.path)).includes(owned));
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('pre-registered model credentials and owned Google response/trace leaks all reject the complete recording',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'recording-own-boundaries-'));
+ try{
+  for(const location of ['ENCODED_URL','GOOGLE_RESPONSE','TRACE']){
+   const owned='synthetic-own-model-value',recorder=new BrowserReadRecording({directory:root,runId:location,ownCredentials:[owned]});
+   recorder.recordSnapshot({url:'https://public.example/safe',html:'<h1>Safe</h1>',text:'Safe',title:'Safe'});
+   if(location==='ENCODED_URL')recorder.recordSnapshot({url:'https://public.example/map',html:`<p>100% public</p><img data-src="https://maps.googleapis.com/map?key=%73ynthetic-own-model-value">`,text:'Map',title:'Map'});
+   if(location==='GOOGLE_RESPONSE')await recorder.captureGoogleFetch(async()=>new Response(JSON.stringify({metadata:{value:owned}}),{headers:{'content-type':'application/json'}}))('https://places.googleapis.com/v1/places:searchText',{method:'POST',body:'{"textQuery":"fixture"}'});
+   if(location==='TRACE')recorder.record('MODEL_WIRE',{text:owned});
+   const result=await recorder.finish();assert.equal(result.replay.status,'NOT_REPLAYABLE',location);
+   assert.deepEqual(await readdir(result.path),['recording.json'],location);assert.ok(!(await persisted(result.path)).includes(owned),location);
+  }
  }finally{await rm(root,{recursive:true,force:true});}
 });

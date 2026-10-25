@@ -16,24 +16,48 @@ function googleEndpoint(url: URL) {
 export class GooglePlacesHarCapture {
   private readonly captured: unknown[] = [];
   private readonly credentials = new Set<string>();
+  private ownedCredentialLeak = false;
   private open = true;
   private attempted = false;
   constructor(private readonly reject: (reason: Rejection) => void) {}
   get entries(): readonly unknown[] { return this.captured; }
   get hasAttempts(): boolean { return this.attempted; }
+  get rejectsRecording(): boolean { return this.ownedCredentialLeak; }
+  registerCredentials(values: readonly string[]): void { for (const value of values) if (value) this.credentials.add(value); }
   close(): void { this.open = false; }
-  private unsafe(value: unknown): boolean {
+  private scan(value: unknown): "OWN_CREDENTIAL" | "KEY_PATTERN" | undefined {
     const queue: Array<{ value: unknown; depth: number }> = [{ value, depth: 0 }];
+    let pattern = false;
     while (queue.length) {
       const { value, depth } = queue.pop()!;
-      if (depth > 64) return true;
+      if (depth > 64) { pattern = true;continue; }
       if (typeof value === "string") {
-        if (keyPattern.test(value) || [...this.credentials].some(key => value.includes(key))) return true;
+        const decoded = value.replace(/&#(?:x([0-9a-f]+)|(\d+));?/gi, (_all, hex, decimal) => {
+          const code = parseInt(hex ?? decimal, hex ? 16 : 10);return code <= 0x10ffff ? String.fromCodePoint(code) : "";
+        }).replace(/&amp;/gi,"&");
+        const uri = decoded.replace(/(?:%[0-9a-f]{2})+/gi, encoded => {try { return decodeURIComponent(encoded); } catch { return encoded; }});
+        for (const text of [value, decoded, uri]) {
+          if ([...this.credentials].some(key => text.includes(key))) return "OWN_CREDENTIAL";
+          if (keyPattern.test(text)) pattern = true;
+        }
         if (/^\s*[\[{]/.test(value)) { try { queue.push({ value: JSON.parse(value), depth: depth + 1 }); } catch { /* ordinary text */ } }
       } else if (value && typeof value === "object") {
-        for (const [key, item] of Object.entries(value)) { if (keyField.test(key)) return true;queue.push({ value: item, depth: depth + 1 }); }
+        for (const [key, item] of Object.entries(value)) { if (keyField.test(key)) pattern = true;queue.push({ value: item, depth: depth + 1 }); }
       }
     }
+    return pattern ? "KEY_PATTERN" : undefined;
+  }
+  /** Check raw inputs before redaction, so masking can never hide our own leak. */
+  observeOwnCredentials(value: unknown): void {
+    if (this.scan(value) !== "OWN_CREDENTIAL") return;
+    if (!this.ownedCredentialLeak) this.reject({ reason: "OWN_CREDENTIAL", stage: "BEFORE_WRITE" });
+    this.ownedCredentialLeak = true;
+  }
+  accept(value: unknown, stage: Rejection["stage"] = "BEFORE_WRITE", ref: Partial<Rejection> = {}): boolean {
+    const reason = this.scan(value);
+    if (!reason) return true;
+    if (reason === "OWN_CREDENTIAL") this.ownedCredentialLeak = true;
+    this.reject({ ...ref, reason: reason === "OWN_CREDENTIAL" ? reason : `KEY_PATTERN_${stage}`, stage });
     return false;
   }
   wrap(transport: typeof fetch): typeof fetch {
@@ -59,7 +83,7 @@ export class GooglePlacesHarCapture {
         if (body !== undefined && body !== null && typeof body !== "string") { this.reject({ ...ref, reason: "UNSUPPORTED_REQUEST_BODY", stage: "RESPONSE" });return response; }
         const raw = await response.clone().text();
         if (!this.open) return response;
-        if (this.unsafe(raw) || body && this.unsafe(body)) { this.reject({ ...ref, reason: "KEY_PATTERN_RESPONSE", stage: "RESPONSE" });return response; }
+        if (!this.accept(raw,"RESPONSE",ref) || body && !this.accept(body,"RESPONSE",ref)) return response;
         try { JSON.parse(raw);if (body) JSON.parse(body); } catch { this.reject({ ...ref, reason: "INVALID_JSON", stage: "RESPONSE" });return response; }
         const mimeType = response.headers.get("content-type")?.split(";", 1)[0] ?? "application/json";
         const entry = { startedDateTime: new Date(started).toISOString(), time: Date.now() - started,
@@ -68,15 +92,17 @@ export class GooglePlacesHarCapture {
           response: { status: response.status, statusText: response.statusText, httpVersion: "HTTP/1.1", headers: [{ name: "content-type", value: mimeType }], cookies: [],
             content: { mimeType, text: raw, size: Buffer.byteLength(raw) }, redirectURL: "", headersSize: -1, bodySize: Buffer.byteLength(raw) },
           cache: {}, timings: { send: 0, wait: Date.now() - started, receive: 0 } };
-        if (this.unsafe(entry)) this.reject({ ...ref, reason: "KEY_PATTERN_ENTRY", stage: "RESPONSE" });else this.captured.push(entry);
+        if (this.accept(entry,"RESPONSE",ref)) this.captured.push(entry);
       } catch { if (this.open) this.reject({ ...ref, reason: "CAPTURE_FAILED", stage: "RESPONSE" }); }
       return response;
     };
   }
   /** Scan the exact serialized candidate before publication, then reread disk. */
   async writeHar(path: string, har: unknown): Promise<boolean> {
-    const text = JSON.stringify(har, null, 2);
-    if (this.unsafe(text)) { this.reject({ reason: "KEY_PATTERN_BEFORE_WRITE", stage: "BEFORE_WRITE" });return false; }
+    const candidate = this.safeHar(har,"BEFORE_WRITE");
+    if (!candidate) return false;
+    const text = JSON.stringify(candidate, null, 2);
+    if (!this.accept(text,"BEFORE_WRITE")) return false;
     const pending = path + ".pending";
     await writeFile(pending, text, { flag: "wx" });
     try {
@@ -87,8 +113,26 @@ export class GooglePlacesHarCapture {
   }
   async verifyWrittenHar(path: string): Promise<boolean> {
     const text = await readFile(path, "utf8");
-    if (this.unsafe(text)) { await unlink(path);this.reject({ reason: "KEY_PATTERN_AFTER_WRITE", stage: "AFTER_WRITE" });return false; }
-    return true;
+    if (!this.scan(text)) return true;
+    // Ordinary hits remain entry-local on the disk verification too. Never
+    // publish unscanned replacement bytes or retain an owned credential.
+    let candidate: unknown;
+    try { candidate = this.safeHar(JSON.parse(text),"AFTER_WRITE"); } catch { /* malformed pending file */ }
+    if (candidate) {
+      await writeFile(path,JSON.stringify(candidate,null,2));
+      if (this.accept(await readFile(path,"utf8"),"AFTER_WRITE")) return true;
+    }
+    await unlink(path);return false;
+  }
+  private safeHar(har: unknown, stage: Rejection["stage"]): unknown | undefined {
+    this.observeOwnCredentials(har);
+    if (this.ownedCredentialLeak) { this.reject({ reason:"OWN_CREDENTIAL",stage });return undefined; }
+    const value = har as {log:{entries:unknown[]}};
+    if (!Array.isArray(value?.log?.entries)) return undefined;
+    const entries = value.log.entries.filter(entry => this.accept(entry,stage));
+    if (this.ownedCredentialLeak) return undefined;
+    const candidate = {...value,log:{...value.log,entries}};
+    return this.accept(candidate,stage) ? candidate : undefined;
   }
 }
 

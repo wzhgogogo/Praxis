@@ -306,6 +306,7 @@ const evaluationLocation = process.env.PRAXIS_EVAL_USER_LAT && process.env.PRAXI
     : requiresEvaluationLocation(frozen) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined;
 await runHybridReadDiagnostic({ frozen, runtimeContext, limits: liveReadLimits,
   recordBrowser: process.argv.includes("--record-browser"), recordDecisions: process.argv.includes("--record-decisions"),
+  recordingCredentials: [effectiveEnvironment.DEEPSEEK_API_KEY ?? "",effectiveEnvironment.GOOGLE_MAPS_API_KEY ?? ""],
   ...(evaluationLocation ? { evaluationLocation } : {}), reviewedReads,
   ...(manualTabelogIntervention ? { onTabelogUserIntervention: waitForManualTabelogIntervention } : {}),
 }, {
@@ -321,6 +322,7 @@ export interface HybridReadDiagnosticInput {
   limits: import("../../../../application/live-read-investigation-budget.js").LiveReadInvestigationBudget;
   recordBrowser: boolean;
   recordDecisions: boolean;
+  recordingCredentials?: readonly string[];
   directory?: string;
   startedAt?: Date;
   evaluationLocation?: import("../hybrid-read-composition.js").HybridEvaluationLocation;
@@ -347,7 +349,8 @@ const candidateLimit = liveReadLimits.maxDiscoveryCandidates;
 const recordBrowser = input.recordBrowser;
 const recordingPolicy = discoveryPackNetworkPolicy();
 const browserRecording = recordBrowser
-  ? new BrowserReadRecording({ directory: resolve(".eval-artifacts", "recordings"), runId: `hybrid-${startedAt.valueOf()}`, reviewedReads: recordingPolicy.dynamicReads, reviewedStaticResources: recordingPolicy.staticResources })
+  ? new BrowserReadRecording({ directory: resolve(".eval-artifacts", "recordings"), runId: `hybrid-${startedAt.valueOf()}`, reviewedReads: recordingPolicy.dynamicReads, reviewedStaticResources: recordingPolicy.staticResources,
+    ownCredentials: [dependencies.google.apiKey,...(input.recordingCredentials ?? [])] })
   : undefined;
 let browserRecordingResult: BrowserReadRecordingResult | undefined;
 async function finishBrowserRecording(): Promise<BrowserReadRecordingResult | undefined> {

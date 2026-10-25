@@ -40,7 +40,7 @@ test("Runner Google factory keeps fixture transport and validates proxy configur
  assert.throws(()=>createEvalGooglePlacesClient({apiKey:"synthetic",proxyServer:"ftp://localhost"},source=>capture.wrap(source)),(e:any)=>e.code==="GOOGLE_CONFIGURATION_ERROR");
 });
 
-test("key scans reject decoded JSON response, pre-write payload and post-write corruption",async()=>{
+test("strict key scans isolate foreign entries before/after writing and reject owned credentials globally",async()=>{
  const root=await mkdtemp(join(tmpdir(),"praxis-google-key-scans-"));
  try{
   const key="AI"+"za"+"B".repeat(35),errors:any[]=[],capture=new GooglePlacesHarCapture(reason=>errors.push(reason));
@@ -48,11 +48,18 @@ test("key scans reject decoded JSON response, pre-write payload and post-write c
   const transport=capture.wrap(async()=>new Response(raw,{headers:{"content-type":"application/json"}}));
   assert.equal(await (await transport("https://places.googleapis.com/v1/places:searchText",{method:"POST",body:'{"textQuery":"fixture"}'})).text(),raw);
   assert.equal(capture.entries.length,0);assert.equal(errors[0].reason,"KEY_PATTERN_RESPONSE");
-  const before=join(root,"before.har");assert.equal(await capture.writeHar(before,{log:{entries:[{text:key}]}}),false);
-  await assert.rejects(access(before));assert.ok(errors.some(e=>e.stage==="BEFORE_WRITE"));
+  const before=join(root,"before.har");assert.equal(await capture.writeHar(before,{log:{entries:[{text:"safe"},{text:key}]}}),true);
+  assert.deepEqual(JSON.parse(await readFile(before,"utf8")).log.entries,[{text:"safe"}]);assert.ok(errors.some(e=>e.stage==="BEFORE_WRITE"));
   const after=join(root,"after.har"),verify=capture.verifyWrittenHar.bind(capture);
-  capture.verifyWrittenHar=async path=>{const bytes=JSON.parse(await readFile(path,"utf8"));bytes.injected=key;await writeFile(path,JSON.stringify(bytes));return verify(path);};
-  assert.equal(await capture.writeHar(after,{log:{entries:[]}}),false);await assert.rejects(access(after));assert.ok(errors.some(e=>e.stage==="AFTER_WRITE"));
+  capture.verifyWrittenHar=async path=>{const bytes=JSON.parse(await readFile(path,"utf8"));bytes.log.entries.push({text:key});await writeFile(path,JSON.stringify(bytes));return verify(path);};
+  assert.equal(await capture.writeHar(after,{log:{entries:[{text:"safe"}]}}),true);
+  assert.deepEqual(JSON.parse(await readFile(after,"utf8")).log.entries,[{text:"safe"}]);assert.ok(errors.some(e=>e.stage==="AFTER_WRITE"));
+  const owned=new GooglePlacesHarCapture(reason=>errors.push(reason));owned.registerCredentials([key]);
+  const ownBefore=join(root,"owned-before.har");assert.equal(await owned.writeHar(ownBefore,{log:{entries:[{text:"safe"},{text:key}]}}),false);await assert.rejects(access(ownBefore));
+  const ownAfterCapture=new GooglePlacesHarCapture(reason=>errors.push(reason));ownAfterCapture.registerCredentials([key]);
+  const ownAfter=join(root,"owned-after.har"),verifyOwn=ownAfterCapture.verifyWrittenHar.bind(ownAfterCapture);
+  ownAfterCapture.verifyWrittenHar=async path=>{const bytes=JSON.parse(await readFile(path,"utf8"));bytes.log.entries.push({text:key});await writeFile(path,JSON.stringify(bytes));return verifyOwn(path);};
+  assert.equal(await ownAfterCapture.writeHar(ownAfter,{log:{entries:[{text:"safe"}]}}),false);await assert.rejects(access(ownAfter));
   assert.ok(!JSON.stringify(errors).includes(key),'diagnostics must never echo rejected credentials');
  }finally{await rm(root,{recursive:true,force:true});}
 });

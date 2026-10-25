@@ -31,6 +31,8 @@ export interface BrowserReadRecordingOptions {
   reviewedStaticResources?: readonly BrowserReadNetworkRequestRule[];
   /** Pack-owned public document/query grammar retained for faithful Replay. */
   reviewedReads?: readonly BrowserReadNetworkRequestRule[];
+  /** Eval-owned credentials, checked on raw inputs before any URL masking. */
+  ownCredentials?: readonly string[];
 }
 
 /** Writes only sanitised public documents and admitted public read responses. */
@@ -53,9 +55,11 @@ export class BrowserReadRecording {
   private finished = false;
   constructor(private readonly options: BrowserReadRecordingOptions) {
     if (!/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,119}$/.test(options.runId)) throw new Error("Browser recording runId must be a safe artifact identifier");
+    this.google.registerCredentials(options.ownCredentials ?? []);
   }
   record(kind: string, detail: unknown): void {
     if (this.finished) throw new Error("Browser recording is already finalized");
+    this.google.observeOwnCredentials(detail);
     this.entries.push({ sequence: this.entries.length + 1, kind, detail: safeRecordingDetail(detail) });
   }
   recordWire(wire: BrowserActionWireRecord): void { this.record("MODEL_WIRE", wire); }
@@ -66,6 +70,7 @@ export class BrowserReadRecording {
   recordNetwork(requests: readonly BrowserReadNetworkObservation[]): void { this.record("NETWORK", requests.map(item => ({ outcome: item.outcome, origin: item.origin, pathname: item.pathname, method: item.method, resourceType: item.resourceType, queryKeys: [...item.queryKeys], ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}) }))); }
   async recordResponse(response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }): Promise<void> {
     if (this.finished) throw new Error("Browser recording is already finalized");
+    this.google.observeOwnCredentials([response.url,response.redirectLocation]);
     const mimeType = response.contentType.split(";", 1)[0]?.toLowerCase() ?? "";
     // This callback receives only responses already admitted by the Guard.
     // Resource kind must still agree with MIME; a CSS-looking fetch is not a stylesheet.
@@ -78,6 +83,7 @@ export class BrowserReadRecording {
     // Keep a CSS UTF-8 BOM as content so the existing byte-length/hash check remains exact.
     try { text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: Boolean(stylesheetRule) }).decode(response.body); }
     catch { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
+    this.google.observeOwnCredentials(text);
     const redirectLocation = response.redirectLocation
       ? safeReplayUrl(response.redirectLocation, this.options.reviewedStaticResources, this.options.reviewedReads)
       : undefined;
@@ -91,7 +97,7 @@ export class BrowserReadRecording {
         ? (reviewedStaticScriptUrl(response.url, this.options.reviewedStaticResources) && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
       : mimeType === "text/css" ? (stylesheetRule && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
       : undefined;
-    if (sanitized === undefined) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
+    if (sanitized === undefined || !this.google.accept([url,sanitized,redirectLocation])) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
     if (stylesheetRule && response.status === 200) {
       if (!this.stylesheets.has(url)) this.loadedStylesheetRules.push(stylesheetRule);
       this.stylesheets.set(url, sanitized);
@@ -106,12 +112,14 @@ export class BrowserReadRecording {
   }
   recordSnapshot(snapshot: BrowserSnapshot): void {
     if (this.finished) throw new Error("Browser recording is already finalized");
+    this.google.observeOwnCredentials([snapshot.url,snapshot.html,snapshot.text]);
     this.snapshotCount += 1;
     const requests = snapshot.networkRequests ?? [];
     this.recordNetwork(requests);
     const url = safeReplayUrl(snapshot.url, this.options.reviewedStaticResources, this.options.reviewedReads);
     const challenge = restaurantDiscoveryPacks.some(pack => pack.documentOrigins.some(origin => { try { return new URL(snapshot.url).origin === origin; } catch { return false; } }) && pack.browser?.hasChallenge(snapshot));
-    const html = sanitizePublicHtml(snapshot.html, snapshot.url, [...(this.options.reviewedStaticResources ?? []), ...this.loadedStylesheetRules], this.options.reviewedReads);
+    const sanitized = sanitizePublicHtml(snapshot.html, snapshot.url, [...(this.options.reviewedStaticResources ?? []), ...this.loadedStylesheetRules], this.options.reviewedReads);
+    const html = sanitized !== undefined && this.google.accept(sanitized) ? sanitized : undefined;
     this.documentSnapshots.push({ snapshot: this.snapshotCount, ...(url ? { url } : {}), ...(url && html && !challenge ? { html } : {}),
       ...(challenge ? { failure: "CHALLENGE_DOCUMENT" as const } : !url || !html ? { failure: Buffer.byteLength(snapshot.html) > MAX_PUBLIC_DOCUMENT_BYTES ? "DOCUMENT_SIZE_LIMIT" as const : "UNSAFE_DOCUMENT" as const } : {}), requests: structuredClone(requests) });
   }
@@ -128,12 +136,15 @@ export class BrowserReadRecording {
   async finish(): Promise<BrowserReadRecordingResult> {
     if (this.finished) throw new Error("Browser recording is already finalized"); this.finished = true;
     this.google.close();
+    // Entry-local failures may not poison the remaining recording. Own leaks
+    // are remembered even if the ordinary redactor already removed the text.
+    const entries = this.entries.splice(0);
+    for (const entry of entries) if (this.google.accept(entry)) this.entries.push({...entry,sequence:this.entries.length+1});
     const root = resolve(this.options.directory); const path = resolve(root, this.options.runId);
     if (relative(root, path).startsWith("..")) throw new Error("Browser recording path escapes its artifact root");
     await mkdir(path, { recursive: true });
     let screenshot: BrowserReadRecordingResult["screenshot"] = "NOT_CAPTURED_NO_SANITIZER";
-    for (const image of this.screenshotImages) await writeFile(resolve(path, image.file), image.png, { flag: "wx" });
-    const pages: RecordingPage[] = this.documentSnapshots.map(page => {
+    let pages: RecordingPage[] = this.documentSnapshots.map(page => {
       let failure = page.failure;
       const admitted = page.requests.filter(item => item.outcome === "ADMITTED");
       if (page.url && this.unsafeRedirectPaths.has(responsePath(page.url)) || admitted.some(item => this.unsafeRedirectPaths.has(observedRequestPath(item.origin, item.pathname) ?? "INVALID"))) failure ??= "UNSAFE_REDIRECT";
@@ -147,35 +158,40 @@ export class BrowserReadRecording {
         diagnostic: page.html ? { status: "SAVED", file: `diagnostic/snapshot-${String(page.snapshot).padStart(4, "0")}.html` }
           : { status: "OMITTED", reason: page.failure ?? "UNSAFE_DOCUMENT" } };
     });
-    // These are the same already-sanitized bytes used for Replay. Missing
-    // dependencies affect replay eligibility, not safe diagnostic retention.
-    // Diagnostic files never enter documents/responses or the HAR below.
-    for (const [index, snapshot] of this.documentSnapshots.entries()) {
-      const diagnostic = pages[index]!.diagnostic;
-      if (diagnostic.status !== "SAVED") continue;
-      await mkdir(resolve(path, "diagnostic"), { recursive: true });
-      await writeFile(resolve(path, diagnostic.file), snapshot.html!, { flag: "wx" });
-    }
-    const qualified = this.documentSnapshots.filter((_, index) => pages[index]!.status === "REPLAYABLE");
+    let qualified = this.documentSnapshots.filter((_, index) => pages[index]!.status === "REPLAYABLE");
     for (const snapshot of qualified) {
       this.documents.set(snapshot.url!, snapshot.html!);
-      await writeFile(resolve(path, `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html`), snapshot.html!, { flag: "wx" });
     }
     if (this.screenshotImages.length) screenshot = "LAYOUT_ONLY_CONTENT_MASKED";
     let replay: Replay;
     if (!qualified.length) replay = { status: "NOT_REPLAYABLE", reason: pages[0]?.reason as ReplayFailure ?? "NO_CAPTURED_PUBLIC_DOCUMENT" };
     else replay = { status: qualified.length === pages.length ? "REPLAYABLE" : "PARTIALLY_REPLAYABLE", reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE", harPath: resolve(path, "replay.har") };
-    if (qualified.length || this.google.entries.length) {
+    if (!this.google.rejectsRecording && (qualified.length || this.google.entries.length)) {
       // Never resurrect a rejected document through its response body. Safe
       // non-document dependencies and redirects remain available to good pages.
       const responses = new Map([...this.responses].filter(([url, response]) => !/html/.test(response.mimeType) || this.documents.has(url) || response.redirectLocation && this.documents.has(response.redirectLocation)));
       const harPath = resolve(path, "replay.har");
       const har = sanitizedHar(this.documents, responses);
       const completeHar = { ...har, log: { ...har.log, entries: [...har.log.entries, ...this.google.entries] } };
-      if (this.google.hasAttempts) {
-        if (!await this.google.writeHar(harPath, completeHar)) replay = { status: "NOT_REPLAYABLE", reason: "UNSAFE_DOCUMENT" };
-      } else await writeFile(harPath, JSON.stringify(har, null, 2), { flag: "wx" });
+      if (!await this.google.writeHar(harPath, completeHar)) replay = { status: "NOT_REPLAYABLE", reason: "UNSAFE_DOCUMENT" };
     }
+    if (this.google.rejectsRecording) {
+      replay = {status:"NOT_REPLAYABLE",reason:"UNSAFE_DOCUMENT"};qualified = [];
+      pages = pages.map(page => ({snapshot:page.snapshot,status:"NOT_REPLAYABLE",reason:"UNSAFE_DOCUMENT",diagnostic:{status:"OMITTED",reason:"UNSAFE_DOCUMENT"}}));
+      this.documents.clear();this.stylesheets.clear();this.screenshotImages.length=0;this.screenshots.length=0;
+      screenshot="NOT_CAPTURED_NO_SANITIZER";
+      this.entries.splice(0,this.entries.length,{sequence:1,kind:"RECORDING_REJECTED",detail:{reason:"OWN_CREDENTIAL"}});
+    }
+    // No content file is published before the own-credential checks and both
+    // HAR scans succeed. Diagnostic DOM stays outside the replay collection.
+    for (const [index, snapshot] of this.documentSnapshots.entries()) {
+      const diagnostic = pages[index]!.diagnostic;
+      if (diagnostic.status !== "SAVED") continue;
+      await mkdir(resolve(path, "diagnostic"), { recursive: true });
+      await writeFile(resolve(path, diagnostic.file), snapshot.html!, { flag: "wx" });
+    }
+    for (const snapshot of qualified) await writeFile(resolve(path, `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html`), snapshot.html!, {flag:"wx"});
+    for (const image of this.screenshotImages) await writeFile(resolve(path, image.file), image.png, {flag:"wx"});
     const stylesheets: Array<{ url: string; file: string; sha256: string; bytes: number }> = [];
     for (const [url, css] of this.stylesheets) {
       const file = `stylesheet-${String(stylesheets.length + 1).padStart(4, "0")}.css`;
@@ -243,10 +259,39 @@ function reviewedPublicReadUrl(value: string, reviewedReads: readonly BrowserRea
   } catch { return false; }
 }
 function safeReplayUrl(value: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined { try { const u = new URL(value); const protocolAllowed = u.protocol === "https:" || (u.protocol === "http:" && /^(?:127\.0\.0\.1|localhost|::1)$/.test(u.hostname)); if (!protocolAllowed || u.username || u.password || (![...u.searchParams.keys()].every(key => safeQueryKeys.has(key)) && !reviewedStaticScriptUrl(u.toString(), staticResources) && !reviewedStaticStylesheetUrl(u.toString(), staticResources) && !reviewedPublicReadUrl(u.toString(), reviewedReads))) return undefined; u.hash = ""; return u.toString(); } catch { return undefined; } }
+/** Public third-party asset credentials are not replay permissions. Mask their
+ * values before either diagnostic or replay HTML can be published. */
+function redactThirdPartyUrlCredentials(html: string, sourceUrl: string): string {
+  const credentialQuery = /^(?:key|api[_-]?key|x-goog-api-key|signature|client(?:[_-]?id)?|token|access[_-]?token|auth|authorization|secret|password|credential)$/i;
+  const redact = (value: string): string => {
+    const decoded = value.replace(/&amp;/gi,"&").replace(/&#(?:x([0-9a-f]+)|(\d+));?/gi, (_all,hex,decimal) => {
+      const code = parseInt(hex ?? decimal,hex ? 16 : 10);return code <= 0x10ffff ? String.fromCodePoint(code) : "";
+    });
+    // Split only at a new absolute URL, preserving commas inside map queries.
+    return decoded.split(/,(?=\s*(?:https?:)?\/\/)/i).map(candidate => {
+      const match = candidate.match(/^(\s*)((?:https?:)?\/\/\S+)([\s\S]*)$/i);
+      if (!match) return candidate;
+      try {
+        const url = new URL(match[2]!,sourceUrl);
+        if (url.origin === new URL(sourceUrl).origin || !/^https?:$/.test(url.protocol)) return candidate;
+        let changed = false;
+        const fields = [...url.searchParams].map(([key,value]) => {if (!credentialQuery.test(key)) return [key,value];changed = true;return [key,"REDACTED"];});
+        if (!changed) return candidate;
+        url.search = new URLSearchParams(fields as Array<[string,string]>).toString();
+        return match[1]+url.toString()+match[3];
+      } catch { return candidate; }
+    }).join(",");
+  };
+  return html.replace(/<[a-z][^>]*>/gi, tag => tag.replace(/(\s(?:src|href|srcset|imagesrcset|poster|background|cite|longdesc|action|formaction|xlink:href|data-(?:[\w:-]+-)?(?:src|srcset|href|url)))\s*=\s*("[^"]*"|'[^']*'|[^\s"'<>`]+)/gi, (whole,name,quoted) => {
+    const quote = /^["']/.test(quoted) ? quoted[0] : "",value = quote ? quoted.slice(1,-1) : quoted;
+    const sanitized = redact(value);
+    return sanitized === value ? whole : `${name}=${quote}${sanitized.replace(/&/g,"&amp;")}${quote}`;
+  }));
+}
 function sanitizePublicHtml(html: string, sourceUrl: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined {
   if (Buffer.byteLength(html) > MAX_PUBLIC_DOCUMENT_BYTES) return undefined;
   const preservedJsonLd: string[] = [];
-  let result = html.replace(/<!--[\s\S]*?-->|<(template|iframe|object|embed|svg)\b[\s\S]*?<\/\1\s*>/gi, "")
+  let result = redactThirdPartyUrlCredentials(html,sourceUrl).replace(/<!--[\s\S]*?-->|<(template|iframe|object|embed|svg)\b[\s\S]*?<\/\1\s*>/gi, "")
   result = result.replace(/<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi, (whole, css) => safeReplayCss(css) ? whole : "");
   result = result.replace(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi, (whole, attrs, script) => {
     const src = String(attrs).match(/\bsrc=(['"])([^'"]+)\1/i)?.[2];
