@@ -1,0 +1,29 @@
+{
+  "main": "0a254f056e19e7207318360a3ec46439950c01a5",
+  "productionHealth": {
+    "path": "src/eval/restaurant/agent-loop/live-source-health.ts",
+    "sha256": "b8cd458d5c6540354861c7e709b32ac786890f1a3f1a2de0a0770e9807b310a1"
+  },
+  "knownReviewFailure": {
+    "platform": "Linux",
+    "samples": [
+      {
+        "passed": 153,
+        "total": 154
+      },
+      {
+        "passed": 153,
+        "total": 154
+      }
+    ],
+    "expectedWaits": [],
+    "actualWaits": [
+      300000
+    ]
+  },
+  "preciseControl": {
+    "windowMs": 1000,
+    "lateThresholdMs": 800,
+    "snapshotDelayMs": 220
+  }
+}

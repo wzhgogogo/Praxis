@@ -44,10 +44,12 @@ test('Live source health uses real Guard and observes a busy error arriving afte
    const dir=await mkdtemp(join(tmpdir(),'live-health-fixture-'));const waits:number[]=[];let formalRuns=0;
    try{
     const healthy=['healthy','slow-last-snapshot'].includes(mode);
-    const work=async()=>{await runLiveSourceHealth({environment:{},artifactDirectory:dir},{runtime,timeoutMs:mode==='slow-last-snapshot'?1000:1500,sleep:async ms=>{waits.push(ms);}});formalRuns++;};
-    if(healthy)await work();else await assert.rejects(work(),SourceDataPreflightError);
+    // Only the late-snapshot control needs a tight deadline. Normal page
+    // states must tolerate Chromium startup/scheduling under four-file load.
+    const work=async()=>{await runLiveSourceHealth({environment:{},artifactDirectory:dir},{runtime,timeoutMs:mode==='slow-last-snapshot'?1000:10_000,sleep:async ms=>{waits.push(ms);}});formalRuns++;};
+    if(healthy)await assert.doesNotReject(work,mode);else await assert.rejects(work(),SourceDataPreflightError);
     const result=JSON.parse(await readFile(join(dir,'source-health.json'),'utf8'));assert.equal(formalRuns,healthy?1:0);assert.equal(result.liveRuns,0);assert.equal(result.modelCalls,0);assert.equal(result.googleRequests,0);
-    assert.equal(result.classification,healthy?'READY':'ENV_FAILURE');assert.deepEqual(waits,healthy?[]:[300_000,300_000]);
+    assert.equal(result.classification,healthy?'READY':'ENV_FAILURE');assert.deepEqual(waits,healthy?[]:[300_000,300_000],mode);
     if(!healthy)assert.ok(result.attempts.every((r:any)=>r.observations.find((o:any)=>o.sourceId==='tablecheck').reason===(mode==='forbidden'?'HTTP_403':mode==='challenge'?'VERIFICATION_PAGE':'BUSY_PAGE')));
     for(const attempt of result.attempts)for(const observation of attempt.observations){
      for(const timing of observation.snapshots){assert.ok(Number.isFinite(Date.parse(timing.startedAt)));if(timing.finishedAt!==null)assert.ok(Date.parse(timing.finishedAt)>=Date.parse(timing.startedAt));}
