@@ -11,6 +11,10 @@
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 
+## TEST-2026-10-25-F5-LIVE-RUNNING
+
+固定CET，01:50进度。slot1真实只读，500.338秒、43实际模型／5Google（含预检）、0展示／0交付后GET。独立Evaluator34/rubric30＋原始状态／轨迹审查：声明与越界S0均ABSENT；TIMEOUT按通用评价器EXCLUDED保留，同时仍计本批计划槽位超时失败，不能缩分母绕过用户验收。逐环节、S2及因果HYPOTHESIS单列。补充计时用实际OPERATION_STARTED/FINISHED配对，读页面30.181秒、导航42次／重复24次，未配对11项显式缺口。实际decision.messages另审23个浏览器上下文，未观察到合法Akabane LOCATION或车站链接；城市／车站select隐藏且空，文字站名不当控件。录制7/101可回放、92缺静态／2不安全，脚本origin+path在metrics.json。F2④b原样禁网回放REPLAY_INCOMPLETE、真实模型0。slot2预检两次CHECK_TIMEOUT、环境重跑2，正式Live尚未启动；无代码变化，复用已过五门禁，不冒称6槽完成。[证据](../../.eval-artifacts/phase3a-prime/f5-live/slots/1/manual-review.json)。
+
 ## TEST-2026-10-25-F5-LIVE-PREPARED
 
 固定CET UTC+01:00。F5重放到main4d927958，旧763a2262保留tag；源码0冲突，双方文档记录及共享账本A7＋B2全部保留。355a5547五门禁1046/154及type/arch/build全绿，5次前后净树；包8b39bd76固定348项SHA，严格Loader、子进程、分析器离线导入通过。日期正文原字节不改，10-25运行窗口+10/+13天。先提交后2GET复查Dengana，类别/201.545m/11-04 19:00两人WITNESS_EXISTS，响应及SHA无损归档，账本新增2、共享GET4。CET下元数据与UTC证据并存。

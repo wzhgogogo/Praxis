@@ -155,16 +155,48 @@
       "codeCommit": "8bde838302801f30198dad8db03dbfd25e7d516d",
       "finishedAtCET": "2026-10-25T01:40:09.674429+01:00",
       "summary": ".eval-artifacts/phase3a-prime/f5-live/slots/1/summary.json"
+    },
+    {
+      "id": "f5-live-slot-2",
+      "kind": "F5_LIVE_SLOT",
+      "slot": 2,
+      "caseId": "p2c-holdout-01",
+      "status": "FINISHED",
+      "fullLive": 1,
+      "realModelCalls": 42,
+      "googleRequests": 8,
+      "environmentReruns": 2,
+      "startedAtCET": "2026-10-25T01:43:37.142699+01:00",
+      "codeCommit": "f35feaf2e57558a0f15b4bfe875d7cb9aff9e976",
+      "finishedAtCET": "2026-10-25T02:02:47.265291+01:00",
+      "summary": ".eval-artifacts/phase3a-prime/f5-live/slots/2/summary.json"
+    },
+    {
+      "id": "f5-direct-connectivity-get-1",
+      "kind": "USER_REQUESTED_DIRECT_CONNECTIVITY_DIAGNOSTIC",
+      "approval": "User: tabelog我网页打开正常，不知道又是什么问题。。。你试试直连或者什么",
+      "websiteGET": 1,
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "status": "FINISHED",
+      "startedAtCET": "2026-10-25T01:51:49.779111+01:00",
+      "httpStatus": 200,
+      "error": null,
+      "finishedAtCET": "2026-10-25T01:51:53.439109+01:00",
+      "sha256": "eccb06debf943d1114c83bbd3900ec3a88cb5f71046431fe3108bcb53c4a6bbd",
+      "metadata": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f5-live/direct-diagnostic/response.metadata.json"
     }
   ],
   "cumulative": {
-    "realModelCalls": 43,
-    "environmentReruns": 0,
-    "googleRequests": 5,
-    "fullLive": 1,
-    "websiteGET": 4
+    "fullLive": 2,
+    "googleRequests": 13,
+    "websiteGET": 5,
+    "environmentReruns": 2,
+    "realModelCalls": 85
   },
-  "asOf": "2026-10-25T01:40:09.674712+01:00",
+  "asOf": "2026-10-25T02:02:47.265653+01:00",
   "timezone": "CET UTC+01:00 per user",
   "f5PublicGetApproval": "Explicit user correction,2026-10-24 Europe/Vienna: case01 public detail+four-param vacancy GET permitted; noCookie/login/form/model; commit scripts first; repeat within24h before approved Live.",
   "f5Stop3Approval": "User stop2 review approved six serial F5 Live runs; direct user subsequently authorized only these six controlled Runner processes to load existing server credentials from the named primary-worktree .env without display/copy/staging; see f5-live/credential-authorization.json."

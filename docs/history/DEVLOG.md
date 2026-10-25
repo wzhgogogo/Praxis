@@ -11,6 +11,10 @@
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
 
+## DEV-2026-10-25-F5-LIVE-RUNNING
+
+固定CET，01:50进度。直接用户授权解除仅6次受控Runner的.env加载阻断，完整答复单列存证；无独立密钥检查、展示、复制或暂存。正式slot1截止超时，2个有效越界样本进入deferred来源，Google有同名同址Dengana，查位BROWSER_TIMEOUT；没有交付。自动见证匹配缺完整地址，原NOT_FOUND保留并另记人工对照，不回写冻结oracle。ORIGINAL回放在Google结构化响应缺失处停止；记录器KEY_PATTERN_BEFORE_WRITE，0模型／网络回退。slot2两次Tabelog预检CHECK_TIMEOUT，保留两次5分钟等待，未正式启动，环境重跑已实际用2。保持冻结输入、生产代码和原2/3／不超时标准，后续结果另记。[报告](../../.eval-artifacts/phase3a-prime/f5-live/report.md)。
+
 ## DEV-2026-10-25-F5-LIVE-PREPARED
 
 固定CET UTC+01:00。F5重放到main4d927958，旧763a2262保留tag；源码0冲突，双方文档记录及共享账本A7＋B2全部保留。355a5547五门禁1046/154及type/arch/build全绿，5次前后净树；包8b39bd76固定348项SHA，严格Loader、子进程、分析器离线导入通过。日期正文原字节不改，10-25运行窗口+10/+13天。先提交后2GET复查Dengana，类别/201.545m/11-04 19:00两人WITNESS_EXISTS，响应及SHA无损归档，账本新增2、共享GET4。CET下元数据与UTC证据并存。
