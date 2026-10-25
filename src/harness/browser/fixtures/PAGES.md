@@ -77,3 +77,5 @@
 | [p20-h001-a1.snapshot-0033.html](../../../integrations/tabelog/fixtures/availability/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html) | 2026-10-15 | https://tabelog.com/tokyo/A1303/A130301/13293469/ |
 
 | [health-deadline-listing.html](../../../eval/restaurant/agent-loop/fixtures/health-deadline-listing.html) | 2026-10-25 | https://tabelog.com/en/tokyo/A1301/ | [来源与最小提取](../../../eval/restaurant/agent-loop/fixtures/health-deadline-listing.provenance.json) |
+
+| [slot1-public-map.html](../../../eval/restaurant/agent-loop/fixtures/slot1-public-map.html) | 2026-10-25 | https://tabelog.com/en/tokyo/A1322/A132202/13155817/ | [槽1最小提取与合成替值](../../../eval/restaurant/agent-loop/fixtures/slot1-public-map.provenance.json) |
