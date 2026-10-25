@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.293
+- Document revision: 4.294
 - Last updated: 2026-10-25
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## TEST-2026-10-25-F5-LIVE-RUNNING
+
+固定CET，01:50进度。slot1真实只读，500.338秒、43实际模型／5Google（含预检）、0展示／0交付后GET。独立Evaluator34/rubric30＋原始状态／轨迹审查：声明与越界S0均ABSENT；TIMEOUT按通用评价器EXCLUDED保留，同时仍计本批计划槽位超时失败，不能缩分母绕过用户验收。逐环节、S2及因果HYPOTHESIS单列。补充计时用实际OPERATION_STARTED/FINISHED配对，读页面30.181秒、导航42次／重复24次，未配对11项显式缺口。实际decision.messages另审23个浏览器上下文，未观察到合法Akabane LOCATION或车站链接；城市／车站select隐藏且空，文字站名不当控件。录制7/101可回放、92缺静态／2不安全，脚本origin+path在metrics.json。F2④b原样禁网回放REPLAY_INCOMPLETE、真实模型0。slot2预检两次CHECK_TIMEOUT、环境重跑2，正式Live尚未启动；无代码变化，复用已过五门禁，不冒称6槽完成。[证据](../../.eval-artifacts/phase3a-prime/f5-live/slots/1/manual-review.json)。
 
 ## TEST-2026-10-25-F5-LIVE-PREPARED
 

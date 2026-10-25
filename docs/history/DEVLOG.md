@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.286
+- Document revision: 4.287
 - Last updated: 2026-10-25
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -10,6 +10,10 @@
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-25-F5-LIVE-RUNNING
+
+固定CET，01:50进度。直接用户授权解除仅6次受控Runner的.env加载阻断，完整答复单列存证；无独立密钥检查、展示、复制或暂存。正式slot1截止超时，2个有效越界样本进入deferred来源，Google有同名同址Dengana，查位BROWSER_TIMEOUT；没有交付。自动见证匹配缺完整地址，原NOT_FOUND保留并另记人工对照，不回写冻结oracle。ORIGINAL回放在Google结构化响应缺失处停止；记录器KEY_PATTERN_BEFORE_WRITE，0模型／网络回退。slot2两次Tabelog预检CHECK_TIMEOUT，保留两次5分钟等待，未正式启动，环境重跑已实际用2。保持冻结输入、生产代码和原2/3／不超时标准，后续结果另记。[报告](../../.eval-artifacts/phase3a-prime/f5-live/report.md)。
 
 ## DEV-2026-10-25-F5-LIVE-PREPARED
 
