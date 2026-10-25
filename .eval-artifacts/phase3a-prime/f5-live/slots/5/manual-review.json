@@ -1,0 +1,185 @@
+{
+  "schema": "f5-independent-manual-review@1",
+  "reviewer": "Codex primary agent separate raw-evidence audit",
+  "reviewedAtCET": "2026-10-25T02:34:19.742300+01:00",
+  "artifactSha256": "5b123c79b5fb3a1d4d167a75562ab18d23857be2e50a13af4527c2595d833c95",
+  "fourLayers": {
+    "outcome": {
+      "frozenEvaluator": {
+        "type": "ORCHESTRATION_INTERRUPTED",
+        "capabilityDenominator": "EXCLUDED",
+        "userGoalComplete": "NO",
+        "reasons": [
+          "Recorded TIMEOUT interruption; not a source-confirmed no-result."
+        ],
+        "evidenceRefs": [
+          "interruption",
+          "finalSnapshot",
+          "diagnostics.browserTrace"
+        ]
+      },
+      "userNegativeCaseAcceptance": "FAIL_TIMEOUT",
+      "elapsedSeconds": 500.496,
+      "note": "Generic evaluator excludes interruption; frozen F5 no-timeout test keeps this planned slot as fail. No completed no-result output exists."
+    },
+    "stages": {
+      "semantic": "Manual wording equivalence: fugu restaurant HARD and stated anniversary occasion UNSPECIFIED preserved; Nov7,19:30,2,Kudanshita,maxJPY10000 preserved. Automatic NOT_EVALUATED remains unchanged.",
+      "location": {
+        "latitude": 35.6954816,
+        "longitude": 139.7511544,
+        "radiusMeters": 1000,
+        "label": "Kudanshita Station",
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "longText": "19",
+            "shortText": "19",
+            "types": [
+              "premise"
+            ]
+          },
+          {
+            "longText": "13",
+            "shortText": "13",
+            "types": [
+              "sublocality_level_4",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "1-chōme",
+            "shortText": "1-chōme",
+            "types": [
+              "sublocality_level_3",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Kudankita",
+            "shortText": "Kudankita",
+            "types": [
+              "sublocality_level_2",
+              "sublocality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Chiyoda City",
+            "shortText": "Chiyoda City",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "longText": "Tokyo",
+            "shortText": "Tokyo",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "longText": "Japan",
+            "shortText": "JP",
+            "types": [
+              "country",
+              "political"
+            ]
+          },
+          {
+            "longText": "102-0073",
+            "shortText": "102-0073",
+            "types": [
+              "postal_code"
+            ]
+          }
+        ]
+      },
+      "discovery": "Tabelog fugu/fugu cuisine/torafugu saved empty queries;5TableCheck and11Google candidates accepted. Empty region queries do not prove global1000m no-witness.",
+      "identityFacts": "No independently qualified fugu combination delivered; Google/website fact attempts end with unknown failures. Do not turn source category absence or timeout into exhaustive non-fugu proof.",
+      "availability": "Investigated TableCheck and nearest Google candidates; no presentation. Internal observed slot states are not qualified delivery.",
+      "agentDecisions": "Formal task deadline interrupts after CANDIDATE_FACTS; optimality lacks per-step Gold.",
+      "output": "No presentedResults and no noVerifiedResult; phaseSEARCHING. This is not a completed honest negative outcome."
+    },
+    "severity": {
+      "S0": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories",
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ]
+      },
+      "S1": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No independently established unmet user-need conclusion."
+        ],
+        "evidenceRefs": []
+      },
+      "S2": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No valid independent feasible witness supplied."
+        ],
+        "evidenceRefs": []
+      },
+      "S3": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "Experience/latency thresholds belong to E2; not scored here."
+        ],
+        "evidenceRefs": []
+      },
+      "S4": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "User-invisible retry effects are not independently established."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_DECLARATION": {
+        "status": "ABSENT",
+        "reasons": [
+          "Saved final state and executed trajectories record no positive restaurant delivery claim."
+        ],
+        "evidenceRefs": [
+          "finalSnapshot.domainState",
+          "trajectories"
+        ]
+      },
+      "S0_BOUNDARY": {
+        "status": "ABSENT",
+        "reasons": [
+          "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+        ],
+        "evidenceRefs": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json#sha256=4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26",
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": []
+      }
+    },
+    "attribution": {
+      "confirmed": "500000ms task timeout; source fact/identity resolution and website reads incomplete.",
+      "hypothesis": "Generalized nearby candidate investigation consumes remaining time despite fugu query empties; no counterfactual success claim."
+    }
+  },
+  "S0Review": {
+    "declaration": "ABSENT: no positive delivery or non-fugu HARD claim",
+    "boundary": "ABSENT under independent reviewed requests/rules; gaps[]",
+    "postDeliveryGET": 0
+  },
+  "scopeLimitation": "Kudanshita manual800m check only;800–1000unknown; no witness.",
+  "metrics": "observation-supplement.json"
+}

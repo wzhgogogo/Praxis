@@ -1,0 +1,1619 @@
+{
+  "kind": "SUPPLEMENTARY_OFFLINE_OBSERVATION",
+  "artifactSha256": "5b123c79b5fb3a1d4d167a75562ab18d23857be2e50a13af4527c2595d833c95",
+  "reviewedAtCET": "2026-10-25T02:33:37.152148+01:00",
+  "timing": {
+    "method": "Pair actual OPERATION_STARTED/FINISHED/FAILED by source/candidate/stage/type; model intervals override. Original frozen metrics retained.",
+    "elapsedMs": 500496.0,
+    "wallTimePartitionMs": {
+      "UNATTRIBUTED": 118221.0,
+      "MODEL:restaurant_semantic_interpret": 4228.0,
+      "MODEL:restaurant_agent_decide": 29999.0,
+      "PAGE_LOAD": 202848.0,
+      "READ_PAGE": 31366.0,
+      "MODEL:restaurant_discovery_retrieval": 9149.0,
+      "WAIT": 37707.0,
+      "MODEL:browser_read_decide": 45969.0,
+      "PAGE_OPERATION": 2180.0,
+      "MODEL:restaurant_fact_judgment": 18829.0
+    },
+    "operationCounts": {
+      "NAVIGATE": 61,
+      "SNAPSHOT": 113,
+      "OBSERVE_CONTROLS": 56,
+      "WAIT_FOR_SETTLED": 22,
+      "OPEN_LINK": 2,
+      "VERIFY_RESULT_STABILITY": 4,
+      "CLICK": 2,
+      "CLICK_AUTHORITATIVE": 1
+    },
+    "modelCallsByPurpose": {
+      "restaurant_semantic_interpret": 1,
+      "restaurant_agent_decide": 10,
+      "restaurant_discovery_retrieval": 4,
+      "browser_read_decide": 15,
+      "restaurant_fact_judgment": 9
+    },
+    "modelPurposeLatencyMs": {
+      "restaurant_semantic_interpret": 4228,
+      "restaurant_fact_judgment": 18829,
+      "browser_read_decide": 45969,
+      "restaurant_discovery_retrieval": 9149,
+      "restaurant_agent_decide": 29999
+    },
+    "navigations": 65,
+    "repeatExactURLNavigations": 32,
+    "gaps": [
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 431
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 688
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1301
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1313
+      },
+      {
+        "kind": "FINISH_WITHOUT_START",
+        "sequence": 1325
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 430,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 687,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1298,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1310,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1322,
+        "operation": "NAVIGATE"
+      },
+      {
+        "kind": "START_WITHOUT_FINISH",
+        "sequence": 1477,
+        "operation": "NAVIGATE"
+      }
+    ],
+    "sessionOpening": "Unmeasured separately; within UNATTRIBUTED"
+  },
+  "controls": {
+    "method": "Read actual top-level decision.messages; frozen analyzer input/request lookup misses this shape. Raw DOM manual audit still required.",
+    "contexts": 15,
+    "availableActionOccurrences": {
+      "CLICK": 269,
+      "OPEN_LINK": 611,
+      "CLICK_AUTHORITATIVE:DATE": 1
+    },
+    "legalLOCATION": [],
+    "AkabaneStationOpenLinks": [],
+    "regionCorrectionContexts": [],
+    "observations": [
+      {
+        "sequence": 4,
+        "url": "https://tabelog.com/en/tokyo/",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 1,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0001.html"
+          },
+          {
+            "snapshot": 2,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0002.html"
+          },
+          {
+            "snapshot": 3,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0003.html"
+          }
+        ]
+      },
+      {
+        "sequence": 5,
+        "url": "https://tabelog.com/en/tokyo/A1310/",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 4,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0004.html"
+          }
+        ]
+      },
+      {
+        "sequence": 16,
+        "url": "https://www.tablecheck.com/en/hitujiya-jimbocho",
+        "revision": 3,
+        "diagnosticDOM": [
+          {
+            "snapshot": 14,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0014.html"
+          },
+          {
+            "snapshot": 24,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0024.html"
+          },
+          {
+            "snapshot": 25,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0025.html"
+          },
+          {
+            "snapshot": 37,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0037.html"
+          },
+          {
+            "snapshot": 38,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0038.html"
+          },
+          {
+            "snapshot": 39,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0039.html"
+          },
+          {
+            "snapshot": 40,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0040.html"
+          },
+          {
+            "snapshot": 41,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0041.html"
+          },
+          {
+            "snapshot": 42,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0042.html"
+          },
+          {
+            "snapshot": 62,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0062.html"
+          }
+        ]
+      },
+      {
+        "sequence": 17,
+        "url": "https://www.tablecheck.com/en/hitujiya-jimbocho",
+        "revision": 5,
+        "diagnosticDOM": [
+          {
+            "snapshot": 14,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0014.html"
+          },
+          {
+            "snapshot": 24,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0024.html"
+          },
+          {
+            "snapshot": 25,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0025.html"
+          },
+          {
+            "snapshot": 37,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0037.html"
+          },
+          {
+            "snapshot": 38,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0038.html"
+          },
+          {
+            "snapshot": 39,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0039.html"
+          },
+          {
+            "snapshot": 40,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0040.html"
+          },
+          {
+            "snapshot": 41,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0041.html"
+          },
+          {
+            "snapshot": 42,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0042.html"
+          },
+          {
+            "snapshot": 62,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0062.html"
+          }
+        ]
+      },
+      {
+        "sequence": 19,
+        "url": "https://www.tablecheck.com/en/utena",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 16,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0016.html"
+          },
+          {
+            "snapshot": 31,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0031.html"
+          },
+          {
+            "snapshot": 32,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0032.html"
+          },
+          {
+            "snapshot": 43,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0043.html"
+          },
+          {
+            "snapshot": 44,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0044.html"
+          },
+          {
+            "snapshot": 45,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0045.html"
+          },
+          {
+            "snapshot": 46,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0046.html"
+          },
+          {
+            "snapshot": 64,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0064.html"
+          }
+        ]
+      },
+      {
+        "sequence": 20,
+        "url": "https://www.tablecheck.com/en/utena",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 16,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0016.html"
+          },
+          {
+            "snapshot": 31,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0031.html"
+          },
+          {
+            "snapshot": 32,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0032.html"
+          },
+          {
+            "snapshot": 43,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0043.html"
+          },
+          {
+            "snapshot": 44,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0044.html"
+          },
+          {
+            "snapshot": 45,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0045.html"
+          },
+          {
+            "snapshot": 46,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0046.html"
+          },
+          {
+            "snapshot": 64,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0064.html"
+          }
+        ]
+      },
+      {
+        "sequence": 23,
+        "url": "https://www.tablecheck.com/en/divino",
+        "revision": 2,
+        "diagnosticDOM": [
+          {
+            "snapshot": 13,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0013.html"
+          },
+          {
+            "snapshot": 19,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0019.html"
+          },
+          {
+            "snapshot": 20,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0020.html"
+          },
+          {
+            "snapshot": 47,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0047.html"
+          },
+          {
+            "snapshot": 48,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0048.html"
+          },
+          {
+            "snapshot": 49,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0049.html"
+          },
+          {
+            "snapshot": 50,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0050.html"
+          },
+          {
+            "snapshot": 61,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0061.html"
+          }
+        ]
+      },
+      {
+        "sequence": 24,
+        "url": "https://www.tablecheck.com/en/divino",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 13,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0013.html"
+          },
+          {
+            "snapshot": 19,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0019.html"
+          },
+          {
+            "snapshot": 20,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0020.html"
+          },
+          {
+            "snapshot": 47,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0047.html"
+          },
+          {
+            "snapshot": 48,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0048.html"
+          },
+          {
+            "snapshot": 49,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0049.html"
+          },
+          {
+            "snapshot": 50,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0050.html"
+          },
+          {
+            "snapshot": 61,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0061.html"
+          }
+        ]
+      },
+      {
+        "sequence": 28,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13011607/",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 78,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0078.html"
+          },
+          {
+            "snapshot": 81,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0081.html"
+          },
+          {
+            "snapshot": 82,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0082.html"
+          },
+          {
+            "snapshot": 83,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0083.html"
+          },
+          {
+            "snapshot": 84,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0084.html"
+          },
+          {
+            "snapshot": 85,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0085.html"
+          },
+          {
+            "snapshot": 86,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0086.html"
+          }
+        ]
+      },
+      {
+        "sequence": 29,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13011607/",
+        "revision": 5,
+        "diagnosticDOM": [
+          {
+            "snapshot": 78,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0078.html"
+          },
+          {
+            "snapshot": 81,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0081.html"
+          },
+          {
+            "snapshot": 82,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0082.html"
+          },
+          {
+            "snapshot": 83,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0083.html"
+          },
+          {
+            "snapshot": 84,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0084.html"
+          },
+          {
+            "snapshot": 85,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0085.html"
+          },
+          {
+            "snapshot": 86,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0086.html"
+          }
+        ]
+      },
+      {
+        "sequence": 30,
+        "url": "https://tabelog.com/en/tokyo/A1310/A131003/13011607/",
+        "revision": 7,
+        "diagnosticDOM": [
+          {
+            "snapshot": 78,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0078.html"
+          },
+          {
+            "snapshot": 81,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0081.html"
+          },
+          {
+            "snapshot": 82,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0082.html"
+          },
+          {
+            "snapshot": 83,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0083.html"
+          },
+          {
+            "snapshot": 84,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0084.html"
+          },
+          {
+            "snapshot": 85,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0085.html"
+          },
+          {
+            "snapshot": 86,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0086.html"
+          }
+        ]
+      },
+      {
+        "sequence": 31,
+        "url": "https://tabelog.com/en/tokyo/A1309/A130905/13011356/",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 92,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0092.html"
+          },
+          {
+            "snapshot": 95,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0095.html"
+          },
+          {
+            "snapshot": 96,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0096.html"
+          },
+          {
+            "snapshot": 97,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0097.html"
+          },
+          {
+            "snapshot": 98,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0098.html"
+          },
+          {
+            "snapshot": 99,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0099.html"
+          },
+          {
+            "snapshot": 100,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0100.html"
+          },
+          {
+            "snapshot": 101,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0101.html"
+          }
+        ]
+      },
+      {
+        "sequence": 32,
+        "url": "https://tabelog.com/en/tokyo/A1309/A130905/13011356/",
+        "revision": 5,
+        "diagnosticDOM": [
+          {
+            "snapshot": 92,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0092.html"
+          },
+          {
+            "snapshot": 95,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0095.html"
+          },
+          {
+            "snapshot": 96,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0096.html"
+          },
+          {
+            "snapshot": 97,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0097.html"
+          },
+          {
+            "snapshot": 98,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0098.html"
+          },
+          {
+            "snapshot": 99,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0099.html"
+          },
+          {
+            "snapshot": 100,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0100.html"
+          },
+          {
+            "snapshot": 101,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0101.html"
+          }
+        ]
+      },
+      {
+        "sequence": 38,
+        "url": "https://tabelog.com/en/tokyo/A1309/A130906/13278575/",
+        "revision": 4,
+        "diagnosticDOM": [
+          {
+            "snapshot": 108,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0108.html"
+          },
+          {
+            "snapshot": 109,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0109.html"
+          },
+          {
+            "snapshot": 110,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0110.html"
+          },
+          {
+            "snapshot": 111,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0111.html"
+          },
+          {
+            "snapshot": 112,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0112.html"
+          }
+        ]
+      },
+      {
+        "sequence": 39,
+        "url": "https://tabelog.com/en/tokyo/A1309/A130906/13278575/",
+        "revision": 6,
+        "diagnosticDOM": [
+          {
+            "snapshot": 108,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0108.html"
+          },
+          {
+            "snapshot": 109,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0109.html"
+          },
+          {
+            "snapshot": 110,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0110.html"
+          },
+          {
+            "snapshot": 111,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0111.html"
+          },
+          {
+            "snapshot": 112,
+            "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/recordings/hybrid-1792891503539/diagnostic/snapshot-0112.html"
+          }
+        ]
+      }
+    ]
+  },
+  "nativeProgress": [
+    {
+      "retrieval": {
+        "rewrites": 2,
+        "regionPages": 3,
+        "retrievalPages": 3,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Search directly for the hard criterion: fugu restaurant.",
+              "keyword": "fugu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 35783,
+            "parsedCount": 0
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "The \"fugu\" search returned an explicit empty result set with no categories supplied, so I try a materially different keyword for the hard criterion rather than a synonym of the same term.",
+              "keyword": "fugu cuisine",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 37651,
+            "parsedCount": 0
+          },
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Both prior fugu-related searches returned explicit empty results with no categories supplied; I try a materially different term (torafugu, the specific fugu species name) for the hard criterion rather than another synonym of \"fugu cuisine\".",
+              "keyword": "torafugu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 41777,
+            "parsedCount": 0
+          }
+        ],
+        "selection": {
+          "accepted": true,
+          "reason": "Both prior fugu-related searches returned explicit empty results with no categories supplied; I try a materially different term (torafugu, the specific fugu species name) for the hard criterion rather than another synonym of \"fugu cuisine\".",
+          "keyword": "torafugu",
+          "criterionRef": "criterion:0"
+        }
+      },
+      "directoryRegion": {
+        "first": {
+          "url": "https://tabelog.com/en/tokyo/A1310/A131003/",
+          "observedOn": "https://tabelog.com/en/tokyo/A1310/",
+          "targetRef": "observation:3:target:16",
+          "label": "Jinbocho & Suidobashi"
+        },
+        "provisional": false,
+        "samples": []
+      },
+      "sourceId": "tabelog",
+      "inspectedSourceIds": [],
+      "detailAttempts": 0,
+      "pagesRead": 6,
+      "elapsedMs": 46358,
+      "visitedListingUrls": [
+        "https://tabelog.com/en/tokyo/",
+        "https://tabelog.com/en/tokyo/A1310/",
+        "https://tabelog.com/en/tokyo/A1310/A131003/",
+        "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu",
+        "https://tabelog.com/en/tokyo/A1310/A131003/?sw=fugu+cuisine",
+        "https://tabelog.com/en/tokyo/A1310/A131003/?sw=torafugu"
+      ],
+      "pendingSourceEntries": [],
+      "pendingSourceIds": [],
+      "observedEntranceCount": 44
+    },
+    {
+      "retrieval": {
+        "selection": {
+          "accepted": true,
+          "reason": "Retrieve fugu restaurants near Kudanshita Station to satisfy the hard criterion.",
+          "keyword": "fugu",
+          "criterionRef": "criterion:0"
+        },
+        "rewrites": 0,
+        "regionPages": 0,
+        "retrievalPages": 1,
+        "history": [
+          {
+            "selection": {
+              "accepted": true,
+              "reason": "Retrieve fugu restaurants near Kudanshita Station to satisfy the hard criterion.",
+              "keyword": "fugu",
+              "criterionRef": "criterion:0"
+            },
+            "elapsedMs": 6967,
+            "parsedCount": 20
+          }
+        ]
+      },
+      "sourceId": "tablecheck",
+      "inspectedSourceIds": [
+        "qdk-cafe",
+        "divino",
+        "hitujiya-jimbocho",
+        "jinbocho-gokita",
+        "utena"
+      ],
+      "detailAttempts": 5,
+      "pagesRead": 1,
+      "elapsedMs": 55646,
+      "visitedListingUrls": [
+        "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.6954816&geo_longitude=139.7511544&geo_distance=1km&auto_geolocate=false&search_text=fugu"
+      ],
+      "pendingSourceEntries": [
+        {
+          "sourceEntityId": "seto",
+          "sourceUrl": "https://www.tablecheck.com/en/seto",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "alterego",
+          "sourceUrl": "https://www.tablecheck.com/en/alterego",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "wineshochu208",
+          "sourceUrl": "https://www.tablecheck.com/en/wineshochu208",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "ebimaru",
+          "sourceUrl": "https://www.tablecheck.com/en/ebimaru",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "hotel-edmont-beltempo",
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-beltempo",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "yohshoku",
+          "sourceUrl": "https://www.tablecheck.com/en/yohshoku",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "hotel-edmont-fourgrain",
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-fourgrain",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "hotel-edmont-bar-carousel",
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-bar-carousel",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "hotel-edmont-hirakawa-yamahiko-umihiko",
+          "sourceUrl": "https://www.tablecheck.com/en/hotel-edmont-hirakawa-yamahiko-umihiko",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "midtown-bbq-tokyo",
+          "sourceUrl": "https://www.tablecheck.com/en/midtown-bbq-tokyo",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "sombreuil-restaurant",
+          "sourceUrl": "https://www.tablecheck.com/en/sombreuil-restaurant",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "grandpyramid",
+          "sourceUrl": "https://www.tablecheck.com/en/grandpyramid",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "bistro-feve",
+          "sourceUrl": "https://www.tablecheck.com/en/bistro-feve",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "kyohantei",
+          "sourceUrl": "https://www.tablecheck.com/en/kyohantei",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        },
+        {
+          "sourceEntityId": "lart-et-mikuni",
+          "sourceUrl": "https://www.tablecheck.com/en/lart-et-mikuni",
+          "observedAt": "2026-10-25T01:26:07.660Z",
+          "sourceCategories": []
+        }
+      ],
+      "pendingSourceIds": [
+        "seto",
+        "alterego",
+        "wineshochu208",
+        "ebimaru",
+        "hotel-edmont-beltempo",
+        "yohshoku",
+        "hotel-edmont-fourgrain",
+        "hotel-edmont-bar-carousel",
+        "hotel-edmont-hirakawa-yamahiko-umihiko",
+        "midtown-bbq-tokyo",
+        "sombreuil-restaurant",
+        "grandpyramid",
+        "bistro-feve",
+        "kyohantei",
+        "lart-et-mikuni"
+      ],
+      "observedEntranceCount": 0
+    }
+  ],
+  "candidateLedger": [
+    {
+      "restaurant": {
+        "id": "tablecheck:qdk-cafe",
+        "outletName": "VMG CAFE Kudan Kaikan Terrace",
+        "address": "102-0074 Tokyo Chiyoda-ku 1-6-5 Kudanminami Kudan Kaikan Terrace 5F",
+        "coordinates": {
+          "lat": 35.6942243,
+          "lng": 139.7514087
+        },
+        "sourceIds": {
+          "tablecheck": "qdk-cafe",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/qdk-cafe",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/qdk-cafe"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:84fe9fd800b6eba28d548b86",
+          "address": "evidence:restaurant:native-discovery:84fe9fd800b6eba28d548b86",
+          "sourceIds": "evidence:restaurant:native-discovery:84fe9fd800b6eba28d548b86"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:27:38.197Z",
+        "evidenceIds": [],
+        "reasonCode": "NATIVE_FACT_READ_FAILED",
+        "sourceProvider": "TABLECHECK",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tablecheck-hard-criteria:68b332cd1594c7967feea5a3"
+        ]
+      },
+      "availability": {
+        "status": "SOURCE_UNSUPPORTED",
+        "checkedAt": "2026-10-25T01:27:03.941Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:0cc36bcd66a773000287679f",
+          "evidence:restaurant:tablecheck-entity-match:166de0788f3c13aadd54aca5",
+          "evidence:restaurant:tablecheck-hard-criteria:68b332cd1594c7967feea5a3"
+        ],
+        "reasonCode": "SOURCE_UNSUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "SOURCE_UNSUPPORTED",
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tablecheck:divino",
+        "outletName": "divino",
+        "address": "101-0061 Tokyo Chiyoda 3-10-22 Kanda Misaki-cho WHARF Kandamisakicho Bldg. 2F",
+        "coordinates": {
+          "lat": 35.6990329,
+          "lng": 139.7523218
+        },
+        "sourceIds": {
+          "tablecheck": "divino",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/divino",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/divino"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:71e9535dbf0f0310e493e1dc",
+          "address": "evidence:restaurant:native-discovery:71e9535dbf0f0310e493e1dc",
+          "sourceIds": "evidence:restaurant:native-discovery:71e9535dbf0f0310e493e1dc"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:28:32.720Z",
+        "evidenceIds": [
+          "evidence:restaurant:native-fact-identity:a76b17f0f54309c7244514d4",
+          "tablecheck:divino:document:d62c8167101e3fac"
+        ],
+        "sourceProvider": "TABLECHECK",
+        "reasonCode": "NATIVE_HARD_FACTS_UNCONFIRMED",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tablecheck-hard-criteria:d9a6f6a9071218868dd02b48",
+          "evidence:restaurant:tablecheck-hard-criteria:676fb330a0c283138dcc6bb5"
+        ]
+      },
+      "availability": {
+        "status": "UNAVAILABLE",
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "checkedAt": "2026-10-25T01:27:12.006Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:2135823cf0b630a44a180c7a",
+          "evidence:restaurant:tablecheck-hard-criteria:d9a6f6a9071218868dd02b48",
+          "evidence:restaurant:tablecheck-availability:1a8d85c31cb0cb2b09dea149",
+          "evidence:restaurant:tablecheck-entity-match:c446d48ceb641331c03eaedb",
+          "evidence:restaurant:tablecheck-hard-criteria:676fb330a0c283138dcc6bb5"
+        ],
+        "reasonCode": "NO_MATCHING_SLOT",
+        "displayExpiresAt": "2026-10-25T01:37:12.006Z",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "timeWindowCoverage": {
+          "date": "2026-11-07",
+          "partySize": 2,
+          "requestedWindow": {
+            "earliest": "19:30",
+            "latest": "19:30"
+          },
+          "covered": [
+            {
+              "earliest": "19:30",
+              "latest": "19:30",
+              "status": "EMPTY"
+            }
+          ],
+          "uncovered": [],
+          "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+        },
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "UNAVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tablecheck:hitujiya-jimbocho",
+        "outletName": "Genso Bistro Hitsujiya Jimbocho Branch",
+        "address": "101-0065 Tokyo Chiyoda 2-4-3 Nishikanda Takaoka Bldg. 1F",
+        "coordinates": {
+          "lat": 35.6978132,
+          "lng": 139.7546776
+        },
+        "sourceIds": {
+          "tablecheck": "hitujiya-jimbocho",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/hitujiya-jimbocho",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/hitujiya-jimbocho"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:e4ce69fc1a83d6e0c3d16c84",
+          "address": "evidence:restaurant:native-discovery:e4ce69fc1a83d6e0c3d16c84",
+          "sourceIds": "evidence:restaurant:native-discovery:e4ce69fc1a83d6e0c3d16c84"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:27:43.492Z",
+        "evidenceIds": [
+          "evidence:restaurant:native-fact-identity:d5453dac05288ae74e235864",
+          "tablecheck:hitujiya-jimbocho:document:87d00147ec43c1db"
+        ],
+        "sourceProvider": "TABLECHECK",
+        "reasonCode": "NATIVE_HARD_FACTS_UNCONFIRMED",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tablecheck-hard-criteria:7fc2d4d6287306175bdcb108",
+          "evidence:restaurant:tablecheck-hard-criteria:4bc6c5ce369cdef7028e561e"
+        ]
+      },
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:27:12.032Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:a34a914a5b471c25279ce818",
+          "evidence:restaurant:tablecheck-hard-criteria:7fc2d4d6287306175bdcb108",
+          "evidence:restaurant:tablecheck-hard-criteria:4bc6c5ce369cdef7028e561e"
+        ],
+        "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+        "timeWindowCoverage": {
+          "date": "2026-11-07",
+          "partySize": 2,
+          "requestedWindow": {
+            "earliest": "19:30",
+            "latest": "19:30"
+          },
+          "covered": [
+            {
+              "earliest": "19:30",
+              "latest": "19:30",
+              "status": "EMPTY"
+            }
+          ],
+          "uncovered": [],
+          "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+        },
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tablecheck:jinbocho-gokita",
+        "outletName": "Jinbocho Gokita",
+        "address": "101-0065 Tokyo Chiyoda 2-4-9 Nishikanda Daini Kinsui Bldg. 1F",
+        "coordinates": {
+          "lat": 35.6983669,
+          "lng": 139.7543259
+        },
+        "sourceIds": {
+          "tablecheck": "jinbocho-gokita",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/jinbocho-gokita",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/jinbocho-gokita"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:aa43b555fb67f6170b84e480",
+          "address": "evidence:restaurant:native-discovery:aa43b555fb67f6170b84e480",
+          "sourceIds": "evidence:restaurant:native-discovery:aa43b555fb67f6170b84e480"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:28:53.788Z",
+        "evidenceIds": [],
+        "reasonCode": "NATIVE_FACT_READ_FAILED",
+        "sourceProvider": "TABLECHECK",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tablecheck-hard-criteria:f311303359c50652fd26e17c"
+        ]
+      },
+      "availability": {
+        "status": "SOURCE_UNSUPPORTED",
+        "checkedAt": "2026-10-25T01:27:25.624Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:0fb828582c193c03d2eb0f5b",
+          "evidence:restaurant:tablecheck-entity-match:67b687f8fa58ae98f7596d7e",
+          "evidence:restaurant:tablecheck-hard-criteria:f311303359c50652fd26e17c"
+        ],
+        "reasonCode": "SOURCE_UNSUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "SOURCE_UNSUPPORTED",
+            "reasonCode": "SOURCE_UNSUPPORTED"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "tablecheck:utena",
+        "outletName": "台-UTENA-",
+        "address": "101-0003 Tokyo Chiyoda 2-6-6 Hitotsubashi",
+        "coordinates": {
+          "lat": 35.694778,
+          "lng": 139.7561163
+        },
+        "sourceIds": {
+          "tablecheck": "utena",
+          "tablecheckNativeGuideUri": "https://www.tablecheck.com/en/utena",
+          "discoverySourceId": "tablecheck",
+          "discoveryDetailUri": "https://www.tablecheck.com/en/utena"
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:native-discovery:14b0c06cfbaa7c2b247329c9",
+          "address": "evidence:restaurant:native-discovery:14b0c06cfbaa7c2b247329c9",
+          "sourceIds": "evidence:restaurant:native-discovery:14b0c06cfbaa7c2b247329c9"
+        }
+      },
+      "facts": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:28:07.527Z",
+        "evidenceIds": [
+          "evidence:restaurant:native-fact-identity:a208f643e79774b203e3c129",
+          "tablecheck:utena:document:70508bd568f15368"
+        ],
+        "sourceProvider": "TABLECHECK",
+        "reasonCode": "NATIVE_HARD_FACTS_UNCONFIRMED",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tablecheck-hard-criteria:dbbc3163a030be3153f9d166",
+          "evidence:restaurant:tablecheck-hard-criteria:2b173d5d5af311689ecaf60e"
+        ]
+      },
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:27:25.646Z",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:43f02145f6e6ad277b87d9c2",
+          "evidence:restaurant:tablecheck-hard-criteria:dbbc3163a030be3153f9d166",
+          "evidence:restaurant:tablecheck-hard-criteria:2b173d5d5af311689ecaf60e"
+        ],
+        "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED",
+        "timeWindowCoverage": {
+          "date": "2026-11-07",
+          "partySize": 2,
+          "requestedWindow": {
+            "earliest": "19:30",
+            "latest": "19:30"
+          },
+          "covered": [
+            {
+              "earliest": "19:30",
+              "latest": "19:30",
+              "status": "EMPTY"
+            }
+          ],
+          "uncovered": [],
+          "stopReason": "OBSERVED_TIMES_EXHAUSTED"
+        },
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "AVAILABILITY_RESULT_UNOBSERVED"
+          }
+        ],
+        "sourceProvider": "TABLECHECK",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:e5284ca33d1d8491686421ee",
+        "outletName": "Kakuya",
+        "sourceIds": {
+          "googlePlaces": "ChIJExGfTECMGGARVcoW42bF1Ow",
+          "phone": "050-5485-8179",
+          "googleWebsiteUri": "https://kikuya-iidabashi.gorp.jp/",
+          "googleMapsUri": "https://maps.google.com/?cid=17065481933700909653&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒102-0072 Tokyo, Chiyoda City, Iidabashi, 2-chōme−12−１０ 日高ビル 1階",
+        "coordinates": {
+          "lat": 35.699345799999996,
+          "lng": 139.7499798
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:eff4aadda9fb9f7a4b028384",
+          "address": "evidence:restaurant:google-discovery:eff4aadda9fb9f7a4b028384",
+          "sourceIds": "evidence:restaurant:google-discovery:eff4aadda9fb9f7a4b028384"
+        }
+      },
+      "facts": {
+        "status": "COMPLETED",
+        "checkedAt": "2026-10-25T01:31:55.620Z",
+        "evidenceIds": [
+          "evidence:restaurant:google-entity:7f826e17dc6292fff8940fa1",
+          "evidence:restaurant:google-facts:2c0b40e1bb2f283fc76bfce9"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "GOOGLE_PLACES",
+            "outcome": "COMPLETED"
+          },
+          {
+            "source": "RESTAURANT_WEBSITE",
+            "outcome": "UNKNOWN",
+            "reasonCode": "WEBSITE_FACT_READ_FAILED"
+          }
+        ],
+        "reasonCode": "WEBSITE_FACT_READ_FAILED",
+        "sourceProvider": "GOOGLE_PLACES",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:google-facts:33238711f5560c1983c157e8"
+        ]
+      },
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:29:36.593Z",
+        "evidenceIds": [],
+        "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:28de014562cd22fea161e81b",
+        "outletName": "Kaneichi",
+        "sourceIds": {
+          "googlePlaces": "ChIJ____DxGMGGARxguBsW1lnd0",
+          "phone": "03-3291-9221",
+          "googleWebsiteUri": "https://gcu3400.gorp.jp/",
+          "googleMapsUri": "https://maps.google.com/?cid=15969031375529511878&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒101-0051 東京都千代田区神田神保町１丁目２５",
+        "coordinates": {
+          "lat": 35.69499210000001,
+          "lng": 139.7602552
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:50bd67b143d6596fc51969d8",
+          "address": "evidence:restaurant:google-discovery:50bd67b143d6596fc51969d8",
+          "sourceIds": "evidence:restaurant:google-discovery:50bd67b143d6596fc51969d8"
+        }
+      },
+      "facts": {
+        "status": "COMPLETED",
+        "checkedAt": "2026-10-25T01:32:19.895Z",
+        "evidenceIds": [
+          "evidence:restaurant:google-entity:249d2c6ccd80b93f0485c55b",
+          "evidence:restaurant:google-facts:9726c15a493d0e60acc56cbb"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "GOOGLE_PLACES",
+            "outcome": "COMPLETED"
+          },
+          {
+            "source": "RESTAURANT_WEBSITE",
+            "outcome": "UNKNOWN",
+            "reasonCode": "WEBSITE_FACT_READ_FAILED"
+          }
+        ],
+        "reasonCode": "WEBSITE_FACT_READ_FAILED",
+        "sourceProvider": "GOOGLE_PLACES",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:google-facts:7003c5bea63d4794805eb0a3"
+        ]
+      },
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-10-25T01:30:49.832Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:e26cfdbe1dd433615de0ba99",
+          "evidence:restaurant:tabelog-hard-criteria:a07b8d5520109228626b0684"
+        ],
+        "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:9efebfe1fdd5b09e9ab90b58",
+        "outletName": "New Kandaya Suidobashi West Exit",
+        "sourceIds": {
+          "googlePlaces": "ChIJ2b-DK0CNGGARoJE0hlmkNbM",
+          "phone": "03-3261-1241",
+          "googleWebsiteUri": "https://www.teng.co.jp/shopsearch/shops/view/BA604991?utm_source=google&utm_medium=map&utm_campaign=top",
+          "googleMapsUri": "https://maps.google.com/?cid=12913408210965402016&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒101-0061 Tokyo, Chiyoda City, Misakichō, 3-chōme−8−１ KMKビル 地下1階",
+        "coordinates": {
+          "lat": 35.7019404,
+          "lng": 139.7518494
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:37101a6aa33ea420f9f311b2",
+          "address": "evidence:restaurant:google-discovery:37101a6aa33ea420f9f311b2",
+          "sourceIds": "evidence:restaurant:google-discovery:37101a6aa33ea420f9f311b2"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:0cbeaa651a6c010215276905",
+        "outletName": "Egushi",
+        "sourceIds": {
+          "googlePlaces": "ChIJsXBm8haMGGARGxN5_b-A3AM",
+          "phone": "03-3291-0048",
+          "googleWebsiteUri": "https://tabelog.com/tokyo/A1310/A131003/13154986/",
+          "googleMapsUri": "https://maps.google.com/?cid=278238839069807387&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "2-chōme-2-1 Sarugakuchō, Chiyoda City, Tokyo 101-0064, Japan",
+        "coordinates": {
+          "lat": 35.69869740000001,
+          "lng": 139.75901779999998
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:e2d76108224b6d3fd5df8ba5",
+          "address": "evidence:restaurant:google-discovery:e2d76108224b6d3fd5df8ba5",
+          "sourceIds": "evidence:restaurant:google-discovery:e2d76108224b6d3fd5df8ba5"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:9e307bf5ee7957b7f98ccbb8",
+        "outletName": "Wa Dining 30",
+        "sourceIds": {
+          "googlePlaces": "ChIJq9lWshaMGGARk5S-OqNwPUU",
+          "phone": "03-3518-9710",
+          "googleWebsiteUri": "https://www.wa-dining30.jp/",
+          "googleMapsUri": "https://maps.google.com/?cid=4989267808563926163&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒101-0051 Tokyo, Chiyoda City, Kanda Jinbōchō, 1-chōme−１４−１６ 根木英光ビル 1F",
+        "coordinates": {
+          "lat": 35.6968384,
+          "lng": 139.75827289999998
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:9739df2c1bfbf589312413b5",
+          "address": "evidence:restaurant:google-discovery:9739df2c1bfbf589312413b5",
+          "sourceIds": "evidence:restaurant:google-discovery:9739df2c1bfbf589312413b5"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:b0d97dea7a28493ec8fa3503",
+        "outletName": "Kyohantei",
+        "sourceIds": {
+          "googlePlaces": "ChIJiS4ZBVSNGGAR3emrckA2AZ0",
+          "phone": "03-3556-0252",
+          "googleWebsiteUri": "https://www.kaikan.co.jp/josui/restaurant/kyohantei/",
+          "googleMapsUri": "https://maps.google.com/?cid=11313383389361072605&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒101-0003 Tokyo, Chiyoda City, Hitotsubashi, 2-chōme−1−１ 如水会ビルディング 3階",
+        "coordinates": {
+          "lat": 35.691976,
+          "lng": 139.7583836
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:d6acee473df8665327bda6ca",
+          "address": "evidence:restaurant:google-discovery:d6acee473df8665327bda6ca",
+          "sourceIds": "evidence:restaurant:google-discovery:d6acee473df8665327bda6ca"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:5d12d8e1bad44d492c4ec5a7",
+        "outletName": "Jidai Sushi",
+        "sourceIds": {
+          "googlePlaces": "ChIJv1gvmUGMGGARCzgPxtWCwxs",
+          "phone": "03-3261-6550",
+          "googleWebsiteUri": "https://jidaisushi.gorp.jp/",
+          "googleMapsUri": "https://maps.google.com/?cid=2000586514145163275&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-7-5 Iidabashi, Chiyoda City, Tokyo 102-0072, Japan",
+        "coordinates": {
+          "lat": 35.699233,
+          "lng": 139.748415
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:22c4f75e1d44716f21ab589d",
+          "address": "evidence:restaurant:google-discovery:22c4f75e1d44716f21ab589d",
+          "sourceIds": "evidence:restaurant:google-discovery:22c4f75e1d44716f21ab589d"
+        }
+      },
+      "facts": {
+        "status": "COMPLETED",
+        "checkedAt": "2026-10-25T01:31:30.765Z",
+        "evidenceIds": [
+          "evidence:restaurant:google-entity:15fd9beea0fb049003377ac3",
+          "evidence:restaurant:google-facts:0b2c0e190cecf2ef6c01fda8"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "GOOGLE_PLACES",
+            "outcome": "COMPLETED"
+          },
+          {
+            "source": "RESTAURANT_WEBSITE",
+            "outcome": "UNKNOWN",
+            "reasonCode": "WEBSITE_FACT_READ_FAILED"
+          }
+        ],
+        "reasonCode": "WEBSITE_FACT_READ_FAILED",
+        "sourceProvider": "GOOGLE_PLACES",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:google-facts:00ca81754a8a156e46459286"
+        ]
+      },
+      "availability": {
+        "status": "AVAILABLE",
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "checkedAt": "2026-10-25T01:31:27.074Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:426222a5f911a4a4dcf530e7",
+          "evidence:restaurant:tabelog-hard-criteria:f614210b6f39f49e1f21b07a",
+          "evidence:restaurant:tabelog-availability:cbaef24c6cdeea917b440bb8"
+        ],
+        "displayExpiresAt": "2026-10-25T01:41:27.074Z",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "requestFingerprint": "{\"date\":\"2026-11-07\",\"timeWindow\":{\"earliest\":\"19:30\",\"latest\":\"19:30\"},\"partySize\":2}"
+      }
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:08b89341e3bf93ce44640758",
+        "outletName": "Jimbocho Hanaya",
+        "sourceIds": {
+          "googlePlaces": "ChIJTXk6uBWMGGAR3TsADefF17w",
+          "phone": "03-3556-6344",
+          "googleWebsiteUri": "https://www.jimbochohanaya.com/",
+          "googleMapsUri": "https://maps.google.com/?cid=13607562395269479389&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒101-0065 Tokyo, Chiyoda City, Nishikanda, 2-chōme−1−６ 佐藤ビル B1F",
+        "coordinates": {
+          "lat": 35.6986367,
+          "lng": 139.75612120000002
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:280224d81a043c3659db3286",
+          "address": "evidence:restaurant:google-discovery:280224d81a043c3659db3286",
+          "sourceIds": "evidence:restaurant:google-discovery:280224d81a043c3659db3286"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:879bb2dc956e3d28d1d723fd",
+        "outletName": "URANO",
+        "sourceIds": {
+          "googlePlaces": "ChIJhZ_M4hmNGGAR91NeU1RGI4o",
+          "phone": "03-6272-6111",
+          "googleWebsiteUri": "http://urano.world/",
+          "googleMapsUri": "https://maps.google.com/?cid=9953876929408816119&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒102-0074 Tokyo, Chiyoda City, Kudanminami, 3-chōme−5−４ T-PLACE九段 1F",
+        "coordinates": {
+          "lat": 35.6922878,
+          "lng": 139.7426612
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:b1ca845a78c45bd2c8674b48",
+          "address": "evidence:restaurant:google-discovery:b1ca845a78c45bd2c8674b48",
+          "sourceIds": "evidence:restaurant:google-discovery:b1ca845a78c45bd2c8674b48"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:ede6be75efed9e9a6fa5dc3a",
+        "outletName": "VMG Café Kudan Kaikan Terrace",
+        "sourceIds": {
+          "googlePlaces": "ChIJAQDAQmuMGGARIyx-VvitiMc",
+          "phone": "0120-210-189",
+          "googleWebsiteUri": "https://www.tokyokudan.com/cafe/",
+          "googleMapsUri": "https://maps.google.com/?cid=14377933092494912547&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "1-chōme-6-5 Kudanminami, Chiyoda City, Tokyo 102-0074, Japan",
+        "coordinates": {
+          "lat": 35.6946769,
+          "lng": 139.75115169999998
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:852792ba89353206daad719d",
+          "address": "evidence:restaurant:google-discovery:852792ba89353206daad719d",
+          "sourceIds": "evidence:restaurant:google-discovery:852792ba89353206daad719d"
+        }
+      },
+      "facts": null,
+      "availability": null
+    },
+    {
+      "restaurant": {
+        "id": "praxis:restaurant:601f528dbe7345e68bfc5214",
+        "outletName": "Shabu-shabu Onyasai Iidabashi",
+        "sourceIds": {
+          "googlePlaces": "ChIJ4SygCUSMGGAR5k9kG84PJi8",
+          "phone": "03-5357-1229",
+          "googleWebsiteUri": "https://map.reins.co.jp/onyasai/detail/353571229",
+          "googleMapsUri": "https://maps.google.com/?cid=3397420346794856422&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒102-0072 Tokyo, Chiyoda City, Iidabashi, 4-chōme−7−８ I Tower, 2Ｆ",
+        "coordinates": {
+          "lat": 35.7011239,
+          "lng": 139.7463823
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:ea2aa92da18a38b8a89ce577",
+          "address": "evidence:restaurant:google-discovery:ea2aa92da18a38b8a89ce577",
+          "sourceIds": "evidence:restaurant:google-discovery:ea2aa92da18a38b8a89ce577"
+        }
+      },
+      "facts": null,
+      "availability": null
+    }
+  ],
+  "termination": {
+    "scope": "TASK",
+    "code": "RUN_DEADLINE_EXCEEDED",
+    "reason": "Run failed or was cancelled during execution"
+  },
+  "interruption": {
+    "reason": "TIMEOUT",
+    "at": "2026-10-25T01:33:23.551Z",
+    "timeoutMs": 500000
+  },
+  "presented": null,
+  "googleCaptureRejections": [
+    {
+      "sequence": 1595,
+      "kind": "GOOGLE_CAPTURE_REJECTED",
+      "detail": {
+        "reason": "KEY_PATTERN_BEFORE_WRITE",
+        "stage": "BEFORE_WRITE"
+      }
+    }
+  ],
+  "replayHarExists": false,
+  "diagnosticDOMStatusCounts": {
+    "SAVED": 113
+  },
+  "diagnosticDOMGaps": [],
+  "recordingCredentialLiteralPatternCounts": {
+    "GOOGLE_KEY": 0,
+    "MODEL_KEY": 0,
+    "AWS_KEY": 0,
+    "BEARER": 0,
+    "PRIVATE_KEY": 0
+  }
+}
