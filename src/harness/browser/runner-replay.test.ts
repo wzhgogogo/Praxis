@@ -35,9 +35,9 @@ for(const mode of ["missing","partial","model-wiring"] as const)test(`replay ${m
  }finally{await rm(root,{recursive:true,force:true});}
 });
 
-async function redirectedReplayInput(root: string, origin: string, kind: 'qualified' | 'unqualified' | 'missing-hop' | 'cycle') {
+async function redirectedReplayInput(root: string, origin: string, kind: 'qualified' | 'unqualified' | 'missing-hop' | 'cycle', unrecorded?: 'blocked' | 'admitted') {
  const final=origin+'/final',first=origin+'/first',middle=origin+'/middle';
- const html='<html><head><title>Recorded final</title></head><body><h1>Qualified recorded final</h1></body></html>';
+ const html='<html><head><title>Recorded final</title></head><body><h1>Qualified recorded final</h1>'+(unrecorded?`<script>fetch('/not-recorded',{method:'${unrecorded==='blocked'?'POST':'GET'}'}).catch(()=>{});</script>`:'')+'</body></html>';
  const entry=(url:string,status:number,location?:string)=>({startedDateTime:'1970-01-01T00:00:00.000Z',time:0,request:{method:'GET',url,httpVersion:'HTTP/1.1',headers:[],queryString:[],cookies:[],headersSize:-1,bodySize:-1},response:{status,statusText:status===200?'OK':'RECORDED',httpVersion:'HTTP/1.1',headers:[{name:'content-type',value:'text/html'},...(location?[{name:'location',value:location}]:[])],cookies:[],content:{mimeType:'text/html',text:status===200?html:'',size:status===200?Buffer.byteLength(html):0},redirectURL:location??'',headersSize:-1,bodySize:-1},cache:{},timings:{send:0,wait:0,receive:0}});
  const entries=[entry(first,301,kind==='qualified'||kind==='unqualified'?final:middle),...(kind==='cycle'?[entry(middle,302,first)]:[]),entry(final,200)];
  await writeFile(join(root,'snapshot-0001.html'),html);
@@ -71,5 +71,23 @@ test('redirect qualification cannot promote an unqualified final page, missing h
   const root=await mkdtemp(join(tmpdir(),'replay-redirect-bound-'));
   try{const {first,recording}=await redirectedReplayInput(root,'https://replay.example',kind);assert.equal(recording.allowed.has(first),false,kind);}
   finally{await rm(root,{recursive:true,force:true});}
+ }
+});
+
+test('replay checks missing responses after Guard admission, retaining denial and missing-entry boundaries',async()=>{
+ for(const mode of ['blocked','admitted'] as const){
+  const root=await mkdtemp(join(tmpdir(),'replay-admission-'));let session:BrowserSession|undefined;
+  try{
+   const origin='https://replay.example',{first,recording}=await redirectedReplayInput(root,origin,'qualified',mode);
+   const stops:Array<{reason:string}>=[],replay=createRecordedBrowser(recording,reason=>stops.push(reason));
+   session=await replay.browser.openSession({signal:new AbortController().signal,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]}});
+   await session.prepareNavigation!(first);
+   await session.navigate(first).catch(()=>{});
+   if(mode==='blocked'){
+    assert.deepEqual(stops,[],'a Guard-denied telemetry request is not a missing admitted recording');
+    const snapshot=await session.snapshot();assert.equal(replay.consumedPages(),1);
+    assert.ok(snapshot.networkRequests?.some(row=>row.method==='POST'&&row.pathname==='/not-recorded'&&row.outcome==='BLOCKED'),'the unchanged Guard must actually deny the POST');
+   }else assert.deepEqual(stops.map(row=>row.reason),['MISSING_RESPONSE'],'an admitted missing GET must still fail closed');
+  }finally{await session?.close();await rm(root,{recursive:true,force:true});}
  }
 });
