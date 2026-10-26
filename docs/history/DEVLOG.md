@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.314
+- Document revision: 4.315
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-26-phase3b-g2"></a>
+
+## 2026-10-26 CET：3b A批次1 G2 DOM变异切片
+
+时间2026-10-26T23:11:24.545847+01:00（CET）。从main cc127320独立工作分支，新增ADR0046（用户两原则）与共享3b零调用账本。规则2全id映射及引用目标逐项自检；12保存页8 PASS/4 DEGRADED_HONEST/0 FAIL，TC未知边界保留；无产品代码改动。固定G2命令与G3严格模式已建立，五门禁待执行。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
 
 <a id="dev-2026-10-26-phase3a-prime-signoff"></a>
 

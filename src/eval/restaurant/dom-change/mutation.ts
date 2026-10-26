@@ -131,21 +131,24 @@ export async function renamePrivateMarkers(page: Page, seed: string) {
       }
     } };
     for (const node of nodes) for (const attribute of [...node.attributes]) recordUrlRefs(attribute.value, path(node), attribute.name);
-    const scriptReferences: Array<{ script: number; id: string; offset: number; line: number; column: number }> = [];
-    const scripts = [...document.querySelectorAll("script")].map((node, index) => {
-      const text = node.textContent ?? "";
+    const inlineCode = [
+      ...[...document.querySelectorAll("script")].map((node, index) => ({ node, script: index as number | null, attribute: null as string | null, text: node.textContent ?? "" })),
+      ...nodes.flatMap(node => [...node.attributes].filter(attribute => /^on/i.test(attribute.name)).map(attribute => ({ node, script: null as number | null, attribute: attribute.name, text: attribute.value }))),
+    ];
+    const scriptReferences: Array<{ script: number | null; owner: string; attribute: string | null; id: string; offset: number; line: number; column: number }> = [];
+    for (const code of inlineCode) {
+      const text = code.text;
       for (const id of Object.keys(mapping.ids).filter(Boolean)) {
         let offset = 0;
         while ((offset = text.indexOf(id, offset)) >= 0) {
           if (!/[\w-]/.test(text[offset - 1] ?? "") && !/[\w-]/.test(text[offset + id.length] ?? "")) {
             const preceding = text.slice(0, offset), line = preceding.split("\n").length;
-            scriptReferences.push({ script: index, id, offset, line, column: offset - preceding.lastIndexOf("\n") });
+            scriptReferences.push({ script: code.script, owner: path(code.node), attribute: code.attribute, id, offset, line, column: offset - preceding.lastIndexOf("\n") });
           }
           offset += id.length;
         }
       }
-      return text;
-    });
+    }
     const { rewriteRules } = { rewriteRules(rules: CSSRuleList) {
       for (const rule of [...rules]) {
         if ("selectorText" in rule) {
@@ -172,7 +175,7 @@ export async function renamePrivateMarkers(page: Page, seed: string) {
         else if (attribute.name.startsWith("data-")) {
           node.removeAttribute(attribute.name);
           node.setAttribute(own(mapping.dataAttributes, attribute.name), attribute.name === "data-testid" ? own(mapping.testIds, attribute.value) : attribute.value);
-        } else if (/url\(\s*["']?#/i.test(attribute.value)) node.setAttribute(attribute.name, urlRefs(attribute.value));
+        } else if (!/^on/i.test(attribute.name) && /url\(\s*["']?#/i.test(attribute.value)) node.setAttribute(attribute.name, urlRefs(attribute.value));
       }
     }
     for (const link of links) {
@@ -188,7 +191,7 @@ export async function renamePrivateMarkers(page: Page, seed: string) {
       const node = nodes.find(node => path(node) === record.owner); return node?.getAttribute(record.name) !== record.value;
     });
     const hrefMismatches = links.filter(link => link.node.getAttribute(link.name) !== link.after).map(link => ({ owner: path(link.node), name: link.name }));
-    const scriptMismatches = scripts.map((text, index) => index).filter(index => scripts[index] !== document.querySelectorAll("script")[index]?.textContent);
+    const scriptMismatches = inlineCode.flatMap(code => (code.attribute ? code.node.getAttribute(code.attribute) : code.node.textContent) === code.text ? [] : [{ owner: path(code.node), attribute: code.attribute }]);
     return {
       inlineScriptsExecuted: false, scriptReferences, danglingReferences, references: beforeRefs.map((before, index) => ({ before, after: afterRefs[index] })),
       integrity: { valid: beforeText === document.body.innerText && beforeRefs.length === afterRefs.length && !referenceMismatches.length && !publicAttributeMismatches.length && !hrefMismatches.length && !scriptMismatches.length && !stylesheetErrors.length,

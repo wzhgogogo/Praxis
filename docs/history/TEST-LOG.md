@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.320
+- Document revision: 4.321
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-26-phase3b-g2"></a>
+
+## 2026-10-26 CET：3b G2离线红绿与保存页基线
+
+旧class-only在旧id目标断言得到有效红灯；规则2变异、ARIA/label路径、CSS/SVG、悬空/脚本/种子控制和分类反例绿。真实本地Executor观察链接正常对照绿；12保存DOM8相同、4如实未知、0错误声明，TC日历原未知不算查位通过。接线/启动/类型失败不计有效红灯；正式五门禁与固定检查待执行。真实调用全部0，不读取.env。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
 
 <a id="test-2026-10-26-f6-implemented"></a>
 

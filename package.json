@@ -30,7 +30,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "probe:restaurant:browser:read": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-browser-read-probe.ts",
     "probe:restaurant:source-stage": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts",
-    "test:browser:fixture": "node --import ./scripts/test-filesystem-guard.mjs --import tsx --test --test-concurrency=4 src/harness/browser/*.test.ts"
+    "test:browser:fixture": "node --import ./scripts/test-filesystem-guard.mjs --import tsx --test --test-concurrency=4 src/harness/browser/*.test.ts",
+    "test:dom-change": "node --import ./scripts/test-filesystem-guard.mjs --import tsx --test --test-concurrency=1 src/harness/browser/dom-change*.test.ts"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.4",
