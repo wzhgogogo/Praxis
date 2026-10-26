@@ -1,4 +1,4 @@
-"""Strict offline gates for F3; no known-failure exception."""
+"""Strict offline gates for 3b G1; no known-failure exception."""
 from pathlib import Path
 import argparse, datetime, hashlib, json, os, platform, re, signal, statistics, subprocess, time
 
@@ -23,7 +23,6 @@ verify()
 assert not git('status', '--porcelain')
 commit = git('rev-parse', 'HEAD').strip()
 now = lambda: datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=1), 'CET')).isoformat()
-known_name = 'E1 outer body observer captures real Chromium POST bytes independently of Guard admission'
 result = {'mode': 'OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE', 'testedCommit': commit,
           'startedAtCET': now(), 'platform': platform.platform(), 'cpuCount': os.cpu_count(),
           'nodeVersion': subprocess.check_output(['node', '--version'], text=True).strip(),
@@ -60,7 +59,6 @@ for name, sample, command in steps:
     row['summary'] = {key: int(value) for key, value in re.findall(r'^(?:#|ℹ) (tests|suites|pass|fail|cancelled|skipped|todo) (\d+)$', text, re.M)}
     row['logSha256'] = hashlib.sha256(raw).hexdigest()
     row['gitStatusAfter'] = git('status', '--porcelain')
-    summary = row['summary']; failures = text.split('✖ failing tests:')[-1]
     row['outcome'] = 'PASS' if row['exitCode'] == 0 else 'FAIL'
     if name == 'browser-fixture':
         row['healthPassed'] = any(line.startswith('✔ Live source health uses real Guard') for line in text.splitlines())
@@ -72,9 +70,8 @@ for name, sample, command in steps:
 verify()
 result['freezeVerifiedAfter'] = True
 result['browserMedianSeconds'] = statistics.median(x['elapsedSeconds'] for x in result['runs'] if x['gate'] == 'browser-fixture')
-result['knownE1Samples'] = [x['sample'] for x in result['runs'] if x['outcome'] == 'KNOWN_E1_DEFERRED_TO_F3']
 result['stopReason'] = 'MEDIAN_EXCEEDED' if a.median_limit is not None and result['browserMedianSeconds'] > a.median_limit else None
-result['acceptance'] = 'NOT_SATISFIED' if result['stopReason'] else 'SATISFIED_WITH_REGISTERED_E1' if result['knownE1Samples'] else 'SATISFIED'
+result['acceptance'] = 'NOT_SATISFIED' if result['stopReason'] else 'SATISFIED'
 result['finishedAtCET'] = now(); save()
-print('COMPLETE', result['acceptance'], result['browserMedianSeconds'], 'knownE1=' + str(result['knownE1Samples']), flush=True)
+print('COMPLETE', result['acceptance'], result['browserMedianSeconds'], flush=True)
 raise SystemExit(int(result['stopReason'] is not None))

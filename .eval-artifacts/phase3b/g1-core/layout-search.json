@@ -1,0 +1,872 @@
+{
+  "base": "cc127320",
+  "pattern": "querySelector|locator\\(|\\.nth\\(|nth-child|data-testid|\\.classes|\\bselector\\b|hasClass|class=|\\.closest\\(|parentElement|children\\[|childNodes\\[|nth-of-type|classList|className|\\.structure\\?\\.",
+  "scope": "all tracked src non-test TypeScript excluding fixtures/eval/harness; server markup separately classified",
+  "matches": [
+    {
+      "file": "src/infrastructure/browser/browser-action-decision.ts",
+      "line": 351,
+      "text": "Choose one action only from the observed target references and their availableActions, except a listed pageActions action or the explicitly supplied regionCorrection choice. A target's rejectionReason explains why another action is unavailable; do not override it. Never invent a target reference, selector, URL, JavaScript, shell command, credential, cookie, login step, booking submission, payment, cancellation, or personal information. The outlet identity, date, party size, time window, and HARD criteria in the goal are immutable. When selecting or filling a date or party size, select the named authoritative field and no other value. FILL_AUTHORITATIVE with RETRIEVAL is allowed only for an observed public search input and fills exactly goal.retrievalExpression; it cannot change area, HARD criteria, date, party size, or time."
+    },
+    {
+      "file": "src/infrastructure/browser/browser-runtime.ts",
+      "line": 125,
+      "text": "selector: string;"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.ts",
+      "line": 228,
+      "text": "...(control.kind === \"RADIO\" && control.structure?.radioGroupKey ? { radioGroupKey: control.structure.radioGroupKey } : {}),"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.ts",
+      "line": 458,
+      "text": "input: Pick<BrowserSkillReadInput, \"source\" | \"stage\" | \"signal\"> & { session: BrowserSession; selector: string; value: string; authoritativeValue: string },"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.ts",
+      "line": 461,
+      "text": "const result = await this.operation(input, \"SELECT\", () => input.session.select(input.selector, input.value, this.actionOptions()));"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.ts",
+      "line": 467,
+      "text": "input: Pick<BrowserSkillReadInput, \"source\" | \"stage\" | \"signal\"> & { session: BrowserSession; selector: string; value: string; authoritativeValue: string },"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.ts",
+      "line": 470,
+      "text": "await this.operation(input, \"FILL\", () => input.session.fill(input.selector, input.value, this.actionOptions()));"
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.ts",
+      "line": 1005,
+      "text": "const group = controls.filter(control => control.kind === \"RADIO\" && control.structure?.radioGroupKey === target.radioGroupKey);"
+    },
+    {
+      "file": "src/infrastructure/browser/cloudflare-browser-run.ts",
+      "line": 128,
+      "text": "text: await this.page.locator(\"body\").innerText(),"
+    },
+    {
+      "file": "src/infrastructure/browser/cloudflare-browser-run.ts",
+      "line": 148,
+      "text": "else await this.page.locator(target).click({ timeout });"
+    },
+    {
+      "file": "src/infrastructure/browser/cloudflare-browser-run.ts",
+      "line": 171,
+      "text": "async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value, { timeout: actionTimeout(options) })); }"
+    },
+    {
+      "file": "src/infrastructure/browser/cloudflare-browser-run.ts",
+      "line": 172,
+      "text": "async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }"
+    },
+    {
+      "file": "src/infrastructure/browser/cloudflare-browser-run.ts",
+      "line": 173,
+      "text": "async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }"
+    },
+    {
+      "file": "src/infrastructure/browser/cloudflare-browser-run.ts",
+      "line": 174,
+      "text": "async press(target: string, key: \"ArrowLeft\" | \"ArrowRight\", options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }"
+    },
+    {
+      "file": "src/infrastructure/browser/cloudflare-browser-run.ts",
+      "line": 180,
+      "text": "else await this.page.locator(target).evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);"
+    },
+    {
+      "file": "src/infrastructure/browser/cloudflare-browser-run.ts",
+      "line": 204,
+      "text": "await this.run(() => this.page.locator(target).waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));"
+    },
+    {
+      "file": "src/infrastructure/browser/local-playwright-chromium.ts",
+      "line": 91,
+      "text": "text: await this.page.locator(\"body\").innerText(),"
+    },
+    {
+      "file": "src/infrastructure/browser/local-playwright-chromium.ts",
+      "line": 111,
+      "text": "else await this.page.locator(target).click({ timeout });"
+    },
+    {
+      "file": "src/infrastructure/browser/local-playwright-chromium.ts",
+      "line": 134,
+      "text": "async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value, { timeout: actionTimeout(options) })); }"
+    },
+    {
+      "file": "src/infrastructure/browser/local-playwright-chromium.ts",
+      "line": 135,
+      "text": "async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }"
+    },
+    {
+      "file": "src/infrastructure/browser/local-playwright-chromium.ts",
+      "line": 136,
+      "text": "async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }"
+    },
+    {
+      "file": "src/infrastructure/browser/local-playwright-chromium.ts",
+      "line": 137,
+      "text": "async press(target: string, key: \"ArrowLeft\" | \"ArrowRight\", options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }"
+    },
+    {
+      "file": "src/infrastructure/browser/local-playwright-chromium.ts",
+      "line": 143,
+      "text": "else await this.page.locator(target).evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);"
+    },
+    {
+      "file": "src/infrastructure/browser/local-playwright-chromium.ts",
+      "line": 167,
+      "text": "await this.run(() => this.page.locator(target).first().waitFor(timeoutMs === undefined ? {} : { timeout: timeoutMs }));"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 7,
+      "text": "const CONTROL_GROUPS: Array<{ selector: string; kind: BrowserPageControl[\"kind\"]; defaultRole: string }> = ["
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 8,
+      "text": "{ selector: \"a[href],[role=link]\", kind: \"LINK\", defaultRole: \"link\" },"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 9,
+      "text": "{ selector: \"button,[role=button],[role=option],input[role=combobox][aria-readonly=true]\", kind: \"BUTTON\", defaultRole: \"button\" },"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 10,
+      "text": "{ selector: \"[role=combobox]:not(input):not(select):not(button)\", kind: \"BUTTON\", defaultRole: \"combobox\" },"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 11,
+      "text": "{ selector: \"select\", kind: \"SELECT\", defaultRole: \"combobox\" },"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 12,
+      "text": "{ selector: \"input[type=radio],[role=radio]\", kind: \"RADIO\", defaultRole: \"radio\" },"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 13,
+      "text": "{ selector: \"input[type=checkbox],[role=checkbox]\", kind: \"CHECKBOX\", defaultRole: \"checkbox\" },"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 14,
+      "text": "{ selector: \"input[type=range],[role=slider]\", kind: \"RANGE\", defaultRole: \"slider\" },"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 15,
+      "text": "{ selector: \"input:not([type=checkbox]):not([type=radio]):not([type=range]):not([role=combobox][aria-readonly=true]),textarea,[role=textbox]:not([role=combobox])\", kind: \"INPUT\", defaultRole: \"textbox\" },"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 16,
+      "text": "{ selector: \"[data-praxis-scroll-region],dialog[open],[role=dialog],[role=alertdialog],[role=listbox],[role=region]\", kind: \"REGION\", defaultRole: \"region\" },"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 42,
+      "text": "const owner = element.closest('[role=\"listbox\"]') as HTMLElement | null;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 56,
+      "text": "* ElementHandle. The model receives only opaque ids; no selector or JavaScript"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 75,
+      "text": "const container = [node.parentElement, node.parentElement?.parentElement]"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 76,
+      "text": ".find(parent => parent?.getAttribute(\"data-testid\") === \"Value Container\");"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 77,
+      "text": "if (!container || container.querySelectorAll('input[role=\"combobox\"]').length !== 1) return undefined;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 79,
+      "text": "[...child.classList].some(name => /(?:^|-)singleValue$/.test(name)));"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 82,
+      "text": "if (!(display as HTMLElement).getClientRects().length || display.querySelector(\"input,select,button,[role=option]\")) return undefined;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 103,
+      "text": "? node.form : node.closest(\"form\");"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 105,
+      "text": "const radioGroup = nativeRadio ? undefined : node.closest('[role=\"radiogroup\"]');"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 106,
+      "text": "const formIndex = form ? [...document.querySelectorAll(\"form\")].indexOf(form) : -1;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 107,
+      "text": "const groupIndex = radioGroup ? [...document.querySelectorAll('[role=\"radiogroup\"]')].indexOf(radioGroup) : -1;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 111,
+      "text": "? [...node.querySelectorAll(\"input\")].filter(input => [\"text\", \"search\"].includes(input.type)) : [];"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 119,
+      "text": "for (const modal of document.querySelectorAll(modalSelector)) {"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 129,
+      "text": "const coveringListbox = hit?.closest('[role=\"listbox\"]');"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 131,
+      "text": "&& [...document.querySelectorAll('[role=\"combobox\"][aria-expanded=\"true\"]')]"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 134,
+      "text": "const dialog = node.closest('[role=\"dialog\"],dialog');"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 137,
+      "text": "const labelContainer = node.closest('fieldset,[role=\"radiogroup\"]');"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 138,
+      "text": "const legend = labelContainer?.querySelector(\"legend\")?.textContent ?? \"\";"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 147,
+      "text": "for (let current: Element | null = owner; current?.parentElement; current = current.parentElement) {"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 148,
+      "text": "path.unshift(`${current.tagName}:${[...current.parentElement.children].indexOf(current)}`);"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 154,
+      "text": "const captionNode = calendar.querySelector(\"caption\");"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 168,
+      "text": "let container = node.parentElement;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 169,
+      "text": "for (let depth = 0; container && depth < 6 && !container.matches(\"body,html,main,header,footer\"); depth++, container = container.parentElement) {"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 175,
+      "text": "|| [...child.classList].some(name => /(?:__|-)(?:label|title)$/.test(name)))"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 179,
+      "text": "const calendars = [...container.querySelectorAll('table,[role=\"grid\"]')].filter(table => table.getClientRects().length > 0).map(table => monthReader.read(table)).filter(month => month !== undefined);"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 189,
+      "text": "const alternatives = node.matches('a,[role=\"link\"]') ? [...new Set([...node.querySelectorAll('i,svg title,img[alt],[aria-label],[title]')]"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 193,
+      "text": "const dayCell = node.closest('td,[role=\"gridcell\"]');"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 194,
+      "text": "const monthCaption = dayCell?.closest('table,[role=\"grid\"]')?.querySelector('caption')?.textContent ?? '';"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 203,
+      "text": "tag: node.tagName, classes: [...node.classList], role: node.getAttribute(\"role\"), type: node.getAttribute(\"type\"),"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 222,
+      "text": "listboxId: node.closest('[role=\"listbox\"]')?.id ?? \"\", dialogLabel: dialogLabel?.replace(/\\s+/g, \" \").trim() ?? \"\","
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 223,
+      "text": "formMethod: form?.getAttribute(\"method\") ?? \"\", formClass: form?.className ?? \"\", sliderCount: dialog?.querySelectorAll('[role=\"slider\"]').length ?? 0,"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 290,
+      "text": "const hintedSelector = hints.map(hint => hint.selector).join(\",\");"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 292,
+      "text": "...hints.map(hint => ({ selector: hint.selector, kind: \"BUTTON\" as const, defaultRole: \"button\", hint })),"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 296,
+      "text": "const groupLocator = page.locator(group.selector);"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 305,
+      "text": "if (!group.hint && hintedSelector && await locator.evaluate((element, selector) => element.matches(selector), hintedSelector)) { await release(); continue; }"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 383,
+      "text": "const structure = { tag: projection.tag, name: projection.name ?? \"\", classes: projection.classes ?? [], dialogLabel: projection.dialogLabel ?? \"\", formClass: projection.formClass ?? \"\", sliderCount: projection.sliderCount ?? 0, listboxId: projection.listboxId ?? \"\", ...(projection.radioGroupLabel ? { radioGroupLabel: projection.radioGroupLabel.slice(0, 240) } : {}), ...(projection.radioGroupKey ? { radioGroupKey: projection.radioGroupKey } : {}) };"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 405,
+      "text": "stableKey: [group.selector, role, group.kind === \"RADIO\" ? structure.radioGroupKey ?? \"\" : \"\", role === \"combobox\" ? \"\" : label, group.kind === \"BUTTON\" && role !== \"combobox\" || group.kind === \"RADIO\" ? value : \"\", nodeIdentity ?? index].join(\"|\"),"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 443,
+      "text": "const days = await page.evaluate(() => [...document.querySelectorAll('table,[role=\"grid\"]')].flatMap((calendar, calendarIndex) => {"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 444,
+      "text": "const caption = calendar.querySelector('caption')?.textContent ?? calendar.getAttribute('aria-label') ?? '';"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 451,
+      "text": "for (let current: Element | null = calendar; current?.parentElement; current = current.parentElement) ownerPath.unshift(`${current.tagName}:${[...current.parentElement.children].indexOf(current)}`);"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 453,
+      "text": "return [...calendar.querySelectorAll('td,[role=\"gridcell\"]')].flatMap((cell, index) => {"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 459,
+      "text": "const day = cell.querySelector(':scope > p') ?? cell;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 461,
+      "text": "return [{date,key:`calendar:${calendarIndex}:day:${index}`,selectionAttributes,controlGroupKey,calendarMonth:{year,month,caption:caption.replace(/\\s+/g,' ').trim(),source:calendar.querySelector('caption')?'DOM caption' as const:'ARIA label' as const}}];"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 470,
+      "text": "const listboxId = control.structure?.listboxId;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 501,
+      "text": "const list = node.closest('[role=\"listbox\"]') as HTMLElement | null;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 548,
+      "text": "return locator.evaluate(element => [...element.querySelectorAll(\"option\")].slice(0, 24).map(option => ({"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 573,
+      "text": "[...document.querySelectorAll('a[href],input,select,textarea,button,[role=combobox],[role=option],[role=checkbox],[role=radio],[role=slider]')].filter(element => {"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 585,
+      "text": "const busyElements = [...document.querySelectorAll('[aria-busy=\"true\"],[role=\"progressbar\"],[class]')].filter(element => {"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 586,
+      "text": "if (!element.matches('[aria-busy=\"true\"],[role=\"progressbar\"]') && !/(?:^|[\\s_-])(?:spinner|loader|skeleton)(?:$|[\\s_-])/i.test(element.className.toString())) return false;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 594,
+      "text": "clearInterval(timer); observer.disconnect(); resolve({ settled, busySelectors: busyElements.slice(0, 12).map(element => element.matches('[aria-busy=\"true\"]') ? '[aria-busy=\"true\"]' : element.matches('[role=\"progressbar\"]') ? '[role=\"progressbar\"]' : '.' + element.className.toString().split(/\\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.')), visibleTextChanging: performance.now() - visibleSince < 300 });"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 608,
+      "text": "return page.evaluate(() => [...document.querySelectorAll('[aria-busy=\"true\"],[role=\"progressbar\"],[class]')].filter(element => {"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 609,
+      "text": "if (!element.matches('[aria-busy=\"true\"],[role=\"progressbar\"]') && !/(?:^|[\\s_-])(?:spinner|loader|skeleton)(?:$|[\\s_-])/i.test(element.className.toString())) return false;"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 612,
+      "text": "}).slice(0, 12).map(element => element.matches('[aria-busy=\"true\"]') ? '[aria-busy=\"true\"]' : element.matches('[role=\"progressbar\"]') ? '[role=\"progressbar\"]' : '.' + element.className.toString().split(/\\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.')));"
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-browser-controls.ts",
+      "line": 617,
+      "text": "return page.evaluate(() => [...document.querySelectorAll(\"input,select,textarea,button,[role=combobox],[role=option],[role=checkbox],[role=radio],[role=slider]\")]"
+    },
+    {
+      "file": "src/integrations/restaurant-facts/google-listed-website-facts.ts",
+      "line": 215,
+      "text": "if (!/class=[\"']courseName[\"']/.test(card) || !/class=[\"']coursePrice[\"']/.test(card)) return [];"
+    },
+    {
+      "file": "src/integrations/restaurant-search/native-restaurant-search.ts",
+      "line": 111,
+      "text": "&& /(?:search|keyword|venue|restaurant|\u5e97\u540d|\u691c\u7d22)/i.test(`${control.label} ${control.structure?.name ?? \"\"}`));"
+    },
+    {
+      "file": "src/integrations/restaurant-search/result-region-busy.ts",
+      "line": 10,
+      "text": "const descriptor = [...attributes.matchAll(/(?:class|id|data-testid|data-result-region)=[\"']([^\"']*)[\"']/gi)].map(value => value[1]).join(\" \");"
+    },
+    {
+      "file": "src/integrations/restaurant-search/source-packs.ts",
+      "line": 233,
+      "text": "const matches=controls.filter(control=>control.visible && control.kind==='SELECT' && control.structure?.name===name);"
+    },
+    {
+      "file": "src/integrations/restaurant-search/source-packs.ts",
+      "line": 320,
+      "text": "const dates=[...snapshot.html.matchAll(/<span\\b[^>]*>/gi)].map(m=>m[0]).filter(tag=>/\\bclass=[\"'][^\"']*\\bjs-list-sidebar-cal-date\\b[^\"']*[\"']/.test(tag)&&/\\bclass=[\"'][^\"']*\\bis-current\\b[^\"']*[\"']/.test(tag)).map(tag=>tag.match(/\\bdata-date=[\"'](\\d{8})[\"']/)?.[1]);"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "line": 586,
+      "text": "source: \"TABELOG\", stage: \"AVAILABILITY\", signal, session, selector: party, value: String(request.partySize), authoritativeValue: String(request.partySize),"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "line": 590,
+      "text": "source: \"TABELOG\", stage: \"AVAILABILITY\", signal, session, selector: date, value: request.date, authoritativeValue: request.date,"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 82,
+      "text": "if (!/data-(?:address|phone)=|class=[\"'][^\"']*(?:rst-name|restaurant[^\"']*(?:name|title))[^\"']*[\"']/i.test(tag)) continue;"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 217,
+      "text": "const element = /<(button|a|li|div)[^>]*?(?:data-(?:time|start-time)|class=[\"'][^\"']*(?:slot|time|reserve|vacancy)[^\"']*)[^>]*>([\\s\\S]{0,500}?)<\\/\\1>/gi;"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 252,
+      "text": "return snapshot.html.split(/<div\\b[^>]*class=[\"']rstdtl-course-list js-rstdtl-course-list[\"'][^>]*>/i).slice(1).flatMap(card => {"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 253,
+      "text": "const name = decode(stripTags(card.match(/<span\\b[^>]*class=[\"']rstdtl-course-list__course-title-text[\"'][^>]*>([\\s\\S]*?)<\\/span>/i)?.[1] ?? \"\"));"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 254,
+      "text": "const description = decode(stripTags(card.match(/<p\\b[^>]*class=[\"']rstdtl-course-list__desc[\"'][^>]*>([\\s\\S]*?)<\\/p>/i)?.[1] ?? \"\"));"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 255,
+      "text": "const price = decode(stripTags(card.match(/<span\\b[^>]*class=[\"']rstdtl-course-list__price-num[\"'][^>]*>([\\s\\S]*?)<\\/span>/i)?.[1] ?? \"\"));"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 256,
+      "text": "const party = stripTags(card.match(/<dl\\b[^>]*class=[\"']rstdtl-course-list__course-rule[\"'][^>]*>([\\s\\S]*?)<\\/dl>/i)?.[1] ?? \"\");"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 269,
+      "text": "for (const block of sourcePriceElements(snapshot.html, tag => /class=[\"'][^\"']*rdheader-budget__icon/.test(tag))) {"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 277,
+      "text": "for (const block of sourcePriceElements(snapshot.html, tag => /class=[\"']rstdtl-course-list js-rstdtl-course-list[\"']/.test(tag))) {"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 279,
+      "text": "const price = sourcePriceElements(block, tag => /class=[\"']rstdtl-course-list__price-num[\"']/.test(tag))[0];"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 282,
+      "text": "const title = sourcePriceElements(block, tag => /class=[\"']rstdtl-course-list__course-title-text[\"']/.test(tag))[0];"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 294,
+      "text": "const hasClass = (tag: string, token: string) => (tag.match(/\\sclass\\s*=\\s*([\"'])([\\s\\S]*?)\\1/i)?.[2] ?? \"\").split(/\\s+/).includes(token);"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 299,
+      "text": "for (const block of sourcePriceElements(snapshot.html, tag => hasClass(tag, \"display-name\"))) add(\"NAME\", block);"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 300,
+      "text": "for (const block of sourcePriceElements(snapshot.html, tag => hasClass(tag, \"rstdtl-rvw__title-target\"))) add(\"CUSTOMER_REVIEW\", block);"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 302,
+      "text": "for (const block of sourcePriceElements(merchantHtml, tag => /^<(?:aside|nav)\\b/i.test(tag) || /class=[\"'][^\"']*(?:rstdtl-rvw|recommend|related|neighbor|is-hidden)[^\"']*[\"']/i.test(tag)).sort((a, b) => b.length - a.length)) merchantHtml = merchantHtml.replace(block, \"\");"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 303,
+      "text": "for (const card of sourcePriceElements(merchantHtml, tag => hasClass(tag, \"rstdtl-course-list\"))) {"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 306,
+      "text": "const title = sourcePriceElements(card, tag => /^<span\\b/i.test(tag) && hasClass(tag, \"rstdtl-course-list__course-title-text\"))[0] ?? \"\";"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 307,
+      "text": "const description = sourcePriceElements(card, tag => /^<p\\b/i.test(tag) && hasClass(tag, \"rstdtl-course-list__desc\"))[0] ?? \"\";"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "line": 313,
+      "text": "for (const table of sourcePriceElements(merchantHtml, tag => /^<table\\b/i.test(tag) && /class=[\"'][^\"']*rstinfo-table[^\"']*[\"']/i.test(tag)))"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 16,
+      "text": "{ selector: \".p-booking-calendar [data-year][data-month][data-day]\", labelPrefix: \"Date\", value: \"DATE_PARTS\" },"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 17,
+      "text": "{ selector: '.p-booking-calendar button.p-booking-calendar__people-button, .p-booking-calendar :is(.p-booking-calendar__people-button-box, [aria-label=\"Guests\"], [aria-label=\"People\"], [aria-label=\"Party size\"]) button', labelPrefix: \"Guests\", value: \"TEXT\" },"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 18,
+      "text": "{ selector: \".p-booking-calendar button.p-booking-calendar__time-button[data-time]\", labelPrefix: \"Booking time\", value: \"TEXT\", observationOnly: true },"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 25,
+      "text": "function hasClass(tag: string, name: string): boolean {"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 39,
+      "text": "const hiddenTag = (tag: string) => hasClass(tag, \"is-hidden\") || /\\shidden(?:\\s|>|=)/i.test(tag)"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 59,
+      "text": "const booking = hasClass(tag, \"p-booking-calendar\") || stack.some(item => item.booking);"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 60,
+      "text": "if (name === \"table\" && booking && hasClass(tag, \"p-booking-calendar__calendar\")) tableStart = { index: token.index, hidden };"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 71,
+      "text": "if (!dayLabel || !hasClass(`<span ${dayLabel[1]}>`, \"p-booking-calendar__day-num\") || Number(dayLabel[2]) !== day) continue;"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 73,
+      "text": "if ((hasClass(selected, \"is-selectable\") || hasSelectedControlState(attributes(selected)))"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 76,
+      "text": "else if (hasClass(`<span ${dayLabel[1]}>`, \"p-booking-calendar__day-num--closed\")) states.push(\"CLOSED\");"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 77,
+      "text": "else if (hasClass(`<span ${dayLabel[1]}>`, \"p-booking-calendar__day-num--full\")) states.push(\"FULL\");"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 78,
+      "text": "else if (hasClass(`<span ${dayLabel[1]}>`, \"p-booking-calendar__day-num--tel\")) states.push(\"PHONE_ONLY\");"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 112,
+      "text": "hidden: Boolean(parent?.hidden) || hasClass(tag, \"is-hidden\") || /\\shidden(?:\\s|=|>)/i.test(tag)"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 114,
+      "text": "booking: Boolean(parent?.booking) || hasClass(tag, \"p-booking-calendar\") };"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 122,
+      "text": "if (element.name === \"button\" && hasClass(element.tag, \"p-booking-calendar__people-button\")) return true;"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 124,
+      "text": "if (hasClass(current.tag, \"p-booking-calendar__people-button-box\")) return true;"
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "line": 127,
+      "text": ": hasClass(current.tag, \"p-booking-calendar__select\") ? current.content.match(/<p\\b[^>]*>([\\s\\S]*?)<\\/p>/i)?.[1] : undefined);"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "line": 118,
+      "text": "&& control.structure?.name === \"reservation[service_category]\");"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "line": 125,
+      "text": "const group = control.structure?.radioGroupKey;"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "line": 483,
+      "text": "// parameter is treated as a universal loading selector."
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "line": 888,
+      "text": "const values = await this.executor.select({ source: \"TABLECHECK\", stage: \"AVAILABILITY\", signal, session: session!, selector: party, value: String(request.partySize), authoritativeValue: String(request.partySize) });"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "line": 892,
+      "text": "const values = await this.executor.select({ source: \"TABLECHECK\", stage: \"AVAILABILITY\", signal, session: session!, selector: date, value: request.date, authoritativeValue: request.date });"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 147,
+      "text": "const field = control.structure?.name;"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 148,
+      "text": "const group = control.structure?.radioGroupKey;"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 422,
+      "text": "if (/data-testid=[\"']Venue Availability[\"']/i.test(snapshot.html)) {"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 481,
+      "text": "const starts = [...snapshot.html.matchAll(/<div\\b[^>]*data-testid=[\"']Venue Availability[\"'][^>]*>/gi)];"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 495,
+      "text": "return /<div\\b[^>]*data-testid=[\"']Venue Availability[\"'][^>]*>/i.test(snapshot.html);"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 501,
+      "text": "return /(?:\\bCalendarSkeleton\\b|class=[\"'][^\"']*\\bskeleton\\b[^\"']*[\"']|aria-busy=[\"']true[\"'])/i.test(html);"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 514,
+      "text": ".filter(tag => attr(tag, \"data-testid\") === \"day\" && attr(tag, \"aria-selected\") === \"true\")"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 517,
+      "text": "const pax = controls.filter(tag => attr(tag, \"data-testid\") === \"Venue Pax Select\");"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 518,
+      "text": "const time = controls.filter(tag => attr(tag, \"data-testid\") === \"Venue Time Select\");"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 564,
+      "text": "const matches = controls.filter(item => item.visible && !item.disabled && item.kind === field.kind && item.structure?.name === field.name);"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 645,
+      "text": "return /data-(?:available|bookable)=[\"']true|data-(?:status|state)=[\"']available|class=[\"'][^\"']*(?:available|bookable)[^\"']*[\"']/i.test(value);"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 673,
+      "text": "&& /data-testid=[\"']Venue Unavailable Msg[\"']/.test(visibleResult)"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 689,
+      "text": "for (const match of guide.html.matchAll(/<a\\b[^>]*data-testid=[\"']Venue Timeslot Btn[\"'][^>]*>[\\s\\S]*?<\\/a>/gi)) {"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 720,
+      "text": "const element = /<(button|a)[^>]*?(?:data-(?:time|start-time|slot)|class=[\"'][^\"']*(?:slot|time|availability)[^\"']*)[^>]*>([\\s\\S]{0,500}?)<\\/\\1>/gi;"
+    },
+    {
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "line": 877,
+      "text": "for (const card of sourcePriceElements(snapshot.html, tag => /data-testid=[\"']Menu Item Card[\"']/.test(tag))) {"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 44,
+      "text": "<div class=\"eyebrow\">Praxis \u00b7 local workspace</div><h1>Your agent workspace</h1>"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 46,
+      "text": "<div id=\"mode-notice\" class=\"notice\"><strong>Fixture only.</strong> No real model, live availability, notification, authorization, or booking. Local access token: <code>praxis-fixture-a</code>.</div>"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 48,
+      "text": "<p id=\"login-error\" class=\"notice hidden\"></p>"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 50,
+      "text": "<div id=\"workspace\" class=\"hidden\">"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 51,
+      "text": "<aside><div class=\"side-head\"><div class=\"brand\">Praxis</div><button id=\"new-case\" class=\"secondary\">New case</button></div><div id=\"case-list\"></div></aside>"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 53,
+      "text": "<header><div><div id=\"workspace-mode\" class=\"eyebrow\">Persistent restaurant agent \u00b7 fixture</div><h1 id=\"case-title\">Start a case</h1><span id=\"case-status\" class=\"status hidden\"></span></div><div><button id=\"refresh\" class=\"secondary hidden\">Refresh availability</button> <button id=\"cancel-run\" class=\"secondary hidden\">Stop current read</button> <button id=\"logout\" class=\"secondary\">Sign out</button></div></header>"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 54,
+      "text": "<div id=\"read-boundary\" class=\"notice\">This workspace can persist and reconnect, but Fixture mode does not contact real sources.</div>"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 56,
+      "text": "<button id=\"use-location\" class=\"secondary hidden\" type=\"button\">Use device location</button><p id=\"location-help\" class=\"muted hidden\">If location is unavailable, type a nearby station, address, or district in the message box.</p>"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 57,
+      "text": "<p id=\"error\" class=\"notice hidden\"></p>"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 58,
+      "text": "<div class=\"columns\"><section><div class=\"panel\"><h2>Conversation</h2><div id=\"messages\" class=\"muted\">No case selected.</div></div><div class=\"panel\"><h2>Restaurant artifact</h2><div id=\"artifact\" class=\"muted\">Candidates will appear here.</div></div></section><section><div class=\"panel\"><h2>Activity</h2><div id=\"activity\" class=\"muted\">Authoritative task events will appear here.</div></div></section></div>"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 62,
+      "text": "const $ = (selector) => document.querySelector(selector);"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 66,
+      "text": "const node = (tag, text, className) => { const item = document.createElement(tag); if (text !== undefined) item.textContent = text; if (className) item.className = className; return item; };"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 69,
+      "text": "function showError(value, target = error) { target.textContent = value.message || String(value); target.classList.remove('hidden'); }"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 70,
+      "text": "function clearError() { error.classList.add('hidden'); }"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 78,
+      "text": "state.view = view; title.textContent = view.case.title; status.textContent = view.case.status + (view.case.pendingUserAction ? ' \u00b7 ' + view.case.pendingUserAction : ''); status.classList.remove('hidden'); send.textContent = 'Send';"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 79,
+      "text": "const factOnlyResult = view.restaurant.intentDraft && view.restaurant.intentDraft.target && view.restaurant.intentDraft.target.goal === 'RECOMMENDATION'; refresh.textContent = factOnlyResult ? 'Refresh recommendation facts' : 'Refresh availability'; refresh.classList.toggle('hidden', view.case.phase !== 'PRESENT_RESULTS');"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 80,
+      "text": "cancelRun.classList.toggle('hidden', view.mode !== 'LIVE_READ' || view.case.status !== 'ACTIVE');"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 82,
+      "text": "useLocation.classList.toggle('hidden', !needsNearbyLocation); locationHelp.classList.toggle('hidden', !needsNearbyLocation);"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 135,
+      "text": "function resetCase() { state.navigation++; clearTimeout(state.expiryTimer); if (state.stream) state.stream.close(); state.stream = null; state.view = null; title.textContent = 'Start a case'; status.classList.add('hidden'); send.textContent = 'Start case'; messages.textContent = 'Describe the result you want to begin.'; artifact.textContent = 'Candidates will appear here.'; activity.textContent = 'Authoritative task events will appear here.'; renderList(); message.focus(); }"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 139,
+      "text": "useLocation.onclick = () => { if (!state.view || !navigator.geolocation) { showError(new Error('Device location is unavailable. Type a nearby station, address, or district instead.')); return; } useLocation.disabled = true; navigator.geolocation.getCurrentPosition(async (position) => { try { const payload = await api('/api/cases/' + encodeURIComponent(state.view.case.caseId) + '/location', { method: 'POST', body: JSON.stringify({ taskVersion: state.view.case.taskVersion, requestId: requestId(), latitude: position.coords.latitude, longitude: position.coords.longitude, accuracyMeters: position.coords.accuracy }) }); renderView(payload.view); openStream(payload.view.case.caseId); } catch (reason) { showError(reason); } finally { useLocation.disabled = false; } }, () => { useLocation.disabled = false; locationHelp.classList.remove('hidden'); showError(new Error('Location was not shared. Type a nearby station, address, or district to continue.')); }, { enableHighAccuracy: false, maximumAge: 0, timeout: 10000 }); };"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 141,
+      "text": "$('#login-form').addEventListener('submit', async (event) => { event.preventDefault(); try { await api('/api/session', { method: 'POST', body: JSON.stringify({ accessToken: $('#access-token').value }) }); login.classList.add('hidden'); workspace.classList.remove('hidden'); await loadCases(); } catch (reason) { showError(reason, $('#login-error')); } });"
+    },
+    {
+      "file": "src/web/local-workspace-page.ts",
+      "line": 143,
+      "text": "api('/api/session').then(() => { login.classList.add('hidden'); workspace.classList.remove('hidden'); return loadCases(); }).catch(() => {});"
+    }
+  ]
+}

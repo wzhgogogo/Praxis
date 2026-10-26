@@ -1,3 +1,4 @@
+import type { RestaurantFactPageObserver } from "./fact-source-document.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { createHash } from "node:crypto";
 
@@ -313,6 +314,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
     private readonly browserBudget?: BrowserExecutionBudget,
     private readonly onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
     private readonly networkPolicy?: BrowserReadNetworkPolicy,
+    private readonly onSourcePage?: RestaurantFactPageObserver,
   ) {}
 
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
@@ -338,7 +340,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         // shared run budget still applies; this does not permit form submission.
 
       });
-      const pages = new Map<string, { observation: UntrustedRestaurantWebsiteObservation; text: string }>();
+      const pages = new Map<string, { observation: UntrustedRestaurantWebsiteObservation; text: string; snapshot: BrowserSnapshot; observedAt: string }>();
       const remember = (snapshot: BrowserSnapshot): void => {
         const landed = safeWebsiteUrl(snapshot.url);
         if (landed?.origin !== listed.origin) return;
@@ -346,7 +348,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
           candidateStructuredObservation(candidate, landed.toString(), checkedAt, snapshot.html),
           candidateVisibleObservation(candidate, landed.toString(), checkedAt, snapshot.text, snapshot.html),
         );
-        if (observation) pages.set(landed.toString(), { observation, text: snapshot.text });
+        if (observation) pages.set(landed.toString(), { observation, text: snapshot.text, snapshot, observedAt: this.now() });
       };
       const materialize = (): { evidence: RestaurantCandidateFactRead["evidence"]; documents: NonNullable<RestaurantCandidateFactRead["sourceDocuments"]> } => {
         const pageEvidence = [...pages.values()].flatMap(page => groundRestaurantWebsiteFacts(candidate, request.intent, page.observation).evidence.map(item => ({
@@ -357,6 +359,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         for (const page of pages.values()) {
           const identity = pageEvidence.find(item => item.kind === "ENTITY_MATCH" && item.sourceUrl === page.observation.sourceUrl);
           if (!identity || remainingText <= 0) continue;
+          this.onSourcePage?.(structuredClone({ candidateId: candidate.restaurant.id, readRunId: request.readRunId, requestedSourceUrl: candidate.restaurant.sourceIds.googleWebsiteUri!, identity, snapshot: page.snapshot, observedAt: page.observedAt }));
           const id = `website-document:${websiteFactDocumentFingerprint(`${identity.evidenceId}\n${page.text}`)}`;
           const statements: Array<{ id: string; text: string }> = [];
           for (const line of page.text.split(/\r?\n/u).map(line => line.replace(/\s+/gu, " ").trim()).filter(Boolean)) {

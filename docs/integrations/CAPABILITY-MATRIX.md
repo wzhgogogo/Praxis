@@ -1,12 +1,13 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.88
+- Document revision: 1.89
 - Last updated: 2026-10-26
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
 
+2026-10-26 CET，3b B批次1（draft / not integrated）：[ADR-0047](../decisions/0047-observation-driven-sites-and-cited-questions.md)为Proposed。G1未接入口核心复用现有Native/官网事实reader的可选已绑定页面hook、原文分段/引用选择核对；新增目的`restaurant_page_question@1`只作离线fixture验证。旧事实读取行为保持，没有Agent合法动作/Prompt/Web接线，没有新来源/权限或现实问答能力声明。身份负例通过现有reader驱动；保存商家片段只证明原文字面核对，人工身份envelope不证明该店身份。外部Adapter实际导航/Guard和五门禁的本地Chromium回归见[本批报告](../../.eval-artifacts/phase3b/g1-core/report.md)，新增真实调用0。
 2026-10-26 CET，F3-034共享发现改为显式观察列表引用或有界UNKNOWN；非法/重复检索不隐式清词，Google-only同样拒绝无效提议的空查询。当前State@22／TaskDefinition@20、retrieval Schema@3／Prompt@6，资格/预算不改。两来源目录及Pack原字节保留，本地正常通用入口5家与误用拒绝控制通过，新增真实调用0。[报告](../../.eval-artifacts/phase3a-prime/f3-034/report.md)。
 
 以下2026-10-24段为当时实施记录，版本号和分支状态不是当前状态。

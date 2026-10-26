@@ -1,3 +1,4 @@
+import { selectRestaurantFactStatements } from "./fact-source-document.js";
 import type { ModelGateway, ModelUsage } from "../../core/model/contracts.js";
 import type { RestaurantCandidate, RestaurantFactSourceDocument, RestaurantReadEvidence, RestaurantSearchIntent } from "../../domains/restaurant/contracts.js";
 
@@ -118,8 +119,8 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       const ids = strings(selected?.statementIds);
       if (!document || !ids.length || ids.length > 3 || sourceById.has(document.id)
         || new Set(ids).size !== ids.length) continue;
-      const statements = ids.map(id => document.statements.find(s => s.id === id));
-      if (statements.some(s => !s || !s.text.trim() || s.text.length > 1600)) continue;
+      const statements = selectRestaurantFactStatements(document, ids);
+      if (!statements) continue;
       const identity = input.evidence.find(e => e.evidenceId === document.identityEvidenceId)!;
       const documentScope = document.serviceScope;
       const quotes = statements.map(s => s!.text);
