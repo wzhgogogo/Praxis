@@ -1,0 +1,62 @@
+{
+  "mode": "OFFLINE_FIXTURE_MUTATIONS",
+  "testedCommit": "6e4e2db8b2cd47845bc262082d0cf5c6090e6364",
+  "recordedAtCET": "2026-10-26T23:03:26.607545+01:00",
+  "sourceSha256": "11a15bef9448a484cf988a847c3eaee680076dc99864c6ba3097e6d637f363ce",
+  "testSha256": "24409c4ab5320dbc39ea9576b72bc4edaf6d759a9e74ba974b531952296e41e2",
+  "scriptSha256": "de8bbee677152a6631c69f58b0e59e9c2b9c505bba5601e3c854e32e73639b54",
+  "runs": [
+    {
+      "control": "quote-check",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=G1 rejects fabricated",
+        "src/integrations/restaurant-facts/model-page-question.test.ts"
+      ],
+      "exitCode": 1,
+      "mutantSha256": "040524017b1044476aafce65a8bc8ef687a03cad87684bff809b46b29a2f602e",
+      "logSha256": "239283ebca9cd92720b5996782fd82e94d14dc815664b880534181e1dbeb5b25",
+      "detection": "EXPECTED_ASSERTION_FAILURE"
+    },
+    {
+      "control": "identity-check",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=G1 rejects stale runs",
+        "src/integrations/restaurant-facts/model-page-question.test.ts"
+      ],
+      "exitCode": 1,
+      "mutantSha256": "55faa072ce564d881f955bc10dfd9d7d67b979c536b38cab92361f8c094e365a",
+      "logSha256": "d667afc85709089ce75e97e3acd3d2a9ea7f99acdf349271559522a2c8b5b514",
+      "detection": "EXPECTED_ASSERTION_FAILURE"
+    },
+    {
+      "control": "sensitive-prose-check",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=G1 sensitive questions",
+        "src/integrations/restaurant-facts/model-page-question.test.ts"
+      ],
+      "exitCode": 1,
+      "mutantSha256": "49158791d4c98df58fa4d840c4a4637817d02dba2b917b56b1c3173c184a46bc",
+      "logSha256": "6427155b1a0ea09175eeb2838ebbd6d9f033ae33a2fd4f2974b4f1d11551fca3",
+      "detection": "EXPECTED_ASSERTION_FAILURE"
+    }
+  ],
+  "sourceRestored": true
+}
