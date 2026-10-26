@@ -1,0 +1,18 @@
+[
+  {
+    "id": "busy-results-cannot-short-circuit-health-window",
+    "testPath": "src/harness/browser/live-source-health.test.ts",
+    "pattern": "Live source health uses real Guard",
+    "sourceMutations": [
+      {
+        "path": "src/eval/restaurant/agent-loop/live-source-health.ts",
+        "replacements": [
+          [
+            "    readyFromPage=Boolean(pack.parseListing(page).outlets.length>0||pack.browser!.isExplicitEmptyListing?.(page));",
+            "    readyFromPage=Boolean(pack.parseListing(page).outlets.length>0||pack.browser!.isExplicitEmptyListing?.(page));\n    if(readyFromPage&&check.sourceId===\"tablecheck\")return observation();"
+          ]
+        ]
+      }
+    ]
+  }
+]
