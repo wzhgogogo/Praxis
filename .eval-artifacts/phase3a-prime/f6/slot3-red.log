@@ -1,0 +1,27 @@
+✖ F6 slot3 26.596 seconds blocks the original availability action and ends honestly (26.559458ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 152.585584
+
+✖ failing tests:
+
+test at src/application/restaurant-agent-loop.test.ts:1:10187
+✖ F6 slot3 26.596 seconds blocks the original availability action and ends honestly (26.559458ms)
+  AssertionError [ERR_ASSERTION]: the original slot3 CHECK_AVAILABILITY must never start with only 26.596 seconds
+  
+  3 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/application/restaurant-agent-loop.test.ts:186:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 0,
+    operator: 'strictEqual'
+  }
