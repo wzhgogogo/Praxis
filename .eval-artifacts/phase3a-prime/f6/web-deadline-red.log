@@ -1,0 +1,30 @@
+✖ W12 F6 Live Persistent run inherits the semantic-started deadline and its twenty-second reserve (774.045167ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11293.940375
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:1:49905
+✖ W12 F6 Live Persistent run inherits the semantic-started deadline and its twenty-second reserve (774.045167ms)
+  AssertionError [ERR_ASSERTION]: F6 must cancel at the semantic-started deadline minus 20 seconds, not restart 500 seconds after semantic work
+  
+  false !== true
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/server/local-web-server.test.ts:1206:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/server/local-web-server.test.ts:241:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/server/local-web-server.test.ts:1180:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

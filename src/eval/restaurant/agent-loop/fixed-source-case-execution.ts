@@ -116,7 +116,7 @@ export async function executeFixedSourceCase(input: {
       timezone: "Asia/Tokyo",
     }, requiresEvaluationLocation(input.materializedCase) ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined), deadline.signal);
     if ((semantic as { status?: string }).status !== "PROPOSED") throw Object.assign(new Error("Semantic Interpreter did not produce a proposal"), { code: (semantic as { status?: string }).status ?? "SEMANTIC_FAILED" });
-    const loop = await settleAtRunDeadline(composition.coordinator.run(input.taskId, deadline.signal), deadline.signal);
+    const loop = await settleAtRunDeadline(composition.coordinator.run(input.taskId, deadline.signal, new Date(businessStart + limits.maxAutomaticBrowserMs)), deadline.signal);
     const finalSnapshot = composition.runtime.snapshot(input.taskId);
     const success = (loop.status === "TERMINAL" && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(finalSnapshot.domainState.phase)) || loop.status === "WAITING_USER";
     return {

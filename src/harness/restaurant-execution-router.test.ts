@@ -820,36 +820,36 @@ test("Router partial-port contract: C6a observed public hours end the immediate 
   });
 });
 
-test("Router partial-port contract: reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=mode===\"availability-time\"?300000:500000, maxStructuredReadMs=8000)", async t => {
-  for (const mode of ["availability-call","availability-time","empty-call","facts-call"] as const) await t.test(mode,async tt=>{
-    if(mode==="availability-time")tt.mock.timers.enable({apis:["setTimeout"]});
+test("Router partial-port contract: reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=mode.endsWith(\"-time\")?300000:500000, maxStructuredReadMs=8000)", async t => {
+  for (const mode of ["availability-call","availability-time","empty-call","facts-call","facts-time"] as const) await t.test(mode,async tt=>{
+    if(mode.endsWith("-time"))tt.mock.timers.enable({apis:["setTimeout"]});
     let signalThird!:()=>void;
     const thirdStarted=new Promise<void>(resolve=>{signalThird=resolve});
     const taskId=`fixture:checkpoint:${mode}`, started=now.valueOf(); let instant=started, inspected=0;
     const readClock={now:()=>new Date(instant)};
-    const search=googleFixture([],{maxRequests:100},["one","two","three",...(mode==="availability-time"?["four"]:[])]);
+    const search=googleFixture([],{maxRequests:100},["one","two","three",...(mode.endsWith("-time")?["four"]:[])]);
     const delegate:ModelGateway={async complete(input){
     if(input.purpose==='restaurant_discovery_retrieval')return Promise.resolve(scriptedRetrieval(input)!);
       if(input.purpose==="restaurant_semantic_interpret")return response(JSON.stringify({schemaVersion:"4",facts:[
-        {field:"TARGET",operation:"ASSERT",value:{ goalBasis: fixtureGoalBasis(input),kind:"TARGET",goal:mode==="facts-call"?"RECOMMENDATION":"AVAILABILITY",query:"nearby restaurants",selectionScope:"OPEN_ENDED"}},
+        {field:"TARGET",operation:"ASSERT",value:{ goalBasis: fixtureGoalBasis(input),kind:"TARGET",goal:mode.startsWith("facts-")?"RECOMMENDATION":"AVAILABILITY",query:"nearby restaurants",selectionScope:"OPEN_ENDED"}},
         {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:"2026-09-17",raw:"tomorrow"}},
         {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:00",raw:"7pm"}},
         {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:2}},
         {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"nearby"}},
-        ...(mode==="facts-call"?[{field:"CRITERION",operation:"ASSERT",value:{kind:"CRITERION",text:"cafe",strength:"HARD",polarity:"POSITIVE"}}]:[])
+        ...(mode.startsWith("facts-")?[{field:"CRITERION",operation:"ASSERT",value:{kind:"CRITERION",text:"cafe",strength:"HARD",polarity:"POSITIVE"}}]:[])
       ]}),"semantic");
       if(input.purpose==="checkpoint-read")return response("{}","read");
       const {context:c}=JSON.parse(input.messages.find(x=>x.role==="user")!.content);
       const eligible=(c.presentation??[]).filter((x:{eligible:boolean})=>x.eligible).map((x:{candidateId:string})=>x.candidateId);
-      const ids=(mode==="facts-call"?c.factInvestigableCandidateIds:c.checkableCandidateIds)??[];
-      const type=c.readCompletion?.reason?.startsWith("MODEL_CALL_RESERVE")?"END_READ":!c.candidates?.length?"SEARCH_RESTAURANTS":ids.length?(mode==="facts-call"?"INVESTIGATE_CANDIDATE_FACTS":"CHECK_AVAILABILITY"):eligible.length?"PRESENT_RESULTS":"END_READ";
-      return response(JSON.stringify(strictAction(type,type==="PRESENT_RESULTS"?eligible:ids.slice(0,mode==="availability-time"&&inspected===0?1:3))),"agent");
+      const ids=(mode.startsWith("facts-")?c.factInvestigableCandidateIds:c.checkableCandidateIds)??[];
+      const type=c.readCompletion?.reason?.startsWith("MODEL_CALL_RESERVE")?"END_READ":!c.candidates?.length?"SEARCH_RESTAURANTS":ids.length?(mode.startsWith("facts-")?"INVESTIGATE_CANDIDATE_FACTS":"CHECK_AVAILABILITY"):eligible.length?"PRESENT_RESULTS":"END_READ";
+      return response(JSON.stringify(strictAction(type,type==="PRESENT_RESULTS"?eligible:ids.slice(0,mode.endsWith("-time")&&inspected===0?1:3))),"agent");
     }};
-    const budget=new RunBoundedModelGateway(delegate,mode==="empty-call"?8:mode==="availability-time"?50:12,500_000);
+    const budget=new RunBoundedModelGateway(delegate,mode==="empty-call"?8:mode.endsWith("-time")?50:12,500_000);
     const reserved=new DeliveryReservedModelGateway(budget);
     const sourceCalls=async(signal:AbortSignal)=>{
       inspected++;
-      if(mode==="availability-time"){
+      if(mode.endsWith("-time")){
         if(inspected===1)instant=started+205_000;
         if(inspected===3)await new Promise<never>((_,reject)=>{
           signalThird();
@@ -879,21 +879,21 @@ test("Router partial-port contract: reserve checkpoints retain completed outlets
     model:reserved,
     google: search,
     unitAvailability: availability,
-    config: { maxAgentSteps: 10, maxRejectedActions: 3, maxAutomaticBrowserMs: mode==="availability-time"?300_000:500_000, maxStructuredReadMs: 8_000 },
+    config: { maxAgentSteps: 10, maxRejectedActions: 3, maxAutomaticBrowserMs: mode.endsWith("-time")?300_000:500_000, maxStructuredReadMs: 8_000 },
     remainingModelCalls:id=>budget.remainingCalls(id),
-    ...(mode==="facts-call"?{unitFacts: facts}:{})
+    ...(mode.startsWith("facts-")?{unitFacts: facts}:{})
   });
-    const pending=budget.run(taskId,async()=>{await composition.interpretAndDispatch({taskId,message:"Find nearby restaurants tomorrow at 7pm for two.",referenceTime:now.toISOString(),timezone:"Asia/Tokyo"},HIGASHI_GINZA_EVALUATION_LOCATION);await composition.coordinator.run(taskId,undefined,new Date(started+(mode==="availability-time"?300_000:500_000)));});
-    if(mode==="availability-time") { await thirdStarted; tt.mock.timers.tick(75_000); }
+    const pending=budget.run(taskId,async()=>{await composition.interpretAndDispatch({taskId,message:"Find nearby restaurants tomorrow at 7pm for two.",referenceTime:now.toISOString(),timezone:"Asia/Tokyo"},HIGASHI_GINZA_EVALUATION_LOCATION);await composition.coordinator.run(taskId,undefined,new Date(started+(mode.endsWith("-time")?300_000:500_000)));});
+    if(mode.endsWith("-time")) { await thirdStarted; tt.mock.timers.tick(75_000); }
     await pending;
     const state=composition.runtime.snapshot(taskId).domainState;
     assert.equal(state.failure,undefined);
     assert.equal(state.phase,mode==="empty-call"?"NO_VERIFIED_RESULT":"PRESENT_RESULTS",JSON.stringify({mode,inspected,state}));
-    const checks=mode==="facts-call"?state.factChecks!:state.availabilityChecks;
+    const checks=mode.startsWith("facts-")?state.factChecks!:state.availabilityChecks;
     assert.equal(Object.values(checks).filter(x=>x.status==="UNKNOWN"&&x.reasonCode==="RESERVE_REACHED").length,mode==="empty-call"?3:2);
     const accepted=state.presentedResults?.candidateIds??[];
-    assert.equal(accepted.length,mode==="empty-call"?0:mode==="availability-time"?2:1);
+    assert.equal(accepted.length,mode==="empty-call"?0:mode.endsWith("-time")?2:1);
     assert.ok(composition.runtime.eventLog.some(x=>x.event.type===(mode==="empty-call"?"READ_END_WINDOW_OPENED":"DEFAULT_BATCH_DELIVERY_WINDOW_OPENED")));
-    assert.ok((budget.usage(taskId)?.calls??Infinity)<(mode==="availability-time"?50:mode==="empty-call"?8:12));
+    assert.ok((budget.usage(taskId)?.calls??Infinity)<(mode.endsWith("-time")?50:mode==="empty-call"?8:12));
   });
 });

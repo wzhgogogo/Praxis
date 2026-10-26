@@ -1,3 +1,4 @@
+import type { ModelRunUsage } from "./run-bounded-model-gateway.js";
 import { observedCandidateDistance } from "../domains/restaurant/candidate-read-observations.js";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 
@@ -288,7 +289,7 @@ export interface PersistentRestaurantAgentOptions {
     run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T>;
     /** Keeps the parent read deadline alive while LIVE work continues after the HTTP mutation returns. */
     hold?(): () => void;
-    usage?(taskId: string): { calls: number; elapsedMs?: number } | undefined;
+    usage(taskId: string): ModelRunUsage | undefined;
     remainingCalls?(taskId: string): number | undefined;
   };
 }
@@ -734,7 +735,7 @@ export class PersistentRestaurantAgentApplication {
       return usage && (!latest || usage.total >= latest.total) ? structuredClone(usage) : latest;
     }, undefined);
     const status = loopStatus === "CANCELLED" ? "CANCELLED" : ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(snapshot.domainState.phase) ? "SUCCEEDED" : "FAILED";
-    const modelUsage = this.modelRunBudget?.usage?.(caseId);
+    const modelUsage = this.modelRunBudget?.usage(caseId);
     return {
       schemaVersion: "1",
       mode: "WEB_READ",
@@ -840,8 +841,12 @@ export class PersistentRestaurantAgentApplication {
   }
 
   private async runAfterUserInput(record: ConversationRecord, requestId: string, runDeadlineSignal?: AbortSignal): Promise<void> {
+    // Map the enclosing wall-clock deadline to the Runtime clock once; semantic
+    // work has already consumed part of this same read, including its reserve.
+    const usage = this.modelRunBudget?.usage(record.rootTaskId);
+    const readDeadline = usage ? new Date(this.clock.now().valueOf() + Math.max(0, usage.deadlineAt - Date.now())) : undefined;
     if (this.workspaceMode === "FIXTURE") {
-      const result = await this.agentLoop.run(record.rootTaskId, runDeadlineSignal);
+      const result = await this.agentLoop.run(record.rootTaskId, runDeadlineSignal, readDeadline);
       await this.notifyReadFinished(record.rootTaskId, result);
       await this.appendAssistant(record, requestId);
       return;
@@ -857,7 +862,7 @@ export class PersistentRestaurantAgentApplication {
     void (async () => {
       try {
         const signal = runDeadlineSignal ? AbortSignal.any([controller.signal, runDeadlineSignal]) : controller.signal;
-        await this.agentLoop.run(record.rootTaskId, signal);
+        await this.agentLoop.run(record.rootTaskId, signal, readDeadline);
       } catch (error) {
         await this.recordUnexpectedRunFailure(record, error);
       } finally {

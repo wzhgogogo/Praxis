@@ -16,6 +16,7 @@ import {
   PersistentRestaurantAgentApplication,
   PilotSessionService,
   type PilotAccessEntry,
+  type PersistentRestaurantAgentOptions,
 } from "../application/persistent-restaurant-agent.js";
 import type { RestaurantAvailabilityPort, RestaurantCandidateFactPort, RestaurantSearchPort } from "../application/restaurant-execution-router.js";
 import { evaluateRestaurantHybridLiveArtifact, RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION } from "../eval/restaurant/agent-loop/diagnostic-evaluator.js";
@@ -92,7 +93,7 @@ interface StartServerOptions {
   semanticInterpreter?: RestaurantSemanticInterpreterPort;
   partySizeSupplementResolver?: RestaurantPartySizeSupplementResolverPort;
   agentDecision?: RestaurantAgentDecisionPort;
-  modelRunBudget?: { run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T>; hold?(): () => void; usage?(taskId: string): { calls: number; elapsedMs?: number } | undefined; remainingCalls?(taskId: string): number | undefined };
+  modelRunBudget?: PersistentRestaurantAgentOptions["modelRunBudget"];
 }
 
 async function startServer(database: SqlDatabase, clock: FakeClock, options: StartServerOptions = {}): Promise<TestServer> {
@@ -677,7 +678,7 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
       status: "MODEL_FAILURE", errorCode: "NETWORK", retryable: false, attempts: [],
     }));
     const refreshCalls = { model: 0, search: 0, facts: 0, availability: 0 };
-    const refreshModel = new RunBoundedModelGateway(selectionSessionModel(refreshCalls), 50, 5_000);
+    const refreshModel = new RunBoundedModelGateway(selectionSessionModel(refreshCalls), 50, 500_000);
     const refreshServer = await startServer(database, clock, {
       partySizeSupplementResolver: refreshResolver,
       restaurant: selectionSessionFixture(refreshCalls),
@@ -1083,7 +1084,7 @@ test("W10 ordinary Web persists a semantic-model failure as a failed case and ar
 
 test("W11 ordinary Web artifact retains shared Google request limits and category totals", async () => {
   await withDatabase(async ({ database, clock }) => {
-    const boundedModel = new RunBoundedModelGateway(new FixtureModelGateway(), 50, 5_000);
+    const boundedModel = new RunBoundedModelGateway(new FixtureModelGateway(), 50, 500_000);
     const fixtureIds = ["fixture-restaurant-1", "fixture-restaurant-2", "fixture-restaurant-3"];
     const running = await startServer(database, clock, {
       mode: "LIVE_READ",
@@ -1202,10 +1203,13 @@ test("W12 F6 Live Persistent run inherits the semantic-started deadline and its 
       await finished;
       const artifact = await running.application.exportReadArtifact(created.case.caseId);
       const state = (artifact.finalSnapshot as { domainState: RestaurantTaskState }).domainState;
-      assert.equal(state.phase, "NO_VERIFIED_RESULT");
+      assert.equal(state.phase, "NO_VERIFIED_RESULT", JSON.stringify({failure:state.failure,window:state.readEndWindow,trajectories:artifact.trajectories}));
       assert.equal(state.failure, undefined);
-      assert.equal(state.readEndWindow?.reason, "DELIVERY_TIME");
-      assert.equal(state.readEndWindow?.deadlineAt, new Date(initial + 500_000).toISOString());
+      const window = (artifact.events as Array<{event: import("../domains/restaurant/contracts.js").RestaurantEvent}>).find(entry => entry.event.type === "READ_END_WINDOW_OPENED")?.event;
+      assert.equal(window?.type, "READ_END_WINDOW_OPENED");
+      assert.ok(window?.type === "READ_END_WINDOW_OPENED");
+      assert.equal(window.reason, "DELIVERY_TIME");
+      assert.equal(window.deadlineAt, new Date(initial + 500_000).toISOString());
       assert.equal(clock.now().valueOf(), initial + 480_000);
       assert.ok(state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("READ_TIME_RESERVE")));
       assert.equal(evaluateRestaurantHybridLiveArtifact(artifact, { path: "w12-deadline.result.json", sha256: "fixture" }).execution.completion, "NO_VERIFIED_RESULT");

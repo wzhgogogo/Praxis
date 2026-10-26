@@ -151,3 +151,7 @@ flowchart TD
 ## Source-resolved search area
 
 For a named nearby request, show the actual source-adopted geographic label and keep the original user location wording unchanged. The Web conversation and candidate area heading read the same source-bound continuation center that is retained in exported read artifacts. Geographic type, coordinate context and ambiguity bounds remain enforced; a different spelling alone does not fail a location. Source access or an empty lookup is not proof of a replacement location.
+
+## 只读调查的时间收尾（ADR0045）
+
+按ADR0045，当剩余时间不再允许读取，调查进入收尾，仅展示已有合格结果或结束并说明本轮范围/未核实缺口。正在读取到一半的门店记未知，完整完成的店按原规则保留；不让模型继续询问或改条件来延长同一调查。不改变用户地点、日期、人数、HARD或预约授权。

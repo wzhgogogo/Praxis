@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.319
+- Document revision: 4.320
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-26-f6-implemented"></a>
+
+## 2026-10-26 CET：F6固定收尾预留获准实施
+
+离线先红后绿：搜索旧556bd14c两来源SEARCH_FAILED；槽3旧19558e09在目标0次断言实际3次；Web旧bab6e9b6在语义开始第480秒未取消。修后核心28、退出27、Web3与真实Chromium本地P21均绿。新时序使用手动时钟/计时器；普通行为fixture改用充足预算，原分类/资格断言保留。五门禁将对干净提交执行；真实模型/网站/Google/Live均0。 证据见[报告](../../.eval-artifacts/phase3a-prime/f6/report.md)。
 
 ## TEST-2026-10-26-PHASE3A-BOUNDARY-CORRECTION-COMPLETE
 

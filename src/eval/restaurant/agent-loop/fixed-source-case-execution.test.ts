@@ -104,12 +104,14 @@ test("a frozen business clock cannot freeze the real outer deadline or admit a l
   assert.ok(Date.now() - started < 500);
 });
 
-test("a result that completes before the deadline retains its normal terminal outcome", async () => {
+test("a result that completes before the deadline retains its normal terminal outcome", async t => {
+  t.mock.timers.enable({ apis: ["Date"], now: Date.now() });
   const { registration, materializedCase } = await loadRegisteredFixedSourceCase("h001");
   const actions = ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"];
   const model: ModelGateway = { async complete(request) {
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
+      t.mock.timers.tick(100_000);
       return response(JSON.stringify({ schemaVersion: "4", facts: [
         { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["omakase"] }, kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya" } },
         { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-19", raw: "tonight" } },
@@ -120,7 +122,8 @@ test("a result that completes before the deadline retains its normal terminal ou
       ] }), "semantic");
     }
     const type = actions.shift();
-    const payload = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as { context?: { candidates?: Array<{ id: string }> } };
+    const payload = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as { context?: { candidates?: Array<{ id: string }>; readBudget?: { remainingMs: number } } };
+    if (type === "SEARCH_RESTAURANTS") assert.equal(payload.context?.readBudget?.remainingMs, 400_000, "fixed-source Runner inherits semantic time rather than restarting its read clock");
     const candidateIds = payload.context?.candidates?.map((candidate) => candidate.id) ?? [];
     return response(JSON.stringify({ type, question: "", relatedFields: [], retrievalHint: "", candidateIds: type === "CHECK_AVAILABILITY" || type === "PRESENT_RESULTS" ? candidateIds : [], candidateId: "", offerId: "", decisionSummary: "deadline normal control" }), `agent:${type}`);
   } };
@@ -139,7 +142,7 @@ test("controlled cancellation stays distinct from an honest model-budget complet
     materializedCase,
     taskId: "controlled-stop:user-cancelled",
     signal: cancellation.signal,
-    deadlineMs: 1_000,
+    deadlineMs: 500_000,
     model: {
       complete(request: ModelRequest) {
     if(request.purpose==='restaurant_discovery_retrieval')return Promise.resolve(scriptedRetrieval(request)!);
@@ -154,7 +157,7 @@ test("controlled cancellation stays distinct from an honest model-budget complet
   const cancelled = await cancelledRun;
   assert.deepEqual(cancelled.execution, { status: "CANCELLED", phase: "UNDERSTANDING", failureCode: "CANCELLED" });
   assert.equal(cancelled.sourceCalls.search, 0, "cancellation must prevent new source reads after the controlled stop");
-  const cancelledEvaluation = await evaluateActualStopArtifact(cancelled, { timeoutMs: 1_000 });
+  const cancelledEvaluation = await evaluateActualStopArtifact(cancelled, { timeoutMs: 500_000 });
   assert.equal(cancelledEvaluation.execution.completion, "CANCELLED");
   assert.equal(cancelledEvaluation.execution.taskProducedQualifiedResult, "NO");
   const cancelledAcceptance = assessFixedSourceAcceptance({ expectation: cancelledExpectation, execution: cancelled.execution, evaluation: cancelledEvaluation, coverageGaps: cancelled.sourceCalls.coverageGaps });

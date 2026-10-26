@@ -137,3 +137,7 @@ For a named nearby request, show the actual source-adopted geographic label and 
 ## Faithful condition relations
 
 Semantic interpretation preserves comparison direction and strictness independently of HARD/SOFT strength. A tradeable numeric ceiling remains a SOFT ceiling; it is not a centered approximation or an invented hard cap. Conditions must follow the expressed user requirement: a negative exclusion cannot become an unstated positive prerequisite, and a requested capability cannot gain associated amenities or implementation details. No keyword-to-condition mapping is added. Semantic promptv22, proposal schema3; compiler/state/qualification and evaluator versions remain unchanged.
+
+## 只读调查的时间收尾（ADR0045）
+
+按ADR0045，在原整单时限内预留20秒收尾；读取按已完成耗时中位数判断能否开始。已有完整合格结果可给短批；否则如实说明本轮未核实符合全部条件的门店及未查缺口。未完成读取与未读来源不等于附近无店或无位，部分结果仍需通过全部原资格与新鲜度核对。

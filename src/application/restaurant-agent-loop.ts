@@ -365,11 +365,11 @@ export class RestaurantAgentLoopCoordinator {
         reserveReached = true;
         readController.abort(Object.assign(new Error("Default result delivery reserve reached"), {code:"DELIVERY_RESERVE_REACHED"}));
       }, reserveMs) : undefined;
-      const recordDeliveryReserve = async () => {
+      const recordDeliveryReserve = async (persistStep: boolean) => {
         const detail = "DELIVERY_RESERVE_REACHED: source read stopped before the reserved result-delivery window";
         const observationType = decision.action.type === "CHECK_AVAILABILITY" ? "AVAILABILITY_UNKNOWN"
           : decision.action.type === "INVESTIGATE_CANDIDATE_FACTS" ? "CANDIDATE_FACTS_UNKNOWN" : "DISCOVERY_FAILED";
-        await this.trajectories.append({ ...base, agentAction: decision.action, modelAttempt: decision.modelAttempt,
+        if (persistStep) await this.trajectories.append({ ...base, agentAction: decision.action, modelAttempt: decision.modelAttempt,
           actionValidation: verdict, observation: { type: observationType, detail },
           stateVersionAfter: snapshot.version, stateHashAfter: stateHash(snapshot.domainState), stepOutcome: "EXECUTION_FAILURE" });
         recentExecutionHistory.push({ type: "DELIVERY_RESERVE_REACHED", detail });
@@ -389,7 +389,7 @@ export class RestaurantAgentLoopCoordinator {
         );
       } catch (error) {
         if (reserveReached && !signal?.aborted && !(error && typeof error === "object" && "code" in error && error.code === "READ_CANCELLATION_UNSETTLED")) {
-          await recordDeliveryReserve();
+          await recordDeliveryReserve(true);
           continue;
         }
         if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
@@ -418,7 +418,14 @@ export class RestaurantAgentLoopCoordinator {
         if (signal) signal.removeEventListener("abort", onParentAbort);
       }
 
-      if (reserveReached && !signal?.aborted) await recordDeliveryReserve();
+      if (reserveReached && !signal?.aborted) {
+        await recordDeliveryReserve(false);
+        // One persisted trajectory per action. Completed checkpoints belong to
+        // this returned event, rather than a second row with the same step id.
+        if (execution.observation && !execution.observation.detail.startsWith("DELIVERY_RESERVE_REACHED")) {
+          execution.observation.detail = `DELIVERY_RESERVE_REACHED: ${execution.observation.detail}`;
+        }
+      }
       // A returned Router event contains checkpointed completed outlets even if the reserve fired.
       if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
 

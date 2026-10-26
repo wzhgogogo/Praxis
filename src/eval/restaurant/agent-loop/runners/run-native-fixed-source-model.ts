@@ -170,7 +170,7 @@ try {
   const google = native.google;
   const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock, model, ...native });
   const semantic = await composition.interpretAndDispatch({ taskId, message: String(frozen.content), referenceTime: frozen.reference_time, timezone: "Asia/Tokyo" });
-  const loop = semantic.status === "PROPOSED" ? await composition.coordinator.run(taskId, deadline) : undefined;
+  const loop = semantic.status === "PROPOSED" ? await composition.coordinator.run(taskId, deadline, new Date(reference.valueOf() + timeoutMs)) : undefined;
   const snapshot = composition.runtime.snapshot(taskId);
   const status = loop?.status === "TERMINAL" && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"].includes(snapshot.domainState.phase) ? "SUCCEEDED"
     : loop?.status === "CANCELLED" ? "CANCELLED" : "FAILED";

@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.25
-- Last updated: 2026-10-23
+- Document revision: 3.26
+- Last updated: 2026-10-26
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -108,3 +108,7 @@ A source may supply code-owned control hints describing observed nonstandard ele
 The existing browser executor can advance a public time query only through a current enabled observed combobox option inside the immutable request window, using the existing action validation and budgets. It never clicks an availability/booking link. Disabled-party termination requires the current requested date and a visible, unselected disabled exact count; an old-date disabled control does not preempt calendar selection. Planning consults the same explicit source path revocations as the Guard; no rule is broadened. Prompt/action/context schemas remain unchanged; source continuation state advances to restaurant-state20/task-definition18.
 
 2026-10-23 collection parsing refinement: accept independently bound supported clock alternatives without converting unsupported numeric-hour alternatives. A missing time on a supported clock link, contradictory identity/query, newer rejected response, or no supported alternative remains UNKNOWN. No new Guard rule, model action, date interpretation, or eligibility relaxation.
+
+## 只读调查的时间收尾（ADR0045）
+
+按ADR0045，Root从同一语义开始的截止计算每类读取准入，Context16/Agent Prompt28与执行前Validator一致。读取继承截止−20秒取消；Router完整子结果走原事件，迟到结果不能复活。来源在2秒内不交接则技术失败，不包装正常结果。最后根决策受截止−2秒约束，失败/零余额复用可信状态投影。Web读取既有ModelRunUsage原截止，Runner保持原绑定。来源额度与Policy/授权不变。

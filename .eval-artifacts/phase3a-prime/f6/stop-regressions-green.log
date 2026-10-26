@@ -1,0 +1,37 @@
+✔ a frozen business clock cannot freeze the real outer deadline or admit a late model result (29.903792ms)
+✔ a result that completes before the deadline retains its normal terminal outcome (39.7185ms)
+✔ controlled cancellation stays distinct from an honest model-budget completion (10.327709ms)
+▶ restaurant booking mock harness
+  ✔ H01 completes a verified booking through the authorized happy path (9.205834ms)
+  ✔ H02/H03/H04 retain the bounded discovered candidate pool and stop the proposed booking before authorization (4.923708ms)
+  ✔ continues from three unavailable candidates to a fourth discovered candidate without changing the request (3.3815ms)
+  ✔ H05 resumes the Agent after a definitive commit failure and requires a new authorization (5.289667ms)
+  ✔ Agent resumes after BOOKING_ABSENT with a new candidate proposal awaiting authorization (3.212209ms)
+  ✔ H06 weak evidence after submit becomes OUTCOME_UNKNOWN (2.251209ms)
+  ✔ H07 OUTCOME_UNKNOWN blocks selecting and committing another candidate (2.039625ms)
+  ✔ H08 replaying a commit command does not repeat the side effect (2.240458ms)
+  ✔ H09 mismatched booking details cannot produce BOOKED_VERIFIED (2.176167ms)
+  ✔ H10 evidence from another attempt cannot produce BOOKED_VERIFIED (2.158833ms)
+  ✔ H11 run artifact preserves the causal chain, proof and side-effect ledger (2.333125ms)
+  ✔ Agent can request a second search strategy after the first discovery (1.411875ms)
+  ✔ a same-request supplementary search preserves completed checks and deduplicates the candidate pool (1.450125ms)
+  ✔ a changed authoritative condition invalidates prior candidate and availability evidence (1.392208ms)
+  ✔ Agent checks an unavailable candidate then independently checks and selects another (2.136083ms)
+  ✔ Agent cannot execute a duplicate availability read after the candidate already has a check (1.565166ms)
+  ✔ Harness binds party-size discovery metadata and availability arguments from authoritative task state (1.547958ms)
+  ✔ Provider failure is durable execution evidence, not a model failure (0.485584ms)
+  ✔ exhausted discovery without candidates terminates instead of retrying rewritten searches (0.582333ms)
+  ✔ GENERIC_BROWSER availability observations retain the external adapter trace actor (1.243ms)
+  ✔ a candidate-scoped browser read failure can end without asking the user to resolve provider infrastructure (1.374292ms)
+  ✔ Timeout, step limit, and rejection limit terminate with durable state and trajectory (0.772208ms)
+  ✔ repeated rejected batches remain bounded by the explicit rejection limit without inferring exhausted source paths (2.095833ms)
+  ✔ an exhausted discovery cursor rejects a reworded retry and the model can end the bounded read (1.008958ms)
+✔ restaurant booking mock harness (56.96675ms)
+ℹ tests 27
+ℹ suites 1
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 301.656041
