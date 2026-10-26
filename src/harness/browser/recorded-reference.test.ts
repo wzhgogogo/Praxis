@@ -34,7 +34,7 @@ test("F5 recorded region action rebinds to the same observed link and reaches th
     const session = await executor.acquire(signal, "DIRECTORY", "DISCOVERY");
     await executor.navigate({ session, signal, source: "DIRECTORY", stage: "DISCOVERY", allowedOrigins: ["https://tabelog.com"], url: original.observation.url });
     const result = await executor.runSkill({ taskId: "offline-f5-region-window", source: "DIRECTORY", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://tabelog.com"], goal: original.goal, objective: original.objective,
-      completion: snapshot => ({ complete: snapshot.url === selected.href, resultBusy: false, reason: "The selected observed region page has not been reached" }) });
+      completion: snapshot => ({ complete: snapshot.url === selected.href, resultKey: snapshot.url, resultBusy: false, reason: "The selected observed region page has not been reached" }) });
     t.diagnostic(JSON.stringify({ status: result.status, calls, rejected: diagnostics.filter(row => row.event === "REJECTED"), sourceTransportCalls: 0 }));
     assert.equal(result.status, "COMPLETED", JSON.stringify({ status: result.status, diagnostics }));
     assert.equal(result.snapshot.url, selected.href); assert.equal(calls, 1);
