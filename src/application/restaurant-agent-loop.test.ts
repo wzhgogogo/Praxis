@@ -5,8 +5,8 @@ import test from "node:test";
 import { RestaurantAgentLoopCoordinator } from "./restaurant-agent-loop.js";
 import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 import type { TaskSnapshot } from "../core/task-runtime/contracts.js";
-import type { RestaurantAgentLoopTermination, RestaurantOutcome, RestaurantTaskState } from "../domains/restaurant/contracts.js";
-import { ScriptedRestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
+import type { RestaurantAgentLoopTermination, RestaurantOutcome, RestaurantTaskState, RestaurantEvent } from "../domains/restaurant/contracts.js";
+import { ScriptedRestaurantAgentDecisionPort, type RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
 import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
 import { assessRestaurantRead } from "../domains/restaurant/read-assessment.js";
 import { restaurantBookingTaskDefinition as definition } from "../domains/restaurant/task-definition.js";
@@ -171,7 +171,7 @@ test('F6 slot3 26.596 seconds blocks the original availability action and ends h
  const observedContexts:import('../domains/restaurant/agent-context.js').RestaurantAgentContext[]=[];let sourceCalls=0;
  const start=Date.parse(f.referenceTime),instant=start+f.maxAutomaticMs-f.remainingMs;
  const localClock={now:()=>new Date(instant)};
- const currentState:RestaurantTaskState={...f.state,schemaVersion:definition.initialState({}).schemaVersion};
+ const currentState:RestaurantTaskState={...f.state,schemaVersion:"22"};
  let current:TaskSnapshot<RestaurantTaskState,RestaurantOutcome>={id:'f6-slot3',runId:'f6-slot3',taskType:definition.type,definitionVersion:definition.version,version:8,lifecycleState:definition.getLifecycleState(currentState),domainState:currentState,outcome:definition.evaluateOutcome(currentState),createdAt:f.referenceTime,updatedAt:localClock.now().toISOString()};
  const events:RestaurantEvent[]=[];const trajectories=new InMemoryRestaurantAgentTrajectoryStore();
  const router=new RestaurantExecutionRouter({executionRoute:'STRUCTURED_ADAPTER',async search(){throw Error('No search expected');}},
