@@ -1,7 +1,9 @@
 import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
+import { tmpdir } from "node:os";
+import { replayHarPages } from "../../../harness/browser/browser-read-test-fixtures.js";
 import { chromium, type Browser, type Page } from "playwright-core";
 import { LocalPlaywrightChromium } from "../../../infrastructure/browser/local-playwright-chromium.js";
 import type { BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
@@ -68,6 +70,7 @@ export async function runDomChange(output?: string) {
   if (output) await mkdir(output, { recursive: true });
   const browser = await chromium.launch({ headless: true, proxy: { server: "http://127.0.0.1:9" } });
   const cases = [];
+  const fixtureHarDirectory = await mkdtemp(resolve(tmpdir(), "phase3b-g2-fixture-har-"));
   try {
     for (const spec of manifest.pages) {
       if (!/^[a-z0-9-]+$/.test(spec.id)) throw new Error("INVALID_DOM_CASE_ID");
@@ -81,11 +84,8 @@ export async function runDomChange(output?: string) {
           if (key === "newContext") return async (options: Parameters<Browser["newContext"]>[0]) => {
             const context = await target.newContext({ ...options, javaScriptEnabled: false, serviceWorkers: "block" });
             context.on("page", current => { page = current; });
-            await context.route("**/*", async route => {
-              const match = route.request().url() === spec.sourceUrl;
-              intercepted.push({ url: route.request().url(), result: match ? "FIXTURE" : "BLOCKED_NO_TRANSPORT" });
-              if (match) await route.fulfill({ contentType: "text/html; charset=utf-8", body: bytes });
-              else await route.abort("blockedbyclient");
+            context.on("request", request => {
+              intercepted.push({ url: request.url(), result: request.url() === spec.sourceUrl ? "FIXTURE" : "BLOCKED_NO_TRANSPORT" });
             });
             return context;
           };
@@ -93,7 +93,9 @@ export async function runDomChange(output?: string) {
         } });
       } };
       const runtime = new LocalPlaywrightChromium({ browserType: browserType as unknown as typeof chromium });
-      const session = await runtime.openSession({ signal: AbortSignal.timeout(30_000), networkPolicy: { documentOrigins: [new URL(spec.sourceUrl).origin], genericPublicRead: true, staticResources: [], dynamicReads: [] } });
+      const fixtureHarPath = resolve(fixtureHarDirectory, spec.id + ".har");
+      await writeFile(fixtureHarPath, replayHarPages({ [spec.sourceUrl]: bytes.toString() }), { flag: "wx" });
+      const session = await runtime.openSession({ replayHarPath: fixtureHarPath, signal: AbortSignal.timeout(30_000), networkPolicy: { documentOrigins: [new URL(spec.sourceUrl).origin], genericPublicRead: true, staticResources: [], dynamicReads: [] } });
       try {
         if (session.metadata.readNetworkBoundary !== "INSTALLED") throw new Error("MISSING_REAL_GUARD");
         await session.prepareNavigation!(spec.sourceUrl, { timeoutMs: 10_000 });
@@ -108,7 +110,7 @@ export async function runDomChange(output?: string) {
         const afterControls = await session.observeControls!(spec.site === "TABELOG" ? tabelogQueryControlHints(afterSnapshot) : []);
         const after = observations(spec, afterSnapshot, afterControls);
         const result = { id: spec.id, site: spec.site, kind: spec.kind, sourceUrl: spec.sourceUrl, originalSha256: spec.sha256,
-          mutatedSha256: sha(await page!.content()), before, after, classification: classifyDomChange(before.facts, after.facts, mutation.integrity.valid), mutation };
+          mutatedSha256: sha(await page!.content()), sourceTransport: "LOCAL_CONSTRUCTED_HAR_FROM_SAVED_DOM", intercepted, before, after, classification: classifyDomChange(before.facts, after.facts, mutation.integrity.valid), mutation };
         cases.push(result);
         if (output) {
           await writeFile(resolve(output, spec.id + ".mapping.json"), JSON.stringify(mutation, null, 2) + "\n", { flag: "wx" });
@@ -117,7 +119,7 @@ export async function runDomChange(output?: string) {
         if (result.classification.verdict === "FAIL") break; // User's immediate stop rule.
       } finally { await session.close(); }
     }
-  } finally { await browser.close(); }
+  } finally { await browser.close(); await rm(fixtureHarDirectory, { recursive: true, force: true }); }
   const result = { schema: "dom-change-observations@1", rule: DOM_MUTATION_RULE, manifestSha256: sha(manifestBytes), mode: "OFFLINE_SAVED_PAGE_DOM_NOT_WEBSITE_REPLAY", inlineScriptsExecuted: false, sourceTransportCalls: 0, cases };
   if (output) await writeFile(resolve(output, "observations.json"), JSON.stringify(result, null, 2) + "\n", { flag: "wx" });
   return result;
