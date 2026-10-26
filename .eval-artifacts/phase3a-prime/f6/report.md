@@ -3,6 +3,7 @@
 - 时间：2026-10-26T08:05:35.309933+01:00（Europe/Vienna，CET/UTC+1）。
 - Evidence status：current implementation candidate；已暴露历史及本地构造控制，非Clean Baseline。
 - 分支：`codex/feat-phase3a-prime-f6-bounded-conclusion`；起点main `7e2425b7878abe2ad86ef110d1fe98b926d3104d`。
+- 合入前已重放到main `50b70fa60ccd44a8155952f035fc83102916ad18`，双方文档保留，账本与该main零差异；其ADR0044/Schema4/Prompt25/Gold4、退出评价器SHA绑定及注入时钟修复完整保留，详见[重放收据](rebase.json)。原7e上的红绿灯是frozen regression；最终五门禁以重放后的候选为准。
 - 模型／Google／网站／Live／环境重跑新增均0；未读取.env。五门禁及发布收据在末节独立记录。
 
 ## 兑现的切片
@@ -50,7 +51,7 @@ PGlite还暴露一次取消既写诊断又写完成行，使用同一trajectory�
 
 ## 独立四层判断与边界
 
-1. 语义／权威条件：不改Semantic Prompt或Gold；原H001–H005及修正控制沿实际Interpreter/Compiler核验。F6只读取权威deadline和计时样本。
+1. 语义／权威条件：相对新main不改Semantic Prompt25、Schema4或Gold4；原H001–H005及修正控制沿实际Interpreter/Compiler核验。F6只读取权威deadline和计时样本。
 2. 证据／执行：完整子结果使用原grounder、请求关联与Reducer；独立构造原始19:00/2槽位、身份等变化，和实际展示offer比较。PGlite原子事件与真实Chromium关闭路径分别验证。
 3. 交付／S0：本地正常100秒及完整A取消可合格展示；未知/HARD无证不展示。Web实际artifact经现有独立Evaluator确认NO_VERIFIED_RESULT；原完整H001组合及S0挑战保留在默认套件。本地oracle没有错误展示。没有把生产eligible=true作为唯一独立证据，也不把它当新Live S0认证。
 4. 能力／验收：本批仅离线机制验收。真实模型、当前来源DOM/库存、真实连接、真实慢关闭和最终Live效果均NOT_RUN。F5例01仍0/3、已知限制；不重开F5，不声称当前站点成功率改善。3a′退出条件6未达成：站点3847行（目标3591，差256），L1/L4/L5转3b，其余延期按原清单。

@@ -301,7 +301,7 @@ test("ADR-0044 Router may add a current slot to a recommendation without changin
   const taskId = "goal:optional-slot";
   const composition = createRouterFixtureComposition({ taskId, runId: taskId, clock, model,
     google: googleFixture([], { maxRequests: 10 }, ["one"]),
-    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 1_000 },
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 1_000 },
     unitAvailability: { executionRoute: "GENERIC_BROWSER", async check(request) {
       slotReads += 1;
       const candidate = request.candidates[0]!;

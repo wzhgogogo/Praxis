@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.21
+- Document revision: 1.22
 - Last updated: 2026-10-26
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录

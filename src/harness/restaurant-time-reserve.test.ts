@@ -4,7 +4,7 @@ import type { ModelGateway, ModelResponse } from "../core/model/contracts.js";
 import type { RestaurantAgentContext } from "../domains/restaurant/agent-context.js";
 import { groundTableCheckAvailability } from "../domains/restaurant/read-grounding.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "../eval/restaurant/agent-loop/live-evaluation-location.js";
-import { createRouterFixtureComposition, googleFixture, now, response, scriptedRetrieval, strictAction } from "./restaurant-read-test-fixtures.js";
+import { createRouterFixtureComposition, fixtureGoalBasis, googleFixture, now, response, scriptedRetrieval, strictAction } from "./restaurant-read-test-fixtures.js";
 
 // Local construction, not website replay: the real Interpreter, Compiler,
 // Coordinator, Router, grounder and Reducer consume scripted external reads.
@@ -37,8 +37,8 @@ test("F6 whole-read reserve: 100-second admission, completed children and bounde
     const contexts: RestaurantAgentContext[] = [];
     const model: ModelGateway = { async complete(input) {
       if (input.purpose === "restaurant_discovery_retrieval") return scriptedRetrieval(input)!;
-      if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-        { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED" } },
+      if (input.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "4", facts: [
+        { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(input), kind: "TARGET", goal: "AVAILABILITY", query: "find a table", selectionScope: "OPEN_ENDED" } },
         { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
         { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
         { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },

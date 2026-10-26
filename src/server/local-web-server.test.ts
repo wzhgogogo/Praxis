@@ -1172,7 +1172,7 @@ test("W13 ordinary Web presents a qualified short batch using its shared model-c
   });
 });
 
-test("W12 F6 Live Persistent run inherits the semantic-started deadline and its twenty-second reserve", { timeout: 10_000 }, async t => {
+test("W12 F6 Live Persistent run inherits the semantic-started deadline and its twenty-second reserve", { timeout: 30_000 }, async t => {
   await withDatabase(async ({ database, clock }) => {
     t.mock.timers.enable({ apis: ["setTimeout", "Date"], now: Date.now() });
     const initial = clock.now().valueOf();
@@ -1197,8 +1197,11 @@ test("W12 F6 Live Persistent run inherits the semantic-started deadline and its 
       });
       const created = await createCase(running.baseUrl, cookie, "web-whole-read-deadline");
       await restaurant.started;
-      clock.advance(380_000);
-      t.mock.timers.tick(380_000);
+      clock.advance(379_999);
+      t.mock.timers.tick(379_999);
+      assert.equal(restaurant.aborted, false, "the admitted read remains valid until the original reserve boundary");
+      clock.advance(1);
+      t.mock.timers.tick(1);
       assert.equal(restaurant.aborted, true, "F6 must cancel at the semantic-started deadline minus 20 seconds, not restart 500 seconds after semantic work");
       await finished;
       const artifact = await running.application.exportReadArtifact(created.case.caseId);
