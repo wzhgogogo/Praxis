@@ -1,0 +1,123 @@
+{
+  "mode": "OFFLINE_ONLY_NO_ENV_FILE",
+  "sourceCommit": "d9b38cd21b958d27f91eb3402c73e4ec6e51c675",
+  "startedAtCET": "2026-10-26T22:52:30.471+01:00",
+  "newRealCalls": 0,
+  "steps": [
+    {
+      "name": "semantic-fixture",
+      "command": [
+        "npm",
+        "run",
+        "eval:restaurant:semantic:fixture"
+      ],
+      "startedAtCET": "2026-10-26T22:52:30.500+01:00",
+      "finishedAtCET": "2026-10-26T22:52:30.708+01:00",
+      "elapsedSeconds": 0.208,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch1/gates/semantic-fixture.log",
+      "logSha256": "39a1bbae7f6783b7731636019149dccd8c8a71bbf4818fc650ac81c83ca817ef"
+    },
+    {
+      "name": "named-downstream-control",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/named-target/replay.mjs",
+        "--reference-valid"
+      ],
+      "startedAtCET": "2026-10-26T22:52:30.770+01:00",
+      "finishedAtCET": "2026-10-26T22:52:30.899+01:00",
+      "elapsedSeconds": 0.129,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch1/gates/named-downstream-control.log",
+      "logSha256": "528586bd91686b209c11886b87e837b136aca2ac5aa27d3815dd8d5b3dfe9d3c"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-26T22:52:30.962+01:00",
+      "finishedAtCET": "2026-10-26T22:52:31.470+01:00",
+      "elapsedSeconds": 0.508,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch1/gates/typecheck.log",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-26T22:52:31.536+01:00",
+      "finishedAtCET": "2026-10-26T22:52:31.741+01:00",
+      "elapsedSeconds": 0.205,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch1/gates/arch-check.log",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-26T22:52:31.803+01:00",
+      "finishedAtCET": "2026-10-26T22:53:01.476+01:00",
+      "elapsedSeconds": 29.673,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch1/gates/test.log",
+      "logSha256": "24dc88b43dfe3c3426bc89597ab096385f69e3c56b5c0be1e5fad607a402573a"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-26T22:53:01.584+01:00",
+      "finishedAtCET": "2026-10-26T22:53:02.079+01:00",
+      "elapsedSeconds": 0.495,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch1/gates/build.log",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-26T22:53:02.176+01:00",
+      "finishedAtCET": "2026-10-26T22:54:41.826+01:00",
+      "elapsedSeconds": 99.649,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch1/gates/browser-fixture.log",
+      "logSha256": "fe91cfd86571f33fb42976db20696b77d5641348a0325758dbbd8b8a6a93c5ac"
+    }
+  ],
+  "status": "PASS",
+  "finishedAtCET": "2026-10-26T22:54:41.865+01:00"
+}

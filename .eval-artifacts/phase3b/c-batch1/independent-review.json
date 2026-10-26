@@ -1,0 +1,47 @@
+{
+  "schema": "phase3b-c-independent-review@1",
+  "reviewedAtCET": "2026-10-26T22:55:07+01:00",
+  "baseMain": "cc12732020256f22e1827bf62fb4b66ccc3cb0ba",
+  "mode": "OFFLINE_STATIC_ARTIFACT_REVIEW",
+  "historicalRecompute": {
+    "total": 29,
+    "correct": 12,
+    "wrongAccepted": 0,
+    "currentAgentWholeChain": "NOT_EVALUATED"
+  },
+  "dengana": {
+    "allArtifacts": 8,
+    "applicable": 6,
+    "otherRequest": 2,
+    "liveRerun": false
+  },
+  "named": {
+    "capturedBadProposalRed": "CONFIRMED_FIRST_MODEL_LAYER",
+    "correctFixtureDownstream": "PASS",
+    "prompt26Delivered": "PASS",
+    "realModelCompliance": "NOT_EVALUATED",
+    "runtimeBlocksEveryWrongNamedProposal": false
+  },
+  "gold": {
+    "unchanged": true,
+    "proposalCount": 15,
+    "privateHoldoutRead": false
+  },
+  "newRealCalls": {
+    "fullLive": 0,
+    "realModelCalls": 0,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0
+  },
+  "sourceChanged": [
+    "src/domains/restaurant/semantic-interpreter.test.ts",
+    "src/domains/restaurant/semantic-interpreter.ts",
+    "src/domains/restaurant/semantic-proposal.ts"
+  ],
+  "ownership": "PASS_A_B_IDENTITY_STATE_SCHEMA_UNCHANGED",
+  "frozenFilesUnchanged": 752,
+  "sourceDeliveryS0toS4": "NOT_EVALUATED_OUTSIDE_SAVED_IDENTITY_SUBSET",
+  "modelCallsFromThisReview": 0
+}

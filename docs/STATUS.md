@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.423
+- Document revision: 4.424
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-PHASE3B-C-STOP1:** C批次1完成，工作分支待复核不合main：29份当前保存页局部复算12正确/0错认，17失败分布14空、1采集遗漏、1字段冲突、1未决；八F5中六Dengana/两其他请求已分步计时。身份方案不实施/不放宽；Semantic Prompt26具名保留指令与合法fixture通过，真实模型未评，坏提议红灯保留；Schema4/State23/TaskDefinition21不变。Gold15项只列清单、4原SHA保持，ADR0047记录3b两原则。d9b38cd2冻结752项，五门禁1101默认/162Chromium及type/arch/build全绿，各项前后净树；固定Fixture15/15、定向8/8。A/B/C共享账本并集，新增真实调用全0。推分支停停止点1。[报告](../.eval-artifacts/phase3b/c-batch1/report.md)。
 
 - **2026-10-26-PHASE3B-C-BATCH1-CANDIDATE:** C完成离线候选：当前保存页parser/resolver复算12/29正确、0错认；14空检索、1身份采集遗漏、1字段冲突、1检索未决；八F5中六Dengana/两其他请求，时限原因逐项保存。身份/检索仅方案不实施。SR03坏提议在模型层先丢名；已报告后仅Semantic Prompt25→26，合法fixture与wire8/8绿，原坏响应并未变为模型成功；Schema4/State23/TaskDefinition21不变。15项Gold标签建议只列清单、Gold4原SHA未变；ADR0047记录3b两个原则及未实现边界。A/B/C零调用条目并集，新增真实调用0。五门禁待干净冻结候选验证，停点1不合main。[报告](../.eval-artifacts/phase3b/c-batch1/report.md)。
 
