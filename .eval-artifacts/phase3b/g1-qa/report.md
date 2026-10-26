@@ -66,4 +66,4 @@ Evidence status：draft / not integrated；暴露候选，**非人工确认Gold�
 
 ## 验证与下一门槛
 
-五门禁将在冻结提交执行并归档；单独原文引用Chromium核对与NOT_READY验证也会记录。产品/Prompt/Schema/State相对main零差异。工作分支提交推送供复核，不合main。下一门槛是复核者逐题决定，不能把本批候选直接交B作正式Gold。
+冻结fc5146b9五门禁全绿，收据在[verification](verification/)：typecheck0.452s、arch0.202s、默认1104/1104 28.195s、build0.405s、Chromium163/163 98.559s；逐项前后净树。额外独立Chromium核对8页49摘录全部出现、位置及双SHA预检通过；真实候选评分入口正确NOT_READY、evaluated=0、错误数null。输入SHA再次复核通过。产品/Prompt/Schema/State相对main零差异。工作分支提交推送供复核，不合main。下一门槛是复核者逐题决定，不能把本批候选直接交B作正式Gold。
