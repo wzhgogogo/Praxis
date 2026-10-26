@@ -1,3 +1,4 @@
+import {restaurantReserveCancelled} from "../../domains/restaurant/read-time-reserve.js";
 import type {DiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
 import {discoveryRetrievalKeepAllowed} from "../../domains/restaurant/discovery-retrieval.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
@@ -1213,7 +1214,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       if (error && typeof error === "object") Object.assign(error, {
         // A failed correction may stop the source, but cannot revoke qualified
         // candidates already grounded during this same invocation.
-        ...(source === "DIRECTORY" && (replaceRegion || directoryRegion?.replacement) ? {nativeAccepted: [...admitted.values()]} : {}),
+        ...((source === "DIRECTORY" && (replaceRegion || directoryRegion?.replacement) || restaurantReserveCancelled(signal)) ? {nativeAccepted: [...admitted.values()]} : {}),
         nativeFunnel: funnel(true),
         nativeProgress: {
           ...regionCheckpoint(), retrieval,
@@ -1324,7 +1325,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         try {
           read = await this.locality.search({...freshRequest, discoveryQuery: referenceEntry.query, retrievalHint: referenceEntry.query.keyword ?? referenceEntry.query.category}, boundedSignal);
         } catch (error) {
-          if (taskLevelFailure(error, signal)) throw error;
+          if (taskLevelFailure(error, signal) && !restaurantReserveCancelled(signal)) throw error;
           const code = restaurantFailureCode(candidateFailureCode(error, 'GOOGLE'), 'SEARCH_FAILED');
           // Preserve this one failed read for the original source stage too;
           // a missing routing hint must not silently schedule a second call.
@@ -1337,7 +1338,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       } : undefined;
       batch = await this.batch(pack!, source, request, location, entry.query, signal, request.continuation?.sourceProgress, loadReferenceRead);
     } catch (error) {
-      if (taskLevelFailure(error, signal)) throw error;
+      if (taskLevelFailure(error, signal) && !restaurantReserveCancelled(signal)) throw error;
       if (error && typeof error === "object" && "nativeFunnel" in error && error.nativeFunnel) {
         // A source failure is not a completed empty batch.  If it still has
         // unstarted observed entrances, retain the source stage so the next
@@ -1364,6 +1365,16 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       failureCode = error && typeof error === "object" && "code" in error && typeof error.code === "string"
         ? restaurantFailureCode(error.code, "SEARCH_FAILED") : restaurantFailureCode(`${source}_NATIVE_DISCOVERY_FAILED`, "SEARCH_FAILED");
     }
+    if (restaurantReserveCancelled(signal)) {
+      failureCode = 'DELIVERY_RESERVE_REACHED';
+      batch.funnel = {...batch.funnel,sourceEnded:false,sourceExhausted:'UNKNOWN'};
+      // A completed reference read is also source evidence, never a guessed outlet.
+      const reference = discoveryPlan.regionReferenceRead?.read;
+      if (reference) {
+        batch.candidates = [...new Map([...batch.candidates,...reference.candidates].map(c=>[c.restaurant.id,c])).values()];
+        batch.evidence = [...new Map([...batch.evidence,...reference.evidence].map(e=>[e.evidenceId,e])).values()];
+      }
+    }
     const sourceEnded = batch.funnel.sourceEnded;
     const nextPlan = advanceDiscoveryPlan(discoveryPlan, sourceEnded);
     return {
@@ -1386,6 +1397,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       metadata: { provider: pack!.browser!.provider, route: this.executionRoute, latencyMs: Date.now() - startedAt,
         nativeDiscoveryFunnel: batch.funnel,
         ...(failureCode ? { failureCode } : {}),
+        ...(restaurantReserveCancelled(signal) ? {reserveReached:{reason:'DELIVERY_TIME' as const,completedCandidateIds:batch.candidates.map(c=>c.restaurant.id)}} : {}),
         ...(batch.candidateFailures.length ? { candidateFailures: batch.candidateFailures, failureScope: "CANDIDATE" as const } : {}),
         googleRequests: this.locality.googleRequestUsage(request.readRunId),
       },

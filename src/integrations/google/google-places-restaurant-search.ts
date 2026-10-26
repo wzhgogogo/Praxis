@@ -1,3 +1,4 @@
+import {restaurantReserveCancelled} from "../../domains/restaurant/read-time-reserve.js";
 import {generalDiscoveryCategory} from "../../domains/restaurant/discovery-planner.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import { DEFAULT_NEARBY_RADIUS_METERS } from "../../core/location/nearby.js";
@@ -393,34 +394,10 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       }, signal);
     };
     const first = await readPage(firstPageToken);
+    if (signal.aborted) throw signal.reason;
     const pages = [first.places];
     let nextPageToken = first.nextPageToken;
     let lastFailureCode: RestaurantFailureCode | undefined;
-    // An initial read intentionally obtains at most two 20-result pages. A
-    // later explicit replenishment consumes one durable cursor page at a time.
-    if (!usesNearbySearch && !request.continuation && nextPageToken) {
-      if (usedPageTokens.includes(nextPageToken)) {
-        lastFailureCode = "GOOGLE_PAGINATION_REPEATED_TOKEN";
-        nextPageToken = undefined;
-      } else {
-        try {
-          const second = await readPage(nextPageToken);
-          pages.push(second.places);
-          nextPageToken = second.nextPageToken;
-          if (nextPageToken && usedPageTokens.includes(nextPageToken)) {
-            lastFailureCode = "GOOGLE_PAGINATION_REPEATED_TOKEN";
-            nextPageToken = undefined;
-          }
-        } catch (error) {
-          // The first page is independently valid. Preserve it and make the
-          // partial failure visible rather than discarding the whole search.
-          lastFailureCode = error instanceof GooglePlacesError ? error.code : "GOOGLE_SECOND_PAGE_FAILED";
-          nextPageToken = first.nextPageToken;
-          if (usedPageTokens.at(-1) === first.nextPageToken) usedPageTokens.pop();
-        }
-      }
-    }
-    const places = pages.flat();
     const observedAt = this.now();
     const requestFingerprint = createHash("sha256").update(JSON.stringify({ textQuery, nearbyCategory, area: request.intent.area })).digest("hex");
     const groundingInput: GoogleDiscoveryGroundingInput = {
@@ -438,11 +415,38 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       ...(request.intent.timeWindow ? { requestedTimeWindow: request.intent.timeWindow } : {}),
       ...(locationContext ? { evaluationLocation: locationContext } : {}),
     };
-    const grounded = places.map((place) => {
+    const groundPage = (places: typeof first.places) => places.map((place) => {
       const observation = rawObservation(place);
       const result = groundGoogleDiscovery(observation, groundingInput);
       return { result, sourcePlaceId: observation.placeId, diagnostics: googleDiscoveryGeoDiagnostics(observation, groundingInput) };
     });
+    const grounded = groundPage(first.places);
+    // An initial read intentionally obtains at most two 20-result pages. A
+    // later explicit replenishment consumes one durable cursor page at a time.
+    if (!usesNearbySearch && !request.continuation && nextPageToken) {
+      if (usedPageTokens.includes(nextPageToken)) {
+        lastFailureCode = "GOOGLE_PAGINATION_REPEATED_TOKEN";
+        nextPageToken = undefined;
+      } else {
+        try {
+          const second = await readPage(nextPageToken);
+          if (signal.aborted) throw signal.reason;
+          pages.push(second.places);
+          grounded.push(...groundPage(second.places));
+          nextPageToken = second.nextPageToken;
+          if (nextPageToken && usedPageTokens.includes(nextPageToken)) {
+            lastFailureCode = "GOOGLE_PAGINATION_REPEATED_TOKEN";
+            nextPageToken = undefined;
+          }
+        } catch (error) {
+          // The first page is independently valid. Preserve it and make the
+          // partial failure visible rather than discarding the whole search.
+          lastFailureCode = error instanceof GooglePlacesError ? error.code : "GOOGLE_SECOND_PAGE_FAILED";
+          nextPageToken = first.nextPageToken;
+          if (usedPageTokens.at(-1) === first.nextPageToken) usedPageTokens.pop();
+        }
+      }
+    }
     // Google may return an outlet again on the next page. Preserve only the
     // first grounded observation for each stable Domain outlet ID so the pool
     // cannot present one physical restaurant as two investigation targets.
@@ -457,7 +461,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         ...(nextPageToken ? { nextPageToken } : {}),
         usedPageTokens,
         pagesRead: (request.continuation?.pagesRead ?? 0) + pages.length,
-        exhausted: !nextPageToken,
+        exhausted: restaurantReserveCancelled(signal) ? false : !nextPageToken,
         ...(lastFailureCode ? { lastFailureCode } : {}),
         ...(locationContext ? { locationContext } : {}),
         sourceRequestContext: { textQuery: usesNearbySearch ? `nearby:${nearbyCategory}` : textQuery },
@@ -468,6 +472,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         latencyMs: Date.now() - startedAt,
         ...(lastFailureCode ? { failureCode: lastFailureCode } : {}),
         googleRequests: this.googleRequestUsage(request.readRunId),
+        ...(restaurantReserveCancelled(signal) ? {reserveReached:{reason:'DELIVERY_TIME' as const,completedCandidateIds:acceptedGrounded.map(result=>result.candidate.restaurant.id)},failureCode:'DELIVERY_RESERVE_REACHED' as const} : {}),
         googleGeoDiagnostics: {
           providerMode: usesNearbySearch ? "GOOGLE_NEARBY_SEARCH" as const : "GOOGLE_TEXT_SEARCH" as const,
           requestMode: usesNearbySearch ? "LOCATION_RESTRICTION_CIRCLE" as const : locationContext ? "LOCATION_RESTRICTION_RECTANGLE" as const : "UNRESTRICTED" as const,

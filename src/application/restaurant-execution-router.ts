@@ -18,6 +18,7 @@ import type {
 import { restaurantSearchIntentFingerprint } from "../domains/restaurant/contracts.js";
 import { assessRestaurantRead, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
+import {restaurantReserveCancelled,RESTAURANT_READ_CANCEL_SETTLE_MS} from "../domains/restaurant/read-time-reserve.js";
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
 import { restaurantUnverifiedReadSummary } from "../domains/restaurant/read-loop-termination.js";
 
@@ -244,11 +245,12 @@ export class RestaurantExecutionRouter {
       case "SEARCH_RESTAURANTS": {
         const request = authoritativeSearchRequest(state, action.retrievalHint, readRunId);
         const knownCandidateIds = new Set(state.candidates.map((candidate) => candidate.restaurant.id));
+        let completedSearch: RestaurantSearchRead | undefined;
         try {
           const read = await this.withProviderReadDeadline(
             "Restaurant search",
             this.search.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
-            (signal) => withModelReserve(() => this.search.search(request, signal)),
+            async signal => { completedSearch = await withModelReserve(() => this.search.search(request, signal)); return completedSearch; },
             this.search.executionRoute === "GENERIC_BROWSER",
             parentSignal,
           );
@@ -269,6 +271,10 @@ export class RestaurantExecutionRouter {
             executionMetadata: read.metadata,
           };
         } catch (error) {
+          if (restaurantReserveCancelled(parentSignal) && completedSearch?.metadata.reserveReached?.reason === 'DELIVERY_TIME') {
+            const read = completedSearch;
+            return {route:this.search.executionRoute,event:{type:'SEARCH_COMPLETED',request,...read},observation:{type:'DISCOVERY',detail:'DELIVERY_RESERVE_REACHED: complete search children retained; unread sources remain unknown',candidateIds:read.candidates.map(c=>c.restaurant.id),evidenceIds:read.evidence.map(e=>e.evidenceId)},executionMetadata:read.metadata};
+          }
           const reason = error instanceof Error ? error.message : "Unknown Restaurant search failure";
           const code = stableFailureCode(error, "SEARCH_FAILED");
           return {
@@ -511,7 +517,7 @@ export class RestaurantExecutionRouter {
     parentSignal?: AbortSignal,
   ): Promise<Value> {
     if (parentSignal?.aborted) throw parentSignal.reason ?? new Error("Read-only investigation was cancelled");
-    if (timeoutMs === null) return operation(parentSignal ?? new AbortController().signal);
+
     const controller = new AbortController();
     let deadlineExceeded = false;
     let rejectDeadline: ((reason: Error) => void) | undefined;
@@ -523,16 +529,19 @@ export class RestaurantExecutionRouter {
     const deadline = settleAfterAbort
       ? undefined
       : new Promise<never>((_resolve, reject) => { rejectDeadline = reject; });
-    const parentAbort = !settleAfterAbort && parentSignal
+    let settleTimer: ReturnType<typeof setTimeout> | undefined;
+    const parentAbort = parentSignal
       ? new Promise<never>((_resolve, reject) => { rejectParentAbort = reject; })
       : undefined;
     const abortFromParent = () => {
       const reason = parentSignal?.reason ?? new Error("Read-only investigation was cancelled");
       controller.abort(reason);
-      rejectParentAbort?.(reason);
+      if (restaurantReserveCancelled(parentSignal)) {
+        settleTimer = setTimeout(() => rejectParentAbort?.(Object.assign(new Error('Source did not settle inside the conclusion reserve'),{code:'READ_CANCELLATION_UNSETTLED'})),RESTAURANT_READ_CANCEL_SETTLE_MS);
+      } else if (!settleAfterAbort) rejectParentAbort?.(reason);
     };
     parentSignal?.addEventListener("abort", abortFromParent, { once: true });
-    const timeout = setTimeout(() => {
+    const timeout = timeoutMs === null ? undefined : setTimeout(() => {
       deadlineExceeded = true;
       const error = new Error(`${operationName} timed out after ${timeoutMs}ms`);
       controller.abort(error);
@@ -543,9 +552,7 @@ export class RestaurantExecutionRouter {
       // A generic browser must settle after AbortSignal so its executor closes before
       // control returns. Structured read-only retrieval has no browser action and may
       // be bounded at the Router even if a broken provider ignores abort.
-      const value = await (settleAfterAbort
-        ? work
-        : Promise.race([work, deadline!, ...(parentAbort ? [parentAbort] : [])]));
+      const value = await Promise.race([work,...(deadline ? [deadline] : []),...(parentAbort ? [parentAbort] : [])]);
       if (parentSignal?.aborted) throw parentSignal.reason ?? new Error("Read-only investigation was cancelled");
       if (deadlineExceeded) throw new Error(`${operationName} timed out after ${timeoutMs}ms`);
       return value;
@@ -553,7 +560,8 @@ export class RestaurantExecutionRouter {
       if (deadlineExceeded) throw new Error(`${operationName} timed out after ${timeoutMs}ms`);
       throw error;
     } finally {
-      clearTimeout(timeout);
+      if (timeout) clearTimeout(timeout);
+      if (settleTimer) clearTimeout(settleTimer);
       parentSignal?.removeEventListener("abort", abortFromParent);
     }
   }
