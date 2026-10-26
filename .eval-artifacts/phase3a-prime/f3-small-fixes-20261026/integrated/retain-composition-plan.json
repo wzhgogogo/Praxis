@@ -1,0 +1,21 @@
+{
+  "purpose": "Retain one already-green production-composition post-exit fixture execution and its independent parent evaluation for audit; retention only, no semantic input changes",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern=each exited slot is independently evaluated",
+    "src/harness/browser/runner-post-exit.test.ts"
+  ],
+  "environment": {
+    "PRAXIS_KEEP_POST_EXIT_FIXTURE": "1"
+  },
+  "sourceCommit": "e816d0454b5abec299af18ea3534958c4dfa9dba",
+  "sourceSha256": "223481b70571e145c9573c97439cd56bef4396a1347def82c84a54e1a7c93aff",
+  "realCalls": 0,
+  "sourceFreezeSha256": "b92aa1e2462b66c3eb3bf17515607503445b3c8adff60ed7c92d7e222a2924f1",
+  "currentFixtureSha256": "5f5bb5e265cb51c189102c67ed24ec998b43452374ca5727b9e37139d56d1785"
+}
