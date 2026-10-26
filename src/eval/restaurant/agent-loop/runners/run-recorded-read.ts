@@ -8,6 +8,7 @@ import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepse
 import { evaluateRestaurantHybridLiveArtifact } from "../diagnostic-evaluator.js";
 import { runHybridReadDiagnostic, type HybridReadDiagnosticInput } from "./run-hybrid-live-read.js";
 import { loadReplayRecording, recordedResponse, createRecordedBrowser, type ReplayStop } from "./replay-read-recording.js";
+import { capturedContractMatches, rebindRecordedBrowserDecision, type RecordedReferenceBinding } from "./recorded-browser-decision.js";
 
 export interface RecordedReadInput {
   recordingDirectory: string; decisionsPath: string;
@@ -29,6 +30,9 @@ export async function runRecordedRead(config: RecordedReadInput, output: string,
   const decisionBytes=await readFile(config.decisionsPath),decisions=decisionBytes.toString().trim().split("\n").filter(Boolean).map(line=>JSON.parse(line));
   const restoreClock=replayClock(Date.parse(config.input.startedAt));
   const controller=new AbortController();let stopped:ReplayStop|undefined,decisionIndex=0,modelTransportCalls=0;
+  const referenceBindings: RecordedReferenceBinding[] = [];
+  let decisionMismatch: { recordedSequence: number; recorded: unknown; requested: unknown } | undefined;
+  let replayedDecisionCount = 0;
   const stop=(reason:ReplayStop)=>{if(stopped)return;stopped=reason;controller.abort();};
   const replay=createRecordedBrowser(recording,stop);
   const packs=config.input.packIds.map(id=>{const pack=restaurantDiscoveryPacks.find(p=>p.meta.id===id);if(!pack)throw new Error("Unknown original source pack");return pack;});
@@ -46,10 +50,16 @@ export async function runRecordedRead(config: RecordedReadInput, output: string,
         if(config.modelMode==="REAL"){const model=realModelFactory!(observe);return {async complete(request){modelTransportCalls++;return model.complete(request);}};}
         return {async complete(request:ModelRequest){
           const record=decisions[decisionIndex++];
-          if(!record||record.purpose!==request.purpose||record.promptVersion!==request.promptVersion||record.outputSchema?.name!==request.outputSchema.name||record.outputSchema?.version!==request.outputSchema.version||record.outcome!=="SUCCEEDED"||typeof record.outputText!=="string"){
+          if(!record||!capturedContractMatches(record,request)||record.outcome!=="SUCCEEDED"||typeof record.outputText!=="string"){
+            decisionMismatch={recordedSequence:decisionIndex,recorded:record?{purpose:record.purpose,promptVersion:record.promptVersion,outputSchema:record.outputSchema}:null,requested:{purpose:request.purpose,promptVersion:request.promptVersion,outputSchema:{name:request.outputSchema.name,version:request.outputSchema.version}}};
             stop({snapshot:recording.pages[replay.consumedPages()]?.snapshot??null,origin:"",pathname:"",reason:"DECISION_SEQUENCE_DIVERGED"});throw new Error("REPLAY_INCOMPLETE");
           }
-          const response={invocationId:`replayed-${decisionIndex}`,provider:"FIXTURE" as const,model:"recorded-decisions",outputText:record.outputText,finishReason:record.finishReason??"STOP",latencyMs:0};
+          let rebound: ReturnType<typeof rebindRecordedBrowserDecision>;
+          try { rebound=rebindRecordedBrowserDecision(record,request); }
+          catch(error){stop({snapshot:recording.pages[replay.consumedPages()]?.snapshot??null,origin:"",pathname:"",reason:error&&typeof error==="object"&&"code"in error?String(error.code):"REPLAY_REFERENCE_BINDING_FAILED"});throw new Error("REPLAY_INCOMPLETE");}
+          if(rebound.binding)referenceBindings.push(rebound.binding);
+          replayedDecisionCount++;
+          const response={invocationId:`replayed-${decisionIndex}`,provider:"FIXTURE" as const,model:"recorded-decisions",outputText:rebound.outputText,finishReason:record.finishReason??"STOP",latencyMs:0};
           observe({invocationId:response.invocationId,taskId:request.taskId,purpose:request.purpose,promptVersion:request.promptVersion,fallback:request.fallback,provider:response.provider,model:response.model,responseFormat:request.responseFormat,outputSchema:request.outputSchema,outcome:"SUCCEEDED",latencyMs:0});return response;
         }};
       },
@@ -67,7 +77,7 @@ export async function runRecordedRead(config: RecordedReadInput, output: string,
         await writeFile(outputPath,JSON.stringify({...evaluation,...provenance,replayStatus:stopped?"REPLAY_INCOMPLETE":"COMPLETED",stop:stopped??null},null,2),{flag:"wx"});return {evaluation,outputPath};
       },
     });
-    const summary={...provenance,status:stopped?"REPLAY_INCOMPLETE":"COMPLETED",stop:stopped??null,consumedPages:replay.consumedPages(),recordedPages:recording.pages.length,consumedDecisions:decisionIndex,recordedDecisions:decisions.length,modelTransportCalls,missingRequests:replay.missingRequests(),resultPath:result.resultPath};
+    const summary={...provenance,status:stopped?"REPLAY_INCOMPLETE":"COMPLETED",stop:stopped??null,consumedPages:replay.consumedPages(),recordedPages:recording.pages.length,consumedDecisions:decisionIndex,recordedDecisions:decisions.length,replayedDecisionCount,decisionMismatch:decisionMismatch??null,referenceBindingProtocol:"observed-target-rebinding@1",referenceBindings,modelTransportCalls,missingRequests:replay.missingRequests(),resultPath:result.resultPath};
     await writeFile(resolve(output,"replay.json"),JSON.stringify(summary,null,2)+"\n",{flag:"wx"});return summary;
   }finally{controller.abort();restoreClock();}
 }

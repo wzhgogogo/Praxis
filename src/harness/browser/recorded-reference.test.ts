@@ -19,11 +19,12 @@ test("F5 recorded region action rebinds to the same observed link and reaches th
     [original.observation.url]: csp + await readFile(new URL("recording/snapshot-0002.html", recording), "utf8"),
     [selected.href!]: csp + await readFile(new URL("recording/snapshot-0004.html", recording), "utf8"),
   });
+  for (const mode of ["RAW", "REBIND"] as const) {
   let calls = 0;
   const diagnostics: Array<{ event: string; detail?: string }> = [];
   const model = new ModelBrowserReadActionDecision({ async complete(request) {
     calls++;
-    const output = calls === 1 ? rebindRecordedBrowserDecision(record, request).outputText
+    const output = calls === 1 ? (mode === "REBIND" ? rebindRecordedBrowserDecision(record, request).outputText : record.outputText)
       : JSON.stringify({ action: "REQUEST_HUMAN_HELP", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "Stop the uncovered window" });
     return { invocationId: "offline-recorded-window", provider: "FIXTURE", model: "original-captured-response", outputText: output, finishReason: "TOOL_CALLS", latencyMs: 0 };
   } });
@@ -35,8 +36,15 @@ test("F5 recorded region action rebinds to the same observed link and reaches th
     await executor.navigate({ session, signal, source: "DIRECTORY", stage: "DISCOVERY", allowedOrigins: ["https://tabelog.com"], url: original.observation.url });
     const result = await executor.runSkill({ taskId: "offline-f5-region-window", source: "DIRECTORY", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://tabelog.com"], goal: original.goal, objective: original.objective,
       completion: snapshot => ({ complete: snapshot.url === selected.href, resultKey: snapshot.url, resultBusy: false, reason: "The selected observed region page has not been reached" }) });
-    t.diagnostic(JSON.stringify({ status: result.status, calls, rejected: diagnostics.filter(row => row.event === "REJECTED"), sourceTransportCalls: 0 }));
+    t.diagnostic(JSON.stringify({ mode, status: result.status, calls, rejected: diagnostics.filter(row => row.event === "REJECTED"), sourceTransportCalls: 0 }));
+    if (mode === "RAW") {
+      assert.equal(result.status, "NO_SAFE_ACTION");
+      assert.ok(diagnostics.some(row => row.event === "REJECTED" && row.detail === "STALE_OR_UNKNOWN_TARGET_REF"));
+      assert.equal(result.snapshot.url, original.observation.url);
+    } else {
     assert.equal(result.status, "COMPLETED", JSON.stringify({ status: result.status, diagnostics }));
     assert.equal(result.snapshot.url, selected.href); assert.equal(calls, 1);
+    }
   } finally { await executor.close(); }
+  }
 });
