@@ -21,6 +21,12 @@
 
 时间2026-10-26T23:11:24.545847+01:00（CET）。从main cc127320独立工作分支，引用 ADR（对话 B 起草，待批准）的用户两原则与共享3b零调用账本。规则2全id映射及引用目标逐项自检；12保存页8 PASS/4 DEGRADED_HONEST/0 FAIL，TC未知边界保留；无产品代码改动。固定G2命令与G3严格模式已建立；0027ed84五门禁1101/166及额外G2 4/4全绿，逐项净树。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
 
+<a id="dev-2026-10-26-phase3b-replay"></a>
+
+## 2026-10-26 CET：3b A回放引用与静态方案
+
+时间2026-10-26T23:54:36.400389+01:00。从main cc127320独立分支；历史F5第4行wire先被stale拒绝，导致第5请求类型分歧。A层按公开语义唯一绑定当前ref，原动作/权威值不变，生产stale限制不改；实际Executor窄窗口红转绿，SOURCE/FLOW歧义等拒绝。当前原整包首语义合同23/3对25/4不匹配，严格停止、0/94，未完成完整回放。旧24脚本清单中10在重跑HAR已有字节，75缺CSS/71缺动态，六DOM只证可读性；Recorder/Guard无修改。五门禁待执行，真实调用0，不合main。[报告](../../.eval-artifacts/phase3b/replay-completion/report.md)。
+
 <a id="dev-2026-10-26-phase3a-prime-signoff"></a>
 
 ## 2026-10-26 CET：3a′带缺口签收与3a完成
