@@ -87,8 +87,9 @@ export class ModelRestaurantPageQuestion {
       pages = (await this.readPages(input, signal)).filter(bound);
       signal.throwIfAborted();
     }
-    // The last observation of a URL replaces an earlier view, including PENDING.
-    pages = [...new Map(pages.map(page => [page.snapshot.url, page])).values()];
+    // Select the last view of each URL, including PENDING, then freeze this read
+    // before awaiting the model: a caller may refresh its mutable page cache.
+    pages = structuredClone([...new Map(pages.map(page => [page.snapshot.url, page])).values()]);
     checkedPages = pages.map(page => ({ url: page.snapshot.url, readAt: page.observedAt }));
     if (!pages.length) return reject("NO_BOUND_PAGE");
     const documents = pages.map((page, index) => {
