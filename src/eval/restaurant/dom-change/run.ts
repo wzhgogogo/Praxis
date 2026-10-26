@@ -96,6 +96,7 @@ export async function runDomChange(output?: string) {
       const session = await runtime.openSession({ signal: AbortSignal.timeout(30_000), networkPolicy: { documentOrigins: [new URL(spec.sourceUrl).origin], genericPublicRead: true, staticResources: [], dynamicReads: [] } });
       try {
         if (session.metadata.readNetworkBoundary !== "INSTALLED") throw new Error("MISSING_REAL_GUARD");
+        await session.prepareNavigation!(spec.sourceUrl, { timeoutMs: 10_000 });
         await session.navigate(spec.sourceUrl);
         // Same declared visibility shim as F3; no original external CSS is invented.
         await page!.addStyleTag({ content: ".is-hidden{display:none}" });
