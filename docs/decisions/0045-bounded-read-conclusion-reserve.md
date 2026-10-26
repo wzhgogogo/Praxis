@@ -1,7 +1,7 @@
 # ADR-0045：有界只读调查的收尾时间预留
 
-- Status: Draft（修订提议，待用户批准；F6未实施。固定20秒、收尾合法动作和deadline−20秒取消原则已获停止点4批准；准入与子结果细节仍待批准）
-- Document revision: 0.2
+- Status: Accepted（用户停止点5于2026-10-26 CET批准修订稿；本分支实施中，验收结果单列）
+- Document revision: 1.0
 - Last updated: 2026-10-25（Europe/Vienna CET；复核编号20261026）
 - Source of truth for: F6动作耗时中位数准入、固定收尾预留与取消时完整子结果保留草案
 - Related ADRs: [ADR-0034](0034-qualified-read-scope-and-investigation-budget.md)、[ADR-0038](0038-model-call-default-delivery-window.md)、[ADR-0043](0043-provisional-directory-entrance-coordinate-check.md)
@@ -12,7 +12,7 @@ F5机制已在Live验证，例01未达成，转3b与F6。重跑槽3决策行39�
 
 停止点4用户决定改用**20秒加该动作完成耗时中位数**，不采纳前稿最大值加根决策再取整的125/125/190秒门槛。前稿在固定Git `afd9c4e1`保留，仅属历史提议，不构成当前准入。无新增真实调用或额度授权。
 
-## Proposed decision
+## Decision
 
 1. **整单固定预留20秒**，包含在原500秒内，供取消/收口、END_READ或已有合格PRESENT_RESULTS和有界可读结论；不增加模型50次、Google或来源额度，不重置累计计数。这个原则已获批准，尚未接线实施。
 2. 每次从权威deadline算剩余时间。读取动作的门槛为`20秒 + 该动作类型已完成执行耗时的中位数`。模型决策前计算合法集合，模型思考后执行前再用同一时钟核验；门槛包含等号，不再加最大值、根模型耗时或190秒常量。未满足某类门槛就移除该类读取，不能经隐式重试、换来源或新导航绕过。进入收尾时只保留END_READ和已符合原展示规则的PRESENT_RESULTS；无合格候选只保留END_READ。
