@@ -1,0 +1,101 @@
+{
+  "basis": "Diff review supplements the58 source timer/clock candidates with explicit SDK and outer test deadlines.",
+  "rows": [
+    {
+      "file": "src/harness/browser/browser-read-replay.test.ts",
+      "line": 51,
+      "configuration": "await session.prepareNavigation?.(\"https://replay.example/missing\", { timeoutMs: 5_000 });",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/browser-read-replay.test.ts",
+      "line": 52,
+      "configuration": "await assert.rejects(session.navigate(\"https://replay.example/missing\", { timeoutMs: 5_000 }), /blocked|failed|route/i, \"a Guard-admitted HAR miss must not use the network\");",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 37,
+      "configuration": "await page.goto(origin + path, { timeout: 10_000 }).catch(() => {});",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 43,
+      "configuration": "await page.goto(origin + \"/jump\", { timeout: 10_000 }).catch(() => {});",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 214,
+      "configuration": "staticResources: reviewedCss ? [{ origin: other, pathname: \"/public/final.css\", resourceTypes: [\"stylesheet\"] }] : [], dynamicReads: [] }, 10_000, value => { recorded.push(value); });",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 232,
+      "configuration": "await page.goto(origin + path, { timeout: 10_000 }).catch(() => {});",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 240,
+      "configuration": "await page.goto(origin + \"/safe\", { timeout: 10_000 });",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 269,
+      "configuration": "await page.goto(origin + \"/loop/one\", { timeout: 10_000 }).catch(() => {});",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 295,
+      "configuration": "await popup.waitForURL(origin + \"/result/final\", { timeout: 10_000 });",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 327,
+      "configuration": "await page.goto(`${origin}/normalize?form=${form}`, { timeout: 10_000 }).catch(() => {});",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 340,
+      "configuration": "await page.goto(origin + \"/page\", { timeout: 10_000 });",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 343,
+      "configuration": "else await page.goto(other + (mode === \"resource-type\" ? \"/public/final.css\" : \"/forbidden\"), { timeout: 10_000 }).catch(() => {});",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/runner-pacing.test.ts",
+      "line": 34,
+      "configuration": "test(\"shared origin pacing spans two real subprocesses\", { timeout: 45_000 }, async t => {",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/runner-pacing.test.ts",
+      "line": 49,
+      "configuration": "test(\"one run has exactly zero pacing wait\", { timeout: 45_000 }, async t => {",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/runner-pacing.test.ts",
+      "line": 59,
+      "configuration": "for (const stop of [\"SIGTERM\", \"timeout\", \"stop\"] as const) test(`third queues and ${stop} releases in-flight ownership`, { timeout: 45_000 }, async t => {",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    },
+    {
+      "file": "src/harness/browser/pacing-static-resources.test.ts",
+      "line": 9,
+      "configuration": "test(\"two Chromium runs count20 static resources each but pace only documents\",{timeout:45_000},async t=>{",
+      "disposition": "Widen only dispatch/observation/outer test allowance; all receiver, policy, pacing and state assertions retained."
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "status": "exposed development evidence; not clean baseline",
+  "timeCET": "2026-10-26T00:34:07.114963+01:00",
+  "sourceCommit": "458c6cb6bab3fad3f25d525182d072743d87f633",
+  "originalIds": [
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8",
+    "L9a",
+    "L9b",
+    "L10"
+  ],
+  "rows": [
+    {
+      "id": "L1",
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "reviewedRange": [
+        32,
+        83
+      ],
+      "estimatedNetRemoval": 38,
+      "actualRemoval": 0,
+      "evidence": "L1",
+      "reason": "CLOSED/FULL/PHONE_ONLY 来自日历状态 class；现有日期控件只含 calendarDate/disabled/selected，不区分终态。删掉扫描会丢失已测状态。",
+      "nextRequirement": "提供已存在且等价的源归属/状态/字段观察，保留当前正反例，再按原门槛红绿与五门禁；不自动增加 Browser/Schema/Guard 改动。"
+    },
+    {
+      "id": "L2",
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "reviewedRange": [
+        85,
+        154
+      ],
+      "estimatedNetRemoval": 52,
+      "actualRemoval": 0,
+      "evidence": "L2/L3",
+      "reason": "同样的选中数字可能属于人数或时间/其他组；源归属与隐藏人数输入一致性仍需当前 DOM 父链。现有扁平控件不是全部这些检查的等价替代。",
+      "nextRequirement": "提供已存在且等价的源归属/状态/字段观察，保留当前正反例，再按原门槛红绿与五门禁；不自动增加 Browser/Schema/Guard 改动。"
+    },
+    {
+      "id": "L3",
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "file": "src/integrations/tabelog/tabelog-query-controls.ts",
+      "reviewedRange": [
+        5,
+        20
+      ],
+      "estimatedNetRemoval": 8,
+      "actualRemoval": 0,
+      "evidence": "L2/L3",
+      "reason": "三个提示提供当前源日期/人数标签与仅观察的时间；受限文案还必须和禁用人数、无日期控件及日历终态联合。没有现有观察可取代这一组合，不删除或改 Prompt。",
+      "nextRequirement": "提供已存在且等价的源归属/状态/字段观察，保留当前正反例，再按原门槛红绿与五门禁；不自动增加 Browser/Schema/Guard 改动。"
+    },
+    {
+      "id": "L4",
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "file": "src/integrations/tabelog/tabelog-page-parser.ts",
+      "reviewedRange": [
+        196,
+        230
+      ],
+      "estimatedNetRemoval": 23,
+      "actualRemoval": 0,
+      "evidence": "L4",
+      "reason": "当前已保留正反例区分明确可用/不可用 class；并非每条路径都有捕获响应或同请求链接，删除将改变正例输出。",
+      "nextRequirement": "提供已存在且等价的源归属/状态/字段观察，保留当前正反例，再按原门槛红绿与五门禁；不自动增加 Browser/Schema/Guard 改动。"
+    },
+    {
+      "id": "L5",
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "reviewedRange": [
+        487,
+        559
+      ],
+      "estimatedNetRemoval": 55,
+      "actualRemoval": 0,
+      "evidence": "L5",
+      "reason": "相同页面值可能分布在两个不同请求组件；只有一个当前源 widget 的归属才确认日期人数，扁平共现不能替代。",
+      "nextRequirement": "提供已存在且等价的源归属/状态/字段观察，保留当前正反例，再按原门槛红绿与五门禁；不自动增加 Browser/Schema/Guard 改动。"
+    },
+    {
+      "id": "L6",
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "reviewedRange": [
+        635,
+        658
+      ],
+      "estimatedNetRemoval": 24,
+      "actualRemoval": 0,
+      "evidence": "L6",
+      "reason": "隐藏祖先内的当前日期链接与可见旧日期链接具有相同公开文本。没有已有带祖先可见性和链接绑定的结果观察；移除过滤会接受隐藏库存。",
+      "nextRequirement": "提供已存在且等价的源归属/状态/字段观察，保留当前正反例，再按原门槛红绿与五门禁；不自动增加 Browser/Schema/Guard 改动。"
+    },
+    {
+      "id": "L8",
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "file": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+      "reviewedRange": [
+        737,
+        757
+      ],
+      "estimatedNetRemoval": 15,
+      "actualRemoval": 0,
+      "evidence": "L8",
+      "reason": "当前 parser 的现有明确 slot class 正反例仍有用途；不能删掉正例，或把无响应/链接的结果默默改成 UNKNOWN 以计减行。",
+      "nextRequirement": "提供已存在且等价的源归属/状态/字段观察，保留当前正反例，再按原门槛红绿与五门禁；不自动增加 Browser/Schema/Guard 改动。"
+    },
+    {
+      "id": "L9a",
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "file": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "reviewedRange": [
+        126,
+        139
+      ],
+      "estimatedNetRemoval": 14,
+      "actualRemoval": 0,
+      "evidence": "static call graph",
+      "reason": "selectedDateField/PartyField 仍用于 Tabelog 的原生 SELECT 快路，并核验实际选中返回值。当前 BrowserPageControl.structure 没有 DOM id，SELECT 默认标签也不保证携带字段语义；id 是不透明 ref，不解析 ref 造字段。未证明现有同一观察可以保留此快路。",
+      "nextRequirement": "提供已存在且等价的源归属/状态/字段观察，保留当前正反例，再按原门槛红绿与五门禁；不自动增加 Browser/Schema/Guard 改动。"
+    },
+    {
+      "id": "L9b",
+      "status": "DEFERRED_INSUFFICIENT_REPLACEMENT_EVIDENCE",
+      "file": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "reviewedRange": [
+        216,
+        225
+      ],
+      "estimatedNetRemoval": 10,
+      "actualRemoval": 0,
+      "evidence": "static call graph",
+      "reason": "TableCheck shortcut 目前只收到 snapshot；控制观察不在其入参，且兼容原生 SELECT fixture 没有等价语义观察。改变共享执行器/Browser 接口或引入新解析器不属于此批已审核替代；保留同请求核对和确定性选择。",
+      "nextRequirement": "提供已存在且等价的源归属/状态/字段观察，保留当前正反例，再按原门槛红绿与五门禁；不自动增加 Browser/Schema/Guard 改动。"
+    }
+  ],
+  "targetSatisfied": false,
+  "realCalls": 0
+}

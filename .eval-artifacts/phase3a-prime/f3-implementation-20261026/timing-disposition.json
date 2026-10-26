@@ -1,0 +1,606 @@
+{
+  "scannedTestFiles": 113,
+  "candidateSourceSpans": 58,
+  "note": "Static declarations/shared helpers, not runtime test counts; non-timing false positives are explicitly classified.",
+  "rows": [
+    {
+      "file": "src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts",
+      "line": 948,
+      "name": "\"E1 outer post-run check captures each registered witness once for an actual zero-delivery run\"",
+      "mechanisms": [
+        "mock.method(globalThis"
+      ],
+      "action": "RETAIN",
+      "basis": "Mock fetch only; no timing gate in this source candidate."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts",
+      "line": 990,
+      "name": "\"E1 outer witness scope skips deliveries and unregistered cases, and blocks request/source drift\"",
+      "mechanisms": [
+        "mock.method(globalThis"
+      ],
+      "action": "RETAIN",
+      "basis": "Mock fetch only; no timing gate in this source candidate."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts",
+      "line": 85,
+      "name": "\"a frozen business clock cannot freeze the real outer deadline or admit a late model result\"",
+      "mechanisms": [
+        "Date.now()",
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "Keep the intentional real outer deadline while the business clock is frozen; controlled late-model rejection is the mechanism."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/live-source-health.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "Ordinary health modes already use4s; exact1000/800/220 delayed-snapshot mechanism remains unchanged."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/live-source-health.test.ts",
+      "line": 11,
+      "name": "'health deadline accepts the last completed ready snapshot when the final snapshot is 220ms late'",
+      "mechanisms": [
+        "performance.now()",
+        "await delay("
+      ],
+      "action": "RETAIN",
+      "basis": "Exact1000/800/220ms race is intentionally time-dependent and retains its completed-snapshot assertions."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/live-source-health.test.ts",
+      "line": 48,
+      "name": "'health deadline keeps its hard bound and never infers readiness without a completed ready snapshot'",
+      "mechanisms": [
+        "performance.now()"
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "Retain three300ms negative windows and exact close counts; wall scheduling allowance2s\u21925s."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Shared scenario elapsed counters and controlled model state are measurement, not a short observation gate."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "line": 390,
+      "name": "\"native source session acquisition consumes the remaining source window and retains an unstarted detail entrance\"",
+      "mechanisms": [
+        "mock.method(Date"
+      ],
+      "action": "CLOCK_INJECTED",
+      "basis": "Source open advances logical time exactly20ms against1ms remaining; no real20ms sleep or setup race."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 22,
+      "name": "\"source-stage plan runner freezes a no-proxy plan without external or downstream execution\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now only names captures/materializes frozen inputs; no successful observation has a short real window."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 44,
+      "name": "\"source-stage outer failure keeps a started preflight measurable instead of writing zero external work\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now only names captures/materializes frozen inputs; no successful observation has a short real window."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 107,
+      "name": "`source-stage execute rejects ${mode}${mode === \"REPLAY\" ? \" outside the REPLAY stage\" : \"\"} before preflight or downstream work and retains zero-attempt journal`",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now only names captures/materializes frozen inputs; no successful observation has a short real window."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 125,
+      "name": "\"source-stage execute rejects LIVE_READ_ONLY paired with REPLAY before preflight or downstream work\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now only names captures/materializes frozen inputs; no successful observation has a short real window."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 140,
+      "name": "\"source-stage offline Replay uses a frozen HAR contract and aborts without a frozen action trace or network fallback\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now only names captures/materializes frozen inputs; no successful observation has a short real window."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 169,
+      "name": "\"source-stage Replay rejects a changed frozen location context before any browser or model work\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now only names captures/materializes frozen inputs; no successful observation has a short real window."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 211,
+      "name": "\"source-stage named-location label must match the frozen sample input before preflight\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now only names captures/materializes frozen inputs; no successful observation has a short real window."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 229,
+      "name": "\"source-stage named-location rejects an ambiguous frozen label before preflight\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now only names captures/materializes frozen inputs; no successful observation has a short real window."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 249,
+      "name": "\"source-stage named-location rejects a sample with no frozen label before preflight\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now only names captures/materializes frozen inputs; no successful observation has a short real window."
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 266,
+      "name": "\"source-stage named-location rejects an invalid frozen radius before preflight\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now only names captures/materializes frozen inputs; no successful observation has a short real window."
+    },
+    {
+      "file": "src/harness/browser/browser-read-discovery.test.ts",
+      "line": 27,
+      "name": "'P21 discovery uses DOM category links despite CSS and rejects foreign regions'",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "Good/bad navigation2s\u219210s; exact origin/region/query rejections unchanged;120ms update has a broad enclosing budget."
+    },
+    {
+      "file": "src/harness/browser/browser-read-page-controls.test.ts",
+      "line": 10,
+      "name": "\"real browser waits for the requested page update instead of reporting stale slots\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "250ms page update has the default wide probe window; never-ready1.5s case intentionally requires only timeout."
+    },
+    {
+      "file": "src/harness/browser/browser-read-request-binding.test.ts",
+      "line": 54,
+      "name": "`${runtimeKind} settles delayed visible query state`",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "20ms page/property updates use settled-condition waits with broad Executor windows; exact selected request assertions retained."
+    },
+    {
+      "file": "src/harness/browser/browser-read-request-binding.test.ts",
+      "line": 83,
+      "name": "`${runtimeKind} settles hidden and property-only control mutations without treating either as inventory`",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "20ms page/property updates use settled-condition waits with broad Executor windows; exact selected request assertions retained."
+    },
+    {
+      "file": "src/harness/browser/browser-read-stability.test.ts",
+      "line": 13,
+      "name": "\"C3 settles delayed date results before asking the model and never completes from stale loading stock\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "Settling/result cases receive20s candidate margin;650ms update, continuous mutation and all expected status/wait assertions retained."
+    },
+    {
+      "file": "src/harness/browser/browser-read-stability.test.ts",
+      "line": 36,
+      "name": "\"C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton\"",
+      "mechanisms": [
+        "setInterval"
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "Settling/result cases receive20s candidate margin;650ms update, continuous mutation and all expected status/wait assertions retained."
+    },
+    {
+      "file": "src/harness/browser/browser-read-stability.test.ts",
+      "line": 81,
+      "name": "\"C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending\"",
+      "mechanisms": [
+        "setInterval"
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "Settling/result cases receive20s candidate margin;650ms update, continuous mutation and all expected status/wait assertions retained."
+    },
+    {
+      "file": "src/harness/browser/browser-read-stability.test.ts",
+      "line": 98,
+      "name": "\"C3b Chromium ignores an outstanding image once data has completed\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "1.5s wall allowance becomes5s; SETTLED, pending image1 and blocking data0 assertions unchanged."
+    },
+    {
+      "file": "src/harness/browser/browser-read-stability.test.ts",
+      "line": 122,
+      "name": "'model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget'",
+      "mechanisms": [
+        "mock.method(Date",
+        "setTimeout",
+        "Date.now()"
+      ],
+      "action": "CLOCK_INJECTED_AND_REAL_CONTROL",
+      "basis": "Retain real6.5s navigation; logical setup1500ms within30s, then exactly5s remaining at actual openLink port; response held until timeout, one close required."
+    },
+    {
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "line": 108,
+      "name": "\"real Chromium recovers a Tabelog busy page once and still grounds the exact request\"",
+      "mechanisms": [
+        "performance.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "150ms page updates have wide operation windows; one real source retry retains its minimum-delay and identity/request contracts."
+    },
+    {
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "line": 136,
+      "name": "\"Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "150ms page updates have wide operation windows; one real source retry retains its minimum-delay and identity/request contracts."
+    },
+    {
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "line": 193,
+      "name": "`${runtimeKind} selects Tabelog paragraph dates and labelled guests without treating time options as slots`",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "150ms page updates have wide operation windows; one real source retry retains its minimum-delay and identity/request contracts."
+    },
+    {
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "line": 7,
+      "name": "\"TableCheck waits for its guide result and grounds exact-query empty availability\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "100/200ms page updates have broad windows; keep one real31s source observation inside45s provider/60s candidate budgets."
+    },
+    {
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "line": 30,
+      "name": "\"real Chromium TableCheck source observation completes inside the current 45s provider window\"",
+      "mechanisms": [
+        "setTimeout",
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "100/200ms page updates have broad windows; keep one real31s source observation inside45s provider/60s candidate budgets."
+    },
+    {
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "line": 140,
+      "name": "\"TableCheck form waits past old inventory until a current same-outlet slot link appears\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "100/200ms page updates have broad windows; keep one real31s source observation inside45s provider/60s candidate budgets."
+    },
+    {
+      "file": "src/harness/browser/browser-read-workspace.test.ts",
+      "line": 6,
+      "name": "\"Web refresh replaces commercial terms and cites the displayed fact source\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now creates10-minute evidence TTLs; initial-response race uses an explicit promise barrier."
+    },
+    {
+      "file": "src/harness/browser/browser-read-workspace.test.ts",
+      "line": 61,
+      "name": "\"workspace New case survives a late initial case-list response\"",
+      "mechanisms": [
+        "waitForTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "Date.now creates10-minute evidence TTLs; initial-response race uses an explicit promise barrier."
+    },
+    {
+      "file": "src/harness/browser/live-source-health.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "Ordinary health modes already use4s; exact1000/800/220 delayed-snapshot mechanism remains unchanged."
+    },
+    {
+      "file": "src/harness/browser/live-source-health.test.ts",
+      "line": 13,
+      "name": "'Live source health uses real Guard and observes a busy error arriving after visible results; 403/challenge never start a Live'",
+      "mechanisms": [
+        "setTimeout",
+        "performance.now()",
+        "await delay("
+      ],
+      "action": "RETAIN",
+      "basis": "Ordinary health modes already use4s; exact1000/800/220 delayed-snapshot mechanism remains unchanged."
+    },
+    {
+      "file": "src/harness/browser/pacing-static-resources.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "Parent readiness10/15s\u219230s; pacing intervals, timestamp minima, max2, queue and release assertions unchanged."
+    },
+    {
+      "file": "src/harness/browser/pacing-static-resources.test.ts",
+      "line": 9,
+      "name": "\"two Chromium runs count20 static resources each but pace only documents\"",
+      "mechanisms": [
+        "Date.now()",
+        "setTimeout",
+        "await delay("
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "Parent readiness10/15s\u219230s; pacing intervals, timestamp minima, max2, queue and release assertions unchanged."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 52,
+      "name": "'P21 source preflight retains a6.5s result under the production navigation budget'",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "Keep one real6.5s preflight under the production navigation budget."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 95,
+      "name": "\"E1 outer body observer captures real Chromium POST bytes independently of Guard admission\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "Keep intentional3.25s transport-delay regression and fetch-only rule; no E1/Guard widening, B owns that mechanism."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 274,
+      "name": "\"real Chromium protects popup navigation before its first redirect\"",
+      "mechanisms": [
+        "performance.now()",
+        "setTimeout"
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "100x10ms poll becomes10s monotonic condition wait; redirect diagnostics and no forbidden arrivals unchanged."
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 300,
+      "name": "\"real Chromium protects dedicated-worker fetch redirects\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "Worker dispatch2s\u219210s; blocked result, actual worker execution and zero forbidden arrivals still required."
+    },
+    {
+      "file": "src/harness/browser/runner-pacing.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout",
+        "Date.now()",
+        "await delay("
+      ],
+      "action": "OBSERVATION_MARGIN_WIDENED",
+      "basis": "Parent readiness10/15s\u219230s; pacing intervals, timestamp minima, max2, queue and release assertions unchanged."
+    },
+    {
+      "file": "src/harness/restaurant-execution-router.test.ts",
+      "line": 463,
+      "name": "\"Router partial-port contract: default delivery keeps a produced source-backed result when the next availability batch would consume the reserve (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=300000, maxStructuredReadMs=8000)\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "Existing injected runtime clock controls reserve/delivery; no small real successful observation window."
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 448,
+      "name": "\"a stuck old close cannot delay cancellation or overwrite the next candidate\"",
+      "mechanisms": [
+        "mock.timers",
+        "setTimeout",
+        "maxElapsedMsPerCandidate: 40"
+      ],
+      "action": "TIMERS_AND_DATE_INJECTED",
+      "basis": "40/10ms windows use mock timers/Date; tick(10) exercises expiry, successor setup is independent of host scheduling."
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 476,
+      "name": "\"a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline\"",
+      "mechanisms": [
+        "mock.method(Date",
+        "maxElapsedMsPerCandidate: 15"
+      ],
+      "action": "CLOCK_INJECTED",
+      "basis": "15ms deadline with explicit20ms clock advance replaces sleep; cancellation and no-reset assertions retained."
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 515,
+      "name": "\"BrowserTaskExecutor bounds a late session acquisition without leaking its deadline into the next candidate\"",
+      "mechanisms": [
+        "mock.timers",
+        "setTimeout",
+        "maxElapsedMsPerCandidate: 10"
+      ],
+      "action": "TIMERS_AND_DATE_INJECTED",
+      "basis": "40/10ms windows use mock timers/Date; tick(10) exercises expiry, successor setup is independent of host scheduling."
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 538,
+      "name": "\"BrowserTaskExecutor times out a hanging snapshot, closes that session, and permits the next candidate\"",
+      "mechanisms": [
+        "mock.timers",
+        "setTimeout",
+        "maxElapsedMsPerCandidate: 10"
+      ],
+      "action": "TIMERS_AND_DATE_INJECTED",
+      "basis": "40/10ms windows use mock timers/Date; tick(10) exercises expiry, successor setup is independent of host scheduling."
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 1122,
+      "name": "\"group-window: visible disabled requested party ends before another model decision\"",
+      "mechanisms": [
+        "maxAutomaticElapsedMs:1000"
+      ],
+      "action": "RETAIN",
+      "basis": "Existing injected Date clock covers exact group/window admission."
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 1137,
+      "name": "`group-window: party stop excludes ${JSON.stringify(control)}`",
+      "mechanisms": [
+        "maxAutomaticElapsedMs:1000"
+      ],
+      "action": "RETAIN",
+      "basis": "Existing injected Date clock covers exact group/window admission."
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 1145,
+      "name": "`group-window: disabled party is bound to selected date ${selectedDate}`",
+      "mechanisms": [
+        "maxAutomaticElapsedMs:1000"
+      ],
+      "action": "RETAIN",
+      "basis": "Existing injected Date clock covers exact group/window admission."
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-read-network-guard.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "Keep real6s response under8s source budget;100ms/250ms negative proves timeout only, not a successful observation window."
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-read-network-guard.test.ts",
+      "line": 50,
+      "name": "\"read network guard preserves the Executor source-read deadline beyond the action cap\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Keep real6s response under8s source budget;100ms/250ms negative proves timeout only, not a successful observation window."
+    },
+    {
+      "file": "src/integrations/restaurant-search/directory-region-selection.test.ts",
+      "line": 371,
+      "name": "'A3 source90 deadline after sampling is not reset by a correction or source handoff'",
+      "mechanisms": [
+        "mock.method(Date"
+      ],
+      "action": "RETAIN",
+      "basis": "Existing injected Date clock controls90s/500s accumulation; exact logical values retained."
+    },
+    {
+      "file": "src/integrations/restaurant-search/directory-region-selection.test.ts",
+      "line": 398,
+      "name": "'B1 all A3 endings retain the remaining500s/50call window at the next source'",
+      "mechanisms": [
+        "mock.method(Date"
+      ],
+      "action": "RETAIN",
+      "basis": "Existing injected Date clock controls90s/500s accumulation; exact logical values retained."
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-browser-availability.test.ts",
+      "line": 60,
+      "name": "\"Tabelog busy retry can recover a known feasible control without bypassing identity\"",
+      "mechanisms": [
+        "performance.now()"
+      ],
+      "action": "RETAIN",
+      "basis": "Real source retry minimum delay is the mechanism; configured90s scope has margin and identity/request assertions remain."
+    },
+    {
+      "file": "src/server/local-web-server.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "action": "RETAIN",
+      "basis": "Shared HTTP test scaffolding; no narrow successful observation gate in this candidate."
+    }
+  ]
+}

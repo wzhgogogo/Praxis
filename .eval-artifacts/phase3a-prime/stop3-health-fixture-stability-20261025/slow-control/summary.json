@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "sourceCommit": "23071a8b402d52553f1c1143f2ea046d215eabcb",
+  "windowMs": 1000,
+  "lateThresholdMs": 800,
+  "delayMs": 220,
+  "scope": "DIRECTED_VARIANTS_ONLY_NOT_FULL_SUITE",
+  "runs": [
+    {
+      "mode": "unchanged-health",
+      "exitCode": 0,
+      "testVariantSha256": "2e5b202f57e09ccdd782ed4d2e30f52e4d82c7b64eb2f2d773c45c6c21525d05",
+      "healthVariantSha256": "b8cd458d5c6540354861c7e709b32ac786890f1a3f1a2de0a0770e9807b310a1",
+      "logSha256": "6fcd091a76483b3d8f4b9e3f8b1bc191f5a25304743faf5d085f4d1092469f86"
+    },
+    {
+      "mode": "drop-completed-snapshot",
+      "exitCode": 1,
+      "testVariantSha256": "2e5b202f57e09ccdd782ed4d2e30f52e4d82c7b64eb2f2d773c45c6c21525d05",
+      "healthVariantSha256": "bd8e568a0f30a0704ff1e3703baf8903c1d5e959ff2d7f238208d12a8e0c7de0",
+      "logSha256": "127f9f96640b299bcbba320378bf05c73f550aa4514cc67d22ff0edff8549a89"
+    }
+  ],
+  "realCalls": 0
+}

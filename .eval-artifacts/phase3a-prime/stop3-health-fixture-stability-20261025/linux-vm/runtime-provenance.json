@@ -1,0 +1,32 @@
+{
+  "runtime": {
+    "name": "Lima",
+    "version": "2.2.1",
+    "url": "https://github.com/lima-vm/lima/releases/download/v2.2.1/lima-2.2.1-Darwin-arm64.tar.gz",
+    "sha256": "9e9eacce88f37e185c346bad73aa6136f738d8cdf8c3bb23cd42b071824bc66e"
+  },
+  "imageReceipt": "image-download.json",
+  "frozenConfig": "linux.yaml",
+  "actualConfig": "actual-local-image.yaml",
+  "configDifference": "Only image transport URL changes from official HTTPS to locally assembled official SHA512-verified bytes",
+  "resources": {
+    "cpus": 4,
+    "memoryGiB": 6,
+    "diskGiB": 24
+  },
+  "hostMounts": [],
+  "sshAgentForwarding": false,
+  "proxyForwarding": false,
+  "sourceReceipt": "archive-receipt.json",
+  "installationFailure": "First dependency installation stopped on apt Release future-date check after early clock alignment; no test ran. resume-install.sh restores Guest NTP during dependency installation, retaining package signature/date checks. Align Guest to host again before tests, with NTP disabled throughout gates.",
+  "downloadFailures": "Two Lima whole-image EOFs and one curl transfer truncation; bounded HTTP ranges produced exactly the official SHA512. Superseded stuck range-download process terminated after verified replacement.",
+  "legacyChannelPrecondition": {
+    "firstGate": "../linux-precondition-failure/gates.json",
+    "reason": "Existing default static-DOM test hardcodes channel chrome; fresh ARM64 Guest had only Playwright Chromium. Failure occurred before browser/test behavior.",
+    "environmentProvisioning": "install-chrome-channel-alias.py",
+    "actualBinaryReceipt": "chrome-channel-alias.json",
+    "sourceOrAssertionChange": false,
+    "claim": "Linux uses real Playwright Chromium Headless Shell; no branded Google Chrome claim",
+    "retry": "Rerun all five groups from start on same frozen source; no Chromium sample had run in first gate attempt"
+  }
+}

@@ -1,0 +1,71 @@
+[
+  {
+    "id": "original-one-second-window",
+    "testPath": "src/harness/browser/browser-read-stability.test.ts",
+    "pattern": "model full-page OPEN_LINK",
+    "testReplacements": [
+      [
+        "maxElapsedMsPerCandidate:30_000",
+        "maxElapsedMsPerCandidate:(mode==='slow'?15000:1000)"
+      ]
+    ]
+  },
+  {
+    "id": "remaining-navigation-budget",
+    "testPath": "src/harness/browser/browser-read-stability.test.ts",
+    "pattern": "model full-page OPEN_LINK",
+    "sourceMutations": [
+      {
+        "path": "src/infrastructure/browser/browser-task-executor.ts",
+        "replacements": [
+          [
+            "private navigationOptions(timeoutMs = 20_000): { timeoutMs: number } {\n    return { timeoutMs: Math.max(1, this.remaining(timeoutMs)) };",
+            "private navigationOptions(timeoutMs = 20_000): { timeoutMs: number } {\n    return { timeoutMs };"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "candidate-deadline-not-renewed",
+    "testPath": "src/infrastructure/browser/browser-task-executor.test.ts",
+    "pattern": "a stuck runtime cleanup",
+    "sourceMutations": [
+      {
+        "path": "src/infrastructure/browser/browser-task-executor.ts",
+        "replacements": [
+          [
+            "const candidate = this.options.maxElapsedMsPerCandidate ?? total;",
+            "const candidate = total;"
+          ],
+          [
+            "const candidateLimit = this.options.maxElapsedMsPerCandidate ?? this.options.maxAutomaticElapsedMs;",
+            "const candidateLimit = this.options.maxAutomaticElapsedMs;"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "acquisition-cost-consumed",
+    "testPath": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+    "pattern": "native source session acquisition consumes",
+    "testReplacements": [
+      [
+        "elapsed+=20;",
+        "elapsed+=0;"
+      ]
+    ]
+  },
+  {
+    "id": "worker-guard-required",
+    "testPath": "src/harness/browser/read-network-redirect.test.ts",
+    "pattern": "real Chromium protects dedicated-worker fetch redirects",
+    "testReplacements": [
+      [
+        "await guard.install(context);\n    const page = await context.newPage();\n    await guard.preparePage(context, page);",
+        "const page = await context.newPage(); /* isolated control: no Guard installation or CDP preparation */"
+      ]
+    ]
+  }
+]

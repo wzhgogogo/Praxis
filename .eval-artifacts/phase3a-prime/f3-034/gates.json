@@ -1,0 +1,50 @@
+{
+  "candidate": "e85e2a81f45998c88d4fb944b4d4346f1e83c24e",
+  "branch": "codex/fix-phase3a-prime-explicit-general-retrieval",
+  "mode": "OFFLINE_ONLY",
+  "timeCET": "2026-10-26T00:05:22.411844+01:00",
+  "gates": [
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "elapsedSeconds": 0.495,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "typecheck.log"
+    },
+    {
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "elapsedSeconds": 0.232,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "arch-check.log"
+    },
+    {
+      "command": "npm run test",
+      "exitCode": 0,
+      "elapsedSeconds": 24.604,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "test.log"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "elapsedSeconds": 0.58,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "build.log"
+    },
+    {
+      "command": "npm run test:browser:fixture",
+      "exitCode": 0,
+      "elapsedSeconds": 104.42,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "test-browser-fixture.log"
+    }
+  ],
+  "result": "PASS",
+  "finalStatus": ""
+}

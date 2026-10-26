@@ -1,0 +1,80 @@
+{
+  "sourceCommit": "2ce0eb6aa5703e4820176d5d810b60ed900ff4e2",
+  "allValid": true,
+  "results": [
+    {
+      "id": "original-one-second-window",
+      "sourceCommit": "2ce0eb6aa5703e4820176d5d810b60ed900ff4e2",
+      "originalSha256": {
+        "src/harness/browser/browser-read-stability.test.ts": "d1e22a7293efa8cc9a6263c83ce6c4e5a600c78f3ff21cb5697880abfcd25b22"
+      },
+      "generatedSha256": {
+        "challenge.test.ts": "2e8d941a7cc1c793297d0aff5495399d57f6438d892fd8a59f488e1db0eb3a46"
+      },
+      "testNamePattern": "model full-page OPEN_LINK",
+      "exitCode": 1,
+      "validContractRed": true,
+      "logSha256": "c223742328d74a606b125f866a27515577bb54bcb1acd04ed8d5e1f2409a4f49"
+    },
+    {
+      "id": "remaining-navigation-budget",
+      "sourceCommit": "2ce0eb6aa5703e4820176d5d810b60ed900ff4e2",
+      "originalSha256": {
+        "src/infrastructure/browser/browser-task-executor.ts": "10e4b5991f26c13c6ebd39ea57558c9a3b791148675f900c3d764b4c97a6ba08",
+        "src/harness/browser/browser-read-stability.test.ts": "d1e22a7293efa8cc9a6263c83ce6c4e5a600c78f3ff21cb5697880abfcd25b22"
+      },
+      "generatedSha256": {
+        "browser-task-executor.ts": "cf36419e3dae48be14f83c9bdcc3bc89ad8db50738603a17e6d2ccb6ab9c4098",
+        "challenge.test.ts": "68b5a28b8b65c2e9f2cace37215403db0aab8757475f846245067ce271ffedaa"
+      },
+      "testNamePattern": "model full-page OPEN_LINK",
+      "exitCode": 1,
+      "validContractRed": true,
+      "logSha256": "d3db196c398bda9fec2d714c7b0d53bd41580c9b0ea8c1a50ff3316c286a412d"
+    },
+    {
+      "id": "candidate-deadline-not-renewed",
+      "sourceCommit": "2ce0eb6aa5703e4820176d5d810b60ed900ff4e2",
+      "originalSha256": {
+        "src/infrastructure/browser/browser-task-executor.ts": "10e4b5991f26c13c6ebd39ea57558c9a3b791148675f900c3d764b4c97a6ba08",
+        "src/infrastructure/browser/browser-task-executor.test.ts": "e64ebc60cbd6bebfceed8e440456d0d5a849cb758236807b7809d274f85d4d60"
+      },
+      "generatedSha256": {
+        "browser-task-executor.ts": "0c2163e94b9cb97182ea6cd475f6767209b18da723ad27710e78fe7826dcd14d",
+        "challenge.test.ts": "dfe8f1471f6d006eef73823f86683d4898e9b76a65e0384bc22956555460404f"
+      },
+      "testNamePattern": "a stuck runtime cleanup",
+      "exitCode": 1,
+      "validContractRed": true,
+      "logSha256": "16510e4fce1451cf08b4f56f9bf3a77928872d44414dfdeb04fd4212f5ba142e"
+    },
+    {
+      "id": "acquisition-cost-consumed",
+      "sourceCommit": "2ce0eb6aa5703e4820176d5d810b60ed900ff4e2",
+      "originalSha256": {
+        "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts": "de5d43fd586801c97ecf4d4714a10040b056165762783b2d7af3c30e7484ba51"
+      },
+      "generatedSha256": {
+        "challenge.test.ts": "353ae1c790baf1ebfaec4eb1a12f0df3c71266faf5b5ac1641cad6cc5d5411a8"
+      },
+      "testNamePattern": "native source session acquisition consumes",
+      "exitCode": 1,
+      "validContractRed": true,
+      "logSha256": "428f2268b5abb83a30d21a51736fccbf50389bbba74b33cd136a2b0897bd3228"
+    },
+    {
+      "id": "worker-guard-required",
+      "sourceCommit": "2ce0eb6aa5703e4820176d5d810b60ed900ff4e2",
+      "originalSha256": {
+        "src/harness/browser/read-network-redirect.test.ts": "04b0acf45514c65c75ad347917fb88030dab986353418be7dc4afa37e27a0e83"
+      },
+      "generatedSha256": {
+        "challenge.test.ts": "00c8c8d72a2fe56cb0e3c69d552a9021a2d4d2c8e6cc3c1565ac78c92fc56f7e"
+      },
+      "testNamePattern": "real Chromium protects dedicated-worker fetch redirects",
+      "exitCode": 1,
+      "validContractRed": true,
+      "logSha256": "43f2d3f80df1dffc0b4f467f83ca859916ea864b760dbc58e24f47b96260da0c"
+    }
+  ]
+}

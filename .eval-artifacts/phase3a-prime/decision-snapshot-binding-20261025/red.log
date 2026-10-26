@@ -1,0 +1,36 @@
+{"decisionCaptureError":{"operation":"SNAPSHOT_LINK","errorCode":"DECISION_SNAPSHOT_MISMATCH"}}
+✖ F5c Agent loop corrects within its Tabelog call despite TableCheck 2 and Google 26 pending candidates (99.190542ms)
+✔ decision capture still diagnoses a mismatching DOM and an unbound empty observation (3.572125ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 496.791417
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:77970
+✖ F5c Agent loop corrects within its Tabelog call despite TableCheck 2 and Google 26 pending candidates (99.190542ms)
+  AssertionError [ERR_ASSERTION]: flow selection has no current DOM by contract and must not be a snapshot mismatch
+  + actual - expected
+  
+  + [
+  +   {
+  +     errorCode: 'DECISION_SNAPSHOT_MISMATCH',
+  +     operation: 'SNAPSHOT_LINK'
+  +   }
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1087:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ { operation: 'SNAPSHOT_LINK', errorCode: 'DECISION_SNAPSHOT_MISMATCH' } ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }

@@ -1,0 +1,8 @@
+{
+  "date": "2026-10-25",
+  "key": "PHASE3A-REPLAY-REDIRECT-COMPLETE",
+  "item": "replay-url-qualification-20261025",
+  "text": "回放文档重定向资格修复完成；原始 F5 槽1系统断网越过前两个合格快照，不补造页面，随后 snapshot3 仍 REPLAY_INCOMPLETE。两平台门禁完成，Linux 唯一 E1 偶发按用户批准归 F3，其他全绿，真实调用0。",
+  "development": "仅 eval 回放器和最小 Chromium 回归：完整 HAR 重定向链映射到合格最终文档；缺失检查置于真实 Guard 准入后；可选媒体缺失拒绝并记录，关键响应缺失仍停止。产品、Guard、Prompt、产品 Schema、站点代码未改。验证源码278302bf，原始 F5 输入及脚本 SHA 冻结，后续快照不完整不冒充完整回放。",
+  "verification": "macOS 默认1053/1053、Chromium159/159（103.489690秒）；Linux 默认1053/1053、Chromium158/159（104.029268秒），唯一失败为 E1 outer body observer 的 Failed to fetch，原始exit1和日志保留，按已批准已知偶发交 F3，未扩大 postRule 或修改 Guard。其余门禁全绿，各门禁后净树，637输入 SHA 一致，四个最小行为回归先红后绿，原始 F5 同输入系统断网从0页到2页。站点3864/pack473，真实调用0。"
+}

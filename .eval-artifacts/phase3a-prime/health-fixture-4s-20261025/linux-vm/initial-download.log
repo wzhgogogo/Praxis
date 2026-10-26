@@ -1,0 +1,82 @@
+Verified Lima2.2.1
+Image part 3 verified length 4194304
+Image part 4 verified length 4194304
+Image part 5 verified length 4194304
+Image part 8 verified length 4194304
+Image part 6 verified length 4194304
+Image part 1 verified length 4194304
+Image part 0 verified length 4194304
+Image part 2 verified length 4194304
+Image part 9 verified length 4194304
+Image part 10 verified length 4194304
+Image part 11 verified length 4194304
+Retry one image part 14
+Image part 12 verified length 4194304
+Image part 15 verified length 4194304
+Image part 7 verified length 4194304
+Image part 17 verified length 4194304
+Image part 13 verified length 4194304
+Image part 18 verified length 4194304
+Image part 16 verified length 4194304
+Image part 20 verified length 4194304
+Image part 19 verified length 4194304
+Image part 14 verified length 4194304
+Image part 22 verified length 4194304
+Image part 23 verified length 4194304
+Image part 21 verified length 4194304
+Image part 24 verified length 4194304
+Retry one image part 29
+Image part 28 verified length 4194304
+Image part 26 verified length 4194304
+Image part 27 verified length 4194304
+Image part 25 verified length 4194304
+Image part 30 verified length 4194304
+Image part 31 verified length 4194304
+Image part 32 verified length 4194304
+Image part 35 verified length 4194304
+Image part 33 verified length 4194304
+Image part 36 verified length 4194304
+Image part 37 verified length 4194304
+Image part 34 verified length 4194304
+Traceback (most recent call last):
+  File "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/review-followup-a-20261025/prepare-linux.py", line 38, in <module>
+    list(pool.map(download, range(count)))
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 608, in result_iterator
+    yield fs.pop().result()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 445, in result
+    return self.__get_result()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 390, in __get_result
+    raise self._exception
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/concurrent/futures/thread.py", line 52, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/review-followup-a-20261025/prepare-linux.py", line 26, in download
+    with urlopen(Request(url, headers={'Range': f'bytes={start}-{end}'}), timeout=45) as response:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 214, in urlopen
+    return opener.open(url, data, timeout)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 523, in open
+    response = meth(req, response)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 632, in http_response
+    response = self.parent.error(
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 555, in error
+    result = self._call_chain(*args)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 494, in _call_chain
+    result = func(*args)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 747, in http_error_302
+    return self.parent.open(new, timeout=req.timeout)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 517, in open
+    response = self._open(req, data)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 534, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 494, in _call_chain
+    result = func(*args)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 1389, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/urllib/request.py", line 1350, in do_open
+    r = h.getresponse()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/client.py", line 1349, in getresponse
+    response.begin()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response

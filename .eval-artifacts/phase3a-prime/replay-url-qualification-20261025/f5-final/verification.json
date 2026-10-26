@@ -1,0 +1,42 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)",
+    "node",
+    "--import",
+    "tsx",
+    "src/eval/restaurant/agent-loop/runners/run-recorded-read.ts",
+    "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/inputs/config.json",
+    "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/f5-final"
+  ],
+  "exitCode": 1,
+  "startedAtCET": "2026-10-25T21:49:32.969722+01:00",
+  "testedCommit": "a8486ed11c72d0ece54dea34fa36980b0ba5fb58",
+  "orchestrationSha256": "ee00dd697eaad8a22b2472fa640017429b32923b555ae4f8ca976183b1beccf7",
+  "configSha256": "beb94b009c018444392b94c767e5caa213bf023c173f0cb5af503f4f57f2e96c",
+  "summary": {
+    "executionSource": "REPLAY",
+    "modelMode": "ORIGINAL",
+    "recordingSha256": "06d2a89045a4ac6b6a729b89428b72989d003339ab0ee8b755dfeab1d4aca7c7",
+    "harSha256": "5aa813af26e739ff1d3e37eea20f4b5e7eca2b51971d2e0c68275bb4ed42b7fd",
+    "decisionSha256": "394abf748feda1788466fd38634124a63416ccccdf8bc88ea019f4482b9d0603",
+    "liveCapabilityDenominator": "EXCLUDED",
+    "status": "REPLAY_INCOMPLETE",
+    "stop": {
+      "snapshot": 1,
+      "origin": "https://tblg.k-img.com",
+      "pathname": "/images/inbound/logo/logo_tabelog_inbound.svg",
+      "reason": "MISSING_RESPONSE"
+    },
+    "consumedPages": 0,
+    "recordedPages": 94,
+    "consumedDecisions": 2,
+    "recordedDecisions": 39,
+    "modelTransportCalls": 0,
+    "resultPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/f5-final/execution/2026-10-25T08-40-47-142Z-d50babaf-4ed3-458e-a232-4710f90b99ee.result.json"
+  },
+  "realModelCalls": 0,
+  "realGoogleCalls": 0,
+  "realWebsiteCalls": 0
+}

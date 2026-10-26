@@ -1,0 +1,184 @@
+# Phase 2c held-out set (draft rev 2, reviewer-authored 2026-10-23). Exit check only; never used for development, prompts,
+# replay seeds or dev logs. 6 cases x 3 runs. Text lives only in the Claude project until the exit check; the repository
+# receives SHA-256 commitments (one per case document between the --- separators, UTF-8, LF, plus the whole file).
+# Dates: {DATE} is filled at exit time with the case weekday 7-14 days after the exit check starts. Filling the date,
+# and switching to the listed fallback place if witness certification fails, are the only permitted changes.
+# Places and cuisines: none was a request location, fallback place or HARD/NEGATIVE criterion in any earlier case
+# (Phase 0 seeds, Phase 1, Phase 2 development, probes, the first Phase 2 and the Phase 2b held-out sets); some place
+# names occur only inside saved third-party pages. All strings are quoted on purpose.
+
+---
+id: "p2c-holdout-01"
+weekday: "Wednesday"
+fallback_place: "Jujo"
+content: |
+  Could you find a kushikatsu place near Akabane with a table for 2 on {DATE} at 7 PM?
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "Akabane"
+    relation: "NEAR"
+  date:
+    expression: "{DATE}"
+  time:
+    value: "19:00"
+  party_size: 2
+  criteria:
+    - value: "kushikatsu"
+      polarity: "POSITIVE"
+      strength: "HARD"
+acceptance:
+  required_claims:
+    - "Correct outlet within 1,000 m of the resolved Akabane point; source-supported kushikatsu (kushiage); a matching current slot on {DATE} at 19:00 for 2."
+
+---
+id: "p2c-holdout-02"
+weekday: "Friday"
+fallback_place: "Yushima"
+content: |
+  There are 4 of us looking for Korean food near Okachimachi on {DATE} at 6:30 PM, ideally no more than 5,000 yen per person.
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "Okachimachi"
+    relation: "NEAR"
+  date:
+    expression: "{DATE}"
+  time:
+    value: "18:30"
+  party_size: 4
+  criteria:
+    - value: "Korean"
+      polarity: "POSITIVE"
+      strength: "HARD"
+    - value: "no more than 5,000 yen per person"
+      polarity: "POSITIVE"
+      strength: "SOFT"
+acceptance:
+  required_claims:
+    - "Correct outlet within 1,000 m of the resolved Okachimachi point; source-supported Korean cuisine; a matching current slot on {DATE} at 18:30 for 4."
+    - "The price preference is SOFT because the user said ideally. Report it as met, not met or not checked, keep the limit as no more than 5,000 yen rather than around 5,000 yen, and never let it block delivery."
+
+---
+id: "p2c-holdout-03"
+weekday: "Saturday"
+fallback_place: "Kudanshita"
+content: |
+  Looking for a fugu restaurant near Ichigaya for our anniversary dinner, 2 people on {DATE} at 7:30 PM. We don't want to spend more than 10,000 yen per person.
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "Ichigaya"
+    relation: "NEAR"
+  date:
+    expression: "{DATE}"
+  time:
+    value: "19:30"
+  party_size: 2
+  criteria:
+    - value: "fugu"
+      polarity: "POSITIVE"
+      strength: "HARD"
+    - value: "anniversary dinner"
+      polarity: "POSITIVE"
+      strength: "UNSPECIFIED"
+    - value: "no more than 10,000 yen per person"
+      polarity: "POSITIVE"
+      strength: "HARD"
+acceptance:
+  required_claims:
+    - "Correct outlet within 1,000 m of the resolved Ichigaya point; source-supported fugu (pufferfish); a matching current slot on {DATE} at 19:30 for 2."
+    - "Source evidence that a dinner option is available at or below JPY 10,000 per person; the firm limit is shown to the user with its status and source."
+
+---
+id: "p2c-holdout-04"
+weekday: "Thursday"
+fallback_place: "Morishita"
+content: |
+  6 of us want chanko nabe near Ryogoku on {DATE}, any time between 6 and 8 PM. A private room would be nice.
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "Ryogoku"
+    relation: "NEAR"
+  date:
+    expression: "{DATE}"
+  time:
+    expression: "between 6 and 8 PM"
+    type: "TIME_WINDOW"
+    start: "18:00"
+    end: "20:00"
+  party_size: 6
+  criteria:
+    - value: "chanko nabe"
+      polarity: "POSITIVE"
+      strength: "HARD"
+    - value: "private room"
+      polarity: "POSITIVE"
+      strength: "SOFT"
+acceptance:
+  required_claims:
+    - "Correct outlet within 1,000 m of the resolved Ryogoku point; source-supported chanko nabe; a matching current slot for 6 on {DATE} starting between 18:00 and 20:00."
+    - "The private room is SOFT because the user said would be nice. Report it as met, not met or not checked from the source's seating or private-room information; never let it block delivery and never claim a private room without source support."
+
+---
+id: "p2c-holdout-05"
+weekday: "Tuesday"
+fallback_place: "Kayabacho"
+content: |
+  Is there a steak restaurant near Hatchobori with a table for 3 on {DATE} at 7 PM? Not a hamburg steak place.
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "Hatchobori"
+    relation: "NEAR"
+  date:
+    expression: "{DATE}"
+  time:
+    value: "19:00"
+  party_size: 3
+  criteria:
+    - value: "steak"
+      polarity: "POSITIVE"
+      strength: "HARD"
+    - value: "hamburg steak place"
+      polarity: "NEGATIVE"
+      strength: "HARD"
+acceptance:
+  required_claims:
+    - "Correct outlet within 1,000 m of the resolved Hatchobori point; source-supported steak; a matching current slot on {DATE} at 19:00 for 3."
+    - "The outlet is not a hamburg steak (hambagu) restaurant; the source category shows steak (or teppanyaki steak) rather than hamburg steak as the outlet's cuisine."
+
+---
+id: "p2c-holdout-06"
+weekday: "Friday"
+fallback_place: "Minami-Senju"
+content: |
+  We're a group of 8 from the office looking for motsunabe near Kitasenju on {DATE} after work.
+semantic:
+  target:
+    goal: "AVAILABILITY"
+  location:
+    value: "Kitasenju"
+    relation: "NEAR"
+  date:
+    expression: "{DATE}"
+  time:
+    expression: "after work"
+    type: "TIME_WINDOW"
+    start: "17:30"
+    end: "22:00"
+  party_size: 8
+  criteria:
+    - value: "motsunabe"
+      polarity: "POSITIVE"
+      strength: "HARD"
+acceptance:
+  required_claims:
+    - "Correct outlet within 1,000 m of the resolved Kitasenju point; source-supported motsunabe; a matching current slot for 8 on {DATE} starting between 17:30 and 22:00."
+    - "'After work' is a vague time: keep it as an evening window (17:30-22:00, the same convention as H003) and do not invent an exact time; any slot found must be shown with its actual time."

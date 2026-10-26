@@ -797,6 +797,33 @@ test("E1 review witness inputs resolve relative to the relocated manifest, inclu
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
 
+test("F5c frozen public full address and paired source identity find the Dengana Google candidate without accepting a different floor", async () => {
+  // 本地构造执行记录；身份输入由固定历史公开详情提取，不是网站回放或新认证。
+  const directory = ".eval-artifacts/phase3a-prime/f5c/frozen-witness";
+  const registry = JSON.parse(await readFile(`${directory}/registry.json`, "utf8"));
+  assert.equal(registry.schema, "f5-witness-identity@2");
+  assert.equal(registry.variants[0].witnesses[0].address, "東京都北区赤羽1-15-1 新仲ビル1F");
+  const original = await calibrationArtifact("p20-h002-a1");
+  const oldId = original.finalSnapshot.domainState.presentedResults.candidateIds[0];
+  const artifact = JSON.parse(JSON.stringify(original).replaceAll(oldId, "google:F5C_LOCAL"));
+  const candidate = artifact.finalSnapshot.domainState.candidates.find((entry: any) => entry.restaurant.id === "google:F5C_LOCAL");
+  candidate.restaurant.outletName = "Dengana Akabane";
+  candidate.restaurant.address = "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F";
+  const oracle = loadWitnessOracle({manifestPath: `${directory}/manifest.json`, registryPath: `${directory}/registry.json`,
+    variantId: "f5c-dengana-offline", artifactSha256: source.sha256});
+  const evaluate = () => evaluateRestaurantHybridLiveArtifact(artifact, source, {witnessOracle: oracle}).witnessFunnel[0]!;
+  assert.equal(evaluate().discovery.status, "FOUND");
+  assert.deepEqual(evaluate().discovery.candidateIds, ["google:F5C_LOCAL"]);
+  candidate.restaurant.address = candidate.restaurant.address.replace("1F", "2F");
+  assert.equal(evaluate().discovery.status, "NOT_FOUND", "same chain/name cannot override a floor conflict");
+  candidate.restaurant.address = candidate.restaurant.address.replace("2F", "1F");
+  candidate.restaurant.outletName = "Another Akabane restaurant";
+  assert.equal(evaluate().discovery.status, "NOT_FOUND", "address alone is not identity");
+  candidate.restaurant.outletName = "Dengana Akabane";
+  oracle.rows[0]!.identities = oracle.rows[0]!.identities.slice(0, 1);
+  assert.equal(evaluate().discovery.status, "NOT_FOUND", "an unregistered source label cannot be invented by the evaluator");
+});
+
 test("E1 witness cross-source identity needs independent name AND full address; floor conflict and missing reads stay visible", async () => {
   // Real record structure, independent miniature witness labels because the
   // historical roster does not contain cross-source address Gold. This does
@@ -809,7 +836,7 @@ test("E1 witness cross-source identity needs independent name AND full address; 
   const prefix = ".eval-artifacts/p2-0-hardening-20261015/prep/live/h002/attempt-1/post-delivery-raw/13295658";
   const observation = loadPostDeliveryTabelogObservation(`${prefix}.metadata.json`, `${prefix}.body.txt`);
   const oracle: WitnessOracle = { applicableArtifactSha256: source.sha256, radiusMeters: 1000, sourceRef: "TEST_ONLY", rows: [{
-    outletName: "Sushi Sora", address: "1 2 Main Town 2F", sourceId: "13295658", distanceMeters: 100,
+    outletName: "Sushi Sora", identities: [{outletName: "Sushi Sora", address: "1 2 Main Town 2F"}], sourceId: "13295658", distanceMeters: 100,
     hardEvidence: [], observation, refs: ["TEST_ONLY:independent-miniature-address"] } ] };
   const evaluate = () => evaluateRestaurantHybridLiveArtifact(artifact, source, { witnessOracle: oracle }).witnessFunnel[0]!;
   assert.equal(evaluate().discovery.status, "FOUND");
@@ -821,9 +848,9 @@ test("E1 witness cross-source identity needs independent name AND full address; 
   candidate.restaurant.address = "1-2 Main Town, 3F";
   assert.equal(evaluate().discovery.status, "NOT_FOUND");
   candidate.restaurant.address = "1-2 Main Town, 2F";
-  delete oracle.rows[0]!.address;
+  delete oracle.rows[0]!.identities[0]!.address;
   assert.equal(evaluate().discovery.status, "NOT_EVALUATED");
-  oracle.rows[0]!.address = "1 2 Main Town 2F";
+  oracle.rows[0]!.identities[0]!.address = "1 2 Main Town 2F";
   artifact.trajectories = artifact.trajectories.filter((step: any) => step.observation?.type !== "DISCOVERY");
   assert.equal(evaluate().discovery.status, "NOT_EVALUATED", "final candidate labels cannot replace actual discovery records");
 });
@@ -2039,11 +2066,12 @@ test('frozen public GET review is checked independently including its query gram
  const request={outcome:'ADMITTED',origin,pathname:'/search/',method:'GET',resourceType:'fetch',queryKeys:['queryProfile','hits']};
  const audit=(patch:Record<string,unknown>={})=>auditReadOnlyTrace([{kind:'SESSION_OPENED',detail:{readNetworkBoundary:'INSTALLED'}},{kind:'NETWORK',networkRequests:[{...request,...patch}]}] as any,[],false,reviewed);
  assert.equal(audit().status,'ABSENT','explicit frozen public GET declaration must be honored');
+ assert.equal(audit({resourceType:'xhr'}).status,'ABSENT','script read class is independent of the browser API');
  for(const patch of [{queryKeys:['queryProfile','hits','unknown']},{queryKeys:['queryProfile']},{method:'POST'},{origin:'https://other.example'},{pathname:'/other/'},{resourceType:'document'}])assert.equal(audit(patch).status,'PRESENT',JSON.stringify(patch));
 });
 
 
-test("S0 independently binds browser GET preflight to frozen review and protocol facts", () => {
+test("S0 independently binds GET and POST preflight to frozen read review and still audits the actual body", () => {
   const origin = "https://public-search.example", requestOrigin = "https://public-page.example";
   const rule = { origin, pathname: "/search/", methods: ["GET"], resourceTypes: ["fetch"],
     queryKeyRules: { required: ["queryProfile", "hits"] }, corsPreflight: { requestOrigin, requestedHeaderNames: ["x-api-key"] } };
@@ -2059,7 +2087,19 @@ test("S0 independently binds browser GET preflight to frozen review and protocol
     ...[{ requestedMethod: "POST" }, { requestedHeaderNames: ["x-api-key", "x-unreviewed"] }, { bodyBytes: 1 }, { initiator: "SCRIPT" }, { secFetchMode: "no-cors" }, { requestOrigin: "https://unreviewed.example" }].map(facts => ({ corsPreflight: { ...request.corsPreflight, ...facts } }))]) assert.equal(audit(patch).status, "PRESENT", JSON.stringify(patch));
   assert.equal(audit({ corsPreflight: undefined }).status, "NOT_EVALUATED", "missing handshake facts cannot count as no boundary violation");
   assert.equal(audit({}, parseReviewedReads(Buffer.from("[]"), "TEST_ONLY/no-get.json")).status, "PRESENT", "a standalone OPTIONS cannot borrow nonexistent GET review");
-  for (const bad of [{ ...rule, methods: ["POST"], bodyFields: {} }, { ...rule, corsPreflight: { ...rule.corsPreflight, unknown: true } }]) assert.throws(() => parseReviewedReads(Buffer.from(JSON.stringify([bad])), "TEST_ONLY/invalid.json"));
+  const bodyFields = { locale: "string", start_at: "string", shop_id: "string", num_people: "string" };
+  const postRule = { ...rule, pathname: "/calendar", methods: ["POST"], queryKeyRules: { required: [] }, bodyFields,
+    corsPreflight: { requestOrigin, requestedHeaderNames: ["content-type"] } };
+  const postReview = parseReviewedReads(Buffer.from(JSON.stringify([postRule])), "TEST_ONLY/post-cors-review.json");
+  const handshake = { ...request, pathname: "/calendar", queryKeys: [], corsPreflight: { ...request.corsPreflight, requestedMethod: "POST", requestedHeaderNames: ["content-type"] } };
+  const post = { outcome: "ADMITTED", origin, pathname: "/calendar", method: "POST", resourceType: "xhr", queryKeys: [],
+    bodyObservation: { bodySha256: "a".repeat(64), contentType: "application/json", fieldTypes: bodyFields } };
+  const postAudit = (patch: Record<string, unknown> = {}) => auditReadOnlyTrace([{ kind: "SESSION_OPENED", detail: { readNetworkBoundary: "INSTALLED" } }, { kind: "NETWORK", networkRequests: [handshake, { ...post, ...patch }] }] as any, [], false, postReview);
+  assert.equal(postAudit().status, "ABSENT", "handshake and the actual full POST body need separate evidence");
+  assert.equal(postAudit({ bodyObservation: undefined }).status, "NOT_EVALUATED", "preflight does not certify the future body");
+  assert.equal(postAudit({ bodyObservation: { ...post.bodyObservation, fieldTypes: { ...bodyFields, email: "string" } } }).status, "PRESENT");
+  assert.equal(postAudit({ resourceType: "document" }).status, "PRESENT", "documents are not script requests");
+  for (const bad of [{ ...postRule, bodyFields: undefined }, { ...rule, methods: ["PUT"] }, { ...rule, corsPreflight: { ...rule.corsPreflight, unknown: true } }]) assert.throws(() => parseReviewedReads(Buffer.from(JSON.stringify([bad])), "TEST_ONLY/invalid.json"));
 });
 
 test("independent price oracle reads raw menus, detects false MET, and does not mistake missing raw evidence for S0", async () => {
@@ -2176,8 +2216,8 @@ test("C18 Kaga external witness support is separate from product-known display e
   assert.equal(evaluate().conditionStateComparisons.find(c => c.candidateId === kaga && c.text === "kaiseki")!.assessment, "S1_UNSUPPORTED");
 });
 
-test('h14 independent frozen review accepts the seven-key facet GET handshake and rejects unrelated permission',async()=>{
- const path='.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json';
+test('current independent frozen review accepts the seven-key facet GET handshake and rejects unrelated permission',async()=>{
+ const path='src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json';
  const reviewed=parseReviewedReads(await readFile(path),path);
  const request={outcome:'ADMITTED',origin:'https://search-v4.production.ap-northeast-1.aws.tablecheck.net',pathname:'/search/',method:'OPTIONS',resourceType:'xhr',queryKeys:['cuisine','lat','lng','party_size','queryProfile','radius_km','scope'],corsPreflight:{initiator:'BROWSER_PREFLIGHT',secFetchMode:'cors',requestOrigin:'https://www.tablecheck.com',requestedMethod:'GET',requestedHeaderNames:['x-api-key'],bodyBytes:0}};
  const audit=(patch:Record<string,unknown>={})=>auditReadOnlyTrace([{kind:'SESSION_OPENED',detail:{readNetworkBoundary:'INSTALLED'}},{kind:'NETWORK',networkRequests:[{...request,...patch}]}] as any,[],false,reviewed);

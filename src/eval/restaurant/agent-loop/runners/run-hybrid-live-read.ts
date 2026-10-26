@@ -163,12 +163,23 @@ export function createHybridDecisionCapture(resultPath: string, recording?: Brow
           responseFormat: request.responseFormat, messages: structuredClone(request.messages),
         };
         if (request.purpose === "browser_read_decide" || request.purpose === "restaurant_discovery_retrieval" && JSON.parse(request.messages.find(message=>message.role==="user")!.content).observation) {
-          const { observation } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
+          const { observation, regionCorrection } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
+          // ADR-0043 selects from a source-flow collection without a current DOM.
+          // Preserve each original observation reference rather than inventing a
+          // link to whichever global recording snapshot happened most recently.
+          const sourceFlowSelection=request.purpose==="browser_read_decide"&&observation.revision===0&&observation.url===""&&observation.visibleText===""
+            &&Array.isArray(observation.targets)&&observation.targets.length===0&&Array.isArray(observation.pageActions)&&observation.pageActions.length===0
+            &&typeof regionCorrection?.sourceId==="string"&&regionCorrection.sourceId.length>0&&typeof regionCorrection.flowId==="string"&&regionCorrection.flowId.length>0
+            &&Array.isArray(regionCorrection.entrances)&&regionCorrection.entrances.length>0
+            &&regionCorrection.entrances.every((entry:any)=>entry.sourceId===regionCorrection.sourceId&&entry.flowId===regionCorrection.flowId
+              &&typeof entry.ref==="string"&&typeof entry.originalTargetRef==="string"&&Number.isSafeInteger(entry.observationRevision)&&entry.observationRevision>0&&typeof entry.observedOn==="string");
           const matches = latestSnapshot?.url === observation.url && latestSnapshot?.title === observation.title
             && latestSnapshot?.visibleText === observation.visibleText;
           record.browser = { observationRevision: observation.revision, url: observation.url,
-            recordingSnapshot: recording && matches ? latestSnapshot!.recordingSnapshot : null };
-          if (recording && !matches) report("SNAPSHOT_LINK", Object.assign(new Error(), { code: "DECISION_SNAPSHOT_MISMATCH" }));
+            recordingSnapshot: recording && matches && !sourceFlowSelection ? latestSnapshot!.recordingSnapshot : null,
+            ...(sourceFlowSelection?{observationKind:"SOURCE_FLOW_ENTRANCE_SELECTION",sourceFlow:{sourceId:regionCorrection.sourceId,flowId:regionCorrection.flowId,
+              entrances:regionCorrection.entrances.map(({ref,originalTargetRef,observationRevision,observedOn}:any)=>({ref,originalTargetRef,observationRevision,observedOn}))}}:{}) };
+          if (recording && !matches && !sourceFlowSelection) report("SNAPSHOT_LINK", Object.assign(new Error(), { code: "DECISION_SNAPSHOT_MISMATCH" }));
         }
         if (!finished) pending.set(index, { record, startedAtMs });
       } catch (error) { report("CAPTURE_INPUT", error); }
@@ -245,7 +256,7 @@ const preflight = await runLivePreflight({
 const sourceDataPreflightDirectory=resolve('.eval-artifacts/source-data-preflight',`${Date.now()}-${selectedId}`);
 await mkdir(sourceDataPreflightDirectory,{recursive:true});
 await runSourceDataPreflight({sourceIds:preflightSourceIds((frozen.semantic as {target?:{goal?:string}}|undefined)?.target?.goal),environment:effectiveEnvironment,artifactDirectory:sourceDataPreflightDirectory});
-const reviewedReadsPath=resolve('.eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json');
+const reviewedReadsPath=resolve('src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json');
 const reviewedReads=parseReviewedReads(readFileSync(reviewedReadsPath),relative(process.cwd(),reviewedReadsPath));
 const customVariant = customCaseSourcePath !== undefined;
 const variantParent = frozen.parent;
@@ -373,6 +384,12 @@ const journal = await startDiagnosticRun(input.directory ?? resolve(".eval-artif
   safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
   requestedRunCeilings: liveReadLimits,
 });
+// Announce the immutable result location before model execution, including runs
+// that will later be interrupted. IPC carries no source content or credentials.
+if(process.send&&process.connected){
+  try{process.send({type:"PRAXIS_EVAL_ARTIFACT_STARTED",artifactPath:journal.resultPath},error=>{if(error)console.error(JSON.stringify({artifactNotification:"IPC_SEND_FAILED"}));});}
+  catch{console.error(JSON.stringify({artifactNotification:"IPC_SEND_FAILED"}));}
+}
 const decisionCapture = input.recordDecisions
   ? createHybridDecisionCapture(journal.resultPath, browserRecording) : undefined;
 // This is real elapsed time, deliberately independent of the Runtime clock
@@ -553,6 +570,11 @@ return { resultPath: journal.resultPath };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  if(!process.send){
+    const {runSupervisedEvalCli,postExitFailed}=await import('./eval-post-exit.js');
+    const result=await runSupervisedEvalCli(fileURLToPath(import.meta.url),process.argv.slice(2),resolve('.eval-artifacts/restaurant-hybrid-live-read-post-exit'));
+    process.exit(postExitFailed(result)?result.exit.code||1:0);
+  }
   await runHybridLiveRead();
   // All immutable artifacts and evaluation sidecars have settled. The CLI
   // owns process exit even if an interrupted provider still holds a socket.

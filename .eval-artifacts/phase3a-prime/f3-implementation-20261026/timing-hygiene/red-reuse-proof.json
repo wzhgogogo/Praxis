@@ -1,0 +1,39 @@
+{
+  "originalRedCommit": "2ce0eb6aa5703e4820176d5d810b60ed900ff4e2",
+  "currentCommit": "e3ad6ddd81622adf859125d6f33a035d333f1e32",
+  "results": [
+    {
+      "id": "original-one-second-window",
+      "testPath": "src/harness/browser/browser-read-stability.test.ts",
+      "selectedSpanSha256": "959e46da342541653392b70bb0fa252255f272121954c071ec35a2119b514b58",
+      "unchangedInCurrentSource": true
+    },
+    {
+      "id": "remaining-navigation-budget",
+      "testPath": "src/harness/browser/browser-read-stability.test.ts",
+      "selectedSpanSha256": "959e46da342541653392b70bb0fa252255f272121954c071ec35a2119b514b58",
+      "unchangedInCurrentSource": true
+    },
+    {
+      "id": "candidate-deadline-not-renewed",
+      "testPath": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "selectedSpanSha256": "7402bd44d50760d594153a175ea855f05e2c939ebbf41c3a23414289e110210b",
+      "unchangedInCurrentSource": true
+    },
+    {
+      "id": "acquisition-cost-consumed",
+      "testPath": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "selectedSpanSha256": "177da32c2cf2f44b6610236e3c6ffab38c70be174fbf7f20ad3acafd7aa9e83d",
+      "unchangedInCurrentSource": true
+    },
+    {
+      "id": "worker-guard-required",
+      "testPath": "src/harness/browser/read-network-redirect.test.ts",
+      "selectedSpanSha256": "bdbba238c5c6709170fc8cdef81cc299918d3a27f9c6c24a7f296bcfc1666990",
+      "unchangedInCurrentSource": true
+    }
+  ],
+  "reason": "Only three other timer declarations changed; selected tests and mutated production implementations are identical.",
+  "deliveryCommit": "d83ff50c346242f79b300a1745648a6df5da1ba5",
+  "sharedFixtureChange": "Only unrelated redirect wait/Guard-instance timeout allowances increased; the worker-guard-omitted control installs/prepares no Guard, so its verdict is unchanged."
+}

@@ -1,0 +1,98 @@
+{
+  "schema": "f3-stop4-verification@1",
+  "timeCET": "2026-10-25T21:24:07.477116+01:00",
+  "base": "e096ba35dbc77d6852fa4875dbeadaae92835ffe",
+  "sourceTestRunnerPromptSchemaGuardPackDiff": 0,
+  "acceptedAdrsUnchanged": true,
+  "budgetUnchanged": true,
+  "budgetEntries": 23,
+  "cumulative": {
+    "websiteGET": 7,
+    "googleRequests": 45,
+    "realModelCalls": 334,
+    "environmentReruns": 3,
+    "fullLive": 8
+  },
+  "frozenProbeInputsVerified": 16,
+  "uniqueHistoricalGitInputsVerified": 58,
+  "sourceInventoryFiles": 29,
+  "siteProductionLines": 3864,
+  "packLines": 473,
+  "auditRows": 38,
+  "linePlanOnly": {
+    "netEstimate": 306,
+    "estimatedRemaining": 3558,
+    "actualRemoved": 0,
+    "nonOverlappingRanges": true
+  },
+  "proposedAdrs": [
+    "0036-script-request-types-and-preflight-draft.md",
+    "0045-bounded-read-conclusion-reserve.md"
+  ],
+  "allProposedNotImplemented": true,
+  "localObservations": {
+    "status": "PASS_OFFLINE_OBSERVATION_CHECKS_NOT_PRODUCT_FIX",
+    "typeCases": 6,
+    "privateClassCases": 4,
+    "savedTabelogPagesWithDifferences": 2,
+    "tableCheckUnchangedControls": 2,
+    "originalCompletionBooleanDidNotBecomeSuccess": true,
+    "actualGuardUnchanged": true,
+    "callbackDeferralIsLocalConstructed": true,
+    "historicalLinuxCDPOrder": "NOT_RECORDED",
+    "realModel": 0,
+    "google": 0,
+    "website": 0,
+    "Live": 0,
+    "environmentRerun": 0,
+    "timeCET": "2026-10-25T21:10:54.419609+01:00"
+  },
+  "newSourceCalls": {
+    "model": 0,
+    "google": 0,
+    "website": 0,
+    "Live": 0,
+    "environmentRerun": 0
+  },
+  "newLiveS0": "NOT_RUN; historical evaluations retained",
+  "fiveGates": {
+    "integrationCommit": "34c8b4f2189213ee6fa9ea971ac81e17c01608fe",
+    "allPass": true,
+    "counts": {
+      "default": 1053,
+      "chromium": 155
+    },
+    "eachBeforeAfterClean": true,
+    "auditRerun": "NOT_RUN; no src/scripts/tests/skills/package changes; Test doc matrix"
+  },
+  "primaryUserFilesUnchanged": 9,
+  "newDocumentLinksVerified": 40,
+  "diffCheck": "PASS",
+  "evidenceSha256": {
+    ".eval-artifacts/phase3a-prime/f3/main-integration.json": "dbdaf48d27da86be1a6e208e422c2e02a308af0e12e14b80dfb8a76b491a8ad3",
+    ".eval-artifacts/phase3a-prime/f3/historical-inputs.json": "3c32c2aea2bfeb892d33e3630d263fdf3879fda6be29a0c7931f51c4ab5934b9",
+    ".eval-artifacts/phase3a-prime/f3/source-inventory.json": "4eedf5ecc919ada05f02f312e83eb47c1e1ffffe317da5e236a212fc1d0e746e",
+    ".eval-artifacts/phase3a-prime/f3/health-history.json": "889b681fa262c54f9161d37bcda86d0061b8a009488358a486385456177594f8",
+    ".eval-artifacts/phase3a-prime/f3/report.md": "d55e63dcdf93931248284cdf812730bcb0d149e7a774ecf9e0b45605882f0b33",
+    ".eval-artifacts/phase3a-prime/f3/observe-local.ts": "79e6d64e0b8b6f40421e20c3bda0837d5ccd950b064262b4f6ea48404f5d3e6c",
+    ".eval-artifacts/phase3a-prime/f3/timing-evidence.json": "c85f8efd39110375d1f56dc491b55c87229d5a583b0c90fe76b9553f6a194ff3",
+    ".eval-artifacts/phase3a-prime/f3/execution-receipt.json": "db25875bb30cb779869d07cfa70c4a1cfd592c1903b135a5d14cb469e2915da7",
+    ".eval-artifacts/phase3a-prime/f3/collect-timing.py": "5e6d67ca2189140fd8a774807eef55ef5ccc4f3fe023d02770849aaa2f13aac6",
+    ".eval-artifacts/phase3a-prime/f3/probe-input.json": "6f93d85b3a8018a39010bed85480bdb5a2324bfd466860e6e9826e99b4e2111f",
+    ".eval-artifacts/phase3a-prime/f3/audit.csv": "1ace526cb7ebcb9b042de0dbb9e3230f2b3849e291fd8b4bb1426592d3319c12",
+    ".eval-artifacts/phase3a-prime/f3/plan.md": "64ae08e8d710e6f6f1e4353b95bd6894d02517da5070dcb526892227e6784cf2",
+    ".eval-artifacts/phase3a-prime/f3/inputs-sha256.json": "f7852d92c837612ddc4e1de1743d04b7a2db535a405ad0f2b37a5e47bd059d80",
+    ".eval-artifacts/phase3a-prime/f3/probe-freeze.json": "ef3aa96c96a2fb47ef8b071cc477044b8fe2d1282dfaf2297ecdfd3667e12806",
+    ".eval-artifacts/phase3a-prime/f3/line-plan.json": "9f00367ff8749b5619951d4036f9f8a6a956f219acf353484b398f4e292d3ee0",
+    ".eval-artifacts/phase3a-prime/f3/historical-linux/probe-2.log": "63361584a2c0e660902505e272de9cd389c379259a5c69c97b5900269aba4843",
+    ".eval-artifacts/phase3a-prime/f3/historical-linux/summary.json": "0f735bfb24b15155330f20b7eac04a05cbe540ec5edaa644131b45005c2c261f",
+    ".eval-artifacts/phase3a-prime/f3/historical-linux/probe-7.log": "3fbee798053a0283b0d2fc1e5a983de277fce91632f50a00ed421d9878647a7a",
+    ".eval-artifacts/phase3a-prime/f3/historical-linux/report.md": "cc0952d5cf8136e03084a55bdc9dd3b1c10e0b22a97e8d5181180a31e0b21149",
+    ".eval-artifacts/phase3a-prime/f3/historical-linux/observer.ts": "0f86b89ca84119932f80d7eb412eb7c47a9d1da1dda413c00f436598a0820618",
+    ".eval-artifacts/phase3a-prime/f3/observations/classes.public.json": "7e2a4205c54b8f269f5ae228841d6410272a84e3bed58433651f8e10e2fe5f30",
+    ".eval-artifacts/phase3a-prime/f3/observations/checks.json": "69a34e92184313c00c936c12fce749578540419dbdec9dd3ce3b384446cc889c",
+    ".eval-artifacts/phase3a-prime/f3/observations/resource-types.json": "7bc59ce6fc51020df56e94be151b36572810a34796a8c316c757f5a6c1e09597"
+  },
+  "finalGitStatus": "Checked after final local commit; no audit branch push authorized by original plan",
+  "stop": "STOP4_WAIT_REVIEW"
+}

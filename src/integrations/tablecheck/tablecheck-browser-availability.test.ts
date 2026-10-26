@@ -83,6 +83,7 @@ test("TableCheck reservation form binds the selected date and adult count withou
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 9, changed), true);
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, [controls[0]!, { ...controls[1]!, options: [{ value: "10", label: "10", selected: false, disabled: false }] }]), false);
   assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, [{ ...controls[0]!, value: "2026-09-24" }, controls[1]!]), false);
+  assert.equal(hasTableCheckSelectedRequest(snapshot, "2026-09-25", 10, [controls[0]!, { ...controls[1]!, options: [{ value: "9", label: "9", selected: true, disabled: false }] }]), false, "a selected option conflicting with the live adult value cannot bind the request");
   assert.equal(hasTableCheckSelectedRequest({ ...snapshot, html: form.replace('value="2026-09-25"', 'value="2026-09-24"') }, "2026-09-25", 10, controls), true, "live input value must take precedence over an old HTML attribute");
   const japanesePage = { ...snapshot, url: snapshot.url.replace("/en/shops/", "/ja/shops/"), html: form.replace("<form>", '<form data-selected-date="2026-09-25" data-pax="10">') };
   assert.equal(hasTableCheckSelectedRequest(japanesePage, "2026-09-25", 10, changed), false, "Japanese reservation forms must not accept stale HTML after a live 10→9 change");
@@ -218,6 +219,7 @@ test("TableCheck reads scoped menu text only from a real outer menu item", () =>
   const scoped = '<article class="menu-item"><h3 class="menu-item-title">Sushi Omakase</h3><div class="menu-item-data" data-service-categories="[&quot;sushi&quot;]"></div><p class="menu-item-description">Twelve pieces</p><input name="irrelevant"></article>';
   const snapshot = (html: string): BrowserSnapshot => ({ url: "https://www.tablecheck.com/en/shops/example/reserve", title: "Example", text: "", html });
   assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped), [scopeControl]).map((item) => ({ value: item.serviceScope.value, text: item.text })), [{ value: "sushi", text: "Sushi Omakase\nTwelve pieces" }]);
+  assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped.replace('class="menu-item"', 'class="menu-item-title"')), [scopeControl]), [], "a title class prefix is not an outer menu container");
   for (const hiddenMarkup of [
     `<!-- ${scoped} -->`,
     `<style>${scoped}</style>`,

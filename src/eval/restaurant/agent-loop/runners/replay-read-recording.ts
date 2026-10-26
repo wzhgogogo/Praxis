@@ -29,6 +29,31 @@ export async function loadReplayRecording(directory: string, outputHar: string) 
     if(manifest.replay?.status!=="NOT_REPLAYABLE"||!(error&&typeof error==='object'&&'code' in error&&error.code==='ENOENT'))throw error;
     har={log:{version:"1.2",creator:{name:"Praxis replay",version:"1"},entries:[]}};
   }
+  // A document request may reach its qualified snapshot through recorded
+  // redirects. Only complete, unambiguous HAR chains may inherit eligibility;
+  // diagnostic DOMs and arbitrary HAR documents never become qualifications.
+  const redirects=new Map<string,string>(),ambiguous=new Set<string>();
+  for(const entry of har.log.entries){
+    if(entry.request.method!=="GET"||![301,302,303,307,308].includes(entry.response.status))continue;
+    const location=entry.response.headers?.find((header:any)=>String(header.name).toLowerCase()==="location")?.value;
+    if(typeof location!=="string"||!location)continue;
+    try{
+      const target=new URL(location,entry.request.url);
+      if(!/^https?:$/.test(target.protocol)||target.username||target.password)continue;
+      const destination=target.toString(),from=entry.request.url;
+      if(entry.response.redirectURL&&new URL(entry.response.redirectURL,from).toString()!==destination
+        ||redirects.has(from)&&redirects.get(from)!==destination){ambiguous.add(from);continue;}
+      redirects.set(from,destination);
+    }catch{/* Invalid recorded redirects cannot confer document eligibility. */}
+  }
+  for(const url of ambiguous)redirects.delete(url);
+  const reachable=new Set([...allowed].filter(url=>!redirects.has(url)&&!ambiguous.has(url)));
+  for(let remaining=redirects.size;remaining>0;remaining--){
+    const previous=reachable.size;
+    for(const [from,to] of redirects)if(reachable.has(to))reachable.add(from);
+    if(reachable.size===previous)break;
+  }
+  for(const url of reachable)allowed.add(url);
   har.log.entries=har.log.entries.filter((entry:any)=> !/html/i.test(entry.response.content.mimeType)||allowed.has(entry.request.url));
   const filtered=JSON.stringify(har);
   await writeFile(outputHar,filtered,{flag:"wx"});
@@ -41,16 +66,35 @@ export function recordedResponse(recording: ReplayRecording,url: string,method: 
 }
 export function createRecordedBrowser(recording: ReplayRecording, stop: (reason: ReplayStop)=>void) {
   let cursor=0;
+  const missingRequests:Array<ReplayStop&{method:string;resourceType:string}>=[];
   const locate=(url:string,reason:string,snapshot:number|null=recording.pages[cursor]?.snapshot??null)=>{const parsed=new URL(url);stop({snapshot,origin:parsed.origin,pathname:parsed.pathname,reason});};
   const runtime = new LocalPlaywrightChromium({ proxyServer: "http://127.0.0.1:9", browserType: { async launch(options) {
     const browser=await chromium.launch(options),newContext=browser.newContext.bind(browser);
     browser.newContext=async options=>{
       const context=await newContext(options);
-      context.on("request",request=>{
-        const reason=request.resourceType()==="document"&&!recording.allowed.has(request.url())?"DOCUMENT_NOT_QUALIFIED"
-          :!recordedResponse(recording,request.url(),request.method(),request.postData()??undefined)?"MISSING_RESPONSE":undefined;
-        if(reason){locate(request.url(),reason);void context.close().catch(()=>{});}
-      });
+      const routeFromHAR=context.routeFromHAR.bind(context);
+      context.routeFromHAR=async(...args)=>{
+        await routeFromHAR(...args);
+        // Guard is installed next and runs first. Only admitted requests reach
+        // this check, then the original HAR router; denied telemetry stays denied.
+        await context.route("**/*",async route=>{
+          const request=route.request();
+          const reason=request.resourceType()==="document"&&!recording.allowed.has(request.url())?"DOCUMENT_NOT_QUALIFIED"
+            :!recordedResponse(recording,request.url(),request.method(),request.postData()??undefined)?"MISSING_RESPONSE":undefined;
+          if(reason){
+            const parsed=new URL(request.url());
+            if(reason==="MISSING_RESPONSE")missingRequests.push({snapshot:recording.pages[cursor]?.snapshot??null,origin:parsed.origin,pathname:parsed.pathname,reason,method:request.method(),resourceType:request.resourceType()});
+            // Recorder qualification requires documents, code and dynamic reads,
+            // not image/font/media bytes. Missing optional bytes still fail closed
+            // and remain observable; never serve placeholders or use the network.
+            const required=reason!=="MISSING_RESPONSE"||!["image","font","media"].includes(request.resourceType());
+            if(required)locate(request.url(),reason);
+            await route.abort("blockedbyclient").catch(()=>{});
+            if(required)void context.close().catch(()=>{});
+          }
+          else await route.fallback();
+        });
+      };
       return context;
     };return browser;
   } } });
@@ -68,5 +112,5 @@ export function createRecordedBrowser(recording: ReplayRecording, stop: (reason:
       const value=Reflect.get(target,property);return typeof value==="function"?value.bind(target):value;
     }});
   }};
-  return {browser,consumedPages:()=>cursor};
+  return {browser,consumedPages:()=>cursor,missingRequests:()=>structuredClone(missingRequests)};
 }

@@ -1,0 +1,66 @@
+✖ recorded decisions reproduce nonempty candidates and delivery under OS-denied network (1947.838809ms)
+✖ replay missing preserves source/progress and model boundaries (1897.486365ms)
+✖ replay partial preserves source/progress and model boundaries (1886.21145ms)
+✖ replay model-wiring preserves source/progress and model boundaries (1898.515878ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7728.528925
+
+✖ failing tests:
+
+test at src/harness/browser/runner-replay.test.ts:1:264
+✖ recorded decisions reproduce nonempty candidates and delivery under OS-denied network (1947.838809ms)
+  Error: spawn /usr/bin/sandbox-exec ENOENT
+      at ChildProcess._handle.onexit (node:internal/child_process:286:19)
+      at onErrorNT (node:internal/child_process:484:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'spawn /usr/bin/sandbox-exec',
+    path: '/usr/bin/sandbox-exec',
+    spawnargs: [ '-p', '(version 1)(allow default)(deny network-outbound)', '/usr/local/bin/node', '--import', '/home/wangzhour.guest/praxis-replay/scripts/test-filesystem-guard.mjs', '--import', 'tsx', '/home/wangzhour.guest/praxis-replay/src/harness/browser/fixtures/replay-child.ts' ]
+  }
+
+test at src/harness/browser/runner-replay.test.ts:1:1379
+✖ replay missing preserves source/progress and model boundaries (1897.486365ms)
+  Error: spawn /usr/bin/sandbox-exec ENOENT
+      at ChildProcess._handle.onexit (node:internal/child_process:286:19)
+      at onErrorNT (node:internal/child_process:484:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'spawn /usr/bin/sandbox-exec',
+    path: '/usr/bin/sandbox-exec',
+    spawnargs: [ '-p', '(version 1)(allow default)(deny network-outbound)', '/usr/local/bin/node', '--import', '/home/wangzhour.guest/praxis-replay/scripts/test-filesystem-guard.mjs', '--import', 'tsx', '/home/wangzhour.guest/praxis-replay/src/harness/browser/fixtures/replay-child.ts' ]
+  }
+
+test at src/harness/browser/runner-replay.test.ts:1:1379
+✖ replay partial preserves source/progress and model boundaries (1886.21145ms)
+  Error: spawn /usr/bin/sandbox-exec ENOENT
+      at ChildProcess._handle.onexit (node:internal/child_process:286:19)
+      at onErrorNT (node:internal/child_process:484:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'spawn /usr/bin/sandbox-exec',
+    path: '/usr/bin/sandbox-exec',
+    spawnargs: [ '-p', '(version 1)(allow default)(deny network-outbound)', '/usr/local/bin/node', '--import', '/home/wangzhour.guest/praxis-replay/scripts/test-filesystem-guard.mjs', '--import', 'tsx', '/home/wangzhour.guest/praxis-replay/src/harness/browser/fixtures/replay-child.ts' ]
+  }
+
+test at src/harness/browser/runner-replay.test.ts:1:1379
+✖ replay model-wiring preserves source/progress and model boundaries (1898.515878ms)
+  Error: spawn /usr/bin/sandbox-exec ENOENT
+      at ChildProcess._handle.onexit (node:internal/child_process:286:19)
+      at onErrorNT (node:internal/child_process:484:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'spawn /usr/bin/sandbox-exec',
+    path: '/usr/bin/sandbox-exec',
+    spawnargs: [ '-p', '(version 1)(allow default)(deny network-outbound)', '/usr/local/bin/node', '--import', '/home/wangzhour.guest/praxis-replay/scripts/test-filesystem-guard.mjs', '--import', 'tsx', '/home/wangzhour.guest/praxis-replay/src/harness/browser/fixtures/replay-child.ts' ]
+  }

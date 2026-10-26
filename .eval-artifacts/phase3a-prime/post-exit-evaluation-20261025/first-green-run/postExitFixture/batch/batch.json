@@ -1,0 +1,121 @@
+{
+  "mode": "PACED_EVAL_BATCH",
+  "parallelLimit": 2,
+  "minimumIntervalMs": 1000,
+  "exits": [
+    {
+      "id": "first",
+      "code": 7,
+      "signal": null,
+      "independentEvaluation": {
+        "id": "first",
+        "status": "NOT_EVALUATED",
+        "exit": {
+          "code": 7,
+          "signal": null
+        },
+        "exitedAtCET": "2026-10-25T22:07:50.962+01:00",
+        "evaluationStartedAtCET": "2026-10-25T22:07:50.962+01:00",
+        "finishedAtCET": "2026-10-25T22:07:50.964+01:00",
+        "exitToEvaluationStartMs": 0.01612499999987449,
+        "s0": {
+          "S0_DECLARATION": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "INDEPENDENT_EVALUATION_FAILED"
+            ],
+            "evidenceRefs": []
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "INDEPENDENT_EVALUATION_FAILED"
+            ],
+            "evidenceRefs": []
+          }
+        },
+        "sourceArtifact": {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-WsQRoM/first/run-f0kY1R/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T21-07-49-548Z-1f38f80f-8cb3-4c90-b5f4-ea637c38d237.result.json",
+          "sha256": "cb83fd5c793c9383919dae6479f68e3fa5497b55a369988a19e9fcc159cbb050"
+        },
+        "failureCode": "INDEPENDENT_EVALUATION_FAILED"
+      }
+    },
+    {
+      "id": "second",
+      "code": 0,
+      "signal": null,
+      "independentEvaluation": {
+        "id": "second",
+        "status": "NOT_EVALUATED",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "exitedAtCET": "2026-10-25T22:07:50.990+01:00",
+        "evaluationStartedAtCET": "2026-10-25T22:07:50.990+01:00",
+        "finishedAtCET": "2026-10-25T22:07:50.991+01:00",
+        "exitToEvaluationStartMs": 0.01749999999992724,
+        "s0": {
+          "S0_DECLARATION": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "INDEPENDENT_EVALUATION_FAILED"
+            ],
+            "evidenceRefs": []
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "INDEPENDENT_EVALUATION_FAILED"
+            ],
+            "evidenceRefs": []
+          }
+        },
+        "sourceArtifact": {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-WsQRoM/second/run-xwnLLI/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T21-07-49-570Z-c7bcf1d1-1984-4f8c-8c7f-0afd5e534e39.result.json",
+          "sha256": "0fd539c8cc6fbd76c060509c4aefd6010c1fa943af90ae6e3ea6af10b788f906"
+        },
+        "failureCode": "INDEPENDENT_EVALUATION_FAILED"
+      }
+    },
+    {
+      "id": "missing",
+      "code": 9,
+      "signal": null,
+      "independentEvaluation": {
+        "id": "missing",
+        "status": "NOT_EVALUATED",
+        "exit": {
+          "code": 9,
+          "signal": null
+        },
+        "exitedAtCET": "2026-10-25T22:07:49.544+01:00",
+        "evaluationStartedAtCET": "2026-10-25T22:07:49.546+01:00",
+        "finishedAtCET": "2026-10-25T22:07:49.546+01:00",
+        "exitToEvaluationStartMs": 0.04883400000005622,
+        "s0": {
+          "S0_DECLARATION": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "MISSING_ARTIFACT"
+            ],
+            "evidenceRefs": []
+          },
+          "S0_BOUNDARY": {
+            "status": "NOT_EVALUATED",
+            "reasons": [
+              "MISSING_ARTIFACT"
+            ],
+            "evidenceRefs": []
+          }
+        },
+        "failureCode": "MISSING_ARTIFACT"
+      }
+    }
+  ],
+  "activeRuns": [],
+  "queuedRuns": [],
+  "usage": {},
+  "heldLeases": 0
+}

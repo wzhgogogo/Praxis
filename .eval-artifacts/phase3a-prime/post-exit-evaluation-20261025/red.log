@@ -1,0 +1,56 @@
+{"postExitFixture":"/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-ANwL9h"}
+✖ each exited slot is independently evaluated before another slot exits, including nonzero and missing artifacts (22143.728333ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22264.375625
+
+✖ failing tests:
+
+test at src/harness/browser/runner-post-exit.test.ts:1:494
+✖ each exited slot is independently evaluated before another slot exits, including nonzero and missing artifacts (22143.728333ms)
+  AssertionError [ERR_ASSERTION]: first receipt must be saved while second is still running; : 1,
+      "agentDecisions": 3,
+      "browserModelCalls": 0,
+      "modelCallsStarted": 4,
+      "browserRuntimeCalls": 9,
+      "browserOperationsByCandidate": {
+        "praxis:restaurant:f16d05ec6b29248d2c61adb1": 9
+      },
+      "pageStillLoadingWithinBound": 0,
+      "postActionWaitTotalMs": 928,
+      "browserModelActions": 0,
+      "googleRequests": {
+        "limit": 100,
+        "total": 1,
+        "namedPlaceResolution": 0,
+        "discovery": 1,
+        "placeDetails": 0,
+        "reverseAddressObservation": 0
+      },
+      "elapsedMs": 1561
+    },
+    "artifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-ANwL9h/second/run-wPTEiw/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T21-05-20-720Z-dc9b14ed-f468-41f5-b42c-32d140b596f1.result.json",
+    "evaluationPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-ANwL9h/second/run-wPTEiw/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T21-05-20-720Z-dc9b14ed-f468-41f5-b42c-32d140b596f1.result.evaluation.35-1792962322282.json",
+    "latencyMs": 1561,
+    "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+  }
+  FIRST_SLOT_NOT_EVALUATED_BEFORE_SECOND_EXIT
+  
+  
+  98 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/runner-post-exit.test.ts:26:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 98,
+    expected: 0,
+    operator: 'strictEqual'
+  }

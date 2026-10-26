@@ -1,15 +1,100 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.291
-- Last updated: 2026-10-25
+- Document revision: 4.309
+- Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
+<a id="dev-2026-10-26-f3-script-read"></a>
+
+## 2026-10-26复核：F3脚本读取与预检（执行CET10-25）
+
+开发按批准的ADR-0036第1–7条实施；共享脚本类型、真实预检投影、实际完整POST分离。旧生产两个有效红灯已存，修后真实本地Chromium绿；独立接收端/body审计与Recorder留证，相关154项离线回归通过。五门禁在28963ca8干净提交执行，默认1054／Chromium161全绿、每项前后status为空；完整收据见[报告](../../.eval-artifacts/phase3a-prime/f3-guard/report.md)。保护文件、预算零差异，站点行数不增加；无.env、无新增真实调用。route留3f、F6未实施，未知POST/CORS回放不伪报已覆盖。
+
+<a id="dev-2026-10-26-adr0045-median"></a>
+
+## 2026-10-26复核：ADR0045中位数与部分结果修订（CET10-25）
+
+只修改Draft，F6未实施。固定Git下62样本中位数与20s门槛核算完成；核对现有逐店checkpoint、事件和Reducer，明确搜索父取消仍丢内部完成结果的接线缺口及代价，新增100s查位正常准入和取消保留A/未知B控制。F6红绿灯NOT_RUN，现有五门禁按用户要求另跑，不能代替F6产品验收。源码/预算不变、真实调用0。[报告](../../.eval-artifacts/phase3a-prime/f6-draft-revision/report.md)。
+
+<a id="dev-2026-10-26-f3-034"></a>
+
+## 2026-10-26 CET：F3-034显式观察通用列表
+
+未修生产组合非法关键词/稀疏KEEP/重复表达式三项有效导航红灯，修后同断言通过；真实本地Chromium明确选择观察ref后5家候选，集合外/跨来源/href冒充/无观察均拒绝。当前共享文本Native和Google-only同片有界失败，原合法改写与候选保留交付控制保持。Schema@3／Prompt@6、State@22／TaskDefinition@20及全部活动fixture同步，不留旧回退。63项相关与五门禁全绿（e85e2a81，默认1060／Chromium161、每项前后净树），完整收据已归档。两个来源目录、Pack、budget零差异，真实调用0，F6/route不实施。[报告](../../.eval-artifacts/phase3a-prime/f3-034/report.md)。
+
 > 按需阅读入口：[月度摘要与索引](README.md)。本文件保留原始逐条详情，不作为日常全量阅读材料。
+
+## DEV-2026-10-26-F3-AUDIT-STOP4
+
+F5已按用户批准带已知限制合入并推送main/e096ba35：ADR-0043 机制已在 Live 验证；例 01 能力未达成，转 3b 店名解析与 F6。F3从该main只做审计：38项（11严格保护、27其他），固定Linux类型差异及本地6对照证明CDP类型缓存回退可误拒；历史Linux事件先后未录，Tabelog同源GET有通用后备，不能全归此因。OPTIONS41/95是重复诊断且独立GET-only预检缺口；4保存页class改名，2Tabelog观察/绑定变、2TC控制不变。Ebisu旧0响应根因未知、Omotesando route合同拒绝、首10秒无完成快照缺证均分别记录。站点现3864/Pack473，预计净删306至3558仅计划未实现；Guard补充与ADR0045固定20秒收尾仅草案。8份原Live计时只读，所有新增真实调用0，budget原字节不变。不改产品/测试/Runner/Prompt/Schema/Guard，不实施F3/F6。停止点4待复核，当前审计分支仅本地提交，不合main、不推送。 执行时间2026-10-25T21:18:52.344054+01:00 CET（26为复核编号）。F5合入前五门禁34c8b4f2默认1053/Chromium155及type/arch/build全绿、逐项净树；本审计源码未变，五门禁复跑NOT_RUN，仅核对引用/冻结/差异和本地观察。新Replay/Live/Controlled-write均NOT_RUN，不重判历史S0。[报告](../../.eval-artifacts/phase3a-prime/f3/report.md)。
+
+## DEV-2026-10-26-F5-REVIEWED-CLOSEOUT
+
+用户停止点3b复核确认：F5按完成标准FAIL（例01 0/3），结束F5；**ADR-0043机制已在Live验证；例01能力未达成，转3b店名解析与F6**。这是带已知限制合入，不把纠正3/3执行写成找店能力通过。按批准重放最新main 0a254f05，双方历史记录与预算并集保留，23条账本／累计8Live、334模型、45Google、3环境重跑、7评测GET均不变；原始F5产物逐字节不变。旧e169e606留annotated checkpoint。五门禁将在本次干净候选提交运行，全绿且净树后才快进main并推送；新增真实调用0，不加载.env。时间2026-10-25T20:49:53.718394+01:00，CET。 [报告](../../.eval-artifacts/phase3a-prime/f5-closeout-20261026/report.md)。
+
+完成验证：34c8b4f2重放后的五门禁全部PASS（默认1053／Chromium155），每项前后status均为空。后续仅归档与文档，源码不变；合入前最终净树复核通过，按用户授权快进main并推送，远端结果另以实际Git收据核对。新增真实调用0。
+
+## DEV-2026-10-25-F5-RERUN-STOP3B
+
+2026-10-25 CET。F5c分支重放main b5db5700，旧HEAD留tag，双方记录与18条账本保留。b195c176五门禁type/arch/默认1053/build/Chromium155全绿，每项前后净树；之后源码零新增差异。375项最终冻结先提交，Dengana11-04 19:00两人公开GET2次复查WITNESS_EXISTS；3个授权凭据加载仅用于本轮。例01串行3槽全部约500.6秒超时、0/3合格，首次Tabelog调用中纠正3/3均执行，替代仍约4km南；原生Dengana均无，Google见证三次FOUND。独立S0两项全ABSENT，S2 PRESENT；三份原样OS禁网回放均首文档资格处INCOMPLETE，Google HAR各3响应。新增116模型/15Google/1环境重跑/2评测GET，累计8Live/334模型/45Google/3环境重跑/7GET。槽后评价延迟39.245/100.636/284.545秒，未满足立即要求；均无交付、postGET为空、下一槽仍过安全门后才启动。报告以机器实算秒数为准。停止点3b等复核，业务验收FAIL，不合main。[报告](../../.eval-artifacts/phase3a-prime/f5-live-rerun/report.md) · [汇总](../../.eval-artifacts/phase3a-prime/f5-live-rerun/aggregate.json)。
+
+## DEV-2026-10-25-F5-RERUN-PREPARE
+
+2026-10-25 CET。按复核批准重放本分支到main b5db5700，31提交源码无冲突，双方文档记录保留；索引聚合条数标题不作为记录丢失，原记录锚点逐一核验。预算主线7/本分支18条并集18条，旧累计5Live/218模型/30Google/2环境重跑/5评测GET保持，新增授权2环境重跑使总上限4。旧HEAD留annotated checkpoint。五门禁将在干净提交运行。本轮3个受控Runner凭据加载另获直接窄授权，不展示/复制/暂存；尚未加载。无新增模型/网站/Live调用，不合main。[计划](../../.eval-artifacts/phase3a-prime/f5-live-rerun/plan.md)。
+
+## DEV-2026-10-25-F5C-OFFLINE
+
+2026-10-25 CET，基线a691f7dd。按停止点3复核只修共享来源循环：不再把两有效越界样本的纠正留给后续SEARCH，在原Executor/deadline/详情/地区预算内立即给方位反馈、选观察引用、导航与继续详情；一次替换及错误收尾不变。已接纳候选在本次纠正失败时也保留。真实Interpreter→Agent合法动作→Router→Reducer本地控制，TC2与Google26已排队且search=false，旧代码目标断言失败，修后通过；G1/G3、N1–N4、F1–F4等复用fixture改为单次调用，不保留延期旧路径。
+
+完整公开地址“東京都北区赤羽1-15-1 新仲ビル1F”冻结于新F5c目录。仅地址无法解决两来源名称/地址表记不同，因此把公开电话、完整门牌楼层、1.251m坐标核对支持的精确来源身份对一并冻结；当前WitnessOutlet统一identities、Evaluator35/rubric30、所有当前TS调用方同步，Browser Prompt/Schema不变。旧冻结内联分析脚本仅基线绑定retrospective，不作为新入口。原Live评价/证书/变体不改。槽5只用固定blob分析：三次Tabelog检索明确为空、没有回读通用列表，F5临时分支未执行；第37行根决策的下一批查位在截止时仍运行，不能把最后持久化facts动作当作中断位置。213目标/1 Chromium通过；a9d8aeba干净提交五门禁1048/154及类型/架构/构建全绿，每项前后净树，收据/无损日志已留档。新增模型/Google/GET/Live/环境重跑0，不读.env，预算及站点保护字节不变。随后仅同步文档证据，停止等复核与后续新Live额度，不合main。[报告](../../.eval-artifacts/phase3a-prime/f5c/report.md)。
+
+## DEV-2026-10-25-F5-LIVE-STOP3-INCOMPLETE
+
+2026-10-25固定CET。用户窄授权6个受控Runner加载既有.env，未展示/复制/暂存运行凭据。六次进程调用、五次正式Live，最后一次预检HTTP200/CHECK_TIMEOUT且环境重跑余额0，未启动正式任务；严格停止，无第7次调用。例01为0/3合格交付（500.338秒外层超时、500.333秒轨迹AGENT_LOOP_TIMEOUT、399.728秒有界未交付）；例03为439.498秒有界无结果、500.496秒超时、最后NOT_RUN。自动Evaluator34/rubric30产物及历史分母保留；例03首轮另按实际冻结请求/未知范围做独立输出复核，不冒充自动绿灯。
+
+确认例01两坐标样本均越界后，纠正仍排在Google之后，真实legalActions.search=false/NATIVE_FIRST_BATCH_PENDING阻断返回；没有regionCorrection提示或SELECT动作，不能归因为模型拒绝方位反馈。源页面实际观察到Akabane Sta链接在查位阶段未用，精确决策/DOM另存，未据此暗改LOCATION范围。五份HAR均在写前扫描拒绝后缺Google结构化响应，F2④b禁网原样回放全部INCOMPLETE。用户另批单次公开直连GET，3.658948秒HTTP200；零网络本地计时控制证明末次快照竞争可造成CHECK_TIMEOUT，但缺现场snapshot计时，根因仍HYPOTHESIS。未改生产/Runner/Prompt/Schema/Guard/站点或预算，不进入F3/3b修复。原9账本条目并集、348冻结项、原始压缩证据完整保留。实际5Live/218模型/30Google/2环境重跑；停止点3未完成，停止等复核，不合main。[完整报告](../../.eval-artifacts/phase3a-prime/f5-live/report.md)。
+
+## DEV-2026-10-25-F5-LIVE-RUNNING
+
+固定CET，01:50进度。直接用户授权解除仅6次受控Runner的.env加载阻断，完整答复单列存证；无独立密钥检查、展示、复制或暂存。正式slot1截止超时，2个有效越界样本进入deferred来源，Google有同名同址Dengana，查位BROWSER_TIMEOUT；没有交付。自动见证匹配缺完整地址，原NOT_FOUND保留并另记人工对照，不回写冻结oracle。ORIGINAL回放在Google结构化响应缺失处停止；记录器KEY_PATTERN_BEFORE_WRITE，0模型／网络回退。slot2两次Tabelog预检CHECK_TIMEOUT，保留两次5分钟等待，未正式启动，环境重跑已实际用2。保持冻结输入、生产代码和原2/3／不超时标准，后续结果另记。[报告](../../.eval-artifacts/phase3a-prime/f5-live/report.md)。
+
+## DEV-2026-10-25-F5-LIVE-PREPARED
+
+固定CET UTC+01:00。F5重放到main4d927958，旧763a2262保留tag；源码0冲突，双方文档记录及共享账本A7＋B2全部保留。355a5547五门禁1046/154及type/arch/build全绿，5次前后净树；包8b39bd76固定348项SHA，严格Loader、子进程、分析器离线导入通过。日期正文原字节不改，10-25运行窗口+10/+13天。先提交后2GET复查Dengana，类别/201.545m/11-04 19:00两人WITNESS_EXISTS，响应及SHA无损归档，账本新增2、共享GET4。CET下元数据与UTC证据并存。
+
+自动审批拒绝主工作树.env加载（即使仅布尔检查），因旧禁止读取限制；未执行，没有密钥读取/展示/复制/暂存。六slot执行包、独立S0 gate、逐店GET与F2原样回放入口已准备，凭据方式待用户明确许可；不绕过拒绝，六slot NOT_RUN，新增模型/Google/Live0，尚未停止点3。[报告](../../.eval-artifacts/phase3a-prime/f5-live/report.md)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F5-IMPLEMENTATION
+
+最终收尾（CEST）：d771aa51完成全部实现，五门禁PASS（1038／138），每门禁前后均干净。明确stopReason不被未空队列复活；JSON-LD null／空串不转为0有效坐标。实际Runner严格加载器预检通过；仅移除不兼容的信封元字段，用户正文／日期／GET输入未改，执行时旧freeze单独保留。最终仅归档及文档提交，源码不再变化，停2等复核。
+
+交付收敛（CEST）：补齐集合与readRunId绑定，同intent跨Task/run也在导航／模型调用前拒绝。N1–N4改用各自历史圆心及吉祥寺实际观察入口，并用固定旧Native模块实际比较页面／详情数，无旧执行文件残留。采集冻结778f37ff、执行fd7c3c70；公开GET2次均200，Dengana当前身份／201.545m／Kushi-age及11月4日19:00两人库存认证通过。原始响应无损归档、逐次账本；例03可选GET0、Live0。最终输入冻结后五门禁见gates-final，停在2等复核，不合并main。
+
+- 时间：2026-10-24 Europe/Vienna（CEST，UTC+2）。基线f42715c2；仅codex/fix-phase3a-prime-f5-provisional-entrance，draft / not integrated，已暴露开发控制。
+- 共享层合同、生产者及全部活动调用方同步更新；无旧firstFive／旧wire兼容路径，两个站点目录与source-packs.ts零改动。
+- R1先红后绿；本地构造输入明确标注，真实组合经Interpreter→Router→Reducer产出artifact并由独立evaluator判断，正常控制与真实Chromium G3通过。适用五门禁在提交干净后运行，结果随后追加；未将定向通过当作最终门禁。
+- 例01最多10 GET（本次冻结1候选、至多2 GET），串行≥5秒、无Cookie／登录／预约表单／模型；先冻结采集脚本和SHA再执行。例03无用户观察到的≥1000m筛选URL，跳过可选GET，保留人工800m／环带未核对。全部模型／Google／Live新增0，STOP2后等复核。[报告](../../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F5-REBASE
+
+按用户授权重放分析分支三提交到f42715c2；STATUS/DEVLOG/TEST-LOG/月度导航保留F1/F1b与F5全部记录。Accepted ADR与分析产物逐字节保留；annotated tag checkpoint/phase3a-prime-f5-stop1c保存原60d02686祖先及固定输入。新实现分支下一步从新main建立，分析本身不改产品、不运行Live。 维也纳时间2026-10-24T04:00:45+02:00；新模型/Google/网站/Live0。[核验](../../.eval-artifacts/phase3a-prime/f5-analysis/rebase-20261024.json)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F5-STOP1C
+
+维也纳时间2026-10-24 CEST。用户提供自包含1b复核并明确批准新ADR；本批完成1c设计修订，仍不实现。只做A，撤回LOCATION/车站控件修复及其无有效红灯的清单，保留不得拼造站码/类别码/URL。替代从本来源流程已观察、Pack确认的入口集合选取，模型只选集合引用，代码复核归属后直接导航，不恢复菜单。D1第5行东京菜单31地区链接保留原revision/ref/trace/snapshot；第三页取样后替代为第四页。当前Executor只接受当前DOM目标，报告列明SELECT_REGION_ENTRANCE拟议合同、输入/结果/动作/Prompt/来源进度版本接线，未绕开旧ref校验；直接NAVIGATE需显式记原页额。新增G3、集合外/跨来源或流程/拼造href反例，N1–N4优先复用既有fixture/runScenario构造。ADR-0043 revision1.1 Accepted／尚未实施，旧0040/0042正文不改。新预算57.512秒余32.488；D2慢代理87.501秒余2.499，列表能否解析未证。旧预算/验证保留为superseded retrospective。48项固定输入SHA，新增调用0，无产品/测试/站点/账本变更。仅提交推送当前F5分支后停1c；F1合main后再重放，保留双方记录。[报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#10-停止点-1c-修订与-adr-批准)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F5-STOP1B
+
+维也纳时间2026-10-24 CEST。按用户停止点1复核裁定选A拒绝B，继续原F5分支，只补设计不实现。固定3ec38584核对D1/D2地区决策15行、CONTROLS18份、head-only/缺失HTML及遮蔽截图；错误区八站已有OPEN_LINK，类别All实际被D1点击，不能归因于Schema禁止或Executor拒绝；请求匹配LOCATION/站距控件仍缺证，范围按证据不足交复核。A细化临时入口、两有效坐标、代码距离方位、与4/5共用一次纠正、四类失败有界UNKNOWN和候选/预算保留；新增ADR-0043提议草稿，不改0040/0042正文。较早交接条件算术55.549秒余34.451，深层交接后恢复需5地区页而上限4，不以增加预算实现。例03未来冻结Kudanshita，人工800m类别0家、1000m环带未核对，用时只记录；C03-2/C09有界诚实无结果与零交付分开，原评分不改。43项输入SHA，0新模型/Google/餐厅网站/Live/环境重跑；不读.env，不动账本/产品/测试/站点。同步本分支记录，提交推送本分支后停1b，F1b先合main，之后重放时保留双方记录；不合并或推main。[当前报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#9-停止点-1b-补充) · [ADR草稿](../decisions/0043-provisional-directory-entrance-coordinate-check.md)。
+
+## DEV-2026-10-24-PHASE3A-PRIME-F5-ANALYSIS
+
+按已批准批次1B从main/2ada8a69建立codex/chore-phase3a-prime-f5-analysis，独立工作区保留主工作树9份用户改动。只读取3ec38584的两次例01诊断、例03两份完整结果及首个中断尝试；输出六问分析、逐来源/逐页/逐模型明细、原始输入SHA与最多两个通用层方案。Tabelog地区未完成且零详情，否定“只有两家所以首五家规则没触发”的实际归因；两家和同义词来自TableCheck。例03已执行备用地点Kudanshita，五家均在范围内，约148–150秒事实追查；新输入比较口径待冻结前明确。OPTIONS只分类不修，新增窄ADR的需要在方案中明确。报告与本批同步文档可能与并行F1同文件，待复核安排合入顺序；不改产品/测试/Runner/输入/权限，不合并main、不推送，停止点1。新真实模型、Google、网站和Live均0。[报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md)。
 
 ## DEV-2026-10-25-PHASE3A-BOUNDARY-CONTINUATION-COMPLETE
 
@@ -4639,3 +4724,67 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 交付开发补充：5cb751e3冻结“第三方响应命中且请求体含自有凭据”反例，旧路径REPLAYABLE红灯；请求体与响应独立扫描后7/7局部绿灯。首轮5de17530五门禁产物保留，最终候选将完整复跑五门禁后才合入。
 
 最终复跑完成（2026-10-25T03:31:14.348284+01:00 CET）：精确候选05991efd39903d2fae094e209c9bf973381223c5五门禁全绿，默认1037、真实Chromium154，单次22.949792/93.159010秒，每项后status空、恢复0；原5de17530五门禁完整保留，新增真实调用仍0。最终输入/编排与当前实现SHA一致，按授权合入推送后停。
+
+## DEV-2026-10-25-PHASE3A-PRIME-REPLAY-PORTABILITY
+
+仅修回放子进程的OS隔离选择及错误诊断，macOS保留原策略，Linux用unshare -rn --，原30秒上限与4项断言不变。CI因既有PAT缺workflow权限未启动，转临时Lima/VZ Ubuntu22 ARM64，冻结源归档/脚本，禁宿主挂载与凭据转发，证据取回后清理VM与缓存。并发进入main的4份robots证据保留，实际基线7165f8a2；无产品/Schema/Prompt/Guard/站点改动。 [报告](../../.eval-artifacts/phase3a-prime/stop3-replay-portability-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-HEALTH-FIXTURE-STABILITY
+
+只改健康Harness测试普通模式窗口1500→10000ms，slow1000/800/220与生产实现不变。冻结源1d8c7c96、604项输入与外层脚本；macOS三轮154/154，Linux第三轮独立E1失败。只读固定八次原断言诊断两次fetch/xhr差异BLOCKED_METHOD；没有改Guard或E1文件，草案未应用未测试。触发用户长回合§2.6停止，分支留复核、main保持0a254f05。Linux真实VM、依赖路径映射/时钟/失败记录透明保留，资源清理完成，0新增真实调用。 [报告](../../.eval-artifacts/phase3a-prime/stop3-health-fixture-stability-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-E1-KNOWN-F3
+
+按用户复核继续现有健康分支，4个普通模式10000→4000ms，精确slow1000/800/220与生产10秒不变；不改E1、Guard或站点。后续按独立分支修回放URL映射、决策快照绑定和逐槽退出即评价，均0真实调用。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-HEALTH-4S
+
+仅将四种普通健康fixture观察窗10000→4000ms；真实生产10秒不动，精确slow和原契约不减少。E1已知偶发按用户复核登记并交对话B/F3，源/Guard和历史草案不实施。冻结2e184c2f后双平台六轮全绿，中位回到≤150秒；独立后续分支从合入的新main开始。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-HEALTH-F5-INTEGRATION-PREP
+
+合入前预检阻止在过时main上合并，保留a519f514与原六轮证据。同步已批准F5主线e096ba35，五个文档冲突逐项保留上游全文与三条健康记录；不将上游已批准产品改变算成本分支修改。重新冻结完整源码/输入，再在新组合上双平台验收。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/post-f5-main/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-HEALTH-4S-F5-VERIFIED
+
+合入前发现F5主线e096ba35，保留旧六轮为pre-integration frozen regression，零源码冲突整合并保存双方历史/预算。相对新main仍仅健康测试源变化，四普通模式4秒、slow精确/生产10秒不变。新组合两平台完整三次满足≤150秒，批准E1例外原始计数不改；后续回放、决策关联和退出即评价各自新main分支实施。 [报告](../../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/post-f5-main/report.md)。
+
+## DEV-2026-10-25-PHASE3A-PRIME-REPLAY-URL-RED-PREP
+
+从新main70db9152创建独立回放修复分支。仅准备所属行为测试和ORIGINAL系统断网脚本，loader尚未修。原录制逐字核对，仅提取HAR、清单及19个合格文档；原39条模型决策重放，不补造页面。原HTML空白和字节保留，diff检查只排除该原始inputs目录。 [报告](../../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-REPLAY-REDIRECT-COMPLETE
+
+仅 eval 回放器和最小 Chromium 回归：完整 HAR 重定向链映射到合格最终文档；缺失检查置于真实 Guard 准入后；可选媒体缺失拒绝并记录，关键响应缺失仍停止。产品、Guard、Prompt、产品 Schema、站点代码未改。验证源码278302bf，原始 F5 输入及脚本 SHA 冻结，后续快照不完整不冒充完整回放。 [报告](../../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-DECISION-FLOW-BINDING-COMPLETE
+
+在独立分支从main5aa9394c修复eval capture的来源flow关联，验证源码5e073ae6。复用完整F5c产品流程测试，保留全部产品断言；只增加录制关联验证，不改模型输入、产品Schema、Guard、Prompt、站点。原三槽单行最小证据及来源SHA冻结，不复制整份历史运行。 [报告](../../.eval-artifacts/phase3a-prime/decision-snapshot-binding-20261025/report.md)。
+
+## DEV-2026-10-25-PHASE3A-POST-EXIT-EVALUATION-COMPLETE
+
+验证源码ce82a545，新增eval父进程监督器；journal提前IPC关联产物，父进程在各槽exit事件重读原产物及冻结独立reviewed-reads，不等整批或stdio关闭。既有授权、预检、节奏上限2、来源90秒/整单500秒预算不改；原F5冻结脚本保留。父进程不改写运行产物，SHA前后核对；评价失败及没有产物明确NOT_EVALUATED。 [报告](../../.eval-artifacts/phase3a-prime/post-exit-evaluation-20261025/report.md)。
+
+## DEV-2026-10-26-PHASE3A-F3-TIMING-HYGIENE
+
+源码d83ff50c；不改生产预算与对话B四文件，E1块原字节保持。40/15/10ms候选与1ms来源余额改为逻辑时钟；非期限目标观察留余量，父就绪30s与外层45s配套。健康slow精确时序、真实31s来源观察和各类真实尺度机制控制保留；行数项独立继续，未冒称达成3591。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/report.md)。
+
+## DEV-2026-10-26-PHASE3A-F3-TIMING-MAIN-REBASE-PREP
+
+在卫生分支合并已批准并行main，原红绿SHA历史保留；取main文档全量再恢复本轮历史条目，不把旧main门禁用于新源码组合。站点解析文件未改；接下来冻结新组合并重跑五门禁。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/rebased-main/report.md)。
+
+## DEV-2026-10-26-PHASE3A-F3-TIMING-MAIN-REBASE-VERIFIED
+
+继承B已批准Guard/预检、Evaluator36及显式通用列表修改，不由A编辑对方文件。卫生源码差异仅9个测试文件；解析/控件与Pack原样。当前快照新增网络类型事实不补齐行数计划所需的日期状态/结果scope观察，后续仍须逐条核验。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/timing-hygiene/rebased-main/report.md)。
+
+## DEV-2026-10-26-F3-L7
+
+日期/人数字段共用扫描，保留同一表单归属、唯一启用 live 控件、精确值与 selected option 一致性；仅原地去重，净减2行，不采用压行或迁移。九个计划项的证据缺口逐项列出，七组最小对照冻结后通过。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/l7/report.md)。
+
+## DEV-2026-10-26-F3-L10
+
+删除 completed 中间集合及第二遍菜单处理，保留完整外层容器、观察到的RADIO scope、去重、畸形闭合及scoped/unscoped文本隔离，未迁移代码。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/l10/report.md)。
+
+## DEV-2026-10-26-F3-A-STOP
+
+保持原合同与核验，按批准的证据不足延期条款处理九项，未把估算306记作已实现。仅原TableCheck parser合并重复计算；全量时序清单逐条处理，保留检错。另记录范围外post-exit catalog路径静态接线问题，未修改或运行Live。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/report.md)。

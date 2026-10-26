@@ -1,0 +1,32 @@
+✖ replay checks missing responses after Guard admission, retaining denial and missing-entry boundaries (124.990375ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 412.417875
+
+✖ failing tests:
+
+test at src/harness/browser/runner-replay.test.ts:1:6935
+✖ replay checks missing responses after Guard admission, retaining denial and missing-entry boundaries (124.990375ms)
+  Error [BrowserRuntimeError]: Local Playwright Chromium operation failed
+      at LocalPlaywrightChromiumSession.run (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:195:13)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Proxy.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/replay-read-recording.ts:90:34)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/runner-replay.test.ts:88:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'BROWSER_RUNTIME_FAILED',
+    cause: page.content: Target page, context or browser has been closed
+        at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:90:31)
+        at async LocalPlaywrightChromiumSession.run (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:192:14)
+        at async Proxy.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/replay-read-recording.ts:90:34)
+        at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/runner-replay.test.ts:88:20) {
+      log: []
+    },
+    scope: undefined
+  }

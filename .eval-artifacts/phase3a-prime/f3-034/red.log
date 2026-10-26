@@ -1,0 +1,69 @@
+▶ F3-034 rejected empty-list rewrites never navigate an implicit general list
+  ✖ invalid-keyword (15.236667ms)
+  ✖ sparse-keep (2.484625ms)
+  ✖ repeated-keyword (1.356166ms)
+✖ F3-034 rejected empty-list rewrites never navigate an implicit general list (19.530083ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 446.846875
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:85150
+✖ invalid-keyword (15.236667ms)
+  AssertionError [ERR_ASSERTION]: invalid-keyword: rejected retrieval must not clear the keyword and navigate a general list
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1162:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1142:84)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:85150
+✖ sparse-keep (2.484625ms)
+  AssertionError [ERR_ASSERTION]: sparse-keep: rejected retrieval must not clear the keyword and navigate a general list
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1162:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1142:84)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:85150
+✖ repeated-keyword (1.356166ms)
+  AssertionError [ERR_ASSERTION]: repeated-keyword: rejected retrieval must not clear the keyword and navigate a general list
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1162:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1142:84)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }

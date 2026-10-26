@@ -5,7 +5,7 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.12
+- Document revision: 2.13
 - Last updated: 2026-10-25
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
@@ -175,7 +175,11 @@ npm run eval:restaurant:agent-loop:artifact -- --manifest <inputs/manifest.json>
 - `NO_VERIFIED_RESULT`可证明记录范围内的处理，不能证明搜索穷尽或用户目标完成；内部失败、取消、预算停止和未到达保留实际根因。
 - 模型选路允许多种合法顺序；固定来源未覆盖的合法调用是诊断环境缺口，不直接归因模型。重复无效动作、忽略已有证据、无支持的最终断言、错时钟或错请求、绕过安全边界，才按实际记录归因。
 
-### 7.1 Offline classification rules (evaluator@34 / rubric@30)
+### 7.1 Offline classification rules (evaluator@36 / rubric@31)
+
+独立网络审计将fetch/xhr视为同一页面脚本请求类，其他类型独立。OPTIONS必须有冻结实际GET/HEAD/POST规则及完整浏览器握手事实，只匹配可观察投影；实际POST另外要求完整字段/类型、content-type和body SHA证据。合法预检不证明后续body合法；未知字段/方法/路径为S0，缺body或缺历史握手事实仍NOT_EVALUATED。当前Runner使用`src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json`的独立字面量审核，历史审核文件和既有评价不重写。
+
+Evaluator@35 的见证身份统一使用冻结的名称、完整地址对。除公开详情主身份外，只接纳独立核对并登记的来源表记；匹配时名称和地址必须属于同一登记对，不从执行候选临时生成别名，不用同名或同源 ID 覆盖门牌/楼层冲突。保存的公开详情及核对依据随 registry 的原始 SHA 引用；历史缺地址仍未知。见证路由身份不替代 HARD、实时库存或 S0 的独立证据，旧评价不重算。
 
 Gold之外的额外UNSPECIFIED背景条件不作为缺失或冲突，不替代任何Gold条件，不放宽原条件的HARD/SOFT、polarity、multiplicity或显式identity检查。额外条件保留在原始记录中；这条规则不证明该条件的来源或满足情况。原条件及展示依据仍独立核验，依赖语义保真判定的最终结论保留相应派生变化，不覆盖历史评价。
 

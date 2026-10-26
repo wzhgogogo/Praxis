@@ -129,10 +129,8 @@ interface MenuMarkupNode {
 }
 
 function isMenuContainer(markup: string): boolean {
-  const classes = (markupAttribute(markup, "class") ?? "").split(/\s+/).filter(Boolean);
-  // `menu-item-data` is metadata inside the outer menu item; labels such as
-  // `menu-item-title` and `menu-item-description` are siblings, not scopes.
-  return classes.some((value) => value.toLowerCase() === "menu-item");
+  // Metadata/title/description classes belong inside the outer `menu-item`.
+  return /(?:^|\s)menu-item(?:\s|$)/i.test(markupAttribute(markup, "class") ?? "");
 }
 
 /** Remove markup that browsers do not expose as DOM menu content, preserving offsets. */
@@ -177,60 +175,47 @@ export function parseTableCheckScopedMenuSourcePartition(
   snapshot: BrowserSnapshot,
   controls: readonly BrowserPageControl[],
 ): TableCheckScopedMenuSourcePartition {
-  if (!isTableCheckUrl(snapshot.url)) return { scoped: [], unscopedText: sourceText(tableCheckDomMarkup(snapshot.html)) };
-  const scopes = observedTableCheckServiceScopes(controls);
-  if (!scopes.size) return { scoped: [], unscopedText: sourceText(tableCheckDomMarkup(snapshot.html)) };
   const html = tableCheckDomMarkup(snapshot.html);
+  if (!isTableCheckUrl(snapshot.url)) return { scoped: [], unscopedText: sourceText(html) };
+  const scopes = observedTableCheckServiceScopes(controls);
+  if (!scopes.size) return { scoped: [], unscopedText: sourceText(html) };
   const nodes: MenuMarkupNode[] = [];
-  const completed: Array<MenuMarkupNode & { end: number }> = [];
+  const excerpts = new Map<string, TableCheckScopedMenuExcerpt>();
+  const scopedRanges: Array<{ start: number; end: number }> = [];
   const voidTags = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]);
   const tags = /<\s*(\/?)\s*([a-z][\w-]*)\b[^>]*>/gi;
   for (let match = tags.exec(html); match; match = tags.exec(html)) {
-    const closing = match[1] === "/";
     const name = match[2]!.toLowerCase();
     const markup = match[0];
-    if (!closing) {
-      const categories = menuCategoryValues(markup);
-      if (categories.length) {
-        const owner = [...nodes].reverse().find((item) => item.menuContainer);
-        if (owner) categories.forEach((value) => owner.categories.add(value));
-      }
+    if (match[1] !== "/") {
+      const owner = nodes.findLast(item => item.menuContainer);
+      for (const value of menuCategoryValues(markup)) owner?.categories.add(value);
       if (!voidTags.has(name) && !/\/\s*>$/.test(markup)) {
         nodes.push({ name, start: match.index, contentStart: tags.lastIndex, menuContainer: isMenuContainer(markup), categories: new Set<string>() });
       }
       continue;
     }
-    const index = nodes.map((node) => node.name).lastIndexOf(name);
+    const index = nodes.findLastIndex(node => node.name === name);
     if (index < 0) continue;
-    // A closing ancestor also closes any malformed unclosed descendants. Drop
-    // those descendants rather than letting their categories leak into the
-    // next sibling menu item.
-    const [node] = nodes.splice(index, nodes.length - index);
-    if (node?.menuContainer && node.categories.size) completed.push({ ...node, end: match.index });
-  }
-  const excerpts: TableCheckScopedMenuExcerpt[] = [];
-  const scopedRanges: Array<{ start: number; end: number }> = [];
-  const seen = new Set<string>();
-  for (const item of completed) {
-    const text = sourceText(html.slice(item.contentStart, item.end));
+    // Drop malformed descendants when their ancestor closes; they must not
+    // carry category ownership into a later sibling.
+    const [node] = nodes.splice(index);
+    if (!node?.menuContainer || !node.categories.size) continue;
+    const text = sourceText(html.slice(node.contentStart, match.index));
     if (!text) continue;
-    let hasObservedScope = false;
-    for (const value of item.categories) {
-      const serviceScope = scopes.get(value);
-      if (!serviceScope) continue;
-      hasObservedScope = true;
+    const observed = [...node.categories].map(value => scopes.get(value))
+      .filter((scope): scope is RestaurantServiceScope => scope !== undefined);
+    for (const serviceScope of observed) {
       const fingerprint = `${serviceScope.field}\u0000${serviceScope.group}\u0000${serviceScope.value}\u0000${text}`;
-      if (seen.has(fingerprint)) continue;
-      seen.add(fingerprint);
-      excerpts.push({ serviceScope, text });
+      excerpts.set(fingerprint, { serviceScope, text });
     }
-    if (hasObservedScope) scopedRanges.push({ start: item.start, end: item.end });
+    if (observed.length) scopedRanges.push({ start: node.start, end: match.index });
   }
   let unscopedMarkup = html;
   for (const range of scopedRanges.sort((left, right) => right.start - left.start)) {
     unscopedMarkup = `${unscopedMarkup.slice(0, range.start)}${" ".repeat(range.end - range.start)}${unscopedMarkup.slice(range.end)}`;
   }
-  return { scoped: excerpts, unscopedText: sourceText(unscopedMarkup) };
+  return { scoped: [...excerpts.values()], unscopedText: sourceText(unscopedMarkup) };
 }
 
 export function parseTableCheckScopedMenuExcerpts(
@@ -568,21 +553,19 @@ function isReservationFormPage(snapshot: BrowserSnapshot): boolean {
 function reservationFormSelectedRequest(snapshot: BrowserSnapshot, date: string, partySize: number, controls: readonly BrowserPageControl[] | undefined): boolean {
   if (!controls) return false;
   const attribute = (tag: string, name: string) => tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, "i"))?.[1];
-  let matchingForms = 0;
-  for (const form of snapshot.html.matchAll(/<form\b[^>]*>([\s\S]*?)<\/form>/gi)) {
-    const html = form[1] ?? "";
-    const dateInputs = [...html.matchAll(/<input\b[^>]*>/gi)].map((item) => item[0])
-      .filter((tag) => attribute(tag, "name") === "reservation[start_date]");
-    const adultSelects = [...html.matchAll(/<select\b[^>]*>([\s\S]*?)<\/select>/gi)]
-      .filter((item) => attribute(item[0], "name") === "reservation[num_people_adult]");
-    if (dateInputs.length === 1 && adultSelects.length === 1) matchingForms += 1;
-  }
-  if (matchingForms !== 1) return false;
-  const dates = controls.filter((item) => item.visible && !item.disabled && item.kind === "INPUT" && item.structure?.name === "reservation[start_date]");
-  const adults = controls.filter((item) => item.visible && !item.disabled && item.kind === "SELECT" && item.structure?.name === "reservation[num_people_adult]");
-  if (dates.length !== 1 || adults.length !== 1 || dates[0]!.value !== date || adults[0]!.value !== String(partySize)) return false;
-  const selected = adults[0]!.options?.filter((option) => option.selected) ?? [];
-  return selected.length === 1 && selected[0]!.value === String(partySize);
+  const fields = [
+    { name: "reservation[start_date]", kind: "INPUT", value: date, markup: /<input\b[^>]*>/gi },
+    { name: "reservation[num_people_adult]", kind: "SELECT", value: String(partySize), markup: /<select\b[^>]*>([\s\S]*?)<\/select>/gi },
+  ];
+  const forms = [...snapshot.html.matchAll(/<form\b[^>]*>([\s\S]*?)<\/form>/gi)];
+  if (forms.filter(form => fields.every(field => [...(form[1] ?? "").matchAll(field.markup)]
+    .filter(tag => attribute(tag[0], "name") === field.name).length === 1)).length !== 1) return false;
+  return fields.every(field => {
+    const matches = controls.filter(item => item.visible && !item.disabled && item.kind === field.kind && item.structure?.name === field.name);
+    if (matches.length !== 1 || matches[0]!.value !== field.value) return false;
+    const selected = matches[0]!.options?.filter(option => option.selected) ?? [];
+    return field.kind === "INPUT" || selected.length === 1 && selected[0]!.value === field.value;
+  });
 }
 
 export function hasTableCheckSelectedRequest(snapshot: BrowserSnapshot, date: string, partySize: number, controls?: readonly BrowserPageControl[]): boolean {

@@ -1,0 +1,69 @@
+{"postExitFixture":"/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-WsQRoM"}
+✖ each exited slot is independently evaluated before another slot exits, including nonzero and missing artifacts (1941.808375ms)
+{"mode":"HYBRID_LIVE_READ","caseId":"interruption-fixture","browserEngine":"LOCAL_CHROMIUM","preflight":{"reviewedReadsPath":".eval-artifacts/post-exit-cli-IiQbgb/reviewed-reads.json","reviewedReadsSha256":"0000000000000000000000000000000000000000000000000000000000000000"},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":100,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "interruption-fixture",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 3
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 1,
+    "candidatesChecked": 1,
+    "agentDecisions": 3,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 4,
+    "browserRuntimeCalls": 9,
+    "browserOperationsByCandidate": {
+      "praxis:restaurant:f16d05ec6b29248d2c61adb1": 9
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 920,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 1352
+  },
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-cli-IiQbgb/run-XXsDYt/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T21-07-51-373Z-7e9ec124-83a9-4a32-b21e-c15e81f75d11.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-cli-IiQbgb/run-XXsDYt/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T21-07-51-373Z-7e9ec124-83a9-4a32-b21e-c15e81f75d11.result.evaluation.35-1792962472736.json",
+  "latencyMs": 1352,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
+{"postExitCliFixture":"/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-cli-IiQbgb"}
+✔ single-slot CLI supervisor immediately reports independent review hash failure instead of S0 absence (1749.587417ms)
+ℹ {"receipt":{"id":"slot-2237e2cc-fc90-49d0-a6b0-65480c628f12","status":"NOT_EVALUATED","exit":{"code":0,"signal":null},"exitedAtCET":"2026-10-25T22:07:52.742+01:00","evaluationStartedAtCET":"2026-10-25T22:07:52.742+01:00","finishedAtCET":"2026-10-25T22:07:52.743+01:00","exitToEvaluationStartMs":0.012999999999919964,"s0":{"S0_DECLARATION":{"status":"NOT_EVALUATED","reasons":["REVIEWED_READS_SHA_MISMATCH"],"evidenceRefs":[]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["REVIEWED_READS_SHA_MISMATCH"],"evidenceRefs":[]}},"sourceArtifact":{"path":"/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-cli-IiQbgb/run-XXsDYt/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T21-07-51-373Z-7e9ec124-83a9-4a32-b21e-c15e81f75d11.result.json","sha256":"81069dbbbc15ab51e7f3f5375c46a290373cc19760c16e2a6e7655b5b60eb01d"},"failureCode":"REVIEWED_READS_SHA_MISMATCH"},"realCalls":0}
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3818.465167
+
+✖ failing tests:
+
+test at src/harness/browser/runner-post-exit.test.ts:1:602
+✖ each exited slot is independently evaluated before another slot exits, including nonzero and missing artifacts (1941.808375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_EVALUATED'
+  - 'EVALUATED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/runner-post-exit.test.ts:31:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_EVALUATED',
+    expected: 'EVALUATED',
+    operator: 'strictEqual'
+  }

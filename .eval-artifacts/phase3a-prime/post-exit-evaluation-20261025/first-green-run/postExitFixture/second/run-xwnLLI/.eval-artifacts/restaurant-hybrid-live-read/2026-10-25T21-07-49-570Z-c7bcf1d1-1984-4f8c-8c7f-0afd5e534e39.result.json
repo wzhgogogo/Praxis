@@ -1,0 +1,5416 @@
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "interruption-fixture",
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@35",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@30"
+  },
+  "runtimeContext": {
+    "browserEngine": "LOCAL_CHROMIUM",
+    "mode": "OFFLINE_SYNTHETIC_SOURCE",
+    "realModelCalls": 0,
+    "preflight": {
+      "reviewedReadsPath": ".eval-artifacts/post-exit-batch-WsQRoM/reviewed-reads.json",
+      "reviewedReadsSha256": "da506c8a9c8a9f31aa00eaeef23d49764b9ace97158a1a0a7aa628e6d446b0fb"
+    }
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "requestedRunCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 100,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "schemaVersion": "1",
+  "limits": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 100,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "runCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 100,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "requestMetadata": {
+    "sha256": "bc77c32b762f672bb9dce78876898d2cc0087648fda32cd7f6b0fd9daf1cd442",
+    "characterCount": 54
+  },
+  "materializedCase": {
+    "id": "interruption-fixture",
+    "dataset": "synthetic-interruption@1",
+    "reference_time": "2026-10-25T21:07:49.569Z",
+    "semantic": {
+      "target": {
+        "goal": "AVAILABILITY"
+      },
+      "date": {
+        "value": "2026-10-30"
+      },
+      "time": {
+        "start": "19:00",
+        "end": "19:00"
+      },
+      "party_size": 2,
+      "location": {
+        "value": "nearby",
+        "relation": "NEAR_USER"
+      },
+      "criteria": []
+    },
+    "materialization": {
+      "sourceReferenceTime": "2026-10-25T21:07:49.569Z",
+      "resolvedReferenceTime": "2026-10-25T21:07:49.569Z"
+    }
+  },
+  "semantic": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "3",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "restaurants"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "value": "2026-10-30",
+            "raw": "2026-10-30"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:00",
+            "latest": "19:00",
+            "raw": "7 pm"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 2
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "nearby"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "semantic",
+        "provider": "FIXTURE",
+        "model": "external-boundary-stub",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v23",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "3"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      }
+    ]
+  },
+  "modelInvocations": [
+    {
+      "invocationId": "semantic",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "FIXTURE",
+      "model": "synthetic",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3",
+        "jsonSchema": {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "string",
+              "enum": [
+                "3"
+              ]
+            },
+            "facts": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TARGET"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TARGET"
+                                ]
+                              },
+                              "goal": {
+                                "type": "string",
+                                "enum": [
+                                  "RECOMMENDATION",
+                                  "AVAILABILITY"
+                                ]
+                              },
+                              "query": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "goal",
+                              "query"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TARGET"
+                                ]
+                              },
+                              "goal": {
+                                "type": "string",
+                                "enum": [
+                                  "RECOMMENDATION",
+                                  "AVAILABILITY"
+                                ]
+                              },
+                              "query": {
+                                "type": "string"
+                              },
+                              "selectionScope": {
+                                "type": "string",
+                                "enum": [
+                                  "OPEN_ENDED",
+                                  "SPECIFIC_OUTLET"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "goal",
+                              "query",
+                              "selectionScope"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TARGET"
+                                ]
+                              },
+                              "goal": {
+                                "type": "string",
+                                "enum": [
+                                  "RECOMMENDATION",
+                                  "AVAILABILITY"
+                                ]
+                              },
+                              "query": {
+                                "type": "string"
+                              },
+                              "selectionScope": {
+                                "type": "string",
+                                "enum": [
+                                  "OPEN_ENDED"
+                                ]
+                              },
+                              "requestedResultCount": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 10
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "goal",
+                              "query",
+                              "selectionScope",
+                              "requestedResultCount"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TARGET"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "DATE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "DATE"
+                                ]
+                              },
+                              "value": {
+                                "type": "string",
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "DATE"
+                                ]
+                              },
+                              "relativeDay": {
+                                "type": "string",
+                                "enum": [
+                                  "TODAY",
+                                  "TOMORROW"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "relativeDay",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "DATE"
+                                ]
+                              },
+                              "weekday": {
+                                "type": "string",
+                                "enum": [
+                                  "SUNDAY",
+                                  "MONDAY",
+                                  "TUESDAY",
+                                  "WEDNESDAY",
+                                  "THURSDAY",
+                                  "FRIDAY",
+                                  "SATURDAY"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "weekday",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "DATE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TIME_WINDOW"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "earliest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "latest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "earliest",
+                              "latest",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "earliest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "latest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "raw": {
+                                "type": "string"
+                              },
+                              "alternativeEarliest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "alternativeLatest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "alternativeRaw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "earliest",
+                              "latest",
+                              "raw",
+                              "alternativeEarliest",
+                              "alternativeLatest",
+                              "alternativeRaw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "daypart": {
+                                "type": "string",
+                                "enum": [
+                                  "AFTERNOON",
+                                  "AFTER_WORK",
+                                  "EVENING"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "daypart",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "daypart": {
+                                "type": "string",
+                                "enum": [
+                                  "AFTERNOON"
+                                ]
+                              },
+                              "relativeDay": {
+                                "type": "string",
+                                "enum": [
+                                  "TODAY"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "daypart",
+                              "relativeDay",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "relativeOffsetMinutes": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10080
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "relativeOffsetMinutes",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TIME_WINDOW"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "PARTY_SIZE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "PARTY_SIZE"
+                                ]
+                              },
+                              "value": {
+                                "type": "integer",
+                                "minimum": 1
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "PARTY_SIZE"
+                                ]
+                              },
+                              "value": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "source": {
+                                "type": "string",
+                                "enum": [
+                                  "EXPLICIT",
+                                  "INFERRED_CLOSED_PARTY"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value",
+                              "source"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "PARTY_SIZE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "AREA"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "AREA"
+                            ]
+                          },
+                          "query": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "query"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "AREA"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "BUDGET_PER_PERSON"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "BUDGET_PER_PERSON"
+                            ]
+                          },
+                          "max": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "currency": {
+                            "type": "string",
+                            "enum": [
+                              "JPY"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "max",
+                          "currency"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "BUDGET_PER_PERSON"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "CRITERION"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT",
+                          "NEGATE"
+                        ]
+                      },
+                      "value": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "CRITERION"
+                            ]
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "polarity": {
+                            "type": "string",
+                            "enum": [
+                              "POSITIVE",
+                              "NEGATIVE"
+                            ]
+                          },
+                          "strength": {
+                            "type": "string",
+                            "enum": [
+                              "HARD",
+                              "SOFT",
+                              "UNSPECIFIED"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "text",
+                          "polarity",
+                          "strength"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "facts"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "settledAt": "2026-10-25T21:07:49.572Z"
+    },
+    {
+      "invocationId": "search",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "FIXTURE",
+      "model": "synthetic",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4",
+        "jsonSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "question",
+            "relatedFields",
+            "retrievalHint",
+            "candidateIds",
+            "candidateId",
+            "offerId",
+            "decisionSummary"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "ASK_USER",
+                "SEARCH_RESTAURANTS",
+                "INVESTIGATE_CANDIDATE_FACTS",
+                "CHECK_AVAILABILITY",
+                "PRESENT_RESULTS",
+                "END_READ",
+                "SELECT_CANDIDATE",
+                "BOOK_RESERVATION"
+              ]
+            },
+            "question": {
+              "type": "string"
+            },
+            "relatedFields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "retrievalHint": {
+              "type": "string"
+            },
+            "candidateIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "candidateId": {
+              "type": "string"
+            },
+            "offerId": {
+              "type": "string"
+            },
+            "decisionSummary": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "settledAt": "2026-10-25T21:07:49.585Z"
+    },
+    {
+      "invocationId": "availability",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "FIXTURE",
+      "model": "synthetic",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4",
+        "jsonSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "question",
+            "relatedFields",
+            "retrievalHint",
+            "candidateIds",
+            "candidateId",
+            "offerId",
+            "decisionSummary"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "ASK_USER",
+                "SEARCH_RESTAURANTS",
+                "INVESTIGATE_CANDIDATE_FACTS",
+                "CHECK_AVAILABILITY",
+                "PRESENT_RESULTS",
+                "END_READ",
+                "SELECT_CANDIDATE",
+                "BOOK_RESERVATION"
+              ]
+            },
+            "question": {
+              "type": "string"
+            },
+            "relatedFields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "retrievalHint": {
+              "type": "string"
+            },
+            "candidateIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "candidateId": {
+              "type": "string"
+            },
+            "offerId": {
+              "type": "string"
+            },
+            "decisionSummary": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "settledAt": "2026-10-25T21:07:49.591Z"
+    },
+    {
+      "invocationId": "present",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "FIXTURE",
+      "model": "synthetic",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4",
+        "jsonSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "question",
+            "relatedFields",
+            "retrievalHint",
+            "candidateIds",
+            "candidateId",
+            "offerId",
+            "decisionSummary"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "ASK_USER",
+                "SEARCH_RESTAURANTS",
+                "INVESTIGATE_CANDIDATE_FACTS",
+                "CHECK_AVAILABILITY",
+                "PRESENT_RESULTS",
+                "END_READ",
+                "SELECT_CANDIDATE",
+                "BOOK_RESERVATION"
+              ]
+            },
+            "question": {
+              "type": "string"
+            },
+            "relatedFields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "retrievalHint": {
+              "type": "string"
+            },
+            "candidateIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "candidateId": {
+              "type": "string"
+            },
+            "offerId": {
+              "type": "string"
+            },
+            "decisionSummary": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "settledAt": "2026-10-25T21:07:50.941Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "event:hybrid-live:interruption-fixture:1792962469569:semantic:1",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurants"
+          },
+          "partySize": 2,
+          "partySizeSource": null,
+          "area": {
+            "query": "nearby"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-25T21:07:49.569Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "2026-10-30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 pm",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-10-25T21:07:49.582Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:interruption-fixture:1792962469569",
+        "correlationId": "event:hybrid-live:interruption-fixture:1792962469569:semantic:1",
+        "actor": "MODEL"
+      }
+    },
+    {
+      "id": "event:hybrid-live:interruption-fixture:1792962469569:evaluation-location:2",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "event": {
+        "type": "EVALUATION_LOCATION_BOUND",
+        "coordinates": {
+          "latitude": 35.6697,
+          "longitude": 139.767,
+          "radiusMeters": 1000,
+          "observedAt": "2026-10-25T21:07:49.583Z",
+          "source": "EVALUATION"
+        }
+      },
+      "occurredAt": "2026-10-25T21:07:49.583Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:interruption-fixture:1792962469569",
+        "correlationId": "event:hybrid-live:interruption-fixture:1792962469569:evaluation-location:2",
+        "actor": "SYSTEM"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:1",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "event": {
+        "type": "SEARCH_COMPLETED",
+        "request": {
+          "intent": {
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurants"
+            },
+            "date": "2026-10-30",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "nearby",
+              "radiusMeters": 1000,
+              "coordinates": {
+                "latitude": 35.6697,
+                "longitude": 139.767,
+                "observedAt": "2026-10-25T21:07:49.583Z",
+                "source": "EVALUATION"
+              }
+            },
+            "criteria": []
+          },
+          "readRunId": "run:hybrid-live:interruption-fixture:1792962469569:investigation:1"
+        },
+        "candidates": [
+          {
+            "restaurant": {
+              "id": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+              "outletName": "Fixture restaurant",
+              "sourceIds": {
+                "googlePlaces": "fixture",
+                "phone": "03-1111-2222",
+                "googleWebsiteUri": "https://www.tablecheck.com/en/fixture"
+              },
+              "address": "1-1 Ginza, Chuo City, Tokyo",
+              "coordinates": {
+                "lat": 35.6697,
+                "lng": 139.767
+              },
+              "provenance": {
+                "outletName": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+                "address": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+                "sourceIds": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5"
+              }
+            },
+            "matchReasons": [
+              "Address explicitly matches requested area: nearby"
+            ],
+            "warnings": [],
+            "executionConfidence": "LOW"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+            "kind": "DISCOVERY",
+            "provider": "GOOGLE_PLACES",
+            "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "sourceEntityId": "fixture",
+            "observedAt": "2026-10-25T21:07:49.589Z",
+            "requestFingerprint": "8206c281509c7c6d2bfda61faa96101358c7b6d69a3f3ef1a880becd673b3763",
+            "claims": {
+              "placeId": "fixture",
+              "outletName": "Fixture restaurant",
+              "address": "1-1 Ginza, Chuo City, Tokyo",
+              "types": [
+                "restaurant"
+              ],
+              "areaQuery": "nearby",
+              "areaMatch": true,
+              "areaMatchBasis": "TASK_LOCATION_RADIUS",
+              "evaluationLocationLabel": "nearby",
+              "distanceMeters": 0,
+              "availabilityPath": "DIRECT_SOURCE_PAGE"
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:google-entity:dfb02bf0195ca58e202df8e5",
+            "kind": "ENTITY_MATCH",
+            "provider": "GOOGLE_PLACES",
+            "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "sourceEntityId": "fixture",
+            "observedAt": "2026-10-25T21:07:49.589Z",
+            "requestFingerprint": "8206c281509c7c6d2bfda61faa96101358c7b6d69a3f3ef1a880becd673b3763",
+            "claims": {
+              "placeId": "fixture",
+              "outletName": "Fixture restaurant",
+              "address": "1-1 Ginza, Chuo City, Tokyo"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "GOOGLE_PLACE_ID"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:google-facts:b2f55284a0a9f7b1c7910c34",
+            "kind": "RESTAURANT_FACT",
+            "provider": "GOOGLE_PLACES",
+            "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "sourceEntityId": "fixture",
+            "observedAt": "2026-10-25T21:07:49.589Z",
+            "requestFingerprint": "8206c281509c7c6d2bfda61faa96101358c7b6d69a3f3ef1a880becd673b3763",
+            "claims": {
+              "restaurantTypeFacts": [
+                "restaurant"
+              ],
+              "websiteUri": "https://www.tablecheck.com/en/fixture"
+            }
+          }
+        ],
+        "continuation": {
+          "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"restaurants\"},\"date\":\"2026-10-30\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"nearby\",\"radiusMeters\":1000,\"coordinates\":{\"latitude\":35.6697,\"longitude\":139.767,\"observedAt\":\"2026-10-25T21:07:49.583Z\",\"source\":\"EVALUATION\"}},\"criteria\":[]}",
+          "usedPageTokens": [],
+          "pagesRead": 1,
+          "exhausted": true,
+          "locationContext": {
+            "latitude": 35.6697,
+            "longitude": 139.767,
+            "radiusMeters": 1000,
+            "label": "nearby",
+            "areaMatchBasis": "TASK_LOCATION_RADIUS"
+          },
+          "sourceRequestContext": {
+            "textQuery": "nearby:restaurant"
+          },
+          "structuredRetrieval": {
+            "accepted": true,
+            "reason": "General retrieval: no positive criteria."
+          }
+        },
+        "metadata": {
+          "provider": "GOOGLE_PLACES",
+          "route": "STRUCTURED_ADAPTER",
+          "latencyMs": 3,
+          "googleRequests": {
+            "limit": 100,
+            "total": 1,
+            "namedPlaceResolution": 0,
+            "discovery": 1,
+            "placeDetails": 0,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "providerMode": "GOOGLE_NEARBY_SEARCH",
+            "requestMode": "LOCATION_RESTRICTION_CIRCLE",
+            "exactRadiusGate": "ENFORCED",
+            "center": {
+              "latitude": 35.6697,
+              "longitude": 139.767
+            },
+            "radiusMeters": 1000,
+            "areaMatchBasis": "TASK_LOCATION_RADIUS",
+            "candidates": [
+              {
+                "sourcePlaceId": "fixture",
+                "sourceCoordinates": {
+                  "latitude": 35.6697,
+                  "longitude": 139.767
+                },
+                "distanceMeters": 0,
+                "accepted": true,
+                "reasonCode": "ACCEPTED"
+              }
+            ]
+          }
+        }
+      },
+      "occurredAt": "2026-10-25T21:07:49.590Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:interruption-fixture:1792962469569",
+        "correlationId": "event:restaurant-agent:1",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:2",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "event": {
+        "type": "AVAILABILITY_CHECKED",
+        "request": {
+          "candidateIds": [
+            "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+          ],
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+                "outletName": "Fixture restaurant",
+                "sourceIds": {
+                  "googlePlaces": "fixture",
+                  "phone": "03-1111-2222",
+                  "googleWebsiteUri": "https://www.tablecheck.com/en/fixture"
+                },
+                "address": "1-1 Ginza, Chuo City, Tokyo",
+                "coordinates": {
+                  "lat": 35.6697,
+                  "lng": 139.767
+                },
+                "provenance": {
+                  "outletName": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+                  "address": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+                  "sourceIds": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5"
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: nearby"
+              ],
+              "warnings": [],
+              "executionConfidence": "LOW"
+            }
+          ],
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "hardCriteria": []
+        },
+        "offers": [
+          {
+            "id": "offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2",
+            "restaurantId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "source": "TABLECHECK",
+            "dateTime": "2026-10-30T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-25T21:07:50.921Z",
+            "displayExpiresAt": "2026-10-25T21:17:50.921Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-25T21:07:50.921Z"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence:restaurant:tablecheck-entity-match:7270265e45883ba37e2f19ca",
+            "kind": "ENTITY_MATCH",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "sourceEntityId": "fixture",
+            "sourceUrl": "https://www.tablecheck.com/en/fixture?date=2026-10-30&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+            "observedAt": "2026-10-25T21:07:50.921Z",
+            "requestFingerprint": "7cc40f2a81056fd172caa932cb1f480c04d430d0e424d51ebc5a7671d0af140a",
+            "claims": {
+              "outletName": "Fixture restaurant"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "EXACT_PHONE"
+              ]
+            }
+          },
+          {
+            "evidenceId": "evidence:restaurant:tablecheck-availability:260521ba2b942a197fc15dae",
+            "kind": "AVAILABILITY",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "sourceEntityId": "fixture",
+            "sourceUrl": "https://www.tablecheck.com/en/fixture?date=2026-10-30&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+            "observedAt": "2026-10-25T21:07:50.921Z",
+            "displayExpiresAt": "2026-10-25T21:17:50.921Z",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+            "requestFingerprint": "e5a9283bac5e534ef9c634cb59d0f09d63cfdd10c202fbdb0c602fdb9c322b7c",
+            "claims": {
+              "date": "2026-10-30",
+              "partySize": 2,
+              "visibleSlots": [
+                "19:00"
+              ],
+              "inventoryStatus": "AVAILABLE",
+              "receptionMode": "RESERVATION_SUPPORTED"
+            },
+            "entityMatch": {
+              "confidence": "HIGH",
+              "matchedBy": [
+                "EXACT_PHONE"
+              ]
+            },
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "sha256:b942d4a3b3a187e36094c48c056fb3c76aee84ddb97ca37198f56944e5e88900"
+            }
+          }
+        ],
+        "availabilityChecks": {
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1": {
+            "status": "AVAILABLE",
+            "receptionMode": "RESERVATION_SUPPORTED",
+            "checkedAt": "2026-10-25T21:07:50.921Z",
+            "evidenceIds": [
+              "evidence:restaurant:tablecheck-entity-match:7270265e45883ba37e2f19ca",
+              "evidence:restaurant:tablecheck-availability:260521ba2b942a197fc15dae"
+            ],
+            "displayExpiresAt": "2026-10-25T21:17:50.921Z",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+            "timeWindowCoverage": {
+              "date": "2026-10-30",
+              "partySize": 2,
+              "requestedWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "covered": [
+                {
+                  "earliest": "19:00",
+                  "latest": "19:00",
+                  "status": "AVAILABLE"
+                }
+              ],
+              "uncovered": [],
+              "stopReason": "RESULT_FOUND"
+            },
+            "sourceAttempts": [
+              {
+                "source": "TABLECHECK",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "sourceProvider": "TABLECHECK"
+          }
+        },
+        "metadata": {
+          "provider": "TABLECHECK",
+          "route": "GENERIC_BROWSER",
+          "latencyMs": 1330,
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "providerAttempts": [
+            {
+              "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+              "provider": "TABLECHECK",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "browser": {
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "engine": "CHROMIUM",
+            "sessionId": "local:934982d2-cc09-4dd5-a54f-c399127cf860",
+            "startedAt": "2026-10-25T21:07:49.727Z",
+            "readNetworkBoundary": "INSTALLED"
+          }
+        }
+      },
+      "occurredAt": "2026-10-25T21:07:50.940Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:interruption-fixture:1792962469569",
+        "correlationId": "event:restaurant-agent:2",
+        "actor": "ADAPTER"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:3",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "event": {
+        "type": "RESULTS_PRESENTED",
+        "candidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:7270265e45883ba37e2f19ca",
+          "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+          "evidence:restaurant:tablecheck-availability:260521ba2b942a197fc15dae",
+          "evidence:restaurant:google-entity:dfb02bf0195ca58e202df8e5",
+          "evidence:restaurant:google-facts:b2f55284a0a9f7b1c7910c34"
+        ]
+      },
+      "occurredAt": "2026-10-25T21:07:50.941Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:interruption-fixture:1792962469569",
+        "correlationId": "event:restaurant-agent:3",
+        "actor": "SYSTEM"
+      }
+    }
+  ],
+  "trajectories": [
+    {
+      "id": "trajectory:hybrid-live:interruption-fixture:1792962469569:1",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "stepNumber": 1,
+      "occurredAt": "2026-10-25T21:07:49.585Z",
+      "stateVersionBefore": 2,
+      "stateHashBefore": "9771ec2c07e109a3be36bdb5b9b9ba4191f33e37675711d7bff8278bdcd1523b",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:1"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-25T21:07:49.584Z",
+        "phase": "UNDERSTANDING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurants"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-25T21:07:49.569Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "2026-10-30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 pm",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "area": {
+            "query": "nearby",
+            "radiusMeters": 1000,
+            "coordinates": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "observedAt": "2026-10-25T21:07:49.583Z",
+              "source": "EVALUATION"
+            }
+          }
+        },
+        "missingBlockingFields": [],
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [],
+        "searchAvailability": {
+          "available": true
+        },
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": [],
+          "reason": "No actual source investigation is recorded"
+        },
+        "legalActions": {
+          "search": true,
+          "investigateCandidateFacts": [],
+          "checkAvailability": [],
+          "presentResults": [],
+          "endRead": false
+        }
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS"
+      },
+      "decisionSummary": "synthetic boundary action",
+      "modelAttempt": {
+        "invocationId": "search",
+        "provider": "FIXTURE",
+        "model": "external-boundary-stub",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "STRUCTURED_ADAPTER",
+      "executionMetadata": {
+        "provider": "GOOGLE_PLACES",
+        "route": "STRUCTURED_ADAPTER",
+        "latencyMs": 3,
+        "googleRequests": {
+          "limit": 100,
+          "total": 1,
+          "namedPlaceResolution": 0,
+          "discovery": 1,
+          "placeDetails": 0,
+          "reverseAddressObservation": 0
+        },
+        "googleGeoDiagnostics": {
+          "providerMode": "GOOGLE_NEARBY_SEARCH",
+          "requestMode": "LOCATION_RESTRICTION_CIRCLE",
+          "exactRadiusGate": "ENFORCED",
+          "center": {
+            "latitude": 35.6697,
+            "longitude": 139.767
+          },
+          "radiusMeters": 1000,
+          "areaMatchBasis": "TASK_LOCATION_RADIUS",
+          "candidates": [
+            {
+              "sourcePlaceId": "fixture",
+              "sourceCoordinates": {
+                "latitude": 35.6697,
+                "longitude": 139.767
+              },
+              "distanceMeters": 0,
+              "accepted": true,
+              "reasonCode": "ACCEPTED"
+            }
+          ]
+        }
+      },
+      "observation": {
+        "type": "DISCOVERY",
+        "detail": "1 candidates discovered; 1 newly accepted",
+        "candidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ],
+        "newCandidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+          "evidence:restaurant:google-entity:dfb02bf0195ca58e202df8e5",
+          "evidence:restaurant:google-facts:b2f55284a0a9f7b1c7910c34"
+        ]
+      },
+      "stateVersionAfter": 3,
+      "stateHashAfter": "fd65fab12c12ea02cba26c83f5efaebb8da80db7ccb54d059d195c7b4927030a",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:hybrid-live:interruption-fixture:1792962469569:2",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "stepNumber": 2,
+      "occurredAt": "2026-10-25T21:07:49.591Z",
+      "stateVersionBefore": 3,
+      "stateHashBefore": "fd65fab12c12ea02cba26c83f5efaebb8da80db7ccb54d059d195c7b4927030a",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:2"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-25T21:07:49.590Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurants"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-25T21:07:49.569Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "2026-10-30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 pm",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "area": {
+            "query": "nearby",
+            "radiusMeters": 1000,
+            "coordinates": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "observedAt": "2026-10-25T21:07:49.583Z",
+              "source": "EVALUATION"
+            }
+          }
+        },
+        "intent": {
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurants"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "nearby",
+            "radiusMeters": 1000,
+            "coordinates": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "observedAt": "2026-10-25T21:07:49.583Z",
+              "source": "EVALUATION"
+            }
+          },
+          "criteria": []
+        },
+        "missingBlockingFields": [],
+        "candidates": [
+          {
+            "id": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "outletName": "Fixture restaurant",
+            "address": "1-1 Ginza, Chuo City, Tokyo",
+            "distanceObservation": {
+              "meters": 0,
+              "centerBasis": "TASK_LOCATION_RADIUS",
+              "source": "GOOGLE_PLACES"
+            },
+            "sourceCategories": [
+              {
+                "source": "GOOGLE_PLACES",
+                "values": [
+                  "restaurant"
+                ]
+              }
+            ],
+            "availabilityPath": "DIRECT_SOURCE_PAGE",
+            "matchReasons": [
+              "Address explicitly matches requested area: nearby"
+            ],
+            "warnings": [],
+            "executionConfidence": "LOW",
+            "observedFacts": {
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": [],
+              "openingHoursMatch": false,
+              "commercialNotes": []
+            },
+            "sourceAttempts": []
+          }
+        ],
+        "availability": {},
+        "availabilityChecks": {},
+        "presentation": [
+          {
+            "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "eligible": false,
+            "missingReason": "Candidate praxis:restaurant:f16d05ec6b29248d2c61adb1 lacks fresh evidenced availability for the authoritative request"
+          }
+        ],
+        "searchAvailability": {
+          "available": false,
+          "reason": "DISCOVERY_PLAN_EXHAUSTED"
+        },
+        "checkableCandidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ],
+        "factInvestigableCandidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ],
+        "readCompletion": {
+          "allowed": true,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [
+            "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+          ]
+        },
+        "legalActions": {
+          "search": false,
+          "investigateCandidateFacts": [
+            "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+          ],
+          "checkAvailability": [
+            "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+          ],
+          "presentResults": [],
+          "endRead": true
+        }
+      },
+      "agentAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ]
+      },
+      "decisionSummary": "synthetic boundary action",
+      "modelAttempt": {
+        "invocationId": "availability",
+        "provider": "FIXTURE",
+        "model": "external-boundary-stub",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "GENERIC_BROWSER",
+      "executionMetadata": {
+        "provider": "TABLECHECK",
+        "route": "GENERIC_BROWSER",
+        "latencyMs": 1330,
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+        "providerAttempts": [
+          {
+            "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "provider": "TABLECHECK",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "browser": {
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "engine": "CHROMIUM",
+          "sessionId": "local:934982d2-cc09-4dd5-a54f-c399127cf860",
+          "startedAt": "2026-10-25T21:07:49.727Z",
+          "readNetworkBoundary": "INSTALLED"
+        }
+      },
+      "observation": {
+        "type": "AVAILABILITY",
+        "detail": "1 offers observed",
+        "candidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:7270265e45883ba37e2f19ca",
+          "evidence:restaurant:tablecheck-availability:260521ba2b942a197fc15dae"
+        ]
+      },
+      "stateVersionAfter": 4,
+      "stateHashAfter": "2e984ba5860862e62911ca245e7a1aef5c707f831d8a8b77b03bf1c0729433f2",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:hybrid-live:interruption-fixture:1792962469569:3",
+      "taskId": "hybrid-live:interruption-fixture:1792962469569",
+      "stepNumber": 3,
+      "occurredAt": "2026-10-25T21:07:50.941Z",
+      "stateVersionBefore": 4,
+      "stateHashBefore": "2e984ba5860862e62911ca245e7a1aef5c707f831d8a8b77b03bf1c0729433f2",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:3"
+        ],
+        "commandIds": [],
+        "attemptIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "15",
+      "decisionContext": {
+        "schemaVersion": "15",
+        "now": "2026-10-25T21:07:50.940Z",
+        "phase": "SEARCHING",
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurants"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-25T21:07:49.569Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "2026-10-30",
+              "resolvedDate": "2026-10-30",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 pm",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          },
+          "partySize": 2,
+          "area": {
+            "query": "nearby",
+            "radiusMeters": 1000,
+            "coordinates": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "observedAt": "2026-10-25T21:07:49.583Z",
+              "source": "EVALUATION"
+            }
+          }
+        },
+        "intent": {
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurants"
+          },
+          "date": "2026-10-30",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "nearby",
+            "radiusMeters": 1000,
+            "coordinates": {
+              "latitude": 35.6697,
+              "longitude": 139.767,
+              "observedAt": "2026-10-25T21:07:49.583Z",
+              "source": "EVALUATION"
+            }
+          },
+          "criteria": []
+        },
+        "missingBlockingFields": [],
+        "candidates": [
+          {
+            "id": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "outletName": "Fixture restaurant",
+            "address": "1-1 Ginza, Chuo City, Tokyo",
+            "distanceObservation": {
+              "meters": 0,
+              "centerBasis": "TASK_LOCATION_RADIUS",
+              "source": "GOOGLE_PLACES"
+            },
+            "sourceCategories": [
+              {
+                "source": "GOOGLE_PLACES",
+                "values": [
+                  "restaurant"
+                ]
+              }
+            ],
+            "availabilityPath": "DIRECT_SOURCE_PAGE",
+            "matchReasons": [
+              "Address explicitly matches requested area: nearby"
+            ],
+            "warnings": [],
+            "executionConfidence": "LOW",
+            "observedFacts": {
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": [],
+              "openingHoursMatch": false,
+              "commercialNotes": []
+            },
+            "sourceAttempts": [
+              {
+                "source": "TABLECHECK",
+                "outcome": "AVAILABLE"
+              }
+            ]
+          }
+        ],
+        "availability": {
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1": [
+            {
+              "id": "offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2",
+              "dateTime": "2026-10-30T19:00:00+09:00",
+              "partySize": 2,
+              "bookingMode": "REQUEST",
+              "executionMode": "BROWSER",
+              "displayExpiresAt": "2026-10-25T21:17:50.921Z"
+            }
+          ]
+        },
+        "availabilityChecks": {
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1": {
+            "status": "AVAILABLE",
+            "receptionMode": "RESERVATION_SUPPORTED"
+          }
+        },
+        "presentation": [
+          {
+            "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "eligible": true
+          }
+        ],
+        "searchAvailability": {
+          "available": false,
+          "reason": "DISCOVERY_PLAN_EXHAUSTED"
+        },
+        "factInvestigableCandidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ],
+        "readCompletion": {
+          "allowed": false,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [],
+          "reason": "A grounded result is available and must not be ignored"
+        },
+        "legalActions": {
+          "search": false,
+          "investigateCandidateFacts": [
+            "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+          ],
+          "checkAvailability": [],
+          "presentResults": [
+            "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+          ],
+          "endRead": false
+        }
+      },
+      "agentAction": {
+        "type": "PRESENT_RESULTS",
+        "candidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ]
+      },
+      "decisionSummary": "synthetic boundary action",
+      "modelAttempt": {
+        "invocationId": "present",
+        "provider": "FIXTURE",
+        "model": "external-boundary-stub",
+        "purpose": "restaurant_agent_decide",
+        "promptVersion": "27",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 0
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "observation": {
+        "type": "RESULTS_PRESENTED",
+        "detail": "1 grounded restaurant result(s) presented"
+      },
+      "stateVersionAfter": 5,
+      "stateHashAfter": "2875169950a6d96ee37a3b530207cd5ff8644238b445e8809930de673daa308b",
+      "stepOutcome": "TERMINAL"
+    }
+  ],
+  "diagnostics": {
+    "tablecheckIdentity": [
+      {
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "candidate": {
+          "id": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "outletName": "Fixture restaurant",
+          "sourceIds": {
+            "googlePlaces": "fixture",
+            "phone": "03-1111-2222",
+            "googleWebsiteUri": "https://www.tablecheck.com/en/fixture"
+          },
+          "address": "1-1 Ginza, Chuo City, Tokyo",
+          "coordinates": {
+            "lat": 35.6697,
+            "lng": 139.767
+          },
+          "provenance": {
+            "outletName": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+            "address": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+            "sourceIds": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5"
+          }
+        },
+        "discovery": {
+          "requestedUrl": "https://www.tablecheck.com/en/fixture",
+          "finalUrl": "https://www.tablecheck.com/en/fixture",
+          "title": "",
+          "status": "RESULTS",
+          "discoveredOutletUrls": [
+            "https://www.tablecheck.com/en/fixture"
+          ]
+        },
+        "attemptedPages": [
+          {
+            "requestedUrl": "https://www.tablecheck.com/en/fixture",
+            "finalUrl": "https://www.tablecheck.com/en/fixture",
+            "title": "",
+            "botChallenge": false,
+            "extracted": {
+              "outletName": {
+                "value": "Fixture restaurant",
+                "normalizedValue": "fixturerestaurant",
+                "source": "DOM"
+              },
+              "address": {
+                "value": "1-1 Ginza, Chuo City, Tokyo",
+                "normalizedValue": "11ginzachuocitytokyo",
+                "source": "DOM"
+              },
+              "phone": {
+                "value": "03-1111-2222",
+                "normalizedValue": "0311112222",
+                "source": "TEL_LINK"
+              }
+            },
+            "comparison": {
+              "outletName": "MATCH",
+              "address": "MATCH",
+              "phone": "MATCH"
+            },
+            "reservation": {
+              "kind": "EMBEDDED_AVAILABILITY",
+              "url": "https://www.tablecheck.com/en/fixture"
+            }
+          }
+        ],
+        "resolution": {
+          "confidence": "HIGH",
+          "matchedBy": [
+            "EXACT_PHONE"
+          ],
+          "reason": "HIGH_EXACT_PHONE"
+        }
+      }
+    ],
+    "tabelogIdentity": [],
+    "tabelogUserInterventions": [],
+    "browserExecution": [
+      {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "CANDIDATE_STARTED",
+        "detail": "CANDIDATE_SCOPE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_STARTED",
+        "detail": "PROVIDER_SCOPE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 2,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "SESSION_OPENING",
+        "detail": "OPEN_SESSION",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 2,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "SESSION_OPENED",
+        "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 137,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 136,
+          "providerElapsedMs": 135,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_STARTED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 137,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 136,
+          "providerElapsedMs": 135,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 151,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 150,
+          "providerElapsedMs": 149,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "ASYNC_WAIT",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "settlement": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "pendingByType": {},
+          "oldestPendingMs": 0,
+          "blockingDataRequests": 0,
+          "busySelectors": [],
+          "visibleTextChanging": false
+        },
+        "detail": "PAGE_SETTLED",
+        "waitMs": 309,
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 460,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 459,
+          "providerElapsedMs": 458,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 460,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 459,
+          "providerElapsedMs": 458,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 524,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 523,
+          "providerElapsedMs": 522,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OBSERVED",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 524,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 523,
+          "providerElapsedMs": 522,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 2,
+          "providerRuntimeOperations": 2,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_STARTED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 526,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 525,
+          "providerElapsedMs": 524,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 531,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 530,
+          "providerElapsedMs": 529,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "ASYNC_WAIT",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "settlement": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "pendingByType": {},
+          "oldestPendingMs": 0,
+          "blockingDataRequests": 0,
+          "busySelectors": [],
+          "visibleTextChanging": false
+        },
+        "detail": "PAGE_SETTLED",
+        "waitMs": 305,
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 836,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 835,
+          "providerElapsedMs": 834,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 3,
+          "providerRuntimeOperations": 3,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 836,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 835,
+          "providerElapsedMs": 834,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 891,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 890,
+          "providerElapsedMs": 889,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OBSERVED",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 891,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 890,
+          "providerElapsedMs": 889,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 4,
+          "providerRuntimeOperations": 4,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 893,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 892,
+          "providerElapsedMs": 891,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 5,
+          "providerRuntimeOperations": 5,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 923,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 922,
+          "providerElapsedMs": 921,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 5,
+          "providerRuntimeOperations": 5,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "IDENTITY",
+        "event": "OBSERVED",
+        "url": "https://www.tablecheck.com/en/fixture",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 923,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 922,
+          "providerElapsedMs": 921,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 5,
+          "providerRuntimeOperations": 5,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_STARTED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 924,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 923,
+          "providerElapsedMs": 922,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 6,
+          "providerRuntimeOperations": 6,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 929,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 928,
+          "providerElapsedMs": 927,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 6,
+          "providerRuntimeOperations": 6,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "ASYNC_WAIT",
+        "url": "https://www.tablecheck.com/en/fixture?date=2026-10-30&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+        "settlement": {
+          "url": "https://www.tablecheck.com/en/fixture?date=2026-10-30&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+          "pendingByType": {},
+          "oldestPendingMs": 0,
+          "blockingDataRequests": 0,
+          "busySelectors": [],
+          "visibleTextChanging": false
+        },
+        "detail": "PAGE_SETTLED",
+        "waitMs": 304,
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1233,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1232,
+          "providerElapsedMs": 1231,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 6,
+          "providerRuntimeOperations": 6,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1234,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1233,
+          "providerElapsedMs": 1232,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 7,
+          "providerRuntimeOperations": 7,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1276,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1275,
+          "providerElapsedMs": 1274,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 7,
+          "providerRuntimeOperations": 7,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OBSERVED",
+        "url": "https://www.tablecheck.com/en/fixture?date=2026-10-30&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1276,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1275,
+          "providerElapsedMs": 1274,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 7,
+          "providerRuntimeOperations": 7,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_STARTED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1276,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1275,
+          "providerElapsedMs": 1274,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 8,
+          "providerRuntimeOperations": 8,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "SNAPSHOT",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1307,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1306,
+          "providerElapsedMs": 1305,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 8,
+          "providerRuntimeOperations": 8,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OBSERVED",
+        "url": "https://www.tablecheck.com/en/fixture?date=2026-10-30&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1307,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1306,
+          "providerElapsedMs": 1305,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 8,
+          "providerRuntimeOperations": 8,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_STARTED",
+        "detail": "OBSERVE_CONTROLS",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1307,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 1306,
+          "providerElapsedMs": 1305,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 9,
+          "providerRuntimeOperations": 9,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_FINISHED",
+        "detail": "OBSERVE_CONTROLS",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1327,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1326,
+          "providerElapsedMs": 1325,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 9,
+          "providerRuntimeOperations": 9,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_FINISHED",
+        "detail": "PROVIDER_SCOPE",
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1329,
+          "providerElapsedMs": 1328,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 9,
+          "providerRuntimeOperations": 9,
+          "runModelCalls": 0,
+          "reason": "ADAPTER_RETURNED"
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1330
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "CLOSED",
+        "detail": "SESSION_RETIRED",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1330,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1329,
+          "providerElapsedMs": 1328,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 9,
+          "providerRuntimeOperations": 9,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "TABLECHECK",
+        "stage": "DISCOVERY",
+        "event": "CANDIDATE_FINISHED",
+        "detail": "CANDIDATE_SCOPE",
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 1329,
+          "providerElapsedMs": 1328,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 9,
+          "providerRuntimeOperations": 9,
+          "runModelCalls": 0,
+          "reason": "EXECUTOR_CLOSED"
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+        "elapsedMs": 1330
+      }
+    ],
+    "browserTrace": [
+      {
+        "sequence": 1,
+        "at": "2026-10-25T21:07:49.592Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "DISCOVERY",
+          "event": "CANDIDATE_STARTED",
+          "detail": "CANDIDATE_SCOPE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 2,
+        "at": "2026-10-25T21:07:49.593Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "DISCOVERY",
+          "event": "PROVIDER_STARTED",
+          "detail": "PROVIDER_SCOPE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 2,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 3,
+        "at": "2026-10-25T21:07:49.593Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "DISCOVERY",
+          "event": "SESSION_OPENING",
+          "detail": "OPEN_SESSION",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 2,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 4,
+        "at": "2026-10-25T21:07:49.727Z",
+        "kind": "SESSION_OPENED",
+        "detail": {
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "engine": "CHROMIUM",
+          "sessionId": "[REDACTED]",
+          "startedAt": "2026-10-25T21:07:49.727Z",
+          "readNetworkBoundary": "INSTALLED"
+        }
+      },
+      {
+        "sequence": 5,
+        "at": "2026-10-25T21:07:49.728Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "DISCOVERY",
+          "event": "SESSION_OPENED",
+          "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 137,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 136,
+            "providerElapsedMs": 135,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 6,
+        "at": "2026-10-25T21:07:49.728Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OPERATION_STARTED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 137,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 136,
+            "providerElapsedMs": 135,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 7,
+        "at": "2026-10-25T21:07:49.728Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "navigate",
+          "args": [
+            "https://www.tablecheck.com/en/fixture",
+            {
+              "timeoutMs": 20000,
+              "waitUntil": "domcontentloaded"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 8,
+        "at": "2026-10-25T21:07:49.742Z",
+        "kind": "SESSION_RETURN",
+        "detail": {
+          "method": "navigate"
+        }
+      },
+      {
+        "sequence": 9,
+        "at": "2026-10-25T21:07:49.742Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OPERATION_FINISHED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 151,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 150,
+            "providerElapsedMs": 149,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 10,
+        "at": "2026-10-25T21:07:49.743Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "waitForSettled",
+          "args": [
+            {
+              "url": "",
+              "title": "",
+              "text": {
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "length": 0
+              },
+              "html": {
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "length": 0,
+                "observedStateTags": []
+              }
+            },
+            700
+          ]
+        }
+      },
+      {
+        "sequence": 11,
+        "at": "2026-10-25T21:07:50.050Z",
+        "kind": "SESSION_RETURN",
+        "detail": {
+          "method": "waitForSettled",
+          "result": true
+        }
+      },
+      {
+        "sequence": 12,
+        "at": "2026-10-25T21:07:50.051Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "ASYNC_WAIT",
+          "url": "https://www.tablecheck.com/en/fixture",
+          "settlement": {
+            "url": "https://www.tablecheck.com/en/fixture",
+            "pendingByType": {},
+            "oldestPendingMs": 0,
+            "blockingDataRequests": 0,
+            "busySelectors": [],
+            "visibleTextChanging": false
+          },
+          "detail": "PAGE_SETTLED",
+          "waitMs": 309,
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 460,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 459,
+            "providerElapsedMs": 458,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 13,
+        "at": "2026-10-25T21:07:50.051Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OPERATION_STARTED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 460,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 459,
+            "providerElapsedMs": 458,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 2,
+            "providerRuntimeOperations": 2,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 14,
+        "at": "2026-10-25T21:07:50.082Z",
+        "kind": "SNAPSHOT",
+        "detail": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "title": "",
+          "textSha256": "39521a1d60d5523ed5d925b722732895ed2a543ce8bc081331200761c7b76001",
+          "textLength": 60,
+          "pageId": "page:1",
+          "htmlSha256": "447fb29980beb1835a995714e03ab1c17d00c2d7327a314062326bb83de0fa6d",
+          "htmlLength": 346,
+          "observedStateTags": [
+            {
+              "tag": "DIV",
+              "data-selected-date": "2026-10-30",
+              "data-pax": "2"
+            }
+          ],
+          "queryRegions": [
+            {
+              "markup": "<div data-testid=\"Venue Availability\"><a data-reservation-source=\"/en/shops/fixture/reserve\" data-reservation-date=\"2026-10-30\" data-reservation-party=\"2\" data-reservation-time=\"19:00\">19:00</a></div>",
+              "truncated": false,
+              "ancestorMarkupHidden": false,
+              "computedVisibility": "UNKNOWN"
+            }
+          ],
+          "priceRegions": [],
+          "responses": [],
+          "networkRequests": [
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": []
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 15,
+        "at": "2026-10-25T21:07:50.115Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OPERATION_FINISHED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 524,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 523,
+            "providerElapsedMs": 522,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 2,
+            "providerRuntimeOperations": 2,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 16,
+        "at": "2026-10-25T21:07:50.115Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OBSERVED",
+          "url": "https://www.tablecheck.com/en/fixture",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 524,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 523,
+            "providerElapsedMs": 522,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 2,
+            "providerRuntimeOperations": 2,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 17,
+        "at": "2026-10-25T21:07:50.117Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OPERATION_STARTED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 526,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 525,
+            "providerElapsedMs": 524,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 18,
+        "at": "2026-10-25T21:07:50.117Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "navigate",
+          "args": [
+            "https://www.tablecheck.com/en/fixture",
+            {
+              "timeoutMs": 20000,
+              "waitUntil": "domcontentloaded"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 19,
+        "at": "2026-10-25T21:07:50.122Z",
+        "kind": "SESSION_RETURN",
+        "detail": {
+          "method": "navigate"
+        }
+      },
+      {
+        "sequence": 20,
+        "at": "2026-10-25T21:07:50.122Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OPERATION_FINISHED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 531,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 530,
+            "providerElapsedMs": 529,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 21,
+        "at": "2026-10-25T21:07:50.122Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "waitForSettled",
+          "args": [
+            {
+              "url": "",
+              "title": "",
+              "text": {
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "length": 0
+              },
+              "html": {
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "length": 0,
+                "observedStateTags": []
+              }
+            },
+            700
+          ]
+        }
+      },
+      {
+        "sequence": 22,
+        "at": "2026-10-25T21:07:50.426Z",
+        "kind": "SESSION_RETURN",
+        "detail": {
+          "method": "waitForSettled",
+          "result": true
+        }
+      },
+      {
+        "sequence": 23,
+        "at": "2026-10-25T21:07:50.427Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "ASYNC_WAIT",
+          "url": "https://www.tablecheck.com/en/fixture",
+          "settlement": {
+            "url": "https://www.tablecheck.com/en/fixture",
+            "pendingByType": {},
+            "oldestPendingMs": 0,
+            "blockingDataRequests": 0,
+            "busySelectors": [],
+            "visibleTextChanging": false
+          },
+          "detail": "PAGE_SETTLED",
+          "waitMs": 305,
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 836,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 835,
+            "providerElapsedMs": 834,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 3,
+            "providerRuntimeOperations": 3,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 24,
+        "at": "2026-10-25T21:07:50.427Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OPERATION_STARTED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 836,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 835,
+            "providerElapsedMs": 834,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 25,
+        "at": "2026-10-25T21:07:50.448Z",
+        "kind": "SNAPSHOT",
+        "detail": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "title": "",
+          "textSha256": "39521a1d60d5523ed5d925b722732895ed2a543ce8bc081331200761c7b76001",
+          "textLength": 60,
+          "pageId": "page:1",
+          "htmlSha256": "447fb29980beb1835a995714e03ab1c17d00c2d7327a314062326bb83de0fa6d",
+          "htmlLength": 346,
+          "observedStateTags": [
+            {
+              "tag": "DIV",
+              "data-selected-date": "2026-10-30",
+              "data-pax": "2"
+            }
+          ],
+          "queryRegions": [
+            {
+              "markup": "<div data-testid=\"Venue Availability\"><a data-reservation-source=\"/en/shops/fixture/reserve\" data-reservation-date=\"2026-10-30\" data-reservation-party=\"2\" data-reservation-time=\"19:00\">19:00</a></div>",
+              "truncated": false,
+              "ancestorMarkupHidden": false,
+              "computedVisibility": "UNKNOWN"
+            }
+          ],
+          "priceRegions": [],
+          "responses": [],
+          "networkRequests": [
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": []
+            },
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": []
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 26,
+        "at": "2026-10-25T21:07:50.482Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OPERATION_FINISHED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 891,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 890,
+            "providerElapsedMs": 889,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 27,
+        "at": "2026-10-25T21:07:50.482Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OBSERVED",
+          "url": "https://www.tablecheck.com/en/fixture",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 891,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 890,
+            "providerElapsedMs": 889,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 4,
+            "providerRuntimeOperations": 4,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 28,
+        "at": "2026-10-25T21:07:50.484Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OPERATION_STARTED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 893,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 892,
+            "providerElapsedMs": 891,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 5,
+            "providerRuntimeOperations": 5,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 29,
+        "at": "2026-10-25T21:07:50.486Z",
+        "kind": "SNAPSHOT",
+        "detail": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "title": "",
+          "textSha256": "39521a1d60d5523ed5d925b722732895ed2a543ce8bc081331200761c7b76001",
+          "textLength": 60,
+          "pageId": "page:1",
+          "htmlSha256": "447fb29980beb1835a995714e03ab1c17d00c2d7327a314062326bb83de0fa6d",
+          "htmlLength": 346,
+          "observedStateTags": [
+            {
+              "tag": "DIV",
+              "data-selected-date": "2026-10-30",
+              "data-pax": "2"
+            }
+          ],
+          "queryRegions": [
+            {
+              "markup": "<div data-testid=\"Venue Availability\"><a data-reservation-source=\"/en/shops/fixture/reserve\" data-reservation-date=\"2026-10-30\" data-reservation-party=\"2\" data-reservation-time=\"19:00\">19:00</a></div>",
+              "truncated": false,
+              "ancestorMarkupHidden": false,
+              "computedVisibility": "UNKNOWN"
+            }
+          ],
+          "priceRegions": [],
+          "responses": [],
+          "networkRequests": [
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": []
+            },
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": []
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 30,
+        "at": "2026-10-25T21:07:50.514Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OPERATION_FINISHED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 923,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 922,
+            "providerElapsedMs": 921,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 5,
+            "providerRuntimeOperations": 5,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 31,
+        "at": "2026-10-25T21:07:50.514Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "IDENTITY",
+          "event": "OBSERVED",
+          "url": "https://www.tablecheck.com/en/fixture",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 923,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 922,
+            "providerElapsedMs": 921,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 5,
+            "providerRuntimeOperations": 5,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 32,
+        "at": "2026-10-25T21:07:50.515Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "OPERATION_STARTED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 924,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 923,
+            "providerElapsedMs": 922,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 6,
+            "providerRuntimeOperations": 6,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 33,
+        "at": "2026-10-25T21:07:50.515Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "navigate",
+          "args": [
+            "https://www.tablecheck.com/en/fixture",
+            {
+              "timeoutMs": 20000,
+              "waitUntil": "domcontentloaded"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 34,
+        "at": "2026-10-25T21:07:50.520Z",
+        "kind": "SESSION_RETURN",
+        "detail": {
+          "method": "navigate"
+        }
+      },
+      {
+        "sequence": 35,
+        "at": "2026-10-25T21:07:50.520Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "OPERATION_FINISHED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 929,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 928,
+            "providerElapsedMs": 927,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 6,
+            "providerRuntimeOperations": 6,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 36,
+        "at": "2026-10-25T21:07:50.520Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "waitForSettled",
+          "args": [
+            {
+              "url": "",
+              "title": "",
+              "text": {
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "length": 0
+              },
+              "html": {
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "length": 0,
+                "observedStateTags": []
+              }
+            },
+            700
+          ]
+        }
+      },
+      {
+        "sequence": 37,
+        "at": "2026-10-25T21:07:50.824Z",
+        "kind": "SESSION_RETURN",
+        "detail": {
+          "method": "waitForSettled",
+          "result": true
+        }
+      },
+      {
+        "sequence": 38,
+        "at": "2026-10-25T21:07:50.824Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "ASYNC_WAIT",
+          "url": "https://www.tablecheck.com/en/fixture",
+          "settlement": {
+            "url": "https://www.tablecheck.com/en/fixture",
+            "pendingByType": {},
+            "oldestPendingMs": 0,
+            "blockingDataRequests": 0,
+            "busySelectors": [],
+            "visibleTextChanging": false
+          },
+          "detail": "PAGE_SETTLED",
+          "waitMs": 304,
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1233,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1232,
+            "providerElapsedMs": 1231,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 6,
+            "providerRuntimeOperations": 6,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 39,
+        "at": "2026-10-25T21:07:50.825Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "OPERATION_STARTED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1234,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1233,
+            "providerElapsedMs": 1232,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 7,
+            "providerRuntimeOperations": 7,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 40,
+        "at": "2026-10-25T21:07:50.845Z",
+        "kind": "SNAPSHOT",
+        "detail": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "title": "",
+          "textSha256": "39521a1d60d5523ed5d925b722732895ed2a543ce8bc081331200761c7b76001",
+          "textLength": 60,
+          "pageId": "page:1",
+          "htmlSha256": "447fb29980beb1835a995714e03ab1c17d00c2d7327a314062326bb83de0fa6d",
+          "htmlLength": 346,
+          "observedStateTags": [
+            {
+              "tag": "DIV",
+              "data-selected-date": "2026-10-30",
+              "data-pax": "2"
+            }
+          ],
+          "queryRegions": [
+            {
+              "markup": "<div data-testid=\"Venue Availability\"><a data-reservation-source=\"/en/shops/fixture/reserve\" data-reservation-date=\"2026-10-30\" data-reservation-party=\"2\" data-reservation-time=\"19:00\">19:00</a></div>",
+              "truncated": false,
+              "ancestorMarkupHidden": false,
+              "computedVisibility": "UNKNOWN"
+            }
+          ],
+          "priceRegions": [],
+          "responses": [],
+          "networkRequests": [
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": []
+            },
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": []
+            },
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": [
+                "availability_format",
+                "availability_mode",
+                "date",
+                "num_people",
+                "time"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 41,
+        "at": "2026-10-25T21:07:50.867Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "OPERATION_FINISHED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1276,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1275,
+            "providerElapsedMs": 1274,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 7,
+            "providerRuntimeOperations": 7,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 42,
+        "at": "2026-10-25T21:07:50.867Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "OBSERVED",
+          "url": "https://www.tablecheck.com/en/fixture",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1276,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1275,
+            "providerElapsedMs": 1274,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 7,
+            "providerRuntimeOperations": 7,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 43,
+        "at": "2026-10-25T21:07:50.867Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "OPERATION_STARTED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1276,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1275,
+            "providerElapsedMs": 1274,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 8,
+            "providerRuntimeOperations": 8,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 44,
+        "at": "2026-10-25T21:07:50.871Z",
+        "kind": "SNAPSHOT",
+        "detail": {
+          "url": "https://www.tablecheck.com/en/fixture",
+          "title": "",
+          "textSha256": "39521a1d60d5523ed5d925b722732895ed2a543ce8bc081331200761c7b76001",
+          "textLength": 60,
+          "pageId": "page:1",
+          "htmlSha256": "447fb29980beb1835a995714e03ab1c17d00c2d7327a314062326bb83de0fa6d",
+          "htmlLength": 346,
+          "observedStateTags": [
+            {
+              "tag": "DIV",
+              "data-selected-date": "2026-10-30",
+              "data-pax": "2"
+            }
+          ],
+          "queryRegions": [
+            {
+              "markup": "<div data-testid=\"Venue Availability\"><a data-reservation-source=\"/en/shops/fixture/reserve\" data-reservation-date=\"2026-10-30\" data-reservation-party=\"2\" data-reservation-time=\"19:00\">19:00</a></div>",
+              "truncated": false,
+              "ancestorMarkupHidden": false,
+              "computedVisibility": "UNKNOWN"
+            }
+          ],
+          "priceRegions": [],
+          "responses": [],
+          "networkRequests": [
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": []
+            },
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": []
+            },
+            {
+              "outcome": "ADMITTED",
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/fixture",
+              "method": "GET",
+              "resourceType": "document",
+              "queryKeys": [
+                "availability_format",
+                "availability_mode",
+                "date",
+                "num_people",
+                "time"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 45,
+        "at": "2026-10-25T21:07:50.898Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "OPERATION_FINISHED",
+          "detail": "SNAPSHOT",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1307,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1306,
+            "providerElapsedMs": 1305,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 8,
+            "providerRuntimeOperations": 8,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 46,
+        "at": "2026-10-25T21:07:50.898Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "OBSERVED",
+          "url": "https://www.tablecheck.com/en/fixture",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1307,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1306,
+            "providerElapsedMs": 1305,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 8,
+            "providerRuntimeOperations": 8,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 47,
+        "at": "2026-10-25T21:07:50.898Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "OPERATION_STARTED",
+          "detail": "OBSERVE_CONTROLS",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1307,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 1306,
+            "providerElapsedMs": 1305,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 9,
+            "providerRuntimeOperations": 9,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 48,
+        "at": "2026-10-25T21:07:50.918Z",
+        "kind": "CONTROLS",
+        "detail": {
+          "snapshotSequence": 44,
+          "url": "https://www.tablecheck.com/en/fixture",
+          "totalObserved": 2,
+          "scope": "ALL_OBSERVED_REDACTED",
+          "controls": [
+            {
+              "id": "dom:1:1",
+              "structure": {
+                "tag": "A",
+                "name": "",
+                "classes": [],
+                "dialogLabel": "",
+                "formClass": "",
+                "sliderCount": 0,
+                "listboxId": ""
+              },
+              "stableKey": "a[href],[role=link]|link||Phone||0",
+              "kind": "LINK",
+              "role": "link",
+              "label": "Phone",
+              "controlGroupLabel": "Unlabelled group",
+              "href": "tel:03-1111-2222",
+              "disabled": false,
+              "visible": true
+            },
+            {
+              "id": "dom:1:2",
+              "structure": {
+                "tag": "A",
+                "name": "",
+                "classes": [],
+                "dialogLabel": "",
+                "formClass": "",
+                "sliderCount": 0,
+                "listboxId": ""
+              },
+              "stableKey": "a[href],[role=link]|link||19:00||1",
+              "kind": "LINK",
+              "role": "link",
+              "label": "19:00",
+              "controlGroupLabel": "Unlabelled group",
+              "href": "https://www.tablecheck.com/en/shops/fixture/reserve",
+              "disabled": false,
+              "visible": true,
+              "reservationBinding": {
+                "source": "/en/shops/fixture/reserve",
+                "date": "2026-10-30",
+                "party": "2",
+                "time": "19:00"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 49,
+        "at": "2026-10-25T21:07:50.918Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "AVAILABILITY",
+          "event": "OPERATION_FINISHED",
+          "detail": "OBSERVE_CONTROLS",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1327,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1326,
+            "providerElapsedMs": 1325,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 9,
+            "providerRuntimeOperations": 9,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 50,
+        "at": "2026-10-25T21:07:50.921Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "DISCOVERY",
+          "event": "PROVIDER_FINISHED",
+          "detail": "PROVIDER_SCOPE",
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1329,
+            "providerElapsedMs": 1328,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 9,
+            "providerRuntimeOperations": 9,
+            "runModelCalls": 0,
+            "reason": "ADAPTER_RETURNED"
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1330
+        }
+      },
+      {
+        "sequence": 51,
+        "at": "2026-10-25T21:07:50.921Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "DISCOVERY",
+          "event": "CLOSED",
+          "detail": "SESSION_RETIRED",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1330,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1329,
+            "providerElapsedMs": 1328,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 9,
+            "providerRuntimeOperations": 9,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 52,
+        "at": "2026-10-25T21:07:50.921Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "TABLECHECK",
+          "stage": "DISCOVERY",
+          "event": "CANDIDATE_FINISHED",
+          "detail": "CANDIDATE_SCOPE",
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 1329,
+            "providerElapsedMs": 1328,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 9,
+            "providerRuntimeOperations": 9,
+            "runModelCalls": 0,
+            "reason": "EXECUTOR_CLOSED"
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "elapsedMs": 1330
+        }
+      }
+    ]
+  },
+  "finalSnapshot": {
+    "id": "hybrid-live:interruption-fixture:1792962469569",
+    "runId": "run:hybrid-live:interruption-fixture:1792962469569",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "19",
+    "lifecycleState": "WAITING_USER",
+    "domainState": {
+      "schemaVersion": "21",
+      "phase": "PRESENT_RESULTS",
+      "searchRevision": 1,
+      "investigationRevision": 1,
+      "intentDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "restaurants"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-25T21:07:49.569Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "2026-10-30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7 pm",
+            "resolvedTimeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "area": {
+          "query": "nearby",
+          "radiusMeters": 1000,
+          "coordinates": {
+            "latitude": 35.6697,
+            "longitude": 139.767,
+            "observedAt": "2026-10-25T21:07:49.583Z",
+            "source": "EVALUATION"
+          }
+        }
+      },
+      "candidates": [
+        {
+          "restaurant": {
+            "id": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "outletName": "Fixture restaurant",
+            "sourceIds": {
+              "googlePlaces": "fixture",
+              "phone": "03-1111-2222",
+              "googleWebsiteUri": "https://www.tablecheck.com/en/fixture"
+            },
+            "address": "1-1 Ginza, Chuo City, Tokyo",
+            "coordinates": {
+              "lat": 35.6697,
+              "lng": 139.767
+            },
+            "provenance": {
+              "outletName": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+              "address": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+              "sourceIds": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5"
+            }
+          },
+          "matchReasons": [
+            "Address explicitly matches requested area: nearby"
+          ],
+          "warnings": [],
+          "executionConfidence": "LOW"
+        }
+      ],
+      "availability": {
+        "praxis:restaurant:f16d05ec6b29248d2c61adb1": [
+          {
+            "id": "offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2",
+            "restaurantId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+            "source": "TABLECHECK",
+            "dateTime": "2026-10-30T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "partySize": 9,
+            "bookingMode": "REQUEST",
+            "executionMode": "BROWSER",
+            "checkedAt": "2026-10-25T21:07:50.921Z",
+            "displayExpiresAt": "2026-10-25T21:17:50.921Z",
+            "bookingRecheckRequired": true,
+            "expiresAt": "2026-10-25T21:07:50.921Z"
+          }
+        ]
+      },
+      "availabilityChecks": {
+        "praxis:restaurant:f16d05ec6b29248d2c61adb1": {
+          "status": "AVAILABLE",
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "checkedAt": "2026-10-25T21:07:50.921Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:7270265e45883ba37e2f19ca",
+            "evidence:restaurant:tablecheck-availability:260521ba2b942a197fc15dae"
+          ],
+          "displayExpiresAt": "2026-10-25T21:17:50.921Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "timeWindowCoverage": {
+            "date": "2026-10-30",
+            "partySize": 2,
+            "requestedWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "covered": [
+              {
+                "earliest": "19:00",
+                "latest": "19:00",
+                "status": "AVAILABLE"
+              }
+            ],
+            "uncovered": [],
+            "stopReason": "RESULT_FOUND"
+          },
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABLECHECK",
+          "requestFingerprint": "{\"date\":\"2026-10-30\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2}"
+        }
+      },
+      "factChecks": {},
+      "readEvidence": [
+        {
+          "evidenceId": "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+          "kind": "DISCOVERY",
+          "provider": "GOOGLE_PLACES",
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "sourceEntityId": "fixture",
+          "observedAt": "2026-10-25T21:07:49.589Z",
+          "requestFingerprint": "8206c281509c7c6d2bfda61faa96101358c7b6d69a3f3ef1a880becd673b3763",
+          "claims": {
+            "placeId": "fixture",
+            "outletName": "Fixture restaurant",
+            "address": "1-1 Ginza, Chuo City, Tokyo",
+            "types": [
+              "restaurant"
+            ],
+            "areaQuery": "nearby",
+            "areaMatch": true,
+            "areaMatchBasis": "TASK_LOCATION_RADIUS",
+            "evaluationLocationLabel": "nearby",
+            "distanceMeters": 0,
+            "availabilityPath": "DIRECT_SOURCE_PAGE"
+          }
+        },
+        {
+          "evidenceId": "evidence:restaurant:google-entity:dfb02bf0195ca58e202df8e5",
+          "kind": "ENTITY_MATCH",
+          "provider": "GOOGLE_PLACES",
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "sourceEntityId": "fixture",
+          "observedAt": "2026-10-25T21:07:49.589Z",
+          "requestFingerprint": "8206c281509c7c6d2bfda61faa96101358c7b6d69a3f3ef1a880becd673b3763",
+          "claims": {
+            "placeId": "fixture",
+            "outletName": "Fixture restaurant",
+            "address": "1-1 Ginza, Chuo City, Tokyo"
+          },
+          "entityMatch": {
+            "confidence": "HIGH",
+            "matchedBy": [
+              "GOOGLE_PLACE_ID"
+            ]
+          }
+        },
+        {
+          "evidenceId": "evidence:restaurant:google-facts:b2f55284a0a9f7b1c7910c34",
+          "kind": "RESTAURANT_FACT",
+          "provider": "GOOGLE_PLACES",
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "sourceEntityId": "fixture",
+          "observedAt": "2026-10-25T21:07:49.589Z",
+          "requestFingerprint": "8206c281509c7c6d2bfda61faa96101358c7b6d69a3f3ef1a880becd673b3763",
+          "claims": {
+            "restaurantTypeFacts": [
+              "restaurant"
+            ],
+            "websiteUri": "https://www.tablecheck.com/en/fixture"
+          }
+        },
+        {
+          "evidenceId": "evidence:restaurant:tablecheck-entity-match:7270265e45883ba37e2f19ca",
+          "kind": "ENTITY_MATCH",
+          "provider": "TABLECHECK",
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "sourceEntityId": "fixture",
+          "sourceUrl": "https://www.tablecheck.com/en/fixture?date=2026-10-30&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+          "observedAt": "2026-10-25T21:07:50.921Z",
+          "requestFingerprint": "7cc40f2a81056fd172caa932cb1f480c04d430d0e424d51ebc5a7671d0af140a",
+          "claims": {
+            "outletName": "Fixture restaurant"
+          },
+          "entityMatch": {
+            "confidence": "HIGH",
+            "matchedBy": [
+              "EXACT_PHONE"
+            ]
+          }
+        },
+        {
+          "evidenceId": "evidence:restaurant:tablecheck-availability:260521ba2b942a197fc15dae",
+          "kind": "AVAILABILITY",
+          "provider": "TABLECHECK",
+          "candidateId": "praxis:restaurant:f16d05ec6b29248d2c61adb1",
+          "sourceEntityId": "fixture",
+          "sourceUrl": "https://www.tablecheck.com/en/fixture?date=2026-10-30&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+          "observedAt": "2026-10-25T21:07:50.921Z",
+          "displayExpiresAt": "2026-10-25T21:17:50.921Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1",
+          "requestFingerprint": "e5a9283bac5e534ef9c634cb59d0f09d63cfdd10c202fbdb0c602fdb9c322b7c",
+          "claims": {
+            "date": "2026-10-30",
+            "partySize": 2,
+            "visibleSlots": [
+              "19:00"
+            ],
+            "inventoryStatus": "AVAILABLE",
+            "receptionMode": "RESERVATION_SUPPORTED"
+          },
+          "entityMatch": {
+            "confidence": "HIGH",
+            "matchedBy": [
+              "EXACT_PHONE"
+            ]
+          },
+          "artifactRef": {
+            "kind": "DOM_EXCERPT",
+            "reference": "sha256:b942d4a3b3a187e36094c48c056fb3c76aee84ddb97ca37198f56944e5e88900"
+          }
+        }
+      ],
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "restaurants"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "nearby",
+          "radiusMeters": 1000,
+          "coordinates": {
+            "latitude": 35.6697,
+            "longitude": 139.767,
+            "observedAt": "2026-10-25T21:07:49.583Z",
+            "source": "EVALUATION"
+          }
+        },
+        "criteria": []
+      },
+      "searchContinuation": {
+        "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"restaurants\"},\"date\":\"2026-10-30\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"nearby\",\"radiusMeters\":1000,\"coordinates\":{\"latitude\":35.6697,\"longitude\":139.767,\"observedAt\":\"2026-10-25T21:07:49.583Z\",\"source\":\"EVALUATION\"}},\"criteria\":[]}",
+        "usedPageTokens": [],
+        "pagesRead": 1,
+        "exhausted": true,
+        "locationContext": {
+          "latitude": 35.6697,
+          "longitude": 139.767,
+          "radiusMeters": 1000,
+          "label": "nearby",
+          "areaMatchBasis": "TASK_LOCATION_RADIUS"
+        },
+        "sourceRequestContext": {
+          "textQuery": "nearby:restaurant"
+        },
+        "structuredRetrieval": {
+          "accepted": true,
+          "reason": "General retrieval: no positive criteria."
+        }
+      },
+      "presentedResults": {
+        "candidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ],
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:7270265e45883ba37e2f19ca",
+          "evidence:restaurant:google-discovery:dfb02bf0195ca58e202df8e5",
+          "evidence:restaurant:tablecheck-availability:260521ba2b942a197fc15dae",
+          "evidence:restaurant:google-entity:dfb02bf0195ca58e202df8e5",
+          "evidence:restaurant:google-facts:b2f55284a0a9f7b1c7910c34"
+        ],
+        "presentedAt": "2026-10-25T21:07:50.941Z",
+        "conditionStates": {
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1": []
+        }
+      },
+      "selectionSession": {
+        "deliveredCandidateIds": [
+          "praxis:restaurant:f16d05ec6b29248d2c61adb1"
+        ],
+        "viewedCandidateIds": [],
+        "shortlistCandidateIds": []
+      }
+    },
+    "outcome": null,
+    "version": 5,
+    "createdAt": "2026-10-25T21:07:49.571Z",
+    "updatedAt": "2026-10-25T21:07:50.941Z"
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 1,
+    "candidatesChecked": 1,
+    "agentDecisions": 3,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 4,
+    "browserRuntimeCalls": 9,
+    "browserOperationsByCandidate": {
+      "praxis:restaurant:f16d05ec6b29248d2c61adb1": 9
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 918,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 1373
+  },
+  "searchState": {
+    "candidatesDiscovered": 1,
+    "candidatesInvestigated": 1,
+    "candidatesAvailabilityChecked": 1,
+    "remainingCandidateIds": [],
+    "remainingAvailabilityCandidateIds": [],
+    "continuationExhausted": true,
+    "nextPageTokenPresent": false
+  },
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 3
+  },
+  "resolvedEvalLocation": {
+    "label": "Public synthetic center",
+    "latitude": 35.6697,
+    "longitude": 139.767,
+    "radiusMeters": 1000,
+    "source": "FIXTURE"
+  },
+  "latencyMs": 1373,
+  "decisionCapture": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-WsQRoM/second/run-xwnLLI/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T21-07-49-570Z-c7bcf1d1-1984-4f8c-8c7f-0afd5e534e39.decisions.jsonl",
+    "sha256": "e736edd37678a504475172029da6cbb6ac0e0e2285c602156aafadfa7fbf9120",
+    "callsStarted": 4,
+    "rowsWritten": 4,
+    "errors": []
+  },
+  "browserRecording": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-WsQRoM/second/run-xwnLLI/.eval-artifacts/recordings/hybrid-1792962469569",
+    "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+    "replay": {
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "harPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-WsQRoM/second/run-xwnLLI/.eval-artifacts/recordings/hybrid-1792962469569/replay.har"
+    },
+    "pages": [
+      {
+        "snapshot": 1,
+        "url": "https://www.tablecheck.com/en/fixture",
+        "status": "REPLAYABLE",
+        "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+        "diagnostic": {
+          "status": "SAVED",
+          "file": "diagnostic/snapshot-0001.html"
+        }
+      },
+      {
+        "snapshot": 2,
+        "url": "https://www.tablecheck.com/en/fixture",
+        "status": "REPLAYABLE",
+        "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+        "diagnostic": {
+          "status": "SAVED",
+          "file": "diagnostic/snapshot-0002.html"
+        }
+      },
+      {
+        "snapshot": 3,
+        "url": "https://www.tablecheck.com/en/fixture",
+        "status": "REPLAYABLE",
+        "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+        "diagnostic": {
+          "status": "SAVED",
+          "file": "diagnostic/snapshot-0003.html"
+        }
+      },
+      {
+        "snapshot": 4,
+        "url": "https://www.tablecheck.com/en/fixture?date=2026-10-30&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+        "status": "REPLAYABLE",
+        "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+        "diagnostic": {
+          "status": "SAVED",
+          "file": "diagnostic/snapshot-0004.html"
+        }
+      },
+      {
+        "snapshot": 5,
+        "url": "https://www.tablecheck.com/en/fixture?date=2026-10-30&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+        "status": "REPLAYABLE",
+        "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+        "diagnostic": {
+          "status": "SAVED",
+          "file": "diagnostic/snapshot-0005.html"
+        }
+      }
+    ]
+  },
+  "stageTimings": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 1378,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:f16d05ec6b29248d2c61adb1:RESOLUTION",
+        "elapsedMs": 923,
+        "percent": 66.98113207547169
+      },
+      {
+        "stage": "AVAILABILITY:TABLECHECK:praxis:restaurant:f16d05ec6b29248d2c61adb1:REQUEST_AND_RESULT",
+        "elapsedMs": 406,
+        "percent": 29.46298984034833
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 24,
+        "percent": 1.741654571843251
+      },
+      {
+        "stage": "CHECK_AVAILABILITY",
+        "elapsedMs": 20,
+        "percent": 1.4513788098693758
+      },
+      {
+        "stage": "SEARCH_RESTAURANTS",
+        "elapsedMs": 5,
+        "percent": 0.36284470246734396
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 0,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 0,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 3,
+        "latencyMs": 0,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 4,
+        "latencyMs": 0,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  },
+  "status": "SUCCEEDED",
+  "stage": "AGENT_LOOP",
+  "failureCode": null,
+  "runId": "c7bcf1d1-1984-4f8c-8c7f-0afd5e534e39",
+  "startedAt": "2026-10-25T21:07:49.570Z",
+  "finishedAt": "2026-10-25T21:07:50.948Z"
+}

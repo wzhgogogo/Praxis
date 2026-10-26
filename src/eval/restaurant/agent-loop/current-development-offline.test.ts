@@ -178,7 +178,7 @@ class FixedCurrentCaseModel implements ModelGateway {
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.requests.push(request);
-    if(request.purpose==='restaurant_discovery_retrieval')return this.plan.retrievalChoice==='GENERAL'?modelResponse(JSON.stringify({choice:'GENERAL',keyword:'',criterionRef:'',categoryUrl:'',reason:'Controlled general source retrieval, not a quality oracle'}),'fixture-retrieval'):scriptedRetrieval(request)!;
+    if(request.purpose==='restaurant_discovery_retrieval')return this.plan.retrievalChoice==='GENERAL'?modelResponse(JSON.stringify({choice:'GENERAL',keyword:'',criterionRef:'',generalRef:JSON.parse(request.messages.find(m=>m.role==='user')!.content).observation?.generalLists[0]?.ref??'',categoryUrl:'',reason:'Controlled general source retrieval, not a quality oracle'}),'fixture-retrieval'):scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       assert.ok(request.messages.some((message) => message.content.includes(this.rawContent)), "semantic model must receive the exact frozen user message");
       return modelResponse(JSON.stringify({ schemaVersion: "4", facts: this.plan.facts }), `semantic:${this.plan.id}`);

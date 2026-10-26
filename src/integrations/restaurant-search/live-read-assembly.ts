@@ -1,6 +1,6 @@
 import {positiveDiscoveryCriteria} from "../../domains/restaurant/discovery-retrieval.js";
 import {ModelDiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
-import type {RestaurantSearchRequest} from "../../domains/restaurant/contracts.js";
+import {restaurantSearchIntentFingerprint, type RestaurantSearchRequest, type RestaurantSearchRead} from "../../domains/restaurant/contracts.js";
 import type { LiveReadInvestigationBudget } from "../../application/live-read-investigation-budget.js";
 import type { RestaurantAgentLoopOptions } from "../../application/restaurant-agent-loop.js";
 import type { RestaurantExecutionRouterOptions } from "../../application/restaurant-execution-router.js";
@@ -87,9 +87,12 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   const plannedSearch = packs?.length===1&&packs[0]&&!packs[0].browser?{
     executionRoute:google.executionRoute,
     googleRequestUsage:google.googleRequestUsage.bind(google),
-    async search(request:RestaurantSearchRequest,signal:AbortSignal){
+    async search(request:RestaurantSearchRequest,signal:AbortSignal):Promise<RestaurantSearchRead>{
       const locationName=request.intent.area.query.trim().toLowerCase()==='nearby'?'':request.intent.area.query;
       const selection=request.continuation?.structuredRetrieval??(positiveDiscoveryCriteria(request.intent).length?await retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName,attemptedRetrievals:[],rewrites:0,timeoutMs:config.maxStructuredReadMs}):{accepted:true,reason:'General retrieval: no positive criteria.'});
+      if (!selection.accepted) return {candidates:[],evidence:[],
+        continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:request.continuation?.usedPageTokens??[],pagesRead:request.continuation?.pagesRead??0,exhausted:true,structuredRetrieval:selection,lastFailureCode:'DISCOVERY_SOURCE_INCOMPLETE',...(request.continuation?.locationContext?{locationContext:request.continuation.locationContext}:{})},
+        metadata:{provider:'GOOGLE_PLACES',route:'STRUCTURED_ADAPTER',latencyMs:0,failureCode:'DISCOVERY_SOURCE_INCOMPLETE',googleRequests:google.googleRequestUsage(request.readRunId)}};
       const read=await google.search({...request,discoveryRetrieval:selection},signal);
       return {...read,...(read.continuation?{continuation:{...read.continuation,structuredRetrieval:selection}}:{})};
     },

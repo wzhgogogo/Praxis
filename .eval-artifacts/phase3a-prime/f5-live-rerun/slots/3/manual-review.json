@@ -1,0 +1,326 @@
+{
+  "kind": "INDEPENDENT_CODEX_FOUR_LAYER_REVIEW",
+  "artifactSha256": "8e33362db9cf95fd361fdd7ca20ff8a3fcd697b841ca079c9bafc78c1a9e1802",
+  "layers": {
+    "endToEnd": {
+      "status": "FAIL_TIMEOUT",
+      "elapsedMs": 500696,
+      "qualifiedDelivered": 0,
+      "plannedDenominator": 3,
+      "genericEvaluatorExclusionDoesNotRemovePlannedFailure": true
+    },
+    "steps": {
+      "correctionInSameSourceCall": true,
+      "regionCorrectionInputs": 1,
+      "SELECT_REGION_ENTRANCE": 1,
+      "regions": [
+        {
+          "first": {
+            "url": "https://tabelog.com/en/tokyo/A1322/",
+            "observedOn": "https://tabelog.com/en/tokyo/",
+            "targetRef": "observation:2:target:25",
+            "label": "Itabashi & Along Tobu Railway Line"
+          },
+          "provisional": true,
+          "samples": [
+            {
+              "sourceEntityId": "en/tokyo/A1322/A132202/13155817",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.73236921866393,
+                "longitude": 139.70486078494415
+              },
+              "bearingDegrees": 197.2384868672463,
+              "direction": "S",
+              "distanceMeters": 5547.116372577523
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1322/A132203/13168736",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132203/13168736/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.74923654865233,
+                "longitude": 139.7020477451165
+              },
+              "bearingDegrees": 209.02296324520773,
+              "direction": "SW",
+              "distanceMeters": 3911.367533853191
+            }
+          ],
+          "replacement": {
+            "url": "https://tabelog.com/en/tokyo/A1322/A132201/",
+            "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+            "targetRef": "observation:3:target:17",
+            "label": "Kita-Ikebukuro & Itabashi St. Area"
+          },
+          "replacementSamples": [
+            {
+              "sourceEntityId": "en/tokyo/A1322/A132201/13239336",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132201/13239336/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.743881718663964,
+                "longitude": 139.72791609504424
+              },
+              "bearingDegrees": 173.75714712172146,
+              "direction": "S",
+              "distanceMeters": 4040.596729355775
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1322/A132201/13157173",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132201/13157173/",
+              "outcome": "OUTSIDE_RADIUS",
+              "coordinates": {
+                "latitude": 35.74402060866418,
+                "longitude": 139.72887624504497
+              },
+              "bearingDegrees": 172.50884214455414,
+              "direction": "S",
+              "distanceMeters": 4035.6090277497333
+            }
+          ],
+          "stopReason": "REPLACEMENT_SAMPLES_OUTSIDE_RADIUS"
+        }
+      ],
+      "denganaNativeCandidateIds": [],
+      "witnessFunnel": [
+        {
+          "outletName": "Kushi Katsu Dengana Akabane ten",
+          "sourceId": "13108466",
+          "discovery": {
+            "status": "FOUND",
+            "candidateIds": [
+              "praxis:restaurant:07b0ba0daee00150d6d202e1"
+            ],
+            "possibleCandidateIds": [],
+            "basis": "Cross-source name AND address; no phone or production eligibility oracle"
+          },
+          "identity": {
+            "status": "OBSERVED",
+            "evidenceIds": [
+              "evidence:restaurant:google-entity:9fbd0f71644df5cada738f10"
+            ]
+          },
+          "facts": {
+            "status": "NOT_READ",
+            "evidenceIds": []
+          },
+          "availability": {
+            "recorded": [
+              {
+                "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+                "status": "UNKNOWN",
+                "reasonCode": "BROWSER_TIMEOUT"
+              }
+            ],
+            "witness": "AVAILABLE",
+            "observedAt": "2026-10-25T09:36:37.438893+01:00",
+            "reason": "Raw recheck binds the request; reported inventory is not inferred from system check labels."
+          },
+          "presented": "NO",
+          "feasible": "SUPPORTED",
+          "blocker": {
+            "stage": "FACTS",
+            "certainty": "HYPOTHESIS",
+            "reason": "Candidate bottleneck at FACTS; recorded identity/fact acceptance is not an independent correctness score or causal confirmation"
+          },
+          "evidenceRefs": [
+            ".eval-artifacts/phase3a-prime/f5-live-rerun/witness-manifest.json#sha256=1a80ba623d6b4d98bd08620c6732c28d5838b5d67c0de897620805cbf433f8e4",
+            ".eval-artifacts/phase3a-prime/f5-live-rerun/witness-registry.json#sha256=3037d373867b2ec87a056eb36bf8869de0908371277c422ca27c665da55d5bce",
+            ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/02-13108466-vacancy.body#sha256=3ef35ab7324aa6412573cc4b565d8fad6dda6ad01d8c20c754a68d2ec5c84976",
+            ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/vacancy.normalized.json#sha256=25c7cd82707952b8c862090dfd863c678e6a8afd447bf3870efc770330c01f7a"
+          ]
+        }
+      ],
+      "timeoutAction": {
+        "lastRootDecisionLine": 39,
+        "action": {
+          "type": "CHECK_AVAILABILITY",
+          "question": "",
+          "relatedFields": [],
+          "retrievalHint": "",
+          "candidateIds": [
+            "praxis:restaurant:22cd98fb641bd813a35745af",
+            "praxis:restaurant:eeef0764e717b448bb9ff78b",
+            "praxis:restaurant:599e0d36c008523886c7af6c"
+          ],
+          "candidateId": "",
+          "offerId": "",
+          "decisionSummary": "No eligible candidates yet; prior fact/availability paths on TableCheck and Tabelog were unproductive. Proceeding with bounded availability reads on unchecked nearby Akabane izakaya candidates to obtain request-bound slots plus source facts."
+        },
+        "persisted": false,
+        "responseAt": "2026-10-25T09:24:22.991Z",
+        "remainingRunMsAtActionStart": 26596,
+        "elapsedUntilArtifactEndMs": 27292,
+        "remainingAtCutoffMs": 0,
+        "lastTrace": [
+          {
+            "sequence": 1485,
+            "at": "2026-10-25T09:24:49.149Z",
+            "kind": "SESSION_RETURN",
+            "detail": {
+              "method": "navigate"
+            }
+          },
+          {
+            "sequence": 1486,
+            "at": "2026-10-25T09:24:49.149Z",
+            "kind": "EXECUTOR_DIAGNOSTIC",
+            "detail": {
+              "source": "TABLECHECK",
+              "stage": "DISCOVERY",
+              "event": "OPERATION_FINISHED",
+              "detail": "NAVIGATE",
+              "effectiveLimits": {
+                "maxAutomaticElapsedMs": 500000,
+                "maxModelCallsPerCandidate": 20,
+                "maxModelCallsTotal": 120,
+                "maxOperationsPerCandidate": 80
+              },
+              "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+              "elapsedMs": 2173,
+              "lifecycle": {
+                "outcome": "FINISHED",
+                "candidateElapsedMs": 2173,
+                "providerElapsedMs": 2173,
+                "candidateModelCalls": 0,
+                "providerModelCalls": 0,
+                "candidateRuntimeOperations": 1,
+                "providerRuntimeOperations": 1,
+                "runModelCalls": 24
+              }
+            }
+          },
+          {
+            "sequence": 1487,
+            "at": "2026-10-25T09:24:49.149Z",
+            "kind": "SESSION_CALL",
+            "detail": {
+              "method": "waitForSettled",
+              "args": [
+                {
+                  "url": "",
+                  "title": "",
+                  "text": {
+                    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "length": 0
+                  },
+                  "html": {
+                    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "length": 0,
+                    "observedStateTags": []
+                  }
+                },
+                700
+              ]
+            }
+          },
+          {
+            "sequence": 1488,
+            "at": "2026-10-25T09:24:49.588Z",
+            "kind": "EXECUTOR_DIAGNOSTIC",
+            "detail": {
+              "source": "TABLECHECK",
+              "stage": "DISCOVERY",
+              "event": "CLOSED",
+              "detail": "SESSION_RETIRED",
+              "effectiveLimits": {
+                "maxAutomaticElapsedMs": 500000,
+                "maxModelCallsPerCandidate": 20,
+                "maxModelCallsTotal": 120,
+                "maxOperationsPerCandidate": 80
+              },
+              "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+              "elapsedMs": 2612,
+              "lifecycle": {
+                "outcome": "FINISHED",
+                "candidateElapsedMs": 2612,
+                "providerElapsedMs": 2612,
+                "candidateModelCalls": 0,
+                "providerModelCalls": 0,
+                "candidateRuntimeOperations": 1,
+                "providerRuntimeOperations": 1,
+                "runModelCalls": 24
+              }
+            }
+          },
+          {
+            "sequence": 1489,
+            "at": "2026-10-25T09:24:49.588Z",
+            "kind": "EXECUTOR_DIAGNOSTIC",
+            "detail": {
+              "source": "TABLECHECK",
+              "stage": "DISCOVERY",
+              "event": "PROVIDER_FINISHED",
+              "detail": "PROVIDER_SCOPE",
+              "lifecycle": {
+                "outcome": "ABANDONED",
+                "candidateElapsedMs": 2612,
+                "providerElapsedMs": 2612,
+                "candidateModelCalls": 0,
+                "providerModelCalls": 0,
+                "candidateRuntimeOperations": 1,
+                "providerRuntimeOperations": 1,
+                "runModelCalls": 24,
+                "reason": "PARENT_ABORTED"
+              },
+              "effectiveLimits": {
+                "maxAutomaticElapsedMs": 500000,
+                "maxModelCallsPerCandidate": 20,
+                "maxModelCallsTotal": 120,
+                "maxOperationsPerCandidate": 80
+              },
+              "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+              "elapsedMs": 2612
+            }
+          },
+          {
+            "sequence": 1490,
+            "at": "2026-10-25T09:24:49.588Z",
+            "kind": "EXECUTOR_DIAGNOSTIC",
+            "detail": {
+              "source": "TABLECHECK",
+              "stage": "DISCOVERY",
+              "event": "CANDIDATE_FINISHED",
+              "detail": "CANDIDATE_SCOPE",
+              "lifecycle": {
+                "outcome": "ABANDONED",
+                "candidateElapsedMs": 2612,
+                "providerElapsedMs": 2612,
+                "candidateModelCalls": 0,
+                "providerModelCalls": 0,
+                "candidateRuntimeOperations": 1,
+                "providerRuntimeOperations": 1,
+                "runModelCalls": 24,
+                "reason": "PARENT_ABORTED"
+              },
+              "effectiveLimits": {
+                "maxAutomaticElapsedMs": 500000,
+                "maxModelCallsPerCandidate": 20,
+                "maxModelCallsTotal": 120,
+                "maxOperationsPerCandidate": 80
+              },
+              "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+              "elapsedMs": 2612
+            }
+          }
+        ]
+      }
+    },
+    "severity": {
+      "S0_DECLARATION": "ABSENT",
+      "S0_BOUNDARY": "ABSENT",
+      "S2": "PRESENT",
+      "postDeliveryGET": 0
+    },
+    "attribution": {
+      "confirmed": "Correction executed within the first Tabelog invocation. Its valid replacement sample remained outside; source budget exhausted. Task timeout occurred in a later availability action.",
+      "hypothesis": "Entry selection plus downstream candidate-read latency prevents feasible delivery; no counterfactual speed claim."
+    }
+  },
+  "captureGaps": [
+    "DECISION_SNAPSHOT_MISMATCH warnings retained; frozen auto station audit is not used as absence proof."
+  ],
+  "timeMeasurementCaution": "Use supplementary paired-only partition for conservative reporting; keep frozen metrics unchanged."
+}

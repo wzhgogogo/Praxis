@@ -1,0 +1,7 @@
+{
+  "key": "PHASE3A-PRIME-REPLAY-PORTABILITY",
+  "item": "stop3-replay-portability-20261025",
+  "text": "停止点3补充完成：回放Harness按平台使用macOS sandbox-exec/Linux非特权unshare -rn，不可用明确失败、不skip或联网回退。Ubuntu22.04 ARM64 UID501先原4项ENOENT红、后4/4绿，缺工具控制与真实netns/curl7见证通过；macOS五门禁1037/154全绿，每项后净工作树。原四项断言SHA不变，真实调用0，临时VM已清理；按授权合main后停等复核。",
+  "development": "仅修回放子进程的OS隔离选择及错误诊断，macOS保留原策略，Linux用unshare -rn --，原30秒上限与4项断言不变。CI因既有PAT缺workflow权限未启动，转临时Lima/VZ Ubuntu22 ARM64，冻结源归档/脚本，禁宿主挂载与凭据转发，证据取回后清理VM与缓存。并发进入main的4份robots证据保留，实际基线7165f8a2；无产品/Schema/Prompt/Guard/站点改动。",
+  "verification": "Linux0c1f75d9原4项spawn sandbox-exec ENOENT红灯；c7210882修复后4/4/0skip，普通UID501真实unshare netns隔离父HTTP服务（200→curl7，0子请求），隐藏unshare明确失败。原断言SHA2f44c1aeecde529c09fb6bd131566f92af74e8299b248a582711e34f19bb6c76不变。b1573c5a macOS五门禁1037/154全绿，单次21.725409/94.521591秒，每项status空、恢复0，冻结SHA相同。真实调用0，Linux VM已清理；报告宿主CET，Guest原始墙钟偏移保留说明。"
+}

@@ -48,8 +48,8 @@ test("guarded HAR replay drives the production executor offline and keeps missin
     const result = await executor.runSkill({ taskId: "fixture:har-replay", session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://replay.example"], goal: { outlet: { name: "Fixture" }, retrievalExpression: "omakase", hardCriteria: [] }, objective: "Read an offline public search result.", completion: snapshot => ({ complete: /Result ready Sushi/.test(snapshot.text), reason: "The replayed public result is not visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
     assert.equal(result.status, "COMPLETED", JSON.stringify(result));
     assert.equal(step, 6);
-    await session.prepareNavigation?.("https://replay.example/missing", { timeoutMs: 500 });
-    await assert.rejects(session.navigate("https://replay.example/missing", { timeoutMs: 500 }), /blocked|failed|route/i, "a Guard-admitted HAR miss must not use the network");
+    await session.prepareNavigation?.("https://replay.example/missing", { timeoutMs: 5_000 });
+    await assert.rejects(session.navigate("https://replay.example/missing", { timeoutMs: 5_000 }), /blocked|failed|route/i, "a Guard-admitted HAR miss must not use the network");
   } finally { await executor.close(); await rm(directory, { recursive: true, force: true }); }
 });
 

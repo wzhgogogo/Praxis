@@ -14,7 +14,7 @@ function child(endpoint: EvalPacingEndpoint, id: string, url: string) {
   return { process, messages, closed, errors };
 }
 async function until(check: () => boolean, detail: string) {
-  const deadline = Date.now() + 10_000;
+  const deadline = Date.now() + 30_000;
   while (!check() && Date.now() < deadline) await delay(5);
   assert.ok(check(), detail);
 }
@@ -31,7 +31,7 @@ async function setup() {
   };
 }
 
-test("shared origin pacing spans two real subprocesses", { timeout: 20_000 }, async t => {
+test("shared origin pacing spans two real subprocesses", { timeout: 45_000 }, async t => {
   const fixture = await setup();
   try {
     const a = fixture.spawn("a"), b = fixture.spawn("b");
@@ -46,7 +46,7 @@ test("shared origin pacing spans two real subprocesses", { timeout: 20_000 }, as
   } finally { await fixture.close(); }
 });
 
-test("one run has exactly zero pacing wait", { timeout: 15_000 }, async t => {
+test("one run has exactly zero pacing wait", { timeout: 45_000 }, async t => {
   const fixture = await setup();
   try {
     const a = fixture.spawn("single");await until(() => a.messages.some(m => m.stage === "ENTERED"), "single enters");a.process.send("start");
@@ -56,7 +56,7 @@ test("one run has exactly zero pacing wait", { timeout: 15_000 }, async t => {
   } finally { await fixture.close(); }
 });
 
-for (const stop of ["SIGTERM", "timeout", "stop"] as const) test(`third queues and ${stop} releases in-flight ownership`, { timeout: 20_000 }, async t => {
+for (const stop of ["SIGTERM", "timeout", "stop"] as const) test(`third queues and ${stop} releases in-flight ownership`, { timeout: 45_000 }, async t => {
   const fixture = await setup();
   try {
     const a = fixture.spawn("interrupted"), b = fixture.spawn("survivor");

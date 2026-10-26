@@ -18,7 +18,7 @@ import { completeRestaurantSearchIntent } from "../domains/restaurant/intent-sta
 import { fixtureCandidates, fixtureIntent } from "./restaurant-fixtures.js";
 
 const state: RestaurantTaskState = {
-  schemaVersion: "20",
+  schemaVersion: "22",
   phase: "UNDERSTANDING",
   intentDraft: { ...fixtureIntent, schemaVersion: "3" },
   candidates: [],

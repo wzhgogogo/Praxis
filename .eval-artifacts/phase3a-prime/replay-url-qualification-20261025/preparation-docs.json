@@ -1,0 +1,8 @@
+{
+  "date": "2026-10-25",
+  "key": "PHASE3A-PRIME-REPLAY-URL-RED-PREP",
+  "item": "replay-url-qualification-20261025",
+  "text": "健康4秒已合main70db9152，独立回放URL修复准备：原HAR有rstLst到tokyo的301，最终页面合格；当前loader过滤原HTML重定向并拒绝初始URL。最小真实Chromium/Guard正例、缺hop/环/不合格终点控制和F5槽1原输入先提交取红灯。诊断DOM不参与，0真实调用。",
+  "development": "从新main70db9152创建独立回放修复分支。仅准备所属行为测试和ORIGINAL系统断网脚本，loader尚未修。原录制逐字核对，仅提取HAR、清单及19个合格文档；原39条模型决策重放，不补造页面。原HTML空白和字节保留，diff检查只排除该原始inputs目录。",
+  "verification": "新测试typecheck通过，目标红灯待运行：真实Chromium须沿已有301抵达合格最终snapshot；缺hop、循环、不合格终点不得提升资格。F5槽1要求至少消费前两个原合格snapshot，余部仍INCOMPLETE。先冻结输入/脚本SHA；后续完整五门禁按已登记E1例外如实保留原始失败。"
+}

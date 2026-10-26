@@ -1,0 +1,18 @@
+[
+  {
+    "id": "selected-adult-option-binding",
+    "testPath": "src/integrations/tablecheck/tablecheck-browser-availability.test.ts",
+    "pattern": "TableCheck reservation form binds",
+    "sourceMutations": [
+      {
+        "path": "src/integrations/tablecheck/tablecheck-page-parser.ts",
+        "replacements": [
+          [
+            "return selected.length === 1 && selected[0]!.value === String(partySize);",
+            "return selected.length === 1;"
+          ]
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,117 @@
+{
+  "kind": "SUPPLEMENTARY_OFFLINE_MEASUREMENT",
+  "artifactSha256": "2c60ab3a3c67baf42280ab9ac04032b482885fd97dacbf5e9acff45bc75206b8",
+  "method": "Pair actual EXECUTOR_DIAGNOSTIC OPERATION_STARTED with FINISHED/FAILED by source/candidate/stage/operation; model intervals override operation intervals. Timestamp partition, gaps explicit. Frozen analyzer output retained.",
+  "elapsedMs": 500338.0,
+  "wallTimePartitionMs": {
+    "UNATTRIBUTED": 76227.0,
+    "MODEL:restaurant_semantic_interpret": 3474.0,
+    "MODEL:restaurant_agent_decide": 31466.0,
+    "PAGE_LOAD": 164711.0,
+    "READ_PAGE": 30181.0,
+    "MODEL:restaurant_discovery_retrieval": 18551.0,
+    "WAIT": 48754.0,
+    "MODEL:browser_read_decide": 105034.0,
+    "PAGE_OPERATION": 5845.0,
+    "MODEL:restaurant_fact_judgment": 16095.0
+  },
+  "operationCounts": {
+    "NAVIGATE": 39,
+    "SNAPSHOT": 101,
+    "OBSERVE_CONTROLS": 71,
+    "WAIT_FOR_SETTLED": 29,
+    "OPEN_LINK": 2,
+    "VERIFY_RESULT_STABILITY": 7,
+    "CLICK": 11,
+    "DISMISS_TRANSIENT_OBSTRUCTION": 2
+  },
+  "readOperationNames": [
+    "OBSERVE_CONTROLS",
+    "SNAPSHOT"
+  ],
+  "modelCallsByPurpose": {
+    "restaurant_semantic_interpret": 1,
+    "restaurant_agent_decide": 9,
+    "restaurant_discovery_retrieval": 4,
+    "browser_read_decide": 23,
+    "restaurant_fact_judgment": 6
+  },
+  "modelPurposeLatencyMs": {
+    "restaurant_fact_judgment": 16095,
+    "browser_read_decide": 108129,
+    "restaurant_discovery_retrieval": 18551,
+    "restaurant_semantic_interpret": 3474,
+    "restaurant_agent_decide": 31466
+  },
+  "navigations": 42,
+  "repeatExactURLNavigations": 24,
+  "gaps": [
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 692
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 966
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 986
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 1192
+    },
+    {
+      "kind": "FINISH_WITHOUT_START",
+      "sequence": 1342
+    },
+    {
+      "kind": "START_WITHOUT_FINISH",
+      "sequence": 687,
+      "operation": "NAVIGATE"
+    },
+    {
+      "kind": "START_WITHOUT_FINISH",
+      "sequence": 963,
+      "operation": "CLICK"
+    },
+    {
+      "kind": "START_WITHOUT_FINISH",
+      "sequence": 983,
+      "operation": "CLICK"
+    },
+    {
+      "kind": "START_WITHOUT_FINISH",
+      "sequence": 1189,
+      "operation": "NAVIGATE"
+    },
+    {
+      "kind": "START_WITHOUT_FINISH",
+      "sequence": 1337,
+      "operation": "CLICK"
+    },
+    {
+      "kind": "START_WITHOUT_FINISH",
+      "sequence": 1406,
+      "operation": "NAVIGATE"
+    }
+  ],
+  "sessionOpeningTime": "Not separately measured here; included in UNATTRIBUTED with other non-operation time.",
+  "firstQualifiedAt": null,
+  "presentedAt": null,
+  "googleCaptureRejections": [
+    {
+      "sequence": 1512,
+      "kind": "GOOGLE_CAPTURE_REJECTED",
+      "detail": {
+        "reason": "KEY_PATTERN_BEFORE_WRITE",
+        "stage": "BEFORE_WRITE"
+      }
+    }
+  ],
+  "replayHarExists": false,
+  "credentialLiteralScan": {
+    "recordingJSON": "No matches for standard Google/model/AWS/Bearer/private-key literal patterns; no .env read for scan"
+  }
+}

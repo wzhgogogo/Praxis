@@ -1,0 +1,1075 @@
+{
+  "status": "timing inventory; needs per-mechanism disposition",
+  "scannedTestFiles": 113,
+  "tests": [
+    {
+      "file": "src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts",
+      "line": 948,
+      "name": "\"E1 outer post-run check captures each registered witness once for an actual zero-delivery run\"",
+      "mechanisms": [
+        "mock.method(globalThis"
+      ],
+      "injectedClock": false,
+      "timingLines": []
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts",
+      "line": 990,
+      "name": "\"E1 outer witness scope skips deliveries and unregistered cases, and blocks request/source drift\"",
+      "mechanisms": [
+        "mock.method(globalThis"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 1028,
+          "text": "loop: { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000,  status: \"TERMINAL\" }, resourceUsage: { elapsedMs: 100, agentDecisions: 3, browserModelCalls: 2 },"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts",
+      "line": 85,
+      "name": "\"a frozen business clock cannot freeze the real outer deadline or admit a late model result\"",
+      "mechanisms": [
+        "Date.now()",
+        "setTimeout"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 94,
+          "text": "const started = Date.now();"
+        },
+        {
+          "line": 98,
+          "text": "assert.ok(result.elapsedMs < 500, `deadline did not bound execution: ${result.elapsedMs}ms`);"
+        },
+        {
+          "line": 102,
+          "text": "await new Promise((resolve) => setTimeout(resolve, 0));"
+        },
+        {
+          "line": 104,
+          "text": "assert.ok(Date.now() - started < 500);"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/live-source-health.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 8,
+          "text": "import {setTimeout as delay} from 'node:timers/promises';"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/live-source-health.test.ts",
+      "line": 11,
+      "name": "'health deadline accepts the last completed ready snapshot when the final snapshot is 220ms late'",
+      "mechanisms": [
+        "performance.now()",
+        "await delay("
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 20,
+          "text": "let url='',started=performance.now();"
+        },
+        {
+          "line": 22,
+          "text": "navigate:async(target:string)=>{url=target;started=performance.now();input.recordResponse?.({url,status:200,resourceType:'document',method:'GET',body:new Uint8Array()});},"
+        },
+        {
+          "line": 24,
+          "text": "const elapsed=performance.now()-started,call={source:url,startedMs:elapsed} as typeof calls[number];calls.push(call);"
+        },
+        {
+          "line": 25,
+          "text": "if(url.includes('tabelog')&&elapsed>=800)await delay(220);"
+        },
+        {
+          "line": 26,
+          "text": "call.finishedMs=performance.now()-started;"
+        },
+        {
+          "line": 32,
+          "text": "const result=await runLiveSourceHealth({environment:{},artifactDirectory:directory},{runtime,sleep:async()=>{},timeoutMs:1000});"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/live-source-health.test.ts",
+      "line": 48,
+      "name": "'health deadline keeps its hard bound and never infers readiness without a completed ready snapshot'",
+      "mechanisms": [
+        "performance.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 56,
+          "text": "const start=performance.now();"
+        },
+        {
+          "line": 57,
+          "text": "await assert.rejects(runLiveSourceHealth({environment:{},artifactDirectory:directory},{runtime,timeoutMs:300,sleep:async()=>{}}),SourceDataPreflightError);"
+        },
+        {
+          "line": 58,
+          "text": "assert.ok(performance.now()-start<5000,'three fixture windows must terminate without extending the deadline');"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 187,
+          "text": "const startedAt = Date.now();"
+        },
+        {
+          "line": 282,
+          "text": "resourceUsage: { elapsedMs: Date.now() - startedAt, agentDecisions: model.purposes.filter((item) => item === \"restaurant_agent_decide\").length,"
+        },
+        {
+          "line": 301,
+          "text": "return { postAvailabilityDiscovery, callsBeforeDiscovery, networkRequests, semantic, loop, state: snapshot.domainState, navigations, sessionsOpened, navigationSessionIds, closedSessionIds, googleCalls, model, evaluation, trajectories: composition.trajectories.steps, elapsedMs: Date.now() - startedAt, artifact };"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "line": 394,
+      "name": "\"native source session acquisition consumes the remaining source window and retains an unstarted detail entrance\"",
+      "mechanisms": [
+        "mock.method(Date"
+      ],
+      "injectedClock": true,
+      "timingLines": []
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 22,
+      "name": "\"source-stage plan runner freezes a no-proxy plan without external or downstream execution\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 24,
+          "text": "const artifactDirectory = resolve(\".eval-artifacts\", `source-stage-plan-test-${Date.now()}-${Math.random().toString(16).slice(2)}`);"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 44,
+      "name": "\"source-stage outer failure keeps a started preflight measurable instead of writing zero external work\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 46,
+          "text": "const artifactDirectory = resolve(\".eval-artifacts\", `source-stage-preflight-ledger-test-${Date.now()}-${Math.random().toString(16).slice(2)}`);"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 107,
+      "name": "`source-stage execute rejects ${mode}${mode === \"REPLAY\" ? \" outside the REPLAY stage\" : \"\"} before preflight or downstream work and retains zero-attempt journal`",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 109,
+          "text": "const artifactDirectory = resolve(\".eval-artifacts\", `source-stage-mode-test-${mode}-${Date.now()}-${Math.random().toString(16).slice(2)}`);"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 125,
+      "name": "\"source-stage execute rejects LIVE_READ_ONLY paired with REPLAY before preflight or downstream work\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 127,
+          "text": "const artifactDirectory = resolve(\".eval-artifacts\", `source-stage-replay-mode-test-${Date.now()}-${Math.random().toString(16).slice(2)}`);"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 140,
+      "name": "\"source-stage offline Replay uses a frozen HAR contract and aborts without a frozen action trace or network fallback\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 142,
+          "text": "const artifactDirectory = resolve(\".eval-artifacts\", `source-stage-replay-test-${Date.now()}-${Math.random().toString(16).slice(2)}`);"
+        },
+        {
+          "line": 143,
+          "text": "const harPath = resolve(\".eval-artifacts\", `source-stage-replay-fixture-${Date.now()}-${Math.random().toString(16).slice(2)}.har`);"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 169,
+      "name": "\"source-stage Replay rejects a changed frozen location context before any browser or model work\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 171,
+          "text": "const artifactDirectory = resolve(\".eval-artifacts\", `source-stage-replay-location-test-${Date.now()}-${Math.random().toString(16).slice(2)}`);"
+        },
+        {
+          "line": 172,
+          "text": "const harPath = resolve(\".eval-artifacts\", `source-stage-replay-location-${Date.now()}-${Math.random().toString(16).slice(2)}.har`);"
+        },
+        {
+          "line": 173,
+          "text": "const tracePath = resolve(\".eval-artifacts\", `source-stage-replay-location-${Date.now()}-${Math.random().toString(16).slice(2)}.trace.json`);"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 211,
+      "name": "\"source-stage named-location label must match the frozen sample input before preflight\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 213,
+          "text": "const artifactDirectory = resolve(\".eval-artifacts\", `source-stage-label-test-${Date.now()}-${Math.random().toString(16).slice(2)}`);"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 229,
+      "name": "\"source-stage named-location rejects an ambiguous frozen label before preflight\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 231,
+          "text": "const artifactDirectory = resolve(\".eval-artifacts\", `source-stage-ambiguous-label-test-${Date.now()}-${Math.random().toString(16).slice(2)}`);"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 249,
+      "name": "\"source-stage named-location rejects a sample with no frozen label before preflight\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 251,
+          "text": "const artifactDirectory = resolve(\".eval-artifacts\", `source-stage-missing-label-test-${Date.now()}-${Math.random().toString(16).slice(2)}`);"
+        }
+      ]
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts",
+      "line": 266,
+      "name": "\"source-stage named-location rejects an invalid frozen radius before preflight\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 268,
+          "text": "const artifactDirectory = resolve(\".eval-artifacts\", `source-stage-invalid-radius-test-${Date.now()}-${Math.random().toString(16).slice(2)}`);"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-discovery.test.ts",
+      "line": 27,
+      "name": "'P21 discovery uses DOM category links despite CSS and rejects foreign regions'",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 44,
+          "text": "const dynamic=(html:string)=>'<title>Fixture results</title><div class=\"skeleton\" aria-busy=\"true\">Loading results</div><script>setTimeout(()=>{document.body.innerHTML='+JSON.stringify(html)+'},120)</script>';"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-page-controls.test.ts",
+      "line": 10,
+      "name": "\"real browser waits for the requested page update instead of reporting stale slots\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 13,
+          "text": "<script>setTimeout(() => { const panel = document.getElementById('availability'); panel.dataset.selectedDate='2026-09-07'; panel.innerHTML='<button class=\"time-slot\" data-available=\"true\" data-time=\"20:00\">20:00</button>'; panel.dataset.ready='true'; }, 250);</script>`);"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-request-binding.test.ts",
+      "line": 54,
+      "name": "`${runtimeKind} settles delayed visible query state`",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 58,
+          "text": "document.querySelector('#trigger').onclick=()=>window.setTimeout(()=>document.querySelector('#noise').textContent='Unrelated page message',20);"
+        },
+        {
+          "line": 59,
+          "text": "document.querySelector('#apply').onclick=()=>window.setTimeout(()=>{"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-request-binding.test.ts",
+      "line": 83,
+      "name": "`${runtimeKind} settles hidden and property-only control mutations without treating either as inventory`",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 87,
+          "text": "window.setTimeout(()=>{document.querySelector('#analytics').value='after';document.querySelector('#hidden-style').value='after'},20);"
+        },
+        {
+          "line": 88,
+          "text": "document.querySelector('#apply').onclick=()=>window.setTimeout(()=>{document.querySelector('#consent').checked=true},20);"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-stability.test.ts",
+      "line": 13,
+      "name": "\"C3 settles delayed date results before asking the model and never completes from stale loading stock\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 19,
+          "text": "${timeout ? \"\" : \"setTimeout(()=>{result.innerHTML='<fieldset><legend>Guests</legend><button id=guests>Guests 10</button></fieldset>';document.querySelector('#guests').onclick=()=>{document.querySelector('#guests').setAttribute('aria-pressed','true');result.insertAdjacentHTML('beforeend','<p>CURRENT_AVAILABLE</p>')};},650);\"}}"
+        },
+        {
+          "line": 24,
+          "text": "const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxModelCallsPerCandidate:4,maxOperationsPerCandidate:40,maxElapsedMsPerCandidate:20_000,modelDecision:{async decide(value){calls++;if(calls===1)return {type:\"CLICK_AUTHORITATIVE\",field:\"DATE\",targetRef:value.observation.targets.find(x=>x.label==='Date 2026-10-23')!.ref,reason:\"Select requested date\"};pendingHint=value.progress.includes('still loading');const guests=value.observation.targets.find(x=>x.label==='Guests 10');return guests?{type:\"CLICK_AUTHORITATIVE\",field:\"PARTY_SIZE\",targetRef:guests.ref,reason:\"Select requested party\"}:{type:\"REQUEST_HUMAN_HELP\",reason:\"Loading has not settled\"};}}});"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-stability.test.ts",
+      "line": 36,
+      "name": "\"C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton\"",
+      "mechanisms": [
+        "setInterval"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 39,
+          "text": "let n=0;setInterval(()=>{${mode === \"text\" ? \"result.textContent+=' batch '+(++n);\" : \"carousel.setAttribute('data-frame',String(++n));\"}},150);"
+        },
+        {
+          "line": 42,
+          "text": "const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 20_000, onDiagnostic: d => diagnostics.push(d), modelDecision: { async decide() { return { type: \"REQUEST_HUMAN_HELP\", reason: \"Pending Fixture must not complete\" }; } } });"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-stability.test.ts",
+      "line": 81,
+      "name": "\"C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending\"",
+      "mechanisms": [
+        "setInterval"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 84,
+          "text": "const runtime=localFixture(`<title>Result fixture</title><section id=\"result\">Venue A${mode==='skeleton'?'<div class=\"skeleton\">Loading</div>':''}</section><aside id=\"suggestions\">Suggestion 0</aside>${mode==='unrelated-skeleton'?'<div class=\"image skeleton\">Loading</div>':''}<script>let n=0;setInterval(()=>{suggestions.textContent='Suggestion '+(++n);${mode==='append'?\"result.textContent+=' Venue '+n;\":''}},120)</script>`);"
+        },
+        {
+          "line": 85,
+          "text": "const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:20_000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(){return {type:\"REQUEST_HUMAN_HELP\",reason:\"Incomplete current result\"};}}});"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-stability.test.ts",
+      "line": 98,
+      "name": "\"C3b Chromium ignores an outstanding image once data has completed\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 111,
+          "text": "const started=Date.now();"
+        },
+        {
+          "line": 114,
+          "text": "assert.equal(snapshot.settlement,'SETTLED');assert.ok(Date.now()-started<5000);"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-stability.test.ts",
+      "line": 122,
+      "name": "'model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget'",
+      "mechanisms": [
+        "mock.method(Date",
+        "setTimeout",
+        "Date.now()"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 127,
+          "text": "const delays=new Set<ReturnType<typeof setTimeout>>();"
+        },
+        {
+          "line": 131,
+          "text": "const timer=setTimeout(()=>{delays.delete(timer);response.end('<title>Destination</title><h1>Loaded destination</h1>');},6500);delays.add(timer);response.on('close',()=>{clearTimeout(timer);delays.delete(timer);});"
+        },
+        {
+          "line": 139,
+          "text": "opened.openLink=async(target,href,options)=>{navigationBudgets.push(options?.timeoutMs??-1);return openLink(target,href,options);};return opened;"
+        },
+        {
+          "line": 141,
+          "text": "const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:30_000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){calls++;if(mode==='budget')clock=25_000;return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.label==='Public result')!.ref,reason:'Read observed public page'};}}});"
+        },
+        {
+          "line": 144,
+          "text": "await executor.navigate({source:'FIXTURE',stage:'DISCOVERY',session,signal,allowedOrigins:[origin],url:origin+'/start'});const started=Date.now();"
+        },
+        {
+          "line": 147,
+          "text": "if(mode==='slow'){const read=await reading;assert.equal(read.status,'COMPLETED');assert.ok(Date.now()-started>=6000);assert.equal(read.snapshot.url,origin+'/next');}"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "line": 108,
+      "name": "\"real Chromium recovers a Tabelog busy page once and still grounds the exact request\"",
+      "mechanisms": [
+        "performance.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 120,
+          "text": "if (key === \"navigate\") return async (...args: Parameters<typeof session.navigate>) => { arrivals.push({url:args[0],at:performance.now()}); if (arrivals.length === 2) pages[sourceUrl] = good; return target.navigate(...args); };"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "line": 136,
+      "name": "\"Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 146,
+          "text": "<script>setTimeout(async()=>{document.querySelector('.p-booking-calendar').outerHTML=await(await fetch('/fixture-calendar')).text()},150)</script>`;"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "line": 193,
+      "name": "`${runtimeKind} selects Tabelog paragraph dates and labelled guests without treating time options as slots`",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 206,
+          "text": "setTimeout(()=>document.querySelector('.p-booking-calendar').style.display='block',150);"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "line": 7,
+      "name": "\"TableCheck waits for its guide result and grounds exact-query empty availability\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 14,
+          "text": "const html = '<h1>Restaurant 1</h1><a href=\"tel:03-1111-2222\">Phone</a><div data-testid=\"Venue Availability\"><form><button type=\"button\" data-testid=\"day\" data-date=\"2026-9-16\" aria-selected=\"true\" data-state=\"disabled\">16</button><div data-testid=\"Venue Pax Select\" id=\"pax-2\"></div><div data-testid=\"Venue Time Select\" id=\"time-19:00\"></div><span class=\"skeleton\"></span></form></div><script>setTimeout(()=>{document.querySelector(\".skeleton\").outerHTML=\\'<span data-testid=\"Venue Unavailable Msg\">We could not find a table on Sep 16th for the selected mealtime</span>\\'},200)</script>';"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "line": 30,
+      "name": "\"real Chromium TableCheck source observation completes inside the current 45s provider window\"",
+      "mechanisms": [
+        "setTimeout",
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 39,
+          "text": "const delayedPage = `<h1>Restaurant 1</h1><a href=\"tel:03-1111-2222\">Phone</a><div data-testid=\"Venue Availability\"><form><input name=\"reservation[start_date]\" value=\"2026-09-16\"><select name=\"reservation[num_people_adult]\"><option value=\"2\" selected>2</option></select></form><span class=\"skeleton\"></span><div id=\"result\"></div></div><script>setTimeout(()=>{document.querySelector('.skeleton').remove();const link=document.createElement('a');link.href='${resultLink}';link.textContent='19:00';document.querySelector('#result').append(link)},100)</script>`;"
+        },
+        {
+          "line": 57,
+          "text": "let timer: ReturnType<typeof setTimeout> | undefined;"
+        },
+        {
+          "line": 71,
+          "text": "timer = setTimeout(() => {"
+        },
+        {
+          "line": 87,
+          "text": "const run = async (providerBudgetMs: number) => {"
+        },
+        {
+          "line": 89,
+          "text": "const startedAt = Date.now();"
+        },
+        {
+          "line": 94,
+          "text": "})), {maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 60_000, maxElapsedMsPerProvider: providerBudgetMs, maxAutomaticElapsedMs: 60_000,"
+        },
+        {
+          "line": 99,
+          "text": "return { result, elapsedMs: Date.now() - startedAt, diagnostics };"
+        },
+        {
+          "line": 106,
+          "text": "assert.ok(extendedWindow.elapsedMs >= 30_000, `the extended provider window must retain the delayed source observation, elapsed ${extendedWindow.elapsedMs}ms`);"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "line": 140,
+      "name": "\"TableCheck form waits past old inventory until a current same-outlet slot link appears\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 150,
+          "text": "const formHtml = `<h1>Restaurant 1</h1><form><input name=\"reservation[start_date]\" value=\"2026-09-16\"><select name=\"reservation[num_people_adult]\"><option value=\"2\" selected>2</option></select></form><section data-availability-state=\"complete\" data-date=\"2026-09-15\" data-pax=\"4\"><button class=\"time-slot is-available\" data-time=\"19:00\">19:00</button></section><div id=\"fresh\"></div><script>setTimeout(()=>{const a=document.createElement('a');a.href='${link}';a.textContent='19:00';document.getElementById('fresh').appendChild(a)},200)</script>`;"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-workspace.test.ts",
+      "line": 6,
+      "name": "\"Web refresh replaces commercial terms and cites the displayed fact source\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 18,
+          "text": "restaurant: { intentDraft: { target: { goal: \"AVAILABILITY\" } }, missingRequiredFields: [], candidates: [{ restaurant: { id: \"a\", outletName: \"Cafe A\", address: \"Tokyo\" } }, { restaurant: { id: \"b\", outletName: \"Discovery only\", address: \"Tokyo\" } }], presentedCandidateIds: [\"a\"], availability: { a: [{ dateTime: \"2026-09-18T19:00:00+09:00\", source: \"TABLECHECK\", displayExpiresAt: new Date(Date.now() + (refreshed ? 600000 : -600000)).toISOString() }] }, availabilityChecks: { a: { status: \"AVAILABLE\", checkedAt: new Date(Date.now() - 600000).toISOString(), displayExpiresAt: new Date(Date.now() + (refreshed ? 600000 : -600000)).toISOString() } }, readEvidence: [old, current], currentFactEvidence: refreshed ? [current, discoveryOnly] : [old, discoveryOnly], conditionStates: { a: ["
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/browser-read-workspace.test.ts",
+      "line": 61,
+      "name": "\"workspace New case survives a late initial case-list response\"",
+      "mechanisms": [
+        "waitForTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": []
+    },
+    {
+      "file": "src/harness/browser/live-source-health.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 11,
+          "text": "import {setTimeout as delay} from 'node:timers/promises';"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/live-source-health.test.ts",
+      "line": 13,
+      "name": "'Live source health uses real Guard and observes a busy error arriving after visible results; 403/challenge never start a Live'",
+      "mechanisms": [
+        "setTimeout",
+        "performance.now()",
+        "await delay("
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 20,
+          "text": "res.end('<h1>Search</h1><a href=\"https://www.tablecheck.com/en/fixture-venue\">Fixture venue</a>'+(mode==='busy-after-results'?'<script>setTimeout(()=>document.body.append(\"Search is unavailable right now. Please try again.\"),300)</script>':''));return;"
+        },
+        {
+          "line": 29,
+          "text": "const started=performance.now();"
+        },
+        {
+          "line": 38,
+          "text": "if(mode==='slow-last-snapshot'&&sourceUrl.includes('tabelog')&&performance.now()-started>=800){delayedSnapshots++;await delay(220);}"
+        },
+        {
+          "line": 49,
+          "text": "const work=async()=>{await runLiveSourceHealth({environment:{},artifactDirectory:dir},{runtime,timeoutMs:mode==='slow-last-snapshot'?1000:4_000,sleep:async ms=>{waits.push(ms);}});formalRuns++;};"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/pacing-static-resources.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 5,
+          "text": "import { setTimeout as delay } from \"node:timers/promises\";"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/pacing-static-resources.test.ts",
+      "line": 9,
+      "name": "\"two Chromium runs count20 static resources each but pace only documents\"",
+      "mechanisms": [
+        "Date.now()",
+        "setTimeout",
+        "await delay("
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 12,
+          "text": "hits.push({path:request.url!,at:Date.now()});"
+        },
+        {
+          "line": 17,
+          "text": "setTimeout(()=>response.end(`<link rel=\"icon\" href=\"data:,\">${assets}<h1>Public fixture</h1>`),100);"
+        },
+        {
+          "line": 27,
+          "text": "const until=async(check:()=>boolean,reason:string)=>{const deadline=Date.now()+30_000;while(!check()&&Date.now()<deadline)await delay(5);assert.ok(check(),reason+JSON.stringify(children.map(c=>({messages:c.messages,error:Buffer.concat(c.errors).toString()}))));};"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 52,
+      "name": "'P21 source preflight retains a6.5s result under the production navigation budget'",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 59,
+          "text": "let received=0;const timers=new Set<ReturnType<typeof setTimeout>>();"
+        },
+        {
+          "line": 63,
+          "text": "const timer=setTimeout(()=>{timers.delete(timer);if(!response.destroyed){response.setHeader('content-type','application/json');response.end(JSON.stringify({root:{children:[{id:'fixture',source:'public-shop',fields:{name:'Venue'}}]}}));}},6500);timers.add(timer);"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 95,
+      "name": "\"E1 outer body observer captures real Chromium POST bytes independently of Guard admission\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 105,
+          "text": "if (received.length === 1) await new Promise(resolve => setTimeout(resolve, 3_250));"
+        },
+        {
+          "line": 134,
+          "text": "typeEvents.push({ event, type: value.type }); setTimeout(() => listener(value), 80);"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 300,
+      "name": "\"real Chromium protects popup navigation before its first redirect\"",
+      "mechanisms": [
+        "performance.now()",
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 305,
+          "text": "const deadline=performance.now()+10_000;"
+        },
+        {
+          "line": 306,
+          "text": "while(performance.now()<deadline&&!guard.snapshotRequests().some(r=>r.outcome==='REDIRECT_BLOCKED'))await new Promise(resolve=>setTimeout(resolve,10));"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/read-network-redirect.test.ts",
+      "line": 326,
+      "name": "\"real Chromium protects dedicated-worker fetch redirects\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 330,
+          "text": "const timer = setTimeout(() => { worker.terminate(); resolve(\"worker-timeout\"); }, 10_000);"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/browser/runner-pacing.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout",
+        "Date.now()",
+        "await delay("
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 6,
+          "text": "import { setTimeout as delay } from \"node:timers/promises\";"
+        },
+        {
+          "line": 17,
+          "text": "const deadline = Date.now() + 30_000;"
+        },
+        {
+          "line": 18,
+          "text": "while (!check() && Date.now() < deadline) await delay(5);"
+        },
+        {
+          "line": 23,
+          "text": "const server = createServer((_request, response) => { hits.push(Date.now());setTimeout(() => response.end(\"public fixture\"), 70); });"
+        }
+      ]
+    },
+    {
+      "file": "src/harness/restaurant-execution-router.test.ts",
+      "line": 463,
+      "name": "\"Router partial-port contract: default delivery keeps a produced source-backed result when the next availability batch would consume the reserve (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=300000, maxStructuredReadMs=8000)\"",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 498,
+          "text": "const fallback = setTimeout(resolve, 1_500);"
+        }
+      ]
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 448,
+      "name": "\"a stuck old close cannot delay cancellation or overwrite the next candidate\"",
+      "mechanisms": [
+        "mock.timers",
+        "setTimeout",
+        "maxElapsedMsPerCandidate: 40"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 449,
+          "text": "t.mock.timers.enable({apis:['Date','setTimeout'],now:0});"
+        },
+        {
+          "line": 458,
+          "text": "maxElapsedMsPerCandidate: 40, onDiagnostic: diagnostic => diagnostics.push(diagnostic),"
+        }
+      ]
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 476,
+      "name": "\"a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline\"",
+      "mechanisms": [
+        "mock.method(Date",
+        "maxElapsedMsPerCandidate: 15"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 482,
+          "text": "const executor = new BrowserTaskExecutor({ openSession: async () => failed }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 15 });"
+        }
+      ]
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 515,
+      "name": "\"BrowserTaskExecutor bounds a late session acquisition without leaking its deadline into the next candidate\"",
+      "mechanisms": [
+        "mock.timers",
+        "setTimeout",
+        "maxElapsedMsPerCandidate: 10"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 516,
+          "text": "t.mock.timers.enable({apis:['Date','setTimeout'],now:0});"
+        },
+        {
+          "line": 525,
+          "text": "} }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });"
+        }
+      ]
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 538,
+      "name": "\"BrowserTaskExecutor times out a hanging snapshot, closes that session, and permits the next candidate\"",
+      "mechanisms": [
+        "mock.timers",
+        "setTimeout",
+        "maxElapsedMsPerCandidate: 10"
+      ],
+      "injectedClock": true,
+      "timingLines": [
+        {
+          "line": 539,
+          "text": "t.mock.timers.enable({apis:['Date','setTimeout'],now:0});"
+        },
+        {
+          "line": 544,
+          "text": "const executor = new BrowserTaskExecutor({ openSession: async () => (++opens === 1 ? stuck : next) }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });"
+        }
+      ]
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 1122,
+      "name": "\"group-window: visible disabled requested party ends before another model decision\"",
+      "mechanisms": [
+        "maxAutomaticElapsedMs:1000"
+      ],
+      "injectedClock": false,
+      "timingLines": []
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 1137,
+      "name": "`group-window: party stop excludes ${JSON.stringify(control)}`",
+      "mechanisms": [
+        "maxAutomaticElapsedMs:1000"
+      ],
+      "injectedClock": false,
+      "timingLines": []
+    },
+    {
+      "file": "src/infrastructure/browser/browser-task-executor.test.ts",
+      "line": 1145,
+      "name": "`group-window: disabled party is bound to selected date ${selectedDate}`",
+      "mechanisms": [
+        "maxAutomaticElapsedMs:1000"
+      ],
+      "injectedClock": false,
+      "timingLines": []
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-read-network-guard.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 37,
+          "text": "await new Promise<void>(resolve => setTimeout(resolve, elapsed));"
+        }
+      ]
+    },
+    {
+      "file": "src/infrastructure/browser/playwright-read-network-guard.test.ts",
+      "line": 50,
+      "name": "\"read network guard preserves the Executor source-read deadline beyond the action cap\"",
+      "mechanisms": [
+        "Date.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 58,
+          "text": "const startedAt = Date.now();"
+        },
+        {
+          "line": 60,
+          "text": "assert.ok(Date.now() - startedAt >= 5_900, \"the controlled public read actually waited beyond the 5s action cap\");"
+        }
+      ]
+    },
+    {
+      "file": "src/integrations/restaurant-search/directory-region-selection.test.ts",
+      "line": 371,
+      "name": "'A3 source90 deadline after sampling is not reset by a correction or source handoff'",
+      "mechanisms": [
+        "mock.method(Date"
+      ],
+      "injectedClock": true,
+      "timingLines": []
+    },
+    {
+      "file": "src/integrations/restaurant-search/directory-region-selection.test.ts",
+      "line": 398,
+      "name": "'B1 all A3 endings retain the remaining500s/50call window at the next source'",
+      "mechanisms": [
+        "mock.method(Date"
+      ],
+      "injectedClock": true,
+      "timingLines": []
+    },
+    {
+      "file": "src/integrations/tabelog/tabelog-browser-availability.test.ts",
+      "line": 60,
+      "name": "\"Tabelog busy retry can recover a known feasible control without bypassing identity\"",
+      "mechanisms": [
+        "performance.now()"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 68,
+          "text": "const started = performance.now();"
+        },
+        {
+          "line": 70,
+          "text": "assert.ok(performance.now() - started >= 900, \"the source retry waits before its second navigation\");"
+        }
+      ]
+    },
+    {
+      "file": "src/server/local-web-server.test.ts",
+      "line": 1,
+      "name": "<shared timing helpers>",
+      "mechanisms": [
+        "setTimeout"
+      ],
+      "injectedClock": false,
+      "timingLines": [
+        {
+          "line": 109,
+          "text": "agentLoopOptions: options.readAssembly?.loop ?? { maxSteps: readLimits.maxAgentSteps, maxRejectedActions: readLimits.maxRejectedActions, timeoutMs: readLimits.maxAutomaticBrowserMs },"
+        },
+        {
+          "line": 206,
+          "text": "if (request.purpose === \"restaurant_semantic_interpret\") await new Promise<void>((resolve) => setTimeout(resolve, this.delayMs));"
+        },
+        {
+          "line": 288,
+          "text": "async function withinTestTimeout<T>(promise: Promise<T>, label: string, timeoutMs = 1_000): Promise<T> {"
+        },
+        {
+          "line": 289,
+          "text": "let timer: ReturnType<typeof setTimeout> | undefined;"
+        },
+        {
+          "line": 294,
+          "text": "timer = setTimeout(() => reject(new Error(`Timed out waiting for ${label}`)), timeoutMs);"
+        },
+        {
+          "line": 364,
+          "text": "async function nextCaseEvent(reader: ReadableStreamDefaultReader<Uint8Array>, decoder: TextDecoder, timeoutMs = 1_000): Promise<RestaurantCaseView> {"
+        },
+        {
+          "line": 378,
+          "text": "})(), \"next SSE event\", timeoutMs);"
+        }
+      ]
+    }
+  ]
+}

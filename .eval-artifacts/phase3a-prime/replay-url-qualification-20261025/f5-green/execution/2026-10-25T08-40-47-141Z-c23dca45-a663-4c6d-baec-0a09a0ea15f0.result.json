@@ -1,0 +1,1701 @@
+{
+  "mode": "REPLAY",
+  "caseId": "p2c-holdout-01",
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@35",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@30"
+  },
+  "runtimeContext": {
+    "commitSha": "e150f180e095c380d69b34628f395399a2e407f7",
+    "worktree": "DIRTY",
+    "dataset": {
+      "version": "restaurant-read-novel-variant@1",
+      "sourcePath": ".eval-artifacts/phase3a-prime/f5-live-rerun/runner-input.yaml",
+      "sha256": "79f466da0e2106d080528b3bcbbd40794270923059305965ffe72ccbffd50231",
+      "cohort": "NOVEL_LOCATION_DIAGNOSTIC",
+      "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false
+    },
+    "browserEngine": "LOCAL_CHROMIUM",
+    "preflight": {
+      "artifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-25T08-40-25-481Z-edcf87b9-6145-4314-8734-010d59d59ed4.result.json",
+      "elapsedMs": 3567,
+      "targetCount": 2,
+      "sourceHealthArtifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/live-source-health/1792917615468-p2c-holdout-01/source-health.json",
+      "sourceHealthAttempts": 1,
+      "reviewedReadsPath": ".eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json",
+      "reviewedReadsSha256": "4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26"
+    },
+    "nodeVersion": "v24.4.1",
+    "skillHashes": {
+      "browserRead": "9323b53e7521d37d4251d06fe64a3238aeb0ba1cb382163c068e2990291cc8c9",
+      "tablecheck": "70cd360a57230539b7365298bfd0c6902bd75bb6ba711d992bb67bea15ae072b",
+      "tabelog": "3f4707ba4431f1245eaefb1692be5a4550e17a98129ff4ec645c347cd52c52d2"
+    },
+    "executionSource": "REPLAY",
+    "modelMode": "ORIGINAL",
+    "recordingSha256": "06d2a89045a4ac6b6a729b89428b72989d003339ab0ee8b755dfeab1d4aca7c7",
+    "harSha256": "5aa813af26e739ff1d3e37eea20f4b5e7eca2b51971d2e0c68275bb4ed42b7fd",
+    "decisionSha256": "394abf748feda1788466fd38634124a63416ccccdf8bc88ea019f4482b9d0603",
+    "liveCapabilityDenominator": "EXCLUDED"
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "requestedRunCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 40,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "status": "FAILED",
+  "stage": "AGENT_LOOP",
+  "failureCode": "RUN_EXTERNAL_STOP",
+  "materializedCase": {
+    "id": "p2c-holdout-01",
+    "dataset": "restaurant-read-novel-variant@1",
+    "reference_time": "2026-10-25T00:00:00+09:00",
+    "semantic": {
+      "target": {
+        "goal": "AVAILABILITY"
+      },
+      "location": {
+        "value": "Akabane",
+        "relation": "NEAR"
+      },
+      "date": {
+        "expression": "Wednesday, November 4",
+        "value": "2026-11-04"
+      },
+      "time": {
+        "value": "19:00"
+      },
+      "party_size": 2,
+      "criteria": [
+        {
+          "value": "kushikatsu",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    },
+    "acceptance": {
+      "required_claims": [
+        "Correct outlet within 1,000 m of the resolved Akabane point; source-supported kushikatsu (kushiage); a matching current slot on Wednesday, November 4 at 19:00 for 2."
+      ]
+    },
+    "materialization": {
+      "sourceReferenceTime": "2026-10-25T00:00:00+09:00",
+      "resolvedReferenceTime": "2026-10-25T08:40:47.133Z"
+    }
+  },
+  "semanticStatus": "PROPOSED",
+  "modelInvocations": [
+    {
+      "invocationId": "replayed-1",
+      "taskId": "hybrid-live:p2c-holdout-01:1792917647133",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "FIXTURE",
+      "model": "recorded-decisions",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3",
+        "jsonSchema": {
+          "type": "object",
+          "properties": {
+            "schemaVersion": {
+              "type": "string",
+              "enum": [
+                "3"
+              ]
+            },
+            "facts": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TARGET"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TARGET"
+                                ]
+                              },
+                              "goal": {
+                                "type": "string",
+                                "enum": [
+                                  "RECOMMENDATION",
+                                  "AVAILABILITY"
+                                ]
+                              },
+                              "query": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "goal",
+                              "query"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TARGET"
+                                ]
+                              },
+                              "goal": {
+                                "type": "string",
+                                "enum": [
+                                  "RECOMMENDATION",
+                                  "AVAILABILITY"
+                                ]
+                              },
+                              "query": {
+                                "type": "string"
+                              },
+                              "selectionScope": {
+                                "type": "string",
+                                "enum": [
+                                  "OPEN_ENDED",
+                                  "SPECIFIC_OUTLET"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "goal",
+                              "query",
+                              "selectionScope"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TARGET"
+                                ]
+                              },
+                              "goal": {
+                                "type": "string",
+                                "enum": [
+                                  "RECOMMENDATION",
+                                  "AVAILABILITY"
+                                ]
+                              },
+                              "query": {
+                                "type": "string"
+                              },
+                              "selectionScope": {
+                                "type": "string",
+                                "enum": [
+                                  "OPEN_ENDED"
+                                ]
+                              },
+                              "requestedResultCount": {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 10
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "goal",
+                              "query",
+                              "selectionScope",
+                              "requestedResultCount"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TARGET"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "DATE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "DATE"
+                                ]
+                              },
+                              "value": {
+                                "type": "string",
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "DATE"
+                                ]
+                              },
+                              "relativeDay": {
+                                "type": "string",
+                                "enum": [
+                                  "TODAY",
+                                  "TOMORROW"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "relativeDay",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "DATE"
+                                ]
+                              },
+                              "weekday": {
+                                "type": "string",
+                                "enum": [
+                                  "SUNDAY",
+                                  "MONDAY",
+                                  "TUESDAY",
+                                  "WEDNESDAY",
+                                  "THURSDAY",
+                                  "FRIDAY",
+                                  "SATURDAY"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "weekday",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "DATE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TIME_WINDOW"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "earliest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "latest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "earliest",
+                              "latest",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "earliest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "latest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "raw": {
+                                "type": "string"
+                              },
+                              "alternativeEarliest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "alternativeLatest": {
+                                "type": "string",
+                                "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+                              },
+                              "alternativeRaw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "earliest",
+                              "latest",
+                              "raw",
+                              "alternativeEarliest",
+                              "alternativeLatest",
+                              "alternativeRaw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "daypart": {
+                                "type": "string",
+                                "enum": [
+                                  "AFTERNOON",
+                                  "AFTER_WORK",
+                                  "EVENING"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "daypart",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "daypart": {
+                                "type": "string",
+                                "enum": [
+                                  "AFTERNOON"
+                                ]
+                              },
+                              "relativeDay": {
+                                "type": "string",
+                                "enum": [
+                                  "TODAY"
+                                ]
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "daypart",
+                              "relativeDay",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "TIME_WINDOW"
+                                ]
+                              },
+                              "relativeOffsetMinutes": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 10080
+                              },
+                              "raw": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "relativeOffsetMinutes",
+                              "raw"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "TIME_WINDOW"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "PARTY_SIZE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "PARTY_SIZE"
+                                ]
+                              },
+                              "value": {
+                                "type": "integer",
+                                "minimum": 1
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "enum": [
+                                  "PARTY_SIZE"
+                                ]
+                              },
+                              "value": {
+                                "type": "integer",
+                                "minimum": 1
+                              },
+                              "source": {
+                                "type": "string",
+                                "enum": [
+                                  "EXPLICIT",
+                                  "INFERRED_CLOSED_PARTY"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value",
+                              "source"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "PARTY_SIZE"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "AREA"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "AREA"
+                            ]
+                          },
+                          "query": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "query"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "AREA"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "BUDGET_PER_PERSON"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT"
+                        ]
+                      },
+                      "value": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "BUDGET_PER_PERSON"
+                            ]
+                          },
+                          "max": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "currency": {
+                            "type": "string",
+                            "enum": [
+                              "JPY"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "max",
+                          "currency"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "BUDGET_PER_PERSON"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "NEGATE",
+                          "CONFIRM"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "field": {
+                        "type": "string",
+                        "enum": [
+                          "CRITERION"
+                        ]
+                      },
+                      "operation": {
+                        "type": "string",
+                        "enum": [
+                          "ASSERT",
+                          "CORRECT",
+                          "NEGATE"
+                        ]
+                      },
+                      "value": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "CRITERION"
+                            ]
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "polarity": {
+                            "type": "string",
+                            "enum": [
+                              "POSITIVE",
+                              "NEGATIVE"
+                            ]
+                          },
+                          "strength": {
+                            "type": "string",
+                            "enum": [
+                              "HARD",
+                              "SOFT",
+                              "UNSPECIFIED"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "text",
+                          "polarity",
+                          "strength"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "field",
+                      "operation",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "schemaVersion",
+            "facts"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "settledAt": "2026-10-25T08:40:47.143Z"
+    },
+    {
+      "invocationId": "replayed-2",
+      "taskId": "hybrid-live:p2c-holdout-01:1792917647133",
+      "purpose": "restaurant_agent_decide",
+      "promptVersion": "27",
+      "fallback": "FAIL_CLOSED",
+      "provider": "FIXTURE",
+      "model": "recorded-decisions",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant_agent_action",
+        "version": "4",
+        "jsonSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "question",
+            "relatedFields",
+            "retrievalHint",
+            "candidateIds",
+            "candidateId",
+            "offerId",
+            "decisionSummary"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "ASK_USER",
+                "SEARCH_RESTAURANTS",
+                "INVESTIGATE_CANDIDATE_FACTS",
+                "CHECK_AVAILABILITY",
+                "PRESENT_RESULTS",
+                "END_READ",
+                "SELECT_CANDIDATE",
+                "BOOK_RESERVATION"
+              ]
+            },
+            "question": {
+              "type": "string"
+            },
+            "relatedFields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "retrievalHint": {
+              "type": "string"
+            },
+            "candidateIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "candidateId": {
+              "type": "string"
+            },
+            "offerId": {
+              "type": "string"
+            },
+            "decisionSummary": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "settledAt": "2026-10-25T08:40:47.145Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "event:hybrid-live:p2c-holdout-01:1792917647133:semantic:1",
+      "taskId": "hybrid-live:p2c-holdout-01:1792917647133",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "kushikatsu place near Akabane with a table for 2",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "near Akabane"
+          },
+          "addCriteria": [
+            {
+              "text": "kushikatsu",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "date": "2026-11-04",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-10-25T08:40:47.133Z",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Wednesday, November 4",
+              "resolvedDate": "2026-11-04",
+              "basis": "EXPLICIT_DATE"
+            },
+            "timeWindow": {
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:00"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "occurredAt": "2026-10-25T08:40:47.144Z",
+      "trace": {
+        "schemaVersion": "1",
+        "runId": "run:hybrid-live:p2c-holdout-01:1792917647133",
+        "correlationId": "event:hybrid-live:p2c-holdout-01:1792917647133:semantic:1",
+        "actor": "MODEL"
+      }
+    }
+  ],
+  "trajectories": [],
+  "diagnostics": {
+    "tablecheckIdentity": [],
+    "tabelogIdentity": [],
+    "tabelogUserInterventions": [],
+    "browserExecution": [
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "CANDIDATE_STARTED",
+        "detail": "CANDIDATE_SCOPE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_STARTED",
+        "detail": "PROVIDER_SCOPE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "SESSION_OPENING",
+        "detail": "OPEN_SESSION",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 0,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 0,
+          "providerElapsedMs": 0,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "SESSION_OPENED",
+        "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 121,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 121,
+          "providerElapsedMs": 121,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 0,
+          "providerRuntimeOperations": 0,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_STARTED",
+        "detail": "NAVIGATE",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 121,
+        "lifecycle": {
+          "outcome": "STARTED",
+          "candidateElapsedMs": 121,
+          "providerElapsedMs": 121,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "CLOSED",
+        "detail": "SESSION_RETIRED",
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 190,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 190,
+          "providerElapsedMs": 190,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0
+        }
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_FINISHED",
+        "detail": "PROVIDER_SCOPE",
+        "lifecycle": {
+          "outcome": "ABANDONED",
+          "candidateElapsedMs": 191,
+          "providerElapsedMs": 191,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0,
+          "reason": "PARENT_ABORTED"
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 191
+      },
+      {
+        "source": "DIRECTORY",
+        "stage": "DISCOVERY",
+        "event": "CANDIDATE_FINISHED",
+        "detail": "CANDIDATE_SCOPE",
+        "lifecycle": {
+          "outcome": "ABANDONED",
+          "candidateElapsedMs": 191,
+          "providerElapsedMs": 191,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 0,
+          "reason": "PARENT_ABORTED"
+        },
+        "effectiveLimits": {
+          "maxAutomaticElapsedMs": 500000,
+          "maxModelCallsPerCandidate": 20,
+          "maxModelCallsTotal": 120,
+          "maxOperationsPerCandidate": 80
+        },
+        "candidateId": "native-discovery:DIRECTORY",
+        "elapsedMs": 191
+      }
+    ],
+    "browserTrace": [
+      {
+        "sequence": 1,
+        "at": "2026-10-25T08:40:47.149Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "CANDIDATE_STARTED",
+          "detail": "CANDIDATE_SCOPE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 2,
+        "at": "2026-10-25T08:40:47.149Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "PROVIDER_STARTED",
+          "detail": "PROVIDER_SCOPE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 3,
+        "at": "2026-10-25T08:40:47.149Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "SESSION_OPENING",
+          "detail": "OPEN_SESSION",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 0,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 0,
+            "providerElapsedMs": 0,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 4,
+        "at": "2026-10-25T08:40:47.270Z",
+        "kind": "SESSION_OPENED",
+        "detail": {
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "engine": "CHROMIUM",
+          "sessionId": "[REDACTED]",
+          "startedAt": "2026-10-25T08:40:47.270Z",
+          "readNetworkBoundary": "INSTALLED"
+        }
+      },
+      {
+        "sequence": 5,
+        "at": "2026-10-25T08:40:47.270Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "SESSION_OPENED",
+          "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 121,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 121,
+            "providerElapsedMs": 121,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 0,
+            "providerRuntimeOperations": 0,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 6,
+        "at": "2026-10-25T08:40:47.270Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "OPERATION_STARTED",
+          "detail": "NAVIGATE",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 121,
+          "lifecycle": {
+            "outcome": "STARTED",
+            "candidateElapsedMs": 121,
+            "providerElapsedMs": 121,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 7,
+        "at": "2026-10-25T08:40:47.271Z",
+        "kind": "SESSION_CALL",
+        "detail": {
+          "method": "navigate",
+          "args": [
+            "https://tabelog.com/en/tokyo/rstLst/",
+            {
+              "timeoutMs": 35000,
+              "waitUntil": "domcontentloaded"
+            }
+          ]
+        }
+      },
+      {
+        "sequence": 8,
+        "at": "2026-10-25T08:40:47.339Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "CLOSED",
+          "detail": "SESSION_RETIRED",
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 190,
+          "lifecycle": {
+            "outcome": "FINISHED",
+            "candidateElapsedMs": 190,
+            "providerElapsedMs": 190,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 0
+          }
+        }
+      },
+      {
+        "sequence": 9,
+        "at": "2026-10-25T08:40:47.340Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "PROVIDER_FINISHED",
+          "detail": "PROVIDER_SCOPE",
+          "lifecycle": {
+            "outcome": "ABANDONED",
+            "candidateElapsedMs": 191,
+            "providerElapsedMs": 191,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 0,
+            "reason": "PARENT_ABORTED"
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 191
+        }
+      },
+      {
+        "sequence": 10,
+        "at": "2026-10-25T08:40:47.340Z",
+        "kind": "EXECUTOR_DIAGNOSTIC",
+        "detail": {
+          "source": "DIRECTORY",
+          "stage": "DISCOVERY",
+          "event": "CANDIDATE_FINISHED",
+          "detail": "CANDIDATE_SCOPE",
+          "lifecycle": {
+            "outcome": "ABANDONED",
+            "candidateElapsedMs": 191,
+            "providerElapsedMs": 191,
+            "candidateModelCalls": 0,
+            "providerModelCalls": 0,
+            "candidateRuntimeOperations": 1,
+            "providerRuntimeOperations": 1,
+            "runModelCalls": 0,
+            "reason": "PARENT_ABORTED"
+          },
+          "effectiveLimits": {
+            "maxAutomaticElapsedMs": 500000,
+            "maxModelCallsPerCandidate": 20,
+            "maxModelCallsTotal": 120,
+            "maxOperationsPerCandidate": 80
+          },
+          "candidateId": "native-discovery:DIRECTORY",
+          "elapsedMs": 191
+        }
+      }
+    ]
+  },
+  "finalSnapshot": {
+    "id": "hybrid-live:p2c-holdout-01:1792917647133",
+    "runId": "run:hybrid-live:p2c-holdout-01:1792917647133",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "19",
+    "lifecycleState": "CREATED",
+    "domainState": {
+      "schemaVersion": "21",
+      "phase": "UNDERSTANDING",
+      "searchRevision": 0,
+      "investigationRevision": 1,
+      "intentDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "kushikatsu",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "kushikatsu place near Akabane with a table for 2",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-11-04",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-25T08:40:47.133Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Wednesday, November 4",
+            "resolvedDate": "2026-11-04",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:00",
+              "latest": "19:00"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Akabane"
+        }
+      },
+      "candidates": [],
+      "availability": {},
+      "availabilityChecks": {},
+      "factChecks": {},
+      "readEvidence": []
+    },
+    "outcome": null,
+    "version": 1,
+    "createdAt": "2026-10-25T08:40:47.142Z",
+    "updatedAt": "2026-10-25T08:40:47.144Z"
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 0,
+    "candidatesChecked": 0,
+    "agentDecisions": 0,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 2,
+    "browserRuntimeCalls": 1,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 1
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 0,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "namedPlaceResolution": 1,
+      "discovery": 0,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 207
+  },
+  "searchState": {
+    "candidatesDiscovered": 0,
+    "candidatesInvestigated": 0,
+    "candidatesAvailabilityChecked": 0,
+    "remainingCandidateIds": [],
+    "remainingAvailabilityCandidateIds": [],
+    "continuationExhausted": null,
+    "nextPageTokenPresent": false
+  },
+  "stageTimings": {
+    "schemaVersion": "restaurant-stage-timings@1",
+    "status": "MEASURED_WITH_EXPLICIT_GAPS",
+    "elapsedMs": 207,
+    "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+    "criticalPath": [
+      {
+        "stage": "DISCOVERY:DIRECTORY:UNCLASSIFIED",
+        "elapsedMs": 122,
+        "percent": 58.93719806763285
+      },
+      {
+        "stage": "DISCOVERY:DIRECTORY:SEARCH",
+        "elapsedMs": 69,
+        "percent": 33.33333333333333
+      },
+      {
+        "stage": "UNATTRIBUTED",
+        "elapsedMs": 16,
+        "percent": 7.729468599033816
+      }
+    ],
+    "modelSteps": [
+      {
+        "purpose": "restaurant_semantic_interpret",
+        "sequence": 1,
+        "latencyMs": 0,
+        "placed": true
+      },
+      {
+        "purpose": "restaurant_agent_decide",
+        "sequence": 2,
+        "latencyMs": 0,
+        "placed": true
+      }
+    ],
+    "gaps": [
+      "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+    ]
+  },
+  "termination": {
+    "scope": "TASK",
+    "code": "RUN_EXTERNAL_STOP",
+    "reason": "Run failed or was cancelled during execution"
+  },
+  "partial": true,
+  "interruption": {
+    "reason": "EXTERNAL_STOP",
+    "at": "2026-10-25T08:40:47.339Z",
+    "timeoutMs": 500000
+  },
+  "downstream": "SEE_EXECUTED_EVENTS",
+  "latencyMs": 207,
+  "schemaVersion": "1",
+  "runId": "c23dca45-a663-4c6d-baec-0a09a0ea15f0",
+  "startedAt": "2026-10-25T08:40:47.141Z",
+  "finishedAt": "2026-10-25T08:40:47.341Z"
+}

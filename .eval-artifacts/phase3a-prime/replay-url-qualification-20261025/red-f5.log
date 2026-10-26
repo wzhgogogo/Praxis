@@ -1,0 +1,25 @@
+{
+  "executionSource": "REPLAY",
+  "modelMode": "ORIGINAL",
+  "recordingSha256": "06d2a89045a4ac6b6a729b89428b72989d003339ab0ee8b755dfeab1d4aca7c7",
+  "harSha256": "194fb4eb5fc721dedfbfdfb88d89ff5dc0b464aee7a76d839b15c34c0afb429f",
+  "decisionSha256": "394abf748feda1788466fd38634124a63416ccccdf8bc88ea019f4482b9d0603",
+  "liveCapabilityDenominator": "EXCLUDED",
+  "status": "REPLAY_INCOMPLETE",
+  "stop": {
+    "snapshot": 1,
+    "origin": "https://tabelog.com",
+    "pathname": "/en/tokyo/rstLst/",
+    "reason": "DOCUMENT_NOT_QUALIFIED"
+  },
+  "consumedPages": 0,
+  "recordedPages": 94,
+  "consumedDecisions": 2,
+  "recordedDecisions": 39,
+  "modelTransportCalls": 0,
+  "resultPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/f5-red/execution/2026-10-25T08-40-47-142Z-ba0fe2a2-8da9-4478-a7c2-d1afd396e77d.result.json"
+}
+Traceback (most recent call last):
+  File "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/verify-f5-slot1.py", line 39, in <module>
+    assert 2 <= summary['consumedPages'] < summary['recordedPages'], 'Original qualified snapshots1/2 must actually replay; no fabricated page is permitted'
+AssertionError: Original qualified snapshots1/2 must actually replay; no fabricated page is permitted

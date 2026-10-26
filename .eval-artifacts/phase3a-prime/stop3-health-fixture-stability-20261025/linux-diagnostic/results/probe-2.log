@@ -1,0 +1,22 @@
+E1_REQUEST_FAILED {"method":"POST","resourceType":"fetch","origin":"http://127.0.0.1:41309","pathname":"/v2/hub/availability_calendar_v2","failure":{"errorText":"net::ERR_BLOCKED_BY_CLIENT.Inspector"},"diagnostics":[{"code":"BLOCKED_METHOD","origin":"http://127.0.0.1:41309","pathname":"/v2/hub/availability_calendar_v2","method":"POST","resourceType":"xhr","queryKeys":[]}],"requests":[{"outcome":"ADMITTED","origin":"http://127.0.0.1:41309","pathname":"/","method":"GET","resourceType":"document","queryKeys":[],"outerRequestId":"1:0"},{"outcome":"BLOCKED","origin":"http://127.0.0.1:41309","pathname":"/v2/hub/availability_calendar_v2","method":"POST","resourceType":"xhr","queryKeys":[],"outerRequestId":"1:1"}]}
+✖ E1 outer body observer captures real Chromium POST bytes independently of Guard admission (143.038733ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 687.147486
+
+✖ failing tests:
+
+test at src/harness/browser/read-network-redirect.test.ts:1:6670
+✖ E1 outer body observer captures real Chromium POST bytes independently of Guard admission (143.038733ms)
+  page.evaluate: TypeError: Failed to fetch
+      at eval (eval at evaluate (:311:30), <anonymous>:1:34)
+      at UtilityScript.evaluate (<anonymous>:313:16)
+      at UtilityScript.<anonymous> (<anonymous>:1:44)
+      at TestContext.<anonymous> (/home/wangzhour.guest/praxis-health/src/harness/browser/read-network-redirect.test.ts:132:52) {
+    log: []
+  }

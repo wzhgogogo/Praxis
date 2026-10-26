@@ -445,7 +445,8 @@ test("a runtime navigation failure retires its session before the next candidate
   await executor.close();
 });
 
-test("a stuck old close cannot delay cancellation or overwrite the next candidate", async () => {
+test("a stuck old close cannot delay cancellation or overwrite the next candidate", async t => {
+  t.mock.timers.enable({apis:['Date','setTimeout'],now:0});
   const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }]);
   failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
   let finishClose: (() => void) | undefined;
@@ -472,7 +473,8 @@ test("a stuck old close cannot delay cancellation or overwrite the next candidat
   await executor.close();
 });
 
-test("a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline", async () => {
+test("a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline", async t => {
+  let clock=0;t.mock.method(Date,'now',()=>clock);
   const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }]);
   failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
   let finishClose: (() => void) | undefined;
@@ -484,7 +486,7 @@ test("a stuck runtime cleanup does not hold a canceled read or reset its candida
   const navigation = executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", signal: controller.signal, session, url: "https://www.tablecheck.com/fail", allowedOrigins: ["https://www.tablecheck.com"] });
   controller.abort();
   await assert.rejects(navigation, { code: "BROWSER_ABORTED" });
-  await new Promise(resolve => setTimeout(resolve, 20));
+  clock=20;
   await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "IDENTITY"), { code: "BROWSER_TIMEOUT" });
   finishClose?.();
 });
@@ -510,7 +512,8 @@ test("BrowserTaskExecutor aborts an in-flight operation, closes once asynchronou
   await executor.close();
 });
 
-test("BrowserTaskExecutor bounds a late session acquisition without leaking its deadline into the next candidate", async () => {
+test("BrowserTaskExecutor bounds a late session acquisition without leaking its deadline into the next candidate", async t => {
+  t.mock.timers.enable({apis:['Date','setTimeout'],now:0});
   const late = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "late", text: "", html: "" }]);
   const next = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "next", text: "", html: "" }]);
   let resolveLate: ((session: BrowserSession) => void) | undefined;
@@ -521,7 +524,8 @@ test("BrowserTaskExecutor bounds a late session acquisition without leaking its 
     return next;
   } }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });
   executor.beginCandidate("first");
-  await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), { code: "BROWSER_TIMEOUT" });
+  const rejected=assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY"), { code: "BROWSER_TIMEOUT" });
+  await new Promise(resolve=>setImmediate(resolve));t.mock.timers.tick(10);await rejected;
   resolveLate!(late);
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(late.closed, 1, "a session that resolves after its candidate deadline is closed rather than cached");
@@ -531,7 +535,8 @@ test("BrowserTaskExecutor bounds a late session acquisition without leaking its 
   await executor.close();
 });
 
-test("BrowserTaskExecutor times out a hanging snapshot, closes that session, and permits the next candidate", async () => {
+test("BrowserTaskExecutor times out a hanging snapshot, closes that session, and permits the next candidate", async t => {
+  t.mock.timers.enable({apis:['Date','setTimeout'],now:0});
   const stuck = new FixtureSession([{ url: "https://www.tablecheck.com/en/stuck", title: "stuck", text: "", html: "" }]);
   stuck.snapshot = async () => new Promise<BrowserSnapshot>(() => {});
   const next = new FixtureSession([{ url: "https://www.tablecheck.com/en/next", title: "next", text: "", html: "" }]);
@@ -539,7 +544,8 @@ test("BrowserTaskExecutor times out a hanging snapshot, closes that session, and
   const executor = new BrowserTaskExecutor({ openSession: async () => (++opens === 1 ? stuck : next) }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 10 });
   executor.beginCandidate("stuck");
   const first = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
-  await assert.rejects(executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: new AbortController().signal, session: first }), { code: "BROWSER_TIMEOUT" });
+  const rejected=assert.rejects(executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal: new AbortController().signal, session: first }), { code: "BROWSER_TIMEOUT" });
+  await new Promise(resolve=>setImmediate(resolve));t.mock.timers.tick(10);await rejected;
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(stuck.closed, 1);
   executor.beginCandidate("next");
@@ -1145,4 +1151,15 @@ for (const selectedDate of ["2026-11-05", "2026-11-06"]) test(`group-window: dis
  let models=0;const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:1000,maxModelCallsPerCandidate:1,maxModelCallsTotal:1,maxOperationsPerCandidate:20,modelDecision:{async decide(){models++;return{type:"REQUEST_HUMAN_HELP",reason:"Request date still unselected"};}}});
  const result=await executor.runSkill({taskId:"date-bound-party",source:"fixture",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:["https://example.com"],goal:{outlet:{name:"Fixture",address:"Fixture"},date:"2026-11-06",partySize:10,hardCriteria:[]},objective:"Read exact date and party",completion:()=>({complete:false,reason:"No current inventory"})});
  assert.equal(result.reasonCode,selectedDate==="2026-11-06"?"PARTY_SIZE_NOT_SELECTABLE":undefined);assert.equal(models,selectedDate==="2026-11-06"?0:1);await executor.close();
+});
+
+test('region selection is data-only DISCOVERY and consumes the same global model budget without reviving other stages',async()=>{
+ let calls=0;const budget={totalModelCalls:49,maxModelCalls:50};
+ const correction={sourceId:'directory',flowId:'flow',replacementsUsed:0 as const,remainingBudget:{sourceMs:60000,details:8,regionPages:1,retrievalPages:3},entrances:[{ref:'region:flow:0',sourceId:'directory',flowId:'flow',href:'https://directory.example/area',label:'Observed',observedOn:'https://directory.example/',originalTargetRef:'observation:1:target:1',observationRevision:1}],samples:[]};
+ const executor=new BrowserTaskExecutor({openSession:async()=>{throw Error('Selection must not open or read a DOM');}},{maxAutomaticElapsedMs:500000,maxModelCallsPerCandidate:6,maxModelCallsTotal:50,maxOperationsPerCandidate:24,modelDecision:{decide:async()=>{calls++;return {type:'SELECT_REGION_ENTRANCE',targetRef:'region:flow:0',reason:'Only choose a supplied collection ref'};}},budget});
+ const input={taskId:'f5-context',source:'DIRECTORY',stage:'DISCOVERY' as const,signal:new AbortController().signal,goal:{outlet:{name:'Restaurants'},hardCriteria:[]},regionCorrection:correction};
+ const outside=await executor.selectRegionEntrance({...input,stage:'FACTS'});assert.equal(outside.status,'NO_SAFE_ACTION');assert.equal(calls,0);assert.equal(budget.totalModelCalls,49);
+ assert.equal((await executor.selectRegionEntrance({...input,regionCorrection:{...correction,entrances:correction.entrances.map(e=>({...e,flowId:'foreign-flow'}))}})).status,'NO_SAFE_ACTION');assert.equal(calls,0);
+ assert.deepEqual(await executor.selectRegionEntrance(input),{status:'SELECTED',entranceRef:'region:flow:0'});assert.equal(budget.totalModelCalls,50);
+ await assert.rejects(()=>executor.selectRegionEntrance(input),{code:'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED'});assert.equal(calls,1);assert.equal(budget.totalModelCalls,50);
 });

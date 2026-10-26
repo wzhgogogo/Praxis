@@ -1,0 +1,9 @@
+--- a/src/harness/browser/read-network-redirect.test.ts
++++ b/src/harness/browser/read-network-redirect.test.ts
+@@ -111,5 +111,5 @@
+   const origin = `http://127.0.0.1:${address.port}`;
+   // Independent public-query grammar: the fixture must not depend on eval artifacts.
+-  const postRule = { origin, pathname: "/v2/hub/availability_calendar_v2", resourceTypes: ["fetch"], methods: ["POST"],
++  const postRule = { origin, pathname: "/v2/hub/availability_calendar_v2", resourceTypes: ["fetch", "xhr"], methods: ["POST"],
+     bodyFields: { locale: "string", start_at: "string", shop_id: "string", num_people: "string" } } as const;
+   const reviewedBytes = Buffer.from(JSON.stringify([postRule]));

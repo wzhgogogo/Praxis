@@ -1,0 +1,45 @@
+{"mode":"HYBRID_LIVE_READ","caseId":"p2c-holdout-01","browserEngine":"LOCAL_CHROMIUM","preflight":{"artifactPath":"/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/live-preflight/2026-10-25T00-54-07-520Z-c13ba5d7-f343-425d-baf0-7e3da323e34e.result.json","elapsedMs":3125,"targetCount":2,"sourceHealthArtifactPath":"/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/live-source-health/1792889017471-p2c-holdout-01/source-health.json","sourceHealthAttempts":3,"reviewedReadsPath":".eval-artifacts/tablecheck-guard-preflight-20261023/reviewed-reads.json","reviewedReadsSha256":"4faed51272d288c282f2f3a68003c6f08341e60ee62158e65228dd2f2cd89d26"},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":40,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":60000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "p2c-holdout-01",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 10
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 28,
+    "candidatesChecked": 8,
+    "agentDecisions": 9,
+    "browserModelCalls": 19,
+    "modelCallsStarted": 42,
+    "browserRuntimeCalls": 269,
+    "browserOperationsByCandidate": {
+      "native-discovery:DIRECTORY": 17,
+      "native-discovery:VENUE_SEARCH": 28,
+      "tablecheck:kawaei": 26,
+      "tablecheck:underground-akabane": 28,
+      "praxis:restaurant:0d56ed154080df9317f9d79d": 30,
+      "praxis:restaurant:730456c8617b43baf817287d": 28,
+      "praxis:restaurant:07b0ba0daee00150d6d202e1": 26,
+      "praxis:restaurant:c446fe0b901cca8ffb43b42e": 42,
+      "praxis:restaurant:22cd98fb641bd813a35745af": 15,
+      "praxis:restaurant:f93797735808708abd68d4ed": 29
+    },
+    "pageStillLoadingWithinBound": 48,
+    "postActionWaitTotalMs": 82092,
+    "browserModelActions": 16,
+    "googleRequests": {
+      "limit": 40,
+      "total": 6,
+      "namedPlaceResolution": 1,
+      "discovery": 2,
+      "placeDetails": 3,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 500022
+  },
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f5-analysis/Praxis-Zhixing/.eval-artifacts/restaurant-hybrid-live-read/2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.evaluation.34-1792890166535.json",
+  "latencyMs": 500022,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}

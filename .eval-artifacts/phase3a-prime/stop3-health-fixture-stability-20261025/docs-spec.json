@@ -1,0 +1,7 @@
+{
+  "key": "PHASE3A-PRIME-HEALTH-FIXTURE-STABILITY",
+  "item": "stop3-health-fixture-stability-20261025",
+  "text": "停止点3健康fixture窗口修复停等复核：普通模式10秒、slow精确时序及红灯保留，生产10秒不改；目标健康用例六次完整运行均通过。macOS五门禁/完整三连绿154；Linux前四门禁1037全绿，Chromium154、154、153，独立E1 POST的fetch/xhr类型差异阻断三连绿。有界诊断2/8重现，仅留未应用一行fixture草案；按范围停止条件不合main。真实调用0，临时VM已清理。",
+  "development": "只改健康Harness测试普通模式窗口1500→10000ms，slow1000/800/220与生产实现不变。冻结源1d8c7c96、604项输入与外层脚本；macOS三轮154/154，Linux第三轮独立E1失败。只读固定八次原断言诊断两次fetch/xhr差异BLOCKED_METHOD；没有改Guard或E1文件，草案未应用未测试。触发用户长回合§2.6停止，分支留复核、main保持0a254f05。Linux真实VM、依赖路径映射/时钟/失败记录透明保留，资源清理完成，0新增真实调用。",
+  "verification": "macOS五门禁绿：默认1037/1037；完整四路Chromium三次154/154，162.592849、162.502505、162.429266s，中位162.502505s。Linux前四门禁绿/default1037，完整四路三次154、154、153/154（162.383431、162.145540、161.989294s），三连绿NOT_SATISFIED；第三轮为独立E1 Failed to fetch，目标健康六轮均绿。精确slow反事实红/原实现绿。原E1断言固定两组四进程诊断6绿2红，非门禁替代；所有门禁后status空、恢复0、604输入前后核对。新调用0，VM已删除；本批停止，未合main。"
+}

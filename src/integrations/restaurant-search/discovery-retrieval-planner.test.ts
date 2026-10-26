@@ -8,27 +8,27 @@ test('retrieval model uses a versioned strict proposal and shared budget includi
  const planner=new ModelDiscoveryRetrievalPlanner({complete:async r=>{requests.push(r);throw Object.assign(Error('provider rejected'),{code:'PROVIDER_REJECTED'});}},budget);
  await assert.rejects(planner.decide(input),{code:'PROVIDER_REJECTED'});assert.equal(budget.totalModelCalls,1);
  await assert.rejects(planner.decide(input),{code:'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED'});assert.equal(requests.length,1);
- assert.equal(requests[0]!.promptVersion,DISCOVERY_RETRIEVAL_PROMPT_VERSION);assert.equal(requests[0]!.outputSchema.version,'2');assert.equal(requests[0]!.timeoutMs,1234);
+ assert.equal(requests[0]!.promptVersion,DISCOVERY_RETRIEVAL_PROMPT_VERSION);assert.equal(requests[0]!.outputSchema.version,'3');assert.equal(requests[0]!.timeoutMs,1234);
  await assert.rejects(planner.decide({...input,timeoutMs:0}),{code:'BROWSER_TIMEOUT'});
 });
-test('an invalid model keyword falls back to general retrieval; no synthetic synonym repair',async()=>{
- const planner=new ModelDiscoveryRetrievalPlanner({complete:async()=>({invocationId:'fixture',provider:'FIXTURE',model:'script',outputText:JSON.stringify({choice:'KEYWORD',keyword:'Fixture 2',criterionRef:'criterion:0',categoryUrl:'',reason:'Bad proposal'}),finishReason:'STOP',latencyMs:0})});
+test('an invalid model keyword returns a rejected bounded result; no synthetic synonym repair',async()=>{
+ const planner=new ModelDiscoveryRetrievalPlanner({complete:async()=>({invocationId:'fixture',provider:'FIXTURE',model:'script',outputText:JSON.stringify({choice:'KEYWORD',keyword:'Fixture 2',criterionRef:'criterion:0',generalRef:'',categoryUrl:'',reason:'Bad proposal'}),finishReason:'STOP',latencyMs:0})});
  const result=await planner.decide(input);assert.equal(result.accepted,false);assert.equal(result.keyword,undefined);assert.equal(result.rejectionReason,'INVALID_KEYWORD');
 });
 test('no positive HARD skips shared text planning but keeps observed category selection',async()=>{
  let calls=0;const budget={totalModelCalls:0,maxModelCalls:1};
  const categoryUrl='https://directory.test/region/category/';
- const planner=new ModelDiscoveryRetrievalPlanner({complete:async()=>{calls++;return {invocationId:'category',provider:'FIXTURE',model:'script',outputText:JSON.stringify({choice:'CATEGORY',keyword:'',criterionRef:'criterion:0',categoryUrl,reason:'Observed category for preference'}),finishReason:'STOP',latencyMs:0};}},budget);
+ const planner=new ModelDiscoveryRetrievalPlanner({complete:async()=>{calls++;return {invocationId:'category',provider:'FIXTURE',model:'script',outputText:JSON.stringify({choice:'CATEGORY',keyword:'',criterionRef:'criterion:0',generalRef:'',categoryUrl,reason:'Observed category for preference'}),finishReason:'STOP',latencyMs:0};}},budget);
  const request={...input,intent:{...input.intent,criteria:[{text:'good for a first date',polarity:'POSITIVE' as const,strength:'UNSPECIFIED' as const}]}};
  assert.equal((await planner.decide(request)).keyword,undefined);assert.equal(calls,0);assert.equal(budget.totalModelCalls,0);
- assert.equal((await planner.decide({...request,observation:{url:'https://directory.test/region/',title:'List',text:'Category',parsedCount:0,explicitEmpty:true,categories:[{url:categoryUrl,label:'Observed category'}]}})).categoryUrl,categoryUrl);
+ assert.equal((await planner.decide({...request,observation:{url:'https://directory.test/region/',title:'List',text:'Category',parsedCount:0,explicitEmpty:true,generalLists:[],categories:[{url:categoryUrl,label:'Observed category'}]}})).categoryUrl,categoryUrl);
  assert.equal(calls,1);assert.equal(budget.totalModelCalls,1);
 });
 
 test('sparse retrieval removes KEEP from schema and rejects it until rewrites are exhausted',async()=>{
  const requests:ModelRequest[]=[];
- const planner=new ModelDiscoveryRetrievalPlanner({complete:async request=>{requests.push(request);return {invocationId:'keep',provider:'FIXTURE',model:'script',outputText:JSON.stringify({choice:'KEEP',keyword:'',categoryUrl:'',criterionRef:'',reason:'Retain list'}),finishReason:'STOP',latencyMs:0};}});
- const observation={url:'https://directory.test/region/',title:'List',text:'Three results',parsedCount:3,explicitEmpty:false,categories:[{url:'https://directory.test/region/category/',label:'Observed category'}]};
+ const planner=new ModelDiscoveryRetrievalPlanner({complete:async request=>{requests.push(request);return {invocationId:'keep',provider:'FIXTURE',model:'script',outputText:JSON.stringify({choice:'KEEP',keyword:'',generalRef:'',categoryUrl:'',criterionRef:'',reason:'Retain list'}),finishReason:'STOP',latencyMs:0};}});
+ const observation={url:'https://directory.test/region/',title:'List',text:'Three results',parsedCount:3,explicitEmpty:false,generalLists:[],categories:[{url:'https://directory.test/region/category/',label:'Observed category'}]};
  const result=await planner.decide({...input,observation});
  assert.equal(result.rejectionReason,'SPARSE_LIST_KEEP_NOT_ALLOWED');
  assert.equal(JSON.stringify(requests[0]!.outputSchema.jsonSchema).includes('"KEEP"'),false);
@@ -36,4 +36,19 @@ test('sparse retrieval removes KEEP from schema and rejects it until rewrites ar
   assert.equal((await planner.decide({...input,observation,...patch})).keep,true);
   assert.equal(JSON.stringify(requests.at(-1)!.outputSchema.jsonSchema).includes('"KEEP"'),true);
  }
+});
+
+// Local wire controls, not a saved website response.
+test('GENERAL requires a supplied observed reference and old output fields have no compatibility route',async()=>{
+ const general={ref:'general:tabelog:1',url:'https://directory.test/region/',label:'Restaurants',observedOn:'https://directory.test/region/?sw=food'};
+ const observation={url:general.observedOn,title:'Empty',text:'No results',parsedCount:0,explicitEmpty:true,categories:[],generalLists:[general]};
+ let choice={choice:'GENERAL',keyword:'',criterionRef:'',generalRef:general.ref,categoryUrl:'',reason:'Select observed list'};
+ const requests:ModelRequest[]=[];
+ const planner=new ModelDiscoveryRetrievalPlanner({complete:async r=>{requests.push(r);return {invocationId:'general',provider:'FIXTURE',model:'script',outputText:JSON.stringify(choice),finishReason:'STOP',latencyMs:0};}});
+ assert.equal((await planner.decide({...input,observation})).generalRef,general.ref);
+ assert.deepEqual((requests[0]!.outputSchema.jsonSchema as any).properties.generalRef.enum,['',general.ref]);
+ assert.equal((await planner.decide({...input,observation:{...observation,generalLists:[]}})).rejectionReason,'UNOBSERVED_GENERAL_LIST');
+ assert.ok(!(requests.at(-1)!.outputSchema.jsonSchema as any).properties.choice.enum.includes('GENERAL'));
+ choice={...choice,generalRef:general.url};
+ assert.equal((await planner.decide({...input,observation})).rejectionReason,'UNOBSERVED_GENERAL_LIST');
 });

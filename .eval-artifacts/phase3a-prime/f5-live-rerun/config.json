@@ -1,0 +1,42 @@
+{
+  "schema": "f5-case01-rerun-config@1",
+  "newMain": "b5db5700fa4c868a5c94f245bc3ef9689eecb4e4",
+  "timeZone": "CET UTC+01:00",
+  "runnerInput": ".eval-artifacts/phase3a-prime/f5-live-rerun/runner-input.yaml",
+  "slots": [
+    {
+      "slot": 1,
+      "caseId": "p2c-holdout-01"
+    },
+    {
+      "slot": 2,
+      "caseId": "p2c-holdout-01"
+    },
+    {
+      "slot": 3,
+      "caseId": "p2c-holdout-01"
+    }
+  ],
+  "maxLive": 3,
+  "maxModels": 150,
+  "maxEnvironmentReruns": 2,
+  "baselineCumulative": {
+    "fullLive": 5,
+    "realModelCalls": 218,
+    "environmentReruns": 2,
+    "googleRequests": 30,
+    "websiteGET": 5
+  },
+  "slotLimits": {
+    "elapsedMs": 500000,
+    "modelCalls": 50,
+    "googleRequestsIncludingPreflight": 40
+  },
+  "credentialPolicy": "Direct user approval: only these 3 controlled Runner processes may load the existing server env file; no independent inspection/display/copy/staging.",
+  "certificate": ".eval-artifacts/phase3a-prime/f5-live-rerun/certification/certificate.json",
+  "dates": {
+    "p2c-holdout-01": "2026-11-04"
+  },
+  "order": "SERIAL_SINGLE_CASE; independent four-layer and S0 gate before next; no formal-run retry",
+  "witnessVariant": "f5-case01-rerun-20261104"
+}

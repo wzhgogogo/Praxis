@@ -1,0 +1,37 @@
+CONTROL_DROP_COMPLETED_SNAPSHOT
+CONTROL_DROP_COMPLETED_SNAPSHOT
+CONTROL_DROP_COMPLETED_SNAPSHOT
+CONTROL_DROP_COMPLETED_SNAPSHOT
+CONTROL_DROP_COMPLETED_SNAPSHOT
+✖ Live source health uses real Guard and observes a busy error arriving after visible results; 403/challenge never start a Live (3030.360125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3458.331917
+
+✖ failing tests:
+
+test at src/harness/browser/live-source-health.test.ts:1:657
+✖ Live source health uses real Guard and observes a busy error arriving after visible results; 403/challenge never start a Live (3030.360125ms)
+  AssertionError [ERR_ASSERTION]: Got unwanted rejection: slow-last-snapshot
+  Actual message: "ENV_FAILURE: source data unavailable: tabelog"
+      at async TestContext.<anonymous> (/private/tmp/praxis-slow-control-x8_jdlre/repo/src/harness/browser/live-source-health.test.ts:50:16)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: Error: ENV_FAILURE: source data unavailable: tabelog
+        at runLiveSourceHealth (/private/tmp/praxis-slow-control-x8_jdlre/repo/src/eval/restaurant/agent-loop/live-source-health.ts:105:27)
+        at async work (/private/tmp/praxis-slow-control-x8_jdlre/repo/src/harness/browser/live-source-health.test.ts:49:26)
+        at async waitForActual (node:assert:565:5)
+        at async strict.doesNotReject (node:assert:706:33)
+        at async TestContext.<anonymous> (/private/tmp/praxis-slow-control-x8_jdlre/repo/src/harness/browser/live-source-health.test.ts:50:16)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3),
+    expected: undefined,
+    operator: 'doesNotReject'
+  }

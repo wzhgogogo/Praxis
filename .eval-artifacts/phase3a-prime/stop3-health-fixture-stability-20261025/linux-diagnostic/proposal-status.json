@@ -1,0 +1,10 @@
+{
+  "status": "draft / not integrated; not tested",
+  "scope": "One fixture resourceTypes declaration only; no Guard change",
+  "reason": "Two of eight unchanged E1 diagnostic cases failed with Playwright fetch but Guard CDP xhr/BLOCKED_METHOD",
+  "patch": "proposed-e1-fixture.patch",
+  "notAppliedToWorkingTree": true,
+  "notCountedAsAcceptance": true,
+  "nextRequired": "Independent review of scope and transport semantics; if approved apply fixture patch and rerun five gates plus three consecutive complete Chromium samples on both platforms",
+  "diagnosticInputCommit": "cab01559"
+}

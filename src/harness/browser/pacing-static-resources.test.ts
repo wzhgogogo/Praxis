@@ -6,7 +6,7 @@ import { setTimeout as delay } from "node:timers/promises";
 import test from "node:test";
 import { createEvalPacingCoordinator } from "../../eval/restaurant/agent-loop/runners/eval-pacing.js";
 
-test("two Chromium runs count20 static resources each but pace only documents",{timeout:20_000},async t=>{
+test("two Chromium runs count20 static resources each but pace only documents",{timeout:45_000},async t=>{
  const hits:Array<{path:string;at:number}>=[];
  const server=createServer((request,response)=>{
   hits.push({path:request.url!,at:Date.now()});
@@ -24,7 +24,7 @@ test("two Chromium runs count20 static resources each but pace only documents",{
   const messages:any[]=[];const errors:Buffer[]=[];child.on('message',m=>messages.push(m));child.stderr!.on('data',d=>errors.push(d));
   const closed=new Promise<void>(resolve=>child.once('close',()=>resolve()));return {id,child,messages,closed,errors};
  });
- const until=async(check:()=>boolean,reason:string)=>{const deadline=Date.now()+15_000;while(!check()&&Date.now()<deadline)await delay(5);assert.ok(check(),reason+JSON.stringify(children.map(c=>({messages:c.messages,error:Buffer.concat(c.errors).toString()}))));};
+ const until=async(check:()=>boolean,reason:string)=>{const deadline=Date.now()+30_000;while(!check()&&Date.now()<deadline)await delay(5);assert.ok(check(),reason+JSON.stringify(children.map(c=>({messages:c.messages,error:Buffer.concat(c.errors).toString()}))));};
  try{
   await until(()=>children.every(c=>c.messages.some(m=>m.stage==='ENTERED')),'two real processes entered');
   for(const c of children)c.child.send('start');

@@ -1,0 +1,29 @@
+✖ TableCheck reservation form binds the selected date and adult count without inventing inventory (3.425333ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 146.412292
+
+✖ failing tests:
+
+test at .eval-artifacts/phase3a-prime/f3-implementation-20261026/l7/red/selected-adult-option-binding/challenge.test.ts:1:4996
+✖ TableCheck reservation form binds the selected date and adult count without inventing inventory (3.425333ms)
+  AssertionError [ERR_ASSERTION]: a selected option conflicting with the live adult value cannot bind the request
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3a-prime/f3-implementation-20261026/l7/red/selected-adult-option-binding/challenge.test.ts:86:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
