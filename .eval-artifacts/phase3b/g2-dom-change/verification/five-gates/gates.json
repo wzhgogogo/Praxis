@@ -1,0 +1,50 @@
+{
+  "candidate": "f671d9508846a74deddbf2ec541afeeeb79e2c67",
+  "branch": "codex/feat-phase3b-dom-change",
+  "mode": "OFFLINE_ONLY",
+  "timeCET": "2026-10-26T23:12:04.981143+01:00",
+  "gates": [
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "elapsedSeconds": 0.437,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "typecheck.log"
+    },
+    {
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "elapsedSeconds": 0.202,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "arch-check.log"
+    },
+    {
+      "command": "npm run test",
+      "exitCode": 0,
+      "elapsedSeconds": 27.862,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "test.log"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "elapsedSeconds": 0.422,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "build.log"
+    },
+    {
+      "command": "npm run test:browser:fixture",
+      "exitCode": 0,
+      "elapsedSeconds": 105.774,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "test-browser-fixture.log"
+    }
+  ],
+  "result": "PASS",
+  "finalStatus": ""
+}

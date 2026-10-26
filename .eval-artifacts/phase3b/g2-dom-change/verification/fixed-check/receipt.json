@@ -1,0 +1,33 @@
+{
+  "candidate": "f671d9508846a74deddbf2ec541afeeeb79e2c67",
+  "timeCET": "2026-10-26T23:15:14.768724+01:00",
+  "runs": [
+    {
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 21.294,
+      "statusBefore": "",
+      "statusAfter": ""
+    },
+    {
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/dom-change/run.ts",
+        "--out",
+        "/private/tmp/phase3b-g2-final-capture"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 15.737,
+      "statusBefore": "",
+      "statusAfter": ""
+    }
+  ]
+}

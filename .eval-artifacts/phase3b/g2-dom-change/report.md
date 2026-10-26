@@ -37,7 +37,7 @@ Evidence status：current executable / exposed development baseline，非Clean B
 
 正常动作控制为本地构造公开链接；模型替身只从当前观察label选择OPEN_LINK，实际Executor导航与完成，原/改名两版均完成。它证明动作引用能跨私有标记变化，不能代替真实模型或网站的端到端验收。初稿使用未获合法动作许可的构造输入/按钮，正确返回NO_SAFE_ACTION，已改为现有合法观察链接；未修改产品放行按钮。
 
-采集接线曾先后因Guard导航准备、HAR/route组合、禁脚本下addStyleTag等待失败；最终复用既有fixture HAR并同步注入可见性shim。启动/类型/接线错误均不算有效红灯或来源FAIL，原日志摘要归档。正式五门禁及固定检查待冻结后执行。
+采集接线曾先后因Guard导航准备、HAR/route组合、禁脚本下addStyleTag等待失败；最终复用既有fixture HAR并同步注入可见性shim。启动/类型/接线错误均不算有效红灯或来源FAIL，原日志摘要归档。正式五门禁与额外固定检查均在干净冻结f671d950执行，通过；首次全套门禁无失败。
 
 ## 私有标记依赖位置（main cc127320，产品只读）
 
@@ -57,4 +57,4 @@ Evidence status：current executable / exposed development baseline，非Clean B
 
 ## 验证与交付
 
-五门禁、额外固定检查与净树回执将在[verification](verification/)归档；产品、站点、source-packs、Prompt/Schema/State相对基线零差异。`.env`未读取、未暂存。工作分支推送供复核，不合main。G1候选与回放另从最新main独立分支开展；本报告不能作为其通过记录。
+五门禁、额外固定检查与净树回执已在[verification](verification/)归档：typecheck 0.437s、arch 0.202s、默认1101/1101 27.862s、build 0.422s、Chromium166/166 105.774s；每项前后净树。固定G2 4/4 21.294s、最终12页留证15.737s，同样前后净树。所有输入SHA再次核对通过，源码冻结f671d950；完整最终映射/悬空及脚本位置见[capture](capture/)。产品、站点、source-packs、Prompt/Schema/State相对基线零差异。`.env`未读取、未暂存。工作分支推送供复核，不合main。G1候选与回放另从最新main独立分支开展；本报告不能作为其通过记录。

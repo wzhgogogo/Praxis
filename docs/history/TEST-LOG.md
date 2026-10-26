@@ -13,7 +13,7 @@
 
 ## 2026-10-26 CET：3b G2离线红绿与保存页基线
 
-旧class-only在旧id目标断言得到有效红灯；规则2变异、ARIA/label路径、CSS/SVG、悬空/脚本/种子控制和分类反例绿。真实本地Executor观察链接正常对照绿；12保存DOM8相同、4如实未知、0错误声明，TC日历原未知不算查位通过。接线/启动/类型失败不计有效红灯；正式五门禁与固定检查待执行。真实调用全部0，不读取.env。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
+旧class-only在旧id目标断言得到有效红灯；规则2变异、ARIA/label路径、CSS/SVG、悬空/脚本/种子控制和分类反例绿。真实本地Executor观察链接正常对照绿；12保存DOM8相同、4如实未知、0错误声明，TC日历原未知不算查位通过。接线/启动/类型失败不计有效红灯；f671d950正式五门禁typecheck/arch/默认1101/build/Chromium166全部绿，额外G2 4/4及最终12页留证绿，各项前后净树；输入SHA复核通过。真实调用全部0，不读取.env。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
 
 <a id="test-2026-10-26-f6-implemented"></a>
 

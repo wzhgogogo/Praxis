@@ -1,0 +1,50 @@
+
+> praxis-zhixing@0.1.0 test:dom-change
+> node --import ./scripts/test-filesystem-guard.mjs --import tsx --test --test-concurrency=1 src/harness/browser/dom-change*.test.ts
+
+✖ G2 constructed normal control uses observed labels after every private marker changes (604.6305ms)
+✔ G2 extends the F3 class-only mutation to every id and private data attribute (133.454833ms)
+✔ G2 rule two rewrites all bound ID references, leaves dangling/script references and preserves CSS (135.395875ms)
+✔ G2 saved pages preserve the frozen reference capability and reject new false claims (18932.343708ms)
+ℹ {"id":"tabelog-list-nerima","classification":"DEGRADED_HONEST","referenceFacts":20,"lost":["outlet:https://tabelog.com/en/tokyo/A1322/A132201/13239336/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132201/13305253/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13157181/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13243190/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13266750/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13278113/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13302712/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13316441/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13119314/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13219995/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13290674/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13312671/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13324050/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13324151/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132204/13115014/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132204/13122543/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132204/13216186/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132204/13313094/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132204/13320702/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132205/13043209/:name"],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-list-akabane","classification":"DEGRADED_HONEST","referenceFacts":1,"lost":["outlet:https://tabelog.com/en/tokyo/A1322/A132201/13239336/:name"],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-01","classification":"PASS","referenceFacts":3,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-02","classification":"PASS","referenceFacts":3,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-calendar-teppen","classification":"DEGRADED_HONEST","referenceFacts":3,"lost":["day:2026-09-28","day:2026-09-29","day:2026-09-30"],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-calendar-sen","classification":"DEGRADED_HONEST","referenceFacts":3,"lost":["day:2026-10-01","day:2026-10-22","requestConfirmed"],"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-list-ginza","classification":"PASS","referenceFacts":1,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-list-akabane","classification":"PASS","referenceFacts":0,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-detail-nakamata","classification":"PASS","referenceFacts":2,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-detail-takahashiya","classification":"PASS","referenceFacts":2,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-calendar-nakamata","classification":"PASS","referenceFacts":0,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-calendar-kinri","classification":"PASS","referenceFacts":0,"lost":[],"sourceTransportCalls":0}
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20792.65325
+
+✖ failing tests:
+
+test at src/harness/browser/dom-change-agent.test.ts:1:448
+✖ G2 constructed normal control uses observed labels after every private marker changes (604.6305ms)
+  AssertionError [ERR_ASSERTION]: {"status":"NO_SAFE_ACTION","snapshot":{"settlement":"SETTLED","settlementDiagnostics":{"url":"https://www.tablecheck.com/en/fixture","pendingByType":{},"oldestPendingMs":0,"blockingDataRequests":0,"busySelectors":[],"visibleTextChanging":false},"url":"https://www.tablecheck.com/en/fixture","html":"<html><head><title>Public fixture</title><style>#private-search{display:block}.private-result{color:black}</style>\n    </head><body><label for=\"private-search\">Search restaurants</label><input id=\"private-search\" data-testid=\"Search Box\" data-private-field=\"source\" class=\"private-input\" name=\"search_text\" value=\"\" oninput=\"document.querySelector('output').textContent='Query observed: '+this.value\">\n    <button id=\"private-button\" data-testid=\"Search Action\" type=\"button\" onclick=\"document.querySelector('output').textContent='Source-backed fixture result for '+document.querySelector('input[name=search_text]').value\">Find restaurants</button>\n    <output id=\"private-result\" class=\"private-result\">Waiting</output></body></html>","text":"Search restaurants\nFind restaurants Waiting","title":"Public fixture","interactiveState":"{\"index\":0,\"tag\":\"INPUT\",\"role\":null,\"name\":\"search_text\",\"id\":\"private-search\",\"value\":\"\",\"selected\":null,\"disabled\":false,\"expanded\":null}\n{\"index\":1,\"tag\":\"BUTTON\",\"role\":null,\"name\":null,\"id\":\"private-button\",\"value\":\"\",\"selected\":null,\"disabled\":false,\"expanded\":null}","pageId":"page:1","responses":[]},"controls":[{"id":"dom:2:1","structure":{"tag":"BUTTON","name":"","classes":[],"dialogLabel":"","formClass":"","sliderCount":0,"listboxId":""},"stableKey":"button,[role=button],[role=option],input[role=combobox][aria-readonly=true]|button||Find restaurants||0","kind":"BUTTON","role":"button","label":"Find restaurants","controlGroupLabel":"Unlabelled group","type":"button","disabled":false,"visible":true},{"id":"dom:2:2","structure":{"tag":"INPUT","name":"search_text","classes":["private-input"],"dialogLabel":"","formClass":"","sliderCount":0,"listboxId":""},"stableKey":"input:not([type=checkbox]):not([type=radio]):not([type=range]):not([role=combobox][aria-readonly=true]),textarea,[role=textbox]:not([role=combobox])|textbox||Search restaurants||0","kind":"INPUT","role":"textbox","label":"Search restaurants","controlGroupLabel":"Unlabelled group","value":"","disabled":false,"visible":true}]}
+  + actual - expected
+  
+  + 'NO_SAFE_ACTION'
+  - 'COMPLETED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/harness/browser/dom-change-agent.test.ts:44:14)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_SAFE_ACTION',
+    expected: 'COMPLETED',
+    operator: 'strictEqual'
+  }
