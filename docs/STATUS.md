@@ -13,6 +13,8 @@
 
 - **2026-10-26 CET：3b A批次1待复核。** G2分支42dc6ef1已推：12保存页8 PASS/4诚实退化，五门禁1101/166及固定G2绿；G1分支8bd6bb8c已推：30题全部CANDIDATE，49摘录核对通过、无人工Gold先NOT_READY，五门禁1104/163绿。回放本分支修离线原动作临时ref绑定，普通stale仍拒；历史snapshot3窄窗口红绿完成。整份旧F5在新main首语义Prompt23/Schema3对25/4不兼容，仍INCOMPLETE（0/94），不改旧输出或产品合同，等复核安排。静态资格19/94不变，方案仅草案；f3fdfd9c五门禁1103/163全绿、逐项前后净树，新增真实调用0，不合main。[报告](../.eval-artifacts/phase3b/replay-completion/report.md)。
 
+- **2026-10-26 CET：3b A G1候选问答（待逐题复核）。** 30题/8页，12有答案、8未说明、7陷阱、3敏感，49处逐字摘录及位置，全部CANDIDATE。B只读questions与原页；答案及含答案脚本隔离，未作为验收Gold。独立评分器source-quoted-qa-scorer@1拒绝未确认、错店/旧读取/假引用；未知同义改写未评。明确到期菜单子类仍缺，历史菜单不伪称已过期；五门禁待冻后执行。产品及共享版本不改，真实调用0；不合main。[报告](../.eval-artifacts/phase3b/g1-qa/report.md)。
+
 - **2026-10-26 CET：3a′带缺口签收，3a完成（用户决定）。** 3a′保留四项缺口：F5例01未达成，转3b店名解析G4与F6 Live验证；网站适配器3,847行，未达≤3,591，L1/L4/L5转3b查位改造G3；测试集变快但未变小；真实录制尚不能完整回放，转3b对话A。3a①推荐与查位边界已合入（ADR-0044 revision1.1、语义Prompt@25、Gold@4）；3a②使用条款按用户提供的日本律师咨询结论“当前做法没有问题”结束。运行规范照旧：节奏控制、不进入robots禁止的预约流程路径、遇到限流或繁忙页面就退避。额度终值：3a′ Live **8/8**、真实模型 **334/400**、环境重跑 **3/4**；3a边界真实模型单列 **93/144**。本批只改文档，新增真实调用0；不开始3b或F6 Live。签收annotated tag：`phase3a-prime-signoff`。[完整收尾记录](history/DEVLOG.md#dev-2026-10-26-phase3a-prime-signoff)。
 
 - **2026-10-26-F6-OFFLINE-COMPLETE：** ADR0045已Accepted并接线：20秒固定预留、20秒+中位数准入，Native/Google搜索取消保留完整候选；Web继承语义开始原截止，PGlite取消完成行重复主键缺陷已关闭。State23/TaskDefinition21、Context16/Agent Prompt28；新真实调用0。五门禁在干净候选bcdd5cf1全绿：默认1100/1100、Chromium162/162、type/arch/build；每项前后净树，Web/PGlite及核心控制通过。F5例01已知限制保留；3a′退出条件6未达成，站点3847行，L1/L4/L5转3b，其余延期清单保留。[报告](../.eval-artifacts/phase3a-prime/f6/report.md)。

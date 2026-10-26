@@ -33,6 +33,12 @@
 
 时间2026-10-26T23:54:36.400389+01:00。从main cc127320独立分支；历史F5第4行wire先被stale拒绝，导致第5请求类型分歧。A层按公开语义唯一绑定当前ref，原动作/权威值不变，生产stale限制不改；实际Executor窄窗口红转绿，SOURCE/FLOW歧义等拒绝。当前原整包首语义合同23/3对25/4不匹配，严格停止、0/94，未完成完整回放。旧24脚本清单中10在重跑HAR已有字节，75缺CSS/71缺动态，六DOM只证可读性；Recorder/Guard无修改。f3fdfd9c五门禁1103/163全绿、逐项前后净树，真实调用0，不合main。[报告](../../.eval-artifacts/phase3b/replay-completion/report.md)。
 
+<a id="dev-2026-10-26-phase3b-g1"></a>
+
+## 2026-10-26 CET：3b A G1候选问答
+
+时间2026-10-26T23:29:45.366380+01:00。main cc127320独立切片，用户澄清后30题全部CANDIDATE，8页/49处原文，问题与答案隔离；实际无到期证据不冒称过期。ADR0046相同用户原则同步，评分器不读产品解析器；无Gold先NOT_READY，未知同义人工复核。五门禁待冻结执行，真实调用0，不合main。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
+
 <a id="dev-2026-10-26-phase3a-prime-signoff"></a>
 
 ## 2026-10-26 CET：3a′带缺口签收与3a完成
