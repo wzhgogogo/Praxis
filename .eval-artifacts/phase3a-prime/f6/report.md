@@ -74,4 +74,4 @@ PGlite还暴露一次取消既写诊断又写完成行，使用同一trajectory�
 
 [验证摘要](verification.json)。按用户授权快进合main并推送工作分支与main；最终提交SHA由发布时的ls-remote和本次回复给出。完成后停止，F6真实Live未运行。
 
-[范围核对](protected-check.json)：相对main起点116个保护文件字节相同，包括两站点目录、page-parser/query-controls和source-packs；预算账本SHA未变。网站非测试3847行、Pack473行。`git diff --check`在提交前核对，发布后用ls-remote核对工作分支和main。按用户授权合main并推送后停止，不运行Live。
+[范围核对](protected-check.json)：相对main起点116个保护文件字节相同，包括两站点目录、page-parser/query-controls和source-packs；账本完整承接新main的SHA `529de7fa7c1135ba312c95cd1fe073625359907fb6651bc5c1feb4f96cb3a876`，与新main零差异。它因main并行记账而不同于初始7e的SHA；最终收口检查已改为核对新main并集，本批不增删账本条目。网站非测试3847行、Pack473行。`git diff --check`在提交前核对，发布后用ls-remote核对工作分支和main。按用户授权合main并推送后停止，不运行Live。
