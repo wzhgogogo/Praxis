@@ -1,0 +1,29 @@
+[
+  {
+    "id": "W12-shared-semantic-deadline-not-held",
+    "testPath": "src/server/local-web-server.test.ts",
+    "pattern": "W12 Live Persistent run keeps",
+    "testReplacements": [
+      [
+        "    } }, 50, 55_000);",
+        "    } }, 50, 55_000);\n    t.mock.method(boundedModel, \"hold\", () => () => {});"
+      ]
+    ]
+  },
+  {
+    "id": "health-cannot-accept-first-visible-results",
+    "testPath": "src/harness/browser/live-source-health.test.ts",
+    "pattern": "Live source health uses real Guard",
+    "sourceMutations": [
+      {
+        "path": "src/eval/restaurant/agent-loop/live-source-health.ts",
+        "replacements": [
+          [
+            "    readyFromPage=Boolean(pack.parseListing(page).outlets.length>0||pack.browser!.isExplicitEmptyListing?.(page));",
+            "    readyFromPage=Boolean(pack.parseListing(page).outlets.length>0||pack.browser!.isExplicitEmptyListing?.(page));\n    if(readyFromPage)return observation();"
+          ]
+        ]
+      }
+    ]
+  }
+]

@@ -1,4 +1,4 @@
-import {fork,type ChildProcess} from 'node:child_process';
+import {execFileSync,fork,type ChildProcess} from 'node:child_process';
 import {createHash,randomUUID} from 'node:crypto';
 import {mkdir,readFile,realpath,writeFile} from 'node:fs/promises';
 import {isAbsolute,relative,resolve} from 'node:path';
@@ -9,6 +9,7 @@ import type {SeverityAssessment} from '../diagnostic-evaluator-outcome.js';
 const cet=()=>new Date(Date.now()+3_600_000).toISOString().replace('Z','+01:00');
 const hash=(bytes:Uint8Array)=>createHash('sha256').update(bytes).digest('hex');
 const failure=(code:string)=>Object.assign(new Error(code),{code});
+const reviewedReadsCatalog='src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json';
 const unknown=(code:string):SeverityAssessment=>({status:'NOT_EVALUATED',reasons:[code],evidenceRefs:[]});
 export interface PostExitEvaluation {
  id:string;status:'EVALUATED'|'NOT_EVALUATED';exit:{code:number|null;signal:NodeJS.Signals|null};
@@ -48,10 +49,14 @@ export async function superviseEvalChild(child:ChildProcess,id:string,receiptPat
   const preflight=artifact.runtimeContext?.preflight;
   let reviewedReads:ReturnType<typeof parseReviewedReads>|undefined;
   if(preflight?.reviewedReadsPath!==undefined||preflight?.reviewedReadsSha256!==undefined){
-   if(typeof preflight.reviewedReadsPath!=='string'||isAbsolute(preflight.reviewedReadsPath)||typeof preflight.reviewedReadsSha256!=='string')throw failure('INVALID_REVIEWED_READS_REFERENCE');
-   const reviewedPath=await insideArtifacts(resolve(preflight.reviewedReadsPath)),raw=await readFile(reviewedPath);
+   if(preflight.reviewedReadsPath!==reviewedReadsCatalog||typeof preflight.reviewedReadsSha256!=='string'||!/^[a-f0-9]{64}$/.test(preflight.reviewedReadsSha256))throw failure('INVALID_REVIEWED_READS_REFERENCE');
+   // Only the fixed committed catalog is read. Neither a working-tree path
+   // nor an artifact-supplied Git revision can select independent evidence.
+   let raw:Buffer;
+   try{raw=execFileSync('git',['show',`HEAD:${reviewedReadsCatalog}`],{maxBuffer:1024*1024,stdio:['ignore','pipe','pipe']});}
+   catch{throw failure('REVIEWED_READS_NOT_COMMITTED');}
    if(hash(raw)!==preflight.reviewedReadsSha256)throw failure('REVIEWED_READS_SHA_MISMATCH');
-   reviewedReads=parseReviewedReads(raw,preflight.reviewedReadsPath);receipt.reviewedReadsSha256=reviewedReads.sha256;
+   reviewedReads=parseReviewedReads(raw,reviewedReadsCatalog);receipt.reviewedReadsSha256=reviewedReads.sha256;
   }
   const {evaluation,outputPath}=await evaluateArtifactFile(path,reviewedReads?{reviewedReads}:{});
   if(evaluation.sourceArtifact.sha256!==receipt.sourceArtifact.sha256||hash(await readFile(path))!==receipt.sourceArtifact.sha256)throw failure('ARTIFACT_CHANGED_DURING_EVALUATION');
