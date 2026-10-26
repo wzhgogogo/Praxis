@@ -1180,3 +1180,48 @@ test('F3-034 rejected empty-list rewrites never navigate an implicit general lis
   assert.equal(read.metadata.failureCode,'DISCOVERY_SOURCE_INCOMPLETE');assert.equal(read.candidates.length,0);
  });
 });
+
+// LOCAL CONSTRUCTED cancellation, not a website replay. The real source,
+// Router and Reducer must preserve only candidates completed before the abort.
+test('F6 reserve search hands completed Native and Google children through SEARCH_COMPLETED',async t=>{
+ for(const source of ['native','google'] as const)await t.test(source,async()=>{
+  const controller=new AbortController();const navigations:string[]=[];let calls=0,closed=0;
+  const stop=()=>controller.abort(Object.assign(Error('F6 reserve boundary'),{code:'DELIVERY_RESERVE_REACHED'}));
+  const model=new H001NativeModel('TABELOG_DELIVERS');
+  const raw=sourcePages('TABELOG_DELIVERS',navigations,[],[],[],{guardedReadBoundary:true});
+  const browser:import('../../../infrastructure/browser/browser-runtime.js').BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async input=>{
+   const session=await raw.openSession(input);
+   return new Proxy(session,{get(target,key){
+    if(key==='navigate')return async(url:string,...args:unknown[])=>{if(/\/101\/$/.test(new URL(url).pathname)){stop();throw controller.signal.reason;}return target.navigate(url,...args as []);};
+    if(key==='close')return async()=>{closed++;await target.close();};
+    const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;
+   }});
+  }};
+  const google=new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async(_url,init)=>{
+   calls++;const body=JSON.parse(String(init?.body));
+   if(body.pageToken){stop();throw controller.signal.reason;}
+   return new Response(JSON.stringify({places:[{id:'completed-a',displayName:{text:'Completed A'},formattedAddress:'Shibuya, Tokyo',location:center,types:['restaurant'],primaryType:'japanese_restaurant',businessStatus:'OPERATIONAL'}],nextPageToken:'unfinished-b'}),{status:200});
+  }});
+  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:source==='native'?[tabelogDiscoveryPack]:[googlePlacesDiscoveryPack]}, {model,browser,google,clock:{now:()=>reference}});
+  const composition=createHybridReadComposition({taskId:'f6-search-'+source,runId:'f6-search-'+source,clock:{now:()=>reference},model,...assembly});
+  await composition.interpretAndDispatch({taskId:'f6-search-'+source,message:'Find omakase in Shibuya for two at 7pm.',referenceTime:reference.toISOString(),timezone:'Asia/Tokyo'},{...center,radiusMeters:1000});
+  const before=composition.runtime.snapshot('f6-search-'+source);
+  const router=new RestaurantExecutionRouter(assembly.search,assembly.availability,assembly.router,assembly.facts);
+  const result=await router.execute({type:'SEARCH_RESTAURANTS'},before.domainState,reference.toISOString(),'f6-search-'+source,controller.signal);
+  assert.equal(controller.signal.aborted,true,'the second child must actually enter the reserve cancellation');
+  assert.equal(result.event?.type,'SEARCH_COMPLETED','a reserve abort must not discard a completed child as SEARCH_FAILED');
+  if(result.event?.type!=='SEARCH_COMPLETED')throw Error('Missing retained search event');
+  assert.equal(result.event.candidates.length,1,'only fully accepted A survives, never partial B');
+  assert.equal(result.event.continuation?.exhausted,false,'cancelled source remains unknown, not exhausted');
+  assert.deepEqual(result.event.metadata.reserveReached?.completedCandidateIds,result.event.candidates.map(c=>c.restaurant.id));
+  if(source==='native'){
+   assert.equal(result.event.metadata.nativeDiscoveryFunnel?.sourceExhausted,'UNKNOWN');
+   assert.equal(result.event.continuation?.sourceProgress?.detailAttempts,2,'started B remains charged');assert.equal(closed,1);
+  }else{assert.equal(calls,2);assert.equal(result.event.continuation?.pagesRead,1);assert.equal(result.event.metadata.googleRequests?.total,2);}
+  await composition.runtime.dispatch({id:'f6-partial-search',taskId:before.id,event:result.event,occurredAt:reference.toISOString(),trace:{schemaVersion:'1',runId:before.runId,correlationId:'partial',actor:'ADAPTER'}},before.version);
+  const after=composition.runtime.snapshot(before.id).domainState;
+  assert.equal(after.candidates.length,1);assert.equal(after.searchContinuation?.exhausted,false);
+  assert.ok(after.readEvidence.some(e=>e.candidateId===after.candidates[0]!.restaurant.id&&e.kind==='DISCOVERY'));
+  assert.equal(after.presentedResults,undefined,'discovery retention alone grants no qualification');
+ });
+});
