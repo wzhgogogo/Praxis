@@ -101,7 +101,7 @@ export async function runDomChange(output?: string) {
         await session.prepareNavigation!(spec.sourceUrl, { timeoutMs: 10_000 });
         await session.navigate(spec.sourceUrl);
         // Same declared visibility shim as F3; no original external CSS is invented.
-        await page!.addStyleTag({ content: ".is-hidden{display:none}" });
+        await page!.evaluate(() => { const style = document.createElement("style"); style.textContent = ".is-hidden{display:none}"; document.head.append(style); });
         const beforeSnapshot = await session.snapshot();
         const beforeControls = await session.observeControls!(spec.site === "TABELOG" ? tabelogQueryControlHints(beforeSnapshot) : []);
         const before = observations(spec, beforeSnapshot, beforeControls);
