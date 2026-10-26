@@ -92,6 +92,22 @@ test("G1 reuses current-run bound pages without opening a new session; whitespac
   assert.equal(result.citations[0]!.text, original, "return original source text, never model spelling");
 });
 
+test("G1 an asynchronous model reply cannot attach a quotation to a subsequently mutated cache page", async () => {
+  const cached = page();
+  const model = fixtureModel(asyncInput => {
+    const output = selected(quote)(asyncInput);
+    // Same effect as a caller refreshing its shared cache while the model is in flight.
+    cached.snapshot.url = "https://merchant.example/other-branch";
+    cached.identity.sourceUrl = cached.snapshot.url;
+    cached.observedAt = "2026-10-26T20:00:45Z";
+    return output;
+  });
+  const result = await new ModelRestaurantPageQuestion(model, undefined, now).answer(question([cached]), signal());
+  assert.ok(result.status === "ANSWERED");
+  assert.equal(result.citations[0]!.url, sourceUrl, "quote and metadata must use the same immutable read");
+  assert.equal(result.citations[0]!.readAt, readAt);
+});
+
 test("G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment", async t => {
   const controls: Array<[string, Output]> = [
     ["fabricated quotation", input => {
