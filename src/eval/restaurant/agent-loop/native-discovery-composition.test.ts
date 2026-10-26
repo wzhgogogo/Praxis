@@ -1187,7 +1187,15 @@ test('F6 reserve search hands completed Native and Google children through SEARC
  for(const source of ['native','google'] as const)await t.test(source,async()=>{
   const controller=new AbortController();const navigations:string[]=[];let calls=0,closed=0;
   const stop=()=>controller.abort(Object.assign(Error('F6 reserve boundary'),{code:'DELIVERY_RESERVE_REACHED'}));
-  const model=new H001NativeModel('TABELOG_DELIVERS');
+  const delegate=new H001NativeModel('TABELOG_DELIVERS');
+  const model:ModelGateway={complete:async request=>{
+   const result=await delegate.complete(request);
+   if(request.purpose==='restaurant_semantic_interpret'){
+    const proposal=JSON.parse(result.outputText);proposal.facts.find((f:{field:string})=>f.field==='AREA').value.query='nearby';
+    return {...result,outputText:JSON.stringify(proposal)};
+   }
+   return result;
+  }};
   const raw=sourcePages('TABELOG_DELIVERS',navigations,[],[],[],{guardedReadBoundary:true});
   const browser:import('../../../infrastructure/browser/browser-runtime.js').BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async input=>{
    const session=await raw.openSession(input);
