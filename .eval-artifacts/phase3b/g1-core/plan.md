@@ -1,7 +1,7 @@
 # 3b B 批次1切片
 Status: draft / not integrated。维也纳CET UTC+1。
 从签收main cc127320开始，提出单一ADR（观察驱动操作+G1引用问答），未批准不改现行决策。
-核心：复用现有Native/Google网站事实读取的身份核对和快照，复用原文分段/选择校验；新增不接入口的抽取式问答。新独立restaurant_fact_question对象初始版本，不递增Agent、语义、共享State/Schema版本。既有生产事实判断行为保持。
+核心：复用现有Native/Google网站事实读取的身份核对和快照，复用原文分段/选择校验；新增不接入口的抽取式问答。新独立restaurant_page_question对象初始版本，不递增Agent、语义、共享State/Schema版本。既有生产事实判断行为保持。
 输入为已展示候选、可信run上下文、现有reader收集的同店快照；缓存同run优先，新访问仍调用原reader并共享Guard/预算。模型只给文档/完整段落引用，不能给URL、日期或自由答案。代码核对空白规范化后的原文、身份/run/来源；拒绝幻引/其他分店/凭空回答/敏感是非；总是原文转述+请向餐厅确认，附读取时间。未完整读取不声称未说明。
 先保存旧HARD-only链路对信用卡问题无法给引用的红灯，再实现并以最小页面与既存页面测试。五门禁全绿，逐门净树，冻结输入与外层脚本。A/C文件只读，不改任何站点parser/控件/身份/语义或Gold。不读取.env，新增真实模型/Google/网站/Live/publicGET/环境重跑均0。
 停止点1：ADR Proposed、G1合同、未接入口核心和测试/报告推送分支，绝不合main；G3等待ADR批准。
