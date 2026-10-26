@@ -1,13 +1,37 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.313
+- Document revision: 4.314
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-26-phase3a-prime-signoff"></a>
+
+## 2026-10-26 CET：3a′带缺口签收与3a完成
+
+Evidence status：用户签收决定／阶段收尾历史；依据本次自包含用户消息。该签收保留已知缺口，不把历史失败改记通过。
+
+用户决定3a′带缺口签收，以下四项移交保留：
+
+- F5例01未达成，转3b店名解析G4与F6 Live验证。
+- 网站适配器3,847行，未达≤3,591；L1/L4/L5转3b查位改造G3。
+- 测试集变快但未变小。
+- 真实录制尚不能完整回放，转3b对话A。
+
+用户决定3a完成：①推荐与查位边界已合入，版本为ADR-0044 revision1.1、语义Prompt@25、Gold@4。②使用条款：用户已咨询日本律师，提供的结论为“当前做法没有问题”，据此3a②结束。运行规范照旧：节奏控制、不进入robots禁止的预约流程路径、遇到限流或繁忙页面就退避。
+
+| 额度终值 | 已用／上限 |
+| --- | ---: |
+| 3a′ Live | 8/8 |
+| 3a′真实模型 | 334/400 |
+| 3a′环境重跑 | 3/4 |
+| 3a边界真实模型（单列） | 93/144 |
+
+本次在最新main `cd34aa0034c24fadd0da1224b7c063a26a06f0e8`上仅更新STATUS、DEVLOG与月度摘要/索引。产品、Runner、测试、Prompt、Gold、录制与预算账本均不改；新增真实模型／Google／网站／Live调用0。验证限文档内容、链接、`git diff --check`和文档以外零差异；代码五门禁本批NOT_RUN。该文档提交使用不可移动的annotated tag `phase3a-prime-signoff`，推送main与tag后以ls-remote核对tag对象及其指向的提交。不删除任何分支或已有tag；完成后停止，不启动移交工作。
 
 <a id="dev-2026-10-26-f6-implemented"></a>
 

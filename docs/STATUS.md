@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.420
+- Document revision: 4.421
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26 CET：3a′带缺口签收，3a完成（用户决定）。** 3a′保留四项缺口：F5例01未达成，转3b店名解析G4与F6 Live验证；网站适配器3,847行，未达≤3,591，L1/L4/L5转3b查位改造G3；测试集变快但未变小；真实录制尚不能完整回放，转3b对话A。3a①推荐与查位边界已合入（ADR-0044 revision1.1、语义Prompt@25、Gold@4）；3a②使用条款按用户提供的日本律师咨询结论“当前做法没有问题”结束。运行规范照旧：节奏控制、不进入robots禁止的预约流程路径、遇到限流或繁忙页面就退避。额度终值：3a′ Live **8/8**、真实模型 **334/400**、环境重跑 **3/4**；3a边界真实模型单列 **93/144**。本批只改文档，新增真实调用0；不开始3b或F6 Live。签收annotated tag：`phase3a-prime-signoff`。[完整收尾记录](history/DEVLOG.md#dev-2026-10-26-phase3a-prime-signoff)。
 
 - **2026-10-26-F6-OFFLINE-COMPLETE：** ADR0045已Accepted并接线：20秒固定预留、20秒+中位数准入，Native/Google搜索取消保留完整候选；Web继承语义开始原截止，PGlite取消完成行重复主键缺陷已关闭。State23/TaskDefinition21、Context16/Agent Prompt28；新真实调用0。五门禁在干净候选bcdd5cf1全绿：默认1100/1100、Chromium162/162、type/arch/build；每项前后净树，Web/PGlite及核心控制通过。F5例01已知限制保留；3a′退出条件6未达成，站点3847行，L1/L4/L5转3b，其余延期清单保留。[报告](../.eval-artifacts/phase3a-prime/f6/report.md)。
 - **2026-10-26-F3-REVIEW-SMALL-FIXES:** F3复核后三项小修完成：退出后评价固定已提交catalog并按SHA绑定，W12/健康fixture注入时钟，Mac与2核Linux三轮五门禁全绿（1075/162；Linux Chromium中位102.446秒）。退出条件6在3a′记未达成：3847，转3b；L1/L4/L5并入基于证据查位核对/页面结构变化告警，其余延期保留。新增真实调用0。 [报告](../.eval-artifacts/phase3a-prime/f3-small-fixes-20261026/report.md)。
